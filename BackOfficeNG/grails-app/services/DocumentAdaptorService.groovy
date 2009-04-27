@@ -87,6 +87,11 @@ public class DocumentAdaptorService {
         else return adaptDocument(doc)
     }
     
+    def getDocument(id) {
+    	def doc = documentService.getById(id)
+    	return adaptDocument(doc)
+    }
+    
     def adaptDocument(doc) {
         def result = [:], pageNumber = 0
         result.id = doc.id

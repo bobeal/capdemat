@@ -32,6 +32,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
 
     public DeathDetailsRequest() {
         super();
+        format = fr.cg95.cvq.business.request.civil.DeathCertificateFormatType.FULL_COPY;
     }
 
 

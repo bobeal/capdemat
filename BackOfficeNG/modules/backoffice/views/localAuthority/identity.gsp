@@ -15,22 +15,27 @@
           <h2><g:message code="localAuthority.header.setup.identity" /></h2>
           <form method="post" id="identityForm" action="${createLink(action : 'identity')}">
             <div class="error" id="identityFormErrors"></div>
-            <label class="required" for="postalCode">
-              <g:message code="address.property.postalCode" /> * :
-            </label>
-            <input type="text" class="required validate-number" minlength="5" maxlength="5" size="5" name="postalCode" value="${postalCode}" />
+            
             <label class="required" for="displayTitle">
               <g:message code="localAuthority.property.displayTitle" /> :
             </label>
             <input type="text" class="required" size="60" maxlength="100" name="displayTitle" value="${displayTitle}" />
+
+            <label class="required" for="postalCode">
+              <g:message code="address.property.postalCode" /> :
+            </label>
+            <input type="text" class="required validate-number" minlength="5" maxlength="5" size="5" name="postalCode" value="${postalCode}" />
+
             <label for="adminEmail">
               <g:message code="localAuthority.property.adminEmail" /> :
             </label>
             <input type="text" class="validate-email" size="60" name="adminEmail" value="${adminEmail}" />
+
             <label class="required" for="serverNames">
               <g:message code="localAuthority.property.serverNames" /> :
             </label>
             <textarea cols="58" rows="5" name="serverNames" class="required">${serverNames}</textarea>
+
             <div class="form-button">
               <input id="save" type="button" value="${message(code:'action.save')}" />
             </div>

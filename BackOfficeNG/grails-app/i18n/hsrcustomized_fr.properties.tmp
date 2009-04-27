@@ -1,0 +1,48 @@
+hsr.duration.value =
+
+hsr.step.subject.label =
+hsr.step.subject.desc =
+
+hsr.step.rules.label =
+hsr.step.rules.desc =
+
+hsr.step.contactphone.label =
+hsr.step.contactphone.desc =
+
+hsr.step.contact.label =
+hsr.step.contact.desc =
+
+hsr.step.additional.label =
+hsr.step.additional.desc =
+
+
+hsr.property.absenceStartDate.help =
+hsr.property.absenceStartDate.validationError =
+
+hsr.property.absenceEndDate.help =
+hsr.property.absenceEndDate.validationError =
+
+hsr.property.rulesAndRegulationsAcceptance.help =
+hsr.property.rulesAndRegulationsAcceptance.validationError =
+
+hsr.property.alertPhone.help =
+hsr.property.alertPhone.validationError =
+
+hsr.property.otherContactLastName.help =
+hsr.property.otherContactLastName.validationError =
+
+hsr.property.otherContactFirstName.help =
+hsr.property.otherContactFirstName.validationError =
+
+hsr.property.otherContactAddress.help =
+hsr.property.otherContactAddress.validationError =
+
+hsr.property.otherContactPhone.help =
+hsr.property.otherContactPhone.validationError =
+
+hsr.property.alarm.help =
+hsr.property.alarm.validationError =
+
+hsr.property.light.help =
+hsr.property.light.validationError =
+

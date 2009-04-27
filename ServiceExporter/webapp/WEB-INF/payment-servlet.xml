@@ -17,8 +17,6 @@
         <prop key="/spplus_user_callback.jsp">spplusUserCallbackController</prop>
         <prop key="/spplus_test_form.html">spplusTestFormController</prop>
         <prop key="/payline_lost_trans.html">paylineController</prop>
-        <prop key="/fake_payment_input.html">fakePaymentInputController</prop>
-        <prop key="/fake_payment_form.html">fakePaymentFormController</prop>
       </props>
     </property>
   </bean>
@@ -44,16 +42,5 @@
     class="fr.cg95.cvq.exporter.payment.PaylineController">
     <property name="paymentService" ref="paymentService"/>
   </bean>
-  
-  <bean id="fakePaymentInputController"
-    class="fr.cg95.cvq.exporter.payment.FakePaymentInputController">
-  </bean>
-  
-  <bean id="fakePaymentFormController"
-    class="fr.cg95.cvq.exporter.payment.FakePaymentFormController">
-    <property name="formView" value="fake_payment_form"></property>
-    <property name="validateOnBinding" value="false"/>
-    <property name="commandClass" value="fr.cg95.cvq.exporter.payment.PaymentData"/>    
-  </bean>
-  
+
 </beans>

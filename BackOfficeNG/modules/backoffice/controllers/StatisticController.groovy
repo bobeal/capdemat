@@ -22,7 +22,7 @@ class StatisticController {
         session['currentMenu'] = 'statistics'
     }
 
-	def defaultAction = 'quality'
+	def defaultAction = 'type'
 
     def statisticTypes = ['state','type','quality']
 
@@ -39,16 +39,18 @@ class StatisticController {
             requestStatisticsService.getQualityStatsByType(startDate, endDate, requestTypeId, categoryId)
         def detailedQualityData = []
         // populate results according to authorized request types and selected filters
-        requestAdaptorService.translateAndSortRequestTypes(true).each {
-            if ((requestTypeId == null || requestTypeId == it.id)
-                && (categoryId == null || categoryId == it.categoryId)) {
-                def qualityStatsForRt = detailedQualityStats[it.id]
-                detailedQualityData.add([
-                    'requestType':it.label,
-                    'green':qualityStatsForRt?.get(IRequestStatisticsService.QUALITY_TYPE_OK),
-                    'orange':qualityStatsForRt?.get(IRequestStatisticsService.QUALITY_TYPE_ORANGE),
-                    'red':qualityStatsForRt?.get(IRequestStatisticsService.QUALITY_TYPE_RED)
-                ])
+        if (detailedQualityStats != null) {
+            requestAdaptorService.translateAndSortRequestTypes(true).each {
+                if ((requestTypeId == null || requestTypeId == it.id)
+                    && (categoryId == null || categoryId == it.categoryId)) {
+                    def qualityStatsForRt = detailedQualityStats[it.id]
+                    detailedQualityData.add([
+                        'requestType':it.label,
+                        'green':qualityStatsForRt?.get(IRequestStatisticsService.QUALITY_TYPE_OK),
+                        'orange':qualityStatsForRt?.get(IRequestStatisticsService.QUALITY_TYPE_ORANGE),
+                        'red':qualityStatsForRt?.get(IRequestStatisticsService.QUALITY_TYPE_RED)
+                    ])
+                }
             }
         }
 

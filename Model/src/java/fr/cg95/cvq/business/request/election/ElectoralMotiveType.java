@@ -39,7 +39,7 @@ public final class ElectoralMotiveType extends PersistentStringEnum {
 
 
     public static ElectoralMotiveType getDefaultElectoralMotiveType() {
-        return null;
+        return NEW_CITY_RESIDENT;
     }
 
 

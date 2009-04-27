@@ -14,12 +14,12 @@
       <g:message code="${document.depositOrigin.i18nKey}" />
     </span>
     
-    <span id="documentEndValidityDate">
-      <g:message code="document.property.endValidityDate" />
-      <strong>
-        <g:formatDate formatName="format.date" date="${document.endValidityDate}"/>
-      </strong>
-    </span>
+    <g:if test="${document.endValidityDate}">
+      <span id="documentEndValidityDate">
+        <g:message code="document.property.endValidityDate" />
+        <strong><g:formatDate formatName="format.date" date="${document.endValidityDate}"/></strong>
+      </span>
+    </g:if>
   </h1>
   <div id="documentMessage" style="display: none;"> </div>
   <!-- datas bloc-->

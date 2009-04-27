@@ -35,7 +35,7 @@ public final class AcrRequesterQualityType extends PersistentStringEnum {
 
 
     public static AcrRequesterQualityType getDefaultAcrRequesterQualityType() {
-        return null;
+        return OWNER;
     }
 
 

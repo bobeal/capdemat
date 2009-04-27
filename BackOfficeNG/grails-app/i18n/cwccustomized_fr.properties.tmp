@@ -1,0 +1,15 @@
+cwc.duration.value =
+
+cwc.step.waste.label =
+cwc.step.waste.desc =
+
+
+cwc.property.compostableWasteType.help =
+cwc.property.compostableWasteType.validationError =
+
+cwc.property.otherWaste.help =
+cwc.property.otherWaste.validationError =
+
+cwc.property.collectionAddress.help =
+cwc.property.collectionAddress.validationError =
+

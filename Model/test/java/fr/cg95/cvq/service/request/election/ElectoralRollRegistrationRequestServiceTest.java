@@ -38,7 +38,7 @@ public class ElectoralRollRegistrationRequestServiceTest extends ServiceTestCase
     protected ElectoralRollRegistrationRequest fillMeARequest() throws CvqException {
 
         ElectoralRollRegistrationRequest request = new ElectoralRollRegistrationRequest();
-              request.setSubjectNationality("SubjectNationality");
+            request.setSubjectNationality(NationalityType.FRENCH);
                   if ("SubjectOldCity".length() > 32)
         request.setSubjectOldCity("SubjectOldCity".substring(0, 32));
       else

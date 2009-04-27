@@ -1,0 +1,42 @@
+parr.duration.value =
+
+parr.step.subject.label =
+parr.step.subject.desc =
+
+parr.step.contact.label =
+parr.step.contact.desc =
+
+parr.step.authorization.label =
+parr.step.authorization.desc =
+
+parr.step.rules.label =
+parr.step.rules.desc =
+
+
+parr.property.perischoolActivity.help =
+parr.property.perischoolActivity.validationError =
+
+parr.property.urgencyPhone.help =
+parr.property.urgencyPhone.validationError =
+
+parr.property.school.help =
+parr.property.school.validationError =
+
+parr.property.section.help =
+parr.property.section.validationError =
+
+parr.property.otherIndividual.help =
+parr.property.otherIndividual.validationError =
+
+parr.property.rulesAndRegulationsAcceptance.help =
+parr.property.rulesAndRegulationsAcceptance.validationError =
+
+parr.property.classTripPermission.help =
+parr.property.classTripPermission.validationError =
+
+parr.property.childPhotoExploitationPermission.help =
+parr.property.childPhotoExploitationPermission.validationError =
+
+parr.property.hospitalizationPermission.help =
+parr.property.hospitalizationPermission.validationError =
+

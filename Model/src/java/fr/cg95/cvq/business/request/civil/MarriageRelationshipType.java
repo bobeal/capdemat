@@ -35,7 +35,7 @@ public final class MarriageRelationshipType extends PersistentStringEnum {
 
 
     public static MarriageRelationshipType getDefaultMarriageRelationshipType() {
-        return HUSBAND;
+        return null;
     }
 
 

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/ddr"
-  xmlns:ddr="http://www.cg95.fr/cvq/schema/ddr" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:cvq="http://www.cg95.fr/cvq/schema/common" elementFormDefault="qualified"
+  xmlns:ddr="http://www.cg95.fr/cvq/schema/ddr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified"
   attributeFormDefault="unqualified">
 
   <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
@@ -23,14 +25,26 @@
       </xs:documentation>
       <xs:appinfo>
         <model namespace="civil" />
-        <fo namespace="civil.death"/>
-        <bo namespace="civil"/>
+        <common>
+          <namespace name="civil" />
+          <steps>
+            <step index="0" name="requester">
+              <widgets>
+                <requester />
+              </widgets>
+            </step>
+            <step index="1" name="nature" />
+            <step index="2" name="type" />
+            <step index="3" ref="document" />
+            <step index="4" ref="validation" />
+          </steps>
+        </common>
         <xslfo>
           <blocks-def>
             <block id="0" label="Renseignements concernant l'acte d'état civil" column="3" />
             <block id="1" label="Renseignements concernant le demandeur" column="2" />
             <block id="2"
-              label="Etat civil de la personne dont vous demandez l'acte de déc&#x00E8;s"
+              label="Etat civil de la personne dont vous demandez l'acte de décès"
               column="2" />
             <block id="3" label="Informations de filiation de la personne dont vous demandez l'acte"
               displayCondition="//ddr:Format/text() = 'ExtractWithRelationship' or //ddr:Format/text() = 'FullCopy'" />
@@ -45,19 +59,131 @@
       <xs:complexContent>
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
-            <xs:element name="Format" type="ddr:DeathCertificateFormatType">
+            <xs:element name="DeathLastName" type="cvq:LastNameType" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom de l'individu
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="nature" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="2" line="0" column="0" columnSpan="2">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="DeathFirstNames" type="xs:string" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prénom(s) de l'individu
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom(s)
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="nature" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="2" line="1" column="0" columnSpan="2">
+                      <string valueWeight="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="DeathDate" type="xs:date">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Date de décès de l'individu
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de décès
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="nature" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="3" line="2" column="0">
+                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="DeathCity" type="cvq:CityType" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Ville de décès de l'individu
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Ville de décès
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="nature" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="2" line="3" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="DeathPostalCode" type="cvq:DepartmentCodeType" minOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Département de décès de l'individu
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Département de décès
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="nature" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="2" line="3" column="1">
+                      <string />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="Format" type="ddr:DeathCertificateFormatType" default="FullCopy">
               <xs:annotation>
                 <xs:appinfo>
+                  <common>
+                    <step name="type" />
+                  </common>
                   <fo>
-                    <display field="" stage="type" type="javaOnly" />
-				    <display mode="labelonly" type="stagetitle" label="Type" stage="validation" page="summary" line="10"/>
-                    <display field="" stage="validation" page="summary" line="11" mode="static" />
+                    <radio />
                   </fo>
-                  <bo>
-                    <display field="" page="displaydeath" line="12" />
-                    <display field="" page="checkdeath" line="2" mode="static" />
-                    <display field="" page="printdeath" line="2" mode="static" />
-                  </bo>
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="1" column="0">
                       <varargCheckbox displayModulo="3" />
@@ -66,6 +192,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
+
             <xs:element name="Copies" type="xs:positiveInteger" default="1">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -75,16 +202,11 @@
                   Nombre d'actes souhaité
                 </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display field="" stage="type" page="type" line="2" label="Nombre d'actes"/>
-                    <display field="" stage="type" page="parents" line="2" label="Nombre d'actes"/>
-                    <display field="" stage="validation" page="summary" line="12" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaydeath" line="21" />
-                    <display field="" page="checkdeath" line="3" mode="static" />
-                    <display field="" page="printdeath" line="3" mode="static" />
-                  </bo>
+                  <common>
+                    <step name="type" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="2" column="0" columnSpan="1" useLongDesc="true">
                       <string restrictToChar="true" />
@@ -93,6 +215,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
+
             <xs:element name="Comment" type="xs:token" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -102,15 +225,14 @@
                   Commentaire
                 </xs:documentation>
                 <xs:appinfo>
+                  <common>
+                    <step name="type" />
+                  </common>
                   <fo>
-                    <display field="" stage="type" page="type" line="3" />
-                    <display field="" stage="type" page="parents" line="3" />
-                    <display field="" stage="validation" page="summary" line="13" mode="static" />
+                    <textarea rows="3" />
                   </fo>
-                  <bo>
-                    <display field="" page="displaydeath" line="22" />
-                    <display field="" page="checkdeath" line="4" mode="static" />
-                    <display field="" page="printdeath" line="4" mode="static" />
+                  <bo column="1">
+                    <textarea rows="3" />
                   </bo>
                   <xslfo>
                     <element blockId="0" line="2" column="1" columnSpan="2" useLongDesc="true">
@@ -120,25 +242,15 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
+
             <xs:element name="Motive" type="ddr:DeathCertificateMotiveType" minOccurs="0">
               <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Motif de la demande
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Motif
-                </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display field="" stage="type" page="type" line="4" />
-                    <display field="" stage="type" page="parents" line="4" />
-                    <display field="" stage="validation" page="summary" line="14" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaydeath" line="23" />
-                    <display field="" page="checkdeath" line="5" mode="static" />
-                    <display field="" page="printdeath" line="5" mode="static" />
-                  </bo>
+                  <common>
+                    <step name="type" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="3" column="0">
                       <varargCheckbox displayModulo="3" />
@@ -147,125 +259,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-
-            <xs:element name="DeathLastName" type="cvq:LastNameType" minOccurs="1">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nom
-                </xs:documentation>
-                <xs:appinfo>
-                  <fo>
-                    <display field="" stage="nature" page="death" line="4" seperator="true" />
-                    <display field="" stage="nature" page="displaydeath" line="3" mode="static" />
-                    <display field="" stage="validation" page="summary" line="4"
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaydeath" line="111" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="2" line="0" column="0" columnSpan="2">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="DeathFirstNames" type="xs:string" minOccurs="1">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Prénom(s)
-                </xs:documentation>
-                <xs:appinfo>
-                  <fo>
-                    <display field="" stage="nature" page="death" line="5" />
-                    <display field="" stage="nature" page="displaydeath" line="4" mode="static" />
-                    <display field="" stage="validation" page="summary" line="5"
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaydeath" line="112" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="2" line="1" column="0" columnSpan="2">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="DeathDate" type="xs:date">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Date de déc&#x00E8;s de l'individu
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Date de déc&#x00E8;s
-                </xs:documentation>
-                <xs:appinfo>
-                  <fo>
-                    <display field="" stage="nature" page="death" line="6" help="ex: 21/06/1956" />
-                    <display field="" stage="nature" page="displaydeath" line="5" mode="static" />
-                    <display field="" stage="validation" page="summary" line="6"
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaydeath" line="121" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="3" line="2" column="0">
-                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="DeathCity" type="cvq:CityType" minOccurs="1">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Ville de déc&#x00E8;s
-                </xs:documentation>
-                <xs:appinfo>
-                  <fo>
-                    <display field="" stage="nature" page="death" line="7" />
-                    <display field="" stage="nature" page="displaydeath" line="6" mode="static" />
-                    <display field="" stage="validation" page="summary" line="7"
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaydeath" line="122" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="2" line="3" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="DeathPostalCode" type="cvq:DepartmentCodeType" minOccurs="1">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Département de déc&#x00E8;s
-                </xs:documentation>
-                <xs:appinfo>
-                  <fo>
-                    <display field="" stage="nature" page="death" line="8" />
-                    <display field="" stage="nature" page="displaydeath" line="7" mode="static" />
-                    <display field="" stage="validation" page="summary" line="8"
-                      mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displaydeath" line="131" />
-                  </bo>
-                  <xslfo>
-                    <element blockId="2" line="3" column="1">
-                      <string />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
+            
           </xs:sequence>
         </xs:extension>
       </xs:complexContent>

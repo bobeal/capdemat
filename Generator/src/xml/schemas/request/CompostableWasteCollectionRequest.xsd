@@ -7,7 +7,7 @@
   attributeFormDefault="unqualified">
 
   <xs:import namespace="http://www.cg95.fr/cvq/schema/common"  
-             schemaLocation="../common/CVQCommonElements.xsd" />
+    schemaLocation="../common/CVQCommonElements.xsd" />
 
   <xs:element name="CompostableWasteCollectionRequest">
 	<xs:annotation>
@@ -25,17 +25,14 @@
 	  </xs:documentation>
 	  <xs:appinfo> 
 	    <model namespace="environment" /> 
-        <fo namespace="environment.compostablewaste">
-		  <display mode="labelonly" label="Adresse du compte" stage="waste" page="waste" line="3"/>
-		  <display field="Requester.Address.Address" stage="waste" page="waste" line="4" 
-		  		label="&amp;nbsp;" mode="static"/>
-        </fo>
-        <bo namespace="environment">
-		  <display field="Requester.LastName" page="checkcompostable" line="1" mode="static"/>
-		  <display field="Requester.FirstName" page="checkcompostable" line="2" mode="static"/>
-		  <display field="Requester.LastName" page="printcompostable" line="1" mode="static"/>
-		  <display field="Requester.FirstName" page="printcompostable" line="2" mode="static"/>
-        </bo>
+         <common>
+	        <namespace name="environment" />
+	        <steps>
+	          <step index="0" name="waste" />
+	          <step index="1" ref="document" />
+	          <step index="2" ref="validation" />
+	        </steps>
+	      </common>     
 		<xslfo>
 		  <blocks-def>
 		    <block id="0" label="Demandeur*" />
@@ -46,7 +43,7 @@
 		    <complexTemplate />
 		  </element>
 		  <element blockId="2" line="0" column="0" link="MeansOfContact"
-		    prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?"> 
+		    prefixLabel="Comment souhaitez-vous être informé ?"> 
 		    <complexTemplate />
 		  </element>
 		</xslfo>
@@ -72,17 +69,11 @@
 			    </xs:documentation>
 				<xs:appinfo> 
 				  <model namespace="users" isTiedToRequest="true" />
-				  <fo repository="compostablewaste">
-					<display field="" type="checklist" stage="waste" page="waste" line="1" mode="blockrequired" block="Other"/>
-					<display field="" type="checklist" stage="waste" page="display" line="1" mode="static"/>
-				    <display mode="labelonly" type="stagetitle" label="Waste" stage="validation" page="summary" line="20"/>
-				    <display field="" type="checklist" stage="validation" page="summary" line="21" mode="static"/>
-				  </fo>
-				  <bo repository="CompostableWasteType">
-				  	<display field="" page="displaycompostable" line="1" />
-				  	<display field="" page="checkcompostable" line="3" mode="static"/>
-				  	<display field="" page="printcompostable" line="3" mode="static"/>
-				  </bo>
+				  <common>
+		            <step name="waste" />
+		          </common>
+		          <fo />
+		          <bo column="1" />
 				  <xslfo>
 				    <element blockId="1" line="0" column="0">
 				      <localReferential />
@@ -106,16 +97,11 @@
 			      Other, specify
 			    </xs:documentation>
 				<xs:appinfo> 
-				  <fo>
-					<display field="" type="" stage="waste" page="waste" line="2" block="Other"/>
-					<display field="" type="" stage="waste" page="display" line="2" mode="static"/>
-				    <display field="" type="" stage="validation" page="summary" line="22" mode="static"/>
-				  </fo>
-				  <bo>
-				  	<display field="" page="displaycompostable" line="2" />
-				  	<display field="" page="checkcompostable" line="4" mode="static"/>
-				  	<display field="" page="printcompostable" line="4" mode="static"/>
-				  </bo>
+				  <common>
+		            <step name="waste" />
+		          </common>
+		          <fo />
+		          <bo column="1" />
 				  <xslfo>
 				    <element blockId="1" line="1" column="0" columnSpan="2">
 		      			<string valueWeight="3" />
@@ -139,21 +125,11 @@
 			      Collection address
 			    </xs:documentation>
 			    <xs:appinfo> 
-				  <fo>
-					<display mode="labelonly" 
-						label="Si l'adresse de collecte des végétaux est différente, merci de la préciser" 
-						stage="waste" page="waste" line="5"/>
-					<display field="" type="" stage="waste" page="waste" line="6"/>
-					<display field="" type="" stage="waste" page="display" line="3" 
-						label="Adresse de collecte (si différente de l'adresse du compte)" mode="static"/>
-				    <display field="" type="" stage="validation" page="summary" line="23" 
-				    	label="Adresse de collecte (si différente de l'adresse du compte)" mode="static"/>
-				  </fo>
-				  <bo>
-				  	<display field="" page="displaycompostable" line="3" />
-				  	<display field="" page="checkcompostable" line="5" mode="static"/>
-				  	<display field="" page="printcompostable" line="5" mode="static"/>
-				  </bo>
+				  <common>
+		            <step name="waste" />
+		          </common>
+		          <fo />
+		          <bo column="1" />
 				  <xslfo>
 				    <element blockId="1" line="2" column="0" columnSpan="2"
 				    	prefixLabel="Adresse de collecte (si différente de l'adresse du compte)">

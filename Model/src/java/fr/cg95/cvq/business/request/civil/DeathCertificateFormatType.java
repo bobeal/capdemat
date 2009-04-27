@@ -35,7 +35,7 @@ public final class DeathCertificateFormatType extends PersistentStringEnum {
 
 
     public static DeathCertificateFormatType getDefaultDeathCertificateFormatType() {
-        return null;
+        return FULL_COPY;
     }
 
 

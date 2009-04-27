@@ -1,18 +1,21 @@
-  <p>${message(code:'request.step.validation.help.followRequest')}</p>
-  <label class="required">${message(code:'request.step.validation.label.followRequest')} * 
-  </label>
-  <ul class="yes-no required">
-    <g:each in="${[true,false]}">
-    <li>
-      <input type="radio" class="required validate-boolean condition-activeHomeFolder-trigger" title="" value="${it}" 
-             name="_requester.activeHomeFolder" ${flash.activeHomeFolder == null ? (!it ? 'checked="checked"' : '') : (flash.activeHomeFolder == it ? 'checked="checked"' : '') } />
-      ${message(code:'message.' + (it ? 'yes' : 'no'))}
-    </li>
-    </g:each>
-  </ul>
+  <g:if test="${requestTypeLabel != 'VO Card Request'}">
+    <p>${message(code:'request.step.validation.help.followRequest')}</p>
+    <label class="required">${message(code:'request.step.validation.label.followRequest')} * 
+    </label>
+    <ul class="yes-no required">
+      <g:each in="${[true,false]}">
+      <li>
+        <input type="radio" class="required validate-boolean condition-activeHomeFolder-trigger" title="" value="${it}" 
+               name="_requester.activeHomeFolder" ${flash.activeHomeFolder == null ? (!it ? 'checked="checked"' : '') : (flash.activeHomeFolder == it ? 'checked="checked"' : '') } />
+        ${message(code:'message.' + (it ? 'yes' : 'no'))}
+      </li>
+      </g:each>
+    </ul>
+  </g:if>
   <p class="condition-activeHomeFolder-filled"><strong>${message(code:'request.step.validation.message.choosePassword')}</strong></p>
   <fieldset class="condition-activeHomeFolder-filled">
-  <input type="hidden" name="requester" />
+    <input type="hidden" name="requester" />
+    <input type="hidden" name="objectToBind" value="requester" />
     <legend>${message(code:'request.step.validation.label.choosePassword')}</legend>
     <label class="required">${message(code:'homeFolder.adult.property.password')} * <span>(${message(code:'request.step.validation.help.choosePassword')})</span></label>
     <input type="password" name="_requester.password" class="required" value="" title="${message(code:'homeFolder.adult.property.password.validationError')}" />

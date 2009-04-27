@@ -46,7 +46,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.adults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.adults.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="vcr.step.adults.label" />
+            <g:message code="vcr.step.adults.label" /> * 
           </strong>
             
           </em></a>
@@ -58,9 +58,9 @@
           <span class="tag-no_right">2</span>
           <span class="tag-state ${stepStates!= null ? stepStates.children.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.children.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
-          <strong>
+          <span>
             <g:message code="vcr.step.children.label" />
-          </strong>
+          </span>
             
           </em></a>
         </li>          
@@ -72,7 +72,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.account.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.account.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="vcr.step.account.label" />
+            <g:message code="vcr.step.account.label" /> *
           </strong>
             
           </em></a>
@@ -96,7 +96,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="request.step.validation.label" />
+            <g:message code="request.step.validation.label" /> *
           </strong>
             
           </em></a>
@@ -267,24 +267,29 @@
                </g:each>
              </select>
   
-             <g:render template="/frontofficeRequestType/vOCardRequest/summary" /> 
+             <g:render template="/frontofficeRequestType/vOCardRequest/validation" /> 
 
-						 <h3><g:message code="vcr.property.monitoring" /></h3>
-						 <div class="required captcha">
-  						 <label class="required"><g:message code="vcr.property.captcha" /></label>
-  						 <jcaptcha:jpeg name="image" class="image"/>
-  						 <input type="text" name="response" class="required response" value=""/>
-						 </div>
-        
+						<h3><g:message code="request.step.validation.label" /></h3>
+            
+            <g:render template="/frontofficeRequestType/outOfAccountValidation" />
+            
+            <div id="useAcceptance">
+             <input type="checkbox" name="useAcceptance" class="required validate-one-required"
+                    title="${message(code:'request.error.useAcceptanceRequired')}" />
+             <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
+               <g:message code="request.step.validation.useAcceptance"/>
+             </a>
+           </div>
+  
            </div>
            <div class="error" id="stepForm-validation-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-validation" name="submit-step-validation" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
+           <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
            <g:if test="${!isRequestCreatable}">
-           <span><g:message code="request.step.validation.requiredSteps"/></span>
+             <div><strong><g:message code="request.step.validation.requiredSteps"/></strong></div>
            </g:if>
   
          </form>

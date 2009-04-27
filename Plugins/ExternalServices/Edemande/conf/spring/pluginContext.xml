@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="edemandeExternalService"
+    class="fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeService"
+    init-method="init">
+    <property name="label" value="Edemande" />
+    <property name="edemandeClient" ref="edemandeClient" />
+  </bean>
+
+  <!-- WS CLIENT  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <bean id="edemandeXmlBeanMarshaller" 
+    class="org.springframework.oxm.xmlbeans.XmlBeansMarshaller" />
+  
+  <bean name="edemandeConnexionService" 
+    class="org.springframework.ws.client.core.WebServiceTemplate">
+    <property name="defaultUri">
+      <value>${plugins.externalservices.edemande.connexion_service_uri}</value>
+    </property>
+    <property name="marshaller" ref="edemandeXmlBeanMarshaller" />
+    <property name="unmarshaller" ref="edemandeXmlBeanMarshaller" />
+  </bean>
+
+  <bean name="edemandeFormulaireService" 
+    class="org.springframework.ws.client.core.WebServiceTemplate">
+    <property name="defaultUri">
+      <value>${plugins.externalservices.edemande.formulaire_service_uri}</value>
+    </property>
+    <property name="marshaller" ref="edemandeXmlBeanMarshaller" />
+    <property name="unmarshaller" ref="edemandeXmlBeanMarshaller" />
+  </bean>
+
+  <bean name="edemandeSuiviDemandeService" 
+    class="org.springframework.ws.client.core.WebServiceTemplate">
+    <property name="defaultUri">
+      <value>${plugins.externalservices.edemande.suivi_demande_service_uri}</value>
+    </property>
+    <property name="marshaller" ref="edemandeXmlBeanMarshaller" />
+    <property name="unmarshaller" ref="edemandeXmlBeanMarshaller" />
+  </bean>
+
+  <bean id="edemandeClient"
+    class="fr.capwebct.capdemat.plugins.externalservices.edemande.webservice.client.EdemandeClient">
+    <property name="edemandeConnexionService" ref="edemandeConnexionService" />
+    <property name="edemandeFormulaireService" ref="edemandeFormulaireService" />
+    <property name="edemandeSuiviDemandeService" ref="edemandeSuiviDemandeService" />
+  </bean>  
+
+</beans>

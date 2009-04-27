@@ -28,7 +28,9 @@
           <steps>
             <step index="0" name="subject">
               <widgets>
-                <subject into="SubjectInformations" />
+                <subject into="SubjectInformations">
+                  <autofill name="subjectFilling" type="trigger" />
+                </subject>
               </widgets>
             </step>
             <step index="1" name="taxHousehold" />
@@ -334,7 +336,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="CurrentSchool" type="sgr:CurrentSchoolType">
+            <xs:element name="CurrentSchool" type="sgr:SgrCurrentSchoolType">
               <xs:annotation>
                 <xs:appinfo>
                   <common>
@@ -535,6 +537,7 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
+  
   <xs:simpleType name="DistanceType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
@@ -554,6 +557,7 @@
       <xs:enumeration value="moreThan250kmsAndAbroad"></xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
+  
   <xs:simpleType name="ALevelsType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
@@ -597,6 +601,7 @@
       <xs:enumeration value="p"></xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
+  
   <xs:simpleType name="CurrentStudiesType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
@@ -625,6 +630,7 @@
       <xs:enumeration value="otherStudies"></xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
+  
   <xs:simpleType name="CurrentStudiesLevelType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
@@ -644,6 +650,7 @@
       <xs:enumeration value="thirdYear"></xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
+  
   <xs:complexType name="SubjectInformationsType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -678,6 +685,7 @@
             <model namespace="users" isTiedToRequest="true" />
             <common>
               <step name="subject" />
+              <autofill name="subjectFilling" type="listener" field="Adress" />
             </common>
             <xslfo>
               <element blockId="0" line="1" column="0">
@@ -707,6 +715,7 @@
             <model namespace="users" />
             <common>
               <step name="subject" />
+              <autofill name="subjectFilling" type="listener" field="HomePhone" />
             </common>
             <xslfo>
               <element blockId="0" line="1" column="0">
@@ -736,6 +745,7 @@
             <model namespace="users" />
             <common>
               <step name="subject" />
+              <autofill name="subjectFilling" type="listener" field="MobilePhone" />
             </common>
             <xslfo>
               <element blockId="0" line="1" column="1">
@@ -765,6 +775,7 @@
             <model namespace="users" />
             <common>
               <step name="subject" />
+              <autofill name="subjectFilling" type="listener" field="Email" />
             </common>
             <xslfo>
               <element blockId="0" line="2" column="0">
@@ -793,6 +804,7 @@
           <xs:appinfo>
             <common>
               <step name="subject" />
+              <autofill name="subjectFilling" type="listener" field="BirthDate" />
             </common>
             <xslfo>
               <element blockId="0" line="3" column="0">
@@ -806,6 +818,7 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
+  
   <xs:complexType name="ALevelsInformationsType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -886,6 +899,7 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
+  
   <xs:complexType name="CurrentStudiesInformationsType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -1178,7 +1192,8 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="CurrentSchoolType">
+  
+  <xs:complexType name="SgrCurrentSchoolType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
         Établissement scolaire

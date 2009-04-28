@@ -3,14 +3,18 @@
     <request>TechnicalInterventionRequest</request>
     <data name="InterventionType">
         <label lang="fr">Nature de l'intervention</label>
-        <label lang="en">Intervention type</label>
-         <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
-            <entry key="plomberie">
-                <label lang="fr">Plomberie</label>
+        <label lang="en">Intervention topic</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Nid-de-poule">
+                <label lang="fr">Nid de poule</label>
                 <message lang="fr"/>
             </entry>
-            <entry key="demenagement">
-                <label lang="fr">Déménagement</label>
+            <entry key="Eclairage-d-fectueux">
+                <label lang="fr">Eclairage défectueux</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Banc-publique-cass-">
+                <label lang="fr">Banc publique cassé</label>
                 <message lang="fr"/>
             </entry>
         </entries>

@@ -12,6 +12,10 @@
                 <label lang="fr">Pêche à la ligne</label>
                 <message lang="fr"/>
             </entry>
+            <entry key="Roller">
+                <label lang="fr">Roller</label>
+                <message lang="fr"/>
+            </entry>
         </entries>
     </data>
 </LocalReferential>

@@ -13,6 +13,8 @@ form {
 	padding: 10px 20px 0 20px;
 }
 
+form p.field { overflow : auto; padding : 0.5em 0; border-bottom : 1px dashed #FFD053; }
+
 form label { 
  /* block float the labels to left column, set a width */
 	float: left; 

@@ -28,23 +28,23 @@
         
           <form method="post" id="setupDraftsForm" action="${createLink(action:'drafts')}">
             <div class="error" id="setupDraftsFormErrors"> </div>
-            
-            <label for="draftLiveDuration" class="required">
-              <g:message code="localAuthority.property.draftLiveDuration" /> * :
-              <!-- <span> (<g:message code="property.days" />) </span> -->
-            </label>
-            <input type="text" name="draftLiveDuration" value="${entity.draftLiveDuration}" 
+            <p class="field">
+              <label for="draftLiveDuration">
+                <g:message code="localAuthority.property.draftLiveDuration" /> :
+                <!-- <span> (<g:message code="property.days" />) </span> -->
+              </label>
+              <input type="text" name="draftLiveDuration" value="${entity.draftLiveDuration}"
               class="required validate-positiveinteger" />
-          
-            <br/>
-            <label for="draftNotificationBeforeDelete" class="required">
-              <g:message code="localAuthority.property.draftNotificationBeforeDelete" /> * :
-              <!-- <span> (<g:message code="property.days" />) </span> -->
-            </label>
-            <input type="text" name="draftNotificationBeforeDelete" 
-              value="${entity.draftNotificationBeforeDelete}" 
-              class="required validate-positiveinteger" />
-              
+            </p>
+            <p class="field">
+              <label for="draftNotificationBeforeDelete">
+                <g:message code="localAuthority.property.draftNotificationBeforeDelete" /> :
+                <!-- <span> (<g:message code="property.days" />) </span> -->
+              </label>
+              <input type="text" name="draftNotificationBeforeDelete"
+                value="${entity.draftNotificationBeforeDelete}"
+                class="required validate-positiveinteger" />
+            </p>
             <div class="form-button">
               <input id="save" name="save" type="button" value="${message(code:'action.save')}" />
             </div>

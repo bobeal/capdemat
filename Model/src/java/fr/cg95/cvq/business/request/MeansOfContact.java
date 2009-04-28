@@ -16,7 +16,7 @@ import fr.cg95.cvq.xml.common.MeansOfContactType;
  * @author rdj@zenexity.fr
  *
  */
-public class MeansOfContact implements Historizable,Serializable {
+public class MeansOfContact implements Historizable,Serializable, Comparable<MeansOfContact> {
 
     private static final long serialVersionUID = 1L;
     
@@ -107,5 +107,12 @@ public class MeansOfContact implements Historizable,Serializable {
         return new ToStringBuilder(this)
             .append("id", getId())
             .toString();
+    }
+
+    public int compareTo(MeansOfContact o) {
+        if (o == null || o.getType() == null) {
+            return 1;
+        }
+        return this.type.toString().compareTo(o.getType().toString());
     }
 }

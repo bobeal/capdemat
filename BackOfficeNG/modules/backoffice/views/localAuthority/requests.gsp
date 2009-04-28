@@ -2,7 +2,7 @@
   <head>
     <title><g:message code="localAuthority.header.configuration" /></title>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthorityPlatformConfiguration.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthorityRequests.js')}"></script>
     <meta name="layout" content="main" />
   </head>
   <body>
@@ -11,9 +11,39 @@
         <div class="head">
           <h1><g:message code="localAuthority.header.configuration" /></h1>
         </div>
+        <div id="draftsBox" class="mainbox mainbox-yellow">
+          <h2><g:message code="localAuthority.header.setupDrafts" /></h2>
+          <form method="post" id="draftsForm" action="${createLink(action:'requests')}">
+            <div class="error" id="draftsFormErrors"> </div>
+            <p class="field">
+              <label for="draftLiveDuration">
+                <g:message code="localAuthority.property.draftLiveDuration" /> :
+                <!-- <span> (<g:message code="property.days" />) </span> -->
+              </label>
+              <input type="text" name="draftLiveDuration" value="${draftLiveDuration}"
+              class="required validate-positiveinteger" />
+            </p>
+            <p class="field">
+              <label for="draftNotificationBeforeDelete">
+                <g:message code="localAuthority.property.draftNotificationBeforeDelete" /> :
+                <!-- <span> (<g:message code="property.days" />) </span> -->
+              </label>
+              <input type="text" name="draftNotificationBeforeDelete"
+                value="${draftNotificationBeforeDelete}"
+                class="required validate-positiveinteger" />
+            </p>
+            <div class="form-button">
+              <input id="save_drafts" type="button" value="${message(code:'action.save')}" />
+            </div>
+          </form>
+        </div>
+        <div id="meansOfContactBox" class="mainbox mainbox-yellow">
+          <h2><g:message code="localAuthority.header.meansOfContactConfiguration" /></h2>
+          <div id="meansOfContactContainer"></div>
+        </div>
         <div id="platformConfigurationBox" class="mainbox mainbox-yellow">
           <h2><g:message code="localAuthority.header.setup.platformConfiguration" /></h2>
-          <form method="post" id="platformConfigurationForm" action="${createLink(action : 'platformConfiguration')}">
+          <form method="post" id="platformConfigurationForm" action="${createLink(action : 'requests')}">
             <div class="error" id="platformConfigurationFormErrors"></div>
             <p class="field">
               <label>
@@ -66,7 +96,7 @@
               <g:message code="property.days" />
             </p>
             <div class="form-button">
-              <input id="save" type="button" value="${message(code:'action.save')}" />
+              <input id="save_platformConfiguration" type="button" value="${message(code:'action.save')}" />
             </div>
           </form>
         </div>

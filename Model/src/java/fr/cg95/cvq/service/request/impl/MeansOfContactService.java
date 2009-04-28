@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -104,7 +105,9 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
     }
 
     public List<MeansOfContact> getAvailableMeansOfContact() throws CvqException {
-        return meansOfContactDAO.listAll();
+        List<MeansOfContact> results = meansOfContactDAO.listAll();
+        Collections.sort(results);
+        return results;
     }
 
     public List<MeansOfContact> getEnabledMeansOfContact() throws CvqException {

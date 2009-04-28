@@ -639,6 +639,7 @@ public class LocalAuthorityRegistry
         }
     }
 
+    @Deprecated
     public void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
         throws CvqException {
         LocalAuthority localAuthority = SecurityContext.getCurrentSite();

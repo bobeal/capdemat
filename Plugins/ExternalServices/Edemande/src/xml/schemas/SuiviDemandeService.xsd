@@ -1,0 +1,160 @@
+<xs:schema xmlns:ns="http://service.edem.gda.unilog.com"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="qualified" elementFormDefault="qualified"
+	targetNamespace="http://service.edem.gda.unilog.com">
+	<xs:element name="ajouterPiecesJointes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psPieces" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ajouterPiecesJointesResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="chargerDemande">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psCodeTiers" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psIndicDemande" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psCodeDemande" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="chargerDemandeResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="donnerAvis">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psAvis" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="donnerAvisResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="initialiserSuiviDemande">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psCodeTiers" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="initialiserSuiviDemandeResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listeTypesDemande">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="piCodeTiers" type="xs:int" />
+				<xs:element minOccurs="0" name="psHasAdrFormulaire"
+					nillable="true" type="xs:string" />
+				<xs:element minOccurs="0" name="psTypePartenaire"
+					nillable="true" type="xs:string" />
+				<xs:element minOccurs="0" name="piCodeTiersExt" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listeTypesDemandeResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="rechercheDemandesTiers">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psCodeTiers" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psCriteres" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="rechercheDemandesTiersResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="rechercherTiers">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psCriteres" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="rechercherTiersResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="supprimerDemandeEnCoursDeSaisie">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psFluxSuppression"
+					nillable="true" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="supprimerDemandeEnCoursDeSaisieResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="validerDemandeEnErreur">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="piTiersCode" type="xs:int" />
+				<xs:element minOccurs="0" name="psIdentifiantDemande"
+					nillable="true" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="validerDemandeEnErreurResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

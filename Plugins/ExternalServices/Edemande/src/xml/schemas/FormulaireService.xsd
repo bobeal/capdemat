@@ -1,0 +1,135 @@
+<xs:schema xmlns:ns="http://service.edem.gda.unilog.com"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="qualified" elementFormDefault="qualified"
+	targetNamespace="http://service.edem.gda.unilog.com">
+	<xs:element name="chargerTypeDemande">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psCodeTypeDemande"
+					nillable="true" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="chargerTypeDemandeResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="controlerDoublonDescription">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psDescription" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psCodeDemandeAExclure"
+					nillable="true" type="xs:string" />
+				<xs:element minOccurs="0" name="psIdentifiantDemandeAExclure"
+					nillable="true" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="controlerDoublonDescriptionResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="enregistrerValiderFormulaire">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psFormulaire" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="enregistrerValiderFormulaireResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="existenceCodeNaf">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psCodeNaf" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="existenceCodeNafResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="existenceCommunePostale">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psCodePostal" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psCommune" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="existenceCommunePostaleResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="initialiserFormulaire">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psCodeTiers" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psCodeTypeDemande"
+					nillable="true" type="xs:string" />
+				<xs:element minOccurs="0" name="psCodeDemande" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psIdentDemande" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="initialiserFormulaireResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="verifierRIB">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psBanque" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psAgence" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psCompte" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psCle" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="verifierRIBResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import fr.capwebct.capdemat.plugins.externalservices.edemande.webservice.client.IEdemandeClient;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
@@ -16,8 +17,11 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 
-public class EDemandeService implements IExternalProviderService {
+public class EdemandeService implements IExternalProviderService {
 
+    private String label;
+    private IEdemandeClient edemandeClient;
+    
     @Override
     public void checkConfiguration(ExternalServiceBean externalServiceBean)
             throws CvqConfigurationException {
@@ -68,7 +72,15 @@ public class EDemandeService implements IExternalProviderService {
 
     @Override
     public String sendRequest(Request request) throws CvqException {
+        edemandeClient.chargerTypeDemande(null);
         return null;
     }
 
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public void setEdemandeClient(IEdemandeClient edemandeClient) {
+        this.edemandeClient = edemandeClient;
+    }
 }

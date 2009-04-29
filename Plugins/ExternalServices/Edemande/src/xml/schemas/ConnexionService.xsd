@@ -1,0 +1,62 @@
+<xs:schema xmlns:ns="http://service.glob.gda.unilog.com"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="qualified" elementFormDefault="qualified"
+	targetNamespace="http://service.glob.gda.unilog.com">
+	<xs:element name="connexion">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psLogin" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psPassword" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psTypeConnexion"
+					nillable="true" type="xs:string" />
+				<xs:element minOccurs="0" name="psAdresseIP" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="connexionResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="gestionCompte">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psCompte" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="gestionCompteResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="recuperationMDP">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="psLogin" nillable="true"
+					type="xs:string" />
+				<xs:element minOccurs="0" name="psEmail" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="recuperationMDPResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" name="return" nillable="true"
+					type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+        

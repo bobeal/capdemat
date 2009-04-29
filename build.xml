@@ -145,7 +145,7 @@
     <ant dir="${plugins.externalservices.horanet.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.cpm.dir}" target="deploy" />
     <ant dir="${plugins.externalservices.clever.dir}" target="deploy" />
-    <ant dir="${plugins.externalservices.cpm.dir}" target="deploy" />
+    <ant dir="${plugins.externalservices.edemande.dir}" target="deploy" />
   </target>
 
   <target name="deploy-plugin-concerto" depends="init, compile-model">
@@ -182,6 +182,10 @@
 
   <target name="deploy-plugin-clever" depends="init, compile-model">
     <ant dir="${plugins.externalservices.clever.dir}" target="deploy" />
+  </target>
+
+  <target name="deploy-plugin-edemande" depends="init">
+    <ant dir="${plugins.externalservices.edemande.dir}" target="deploy" />
   </target>
 
   <!-- ================================================================================= -->

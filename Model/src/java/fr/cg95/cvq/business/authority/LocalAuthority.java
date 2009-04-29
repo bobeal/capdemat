@@ -22,7 +22,7 @@ public class LocalAuthority implements Serializable {
     private Long id;
 
     private String name;
-    private String postalCode;
+    private String postalCode = "00000";
     private String displayTitle;
     private String adminEmail;
     private Integer draftLiveDuration = 20;

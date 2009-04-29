@@ -248,6 +248,7 @@ public interface ILocalAuthorityRegistry {
      * @param liveDuration the duration the draft will be kept in DB
      * @param notificationBeforeDelete notification before draft removal
      */
+    @Deprecated
     void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
         throws CvqException;
 }

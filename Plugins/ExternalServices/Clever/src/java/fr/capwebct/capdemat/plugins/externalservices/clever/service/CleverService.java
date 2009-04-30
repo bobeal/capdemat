@@ -207,4 +207,8 @@ public class CleverService implements IExternalProviderService {
     public void setIndividualService(IIndividualService individualService) {
         this.individualService = individualService;
     }
+
+    public boolean supportsConsumptions() {
+        return false;
+    }
 }

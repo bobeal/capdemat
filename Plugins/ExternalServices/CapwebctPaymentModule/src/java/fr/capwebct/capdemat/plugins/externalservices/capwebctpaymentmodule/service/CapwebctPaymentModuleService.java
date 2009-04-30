@@ -388,4 +388,8 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
     public void setCapwebctPaymentModuleClient(ICapwebctPaymentModuleClient capwebctPaymentModuleClient) {
         this.capwebctPaymentModuleClient = capwebctPaymentModuleClient;
     }
+
+    public boolean supportsConsumptions() {
+        return false;
+    }
 }

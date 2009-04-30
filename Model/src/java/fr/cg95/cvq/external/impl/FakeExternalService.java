@@ -519,4 +519,8 @@ public class FakeExternalService implements IExternalProviderService {
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
         this.homeFolderService = homeFolderService;
     }
+
+    public boolean supportsConsumptions() {
+        return true;
+    }
 }

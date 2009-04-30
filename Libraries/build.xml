@@ -100,6 +100,7 @@
 			<fileset dir="${quartz.lib.dir}" />
 			<fileset dir="${saxon.lib.dir}" />
             <fileset dir="${joda.lib.dir}" />
+            <fileset dir="${opencsv.lib.dir}" />
 		</copy>
 	</target>
 

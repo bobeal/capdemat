@@ -5,8 +5,12 @@
      <a class="disable"><span><g:message code="menu.accounts" /></span></a>
      <a class="disable"><span><g:message code="menu.requests" /></span></a>
      <a class="disable"><span><g:message code="menu.documents" /></span></a>
-     <a class="disable"><span><g:message code="menu.activities" /></span></a>
-     <a class="disable"><span><g:message code="menu.payments" /></span></a>
+     <g:if test="${session.supportsActivitiesTab}">
+       <a class="disable"><span><g:message code="menu.activities" /></span></a>
+     </g:if>
+     <g:if test="${session.supportsPaymentsTab}">
+       <a class="disable"><span><g:message code="menu.payments" /></span></a>
+     </g:if>
    </div>
  </g:if>
  <g:elseif test="${!isLogin}">
@@ -41,17 +45,21 @@
           <g:message code="menu.documents" />
         </span>
      </a>
-     <a href="${createLink(controller:'frontofficeActivity')}" 
-        class="${menu.current(elem:'activity')}">
-        <span>
-          <g:message code="menu.activities" />
-        </span>
-     </a>
-     <a href="${createLink(controller:'frontofficePayment')}" 
-        class="${menu.current(elem:'payment')}" >
-        <span>
-          <g:message code="menu.payments" />
-        </span>
-     </a>
+     <g:if test="${session.supportsActivitiesTab}">
+       <a href="${createLink(controller:'frontofficeActivity')}"
+          class="${menu.current(elem:'activity')}">
+          <span>
+            <g:message code="menu.activities" />
+          </span>
+       </a>
+     </g:if>
+     <g:if test="${session.supportsPaymentsTab}">
+       <a href="${createLink(controller:'frontofficePayment')}"
+          class="${menu.current(elem:'payment')}" >
+          <span>
+            <g:message code="menu.payments" />
+          </span>
+       </a>
+     </g:if>
    </div>
  </g:elseif>

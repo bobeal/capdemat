@@ -104,4 +104,10 @@ public interface IExternalProviderService {
      * It is currently used to know when we have to transmit payments results to an external service.
      */
     String getLabel();
+
+    /**
+     * Whether this external service supports consumptions,
+     * used to display the activities tab in frontoffice.
+     */
+    boolean supportsConsumptions();
 }

@@ -213,7 +213,23 @@ public final class LocalAuthorityConfigurationBean {
 			return null;
 		}
 	}
-    
+
+    public boolean supportsPaymentsTab() {
+        return (paymentServices != null && !paymentServices.isEmpty());
+    }
+
+    public boolean supportsActivitiesTab() {
+        if (externalProviderServices == null) {
+            return false;
+        }
+        for (IExternalProviderService s : externalProviderServices.keySet()) {
+            if (s.supportsConsumptions()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void setName(final String name) {
         this.name = name;
     }

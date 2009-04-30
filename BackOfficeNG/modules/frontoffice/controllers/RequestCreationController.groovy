@@ -121,7 +121,8 @@ class RequestCreationController {
             'uuidString': uuidString,
             'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
             'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
-            'isDocumentEditMode': false
+            'isDocumentEditMode': false,
+            'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
         ])
     }
     
@@ -307,7 +308,11 @@ class RequestCreationController {
                         requestService.finalizeDraft(cRequest)
                     
                     session.removeAttribute(uuidString)
-                    redirect(action:'exit', params:['id':cRequest.id, 'label':requestTypeInfo.label])
+                    def parameters = ['id':cRequest.id, 'label':requestTypeInfo.label]
+                    if (params.returnUrl != "") {
+                        parameters.returnUrl = params.returnUrl
+                    }
+                    redirect(action:'exit', params:parameters)
                     return
                 }
             }        
@@ -347,7 +352,8 @@ class RequestCreationController {
                      'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
                      'isDocumentEditMode': isDocumentEditMode,
                      'documentType': documentType,
-                     'document': document
+                     'document': document,
+                     'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
                     ])
     }  
     
@@ -386,6 +392,7 @@ class RequestCreationController {
                      'rqt': cRequest,
                      'requester': requester,
                      'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
+                     'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
                     ])
     }
     

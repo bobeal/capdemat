@@ -44,61 +44,39 @@
           <a href="#adults"><em>
           <span class="tag-no_right">1</span>
           <span class="tag-state ${stepStates!= null ? stepStates.adults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.adults.i18nKey : 'request.step.state.uncomplete'}" /></span>
-    
-          <strong>
-            <g:message code="vcr.step.adults.label" /> * 
-          </strong>
-            
+          <strong><g:message code="vcr.step.adults.label" /> * </strong>
           </em></a>
         </li>    
 
         <li class="${currentStep == 'children' ? 'selected' : ''}">
-  
           <a href="#children"><em>
-          <span class="tag-no_right">2</span>
-          <span class="tag-state ${stepStates!= null ? stepStates.children.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.children.i18nKey : 'request.step.state.uncomplete'}" /></span>
-    
-          <span>
-            <g:message code="vcr.step.children.label" />
-          </span>
-            
+            <span class="tag-no_right">2</span>
+            <span class="tag-state ${stepStates!= null ? stepStates.children.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.children.i18nKey : 'request.step.state.uncomplete'}" /></span>
+            <span><g:message code="vcr.step.children.label" /></span>
           </em></a>
         </li>          
         
         <li class="${currentStep == 'account' ? 'selected' : ''}">
-  
           <a href="#account"><em>
-          <span class="tag-no_right">3</span>
-          <span class="tag-state ${stepStates!= null ? stepStates.account.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.account.i18nKey : 'request.step.state.uncomplete'}" /></span>
-    
-          <strong>
-            <g:message code="vcr.step.account.label" /> *
-          </strong>
-            
+            <span class="tag-no_right">3</span>
+            <span class="tag-state ${stepStates!= null ? stepStates.account.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.account.i18nKey : 'request.step.state.uncomplete'}" /></span>
+            <strong><g:message code="vcr.step.account.label" /> *</strong>
           </em></a>
         </li>
 
         <li class="${currentStep == 'document' ? 'selected' : ''}">
-
           <a href="#document"><em>
-          <span class="tag-no_right">4</span>
-          <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
-
-          <g:message code="request.step.document.label" />
-
+            <span class="tag-no_right">4</span>
+            <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
+            <g:message code="request.step.document.label" />
           </em></a>
         </li>   
 
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
-  
           <a href="#validation"><em>
           <span class="tag-no_right">5</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
-    
-          <strong>
-            <g:message code="request.step.validation.label" /> *
-          </strong>
-            
+          <strong><g:message code="request.step.validation.label" /> *</strong>
           </em></a>
         </li>    
 
@@ -124,8 +102,7 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-  
-           <input type="submit" id="submit-step-adults" name="submit-step-adults" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-adults" class="submit-step" name="submit-step-adults" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -157,13 +134,8 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           <g:if test="${!isChildLegalResponsibleEdit}">
-             <input type="submit" id="submit-step-children" name="submit-step-children" value="${message(code:'action.save')}" />
-           </g:if>
-           <g:else>
-             <input type="submit" id="submit-legalResponsibles-children" name="submit-legalResponsibles-children" value="${message(code:'action.save')}" />
-           </g:else>
-  
+           <input type="submit" id="submit-step-children" class="submit-step" name="submit-step-children" value="${message(code:'action.save')}" />
+         
          </form>
          <div class="navTab">
          
@@ -197,8 +169,7 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-  
-           <input type="submit" id="submit-step-account" name="submit-step-account" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-account" class="submit-step" name="submit-step-account" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -261,13 +232,16 @@
            </h3>
            <div>
              
-             <select name="meansOfContact">
-               <g:each in="${meansOfContact}" var="moc">
-                 <option value="${moc.key}">${moc.label}</option>
-               </g:each>
-             </select>
+           <label for="meansOfContact" class="required">
+             <g:message code="request.meansOfContact.chooseMessage"/> *
+           </label>
+           <select name="meansOfContact" class="required">
+             <g:each in="${meansOfContact}" var="moc">
+               <option value="${moc.key}">${moc.label}</option>
+             </g:each>
+           </select>
   
-             <g:render template="/frontofficeRequestType/vOCardRequest/validation" /> 
+            <g:render template="/frontofficeRequestType/vOCardRequest/validation" /> 
 
 						<h3><g:message code="request.step.validation.label" /></h3>
             

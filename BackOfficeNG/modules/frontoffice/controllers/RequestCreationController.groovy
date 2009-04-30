@@ -267,7 +267,8 @@ class RequestCreationController {
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {
                 def listFieldToken = submitAction[3].tokenize('[]')
-                def listWrapper = params.objectToManage == null ? cRequest : objectToBind[params.objectToManage] 
+                def objectToManage = params."objectToManage[${listFieldToken[1]}]"
+                def listWrapper = objectToManage == null ? cRequest : objectToBind[objectToManage] 
                 
                 editList = ['name': listFieldToken[0], 
                             'index': listFieldToken[1],
@@ -443,6 +444,7 @@ class RequestCreationController {
                     checkRequesterPassword(param.value)
                 DataBindingUtils.initBind(object, param.value)
                 bindParam (object, param.value)
+                DataBindingUtils.cleanBind(object, param.value)
             }
         }
     }
@@ -482,7 +484,7 @@ class RequestCreationController {
     /* Utils
      * ------------------------------------------------------------------------------------------- */
     
-    // Convert a substring of <input type=submit name > representing target object of action in a map
+    // Convert a substring of <input type=submit name="" /> representing target object of action in a map
     def targetAsMap(stringTarget) {
         def result = [:]
         stringTarget.tokenize('_').each {

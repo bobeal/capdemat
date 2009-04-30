@@ -69,5 +69,9 @@ public class EntryPointExternalService implements IExternalProviderService {
     
     public String sendRequest(Request request) throws CvqException {
         return null;
-    }    
+    }
+
+    public boolean supportsConsumptions() {
+        return false;
+    }
 }

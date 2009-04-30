@@ -42,4 +42,11 @@ public class DateUtils {
         
         return calendar.getTime();
     }
+
+    public static Date getShiftedDate(Date reference, int shiftUnit, int shiftAmount) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(reference);
+        calendar.add(shiftUnit, shiftAmount);
+        return calendar.getTime();
+    }
 }

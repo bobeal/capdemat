@@ -7,6 +7,8 @@ import grails.converters.JSON
 
 import GoogleChartBuilder
 
+import au.com.bytecode.opencsv.CSVWriter
+
 import java.text.SimpleDateFormat
 
 class StatisticController {
@@ -250,5 +252,135 @@ class StatisticController {
         return ['allCategories':categoryService.getManaged().sort { it.name },
                 'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes(true),
                 'statisticTypes':statisticTypes]
+    }
+
+    def export = {
+        def state = [:]
+        if (params.pageState) state = JSON.parse(params.pageState)
+        def categoryId = LongUtils.stringToLong(state['categoryId'])
+        def requestTypeId = LongUtils.stringToLong(state['requestTypeId'])
+        def startDate = DateUtils.stringToDate(state['startDate'])
+        def endDate = DateUtils.stringToDate(state['endDate'])
+
+        def filenameParts = []
+        [message(code : "statistics.header." + params.currentStatisticType),
+         categoryId != null ? categoryService.getById(categoryId).name : null,
+         requestTypeId != null ? translationService.getEncodedRequestTypeLabelTranslation(requestTypeService.getRequestTypeById(requestTypeId).label).decodeHTML() : null,
+         startDate != null ? message(code : "statistics.filename.start.date") + fr.cg95.cvq.util.DateUtils.format(startDate) : null,
+         endDate != null ? message(code : "statistics.filename.end.date") + fr.cg95.cvq.util.DateUtils.format(endDate) : null].each {
+            if (it != null) {
+                filenameParts.add(it)
+            }
+        }
+        def extension
+        def contentType
+        def content
+
+        if (params.format == "csv") {
+            extension = "csv"
+            contentType = "text/csv"
+            content = new StringWriter()
+            def writer = new CSVWriter(content)
+
+            // stats taken from service
+            def stats
+            // the data to feed CSVWriter (must be a List of String[])
+            def data = []
+
+            switch (params.currentStatisticType) {
+                case "type" :
+                    stats = requestStatisticsService.getTypeStats(startDate, endDate, requestTypeId, categoryId)
+                    def currentRequestTypeId
+                    def statsForRequest
+                    def typeStatsIntervalType
+                    def format
+                    def shiftUnit
+                    def line = new String[4]
+                    line[0] = message(code : "property.requestType")
+                    line[1] = message(code : "statistics.start.date")
+                    line[2] = message(code : "statistics.end.date")
+                    line[3] = message(code : "statistics.number.of.requests")
+                    data.add(line)
+                    stats.entrySet().sort{it.value}.reverse().each {
+                        if (it.value > 0) {
+                            currentRequestTypeId = it.key
+                            statsForRequest = requestStatisticsService.getTypeStatsByPeriod(startDate, endDate, currentRequestTypeId, null)
+                            typeStatsIntervalType = requestStatisticsService.getTypeStatsIntervalType(startDate, endDate)
+                            statsForRequest.eachWithIndex { date, count, i ->
+                                if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.HOUR) {
+                                    format = message(code:'statistics.type.hourlyDateFormat')
+                                    shiftUnit = Calendar.HOUR_OF_DAY
+                                } else if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.DAY) {
+                                    format = message(code:'statistics.type.dailyDateFormat')
+                                    shiftUnit = Calendar.DAY_OF_MONTH
+                                } else if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.TWO_DAYS) {
+                                    format = message(code:'statistics.type.bidaylyDateFormat')
+                                    shiftUnit = Calendar.DAY_OF_MONTH
+                                } else if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.WEEK) {
+                                    format = message(code:'statistics.type.weeklyDateFormat')
+                                    shiftUnit = Calendar.DAY_OF_MONTH
+                                } else if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.MONTH) {
+                                    format = message(code:'statistics.type.monthlyDateFormat')
+                                    shiftUnit = Calendar.MONTH
+                                } else if (typeStatsIntervalType == IRequestStatisticsService.TypeStatsIntervalType.YEAR) {
+                                    format = message(code:'statistics.type.yearlyDateFormat')
+                                    shiftUnit = Calendar.YEAR
+                                }
+                                line = new String[4]
+                                line[0] = translationService.getEncodedRequestTypeLabelTranslation(requestTypeService.getRequestTypeById(currentRequestTypeId).label).decodeHTML()
+                                line[1] = new SimpleDateFormat(format).format(date)
+                                //if (i == statsForRequest.size() - 1) {
+                                //    line[2] = line[1]
+                                //}
+                                if (i > 0) {
+                                    data[data.size() - 1][2] = new SimpleDateFormat(format).format(fr.cg95.cvq.util.DateUtils.getShiftedDate(date, shiftUnit, -1))
+                                }
+                                line[3] = count
+                                data.add(line)
+                                if (i > 0) {
+                                    data[data.size() - 2][2] = new SimpleDateFormat(format).format(fr.cg95.cvq.util.DateUtils.getShiftedDate(date, shiftUnit, -1))
+                                }
+                            }
+                        }
+                    }
+                    break
+                case "state" :
+                    stats = requestStatisticsService.getStateStats(startDate, endDate, requestTypeId, categoryId)
+                    def statesLine = new String[stats.size()]
+                    def valuesLine = new String[stats.size()]
+                    def index = 0
+                    stats.entrySet().each {
+                        statesLine[index] = message(code : CapdematUtils.adaptCapdematEnum(it.key, 'request.state').i18nKey)
+                        valuesLine[index] = it.value.toString()
+                        index++
+                    }
+                    data.add(statesLine)
+                    data.add(valuesLine)
+                    break
+                case "quality" :
+                    def line = new String[4]
+                    line[0] = message(code : "property.requestType")
+                    line[1] = message(code : "statistics.quality.green")
+                    line[2] = message(code : "statistics.quality.orange")
+                    line[3] = message(code : "statistics.quality.red")
+                    data.add(line)
+                    stats = requestStatisticsService.getQualityStatsByType(startDate, endDate, requestTypeId, categoryId)
+                    requestAdaptorService.translateAndSortRequestTypes(true).each {
+                        if ((requestTypeId == null || requestTypeId == it.id) && (categoryId == null || categoryId == it.categoryId)) {
+                            line = new String[4]
+                            line[0] = it.label
+                            line[1] = stats[it.id] != null && stats[it.id].get(IRequestStatisticsService.QUALITY_TYPE_OK) != null ? stats[it.id].get(IRequestStatisticsService.QUALITY_TYPE_OK) : 0
+                            line[2] = stats[it.id] != null && stats[it.id].get(IRequestStatisticsService.QUALITY_TYPE_ORANGE) != null ? stats[it.id].get(IRequestStatisticsService.QUALITY_TYPE_ORANGE) : 0
+                            line[3] = stats[it.id] != null && stats[it.id].get(IRequestStatisticsService.QUALITY_TYPE_RED) != null ? stats[it.id].get(IRequestStatisticsService.QUALITY_TYPE_RED) : 0
+                            data.add(line)
+                        }
+                    }
+                    break
+            }
+            writer.writeAll(data)
+            writer.close()
+        }
+        response.setHeader("Content-disposition", "attachment; filename=\"" + filenameParts.join(" - ") + "." + extension + "\"")
+        render(contentType : contentType, text : content)
     }
 }

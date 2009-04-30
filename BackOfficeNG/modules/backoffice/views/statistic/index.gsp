@@ -81,6 +81,20 @@
         </div>
       </div>
 
+      <div class="nobox">
+        <h3><g:message code="header.export" /></h3>
+        <div class="body">
+          <form action="${createLink(action : 'export')}">
+            <input type="hidden" name="currentStatisticType" value="${currentStatisticType}" />
+            <input type="hidden" name="pageState" value="${pageState}" />
+            <select name="format">
+              <option value="csv">${message(code : 'export.format.csv')}</option>
+            </select>
+            <input type="submit" value="${message(code : 'action.export')}" />
+          </form>
+        </div>
+      </div>
+
     </div>
 
   </body>

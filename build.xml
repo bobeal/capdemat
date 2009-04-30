@@ -207,7 +207,7 @@
           depends="prepare-configfiles, deploy-model">
     <ant dir="${libraries.dir}" target="bong-runtime-libs" />
     <copy file="${deploy.properties_dir}/${deploy.properties_file}"
-          tofile="BackOfficeNG/BackOfficeNG-config.properties"
+          tofile="BackOfficeNG/grails-app/conf/BackOfficeNG-config.properties"
           overwrite="true" />
     <copy file="${libraries.springconf.dir}/applicationContext.xml"
           todir="BackOfficeNG/grails-app/conf/spring"

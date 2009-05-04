@@ -120,8 +120,8 @@
       <div class="nobox">
         <h3><g:message code="requestType.header.switchRequestType" /></h3>
         <div class="body">
-          <form action="#">
-            <select name="requestTypeId" id="requestTypeId">
+          <form action="${createLink(action : 'configure')}" method="get">
+            <select name="id" id="requestTypeId" onchange="submit();">
               <option value=""></option>
               <g:each in="${requestTypes}" var="requestType">
                 <option value="${requestType.id}">${requestType.label}</option>

@@ -20,6 +20,9 @@ public class RequestType implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+    public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
+    public static final String SEARCH_BY_STATE = "active";
+
 	/** identifier field */
     private Long id;
 

@@ -22,6 +22,8 @@ import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestTypeService;
+import fr.cg95.cvq.service.request.annotation.RequestFilter;
+import fr.cg95.cvq.util.Critere;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,8 +60,14 @@ public class RequestTypeService implements IRequestTypeService {
         throws CvqException {
 
         // ecitizens can see all activated requests types
-        if (SecurityContext.isFrontOfficeContext())
-            return requestTypeDAO.listByCategoryAndState(null, true);
+        if (SecurityContext.isFrontOfficeContext()) {
+            Set<Critere> criteriaSet = new HashSet<Critere>();
+            Critere activeCriteria = new Critere();
+            activeCriteria.setAttribut(RequestType.SEARCH_BY_STATE);
+            activeCriteria.setValue(true);
+            criteriaSet.add(activeCriteria);
+            return requestTypeDAO.listByCategoryAndState(criteriaSet);
+        }
 
         if (SecurityContext.isAdminContext())
             return requestTypeDAO.listAll();
@@ -81,10 +89,11 @@ public class RequestTypeService implements IRequestTypeService {
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
-    public List<RequestType> getRequestTypes(final Long categoryId, final Boolean active)
+    @RequestFilter(privilege=ContextPrivilege.READ)
+    public List<RequestType> getRequestTypes(Set<Critere> criteriaSet)
         throws CvqException {
 
-        return requestTypeDAO.listByCategoryAndState(categoryId,active);
+        return requestTypeDAO.listByCategoryAndState(criteriaSet);
     }
 
     @Override

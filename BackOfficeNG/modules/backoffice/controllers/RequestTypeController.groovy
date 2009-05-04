@@ -11,6 +11,7 @@ import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
+import fr.cg95.cvq.util.Critere
 
 import org.springframework.web.context.request.RequestContextHolder
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
@@ -49,8 +50,21 @@ class RequestTypeController {
             	parsedFilters.filters['categoryIdFilter'] == null ? null : Long.valueOf(parsedFilters.filters['categoryIdFilter'])
             def state = 
             	parsedFilters.filters['stateFilter'] == null ? null : Boolean.valueOf(parsedFilters.filters['stateFilter'])
+            Set<Critere> criteriaSet = new HashSet<Critere>()
+            if (categoryId != null) {
+                Critere critere = new Critere()
+                critere.attribut = RequestType.SEARCH_BY_CATEGORY_ID
+                critere.value = categoryId
+                criteriaSet.add(critere)
+            }
+            if (state != null) {
+                Critere critere = new Critere()
+                critere.attribut = RequestType.SEARCH_BY_STATE
+                critere.value = state
+                criteriaSet.add(critere)
+            }
             requestTypes = 
-                requestTypeService.getRequestTypes(categoryId, state)
+                requestTypeService.getRequestTypes(criteriaSet)
         } else {
         	requestTypes = requestTypeService.getAllRequestTypes()
         }

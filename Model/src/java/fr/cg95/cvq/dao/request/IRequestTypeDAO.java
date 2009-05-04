@@ -1,10 +1,12 @@
 package fr.cg95.cvq.dao.request;
 
 import java.util.List;
+import java.util.Set;
 
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.util.Critere;
 
 /**
  * @author bor@zenexity.fr
@@ -24,7 +26,7 @@ public interface IRequestTypeDAO extends IGenericDAO {
     /**
      * Return the list of requests types in the given activation state.
      */
-    List<RequestType> listByCategoryAndState(final Long categoryId, final Boolean active);
+    List<RequestType> listByCategoryAndState(Set<Critere> criteriaSet);
 
     List<DisplayGroup> listAllDisplayGroup();
 }

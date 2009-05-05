@@ -1,8 +1,11 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.DisplayGroup;
@@ -31,12 +34,28 @@ public class RequestTypeDAO extends GenericDAO implements IRequestTypeDAO {
         return (List<DisplayGroup>)HibernateUtil.getSession().createQuery(sb.toString()).list();
     }
     
-    public List<RequestType> listByCategoryAndState(final Long categoryId, final Boolean active) {
+    public List<RequestType> listByCategoryAndState(Set<Critere> criteriaSet) {
         Criteria crit = HibernateUtil.getSession().createCriteria(RequestType.class);
-        if (categoryId != null)
-            crit.createCriteria("category").add(Critere.compose("id", categoryId, Critere.EQUALS));
-        if (active != null)
-            crit.add(Critere.compose("active", active, Critere.EQUALS));
+        Criteria categoryCriteria = null;
+        for (Critere critere : criteriaSet) {
+            if (RequestType.SEARCH_BY_CATEGORY_ID.equals(critere.getAttribut())) {
+                if (categoryCriteria == null) {
+                    categoryCriteria = crit.createCriteria("category");
+                }
+                categoryCriteria.add(Critere.compose("id", critere.getValue(), Critere.EQUALS));
+            } else if ("belongsToCategory".equals(critere.getAttribut())) {
+                if (categoryCriteria == null) {
+                    categoryCriteria = crit.createCriteria("category");
+                }
+                List<Long> categoryIds = new ArrayList<Long>();
+                for (String categoryId : ((String)critere.getValue()).split(",")) {
+                    categoryIds.add(Long.valueOf(categoryId.substring(1, categoryId.length() - 1)));
+                }
+                categoryCriteria.add(Restrictions.in("id", categoryIds));
+            } else if (RequestType.SEARCH_BY_STATE.equals(critere.getAttribut())) {
+                crit.add(Critere.compose("active", critere.getValue(), Critere.EQUALS));
+            }
+        }
         return crit.list();
     }
 

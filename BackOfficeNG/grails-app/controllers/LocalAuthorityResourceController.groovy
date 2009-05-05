@@ -20,7 +20,7 @@ class LocalAuthorityResourceController {
             File resource = localAuthorityRegistry.getLocalAuthorityResourceFile(
                 params.id,
                 params.version != null ? LocalAuthorityResource.Version.valueOf(params.version) : LocalAuthorityResource.Version.CURRENT,
-                false)
+                localAuthorityResource.canFallback)
             if (resource != null) {
                 renderResponse(resource, localAuthorityResource.contentType)
             }

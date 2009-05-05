@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.xmlbeans.XmlObject;
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
@@ -25,10 +27,10 @@ public interface IExternalProviderService {
     /**
      * Send a new (validated) request to an external service.
      * 
-     * @param request we want to send
+     * @param the xml of the request we want to send
      * @return business id coming from the plugged application
      */
-    String sendRequest(final Request request)
+    String sendRequest(final XmlObject requestXml)
         throws CvqException;
 
     /**

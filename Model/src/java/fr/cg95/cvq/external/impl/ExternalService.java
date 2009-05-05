@@ -40,6 +40,7 @@ import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.quering.BaseOperator;
@@ -56,6 +57,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     private IGenericDAO genericDAO;
     private IExternalServiceTraceDAO externalServiceTraceDAO;
     private IHomeFolderService homeFolderService;
+    private IRequestService requestService;
     
     private ListableBeanFactory beanFactory;
 
@@ -129,7 +131,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             est.setKey(request.getId());
             est.setName(externalServiceLabel);
             try {
-                externalProviderService.sendRequest(request);
+                externalProviderService.sendRequest(requestService.fillRequestXml(request));
                 est.setStatus(TraceStatusEnum.SENT);
             } catch (CvqException ce) {
                 logger.error("sendRequest() error while sending request to " 
@@ -645,5 +647,9 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     @Override
     public void setBeanFactory(BeanFactory arg0) throws BeansException {
         this.beanFactory = (ListableBeanFactory) arg0;
+    }
+
+    public void setRequestService(IRequestService requestService) {
+        this.requestService = requestService;
     }
 }

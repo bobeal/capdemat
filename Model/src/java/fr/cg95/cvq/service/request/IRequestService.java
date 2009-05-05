@@ -18,6 +18,8 @@ import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.util.Critere;
+
+import org.apache.xmlbeans.XmlObject;
 import org.w3c.dom.Node;
 
 import java.util.Date;
@@ -438,4 +440,11 @@ public interface IRequestService {
      * @param triggers - A map where key=control.name and value=control.value, for all controls triggering the same condition 
      */
     boolean isConditionFilled (Map<String, String> triggers);
+
+    /**
+     * Insert home folder, subject and requester XML data into the request XML data
+     * to generate a full XML to send to external services
+     */
+    XmlObject fillRequestXml(Request request)
+        throws CvqException;
 }

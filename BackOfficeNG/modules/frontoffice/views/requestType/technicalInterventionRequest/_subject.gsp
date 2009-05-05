@@ -2,23 +2,19 @@
 
 
   
-    <label class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
-            <select name="subjectId" class="required validate-not-first " title="<g:message code="request.property.subject.validationError" /> ">
-              <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${subjects}">
-                <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
-              </g:each>
-            </select>
+    <label class="required"><g:message code="tir.property.interventionType.label" /> *  <span><g:message code="tir.property.interventionType.help" /></span></label>
+            <g:set var="interventionTypeIndex" value="${0}" scope="flash" />
+            <g:render template="/frontofficeRequestType/widget/localReferentialData" 
+                      model="['javaName':'interventionType', 'i18nPrefixCode':'tir.property.interventionType', 'htmlClass':'required condition-otherIntervention-trigger  ', 
+                              'lrEntries': lrTypes.interventionType.entries, 'depth':0]" />
             
 
   
 
   
-    <label class="required"><g:message code="tir.property.interventionType.label" /> *  <span><g:message code="tir.property.interventionType.help" /></span></label>
-            <g:set var="interventionTypeIndex" value="${0}" scope="flash" />
-            <g:render template="/frontofficeRequestType/widget/localReferentialData" 
-                      model="['javaName':'interventionType', 'i18nPrefixCode':'tir.property.interventionType', 'htmlClass':'required  ', 
-                              'lrEntries': lrTypes.interventionType.entries, 'depth':0]" />
+    <label class="required condition-otherIntervention-filled"><g:message code="tir.property.otherInterventionLabel.label" /> *  <span><g:message code="tir.property.otherInterventionLabel.help" /></span></label>
+            <input type="text" name="otherInterventionLabel" value="${rqt.otherInterventionLabel}" 
+                    class="required condition-otherIntervention-filled  validate-string" title="<g:message code="tir.property.otherInterventionLabel.validationError" />"  />
             
 
   

@@ -22,6 +22,8 @@
     
     var currentTriggerValue = function (ddEl) {
       var formEl = yud.getLastChild(ddEl);
+      if (yud.hasClass(ddEl,'data-localReferentialData'))
+        return formEl[ddEl.id + "[0].name"].value || '';
       if (yud.hasClass(ddEl,'validate-capdematEnum'))
         return formEl[ddEl.id].value.split('_')[1] || '';
       else if (yud.hasClass(ddEl,'validate-boolean')) {
@@ -35,6 +37,8 @@
     }
     
     var triggerValue = function (ddEl) {
+      if (yud.hasClass(ddEl,'data-localReferentialData'))
+        return yud.getFirstChild(ddEl).className.split(':')[1];
       if (yud.hasClass(ddEl,'validate-capdematEnum'))
         return yud.getFirstChild(ddEl).className.split(' ')[0];
       else if (yud.hasClass(ddEl,'validate-boolean'))

@@ -38,24 +38,12 @@
 
 	  <fo:block>
 	    <xsl:call-template name="requestHeader">
-	      <xsl:with-param name="RequestName">Demande d'intervention technique</xsl:with-param>
+	      <xsl:with-param name="RequestName">Demande d'intervention
+        technique</xsl:with-param>
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 
-                <fo:block xsl:use-attribute-sets="request.section.header">Personne à inscrire*</fo:block>
-	    <fo:block>
-	      <fo:leader leader-pattern="space" />
-	    </fo:block>
-        
-                    	    <xsl:apply-templates select="//cvq:Subject"/>
-      
-    
-      
-              <fo:block>
-              <fo:leader leader-pattern="space" />
-            </fo:block>
-  
-                  <fo:block xsl:use-attribute-sets="request.section.header">Type d'intervention technique</fo:block>
+                <fo:block xsl:use-attribute-sets="request.section.header">Type d'intervention technique</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
@@ -65,6 +53,43 @@
 	      <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_tir.xml')))//ref:data[@name = 'InterventionType']/ref:entries"/>
 	      <xsl:with-param name="RequestData" select="//tir:InterventionType"/>
 	    </xsl:call-template>
+
+    
+      
+              <fo:block>
+              <fo:leader leader-pattern="space" />
+            </fo:block>
+  
+                  <fo:block xsl:use-attribute-sets="request.section.header">Précisez</fo:block>
+	    <fo:block>
+	      <fo:leader leader-pattern="space" />
+	    </fo:block>
+        
+                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                        <fo:table-column column-width="proportional-column-width(100)" />
+          <fo:table-column column-width="proportional-column-width(100)" />
+                    	      <fo:table-body>
+		<fo:table-row>
+      	                        		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Précisez*
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+                                      <xsl:choose>
+                        <xsl:when test="//tir:OtherInterventionLabel and //tir:OtherInterventionLabel != ''">
+                                    <xsl:value-of select="//tir:OtherInterventionLabel" />
+                                  </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>&#160;</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+        		    </fo:block>
+		  </fo:table-cell>
+            		</fo:table-row>
+	      </fo:table-body>
+	    </fo:table>
 
     
       
@@ -160,12 +185,7 @@
     </fo:root>
   </xsl:template>
 
-              <xsl:template match="//cvq:Subject">
-          <xsl:call-template name="SubjectType">
-      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
-    </xsl:call-template>
-  </xsl:template>
-                            <xsl:template match="//tir:InterventionPlace">
+                              <xsl:template match="//tir:InterventionPlace">
           <xsl:call-template name="AddressType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>

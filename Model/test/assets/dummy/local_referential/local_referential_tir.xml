@@ -13,6 +13,10 @@
                 <label lang="fr">Déménagement</label>
                 <message lang="fr"/>
             </entry>
+            <entry key="other">
+                <label lang="fr">Autre</label>
+                <message lang="fr"/>
+            </entry>
         </entries>
     </data>
 </LocalReferential>

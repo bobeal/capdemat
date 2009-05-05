@@ -22,7 +22,7 @@
   </ul>
 </g:if>
 <g:else>
-  <select name="${javaName}[0].name" class="${htmlClass} validate-not-first" title="${message(code: i18nPrefixCode +'.validationError')}">
+  <select name="${javaName}[0].name" class="${htmlClass} validate-not-first data-localReferentialData" title="${message(code: i18nPrefixCode +'.validationError')}">
     <option value="">${message(code:'message.select.defaultOption')}</option>
     <g:each var="entry" in="${lrEntries}">
     <option value="${entry.key}" ${currentLrDatas?.contains(entry.key) ? 'selected="selected"': ''}>${entry.labelsMap.fr}</option>

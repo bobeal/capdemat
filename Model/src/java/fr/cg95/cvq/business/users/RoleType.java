@@ -25,6 +25,12 @@ public final class RoleType extends PersistentStringEnum{
     public static final RoleType[] allRoleTypes = { HOME_FOLDER_RESPONSIBLE, CLR_MOTHER,
         CLR_FATHER, CLR_TUTOR, TUTOR };
     
+    public static final RoleType[] childRoleTypes = { CLR_MOTHER, CLR_FATHER, CLR_TUTOR };
+    
+    public static final RoleType[] adultRoleTypes = { TUTOR };
+    
+    public static final RoleType[] homeFolderRoleTypes = { HOME_FOLDER_RESPONSIBLE, TUTOR };
+    
     public static RoleType forString(String role) {
         if (role == null || role.length() == 0)
             return null;

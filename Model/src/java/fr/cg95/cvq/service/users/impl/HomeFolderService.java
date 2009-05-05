@@ -1,6 +1,8 @@
 package fr.cg95.cvq.service.users.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -394,6 +396,44 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
             return owner.getIndividualRoles().remove(roleToRemove);
         }
 
+        return false;
+    }
+    
+    @Override
+    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
+    public void addRole(Individual owner, final Individual individual, final RoleType role)
+            throws CvqException {
+        if (individual == null)
+            addHomeFolderRole(owner, role);
+        else
+            addIndividualRole(owner, individual, role);
+    }
+    
+    @Override
+    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
+    public boolean removeRole(Individual owner, final Individual individual,  final RoleType role)
+            throws CvqException {
+        if (owner.getIndividualRoles() == null)
+            return false;
+        
+        IndividualRole roleToRemove = null;
+        for (IndividualRole ownerRole : owner.getIndividualRoles()) {
+            if (ownerRole.getRole().equals(role)) {
+                if (ownerRole.getIndividualName() != null
+                        && ownerRole.getIndividualName().equals(individual.getFullName())) {
+                    roleToRemove = ownerRole;
+                    break;
+                } else if (ownerRole.getIndividualName() == null
+                        && individual == null
+                        && Arrays.asList(RoleType.homeFolderRoleTypes).contains(role)) {
+                    roleToRemove = ownerRole;
+                    break;
+                }
+            }
+        }
+        if (roleToRemove != null) {
+            return owner.getIndividualRoles().remove(roleToRemove);
+        }
         return false;
     }
 

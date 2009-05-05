@@ -113,6 +113,15 @@ public interface IHomeFolderService {
             final RoleType role)
         throws CvqException;
     
+    /*
+     * TODO - refactor role management to better manage unautthentified use cases
+     */
+    void addRole(Individual owner, final Individual individual, final RoleType role)
+        throws CvqException;
+    
+    boolean removeRole(Individual owner, final Individual individual,  final RoleType role)
+        throws CvqException;
+    
     /**
      * Perform the checking and finalization on the roles each of the given individual 
      * has on this home folder.

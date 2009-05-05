@@ -275,6 +275,32 @@ class RequestCreationController {
                             (listFieldToken[0]): listWrapper[listFieldToken[0]].get(Integer.valueOf(listFieldToken[1]))
                            ]
             }
+            else if (submitAction[1] == 'addRole' && params."owner-${submitAction[3]}" != '') {
+                def individualParam = targetAsMap(submitAction[3])
+                def ownerIndex = Integer.valueOf(params."owner-${submitAction[3]}")  
+                def owner = objectToBind.individuals.adults[ownerIndex]
+                def role = RoleType.forString(params."role-${submitAction[3]}")
+                def individual = null
+                if (individualParam.individualIndex != null) {
+                    individual = objectToBind.individuals."${individualParam.individualType}"[Integer.valueOf("${individualParam.individualIndex}")]
+                }
+                if (role == RoleType.HOME_FOLDER_RESPONSIBLE) {
+                    objectToBind.individuals.adults.eachWithIndex { adult, index ->
+                        homeFolderService.removeRole(adult, null, role)
+                    }
+                }
+                homeFolderService.addRole(owner, individual, role)
+            }
+            else if (submitAction[1] == 'removeRole') {
+                def individualParam = targetAsMap(submitAction[3])
+                def owner = objectToBind.individuals.adults[Integer.valueOf("${individualParam.ownerIndex}")]
+                def role = RoleType.forString(individualParam.role)
+                def individual = null
+                if (individualParam.individualIndex != null) {
+                    individual = objectToBind.individuals."${individualParam.individualType}"[Integer.valueOf("${individualParam.individualIndex}")]
+                }
+                homeFolderService.removeRole(owner, individual, role)
+            }
             // standard save action
             else {
                 if (params.objectToBind != null)
@@ -320,7 +346,6 @@ class RequestCreationController {
             session[uuidString].requester = objectToBind.requester
             session[uuidString].individuals = objectToBind.individuals
             session[uuidString].newDocuments = newDocuments
-        
         } catch (CvqException ce) {
             ce.printStackTrace()
             cRequest.stepStates.get(currentStep).state = 'invalid'

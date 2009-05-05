@@ -6,7 +6,7 @@
     <div class="yui-g">
       <div class="yui-u first">
         <label class="required"><g:message code="homeFolder.adult.property.title" /></label>
-        <select name="_individuals.adults[${listIndex}].title" class="required validate-not-first condition-isMadam-trigger" title="<g:message code="homeFolder.adult.property.title.validationError" />">
+        <select name="_individuals.adults[${listIndex}].title" class="required validate-not-first" title="<g:message code="homeFolder.adult.property.title.validationError" />">
           <option value=""><g:message code="message.select.defaultOption" /></option>
           <g:each in="${['Mister','Madam','Miss','Agency']}">
             <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == editList?.adults?.title?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="homeFolder.adult.title" /></option>
@@ -20,11 +20,7 @@
         <label class="required"><g:message code="homeFolder.individual.property.firstName" /></label>
         <input type="text" name="_individuals.adults[${listIndex}].firstName" value="${editList?.adults?.firstName}"
           class="required validate-firstName" title="<g:message code="homeFolder.individual.property.firstName.validationError" />">
-
-        <label class="required condition-isMadam-filled"><g:message code="homeFolder.adult.property.maidenName" /></label>
-        <input type="text" name="_individuals.adults[${listIndex}].maidenName" value="${editList?.adults?.maidenName}"
-          class="required condition-isMadam-filled validate-lastName" title="<g:message code="homeFolder.adult.property.maidenName.validationError" />">
-
+        
         <label class="required"><g:message code="homeFolder.adult.property.familyStatus" /></label>
         <select name="_individuals.adults[${listIndex}].familyStatus" class="required validate-not-first" title="<g:message code="homeFolder.adult.property.familyStatus.validationError" />">
           <option value=""><g:message code="message.select.defaultOption" /></option>

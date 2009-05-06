@@ -32,6 +32,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
 
     public SmsNotificationRequest() {
         super();
+        subscription = Boolean.valueOf(false);
     }
 
 
@@ -54,6 +55,8 @@ public class SmsNotificationRequest extends Request implements Serializable {
         SmsNotificationRequestDocument.SmsNotificationRequest smsNotificationRequest = smsNotificationRequestDoc.addNewSmsNotificationRequest();
         super.fillCommonXmlInfo(smsNotificationRequest);
         smsNotificationRequest.setCleverSmsContactId(this.cleverSmsContactId);
+        if (this.subscription != null)
+            smsNotificationRequest.setSubscription(this.subscription.booleanValue());
         int i = 0;
         if (interests != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] interestsTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[interests.size()];
@@ -65,8 +68,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
             }
             smsNotificationRequest.setInterestsArray(interestsTypeTab);
         }
-        if (this.subscription != null)
-            smsNotificationRequest.setSubscription(this.subscription.booleanValue());
+        smsNotificationRequest.setMobilePhone(this.mobilePhone);
         return smsNotificationRequestDoc;
     }
 
@@ -85,6 +87,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
         SmsNotificationRequest smsNotificationRequest = new SmsNotificationRequest();
         smsNotificationRequest.fillCommonModelInfo(smsNotificationRequest,smsNotificationRequestXml);
         smsNotificationRequest.setCleverSmsContactId(smsNotificationRequestXml.getCleverSmsContactId());
+        smsNotificationRequest.setSubscription(Boolean.valueOf(smsNotificationRequestXml.getSubscription()));
         List<fr.cg95.cvq.business.users.LocalReferentialData> interestsList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( smsNotificationRequestXml.sizeOfInterestsArray() > 0) {
             for (int i = 0; i < smsNotificationRequestXml.getInterestsArray().length; i++) {
@@ -92,7 +95,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
             }
         }
         smsNotificationRequest.setInterests(interestsList);
-        smsNotificationRequest.setSubscription(Boolean.valueOf(smsNotificationRequestXml.getSubscription()));
+        smsNotificationRequest.setMobilePhone(smsNotificationRequestXml.getMobilePhone());
         return smsNotificationRequest;
     }
 
@@ -109,6 +112,21 @@ public class SmsNotificationRequest extends Request implements Serializable {
      */
     public final String getCleverSmsContactId() {
         return this.cleverSmsContactId;
+    }
+
+    private Boolean subscription;
+
+    public final void setSubscription(final Boolean subscription) {
+        this.subscription = subscription;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="subscription"
+     */
+    public final Boolean getSubscription() {
+        return this.subscription;
     }
 
     private List<fr.cg95.cvq.business.users.LocalReferentialData> interests;
@@ -136,19 +154,20 @@ public class SmsNotificationRequest extends Request implements Serializable {
         return this.interests;
     }
 
-    private Boolean subscription;
+    private String mobilePhone;
 
-    public final void setSubscription(final Boolean subscription) {
-        this.subscription = subscription;
+    public final void setMobilePhone(final String mobilePhone) {
+        this.mobilePhone = mobilePhone;
     }
 
 
     /**
      * @hibernate.property
-     *  column="subscription"
+     *  column="mobile_phone"
+     *  length="10"
      */
-    public final Boolean getSubscription() {
-        return this.subscription;
+    public final String getMobilePhone() {
+        return this.mobilePhone;
     }
 
 }

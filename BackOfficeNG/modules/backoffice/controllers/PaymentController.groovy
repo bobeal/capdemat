@@ -56,7 +56,8 @@ class PaymentController {
     
     def initSearchReferential() {
     	return ['allStates':PaymentState.allPaymentStates,
-    	        'allBrokers':paymentService.getAllBrokers()]
+    	        'allBrokers':paymentService.getAllBrokers(),
+    	        'allModes': PaymentMode.allPaymentModes]
     }
     
     def configure = {
@@ -154,7 +155,7 @@ class PaymentController {
                 'initializationDate':it.initializationDate,
                 'commitDate':it.commitDate,
                 'paymentState':it.state.toString(),
-                'amount':it.getEuroAmount() + " &euro;",
+                'amount':it.amount,
                 'paymentMode':it.paymentMode.toString()
             ]		
 			recordsList.add(record)

@@ -1,7 +1,7 @@
 rarr.duration.value =
 
-rarr.step.subject.label =
-rarr.step.subject.desc =
+rarr.step.registration.label =
+rarr.step.registration.desc =
 
 rarr.step.contact.label =
 rarr.step.contact.desc =
@@ -22,8 +22,41 @@ rarr.property.urgencyPhone.validationError =
 rarr.property.recreationCenter.help =
 rarr.property.recreationCenter.validationError =
 
-rarr.property.otherIndividual.help =
-rarr.property.otherIndividual.validationError =
+rarr.property.contactIndividuals.help =
+rarr.property.contactIndividuals.validationError =
+
+rarr.property.lastName.help =
+rarr.property.lastName.validationError =
+
+rarr.property.firstName.help =
+rarr.property.firstName.validationError =
+
+rarr.property.address.help =
+rarr.property.address.validationError =
+
+rarr.property.homePhone.help =
+rarr.property.homePhone.validationError =
+
+rarr.property.officePhone.help =
+rarr.property.officePhone.validationError =
+
+rarr.property.authorizedIndividuals.help =
+rarr.property.authorizedIndividuals.validationError =
+
+rarr.property.lastName.help =
+rarr.property.lastName.validationError =
+
+rarr.property.firstName.help =
+rarr.property.firstName.validationError =
+
+rarr.property.address.help =
+rarr.property.address.validationError =
+
+rarr.property.homePhone.help =
+rarr.property.homePhone.validationError =
+
+rarr.property.officePhone.help =
+rarr.property.officePhone.validationError =
 
 rarr.property.rulesAndRegulationsAcceptance.help =
 rarr.property.rulesAndRegulationsAcceptance.validationError =

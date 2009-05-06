@@ -38,8 +38,9 @@ public class BulkyWasteCollectionRequestServiceTest extends ServiceTestCase {
     protected BulkyWasteCollectionRequest fillMeARequest() throws CvqException {
 
         BulkyWasteCollectionRequest request = new BulkyWasteCollectionRequest();
-              request.setCollectionAddress("CollectionAddress");
-                            request.setOtherWaste("OtherWaste");
+                          Address CollectionAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+            request.setCollectionAddress(CollectionAddress);
+    	                            request.setOtherWaste("OtherWaste");
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(

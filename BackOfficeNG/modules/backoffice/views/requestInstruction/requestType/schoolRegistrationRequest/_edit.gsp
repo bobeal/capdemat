@@ -4,7 +4,7 @@
   <ul class="yui-nav">
   
     <li class="selected">
-      <a href="#page0"><em><g:message code="srr.step.subject.label" /></em></a>
+      <a href="#page0"><em><g:message code="srr.step.registration.label" /></em></a>
     </li>
   
     <li>
@@ -19,7 +19,7 @@
       <!-- step start -->
       <div id="page0">
         <h2><g:message code="property.form" />
-          <span><g:message code="srr.step.subject.label" /></span>
+          <span><g:message code="srr.step.registration.label" /></span>
         </h2>
         <div class="yui-g">
           

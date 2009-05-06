@@ -53,7 +53,8 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         BulkyWasteCollectionRequestDocument bulkyWasteCollectionRequestDoc = BulkyWasteCollectionRequestDocument.Factory.newInstance();
         BulkyWasteCollectionRequestDocument.BulkyWasteCollectionRequest bulkyWasteCollectionRequest = bulkyWasteCollectionRequestDoc.addNewBulkyWasteCollectionRequest();
         super.fillCommonXmlInfo(bulkyWasteCollectionRequest);
-        bulkyWasteCollectionRequest.setCollectionAddress(this.collectionAddress);
+        if (this.collectionAddress != null)
+            bulkyWasteCollectionRequest.setCollectionAddress(Address.modelToXml(this.collectionAddress));
         int i = 0;
         if (bulkyWasteType != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] bulkyWasteTypeTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[bulkyWasteType.size()];
@@ -83,7 +84,8 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         List list = new ArrayList();
         BulkyWasteCollectionRequest bulkyWasteCollectionRequest = new BulkyWasteCollectionRequest();
         bulkyWasteCollectionRequest.fillCommonModelInfo(bulkyWasteCollectionRequest,bulkyWasteCollectionRequestXml);
-        bulkyWasteCollectionRequest.setCollectionAddress(bulkyWasteCollectionRequestXml.getCollectionAddress());
+        if (bulkyWasteCollectionRequestXml.getCollectionAddress() != null)
+            bulkyWasteCollectionRequest.setCollectionAddress(Address.xmlToModel(bulkyWasteCollectionRequestXml.getCollectionAddress()));
         List<fr.cg95.cvq.business.users.LocalReferentialData> bulkyWasteTypeList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( bulkyWasteCollectionRequestXml.sizeOfBulkyWasteTypeArray() > 0) {
             for (int i = 0; i < bulkyWasteCollectionRequestXml.getBulkyWasteTypeArray().length; i++) {
@@ -95,18 +97,20 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         return bulkyWasteCollectionRequest;
     }
 
-    private String collectionAddress;
+    private fr.cg95.cvq.business.users.Address collectionAddress;
 
-    public final void setCollectionAddress(final String collectionAddress) {
+    public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
         this.collectionAddress = collectionAddress;
     }
 
 
     /**
-     * @hibernate.property
-     *  column="collection_address"
+     * @hibernate.many-to-one
+     *  cascade="all"
+     *  column="collection_address_id"
+     *  class="fr.cg95.cvq.business.users.Address"
      */
-    public final String getCollectionAddress() {
+    public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
         return this.collectionAddress;
     }
 

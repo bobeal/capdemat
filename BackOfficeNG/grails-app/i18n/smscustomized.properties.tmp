@@ -1,0 +1,15 @@
+sms.duration.value =
+
+sms.step.subscription.label =
+sms.step.subscription.desc =
+
+
+sms.property.mobilePhone.help =
+sms.property.mobilePhone.validationError =
+
+sms.property.subscription.help =
+sms.property.subscription.validationError =
+
+sms.property.interests.help =
+sms.property.interests.validationError =
+

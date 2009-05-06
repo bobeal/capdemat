@@ -1,5 +1,6 @@
 package fr.cg95.cvq.business.authority;
 
+import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -161,7 +162,7 @@ public class LocalReferentialType {
     
     // TODO - How to manage i18n and key generation policy
     private String generateEntryKey(LocalReferentialEntry lre, LocalReferentialEntry parentLre) {
-        String suffixKey = lre.getLabelsMap().get("fr").replaceAll("[^\\w\\.]", "-").replace('_', '-');
+        String suffixKey = Normalizer.normalize(lre.getLabelsMap().get("fr"), Normalizer.Form.NFD).replaceAll("[^\\w\\.]", "-").replace('_', '-');
         return (parentLre != null ? parentLre.getKey() + "-" : "") + suffixKey;
     }
 }

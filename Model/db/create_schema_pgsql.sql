@@ -23,6 +23,9 @@
     alter table bulky_waste_collection_request 
         drop constraint FK1F104ECB82587E99;
 
+    alter table bulky_waste_collection_request 
+        drop constraint FK1F104ECB1AE70A63;
+
     alter table bulky_waste_collection_request_bulky_waste_type 
         drop constraint FK7E2C4DCBD1DA5141;
 
@@ -37,6 +40,9 @@
 
     alter table compostable_waste_collection_request 
         drop constraint FKAFF7287782587E99;
+
+    alter table compostable_waste_collection_request 
+        drop constraint FKAFF728771AE70A63;
 
     alter table compostable_waste_collection_request_compostable_waste_type 
         drop constraint FK765E424BC1F23BD7;
@@ -293,17 +299,23 @@
     alter table perischool_activity_registration_request 
         drop constraint FK76BAA59A20540B7;
 
-    alter table perischool_activity_registration_request_other_individual 
-        drop constraint FKD6BDD32D96225F9E;
-
-    alter table perischool_activity_registration_request_other_individual 
-        drop constraint FKD6BDD32D8071FDD2;
-
     alter table perischool_activity_registration_request_perischool_activity 
         drop constraint FK2007A4E996225F9E;
 
     alter table perischool_activity_registration_request_perischool_activity 
         drop constraint FK2007A4E9D633AA6C;
+
+    alter table perischool_authorized_individual 
+        drop constraint FKEE33EA1E96225F9E;
+
+    alter table perischool_authorized_individual 
+        drop constraint FKEE33EA1EB7531222;
+
+    alter table perischool_contact_individual 
+        drop constraint FK5B659D5796225F9E;
+
+    alter table perischool_contact_individual 
+        drop constraint FK5B659D57B7531222;
 
     alter table personal_details_request 
         drop constraint FKDA41259382587E99;
@@ -329,17 +341,23 @@
     alter table recreation_activity_registration_request 
         drop constraint FKD1F8ECCF8EE79C;
 
-    alter table recreation_activity_registration_request_other_individual 
-        drop constraint FK8026343B8071FDD2;
-
-    alter table recreation_activity_registration_request_other_individual 
-        drop constraint FK8026343B4C4C853A;
-
     alter table recreation_activity_registration_request_recreation_activity 
         drop constraint FK54117CA97F2ADC1E;
 
     alter table recreation_activity_registration_request_recreation_activity 
         drop constraint FK54117CA94C4C853A;
+
+    alter table recreation_authorized_individual 
+        drop constraint FK5BA62550B7531222;
+
+    alter table recreation_authorized_individual 
+        drop constraint FK5BA625504C4C853A;
+
+    alter table recreation_contact_individual 
+        drop constraint FK52B67F65B7531222;
+
+    alter table recreation_contact_individual 
+        drop constraint FK52B67F654C4C853A;
 
     alter table remote_support_request 
         drop constraint FKEAA6DC2682587E99;
@@ -559,15 +577,15 @@
 
     drop table music_school_registration_request_activity;
 
-    drop table other_individual;
-
     drop table payment;
 
     drop table perischool_activity_registration_request;
 
-    drop table perischool_activity_registration_request_other_individual;
-
     drop table perischool_activity_registration_request_perischool_activity;
+
+    drop table perischool_authorized_individual;
+
+    drop table perischool_contact_individual;
 
     drop table personal_details_request;
 
@@ -583,11 +601,13 @@
 
     drop table recreation_activity_registration_request;
 
-    drop table recreation_activity_registration_request_other_individual;
-
     drop table recreation_activity_registration_request_recreation_activity;
 
+    drop table recreation_authorized_individual;
+
     drop table recreation_center;
+
+    drop table recreation_contact_individual;
 
     drop table remote_support_request;
 
@@ -721,7 +741,7 @@
 
     create table bulky_waste_collection_request (
         id int8 not null,
-        collection_address varchar(255),
+        collection_address_id int8,
         other_waste varchar(255),
         primary key (id)
     );
@@ -766,7 +786,7 @@
 
     create table compostable_waste_collection_request (
         id int8 not null,
-        collection_address varchar(255),
+        collection_address_id int8,
         other_waste varchar(255),
         primary key (id)
     );
@@ -784,11 +804,11 @@
         death_city varchar(32),
         format varchar(255),
         copies bytea,
-        death_last_name varchar(38),
         comment varchar(255),
         motive varchar(255),
-        death_date timestamp,
         death_postal_code varchar(2),
+        death_last_name varchar(38),
+        death_date timestamp,
         primary key (id)
     );
 
@@ -944,13 +964,13 @@
 
     create table electoral_roll_registration_request (
         id int8 not null,
-        subject_address_outside_city_id int8,
         subject_nationality varchar(32),
         subject_old_city varchar(32),
+        subject_address_outside_city_id int8,
         polling_station int8,
-        electoral_number int8,
         polling_school_name varchar(255),
         motive varchar(255),
+        electoral_number int8,
         primary key (id)
     );
 
@@ -1631,43 +1651,43 @@
 
     create table military_census_request (
         id int8 not null,
-        father_birth_city varchar(255),
-        father_birth_date timestamp,
         father_birth_department varchar(255),
         child_profession varchar(255),
-        child_speciality varchar(255),
+        child_status varchar(255),
+        alive_children bytea,
+        affection_or_disease bool,
+        state_pupil bool,
+        child_title varchar(255),
+        child_mail varchar(255),
+        child_diploma varchar(255),
+        mother_birth_country varchar(255),
+        father_birth_city varchar(255),
+        father_birth_date timestamp,
         father_first_name varchar(38),
-        child_other_country varchar(255),
-        other_situation varchar(255),
         mother_birth_city varchar(255),
         father_nationality varchar(255),
         mother_birth_date timestamp,
-        child_status varchar(255),
-        alive_children bytea,
-        prefect_pupil bool,
-        children_in_charge bytea,
-        child_country varchar(255),
-        affection_or_disease bool,
-        japd_exemption bool,
-        child_situation varchar(255),
         mother_first_name varchar(38),
-        maiden_name varchar(38),
-        state_pupil bool,
-        child_title varchar(255),
-        child_convention varchar(255),
         child_birth_country varchar(255),
         mother_nationality varchar(255),
-        child_phone varchar(10),
-        father_birth_country varchar(255),
-        child_mail varchar(255),
-        mother_last_name varchar(38),
-        child_diploma varchar(255),
         highly_infirm bool,
+        child_speciality varchar(255),
+        child_other_country varchar(255),
+        children_in_charge bytea,
+        japd_exemption bool,
+        child_situation varchar(255),
+        maiden_name varchar(38),
+        child_phone varchar(10),
+        mother_last_name varchar(38),
         father_last_name varchar(38),
-        mother_birth_country varchar(255),
         prefect_pupil_department varchar(255),
-        child_residence_country varchar(255),
         mother_birth_department varchar(255),
+        child_residence_country varchar(255),
+        other_situation varchar(255),
+        prefect_pupil bool,
+        child_country varchar(255),
+        child_convention varchar(255),
+        father_birth_country varchar(255),
         primary key (id)
     );
 
@@ -1682,17 +1702,6 @@
         activity_id int8 not null,
         activity_index int4 not null,
         primary key (music_school_registration_request_id, activity_index)
-    );
-
-    create table other_individual (
-        id int8 not null,
-        last_name varchar(255),
-        first_name varchar(255),
-        address varchar(255),
-        home_phone varchar(32),
-        office_phone varchar(32),
-        type varchar(16),
-        primary key (id)
     );
 
     create table payment (
@@ -1713,21 +1722,14 @@
 
     create table perischool_activity_registration_request (
         id int8 not null,
-        class_trip_permission bool,
-        child_photo_exploitation_permission bool,
-        school_id int8,
-        hospitalization_permission bool,
         rules_and_regulations_acceptance bool,
-        urgency_phone varchar(10),
         section varchar(32),
+        child_photo_exploitation_permission bool,
+        class_trip_permission bool,
+        urgency_phone varchar(10),
+        hospitalization_permission bool,
+        school_id int8,
         primary key (id)
-    );
-
-    create table perischool_activity_registration_request_other_individual (
-        perischool_activity_registration_request_id int8 not null,
-        other_individual_id int8 not null,
-        other_individual_index int4 not null,
-        primary key (perischool_activity_registration_request_id, other_individual_index)
     );
 
     create table perischool_activity_registration_request_perischool_activity (
@@ -1735,6 +1737,30 @@
         perischool_activity_id int8 not null,
         perischool_activity_index int4 not null,
         primary key (perischool_activity_registration_request_id, perischool_activity_index)
+    );
+
+    create table perischool_authorized_individual (
+        id int8 not null,
+        office_phone varchar(10),
+        address_id int8,
+        first_name varchar(38),
+        last_name varchar(38),
+        home_phone varchar(10),
+        perischool_activity_registration_request_id int8,
+        authorized_individuals_index int4,
+        primary key (id)
+    );
+
+    create table perischool_contact_individual (
+        id int8 not null,
+        office_phone varchar(10),
+        address_id int8,
+        first_name varchar(38),
+        last_name varchar(38),
+        home_phone varchar(10),
+        perischool_activity_registration_request_id int8,
+        contact_individuals_index int4,
+        primary key (id)
     );
 
     create table personal_details_request (
@@ -1824,20 +1850,13 @@
 
     create table recreation_activity_registration_request (
         id int8 not null,
-        recreation_center_id int8,
-        class_trip_permission bool,
-        child_photo_exploitation_permission bool,
-        hospitalization_permission bool,
         rules_and_regulations_acceptance bool,
+        child_photo_exploitation_permission bool,
+        class_trip_permission bool,
         urgency_phone varchar(10),
+        hospitalization_permission bool,
+        recreation_center_id int8,
         primary key (id)
-    );
-
-    create table recreation_activity_registration_request_other_individual (
-        recreation_activity_registration_request_id int8 not null,
-        other_individual_id int8 not null,
-        other_individual_index int4 not null,
-        primary key (recreation_activity_registration_request_id, other_individual_index)
     );
 
     create table recreation_activity_registration_request_recreation_activity (
@@ -1847,11 +1866,35 @@
         primary key (recreation_activity_registration_request_id, recreation_activity_index)
     );
 
+    create table recreation_authorized_individual (
+        id int8 not null,
+        office_phone varchar(10),
+        address_id int8,
+        first_name varchar(38),
+        last_name varchar(38),
+        home_phone varchar(10),
+        recreation_activity_registration_request_id int8,
+        authorized_individuals_index int4,
+        primary key (id)
+    );
+
     create table recreation_center (
         id int8 not null,
         name varchar(255) not null,
         address varchar(255),
         active bool,
+        primary key (id)
+    );
+
+    create table recreation_contact_individual (
+        id int8 not null,
+        office_phone varchar(10),
+        address_id int8,
+        first_name varchar(38),
+        last_name varchar(38),
+        home_phone varchar(10),
+        recreation_activity_registration_request_id int8,
+        contact_individuals_index int4,
         primary key (id)
     );
 
@@ -2007,11 +2050,11 @@
 
     create table school_registration_request (
         id int8 not null,
+        urgency_phone varchar(10),
+        current_section varchar(32),
         rules_and_regulations_acceptance bool,
         section varchar(32),
-        urgency_phone varchar(10),
         current_school_address varchar(255),
-        current_section varchar(32),
         current_school_name varchar(255),
         school_id int8,
         primary key (id)
@@ -2030,15 +2073,15 @@
 
     create table sewer_connection_request (
         id int8 not null,
+        owner_first_names varchar(255),
+        number bytea,
+        more_than_two_years bool,
+        owner_address_id int8,
         requester_quality varchar(255),
         section varchar(255),
         transportation_route varchar(255),
-        owner_first_names varchar(255),
         locality varchar(255),
-        number bytea,
-        more_than_two_years bool,
         owner_last_name varchar(38),
-        owner_address_id int8,
         primary key (id)
     );
 
@@ -2046,6 +2089,7 @@
         id int8 not null,
         clever_sms_contact_id varchar(255),
         subscription bool,
+        mobile_phone varchar(10),
         primary key (id)
     );
 
@@ -2060,6 +2104,7 @@
         id int8 not null,
         intervention_description varchar(255),
         intervention_place_id int8,
+        other_intervention_label varchar(255),
         primary key (id)
     );
 
@@ -2123,6 +2168,11 @@
         foreign key (id) 
         references request;
 
+    alter table bulky_waste_collection_request 
+        add constraint FK1F104ECB1AE70A63 
+        foreign key (collection_address_id) 
+        references address;
+
     alter table bulky_waste_collection_request_bulky_waste_type 
         add constraint FK7E2C4DCBD1DA5141 
         foreign key (bulky_waste_collection_request_id) 
@@ -2147,6 +2197,11 @@
         add constraint FKAFF7287782587E99 
         foreign key (id) 
         references request;
+
+    alter table compostable_waste_collection_request 
+        add constraint FKAFF728771AE70A63 
+        foreign key (collection_address_id) 
+        references address;
 
     alter table compostable_waste_collection_request_compostable_waste_type 
         add constraint FK765E424BC1F23BD7 
@@ -2573,16 +2628,6 @@
         foreign key (school_id) 
         references school;
 
-    alter table perischool_activity_registration_request_other_individual 
-        add constraint FKD6BDD32D96225F9E 
-        foreign key (perischool_activity_registration_request_id) 
-        references perischool_activity_registration_request;
-
-    alter table perischool_activity_registration_request_other_individual 
-        add constraint FKD6BDD32D8071FDD2 
-        foreign key (other_individual_id) 
-        references other_individual;
-
     alter table perischool_activity_registration_request_perischool_activity 
         add constraint FK2007A4E996225F9E 
         foreign key (perischool_activity_registration_request_id) 
@@ -2592,6 +2637,26 @@
         add constraint FK2007A4E9D633AA6C 
         foreign key (perischool_activity_id) 
         references local_referential_data;
+
+    alter table perischool_authorized_individual 
+        add constraint FKEE33EA1E96225F9E 
+        foreign key (perischool_activity_registration_request_id) 
+        references perischool_activity_registration_request;
+
+    alter table perischool_authorized_individual 
+        add constraint FKEE33EA1EB7531222 
+        foreign key (address_id) 
+        references address;
+
+    alter table perischool_contact_individual 
+        add constraint FK5B659D5796225F9E 
+        foreign key (perischool_activity_registration_request_id) 
+        references perischool_activity_registration_request;
+
+    alter table perischool_contact_individual 
+        add constraint FK5B659D57B7531222 
+        foreign key (address_id) 
+        references address;
 
     alter table personal_details_request 
         add constraint FKDA41259382587E99 
@@ -2633,16 +2698,6 @@
         foreign key (recreation_center_id) 
         references recreation_center;
 
-    alter table recreation_activity_registration_request_other_individual 
-        add constraint FK8026343B8071FDD2 
-        foreign key (other_individual_id) 
-        references other_individual;
-
-    alter table recreation_activity_registration_request_other_individual 
-        add constraint FK8026343B4C4C853A 
-        foreign key (recreation_activity_registration_request_id) 
-        references recreation_activity_registration_request;
-
     alter table recreation_activity_registration_request_recreation_activity 
         add constraint FK54117CA97F2ADC1E 
         foreign key (recreation_activity_id) 
@@ -2650,6 +2705,26 @@
 
     alter table recreation_activity_registration_request_recreation_activity 
         add constraint FK54117CA94C4C853A 
+        foreign key (recreation_activity_registration_request_id) 
+        references recreation_activity_registration_request;
+
+    alter table recreation_authorized_individual 
+        add constraint FK5BA62550B7531222 
+        foreign key (address_id) 
+        references address;
+
+    alter table recreation_authorized_individual 
+        add constraint FK5BA625504C4C853A 
+        foreign key (recreation_activity_registration_request_id) 
+        references recreation_activity_registration_request;
+
+    alter table recreation_contact_individual 
+        add constraint FK52B67F65B7531222 
+        foreign key (address_id) 
+        references address;
+
+    alter table recreation_contact_individual 
+        add constraint FK52B67F654C4C853A 
         foreign key (recreation_activity_registration_request_id) 
         references recreation_activity_registration_request;
 

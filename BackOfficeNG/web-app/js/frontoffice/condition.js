@@ -100,6 +100,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
     }
     
     var getTriggerValue = function (triggerEl) {
+      if (zct.nodeName(triggerEl,'select') && yud.hasClass(triggerEl, 'data-localReferentialData'))
+        return triggerEl.value || "";
       if (zct.nodeName(triggerEl,'select') || yud.hasClass(triggerEl, 'validate-one-required'))
         return triggerEl.value.split('_')[1] || "";
       else
@@ -290,7 +292,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
           if (!yl.isUndefined(triggerEls) && triggerEls.length > 0) {
             var jsonTrigger = {};
             zct.each (triggerEls, function() {
-              jsonTrigger[this.name] = getTriggerValue(this);
+              if (yud.hasClass(this, 'data-localReferentialData')) {
+                jsonTrigger[this.name.split('[')[0]] = getTriggerValue(this)
+              } else {
+                jsonTrigger[this.name] = getTriggerValue(this);
+              }
             });
             zcf.Condition.triggers.push(jsonTrigger);
             zcf.Condition.addFilleds(['condition', conditionName, 'filled'].join('-'));

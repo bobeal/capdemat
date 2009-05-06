@@ -12,7 +12,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class OtherIndividual implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** identifier field */
     private Long id;
@@ -24,40 +24,6 @@ public class OtherIndividual implements Serializable {
     private OtherIndividualType type = OtherIndividualType.CONTACT_PERSON;
 
     public OtherIndividual() {
-    }
-
-    public static fr.cg95.cvq.xml.request.school.OtherIndividualType modelToXml(OtherIndividual otherIndividual) {
-
-        fr.cg95.cvq.xml.request.school.OtherIndividualType otherIndividualType =
-            fr.cg95.cvq.xml.request.school.OtherIndividualType.Factory.newInstance();
-
-        if (otherIndividual.getId() != null)
-            otherIndividualType.setId(otherIndividual.getId().longValue());
-        otherIndividualType.setLastName(otherIndividual.getLastName());
-        otherIndividualType.setFirstName(otherIndividual.getFirstName());
-        otherIndividualType.setAddress(otherIndividual.getAddress());
-        otherIndividualType.setHomePhone(otherIndividual.getHomePhone());
-        otherIndividualType.setOfficePhone(otherIndividual.getOfficePhone());
-        otherIndividualType.setType(fr.cg95.cvq.xml.request.school.SchoolOtherIndividualType.Enum.forString(otherIndividual.getType().toString()));
-
-        return otherIndividualType;
-    }
-
-    public static OtherIndividual xmlToModel(fr.cg95.cvq.xml.request.school.OtherIndividualType otherIndividualType) {
-        OtherIndividual otherIndividual = new OtherIndividual();
-        if (otherIndividualType.getId() != 0)
-            otherIndividual.setId(new Long(otherIndividualType.getId()));
-        otherIndividual.setLastName(otherIndividualType.getLastName());
-        otherIndividual.setFirstName(otherIndividualType.getFirstName());
-        otherIndividual.setAddress(otherIndividualType.getAddress());
-        otherIndividual.setHomePhone(otherIndividualType.getHomePhone());
-        otherIndividual.setOfficePhone(otherIndividualType.getOfficePhone());
-        if (otherIndividualType.getType() != null)
-            otherIndividual.setType(OtherIndividualType.forString(otherIndividualType.getType().toString()));
-        else
-            otherIndividual.setType(OtherIndividualType.CONTACT_PERSON);
-
-        return otherIndividual;
     }
 
     /**

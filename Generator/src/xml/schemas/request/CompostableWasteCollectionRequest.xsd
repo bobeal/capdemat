@@ -110,7 +110,7 @@
 				</xs:appinfo> 
 			  </xs:annotation>
 		    </xs:element>
-		    <xs:element name="CollectionAddress" type="xs:string" minOccurs="0">
+		    <xs:element name="CollectionAddress" type="cvq:AddressType" minOccurs="0">
 			  <xs:annotation>
 			    <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
 			      Adresse de collecte des végétaux, si différente de l'adresse du demandeur
@@ -124,16 +124,17 @@
 			    <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
 			      Collection address
 			    </xs:documentation>
-			    <xs:appinfo> 
+			    <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
 				  <common>
 		            <step name="waste" />
 		          </common>
 		          <fo />
-		          <bo column="1" />
+                  <bo column="1" />
 				  <xslfo>
 				    <element blockId="1" line="2" column="0" columnSpan="2"
 				    	prefixLabel="Adresse de collecte (si différente de l'adresse du compte)">
-		      			<string valueWeight="3"/>
+		      			<complexTemplate />
 				    </element>
 				  </xslfo>
 			    </xs:appinfo> 

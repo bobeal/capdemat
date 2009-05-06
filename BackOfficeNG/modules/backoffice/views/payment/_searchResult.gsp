@@ -8,8 +8,8 @@
           ${record.requesterLastName}</span>
       <span class="${sortBy == 'homeFolderId' ? 'current-sort' : ''}">
           (${record.homeFolderId})</span>
-      <g:message code="payment.searchResult.amount" /> ${record.amount}
-	</span>
+      <g:message code="payment.searchResult.amount" /> <g:formatNumber number="${record.amount / 100}" formatName="format.currency"/>
+	  </span>
   </p>
   <p class="second-line">
     <g:message code="payment.searchResult.initializationDate" />
@@ -23,6 +23,7 @@
     </g:if>
   </p>
   <p class="third-line">
-    <g:message code="payment.searchResult.broker" /> - ${record.broker}
+    <g:message code="payment.searchResult.paidBy" /> <g:message code="payment.mode.${record.paymentMode.toString().toLowerCase()}" />
+    - <g:message code="payment.searchResult.broker" /> : ${record.broker}
   </p>
 </li>

@@ -17,10 +17,12 @@ import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.xml.common.RequestType;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -52,6 +54,7 @@ import org.apache.axis.client.Call;
 import org.apache.axis.client.Service;
 import org.apache.axis.encoding.XMLType;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
@@ -112,7 +115,7 @@ public class HoranetService implements IExternalProviderService {
             return defaultValue;
     }
     
-    public final String sendRequest(final Request request)
+    public final String sendRequest(XmlObject requestXml)
         throws CvqException {
 
         try {
@@ -122,7 +125,7 @@ public class HoranetService implements IExternalProviderService {
             call = (Call) service.createCall();
             call.setOperationName(new QName(HORANET_CVQ2_NS, "AddRegistration"));
 
-            ByteArrayDataSource bds = new ByteArrayDataSource(request.modelToXmlString(), "text/xml");
+            ByteArrayDataSource bds = new ByteArrayDataSource(requestXml.xmlText(), "text/xml");
             DataHandler dhSource = new DataHandler(bds);
 
             call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
@@ -144,6 +147,19 @@ public class HoranetService implements IExternalProviderService {
 
             logger.debug("sendRequest() calling HoraNet");
 
+            RequestType request = null;
+            try {
+                request = (RequestType)requestXml.getClass().getMethod("get" + requestXml.getClass().getName().substring(0, requestXml.getClass().getName().lastIndexOf("Document"))).invoke(requestXml);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return null;
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+                return null;
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+                return null;
+            }
             // FIXME : Horanet could/should extract school from XML
             String schoolName = "";
             try {
@@ -162,22 +178,22 @@ public class HoranetService implements IExternalProviderService {
             // extract child information iff request's subject is of type child
             String childId = "";
             String childBadgeNumber = "";
-            Long subjectId = request.getSubjectId();
+            Long subjectId = null;
+            if (request.getSubject() != null && request.getSubject().getIndividual() != null) {
+                subjectId = request.getSubject().getIndividual().getId();
+            }
             Child subject = individualService.getChildById(subjectId);
             if (subject != null) {
                 childId = subject.getId().toString();
                 childBadgeNumber = 
                     (subject.getBadgeNumber() == null ? "" : subject.getBadgeNumber());
             }
-            
-            HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
-            
             call.invoke(new Object[] {
-                    getPostalCodeFromRequest(request),
-                    request.getRequestType().getLabel(),
-                    request.getRequestType().getLabel(),
-                    request.getId().toString(),
-                    homeFolder.getId().toString(),
+                    SecurityContext.getCurrentSite().getPostalCode(),
+                    request.getRequestTypeLabel(),
+                    request.getRequestTypeLabel(),
+                    Long.toString(request.getId()),
+                    request.getHomeFolder() != null ? Long.toString(request.getHomeFolder().getId()) : "",
                     childId,
                     childBadgeNumber,
                     schoolName

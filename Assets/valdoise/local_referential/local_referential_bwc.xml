@@ -4,13 +4,25 @@
     <data name="BulkyWasteType">
         <label lang="fr">Type d'encombrants</label>
         <label lang="en">Kind of waste</label>
-         <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
-            <entry key="mobilier">
-                <label lang="fr">Mobilier</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Machines---laver">
+                <label lang="fr">Machines à laver</label>
                 <message lang="fr"/>
             </entry>
-            <entry key="gravats">
-                <label lang="fr">Gravats</label>
+            <entry key="Canap-">
+                <label lang="fr">Canapé</label>
+                <message lang="fr">(angle ou droit)</message>
+            </entry>
+            <entry key="Cong-lateur">
+                <label lang="fr">Congélateur</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Meubles">
+                <label lang="fr">Meubles</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="M-tal">
+                <label lang="fr">Métal</label>
                 <message lang="fr"/>
             </entry>
         </entries>

@@ -93,11 +93,15 @@ public class LocalAuthorityRegistry
     }
 
     @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
-    public void addLocalAuthorityServerName(String serverName)
-         throws CvqPermissionException {
+    public void addLocalAuthorityServerName(String serverName) {
         LocalAuthority localAuthority = SecurityContext.getCurrentSite();
         localAuthority.getServerNames().add(serverName);
-        localAuthorityDAO.update(localAuthority);
+        try {
+            localAuthorityDAO.update(localAuthority);
+        } catch (CvqPermissionException e) {
+            // Temp catch while waiting for category and agent services migration
+            // to new security model
+        }
         registerLocalAuthorityServerName(serverName);
     }
 
@@ -606,7 +610,6 @@ public class LocalAuthorityRegistry
     protected void instantiateLocalAuthority(String localAuthorityName) 
         throws CvqConfigurationException, CvqException {
 
-        //String localAuthorityName = SecurityContext.getCurrentSite().getName();
         LocalAuthorityConfigurationBean lacb =
             (LocalAuthorityConfigurationBean) configurationBeansMap.get(localAuthorityName);
         
@@ -617,26 +620,23 @@ public class LocalAuthorityRegistry
             try {
                 localAuthority = new LocalAuthority();
                 localAuthority.setName(lacb.getName().toLowerCase());
+                localAuthority.setDisplayTitle(lacb.getName().toLowerCase());
                 localAuthorityDAO.create(localAuthority);
             } catch (CvqPermissionException cpe) {
                 // can't happen, we are admin here
             } catch (Exception e) {
                 throw new CvqConfigurationException("unable to create local authority " 
-                        + localAuthorityName);
+                        + localAuthorityName + " (" + e.getMessage() + ")");
             }
         }
         if (localAuthority.getServerNames() == null) {
             localAuthority.setServerNames(new TreeSet<String>());
+            String serverName = "vosdemarches.ville-" + lacb.getName() + ".fr";
+            localAuthority.getServerNames().add(serverName);
+            registerLocalAuthorityServerName(serverName);
         } else {
             for (String serverName : localAuthority.getServerNames()) {
                 registerLocalAuthorityServerName(serverName);
-            }
-        }
-        if (localAuthority.getServerNames().isEmpty()) {
-            try {
-                addLocalAuthorityServerName("vosdemarches.ville-" + lacb.getName() + ".fr");
-            } catch (CvqPermissionException e) {
-                // can't happen, we are admin here
             }
         }
     }

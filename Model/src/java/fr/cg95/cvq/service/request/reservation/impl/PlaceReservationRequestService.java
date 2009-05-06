@@ -26,6 +26,7 @@ import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IPlaceReservationService;
+import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.reservation.IPlaceReservationRequestService;
 
@@ -300,5 +301,10 @@ public final class PlaceReservationRequestService
 
     public void setPlaceReservationService(IPlaceReservationService placeReservationService) {
         this.placeReservationService = placeReservationService;
+    }
+    
+    protected void initFilledConditions() {
+        super.initFilledConditions();
+        filledConditions.put("isSubscriber", new EqualityChecker("true"));
     }
 }

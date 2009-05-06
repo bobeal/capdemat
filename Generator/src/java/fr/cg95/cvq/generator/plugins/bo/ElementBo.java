@@ -129,6 +129,7 @@ public class ElementBo {
             , " " , "i18n-" +i18nPrefixCode
             ,(widget != null && widget.equals("capdematEnum") ? " " + "javatype-" + getQualifiedType() : "" )
             ,(widget != null && widget.equals("textarea") ? " rows-" + rows : "" )
+            ,(widget != null && widget.equals("localReferentialData") ? " data-localReferentialData" : "" )
             ,(minLength > 0 ? " minLength-" + minLength : "")
             ,(maxLength > 0 ? " maxLength-" + maxLength : "")
         });

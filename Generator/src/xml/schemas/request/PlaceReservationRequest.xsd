@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/prr" xmlns:prr="http://www.cg95.fr/cvq/schema/prr"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
-  elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/prr" 
+  xmlns:prr="http://www.cg95.fr/cvq/schema/prr"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
 
-  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" schemaLocation="../common/CVQCommonElements.xsd" />
+  <xs:import namespace="http://www.cg95.fr/cvq/schema/common" 
+    schemaLocation="../common/CVQCommonElements.xsd" />
 
   <xs:element name="PlaceReservationRequest">
     <xs:annotation>
@@ -21,13 +25,24 @@
       </xs:documentation>
       <xs:appinfo>
         <model namespace="reservation" />
-        <fo namespace="cultural.reservation" />
-        <bo namespace="cultural">
-          <display field="Requester.LastName" page="checkreservation" line="1" mode="static" />
-          <display field="Requester.FirstName" page="checkreservation" line="2" mode="static" />
-          <display field="Requester.LastName" page="printreservation" line="1" mode="static" />
-          <display field="Requester.FirstName" page="printreservation" line="2" mode="static" />
-        </bo>
+        <common>
+          <namespace name="reservation" />
+          <steps>
+            <step index="0" name="requester">
+              <widgets>
+                <requester />
+              </widgets>
+            </step>
+            <step index="1" name="subscriber" required="false">
+              <conditions>
+                <condition name="hasSubscriberNumber" />
+              </conditions>
+            </step>
+            <step index="2" name="places" />
+            <step index="3" ref="document" />
+            <step index="4" ref="validation" />
+          </steps>
+        </common>
         <xslfo>
           <blocks-def>
             <block id="0" label="Demandeur*" column="2" />
@@ -38,7 +53,7 @@
             <complexTemplate />
           </element>
           <element blockId="2" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous &#x00EA;tre informé ?">
+            prefixLabel="Comment souhaitez-vous être informé ?">
             <complexTemplate />
           </element>
         </xslfo>
@@ -53,21 +68,19 @@
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Indique si le demandeur est abonné
-		        </xs:documentation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Est abonné
-		        </xs:documentation>
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Etes-vous abonné ?
+                </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display field="" type="yesno" stage="abonnee" page="abonnee" line="1"
-                      mode="inline" label="Etes vous abonnée" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displayreservation" mode="static" line="3" />
-                    <display field="" page="checkreservation" mode="static" line="3" />
-                    <display field="" page="printreservation" mode="static" line="3" />
-                  </bo>
+                  <common>
+                    <step name="subscriber" />
+                    <conditions>
+                      <condition name="hasSubscriberNumber" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="1" column="0" prefixLabel="Etes-vous abonné ?">
                       <yesnoCheckbox />
@@ -86,15 +99,14 @@
                   Numéro d'abonné
                 </xs:documentation>
                 <xs:appinfo>
-                  <fo>
-                    <display field="" stage="abonnee" page="abonnee" block="Oui" line="2" />
-                    <display field="" stage="validation" page="summary" line="1" mode="static" />
-                  </fo>
-                  <bo>
-                    <display field="" page="displayreservation" mode="static" line="4" />
-                    <display field="" page="checkreservation" mode="static" line="4" />
-                    <display field="" page="printreservation" mode="static" line="4" />
-                  </bo>
+                  <common>
+                    <step name="subscriber" />
+                    <conditions>
+                      <condition name="hasSubscriberNumber" type="filled" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="2" column="0">
                       <string />
@@ -112,27 +124,18 @@
               maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Informations relatives aux
-                  places réservées
+                  Informations relatives aux places réservées
                 </xs:documentation>
-                <xs:documentation xml:lang="fr"
-                  source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Places réservées
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  A l'affiche
                 </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
-                  <fo repository="Place Reservation">
-                    <display field="" type="ticket" stage="places" page="places" line="1"
-                      label="A l'affiche"
-                      message="Pour continuer, vous devez avoir acheté au moins une place de spectacle." />
-                    <display mode="labelonly" type="stagetitle" label="Places" stage="validation"
-                      page="summary" line="2" />
-                    <display field="" type="ticket" stage="validation" page="summary" line="3"
-                      mode="static" />
-                  </fo>
-                  <bo repository="Place Reservation">
-                    <display field="" type="ticket" page="displayreservation" line="1" />
-                  </bo>
+                  <common>
+                    <step name="places" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
                   <xslfo>
                     <element blockId="1" line="0" column="0" usePrefixLabel="false">
                       <placeReservation />
@@ -151,10 +154,10 @@
                   Référence du paiement
                 </xs:documentation>
                 <xs:appinfo>
-                  <bo>
-                    <display field="" page="checkreservation" mode="input" line="5" />
-                    <display field="" page="printreservation" mode="static" line="5" />
-                  </bo>
+                  <common>
+                    <step name="places" />
+                  </common>
+                  <bo column="2" />
                   <xslfo>
                     <element blockId="1" line="1" column="0">
                       <string />

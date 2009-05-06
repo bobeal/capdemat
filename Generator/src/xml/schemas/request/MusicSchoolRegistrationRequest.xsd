@@ -28,7 +28,7 @@
         <common>
           <namespace name="leisure.music" />
           <steps>
-            <step index="0" name="subject" >
+            <step index="0" name="registration" >
               <widgets>
                 <subject />
               </widgets>
@@ -80,7 +80,7 @@
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <fo />
                   <bo column="1" />

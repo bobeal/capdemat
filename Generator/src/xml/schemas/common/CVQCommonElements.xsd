@@ -2003,6 +2003,7 @@
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
+      <xs:element name="RequestTypeLabel" type="xs:string" />
       <xs:element name="Id" type="xs:long">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">

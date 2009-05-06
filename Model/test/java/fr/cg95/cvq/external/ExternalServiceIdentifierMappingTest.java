@@ -220,9 +220,9 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
             oneOf (mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)));
             allowing(mockExternalService).getLabel();will(returnValue(EXTERNAL_SERVICE_LABEL));
             oneOf(mockExternalService)
-                .sendRequest(with(AllOf.<VoCardRequest>allOf(
+                .sendRequest(iRequestService.fillRequestXml(with(AllOf.<VoCardRequest>allOf(
                         HasInnerProperty.<VoCardRequest>hasProperty("homeFolder.externalId"),
-                        HasInnerProperty.<VoCardRequest>hasProperty("homeFolder.externalCapDematId"))));
+                        HasInnerProperty.<VoCardRequest>hasProperty("homeFolder.externalCapDematId")))));
         }});
         
         // register the mock external provider service with the LACB

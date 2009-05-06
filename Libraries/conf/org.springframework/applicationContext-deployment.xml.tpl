@@ -29,7 +29,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/document/Document.hbm.xml</value>
         <value>fr/cg95/cvq/business/document/DocumentBinary.hbm.xml</value>
         <value>fr/cg95/cvq/business/document/DocumentType.hbm.xml</value>
-        <value>fr/cg95/cvq/business/request/school/OtherIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/authority/School.hbm.xml</value>
         <value>fr/cg95/cvq/business/authority/RecreationCenter.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/Address.hbm.xml</value>
@@ -46,6 +45,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/users/TicketTypeSelection.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/payment/Payment.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/payment/PurchaseItem.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/PerischoolAuthorizedIndividual.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/PerischoolContactIndividual.hbm.xml</value>   
+        <value>fr/cg95/cvq/business/request/school/RecreationAuthorizedIndividual.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/RecreationContactIndividual.hbm.xml</value>                 
         <value>fr/cg95/cvq/business/request/social/DhrRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrNotRealAsset.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/social/DhrPreviousDwelling.hbm.xml</value>

@@ -2,6 +2,7 @@ package fr.cg95.cvq.external.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
@@ -47,6 +49,7 @@ import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.xml.common.RequestType;
 
 /**
  * A fake implementation of the {@link IExternalProviderService external provider service interface}
@@ -73,9 +76,22 @@ public class FakeExternalService implements IExternalProviderService {
     private String depositAccountDetailsFile;
     private String invoiceDetailsFile;
 
-    public final String sendRequest(final Request request) throws CvqException {
+    public final String sendRequest(XmlObject requestXml) throws CvqException {
+        RequestType request = null;
+        try {
+            request = (RequestType)requestXml.getClass().getMethod("get" + requestXml.getClass().getName().substring(0, requestXml.getClass().getName().lastIndexOf("Document"))).invoke(requestXml);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            return null;
+        }
         logger.debug("sendRequest() sending request id " + request.getId());
-        logger.debug("sendRequest() sending request data " + request.modelToXmlString());
+        logger.debug("sendRequest() sending request data " + requestXml.xmlText());
         return null;
     }
 

@@ -14,7 +14,7 @@ import fr.cg95.cvq.xml.common.AddressType;
  *
  * @author bor@zenexity.fr
  */
-public class Address implements fr.cg95.cvq.business.Historizable,Serializable {
+public class Address implements fr.cg95.cvq.business.Historizable,Serializable,Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -204,5 +204,18 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable {
         return new ToStringBuilder(this)
             .append("id", getId())
             .toString();
+    }
+
+    public Address clone() {
+        Address clone = new Address();
+        clone.additionalDeliveryInformation = additionalDeliveryInformation;
+        clone.additionalGeographicalInformation = additionalGeographicalInformation;
+        clone.city = city;
+        clone.countryName = countryName;
+        clone.placeNameOrService = placeNameOrService;
+        clone.postalCode = postalCode;
+        clone.streetName = streetName;
+        clone.streetNumber = streetNumber;
+        return clone;
     }
 }

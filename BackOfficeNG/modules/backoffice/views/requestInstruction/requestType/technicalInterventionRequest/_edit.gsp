@@ -24,20 +24,18 @@
             
               
               <dl>
-                <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${request?.subjectFirstName} ${request?.subjectLastName}</span></dd>
-          
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="tir.property.interventionType.label" /> * : </dt><dd id="interventionType" class="action-editField validate-localReferentialData required-true i18n-tir.property.interventionType" >
+                <dt class="required condition-otherIntervention-trigger"><g:message code="tir.property.interventionType.label" /> * : </dt><dd id="interventionType" class="action-editField validate-localReferentialData required-true i18n-tir.property.interventionType data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'interventionType', 'lrEntries': lrTypes.interventionType?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.interventionType?.entriesSupportMultiple, 'depth':0]" />
  
           </dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required condition-otherIntervention-filled"><g:message code="tir.property.otherInterventionLabel.label" /> * : </dt><dd id="otherInterventionLabel" class="action-editField validate-string required-true i18n-tir.property.otherInterventionLabel" ><span>${request?.otherInterventionLabel}</span></dd>
               </dl>
               
             

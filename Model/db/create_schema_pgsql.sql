@@ -2060,6 +2060,7 @@
         id int8 not null,
         intervention_description varchar(255),
         intervention_place_id int8,
+        other_intervention_label varchar(255),
         primary key (id)
     );
 

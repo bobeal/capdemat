@@ -6,19 +6,19 @@
     
       
       <dl>
-        <dt><g:message code="request.property.subject.label" /></dt><dd>${subjects.get(rqt.subjectId)}</dd>
-
-      </dl>
-      
-    
-      
-      <dl>
         <dt><g:message code="tir.property.interventionType.label" /></dt>
           <dd>
           <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
                     model="['javaName':'interventionType', 'lrEntries': lrTypes.interventionType.entries, 'depth':0]" />
           </dd>
           
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="tir.property.otherInterventionLabel.label" /></dt><dd>${rqt.otherInterventionLabel}</dd>
 
       </dl>
       

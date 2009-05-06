@@ -96,6 +96,7 @@ public abstract class Request implements Serializable {
     public void fillCommonXmlInfo(fr.cg95.cvq.xml.common.RequestType requestType) {
         Calendar calendar = Calendar.getInstance();
 
+        requestType.setRequestTypeLabel(this.getRequestType().getLabel());
         if (this.id != null)
             requestType.setId(this.id.longValue());
         // creation date can't be null, this is certified by the model :-)

@@ -358,3 +358,5 @@ update local_authority set instruction_default_alert_delay=3;
 alter table local_authority alter column instruction_default_alert_delay set not null;
 
 alter table local_authority add column admin_email varchar(255);
+
+alter table technical_intervention_request add column other_intervention_label varchar(255);

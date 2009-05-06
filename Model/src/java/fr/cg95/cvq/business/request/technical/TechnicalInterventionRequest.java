@@ -54,8 +54,6 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         TechnicalInterventionRequestDocument.TechnicalInterventionRequest technicalInterventionRequest = technicalInterventionRequestDoc.addNewTechnicalInterventionRequest();
         super.fillCommonXmlInfo(technicalInterventionRequest);
         technicalInterventionRequest.setInterventionDescription(this.interventionDescription);
-        if (this.interventionPlace != null)
-            technicalInterventionRequest.setInterventionPlace(Address.modelToXml(this.interventionPlace));
         int i = 0;
         if (interventionType != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] interventionTypeTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[interventionType.size()];
@@ -67,6 +65,9 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
             }
             technicalInterventionRequest.setInterventionTypeArray(interventionTypeTypeTab);
         }
+        if (this.interventionPlace != null)
+            technicalInterventionRequest.setInterventionPlace(Address.modelToXml(this.interventionPlace));
+        technicalInterventionRequest.setOtherInterventionLabel(this.otherInterventionLabel);
         return technicalInterventionRequestDoc;
     }
 
@@ -85,8 +86,6 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         TechnicalInterventionRequest technicalInterventionRequest = new TechnicalInterventionRequest();
         technicalInterventionRequest.fillCommonModelInfo(technicalInterventionRequest,technicalInterventionRequestXml);
         technicalInterventionRequest.setInterventionDescription(technicalInterventionRequestXml.getInterventionDescription());
-        if (technicalInterventionRequestXml.getInterventionPlace() != null)
-            technicalInterventionRequest.setInterventionPlace(Address.xmlToModel(technicalInterventionRequestXml.getInterventionPlace()));
         List<fr.cg95.cvq.business.users.LocalReferentialData> interventionTypeList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( technicalInterventionRequestXml.sizeOfInterventionTypeArray() > 0) {
             for (int i = 0; i < technicalInterventionRequestXml.getInterventionTypeArray().length; i++) {
@@ -94,6 +93,9 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
             }
         }
         technicalInterventionRequest.setInterventionType(interventionTypeList);
+        if (technicalInterventionRequestXml.getInterventionPlace() != null)
+            technicalInterventionRequest.setInterventionPlace(Address.xmlToModel(technicalInterventionRequestXml.getInterventionPlace()));
+        technicalInterventionRequest.setOtherInterventionLabel(technicalInterventionRequestXml.getOtherInterventionLabel());
         return technicalInterventionRequest;
     }
 
@@ -110,23 +112,6 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
      */
     public final String getInterventionDescription() {
         return this.interventionDescription;
-    }
-
-    private fr.cg95.cvq.business.users.Address interventionPlace;
-
-    public final void setInterventionPlace(final fr.cg95.cvq.business.users.Address interventionPlace) {
-        this.interventionPlace = interventionPlace;
-    }
-
-
-    /**
-     * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="intervention_place_id"
-     *  class="fr.cg95.cvq.business.users.Address"
-     */
-    public final fr.cg95.cvq.business.users.Address getInterventionPlace() {
-        return this.interventionPlace;
     }
 
     private List<fr.cg95.cvq.business.users.LocalReferentialData> interventionType;
@@ -152,6 +137,38 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
      */
     public final List<fr.cg95.cvq.business.users.LocalReferentialData> getInterventionType() {
         return this.interventionType;
+    }
+
+    private fr.cg95.cvq.business.users.Address interventionPlace;
+
+    public final void setInterventionPlace(final fr.cg95.cvq.business.users.Address interventionPlace) {
+        this.interventionPlace = interventionPlace;
+    }
+
+
+    /**
+     * @hibernate.many-to-one
+     *  cascade="all"
+     *  column="intervention_place_id"
+     *  class="fr.cg95.cvq.business.users.Address"
+     */
+    public final fr.cg95.cvq.business.users.Address getInterventionPlace() {
+        return this.interventionPlace;
+    }
+
+    private String otherInterventionLabel;
+
+    public final void setOtherInterventionLabel(final String otherInterventionLabel) {
+        this.otherInterventionLabel = otherInterventionLabel;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="other_intervention_label"
+     */
+    public final String getOtherInterventionLabel() {
+        return this.otherInterventionLabel;
     }
 
 }

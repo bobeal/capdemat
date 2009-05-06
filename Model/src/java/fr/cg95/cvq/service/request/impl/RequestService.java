@@ -59,7 +59,6 @@ import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
-import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.IConditionChecker;
@@ -958,6 +957,34 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
         // business data
         requestType.setRequester(null);
+    }
+
+    public XmlObject fillRequestXml(Request request)
+        throws CvqException {
+        XmlObject result = request.modelToXml();
+        fr.cg95.cvq.xml.common.RequestType xmlRequestType = null;
+        try {
+            xmlRequestType = (fr.cg95.cvq.xml.common.RequestType) result.getClass().getMethod("get" + result.getClass().getSimpleName().replace("DocumentImpl", "")).invoke(result);
+        } catch (IllegalAccessException e) {
+            logger.error("fillXmlObject() Illegal access exception while filling request xml");
+            throw new CvqException("Illegal access exception while filling request xml");
+        } catch (InvocationTargetException e) {
+            logger.error("fillXmlObject() Invocation target exception while filling request xml");
+            throw new CvqException("Invocation target exception while filling request xml");
+        } catch (NoSuchMethodException e) {
+            logger.error("fillXmlObject() No such method exception while filling request xml");
+            throw new CvqException("No such method exception while filling request xml");
+        }
+        if (request.getSubjectId() != null) {
+            xmlRequestType.addNewSubject().setIndividual(Individual.modelToXml(individualService.getById(request.getSubjectId())));
+        }
+        if (request.getHomeFolderId() != null) {
+            xmlRequestType.addNewHomeFolder().set(homeFolderService.getById(request.getHomeFolderId()).modelToXml());
+        }
+        if (request.getRequesterId() != null) {
+            xmlRequestType.addNewRequester().set(Adult.modelToXml(individualService.getAdultById(request.getRequesterId())));
+        }
+        return result;
     }
 
     @Override

@@ -39,9 +39,10 @@ public class TechnicalInterventionRequestServiceTest extends ServiceTestCase {
 
         TechnicalInterventionRequest request = new TechnicalInterventionRequest();
               request.setInterventionDescription("InterventionDescription");
-                                Address InterventionPlace = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+                                        Address InterventionPlace = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
             request.setInterventionPlace(InterventionPlace);
-    	              
+    	                    request.setOtherInterventionLabel("OtherInterventionLabel");
+      
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

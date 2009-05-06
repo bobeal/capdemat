@@ -20,7 +20,6 @@ import fr.cg95.cvq.service.request.RequestStatisticsServiceTest;
 import fr.cg95.cvq.service.request.civil.BirthDetailsRequestServiceTest;
 import fr.cg95.cvq.service.request.civil.DeathDetailsRequestServiceTest;
 import fr.cg95.cvq.service.request.civil.MarriageDetailsRequestServiceTest;
-import fr.cg95.cvq.service.request.civil.PersonalDetailsRequestServiceTest;
 import fr.cg95.cvq.service.request.ecitizen.VoCardRequestServiceTest;
 import fr.cg95.cvq.service.request.election.ElectoralRollRegistrationRequestServiceTest;
 import fr.cg95.cvq.service.request.environment.BulkyWasteCollectionRequestServiceTest;
@@ -75,7 +74,6 @@ public class CapdematTestSuite extends TestSuite {
         testSuite.addTestSuite(BirthDetailsRequestServiceTest.class);
         testSuite.addTestSuite(DeathDetailsRequestServiceTest.class);
         testSuite.addTestSuite(MarriageDetailsRequestServiceTest.class);
-        testSuite.addTestSuite(PersonalDetailsRequestServiceTest.class);
 
         // service.ecitizen package
         testSuite.addTestSuite(VoCardRequestServiceTest.class);

@@ -142,7 +142,6 @@ INSERT INTO REQUEST_FORM VALUES(37,'Request Certificate','recreationActivityRegi
 INSERT INTO REQUEST_FORM VALUES(39,'Request Certificate','birthDetailsRequest.xsl')
 INSERT INTO REQUEST_FORM VALUES(41,'Request Certificate','domesticHelpRequest.xsl')
 INSERT INTO REQUEST_FORM VALUES(43,'Request Certificate','vacationsRegistrationRequest.xsl')
-INSERT INTO REQUEST_FORM VALUES(45,'Request Certificate','personalDetailsRequest.xsl')
 INSERT INTO REQUEST_FORM VALUES(47,'Request Certificate','handicapAllowanceRequest.xsl')
 INSERT INTO REQUEST_FORM VALUES(49,'Request Certificate','placeReservationRequest.xsl')
 INSERT INTO REQUEST_FORM VALUES(51,'Request Certificate','musicSchoolRegistrationRequest.xsl')

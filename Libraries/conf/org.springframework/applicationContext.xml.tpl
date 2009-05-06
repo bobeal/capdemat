@@ -397,14 +397,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="isOfRegistrationKind" value="true"/>
   </bean>
 
-  <bean id="personalDetailsRequestService" 
-    class="fr.cg95.cvq.service.request.civil.impl.PersonalDetailsRequestService" 
-    parent="requestService">
-    <property name="supportUnregisteredCreation" value="true"/>
-    <property name="label" value="Personal Details"/>
-    <property name="xslFoFilename" value="personalDetailsRequest.xsl"/>
-  </bean>
-
  <bean id="birthDetailsRequestService" 
     class="fr.cg95.cvq.service.request.civil.impl.BirthDetailsRequestService" 
     parent="requestService">

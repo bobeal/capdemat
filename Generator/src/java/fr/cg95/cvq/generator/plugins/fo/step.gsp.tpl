@@ -89,9 +89,13 @@
             """<label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>"""
          ,'acceptance' :
             """
-              <g:if test="\${availableRules.contains('${element.javaFieldName}')}">
-                <a target="_blank" href="\${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'${element.javaFieldName}'])}"><g:message code="action.consult" /></a>
-              </g:if>
+              <label class="${element.listenerConditionsClass}">
+                <g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}
+                <g:if test="\${availableRules.contains('${element.javaFieldName}')}">
+                  <a target="_blank" href="\${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'${element.javaFieldName}'])}"><span><g:message code="request.action.consult.rules" /></span></a>
+                </g:if>
+                <span><g:message code="${element.i18nPrefixCode}.help" /></span>
+              </label>
               <ul class="yes-no ${element.listenerConditionsClass}">
                 <g:each in="\${[true,false]}">
                   <li>
@@ -103,7 +107,7 @@
             """
       ]
       
-      def output = (element.widget != 'requester' ?  widgets['label'] : '')
+      def output = (!['requester', 'acceptance'].contains(element.widget) ?  widgets['label'] : '')
       if (widgets[element.widget] != null) output += widgets[element.widget]
       else output += widgets['text']
       println output

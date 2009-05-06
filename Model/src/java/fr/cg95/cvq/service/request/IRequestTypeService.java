@@ -8,8 +8,8 @@ import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.service.request.annotation.IsCategory;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
+import fr.cg95.cvq.util.Critere;
 
 import java.io.File;
 import java.util.List;
@@ -35,7 +35,7 @@ public interface IRequestTypeService {
      * Get the list of requests types handled by the given category in the given activation state.
      *
      */
-    List<RequestType> getRequestTypes(@IsCategory final Long categoryId, final Boolean active)
+    List<RequestType> getRequestTypes(Set<Critere> criteriaSet)
         throws CvqException;
 
     /**

@@ -14,6 +14,7 @@ public class LocalAuthorityResourceAdaptorService {
                 localAuthorityResources.(it.key).filename = it.value.filename
                 localAuthorityResources.(it.key).extension = it.value.extension
                 localAuthorityResources.(it.key).resourceType = it.value.resourceType
+                localAuthorityResources.(it.key).canFallback = it.value.canFallback()
             }
 
             localAuthorityResources.cssFo.template = "linkBox"

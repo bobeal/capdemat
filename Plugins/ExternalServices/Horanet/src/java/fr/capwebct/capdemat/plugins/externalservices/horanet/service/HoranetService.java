@@ -920,4 +920,8 @@ public class HoranetService implements IExternalProviderService {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    public boolean supportsConsumptions() {
+        return true;
+    }
 }

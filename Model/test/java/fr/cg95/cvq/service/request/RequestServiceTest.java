@@ -94,10 +94,15 @@ public class RequestServiceTest extends ServiceTestCase {
 
         // requestType by category
         Category category = iCategoryService.getAll().get(0);
-        iRequestTypeService.getRequestTypes(category.getId(), null);
+        Set<Critere> criteriaSet = new HashSet<Critere>();
+        Critere categoryCriteria = new Critere();
+        categoryCriteria.setAttribut(RequestType.SEARCH_BY_CATEGORY_ID);
+        categoryCriteria.setValue(category.getId());
+        criteriaSet.add(categoryCriteria);
+        iRequestTypeService.getRequestTypes(criteriaSet);
         int requestTypeNumber = iRequestTypeService.getAllRequestTypes().size();
         int requestTypeInCategory = 
-            iRequestTypeService.getRequestTypes(category.getId(), null).size();
+            iRequestTypeService.getRequestTypes(criteriaSet).size();
         Assert.assertEquals(requestTypeNumber, requestTypeInCategory);
 
         SecurityContext.resetCurrentSite();

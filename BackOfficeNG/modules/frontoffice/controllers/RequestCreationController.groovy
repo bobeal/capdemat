@@ -121,7 +121,8 @@ class RequestCreationController {
             'uuidString': uuidString,
             'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
             'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
-            'isDocumentEditMode': false
+            'isDocumentEditMode': false,
+            'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
         ])
     }
     
@@ -266,12 +267,39 @@ class RequestCreationController {
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {
                 def listFieldToken = submitAction[3].tokenize('[]')
-                def listWrapper = params.objectToManage == null ? cRequest : objectToBind[params.objectToManage] 
+                def objectToManage = params."objectToManage[${listFieldToken[1]}]"
+                def listWrapper = objectToManage == null ? cRequest : objectToBind[objectToManage] 
                 
                 editList = ['name': listFieldToken[0], 
                             'index': listFieldToken[1],
                             (listFieldToken[0]): listWrapper[listFieldToken[0]].get(Integer.valueOf(listFieldToken[1]))
                            ]
+            }
+            else if (submitAction[1] == 'addRole' && params."owner-${submitAction[3]}" != '') {
+                def individualParam = targetAsMap(submitAction[3])
+                def ownerIndex = Integer.valueOf(params."owner-${submitAction[3]}")  
+                def owner = objectToBind.individuals.adults[ownerIndex]
+                def role = RoleType.forString(params."role-${submitAction[3]}")
+                def individual = null
+                if (individualParam.individualIndex != null) {
+                    individual = objectToBind.individuals."${individualParam.individualType}"[Integer.valueOf("${individualParam.individualIndex}")]
+                }
+                if (role == RoleType.HOME_FOLDER_RESPONSIBLE) {
+                    objectToBind.individuals.adults.eachWithIndex { adult, index ->
+                        homeFolderService.removeRole(adult, null, role)
+                    }
+                }
+                homeFolderService.addRole(owner, individual, role)
+            }
+            else if (submitAction[1] == 'removeRole') {
+                def individualParam = targetAsMap(submitAction[3])
+                def owner = objectToBind.individuals.adults[Integer.valueOf("${individualParam.ownerIndex}")]
+                def role = RoleType.forString(individualParam.role)
+                def individual = null
+                if (individualParam.individualIndex != null) {
+                    individual = objectToBind.individuals."${individualParam.individualType}"[Integer.valueOf("${individualParam.individualIndex}")]
+                }
+                homeFolderService.removeRole(owner, individual, role)
             }
             // standard save action
             else {
@@ -306,7 +334,11 @@ class RequestCreationController {
                         requestService.finalizeDraft(cRequest)
                     
                     session.removeAttribute(uuidString)
-                    redirect(action:'exit', params:['id':cRequest.id, 'label':requestTypeInfo.label])
+                    def parameters = ['id':cRequest.id, 'label':requestTypeInfo.label]
+                    if (params.returnUrl != "") {
+                        parameters.returnUrl = params.returnUrl
+                    }
+                    redirect(action:'exit', params:parameters)
                     return
                 }
             }        
@@ -314,7 +346,6 @@ class RequestCreationController {
             session[uuidString].requester = objectToBind.requester
             session[uuidString].individuals = objectToBind.individuals
             session[uuidString].newDocuments = newDocuments
-        
         } catch (CvqException ce) {
             ce.printStackTrace()
             cRequest.stepStates.get(currentStep).state = 'invalid'
@@ -346,7 +377,8 @@ class RequestCreationController {
                      'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
                      'isDocumentEditMode': isDocumentEditMode,
                      'documentType': documentType,
-                     'document': document
+                     'document': document,
+                     'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
                     ])
     }  
     
@@ -385,6 +417,7 @@ class RequestCreationController {
                      'rqt': cRequest,
                      'requester': requester,
                      'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
+                     'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
                     ])
     }
     
@@ -436,6 +469,7 @@ class RequestCreationController {
                     checkRequesterPassword(param.value)
                 DataBindingUtils.initBind(object, param.value)
                 bindParam (object, param.value)
+                DataBindingUtils.cleanBind(object, param.value)
             }
         }
     }
@@ -475,7 +509,7 @@ class RequestCreationController {
     /* Utils
      * ------------------------------------------------------------------------------------------- */
     
-    // Convert a substring of <input type=submit name > representing target object of action in a map
+    // Convert a substring of <input type=submit name="" /> representing target object of action in a map
     def targetAsMap(stringTarget) {
         def result = [:]
         stringTarget.tokenize('_').each {

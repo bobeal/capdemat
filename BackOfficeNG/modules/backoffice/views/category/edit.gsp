@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" >
   <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'categoryEdit.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'categoryRequests.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'categoryUsers.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'categoryAgents.js')}"></script>
   <script type="text/javascript">
     zenexity.capdemat.bong.categoryId = '${category?.id}';
     zenexity.capdemat.bong.editMode = '${editMode}';
@@ -68,29 +68,29 @@
           </ul>
         </div>
         
-        <div id="categoryUsersBox" class="mainbox mainbox-yellow">
+        <div id="categoryAgentsBox" class="mainbox mainbox-yellow">
           <h2><g:message code="category.header.users" /></h2>
           <div class="editableListSwithcher">
-            <form id="sortUsersForm" method="post" action="<g:createLink action="users" />" />
+            <form id="sortAgentsForm" method="post" action="<g:createLink action="users" />" />
               <!-- 
-              <select name="orderUserBy" onchange="zenexity.capdemat.bong.categoryUser.sortUsers();">
+              <select name="orderAgentBy" onchange="zenexity.capdemat.bong.categoryAgent.sortAgents();">
                 <option value=""><g:message code="category.filter.sortBy" /></option>
                 <option value="lastName"><g:message code="category.filter.byName" /></option>
               </select>
               -->
               <input type="hidden" name="id" value="${category?.id}" />
 
-              <a id="viewCategoryUsersLink" class="current"
-                onclick="zenexity.capdemat.bong.categoryUser.viewUsers('Category');">
+              <a id="viewCategoryAgentsLink" class="current"
+                onclick="zenexity.capdemat.bong.categoryAgent.viewAgents('Category');">
                 <g:message code="filter.viewBounded" />
               </a> / 
-              <a id="viewAllUsersLink" 
-                onclick="zenexity.capdemat.bong.categoryUser.viewUsers('All');">
+              <a id="viewAllAgentsLink" 
+                onclick="zenexity.capdemat.bong.categoryAgent.viewAgents('All');">
                 <g:message code="filter.viewAll" />
               </a>
             </form>
           </div>
-          <ul id="categoryUsers" class="editableList">
+          <ul id="categoryAgents" class="editableList">
           </ul>
         </div>
       

@@ -20,6 +20,8 @@ public final class PaymentMode extends PersistentStringEnum {
     }
 
     public PaymentMode() {}
+    
+    public static final PaymentMode[] allPaymentModes = { CARD, INTERNET };
 
     public static PaymentMode forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))

@@ -239,7 +239,13 @@ public class PaymentServiceTest extends ServiceTestCase {
         crit.setComparatif(Critere.EQUALS);
         crit.setValue(payment.getBroker());
         criteria.add(crit);
-
+        
+        crit = new Critere();
+        crit.setAttribut(Payment.SEARCH_BY_PAYMENT_MODE);
+        crit.setComparatif(Critere.EQUALS);
+        crit.setValue(payment.getPaymentMode().toString());
+        criteria.add(crit);
+        
         List<Payment> payments = iPaymentService.get(criteria, null, null, -1, 0);
 
         Assert.assertEquals(1, payments.size());

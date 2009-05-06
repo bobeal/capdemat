@@ -9,7 +9,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "subject-required",  "contact",  "authorization",  "rules-required",  "document",  "validation"  ]
+        ,"steps": [  "registration-required",  "contact",  "authorization",  "rules-required",  "document",  "validation"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
@@ -56,14 +56,14 @@
 
   
   
-        <li class="${['subject', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
+        <li class="${['registration', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
-          <a href="#subject"><em>
+          <a href="#registration"><em>
           <span class="tag-no_right">1</span>
-          <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.registration.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.registration.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="rarr.step.subject.label" /> *
+            <g:message code="rarr.step.registration.label" /> *
           </strong>
             
           </em></a>
@@ -153,29 +153,29 @@
      <div class="yui-content">
 
   
-       <div id="subject">
-         <form method="POST"  id="stepForm-subject" action="<g:createLink action="step" />">
+       <div id="registration">
+         <form method="POST"  id="stepForm-registration" action="<g:createLink action="step" />">
            <h3>
-             <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.registration.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.registration.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
              <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
   
-             <g:message code="rarr.step.subject.label" />
-             <span><g:message code="rarr.step.subject.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.subject?.errorMsg}" /></span>
+             <g:message code="rarr.step.registration.label" />
+             <span><g:message code="rarr.step.registration.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.registration?.errorMsg}" /></span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
-            <g:render template="/frontofficeRequestType/recreationActivityRegistrationRequest/subject" />         
+            <g:render template="/frontofficeRequestType/recreationActivityRegistrationRequest/registration" />         
   
            </div>
-           <div class="error" id="stepForm-subject-error"> </div>
+           <div class="error" id="stepForm-registration-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-registration" name="submit-step-registration" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -184,10 +184,10 @@
            <a id="next-tab" href="#contact"><g:message code="request.step.navigation.next"/></a>
   
          </div>
-         <g:if test="${helps.subject != null}">       
+         <g:if test="${helps.registration != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
-           ${helps.subject}
+           ${helps.registration}
          </div>
          </g:if>
        </div>  
@@ -219,7 +219,7 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#subject"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#registration"><g:message code="request.step.navigation.previous"/></a>
   
   
            <a id="next-tab" href="#authorization"><g:message code="request.step.navigation.next"/></a>

@@ -92,7 +92,7 @@
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      date fin d'absence*
+		      Date fin d'absence*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -126,7 +126,7 @@
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Numéro d'alerte*
+		      Numéro de téléphone en cas d'alerte*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -163,7 +163,7 @@
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom de l'autre contact*
+		      Nom de la personne à contacter*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -191,7 +191,7 @@
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Prénom de l'autre contact*
+		      Prénom de la personne à contacter*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -223,7 +223,7 @@
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Téléphone de l'autre contact*
+		      Téléphone de la personne à contacter*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -341,8 +341,8 @@
                                 	    <fo:block xsl:use-attribute-sets="request.signature">
 	      <xsl:if test="//hsr:RulesAndRegulationsAcceptance/text() = &quot;true&quot;">
       		<fo:inline>
-			                          J'ai pris parfaite connaissance du règlement du service sécurité vacances qui accompagne cette fiche.
-			                        </fo:inline>
+                          J'ai pris parfaite connaissance du règlement du service sécurité vacances qui accompagne cette fiche.
+                        </fo:inline>
 		<fo:block>
 		  <fo:leader leader-pattern="space" />
 		</fo:block>
@@ -360,8 +360,8 @@
 	      </xsl:if>
 	      <xsl:if test="//hsr:RulesAndRegulationsAcceptance/text() = &quot;false&quot;">
       		<fo:inline>
-			                          Vous n'avez pas accepté le réglement.
-			                        </fo:inline>
+                          Vous n'avez pas accept" le règlement.
+                        </fo:inline>
 		<fo:block>
 		  <fo:leader leader-pattern="space" />
 		</fo:block>

@@ -11,20 +11,24 @@
     
   <xs:element name="TechnicalInterventionRequest">
     <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Demande d'intervention
-        technique</xs:documentation>
-      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Technical intervention
-        request</xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Intervention technique
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+	Demande d'intervention technique
       </xs:documentation>
-      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Technical intervention
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+	Technical intervention request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	Intervention technique
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	Technical intervention
       </xs:documentation>
       <xs:appinfo>
         <model namespace="technical" />
         <common>
           <namespace name="technical" />
           <steps>
-            <step index="0" name="subject">
+            <step index="0" name="intervention">
               <conditions>
                 <condition name="otherIntervention" />
               </conditions>
@@ -73,7 +77,7 @@
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
                   <common>
-                    <step name="subject" />
+                    <step name="intervention" />
                     <conditions>
                       <condition name="otherIntervention" type="trigger" />
                     </conditions>
@@ -104,7 +108,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="intervention" />
                     <conditions>
                       <condition name="otherIntervention" type="filled" required="true" />
                     </conditions>
@@ -136,7 +140,7 @@
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
                   <common>
-                    <step name="subject" />
+                    <step name="intervention" />
                   </common>
                   <fo />
                   <bo column="1" />
@@ -164,7 +168,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="intervention" />
                   </common>
                   <fo >
                     <textarea rows="3" />

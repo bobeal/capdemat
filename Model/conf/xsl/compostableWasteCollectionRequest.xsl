@@ -96,32 +96,8 @@
 
     
           
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(300)" />
-                    	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Adresse de collecte (si différente de l'adresse du compte)
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//cwc:CollectionAddress and //cwc:CollectionAddress != ''">
-                                    <xsl:value-of select="//cwc:CollectionAddress" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
-
+                    	    <xsl:apply-templates select="//cwc:CollectionAddress"/>
+      
     
       
               <fo:block>
@@ -162,7 +138,12 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                        <xsl:template match="//cvq:MeansOfContact">
+                                <xsl:template match="//cwc:CollectionAddress">
+          <xsl:call-template name="AddressType">
+      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+                    <xsl:template match="//cvq:MeansOfContact">
           <xsl:call-template name="MeansOfContactType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>

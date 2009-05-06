@@ -28,7 +28,7 @@
         <common>
 	      <namespace name="school" />
 	      <steps>
-	        <step index="0" name="subject" >
+	        <step index="0" name="registration" >
 	          <widgets>
 	            <subject />
 	          </widgets>
@@ -72,7 +72,7 @@
                 <xs:appinfo>
                   <model namespace="authority" />
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <bo column="1" />
                   <xslfo>
@@ -94,7 +94,7 @@
                 <xs:appinfo>
                   <model namespace="users" />
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <fo />
                   <bo column="1" />
@@ -116,7 +116,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <fo />
                   <bo column="1" />
@@ -138,11 +138,9 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
-                  <fo>
-                    <label />
-                  </fo>
+                  <fo />
                   <bo column="2" />
                   <xslfo>
                     <element blockId="0" line="0" column="0">
@@ -212,7 +210,7 @@
           </xs:documentation>
           <xs:appinfo>
            <common>
-             <step name="subject" />
+             <step name="registration" />
            </common>
            <fo />
            <bo column="2" />
@@ -237,7 +235,7 @@
           </xs:documentation>
           <xs:appinfo>
             <common>
-              <step name="subject" />
+              <step name="registration" />
             </common>
             <fo>
               <textarea rows="3" />
@@ -266,7 +264,7 @@
           <xs:appinfo>
             <model namespace="users" />
             <common>
-              <step name="subject" />
+              <step name="registration" />
             </common>
             <fo />
             <bo column="2" />

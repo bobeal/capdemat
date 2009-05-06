@@ -9,7 +9,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "subject-required",  "document",  "validation"  ]
+        ,"steps": [  "intervention-required",  "document",  "validation"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
@@ -56,14 +56,14 @@
 
   
   
-        <li class="${['subject', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
+        <li class="${['intervention', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
-          <a href="#subject"><em>
+          <a href="#intervention"><em>
           <span class="tag-no_right">1</span>
-          <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.intervention.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.intervention.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="tir.step.subject.label" /> *
+            <g:message code="tir.step.intervention.label" /> *
           </strong>
             
           </em></a>
@@ -141,10 +141,10 @@
            <a id="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
   
          </div>
-         <g:if test="${helps.subject != null}">       
+         <g:if test="${helps.intervention != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
-           ${helps.subject}
+           ${helps.intervention}
          </div>
          </g:if>
        </div>  
@@ -177,7 +177,7 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#subject"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#intervention"><g:message code="request.step.navigation.previous"/></a>
   
   
            <a id="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>

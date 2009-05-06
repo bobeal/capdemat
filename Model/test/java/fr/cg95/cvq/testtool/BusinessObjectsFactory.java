@@ -15,8 +15,6 @@ import fr.cg95.cvq.business.document.DepositType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.RequestSeason;
-import fr.cg95.cvq.business.request.school.OtherIndividual;
-import fr.cg95.cvq.business.request.school.OtherIndividualType;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -83,20 +81,6 @@ public class BusinessObjectsFactory {
             adult.setAdress(adress);
 
         return adult;
-    }
-
-    public static OtherIndividual gimmeApac(String address, String lastName,
-            String firstName, String officePhone, String homePhone, OtherIndividualType oit) {
-        
-        OtherIndividual otherIndividual = new OtherIndividual();
-        otherIndividual.setAddress(address);
-        otherIndividual.setLastName(lastName);
-        otherIndividual.setFirstName(firstName);
-        otherIndividual.setOfficePhone(officePhone);
-        otherIndividual.setHomePhone(homePhone);
-        otherIndividual.setType(oit);
-
-        return otherIndividual;
     }
 
     public static Child gimmeChild(String lastName, String firstName) {

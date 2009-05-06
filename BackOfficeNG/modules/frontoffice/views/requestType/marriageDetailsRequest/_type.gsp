@@ -3,12 +3,14 @@
 
   
     <label class="required"><g:message code="mdr.property.format.label" /> *  <span><g:message code="mdr.property.format.help" /></span></label>
-            <select name="format" class="required condition-isWithRelationship-trigger  validate-not-first" title="<g:message code="mdr.property.format.validationError" />">
-              <option value=""><g:message code="message.select.defaultOption" /></option>
+            <ul class="required">
               <g:each in="${['FullCopy','ExtractWithRelationship','ExtractWithoutRelationship','MultilingualExtract']}">
-                <option value="fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType_${it}" ${it == rqt.format?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="mdr.property.format" /></option>
+              <li>
+                <input type="radio" class="required condition-isWithRelationship-trigger  validate-one-required" value="fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType_${it}" name="format" ${it == rqt.format.toString() ? 'checked="checked"': ''} title="<g:message code="mdr.property.format.validationError" />" />
+                <g:capdematEnumToField var="${it}" i18nKeyPrefix="mdr.property.format" />
+              </li>
               </g:each>
-            </select>
+            </ul>
             
 
   

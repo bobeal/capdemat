@@ -149,14 +149,17 @@
       	<include name="HandicapCompensationAdultRequest.xsd" />
       	<include name="HandicapCompensationChildRequest.xsd" />   
       	<include name="HolidaySecurityRequest.xsd" />
+        <include name="LibraryRegistrationRequest.xsd" />      	
       	<include name="MarriageDetailsRequest.xsd" />
       	<include name="MilitaryCensusRequest.xsd" />
       	<include name="MusicSchoolRegistrationRequest.xsd" />
       	<include name="PerischoolActivityRegistrationRequest.xsd" />
+        <include name="PlaceReservationRequest.xsd" />      	
       	<include name="RecreationActivityRegistrationRequest.xsd" />
       	<include name="RemoteSupportRequest.xsd" />
       	<include name="SchoolCanteenRegistrationRequest.xsd" />
       	<include name="SchoolRegistrationRequest.xsd" />
+        <include name="SmsNotificationRequest.xsd" />      	
       	<include name="SewerConnectionRequest.xsd" />
       	<include name="TechnicalInterventionRequest.xsd" />
       </fileset>

@@ -32,11 +32,11 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
 
     public PerischoolActivityRegistrationRequest() {
         super();
-        classTripPermission = Boolean.valueOf(false);
-        childPhotoExploitationPermission = Boolean.valueOf(false);
-        hospitalizationPermission = Boolean.valueOf(false);
         rulesAndRegulationsAcceptance = Boolean.valueOf(false);
         section = fr.cg95.cvq.business.users.SectionType.UNKNOWN;
+        childPhotoExploitationPermission = Boolean.valueOf(false);
+        classTripPermission = Boolean.valueOf(false);
+        hospitalizationPermission = Boolean.valueOf(false);
     }
 
 
@@ -58,28 +58,28 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         PerischoolActivityRegistrationRequestDocument perischoolActivityRegistrationRequestDoc = PerischoolActivityRegistrationRequestDocument.Factory.newInstance();
         PerischoolActivityRegistrationRequestDocument.PerischoolActivityRegistrationRequest perischoolActivityRegistrationRequest = perischoolActivityRegistrationRequestDoc.addNewPerischoolActivityRegistrationRequest();
         super.fillCommonXmlInfo(perischoolActivityRegistrationRequest);
-        if (this.classTripPermission != null)
-            perischoolActivityRegistrationRequest.setClassTripPermission(this.classTripPermission.booleanValue());
+        if (this.rulesAndRegulationsAcceptance != null)
+            perischoolActivityRegistrationRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
+        if (this.section != null)
+            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(this.section.toString()));
         if (this.childPhotoExploitationPermission != null)
             perischoolActivityRegistrationRequest.setChildPhotoExploitationPermission(this.childPhotoExploitationPermission.booleanValue());
-        if (this.school != null)
-            perischoolActivityRegistrationRequest.setSchool(School.modelToXml(this.school));
+        if (this.classTripPermission != null)
+            perischoolActivityRegistrationRequest.setClassTripPermission(this.classTripPermission.booleanValue());
+        perischoolActivityRegistrationRequest.setUrgencyPhone(this.urgencyPhone);
         if (this.hospitalizationPermission != null)
             perischoolActivityRegistrationRequest.setHospitalizationPermission(this.hospitalizationPermission.booleanValue());
         int i = 0;
-        if (otherIndividual != null) {
-            fr.cg95.cvq.xml.request.school.OtherIndividualType[] otherIndividualTypeTab = new fr.cg95.cvq.xml.request.school.OtherIndividualType[otherIndividual.size()];
-            Iterator otherIndividualIt = otherIndividual.iterator();
-            while (otherIndividualIt.hasNext()) {
-                OtherIndividual object = (OtherIndividual) otherIndividualIt.next();
-                otherIndividualTypeTab[i] = OtherIndividual.modelToXml(object);
+        if (authorizedIndividuals != null) {
+            fr.cg95.cvq.xml.request.school.PerischoolAuthorizedIndividualType[] authorizedIndividualsTypeTab = new fr.cg95.cvq.xml.request.school.PerischoolAuthorizedIndividualType[authorizedIndividuals.size()];
+            Iterator authorizedIndividualsIt = authorizedIndividuals.iterator();
+            while (authorizedIndividualsIt.hasNext()) {
+                PerischoolAuthorizedIndividual object = (PerischoolAuthorizedIndividual) authorizedIndividualsIt.next();
+                authorizedIndividualsTypeTab[i] = (PerischoolAuthorizedIndividualType) object.modelToXml();
                 i = i + 1;
             }
-            perischoolActivityRegistrationRequest.setOtherIndividualArray(otherIndividualTypeTab);
+            perischoolActivityRegistrationRequest.setAuthorizedIndividualsArray(authorizedIndividualsTypeTab);
         }
-        if (this.rulesAndRegulationsAcceptance != null)
-            perischoolActivityRegistrationRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
-        perischoolActivityRegistrationRequest.setUrgencyPhone(this.urgencyPhone);
         i = 0;
         if (perischoolActivity != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] perischoolActivityTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[perischoolActivity.size()];
@@ -91,8 +91,19 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
             }
             perischoolActivityRegistrationRequest.setPerischoolActivityArray(perischoolActivityTypeTab);
         }
-        if (this.section != null)
-            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(this.section.toString()));
+        i = 0;
+        if (contactIndividuals != null) {
+            fr.cg95.cvq.xml.request.school.PerischoolContactIndividualType[] contactIndividualsTypeTab = new fr.cg95.cvq.xml.request.school.PerischoolContactIndividualType[contactIndividuals.size()];
+            Iterator contactIndividualsIt = contactIndividuals.iterator();
+            while (contactIndividualsIt.hasNext()) {
+                PerischoolContactIndividual object = (PerischoolContactIndividual) contactIndividualsIt.next();
+                contactIndividualsTypeTab[i] = (PerischoolContactIndividualType) object.modelToXml();
+                i = i + 1;
+            }
+            perischoolActivityRegistrationRequest.setContactIndividualsArray(contactIndividualsTypeTab);
+        }
+        if (this.school != null)
+            perischoolActivityRegistrationRequest.setSchool(School.modelToXml(this.school));
         return perischoolActivityRegistrationRequestDoc;
     }
 
@@ -110,20 +121,22 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         List list = new ArrayList();
         PerischoolActivityRegistrationRequest perischoolActivityRegistrationRequest = new PerischoolActivityRegistrationRequest();
         perischoolActivityRegistrationRequest.fillCommonModelInfo(perischoolActivityRegistrationRequest,perischoolActivityRegistrationRequestXml);
-        perischoolActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getClassTripPermission()));
+        perischoolActivityRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
+        if (perischoolActivityRegistrationRequestXml.getSection() != null)
+            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.forString(perischoolActivityRegistrationRequestXml.getSection().toString()));
+        else
+            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
         perischoolActivityRegistrationRequest.setChildPhotoExploitationPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getChildPhotoExploitationPermission()));
-        if (perischoolActivityRegistrationRequestXml.getSchool() != null)
-            perischoolActivityRegistrationRequest.setSchool(School.xmlToModel(perischoolActivityRegistrationRequestXml.getSchool()));
+        perischoolActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getClassTripPermission()));
+        perischoolActivityRegistrationRequest.setUrgencyPhone(perischoolActivityRegistrationRequestXml.getUrgencyPhone());
         perischoolActivityRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getHospitalizationPermission()));
-        List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividualList = new ArrayList<fr.cg95.cvq.business.request.school.OtherIndividual> ();
-        if ( perischoolActivityRegistrationRequestXml.sizeOfOtherIndividualArray() > 0) {
-            for (int i = 0; i < perischoolActivityRegistrationRequestXml.getOtherIndividualArray().length; i++) {
-                otherIndividualList.add(OtherIndividual.xmlToModel(perischoolActivityRegistrationRequestXml.getOtherIndividualArray(i)));
+        List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> authorizedIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> ();
+        if ( perischoolActivityRegistrationRequestXml.sizeOfAuthorizedIndividualsArray() > 0) {
+            for (int i = 0; i < perischoolActivityRegistrationRequestXml.getAuthorizedIndividualsArray().length; i++) {
+                authorizedIndividualsList.add(PerischoolAuthorizedIndividual.xmlToModel(perischoolActivityRegistrationRequestXml.getAuthorizedIndividualsArray(i)));
             }
         }
-        perischoolActivityRegistrationRequest.setOtherIndividual(otherIndividualList);
-        perischoolActivityRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
-        perischoolActivityRegistrationRequest.setUrgencyPhone(perischoolActivityRegistrationRequestXml.getUrgencyPhone());
+        perischoolActivityRegistrationRequest.setAuthorizedIndividuals(authorizedIndividualsList);
         List<fr.cg95.cvq.business.users.LocalReferentialData> perischoolActivityList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( perischoolActivityRegistrationRequestXml.sizeOfPerischoolActivityArray() > 0) {
             for (int i = 0; i < perischoolActivityRegistrationRequestXml.getPerischoolActivityArray().length; i++) {
@@ -131,97 +144,16 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
             }
         }
         perischoolActivityRegistrationRequest.setPerischoolActivity(perischoolActivityList);
-        if (perischoolActivityRegistrationRequestXml.getSection() != null)
-            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.forString(perischoolActivityRegistrationRequestXml.getSection().toString()));
-        else
-            perischoolActivityRegistrationRequest.setSection(fr.cg95.cvq.business.users.SectionType.getDefaultSectionType());
+        List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividualsList = new ArrayList<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> ();
+        if ( perischoolActivityRegistrationRequestXml.sizeOfContactIndividualsArray() > 0) {
+            for (int i = 0; i < perischoolActivityRegistrationRequestXml.getContactIndividualsArray().length; i++) {
+                contactIndividualsList.add(PerischoolContactIndividual.xmlToModel(perischoolActivityRegistrationRequestXml.getContactIndividualsArray(i)));
+            }
+        }
+        perischoolActivityRegistrationRequest.setContactIndividuals(contactIndividualsList);
+        if (perischoolActivityRegistrationRequestXml.getSchool() != null)
+            perischoolActivityRegistrationRequest.setSchool(School.xmlToModel(perischoolActivityRegistrationRequestXml.getSchool()));
         return perischoolActivityRegistrationRequest;
-    }
-
-    private Boolean classTripPermission;
-
-    public final void setClassTripPermission(final Boolean classTripPermission) {
-        this.classTripPermission = classTripPermission;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="class_trip_permission"
-     */
-    public final Boolean getClassTripPermission() {
-        return this.classTripPermission;
-    }
-
-    private Boolean childPhotoExploitationPermission;
-
-    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
-        this.childPhotoExploitationPermission = childPhotoExploitationPermission;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="child_photo_exploitation_permission"
-     */
-    public final Boolean getChildPhotoExploitationPermission() {
-        return this.childPhotoExploitationPermission;
-    }
-
-    private fr.cg95.cvq.business.authority.School school;
-
-    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
-        this.school = school;
-    }
-
-
-    /**
-     * @hibernate.many-to-one
-     *  column="school_id"
-     *  class="fr.cg95.cvq.business.authority.School"
-     */
-    public final fr.cg95.cvq.business.authority.School getSchool() {
-        return this.school;
-    }
-
-    private Boolean hospitalizationPermission;
-
-    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
-        this.hospitalizationPermission = hospitalizationPermission;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="hospitalization_permission"
-     */
-    public final Boolean getHospitalizationPermission() {
-        return this.hospitalizationPermission;
-    }
-
-    private List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividual;
-
-    public final void setOtherIndividual(final List<fr.cg95.cvq.business.request.school.OtherIndividual> otherIndividual) {
-        this.otherIndividual = otherIndividual;
-    }
-
-
-    /**
-     * @hibernate.list
-     *  inverse="false"
-     *  lazy="false"
-     *  cascade="all"
-     *  table="perischool_activity_registration_request_other_individual"
-     * @hibernate.key
-     *  column="perischool_activity_registration_request_id"
-     * @hibernate.list-index
-     *  column="other_individual_index"
-     * @hibernate.many-to-many
-     *  column="other_individual_id"
-     *  class="fr.cg95.cvq.business.request.school.OtherIndividual"
-     */
-    public final List<fr.cg95.cvq.business.request.school.OtherIndividual> getOtherIndividual() {
-        return this.otherIndividual;
     }
 
     private Boolean rulesAndRegulationsAcceptance;
@@ -239,6 +171,52 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return this.rulesAndRegulationsAcceptance;
     }
 
+    private fr.cg95.cvq.business.users.SectionType section;
+
+    public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
+        this.section = section;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="section"
+     *  length="32"
+     */
+    public final fr.cg95.cvq.business.users.SectionType getSection() {
+        return this.section;
+    }
+
+    private Boolean childPhotoExploitationPermission;
+
+    public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
+        this.childPhotoExploitationPermission = childPhotoExploitationPermission;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="child_photo_exploitation_permission"
+     */
+    public final Boolean getChildPhotoExploitationPermission() {
+        return this.childPhotoExploitationPermission;
+    }
+
+    private Boolean classTripPermission;
+
+    public final void setClassTripPermission(final Boolean classTripPermission) {
+        this.classTripPermission = classTripPermission;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="class_trip_permission"
+     */
+    public final Boolean getClassTripPermission() {
+        return this.classTripPermission;
+    }
+
     private String urgencyPhone;
 
     public final void setUrgencyPhone(final String urgencyPhone) {
@@ -253,6 +231,44 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
      */
     public final String getUrgencyPhone() {
         return this.urgencyPhone;
+    }
+
+    private Boolean hospitalizationPermission;
+
+    public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
+        this.hospitalizationPermission = hospitalizationPermission;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="hospitalization_permission"
+     */
+    public final Boolean getHospitalizationPermission() {
+        return this.hospitalizationPermission;
+    }
+
+    private List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> authorizedIndividuals;
+
+    public final void setAuthorizedIndividuals(final List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> authorizedIndividuals) {
+        this.authorizedIndividuals = authorizedIndividuals;
+    }
+
+
+    /**
+     * @hibernate.list
+     *  inverse="false"
+     *  lazy="false"
+     *  cascade="all"
+     * @hibernate.key
+     *  column="perischool_activity_registration_request_id"
+     * @hibernate.list-index
+     *  column="authorized_individuals_index"
+     * @hibernate.one-to-many
+     *  class="fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual"
+     */
+    public final List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> getAuthorizedIndividuals() {
+        return this.authorizedIndividuals;
     }
 
     private List<fr.cg95.cvq.business.users.LocalReferentialData> perischoolActivity;
@@ -280,20 +296,43 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return this.perischoolActivity;
     }
 
-    private fr.cg95.cvq.business.users.SectionType section;
+    private List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividuals;
 
-    public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
-        this.section = section;
+    public final void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividuals) {
+        this.contactIndividuals = contactIndividuals;
     }
 
 
     /**
-     * @hibernate.property
-     *  column="section"
-     *  length="32"
+     * @hibernate.list
+     *  inverse="false"
+     *  lazy="false"
+     *  cascade="all"
+     * @hibernate.key
+     *  column="perischool_activity_registration_request_id"
+     * @hibernate.list-index
+     *  column="contact_individuals_index"
+     * @hibernate.one-to-many
+     *  class="fr.cg95.cvq.business.request.school.PerischoolContactIndividual"
      */
-    public final fr.cg95.cvq.business.users.SectionType getSection() {
-        return this.section;
+    public final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> getContactIndividuals() {
+        return this.contactIndividuals;
+    }
+
+    private fr.cg95.cvq.business.authority.School school;
+
+    public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
+        this.school = school;
+    }
+
+
+    /**
+     * @hibernate.many-to-one
+     *  column="school_id"
+     *  class="fr.cg95.cvq.business.authority.School"
+     */
+    public final fr.cg95.cvq.business.authority.School getSchool() {
+        return this.school;
     }
 
 }

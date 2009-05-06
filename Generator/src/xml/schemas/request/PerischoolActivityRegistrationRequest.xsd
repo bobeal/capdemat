@@ -3,15 +3,11 @@
   xmlns:parr="http://www.cg95.fr/cvq/schema/parr"
   xmlns:xs="http://www.w3.org/2001/XMLSchema" 
   xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
-  xmlns:cse="http://www.cg95.fr/cvq/schema/cse" 
   elementFormDefault="qualified" 
   attributeFormDefault="unqualified">
 
   <xs:import namespace="http://www.cg95.fr/cvq/schema/common" 
     schemaLocation="../common/CVQCommonElements.xsd" />
- 
-  <xs:import namespace="http://www.cg95.fr/cvq/schema/cse" 
-    schemaLocation="./CommonSchoolElements.xsd" />
 
   <xs:element name="PerischoolActivityRegistrationRequest">
     <xs:annotation>
@@ -32,7 +28,7 @@
         <common>
           <namespace name="school" />
           <steps>
-            <step index="0" name="subject" >
+            <step index="0" name="registration" >
               <widgets>
                 <subject />
               </widgets>
@@ -49,11 +45,12 @@
             <block id="0" label="Enfant*" column="2" />
             <block id="1" label="Activités périscolaires*" />
             <block id="2" label="Moyen de contact*" />
-            <block id="3" label="Personnes à contacter ou à prévenir en cas d'urgence" column="2" />
-            <block id="4" label="Autorisation de participation aux sorties" />
-            <block id="5" label="Autorisation d'hospitalisation" />
-            <block id="6" label="Règlement intérieur" />
-            <block id="7" label="Autorisation d'exploitation de la photo de l'enfant" />
+            <block id="3" label="Personnes à contacter" />
+            <block id="4" label="Personnes autorisées" />
+            <block id="5" label="Autorisation de participation aux sorties" />
+            <block id="6" label="Autorisation d'hospitalisation" />
+            <block id="7" label="Règlement intérieur" />
+            <block id="8" label="Autorisation d'exploitation de la photo de l'enfant" />
           </blocks-def>
           <element blockId="2" line="0" column="0" link="MeansOfContact"
             prefixLabel="Comment souhaitez-vous être informé ?">
@@ -81,7 +78,7 @@
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <fo />
                   <bo column="1" />
@@ -95,9 +92,15 @@
             </xs:element>
             <xs:element name="UrgencyPhone" type="cvq:PhoneType">
               <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Téléphone en cas d'urgence
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Téléphone en cas d'urgence
+                </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <fo />
                   <bo column="1" />
@@ -123,7 +126,7 @@
                 <xs:appinfo>
                   <model namespace="authority" />
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <bo column="1" />
                   <xslfo>
@@ -139,7 +142,7 @@
                 <xs:appinfo>
                   <model namespace="users" />
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <bo column="1" />
                   <xslfo>
@@ -150,26 +153,47 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="OtherIndividual" type="cse:OtherIndividualType" minOccurs="0"
+            <xs:element name="ContactIndividuals" type="parr:PerischoolContactIndividualType" minOccurs="0"
               maxOccurs="unbounded">
               <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Personne à contacter
-                </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Liste des personne à contacter en cas de problème
                 </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Personne à contacter
+                </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="school" isTiedToRequest="true" />
                   <common>
                     <step name="contact" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="3" line="0" column="0">
+                      <localComplexElement />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AuthorizedIndividuals" type="parr:PerischoolAuthorizedIndividualType" minOccurs="0"
+              maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Liste des personnes autorisées à venir chercher l'enfant
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Personnes autorisées
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
                     <step name="authorization" />
                   </common>
                   <fo />
                   <bo column="1" />
                   <xslfo>
-                    <element blockId="3" line="0" column="0" columnSpan="2">
-                      <complexTemplate />
+                    <element blockId="4" line="0" column="0">
+                      <localComplexElement />
                     </element>
                   </xslfo>
                 </xs:appinfo>
@@ -191,7 +215,7 @@
                   <fo />
                   <bo column="1" />
                   <xslfo>
-                    <element blockId="6" line="0" column="0">
+                    <element blockId="7" line="0" column="0">
                       <signature>
                         <acceptMessage index="0">
                           J'ai pris parfaite connaissance du règlement intérieur de la
@@ -221,7 +245,7 @@
                   <fo />
                   <bo column="1" />
                   <xslfo>
-                    <element blockId="4" line="0" column="0">
+                    <element blockId="5" line="0" column="0">
                       <signature>
                         <acceptMessage index="0">
                           J'autorise la participation de mon enfant
@@ -254,7 +278,7 @@
                   <fo />
                   <bo column="1" />
                   <xslfo>
-                    <element blockId="7" line="0" column="0">
+                    <element blockId="8" line="0" column="0">
                       <signature>
                         <acceptMessage index="0">
                           J'autorise l'exposition et la diffusion des photographies de mon enfant.
@@ -284,7 +308,7 @@
                   <fo />
                   <bo column="1" />
                   <xslfo>
-                    <element blockId="5" line="0" column="0">
+                    <element blockId="6" line="0" column="0">
                       <signature>
                         <acceptMessage index="0">
                           En inscrivant mon enfant (ci-dessus désigné) aux activités
@@ -311,5 +335,237 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
+
+  <xs:complexType name="PerischoolContactIndividualType">
+    <xs:sequence>
+      <xs:element name="LastName" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom de la personne à contacter
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="contact" />
+            </common>
+            <fo />
+            <bo />
+            <xslfo>
+              <element blockId="3" line="0" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>      
+      </xs:element>
+      <xs:element name="FirstName" type="cvq:FirstNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prénom de la personne à contacter
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénom
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="contact" />
+            </common>
+            <fo />
+            <bo />
+            <xslfo>
+              <element blockId="3" line="1" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>       
+      </xs:element>
+      <xs:element name="Address" type="cvq:AddressType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse de la personne à contacter
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />          
+            <common>
+              <step name="contact" />
+            </common>
+            <fo />
+            <bo />
+            <xslfo>
+              <element blockId="3" line="2" column="0">
+                <complexTemplate />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HomePhone" type="cvq:PhoneType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Téléphone du domicile de la personne à contacter
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Téléphone domicile
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="contact" />
+            </common>
+            <fo />
+            <bo />
+            <xslfo>
+              <element blockId="3" line="3" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>          
+      </xs:element>
+      <xs:element name="OfficePhone" type="cvq:PhoneType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Téléphone du bureau de la personne à contacter
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Téléphone bureau
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="contact" />
+            </common>
+            <fo />
+            <bo />
+            <xslfo>
+              <element blockId="3" line="4" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>       
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PerischoolAuthorizedIndividualType">
+    <xs:sequence>
+      <xs:element name="LastName" type="cvq:LastNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom de la personne autorisée
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="authorization" />
+            </common>
+            <fo />
+            <bo />
+            <xslfo>
+              <element blockId="4" line="0" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="FirstName" type="cvq:FirstNameType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Prénom de la personne autorisée
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Prénom
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="authorization" />
+            </common>
+            <fo />
+            <bo />
+            <xslfo>
+              <element blockId="4" line="1" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Address" type="cvq:AddressType">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Adresse de la personne autorisée
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Adresse
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="authorization" />
+            </common>
+            <fo />
+            <bo />
+            <xslfo>
+              <element blockId="4" line="2" column="0">
+                <complexTemplate />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="HomePhone" type="cvq:PhoneType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Téléphone du domicile de la personne autorisée
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Téléphone domicile
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="authorization" />
+            </common>
+            <fo />
+            <bo />
+            <xslfo>
+              <element blockId="4" line="3" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="OfficePhone" type="cvq:PhoneType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Téléphone du bureau de la personne autorisée
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Téléphone bureau
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="authorization" />
+            </common>
+            <fo />
+            <bo />
+            <xslfo>
+              <element blockId="4" line="4" column="0">
+                <string valueWeight="3" />
+              </element>
+            </xslfo>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 
 </xs:schema>

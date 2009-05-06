@@ -28,7 +28,7 @@
         <common>
 	        <namespace name="election" />
           <steps>
-            <step index="0" name="subject" >
+            <step index="0" name="registration" >
               <widgets>
                 <subject />
               </widgets>
@@ -74,7 +74,7 @@
                 <xs:appinfo>
                   <model namespace="users" /> 
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <fo />
                   <bo column="1" />
@@ -96,7 +96,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                     <conditions>
                       <condition name="isDirect" type="trigger" />
                     </conditions>
@@ -123,7 +123,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                     <conditions>
                       <condition name="isDirect" type="unfilled" required="true" />
                     </conditions>
@@ -151,7 +151,7 @@
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                     <conditions>
                       <condition name="isDirect" type="filled" required="true" />
                     </conditions>
@@ -176,7 +176,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <bo column="2" />
                   <xslfo>
@@ -197,7 +197,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <bo column="2" />
                   <xslfo>
@@ -218,7 +218,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="registration" />
                   </common>
                   <bo column="2" />
                   <xslfo>

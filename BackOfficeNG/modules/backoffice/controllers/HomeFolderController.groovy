@@ -104,8 +104,8 @@ class HomeFolderController {
                 'initializationDate' : payment.initializationDate,
                 'state' : payment.state.toString(),
                 'bankReference' : payment.bankReference,
-                'amount' : payment.euroAmount,
-                'paymentMode' : message(code:"payment.mode."+payment.paymentMode.toString())
+                'amount' : payment.amount,
+                'paymentMode' : message(code:"payment.mode."+payment.paymentMode.toString().toLowerCase())
             ])
         }
         

@@ -185,7 +185,7 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="Format" type="mdr:MarriageCertificateFormatType">
+            <xs:element name="Format" type="mdr:MarriageCertificateFormatType" default="FullCopy">
               <xs:annotation>
                 <xs:appinfo>
                   <common>
@@ -194,7 +194,9 @@
                       <condition name="isWithRelationship" type="trigger" />
                     </conditions>
                   </common>
-                  <fo />
+                  <fo>
+                    <radio />
+                  </fo>
                   <bo column="1" />
                   <xslfo>
                     <element blockId="0" line="1" column="0">

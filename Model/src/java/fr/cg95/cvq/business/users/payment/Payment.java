@@ -32,6 +32,7 @@ public class Payment implements Serializable, Comparable {
     public static final String SEARCH_BY_INITIALIZATION_DATE = "initializationDate";
     public static final String SEARCH_BY_PAYMENT_STATE = "paymentState";
     public static final String SEARCH_BY_BROKER = "broker";
+    public static final String SEARCH_BY_PAYMENT_MODE = "paymentMode";
 
     private Long id;
     /** the broker ("régie" in french) to which this payment is made */

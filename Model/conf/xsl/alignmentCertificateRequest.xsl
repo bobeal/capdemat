@@ -127,7 +127,7 @@
 		<fo:table-row>
       	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom
+		      Nom du propriétaire
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -155,7 +155,7 @@
 		<fo:table-row>
       	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Prénom(s)
+		      Prénom(s) du propriétaire
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>

@@ -41,7 +41,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="bwc.property.collectionAddress.label" />  : </dt><dd id="collectionAddress" class="action-editField validate-string i18n-bwc.property.collectionAddress" ><span>${request?.collectionAddress}</span></dd>
+                <dt class=""><g:message code="bwc.property.collectionAddress.label" />  : </dt><dd id="collectionAddress" class="action-editField validate-address i18n-bwc.property.collectionAddress" ><div><p class="additionalDeliveryInformation">${request?.collectionAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request?.collectionAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${request?.collectionAddress?.streetNumber}</span> <span class="streetName">${request?.collectionAddress?.streetName}</span><p class="placeNameOrService">${request?.collectionAddress?.placeNameOrService}</p><span class="postalCode">${request?.collectionAddress?.postalCode}</span> <span class="city">${request?.collectionAddress?.city}</span><p class="countryName">${request?.collectionAddress?.countryName}</p></div></dd>
               </dl>
               
             

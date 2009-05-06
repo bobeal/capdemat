@@ -1,0 +1,24 @@
+prr.duration.value =
+
+prr.step.requester.label =
+prr.step.requester.desc =
+
+prr.step.subscriber.label =
+prr.step.subscriber.desc =
+
+prr.step.places.label =
+prr.step.places.desc =
+
+
+prr.property.isSubscriber.help =
+prr.property.isSubscriber.validationError =
+
+prr.property.subscriberNumber.help =
+prr.property.subscriberNumber.validationError =
+
+prr.property.placeReservation.help =
+prr.property.placeReservation.validationError =
+
+prr.property.paymentReference.help =
+prr.property.paymentReference.validationError =
+

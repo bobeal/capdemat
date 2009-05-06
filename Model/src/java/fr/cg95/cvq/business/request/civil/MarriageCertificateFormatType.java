@@ -39,7 +39,7 @@ public final class MarriageCertificateFormatType extends PersistentStringEnum {
 
 
     public static MarriageCertificateFormatType getDefaultMarriageCertificateFormatType() {
-        return null;
+        return FULL_COPY;
     }
 
 

@@ -93,6 +93,11 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
                 sb.append(" and payment.broker " + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getSqlStringValue());
                 parametersTypes.add(Hibernate.STRING);
+            
+            } else if (searchCrit.getAttribut().equals(Payment.SEARCH_BY_PAYMENT_MODE)) {
+                sb.append(" and payment.paymentMode " + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
             }
         }
         
@@ -203,6 +208,11 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
                 
             } else if (searchCrit.getAttribut().equals(Payment.SEARCH_BY_BROKER)) {
                 sb.append(" and payment.broker " + searchCrit.getComparatif() + " ?");
+                objectList.add(searchCrit.getSqlStringValue());
+                typeList.add(Hibernate.STRING);
+                
+            } else if (searchCrit.getAttribut().equals(Payment.SEARCH_BY_PAYMENT_MODE)) {
+                sb.append(" and payment.paymentMode " + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getSqlStringValue());
                 typeList.add(Hibernate.STRING);
             }

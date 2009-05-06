@@ -58,6 +58,8 @@ public class AddressBeanCreator {
                     customDAO.saveOrUpdate(o);
                 } else {
                     errors.put(o.getId(), o.getAddress());
+                    o.setAddress(null);
+                    customDAO.saveOrUpdate(o);
                 }
             }
             System.out.println();

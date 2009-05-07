@@ -22,44 +22,44 @@ public class HomeFolderDTO {
 
     private List<Adult> adults;
     private List<Child> children;
+    private List<Adult> tutors;
     
-    public Map<Integer, Map<String, Object>> getRoleOwnersOnIndividual (String fullName) {
+    public Map<Integer, Map<String, Object>> getRoleOwnersOnIndividual (String fullName, List<Adult> owners) {
         Map<Integer, Map<String, Object>> individuals = new HashMap<Integer, Map<String, Object>>();
-        if (adults == null)
+        if (owners == null)
             return individuals;
         
-        for (Individual individual : adults) {
-            Set<IndividualRole> individualRoles = individual.getIndividualRoles()!= null ?
-                    individual.getIndividualRoles() : new HashSet<IndividualRole>();
+        for (Individual owner : owners) {
+            Set<IndividualRole> individualRoles = owner.getIndividualRoles()!= null ?
+                    owner.getIndividualRoles() : new HashSet<IndividualRole>();
             for (IndividualRole role : individualRoles) {
                 if (role.getIndividualName() != null && role.getIndividualName().equals(fullName)) {
                     Map<String, Object> roles = new HashMap<String, Object>();
                     roles.put("role", role.getRole());
-                    roles.put("owner", individual);
-                    individuals.put(adults.indexOf(individual), roles);
+                    roles.put("owner", owner);
+                    individuals.put(owners.indexOf(owner), roles);
                 }
             }
         }
         return individuals;
     }
 
-    public Map<Integer, Map<String, Object>> getRoleOwnersOnHomeFolder() {
+    public Map<Integer, Map<String, Object>> getRoleOwnersOnHomeFolder(List<Adult> owners) {
         Map<Integer, Map<String, Object>> individuals = new HashMap<Integer, Map<String, Object>>();
-        if (adults == null)
+        if (owners == null)
             return individuals;
               
-        for (Individual individual : adults) {
-            Set<IndividualRole> individualRoles = individual.getIndividualRoles()!= null ?
-                    individual.getIndividualRoles() : new HashSet<IndividualRole>();
+        for (Individual owner : owners) {
+            Set<IndividualRole> individualRoles = owner.getIndividualRoles()!= null ?
+                    owner.getIndividualRoles() : new HashSet<IndividualRole>();
             for (IndividualRole role : individualRoles) {
-                if (role.getRole().equals(RoleType.TUTOR)
-                        && role.getHomeFolderId() == null
+                if ( role.getHomeFolderId() == null
                         && role.getIndividualId() == null
                         && role.getIndividualName() == null) {
                     Map<String, Object> roles = new HashMap<String, Object>();
                     roles.put("role", role.getRole());
-                    roles.put("owner", individual);
-                    individuals.put(adults.indexOf(individual), roles);
+                    roles.put("owner", owner);
+                    individuals.put(owners.indexOf(owner), roles);
                 }
             }
         }
@@ -100,4 +100,11 @@ public class HomeFolderDTO {
         this.children = children;
     }
     
+    public List<Adult> getTutors() {
+        return tutors;
+    }
+
+    public void setTutors(List<Adult> tutors) {
+        this.tutors = tutors;
+    }
 }

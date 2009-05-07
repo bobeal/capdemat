@@ -459,11 +459,10 @@ alter table recreation_contact_individual
   foreign key (recreation_activity_registration_request_id) 
   references recreation_activity_registration_request; 
 
-delete from request_note where request_id in (select id from personal_details_request);
-delete from request_document where request_id in (select id from personal_details_request);
-delete from request_action where request_id in (select id from personal_details_request);
-
-delete from forms where request_type_id=(select id from request_type where label='personal details');
-delete from request_type where label='personal details';
-
 drop table personal_details_request;
+delete from request_note where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from request_document where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from request_action where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from forms where request_type_id=(select id from request_type where label='Personal Details');
+delete from request where request_type_id = (select id from request_type where label='Personal Details');
+delete from request_type where id=(select id from request_type where label='Personal Details');

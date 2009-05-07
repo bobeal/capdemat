@@ -69,7 +69,7 @@ public class SimpleValidationCallbackHandler extends AbstractCallbackHandler imp
         }
     }
 
-    public void setExternalServiceOrchestrator(IExternalService externalService) {
+    public void setExternalService(IExternalService externalService) {
         this.externalService = externalService;
     }
 }

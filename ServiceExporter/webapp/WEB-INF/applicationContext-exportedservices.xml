@@ -3,6 +3,13 @@
 
 <beans>
 
+  <bean id="configurer"
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location">
+      <value>@deploy_properties_file@</value>
+    </property>
+  </bean>
+
   <bean id="provisioningService" class="fr.cg95.cvq.exporter.service.bo.impl.ProvisioningService">
     <property name="agentService">
       <ref bean="agentService"/>
@@ -17,36 +24,6 @@
       <ref bean="localAuthorityRegistry"/>
     </property>
     <property name="authorizeAlreadyCreated" value="true">
-    </property>
-  </bean>
-
-  <bean id="homeFolderWebService" class="fr.cg95.cvq.exporter.service.fo.impl.HomeFolderService">
-    <property name="homeFolderService">
-      <ref bean="homeFolderService"/>
-    </property>
-  </bean>
-
-  <bean id="individualWebService" class="fr.cg95.cvq.exporter.service.fo.impl.IndividualService">
-    <property name="individualService">
-      <ref bean="individualService"/>
-    </property>
-    <property name="homeFolderModificationRequest">
-      <ref bean="homeFolderModificationRequestService"/>
-    </property>
-  </bean>
-
-  <bean id="requestWebService" class="fr.cg95.cvq.exporter.service.fo.impl.RequestService">
-    <property name="requestService">
-    		<ref bean="defaultRequestService"/>
-    </property>
-    <property name="electoralRollRegistrationRequestService">
-	    	<ref bean="electoralRollRegistrationRequestService"/>
-    	</property>
-  </bean>
-
-  <bean id="documentWebService" class="fr.cg95.cvq.exporter.service.fo.impl.DocumentService">
-    <property name="documentService">
-      <ref bean="documentService"/>
     </property>
   </bean>
 

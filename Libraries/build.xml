@@ -20,7 +20,6 @@
 			<fileset dir="${lowagie.lib.dir}" />
 
 			<!-- CVQ -->
-			<fileset dir="${deploy.guiwizard.dir}" />
 			<fileset dir="${deploy.model.dir}" />
 			<fileset dir="${deploy.plugins.dir}" />
 
@@ -75,6 +74,8 @@
 			<fileset dir="${sun.lib.dir}">
 				<include name="saaj-*.jar" />
 			</fileset>
+
+			<fileset dir="${joda.lib.dir}" />
 
 		</copy>
 	</target>

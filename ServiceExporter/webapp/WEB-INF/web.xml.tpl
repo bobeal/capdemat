@@ -10,8 +10,8 @@
     <param-value>
       /WEB-INF/applicationContext.xml,
       /WEB-INF/applicationContext-deployment.xml,
-      /WEB-INF/applicationContext-admin.xml,
       /WEB-INF/applicationContext-exportedservices.xml,
+      /WEB-INF/applicationContext-serviceexporter.xml,
       classpath*:pluginContext.xml
     </param-value>
   </context-param>

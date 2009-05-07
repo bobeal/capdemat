@@ -179,11 +179,13 @@ h2.request-creation {
 
 #requestTabView fieldset.account-fieldset-add { padding: 1em 1em 0 1em;  border: 0;  background: #ffd; }
 
+#requestTabView .account-fieldset-add h4                       { margin: 0 0 .5em; font-size: 1.4em; font-weight: normal; }
 #requestTabView .account-fieldset-edit h4                      { margin: 0 0 .5em; font-size: 1.6em; font-weight: normal; }
 #requestTabView .account-fieldset-edit h4 input[type="submit"] { margin: 0; font-size: .6em; }
 
 #requestTabView .account-fieldset-edit dl     { background: #fff; }
-#requestTabView .account-fieldset-edit dl dd  { width: 23.75em; }
+#requestTabView .account-fieldset-edit dl dt  { width: 22em; }
+#requestTabView .account-fieldset-edit dl dd  { width: 16.75em; }
 #requestTabView .account-fieldset-edit dl input,  
 #requestTabView .account-fieldset-edit dl select { font-size: .85em; margin-bottom: 0; }
 

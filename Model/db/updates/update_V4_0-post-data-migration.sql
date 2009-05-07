@@ -115,3 +115,8 @@ insert into recreation_contact_individual
     rarroi.other_individual_id = oi.id
     and oi.type = 'ContactPerson'
 ;
+
+drop table recreation_activity_registration_request_other_individual;
+drop table perischool_activity_registration_request_other_individual;
+drop table other_individual;
+drop table current_values;

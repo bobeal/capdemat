@@ -317,9 +317,6 @@
     alter table perischool_contact_individual 
         drop constraint FK5B659D57B7531222;
 
-    alter table personal_details_request 
-        drop constraint FKDA41259382587E99;
-
     alter table place_reservation_request 
         drop constraint FK10FCEDE482587E99;
 
@@ -586,8 +583,6 @@
     drop table perischool_authorized_individual;
 
     drop table perischool_contact_individual;
-
-    drop table personal_details_request;
 
     drop table place_reservation_data;
 
@@ -1763,39 +1758,6 @@
         primary key (id)
     );
 
-    create table personal_details_request (
-        id int8 not null,
-        death_first_names varchar(255),
-        format varchar(255),
-        copies bytea,
-        birth_city varchar(32),
-        marriage_husband_last_name varchar(38),
-        marriage_wife_first_names varchar(255),
-        requester_quality_precision varchar(255),
-        father_first_names varchar(255),
-        marriage_postal_code varchar(2),
-        certificate varchar(255),
-        mother_maiden_name varchar(38),
-        death_city varchar(32),
-        marriage_husband_first_names varchar(255),
-        usage varchar(255),
-        requester_quality varchar(255),
-        marriage_city varchar(32),
-        marriage_wife_last_name varchar(38),
-        birth_first_names varchar(255),
-        death_last_name varchar(38),
-        birth_last_name varchar(38),
-        birth_postal_code varchar(2),
-        marriage_date timestamp,
-        death_date timestamp,
-        birth_date timestamp,
-        death_postal_code varchar(2),
-        father_last_name varchar(38),
-        relationship varchar(255),
-        mother_first_names varchar(255),
-        primary key (id)
-    );
-
     create table place_reservation_data (
         id int8 not null,
         name varchar(255),
@@ -2657,11 +2619,6 @@
         add constraint FK5B659D57B7531222 
         foreign key (address_id) 
         references address;
-
-    alter table personal_details_request 
-        add constraint FKDA41259382587E99 
-        foreign key (id) 
-        references request;
 
     alter table place_reservation_request 
         add constraint FK10FCEDE482587E99 

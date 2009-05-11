@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request.civil.impl;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.BirthDetailsRequest;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.civil.IBirthDetailsRequestService;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
@@ -27,7 +28,10 @@ public final class BirthDetailsRequestService
 
     @Override
     public Request getSkeletonRequest() throws CvqException {
-        return new BirthDetailsRequest();
+        BirthDetailsRequest request = new BirthDetailsRequest();
+        request.setBirthCity(SecurityContext.getCurrentSite().getDisplayTitle());
+        request.setBirthPostalCode(SecurityContext.getCurrentSite().getPostalCode());
+        return request;
     }
 
     protected void initFilledConditions() {

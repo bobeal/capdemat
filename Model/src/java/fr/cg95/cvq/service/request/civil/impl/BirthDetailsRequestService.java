@@ -7,11 +7,8 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.civil.IBirthDetailsRequestService;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
-import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Implementation of the {@link IBirthDetailsRequestService birth details request service}.
@@ -29,8 +26,13 @@ public final class BirthDetailsRequestService
     @Override
     public Request getSkeletonRequest() throws CvqException {
         BirthDetailsRequest request = new BirthDetailsRequest();
-        request.setBirthCity(SecurityContext.getCurrentSite().getDisplayTitle());
-        request.setBirthPostalCode(SecurityContext.getCurrentSite().getPostalCode());
+        //FIXME this test is here only because, on frontoffice homepage, requests are created
+        // to display their translated labels, while the currentSite has already been reset by
+        // the "after" in openSessionInViewFilter
+        if (SecurityContext.getCurrentSite() != null) {
+            request.setBirthCity(SecurityContext.getCurrentSite().getDisplayTitle());
+            request.setBirthPostalCode(SecurityContext.getCurrentSite().getPostalCode());
+        }
         return request;
     }
 

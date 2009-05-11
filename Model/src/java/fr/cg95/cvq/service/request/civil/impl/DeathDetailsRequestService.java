@@ -23,8 +23,11 @@ public final class DeathDetailsRequestService extends RequestService
     @Override
 	public Request getSkeletonRequest() throws CvqException {
         DeathDetailsRequest request = new DeathDetailsRequest();
-        request.setDeathCity(SecurityContext.getCurrentSite().getDisplayTitle());
-        request.setDeathPostalCode(SecurityContext.getCurrentSite().getPostalCode());
+        //FIXME see Birth
+        if (SecurityContext.getCurrentSite() != null) {
+            request.setDeathCity(SecurityContext.getCurrentSite().getDisplayTitle());
+            request.setDeathPostalCode(SecurityContext.getCurrentSite().getPostalCode());
+        }
         return request;
     }
 }

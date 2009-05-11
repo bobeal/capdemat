@@ -27,8 +27,11 @@ public final class MarriageDetailsRequestService extends RequestService
     @Override
     public Request getSkeletonRequest() throws CvqException {
         MarriageDetailsRequest request = new MarriageDetailsRequest();
-        request.setMarriageCity(SecurityContext.getCurrentSite().getDisplayTitle());
-        request.setMarriagePostalCode(SecurityContext.getCurrentSite().getPostalCode());
+        //FIXME see Birth
+        if (SecurityContext.getCurrentSite() != null) {
+            request.setMarriageCity(SecurityContext.getCurrentSite().getDisplayTitle());
+            request.setMarriagePostalCode(SecurityContext.getCurrentSite().getPostalCode());
+        }
         return request;
     }
     

@@ -37,12 +37,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.log4j.Logger;
+
+import com.sun.org.apache.xpath.internal.FoundIndex;
+
 /**
  *
  * @author bor@zenexity.fr
  */
 public class RequestTypeService implements IRequestTypeService {
-
+    private static Logger logger = Logger.getLogger(RequestTypeService.class);
+    
     private IDocumentTypeService documentTypeService;
     private IRequestServiceRegistry requestServiceRegistry;
     private ILocalAuthorityRegistry localAuthorityRegistry;
@@ -194,15 +199,18 @@ public class RequestTypeService implements IRequestTypeService {
             return;
 
         boolean foundRequirement = false;
-        for (Requirement requirement : requestType.getRequirements()) {
-            if (requirement.getDocumentType().getId().equals(documentTypeId)) {
-                requestType.getRequirements().remove(requirement);
+        Set<Requirement> requirements = new HashSet<Requirement>(requestType.getRequirements());
+        Iterator<Requirement> it = requirements.iterator();
+        while(it.hasNext()){
+            Requirement r = it.next();
+            if (r.getDocumentType().getId().equals(documentTypeId)) {
+                it.remove();
                 foundRequirement = true;
                 break;
             }
         }
-
         if (foundRequirement) {
+            requestType.setRequirements(requirements);
             requestTypeDAO.update(requestType);
         }
     }

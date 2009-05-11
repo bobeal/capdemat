@@ -115,7 +115,6 @@ public class RequestType implements Serializable {
      * @hibernate.set
      *  table="requirement"
      *  lazy="true"
-     *  inverse="false"
      * @hibernate.key
      *  column="request_type_id"
      * @hibernate.composite-element

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.civil.IMarriageDetailsRequestService;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
@@ -25,7 +26,10 @@ public final class MarriageDetailsRequestService extends RequestService
 
     @Override
     public Request getSkeletonRequest() throws CvqException {
-        return new MarriageDetailsRequest();
+        MarriageDetailsRequest request = new MarriageDetailsRequest();
+        request.setMarriageCity(SecurityContext.getCurrentSite().getDisplayTitle());
+        request.setMarriagePostalCode(SecurityContext.getCurrentSite().getPostalCode());
+        return request;
     }
     
     protected void initFilledConditions() {

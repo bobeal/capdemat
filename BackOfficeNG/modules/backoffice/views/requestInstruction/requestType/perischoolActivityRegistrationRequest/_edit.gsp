@@ -44,7 +44,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="parr.property.perischoolActivity.label" /> * : </dt><dd id="perischoolActivity" class="action-editField validate-localReferentialData required-true i18n-parr.property.perischoolActivity" >
+                <dt class="required"><g:message code="parr.property.perischoolActivity.label" /> * : </dt><dd id="perischoolActivity" class="action-editField validate-localReferentialData required-true i18n-parr.property.perischoolActivity data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'perischoolActivity', 'lrEntries': lrTypes.perischoolActivity?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.perischoolActivity?.entriesSupportMultiple, 'depth':0]" />

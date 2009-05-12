@@ -35,7 +35,7 @@
 
   
     <fieldset class="required">
-    <legend><g:message code="srr.property.currentSchool.label" /></legend> 
+    <legend><g:message code="srr.property.currentSchool.label" /></legend>
     
       <label class=""><g:message code="srr.property.currentSchoolName.label" />   <span><g:message code="srr.property.currentSchoolName.help" /></span></label>
             <input type="text" name="currentSchoolName" value="${rqt.currentSchoolName}" 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>SmsNotificationRequest</request>
+    <data name="Interests">
+        <label lang="fr">Centres d'intérêt</label>
+        <label lang="en">Interests</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
+            <entry key="sport">
+                <label lang="fr">Sport</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="musique">
+                <label lang="fr">Musique</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>        
+    </data>
+</LocalReferential>

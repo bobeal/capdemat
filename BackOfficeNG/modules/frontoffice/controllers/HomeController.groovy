@@ -10,13 +10,13 @@ import fr.cg95.cvq.exception.CvqDisabledAccountException
 import fr.cg95.cvq.exception.CvqUnknownUserException
 import fr.cg95.cvq.payment.IPaymentService
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.security.annotation.ContextType
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestActionService
-import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.service.users.IHomeFolderService
-import fr.cg95.cvq.security.annotation.ContextType
+import fr.cg95.cvq.util.Critere
 
 class HomeController {
 
@@ -82,6 +82,9 @@ class HomeController {
                 
                 SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
                 SecurityContext.setCurrentEcitizen(session.currentEcitizen)
+                
+                def adult = SecurityContext.currentEcitizen
+                session.currentEcitizenName = adult.firstName + " " + adult.lastName
                 
                 if (params.requestTypeLabel == null) {
                     redirect(controller:'frontofficeHome')

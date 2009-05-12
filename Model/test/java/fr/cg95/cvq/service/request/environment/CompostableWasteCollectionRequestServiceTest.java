@@ -38,10 +38,10 @@ public class CompostableWasteCollectionRequestServiceTest extends ServiceTestCas
     protected CompostableWasteCollectionRequest fillMeARequest() throws CvqException {
 
         CompostableWasteCollectionRequest request = new CompostableWasteCollectionRequest();
-                          Address CollectionAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
+                                  Address CollectionAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
             request.setCollectionAddress(CollectionAddress);
     	                    request.setOtherWaste("OtherWaste");
-              
+      
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);

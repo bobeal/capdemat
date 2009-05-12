@@ -25,7 +25,18 @@
     
       
       <dl>
-        <dt><g:message code="bwc.property.collectionAddress.label" /></dt><dd>${rqt.collectionAddress}</dd>
+        <dt><g:message code="bwc.property.collectionAddress.label" /></dt>
+          <dd>
+          <g:if test="${rqt.collectionAddress}">
+              <p>${rqt.collectionAddress?.additionalDeliveryInformation}</p>
+              <p>${rqt.collectionAddress?.additionalGeographicalInformation}</p>
+              <p>${rqt.collectionAddress?.streetNumber} ${rqt.collectionAddress?.streetName}</p>
+              <p>${rqt.collectionAddress?.placeNameOrService}</p>
+              <p>${rqt.collectionAddress?.postalCode} ${rqt.collectionAddress?.city}</p>
+              <p>${rqt.collectionAddress?.countryName}</p>
+          </g:if>
+          </dd>
+          
 
       </dl>
       

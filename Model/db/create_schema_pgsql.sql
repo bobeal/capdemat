@@ -1502,16 +1502,16 @@
 
     create table holiday_security_request (
         id int8 not null,
-        other_contact_address_id int8,
-        rules_and_regulations_acceptance bool,
-        absence_start_date timestamp,
-        other_contact_first_name varchar(38),
-        other_contact_phone varchar(10),
-        light bool,
-        alert_phone varchar(10),
         other_contact_last_name varchar(38),
-        alarm bool,
         absence_end_date timestamp,
+        alarm bool,
+        other_contact_address_id int8,
+        other_contact_first_name varchar(38),
+        light bool,
+        other_contact_phone varchar(10),
+        rules_and_regulations_acceptance bool,
+        alert_phone varchar(10),
+        absence_start_date timestamp,
         primary key (id)
     );
 
@@ -2012,13 +2012,13 @@
 
     create table school_registration_request (
         id int8 not null,
-        urgency_phone varchar(10),
-        current_section varchar(32),
-        rules_and_regulations_acceptance bool,
-        section varchar(32),
         current_school_address varchar(255),
         current_school_name varchar(255),
+        current_section varchar(32),
         school_id int8,
+        rules_and_regulations_acceptance bool,
+        urgency_phone varchar(10),
+        section varchar(32),
         primary key (id)
     );
 
@@ -2035,15 +2035,15 @@
 
     create table sewer_connection_request (
         id int8 not null,
+        owner_last_name varchar(38),
         owner_first_names varchar(255),
-        number bytea,
-        more_than_two_years bool,
         owner_address_id int8,
         requester_quality varchar(255),
-        section varchar(255),
+        more_than_two_years bool,
         transportation_route varchar(255),
         locality varchar(255),
-        owner_last_name varchar(38),
+        number bytea,
+        section varchar(255),
         primary key (id)
     );
 

@@ -2,10 +2,14 @@
 
 
   
-    <label class=""><g:message code="msrr.property.rulesAndRegulationsAcceptance.label" />   <span><g:message code="msrr.property.rulesAndRegulationsAcceptance.help" /></span></label>
-              <g:if test="${availableRules.contains('rulesAndRegulationsAcceptance')}">
-                <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'rulesAndRegulationsAcceptance'])}"><g:message code="action.consult" /></a>
-              </g:if>
+    
+              <label class="">
+                <g:message code="msrr.property.rulesAndRegulationsAcceptance.label" /> 
+                <g:if test="${availableRules.contains('rulesAndRegulationsAcceptance')}">
+                  <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'rulesAndRegulationsAcceptance'])}"><span><g:message code="request.action.consult.rules" /></span></a>
+                </g:if>
+                <span><g:message code="msrr.property.rulesAndRegulationsAcceptance.help" /></span>
+              </label>
               <ul class="yes-no ">
                 <g:each in="${[true,false]}">
                   <li>

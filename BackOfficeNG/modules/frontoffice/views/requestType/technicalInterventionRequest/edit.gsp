@@ -59,7 +59,6 @@
         <li class="${['intervention', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
           <a href="#intervention"><em>
-          <span class="tag-no_right">1</span>
           <span class="tag-state ${stepStates!= null ? stepStates.intervention.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.intervention.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -77,7 +76,6 @@
         <li class="${currentStep == 'document' ? 'selected' : ''}">
   
           <a href="#document"><em>
-          <span class="tag-no_right">2</span>
           <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="request.step.document.label" />
@@ -93,7 +91,6 @@
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
   
           <a href="#validation"><em>
-          <span class="tag-no_right">3</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>

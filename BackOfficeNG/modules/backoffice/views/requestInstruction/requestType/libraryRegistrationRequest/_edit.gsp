@@ -36,7 +36,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="lrr.property.subscription.label" /> * : </dt><dd id="subscription" class="action-editField validate-localReferentialData required-true i18n-lrr.property.subscription" >
+                <dt class="required"><g:message code="lrr.property.subscription.label" /> * : </dt><dd id="subscription" class="action-editField validate-localReferentialData required-true i18n-lrr.property.subscription data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'subscription', 'lrEntries': lrTypes.subscription?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.subscription?.entriesSupportMultiple, 'depth':0]" />

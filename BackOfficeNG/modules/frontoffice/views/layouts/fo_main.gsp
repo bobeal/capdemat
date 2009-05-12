@@ -19,12 +19,13 @@
        </h1>
        <map id="hd-menu">
         <g:if test="${session.currentEcitizen}">
-          <a href="${createLink(controller:'frontofficeHome',action:'logout')}">se déconnecter</a>
+          ${session.currentEcitizenName} - 
+          <a href="${createLink(controller:'frontofficeHome',action:'logout')}"><g:message code="action.logout" /></a>
         </g:if>
         <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'helpFo')}"
-           target="blank">aide</a>
+           target="blank">Aide</a>
         <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'faqFo')}"
-           target="blank">f.a.q</a>
+           target="blank">FAQ</a>
        </map>
      </div>
      <g:render template="/shared/menus/menu_${session.frontContext ? session.frontContext.value.toLowerCase() : 'unauth_ecitizen' }"/>

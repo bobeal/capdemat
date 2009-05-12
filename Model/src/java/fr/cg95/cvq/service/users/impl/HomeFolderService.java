@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.users.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;

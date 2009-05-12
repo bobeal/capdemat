@@ -17,7 +17,7 @@ ALTER TABLE compostable_waste_collection_request
   REFERENCES address;
 
 -- temporary table to compute hibernate index when dispatching other_individuals
-drop table current_values;
+drop table if exists current_values;
 create temp table current_values (current_id bigint, current_index int4);
 
 -- function to compute hibernate index

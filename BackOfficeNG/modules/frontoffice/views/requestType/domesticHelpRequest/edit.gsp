@@ -59,7 +59,6 @@
         <li class="${['subject', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
           <a href="#subject"><em>
-          <span class="tag-no_right">1</span>
           <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -75,7 +74,6 @@
         <li class="${currentStep == 'familyReferent' ? 'selected' : ''}">
   
           <a href="#familyReferent"><em>
-          <span class="tag-no_right">2</span>
           <span class="tag-state ${stepStates!= null ? stepStates.familyReferent.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.familyReferent.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="dhr.step.familyReferent.label" />
@@ -89,7 +87,6 @@
         <li class="${currentStep == 'spouse' ? 'selected' : ''}">
   
           <a href="#spouse"><em>
-          <span class="tag-no_right">3</span>
           <span class="tag-state ${stepStates!= null ? stepStates.spouse.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.spouse.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="dhr.step.spouse.label" />
@@ -103,7 +100,6 @@
         <li class="${currentStep == 'dwelling' ? 'selected' : ''}">
   
           <a href="#dwelling"><em>
-          <span class="tag-no_right">4</span>
           <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -119,7 +115,6 @@
         <li class="${currentStep == 'resources' ? 'selected' : ''}">
   
           <a href="#resources"><em>
-          <span class="tag-no_right">5</span>
           <span class="tag-state ${stepStates!= null ? stepStates.resources.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.resources.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -135,7 +130,6 @@
         <li class="${currentStep == 'taxes' ? 'selected' : ''}">
   
           <a href="#taxes"><em>
-          <span class="tag-no_right">6</span>
           <span class="tag-state ${stepStates!= null ? stepStates.taxes.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxes.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="dhr.step.taxes.label" />
@@ -151,7 +145,6 @@
         <li class="${currentStep == 'document' ? 'selected' : ''}">
   
           <a href="#document"><em>
-          <span class="tag-no_right">7</span>
           <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="request.step.document.label" />
@@ -167,7 +160,6 @@
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
   
           <a href="#validation"><em>
-          <span class="tag-no_right">8</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -185,6 +177,7 @@
   
        <div id="subject">
          <form method="POST"  id="stepForm-subject" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -226,6 +219,7 @@
   
        <div id="familyReferent">
          <form method="POST"  id="stepForm-familyReferent" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.familyReferent.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.familyReferent.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -267,6 +261,7 @@
   
        <div id="spouse">
          <form method="POST"  id="stepForm-spouse" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.spouse.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.spouse.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -308,6 +303,7 @@
   
        <div id="dwelling">
          <form method="POST"  id="stepForm-dwelling" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -351,6 +347,7 @@
   
        <div id="resources">
          <form method="POST"  id="stepForm-resources" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.resources.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.resources.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -394,6 +391,7 @@
   
        <div id="taxes">
          <form method="POST"  id="stepForm-taxes" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.taxes.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxes.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -437,6 +435,7 @@
   
        <div id="document">
          <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -478,6 +477,7 @@
   
        <div id="validation">
          <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
   

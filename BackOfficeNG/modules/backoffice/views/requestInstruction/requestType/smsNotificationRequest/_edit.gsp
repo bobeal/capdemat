@@ -44,7 +44,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="sms.property.interests.label" /> * : </dt><dd id="interests" class="action-editField validate-localReferentialData required-true i18n-sms.property.interests" >
+                <dt class="required"><g:message code="sms.property.interests.label" /> * : </dt><dd id="interests" class="action-editField validate-localReferentialData required-true i18n-sms.property.interests data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'interests', 'lrEntries': lrTypes.interests?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.interests?.entriesSupportMultiple, 'depth':0]" />

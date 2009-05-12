@@ -244,8 +244,9 @@
             <g:render template="/frontofficeRequestType/vOCardRequest/validation" /> 
 
 						<h3><g:message code="request.step.validation.label" /></h3>
-            
-            <g:render template="/frontofficeRequestType/outOfAccountValidation" />
+            <g:if test="${!hasHomeFolder}">
+              <g:render template="/frontofficeRequestType/outOfAccountValidation" />
+            </g:if>
             
             <div id="useAcceptance">
              <input type="checkbox" name="useAcceptance" class="required validate-one-required"

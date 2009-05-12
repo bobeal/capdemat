@@ -3,7 +3,9 @@ package fr.cg95.cvq.service.request.ecitizen;
 import java.util.List;
 import java.util.Set;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
+import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -46,7 +48,7 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
     CreationBean modify(final HomeFolderModificationRequest hfmr,
             final List<Adult> adults, final List<Child> children, final Address adress)
         throws CvqException;
-
+    
     /**
      * Return all history entries associated to a given request.
      */

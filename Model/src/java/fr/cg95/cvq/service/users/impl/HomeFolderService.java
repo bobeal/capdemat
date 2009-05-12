@@ -271,10 +271,9 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void addHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role)
+    public void addHomeFolderRole(Individual owner, Long homeFolderId, RoleType role)
             throws CvqException {
-
-        Individual owner = individualService.getById(ownerId);
+ 
         IndividualRole individualRole = new IndividualRole();
         individualRole.setRole(role);
         individualRole.setHomeFolderId(homeFolderId);
@@ -290,21 +289,6 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         IndividualRole individualRole = new IndividualRole();
         individualRole.setRole(role);
         addRoleToOwner(owner, individualRole);        
-    }
-
-    @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void addIndividualRole(Long ownerId, Individual individual, RoleType role)
-            throws CvqException {
-
-        Individual owner = individualService.getById(ownerId);
-        IndividualRole individualRole = new IndividualRole();
-        individualRole.setRole(role);
-        if (individual.getId() != null)
-            individualRole.setIndividualId(individual.getId());
-        else
-            individualRole.setIndividualName(individual.getFullName());
-        addRoleToOwner(owner, individualRole);
     }
 
     @Override
@@ -346,9 +330,9 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public boolean removeHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role)
+    public boolean removeHomeFolderRole(Individual owner, Long homeFolderId, RoleType role)
             throws CvqException {
-        Individual owner = individualService.getById(ownerId);
+
         if (owner.getIndividualRoles() == null)
             return false;
         
@@ -369,10 +353,9 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public boolean removeIndividualRole(Long ownerId, Individual individual, RoleType role)
+    public boolean removeIndividualRole(Individual owner, Individual individual, RoleType role)
             throws CvqException {
 
-        Individual owner = individualService.getById(ownerId);
         if (owner.getIndividualRoles() == null)
             return false;
         
@@ -399,14 +382,35 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         return false;
     }
     
+    /*
+     * TODO : refactor role management 
+     */
+    
     @Override
-    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
+    public void addRole(Individual owner, final Individual individual, final Long homeFolderId, 
+            final RoleType role) throws CvqException {
+        if (individual == null)
+            addHomeFolderRole(owner, homeFolderId, role);
+        else
+            addIndividualRole(owner, individual, role);
+    }
+    
+    @Override
     public void addRole(Individual owner, final Individual individual, final RoleType role)
             throws CvqException {
         if (individual == null)
             addHomeFolderRole(owner, role);
         else
             addIndividualRole(owner, individual, role);
+    }
+    
+    @Override
+    public boolean removeRole(Individual owner, final Individual individual, final Long homeFolderId, 
+            final RoleType role) throws CvqException {
+        if (individual == null)
+            return removeHomeFolderRole(owner, homeFolderId, role);
+        else
+            return removeIndividualRole(owner, individual, role);
     }
     
     @Override
@@ -534,6 +538,39 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     }
     
     @Override
+    public void saveForeignRoleOwners(Long homeFolderId, List<Adult> adults, List<Child> children,
+            List<Adult> foreignRoleOwners) throws CvqException, CvqModelException {
+        
+        for (Adult roleOwner : foreignRoleOwners) {
+            for (IndividualRole role : roleOwner.getIndividualRoles()) {
+                if (Arrays.asList(RoleType.homeFolderRoleTypes).contains(role.getRole()))
+                    role.setHomeFolderId(homeFolderId);
+                else if (Arrays.asList(RoleType.adultRoleTypes).contains(role.getRole())) {
+                    for (Adult adult : adults) {
+                        if (adult.getFullName().equals(role.getIndividualName())) {
+                            role.setIndividualId(adult.getId());
+                            break;
+                        }
+                    }
+                }
+                else if (Arrays.asList(RoleType.childRoleTypes).contains(role.getRole())) {
+                    for (Child child : children) {
+                        if (child.getFullName().equals(role.getIndividualName())) {
+                            role.setIndividualId(child.getId());
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            if (roleOwner.getId() == null)
+                individualService.create(roleOwner, null, null, true);
+            else
+                individualService.modify(roleOwner);
+        }
+    }
+    
+    @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public boolean hasHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role)
             throws CvqException {
@@ -591,6 +628,12 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Individual> getByHomeFolderRole(Long homeFolderId, RoleType role) {
         return individualDAO.listByHomeFolderRole(homeFolderId, role);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public List<Individual> listByHomeFolderRoles(Long homeFolderId, RoleType[] roles) {
+        return individualDAO.listByHomeFolderRoles(homeFolderId, roles);
     }
 
     @Override

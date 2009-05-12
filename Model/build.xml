@@ -354,7 +354,7 @@
 			<formatter type="plain" usefile="false" />
 			<batchtest>
 				<fileset dir="${basedir}/${build.test.dir}">
-				  <include name="**/RequestServiceTest.class"/>
+				  <include name="**/HomeFolderModificationRequestServiceTest.class"/>
 				  <!--include name="**/CapdematTestSuite.class"/-->
 					<!-- requires mail sending infrastructure -->
 					<exclude name="**/MailServiceTest.class" />

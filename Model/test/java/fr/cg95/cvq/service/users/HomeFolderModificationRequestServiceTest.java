@@ -263,11 +263,11 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         adults.add(newAdult);
         iHomeFolderService.addIndividualRole(newAdult, child1, RoleType.CLR_TUTOR);
         
-        iHomeFolderService.removeIndividualRole(homeFolderUncle.getId(), child1, 
+        iHomeFolderService.removeIndividualRole(homeFolderUncle, child1, 
                 RoleType.CLR_TUTOR); 
         
         newChild = BusinessObjectsFactory.gimmeChild("child", "new");
-        iHomeFolderService.addIndividualRole(homeFolderResponsible.getId(), 
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, 
                 newChild, RoleType.CLR_FATHER);
         iHomeFolderService.addIndividualRole(newAdult, newChild, RoleType.CLR_TUTOR);
         children.add(newChild);
@@ -360,11 +360,11 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         child1.setBirthCity("Paris");
 
         newChild = BusinessObjectsFactory.gimmeChild("Badiane", "XXXX");
-        iHomeFolderService.addIndividualRole(homeFolderResponsible.getId(), 
+        iHomeFolderService.addIndividualRole(homeFolderResponsible, 
                 newChild, RoleType.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(homeFolderWoman.getId(), 
+        iHomeFolderService.addIndividualRole(homeFolderWoman, 
                 newChild, RoleType.CLR_MOTHER);
-        iHomeFolderService.addIndividualRole(homeFolderUncle.getId(), 
+        iHomeFolderService.addIndividualRole(homeFolderUncle, 
                 newChild, RoleType.CLR_TUTOR);
         children.add(newChild);
 
@@ -575,12 +575,12 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         adults.remove(responsibleToRemove);
 
-        iHomeFolderService.addHomeFolderRole(homeFolderUncle.getId(), homeFolder.getId(), 
+        iHomeFolderService.addHomeFolderRole(homeFolderUncle, homeFolder.getId(), 
                 RoleType.HOME_FOLDER_RESPONSIBLE);
-        iHomeFolderService.addIndividualRole(homeFolderUncle.getId(), child2, RoleType.CLR_FATHER);
+        iHomeFolderService.addIndividualRole(homeFolderUncle, child2, RoleType.CLR_FATHER);
         homeFolderUncle.setPassword("toto");
 
-        iHomeFolderService.removeHomeFolderRole(responsibleToRemove.getId(), 
+        iHomeFolderService.removeHomeFolderRole(responsibleToRemove, 
                 homeFolder.getId(), RoleType.HOME_FOLDER_RESPONSIBLE);
 
         iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);

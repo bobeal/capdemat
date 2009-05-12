@@ -3,6 +3,7 @@
 </g:if>
 <g:else>
 
+  <input type="hidden" name="homeFolderId" value="${individuals?.homeFolderId}" />
   <fieldset class="account-fieldset-edit validation-scope">
     <h4><g:message code="homeFolder.property.responsibles" /></h4>
     <dl>
@@ -68,14 +69,14 @@
     <fieldset class="account-fieldset-edit validation-scope">
       <h4>${it.fullName}</h4>
       <dl>
-      <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it.fullName,individuals?.adults)}">
+      <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults)}">
         <dt>
           <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> 
           ${owner.value.owner.fullName}
         </dt>
         <dd><input type="submit" name="submit-removeRole-account-ownerType:adults_ownerIndex:${owner.key}_role:${owner.value.role}_individualIndex:${index}_individualType:children" value="${message(code:'action.remove')}" /></dd>
       </g:each>
-       <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it.fullName,individuals?.tutors)}">
+       <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.tutors)}">
         <dt>
           <span class="tag-foreigner tag-state"><g:message code="homeFolder.property.foreign" /></span>
           <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> 
@@ -130,13 +131,13 @@
         <g:capdematEnumToField var="${it.title}" i18nKeyPrefix="homeFolder.adult.title" /> ${it.fullName}
       </h4>
       <dl>
-      <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it.fullName,individuals?.adults)}">
+      <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults)}">
         <dt>
           <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> ${owner.value.owner.fullName}
         </dt>
         <dd><input type="submit" name="submit-removeRole-account-ownerType:adults_ownerIndex:${owner.key}_role:${owner.value.role}_individualIndex:${index}_individualType:adults" value="${message(code:'action.remove')}" /></dd>
       </g:each>
-      <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it.fullName,individuals?.tutors)}">
+      <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.tutors)}">
         <dt>
           <span class="tag-foreigner tag-state"><g:message code="homeFolder.property.foreign" /></span>
           <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> ${owner.value.owner.fullName}

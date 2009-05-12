@@ -11,32 +11,36 @@
     
   <xs:element name="TechnicalInterventionRequest">
     <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">Demande d'intervention
-        technique</xs:documentation>
-      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">Technical intervention
-        request</xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">Intervention technique
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+	Demande d'intervention technique
       </xs:documentation>
-      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">Technical intervention
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+	Technical intervention request
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	Intervention technique
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+	Technical intervention
       </xs:documentation>
       <xs:appinfo>
         <model namespace="technical" />
         <common>
           <namespace name="technical" />
           <steps>
-            <step index="0" name="subject" >
-              <widgets>
-                <subject />
-              </widgets>
-           	</step>
+            <step index="0" name="intervention">
+              <conditions>
+                <condition name="otherIntervention" />
+              </conditions>
+            </step>
            	<step index="1" ref="document" />
             <step index="2" ref="validation" />
           </steps>
         </common>
         <xslfo>
           <blocks-def>
-            <block id="0" label="Personne à inscrire*" column="2" />
-            <block id="1" label="Type d'intervention technique" />
+            <block id="0" label="Type d'intervention technique" />
+            <block id="1" label="Précisez" />
             <block id="2" label="Lieu de l'intervention" />
             <block id="3" label="Description de la demande d'intervention" />
             <block id="4" label="Moyen de contact*" />
@@ -45,9 +49,6 @@
           </blocks-def>
           <element blockId="4" line="0" column="0" link="MeansOfContact"
             prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-          <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
             <complexTemplate />
           </element>
         </xslfo>
@@ -75,14 +76,48 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
-                 <common>
-                    <step name="subject" />
+                  <common>
+                    <step name="intervention" />
+                    <conditions>
+                      <condition name="otherIntervention" type="trigger" />
+                    </conditions>
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="0" line="0" column="0">
+                      <localReferential />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="OtherInterventionLabel" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Précisez
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Precise
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Précisez
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Precise
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="intervention" />
+                    <conditions>
+                      <condition name="otherIntervention" type="filled" required="true" />
+                    </conditions>
                   </common>
                   <fo />
                   <bo column="1" />
                   <xslfo>
                     <element blockId="1" line="0" column="0">
-                      <localReferential />
+                      <string />
                     </element>
                   </xslfo>
                 </xs:appinfo>
@@ -105,7 +140,7 @@
                 <xs:appinfo>
                   <model namespace="users" isTiedToRequest="true" />
                   <common>
-                    <step name="subject" />
+                    <step name="intervention" />
                   </common>
                   <fo />
                   <bo column="1" />
@@ -133,7 +168,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="subject" />
+                    <step name="intervention" />
                   </common>
                   <fo >
                     <textarea rows="3" />

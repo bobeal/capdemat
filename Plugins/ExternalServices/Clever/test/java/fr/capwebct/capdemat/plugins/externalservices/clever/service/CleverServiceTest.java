@@ -1,20 +1,16 @@
 package fr.capwebct.capdemat.plugins.externalservices.clever.service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.request.leisure.SmsNotificationRequest;
-import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.FamilyStatusType;
+import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.LocalReferentialData;
-import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
-import fr.cg95.cvq.testtool.BusinessObjectsFactory;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 /**
@@ -34,13 +30,12 @@ public class CleverServiceTest extends ServiceTestCase {
 
     protected SmsNotificationRequest gimmeRequest() throws CvqException {
 
+        SecurityContext.setCurrentAgent(this.agentNameWithCategoriesRoles);
         SmsNotificationRequest request = new SmsNotificationRequest();
-        
-        address = BusinessObjectsFactory.gimmeAdress("101/103", "bd Mac Donald", "Paris", "75019");
-        Adult subject = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "DJEDJIG", "Rafik", address,
-                FamilyStatusType.SINGLE);
-        request.setSubjectId(subject.getId());
-        
+        request.setRequestType(iRequestTypeService.getRequestTypeByLabel("Sms Notification"));
+        CreationBean creationBean = gimmeAnHomeFolder();
+        request.setSubjectId(iHomeFolderService.getHomeFolderResponsible(creationBean.getHomeFolderId()).getId());
+        request.setHomeFolderId(creationBean.getHomeFolderId());
         // Subscription
         request.setSubscription(Boolean.valueOf(true));
         // Interest
@@ -58,17 +53,17 @@ public class CleverServiceTest extends ServiceTestCase {
         SmsNotificationRequest snr = gimmeRequest();
         
         // Create Clever SMS Contact
-        String sendRequestResult = externalProviderService.sendRequest(snr);
+        String sendRequestResult = externalProviderService.sendRequest(iRequestService.fillRequestXml(snr));
         assertNotNull(sendRequestResult);
         
         // Update Clever SMS Contact
         snr.setCleverSmsContactId(sendRequestResult);
-        String sendRequestResult2 = externalProviderService.sendRequest(snr);
+        String sendRequestResult2 = externalProviderService.sendRequest(iRequestService.fillRequestXml(snr));
         assertNotNull(sendRequestResult2);
         
         // Remove Clever SMS Contact
         snr.setSubscription(false);
-        String sendRequestResult3 = externalProviderService.sendRequest(snr);
+        String sendRequestResult3 = externalProviderService.sendRequest(iRequestService.fillRequestXml(snr));
         assertNull(sendRequestResult3);
         
     }

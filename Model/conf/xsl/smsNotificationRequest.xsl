@@ -38,7 +38,7 @@
 
 	  <fo:block>
 	    <xsl:call-template name="requestHeader">
-	      <xsl:with-param name="RequestName">Demande de notification par SMS</xsl:with-param>
+	      <xsl:with-param name="RequestName">Demande d'inscription à l'infolettre SMS</xsl:with-param>
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 
@@ -97,6 +97,34 @@
                     	    <xsl:apply-templates select="//cvq:Subject"/>
       
     
+          
+                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                        <fo:table-column column-width="proportional-column-width(100)" />
+          <fo:table-column column-width="proportional-column-width(100)" />
+                    	      <fo:table-body>
+		<fo:table-row>
+      	                    		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		      Téléphone portable
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+                                      <xsl:choose>
+                        <xsl:when test="//sms:MobilePhone and //sms:MobilePhone != ''">
+                                    <xsl:value-of select="//sms:MobilePhone" />
+                                  </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>&#160;</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+        		    </fo:block>
+		  </fo:table-cell>
+            		</fo:table-row>
+	      </fo:table-body>
+	    </fo:table>
+
+    
       
               <fo:block>
               <fo:leader leader-pattern="space" />
@@ -153,7 +181,7 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                            <xsl:template match="//cvq:MeansOfContact">
+                                  <xsl:template match="//cvq:MeansOfContact">
           <xsl:call-template name="MeansOfContactType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>

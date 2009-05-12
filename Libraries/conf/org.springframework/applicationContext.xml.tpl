@@ -93,7 +93,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   </bean>
   
   <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService" init-method="init">
-  	<property name="genericDAO" ref="genericDAO" />
+    <property name="requestService" ref="defaultRequestService" />
+    <property name="genericDAO" ref="genericDAO" />
     <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
     <!-- 
     <property name="homeFolderService" ref="homeFolderService" />
@@ -406,14 +407,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="xslFoFilename" value="studyGrantRequest.xsl"/>
   </bean>
 
-  <bean id="personalDetailsRequestService" 
-    class="fr.cg95.cvq.service.request.civil.impl.PersonalDetailsRequestService" 
-    parent="requestService">
-    <property name="supportUnregisteredCreation" value="true"/>
-    <property name="label" value="Personal Details"/>
-    <property name="xslFoFilename" value="personalDetailsRequest.xsl"/>
-  </bean>
-
  <bean id="birthDetailsRequestService" 
     class="fr.cg95.cvq.service.request.civil.impl.BirthDetailsRequestService" 
     parent="requestService">
@@ -573,7 +566,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="label" value="Technical Intervention" />
     <property name="localReferentialFilename" value="local_referential_tir.xml"/>
     <property name="xslFoFilename" value="technicalInterventionRequest.xsl" />
-    <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
+    <property name="subjectPolicy" value="SUBJECT_POLICY_NONE" />
   </bean>
 
   <bean id="paymentService" class="fr.cg95.cvq.payment.impl.PaymentService" init-method="init">

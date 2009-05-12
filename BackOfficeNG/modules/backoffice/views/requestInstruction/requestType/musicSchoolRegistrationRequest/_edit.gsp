@@ -4,7 +4,7 @@
   <ul class="yui-nav">
   
     <li class="selected">
-      <a href="#page0"><em><g:message code="msrr.step.subject.label" /></em></a>
+      <a href="#page0"><em><g:message code="msrr.step.registration.label" /></em></a>
     </li>
   
     <li>
@@ -19,7 +19,7 @@
       <!-- step start -->
       <div id="page0">
         <h2><g:message code="property.form" />
-          <span><g:message code="msrr.step.subject.label" /></span>
+          <span><g:message code="msrr.step.registration.label" /></span>
         </h2>
         <div class="yui-g">
           
@@ -36,7 +36,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="msrr.property.activity.label" /> * : </dt><dd id="activity" class="action-editField validate-localReferentialData required-true i18n-msrr.property.activity" >
+                <dt class="required"><g:message code="msrr.property.activity.label" /> * : </dt><dd id="activity" class="action-editField validate-localReferentialData required-true i18n-msrr.property.activity data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'activity', 'lrEntries': lrTypes.activity?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.activity?.entriesSupportMultiple, 'depth':0]" />

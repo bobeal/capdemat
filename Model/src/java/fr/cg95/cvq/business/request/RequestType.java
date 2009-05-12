@@ -20,6 +20,9 @@ public class RequestType implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+    public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
+    public static final String SEARCH_BY_STATE = "active";
+
 	/** identifier field */
     private Long id;
 
@@ -112,7 +115,6 @@ public class RequestType implements Serializable {
      * @hibernate.set
      *  table="requirement"
      *  lazy="true"
-     *  inverse="false"
      * @hibernate.key
      *  column="request_type_id"
      * @hibernate.composite-element

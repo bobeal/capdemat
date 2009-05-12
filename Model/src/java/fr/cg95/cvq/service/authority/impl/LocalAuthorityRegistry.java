@@ -260,7 +260,9 @@ public class LocalAuthorityRegistry
         } else if (resourceType.equals(MAIL_TEMPLATES_TYPE)) { 
             filePath.append(MAIL_TEMPLATES_TYPE).append("/");
         } else if (resourceType.equals(EXTERNAL_REFERENTIAL_RESOURCE_TYPE)) {
-            filePath.append("external_referential/");            
+            filePath.append("external_referential/");
+        } else if (resourceType.equals(PDF_ASSETS_RESOURCE_TYPE)) {
+            filePath.append(PDF_ASSETS_RESOURCE_TYPE).append("/");
         } else {
             logger.warn("getReferentialResource() unrecognized resource type : " + resourceType);
             return null;
@@ -639,6 +641,7 @@ public class LocalAuthorityRegistry
         }
     }
 
+    @Deprecated
     public void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
         throws CvqException {
         LocalAuthority localAuthority = SecurityContext.getCurrentSite();

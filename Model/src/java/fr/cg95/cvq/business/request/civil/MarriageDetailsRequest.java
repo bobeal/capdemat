@@ -32,6 +32,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
 
     public MarriageDetailsRequest() {
         super();
+        format = fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType.FULL_COPY;
     }
 
 

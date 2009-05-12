@@ -358,3 +358,111 @@ update local_authority set instruction_default_alert_delay=3;
 alter table local_authority alter column instruction_default_alert_delay set not null;
 
 alter table local_authority add column admin_email varchar(255);
+
+alter table technical_intervention_request add column other_intervention_label varchar(255);
+
+-- update to electoral roll registration request
+UPDATE electoral_roll_registration_request SET subject_nationality='French' WHERE subject_nationality='FR';
+UPDATE electoral_roll_registration_request SET subject_nationality='EuropeanUnion' WHERE subject_nationality='EEC';
+UPDATE electoral_roll_registration_request SET subject_nationality='OutsideEuropeanUnion' WHERE subject_nationality='OUTSIDE_EEC';
+
+-- update to sms notification request
+alter table sms_notification_request add column mobile_phone varchar(10);
+
+-- update to perischool activity registration request
+create table perischool_authorized_individual (
+  id int8 not null,
+  office_phone varchar(10),
+  address_id int8,
+  first_name varchar(38),
+  last_name varchar(38),
+  home_phone varchar(10),
+  perischool_activity_registration_request_id int8,
+  authorized_individuals_index int4,
+  primary key (id)
+);
+
+create table perischool_contact_individual (
+  id int8 not null,
+  office_phone varchar(10),
+  address_id int8,
+  first_name varchar(38),
+  last_name varchar(38),
+  home_phone varchar(10),
+  perischool_activity_registration_request_id int8,
+  contact_individuals_index int4,
+  primary key (id)
+);
+    
+alter table perischool_authorized_individual 
+  add constraint FKEE33EA1E96225F9E 
+  foreign key (perischool_activity_registration_request_id) 
+  references perischool_activity_registration_request;
+
+alter table perischool_authorized_individual 
+  add constraint FKEE33EA1EB7531222 
+  foreign key (address_id) 
+  references address;
+
+alter table perischool_contact_individual 
+  add constraint FK5B659D5796225F9E 
+  foreign key (perischool_activity_registration_request_id) 
+  references perischool_activity_registration_request;
+
+alter table perischool_contact_individual 
+  add constraint FK5B659D57B7531222 
+  foreign key (address_id) 
+  references address;
+        
+-- update to recreation activity registration request
+create table recreation_authorized_individual (
+  id int8 not null,
+  office_phone varchar(10),
+  address_id int8,
+  first_name varchar(38),
+  last_name varchar(38),
+  home_phone varchar(10),
+  recreation_activity_registration_request_id int8,
+  authorized_individuals_index int4,
+  primary key (id)
+);
+
+create table recreation_contact_individual (
+  id int8 not null,
+  office_phone varchar(10),
+  address_id int8,
+  first_name varchar(38),
+  last_name varchar(38),
+  home_phone varchar(10),
+  recreation_activity_registration_request_id int8,
+  contact_individuals_index int4,
+  primary key (id)
+);
+    
+alter table recreation_authorized_individual 
+  add constraint FK5BA62550B7531222 
+  foreign key (address_id) 
+  references address;
+
+alter table recreation_authorized_individual 
+  add constraint FK5BA625504C4C853A 
+  foreign key (recreation_activity_registration_request_id) 
+  references recreation_activity_registration_request;
+
+alter table recreation_contact_individual 
+  add constraint FK52B67F65B7531222 
+  foreign key (address_id) 
+  references address;
+
+alter table recreation_contact_individual 
+  add constraint FK52B67F654C4C853A 
+  foreign key (recreation_activity_registration_request_id) 
+  references recreation_activity_registration_request; 
+
+drop table personal_details_request;
+delete from request_note where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from request_document where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from request_action where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from forms where request_type_id=(select id from request_type where label='Personal Details');
+delete from request where request_type_id = (select id from request_type where label='Personal Details');
+delete from request_type where id=(select id from request_type where label='Personal Details');

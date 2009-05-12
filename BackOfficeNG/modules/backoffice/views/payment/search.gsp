@@ -62,6 +62,7 @@
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
           <form action="#" id="paymentSearchFilters">
+
             <label for="paymentStateFilter"><g:message code="payment.property.paymentState" /> :</label>
             <select name="paymentStateFilter" id="paymentStateFilter">
               <option value=""><g:message code="search.filter.defaultValue"/></option>
@@ -81,6 +82,17 @@
                 </option>
               </g:each>
             </select>
+
+            <label for="paymentModeFilter"><g:message code="payment.property.paymentMode" /> :</label>
+            <select name="paymentModeFilter" id="paymentModeFilter">
+              <option value=""><g:message code="search.filter.defaultValue"/></option>
+              <g:each in="${allModes}" var="paymentMode">
+                <option value="${paymentMode}" ${filters['paymentModeFilter'] == paymentMode.toString() ? 'selected' : ''}>
+                  <g:message code="payment.mode.${paymentMode.toString().toLowerCase()}" />
+                </option>
+              </g:each>
+            </select>
+
           </form>
         </div>
       </div>

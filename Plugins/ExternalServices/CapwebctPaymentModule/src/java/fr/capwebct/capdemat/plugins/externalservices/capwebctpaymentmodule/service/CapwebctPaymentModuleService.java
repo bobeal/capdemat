@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
 
 import fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.webservice.client.ICapwebctPaymentModuleClient;
 import fr.capwebct.modules.payment.schema.acc.AccountDetailType;
@@ -351,7 +352,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
     /** ***** Not Implemented methods ****** */
     /** *********************************** */
 
-    public String sendRequest(Request request) throws CvqException {
+    public String sendRequest(XmlObject requestXml) throws CvqException {
         logger.warn("sendRequest() not applicable for Capwect Payment Module Service");
         return "";
     }
@@ -387,5 +388,9 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
 
     public void setCapwebctPaymentModuleClient(ICapwebctPaymentModuleClient capwebctPaymentModuleClient) {
         this.capwebctPaymentModuleClient = capwebctPaymentModuleClient;
+    }
+
+    public boolean supportsConsumptions() {
+        return false;
     }
 }

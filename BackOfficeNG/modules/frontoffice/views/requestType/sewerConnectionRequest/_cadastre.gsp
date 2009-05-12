@@ -32,8 +32,8 @@
   
 
   
-    <label class=""><g:message code="scr.property.ownerAddress.label" />   <span><g:message code="scr.property.ownerAddress.help" /></span></label>
-            <div class="address-fieldset  ">
+    <label class="required condition-isTenant-filled"><g:message code="scr.property.ownerAddress.label" /> *  <span><g:message code="scr.property.ownerAddress.help" /></span></label>
+            <div class="address-fieldset required condition-isTenant-filled ">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${rqt.ownerAddress?.additionalDeliveryInformation}" maxlength="38" name="ownerAddress.additionalDeliveryInformation"/>  
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>

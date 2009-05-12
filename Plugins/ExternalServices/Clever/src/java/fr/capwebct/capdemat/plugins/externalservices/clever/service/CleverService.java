@@ -2,6 +2,7 @@ package fr.capwebct.capdemat.plugins.externalservices.clever.service;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Set;
 import javax.xml.rpc.ServiceException;
 
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
 
 import cleversms.services.CleverSMSServiceProvider;
 import cleversms.services.soap.CleverSMSContactSEI;
@@ -20,10 +22,8 @@ import cleversms.services.soap.ExtendValue;
 import fr.cg95.cvq.business.authority.LocalReferentialEntry;
 import fr.cg95.cvq.business.authority.LocalReferentialType;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.leisure.SmsNotificationRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
@@ -33,6 +33,8 @@ import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.service.authority.ILocalReferentialService;
 import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.xml.common.LocalReferentialDataType;
+import fr.cg95.cvq.xml.request.leisure.SmsNotificationRequestDocument;
 
 public class CleverService implements IExternalProviderService {
     private static Logger logger = Logger.getLogger(CleverService.class);
@@ -49,10 +51,10 @@ public class CleverService implements IExternalProviderService {
     private String username;
     private String password;
 
-    public String sendRequest(Request request) throws CvqException {
+    public String sendRequest(XmlObject requestXml) throws CvqException {
         try {
 
-            if (!(request instanceof SmsNotificationRequest)) {
+            if (!(requestXml instanceof SmsNotificationRequestDocument)) {
                 logger.warn("sendRequest() received an un-managed request type, ignoring it");
                 return null;
             }
@@ -61,12 +63,12 @@ public class CleverService implements IExternalProviderService {
             provider = new CleverSMSServiceProvider(endportpath, username, password);
             CleverSMSContactSEI contactService = provider.getContactService();
 
-            SmsNotificationRequest snr = (SmsNotificationRequest) request;
-            Adult adult = individualService.getAdultById(snr.getSubjectId());
+            SmsNotificationRequestDocument snr = (SmsNotificationRequestDocument) requestXml;
+            Adult adult = individualService.getAdultById(snr.getSmsNotificationRequest().getSubject().getIndividual().getId());
 
             Integer cleverSmsContactId = null;
-            if (snr.getCleverSmsContactId() != null && snr.getCleverSmsContactId().length() > 0)
-                cleverSmsContactId = new Integer(snr.getCleverSmsContactId());
+            if (snr.getSmsNotificationRequest().getCleverSmsContactId() != null && snr.getSmsNotificationRequest().getCleverSmsContactId().length() > 0)
+                cleverSmsContactId = new Integer(snr.getSmsNotificationRequest().getCleverSmsContactId());
 
             // Build a CleverSMS Contact from the SmsNotificationRequest's
             // subject
@@ -75,9 +77,9 @@ public class CleverService implements IExternalProviderService {
             cleverSmsContact.setFirstname(adult.getFirstName());
             cleverSmsContact.setGsm(adult.getMobilePhone());
             // Subscriber's interests
-            List<LocalReferentialData> interests = snr.getInterests();
+            List<LocalReferentialDataType> interests = Arrays.asList(snr.getSmsNotificationRequest().getInterestsArray());
             List<ExtendValue> values = new ArrayList<ExtendValue>();
-            for (LocalReferentialData interest : interests) {
+            for (LocalReferentialDataType interest : interests) {
                 ExtendValue value = new ExtendValue();
                 value.setKey(interest.getName());
                 value.setValue(YES_LABEL);
@@ -105,13 +107,13 @@ public class CleverService implements IExternalProviderService {
                 return (new Integer(id)).toString();
             }
             // Update Contact
-            else if (snr.getSubscription()) {
+            else if (snr.getSmsNotificationRequest().getSubscription()) {
                 cleverSmsContact.setId(cleverSmsContactId);
                 try {
                     logger.debug("sendRequest() calling CleverSMSContactSEI.updateContact("
                             + cleverSmsContactId + ")");
                     contactService.updateContact(cleverSmsContact);
-                    return snr.getCleverSmsContactId();
+                    return snr.getSmsNotificationRequest().getCleverSmsContactId();
                 } catch (ContactNotFoundException e) {
                     // Create a new CleverSMS Contact to bind to the
                     // SmsNotificationRequest's subject
@@ -206,5 +208,9 @@ public class CleverService implements IExternalProviderService {
 
     public void setIndividualService(IIndividualService individualService) {
         this.individualService = individualService;
+    }
+
+    public boolean supportsConsumptions() {
+        return false;
     }
 }

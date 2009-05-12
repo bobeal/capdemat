@@ -40,22 +40,22 @@ public class RequestServiceTest extends ServiceTestCase {
 
         List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
         assertTrue(requestTypesSet.size() >= 2);
-
-        // add a new requirement for the first request type found
-        RequestType rt = requestTypesSet.get(0);
-
-        int initialRequirementsSize = rt.getRequirements().size();
         
+        // the first request type found
+        RequestType rt = requestTypesSet.get(0);
+        int initialRequirementsSize = rt.getRequirements().size();
         List<DocumentType> allDocumentTypes = iDocumentTypeService.getAllDocumentTypes();
+        
+        // add a new requirement
         iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(0).getId());
         iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(1).getId());
-
+        iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(2).getId());
         continueWithNewTransaction();
-
         rt = iRequestTypeService.getRequestTypeById(rt.getId());
-        Assert.assertEquals(rt.getRequirements().size(), initialRequirementsSize + 2);
+        logger.warn("AAAAAAA " + rt.getLabel());
+        Assert.assertEquals(rt.getRequirements().size(), initialRequirementsSize + 3);
 
-        // validate "order by" behavior
+        // test requirement properies consistency
         Iterator<Requirement> requirementsIt = rt.getRequirements().iterator();
         Requirement req1 = requirementsIt.next();
         assertNotNull(req1);
@@ -67,9 +67,15 @@ public class RequestServiceTest extends ServiceTestCase {
         assertNotNull(req2.getDocumentType());
         assertNotNull(req2.getDocumentType().getId());
         assertNotNull(req2.getRequestType());
-//        assertTrue(req1.getDocumentType().getId().longValue()
-//                < req2.getDocumentType().getId().longValue());
 
+        // remove requirement 
+        iRequestTypeService.removeRequestTypeRequirement(rt.getId(), allDocumentTypes.get(2).getId());
+        continueWithNewTransaction();
+        rt = iRequestTypeService.getRequestTypeById(rt.getId());
+        Assert.assertEquals(rt.getRequirements().size(), initialRequirementsSize + 2);
+
+        continueWithNewTransaction();
+        
         // do some modifications on request types
         boolean shouldBeActive = true;
         if (rt.getActive().booleanValue()) {
@@ -94,10 +100,15 @@ public class RequestServiceTest extends ServiceTestCase {
 
         // requestType by category
         Category category = iCategoryService.getAll().get(0);
-        iRequestTypeService.getRequestTypes(category.getId(), null);
+        Set<Critere> criteriaSet = new HashSet<Critere>();
+        Critere categoryCriteria = new Critere();
+        categoryCriteria.setAttribut(RequestType.SEARCH_BY_CATEGORY_ID);
+        categoryCriteria.setValue(category.getId());
+        criteriaSet.add(categoryCriteria);
+        iRequestTypeService.getRequestTypes(criteriaSet);
         int requestTypeNumber = iRequestTypeService.getAllRequestTypes().size();
         int requestTypeInCategory = 
-            iRequestTypeService.getRequestTypes(category.getId(), null).size();
+            iRequestTypeService.getRequestTypes(criteriaSet).size();
         Assert.assertEquals(requestTypeNumber, requestTypeInCategory);
 
         SecurityContext.resetCurrentSite();

@@ -24,7 +24,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="cwc.property.compostableWasteType.label" /> * : </dt><dd id="compostableWasteType" class="action-editField validate-localReferentialData required-true i18n-cwc.property.compostableWasteType" >
+                <dt class="required"><g:message code="cwc.property.compostableWasteType.label" /> * : </dt><dd id="compostableWasteType" class="action-editField validate-localReferentialData required-true i18n-cwc.property.compostableWasteType data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'compostableWasteType', 'lrEntries': lrTypes.compostableWasteType?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.compostableWasteType?.entriesSupportMultiple, 'depth':0]" />
@@ -41,7 +41,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="cwc.property.collectionAddress.label" />  : </dt><dd id="collectionAddress" class="action-editField validate-string i18n-cwc.property.collectionAddress" ><span>${request?.collectionAddress}</span></dd>
+                <dt class=""><g:message code="cwc.property.collectionAddress.label" />  : </dt><dd id="collectionAddress" class="action-editField validate-address i18n-cwc.property.collectionAddress" ><div><p class="additionalDeliveryInformation">${request?.collectionAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request?.collectionAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${request?.collectionAddress?.streetNumber}</span> <span class="streetName">${request?.collectionAddress?.streetName}</span><p class="placeNameOrService">${request?.collectionAddress?.placeNameOrService}</p><span class="postalCode">${request?.collectionAddress?.postalCode}</span> <span class="city">${request?.collectionAddress?.city}</span><p class="countryName">${request?.collectionAddress?.countryName}</p></div></dd>
               </dl>
               
             

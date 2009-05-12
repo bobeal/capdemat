@@ -1,7 +1,7 @@
 parr.duration.value =
 
-parr.step.subject.label =
-parr.step.subject.desc =
+parr.step.registration.label =
+parr.step.registration.desc =
 
 parr.step.contact.label =
 parr.step.contact.desc =
@@ -25,8 +25,41 @@ parr.property.school.validationError =
 parr.property.section.help =
 parr.property.section.validationError =
 
-parr.property.otherIndividual.help =
-parr.property.otherIndividual.validationError =
+parr.property.contactIndividuals.help =
+parr.property.contactIndividuals.validationError =
+
+parr.property.lastName.help =
+parr.property.lastName.validationError =
+
+parr.property.firstName.help =
+parr.property.firstName.validationError =
+
+parr.property.address.help =
+parr.property.address.validationError =
+
+parr.property.homePhone.help =
+parr.property.homePhone.validationError =
+
+parr.property.officePhone.help =
+parr.property.officePhone.validationError =
+
+parr.property.authorizedIndividuals.help =
+parr.property.authorizedIndividuals.validationError =
+
+parr.property.lastName.help =
+parr.property.lastName.validationError =
+
+parr.property.firstName.help =
+parr.property.firstName.validationError =
+
+parr.property.address.help =
+parr.property.address.validationError =
+
+parr.property.homePhone.help =
+parr.property.homePhone.validationError =
+
+parr.property.officePhone.help =
+parr.property.officePhone.validationError =
 
 parr.property.rulesAndRegulationsAcceptance.help =
 parr.property.rulesAndRegulationsAcceptance.validationError =

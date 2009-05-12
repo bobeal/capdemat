@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.Address;
@@ -77,6 +78,38 @@ public final class VoCardRequestService
         logger.debug("create() Created request object with id : " + requestId);
     }
 
+    public void create(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
+            final Address address, List<Document> documents) throws CvqException {
+
+        HomeFolder homeFolder = homeFolderService.create(adults, children, address);
+        dcvo.setHomeFolderId(homeFolder.getId());
+        // by default, set the home folder responsible as requester
+        Adult homeFolderResponsible = null;
+        for (Adult adult : adults) {
+            if (adult.getIndividualRoles() != null) {
+                for (IndividualRole individualRole : adult.getIndividualRoles()) {
+                    if (individualRole.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE)) {
+                        homeFolderResponsible = adult;
+                        break;
+                    }
+                }
+            }
+        }
+        SecurityContext.setCurrentEcitizen(homeFolderResponsible);
+        
+        dcvo.setRequesterId(homeFolderResponsible.getId());
+        dcvo.setRequesterLastName(homeFolderResponsible.getLastName());
+        dcvo.setRequesterFirstName(homeFolderResponsible.getFirstName());
+        
+        Long requestId = super.finalizeAndPersist(dcvo);
+        
+        homeFolder.setOriginRequestId(requestId);
+        homeFolderService.modify(homeFolder);
+        
+        addDocuments(dcvo, documents);
+        logger.debug("create() Created request object with id : " + requestId);
+    }
+    
     @Override
     public boolean accept(Request request) {
         return request instanceof VoCardRequest;

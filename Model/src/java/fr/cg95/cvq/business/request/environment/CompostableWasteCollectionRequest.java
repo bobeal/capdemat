@@ -64,7 +64,8 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
             }
             compostableWasteCollectionRequest.setCompostableWasteTypeArray(compostableWasteTypeTypeTab);
         }
-        compostableWasteCollectionRequest.setCollectionAddress(this.collectionAddress);
+        if (this.collectionAddress != null)
+            compostableWasteCollectionRequest.setCollectionAddress(Address.modelToXml(this.collectionAddress));
         compostableWasteCollectionRequest.setOtherWaste(this.otherWaste);
         return compostableWasteCollectionRequestDoc;
     }
@@ -90,7 +91,8 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
             }
         }
         compostableWasteCollectionRequest.setCompostableWasteType(compostableWasteTypeList);
-        compostableWasteCollectionRequest.setCollectionAddress(compostableWasteCollectionRequestXml.getCollectionAddress());
+        if (compostableWasteCollectionRequestXml.getCollectionAddress() != null)
+            compostableWasteCollectionRequest.setCollectionAddress(Address.xmlToModel(compostableWasteCollectionRequestXml.getCollectionAddress()));
         compostableWasteCollectionRequest.setOtherWaste(compostableWasteCollectionRequestXml.getOtherWaste());
         return compostableWasteCollectionRequest;
     }
@@ -120,18 +122,20 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         return this.compostableWasteType;
     }
 
-    private String collectionAddress;
+    private fr.cg95.cvq.business.users.Address collectionAddress;
 
-    public final void setCollectionAddress(final String collectionAddress) {
+    public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
         this.collectionAddress = collectionAddress;
     }
 
 
     /**
-     * @hibernate.property
-     *  column="collection_address"
+     * @hibernate.many-to-one
+     *  cascade="all"
+     *  column="collection_address_id"
+     *  class="fr.cg95.cvq.business.users.Address"
      */
-    public final String getCollectionAddress() {
+    public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
         return this.collectionAddress;
     }
 

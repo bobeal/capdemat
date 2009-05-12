@@ -53,6 +53,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         TechnicalInterventionRequestDocument technicalInterventionRequestDoc = TechnicalInterventionRequestDocument.Factory.newInstance();
         TechnicalInterventionRequestDocument.TechnicalInterventionRequest technicalInterventionRequest = technicalInterventionRequestDoc.addNewTechnicalInterventionRequest();
         super.fillCommonXmlInfo(technicalInterventionRequest);
+        technicalInterventionRequest.setOtherInterventionLabel(this.otherInterventionLabel);
         technicalInterventionRequest.setInterventionDescription(this.interventionDescription);
         if (this.interventionPlace != null)
             technicalInterventionRequest.setInterventionPlace(Address.modelToXml(this.interventionPlace));
@@ -84,6 +85,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         List list = new ArrayList();
         TechnicalInterventionRequest technicalInterventionRequest = new TechnicalInterventionRequest();
         technicalInterventionRequest.fillCommonModelInfo(technicalInterventionRequest,technicalInterventionRequestXml);
+        technicalInterventionRequest.setOtherInterventionLabel(technicalInterventionRequestXml.getOtherInterventionLabel());
         technicalInterventionRequest.setInterventionDescription(technicalInterventionRequestXml.getInterventionDescription());
         if (technicalInterventionRequestXml.getInterventionPlace() != null)
             technicalInterventionRequest.setInterventionPlace(Address.xmlToModel(technicalInterventionRequestXml.getInterventionPlace()));
@@ -95,6 +97,21 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         }
         technicalInterventionRequest.setInterventionType(interventionTypeList);
         return technicalInterventionRequest;
+    }
+
+    private String otherInterventionLabel;
+
+    public final void setOtherInterventionLabel(final String otherInterventionLabel) {
+        this.otherInterventionLabel = otherInterventionLabel;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="other_intervention_label"
+     */
+    public final String getOtherInterventionLabel() {
+        return this.otherInterventionLabel;
     }
 
     private String interventionDescription;

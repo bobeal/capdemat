@@ -27,11 +27,11 @@
     <a id="categoryMenuItem" href="<g:createLink controller='backofficeCategory'/>">
       <g:message code="menu.categories" />
     </a>
+    <a id="userMenuItem" href="<g:createLink controller='backofficeAgent'/>">
+      <g:message code="menu.agents" />
+    </a>
     <a id="paymentMenuItem" href="<g:createLink controller='backofficePayment'/>">
       <g:message code="menu.payments" />
-    </a>
-    <a id="userMenuItem" href="<g:createLink controller='backofficeUser'/>">
-      <g:message code="menu.users" />
     </a>
   </g:if>
 </div>

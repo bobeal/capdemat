@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.xmlbeans.XmlObject;
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
@@ -67,7 +69,11 @@ public class EntryPointExternalService implements IExternalProviderService {
     public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
     }
     
-    public String sendRequest(Request request) throws CvqException {
+    public String sendRequest(XmlObject requestXml) throws CvqException {
         return null;
-    }    
+    }
+
+    public boolean supportsConsumptions() {
+        return false;
+    }
 }

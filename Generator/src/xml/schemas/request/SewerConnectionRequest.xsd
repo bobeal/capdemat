@@ -147,6 +147,9 @@
                   <model namespace="users" isTiedToRequest="true" />
                   <common>
                     <step name="cadastre" />
+                    <conditions>
+                      <condition name="isTenant" type="filled" required="true" />
+                    </conditions>
                   </common>
                   <fo />
                   <bo column="1" />

@@ -9,7 +9,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "subject-required",  "rules-required",  "contactphone-required",  "contact",  "additional",  "document",  "validation"  ]
+        ,"steps": [  "registration-required",  "rules-required",  "contactphone-required",  "contact",  "additional",  "document",  "validation"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
@@ -56,14 +56,13 @@
 
   
   
-        <li class="${['subject', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
+        <li class="${['registration', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
-          <a href="#subject"><em>
-          <span class="tag-no_right">1</span>
-          <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <a href="#registration"><em>
+          <span class="tag-state ${stepStates!= null ? stepStates.registration.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.registration.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="hsr.step.subject.label" /> *
+            <g:message code="hsr.step.registration.label" /> *
           </strong>
             
           </em></a>
@@ -75,7 +74,6 @@
         <li class="${currentStep == 'rules' ? 'selected' : ''}">
   
           <a href="#rules"><em>
-          <span class="tag-no_right">2</span>
           <span class="tag-state ${stepStates!= null ? stepStates.rules.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.rules.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -91,7 +89,6 @@
         <li class="${currentStep == 'contactphone' ? 'selected' : ''}">
   
           <a href="#contactphone"><em>
-          <span class="tag-no_right">3</span>
           <span class="tag-state ${stepStates!= null ? stepStates.contactphone.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.contactphone.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -107,7 +104,6 @@
         <li class="${currentStep == 'contact' ? 'selected' : ''}">
   
           <a href="#contact"><em>
-          <span class="tag-no_right">4</span>
           <span class="tag-state ${stepStates!= null ? stepStates.contact.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.contact.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="hsr.step.contact.label" />
@@ -121,7 +117,6 @@
         <li class="${currentStep == 'additional' ? 'selected' : ''}">
   
           <a href="#additional"><em>
-          <span class="tag-no_right">5</span>
           <span class="tag-state ${stepStates!= null ? stepStates.additional.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.additional.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="hsr.step.additional.label" />
@@ -137,7 +132,6 @@
         <li class="${currentStep == 'document' ? 'selected' : ''}">
   
           <a href="#document"><em>
-          <span class="tag-no_right">6</span>
           <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="request.step.document.label" />
@@ -153,7 +147,6 @@
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
   
           <a href="#validation"><em>
-          <span class="tag-no_right">7</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -169,29 +162,30 @@
      <div class="yui-content">
 
   
-       <div id="subject">
-         <form method="POST"  id="stepForm-subject" action="<g:createLink action="step" />">
+       <div id="registration">
+         <form method="POST"  id="stepForm-registration" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
-             <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.registration.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.registration.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
              <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
   
-             <g:message code="hsr.step.subject.label" />
-             <span><g:message code="hsr.step.subject.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.subject?.errorMsg}" /></span>
+             <g:message code="hsr.step.registration.label" />
+             <span><g:message code="hsr.step.registration.desc" /></span>
+             <span class="error"><g:message code="${stepStates?.registration?.errorMsg}" /></span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
-            <g:render template="/frontofficeRequestType/holidaySecurityRequest/subject" />         
+            <g:render template="/frontofficeRequestType/holidaySecurityRequest/registration" />         
   
            </div>
-           <div class="error" id="stepForm-subject-error"> </div>
+           <div class="error" id="stepForm-registration-error"> </div>
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-registration" name="submit-step-registration" class="submit-step" value="${message(code:'action.save')}" />
   
          </form>
          <div class="navTab">
@@ -200,10 +194,10 @@
            <a id="next-tab" href="#rules"><g:message code="request.step.navigation.next"/></a>
   
          </div>
-         <g:if test="${helps.subject != null}">       
+         <g:if test="${helps.registration != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
-           ${helps.subject}
+           ${helps.registration}
          </div>
          </g:if>
        </div>  
@@ -212,6 +206,7 @@
   
        <div id="rules">
          <form method="POST"  id="stepForm-rules" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.rules.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.rules.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -237,7 +232,7 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#subject"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab" href="#registration"><g:message code="request.step.navigation.previous"/></a>
   
   
            <a id="next-tab" href="#contactphone"><g:message code="request.step.navigation.next"/></a>
@@ -255,6 +250,7 @@
   
        <div id="contactphone">
          <form method="POST"  id="stepForm-contactphone" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.contactphone.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.contactphone.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -298,6 +294,7 @@
   
        <div id="contact">
          <form method="POST"  id="stepForm-contact" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.contact.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.contact.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -339,6 +336,7 @@
   
        <div id="additional">
          <form method="POST"  id="stepForm-additional" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.additional.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.additional.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -382,6 +380,7 @@
   
        <div id="document">
          <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -423,6 +422,7 @@
   
        <div id="validation">
          <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
   

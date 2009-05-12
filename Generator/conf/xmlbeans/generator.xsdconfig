@@ -7,11 +7,6 @@
     <xb:package>fr.cg95.cvq.xml.common</xb:package>
   </xb:namespace>
 
-  <!-- Common school elements -->
-  <xb:namespace uri="http://www.cg95.fr/cvq/schema/cse">
-    <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
-  </xb:namespace>
-
   <xb:namespace uri="http://www.cg95.fr/cvq/certicate">
     <xb:package>fr.cg95.cvq.xml.certificate</xb:package>
   </xb:namespace>
@@ -46,11 +41,6 @@
   <!-- Recreation Activity Registration Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/rarr">
     <xb:package>fr.cg95.cvq.xml.request.school</xb:package>
-  </xb:namespace>
-
-  <!-- Personal Details Request -->
-  <xb:namespace uri="http://www.cg95.fr/cvq/schema/pdr">
-    <xb:package>fr.cg95.cvq.xml.request.civil</xb:package>
   </xb:namespace>
 
   <!-- Birth Details Request -->

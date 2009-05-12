@@ -47,6 +47,8 @@ class SessionFilters {
 
                 session.setAttribute("currentSiteName", la.name.toLowerCase())
                 session.setAttribute("currentSiteDisplayTitle", la.displayTitle)
+                session.setAttribute("supportsActivitiesTab", lacb.supportsActivitiesTab())
+                session.setAttribute("supportsPaymentsTab", lacb.supportsPaymentsTab())
                 session.setAttribute("doRollback", false)
             }
             after = {

@@ -32,6 +32,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
 
     public SmsNotificationRequest() {
         super();
+        subscription = Boolean.valueOf(false);
     }
 
 
@@ -54,6 +55,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
         SmsNotificationRequestDocument.SmsNotificationRequest smsNotificationRequest = smsNotificationRequestDoc.addNewSmsNotificationRequest();
         super.fillCommonXmlInfo(smsNotificationRequest);
         smsNotificationRequest.setCleverSmsContactId(this.cleverSmsContactId);
+        smsNotificationRequest.setMobilePhone(this.mobilePhone);
         int i = 0;
         if (interests != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] interestsTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[interests.size()];
@@ -85,6 +87,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
         SmsNotificationRequest smsNotificationRequest = new SmsNotificationRequest();
         smsNotificationRequest.fillCommonModelInfo(smsNotificationRequest,smsNotificationRequestXml);
         smsNotificationRequest.setCleverSmsContactId(smsNotificationRequestXml.getCleverSmsContactId());
+        smsNotificationRequest.setMobilePhone(smsNotificationRequestXml.getMobilePhone());
         List<fr.cg95.cvq.business.users.LocalReferentialData> interestsList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
         if ( smsNotificationRequestXml.sizeOfInterestsArray() > 0) {
             for (int i = 0; i < smsNotificationRequestXml.getInterestsArray().length; i++) {
@@ -109,6 +112,22 @@ public class SmsNotificationRequest extends Request implements Serializable {
      */
     public final String getCleverSmsContactId() {
         return this.cleverSmsContactId;
+    }
+
+    private String mobilePhone;
+
+    public final void setMobilePhone(final String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="mobile_phone"
+     *  length="10"
+     */
+    public final String getMobilePhone() {
+        return this.mobilePhone;
     }
 
     private List<fr.cg95.cvq.business.users.LocalReferentialData> interests;

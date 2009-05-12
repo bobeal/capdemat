@@ -31,6 +31,13 @@
                 <g:message code="action.goHome" />
               </a>
             </li>
+            <g:if test="${returnUrl != ''}">
+              <li>
+                <a href="${returnUrl}">
+                  <g:message code="request.action.return.to.local.authority.site" />
+                </a>
+              </li>
+            </g:if>
           </ul>
         </div>
       </g:if>

@@ -9,9 +9,11 @@
     <div class="main-box">
       <h2><g:message code="homeFolder.header.generalInformations"/></h2>
       <p style="float:right;">
-        <!--
-        <span style="display:block;text-align:right;"><a href="#">Modifier mon compte</a></span>
-        -->
+        <span style="display:block;text-align:right;">
+          <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':'Home Folder Modification'])}">
+            <g:message code="account.action.edit"/>
+          </a>
+        </span>
         <span style="display:block;text-align:right;">
           <a href="${createLink(action:'editPassword')}"><g:message code="account.action.editPassword"/></a>
         </span>

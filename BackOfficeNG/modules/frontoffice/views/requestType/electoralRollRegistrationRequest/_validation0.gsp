@@ -2,7 +2,7 @@
 
 
   
-    <h3><g:message code="errr.step.subject.label" /></h3>
+    <h3><g:message code="errr.step.registration.label" /></h3>
     
       
       <dl>

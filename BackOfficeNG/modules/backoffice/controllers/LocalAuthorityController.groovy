@@ -14,50 +14,21 @@ class LocalAuthorityController {
 
     def localAuthorityResourceAdaptorService
 
-    def defaultAction = "drafts"
+    def defaultAction = "requests"
 
     def beforeInterceptor = { 
         session["currentMenu"] = "localAuthority"
     }
 
-    def drafts = {
-        def entity = [:]
-        
+    def moCs = {
         if (request.get) {
-            LocalAuthority localAuthority = SecurityContext.getCurrentSite()
-            entity.draftLiveDuration = localAuthority.draftLiveDuration
-            entity.draftNotificationBeforeDelete = localAuthority.draftNotificationBeforeDelete
-        } else {
-            localAuthorityRegistry.updateDraftSettings(
-                Integer.parseInt(params.draftLiveDuration),
-                Integer.parseInt(params.draftNotificationBeforeDelete)
-            )
-            entity.draftLiveDuration = params.draftLiveDuration
-            entity.draftNotificationBeforeDelete = params.draftNotificationBeforeDelete
-            entity.posted = ['state':'success','message':message(code:"message.updateDone")]
+            render(template : "meansOfContact", model : ["moCs" : meansOfContactService.availableMeansOfContact])
+        } else if (request.post) {
+            def moc = meansOfContactService.getById(Long.valueOf(params.id))
+            if(params.enabled == 'true') meansOfContactService.disableMeansOfContact(moc)
+            else if (params.enabled == 'false') meansOfContactService.enableMeansOfContact(moc)
+            render ([status:"success", message:message(code:"message.updateDone")] as JSON)
         }
-        return ["entity":entity, "subMenuEntries" : subMenuEntries]
-    }
-    
-    def meansOfContact = {
-        def result = [moCs:[], "subMenuEntries" : subMenuEntries]
-        for(MeansOfContact moc : meansOfContactService.availableMeansOfContact) {
-            result.moCs.add(
-                'id': moc.id,
-                'enabled' : moc.enabled,
-                'name' : StringUtils.uncapitalize(moc.type.toString()),
-                'status' : moc.enabled ? 'associated' : 'unassociated',
-                'verb' : !moc.enabled ? 'associate' : 'unassociate'
-            )
-        }
-        return result
-    }
-    
-    def processMoC = {
-        def moc = meansOfContactService.getById(Long.valueOf(params.meanId))
-        if(params.verb == 'associate') meansOfContactService.enableMeansOfContact(moc)
-        else if(params.verb == 'unassociate') meansOfContactService.disableMeansOfContact(moc)
-        render ([status:"success", message:message(code:"message.updateDone")] as JSON)
     }
 
     def aspect = {
@@ -132,9 +103,11 @@ class LocalAuthorityController {
         }
     }
 
-    def platformConfiguration = {
+    def requests = {
         if (request.get) {
             return ["subMenuEntries" : subMenuEntries,
+                    "draftLiveDuration" : SecurityContext.getCurrentSite().draftLiveDuration,
+                    "draftNotificationBeforeDelete" : SecurityContext.getCurrentSite().draftNotificationBeforeDelete,
                     "requestsCreationNotificationEnabled" : SecurityContext.getCurrentSite().requestsCreationNotificationEnabled,
                     "documentDigitalizationEnabled" : SecurityContext.getCurrentSite().documentDigitalizationEnabled,
                     "instructionAlertsEnabled" : SecurityContext.getCurrentSite().instructionAlertsEnabled,
@@ -154,6 +127,6 @@ class LocalAuthorityController {
         return false
     }
 
-    def subMenuEntries = ["drafts", "meansOfContact", "aspect", "pdf", "identity", "platformConfiguration"]
+    def subMenuEntries = ["requests", "aspect", "pdf", "identity"]
 
 }

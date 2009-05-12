@@ -1,0 +1,24 @@
+lrr.duration.value =
+
+lrr.step.registration.label =
+lrr.step.registration.desc =
+
+lrr.step.rules.label =
+lrr.step.rules.desc =
+
+
+lrr.property.subscription.help =
+lrr.property.subscription.validationError =
+
+lrr.property.rulesAndRegulationsAcceptance.help =
+lrr.property.rulesAndRegulationsAcceptance.validationError =
+
+lrr.property.parentalAuthorization.help =
+lrr.property.parentalAuthorization.validationError =
+
+lrr.property.registrationNumber.help =
+lrr.property.registrationNumber.validationError =
+
+lrr.property.subscriptionPrice.help =
+lrr.property.subscriptionPrice.validationError =
+

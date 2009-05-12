@@ -38,7 +38,7 @@
 
 	  <fo:block>
 	    <xsl:call-template name="requestHeader">
-	      <xsl:with-param name="RequestName">Demande d'inscription d'un enfant à des activités périscolaires</xsl:with-param>
+	      <xsl:with-param name="RequestName">Demande d'inscription aux activités périscolaires</xsl:with-param>
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 
@@ -59,7 +59,7 @@
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Téléphone*
+		      Téléphone en cas d'urgence*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -91,7 +91,7 @@
 		<fo:table-row>
       	                            		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Nom de l'école
+		      Ecole
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -185,20 +185,260 @@
               <fo:leader leader-pattern="space" />
             </fo:block>
   
-                  <fo:block xsl:use-attribute-sets="request.section.header">Personnes à contacter ou à prévenir en cas d'urgence</fo:block>
+                  <fo:block xsl:use-attribute-sets="request.section.header">Personnes à contacter</fo:block>
 	    <fo:block>
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
-                                <xsl:for-each select="//parr:OtherIndividual">
-	      <xsl:apply-templates select="."/>
-              <xsl:if test="not(position() = last())">
-	        <fo:block>
-	          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
-	        </fo:block>
-	      </xsl:if>
-            </xsl:for-each>
+                  <xsl:variable name="withTotal" select="'false'" />
+
+    <xsl:for-each select="//parr:ContactIndividuals">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nom
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./parr:LastName and ./parr:LastName != ''">
+                  <xsl:value-of select="./parr:LastName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Prénom
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./parr:FirstName and ./parr:FirstName != ''">
+                  <xsl:value-of select="./parr:FirstName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                                <xsl:apply-templates select="./parr:Address"/>
+                                                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Téléphone domicile
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./parr:HomePhone and ./parr:HomePhone != ''">
+                  <xsl:value-of select="./parr:HomePhone" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Téléphone bureau
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./parr:OfficePhone and ./parr:OfficePhone != ''">
+                  <xsl:value-of select="./parr:OfficePhone" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
+    
       
+              <fo:block>
+              <fo:leader leader-pattern="space" />
+            </fo:block>
+  
+                  <fo:block xsl:use-attribute-sets="request.section.header">Personnes autorisées</fo:block>
+	    <fo:block>
+	      <fo:leader leader-pattern="space" />
+	    </fo:block>
+        
+                  <xsl:variable name="withTotal" select="'false'" />
+
+    <xsl:for-each select="//parr:AuthorizedIndividuals">
+                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Nom
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./parr:LastName and ./parr:LastName != ''">
+                  <xsl:value-of select="./parr:LastName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Prénom
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./parr:FirstName and ./parr:FirstName != ''">
+                  <xsl:value-of select="./parr:FirstName" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                                <xsl:apply-templates select="./parr:Address"/>
+                                                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Téléphone domicile
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./parr:HomePhone and ./parr:HomePhone != ''">
+                  <xsl:value-of select="./parr:HomePhone" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Téléphone bureau
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./parr:OfficePhone and ./parr:OfficePhone != ''">
+                  <xsl:value-of select="./parr:OfficePhone" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
+                    <xsl:if test="$withTotal = 'true'  or not(position() = last())">
+        <fo:block>
+          <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
+          <fo:leader leader-pattern="space" />
+        </fo:block>
+      </xsl:if>
+    </xsl:for-each>
     
       
               <fo:block>
@@ -213,7 +453,8 @@
                                 	    <fo:block xsl:use-attribute-sets="request.signature">
 	      <xsl:if test="//parr:ClassTripPermission/text() = &quot;true&quot;">
       		<fo:inline>
-                          J'autorise la participation de mon enfant aux sorties organisées
+                          J'autorise la participation de mon enfant
+                          aux sorties organisées
                         </fo:inline>
 		<fo:block>
 		  <fo:leader leader-pattern="space" />
@@ -232,7 +473,8 @@
 	      </xsl:if>
 	      <xsl:if test="//parr:ClassTripPermission/text() = &quot;false&quot;">
       		<fo:inline>
-                          Vous n'avez pas autorisé votre enfant à participer aux sorties organisées
+                          Vous n'avez pas autorisé votre enfant à
+                          participer aux sorties organisées
                         </fo:inline>
 		<fo:block>
 		  <fo:leader leader-pattern="space" />
@@ -326,7 +568,7 @@
 	      </xsl:if>
 	      <xsl:if test="//parr:RulesAndRegulationsAcceptance/text() = &quot;false&quot;">
       		<fo:inline>
-                          Vous n'avez pas accepté le réglement intérieur
+                          Vous n'avez pas accepté le règlement intérieur
                         </fo:inline>
 		<fo:block>
 		  <fo:leader leader-pattern="space" />
@@ -408,9 +650,14 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                    <xsl:template match="//parr:OtherIndividual">
-          <xsl:call-template name="OtherIndividualType">
+                                                                                <xsl:template match="//parr:ContactIndividuals/parr:Address">
+              <xsl:call-template name="AddressType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                      </xsl:stylesheet>
+                                                                                                                          <xsl:template match="//parr:AuthorizedIndividuals/parr:Address">
+              <xsl:call-template name="AddressType">
+      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+                                                                                </xsl:stylesheet>

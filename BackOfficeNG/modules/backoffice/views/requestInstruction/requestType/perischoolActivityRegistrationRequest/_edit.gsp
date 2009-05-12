@@ -4,7 +4,7 @@
   <ul class="yui-nav">
   
     <li class="selected">
-      <a href="#page0"><em><g:message code="parr.step.subject.label" /></em></a>
+      <a href="#page0"><em><g:message code="parr.step.registration.label" /></em></a>
     </li>
   
     <li>
@@ -27,7 +27,7 @@
       <!-- step start -->
       <div id="page0">
         <h2><g:message code="property.form" />
-          <span><g:message code="parr.step.subject.label" /></span>
+          <span><g:message code="parr.step.registration.label" /></span>
         </h2>
         <div class="yui-g">
           
@@ -44,7 +44,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="parr.property.perischoolActivity.label" /> * : </dt><dd id="perischoolActivity" class="action-editField validate-localReferentialData required-true i18n-parr.property.perischoolActivity" >
+                <dt class="required"><g:message code="parr.property.perischoolActivity.label" /> * : </dt><dd id="perischoolActivity" class="action-editField validate-localReferentialData required-true i18n-parr.property.perischoolActivity data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'perischoolActivity', 'lrEntries': lrTypes.perischoolActivity?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.perischoolActivity?.entriesSupportMultiple, 'depth':0]" />
@@ -96,8 +96,8 @@
           <div class="yui-u first">
             
               
-              <div id="widget-otherIndividual" class="">
-                <g:render template="/backofficeRequestInstruction/requestType/perischoolActivityRegistrationRequest/otherIndividual" model="['request':request]" />
+              <div id="widget-contactIndividuals" class="">
+                <g:render template="/backofficeRequestInstruction/requestType/perischoolActivityRegistrationRequest/contactIndividuals" model="['request':request]" />
               </div>
               
             
@@ -124,6 +124,12 @@
           
           <!-- column start -->
           <div class="yui-u first">
+            
+              
+              <div id="widget-authorizedIndividuals" class="">
+                <g:render template="/backofficeRequestInstruction/requestType/perischoolActivityRegistrationRequest/authorizedIndividuals" model="['request':request]" />
+              </div>
+              
             
           </div>
           <!-- column end -->

@@ -115,6 +115,7 @@ h2.request-creation {
   border: 1px dashed #A0D158;
   font-size: .9em;
 }
+
 #requestTabView .address-fieldset input[type="text"] { width: 99%; margin: 0; padding: .1em; }
 #requestTabView .address-fieldset label { margin-top: .5em; color: #333; }
 #requestTabView .address-fieldset input[type="text"].line1 { display: inline; width: 15%; }
@@ -137,7 +138,6 @@ h2.request-creation {
 #requestTabView fieldset.collection-fieldset-edit        { padding: 1em 0 1em 1em; border: 0; border-bottom: 2px solid #FF812B; }
 #requestTabView fieldset.collection-fieldset-add legend,
 #requestTabView fieldset.collection-fieldset-edit legend { margin: 0; padding: 0; border: 1px solid #FF812B; }
-
 
 /* navigation tab link 
   TODO 
@@ -165,6 +165,40 @@ h2.request-creation {
   font-size: 1.2em; font-weight: bold;
 }
 
+/* Account creation and modification custom styles
+-------------------------------------------------------------- */
+#requestTabView div.account-fieldset                      { margin: 0 0 1em 0; }
+#requestTabView div.account-fieldset input[type="submit"] { margin: 0 0 1em; }
+
+#requestTabView div.account-fieldset input[type="text"],
+#requestTabView div.account-fieldset input[type="password"],
+#requestTabView div.account-fieldset select,
+#requestTabView div.account-fieldset textarea,
+#requestTabView div.account-fieldset .address-fieldset  { width: 90%; }
+#requestTabView div.account-fieldset .address-fieldset input[type="text"].line2 { width: 72%; }
+
+#requestTabView fieldset.account-fieldset-add { padding: 1em 1em 0 1em;  border: 0;  background: #ffd; }
+
+#requestTabView .account-fieldset-add h4                       { margin: 0 0 .5em; font-size: 1.4em; font-weight: normal; }
+#requestTabView .account-fieldset-edit h4                      { margin: 0 0 .5em; font-size: 1.6em; font-weight: normal; }
+#requestTabView .account-fieldset-edit h4 input[type="submit"] { margin: 0; font-size: .6em; }
+
+#requestTabView .account-fieldset-edit dl     { background: #fff; }
+#requestTabView .account-fieldset-edit dl dt  { width: 22em; }
+#requestTabView .account-fieldset-edit dl dd  { width: 16.75em; }
+#requestTabView .account-fieldset-edit dl input,  
+#requestTabView .account-fieldset-edit dl select { font-size: .85em; margin-bottom: 0; }
+
+#requestTabView .account-fieldset-edit select,
+#requestTabView .account-fieldset-edit input { width: auto; display: inline; }
+
+#requestTabView .account-fieldset-edit { 
+  margin-top: 1em; padding: 1em; 
+  border: 1px solid #FF812B; -moz-border-radius: .5em; 
+  background: #eee;
+}
+
+
 /* validation step (summary)
 --------------------------------------------------------------*/
 #requestTabView dl {
@@ -185,7 +219,7 @@ h2.request-creation {
 #requestTabView dl dt { width: 14em; min-height: 1.5em; text-align: right; clear: both; }
 #requestTabView dl dd { width: 25.5em; font-size: 1.15em; }
 
-#requestTabView dl dd p { padding: 0.1em; }
+#requestTabView dl dd p { margin: 0; padding: 0.1em; }
 #requestTabView dl dd li { display:block; }
 
 
@@ -195,31 +229,6 @@ h2.request-creation {
 
 #requestTabView form div #useAcceptance { margin : 2em 0 0; }
 
-
-/* creation-success
---------------------------------------------------------------*/
-#requestTabView .creation-success { background: white none repeat scroll 0 50%; margin: 1em; padding: 1em; }
-#requestTabView .creation-success dl dt { clear:both; min-height:1.5em; text-align: right; width: 30em; }
-#requestTabView .creation-success dl dd { font-size: 1.15em; width: 29em; }
-
-/* legalResponsiblesList
---------------------------------------------------------------*/
-#requestTabView .legalResponsiblesList fieldset legend { border:medium hidden; }
-#requestTabView .legalResponsiblesList ul { background: #EEEEEE none repeat scroll 0 0; border-top: 1px dashed #FF812B;}
-#requestTabView .legalResponsiblesList ul li .name {
-  float: left;
-  margin-left: 5px;
-  font-size: 1.1em;
-  padding-top: 5px;
-}
-#requestTabView .legalResponsiblesList ul li .check { float: right; padding-top: 3px; margin-right: 5px }
-#requestTabView .legalResponsiblesList ul li .action {
-  float: right;
-  font-size: 0.8em;
-  font-weight: bold;
-  padding-top: 3px;
-}
-#requestTabView .legalResponsiblesList ul li .endLine { border-top: 1px dashed #FF812B; clear: both; }
 
 /* exit request creation screen
 --------------------------------------------------------------*/

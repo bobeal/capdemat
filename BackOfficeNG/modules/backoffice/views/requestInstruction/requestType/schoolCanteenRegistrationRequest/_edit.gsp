@@ -42,7 +42,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.foodDiet.label" /> * : </dt><dd id="foodDiet" class="action-editField validate-localReferentialData required-true i18n-scrr.property.foodDiet" >
+                <dt class="required"><g:message code="scrr.property.foodDiet.label" /> * : </dt><dd id="foodDiet" class="action-editField validate-localReferentialData required-true i18n-scrr.property.foodDiet data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'foodDiet', 'lrEntries': lrTypes.foodDiet?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.foodDiet?.entriesSupportMultiple, 'depth':0]" />
@@ -53,7 +53,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.canteenAttendingDays.label" /> * : </dt><dd id="canteenAttendingDays" class="action-editField validate-localReferentialData required-true i18n-scrr.property.canteenAttendingDays" >
+                <dt class="required"><g:message code="scrr.property.canteenAttendingDays.label" /> * : </dt><dd id="canteenAttendingDays" class="action-editField validate-localReferentialData required-true i18n-scrr.property.canteenAttendingDays data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'canteenAttendingDays', 'lrEntries': lrTypes.canteenAttendingDays?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.canteenAttendingDays?.entriesSupportMultiple, 'depth':0]" />

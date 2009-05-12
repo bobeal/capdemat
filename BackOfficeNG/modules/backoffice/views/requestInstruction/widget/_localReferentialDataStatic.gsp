@@ -20,11 +20,9 @@
   </ul>
 </g:if>
 <g:else>
-  <div>
   <g:each var="entry" in="${lrEntries}">
     <g:if test="${lrDatas?.contains(entry.key)}">
     <span class="entry:${entry.key}">${entry.labelsMap.fr}</span>
     </g:if>
   </g:each>
-  </div>
 </g:else>

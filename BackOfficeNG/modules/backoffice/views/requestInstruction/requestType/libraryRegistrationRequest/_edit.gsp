@@ -1,0 +1,114 @@
+
+
+<div id="requestData" class="yellow-yui-tabview">
+  <ul class="yui-nav">
+  
+    <li class="selected">
+      <a href="#page0"><em><g:message code="lrr.step.registration.label" /></em></a>
+    </li>
+  
+    <li>
+      <a href="#page1"><em><g:message code="lrr.step.rules.label" /></em></a>
+    </li>
+  
+  </ul>
+   
+  <div class="yui-content">
+    
+      
+      <!-- step start -->
+      <div id="page0">
+        <h2><g:message code="property.form" />
+          <span><g:message code="lrr.step.registration.label" /></span>
+        </h2>
+        <div class="yui-g">
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
+              <dd><span>${request?.subjectFirstName} ${request?.subjectLastName}</span></dd>
+          
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required"><g:message code="lrr.property.subscription.label" /> * : </dt><dd id="subscription" class="action-editField validate-localReferentialData required-true i18n-lrr.property.subscription data-localReferentialData" >
+           <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
+                     model="['javaName':'subscription', 'lrEntries': lrTypes.subscription?.entries, 
+                             'rqt':request, 'isMultiple':lrTypes.subscription?.entriesSupportMultiple, 'depth':0]" />
+ 
+          </dd>
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
+              
+              <dl>
+                <dt class="required"><g:message code="lrr.property.registrationNumber.label" /> * : </dt><dd id="registrationNumber" class="action-editField validate-string required-true i18n-lrr.property.registrationNumber" ><span>${request?.registrationNumber}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required"><g:message code="lrr.property.subscriptionPrice.label" /> * : </dt><dd id="subscriptionPrice" class="action-editField validate-subscriptionPrice required-true i18n-lrr.property.subscriptionPrice" ><span>${request?.subscriptionPrice}</span></dd>
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- data step  end -->
+      </div>
+      <!-- step end -->
+      
+      <!-- step start -->
+      <div id="page1">
+        <h2><g:message code="property.form" />
+          <span><g:message code="lrr.step.rules.label" /></span>
+        </h2>
+        <div class="yui-g">
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class="required"><g:message code="lrr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-lrr.property.rulesAndRegulationsAcceptance" ><span class="value-${request?.rulesAndRegulationsAcceptance}"><g:message code="message.${request?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required"><g:message code="lrr.property.parentalAuthorization.label" /> * : </dt><dd id="parentalAuthorization" class="action-editField validate-acceptance required-true i18n-lrr.property.parentalAuthorization" ><span class="value-${request?.parentalAuthorization}"><g:message code="message.${request?.parentalAuthorization ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- data step  end -->
+      </div>
+      <!-- step end -->
+      
+    
+    
+  </div>
+  
+</div>

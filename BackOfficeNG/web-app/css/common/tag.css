@@ -37,7 +37,7 @@ payment : initialized, validated, refused, cancelled
 /* category profils */
 .tag-read_only, .tag-read_write, .tag-manager,
 /*  role */
-.tag-homefolderresponsible, .tag-clrmother, .tag-clrfather, .tag-clrtutor, tutor,
+.tag-homefolderresponsible, .tag-clrmother, .tag-clrfather, .tag-clrtutor, .tag-tutor, .tag-foreigner,
 /*  payment */ 
 .tag-initialized,
 /*  request creation */ 
@@ -100,6 +100,7 @@ payment : initialized, validated, refused, cancelled
 .tag-clrmother    { background: #ff00aa; border-color:#ff0088; }
 
 /* gray */
+.tag-foreigner,
 .tag-closed,
 .tag-cancelled,
 .tag-archived,

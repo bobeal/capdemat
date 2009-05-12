@@ -2,10 +2,14 @@
 
 
   
-    <label class="required"><g:message code="parr.property.rulesAndRegulationsAcceptance.label" /> *  <span><g:message code="parr.property.rulesAndRegulationsAcceptance.help" /></span></label>
-              <g:if test="${availableRules.contains('rulesAndRegulationsAcceptance')}">
-                <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'rulesAndRegulationsAcceptance'])}"><g:message code="action.consult" /></a>
-              </g:if>
+    
+              <label class="required">
+                <g:message code="parr.property.rulesAndRegulationsAcceptance.label" /> *
+                <g:if test="${availableRules.contains('rulesAndRegulationsAcceptance')}">
+                  <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'rulesAndRegulationsAcceptance'])}"><span><g:message code="request.action.consult.rules" /></span></a>
+                </g:if>
+                <span><g:message code="parr.property.rulesAndRegulationsAcceptance.help" /></span>
+              </label>
               <ul class="yes-no required">
                 <g:each in="${[true,false]}">
                   <li>
@@ -19,10 +23,14 @@
   
 
   
-    <label class="required"><g:message code="parr.property.classTripPermission.label" /> *  <span><g:message code="parr.property.classTripPermission.help" /></span></label>
-              <g:if test="${availableRules.contains('classTripPermission')}">
-                <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'classTripPermission'])}"><g:message code="action.consult" /></a>
-              </g:if>
+    
+              <label class="required">
+                <g:message code="parr.property.classTripPermission.label" /> *
+                <g:if test="${availableRules.contains('classTripPermission')}">
+                  <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'classTripPermission'])}"><span><g:message code="request.action.consult.rules" /></span></a>
+                </g:if>
+                <span><g:message code="parr.property.classTripPermission.help" /></span>
+              </label>
               <ul class="yes-no required">
                 <g:each in="${[true,false]}">
                   <li>
@@ -36,10 +44,14 @@
   
 
   
-    <label class="required"><g:message code="parr.property.childPhotoExploitationPermission.label" /> *  <span><g:message code="parr.property.childPhotoExploitationPermission.help" /></span></label>
-              <g:if test="${availableRules.contains('childPhotoExploitationPermission')}">
-                <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'childPhotoExploitationPermission'])}"><g:message code="action.consult" /></a>
-              </g:if>
+    
+              <label class="required">
+                <g:message code="parr.property.childPhotoExploitationPermission.label" /> *
+                <g:if test="${availableRules.contains('childPhotoExploitationPermission')}">
+                  <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'childPhotoExploitationPermission'])}"><span><g:message code="request.action.consult.rules" /></span></a>
+                </g:if>
+                <span><g:message code="parr.property.childPhotoExploitationPermission.help" /></span>
+              </label>
               <ul class="yes-no required">
                 <g:each in="${[true,false]}">
                   <li>
@@ -53,10 +65,14 @@
   
 
   
-    <label class="required"><g:message code="parr.property.hospitalizationPermission.label" /> *  <span><g:message code="parr.property.hospitalizationPermission.help" /></span></label>
-              <g:if test="${availableRules.contains('hospitalizationPermission')}">
-                <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'hospitalizationPermission'])}"><g:message code="action.consult" /></a>
-              </g:if>
+    
+              <label class="required">
+                <g:message code="parr.property.hospitalizationPermission.label" /> *
+                <g:if test="${availableRules.contains('hospitalizationPermission')}">
+                  <a target="_blank" href="${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'hospitalizationPermission'])}"><span><g:message code="request.action.consult.rules" /></span></a>
+                </g:if>
+                <span><g:message code="parr.property.hospitalizationPermission.help" /></span>
+              </label>
               <ul class="yes-no required">
                 <g:each in="${[true,false]}">
                   <li>

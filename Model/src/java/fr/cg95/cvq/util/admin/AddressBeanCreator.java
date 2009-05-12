@@ -1,6 +1,3 @@
-/**
- * 
- */
 package fr.cg95.cvq.util.admin;
 
 import java.io.File;

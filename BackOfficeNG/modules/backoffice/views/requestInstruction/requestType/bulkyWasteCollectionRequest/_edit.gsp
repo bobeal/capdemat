@@ -24,7 +24,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="bwc.property.bulkyWasteType.label" /> * : </dt><dd id="bulkyWasteType" class="action-editField validate-localReferentialData required-true i18n-bwc.property.bulkyWasteType" >
+                <dt class="required"><g:message code="bwc.property.bulkyWasteType.label" /> * : </dt><dd id="bulkyWasteType" class="action-editField validate-localReferentialData required-true i18n-bwc.property.bulkyWasteType data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'bulkyWasteType', 'lrEntries': lrTypes.bulkyWasteType?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.bulkyWasteType?.entriesSupportMultiple, 'depth':0]" />

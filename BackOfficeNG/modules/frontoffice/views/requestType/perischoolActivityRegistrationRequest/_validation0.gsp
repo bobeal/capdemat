@@ -2,7 +2,7 @@
 
 
   
-    <h3><g:message code="parr.step.subject.label" /></h3>
+    <h3><g:message code="parr.step.registration.label" /></h3>
     
       
       <dl>
@@ -36,9 +36,35 @@
     <h3><g:message code="parr.step.contact.label" /></h3>
     
       
-      <h4><g:message code="parr.property.otherIndividual.label" /></h4>
-      <g:each var="it" in="${rqt.otherIndividual}" status="index">
+      <h4><g:message code="parr.property.contactIndividuals.label" /></h4>
+      <g:each var="it" in="${rqt.contactIndividuals}" status="index">
       <dl>
+        
+          <dt><g:message code="parr.property.lastName.label" /></dt><dd>${it.lastName}</dd>
+
+        
+          <dt><g:message code="parr.property.firstName.label" /></dt><dd>${it.firstName}</dd>
+
+        
+          <dt><g:message code="parr.property.address.label" /></dt>
+          <dd>
+          <g:if test="${it.address}">
+              <p>${it.address?.additionalDeliveryInformation}</p>
+              <p>${it.address?.additionalGeographicalInformation}</p>
+              <p>${it.address?.streetNumber} ${it.address?.streetName}</p>
+              <p>${it.address?.placeNameOrService}</p>
+              <p>${it.address?.postalCode} ${it.address?.city}</p>
+              <p>${it.address?.countryName}</p>
+          </g:if>
+          </dd>
+          
+
+        
+          <dt><g:message code="parr.property.homePhone.label" /></dt><dd>${it.homePhone}</dd>
+
+        
+          <dt><g:message code="parr.property.officePhone.label" /></dt><dd>${it.officePhone}</dd>
+
         
       </dl>
       </g:each>
@@ -48,6 +74,41 @@
 
   
     <h3><g:message code="parr.step.authorization.label" /></h3>
+    
+      
+      <h4><g:message code="parr.property.authorizedIndividuals.label" /></h4>
+      <g:each var="it" in="${rqt.authorizedIndividuals}" status="index">
+      <dl>
+        
+          <dt><g:message code="parr.property.lastName.label" /></dt><dd>${it.lastName}</dd>
+
+        
+          <dt><g:message code="parr.property.firstName.label" /></dt><dd>${it.firstName}</dd>
+
+        
+          <dt><g:message code="parr.property.address.label" /></dt>
+          <dd>
+          <g:if test="${it.address}">
+              <p>${it.address?.additionalDeliveryInformation}</p>
+              <p>${it.address?.additionalGeographicalInformation}</p>
+              <p>${it.address?.streetNumber} ${it.address?.streetName}</p>
+              <p>${it.address?.placeNameOrService}</p>
+              <p>${it.address?.postalCode} ${it.address?.city}</p>
+              <p>${it.address?.countryName}</p>
+          </g:if>
+          </dd>
+          
+
+        
+          <dt><g:message code="parr.property.homePhone.label" /></dt><dd>${it.homePhone}</dd>
+
+        
+          <dt><g:message code="parr.property.officePhone.label" /></dt><dd>${it.officePhone}</dd>
+
+        
+      </dl>
+      </g:each>
+      
     
   
 

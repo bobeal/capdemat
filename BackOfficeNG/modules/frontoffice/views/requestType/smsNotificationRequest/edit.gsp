@@ -59,7 +59,6 @@
         <li class="${['subscription', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
           <a href="#subscription"><em>
-          <span class="tag-no_right">1</span>
           <span class="tag-state ${stepStates!= null ? stepStates.subscription.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subscription.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -77,7 +76,6 @@
         <li class="${currentStep == 'document' ? 'selected' : ''}">
   
           <a href="#document"><em>
-          <span class="tag-no_right">2</span>
           <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="request.step.document.label" />
@@ -93,7 +91,6 @@
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
   
           <a href="#validation"><em>
-          <span class="tag-no_right">3</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -111,6 +108,7 @@
   
        <div id="subscription">
          <form method="POST"  id="stepForm-subscription" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.subscription.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subscription.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -154,6 +152,7 @@
   
        <div id="document">
          <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -195,6 +194,7 @@
   
        <div id="validation">
          <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
   

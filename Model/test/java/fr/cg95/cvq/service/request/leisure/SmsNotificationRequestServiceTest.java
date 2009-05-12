@@ -39,6 +39,10 @@ public class SmsNotificationRequestServiceTest extends ServiceTestCase {
 
         SmsNotificationRequest request = new SmsNotificationRequest();
               request.setCleverSmsContactId("CleverSmsContactId");
+                  if ("MobilePhone".length() > 10)
+        request.setMobilePhone("MobilePhone".substring(0, 10));
+      else
+        request.setMobilePhone("MobilePhone");
                         request.setSubscription(Boolean.valueOf(true));
   
         // Means Of Contact

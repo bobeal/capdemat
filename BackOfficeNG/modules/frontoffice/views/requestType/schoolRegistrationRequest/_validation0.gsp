@@ -2,7 +2,7 @@
 
 
   
-    <h3><g:message code="srr.step.subject.label" /></h3>
+    <h3><g:message code="srr.step.registration.label" /></h3>
     
       
       <dl>

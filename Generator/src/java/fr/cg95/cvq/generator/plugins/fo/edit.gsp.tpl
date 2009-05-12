@@ -63,7 +63,6 @@
         <li class="\${currentStep == '${step.name}' ? 'selected' : ''}">
   <% } %>
           <a href="#${step.name}"><em>
-          <span class="tag-no_right">${step.index + 1}</span>
           <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
     <% if (step.name == 'validation' || step.required) { %>
           <strong>

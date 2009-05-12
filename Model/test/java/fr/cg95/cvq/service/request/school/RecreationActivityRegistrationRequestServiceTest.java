@@ -39,10 +39,10 @@ public class RecreationActivityRegistrationRequestServiceTest extends ServiceTes
 
         RecreationActivityRegistrationRequest request = new RecreationActivityRegistrationRequest();
              request.setRecreationCenter(recreationCenterService.getAll().get(0));
-                request.setClassTripPermission(Boolean.valueOf(true));
+                                request.setClassTripPermission(Boolean.valueOf(true));
                     request.setChildPhotoExploitationPermission(Boolean.valueOf(true));
             request.setHospitalizationPermission(Boolean.valueOf(true));
-                    request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
+            request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
               if ("UrgencyPhone".length() > 10)
         request.setUrgencyPhone("UrgencyPhone".substring(0, 10));
       else

@@ -39,13 +39,12 @@ import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
-import com.sun.org.apache.xpath.internal.FoundIndex;
-
 /**
  *
  * @author bor@zenexity.fr
  */
 public class RequestTypeService implements IRequestTypeService {
+
     private static Logger logger = Logger.getLogger(RequestTypeService.class);
     
     private IDocumentTypeService documentTypeService;

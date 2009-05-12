@@ -17,6 +17,15 @@
     alter table alignment_certificate_request 
         drop constraint FK9EBFB38B1F88D72E;
 
+    alter table alignment_numbering_connection_request 
+        drop constraint FKEBD1311082587E99;
+
+    alter table alignment_numbering_connection_request 
+        drop constraint FKEBD131101F88D72E;
+
+    alter table alignment_numbering_connection_request 
+        drop constraint FKEBD13110C6C3DEB1;
+
     alter table birth_details_request 
         drop constraint FKB356961282587E99;
 
@@ -458,6 +467,8 @@
 
     drop table alignment_certificate_request;
 
+    drop table alignment_numbering_connection_request;
+
     drop table birth_details_request;
 
     drop table bulky_waste_collection_request;
@@ -710,6 +721,26 @@
         number bytea,
         owner_last_name varchar(38),
         owner_address_id int8,
+        primary key (id)
+    );
+
+    create table alignment_numbering_connection_request (
+        id int8 not null,
+        is_numbering bool,
+        other_address_id int8,
+        owner_first_names varchar(255),
+        number bytea,
+        area bytea,
+        more_than_two_years bool,
+        owner_address_id int8,
+        requester_quality varchar(255),
+        section varchar(255),
+        transportation_route varchar(255),
+        locality varchar(255),
+        is_connection bool,
+        is_account_address bool,
+        is_alignment bool,
+        owner_last_name varchar(38),
         primary key (id)
     );
 
@@ -2118,6 +2149,21 @@
     alter table alignment_certificate_request 
         add constraint FK9EBFB38B1F88D72E 
         foreign key (owner_address_id) 
+        references address;
+
+    alter table alignment_numbering_connection_request 
+        add constraint FKEBD1311082587E99 
+        foreign key (id) 
+        references request;
+
+    alter table alignment_numbering_connection_request 
+        add constraint FKEBD131101F88D72E 
+        foreign key (owner_address_id) 
+        references address;
+
+    alter table alignment_numbering_connection_request 
+        add constraint FKEBD13110C6C3DEB1 
+        foreign key (other_address_id) 
         references address;
 
     alter table birth_details_request 

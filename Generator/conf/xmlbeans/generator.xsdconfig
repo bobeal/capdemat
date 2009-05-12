@@ -78,6 +78,11 @@
     <xb:package>fr.cg95.cvq.xml.request.urbanism</xb:package>
   </xb:namespace>
 
+  <!-- Alignment Numbering Connection Request -->
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/ancr">
+    <xb:package>fr.cg95.cvq.xml.request.urbanism</xb:package>
+  </xb:namespace>
+
   <!-- Sewer Connection Request -->
   <xb:namespace uri="http://www.cg95.fr/cvq/schema/scr">
     <xb:package>fr.cg95.cvq.xml.request.urbanism</xb:package>

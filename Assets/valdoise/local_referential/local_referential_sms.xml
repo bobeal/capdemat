@@ -16,21 +16,3 @@
         </entries>        
     </data>
 </LocalReferential>
-<?xml version="1.0" encoding="UTF-8"?>
-<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-    <request>SmsNotificationRequest</request>
-    <data name="Interests">
-        <label lang="fr">Centres d'intérêt</label>
-        <label lang="en">Interests</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
-            <entry key="Information-voirie">
-                <label lang="fr">Information voirie</label>
-                <message lang="fr"/>
-            </entry>
-            <entry key="Information-sportive">
-                <label lang="fr">Information sportive</label>
-                <message lang="fr"/>
-            </entry>
-        </entries>
-    </data>
-</LocalReferential>

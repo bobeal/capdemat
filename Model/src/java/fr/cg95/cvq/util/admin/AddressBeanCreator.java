@@ -6,15 +6,15 @@ package fr.cg95.cvq.util.admin;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hibernate.transform.Transformers;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import fr.cg95.cvq.business.request.school.OtherIndividual;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
@@ -39,37 +39,36 @@ public class AddressBeanCreator {
         AddressBeanCreator addressBeanCreator = new AddressBeanCreator();
         addressBeanCreator.localAuthorityRegistry = (LocalAuthorityRegistry)cpxa.getBean("localAuthorityRegistry");
         addressBeanCreator.customDAO = new CustomDAO();
-        addressBeanCreator.localAuthorityRegistry.browseAndCallback(addressBeanCreator, "createAddressBeans", null);
+        addressBeanCreator.localAuthorityRegistry.browseAndCallback(addressBeanCreator, "createAddressBeans", new Object[]{args[0], args[1]});
     }
 
-    public void createAddressBeans() {
+    public void createAddressBeans(String table, String field) {
         String localAuthorityName = SecurityContext.getCurrentSite().getName();
-        System.out.println("OtherIndividual addresses' migration for : " + localAuthorityName);
+        System.out.println(table + "'s addresses migration for : " + localAuthorityName);
         System.out.println();
-        Map<Long, String> errors = new HashMap<Long, String>();
-        for (OtherIndividual o : customDAO.listAll()) {
-            System.out.println("\tdealing with address " + o.getAddress());
-            if (o.getAddress() != null) {
-                Address address = parseAddress(o.getAddress());
+        List<BeanDTO> errors = new ArrayList<BeanDTO>();
+        for (BeanDTO o : customDAO.list(table, field)) {
+            System.out.println("\tdealing with address " + o.address);
+            if (o.address != null) {
+                Address address = parseAddress(o.address);
                 if (address != null) {
                     System.out.println("\tgenerated address bean : " + address);
                     customDAO.saveOrUpdate(address);
-                    o.setAddress(address.getId().toString());
-                    customDAO.saveOrUpdate(o);
+                    o.address = address.getId().toString();
                 } else {
-                    errors.put(o.getId(), o.getAddress());
-                    o.setAddress(null);
-                    customDAO.saveOrUpdate(o);
+                    errors.add(o);
+                    o.address = null;
                 }
+                customDAO.updateAddress(table, field, o);
             }
             System.out.println();
         }
         try {
             File file = 
-                File.createTempFile(localAuthorityName + "_otherindividual_ambiguous_addresses_", ".txt");
+                File.createTempFile(localAuthorityName + "_" + table + "_ambiguous_addresses_", ".txt");
             FileOutputStream fos = new FileOutputStream(file);
-            for (Long id : errors.keySet()) {
-                fos.write((id + " : " + errors.get(id) + "\n").getBytes());
+            for (BeanDTO o : errors) {
+                fos.write((o.id + " : " + o.address + "\n").getBytes());
             }
         } catch(IOException ioe){
             ioe.printStackTrace();
@@ -116,8 +115,28 @@ public class AddressBeanCreator {
 
     private static class CustomDAO extends GenericDAO implements IGenericDAO {
         @SuppressWarnings("unchecked")
-        public List<OtherIndividual> listAll() {
-            return (List<OtherIndividual>)HibernateUtil.getSession().createCriteria(OtherIndividual.class).list();
+        public List<BeanDTO> list(String table, String field) {
+            return (List<BeanDTO>)HibernateUtil.getSession()
+                .createSQLQuery("select id, " + field + " as address from " + table)
+                .addScalar("id")
+                .addScalar("address")
+                .setResultTransformer(Transformers.aliasToBean(BeanDTO.class))
+                .list();
+        }
+        public void updateAddress(String table, String field, BeanDTO o) {
+            HibernateUtil.getSession()
+                .createSQLQuery("update " + table + " set " + field + " = :address where id = :id")
+                .setString("address", o.address)
+                .setLong("id", o.id)
+                .executeUpdate();
+        }
+    }
+
+    public static class BeanDTO {
+        private Long id;
+        public String address;
+        public void setId(BigInteger id) {
+            this.id = id.longValue();
         }
     }
 }

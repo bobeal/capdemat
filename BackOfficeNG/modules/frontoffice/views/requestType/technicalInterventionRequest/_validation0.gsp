@@ -2,7 +2,7 @@
 
 
   
-    <h3><g:message code="tir.step.subject.label" /></h3>
+    <h3><g:message code="tir.step.intervention.label" /></h3>
     
       
       <dl>

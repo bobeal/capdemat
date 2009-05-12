@@ -361,22 +361,6 @@ alter table local_authority add column admin_email varchar(255);
 
 alter table technical_intervention_request add column other_intervention_label varchar(255);
 
--- update to bulky waste collection request
-ALTER TABLE bulky_waste_collection_request DROP COLUMN collection_address;
-ALTER TABLE bulky_waste_collection_request ADD COLUMN collection_address_id int8;
-ALTER TABLE bulky_waste_collection_request 
-  ADD CONSTRAINT FK1F104ECB1AE70A63 
-  FOREIGN KEY (collection_address_id) 
-  REFERENCES address;
-
--- update to compostable waste collection request
-ALTER TABLE compostable_waste_collection_request DROP COLUMN collection_address;
-ALTER TABLE compostable_waste_collection_request ADD COLUMN collection_address_id int8;
-ALTER TABLE compostable_waste_collection_request 
-  ADD CONSTRAINT FKAFF728771AE70A63 
-  FOREIGN KEY (collection_address_id) 
-  REFERENCES address;
-
 -- update to electoral roll registration request
 UPDATE electoral_roll_registration_request SET subject_nationality='French' WHERE subject_nationality='FR';
 UPDATE electoral_roll_registration_request SET subject_nationality='EuropeanUnion' WHERE subject_nationality='EEC';
@@ -474,3 +458,11 @@ alter table recreation_contact_individual
   add constraint FK52B67F654C4C853A 
   foreign key (recreation_activity_registration_request_id) 
   references recreation_activity_registration_request; 
+
+drop table personal_details_request;
+delete from request_note where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from request_document where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from request_action where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from forms where request_type_id=(select id from request_type where label='Personal Details');
+delete from request where request_type_id = (select id from request_type where label='Personal Details');
+delete from request_type where id=(select id from request_type where label='Personal Details');

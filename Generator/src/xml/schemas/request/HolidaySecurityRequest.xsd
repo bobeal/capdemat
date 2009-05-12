@@ -30,7 +30,9 @@
           <steps>
             <step index="0" name="registration" >
               <widgets>
-                <subject />
+                <subject>
+                  <autofill name="subjectMobilePhone" type="trigger" />
+                </subject>
               </widgets>
              </step>
             <step index="1" name="rules" />
@@ -176,6 +178,7 @@
                 <xs:appinfo>
                   <common>
                     <step name="contactphone" />
+                    <autofill name="subjectMobilePhone" type="listener" field="mobilePhone" />
                   </common>
                   <fo />
                   <bo column="1" />

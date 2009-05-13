@@ -60,6 +60,8 @@ public interface IIndividualDAO extends IGenericDAO {
      */
     List<Individual> listByHomeFolderRole(final Long homeFolderId, final RoleType role);
     
+    List<Individual> listByHomeFolderRoles(final Long homeFolderId, final RoleType[] roles);
+    
     /**
      * Return the list of {@link Individual individuals} who have the given role (if one 
      * provided) or any role (if none provided) on the given subject.

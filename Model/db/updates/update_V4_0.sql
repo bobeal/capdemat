@@ -466,3 +466,39 @@ delete from request_action where request_id in (select id from request where req
 delete from forms where request_type_id=(select id from request_type where label='Personal Details');
 delete from request where request_type_id = (select id from request_type where label='Personal Details');
 delete from request_type where id=(select id from request_type where label='Personal Details');
+
+create table alignment_numbering_connection_request (
+  id int8 not null,
+  is_numbering bool,
+  other_address_id int8,
+  owner_first_names varchar(255),
+  number bytea,
+  area bytea,
+  more_than_two_years bool,
+  owner_address_id int8,
+  requester_quality varchar(255),
+  section varchar(255),
+  transportation_route varchar(255),
+  locality varchar(255),
+  is_connection bool,
+  is_account_address bool,
+  is_alignment bool,
+  owner_last_name varchar(38),
+  primary key (id)
+);
+alter table alignment_numbering_connection_request owner to cvq95;
+
+alter table alignment_numbering_connection_request 
+  add constraint FKEBD1311082587E99 
+  foreign key (id) 
+  references request;
+
+alter table alignment_numbering_connection_request 
+  add constraint FKEBD131101F88D72E 
+  foreign key (owner_address_id) 
+  references address;
+
+alter table alignment_numbering_connection_request 
+  add constraint FKEBD13110C6C3DEB1 
+  foreign key (other_address_id) 
+  references address;

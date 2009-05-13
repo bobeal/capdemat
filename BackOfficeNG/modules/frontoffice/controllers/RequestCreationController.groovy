@@ -88,7 +88,9 @@ class RequestCreationController {
             homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE)
         }
         
-        def individuals = new HomeFolderDTO()
+        def individuals
+        if (params.label != 'Home Folder Modification') individuals = new HomeFolderDTO()
+        else individuals = new HomeFolderDTO(requester.homeFolder, getAllRoleOwners(requester.homeFolder))
         
         def newDocuments = [] as Set
         
@@ -277,7 +279,8 @@ class RequestCreationController {
             }
             else if (submitAction[1] == 'addRole' && params."owner-${submitAction[3]}" != '' && params."role-${submitAction[3]}" != '') {
                 def roleParam = targetAsMap(submitAction[3])
-                def ownerIndex = Integer.valueOf(params."owner-${submitAction[3]}")  
+                def homeFolderId = params.homeFolderId.length() > 0 ? Long.valueOf(params.homeFolderId) : null
+                def ownerIndex = Integer.valueOf(params."owner-${submitAction[3]}")
                 def owner = objectToBind.individuals."${roleParam.ownerType}"[ownerIndex]
                 def role = RoleType.forString(params."role-${submitAction[3]}")
                 def individual = null
@@ -286,21 +289,27 @@ class RequestCreationController {
                 }
                 if (role == RoleType.HOME_FOLDER_RESPONSIBLE) {
                     objectToBind.individuals.adults.eachWithIndex { adult, index ->
-                        homeFolderService.removeRole(adult, null, role)
+                        if (SecurityContext.currentEcitizen == null) homeFolderService.removeRole(adult, null, role)
+                        else homeFolderService.removeRole(adult, null, homeFolderId, role)
                     }
                     objectToBind.requester = owner
                 }
-                homeFolderService.addRole(owner, individual, role)
+                
+                if (SecurityContext.currentEcitizen == null) homeFolderService.addRole(owner, individual, role)
+                else homeFolderService.addRole(owner, individual, homeFolderId, role)
             }
             else if (submitAction[1] == 'removeRole') {
                 def roleParam = targetAsMap(submitAction[3])
+                def homeFolderId = params.homeFolderId.length() > 0 ? Long.valueOf(params.homeFolderId) : null
                 def owner = objectToBind.individuals."${roleParam.ownerType}"[Integer.valueOf("${roleParam.ownerIndex}")]
                 def role = RoleType.forString(roleParam.role)
                 def individual = null
                 if (roleParam.individualIndex != null) {
                     individual = objectToBind.individuals."${roleParam.individualType}"[Integer.valueOf("${roleParam.individualIndex}")]
                 }
-                homeFolderService.removeRole(owner, individual, role)
+                
+                if (SecurityContext.currentEcitizen == null) homeFolderService.removeRole(owner, individual, role)
+                else homeFolderService.removeRole(owner, individual, homeFolderId, role)
             }
             else if (submitAction[1] == 'tutorsEdit') {
                 session[uuidString].isTutorsEdit = true
@@ -331,10 +340,14 @@ class RequestCreationController {
                     // bind the selected means of contact into request
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
-                    
+        
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
-                    if (requestTypeInfo.label == 'VO Card Request')
-                        requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.requester.adress, docs)
+                    if (requestTypeInfo.label == 'Home Folder Modification') {
+                        def hfmr = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
+                        requestService.modify(hfmr, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.requester.adress)
+                    }
+                    else if (requestTypeInfo.label == 'VO Card Request')
+                        requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.tutors, objectToBind.requester.adress, docs)
                     else if (SecurityContext.currentEcitizen == null) 
                         requestService.create(cRequest, objectToBind.requester, null, docs)
                     else if (!cRequest.draft) 
@@ -513,6 +526,17 @@ class RequestCreationController {
             doc.datas = new ArrayList<DocumentBinary>()
         }
         return doc
+    }
+    
+    /* Home Folder Modification
+     * ------------------------------------------------------------------------------------------- */
+    def getAllRoleOwners(homeFolder) {
+        def owners = [] as Set
+        homeFolder.individuals.each {
+            owners += homeFolderService.getBySubjectRoles(it.id, RoleType.allRoleTypes)
+        }
+        owners += homeFolderService.listByHomeFolderRoles(homeFolder.id, RoleType.homeFolderRoleTypes)
+        return owners
     }
     
     /* Utils

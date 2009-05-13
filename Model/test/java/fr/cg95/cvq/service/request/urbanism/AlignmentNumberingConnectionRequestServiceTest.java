@@ -47,12 +47,12 @@ public class AlignmentNumberingConnectionRequestServiceTest extends ServiceTestC
             request.setMoreThanTwoYears(Boolean.valueOf(true));
                             Address OwnerAddress = BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012");
             request.setOwnerAddress(OwnerAddress);
-    	                  request.setRequesterQuality(AncrRequesterQualityType.CABINET);
+    	                  request.setRequesterQuality(AncrRequesterQualityType.OWNER);
                     request.setSection("Section");
                     request.setTransportationRoute("TransportationRoute");
                     request.setLocality("Locality");
                 request.setIsConnection(Boolean.valueOf(true));
-            request.setIsAccountAddress(Boolean.valueOf(false));
+            request.setIsAccountAddress(Boolean.valueOf(true));
             request.setIsAlignment(Boolean.valueOf(true));
               if ("OwnerLastName".length() > 38)
         request.setOwnerLastName("OwnerLastName".substring(0, 38));

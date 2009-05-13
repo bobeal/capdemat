@@ -486,6 +486,7 @@ create table alignment_numbering_connection_request (
   owner_last_name varchar(38),
   primary key (id)
 );
+alter table alignment_numbering_connection_request owner to cvq95;
 
 alter table alignment_numbering_connection_request 
   add constraint FKEBD1311082587E99 

@@ -441,7 +441,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="alignmentNumberingConnectionRequestService"
     class="fr.cg95.cvq.service.request.urbanism.impl.AlignmentNumberingConnectionRequestService"
     parent="requestService">
-    <property name="supportUnregisteredCreation" value="false"/>
     <property name="label" value="Alignment Numbering Connection"/>
     <property name="xslFoFilename" value="alignmentNumberingConnectionRequest.xsl"/>
   </bean>

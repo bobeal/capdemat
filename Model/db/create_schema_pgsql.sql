@@ -1649,22 +1649,22 @@
         id int8 not null,
         format varchar(255),
         copies bytea,
-        marriage_husband_first_names varchar(255),
-        marriage_city varchar(32),
-        comment varchar(255),
-        marriage_wife_last_name varchar(38),
-        requester_quality_precision varchar(255),
-        motive varchar(255),
-        requester_quality varchar(255),
-        marriage_date timestamp,
-        father_last_name varchar(38),
         marriage_husband_last_name varchar(38),
-        relationship varchar(255),
         marriage_wife_first_names varchar(255),
-        mother_first_names varchar(255),
+        comment varchar(255),
+        requester_quality_precision varchar(255),
         father_first_names varchar(255),
         marriage_postal_code varchar(2),
         mother_maiden_name varchar(38),
+        marriage_husband_first_names varchar(255),
+        requester_quality varchar(255),
+        marriage_city varchar(32),
+        marriage_wife_last_name varchar(38),
+        marriage_date timestamp,
+        father_last_name varchar(38),
+        relationship varchar(255),
+        mother_first_names varchar(255),
+        motive varchar(255),
         primary key (id)
     );
 
@@ -1748,13 +1748,13 @@
 
     create table perischool_activity_registration_request (
         id int8 not null,
-        rules_and_regulations_acceptance bool,
-        section varchar(32),
-        child_photo_exploitation_permission bool,
         class_trip_permission bool,
-        urgency_phone varchar(10),
-        hospitalization_permission bool,
+        child_photo_exploitation_permission bool,
         school_id int8,
+        hospitalization_permission bool,
+        rules_and_regulations_acceptance bool,
+        urgency_phone varchar(10),
+        section varchar(32),
         primary key (id)
     );
 
@@ -1843,12 +1843,12 @@
 
     create table recreation_activity_registration_request (
         id int8 not null,
-        rules_and_regulations_acceptance bool,
-        child_photo_exploitation_permission bool,
-        class_trip_permission bool,
-        urgency_phone varchar(10),
-        hospitalization_permission bool,
         recreation_center_id int8,
+        class_trip_permission bool,
+        child_photo_exploitation_permission bool,
+        hospitalization_permission bool,
+        rules_and_regulations_acceptance bool,
+        urgency_phone varchar(10),
         primary key (id)
     );
 
@@ -2081,8 +2081,8 @@
     create table sms_notification_request (
         id int8 not null,
         clever_sms_contact_id varchar(255),
-        subscription bool,
         mobile_phone varchar(10),
+        subscription bool,
         primary key (id)
     );
 
@@ -2095,9 +2095,9 @@
 
     create table technical_intervention_request (
         id int8 not null,
+        other_intervention_label varchar(255),
         intervention_description varchar(255),
         intervention_place_id int8,
-        other_intervention_label varchar(255),
         primary key (id)
     );
 

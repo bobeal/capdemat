@@ -18,10 +18,10 @@
         Alignment, numbering, connection request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Demande d'alignement, numérotage, raccordement
+        Alignement, numérotage, raccordement
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Alignment, numbering, connection request
+        Alignment, numbering, connection
       </xs:documentation>
       <xs:appinfo>
         <model namespace="urbanism" />

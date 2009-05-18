@@ -4,12 +4,6 @@
 
 	<!-- Back Office Web Services -->
 	
-	<bean name="/AgentTaskService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="service" ref="agentTaskService" />
-		<property name="serviceInterface" value="fr.cg95.cvq.exporter.service.bo.IAgentTaskService" />
-	</bean>
-
 	<bean name="/ProvisioningService"
 		class="org.springframework.remoting.caucho.HessianServiceExporter">
 		<property name="service" ref="provisioningService" />

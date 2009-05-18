@@ -1,5 +1,6 @@
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
@@ -7,10 +8,13 @@ import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean
 import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import fr.cg95.cvq.util.web.filter.CASFilter
 
+import edu.yale.its.tp.cas.client.CASReceipt
+import edu.yale.its.tp.cas.client.ProxyTicketValidator
+import edu.yale.its.tp.cas.client.CASAuthenticationException
+
 import javax.servlet.ServletException
 
 import org.hibernate.SessionFactory
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 class SessionFilters {
     
@@ -60,7 +64,7 @@ class SessionFilters {
             }
         }
         
-        setupFrontUser(controller: 'frontoffice*', action: '*') {
+        authenticateAndSetupFrontUser(controller: 'frontoffice*', action: '*') {
             before = {
                 def securityService = applicationContext.getBean("securityService")
                 def point = securityService.defineAccessPoint(session.frontContext,controllerName,actionName)
@@ -88,14 +92,53 @@ class SessionFilters {
             }
         }
 
-        userExtraction(controller: 'backoffice*', action: '*') {
+        authenticateBackUser(controller: 'backoffice*', action: '*') {
             before = {
-                if (session.getAttribute(CASFilter.CAS_FILTER_USER) == null) {
-                    // throw new ServletException("No user found in session !")
-                    response.sendRedirect('/BackOfficeNG/cas.gsp')
-                    return false
+            		
+            	if (org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_mocking == 'true') {
+            		if (session.getAttribute(CASFilter.CAS_FILTER_USER) == null) {
+            			response.sendRedirect('/BackOfficeNG/cas.gsp')
+            			return false
+            		} else {
+            			return true
+            		}
+            	}
+            	
+                CASReceipt receipt = (CASReceipt) session.getAttribute(CASFilter.CAS_FILTER_RECEIPT);
+                String ticket = request.getParameter("ticket")
+
+                if (receipt == null && ticket == null) {
+                	// TODO : did gateway support
+                	
+                   	def redirectUrl =
+                   	  "${org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_login_url}?localAuthority=${session.getAttribute('currentSiteName')}&service=https://${request.serverName}${request.forwardURI}"
+                   	response.sendRedirect(redirectUrl)
+                   	return false
                 }
 
+                if (ticket != null) {
+                	try {
+                		ProxyTicketValidator pv = null;
+                		pv = new ProxyTicketValidator()
+                		pv.setCasValidateUrl(org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_validate_url)
+                		pv.setServiceTicket(ticket)
+                		pv.setService("https://${request.serverName}${request.forwardURI}")
+                		pv.setRenew(false)
+                		receipt = CASReceipt.getReceipt(pv)
+
+                		session.setAttribute(CASFilter.CAS_FILTER_USER, receipt.getUserName())
+                		session.setAttribute(CASFilter.CAS_FILTER_RECEIPT, receipt)
+
+                	} catch (CASAuthenticationException e) {
+                		throw new ServletException(e)
+                	}
+                }
+                
+            }
+        }
+        
+        setupBackUser(controller: 'backoffice*', action: '*') {
+        	before = {
                 String user = (String) session.getAttribute(CASFilter.CAS_FILTER_USER)
                 if (user != null && user.indexOf(";") != -1) {
 
@@ -159,8 +202,8 @@ class SessionFilters {
                         e.printStackTrace();
                         throw new ServletException("Error while setting agent in security context");
                     }
-                }
-            }
+                }        			
+        	}
         }
     }
 }

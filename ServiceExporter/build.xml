@@ -56,7 +56,6 @@
       <fileset dir="${web.dir}/WEB-INF">
         <include name="*.properties" />
         <include name="*.log*" />
-        <include name="applicationContext-admin.xml" />
         <include name="applicationContext-deployment.xml" />
         <include name="applicationContext.xml" />
         <include name="web.xml" />
@@ -90,6 +89,10 @@
       <filterset>
         <filter token="perform_db_updates" value="false" />
       </filterset>
+    </copy>
+    <copy file="${libraries.springconf.dir}/applicationContext-serviceexporter.xml"
+          todir="${web.dir}/WEB-INF"
+          overwrite="true">
     </copy>
     <mkdir dir="${web.dir}/WEB-INF/classes" />
     <copy file="${deploy.properties_dir}/${deploy.properties_file}"

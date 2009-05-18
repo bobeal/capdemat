@@ -123,9 +123,25 @@ public class HomeFolderModificationRequestService
 
     @Override
     public CreationBean modify(final HomeFolderModificationRequest hfmr,
-            final List<Adult> newAdults, final List<Child> newChildren, final Address adress)
+            final List<Adult> newAdults, final List<Child> newChildren, Address adress)
         throws CvqException {
-
+        
+        // Merge new homeFolder object if reuired
+        for (int i = 0; i < newAdults.size(); i++) {
+            if (newAdults.get(i).getId() != null) {
+                Adult mergeAdult = (Adult)HibernateUtil.getSession().merge(newAdults.get(i));
+                newAdults.set(i, mergeAdult);
+            }
+        }
+        for (int i = 0; i < newChildren.size(); i++) {
+            if (newChildren.get(i).getId() != null) {
+                Child mergeChild = (Child)HibernateUtil.getSession().merge(newChildren.get(i));
+                newChildren.set(i, mergeChild);
+            }
+        }
+        if (adress.getId() != null)
+            adress = (Address)HibernateUtil.getSession().merge(adress);
+        
         historyInterceptor.setCurrentRequest(hfmr);
         historyInterceptor.setCurrentUser(SecurityContext.getCurrentUserLogin());
         historyInterceptor.setCurrentSession(HibernateUtil.getSession());
@@ -243,8 +259,8 @@ public class HomeFolderModificationRequestService
                 }
             }
         }
-
-        homeFolderService.checkAndFinalizeRoles(oldHomeFolder.getId(), newAdults, newChildren);
+        
+        homeFolderService.checkAndFinalizeRoles(hfmr.getHomeFolderId(), newAdults, newChildren);
 
         requestDAO.update(hfmr);
 

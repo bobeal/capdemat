@@ -502,3 +502,7 @@ alter table alignment_numbering_connection_request
   add constraint FKEBD13110C6C3DEB1 
   foreign key (other_address_id) 
   references address;
+  
+-- update individual_role (to enable hibernate merge)
+alter table individual_role add column individual_name varchar(255);
+

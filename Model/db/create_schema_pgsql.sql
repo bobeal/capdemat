@@ -1591,6 +1591,7 @@
         role varchar(255),
         home_folder_id int8,
         individual_id int8,
+        individual_name varchar(255),
         owner_id int8,
         primary key (id)
     );

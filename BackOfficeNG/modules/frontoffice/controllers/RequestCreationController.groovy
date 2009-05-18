@@ -343,8 +343,8 @@ class RequestCreationController {
         
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
                     if (requestTypeInfo.label == 'Home Folder Modification') {
-                        def hfmr = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
-                        requestService.modify(hfmr, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.requester.adress)
+                        cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
+                        requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.requester.adress)
                     }
                     else if (requestTypeInfo.label == 'VO Card Request')
                         requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.tutors, objectToBind.requester.adress, docs)

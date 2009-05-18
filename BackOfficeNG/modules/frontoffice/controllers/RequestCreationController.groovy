@@ -161,14 +161,11 @@ class RequestCreationController {
         
         def askConfirmCancel = false
         
-        if (cRequest.stepStates.isEmpty()) {
+        if (cRequest.stepStates.isEmpty()) { 
             requestTypeInfo.steps.each {
                 def nameToken = it.tokenize('-')
-                def value = ['state': 'uncomplete',
-                             'required': nameToken.size() == 2,
-                             'cssClass': 'tag-uncomplete',
-                             'i18nKey': 'request.step.state.uncomplete'
-                             ]
+                def value = ['required': nameToken.size() == 2]
+                stepState(value, 'uncomplete', '')
                 cRequest.stepStates.put(nameToken[0], value)
             }
         }
@@ -297,6 +294,7 @@ class RequestCreationController {
                 
                 if (SecurityContext.currentEcitizen == null) homeFolderService.addRole(owner, individual, role)
                 else homeFolderService.addRole(owner, individual, homeFolderId, role)
+                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'removeRole') {
                 def roleParam = targetAsMap(submitAction[3])
@@ -310,6 +308,7 @@ class RequestCreationController {
                 
                 if (SecurityContext.currentEcitizen == null) homeFolderService.removeRole(owner, individual, role)
                 else homeFolderService.removeRole(owner, individual, homeFolderId, role)
+                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'tutorsEdit') {
                 session[uuidString].isTutorsEdit = true
@@ -329,10 +328,15 @@ class RequestCreationController {
                 session[uuidString].draftVisible = true
                                                                     
                 if (submitAction[1] == 'step') {
-                    cRequest.stepStates.get(currentStep).state = 'complete'
-                    cRequest.stepStates.get(currentStep).cssClass = 'tag-complete'
-                    cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
-                    cRequest.stepStates.get(currentStep).errorMsg = ''
+                    if (currentStep == 'account') objectToBind.individuals.checkRoles()
+                    stepState(cRequest.stepStates.get(currentStep), 'complete', '')
+                }
+                
+                if (['VO Card Request','Home Folder Modification'].contains(requestTypeInfo.label)) {
+                    if (['collectionAdd'].contains(submitAction[1])) {
+                        stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                        stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
+                    }
                 }
                 
                 if (currentStep == 'validation') {
@@ -370,10 +374,8 @@ class RequestCreationController {
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
             ce.printStackTrace()
-            cRequest.stepStates.get(currentStep).state = 'invalid'
-            cRequest.stepStates.get(currentStep).cssClass = 'tag-invalid'
-            cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.error'
-            cRequest.stepStates.get(currentStep).errorMsg = ce.message
+            stepState(cRequest.stepStates.get(currentStep), 'invalid', ce.message)
+
         }
 
         render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",
@@ -443,6 +445,12 @@ class RequestCreationController {
                     ])
     }
     
+    def stepState(step, state, errorMsg) {
+        step.state = state
+        step.cssClass = 'tag-' + state
+        step.i18nKey = 'request.step.state.' + state
+        step.errorMsg = errorMsg
+    }
     
     /* Step and Validation
      * ------------------------------------------------------------------------------------------- */

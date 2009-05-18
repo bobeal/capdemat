@@ -23,7 +23,6 @@
   </target>
 
   <target name="clean-configfiles" depends="init">
-    <delete file="${libraries.springconf.dir}/applicationContext-deployment.xml" />
     <delete file="${libraries.springconf.dir}/applicationContext.xml" />
   </target>
 

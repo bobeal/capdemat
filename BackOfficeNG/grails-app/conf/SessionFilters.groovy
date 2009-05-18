@@ -64,7 +64,7 @@ class SessionFilters {
             }
         }
         
-        setupFrontUser(controller: 'frontoffice*', action: '*') {
+        authenticateAndSetupFrontUser(controller: 'frontoffice*', action: '*') {
             before = {
                 def securityService = applicationContext.getBean("securityService")
                 def point = securityService.defineAccessPoint(session.frontContext,controllerName,actionName)
@@ -92,25 +92,28 @@ class SessionFilters {
             }
         }
 
-        userExtraction(controller: 'backoffice*', action: '*') {
+        authenticateBackUser(controller: 'backoffice*', action: '*') {
             before = {
             		
+            	if (org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_mocking == 'true') {
+            		if (session.getAttribute(CASFilter.CAS_FILTER_USER) == null) {
+            			response.sendRedirect('/BackOfficeNG/cas.gsp')
+            			return false
+            		} else {
+            			return true
+            		}
+            	}
+            	
                 CASReceipt receipt = (CASReceipt) session.getAttribute(CASFilter.CAS_FILTER_RECEIPT);
                 String ticket = request.getParameter("ticket")
 
                 if (receipt == null && ticket == null) {
                 	// TODO : did gateway support
                 	
-                    if (org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_mocking == 'true') {
-                    	response.sendRedirect('/BackOfficeNG/cas.gsp')
-                    	return false
-                    } else {
-                    	def redirectUrl =
-                    	  "${org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_login_url}?localAuthority=${session.getAttribute('currentSiteName')}&service=https://${request.serverName}${request.forwardURI}"
-                      	println "non mock configuration : redirecting to ${redirectUrl}"
-                      	response.sendRedirect(redirectUrl)
-                      	return false
-                    }
+                   	def redirectUrl =
+                   	  "${org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_login_url}?localAuthority=${session.getAttribute('currentSiteName')}&service=https://${request.serverName}${request.forwardURI}"
+                   	response.sendRedirect(redirectUrl)
+                   	return false
                 }
 
                 if (ticket != null) {
@@ -131,6 +134,11 @@ class SessionFilters {
                 	}
                 }
                 
+            }
+        }
+        
+        setupBackUser(controller: 'backoffice*', action: '*') {
+        	before = {
                 String user = (String) session.getAttribute(CASFilter.CAS_FILTER_USER)
                 if (user != null && user.indexOf(";") != -1) {
 
@@ -194,8 +202,8 @@ class SessionFilters {
                         e.printStackTrace();
                         throw new ServletException("Error while setting agent in security context");
                     }
-                }
-            }
+                }        			
+        	}
         }
     }
 }

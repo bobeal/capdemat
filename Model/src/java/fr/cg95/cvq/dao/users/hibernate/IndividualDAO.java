@@ -150,6 +150,33 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         
         return query.list();
     }
+    
+    @Override
+    public List<Individual> listByHomeFolderRoles(Long homeFolderId, RoleType[] roles) {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("select individual from Individual as individual")
+            .append(" join individual.individualRoles individualRole ")
+            .append(" where individualRole.homeFolderId = ?");
+        
+        sb.append(" and (");
+        for (int i = 0; i < roles.length; i++) {
+            sb.append(" individualRole.role = ? ");
+            if (i < roles.length - 1)
+                sb.append(" or ");
+        }
+        sb.append(")");
+        
+        Query query = HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setLong(0, homeFolderId);
+
+        for (int i = 0; i < roles.length; i++) {
+            query.setString(i + 1, roles[i].toString());
+        }
+        
+        return query.list();
+    }
 
     @Override
     public List<Individual> listBySubjectRole(Long subjectId, RoleType role) {

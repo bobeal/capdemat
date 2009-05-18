@@ -11,7 +11,6 @@ import fr.cg95.cvq.util.Critere;
 /**
  * @author bor@zenexity.fr
  * @author rdj@zenexity.fr
- * @author maxence.veyret@bull.net
  */
 public interface IPaymentDAO extends IGenericDAO {
 

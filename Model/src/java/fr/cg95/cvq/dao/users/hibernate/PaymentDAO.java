@@ -24,7 +24,6 @@ import fr.cg95.cvq.util.DateUtils;
  * 
  * @author bor@zenexity.fr
  * @author rdj@zenexity.fr
- * @author maxence.veyret@bull.net
  */
 public class PaymentDAO extends GenericDAO implements IPaymentDAO {
 	  

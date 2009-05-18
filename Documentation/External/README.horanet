@@ -1,6 +1,0 @@
-Etapes à suivre pour l'installation/configuration de la connectivité avec HoraNet :
-
-* Installation du certificat : keytool -import -trustcacerts -alias "horanet_certificate" -file horanet.cer -keystore $JAVA_HOME/jre/lib/security/cacerts
-
-* Dans $TOMCAT_HOME/conf/tomcat[45].conf, ajouter JAVA_OPTS="$JAVA_OPTS -Djavax.net.ssl.trustStore=$JAVA_HOME/jre/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit "
-

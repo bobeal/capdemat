@@ -540,6 +540,9 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     public void saveForeignRoleOwners(Long homeFolderId, List<Adult> adults, List<Child> children,
             List<Adult> foreignRoleOwners) throws CvqException, CvqModelException {
         
+        if (foreignRoleOwners == null)
+            return;
+        
         for (Adult roleOwner : foreignRoleOwners) {
             for (IndividualRole role : roleOwner.getIndividualRoles()) {
                 if (Arrays.asList(RoleType.homeFolderRoleTypes).contains(role.getRole()))

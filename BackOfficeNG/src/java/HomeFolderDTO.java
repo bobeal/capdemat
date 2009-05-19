@@ -128,7 +128,7 @@ public class HomeFolderDTO {
                     childRoleTypes.add(rt);
             }
             if (childRoleTypes.size() < 1 || childRoleTypes.size() > 3)
-                throw new CvqModelException("homeFolder.error.illegalLegalResponsiblesNumber", child.getFirstName());
+                throw new CvqModelException("homeFolder.error.illegalLegalResponsiblesNumber", new String[]{child.getFirstName()});
         }
     }
     

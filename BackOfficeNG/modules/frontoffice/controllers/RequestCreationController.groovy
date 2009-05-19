@@ -373,9 +373,16 @@ class RequestCreationController {
             session[uuidString].individuals = objectToBind.individuals
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
-            ce.printStackTrace()
-            stepState(cRequest.stepStates.get(currentStep), 'invalid', ce.message)
-
+//            ce.printStackTrace()
+            
+            println ce.i18nArgs
+            println ExceptionUtils.getModelI18nArgs(ce)
+            
+            println ExceptionUtils.getModelI18nKey(ce)
+            println message(code:ExceptionUtils.getModelI18nKey(ce),args:["RAFIK"])
+            
+            stepState(cRequest.stepStates.get(currentStep), 'invalid', 
+                    message(code:ExceptionUtils.getModelI18nKey(ce),args:ExceptionUtils.getModelI18nArgs(ce)))
         }
 
         render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",

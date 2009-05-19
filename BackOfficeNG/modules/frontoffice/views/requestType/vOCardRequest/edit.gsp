@@ -93,7 +93,7 @@
   
              <g:message code="vcr.step.adults.label" />
              <span><g:message code="vcr.step.adults.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.adults?.errorMsg}" /></span>
+             <span class="error">${stepStates?.adults?.errorMsg}</span>
            </h3>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/adults" /> 
@@ -125,7 +125,7 @@
   
              <g:message code="vcr.step.children.label" />
              <span><g:message code="vcr.step.children.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.children?.errorMsg}" /></span>
+             <span class="error">${stepStates?.children?.errorMsg}</span>
            </h3>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/children" /> 
@@ -160,7 +160,7 @@
   
              <g:message code="vcr.step.account.label" />
              <span><g:message code="vcr.step.account.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.account?.errorMsg}" /></span>
+             <span class="error">${stepStates?.account?.errorMsg}</span>
            </h3>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/account" /> 
@@ -193,7 +193,7 @@
 
              <g:message code="request.step.document.label" />
              <span><g:message code="request.step.document.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
+             <span class="error">${stepStates?.document?.errorMsg}</span>
            </h3>
            <div>
 
@@ -228,7 +228,7 @@
   
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
+             <span class="error">${stepStates?.validation?.errorMsg}</span>
            </h3>
            <div>
              

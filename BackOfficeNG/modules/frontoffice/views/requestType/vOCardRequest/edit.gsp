@@ -39,7 +39,6 @@
         <li class="${['adults', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
           <a href="#adults"><em>
-          <span class="tag-no_right">1</span>
           <span class="tag-state ${stepStates!= null ? stepStates.adults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.adults.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <strong><g:message code="vcr.step.adults.label" /> * </strong>
           </em></a>
@@ -47,7 +46,6 @@
 
         <li class="${currentStep == 'children' ? 'selected' : ''}">
           <a href="#children"><em>
-            <span class="tag-no_right">2</span>
             <span class="tag-state ${stepStates!= null ? stepStates.children.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.children.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <span><g:message code="vcr.step.children.label" /></span>
           </em></a>
@@ -55,7 +53,6 @@
         
         <li class="${currentStep == 'account' ? 'selected' : ''}">
           <a href="#account"><em>
-            <span class="tag-no_right">3</span>
             <span class="tag-state ${stepStates!= null ? stepStates.account.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.account.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <strong><g:message code="vcr.step.account.label" /> *</strong>
           </em></a>
@@ -63,7 +60,6 @@
 
         <li class="${currentStep == 'document' ? 'selected' : ''}">
           <a href="#document"><em>
-            <span class="tag-no_right">4</span>
             <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <g:message code="request.step.document.label" />
           </em></a>
@@ -71,7 +67,6 @@
 
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
           <a href="#validation"><em>
-          <span class="tag-no_right">5</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <strong><g:message code="request.step.validation.label" /> *</strong>
           </em></a>

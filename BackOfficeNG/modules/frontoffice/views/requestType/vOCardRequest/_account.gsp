@@ -75,7 +75,7 @@
   <g:each var="it" in="${individuals?.children}" status="index">
     <fieldset class="account-fieldset-edit validation-scope">
       <h4>${it.fullName}</h4>
-      <g:if test="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults).size() > 0}">
+      <g:if test="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults).size()  + individuals.getRoleOwnersOnIndividual(it, individuals?.tutors).size() > 0}">
         <dl>
         <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults)}">
           <dt>
@@ -144,7 +144,7 @@
       <h4>
         <g:capdematEnumToField var="${it.title}" i18nKeyPrefix="homeFolder.adult.title" /> ${it.fullName}
       </h4>
-      <g:if test="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults).size() > 0}">
+      <g:if test="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults).size() + individuals.getRoleOwnersOnIndividual(it, individuals?.tutors).size() > 0}">
         <dl>
         <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults)}">
           <dt>

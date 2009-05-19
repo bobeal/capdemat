@@ -353,7 +353,7 @@ class RequestCreationController {
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
                     if (requestTypeInfo.label == 'Home Folder Modification') {
                         cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
-                        requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.requester.adress)
+                        requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.tutors, objectToBind.requester.adress, docs)
                     }
                     else if (requestTypeInfo.label == 'VO Card Request')
                         requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.tutors, objectToBind.requester.adress, docs)
@@ -550,6 +550,8 @@ class RequestCreationController {
     
     /* Home Folder Modification
      * ------------------------------------------------------------------------------------------- */
+    
+    // Usefull to retrieve individuals having a role on homefolder's individuals or on homefolder
     def getAllRoleOwners(homeFolder) {
         def owners = [] as Set
         homeFolder.individuals.each {

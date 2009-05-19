@@ -5,7 +5,6 @@ import java.util.Set;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
-import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -45,8 +44,14 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
      *         change, we have to return the generated login for the new
      *         home folder responsible) or null if not needed
      */
+    @Deprecated
     CreationBean modify(final HomeFolderModificationRequest hfmr,
             final List<Adult> adults, final List<Child> children, final Address adress)
+        throws CvqException;
+    
+    CreationBean modify(final HomeFolderModificationRequest hfmr,
+            final List<Adult> adults, final List<Child> children, List<Adult> foreignRoleOwners, 
+            final Address adress, List<Document> documents)
         throws CvqException;
     
     /**

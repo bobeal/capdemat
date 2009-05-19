@@ -538,6 +538,9 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     
     protected void addDocuments(Request request, List<Document> documents)
         throws CvqException {
+        if (documents == null)
+            return;
+        
         Set<Long> documentIds = new HashSet<Long>();
         for (Document document : documents) {
            document.setId(null);

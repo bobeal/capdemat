@@ -145,14 +145,17 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
             
             for (Individual individual : homeFolder.getIndividuals()) {
                 if (individual  instanceof Adult)
-                    copyAdults.add((Adult)individual );
+                    copyAdults.add((Adult)individual);
                 else if (individual  instanceof Child)
                     copyChildren.add((Child)individual );
             }
             
+            List<Adult> foreignOwners = new ArrayList<Adult>();
+            foreignOwners.add(BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "TUTOR", "Foreign", address.clone(), FamilyStatusType.OTHER));
+            iHomeFolderService.addHomeFolderRole(foreignOwners.get(0), homeFolder.getId(), RoleType.HOME_FOLDER_RESPONSIBLE);
             continueWithNewTransaction();
             
-            iHomeFolderModificationRequestService.modify(hfmr, copyAdults, copyChildren, adress);    
+            iHomeFolderModificationRequestService.modify(hfmr, copyAdults, copyChildren, foreignOwners, adress, null);
             Assert.assertEquals(copyAdults.size() + copyChildren.size(), homeFolder.getIndividuals().size());
             
             continueWithNewTransaction();

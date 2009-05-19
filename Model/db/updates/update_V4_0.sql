@@ -486,7 +486,7 @@ create table alignment_numbering_connection_request (
   owner_last_name varchar(38),
   primary key (id)
 );
-alter table alignment_numbering_connection_request owner to cvq95;
+-- alter table alignment_numbering_connection_request owner to cvq95;
 
 alter table alignment_numbering_connection_request 
   add constraint FKEBD1311082587E99 
@@ -502,3 +502,7 @@ alter table alignment_numbering_connection_request
   add constraint FKEBD13110C6C3DEB1 
   foreign key (other_address_id) 
   references address;
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'urbanism' LIMIT 1)  
+WHERE label = 'Alignment Numbering Connection'; 

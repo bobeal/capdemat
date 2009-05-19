@@ -125,7 +125,7 @@
              <span class="error">${stepStates?.children?.errorMsg}</span>
            </h3>
            <div>
-         	   <g:render template="/frontofficeRequestType/vOCardRequest/children" /> 
+         	   <g:render template="/frontofficeRequestType/vOCardRequest/children" />
            </div>
 
            <!-- Input submit-->

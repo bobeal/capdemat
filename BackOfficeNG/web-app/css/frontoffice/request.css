@@ -191,6 +191,9 @@ h2.request-creation {
 
 #requestTabView .account-fieldset-edit select,
 #requestTabView .account-fieldset-edit input { width: auto; display: inline; }
+#requestTabView .account-fieldset-edit label { width: 100%; }
+
+#requestTabView .account-fieldset-edit .message { display: inline; padding: .2em; font: bold italic .8em sans-serif; color: #20aa20; background: #fff; }
 
 #requestTabView .account-fieldset-edit { 
   margin-top: 1em; padding: 1em; 

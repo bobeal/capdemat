@@ -49,7 +49,12 @@
     </select>
     <input type="submit" name="submit-addRole-account-homeFolderTutor_ownerType:adults" value="${message(code:'action.add')}" />
     
-    <label><g:message code="homeFolder.property.foreignTutors" /></label>
+    <label>
+      <g:message code="homeFolder.property.foreignTutors" />
+      <g:if test="${flash?.isTutorAvailable}">
+        <span class="message">${message(code:'homeFolder.message.tutorIsAvailable')}</span>
+      </g:if>
+    </label>
     <input type="hidden" name="role-homeFolderTutor_ownerType:tutors" value="Tutor" />
     <select name="owner-homeFolderTutor_ownerType:tutors" class="validate-not-first">
       <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -58,7 +63,7 @@
       </g:each>
     </select>
     <input type="submit" name="submit-addRole-account-homeFolderTutor_ownerType:tutors" value="${message(code:'action.add')}" />
-    
+
     <label>${message(code:'homeFolder.property.foreignTutors.label')}</label>
     <input type="submit" name="submit-tutorsEdit-account" value="${message(code:'homeFolder.action.addNewTutor')}" />
   </fieldset>
@@ -105,7 +110,12 @@
       </select>
       <input type="submit" name="submit-addRole-account-ownerType:adults_individualIndex:${index}_individualType:children" value="${message(code:'action.add')}" />
       
-      <label class="required"><g:message code="homeFolder.child.property.foreignLegalResponsibles" /> *</label>
+      <label>
+        <g:message code="homeFolder.child.property.foreignLegalResponsibles" /> 
+        <g:if test="${flash?.isTutorAvailable}">
+          <span class="message">${message(code:'homeFolder.message.tutorIsAvailable')}</span>
+        </g:if>
+      </label>
       <select name="role-ownerType:tutors_individualIndex:${index}_individualType:children" class="validate-not-first">
         <option value=""><g:message code="message.select.defaultOption" /></option>
         <g:each in="${individuals?.childRoleTypes}">
@@ -119,7 +129,7 @@
         </g:each>
       </select>
       <input type="submit" name="submit-addRole-account-ownerType:tutors_individualIndex:${index}_individualType:children" value="${message(code:'action.add')}" />
-      
+    
       <label>${message(code:'homeFolder.property.foreignTutors.label')}</label>
       <input type="submit" name="submit-tutorsEdit-account" value="${message(code:'homeFolder.action.addNewTutor')}" />
     </fieldset>
@@ -162,7 +172,12 @@
       </select>
       <input type="submit" name="submit-addRole-account-ownerType:adults_individualIndex:${index}_individualType:adults" value="${message(code:'action.add')}" />
       
-      <label><g:message code="homeFolder.adult.property.foreignTutors" /></label>
+      <label>
+        <g:message code="homeFolder.adult.property.foreignTutors" />
+        <g:if test="${flash?.isTutorAvailable}">
+          <span class="message">${message(code:'homeFolder.message.tutorIsAvailable')}</span>
+        </g:if>
+      </label>
       <input type="hidden" name="role-ownerType:tutors_individualIndex:${index}_individualType:adults" value="Tutor" />
       <select name="owner-ownerType:tutors_individualIndex:${index}_individualType:adults" class="validate-not-first">
         <option value=""><g:message code="message.select.defaultOption" /></option>

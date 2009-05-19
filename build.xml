@@ -68,6 +68,14 @@
       </filterset>
     </copy>
 
+    <copy file="${libraries.springconf.dir}/applicationContext-deployment.xml.tpl"
+          tofile="${libraries.springconf.dir}/applicationContext-deployment.xml"
+          verbose="true" overwrite="true">
+      <filterset>
+        <filter token="deploy_properties_file" value="${deploy_properties_file}" />
+      </filterset>
+    </copy>
+
     <copy file="${libraries.springconf.dir}/applicationContext.xml.tpl"
           tofile="${libraries.springconf.dir}/applicationContext.xml"
           verbose="true" overwrite="true">

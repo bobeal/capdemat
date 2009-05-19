@@ -84,10 +84,14 @@ public class RequestTypeService implements IRequestTypeService {
         CategoryRoles[] authorizedCategories =
             SecurityContext.getCurrentCredentialBean().getCategoryRoles();
         List<RequestType> results = new ArrayList<RequestType>();
-        for (CategoryRoles categoryRole : authorizedCategories) {
-            results.addAll(categoryRole.getCategory().getRequestTypes());
+        if (authorizedCategories == null) {
+            return results;
+        } else {
+            for (CategoryRoles categoryRole : authorizedCategories) {
+                results.addAll(categoryRole.getCategory().getRequestTypes());
+            }
         }
-
+        
         return results;
     }
 

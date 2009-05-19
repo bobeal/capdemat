@@ -6,6 +6,15 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
+  <!--
+  <bean id="configurer"
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location">
+      <value>@deploy_properties_file@</value>
+    </property>
+  </bean>
+  -->
+  
   <bean id="abstractSessionFactory" abstract="true">
 
     <property name="mappingResources">

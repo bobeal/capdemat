@@ -92,7 +92,8 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
         request.setTaxHouseholdPostalCode("TaxHouseholdPostalCode".substring(0, 5));
       else
         request.setTaxHouseholdPostalCode("TaxHouseholdPostalCode");
-                  if ("SubjectMobilePhone".length() > 10)
+                request.setSubjectFirstRequest(Boolean.valueOf(true));
+              if ("SubjectMobilePhone".length() > 10)
         request.setSubjectMobilePhone("SubjectMobilePhone".substring(0, 10));
       else
         request.setSubjectMobilePhone("SubjectMobilePhone");

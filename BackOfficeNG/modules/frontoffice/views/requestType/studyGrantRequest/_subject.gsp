@@ -59,6 +59,18 @@
             
 
     
+      <label class="required"><g:message code="sgr.property.subjectFirstRequest.label" /> *  <span><g:message code="sgr.property.subjectFirstRequest.help" /></span></label>
+            <ul class="yes-no required">
+              <g:each in="${[true,false]}">
+              <li>
+                <input type="radio" class="required  validate-boolean" title="" value="${it}" name="subjectFirstRequest" ${it == rqt.subjectFirstRequest ? 'checked="checked"': ''} />
+                <g:message code="message.${it ? 'yes' : 'no'}" />
+              </li>
+              </g:each>
+            </ul>
+            
+
+    
     </fieldset>
   
 

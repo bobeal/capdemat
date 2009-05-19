@@ -60,6 +60,8 @@
                 
                   <dt class="required"><g:message code="sgr.property.subjectBirthDate.label" /> * : </dt><dd id="subjectBirthDate" class="action-editField validate-date required-true i18n-sgr.property.subjectBirthDate" ><span><g:formatDate formatName="format.date" date="${request?.subjectBirthDate}"/></span></dd>
                 
+                  <dt class="required"><g:message code="sgr.property.subjectFirstRequest.label" /> * : </dt><dd id="subjectFirstRequest" class="action-editField validate-boolean required-true i18n-sgr.property.subjectFirstRequest" ><span class="value-${request?.subjectFirstRequest}"><g:message code="message.${request?.subjectFirstRequest ? 'yes' : 'no'}" /></span></dd>
+                
               </dl>
               
             

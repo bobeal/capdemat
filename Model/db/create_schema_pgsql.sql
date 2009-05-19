@@ -2127,6 +2127,7 @@
         distance varchar(255),
         alevels varchar(255),
         tax_household_postal_code varchar(5),
+        subject_first_request bool,
         subject_mobile_phone varchar(10),
         abroad_internship_school_name varchar(255),
         account_key varchar(2),

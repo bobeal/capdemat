@@ -36,6 +36,7 @@ public class StudyGrantRequest extends Request implements Serializable {
         hasCROUSHelp = Boolean.valueOf(false);
         sandwichCourses = Boolean.valueOf(false);
         abroadInternship = Boolean.valueOf(false);
+        subjectFirstRequest = Boolean.valueOf(true);
         hasRegionalCouncilHelp = Boolean.valueOf(false);
         hasOtherHelp = Boolean.valueOf(false);
     }
@@ -108,6 +109,8 @@ public class StudyGrantRequest extends Request implements Serializable {
         if (this.alevels != null)
             aLevelsInformationsTypeALevelsInformations.setAlevels(fr.cg95.cvq.xml.request.school.ALevelsType.Enum.forString(this.alevels.toString()));
         studyGrantRequest.setTaxHouseholdPostalCode(this.taxHouseholdPostalCode);
+        if (this.subjectFirstRequest != null)
+            subjectInformationsTypeSubjectInformations.setSubjectFirstRequest(this.subjectFirstRequest.booleanValue());
         subjectInformationsTypeSubjectInformations.setSubjectMobilePhone(this.subjectMobilePhone);
         currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolName(this.abroadInternshipSchoolName);
         studyGrantRequest.setAccountKey(this.accountKey);
@@ -188,6 +191,7 @@ public class StudyGrantRequest extends Request implements Serializable {
         else
             studyGrantRequest.setAlevels(fr.cg95.cvq.business.request.school.ALevelsType.getDefaultALevelsType());
         studyGrantRequest.setTaxHouseholdPostalCode(studyGrantRequestXml.getTaxHouseholdPostalCode());
+        studyGrantRequest.setSubjectFirstRequest(Boolean.valueOf(studyGrantRequestXml.getSubjectInformations().getSubjectFirstRequest()));
         studyGrantRequest.setSubjectMobilePhone(studyGrantRequestXml.getSubjectInformations().getSubjectMobilePhone());
         studyGrantRequest.setAbroadInternshipSchoolName(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolName());
         studyGrantRequest.setAccountKey(studyGrantRequestXml.getAccountKey());
@@ -573,6 +577,21 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final String getTaxHouseholdPostalCode() {
         return this.taxHouseholdPostalCode;
+    }
+
+    private Boolean subjectFirstRequest;
+
+    public final void setSubjectFirstRequest(final Boolean subjectFirstRequest) {
+        this.subjectFirstRequest = subjectFirstRequest;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="subject_first_request"
+     */
+    public final Boolean getSubjectFirstRequest() {
+        return this.subjectFirstRequest;
     }
 
     private String subjectMobilePhone;

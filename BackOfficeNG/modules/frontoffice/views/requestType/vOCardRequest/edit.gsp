@@ -4,7 +4,6 @@
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'format.js')}"></script>
   </head>  
   <body>
     <g:set var="requestTypeInfo">

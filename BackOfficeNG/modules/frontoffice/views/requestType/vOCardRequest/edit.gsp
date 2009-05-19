@@ -21,15 +21,12 @@
 	<g:render template="/frontofficeRequestType/cancelPanel" />
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
     
-	<h2 class="request-creation"> <g:message code="vcr.label" /></h2>
-    <p><g:message code="vcr.description" /></p> 
+	<h2 class="request-creation"> <g:translateRequestTypeLabel label="${requestTypeLabel}"/></h2>
     <p><g:message code="request.duration.label" /><strong> : <g:message code="vcr.duration.value" /></strong></p>
     <p>
       <g:message code="request.requiredDocuments.header" /> :
       <g:each in="${documentTypes}" var="documentType" status="index">
-        <strong>
-          <g:message code="${documentType.value.i18nKey}"/><g:if test="${index < documentTypes.size() - 1}">,</g:if>
-        </strong>
+        <strong>${documentType.value.name}<g:if test="${index < documentTypes.size() - 1}">,</g:if></strong>
       </g:each>
     </p>
     <g:if test="${flash.confirmationMessage}">
@@ -169,8 +166,9 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           <input type="submit" id="submit-step-account" class="submit-step" name="submit-step-account" value="${message(code:'action.save')}" />
-  
+           <g:if test="${!session[uuidString]?.isTutorsEdit}">
+             <input type="submit" id="submit-step-account" class="submit-step" name="submit-step-account" value="${message(code:'action.save')}" />
+           </g:if>
          </form>
          <div class="navTab">
   

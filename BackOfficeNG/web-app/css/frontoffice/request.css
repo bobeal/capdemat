@@ -194,7 +194,7 @@ h2.request-creation {
 
 #requestTabView .account-fieldset-edit { 
   margin-top: 1em; padding: 1em; 
-  border: 1px solid #FF812B; -moz-border-radius: .5em; 
+  border: 1px solid #ccc !important; -moz-border-radius: .5em; 
   background: #eee;
 }
 

@@ -59,7 +59,6 @@
         <li class="${['subject', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
           <a href="#subject"><em>
-          <span class="tag-no_right">1</span>
           <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -75,7 +74,6 @@
         <li class="${currentStep == 'taxHousehold' ? 'selected' : ''}">
   
           <a href="#taxHousehold"><em>
-          <span class="tag-no_right">2</span>
           <span class="tag-state ${stepStates!= null ? stepStates.taxHousehold.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxHousehold.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -91,7 +89,6 @@
         <li class="${currentStep == 'otherHelps' ? 'selected' : ''}">
   
           <a href="#otherHelps"><em>
-          <span class="tag-no_right">3</span>
           <span class="tag-state ${stepStates!= null ? stepStates.otherHelps.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.otherHelps.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -107,7 +104,6 @@
         <li class="${currentStep == 'currentStudies' ? 'selected' : ''}">
   
           <a href="#currentStudies"><em>
-          <span class="tag-no_right">4</span>
           <span class="tag-state ${stepStates!= null ? stepStates.currentStudies.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.currentStudies.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -123,7 +119,6 @@
         <li class="${currentStep == 'calculationElements' ? 'selected' : ''}">
   
           <a href="#calculationElements"><em>
-          <span class="tag-no_right">5</span>
           <span class="tag-state ${stepStates!= null ? stepStates.calculationElements.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.calculationElements.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -139,7 +134,6 @@
         <li class="${currentStep == 'bankReference' ? 'selected' : ''}">
   
           <a href="#bankReference"><em>
-          <span class="tag-no_right">6</span>
           <span class="tag-state ${stepStates!= null ? stepStates.bankReference.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.bankReference.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -157,7 +151,6 @@
         <li class="${currentStep == 'document' ? 'selected' : ''}">
   
           <a href="#document"><em>
-          <span class="tag-no_right">7</span>
           <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="request.step.document.label" />
@@ -173,7 +166,6 @@
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
   
           <a href="#validation"><em>
-          <span class="tag-no_right">8</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -191,6 +183,7 @@
   
        <div id="subject">
          <form method="POST"  id="stepForm-subject" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -232,6 +225,7 @@
   
        <div id="taxHousehold">
          <form method="POST"  id="stepForm-taxHousehold" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.taxHousehold.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxHousehold.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -275,6 +269,7 @@
   
        <div id="otherHelps">
          <form method="POST"  id="stepForm-otherHelps" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.otherHelps.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.otherHelps.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -318,6 +313,7 @@
   
        <div id="currentStudies">
          <form method="POST"  id="stepForm-currentStudies" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.currentStudies.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.currentStudies.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -361,6 +357,7 @@
   
        <div id="calculationElements">
          <form method="POST"  id="stepForm-calculationElements" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.calculationElements.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.calculationElements.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -404,6 +401,7 @@
   
        <div id="bankReference">
          <form method="POST"  id="stepForm-bankReference" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.bankReference.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.bankReference.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -449,6 +447,7 @@
   
        <div id="document">
          <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -490,6 +489,7 @@
   
        <div id="validation">
          <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
+           <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
   

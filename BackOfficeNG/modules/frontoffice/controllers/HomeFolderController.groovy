@@ -2,8 +2,10 @@ import fr.cg95.cvq.authentication.IAuthenticationService
 import fr.cg95.cvq.business.users.*
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqBadPasswordException
+import fr.cg95.cvq.exception.CvqModelException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestTypeService
+import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 
@@ -13,6 +15,7 @@ class HomeFolderController {
     IIndividualService individualService
     IAuthenticationService authenticationService
     IRequestTypeService requestTypeService
+    IHomeFolderModificationRequestService homeFolderModificationRequestService
 
     def homeFolderAdaptorService
     
@@ -61,6 +64,20 @@ class HomeFolderController {
                                  "${currentEcitizen.homeFolder.adress.postalCode} " +
                                  "${currentEcitizen.homeFolder.adress.city}"
         ]
+        
+        def enabled = true, message = null
+        try {
+            homeFolderModificationRequestService.checkIsAuthorized(currentEcitizen.homeFolder)
+        } catch (CvqModelException cvqme) {
+            enabled = false
+            message = cvqme.i18nKey
+        }
+        result.hfmr = [
+            'label': homeFolderModificationRequestService.label,
+            'enabled': enabled,
+            'message': message
+        ]
+        
         return result
     }
     

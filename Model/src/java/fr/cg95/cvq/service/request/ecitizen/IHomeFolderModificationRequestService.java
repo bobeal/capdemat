@@ -32,6 +32,9 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
     HomeFolderModificationRequest create(final Long homeFolderId, final Long requesterId)
         throws CvqException, CvqObjectNotFoundException;
 
+    public void checkIsAuthorized(final HomeFolder homeFolder)
+        throws CvqException;
+    
     /**
      * Persists changes associated to an home folder modification request.
      *

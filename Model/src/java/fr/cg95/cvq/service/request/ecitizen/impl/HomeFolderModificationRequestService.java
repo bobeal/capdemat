@@ -92,16 +92,12 @@ public class HomeFolderModificationRequestService
         return false;
     }
     
-    private void checkIsAuthorized(final HomeFolder homeFolder)
-        throws CvqException {
-        
+    public void checkIsAuthorized(final HomeFolder homeFolder) throws CvqException {
         if (hasModificationRequestInProgress(homeFolder))
-            throw new CvqModelException("Home folder " + homeFolder.getId() 
-                    + " already has an home folder modification request in progress");
+            throw new CvqModelException("homeFolder.error.alreadyAccountModifcationInProgess");
 
         if (!homeFolder.getState().equals(ActorState.VALID))
-            throw new CvqModelException("Home folder modification requests are only "
-                    + "possible for validated home folders");
+            throw new CvqModelException("homeFolder.error.accountModifcationPossibleForValidatedAccount");
     }
     
     @Override

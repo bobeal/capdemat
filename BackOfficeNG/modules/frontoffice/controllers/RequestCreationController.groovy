@@ -261,7 +261,8 @@ class RequestCreationController {
             else if (submitAction[1] == 'collectionDelete') {
                 def listFieldToken = submitAction[3].tokenize('[]')
                 def listWrapper = params.objectToBind == null ? cRequest : objectToBind[params.objectToBind]
-                listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
+                if (listWrapper[listFieldToken[0]].size() > Integer.valueOf(listFieldToken[1]))
+                    listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {

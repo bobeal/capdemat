@@ -109,6 +109,7 @@ h2.request-creation {
   color: #7fa646;
 }
 
+/* TODO - generalize address-fieldset as sub-fieldset selector */
 #requestTabView .address-fieldset {
   width: 80%;
   margin: 0 0 1em; padding: .5em;

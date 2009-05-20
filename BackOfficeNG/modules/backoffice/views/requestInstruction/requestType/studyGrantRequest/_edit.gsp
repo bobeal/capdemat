@@ -103,7 +103,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="sgr.property.taxHouseholdPostalCode.label" /> * : </dt><dd id="taxHouseholdPostalCode" class="action-editField validate-postalCode required-true i18n-sgr.property.taxHouseholdPostalCode maxLength-5" ><span>${request?.taxHouseholdPostalCode}</span></dd>
+                <dt class="required"><g:message code="sgr.property.taxHouseholdPostalCode.label" /> * : </dt><dd id="taxHouseholdPostalCode" class="action-editField validate-regex required-true i18n-sgr.property.taxHouseholdPostalCode maxLength-5" regex="^77[0-9]{3}$"><span>${request?.taxHouseholdPostalCode}</span></dd>
               </dl>
               
             

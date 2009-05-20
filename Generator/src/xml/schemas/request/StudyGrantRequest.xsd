@@ -150,6 +150,7 @@
                   <model namespace="users" />
                   <common>
                     <step name="taxHousehold" />
+                    <validation jsregexp="^77[0-9]{3}$" />
                   </common>
                   <xslfo>
                     <element blockId="1" line="1" column="0">

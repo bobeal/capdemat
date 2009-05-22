@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestState;
@@ -91,16 +92,12 @@ public class HomeFolderModificationRequestService
         return false;
     }
     
-    private void checkIsAuthorized(final HomeFolder homeFolder)
-        throws CvqException {
-        
+    public void checkIsAuthorized(final HomeFolder homeFolder) throws CvqException {
         if (hasModificationRequestInProgress(homeFolder))
-            throw new CvqModelException("Home folder " + homeFolder.getId() 
-                    + " already has an home folder modification request in progress");
+            throw new CvqModelException("homeFolder.error.alreadyAccountModifcationInProgess");
 
         if (!homeFolder.getState().equals(ActorState.VALID))
-            throw new CvqModelException("Home folder modification requests are only "
-                    + "possible for validated home folders");
+            throw new CvqModelException("homeFolder.error.accountModifcationPossibleForValidatedAccount");
     }
     
     @Override
@@ -274,6 +271,28 @@ public class HomeFolderModificationRequestService
         
         // inform history interceptor that it could stop intercepting after the next postFlush()
         historyInterceptor.releaseInterceptor();
+        
+        return cb;
+    }
+    
+    public CreationBean modify(final HomeFolderModificationRequest hfmr,
+            final List<Adult> adults, final List<Child> children, List<Adult> foreignRoleOwners, 
+            final Address adress, List<Document> documents)
+        throws CvqException {
+        
+        CreationBean cb = modify(hfmr, adults, children, adress);
+        
+        addDocuments(hfmr, documents);
+        
+        for (int i = 0; i < foreignRoleOwners.size(); i++) {
+            if (foreignRoleOwners.get(i).getId() != null) {
+                Adult mergeRoleOwner = (Adult)HibernateUtil.getSession().merge(foreignRoleOwners.get(i));
+                foreignRoleOwners.set(i, mergeRoleOwner);
+            }
+        }
+        
+        homeFolderService.saveForeignRoleOwners(hfmr.getHomeFolderId(), adults, children, 
+                foreignRoleOwners);
         
         return cb;
     }

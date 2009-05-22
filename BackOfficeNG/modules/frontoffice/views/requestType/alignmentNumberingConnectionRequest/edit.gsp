@@ -114,7 +114,7 @@
   
              <g:message code="ancr.step.requester.label" />
              <span><g:message code="ancr.step.requester.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.requester?.errorMsg}" /></span>
+             <span class="error">${stepStates?.requester?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -156,7 +156,7 @@
   
              <g:message code="ancr.step.cadastre.label" />
              <span><g:message code="ancr.step.cadastre.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.cadastre?.errorMsg}" /></span>
+             <span class="error">${stepStates?.cadastre?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -200,7 +200,7 @@
   
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
+             <span class="error">${stepStates?.validation?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>

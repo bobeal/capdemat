@@ -22,34 +22,46 @@ class SessionFilters {
         
         openSessionInView(controller: '*', action: '*') {
             before = {
-                ILocalAuthorityRegistry localAuthorityRegistry =
-                applicationContext.getBean("localAuthorityRegistry")
-                LocalAuthority la = localAuthorityRegistry.getLocalAuthorityByServerName(request.serverName)
-                if (la == null)
-                    throw new ServletException("No local authority found !")
-                LocalAuthorityConfigurationBean lacb =
-                    localAuthorityRegistry.getLocalAuthorityBeanByName(la.name)
-                if (lacb == null)
-                    throw new ServletException("No local authority found !")
-                SessionFactory sessionFactory = lacb.getSessionFactory()
-                HibernateUtil.setSessionFactory(sessionFactory)
-
-                HibernateUtil.beginTransaction()
-
                 try {
+                    ILocalAuthorityRegistry localAuthorityRegistry =
+                        applicationContext.getBean("localAuthorityRegistry")
+                    LocalAuthority la = localAuthorityRegistry.getLocalAuthorityByServerName(request.serverName)
+                    if (la == null) {
+                    	log.error "No local authority found for domain : ${request.serverName}"
+                    	response.setStatus(500)
+                    	render "No local authority found for domain : ${request.serverName}"
+                    	return false
+                    }
+                    LocalAuthorityConfigurationBean lacb =
+                    	localAuthorityRegistry.getLocalAuthorityBeanByName(la.name)
+                    if (lacb == null) {
+                    	log.error "No LACB found for local authority : ${la.name}"
+                    	response.setStatus(500)
+                    	render "No LACB found for local authority : ${la.name}"
+                    	return false
+                    }
+                    SessionFactory sessionFactory = lacb.getSessionFactory()
+                    HibernateUtil.setSessionFactory(sessionFactory)
+
+                    HibernateUtil.beginTransaction()
+
                     SecurityContext.setCurrentSite(la.name,
                         SecurityContext.BACK_OFFICE_CONTEXT)
                     SecurityContext.setCurrentLocale(request.getLocale())
-                } catch (CvqException ce) {
-                    ce.printStackTrace()
-                    throw new ServletException()
-                }
 
-                session.setAttribute("currentSiteName", la.name.toLowerCase())
-                session.setAttribute("currentSiteDisplayTitle", la.displayTitle)
-                session.setAttribute("supportsActivitiesTab", lacb.supportsActivitiesTab())
-                session.setAttribute("supportsPaymentsTab", lacb.supportsPaymentsTab())
-                session.setAttribute("doRollback", false)
+                    session.setAttribute("currentSiteName", la.name.toLowerCase())
+                    session.setAttribute("currentSiteDisplayTitle", la.displayTitle)
+                    session.setAttribute("supportsActivitiesTab", lacb.supportsActivitiesTab())
+                    session.setAttribute("supportsPaymentsTab", lacb.supportsPaymentsTab())
+                    session.setAttribute("doRollback", false)
+
+                } catch (Throwable t) {
+                	log.error "Unexpected error while setting local authority context : ${t.message}"
+                	response.setStatus(500)
+                	render "Unexpected error while setting local authority context : ${t.message}"
+                    t.printStackTrace()
+					return false
+                }
             }
             after = {
                 def doRollback = session.getAttribute("doRollback")
@@ -64,7 +76,7 @@ class SessionFilters {
             }
         }
         
-        authenticateAndSetupFrontUser(controller: 'frontoffice*', action: '*') {
+        setupFrontUser(controller: 'frontoffice*', action: '*') {
             before = {
                 def securityService = applicationContext.getBean("securityService")
                 def point = securityService.defineAccessPoint(session.frontContext,controllerName,actionName)
@@ -86,8 +98,11 @@ class SessionFilters {
                     return false
                 } catch (CvqException ce) {
                     if (session.currentEcitizen) session.currentEcitizen = null
+                	log.error "Unexpected error while setting current ecitizen : ${ce.message}"
+                	response.setStatus(500)
+                	render "Unexpected error while setting current ecitizen : ${ce.message}"
                     ce.printStackTrace()
-                    throw new ServletException()
+					return false
                 }
             }
         }
@@ -130,10 +145,13 @@ class SessionFilters {
                 		session.setAttribute(CASFilter.CAS_FILTER_RECEIPT, receipt)
 
                 	} catch (CASAuthenticationException e) {
-                		throw new ServletException(e)
+                    	log.error "Unable to validate proxy ticket : ${e.message}"
+                    	response.setStatus(500)
+                    	render "Unable to validate proxy ticket : ${e.message}"
+                        e.printStackTrace()
+    					return false
                 	}
                 }
-                
             }
         }
         
@@ -156,33 +174,47 @@ class SessionFilters {
                             id.get(key).add(value);
                         }
                     }
-                    if (!id.containsKey("username"))
-                        throw new ServletException("No username parameter found");
+                    if (!id.containsKey("username")) {
+                    	log.error "No username parameter found"
+                    	response.setStatus(500)
+                    	render "No username parameter found"
+    					return false
+                    }
                     user = id.get("username").get(0);
 
                     if (id.get("localAuthority") != null) {
-                        String localAuthority = id.get("localAuthority").get(0);
-                        if (!localAuthority.toLowerCase().equals(SecurityContext.getCurrentConfigurationBean().getName()))
-                            throw new ServletException("User is not authorized to access to this local authority");
+                        String authorizedLocalAuthority = id.get("localAuthority").get(0).toLowerCase()
+                        String currentLocalAuthority = SecurityContext.getCurrentConfigurationBean().getName()
+                        if (!authorizedLocalAuthority.equals(currentLocalAuthority)) {
+                        	log.error "User is not authorized to access local authority : ${currentLocalAuthority}"
+                        	response.setStatus(500)
+                        	render "User is not authorized to access local authority : ${currentLocalAuthority}"
+        					return false
+                        }
                     } else {
-                        log.info("authenticate() no local authority information provided, don't checking");
+                    	log.error "No local authority found in CAS information, got : ${user}"
+                    	response.setStatus(500)
+                    	render "No local authority found in CAS information, got : ${user}"
+    					return false
                     }
 
-                    List groups = (List) id.get("group");
-                    if (groups == null || !SecurityContext.isAuthorizedGroup(groups))
-                        throw new ServletException("User " + user
-                                + " is not authorized to access this resource");
-
-                    Map<String, String> userInformations = new HashMap<String, String>();
+                    List groups = (List) id.get("group")
+                    if (groups == null || !SecurityContext.isAuthorizedGroup(groups)) {
+                    	log.error "User ${user} is not authorized to access this resource"
+                    	response.setStatus(500)
+                    	render "User ${user} is not authorized to access this resource"
+    					return false
+                    }
+                    Map<String, String> userInformations = new HashMap<String, String>()
                     if (id.get("firstName") != null)
-                        userInformations.put("firstName", id.get("firstName").get(0));
+                        userInformations.put("firstName", id.get("firstName").get(0))
                     if (id.get("lastName") != null)
-                        userInformations.put("lastName", id.get("lastName").get(0));
+                        userInformations.put("lastName", id.get("lastName").get(0))
 
                     try {
-                        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
+                        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
                         IAgentService agentService = applicationContext.getBean("agentService")
-                        agentService.updateUserProfiles(user, groups, userInformations);
+                        agentService.updateUserProfiles(user, groups, userInformations)
 
                         SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT)
                         SecurityContext.setCurrentAgent(user)
@@ -191,16 +223,22 @@ class SessionFilters {
                         log.debug("setting " + user + " on attribute " + CASFilter.CAS_FILTER_USER)
                         session.setAttribute(CASFilter.CAS_FILTER_USER, user)
                     } catch (CvqException e) {
-                        e.printStackTrace();
-                        throw new ServletException("Error while setting agent in security context");
+                    	log.error "Unexpected error while setting agent in security context (${e.message})"
+                    	response.setStatus(500)
+                    	render "Unexpected error while setting agent in security context (${e.message})"
+                        e.printStackTrace()
+    					return false
                     }
                 } else {
                     // set current user in security context for him to be available for using webapps
                     try {
-                        SecurityContext.setCurrentAgent(user);
+                        SecurityContext.setCurrentAgent(user)
                     } catch (CvqException e) {
-                        e.printStackTrace();
-                        throw new ServletException("Error while setting agent in security context");
+                    	log.error "Unexpected error while setting agent in security context"
+                    	response.setStatus(500)
+                    	render "Unexpected error while setting agent in security context"
+                        e.printStackTrace()
+    					return false
                     }
                 }        			
         	}

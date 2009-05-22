@@ -1,0 +1,14 @@
+<rechercheTiers>
+  <nom>${lastName}</nom>
+  <infoRIB>
+    <moAgence>
+      <miBanque>${bankCode}</miBanque>
+      <miAgence>${counterCode}</miAgence>
+    </moAgence>
+    <msCompte>${accountNumber}</msCompte>
+    <miCleRib>${accountKey}</miCleRib>
+    <mbEtranger>false</mbEtranger>
+    <mbIban>false</mbIban>
+    <mbUsuel>true</mbUsuel>
+  </infoRIB>
+</rechercheTiers>

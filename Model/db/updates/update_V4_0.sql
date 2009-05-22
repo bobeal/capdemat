@@ -502,7 +502,11 @@ alter table alignment_numbering_connection_request
   add constraint FKEBD13110C6C3DEB1 
   foreign key (other_address_id) 
   references address;
-
+  
 UPDATE request_type SET
   display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'urbanism' LIMIT 1)  
 WHERE label = 'Alignment Numbering Connection'; 
+
+-- update individual_role (to enable hibernate merge)
+alter table individual_role add column individual_name varchar(255);
+

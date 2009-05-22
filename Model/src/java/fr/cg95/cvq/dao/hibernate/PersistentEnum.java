@@ -287,8 +287,10 @@ abstract class PersistentEnum implements Comparable, Serializable, UserType {
     }
 
     public Object replace(Object original, Object target, Object owner) throws HibernateException {
-        // TODO Auto-generated method stub
-        return null;
+        if (target != null)
+            return target;
+        else
+            return original;
     }
     
 }

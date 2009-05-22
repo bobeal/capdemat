@@ -4,7 +4,9 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.exception.CvqModelException;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -100,6 +102,35 @@ public class HomeFolderDTO {
         return false;
     }
     
+    /*
+     * - Homefolder must one and  only one homeFolderResponsible
+     * - Children must have between one and tree legal responsibles
+     */
+    public void checkRoles() throws CvqModelException {
+        List<RoleType> homeFolderRoleTypes = new ArrayList<RoleType>();
+        for (Map<String, Object> rMap : getRoleOwnersOnHomeFolder(adults).values()){
+            RoleType rt = (RoleType)rMap.get("role");
+            if (rt.equals(RoleType.HOME_FOLDER_RESPONSIBLE))
+                homeFolderRoleTypes.add(rt);
+        }
+        if (homeFolderRoleTypes.size() < 1)
+            throw new CvqModelException("homeFolder.error.responsibleIsRequired");
+        else if (homeFolderRoleTypes.size() > 1)
+            throw new CvqModelException("homeFolder.error.onlyOneResponsibleIsAllowed");
+        
+        if (children == null)
+            return;
+        for (Child child : children) {
+            List<RoleType> childRoleTypes = new ArrayList<RoleType>();
+            for (Map<String, Object> rMap : getRoleOwnersOnIndividual(child, adults).values()){
+                RoleType rt = (RoleType)rMap.get("role");
+                if (Arrays.asList(RoleType.childRoleTypes).contains(rt))
+                    childRoleTypes.add(rt);
+            }
+            if (childRoleTypes.size() < 1 || childRoleTypes.size() > 3)
+                throw new CvqModelException("homeFolder.error.illegalLegalResponsiblesNumber", child.getFirstName());
+        }
+    }
     
     public RoleType[] getAllRoleTypes () {
         return RoleType.allRoleTypes;

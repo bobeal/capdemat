@@ -34,7 +34,7 @@
           class="required validate-email" title="<g:message code="homeFolder.adult.property.email.validationError" />">
         
         <label class="required"><g:message code="homeFolder.adult.label.phones" /> <span>(<g:message code="homeFolder.adult.label.phones.help" />)</span></label>
-        <div class="address-fieldset required">
+        <div class="address-fieldset one-required">
           <label><g:message code="homeFolder.adult.property.homePhone" /></label>
           <input type="text" name="_individuals.adults[${listIndex}].homePhone" value="${editList?.adults?.homePhone}"
             class="validate-phone" title="<g:message code="homeFolder.adult.property.homePhone.validationError" />">

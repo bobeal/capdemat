@@ -44,10 +44,10 @@
       init : function() {
         zcf.RequestCreation.requestFormTabView = new yw.TabView('requestTabView');
         
-        zcf.RequestCreation.clickEvent =
-            new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
-        yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch,
-            zcf.RequestCreation.clickEvent, true);
+        zcf.RequestCreation.clickEvent = new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
+        yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);
+        
+        yue.on('requestTabView','change',zcf.RequestCreation.formatField);
         
         yue.on('draftForm','submit',zcf.RequestCreation.submitDraft);
         
@@ -75,6 +75,19 @@
         var hd = zct.getElementsByName('currentTabIndex','input',yud.get('draftForm'))[0];
         hd.value = zcf.RequestCreation.requestFormTabView.get('activeIndex');
         yud.get('draftForm').submit();
+      },
+      
+      formatField : function(e) {
+        var targetEl = yue.getTarget(e);
+        if (!zct.nodeName(targetEl,'input') || targetEl.type != 'text')
+          return false;
+        
+        var fieldType = /validate-(\w+)/i.exec(targetEl.className);
+        if (fieldType) {
+          if (fieldType[1] === 'lastName') targetEl.value = targetEl.value.toUpperCase();
+          else if (fieldType[1] === 'city') targetEl.value = targetEl.value.toUpperCase();
+          else if (fieldType[1] === 'firstName') targetEl.value = zct.capitalize(targetEl.value);
+        }
       },
       
       prevTab : function(e) {

@@ -236,7 +236,7 @@
   
              <g:message code="hcar.step.subject.label" />
              <span><g:message code="hcar.step.subject.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.subject?.errorMsg}" /></span>
+             <span class="error">${stepStates?.subject?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -278,7 +278,7 @@
   
              <g:message code="hcar.step.dwelling.label" />
              <span><g:message code="hcar.step.dwelling.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.dwelling?.errorMsg}" /></span>
+             <span class="error">${stepStates?.dwelling?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -322,7 +322,7 @@
   
              <g:message code="hcar.step.socialSecurityAndPaymentAgency.label" />
              <span><g:message code="hcar.step.socialSecurityAndPaymentAgency.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.socialSecurityAndPaymentAgency?.errorMsg}" /></span>
+             <span class="error">${stepStates?.socialSecurityAndPaymentAgency?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -366,7 +366,7 @@
   
              <g:message code="hcar.step.occupationnalAndSchoolStatus.label" />
              <span><g:message code="hcar.step.occupationnalAndSchoolStatus.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.occupationnalAndSchoolStatus?.errorMsg}" /></span>
+             <span class="error">${stepStates?.occupationnalAndSchoolStatus?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -410,7 +410,7 @@
   
              <g:message code="hcar.step.folders.label" />
              <span><g:message code="hcar.step.folders.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.folders?.errorMsg}" /></span>
+             <span class="error">${stepStates?.folders?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -454,7 +454,7 @@
   
              <g:message code="hcar.step.benefits.label" />
              <span><g:message code="hcar.step.benefits.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.benefits?.errorMsg}" /></span>
+             <span class="error">${stepStates?.benefits?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -498,7 +498,7 @@
   
              <g:message code="hcar.step.aid.label" />
              <span><g:message code="hcar.step.aid.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.aid?.errorMsg}" /></span>
+             <span class="error">${stepStates?.aid?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -542,7 +542,7 @@
   
              <g:message code="hcar.step.health.label" />
              <span><g:message code="hcar.step.health.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.health?.errorMsg}" /></span>
+             <span class="error">${stepStates?.health?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -586,7 +586,7 @@
   
              <g:message code="hcar.step.project.label" />
              <span><g:message code="hcar.step.project.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.project?.errorMsg}" /></span>
+             <span class="error">${stepStates?.project?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -630,7 +630,7 @@
   
              <g:message code="request.step.document.label" />
              <span><g:message code="request.step.document.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
+             <span class="error">${stepStates?.document?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -674,7 +674,7 @@
   
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
+             <span class="error">${stepStates?.validation?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>

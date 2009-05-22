@@ -261,7 +261,8 @@ class RequestCreationController {
             else if (submitAction[1] == 'collectionDelete') {
                 def listFieldToken = submitAction[3].tokenize('[]')
                 def listWrapper = params.objectToBind == null ? cRequest : objectToBind[params.objectToBind]
-                listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
+                if (listWrapper[listFieldToken[0]].size() > Integer.valueOf(listFieldToken[1]))
+                    listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {
@@ -312,9 +313,14 @@ class RequestCreationController {
             }
             else if (submitAction[1] == 'tutorsEdit') {
                 session[uuidString].isTutorsEdit = true
+                session[uuidString].tutorsSize = 
+                    objectToBind.individuals.tutors == null ? 0 : objectToBind.individuals.tutors.size() 
             }
             else if (submitAction[1] == 'tutorsEndEdit') {
                 session[uuidString].isTutorsEdit = false
+                flash.isTutorAvailable = 
+                    session[uuidString].tutorsSize < 
+                    (objectToBind.individuals.tutors == null ? 0 : objectToBind.individuals.tutors.size())
             }
             // standard save action
             else {
@@ -348,7 +354,7 @@ class RequestCreationController {
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
                     if (requestTypeInfo.label == 'Home Folder Modification') {
                         cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
-                        requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.requester.adress)
+                        requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.tutors, objectToBind.requester.adress, docs)
                     }
                     else if (requestTypeInfo.label == 'VO Card Request')
                         requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.tutors, objectToBind.requester.adress, docs)
@@ -373,9 +379,16 @@ class RequestCreationController {
             session[uuidString].individuals = objectToBind.individuals
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
-            ce.printStackTrace()
-            stepState(cRequest.stepStates.get(currentStep), 'invalid', ce.message)
-
+//            ce.printStackTrace()
+            
+            println ce.i18nArgs
+            println ExceptionUtils.getModelI18nArgs(ce)
+            
+            println ExceptionUtils.getModelI18nKey(ce)
+            println message(code:ExceptionUtils.getModelI18nKey(ce),args:["RAFIK"])
+            
+            stepState(cRequest.stepStates.get(currentStep), 'invalid', 
+                    message(code:ExceptionUtils.getModelI18nKey(ce),args:ExceptionUtils.getModelI18nArgs(ce)))
         }
 
         render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",
@@ -538,6 +551,8 @@ class RequestCreationController {
     
     /* Home Folder Modification
      * ------------------------------------------------------------------------------------------- */
+    
+    // Usefull to retrieve individuals having a role on homefolder's individuals or on homefolder
     def getAllRoleOwners(homeFolder) {
         def owners = [] as Set
         homeFolder.individuals.each {

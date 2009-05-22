@@ -85,6 +85,9 @@
         <include name="pluginContext.xml"/>
       </fileset>
       <!--  add other directories and files here (eg, CSV mapping definition file) -->
+      <fileset dir="${basedir}/src/groovy">
+        <include name="*.groovy"/>
+      </fileset>
     </jar>
   </target>
 

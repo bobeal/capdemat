@@ -79,6 +79,8 @@ public class BusinessObjectsFactory {
         adult.setSex(SexType.MALE);
         if (adress != null)
             adult.setAdress(adress);
+        adult.setBirthCity("PARIS");
+        adult.setBirthCountry("FRANCE");
 
         return adult;
     }

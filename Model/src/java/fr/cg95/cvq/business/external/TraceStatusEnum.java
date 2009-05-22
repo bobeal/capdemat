@@ -11,6 +11,7 @@ public final class TraceStatusEnum extends PersistentStringEnum {
     private static final long serialVersionUID = 1L;
 
     public static final TraceStatusEnum SENT = new TraceStatusEnum("Sent");
+    public static final TraceStatusEnum IN_PROGRESS = new TraceStatusEnum("InProgress");
     public static final TraceStatusEnum NOT_SENT = new TraceStatusEnum("NotSent");
     public static final TraceStatusEnum ACKNOWLEDGED = new TraceStatusEnum("Acknowledged");
     public static final TraceStatusEnum ERROR = new TraceStatusEnum("Error");
@@ -30,6 +31,8 @@ public final class TraceStatusEnum extends PersistentStringEnum {
 
         if (enumAsString.equals(SENT.toString()))
             return SENT;
+        else if (enumAsString.equals(IN_PROGRESS.toString()))
+            return IN_PROGRESS;
         else if (enumAsString.equals(NOT_SENT.toString()))
             return NOT_SENT;
         else if (enumAsString.equals(ACKNOWLEDGED.toString()))

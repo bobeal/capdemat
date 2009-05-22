@@ -7,18 +7,18 @@
   <body>
   <div id="yui-main">
     <div id="main" class="yui-b">
-      <div class="list-box">
+      <div class="main-box">
         <h2>
           <g:translateRequestTypeLabel label="${label}"/> <g:message code="message.for" /> ${individual} 
         </h2>
-        <g:activityCalendar month="${params.month}" year="${params.year}" data="${datas}"/>
+        <g:activityCalendar  month="${params.month}" year="${params.year}" data="${datas}"/>
       </div>
     </div>
   </div> 
   <!-- end of yui-main -->
 
   <div id="narrow" class="yui-b">
-    <div class="requestBox">
+    <div class="narrow-box">
       <h3>
         <g:message code="header.display" />
       </h3>
@@ -31,7 +31,7 @@
   </div>
   
   <div id="narrow" class="yui-b">
-    <div class="requestBox">
+    <div class="narrow-box">
       <h3>
         <g:message code="header.legend" />
       </h3>

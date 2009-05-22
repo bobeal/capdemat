@@ -1,51 +1,29 @@
 /*--------------------------------------------------------------
 
-    box
+    boxex
 
 ---------------------------------------------------------------*/
-
-
-/* no box - TODO : verify usefulness
----------------------------------------------------------------*/
-
-.nobox h3 {
-  margin: 1em 0 .2em 0;
-  padding: 5px 0 0 0;
-  font-size: 1.3em;
-  font-weight: normal;
-  border-bottom: 2px solid #C690BB;
-}
-
-.nobox ul { margin: 0 ; padding: 0; }
-
-.nobox li {
-  margin: 0; padding: .5em 0;
-  list-style-type: none;
-  font-size: .9em;
-  border-bottom: 1px dashed #C690BB;
-}
-.nobox li:hover { color: #000000; background: #ffcff5; }
 
 
 /* request box - TODO : must be rename
 ---------------------------------------------------------------*/
 
-.requestBox { margin: 0 0 1.5em 0; color: #000000; }
+.narrow-box { margin: 0 0 1.5em 0; color: #000000; }
 
-.requestBox h3 {
+.narrow-box h3 {
   margin: 0 0 .2em 0; padding: .7em .5em;
   font-size: 1.1em;
   -moz-border-radius: .5em .5em 0 0;
   background: #c690bb;
 }
 
-.requestBox .body {
+.narrow-box .body {
   padding: .5em;
   color: #000000;
   background: #dddddd;
 }
 
-.requestBox .body select {
+.narrow-box .body select {
   width: 100%;
   display: block;
   margin: .1em 0 1em 0;
@@ -57,57 +35,22 @@
   color: #4e662b;
 }
 
-.requestBox .body strong {
-  font-size: 1.2em;
-}
+.narrow-box .body strong { font-size: 1.2em; }
 
-.requestBox .body a {
+.narrow-box .body a {
   display: block;
   margin: .5em 0 0 0;
   text-decoration: none;  
 }
-.requestBox .body a:hover {
-  text-decoration: underline;
-}
+.narrow-box .body a:hover { text-decoration: underline; }
 
-.requestBox .body ul { margin: 0; padding: 0; }
-.requestBox .body li {
+.narrow-box .body ul { margin: 0; padding: 0; }
+.narrow-box .body li {
   margin: 0; padding: .5em 0;
   list-style-type: none;
   border-bottom: 1px dashed #7fa646;
 }
-.requestBox .body li a { display: inline; }
-
-.requestBox .body ul.legend li {
-  border:none;
-}
-
-.requestBox .body ul.legend span.legend-label {
-  display:block;
-  float:left;
-  margin-right:1em;
-  width:1.2em;
-}
-
-span.legend-label-0 {
-  background-color : orange;
-}
-
-span.legend-label-1 {
-  background-color : blue;
-}
-
-span.legend-label-2 {
-  background-color : red;
-}
-
-span.legend-label-3 {
-  background-color : darkgreen;
-}
-
-span.legend-label-4 {
-  background-color : yellowgreen;
-}
+.narrow-box .body li a { display: inline; }
 
 
 /* list box
@@ -161,55 +104,25 @@ span.legend-label-4 {
 
 .main-box p { padding: .5em .5em; }
 
-/* confirm box
+
+/* user feedback  box
 --------------------------------------------------------------*/
 
-.confirm-box { margin: 0 0 1em 0; background: #ffffff; text-align:center;}
-
-.confirm-box h2 {
-  margin: 0 !important;
-  color: #C690BB; background: #4c3848;
-  border-bottom: 3px solid #C690BB;
-}
-
-.confirm-box p { padding: .5em .5em; }
-.confirm-box p.confirm-message { margin-top:1em; margin-bottom:1em; font-weight:bold; font-size:larger; }
-.confirm-box div.confirm-form { padding-top:2em; padding-bottom:1em; }
-.confirm-box p.confirm-warning span {
-    background-color:#ffcc99;
-    border:1px solid red;
-    padding:0.2em;
-}
-
-/*TODO - merge with confirm-box*/
-.confirmation-box, .error-box, .success-box {
+.confirmation-box, .error-box, .success-box, .information-box {
   margin: 0 0 1em;  padding: 1em;
-  border: 3px solid #f55;
-  color: #f55; background: #fee;
+  border: 3px solid #000;
   text-align: center;
   clear: both;
 }
 .confirmation-box p, .error-box p, .success-box p { margin: 0 0 .5em; font-size: 1.3em; }
+.confirmation-box h2 { margin-bottom: .5em; color: #000; }
 
-/* Success box
----------------------------------------------------------------*/
+.confirmation-box, 
+.error-box         { border-color: #ff5555; background: #ffeeee; }
+.success-box       { border-color: #20CC20; background: #ECFDEC; }
+.information-box   { border-color: #ffaa00; background: #ffffcc; text-align: left; }
 
-.success-box {
-  border-color : #20CC20;
-  color : #20CC20;
-  background-color : #ECFDEC;
-}
-
-/* Information box
----------------------------------------------------------------*/
-.information-box {
-  margin: 0 0 1em 0;  padding: 1em;
-  border: 3px solid #ffaa00;
-  background: #ffffcc;
-}
-
-.outOfAccount-login-box p          { font: normal 1.5em sans-serif; margin: 0 0 .5em; }
-.outOfAccount-login-box p.error    { padding: 0; font: bold 1.2em sans-serif; text-align: left; }
-.outOfAccount-login-box input.text { margin-right: 1em; font-size: 1.2em; border: 1px solid #ffaa00; }
-.outOfAccount-login-box label      { font-size: 1.2em; }
+.outOfAccount-login-box p          { font: normal 1.5em sans-serif; margin: 0 0 .5em;  }
+.outOfAccount-login-box p.error    { padding: 0; sans-serif; text-align: left; }
+.outOfAccount-login-box input.text { margin-right: 1em; font-size:1.2em; border: 1px solid #ffaa00; }
 

@@ -6,10 +6,7 @@
 
 /* tmp style
 ---------------------------------------------------------------*/
-h2.request-creation {
-  margin: 0 1em 1em 0;
-  color: #ffffff;
-}
+h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
 
 /* creation form
    TODO : rename this class
@@ -122,9 +119,9 @@ h2.request-creation {
 #requestTabView .address-fieldset input[type="text"].line1 { display: inline; width: 15%; }
 #requestTabView .address-fieldset input[type="text"].line2 { display: inline; width: 82%; }
 
-#requestTabView .document-add-new { text-align: right; }
-#requestTabView .document-fieldset       { margin: 0 0 1em; }
-#requestTabView .document-fieldset dl.document-linked    { background: #ffb; }
+#requestTabView .document-add-new                           { text-align: right; }
+#requestTabView .document-fieldset                          { margin: 0 0 1em; }
+#requestTabView .document-fieldset dl.document-linked       { background: #ffb; }
 #requestTabView .document-fieldset dl.document-available    { background: #ffd; }
 #requestTabView .document-fieldset dl dt { width: 14em; font-size:1.1em; }
 #requestTabView .document-fieldset dl dd { width: 26.75em; font-size:1em; }

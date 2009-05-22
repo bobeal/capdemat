@@ -7,24 +7,17 @@
           href="${createLinkTo(dir:'css/frontoffice', file:'dashboard.css')}" />
   </head>
   <body>
-    <div class="confirm-box">
-      <h2><g:message code="request.header.deleteDraft"
-                     args="${[request.label,request.id]}"/></h2>
-      <p class="confirm-message">
-        <g:message code="request.message.draftRemovalConfirmationMessage"/>
-      </p>
-      <p class="confirm-warning">
-        <span><g:message code="request.message.draftRemovalConfirmationWarning"/></span>
-      </p>
-      <div class="confirm-form">
-        <form method="post">
-          <input type="hidden" name="id" value="${request.id}" />
-          <input type="submit" name="confirm" value="${message(code:'action.confirm')}" />
-          <a href="${module.createLink(module:'frontoffice',controller:'Home')}">
-            <g:message code="action.cancel"/>
-          </a>
-        </form>
-      </div>
+    <div class="confirmation-box">
+      <h2><g:message code="request.header.deleteDraft" args="${[request.label,request.id]}"/></h2>
+      <p><g:message code="request.message.draftRemovalConfirmationMessage"/></p>
+      <p><g:message code="request.message.draftRemovalConfirmationWarning"/></p>
+      <form method="post">
+        <input type="hidden" name="id" value="${request.id}" />
+        <input type="submit" name="confirm" value="${message(code:'action.confirm')}" />
+        <a href="${module.createLink(module:'frontoffice',controller:'Home')}">
+          <g:message code="action.cancel"/>
+        </a>
+      </form>
     </div>
   </body>
 </html>

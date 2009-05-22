@@ -28,21 +28,27 @@
           </p>
         </div>
         <div class="yui-u">
-          <g:if test="${hfmr.enabled}">
-            <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':hfmr.label])}">
-              <g:message code="account.action.edit"/>
-            </a>
-          </g:if>
-          <g:else>
-            <a>
-              <g:message code="account.action.edit"/>
-              <g:if test="${hfmr.message}">
-                <span>(<g:message code="${hfmr.message}"/>)</span>
-              </g:if>
-            </a>
-          </g:else>
-          <a href="${createLink(action:'editPassword')}"><g:message code="account.action.editPassword"/></a>
-          <a href="${createLink(action:'editQuestion')}"><g:message code="account.action.editQuestion"/></a>
+          <p>
+            <g:if test="${hfmr.enabled}">
+              <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':hfmr.label])}">
+                <g:message code="account.action.edit"/>
+              </a>
+            </g:if>
+            <g:else>
+              <span>
+                <g:message code="account.action.edit"/>
+                <g:if test="${hfmr.message}">
+                  <span>(<g:message code="${hfmr.message}"/>)</span>
+                </g:if>
+              </span>
+            </g:else>
+          </p>
+          <p>
+            <a href="${createLink(action:'editPassword')}"><g:message code="account.action.editPassword"/></a>
+          <p>
+          <p>
+            <a href="${createLink(action:'editQuestion')}"><g:message code="account.action.editQuestion"/></a>
+          </p>
         </div>
       </div>
       

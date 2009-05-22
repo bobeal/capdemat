@@ -41,6 +41,10 @@ class HomeController {
         this.currentEcitizen = SecurityContext.getCurrentEcitizen()
     }
     
+    def test = {
+    	['result':'ok']
+    }
+    
     def index = {
         def result = [:]
         result.dashBoard = [:]

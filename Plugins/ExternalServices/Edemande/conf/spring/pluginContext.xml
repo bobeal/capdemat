@@ -7,6 +7,9 @@
     class="fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeService">
     <property name="label" value="Edemande" />
     <property name="edemandeClient" ref="edemandeClient" />
+    <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
+    <property name="requestService" ref="defaultRequestService" />
+    <property name="documentService" ref="documentService" />
   </bean>
 
   <!-- WS CLIENT  -->
@@ -14,7 +17,7 @@
 
   <bean id="edemandeXmlBeanMarshaller" 
     class="org.springframework.oxm.xmlbeans.XmlBeansMarshaller" />
-  
+
   <bean name="edemandeConnexionService" 
     class="org.springframework.ws.client.core.WebServiceTemplate">
     <property name="defaultUri">
@@ -47,6 +50,29 @@
     <property name="edemandeConnexionService" ref="edemandeConnexionService" />
     <property name="edemandeFormulaireService" ref="edemandeFormulaireService" />
     <property name="edemandeSuiviDemandeService" ref="edemandeSuiviDemandeService" />
+    <property name="templateEngine">
+      <bean class="groovy.text.GStringTemplateEngine" />
+    </property>
+    <property name="enregistrerValiderFormulaireTemplate">
+      <bean class="org.springframework.core.io.ClassPathResource">
+        <constructor-arg value="enregistrerValiderFormulaire.groovy" />
+       </bean>
+    </property>
+    <property name="rechercherTiersTemplate">
+      <bean class="org.springframework.core.io.ClassPathResource">
+        <constructor-arg value="rechercherTiers.groovy" />
+       </bean>
+    </property>
+    <property name="creerTiersTemplate">
+      <bean class="org.springframework.core.io.ClassPathResource">
+        <constructor-arg value="creerTiers.groovy" />
+       </bean>
+    </property>
+    <property name="ajouterPiecesJointesTemplate">
+      <bean class="org.springframework.core.io.ClassPathResource">
+        <constructor-arg value="ajouterPiecesJointes.groovy" />
+       </bean>
+    </property>
   </bean>  
 
 </beans>

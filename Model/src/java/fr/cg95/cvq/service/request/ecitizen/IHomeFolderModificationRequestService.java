@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request.ecitizen;
 import java.util.List;
 import java.util.Set;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
@@ -31,6 +32,9 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
     HomeFolderModificationRequest create(final Long homeFolderId, final Long requesterId)
         throws CvqException, CvqObjectNotFoundException;
 
+    public void checkIsAuthorized(final HomeFolder homeFolder)
+        throws CvqException;
+    
     /**
      * Persists changes associated to an home folder modification request.
      *
@@ -43,10 +47,16 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
      *         change, we have to return the generated login for the new
      *         home folder responsible) or null if not needed
      */
+    @Deprecated
     CreationBean modify(final HomeFolderModificationRequest hfmr,
             final List<Adult> adults, final List<Child> children, final Address adress)
         throws CvqException;
-
+    
+    CreationBean modify(final HomeFolderModificationRequest hfmr,
+            final List<Adult> adults, final List<Child> children, List<Adult> foreignRoleOwners, 
+            final Address adress, List<Document> documents)
+        throws CvqException;
+    
     /**
      * Return all history entries associated to a given request.
      */

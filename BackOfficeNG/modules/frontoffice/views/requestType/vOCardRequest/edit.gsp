@@ -4,7 +4,6 @@
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'format.js')}"></script>
   </head>  
   <body>
     <g:set var="requestTypeInfo">
@@ -21,15 +20,12 @@
 	<g:render template="/frontofficeRequestType/cancelPanel" />
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
     
-	<h2 class="request-creation"> <g:message code="vcr.label" /></h2>
-    <p><g:message code="vcr.description" /></p> 
+	<h2 class="request-creation"> <g:translateRequestTypeLabel label="${requestTypeLabel}"/></h2>
     <p><g:message code="request.duration.label" /><strong> : <g:message code="vcr.duration.value" /></strong></p>
     <p>
       <g:message code="request.requiredDocuments.header" /> :
       <g:each in="${documentTypes}" var="documentType" status="index">
-        <strong>
-          <g:message code="${documentType.value.i18nKey}"/><g:if test="${index < documentTypes.size() - 1}">,</g:if>
-        </strong>
+        <strong>${documentType.value.name}<g:if test="${index < documentTypes.size() - 1}">,</g:if></strong>
       </g:each>
     </p>
     <g:if test="${flash.confirmationMessage}">
@@ -42,7 +38,6 @@
         <li class="${['adults', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
   
           <a href="#adults"><em>
-          <span class="tag-no_right">1</span>
           <span class="tag-state ${stepStates!= null ? stepStates.adults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.adults.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <strong><g:message code="vcr.step.adults.label" /> * </strong>
           </em></a>
@@ -50,7 +45,6 @@
 
         <li class="${currentStep == 'children' ? 'selected' : ''}">
           <a href="#children"><em>
-            <span class="tag-no_right">2</span>
             <span class="tag-state ${stepStates!= null ? stepStates.children.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.children.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <span><g:message code="vcr.step.children.label" /></span>
           </em></a>
@@ -58,7 +52,6 @@
         
         <li class="${currentStep == 'account' ? 'selected' : ''}">
           <a href="#account"><em>
-            <span class="tag-no_right">3</span>
             <span class="tag-state ${stepStates!= null ? stepStates.account.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.account.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <strong><g:message code="vcr.step.account.label" /> *</strong>
           </em></a>
@@ -66,7 +59,6 @@
 
         <li class="${currentStep == 'document' ? 'selected' : ''}">
           <a href="#document"><em>
-            <span class="tag-no_right">4</span>
             <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <g:message code="request.step.document.label" />
           </em></a>
@@ -74,7 +66,6 @@
 
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
           <a href="#validation"><em>
-          <span class="tag-no_right">5</span>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <strong><g:message code="request.step.validation.label" /> *</strong>
           </em></a>
@@ -93,7 +84,7 @@
   
              <g:message code="vcr.step.adults.label" />
              <span><g:message code="vcr.step.adults.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.adults?.errorMsg}" /></span>
+             <span class="error">${stepStates?.adults?.errorMsg}</span>
            </h3>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/adults" /> 
@@ -125,10 +116,10 @@
   
              <g:message code="vcr.step.children.label" />
              <span><g:message code="vcr.step.children.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.children?.errorMsg}" /></span>
+             <span class="error">${stepStates?.children?.errorMsg}</span>
            </h3>
            <div>
-         	   <g:render template="/frontofficeRequestType/vOCardRequest/children" /> 
+         	   <g:render template="/frontofficeRequestType/vOCardRequest/children" />
            </div>
 
            <!-- Input submit-->
@@ -160,7 +151,7 @@
   
              <g:message code="vcr.step.account.label" />
              <span><g:message code="vcr.step.account.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.account?.errorMsg}" /></span>
+             <span class="error">${stepStates?.account?.errorMsg}</span>
            </h3>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/account" /> 
@@ -169,8 +160,9 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           <input type="submit" id="submit-step-account" class="submit-step" name="submit-step-account" value="${message(code:'action.save')}" />
-  
+           <g:if test="${!session[uuidString]?.isTutorsEdit}">
+             <input type="submit" id="submit-step-account" class="submit-step" name="submit-step-account" value="${message(code:'action.save')}" />
+           </g:if>
          </form>
          <div class="navTab">
   
@@ -193,7 +185,7 @@
 
              <g:message code="request.step.document.label" />
              <span><g:message code="request.step.document.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
+             <span class="error">${stepStates?.document?.errorMsg}</span>
            </h3>
            <div>
 
@@ -228,7 +220,7 @@
   
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
+             <span class="error">${stepStates?.validation?.errorMsg}</span>
            </h3>
            <div>
              
@@ -244,8 +236,9 @@
             <g:render template="/frontofficeRequestType/vOCardRequest/validation" /> 
 
 						<h3><g:message code="request.step.validation.label" /></h3>
-            
-            <g:render template="/frontofficeRequestType/outOfAccountValidation" />
+            <g:if test="${!hasHomeFolder}">
+              <g:render template="/frontofficeRequestType/outOfAccountValidation" />
+            </g:if>
             
             <div id="useAcceptance">
              <input type="checkbox" name="useAcceptance" class="required validate-one-required"

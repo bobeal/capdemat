@@ -16,4 +16,8 @@ public class CvqModelException extends CvqException {
     public CvqModelException(String reason, String key) {
         super(reason, key);
     }
+    
+    public CvqModelException(String key, String[] args) {
+        super(key, key, args);
+    }
 }

@@ -94,7 +94,7 @@
   <% } %>
              <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
              <span><g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.desc" /></span>
-             <span class="error"><g:message code="\${stepStates?.${step.name}?.errorMsg}" /></span>
+             <span class="error">\${stepStates?.${step.name}?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>

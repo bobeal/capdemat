@@ -19,9 +19,8 @@ import fr.cg95.cvq.business.users.HomeFolder;
  *
  * @author bor@zenexity.fr
  * @author rdj@zenexity.fr
- * @author maxence.veyret@bull.net
  */
-public class Payment implements Serializable, Comparable {
+public class Payment implements Serializable, Comparable<Payment> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -247,10 +246,8 @@ public class Payment implements Serializable, Comparable {
         this.paymentSpecificData.remove(key);
     }
     
-    public int compareTo(Object o) {
-        if (o instanceof Payment)
-            return -commitDate.compareTo(((Payment) o).commitDate);
-        return 0;
+    public int compareTo(Payment o) {
+        return -commitDate.compareTo(o.commitDate);
     }
 
     public final Map<String, String> getPaymentSpecificData() {

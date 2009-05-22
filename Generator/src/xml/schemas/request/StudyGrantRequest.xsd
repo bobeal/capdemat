@@ -10,13 +10,13 @@
   <xs:element name="StudyGrantRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Dossier de demande de bourse
+        Demande de Mobil'Etudes
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Study grant request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Demande de bourse
+        Mobil'Etudes
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Study grant request
@@ -150,6 +150,7 @@
                   <model namespace="users" />
                   <common>
                     <step name="taxHousehold" />
+                    <validation jsregexp="^77[0-9]{3}$" />
                   </common>
                   <xslfo>
                     <element blockId="1" line="1" column="0">
@@ -808,6 +809,34 @@
             </common>
             <xslfo>
               <element blockId="0" line="3" column="0">
+                <string />
+              </element>
+            </xslfo>
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SubjectFirstRequest" type="xs:boolean" default="true">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Première demande
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            First request
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Première demande
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            First request
+          </xs:documentation>
+          <xs:appinfo>
+            <common>
+              <step name="subject" />
+            </common>
+            <xslfo>
+              <element blockId="0" line="4" column="0">
                 <string />
               </element>
             </xslfo>

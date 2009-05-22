@@ -139,6 +139,12 @@ public class DocumentBootstrapper {
 
         checkDocumentType("Identity Photo", 34, 
                 DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Registration Certificate", 35, 
+                DocumentUsageType.REUSABLE, 0, DocumentTypeValidity.UNLIMITED);
+
+        checkDocumentType("Revenue Taxes Notification Two Years Ago", 36, 
+                DocumentUsageType.REUSABLE, 1, DocumentTypeValidity.YEAR);
     }
 
     public void setDocumentTypeDAO(IDocumentTypeDAO documentTypeDAO) {

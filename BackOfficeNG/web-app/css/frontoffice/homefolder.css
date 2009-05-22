@@ -27,3 +27,9 @@
   text-align: right;
   border: none;
 }
+
+.homeFolder-action        { padding: .75em; font-size: 1.2em; text-align: right; }
+.homeFolder-action .first { text-align: left; }
+.homeFolder-action p      { padding: .2em 0; }
+.homeFolder-action a      { display: block; margin: .3em; }
+.homeFolder-action a span { display: block; font: italic .8em sans-serif; }

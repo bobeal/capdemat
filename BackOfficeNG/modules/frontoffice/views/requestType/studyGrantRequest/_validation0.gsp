@@ -39,6 +39,11 @@
           
 
         
+          <dt><g:message code="sgr.property.subjectFirstRequest.label" /></dt>
+          <dd><g:message code="message.${rqt.subjectFirstRequest ? 'yes' : 'no'}" /></dd>
+          
+
+        
       </dl>
       
     

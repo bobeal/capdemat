@@ -17,6 +17,15 @@
     alter table alignment_certificate_request 
         drop constraint FK9EBFB38B1F88D72E;
 
+    alter table alignment_numbering_connection_request 
+        drop constraint FKEBD1311082587E99;
+
+    alter table alignment_numbering_connection_request 
+        drop constraint FKEBD131101F88D72E;
+
+    alter table alignment_numbering_connection_request 
+        drop constraint FKEBD13110C6C3DEB1;
+
     alter table birth_details_request 
         drop constraint FKB356961282587E99;
 
@@ -464,6 +473,8 @@
 
     drop table alignment_certificate_request;
 
+    drop table alignment_numbering_connection_request;
+
     drop table birth_details_request;
 
     drop table bulky_waste_collection_request;
@@ -718,6 +729,26 @@
         number bytea,
         owner_last_name varchar(38),
         owner_address_id int8,
+        primary key (id)
+    );
+
+    create table alignment_numbering_connection_request (
+        id int8 not null,
+        is_numbering bool,
+        other_address_id int8,
+        owner_first_names varchar(255),
+        number bytea,
+        area bytea,
+        more_than_two_years bool,
+        owner_address_id int8,
+        requester_quality varchar(255),
+        section varchar(255),
+        transportation_route varchar(255),
+        locality varchar(255),
+        is_connection bool,
+        is_account_address bool,
+        is_alignment bool,
+        owner_last_name varchar(38),
         primary key (id)
     );
 
@@ -1568,6 +1599,7 @@
         role varchar(255),
         home_folder_id int8,
         individual_id int8,
+        individual_name varchar(255),
         owner_id int8,
         primary key (id)
     );
@@ -1725,13 +1757,13 @@
 
     create table perischool_activity_registration_request (
         id int8 not null,
-        rules_and_regulations_acceptance bool,
-        section varchar(32),
-        child_photo_exploitation_permission bool,
         class_trip_permission bool,
-        urgency_phone varchar(10),
-        hospitalization_permission bool,
+        child_photo_exploitation_permission bool,
         school_id int8,
+        hospitalization_permission bool,
+        rules_and_regulations_acceptance bool,
+        urgency_phone varchar(10),
+        section varchar(32),
         primary key (id)
     );
 
@@ -1820,12 +1852,12 @@
 
     create table recreation_activity_registration_request (
         id int8 not null,
-        rules_and_regulations_acceptance bool,
-        child_photo_exploitation_permission bool,
-        class_trip_permission bool,
-        urgency_phone varchar(10),
-        hospitalization_permission bool,
         recreation_center_id int8,
+        class_trip_permission bool,
+        child_photo_exploitation_permission bool,
+        hospitalization_permission bool,
+        rules_and_regulations_acceptance bool,
+        urgency_phone varchar(10),
         primary key (id)
     );
 
@@ -2058,8 +2090,8 @@
     create table sms_notification_request (
         id int8 not null,
         clever_sms_contact_id varchar(255),
-        subscription bool,
         mobile_phone varchar(10),
+        subscription bool,
         primary key (id)
     );
 
@@ -2072,48 +2104,49 @@
 
     create table study_grant_request (
         id int8 not null,
-        subject_birth_date timestamp,
-        current_school_city varchar(32),
-        subject_email varchar(255),
-        tax_household_city varchar(32),
-        tax_household_postal_code varchar(5),
-        has_other_help bool,
-        subject_phone varchar(10),
+        abroad_internship_end_date timestamp,
+        has_europe_help bool,
         current_studies varchar(255),
-        alevels_date varchar(4),
-        counter_code varchar(5),
-        current_school_name varchar(255),
-        abroad_internship_school_country varchar(255),
-        tax_household_last_name varchar(38),
-        abroad_internship_school_name varchar(255),
-        account_key varchar(2),
-        has_regional_council_help bool,
         current_studies_level varchar(255),
         current_school_postal_code varchar(5),
         abroad_internship_start_date timestamp,
+        tax_household_first_name varchar(38),
+        alevels_date varchar(4),
+        bank_code varchar(5),
+        subject_birth_date timestamp,
+        counter_code varchar(5),
+        current_school_city varchar(32),
         has_c_r_o_u_s_help bool,
+        subject_email varchar(255),
+        current_school_name varchar(255),
+        sandwich_courses bool,
+        abroad_internship_school_country varchar(255),
+        tax_household_city varchar(32),
+        abroad_internship bool,
+        tax_household_last_name varchar(38),
         account_number varchar(11),
         distance varchar(255),
         alevels varchar(255),
+        tax_household_postal_code varchar(5),
+        subject_first_request bool,
         subject_mobile_phone varchar(10),
+        abroad_internship_school_name varchar(255),
+        account_key varchar(2),
         other_studies_label varchar(255),
+        has_regional_council_help bool,
         tax_household_income float8,
-        current_school_country varchar(255),
+        has_other_help bool,
         subject_address_id int8,
-        abroad_internship_end_date timestamp,
-        has_europe_help bool,
-        tax_household_first_name varchar(38),
-        bank_code varchar(5),
-        sandwich_courses bool,
-        abroad_internship bool,
+        current_school_country varchar(255),
+        subject_phone varchar(10),
         primary key (id)
     );
 
     create table technical_intervention_request (
         id int8 not null,
+        other_intervention_label varchar(255),
         intervention_description varchar(255),
         intervention_place_id int8,
-        other_intervention_label varchar(255),
         primary key (id)
     );
 
@@ -2165,6 +2198,21 @@
     alter table alignment_certificate_request 
         add constraint FK9EBFB38B1F88D72E 
         foreign key (owner_address_id) 
+        references address;
+
+    alter table alignment_numbering_connection_request 
+        add constraint FKEBD1311082587E99 
+        foreign key (id) 
+        references request;
+
+    alter table alignment_numbering_connection_request 
+        add constraint FKEBD131101F88D72E 
+        foreign key (owner_address_id) 
+        references address;
+
+    alter table alignment_numbering_connection_request 
+        add constraint FKEBD13110C6C3DEB1 
+        foreign key (other_address_id) 
         references address;
 
     alter table birth_details_request 

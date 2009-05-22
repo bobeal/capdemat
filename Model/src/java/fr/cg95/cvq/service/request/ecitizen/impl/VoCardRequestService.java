@@ -1,9 +1,6 @@
 package fr.cg95.cvq.service.request.ecitizen.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
@@ -19,7 +16,6 @@ import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
-import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -47,6 +43,7 @@ public final class VoCardRequestService
      *
      */
     @Override
+    @Deprecated
     public void create(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
             final Address address) throws CvqException {
 
@@ -79,7 +76,8 @@ public final class VoCardRequestService
     }
 
     public void create(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
-            final Address address, List<Document> documents) throws CvqException {
+            List<Adult> foreignRoleOwners, final Address address, List<Document> documents) 
+            throws CvqException {
 
         HomeFolder homeFolder = homeFolderService.create(adults, children, address);
         dcvo.setHomeFolderId(homeFolder.getId());
@@ -107,6 +105,10 @@ public final class VoCardRequestService
         homeFolderService.modify(homeFolder);
         
         addDocuments(dcvo, documents);
+        
+        homeFolderService.saveForeignRoleOwners(homeFolder.getId(), adults, children, 
+                foreignRoleOwners);
+        
         logger.debug("create() Created request object with id : " + requestId);
     }
     

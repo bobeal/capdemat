@@ -552,7 +552,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     }
     
     public List<Long> listHomeFolderSubjectIds(Long homeFolderId, String label, 
-                                              RequestState[] excludedStates) {
+            RequestState[] excludedStates) {
         
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -578,7 +578,6 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         Type[] typeTab = typeList.toArray(new Type[1]);
         Object[] objectTab = objectList.toArray(new Object[1]);
 
-        //noinspection unchecked
         return (List<Long>)HibernateUtil.getSession().createQuery(sb.toString())
             .setParameters(objectTab, typeTab).list();
     }
@@ -589,21 +588,21 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Object> objectList = new ArrayList<Object>();
         
         StringBuffer sb = new StringBuffer();
-        sb.append("select r from Request r left join r.actions a");
-        sb.append(" where r.draft = true");
-        sb.append(" and r.creationDate <= ?");
-        sb.append(" and (a.label != ?  or a.id = null) ");
-        
-        typeList.add(Hibernate.TIMESTAMP);
+        sb.append("from Request as request ").append("where request.id not in (");
+        sb.append("select request.id from Request request join request.actions action ")
+            .append(" where action.label = ?").append(")");
+        sb.append(" and request.draft = true");
+        sb.append(" and request.creationDate <= ?");
+
         typeList.add(Hibernate.STRING);
+        typeList.add(Hibernate.TIMESTAMP);
         
-        objectList.add(date);
         objectList.add(actionLabel);
+        objectList.add(date);
         
         Type[] typeTab = typeList.toArray(new Type[1]);
         Object[] objectTab = objectList.toArray(new Object[1]);
         
-        //noinspection unchecked
         List<Request> result = HibernateUtil.getSession()
             .createQuery(sb.toString()).setParameters(objectTab, typeTab).list();
         

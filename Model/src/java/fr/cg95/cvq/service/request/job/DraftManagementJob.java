@@ -16,6 +16,7 @@ import fr.cg95.cvq.util.mail.IMailService;
 
 import org.apache.log4j.Logger;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +43,9 @@ public class DraftManagementJob {
     private IMailService mailService;
     private IIndividualService individualService;
     private ILocalizationService localizationService;
+
+    private static String DRAFT_NOTIFICATION_SUBJECT = 
+        "[CapDémat] Expiration d'une demande sauvée en tant que brouillon";
     
     public void launchNotificationJob() {
         localAuthorityRegistry.browseAndCallback(this, "sendNotifications", null);
@@ -54,39 +58,53 @@ public class DraftManagementJob {
     public void deleteExpiredDrafts() throws CvqException {
         LocalAuthority authority = SecurityContext.getCurrentSite();
         
-        Set<Critere> criterias = this.prepareQueryParams(authority.getDraftLiveDuration());
-        List<Request> requests = this.requestDAO.search(criterias,null,null,0,0);
+        Set<Critere> criterias = prepareQueryParams(authority.getDraftLiveDuration());
+        List<Request> requests = requestDAO.search(criterias,null,null,0,0);
         for (Request r : requests) 
-            requestDAO.delete(r.getId());
+            requestDAO.delete(r);
     }
     
+    /**
+     * Send drafts expiration notification to ecitizens.
+     * 
+     * @return the number of email notifications sent.
+     */
     public Integer sendNotifications() throws CvqException {
         Integer counter = 0; 
         LocalAuthority authority = SecurityContext.getCurrentSite();
         Integer limit =
             authority.getDraftLiveDuration() - authority.getDraftNotificationBeforeDelete();
         
-        List<Request> requests = this.requestDAO.listDraftedByNotificationAndDate(
+        List<Request> requests = requestDAO.listDraftedByNotificationAndDate(
             IRequestActionService.DRAFT_DELETE_NOTIFICATION,
             DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -limit));
         
         for (Request r : requests) {
             Adult adult = this.individualService.getAdultById(r.getRequesterId());
-            String from = r.getRequestType().getCategory().getPrimaryEmail();
+            String from = null;
+            if (r.getRequestType().getCategory() != null)
+                from = r.getRequestType().getCategory().getPrimaryEmail();
+            else
+                from = authority.getAdminEmail();
             boolean sent = false;
             
             try {
                 String mailBody =
                     this.buildMailTemplate(r, authority.getDraftLiveDuration());
                 if (mailBody != null) {
-                    mailService.send(from, adult.getEmail(), null,
-                        "[CapDémat] Expiration d'une demande sauvée en tant que brouillon",
-                        this.buildMailTemplate(r, authority.getDraftLiveDuration()));
+                    try {
+                        mailService.send(from, adult.getEmail(), null,
+                            new String(DRAFT_NOTIFICATION_SUBJECT.getBytes(), "UTF-8"),
+                            mailBody);
+                    } catch (UnsupportedEncodingException e) {
+                        // unlikely to happen
+                    }
                 }
+                logger.debug("sendNotifications() sent for request " + r.getId());
                 sent = true;
                 counter ++;
             } catch (CvqException e) {
-                logger.error("sendNotifications() "+e.getMessage());
+                logger.error("sendNotifications() " + e.getMessage());
             } finally {
                 if (sent)
                     requestActionService.addSystemAction(r.getId(),
@@ -105,13 +123,16 @@ public class DraftManagementJob {
 
         if (template == null)
             return null;
+        
         template = template.replace("${requestType}", 
             localizationService.getRequestLabelTranslation(
                 request.getClass().getName(), "fr", false));
         template = template.replace("${requestId}",request.getId().toString());
-        template = template.replace("${creationDate}", DateUtils.format(request.getCreationDate()));
+        template = template.replace("${creationDate}", 
+                DateUtils.format(request.getCreationDate()));
         template = template.replace("${expirationDate}",
-            DateUtils.format(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,liveDuration+1))
+            DateUtils.format(DateUtils.getShiftedDate(request.getCreationDate(), 
+                    Calendar.DAY_OF_YEAR, liveDuration + 1))
         );
         
         return template;

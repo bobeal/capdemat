@@ -85,6 +85,7 @@ function FIC_checkForm(e, el, includeScope) {
 				if (t == 'text' || t == 'password') {
 					//text box
 					var valid = FIC_checkField(cname,f_in[i]);
+					valid = FIC_checkOneRequired(f_in[i], valid);
 				} else if(t == 'radio' || t == 'checkbox'){
 					// radio or checkbox
 					var valid = FIC_checkRadCbx(cname,f_in[i],f_in);
@@ -391,6 +392,23 @@ function FIC_checkLocalReferentialDataTree(c,e,f, valid){
 		}
 	}
 	return valid;
+}
+
+/* 
+ * Check if at least one input type="text" is filled
+ * ------------------------------------------------------------------------- */
+function FIC_checkOneRequired(e, valid){
+	var valuesSize = 1;
+	var wrapper = e.parentNode;
+	if (YAHOO.util.Dom.hasClass(wrapper, 'one-required')) {
+	  var inputChildren = wrapper.getElementsByTagName('input');
+	  if (!!inputChildren.length) valuesSize = 0;
+		for (var i=0; i<inputChildren.length; i++) {
+			if(inputChildren[i].type === "text")
+				valuesSize += (inputChildren[i].value.length) ;
+		}
+	}
+	return valid && !!valuesSize;
 }
 
 function FIC_toggleValidationClass(inputEl, isValid, passedClassName, failedClassName) {

@@ -3,25 +3,28 @@
 </g:if>
 <g:else>
 
+  <input type="hidden" name="homeFolderId" value="${individuals?.homeFolderId}" />
   <fieldset class="account-fieldset-edit validation-scope">
-    <h4><g:message code="homeFolder.property.responsibles" /></h4>
-    <dl>
-    <g:each var="owner" in="${individuals.getRoleOwnersOnHomeFolder(individuals?.adults)}">
-      <dt>
-        <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> 
-        ${owner.value.owner.fullName}
-      </dt>
-      <dd><input type="submit" name="submit-removeRole-account-ownerType:adults_ownerIndex:${owner.key}_role:${owner.value.role}" value="${message(code:'action.remove')}" /></dd>
-    </g:each>
-    <g:each var="owner" in="${individuals.getRoleOwnersOnHomeFolder(individuals?.tutors)}">
-      <dt>
-        <span class="tag-foreigner tag-state"><g:message code="homeFolder.property.foreign" /></span>
-        <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> 
-        ${owner.value.owner.fullName}
-      </dt>
-      <dd><input type="submit" name="submit-removeRole-account-ownerType:tutors_ownerIndex:${owner.key}_role:${owner.value.role}" value="${message(code:'action.remove')}" /></dd>
-    </g:each>
-    </dl>
+    <h4><g:message code="homeFolder.header" /></h4>
+    <g:if test="${individuals.getRoleOwnersOnHomeFolder(individuals?.adults).size() > 0}">
+      <dl>
+      <g:each var="owner" in="${individuals.getRoleOwnersOnHomeFolder(individuals?.adults)}">
+        <dt>
+          <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> 
+          ${owner.value.owner.fullName}
+        </dt>
+        <dd><input type="submit" name="submit-removeRole-account-ownerType:adults_ownerIndex:${owner.key}_role:${owner.value.role}" value="${message(code:'action.remove')}" /></dd>
+      </g:each>
+      <g:each var="owner" in="${individuals.getRoleOwnersOnHomeFolder(individuals?.tutors)}">
+        <dt>
+          <span class="tag-foreigner tag-state"><g:message code="homeFolder.property.foreign" /></span>
+          <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> 
+          ${owner.value.owner.fullName}
+        </dt>
+        <dd><input type="submit" name="submit-removeRole-account-ownerType:tutors_ownerIndex:${owner.key}_role:${owner.value.role}" value="${message(code:'action.remove')}" /></dd>
+      </g:each>
+      </dl>
+    </g:if>
     
     <label class="required"><g:message code="homeFolder.property.responsible" /> * <span> (${message(code:'homeFolder.property.responsible.help')})</span></label>
     <input type="hidden" name="role-homeFolderResponsible_ownerType:adults" value="HomeFolderResponsible" />
@@ -46,7 +49,12 @@
     </select>
     <input type="submit" name="submit-addRole-account-homeFolderTutor_ownerType:adults" value="${message(code:'action.add')}" />
     
-    <label><g:message code="homeFolder.property.foreignTutors" /></label>
+    <label>
+      <g:message code="homeFolder.property.foreignTutors" />
+      <g:if test="${flash?.isTutorAvailable}">
+        <span class="message">${message(code:'homeFolder.message.tutorIsAvailable')}</span>
+      </g:if>
+    </label>
     <input type="hidden" name="role-homeFolderTutor_ownerType:tutors" value="Tutor" />
     <select name="owner-homeFolderTutor_ownerType:tutors" class="validate-not-first">
       <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -55,7 +63,7 @@
       </g:each>
     </select>
     <input type="submit" name="submit-addRole-account-homeFolderTutor_ownerType:tutors" value="${message(code:'action.add')}" />
-    
+
     <label>${message(code:'homeFolder.property.foreignTutors.label')}</label>
     <input type="submit" name="submit-tutorsEdit-account" value="${message(code:'homeFolder.action.addNewTutor')}" />
   </fieldset>
@@ -67,23 +75,25 @@
   <g:each var="it" in="${individuals?.children}" status="index">
     <fieldset class="account-fieldset-edit validation-scope">
       <h4>${it.fullName}</h4>
-      <dl>
-      <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it.fullName,individuals?.adults)}">
-        <dt>
-          <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> 
-          ${owner.value.owner.fullName}
-        </dt>
-        <dd><input type="submit" name="submit-removeRole-account-ownerType:adults_ownerIndex:${owner.key}_role:${owner.value.role}_individualIndex:${index}_individualType:children" value="${message(code:'action.remove')}" /></dd>
-      </g:each>
-       <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it.fullName,individuals?.tutors)}">
-        <dt>
-          <span class="tag-foreigner tag-state"><g:message code="homeFolder.property.foreign" /></span>
-          <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> 
-          ${owner.value.owner.fullName}
-        </dt>
-        <dd><input type="submit" name="submit-removeRole-account-ownerType:tutors_ownerIndex:${owner.key}_role:${owner.value.role}_individualIndex:${index}_individualType:children" value="${message(code:'action.remove')}" /></dd>
-      </g:each>
-      </dl>
+      <g:if test="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults).size()  + individuals.getRoleOwnersOnIndividual(it, individuals?.tutors).size() > 0}">
+        <dl>
+        <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults)}">
+          <dt>
+            <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> 
+            ${owner.value.owner.fullName}
+          </dt>
+          <dd><input type="submit" name="submit-removeRole-account-ownerType:adults_ownerIndex:${owner.key}_role:${owner.value.role}_individualIndex:${index}_individualType:children" value="${message(code:'action.remove')}" /></dd>
+        </g:each>
+         <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.tutors)}">
+          <dt>
+            <span class="tag-foreigner tag-state"><g:message code="homeFolder.property.foreign" /></span>
+            <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> 
+            ${owner.value.owner.fullName}
+          </dt>
+          <dd><input type="submit" name="submit-removeRole-account-ownerType:tutors_ownerIndex:${owner.key}_role:${owner.value.role}_individualIndex:${index}_individualType:children" value="${message(code:'action.remove')}" /></dd>
+        </g:each>
+        </dl>
+      </g:if>
       <p> (${message(code:'homeFolder.child.property.legalResponsibles.help')})</p>
       <label class="required"><g:message code="homeFolder.child.property.legalResponsibles" /> *</label>
       <select name="role-ownerType:adults_individualIndex:${index}_individualType:children" class="validate-not-first">
@@ -100,7 +110,12 @@
       </select>
       <input type="submit" name="submit-addRole-account-ownerType:adults_individualIndex:${index}_individualType:children" value="${message(code:'action.add')}" />
       
-      <label class="required"><g:message code="homeFolder.child.property.foreignLegalResponsibles" /> *</label>
+      <label>
+        <g:message code="homeFolder.child.property.foreignLegalResponsibles" /> 
+        <g:if test="${flash?.isTutorAvailable}">
+          <span class="message">${message(code:'homeFolder.message.tutorIsAvailable')}</span>
+        </g:if>
+      </label>
       <select name="role-ownerType:tutors_individualIndex:${index}_individualType:children" class="validate-not-first">
         <option value=""><g:message code="message.select.defaultOption" /></option>
         <g:each in="${individuals?.childRoleTypes}">
@@ -114,7 +129,7 @@
         </g:each>
       </select>
       <input type="submit" name="submit-addRole-account-ownerType:tutors_individualIndex:${index}_individualType:children" value="${message(code:'action.add')}" />
-      
+    
       <label>${message(code:'homeFolder.property.foreignTutors.label')}</label>
       <input type="submit" name="submit-tutorsEdit-account" value="${message(code:'homeFolder.action.addNewTutor')}" />
     </fieldset>
@@ -129,21 +144,23 @@
       <h4>
         <g:capdematEnumToField var="${it.title}" i18nKeyPrefix="homeFolder.adult.title" /> ${it.fullName}
       </h4>
-      <dl>
-      <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it.fullName,individuals?.adults)}">
-        <dt>
-          <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> ${owner.value.owner.fullName}
-        </dt>
-        <dd><input type="submit" name="submit-removeRole-account-ownerType:adults_ownerIndex:${owner.key}_role:${owner.value.role}_individualIndex:${index}_individualType:adults" value="${message(code:'action.remove')}" /></dd>
-      </g:each>
-      <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it.fullName,individuals?.tutors)}">
-        <dt>
-          <span class="tag-foreigner tag-state"><g:message code="homeFolder.property.foreign" /></span>
-          <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> ${owner.value.owner.fullName}
-        </dt>
-        <dd><input type="submit" name="submit-removeRole-account-ownerType:tutors_ownerIndex:${owner.key}_role:${owner.value.role}_individualIndex:${index}_individualType:adults" value="${message(code:'action.remove')}" /></dd>
-      </g:each>
-      </dl>
+      <g:if test="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults).size() + individuals.getRoleOwnersOnIndividual(it, individuals?.tutors).size() > 0}">
+        <dl>
+        <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults)}">
+          <dt>
+            <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> ${owner.value.owner.fullName}
+          </dt>
+          <dd><input type="submit" name="submit-removeRole-account-ownerType:adults_ownerIndex:${owner.key}_role:${owner.value.role}_individualIndex:${index}_individualType:adults" value="${message(code:'action.remove')}" /></dd>
+        </g:each>
+        <g:each var="owner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.tutors)}">
+          <dt>
+            <span class="tag-foreigner tag-state"><g:message code="homeFolder.property.foreign" /></span>
+            <g:capdematEnumToFlag var="${owner.value.role}" i18nKeyPrefix="homeFolder.role" /> ${owner.value.owner.fullName}
+          </dt>
+          <dd><input type="submit" name="submit-removeRole-account-ownerType:tutors_ownerIndex:${owner.key}_role:${owner.value.role}_individualIndex:${index}_individualType:adults" value="${message(code:'action.remove')}" /></dd>
+        </g:each>
+        </dl>
+      </g:if>
       <p>(${message(code:'homeFolder.property.tutors.help')})</p>
       <label><g:message code="homeFolder.adult.property.tutors" /></label>
       <input type="hidden" name="role-ownerType:adults_individualIndex:${index}_individualType:adults" value="Tutor" />
@@ -155,7 +172,12 @@
       </select>
       <input type="submit" name="submit-addRole-account-ownerType:adults_individualIndex:${index}_individualType:adults" value="${message(code:'action.add')}" />
       
-      <label><g:message code="homeFolder.adult.property.foreignTutors" /></label>
+      <label>
+        <g:message code="homeFolder.adult.property.foreignTutors" />
+        <g:if test="${flash?.isTutorAvailable}">
+          <span class="message">${message(code:'homeFolder.message.tutorIsAvailable')}</span>
+        </g:if>
+      </label>
       <input type="hidden" name="role-ownerType:tutors_individualIndex:${index}_individualType:adults" value="Tutor" />
       <select name="owner-ownerType:tutors_individualIndex:${index}_individualType:adults" class="validate-not-first">
         <option value=""><g:message code="message.select.defaultOption" /></option>

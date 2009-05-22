@@ -448,6 +448,13 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="xslFoFilename" value="alignmentCertificateRequest.xsl"/>
   </bean>
 
+  <bean id="alignmentNumberingConnectionRequestService"
+    class="fr.cg95.cvq.service.request.urbanism.impl.AlignmentNumberingConnectionRequestService"
+    parent="requestService">
+    <property name="label" value="Alignment Numbering Connection"/>
+    <property name="xslFoFilename" value="alignmentNumberingConnectionRequest.xsl"/>
+  </bean>
+
   <bean id="sewerConnectionRequestService" 
     class="fr.cg95.cvq.service.request.urbanism.impl.SewerConnectionRequestService" 
     parent="requestService">

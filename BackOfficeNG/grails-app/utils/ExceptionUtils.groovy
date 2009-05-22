@@ -40,8 +40,7 @@ class ExceptionUtils {
     }
 
     def private static extractModelException(ex) {
-        def cause = ex?.cause
-        
+        def cause = ex
         while(cause) {
             if(cause instanceof CvqException) return cause;
             cause = cause?.cause

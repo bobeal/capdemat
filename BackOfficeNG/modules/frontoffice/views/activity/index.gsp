@@ -14,7 +14,7 @@
   <!-- end of yui-main -->
   
   <div id="narrow" class="yui-b">
-    <div class="requestBox">
+    <div class="narrow-box">
       <h3>
         <g:message code="header.filterBy" />
       </h3>

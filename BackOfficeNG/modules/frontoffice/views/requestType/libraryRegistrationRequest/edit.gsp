@@ -27,10 +27,15 @@
     <g:if test="${flash.isOutOfAccountRequest}">
       <g:render template="/frontofficeRequestType/loginPanel" />
     </g:if>
+    <g:if test="${flash.confirmationMessage}">
+      <div class="information-box"><p>${flash.confirmationMessage}</p></div>
+    </g:if>
+    
+    <g:render template="/frontofficeRequestType/cancelPanel" />
     <g:if test="${session.currentEcitizen}">
       <g:render template="/frontofficeRequestType/draftPanel" />
     </g:if>
-    <g:render template="/frontofficeRequestType/cancelPanel" />
+    
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
     
     <h2 class="request-creation"> <g:message code="lrr.label" /></h2>
@@ -47,9 +52,6 @@
         <g:message code="message.none" />
       </g:else>
     </p>
-    <g:if test="${flash.confirmationMessage}">
-      <div class="request-information">${flash.confirmationMessage}</div>
-    </g:if>
 
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">

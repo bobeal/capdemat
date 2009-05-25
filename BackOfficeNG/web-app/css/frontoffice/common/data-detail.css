@@ -31,7 +31,6 @@
   color: #333; background: #eee;
   overflow: auto;
 }
- 
 .data-detail dl dt,
 .data-detail dl dd {
   float: left;
@@ -39,10 +38,10 @@
   padding: .3em;
   border-top: 1px dashed #aaa;
 }
-
-.data-detail dl dt { width: 10em; min-height: 1.5em; text-align: right; clear: both; }
-.data-detail dl dd { width: 19.5em; font-size: 1.15em; }
-
+.data-detail dl dt   { width: 10em; min-height: 1.5em; text-align: right; clear: both; }
+.data-detail dl dd   { width: 19.5em; font-size: 1.15em; }
 .data-detail dl dd p { padding: 0.1em; }
 
 .data-detail .yui-g img { max-width: 97%; margin: 1em; }
+
+.data-detail .list-box  { border-top: 0; }

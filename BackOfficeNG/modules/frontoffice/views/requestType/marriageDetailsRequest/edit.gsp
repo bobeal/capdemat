@@ -146,7 +146,7 @@
   
              <g:message code="mdr.step.requester.label" />
              <span><g:message code="mdr.step.requester.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.requester?.errorMsg}" /></span>
+             <span class="error">${stepStates?.requester?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -188,7 +188,7 @@
   
              <g:message code="mdr.step.nature.label" />
              <span><g:message code="mdr.step.nature.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.nature?.errorMsg}" /></span>
+             <span class="error">${stepStates?.nature?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -232,7 +232,7 @@
   
              <g:message code="mdr.step.type.label" />
              <span><g:message code="mdr.step.type.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.type?.errorMsg}" /></span>
+             <span class="error">${stepStates?.type?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -276,7 +276,7 @@
   
              <g:message code="request.step.document.label" />
              <span><g:message code="request.step.document.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
+             <span class="error">${stepStates?.document?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -320,7 +320,7 @@
   
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
+             <span class="error">${stepStates?.validation?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>

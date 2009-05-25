@@ -185,7 +185,7 @@
   
              <g:message code="dhr.step.subject.label" />
              <span><g:message code="dhr.step.subject.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.subject?.errorMsg}" /></span>
+             <span class="error">${stepStates?.subject?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -225,7 +225,7 @@
   
              <g:message code="dhr.step.familyReferent.label" />
              <span><g:message code="dhr.step.familyReferent.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.familyReferent?.errorMsg}" /></span>
+             <span class="error">${stepStates?.familyReferent?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -267,7 +267,7 @@
   
              <g:message code="dhr.step.spouse.label" />
              <span><g:message code="dhr.step.spouse.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.spouse?.errorMsg}" /></span>
+             <span class="error">${stepStates?.spouse?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -311,7 +311,7 @@
   
              <g:message code="dhr.step.dwelling.label" />
              <span><g:message code="dhr.step.dwelling.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.dwelling?.errorMsg}" /></span>
+             <span class="error">${stepStates?.dwelling?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -355,7 +355,7 @@
   
              <g:message code="dhr.step.resources.label" />
              <span><g:message code="dhr.step.resources.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.resources?.errorMsg}" /></span>
+             <span class="error">${stepStates?.resources?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -397,7 +397,7 @@
   
              <g:message code="dhr.step.taxes.label" />
              <span><g:message code="dhr.step.taxes.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.taxes?.errorMsg}" /></span>
+             <span class="error">${stepStates?.taxes?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -441,7 +441,7 @@
   
              <g:message code="request.step.document.label" />
              <span><g:message code="request.step.document.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
+             <span class="error">${stepStates?.document?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -485,7 +485,7 @@
   
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
+             <span class="error">${stepStates?.validation?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>

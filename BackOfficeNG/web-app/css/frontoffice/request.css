@@ -109,6 +109,7 @@ h2.request-creation {
   color: #7fa646;
 }
 
+/* TODO - generalize address-fieldset as sub-fieldset selector */
 #requestTabView .address-fieldset {
   width: 80%;
   margin: 0 0 1em; padding: .5em;
@@ -191,10 +192,13 @@ h2.request-creation {
 
 #requestTabView .account-fieldset-edit select,
 #requestTabView .account-fieldset-edit input { width: auto; display: inline; }
+#requestTabView .account-fieldset-edit label { width: 100%; }
+
+#requestTabView .account-fieldset-edit .message { display: inline; padding: .2em; font: bold italic .8em sans-serif; color: #20aa20; background: #fff; }
 
 #requestTabView .account-fieldset-edit { 
   margin-top: 1em; padding: 1em; 
-  border: 1px solid #FF812B; -moz-border-radius: .5em; 
+  border: 1px solid #ccc !important; -moz-border-radius: .5em; 
   background: #eee;
 }
 

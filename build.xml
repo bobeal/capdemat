@@ -23,7 +23,6 @@
   </target>
 
   <target name="clean-configfiles" depends="init">
-    <delete file="${libraries.springconf.dir}/applicationContext-deployment.xml" />
     <delete file="${libraries.springconf.dir}/applicationContext.xml" />
   </target>
 
@@ -63,6 +62,14 @@
 
     <copy file="${libraries.springconf.dir}/applicationContext-serviceexporter.xml.tpl"
           tofile="${libraries.springconf.dir}/applicationContext-serviceexporter.xml"
+          verbose="true" overwrite="true">
+      <filterset>
+        <filter token="deploy_properties_file" value="${deploy_properties_file}" />
+      </filterset>
+    </copy>
+
+    <copy file="${libraries.springconf.dir}/applicationContext-deployment.xml.tpl"
+          tofile="${libraries.springconf.dir}/applicationContext-deployment.xml"
           verbose="true" overwrite="true">
       <filterset>
         <filter token="deploy_properties_file" value="${deploy_properties_file}" />

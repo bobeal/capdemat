@@ -35,10 +35,12 @@ public class IndividualRole implements Historizable, Serializable {
     private Long individualId;
 
     /**
-     * Transient field to keep track of the individual who is the subject of the role.
+     * Usefull to keep track of the individual who is the subject of the role.
      * 
      * It is the concatenation of first and last names and is used when the individual 
      * is still transient and thus has no identifier yet.
+     * 
+     * It is peristent field, just to enable field's value consistent merge.
      */
     private String individualName;
     
@@ -104,6 +106,10 @@ public class IndividualRole implements Historizable, Serializable {
         this.individualName = individualName;
     }
 
+    /**
+     * @hibernate.property 
+     *  column="individual_name"
+     */
     public String getIndividualName() {
         return individualName;
     }
@@ -145,6 +151,8 @@ public class IndividualRole implements Historizable, Serializable {
     }
 
     public int hashCode() {
+        if (getRole() == null)
+            return super.hashCode();
         int result = 29 * getRole().hashCode();
         return result;
     }

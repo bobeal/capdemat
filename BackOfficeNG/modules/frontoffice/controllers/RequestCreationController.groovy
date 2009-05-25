@@ -161,14 +161,11 @@ class RequestCreationController {
         
         def askConfirmCancel = false
         
-        if (cRequest.stepStates.isEmpty()) {
+        if (cRequest.stepStates.isEmpty()) { 
             requestTypeInfo.steps.each {
                 def nameToken = it.tokenize('-')
-                def value = ['state': 'uncomplete',
-                             'required': nameToken.size() == 2,
-                             'cssClass': 'tag-uncomplete',
-                             'i18nKey': 'request.step.state.uncomplete'
-                             ]
+                def value = ['required': nameToken.size() == 2]
+                stepState(value, 'uncomplete', '')
                 cRequest.stepStates.put(nameToken[0], value)
             }
         }
@@ -264,7 +261,8 @@ class RequestCreationController {
             else if (submitAction[1] == 'collectionDelete') {
                 def listFieldToken = submitAction[3].tokenize('[]')
                 def listWrapper = params.objectToBind == null ? cRequest : objectToBind[params.objectToBind]
-                listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
+                if (listWrapper[listFieldToken[0]].size() > Integer.valueOf(listFieldToken[1]))
+                    listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {
@@ -297,6 +295,7 @@ class RequestCreationController {
                 
                 if (SecurityContext.currentEcitizen == null) homeFolderService.addRole(owner, individual, role)
                 else homeFolderService.addRole(owner, individual, homeFolderId, role)
+                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'removeRole') {
                 def roleParam = targetAsMap(submitAction[3])
@@ -310,12 +309,18 @@ class RequestCreationController {
                 
                 if (SecurityContext.currentEcitizen == null) homeFolderService.removeRole(owner, individual, role)
                 else homeFolderService.removeRole(owner, individual, homeFolderId, role)
+                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'tutorsEdit') {
                 session[uuidString].isTutorsEdit = true
+                session[uuidString].tutorsSize = 
+                    objectToBind.individuals.tutors == null ? 0 : objectToBind.individuals.tutors.size() 
             }
             else if (submitAction[1] == 'tutorsEndEdit') {
                 session[uuidString].isTutorsEdit = false
+                flash.isTutorAvailable = 
+                    session[uuidString].tutorsSize < 
+                    (objectToBind.individuals.tutors == null ? 0 : objectToBind.individuals.tutors.size())
             }
             // standard save action
             else {
@@ -329,10 +334,15 @@ class RequestCreationController {
                 session[uuidString].draftVisible = true
                                                                     
                 if (submitAction[1] == 'step') {
-                    cRequest.stepStates.get(currentStep).state = 'complete'
-                    cRequest.stepStates.get(currentStep).cssClass = 'tag-complete'
-                    cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.complete'
-                    cRequest.stepStates.get(currentStep).errorMsg = ''
+                    if (currentStep == 'account') objectToBind.individuals.checkRoles()
+                    stepState(cRequest.stepStates.get(currentStep), 'complete', '')
+                }
+                
+                if (['VO Card Request','Home Folder Modification'].contains(requestTypeInfo.label)) {
+                    if (['collectionAdd'].contains(submitAction[1])) {
+                        stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                        stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
+                    }
                 }
                 
                 if (currentStep == 'validation') {
@@ -343,8 +353,8 @@ class RequestCreationController {
         
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
                     if (requestTypeInfo.label == 'Home Folder Modification') {
-                        def hfmr = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
-                        requestService.modify(hfmr, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.requester.adress)
+                        cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
+                        requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.tutors, objectToBind.requester.adress, docs)
                     }
                     else if (requestTypeInfo.label == 'VO Card Request')
                         requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.tutors, objectToBind.requester.adress, docs)
@@ -369,11 +379,16 @@ class RequestCreationController {
             session[uuidString].individuals = objectToBind.individuals
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
-            ce.printStackTrace()
-            cRequest.stepStates.get(currentStep).state = 'invalid'
-            cRequest.stepStates.get(currentStep).cssClass = 'tag-invalid'
-            cRequest.stepStates.get(currentStep).i18nKey = 'request.step.state.error'
-            cRequest.stepStates.get(currentStep).errorMsg = ce.message
+//            ce.printStackTrace()
+            
+            println ce.i18nArgs
+            println ExceptionUtils.getModelI18nArgs(ce)
+            
+            println ExceptionUtils.getModelI18nKey(ce)
+            println message(code:ExceptionUtils.getModelI18nKey(ce),args:["RAFIK"])
+            
+            stepState(cRequest.stepStates.get(currentStep), 'invalid', 
+                    message(code:ExceptionUtils.getModelI18nKey(ce),args:ExceptionUtils.getModelI18nArgs(ce)))
         }
 
         render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",
@@ -443,6 +458,12 @@ class RequestCreationController {
                     ])
     }
     
+    def stepState(step, state, errorMsg) {
+        step.state = state
+        step.cssClass = 'tag-' + state
+        step.i18nKey = 'request.step.state.' + state
+        step.errorMsg = errorMsg
+    }
     
     /* Step and Validation
      * ------------------------------------------------------------------------------------------- */
@@ -530,6 +551,8 @@ class RequestCreationController {
     
     /* Home Folder Modification
      * ------------------------------------------------------------------------------------------- */
+    
+    // Usefull to retrieve individuals having a role on homefolder's individuals or on homefolder
     def getAllRoleOwners(homeFolder) {
         def owners = [] as Set
         homeFolder.individuals.each {

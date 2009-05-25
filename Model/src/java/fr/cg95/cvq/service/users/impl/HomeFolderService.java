@@ -28,6 +28,7 @@ import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
@@ -539,6 +540,9 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     @Override
     public void saveForeignRoleOwners(Long homeFolderId, List<Adult> adults, List<Child> children,
             List<Adult> foreignRoleOwners) throws CvqException, CvqModelException {
+        
+        if (foreignRoleOwners == null)
+            return;
         
         for (Adult roleOwner : foreignRoleOwners) {
             for (IndividualRole role : roleOwner.getIndividualRoles()) {

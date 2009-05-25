@@ -20,7 +20,7 @@
   
     <label class="required"><g:message code="sgr.property.taxHouseholdPostalCode.label" /> *  <span><g:message code="sgr.property.taxHouseholdPostalCode.help" /></span></label>
             <input type="text" name="taxHouseholdPostalCode" value="${rqt.taxHouseholdPostalCode}" 
-                    class="required  validate-postalCode" title="<g:message code="sgr.property.taxHouseholdPostalCode.validationError" />"  maxLength="5"/>
+                    class="required  validate-regex" title="<g:message code="sgr.property.taxHouseholdPostalCode.validationError" />" regex="^77[0-9]{3}$" maxLength="5"/>
             
 
   

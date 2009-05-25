@@ -6,12 +6,14 @@ public class SystemController {
 
     def error = {
         def exception = request.exception
-        
+                
         try {
             HibernateUtil.rollbackTransaction();
             HibernateUtil.closeSession();
             SecurityContext.resetCurrentSite();
-        } catch (Throwable e) {log.debug "Can't rollback hibernate transaction"}
+        } catch (Throwable e) {
+        	log.error "Can't rollback hibernate transaction"
+        }
         if (ExceptionUtils.isModelException(exception) && ExceptionUtils.isXRequestError(request))
             render(["status":"modelException", 
                     "message":exception.message, 

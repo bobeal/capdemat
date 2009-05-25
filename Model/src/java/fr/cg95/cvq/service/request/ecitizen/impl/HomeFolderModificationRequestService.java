@@ -284,13 +284,14 @@ public class HomeFolderModificationRequestService
         
         addDocuments(hfmr, documents);
         
-        for (int i = 0; i < foreignRoleOwners.size(); i++) {
-            if (foreignRoleOwners.get(i).getId() != null) {
-                Adult mergeRoleOwner = (Adult)HibernateUtil.getSession().merge(foreignRoleOwners.get(i));
-                foreignRoleOwners.set(i, mergeRoleOwner);
+        if (foreignRoleOwners != null) {
+            for (int i = 0; i < foreignRoleOwners.size(); i++) {
+                if (foreignRoleOwners.get(i).getId() != null) {
+                    Adult mergeRoleOwner = (Adult)HibernateUtil.getSession().merge(foreignRoleOwners.get(i));
+                    foreignRoleOwners.set(i, mergeRoleOwner);
+                }
             }
         }
-        
         homeFolderService.saveForeignRoleOwners(hfmr.getHomeFolderId(), adults, children, 
                 foreignRoleOwners);
         

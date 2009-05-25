@@ -25,7 +25,9 @@ class CapdematEnumTagLib {
 
         // TODO : finished it in a more industrialized way
         if (attrs.var == null) {
-            sb << "<span class=\"" 
+            sb << "<span class=\""
+            sb << "null"
+            sb << " "
             sb << attrs.i18nKeyPrefix
             sb << "\">"
             sb << "&nbsp;"

@@ -27,10 +27,15 @@
     <g:if test="${flash.isOutOfAccountRequest}">
       <g:render template="/frontofficeRequestType/loginPanel" />
     </g:if>
+    <g:if test="${flash.confirmationMessage}">
+      <div class="information-box"><p>${flash.confirmationMessage}</p></div>
+    </g:if>
+    
+    <g:render template="/frontofficeRequestType/cancelPanel" />
     <g:if test="${session.currentEcitizen}">
       <g:render template="/frontofficeRequestType/draftPanel" />
     </g:if>
-    <g:render template="/frontofficeRequestType/cancelPanel" />
+    
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
     
     <h2 class="request-creation"> <g:message code="sgr.label" /></h2>
@@ -47,9 +52,6 @@
         <g:message code="message.none" />
       </g:else>
     </p>
-    <g:if test="${flash.confirmationMessage}">
-      <div class="request-information">${flash.confirmationMessage}</div>
-    </g:if>
 
     <div id="requestTabView" class="yui-navset">
       <ul class="yui-nav">
@@ -191,7 +193,7 @@
   
              <g:message code="sgr.step.subject.label" />
              <span><g:message code="sgr.step.subject.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.subject?.errorMsg}" /></span>
+             <span class="error">${stepStates?.subject?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -233,7 +235,7 @@
   
              <g:message code="sgr.step.taxHousehold.label" />
              <span><g:message code="sgr.step.taxHousehold.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.taxHousehold?.errorMsg}" /></span>
+             <span class="error">${stepStates?.taxHousehold?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -277,7 +279,7 @@
   
              <g:message code="sgr.step.otherHelps.label" />
              <span><g:message code="sgr.step.otherHelps.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.otherHelps?.errorMsg}" /></span>
+             <span class="error">${stepStates?.otherHelps?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -321,7 +323,7 @@
   
              <g:message code="sgr.step.currentStudies.label" />
              <span><g:message code="sgr.step.currentStudies.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.currentStudies?.errorMsg}" /></span>
+             <span class="error">${stepStates?.currentStudies?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -365,7 +367,7 @@
   
              <g:message code="sgr.step.calculationElements.label" />
              <span><g:message code="sgr.step.calculationElements.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.calculationElements?.errorMsg}" /></span>
+             <span class="error">${stepStates?.calculationElements?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -409,7 +411,7 @@
   
              <g:message code="sgr.step.bankReference.label" />
              <span><g:message code="sgr.step.bankReference.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.bankReference?.errorMsg}" /></span>
+             <span class="error">${stepStates?.bankReference?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -453,7 +455,7 @@
   
              <g:message code="request.step.document.label" />
              <span><g:message code="request.step.document.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.document?.errorMsg}" /></span>
+             <span class="error">${stepStates?.document?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
@@ -497,7 +499,7 @@
   
              <g:message code="request.step.validation.label" />
              <span><g:message code="request.step.validation.desc" /></span>
-             <span class="error"><g:message code="${stepStates?.validation?.errorMsg}" /></span>
+             <span class="error">${stepStates?.validation?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>

@@ -1,4 +1,3 @@
-<g:if test="${children?.size() > 0}">
   <h2><g:message code="homeFolder.property.children"/></h2>
   <g:each var="record" in="${children}">
     <dl>
@@ -42,4 +41,3 @@
       </dd>
     </dl> 
   </g:each>
-</g:if>

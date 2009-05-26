@@ -10,9 +10,8 @@
         <div id="main" class="yui-b">
 
           <div class="list-box">
-            <h2>
-              <g:message code="menu.documents" />
-            </h2>
+            <h2><g:message code="menu.documents" /></h2>
+            <g:if test="${documents.count > 0}">
             <p class="paginator">
               <g:paginate action="index" total="${documents.count}" max="${maxRows}" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
             </p>
@@ -20,6 +19,10 @@
             <p class="paginator">
               <g:paginate action="index" total="${documents.count}" max="${maxRows}" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
             </p>
+            </g:if>
+            <g:else>
+              <p class="empty"><g:message code="message.noDocuments" /></strong>
+            </g:else>
           </div>
 
         </div>

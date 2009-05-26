@@ -6,7 +6,7 @@
   background-color:#FFCCCC;
 }
 
-.list-box           { min-height: 10em !important; padding-bottom: 1em;}
+.list-box           { padding-bottom: 1em;}
 .list-box ul li     { overflow: auto !important; }
 .list-box div.error { color: red; font-style: italic; }
 

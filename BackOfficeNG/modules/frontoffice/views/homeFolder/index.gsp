@@ -58,9 +58,11 @@
       <div class="yui-u first">
         <g:render template="adults" />
       </div>
-      <div class="yui-u">
-        <g:render template="children" />
-      </div>
+      <g:if test="${children?.size() > 0}">
+        <div class="yui-u">
+          <g:render template="children" />
+        </div>
+      </g:if>
     </div>
   </body>
 </html>

@@ -40,8 +40,6 @@
           <g:message code="homeFolder.individual.action.seeDetails" />
         </a>
       </dd>
-    </dl>
-    
+    </dl> 
   </g:each>
-  
 </g:if>

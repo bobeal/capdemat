@@ -1,4 +1,3 @@
-<g:if test="${requests?.count > 0}">
   <ul>
     <g:each var="record" in="${requests.records}">
       <li>
@@ -38,7 +37,3 @@
       </li>
     </g:each>
   </ul>
-</g:if>
-<g:else>
-  <strong><g:message code="message.noRequests" /></strong>
-</g:else>

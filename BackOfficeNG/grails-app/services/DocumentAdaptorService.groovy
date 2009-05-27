@@ -81,6 +81,13 @@ public class DocumentAdaptorService {
         } else return []
     }
     
+    def hasAssociatedDocuments(IRequestService requestService, Request cRequest, String sessionUuid, Set newDocuments) {
+        def providedAssociatedDocuments = requestService.getAssociatedDocuments(cRequest)
+        if (providedAssociatedDocuments == null) providedAssociatedDocuments = [] 
+        def newAssociatedDocuments = deserializeDocuments(newDocuments, sessionUuid)
+        return ((newAssociatedDocuments + providedAssociatedDocuments).size() > 0)
+    }
+    
     def getDocument(id, sessionUuid) {
         def doc = deserializeDocument(id, sessionUuid)
         if (doc == null) return [:]

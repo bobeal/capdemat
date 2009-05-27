@@ -13,7 +13,7 @@
 .narrow-box .body ul.legend span.legend-label-4 { background-color : yellowgreen; }
 
 
-.data-detail dl dd { width:11.9em !important; }
+.data-detail dl dd { width: 12.75em ; }
 
 /* Used inside a yui-g container */
 .details-panel { text-align: right; clear: both; padding-top: 0.5em; }

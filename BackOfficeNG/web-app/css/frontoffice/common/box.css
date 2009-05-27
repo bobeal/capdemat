@@ -65,7 +65,9 @@
   border-bottom: 3px solid #C690BB;
 }
 
-.list-box p.paginator, .list-box p.see-all { padding: 1em; font-size: 1.2em; } 
+.list-box p.paginator, 
+.list-box p.see-all,
+.list-box p.empty     { padding: 1em; font-size: 1.2em; } 
 .list-box p.paginator { margin: 0;  text-align: center; }
 .list-box p.see-all   { text-align: right; }
 
@@ -97,7 +99,6 @@
 .main-box { margin: 0 0 1em 0; background: #ffffff; }
 
 .main-box h2 { 
-  margin: 0 !important;
   color: #C690BB; background: #4c3848;
   border-bottom: 3px solid #C690BB;
 }

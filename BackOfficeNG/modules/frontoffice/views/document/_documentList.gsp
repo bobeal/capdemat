@@ -1,4 +1,3 @@
-<g:if test="${documents.count > 0}">
   <ul>
     <g:each var="record" in="${documents.all}">
       <li>
@@ -29,9 +28,3 @@
       </li>
     </g:each>
   </ul>
-</g:if>
-<g:else>
-  <strong>
-    <g:message code="message.noDocuments" />
-  </strong>
-</g:else>

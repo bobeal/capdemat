@@ -11,15 +11,18 @@
           
             <div class="list-box">
               <h2><g:message code="request.header.requests" /></h2>
-              <p class="paginator">
-                <g:paginate action="index" total="${requests.count}" max="10" next="&gt;" prev="&lt;" 
-                  params="${['ps':pageState]}"  />
-              </p>
-              <g:render template="requestList" />
-              <p class="paginator">
-                <g:paginate action="index" total="${requests.count}" max="10" next="&gt;" prev="&lt;" 
-                  params="${['ps':pageState]}"  />
-              </p>
+              <g:if test="${requests?.count > 0}">
+                <p class="paginator">
+                  <g:paginate action="index" total="${requests.count}" max="10" next="&gt;" prev="&lt;"  params="${['ps':pageState]}"  />
+                </p>
+                <g:render template="requestList" />
+                <p class="paginator">
+                  <g:paginate action="index" total="${requests.count}" max="10" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+                </p>
+              </g:if>
+              <g:else>
+                <p class="empty"><g:message code="message.noRequests" /></p>
+              </g:else>
             </div>
               
         </div> 

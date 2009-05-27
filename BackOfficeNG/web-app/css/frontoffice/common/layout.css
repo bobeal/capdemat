@@ -23,16 +23,16 @@ html { background: #cccccc; }
 }
 #hd h1 span { display: block; padding: .1em 0 0 0; font-size: .5em; }
 
-#hd #hd-menu { display: block; text-align: right; }
+#hd-menu { display: block; text-align: right; }
 
-#hd #hd-menu a {
+#hd-menu a {
   height: 20px;
   margin: 0 0 1px 1px; padding: .5em 1em;
   -moz-border-radius: 0 0 .5em .5em;
   text-decoration: none;
   color: #ffffff; background: #4c3848 ;
 }
-#hd #hd-menu a:hover {  background: #c690bb; }
+#hd-menu a:hover {  background: #c690bb; }
 
 
 /* main menu

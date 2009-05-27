@@ -214,22 +214,26 @@ class RequestCreationController {
                               
                 newDocuments += doc.id
                 isDocumentEditMode = false
+                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentDelete') {
                 def docParam = targetAsMap(submitAction[3])
                 newDocuments -= docParam.id
                 documentAdaptorService.deleteDocument(docParam.id, uuidString)
                 isDocumentEditMode = false
+                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentAssociate') {
                 def docParam = targetAsMap(submitAction[3])
                 requestService.addDocument(cRequest, Long.valueOf(docParam.id))
                 isDocumentEditMode = false
+                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentUnassociate') {
                 def docParam = targetAsMap(submitAction[3])
                 requestService.removeDocument(cRequest, Long.valueOf(docParam.id))
                 isDocumentEditMode = false
+                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentCancel') { 
                 isDocumentEditMode = false
@@ -335,6 +339,11 @@ class RequestCreationController {
                                                                     
                 if (submitAction[1] == 'step') {
                     if (currentStep == 'account') objectToBind.individuals.checkRoles()
+                    if (currentStep == 'document'
+                        &&  !documentAdaptorService.hasAssociatedDocuments(requestService, cRequest, uuidString, newDocuments)) {
+                        throw new CvqException("request.step.document.error.noAssociatedDocument")
+                    }
+                        
                     stepState(cRequest.stepStates.get(currentStep), 'complete', '')
                 }
                 
@@ -380,13 +389,6 @@ class RequestCreationController {
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
 //            ce.printStackTrace()
-            
-            println ce.i18nArgs
-            println ExceptionUtils.getModelI18nArgs(ce)
-            
-            println ExceptionUtils.getModelI18nKey(ce)
-            println message(code:ExceptionUtils.getModelI18nKey(ce),args:["RAFIK"])
-            
             stepState(cRequest.stepStates.get(currentStep), 'invalid', 
                     message(code:ExceptionUtils.getModelI18nKey(ce),args:ExceptionUtils.getModelI18nArgs(ce)))
         }

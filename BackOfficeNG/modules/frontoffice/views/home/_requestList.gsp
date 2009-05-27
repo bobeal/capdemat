@@ -27,6 +27,6 @@
     </p>
   </g:if>
   <g:else>
-    <strong><g:message code="message.noRequests" /></strong>
+    <p class="empty"><g:message code="message.noRequests" /></p>
   </g:else>
 </div>

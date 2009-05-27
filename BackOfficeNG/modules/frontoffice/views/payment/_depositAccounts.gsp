@@ -47,7 +47,5 @@
   </ul>
 </g:if>
 <g:else>
-  <strong>
-    <g:message code="message.noRecords" />
-  </strong>
+  <p class="empty"><g:message code="message.noDepositAccounts" /></p>
 </g:else>

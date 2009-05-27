@@ -1,197 +1,144 @@
-html { 
-  background-color: #FFFFFF !important; 
-}
+/* --------------------------------------------------------
+ * 
+ *        Valdoise - Style Sheet
+ *
+ *        orange: #ff812b
+ *        green:  #7FA646
+ *        gray:   #b6aca5
+ *
+ * ----------------------------------------------------- */
 
-#hd #hd-menu a,
-#main-menu a:hover, #main-menu a:hover span,
-#main-menu a.current, #main-menu a.current span, 
-#bd,
-.list-box h2,
-.main-box h2,
-.confirm-box h2,
-.group-box h3 { 
-  background-color: #b6aca5 !important;
-}
+/* global layout
+ * ----------------------------------------------------- */
+ 
+html { background: #fff; }
+#hd  { margin : 0 0 .5em; }
+#bd  { background-color: #b6aca5; }
+h2   { color: #fff; }
 
-#hd h1,
-.list-box p.paginator a {
-  color: #b6aca5 !important;
-}
 
-#main-menu a:hover,
-#main-menu a.current { 
-  border-color: #b6aca5 !important;
-}
+/* menus
+ * ----------------------------------------------------- */
+ 
+#main-menu a, #main-menu a span                 { background-color: #ff812b; }
+#main-menu a:hover, #main-menu a:hover span     { color: #fff; background-color: #b6aca5; }
+#main-menu a.current, #main-menu a.current span { color: #fff; background-color: #b6aca5; }
+#main-menu a.disable ,#main-menu a.disable span { background-color: #b6aca5 !important; }
 
-#main-menu a.disable ,#main-menu a.disable span{ 
-  background-color: #ccc !important;
-}
-#main-menu a.disable { 
-  border-color: #ccc !important;
-}
+#hd-menu a       { color: #fff; background-color: #b6aca5; }
+#hd-menu a:hover { background-color: #ff812b; }
 
-.list-box p.see-all a {
-  color: #FF812B !important;
-}
+/* boxes
+ * ----------------------------------------------------- */
 
-.list-box p.see-all a:hover, 
-.list-box p.paginator a:hover {
-  color: #FFFFFF !important;
-}
+/* list-box */
+.list-box h2            { color: #fff; border-bottom: 3px solid #ff812b; background: #b6aca5; }
+.list-box p.paginator a, 
+.list-box p.see-all a   { color: #095ba6; }
 
-.list-box h2,
-.nobox h3, .nobox li {
-  border-bottom-color: #FF812B !important;
-}
-
-#hd #hd-menu a:hover,
-#main-menu a, #main-menu a span,
-.requestBox h3,
 .list-box p.see-all a:hover, 
 .list-box p.paginator a:hover,
-.list-box p.paginator span.currentStep,
-.login-box a:hover,
-.group-box a:hover,
-.mandatory {
-  background-color: #FF812B !important;
-  color: #FFFFFF !important;
-}
+.list-box p.paginator span.currentStep { color: #ffffff; background: #ff812b; }
 
-h2,
-.main-box h2,
-.confirm-box h2,
-.list-box h2,
-.group-box h3,
-.login-box a{ 
-  color: #FFFFFF !important;
-}
+/* login-box */
+.login-box         { color: #fff; border-color: #fff; }
+.login-box a       { color: #fff; }
+.login-box a:hover { color: #fff; background: #ff812b; }
+.login-box form input[type="submit"] { border-color: #ff812b; }
 
-.requestBox .body {
-  background-color: #FFFFFF !important;
-}
+/* group-box */
+.group-box h3      { color: #fff; border-bottom: 3px solid #ff812b; background: #b6aca5; }
+.group-box a:hover { color: #fff; background: #ff812b; }
 
-.group-box h3,
-.main-box h2,
-.confirm-box h2,
-#requestTabView .requestHelp h3,
-.data-detail dl {
-  border-bottom-color: #FF812B !important;
-}
-.login-box {
-  border-color: #FFF !important;
-}
+/* main-box */
+.main-box h2      { color: #fff; border-bottom: 3px solid #ff812b; background: #b6aca5; }
+.main-box p       { padding: .1em 1em; }
 
-.individual dl,
-.login-box form input,
-.data-detail dl dt, .data-detail dl dd  {
-  border-top-color: #FF812B !important;
-}
+/* request-box */
+.narrow-box h3           { margin: 0; color: #fff; background: #ff812b; }
+.narrow-box .body        { background: #FFFFFF; }
+.narrow-box .body select { border-top-color: #ff812b; }
 
-.login-box form input[type="submit"] {
-  border-color: #FF812B !important;
-}
 
-.data-detail h2     { color: #fff !important; border: 0 !important; }
-.data-detail h3     { color: #FF812B !important; }
-.data-detail .yui-g { border-color: #FF812B !important; }
-
-/* forms styles (other than request creation ones)
---------------------------------------------------------------*/
-
-form fieldset {
-  border-left-color: #FF812B !important;
-}
-
-legend {
-  color: #FF812B !important;
-}
+/* forms
+ * ----------------------------------------------------- */
 
 form input[type="text"],
 form input[type="password"],
 form select,
-form textarea {
-  border-top-color: #FF812B !important;
-}
+form textarea { border-top-color: #ff812b !important; }
 
-/* request creation specific styles
---------------------------------------------------------------*/
 
-h2.request-creation { margin: 0 !important; font-size: 2em !important; }
+/* home folder screen
+ * ----------------------------------------------------- */
+
+.individual dl { margin: 0 0 1em; border-top: 3px solid #ff812b !important; }
+
+.data-detail h3     { color: #ff812b !important; }
+.data-detail .yui-g { border-color: #ff812b !important; }
+.data-detail dl     { border-bottom-color: #ff812b !important; }
+.data-detail dl dt  { border-top-color: #ff812b !important; }
+.data-detail dl dd  { border-top-color: #ff812b !important; }
+
+
+/* request creation
+ * ----------------------------------------------------- */
+
+h2.request-creation { margin: 0 !important; }
 
 .yui-skin-fong .yui-navset .yui-nav a,
 .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
-  color: #FFFFFF !important;
-  background-color: #FF812B !important;
-  border-color: #FF812B !important;
+  font-weight: bold !important;
+  color: #fff  !important; 
+  background: #ff812b !important;
+  border: 0 !important;
 }
 
+.yui-skin-fong .yui-navset .yui-nav a:hover,
 .yui-skin-fong .yui-navset .yui-nav .selected a,
-.yui-skin-fong .yui-navset .yui-nav .selected a:focus,
-.yui-skin-fong .yui-navset .yui-nav a:hover {
-  color: #000000 !important;
-  background-color: #FFFFFF !important;
-  border-color: #FFFFFF !important;
+.yui-skin-fong .yui-navset .yui-nav .selected a:focus {
+  color: #000  !important;
+  background: #fff !important; 
+  border-color: #fff !important;
 }
 
-#requestTabView { margin: 1em 0 0 0 !important; }
+#requestTabView                 { margin: 1em 0 0 !important }
+#requestTabView .requestHelp h3 { border-bottom-color: #b21811 !important; }
 
-#requestTabView h3 {
-  border-bottom-color: #FF812B !important;
-}
+#requestTabView h3                    { border-bottom-color:  #ff812b !important; }
+#requestTabView legend                { color: #ff812b !important; }
+#requestTabView fieldset              { border-left-color: #ff812b !important; }
+#requestTabView .address-fieldset     { border-color: #ff812b !important; }
+#requestTabView form ul.dataTree      { border-color: #ff812b !important; }
+#requestTabView form div .captcha img { border-color: #ff812b !important; }
 
-#requestTabView legend {
-  color: #FF812B !important;
-}
-
-#requestTabView fieldset {
-  border-left-color: #FF812B !important;
-}
-
-#requestTabView .address-fieldset     { border-color: #FF812B !important; }
-#requestTabView form ul.dataTree      { border-color: #FF812B !important; }
-#requestTabView form div .captcha img { border-color: #FF812B !important; }
-
-#requestTabView form div input[type="text"], 
-#requestTabView form div input[type="password"],
+#requestTabView form div input[type="text"], #requestTabView form div input[type="password"],
 #requestTabView form div select, 
 #requestTabView form div textarea {
-  border-top-color: #FF812B !important;
+  border-top-color: #ff812b !important;
 }
 
-#requestTabView .nextTab, #requestTabView .prevTab { 
-  color: #FF812B !important; 
-}
-
+#requestTabView .nextTab, #requestTabView .prevTab { color: #ff812b !important; }
 #requestTabView .nextTab:hover, #requestTabView .prevTab:hover { 
-  background: #FF812B !important; 
-  color:#ffffff !important; 
+  color: #fff !important; background: #ff812b !important; 
 }
 
-#requestTabView dl {
-  border-bottom-color: #FF812B !important;
-}
-
+#requestTabView dl    { border-bottom-color: #ff812b !important; }
 #requestTabView dl dt,
-#requestTabView dl dd {
-  border-top-color: #FF812B !important;
-}
+#requestTabView dl dd { border-top-color: #ff812b !important; }
 
-/* activities detailed consumptions
---------------------------------------------------------------*/
+#requestTabView div.collection-fieldset    { background: #ffd; }
+#requestTabView div.collection-fieldset h4 { color: #ff812b !important; }
+#requestTabView fieldset.collection-fieldset-add         { border-color: #ff812b !important; }
+#requestTabView fieldset.collection-fieldset-edit        { border-bottom-color: #ff812b !important; }
+#requestTabView fieldset.collection-fieldset-add legend,
+#requestTabView fieldset.collection-fieldset-edit legend { border-color: #ff812b !important; }
 
-table.activity-calendar {
-  border-left-color: #FF812B !important;
-  border-top-color: #FF812B !important;
-}
 
-table.activity-calendar th {
-  border-right-color: #FF812B !important;
-  border-bottom-color: #FF812B !important;
-  background: #eee !important;
-}
-
-table.activity-calendar td {
-  border-right-color: #FF812B !important;
-  border-bottom-color: #FF812B !important;
-}
+/* activities
+ * ----------------------------------------------------- */
+ 
+table.activity-calendar,
+table.activity-calendar th,
+table.activity-calendar td { border-color: #ff812b !important; }
 

@@ -36,7 +36,7 @@
   </g:each>
 </g:if>
 <g:else>
-  <div class="list-box">
-    <p class="empty"><g:message code="message.noActivities"/></p>
+  <div class="information-box">
+  	<g:message code="activity.message.noActivities" />
   </div>
 </g:else>

@@ -7,18 +7,29 @@
   <body>
   <div id="yui-main">
     <div id="main" class="yui-b">
+      <g:if test="${!invoices.isEmpty()}">
       <div class="list-box">
         <h2><g:message code="payment.header.invoices"/></h2>
         <g:render template="invoices"/>
       </div>
+      </g:if>
+      <g:if test="${!depositAccounts.isEmpty()}">
       <div class="list-box">
         <h2><g:message code="payment.header.depositAccounts"/></h2>
         <g:render template="depositAccounts"/>
       </div>
+      </g:if>
+      <g:if test="${!ticketingContracts.isEmpty()}">
       <div class="list-box">
         <h2><g:message code="payment.header.ticketingContracts"/></h2>
         <g:render template="ticketingContracts"/>
       </div>
+      </g:if>
+      <g:if test="${invoices.isEmpty() && depositAccounts.isEmpty() && ticketingContracts.isEmpty()}">
+		<div class="information-box">
+	  	  <g:message code="payment.message.noElementsToPay" />
+		</div>
+      </g:if>
     </div>
   </div>
   <!-- end of yui-main -->

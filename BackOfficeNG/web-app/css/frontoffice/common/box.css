@@ -56,7 +56,7 @@
 /* list box
 --------------------------------------------------------------*/
 
-.list-box { margin: 0 0 1em 0; background: #ffffff; }
+.list-box { margin: 0 0 1em 0; padding: 0 0 1em; background: #ffffff; }
 
 .list-box h2 { 
   margin: 0 !important;
@@ -67,7 +67,7 @@
 
 .list-box p.paginator, 
 .list-box p.see-all,
-.list-box p.empty     { padding: 1em; font-size: 1.2em; } 
+.list-box p.empty     { padding: 1em 1em 0; font-size: 1.2em; }
 .list-box p.paginator { margin: 0;  text-align: center; }
 .list-box p.see-all   { text-align: right; }
 
@@ -82,15 +82,13 @@
 .list-box p.paginator a.nextLink { padding: 0 .3em; }
 
 .list-box ul { margin: 0; padding: 0 1em; font-size: 1.1em; }
-
 .list-box ul li {
   list-style-type: none;
   margin: 0; padding: .6em 0;
   border-bottom: 1px dashed #bbbbbb;
 }
-
-.list-box ul li p { margin: 0;}
-.list-box ul li .tag-state { float: right;}
+.list-box ul li p          { margin: 0; }
+.list-box ul li .tag-state { float: right; }
 
 
 /* main box 

@@ -29,6 +29,7 @@ public final class LocalAuthorityConfigurationBean {
     private static Logger logger = Logger.getLogger(LocalAuthorityConfigurationBean.class);
 
     private String name;
+    private String defaultServerName;
     
     private List foAccountTabs;
     
@@ -236,6 +237,14 @@ public final class LocalAuthorityConfigurationBean {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getDefaultServerName() {
+        return defaultServerName;
+    }
+
+    public void setDefaultServerName(String defaultServerName) {
+        this.defaultServerName = defaultServerName;
     }
 
     public void setSessionFactory(final SessionFactory sessionFactory) {

@@ -15,7 +15,7 @@
        <h1>
          <img src="${createLink(controller : 'localAuthorityResource', action : 'resource', id : 'logoFo')}"
               alt="Logo Collectivité" />
-         <span>Vos démarches - ${session.currentSiteDisplayTitle}</span>
+         <!-- <span>Vos démarches - ${session.currentSiteDisplayTitle}</span> -->
        </h1>
        <map id="hd-menu">
         <g:if test="${session.currentEcitizen}">

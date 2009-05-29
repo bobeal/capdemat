@@ -32,8 +32,7 @@ public class LocalAuthoritiesLoader implements ResourceLoaderAware {
         	if (!tempFile.exists()) {
         		logger.error("init() no assets directory found, please check the "
                         + "'assets.properties.path' value in your properties file");
-        		logger.error("init() it is currently set to " 
-        		        + assetsBase);
+        		logger.error("init() it is currently set to " + assetsBase);
         		return;
         	}
             final String pattern = assetsBase + "**/localAuthority-*.xml";

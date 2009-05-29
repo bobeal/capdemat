@@ -54,19 +54,12 @@ public class LocalAuthority implements Serializable {
     private int instructionDefaultAlertDelay = 3;
 
     /** using an explicit ArrayList instead of List interface to allow Hibernate to instantiate it */
-    private TreeSet<String> serverNames;
+    private TreeSet<String> serverNames = new TreeSet<String>();
 
     /** full constructor */
-    public LocalAuthority(String name, String postalCode, String displayTitle) {
+    public LocalAuthority(String name, String displayTitle) {
         this.name = name;
-        this.postalCode = postalCode;
         this.displayTitle = displayTitle;
-        this.serverNames = new TreeSet<String>();
-    }
-
-    /** old full constructor */
-    public LocalAuthority(String name, String postalCode) {
-        this(name, postalCode, null);
     }
 
     /** default constructor */

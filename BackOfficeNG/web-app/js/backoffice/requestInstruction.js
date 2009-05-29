@@ -159,7 +159,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
 //        
 //        //zcb.document.getRequestDocument(targetEl);
 //      }
-      else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, 'documentLink')) {
+      else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, 'documentLink') && !yud.hasClass(targetEl, 'externalLink')) {
         switchStatePanel(targetEl);
       }
     };
@@ -563,12 +563,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
    * ------------------------------------------------------------------------------------------ */
   
   zcbr.Information = function() {
-
+    var infoTabView = undefined;
     return {
       clickEvent : undefined,
       
       init: function() {
-          var infoTabView = new yw.TabView();
+          infoTabView = new yw.TabView();
           infoTabView.addTab( new yw.Tab({
               label: 'Historique', dataSrc: zenexity.capdemat.baseUrl + '/requestActions/' + zcb.requestId,
               cacheData: true, active: true }));
@@ -618,17 +618,63 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               }
           });
       },
-      
+      refreshTab : function(label) {
+        var activeTab = infoTabView.get("activeTab");
+        if (activeTab.get("label") == label) {
+          activeTab.set("contentVisible", false);
+          activeTab.set("contentVisible", true);
+        }
+      },
       refreshNotes : function(el, msg) {
           zct.doAjaxCall('/requestNotes/' + zcb.requestId, null, function(o) {
               zct.html(el, o.responseText);     
               zct.Notifier.processMessage('success',msg,'noteMsg');      
           });
+      },
+      addTab : function(label, url, cacheData, active) {
+        infoTabView.addTab( new yw.Tab({
+          label: label, dataSrc: zenexity.capdemat.baseUrl + url,
+          cacheData: cacheData, active: active }));
       }
     };
 
   }();
   YAHOO.util.Event.onDOMReady(zcbr.Information.init);
+
+  zcbr.External = function() {
+    return {
+      clickEvent : undefined,
+      init : function() {
+        zcbr.External.clickEvent = new zct.Event(zcbr.External, zcbr.External.processClick);
+        yue.on(yud.get('externalService'),'click',zcbr.External.clickEvent.dispatch,zcbr.External.clickEvent,true);
+      },
+      processClick : function(e) {
+        var targetEl = yue.getTarget(e);
+        if (yud.hasClass(targetEl, 'externalLink') && yud.hasClass(targetEl, 'tag-pending')) {
+          return "";
+        }
+        return (targetEl.id||'_').split('_')[0];
+      },
+      externalReferentialCheck : function(e) {
+        var id = yue.getTarget(e).id.split('_')[2];
+        var label = yue.getTarget(e).id.split('_')[3];
+        yud.get("localReferentialChecksContainer").innerHTML = "";
+        yud.removeClass(yud.get("externalChecksPendingMessage"), 'invisible');
+        zct.doAjaxCall("/externalChecks?id=" + id + "&label=" + label, null, function(o) {
+          yud.addClass(yud.get("externalChecksPendingMessage"), 'invisible');
+          yud.get("localReferentialChecksContainer").innerHTML = o.responseText;
+        });
+      },
+      sendRequest : function(e) {
+        var label = yue.getTarget(e).id.split('_')[1];
+        zct.doAjaxFormSubmitCall("sendRequestForm", null, function(o) {
+          zcbr.Information.refreshTab(label);
+          yud.get("externalStatusContainer").innerHTML = o.responseText;
+        });
+      }
+    };
+  }();
+  YAHOO.util.Event.onDOMReady(zcbr.External.init);
 
 }()
 

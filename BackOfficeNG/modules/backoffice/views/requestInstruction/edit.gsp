@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" ></link>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'document.css')}" />
+    <g:if test="${externalProviderService != null}">
+      <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:externalProviderService.label + '.js')}"></script>
+    </g:if>
   </head>
   <body>
 
@@ -89,6 +92,7 @@
           <span id="requestState" class="${requestState.cssClass}">
             <g:message code="${requestState.i18nKey}" />
           </span>
+          <p class="block">${lastActionNote}</p>
         </div>
       </div>
 
@@ -120,6 +124,12 @@
           </ul>
         </div>
       </div>
+
+      <!-- external service block -->
+      <g:if test="${externalProviderService != null}">
+        <g:render template="/backofficeRequestInstruction/external/${externalProviderService.label}/block"
+          model="['request' : request, 'externalProviderService' : externalProviderService, 'lastTraceStatus' : lastTraceStatus]" />
+      </g:if>
 
       <!-- instruction state panel [default display = none] -->
       <div id="instructionStatePanel">

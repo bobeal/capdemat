@@ -10,6 +10,7 @@ import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.external.IExternalService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ICategoryService
@@ -53,6 +54,7 @@ class RequestInstructionController {
     ILocalReferentialService localReferentialService 
     IRecreationCenterService recreationCenterService
     ISchoolService schoolService
+    IExternalService externalService
 
     def translationService
     def instructionService
@@ -128,7 +130,18 @@ class RequestInstructionController {
         
         def localReferentialTypes = getLocalReferentialTypes(localReferentialService, request.requestType.label)
         localReferentialTypes.each { lazyInit(request, it.key) }
-        
+
+        def externalProviderService = externalService.getExternalServiceByRequestType(request.requestType.label)
+        def lastTraceStatus = null
+        if (externalProviderService != null) {
+            def lastTrace = externalService.getLastTrace(request.id, externalProviderService.label)
+            if (lastTrace != null) {
+                lastTraceStatus = CapdematUtils.adaptCapdematEnum(lastTrace.status, "externalservice.trace.status")
+            }
+        }
+
+        def actions = requestActionService.getActions(request.id)
+        def lastActionNote = actions.get(actions.size()-1).note
         return ([
             "request": request,
             "requestTypeLabel": request.requestType.label,
@@ -141,10 +154,13 @@ class RequestInstructionController {
             "editableStates": (editableStates as JSON).toString(),
             "agentCanWrite": categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id),
             "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
+            "lastActionNote" : lastActionNote,
             "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
             "requestLabel": requestLabel,
             "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
-            "documentList": documentList
+            "documentList": documentList,
+            "externalProviderService" : externalProviderService,
+            "lastTraceStatus" : lastTraceStatus
         ])
     }
     
@@ -516,8 +532,37 @@ class RequestInstructionController {
             render ([status: "error", error_msg:message(code:"error.missingParmeter")] as JSON)
         
     }
-    
-   
+
+    def external = {
+        if (request.post) {
+            def request = defaultRequestService.getById(Long.valueOf(params.id))
+            def externalProviderService = externalService.getExternalServiceByRequestType(request.requestType.label)
+            externalProviderService.sendRequest(defaultRequestService.fillRequestXml(request))
+            def lastTraceStatus = CapdematUtils.adaptCapdematEnum(externalService.getLastTrace(Long.valueOf(params.id), params.label).status, "externalservice.trace.status")
+            render(template : "/backofficeRequestInstruction/external/" + params.label + "/externalStatus",
+                   model : ["externalProviderService" : externalProviderService,
+                            "lastTraceStatus" : lastTraceStatus])
+        }
+    }
+
+    def externalHistory = {
+        def traces = []
+        externalService.getTraces(Long.valueOf(params.id), params.label).each {
+            traces.add(["date" : it.date,
+                        "status" : CapdematUtils.adaptCapdematEnum(it.status, "externalservice.trace.status").i18nKey,
+                        "message" : it.message])
+        }
+        render(template : "externalHistory", model : ["traces" : traces])
+    }
+
+    def externalChecks = {
+        def request = defaultRequestService.getById(Long.valueOf(params.id))
+        render(template : "/backofficeRequestInstruction/external/" + params.label + "/localReferentialChecks",
+               model : ["id" : params.id, "label" : params.label,
+                        "localReferentialCheckErrors" : externalService.getExternalServiceByRequestType(request.requestType.label)
+                            .checkExternalReferential(defaultRequestService.fillRequestXml(request))])
+    }
+
    /* eCitizen contact managment
     * --------------------------------------------------------------------- */
 

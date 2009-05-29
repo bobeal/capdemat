@@ -7,9 +7,10 @@
     class="fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeService">
     <property name="label" value="Edemande" />
     <property name="edemandeClient" ref="edemandeClient" />
-    <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
+    <property name="externalService" ref="externalService" />
     <property name="requestService" ref="defaultRequestService" />
     <property name="documentService" ref="documentService" />
+    <property name="requestWorkflowService" ref="requestWorkflowService" />
   </bean>
 
   <!-- WS CLIENT  -->

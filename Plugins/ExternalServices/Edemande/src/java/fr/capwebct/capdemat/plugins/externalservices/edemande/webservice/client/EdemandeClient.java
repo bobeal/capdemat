@@ -17,22 +17,34 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 
 import com.unilog.gda.edem.service.AjouterPiecesJointesDocument;
 import com.unilog.gda.edem.service.AjouterPiecesJointesResponseDocument;
+import com.unilog.gda.edem.service.ChargerDemandeDocument;
+import com.unilog.gda.edem.service.ChargerDemandeResponseDocument;
 import com.unilog.gda.edem.service.ChargerTypeDemandeDocument;
 import com.unilog.gda.edem.service.ChargerTypeDemandeResponseDocument;
 import com.unilog.gda.edem.service.EnregistrerValiderFormulaireDocument;
 import com.unilog.gda.edem.service.EnregistrerValiderFormulaireResponseDocument;
+import com.unilog.gda.edem.service.ExistenceCommunePostaleDocument;
+import com.unilog.gda.edem.service.ExistenceCommunePostaleResponseDocument;
 import com.unilog.gda.edem.service.InitialiserFormulaireDocument;
 import com.unilog.gda.edem.service.InitialiserFormulaireResponseDocument;
 import com.unilog.gda.edem.service.InitialiserSuiviDemandeDocument;
 import com.unilog.gda.edem.service.InitialiserSuiviDemandeResponseDocument;
+import com.unilog.gda.edem.service.RechercheDemandesTiersDocument;
+import com.unilog.gda.edem.service.RechercheDemandesTiersResponseDocument;
 import com.unilog.gda.edem.service.RechercherTiersDocument;
 import com.unilog.gda.edem.service.RechercherTiersResponseDocument;
+import com.unilog.gda.edem.service.VerifierRIBDocument;
+import com.unilog.gda.edem.service.VerifierRIBResponseDocument;
 import com.unilog.gda.edem.service.AjouterPiecesJointesDocument.AjouterPiecesJointes;
+import com.unilog.gda.edem.service.ChargerDemandeDocument.ChargerDemande;
 import com.unilog.gda.edem.service.ChargerTypeDemandeDocument.ChargerTypeDemande;
 import com.unilog.gda.edem.service.EnregistrerValiderFormulaireDocument.EnregistrerValiderFormulaire;
+import com.unilog.gda.edem.service.ExistenceCommunePostaleDocument.ExistenceCommunePostale;
 import com.unilog.gda.edem.service.InitialiserFormulaireDocument.InitialiserFormulaire;
 import com.unilog.gda.edem.service.InitialiserSuiviDemandeDocument.InitialiserSuiviDemande;
+import com.unilog.gda.edem.service.RechercheDemandesTiersDocument.RechercheDemandesTiers;
 import com.unilog.gda.edem.service.RechercherTiersDocument.RechercherTiers;
+import com.unilog.gda.edem.service.VerifierRIBDocument.VerifierRIB;
 import com.unilog.gda.glob.service.GestionCompteDocument;
 import com.unilog.gda.glob.service.GestionCompteResponseDocument;
 import com.unilog.gda.glob.service.GestionCompteDocument.GestionCompte;
@@ -61,10 +73,10 @@ public class EdemandeClient implements IEdemandeClient {
             result = (ChargerTypeDemandeResponseDocument) edemandeFormulaireService.marshalSendAndReceive(chargerTypeDemandeDocument);
         } catch (XmlMappingException e) {
             logger.error("error treating request", e);
-            throw new CvqException("plugins.externalservices.error.treating.request");
+            throw new CvqException("Erreur lors du traitement de la demande");
         } catch (WebServiceClientException e) {
             logger.error("error sending request", e);
-            throw new CvqException("plugins.externalservices.error.sending.request");
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
         }
         logger.debug("chargerTypeDemande() got result : " + result.xmlText());
         return result;
@@ -81,10 +93,10 @@ public class EdemandeClient implements IEdemandeClient {
             result = (InitialiserFormulaireResponseDocument) edemandeFormulaireService.marshalSendAndReceive(initialiserFormulaireDocument);
         } catch (XmlMappingException e) {
             logger.error("error treating request", e);
-            throw new CvqException("plugins.externalservices.error.treating.request");
+            throw new CvqException("Erreur lors du traitement de la demande");
         } catch (WebServiceClientException e) {
             logger.error("error sending request", e);
-            throw new CvqException("plugins.externalservices.error.sending.request");
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
         }
         logger.debug("initialiserFormulaire() got result : " + result.xmlText());
         return result;
@@ -97,16 +109,16 @@ public class EdemandeClient implements IEdemandeClient {
             templateEngine.createTemplate(enregistrerValiderFormulaireTemplate.getURL()).make(model).writeTo(request);
         } catch (FileNotFoundException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (CompilationFailedException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (ClassNotFoundException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (IOException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         }
         EnregistrerValiderFormulaireDocument enregistrerValiderFormulaireDocument = EnregistrerValiderFormulaireDocument.Factory.newInstance();
         EnregistrerValiderFormulaire enregistrerValiderFormulaire = enregistrerValiderFormulaireDocument.addNewEnregistrerValiderFormulaire();
@@ -117,10 +129,10 @@ public class EdemandeClient implements IEdemandeClient {
             result = (EnregistrerValiderFormulaireResponseDocument) edemandeFormulaireService.marshalSendAndReceive(enregistrerValiderFormulaireDocument);
         } catch (XmlMappingException e) {
             logger.error("error treating request", e);
-            throw new CvqException("plugins.externalservices.error.treating.request");
+            throw new CvqException("Erreur lors du traitement de la demande");
         } catch (WebServiceClientException e) {
             logger.error("error sending request", e);
-            throw new CvqException("plugins.externalservices.error.sending.request");
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
         }
         logger.debug("enregistrerValiderFormulaire() got result : " + result.xmlText());
         return result;
@@ -137,10 +149,10 @@ public class EdemandeClient implements IEdemandeClient {
             result = (InitialiserSuiviDemandeResponseDocument) edemandeSuiviDemandeService.marshalSendAndReceive(initialiserSuiviDemandeDocument);
         } catch (XmlMappingException e) {
             logger.error("error treating request", e);
-            throw new CvqException("plugins.externalservices.error.treating.request");
+            throw new CvqException("Erreur lors du traitement de la demande");
         } catch (WebServiceClientException e) {
             logger.error("error sending request", e);
-            throw new CvqException("plugins.externalservices.error.sending.request");
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
         }
         logger.debug("initialiserSuiviDemande() got result : " + result.xmlText());
         return result;
@@ -153,16 +165,16 @@ public class EdemandeClient implements IEdemandeClient {
             templateEngine.createTemplate(rechercherTiersTemplate.getURL()).make(model).writeTo(request);
         } catch (FileNotFoundException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (CompilationFailedException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (ClassNotFoundException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (IOException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         }
         RechercherTiersDocument rechercherTiersDocument = RechercherTiersDocument.Factory.newInstance();
         RechercherTiers rechercherTiers = rechercherTiersDocument.addNewRechercherTiers();
@@ -173,10 +185,10 @@ public class EdemandeClient implements IEdemandeClient {
             result = (RechercherTiersResponseDocument) edemandeSuiviDemandeService.marshalSendAndReceive(rechercherTiersDocument);
         } catch (XmlMappingException e) {
             logger.error("error treating request", e);
-            throw new CvqException("plugins.externalservices.error.treating.request");
+            throw new CvqException("Erreur lors du traitement de la demande");
         } catch (WebServiceClientException e) {
             logger.error("error sending request", e);
-            throw new CvqException("plugins.externalservices.error.sending.request");
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
         }
         logger.debug("rechercherTiers() got result : " + result.xmlText());
         return result;
@@ -189,16 +201,16 @@ public class EdemandeClient implements IEdemandeClient {
             templateEngine.createTemplate(creerTiersTemplate.getURL()).make(model).writeTo(request);
         } catch (FileNotFoundException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (CompilationFailedException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (ClassNotFoundException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (IOException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         }
         GestionCompteDocument gestionCompteDocument = GestionCompteDocument.Factory.newInstance();
         GestionCompte gestionCompte = gestionCompteDocument.addNewGestionCompte();
@@ -209,10 +221,10 @@ public class EdemandeClient implements IEdemandeClient {
             result = (GestionCompteResponseDocument)edemandeConnexionService.marshalSendAndReceive(gestionCompteDocument);
         } catch (XmlMappingException e) {
             logger.error("error treating request", e);
-            throw new CvqException("plugins.externalservices.error.treating.request");
+            throw new CvqException("Erreur lors du traitement de la demande");
         } catch (WebServiceClientException e) {
             logger.error("error sending request", e);
-            throw new CvqException("plugins.externalservices.error.sending.request");
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
         }
         logger.debug("creerTiers() got result : " + result.xmlText());
         return result;
@@ -225,16 +237,16 @@ public class EdemandeClient implements IEdemandeClient {
             templateEngine.createTemplate(ajouterPiecesJointesTemplate.getURL()).make(model).writeTo(request);
         } catch (FileNotFoundException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (CompilationFailedException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (ClassNotFoundException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         } catch (IOException e) {
             logger.error("template parsing failed", e);
-            throw new CvqException("plugins.externalservices.error.building.request");
+            throw new CvqException("Erreur lors de la construction de la demande");
         }
         AjouterPiecesJointesDocument ajouterPiecesJointesDocument = AjouterPiecesJointesDocument.Factory.newInstance();
         AjouterPiecesJointes ajouterPiecesJointes = ajouterPiecesJointesDocument.addNewAjouterPiecesJointes();
@@ -245,12 +257,99 @@ public class EdemandeClient implements IEdemandeClient {
             result = (AjouterPiecesJointesResponseDocument)edemandeSuiviDemandeService.marshalSendAndReceive(ajouterPiecesJointesDocument);
         } catch (XmlMappingException e) {
             logger.error("error treating request", e);
-            throw new CvqException("plugins.externalservices.error.treating.request");
+            throw new CvqException("Erreur lors du traitement de la demande");
         } catch (WebServiceClientException e) {
             logger.error("error sending request", e);
-            throw new CvqException("plugins.externalservices.error.sending.request");
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
         }
         logger.debug("ajouterPieces() got result : " + result.xmlText());
+        return result;
+    }
+
+    public RechercheDemandesTiersResponseDocument rechercheDemandesTiers(String psCodeTiers)
+        throws CvqException {
+        RechercheDemandesTiersDocument rechercheDemandesTiersDocument = RechercheDemandesTiersDocument.Factory.newInstance();
+        RechercheDemandesTiers rechercheDemandesTiers = rechercheDemandesTiersDocument.addNewRechercheDemandesTiers();
+        rechercheDemandesTiers.setPsCodeTiers(psCodeTiers);
+        rechercheDemandesTiers.setPsCriteres("<rechDemandes><typeRecherche>demandeur</typeRecherche></rechDemandes>");
+        logger.debug("rechercheDemandesTiers() got payload : " + rechercheDemandesTiers.xmlText());
+        RechercheDemandesTiersResponseDocument result;
+        try {
+            result = (RechercheDemandesTiersResponseDocument)edemandeSuiviDemandeService.marshalSendAndReceive(rechercheDemandesTiersDocument);
+        } catch (XmlMappingException e) {
+            logger.error("error treating request", e);
+            throw new CvqException("Erreur lors du traitement de la demande");
+        } catch (WebServiceClientException e) {
+            logger.error("error sending request", e);
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
+        }
+        logger.debug("rechercheDemandesTiers() got result : " + result.xmlText());
+        return result;
+    }
+
+    public ChargerDemandeResponseDocument chargerDemande(String psCodeTiers, String psCodeDemande)
+        throws CvqException {
+        ChargerDemandeDocument chargerDemandeDocument = ChargerDemandeDocument.Factory.newInstance();
+        ChargerDemande chargerDemande = chargerDemandeDocument.addNewChargerDemande();
+        chargerDemande.setPsCodeDemande(psCodeDemande);
+        chargerDemande.setPsCodeTiers(psCodeTiers);
+        chargerDemande.setPsIndicDemande("propre");
+        logger.debug("chargerDemande() got payload : " + chargerDemande.xmlText());
+        ChargerDemandeResponseDocument result;
+        try {
+            result = (ChargerDemandeResponseDocument)edemandeSuiviDemandeService.marshalSendAndReceive(chargerDemande);
+        } catch (XmlMappingException e) {
+            logger.error("error treating request", e);
+            throw new CvqException("Erreur lors du traitement de la demande");
+        } catch (WebServiceClientException e) {
+            logger.error("error sending request", e);
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
+        }
+        logger.debug("chargerDemande() got result : " + result.xmlText());
+        return result;
+    }
+
+    public ExistenceCommunePostaleResponseDocument existenceCommunePostale(String postalCode, String city)
+        throws CvqException {
+        ExistenceCommunePostaleDocument existenceCommunePostaleDocument = ExistenceCommunePostaleDocument.Factory.newInstance();
+        ExistenceCommunePostale existenceCommunePostale = existenceCommunePostaleDocument.addNewExistenceCommunePostale();
+        existenceCommunePostale.setPsCodePostal(postalCode);
+        existenceCommunePostale.setPsCommune(city);
+        logger.debug("existenceCommunePostale() got payload : " + existenceCommunePostale.xmlText());
+        ExistenceCommunePostaleResponseDocument result;
+        try {
+            result = (ExistenceCommunePostaleResponseDocument)edemandeFormulaireService.marshalSendAndReceive(existenceCommunePostaleDocument);
+        } catch (XmlMappingException e) {
+            logger.error("error treating request", e);
+            throw new CvqException("Erreur lors du traitement de la demande");
+        } catch (WebServiceClientException e) {
+            logger.error("error sending request", e);
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
+        }
+        logger.debug("existenceCommunePostale() got result : " + result.xmlText());
+        return result;
+    }
+
+    public VerifierRIBResponseDocument verifierRIB(String bankCode, String counterCode, String accountNumber, String accountKey)
+        throws CvqException {
+        VerifierRIBDocument verifierRIBDocument = VerifierRIBDocument.Factory.newInstance();
+        VerifierRIB verifierRIB = verifierRIBDocument.addNewVerifierRIB();
+        verifierRIB.setPsBanque(bankCode);
+        verifierRIB.setPsAgence(counterCode);
+        verifierRIB.setPsCompte(accountNumber);
+        verifierRIB.setPsCle(accountKey);
+        logger.debug("verifierRIB() got payload : " + verifierRIB.xmlText());
+        VerifierRIBResponseDocument result;
+        try {
+            result = (VerifierRIBResponseDocument)edemandeFormulaireService.marshalSendAndReceive(verifierRIBDocument);
+        } catch (XmlMappingException e) {
+            logger.error("error treating request", e);
+            throw new CvqException("Erreur lors du traitement de la demande");
+        } catch (WebServiceClientException e) {
+            logger.error("error sending request", e);
+            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
+        }
+        logger.debug("verifierRIB() got result : " + result.xmlText());
         return result;
     }
 

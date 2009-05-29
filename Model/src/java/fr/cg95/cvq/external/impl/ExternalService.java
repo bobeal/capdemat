@@ -44,11 +44,14 @@ import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.quering.BaseOperator;
+import fr.cg95.cvq.util.quering.CriteriasDescriptor;
 import fr.cg95.cvq.util.quering.ISelectArgument;
 import fr.cg95.cvq.util.quering.SelectField;
 import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
 import fr.cg95.cvq.util.quering.criterias.InCriteria;
 import fr.cg95.cvq.util.quering.criterias.SimpleCriteria;
+import fr.cg95.cvq.util.quering.sort.SortCriteria;
+import fr.cg95.cvq.util.quering.sort.SortDirection;
 
 public class ExternalService implements IExternalService, BeanFactoryAware {
 
@@ -98,8 +101,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             if (esim != null) {
                 homeFolder.setExternalId(esim.getExternalId());
                 homeFolder.setExternalCapDematId(esim.getExternalCapDematId());
-                for (Object object : homeFolder.getIndividuals()) {
-                    Individual individual = (Individual) object;
+                for (Individual individual : homeFolder.getIndividuals()) {
                     Set<ExternalServiceIndividualMapping> esimSet =
                         esim.getIndividualsMappings();
                     for (ExternalServiceIndividualMapping esimTemp : esimSet) {
@@ -117,29 +119,37 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                 esim.setExternalServiceLabel(externalServiceLabel);
                 esim.setHomeFolderId(homeFolder.getId());
                 esim.setExternalCapDematId(UUID.randomUUID().toString());
-                for (Object object : homeFolder.getIndividuals()) {
-                    Individual individual = (Individual) object;
-                    esim.addIndividualMapping(individual.getId(), UUID.randomUUID().toString(), null);
+                for (Individual individual : homeFolder.getIndividuals()) {
+                    String externalCapDematId = UUID.randomUUID().toString();
+                    esim.addIndividualMapping(individual.getId(), externalCapDematId, null);
+                    individual.setExternalCapDematId(externalCapDematId);
                 }
                 
                 genericDAO.create(esim);
             }
-            
-            ExternalServiceTrace est = new ExternalServiceTrace();
-            est.setDate(new Date());
-            est.setKeyOwner("capdemat");
-            est.setKey(request.getId());
-            est.setName(externalServiceLabel);
+            ExternalServiceTrace est = null;
+            if (!externalProviderService.handlesTraces()) {
+                est = new ExternalServiceTrace();
+                est.setDate(new Date());
+                est.setKeyOwner("capdemat");
+                est.setKey(request.getId());
+                est.setName(externalServiceLabel);
+            }
             try {
                 externalProviderService.sendRequest(requestService.fillRequestXml(request));
-                est.setStatus(TraceStatusEnum.SENT);
+                if (!externalProviderService.handlesTraces()) {
+                    est.setStatus(TraceStatusEnum.SENT);
+                }
             } catch (CvqException ce) {
                 logger.error("sendRequest() error while sending request to " 
                         + externalServiceLabel);
-                est.setStatus(TraceStatusEnum.NOT_SENT);
+                if (!externalProviderService.handlesTraces()) {
+                    est.setStatus(TraceStatusEnum.NOT_SENT);
+                }
             }
-            
-            externalServiceTraceDAO.create(est);
+            if (!externalProviderService.handlesTraces()) {
+                externalServiceTraceDAO.create(est);
+            }
         }
     }
 
@@ -508,18 +518,25 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
 
         return null;
     }
-    
-    /**
-     * Get the list of external services objects for the current local authority
-     * interested in events about the given request types.
-     */
-    private Set<IExternalProviderService> getExternalServicesByRequestType(final String requestTypeLabel) {
+
+    public Set<IExternalProviderService> getExternalServicesByRequestType(final String requestTypeLabel) {
 
         Set<String> requestTypesLabels = new HashSet<String>();
         requestTypesLabels.add(requestTypeLabel);
         return getExternalServicesByRequestTypes(requestTypesLabels);
     }
-    
+
+    public IExternalProviderService getExternalServiceByRequestType(final String requestTypeLabel) {
+
+        Set<String> requestTypesLabels = new HashSet<String>();
+        requestTypesLabels.add(requestTypeLabel);
+        Set<IExternalProviderService> externalProviderServices = getExternalServicesByRequestTypes(requestTypesLabels);
+        if (externalProviderServices == null || externalProviderServices.isEmpty()) {
+            return null;
+        }
+        return externalProviderServices.toArray(new IExternalProviderService[1])[0];
+    }
+
     /**
      * Get the list of external services objects for the current local authority
      * interested in events about the given request types.
@@ -563,6 +580,15 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         
         return this.externalServiceTraceDAO.<ExternalServiceTrace,ExternalServiceTrace>get(
                 criterias, ExternalServiceTrace.class);
+    }
+
+    public Set<ExternalServiceTrace> getTraces(Long requestId, String label) {
+        CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
+        criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.ASC));
+        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, requestId));
+        criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
+        criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
+        return externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class);
     }
 
     public Set<Long> getTraceKeysByStatus(Set<Long> ids, Set<String> statuses) {
@@ -630,6 +656,45 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         criterias.add(new SimpleCriteria("validationDate",BaseOperator.GTE, prevDate));
             
         return this.externalServiceTraceDAO.<Request,Long> get(fields,criterias,Request.class);
+    }
+
+    public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, String externalId) {
+        ExternalServiceIdentifierMapping identifierMapping = getIdentifierMapping(externalServiceLabel, homeFolderId);
+        for (ExternalServiceIndividualMapping esim : identifierMapping.getIndividualsMappings()) {
+            if (esim.getIndividualId().equals(individualId)) {
+                esim.setExternalId(externalId);
+                break;
+            }
+        }
+    }
+
+    public ExternalServiceTrace getLastTrace(Long requestId, String label) {
+        CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
+        criteriasDescriptor.setMax(1);
+        criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.DESC));
+        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, requestId));
+        criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
+        criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
+        Set<ExternalServiceTrace> traces = externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class);
+        ExternalServiceTrace lastTrace = null;
+        if (!traces.isEmpty()) {
+            lastTrace = traces.toArray(new ExternalServiceTrace[]{})[0];
+        }
+        return lastTrace;
+    }
+
+    public boolean hasTraceWithStatus(Long requestId, String label, TraceStatusEnum status) {
+        CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
+        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, requestId));
+        criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
+        criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
+        criteriasDescriptor.addSearch(new SimpleCriteria("status", BaseOperator.EQUALS, status.toString()));
+        return !externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class).isEmpty();
+    }
+
+    public void create(ExternalServiceTrace trace)
+        throws CvqPermissionException {
+        externalServiceTraceDAO.create(trace);
     }
 
     public void setExternalServiceTraceDAO(IExternalServiceTraceDAO externalServiceTraceDAO) {

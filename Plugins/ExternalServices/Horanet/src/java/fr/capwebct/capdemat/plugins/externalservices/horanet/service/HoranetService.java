@@ -940,4 +940,12 @@ public class HoranetService implements IExternalProviderService {
     public boolean supportsConsumptions() {
         return true;
     }
+
+    public boolean handlesTraces() {
+        return false;
+    }
+
+    public List<String> checkExternalReferential(final XmlObject requestXml) {
+        return new ArrayList<String>(0);
+    }
 }

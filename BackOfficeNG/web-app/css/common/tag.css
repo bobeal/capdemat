@@ -42,6 +42,8 @@ payment : initialized, validated, refused, cancelled
 .tag-initialized,
 /*  request creation */ 
 .tag-required,
+/* external services traces */
+.tag-sent, .tag-inprogress, .tag-notsent, .tag-acknowledged, .tag-error,
 /*  misc */
 .tag-draft { 
   padding: 0 .2em;
@@ -58,6 +60,7 @@ payment : initialized, validated, refused, cancelled
 /* yellow */
 .tag-pending,
 .tag-initialized,
+.tag-sent,
 .tag-uncomplete    { background: #ffcc20; border-color:#ffaa20; }
 
 /* green */
@@ -67,6 +70,7 @@ payment : initialized, validated, refused, cancelled
 .tag-validated,
 .tag-complete,
 .tag-notified,
+.tag-acknowledged,
 .tag-enable        { background: #20cc20; border-color:#20aa20; }
 
 /* red */
@@ -75,6 +79,7 @@ payment : initialized, validated, refused, cancelled
 .tag-rejected,
 .tag-refused,
 .tag-outdated,
+.tag-error,
 .tag-disable       { background: #cc2020; border-color:#aa2020; }
 
 /* negative red */
@@ -89,6 +94,7 @@ payment : initialized, validated, refused, cancelled
 /* orange*/
 .tag-homefolderresponsible,
 .tag-read_write,
+.tag-inprogress,
 .tag-agent         { background: #ec7000; border-color:#da7000; }
 
 /* violet */
@@ -104,6 +110,7 @@ payment : initialized, validated, refused, cancelled
 .tag-closed,
 .tag-cancelled,
 .tag-archived,
+.tag-notsent,
 .tag-no_right      { background: #aaaaaa; border-color:#cccccc; color:#ffffff; }
 
 /* gray black */

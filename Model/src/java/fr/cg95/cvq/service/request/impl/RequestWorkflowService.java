@@ -70,6 +70,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
     private ListableBeanFactory beanFactory;
 
     public void init() {
+        externalService = (IExternalService)
+            beanFactory.getBeansOfType(IExternalService.class, false, false).values().iterator().next();
         this.homeFolderService = (IHomeFolderService)
             beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
     }
@@ -172,7 +174,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
             return;
         
         if (request.getState().equals(RequestState.PENDING)
-            || request.getState().equals(RequestState.UNCOMPLETE)) {
+            || request.getState().equals(RequestState.VALIDATED)) {
 
             request.setState(RequestState.UNCOMPLETE);
             Date date = new Date();
@@ -501,6 +503,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         } else if (rs.equals(RequestState.ARCHIVED)) {
             // no more state transitions available from there
         } else if (rs.equals(RequestState.VALIDATED)) {
+            requestStateList.add(RequestState.UNCOMPLETE);
             requestStateList.add(RequestState.NOTIFIED);
         } else if (rs.equals(RequestState.NOTIFIED)) {
             requestStateList.add(RequestState.CLOSED);
@@ -530,6 +533,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
             requestStateSet.addAll(getStatesBefore(RequestState.UNCOMPLETE));
         } else if (rs.equals(RequestState.UNCOMPLETE)) {
             requestStateSet.add(RequestState.PENDING);
+            requestStateSet.add(RequestState.VALIDATED);
         } else if (rs.equals(RequestState.REJECTED)) {
             requestStateSet.add(RequestState.PENDING);
             requestStateSet.add(RequestState.UNCOMPLETE);
@@ -635,10 +639,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
         this.homeFolderService = homeFolderService;
-    }
-
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
     }
 
     public void setRequestActionService(IRequestActionService requestActionService) {

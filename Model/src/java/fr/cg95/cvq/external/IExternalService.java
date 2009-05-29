@@ -38,6 +38,18 @@ public interface IExternalService {
         throws CvqException;
 
     /**
+     * Get the list of external services objects for the current local authority
+     * interested in events about the given request types.
+     */
+    Set<IExternalProviderService> getExternalServicesByRequestType(final String requestTypeLabel);
+
+    /**
+     * Get the first external service object of getExternalServicesByRequestType(),
+     * since there is usually only one external service interested in a particular request type
+     */
+    IExternalProviderService getExternalServiceByRequestType(final String requestTypeLabel);
+
+    /**
      * Return whether given request type has at least an associated external service.
      */
     boolean hasMatchingExternalService(final String requestLabel)
@@ -146,7 +158,9 @@ public interface IExternalService {
     
     Set<ExternalServiceTrace> getTraces(Long key, String name, 
             TraceStatusEnum status, Date dateFrom, Date dateTo);
-    
+
+    Set<ExternalServiceTrace> getTraces(Long requestId, String label);
+
     Set<ExternalServiceTrace> getTracesByStatus(TraceStatusEnum status);
     
     Set<Long> getTraceKeysByStatus(Set<Long> ids, Set<String> statuses);
@@ -168,5 +182,19 @@ public interface IExternalService {
      * 
      * TODO GENERIC DAO move to request service after DAOs improvements
      */
-    Set<Long> getValidatedRequestIds(Set<String> requestTypesLabels, int numberOfDays);    
+    Set<Long> getValidatedRequestIds(Set<String> requestTypesLabels, int numberOfDays);
+
+    /**
+     * Sets the external ID for a user and an external service
+     * when his individual mapping already exists.
+     * To be used on external ID retrieval from the external service.
+     */
+    void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, String externalId);
+
+    ExternalServiceTrace getLastTrace(Long requestId, String label);
+
+    boolean hasTraceWithStatus(Long requestId, String label, TraceStatusEnum status);
+
+    void create(ExternalServiceTrace trace)
+        throws CvqPermissionException;
 }

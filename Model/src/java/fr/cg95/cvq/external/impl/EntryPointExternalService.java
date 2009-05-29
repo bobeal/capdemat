@@ -1,5 +1,6 @@
 package fr.cg95.cvq.external.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -75,5 +76,13 @@ public class EntryPointExternalService implements IExternalProviderService {
 
     public boolean supportsConsumptions() {
         return false;
+    }
+
+    public boolean handlesTraces() {
+        return false;
+    }
+
+    public List<String> checkExternalReferential(final XmlObject requestXml) {
+        return new ArrayList<String>(0);
     }
 }

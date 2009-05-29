@@ -204,7 +204,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <!--
     <property name="homeFolderService" ref="homeFolderService" />
     -->
-    <property name="externalService" ref="externalService"/>
   </bean>
 
   <bean id="autofillService" class="fr.cg95.cvq.service.request.impl.AutofillService">

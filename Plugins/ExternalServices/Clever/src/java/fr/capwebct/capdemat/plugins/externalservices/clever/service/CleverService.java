@@ -213,4 +213,12 @@ public class CleverService implements IExternalProviderService {
     public boolean supportsConsumptions() {
         return false;
     }
+
+    public boolean handlesTraces() {
+        return false;
+    }
+
+    public List<String> checkExternalReferential(final XmlObject requestXml) {
+        return new ArrayList<String>(0);
+    }
 }

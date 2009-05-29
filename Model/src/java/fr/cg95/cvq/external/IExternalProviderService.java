@@ -112,4 +112,16 @@ public interface IExternalProviderService {
      * used to display the activities tab in frontoffice.
      */
     boolean supportsConsumptions();
+
+    /**
+     * Whether this external services handles its ExternalServiceTraces itself.
+     * Answer false to let CapDemat handle the traces (it was the old behavior).
+     */
+    boolean handlesTraces();
+
+    /**
+     * Check the coherence of CapDemat's local referentials and external service's referentials.
+     * @return a list of reasons for failed tests.
+     */
+    List<String> checkExternalReferential(final XmlObject requestXml);
 }

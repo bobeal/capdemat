@@ -120,6 +120,7 @@ body {
   border-bottom: 1px solid #c1cfe2;
 }
 #narrow .nobox p { margin-bottom:0.5em; }
+#narrow .nobox p.block { clear : both; margin-top : 2em; }
 
 /* form */
 #narrow .nobox .body form          { padding: 0; }

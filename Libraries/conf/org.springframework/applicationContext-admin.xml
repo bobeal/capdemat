@@ -326,6 +326,31 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <!-- *******************************************************************  -->
+  <!-- ************ Edemande communication Job Configuration *************  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="edemandeCommunicationJob"
+    class="fr.capwebct.capdemat.plugins.externalservices.edemande.job.EdemandeCommunicationJob">
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="studyGrantRequestService" ref="studyGrantRequestService" />
+    <property name="edemandeService" ref="edemandeExternalService" />
+  </bean>
+
+  <bean id="edemandeCommunicationJobInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="edemandeCommunicationJob" />
+    <property name="targetMethod" value="launchJob" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+  <bean id="edemandeCommunicationTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="edemandeCommunicationJobInvoker" />
+    <property name="cronExpression" value="0 0 */6 * * ?" />
+    <!-- <property name="cronExpression" value="0 */2 * * * ?" /> -->
+  </bean>
+
+  <!-- *******************************************************************  -->
   <!-- ************ Where everything happens (or not) ********************  -->
   <!-- *******************************************************************  -->
 
@@ -338,6 +363,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <ref bean="requestSeasonsTrigger" />
         <ref bean="draftManagementRemoverJobTrigger"/>
         <ref bean="draftManagementNotifierJobTrigger"/>
+        <ref bean="edemandeCommunicationTrigger"/>
 	    <!--
         <ref bean="requestWorkflowNavigatorTrigger" />
         <ref bean="ldapSynchronizerTrigger" />

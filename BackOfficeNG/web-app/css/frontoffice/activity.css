@@ -1,28 +1,24 @@
 
-.requestBox .body select.year-filter {
-  width: 40%;
-  display: inline;
-}
+.narrow-box .body select.year-filter  { width: 40%; display: inline; }
+.narrow-box .body select.month-filter { width : 50%; display: inline; }
 
-.requestBox .body select.month-filter {
-  width : 50%;
-  display: inline;
-}
+.narrow-box .body label.title { display:block; }
 
-.requestBox .body label.title {
-  display:block;
-}
+.narrow-box .body ul.legend li                  { border:none; }
+.narrow-box .body ul.legend span.legend-label   { display: block; float: left; margin-right: 1em; width: 1.2em; }
+.narrow-box .body ul.legend span.legend-label-0 { background-color : orange; }
+.narrow-box .body ul.legend span.legend-label-1 { background-color : blue; }
+.narrow-box .body ul.legend span.legend-label-2 { background-color : red; }
+.narrow-box .body ul.legend span.legend-label-3 { background-color : darkgreen; }
+.narrow-box .body ul.legend span.legend-label-4 { background-color : yellowgreen; }
 
-.details-panel {
-  text-align : right;
-  clear:both;
-  padding-top:0.5em;
-  /*padding: 0.6em 1em 0.6em;*/
-}
 
-#narrow {
-  clear:right !important;
-}
+.data-detail dl dd { width: 12.75em ; }
+
+/* Used inside a yui-g container */
+.details-panel { text-align: right; clear: both; padding-top: 0.5em; }
+
+#narrow { clear:right !important; }
 
 table.activity-calendar {
   margin: 2em;
@@ -67,7 +63,3 @@ table.activity-calendar td div.container {
 }
 
 
-/*Attempt 1 */
-.data-detail dl dd {
-  width:12.7em !important;
-}

@@ -50,7 +50,5 @@
   </ul>
 </g:if>
 <g:else>
-  <strong>
-    <g:message code="message.noRecords" />
-  </strong>
+  <p class="empty"><g:message code="message.noTicketingContracts" /></p>
 </g:else>

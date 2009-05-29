@@ -26,7 +26,7 @@
   <g:render template="cart"/>
 
   <div id="narrow" class="yui-b">
-    <div class="requestBox">
+    <div class="narrow-box">
       <h3>
         <g:message code="header.display"/>
       </h3>

@@ -86,6 +86,9 @@ function FIC_checkForm(e, el, includeScope) {
 					//text box
 					var valid = FIC_checkField(cname,f_in[i]);
 					valid = FIC_checkOneRequired(f_in[i], valid);
+					// specific CG77 fix, to remove when script is refactored
+					if (f_in[i].name === "subjectPhone" || f_in[i].name === "subjectMobilePhone")
+						valid = FIC_checkSgrSpecifics(f_in[i], valid);
 				} else if(t == 'radio' || t == 'checkbox'){
 					// radio or checkbox
 					var valid = FIC_checkRadCbx(cname,f_in[i],f_in);
@@ -96,7 +99,7 @@ function FIC_checkForm(e, el, includeScope) {
 				}
 				
 				FIC_toggleValidationClass (f_in[i], valid, 'validation-passed'+cext, 'validation-failed'+cext);
-			  if (!valid) {
+				if (!valid) {
 					//try to get title
 					if (f_in[i].getAttribute('title')){
 						errs[errs.length] = f_in[i].getAttribute('title');
@@ -166,7 +169,7 @@ function FIC_checkForm(e, el, includeScope) {
  * responsible of fetching field to test by scope
  * ------------------------------------------- */
 function FIC_fetchField(e, includeScope) {
-  var fields = {'input':[],'select':[],'texterea':[]};
+	var fields = {'input':[],'select':[],'texterea':[]};
 	var elm = e.nodeName ? e : YAHOO.util.Event.getTarget(e);
 	
 	if (includeScope == undefined) {
@@ -391,6 +394,15 @@ function FIC_checkLocalReferentialDataTree(c,e,f, valid){
 			}
 		}
 	}
+	return valid;
+}
+
+function FIC_checkSgrSpecifics(e,valid) {
+	if (document.getElementsByName("subjectPhone")[0].value === ""
+		&& document.getElementsByName("subjectMobilePhone")[0].value === "") {
+		valid = false;
+	}
+	
 	return valid;
 }
 

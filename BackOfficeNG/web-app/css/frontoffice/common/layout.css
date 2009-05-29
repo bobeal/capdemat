@@ -16,30 +16,23 @@ html { background: #cccccc; }
 #hd { margin: 0 0 1.5em 0; overflow: auto; }
 
 #hd h1 {
-/*  width: 250px;*/
   float: left;
-  margin: .3em 0 0 0;
-  font-size: 3em;
-  font-weight: normal;
+  margin: .3em 0;
+  font: normal 3em sans-serif;
   color: #4c3848;
 }
+#hd h1 span { display: block; padding: .1em 0 0 0; font-size: .5em; }
 
-#hd h1 span {
-  display: block;
-  padding: .1em 0 0 0;
-  font-size: .4em;
-}
+#hd-menu { display: block; text-align: right; }
 
-#hd #hd-menu { display: block; text-align: right; }
-
-#hd #hd-menu a {
+#hd-menu a {
   height: 20px;
   margin: 0 0 1px 1px; padding: .5em 1em;
   -moz-border-radius: 0 0 .5em .5em;
   text-decoration: none;
   color: #ffffff; background: #4c3848 ;
 }
-#hd #hd-menu a:hover {  background: #c690bb; }
+#hd-menu a:hover {  background: #c690bb; }
 
 
 /* main menu
@@ -88,9 +81,7 @@ html { background: #cccccc; }
   clear: both;
 }
 
-#main { padding-right: 1em; background: transparent;
-}
-
+#main { padding-right: 1em; background: transparent; }
 
 h2 {
   margin: 0; padding: 0;
@@ -108,7 +99,6 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
 /* footer
 --------------------------------------------------------------*/
 #ft { padding: .5em; text-align: right; }
-
 
 
 /* misc
@@ -130,9 +120,7 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
 
 .hidden { display: none; }
 
-.login-error { 
-  color: red;
-}
+.login-error { color: red;}
 
 strong { font-weight: bold; }
 

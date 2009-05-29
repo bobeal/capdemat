@@ -125,7 +125,7 @@ class HomeFolderController {
         } else if (request.post) {
             def adult = individualService.getByLogin(params.login)
             if (adult == null) {
-                flash.errorMessage = message("code":"entered.login.invalid")
+                flash.errorMessage = message("code":"account.error.invalidLogin")
                 render(view : "answerLogin", model : [])
                 return false
             }
@@ -140,20 +140,20 @@ class HomeFolderController {
                 def notificationType = homeFolderService.notifyPasswordReset(adult, password, categoryEmail)
                 switch (notificationType) {
                     case IHomeFolderService.PasswordResetNotificationType.INLINE :
-                        flash.successMessage = message("code" : "password.reset.success.no.email", "args" : [password])
+                        flash.successMessage = message("code" : "account.message.passwordResetSuccessAdultEmail", "args" : [password])
                         break
                     case IHomeFolderService.PasswordResetNotificationType.ADULT_EMAIL :
-                        flash.successMessage = message("code" : "password.reset.success.adult.email", "args" : [adult.email])
+                        flash.successMessage = message("code" : "account.message.passwordResetSuccessAdultEmail", "args" : [adult.email])
                         break
                     case IHomeFolderService.PasswordResetNotificationType.CATEGORY_EMAIL :
-                        flash.successMessage = message("code" : "password.reset.success.category.email")
+                        flash.successMessage = message("code" : "account.message.passwordResetSuccessAdultEmail")
                         break
                 }
                 redirect(controller : "frontofficeHome", action : "login")
                 return false
             } else {
                 if (!params.comesFromLoginStep) {
-                    flash.errorMessage = message("code":"answer.invalid")
+                    flash.errorMessage = message("code":"account.error.invalidAnswer")
                 }
                 render(view : "answerQuestion", model : ["question" : adult.question, "login" : params.login])
                 return false

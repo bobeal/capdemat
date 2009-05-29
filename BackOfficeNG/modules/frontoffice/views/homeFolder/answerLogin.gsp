@@ -1,14 +1,15 @@
 <html>
   <head>
     <meta name="layout" content="fo_main" />
-    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'homefolder.css')}" />
+    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'form.css')}" />
   </head>
   <body>
     <g:if test="${flash.errorMessage}"><div class="error-box"><p>${flash.errorMessage}</p></div></g:if>
-    <div class="yui-g login-box">
-      <div class="yui-u first">
+    <div class="yui-g">
+      <div class="yui-u first main-box">
+        <h2><g:message code="account.header.enterLogin" /></h2>
         <form action="${createLink(action:'resetPassword')}" method="post">
-          <label class="required" for="login"><g:message code="enter.login" /></label>
+          <label class="required" for="login"><g:message code="account.property.login" /></label>
           <input type="text" name="login" class="required" />
           <input type="hidden" name="comesFromLoginStep" value="true" style="display : none;" />
           <input type="submit" value="${message(code:'action.confirm')}" />

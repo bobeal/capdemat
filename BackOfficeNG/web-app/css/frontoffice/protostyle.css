@@ -311,12 +311,12 @@ h2 a#requestSubmit:hover {
 --------------------------------------------------------------*/
 
 /* request box */
-.requestBox {
+.narrow-box {
   margin: 0 0 1.5em 0;
   color: #000000;
 }
 
-.requestBox h3 {
+.narrow-box h3 {
  margin: 0 0 .2em 0;
  padding: .7em .5em;
  font-size: 1.1em;
@@ -324,13 +324,13 @@ h2 a#requestSubmit:hover {
  background: /* #A0D158 */ #c690bb;
 }
 
-.requestBox .body {
+.narrow-box .body {
   padding: .5em;
   color: #000000;
   background: #dddddd;
 }
 
-.requestBox .body select {
+.narrow-box .body select {
   width: 100%;
   display: block;
   margin: .1em 0 1em 0;
@@ -342,27 +342,27 @@ h2 a#requestSubmit:hover {
   color: #4e662b;
 }
 
-.requestBox .body strong {
+.narrow-box .body strong {
   font-size: 1.2em;
 }
 
-.requestBox .body a {
+.narrow-box .body a {
   display: block;
   margin: .5em 0 0 0;
   text-decoration: none;  
 }
-.requestBox .body a:hover {
+.narrow-box .body a:hover {
   text-decoration: underline;
 }
 
-.requestBox .body ul { margin: 0; padding: 0; }
-.requestBox .body li {
+.narrow-box .body ul { margin: 0; padding: 0; }
+.narrow-box .body li {
   margin: 0;
   padding: .5em 0;
   list-style-type: none;
   border-bottom: 1px dashed #7fa646;
 }
-.requestBox .body li a { display: inline; }
+.narrow-box .body li a { display: inline; }
 
 /* help box */
 .helpBox {

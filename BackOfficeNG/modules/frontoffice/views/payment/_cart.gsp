@@ -1,5 +1,5 @@
 <div id="narrow" class="yui-b">
-  <div class="requestBox action-list">
+  <div class="narrow-box action-list">
     <h3>
       <g:message code="payment.header.cart" />
     </h3>

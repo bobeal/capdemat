@@ -68,11 +68,11 @@
     <input type="submit" name="submit-tutorsEdit-account" value="${message(code:'homeFolder.action.addNewTutor')}" />
   </fieldset>
 
-  <h3>
-    <g:message code="homeFolder.header.rolesOnChildren" />
-    <span><g:message code="homeFolder.header.rolesOnChildren.desc" /></span>
-  </h3>
   <g:each var="it" in="${individuals?.children}" status="index">
+    <h3>
+      <g:message code="homeFolder.header.rolesOnChildren" />
+      <span><g:message code="homeFolder.header.rolesOnChildren.desc" /></span>
+    </h3>
     <fieldset class="account-fieldset-edit validation-scope">
       <h4>${it.fullName}</h4>
       <g:if test="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults).size()  + individuals.getRoleOwnersOnIndividual(it, individuals?.tutors).size() > 0}">
@@ -135,11 +135,11 @@
     </fieldset>
   </g:each>
 
-  <h3>
-    <g:message code="homeFolder.header.rolesOnAdults" />
-    <span><g:message code="homeFolder.header.rolesOnAdults.desc" /></span>
-  </h3>
   <g:each var="it" in="${individuals?.adults}" status="index">
+    <h3>
+      <g:message code="homeFolder.header.rolesOnAdults" />
+      <span><g:message code="homeFolder.header.rolesOnAdults.desc" /></span>
+    </h3>
     <fieldset class="account-fieldset-edit validation-scope">
       <h4>
         <g:capdematEnumToField var="${it.title}" i18nKeyPrefix="homeFolder.adult.title" /> ${it.fullName}

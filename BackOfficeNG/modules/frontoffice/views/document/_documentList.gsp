@@ -13,8 +13,7 @@
             - <g:message code="document.searchResult.creationDate" 
                 args="${[formatDate(date:record.creationDate,formatName:'format.date')]}" /> 
             <g:if test="${record.depositor}">
-              <g:message code="message.by" />
-              ${record.depositor.firstName} ${record.depositor.lastName}
+              <g:message code="message.by" /> ${record.depositor}
             </g:if>
             <g:if test="${record.endValidityDate}">
               - <g:message code="document.searchResult.endValidityDate" 

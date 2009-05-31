@@ -1,5 +1,15 @@
 <h2>Nouvelles</h2>
 
+<p><strong>02 juin 2009</strong></p>
+<span style="text-decoration:underline;">Front Office</span>
+<ul>
+  <li>Refonte des TS de création et modification de compte</li>
+</ul>
+<span style="text-decoration:underline;">Front Office & Back Office</span>
+<ul>
+  <li>Portage de l'intégralité des TS existants</li>
+</ul>
+
 <p><strong>06 avril 2009</strong></p>
 <span style="text-decoration:underline;">Front Office</span>
 <ul>

@@ -43,22 +43,22 @@
               from="${individuals}" value="${state.subjectFilter}"
               noSelection="['':message(code:'search.filter.defaultValue')]"/>
               
-            <label for="stateFilter">
-              <g:message code="property.requestState" /> :
-            </label>
-            <g:select id="stateFilter" name="stateFilter"
-              from="${requestStates}" 
-              valueMessagePrefix="request.state" value="${state.stateFilter}"
-              noSelection="['':message(code:'search.filter.defaultValue')]" />
-              
             <label for="typeFilter">
-              <g:message code="property.requestType" /> :
+              <g:message code="property.type" /> :
             </label>
             <g:select id="typeFilter" name="typeFilter"
               optionKey="id" optionValue="label"
               from="${allRequestTypes}" value="${state.typeFilter}"
               noSelection="['':message(code:'search.filter.defaultValue')]" />
-              
+
+            <label for="stateFilter">
+              <g:message code="property.state" /> :
+            </label>
+            <g:select id="stateFilter" name="stateFilter"
+              from="${requestStates}" 
+              valueMessagePrefix="request.state" value="${state.stateFilter}"
+              noSelection="['':message(code:'search.filter.defaultValue')]" />
+                            
             <input type="submit" value="${message(code:'action.filter')}"/>
           </div>
         </div>

@@ -38,15 +38,5 @@ public interface IDocumentDAO extends IGenericDAO {
      */
     List<Document> search(Hashtable<String,Object> searchParams,int max,int offset);
     
-    /**
-     * Return the {@link Document documents} that response to passed criterias.
-     */
-    List<Document> search(Hashtable<String,Object> searchParams,int max);
-    
-    /**
-     * Return the {@link Document documents} that response to passed criterias.
-     */
-    List<Document> search(Hashtable<String,Object> searchParams);
-
     Integer searchCount(Hashtable<String,Object> searchParams);
 }

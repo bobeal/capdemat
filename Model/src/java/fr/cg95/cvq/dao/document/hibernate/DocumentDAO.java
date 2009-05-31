@@ -44,7 +44,7 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
     public List<Document> listByHomeFolder (final Long homeFolderId, int max) {
         Criteria crit = HibernateUtil.getSession().createCriteria(Document.class);
         crit.add(Critere.compose("homeFolderId", homeFolderId, Critere.EQUALS));
-        crit.addOrder(Order.desc("endValidityDate"));
+        crit.addOrder(Order.desc("creationDate"));
         
         if (max != -1)
             crit.setMaxResults(max);
@@ -76,21 +76,14 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
     
     public List<Document> search(Hashtable<String,Object> searchParams,int max,int offset) {
         Criteria criteria = this.buildSearchCriteria(searchParams);
-        
+        criteria.addOrder(Order.desc("creationDate"));
+
         if(max > -1) criteria.setMaxResults(max);
         if(offset > -1) criteria.setFirstResult(offset);
         
-        return (List<Document>)criteria.list();
+        return criteria.list();
     }
     
-    public List<Document> search(Hashtable<String,Object> searchParams,int max) {
-        return this.search(searchParams,max,-1);
-    }
-    
-    public List<Document> search(Hashtable<String,Object> searchParams) {
-        return this.search(searchParams,-1,-1);
-    }
-
     protected Criteria buildSearchCriteria(Hashtable<String,Object> params) {
         Criteria criteria = HibernateUtil.getSession().createCriteria(Document.class);
         Hashtable<String,Object> specials = new Hashtable<String,Object>();

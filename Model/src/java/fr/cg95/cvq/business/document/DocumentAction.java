@@ -94,6 +94,7 @@ public class DocumentAction implements Serializable {
     /**
      * @hibernate.property
      *  column="resulting_state"
+     *  not-null="false"
      *  length="16"
      */
     public DocumentState getResultingState() {

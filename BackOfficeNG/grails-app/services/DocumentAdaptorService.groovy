@@ -17,6 +17,7 @@ import fr.cg95.cvq.business.document.DocumentBinary
 public class DocumentAdaptorService {
 
     def messageSource
+    def instructionService
     
     IRequestTypeService requestTypeService
     IDocumentService documentService
@@ -111,6 +112,21 @@ public class DocumentAdaptorService {
             pageNumber ++
         }
         return result
+    }
+    
+    def adaptDocumentAction(action) {
+        def resultingState = null
+        if (action.label.equals(IDocumentService.STATE_CHANGE_ACTION)) {
+            resultingState = "document.state.${StringUtils.pascalToCamelCase(action.resultingState.toString())}"
+        }
+        return [
+            'id': action.id,
+            'note': action.note,
+            'date': action.date,
+            'label':messageSource.getMessage(CapdematUtils.adaptDocumentActionLabel(action.label),null,SecurityContext.currentLocale),
+            'agentName': instructionService.getActionPosterDetails(action.agentId),
+            'resultingState': resultingState
+        ]
     }
     
     def getDocumentType(Long id) {

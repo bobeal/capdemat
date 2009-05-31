@@ -193,7 +193,14 @@ public interface IDocumentService {
     DocumentState[] getPossibleTransitions(DocumentState rs)
         throws CvqException;
 
-     
+    void addActionTrace(String label, DocumentState resultingState, Document document)
+        throws CvqException;
+
+    /**
+     * Get the states for which the document is still editable.
+     */
+    List<DocumentState> getEditableStates();
+
     /**
      * Provides ecitizen-oreinted document searching 
      * 
@@ -204,17 +211,8 @@ public interface IDocumentService {
      */
     List<Document> search(Hashtable<String,Object> searchParams,int max,int offset);
     
-    List<Document> search(Hashtable<String,Object> searchParams,int max);
-
-    List<Document> search(Hashtable<String,Object> searchParams);
-    
-    List<Document> search();
-    
+    /**
+     * Get a count of documents matching the given criteria.
+     */
     Integer searchCount(Hashtable<String,Object> searchParams);
-    Integer searchCount();
-
-    List<DocumentState> getEditableStates();
-
-    void addActionTrace(String label, DocumentState resultingState, Document document)
-        throws CvqException;
 }

@@ -7,7 +7,7 @@
   <body>
     <div class="main-box data-detail">
       <h2><g:message code="document.header.details"
-                     args="${[doc.title,doc.id]}"/></h2>
+                     args="${[doc.title,doc.id.toString()]}"/></h2>
      
       <div class="yui-g">
          <h3><g:message code="document.header.generalInformations" /></h3>

@@ -19,7 +19,6 @@ import fr.cg95.cvq.service.authority.ICategoryService
 class DocumentInstructionController {
     
     def defaultAction = "edit"
-    def beforeInterceptor = {}
     
     def instructionService
     def documentAdaptorService
@@ -36,28 +35,20 @@ class DocumentInstructionController {
         Request request = defaultRequestService.getById(Long.valueOf(params.rid))
         Agent agent = SecurityContext.currentAgent;
         
-        if(!params?.id || Integer.valueOf(params.id) == 0) {
+        if(!params.id || Integer.valueOf(params.id) == 0) {
             def documentType = documentTypeService.getDocumentTypeById(Long.valueOf(params.dtid))
             document.documentType.name = documentType.name
             document.state = DocumentState.PENDING
             document.depositOrigin = DepositOrigin.AGENT
             document.depositType = DepositType.PC
             document.datas = []
-//            document.homeFolderId = request.homeFolderId
         } else {
             document = documentService.getById(Long.valueOf(params.id))
         }
 
         def actions = []
         for(DocumentAction action : document.actions) {
-            actions.add([
-                "id": action.id,
-                "note": action.note,
-                "date": action.date,
-                "label": action.label, 
-                "agentName": instructionService.getActionPosterDetails(action.agentId),
-                "resultingState": CapdematUtils.adaptCapdematEnum(action.resultingState, "document.state")
-            ])
+            actions.add(documentAdaptorService.adaptDocumentAction(action))
         }
         def agentCanWrite =
             categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
@@ -83,17 +74,16 @@ class DocumentInstructionController {
     
     def addPage = {
         def result = [:], file = request.getFile('pageFile')
-        DocumentBinary page = new DocumentBinary()
-        Document document = null
         
         if((file.contentType =~ /image\/.*/).matches()) {
-            if (params.documentId)  document = documentService.getById(Long.valueOf(params.documentId))
-            else {
+            Document document = null
+            if (params.documentId) {
+            	document = documentService.getById(Long.valueOf(params.documentId))
+            } else {
                 document = new Document()
                 Request req = defaultRequestService.getById(Long.valueOf(params.requestId))
                 document.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(params.documentTypeId))
                 document.homeFolderId = req.homeFolderId
-                document.state = DocumentState.PENDING
                 document.depositOrigin = DepositOrigin.AGENT
                 
                 documentService.create(document)
@@ -101,6 +91,7 @@ class DocumentInstructionController {
                 result.newDocumentId = document.id
             }
             
+            DocumentBinary page = new DocumentBinary()
             page.data = file.bytes
             documentService.addPage(Long.valueOf(document.id), page)
             
@@ -108,7 +99,6 @@ class DocumentInstructionController {
             result.documentId = params?.documentId ? '' : document.id
             result.message = message(code:"message.addDone")
             result.pageNumber = document.datas.size() - 1
-            documentService.addActionTrace(documentService.PAGE_ADD_ACTION,document.state,document)
         } else {
             result.status = 'warning'
             result.message = message(code:"message.fileTypeIsNotSupported")
@@ -119,9 +109,7 @@ class DocumentInstructionController {
     }
     
     def deletePage = {
-        def document = documentService.getById(Long.valueOf(params.documentId))
-        document.datas.remove(Integer.valueOf(params.pageNumber))
-        documentService.addActionTrace(documentService.PAGE_DELETE_ACTION,document.state,document)
+    	documentService.deletePage(Long.valueOf(params.documentId), Integer.valueOf(params.pageNumber))
         render ([status:"success", message:message(code:"message.deleteDone")] as JSON)
     }
     
@@ -130,16 +118,11 @@ class DocumentInstructionController {
         
         if((file.contentType =~ /image\/.*/).matches()) {
             def document = documentService.getById(Long.valueOf(params.documentId))
-            document.datas[Integer.valueOf(params.pageNumber)].data = file.bytes
-            documentService.modify(document)
+            def documentBinary = document.datas[Integer.valueOf(params.pageNumber)]
+            documentBinary.data = file.bytes
+            documentService.modifyPage(Long.valueOf(params.documentId), documentBinary)
             result.message = message(code:"message.updateDone")
             result.status = 'success'
-            if(document.state.equals(DocumentState.OUTDATED)) {
-                document.state = DocumentState.PENDING
-                documentService.addActionTrace(documentService.STATE_CHANGE_ACTION,
-                    DocumentState.PENDING,document)
-            }
-            documentService.addActionTrace(documentService.PAGE_EDIT_ACTION,document.state,document)
         } else {
             result.status = 'warning'
             result.message = message(code:"message.fileTypeIsNotSupported")
@@ -205,15 +188,15 @@ class DocumentInstructionController {
         result.agentCanWrite = categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
         result.documents = documents
         result.requestId = params.rid
-        result.shortMode = params?.shortMode
+        result.shortMode = params.shortMode
 
         return result
     }
     
     def changeState = {
-        def document = documentService.getById(Long.valueOf(params.documentId))
-        bind(document)
-        documentService.modify(document)
+        documentService.updateDocumentState(Long.valueOf(params.documentId),
+        		DocumentState.forString(params.state), null, 
+        		DateUtils.stringToDate(params.endValidityDate))
         render ([status:"success", message:message(code:"message.updateDone")] as JSON)
     }
 }

@@ -1,5 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,10 +6,11 @@
   </head>
   <body>
     <div class="main-box">
-      <h2><g:message code="request.header.summary" args="${[requestTypeLabel,rqt.id]}"/></h2>
+      <h2><g:message code="request.header.summary" args="${[requestTypeLabel,rqt.id.toString()]}"/></h2>
       <div class="requestSummary">
         <div id="requestTabView">
-          <g:render template="/frontofficeRequestType/${validationTemplateDirectory}/summary" model="['rqt':rqt]" />
+          <g:render template="/frontofficeRequestType/${validationTemplateDirectory}/summary" 
+          	model="['rqt':rqt]" />
         </div>
       </div>
     </div>

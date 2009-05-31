@@ -79,28 +79,28 @@
         <ul>
           <g:each var="action" in="${document.actions}">
             <li>
-              <span class="${action.resultingState.cssClass}">
-                <g:message code="${action.resultingState.i18nKey}"/>
-              </span>
-
               <strong>${action.label}</strong>
-              - <strong><g:formatDate formatName="format.date" date="${action.date}"/></strong>
-              - <strong>${action.agentName}</strong>
+              <g:if test="${action.resultingState}">
+                (<g:message code="property.newState" /> : <strong><g:message code="${action.resultingState}"/></strong>)
+              </g:if>
+        	  - <g:message code="searchResult.actionDate" /> <strong><g:formatDate formatName="format.fullDate" date="${action.date}"/></strong>
+              <g:message code="layout.by" /> <strong>${action.agentName}</strong>
             </li>
           </g:each>
         </ul>
       </div>
-       <!-- Page 2 -->
+
+      <!-- Page 2 -->
       <div id="page2">
         <h2><g:message code="document.header.information" /></h2>
         <div id="documentInformationtMsg" style="display:none"></div>
+        <p>
+          <g:message code="document.property.ecitizenNote" /> :
+		  <strong>${document.ecitizenNote}</strong>
+        </p>
         <form method="POST" id="modifyDocumentForm" action="<g:createLink action="modifyDocument" />">
           <div id="modifyDocumentFormErrors" class="error"></div> 
-          <label for="ecitizenNote">
-            <g:message code="document.property.ecitizenNote" /> :
-          </label>
-          <input type="text" name="ecitizenNote" size="50" title="" value="${document.ecitizenNote}" disabled="disabled" />
-              
+            
           <label for="agentNote">
             <g:message code="document.property.agentNote" /> :
           </label>

@@ -91,12 +91,6 @@ public interface IDocumentService {
         throws CvqException, CvqObjectNotFoundException;
     
     /**
-     * Get a specific page of an existing document.
-     */
-    DocumentBinary getPage(@IsDocument final Long documentId, final Integer pageId)
-        throws CvqException, CvqObjectNotFoundException;
-
-    /**
      * Get all binary data associated to a document.
      */
     Set<DocumentBinary> getAllPages(@IsDocument final Long documentId)

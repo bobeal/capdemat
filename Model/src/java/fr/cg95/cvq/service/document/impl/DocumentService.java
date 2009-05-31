@@ -15,7 +15,6 @@ import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.document.DocumentTypeValidity;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.dao.document.IDocumentBinaryDAO;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
@@ -42,7 +41,6 @@ public class DocumentService implements IDocumentService {
     
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
-    protected IDocumentBinaryDAO documentBinaryDAO;
     
     public DocumentService() {
         super();
@@ -146,7 +144,8 @@ public class DocumentService implements IDocumentService {
 
         document.setState(DocumentState.PENDING);
         document.setCreationDate(new Date());
-
+        document.setDepositId(SecurityContext.getCurrentUserId());
+        
         // set required default values
         if (document.getDepositType() == null)
             document.setDepositType(DepositType.PC);
@@ -209,7 +208,7 @@ public class DocumentService implements IDocumentService {
 
         checkDocumentDigitalizationIsEnabled();
         
-        documentBinaryDAO.update(documentBinary);
+        documentDAO.update(documentBinary);
 
         Document document = getById(documentId);
         
@@ -232,7 +231,7 @@ public class DocumentService implements IDocumentService {
         Document document = getById(documentId);
         DocumentBinary documentBinary = document.getDatas().get(pageId);
         document.getDatas().remove(documentBinary);
-        documentBinaryDAO.delete(documentBinary);
+        documentDAO.delete(documentBinary);
         documentDAO.update(document);
         
         addActionTrace(PAGE_DELETE_ACTION, null, document);
@@ -249,18 +248,6 @@ public class DocumentService implements IDocumentService {
         }
     }
     
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public DocumentBinary getPage(final Long documentId, final Integer pageId)
-        throws CvqException, CvqObjectNotFoundException {
-
-        DocumentBinary docBin =
-            documentBinaryDAO.findByDocumentAndPageId(documentId, pageId);
-        if (docBin == null)
-            throw new CvqObjectNotFoundException("Could not find page " + pageId + " of document " + documentId);
-
-        return docBin;
-    }
-
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Set<DocumentBinary> getAllPages(final Long documentId)
         throws CvqException {
@@ -496,10 +483,6 @@ public class DocumentService implements IDocumentService {
     
     public void setDocumentDAO(final IDocumentDAO documentDAO) {
         this.documentDAO = documentDAO;
-    }
-
-    public void setDocumentBinaryDAO(final IDocumentBinaryDAO documentBinaryDAO) {
-        this.documentBinaryDAO = documentBinaryDAO;
     }
 
     public void setDocumentTypeDAO(final IDocumentTypeDAO documentTypeDAO) {

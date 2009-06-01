@@ -185,11 +185,13 @@ public interface IExternalService {
     Set<Long> getValidatedRequestIds(Set<String> requestTypesLabels, int numberOfDays);
 
     /**
-     * Sets the external ID for a user and an external service
-     * when his individual mapping already exists.
-     * To be used on external ID retrieval from the external service.
+     * Set the external id of an individual for the given external service.
+     * 
+     * The mapping for the home folder must exist prior to this action.
+     * To be used on external id retrieval from the external service.
      */
-    void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, String externalId);
+    void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
+            String externalId);
 
     ExternalServiceTrace getLastTrace(Long requestId, String label);
 

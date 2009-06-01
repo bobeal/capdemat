@@ -658,8 +658,10 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return this.externalServiceTraceDAO.<Request,Long> get(fields,criterias,Request.class);
     }
 
-    public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, String externalId) {
-        ExternalServiceIdentifierMapping identifierMapping = getIdentifierMapping(externalServiceLabel, homeFolderId);
+    public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
+            String externalId) {
+        ExternalServiceIdentifierMapping identifierMapping = 
+            getIdentifierMapping(externalServiceLabel, homeFolderId);
         for (ExternalServiceIndividualMapping esim : identifierMapping.getIndividualsMappings()) {
             if (esim.getIndividualId().equals(individualId)) {
                 esim.setExternalId(externalId);

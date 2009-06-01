@@ -1,6 +1,6 @@
 <g:if test="${localReferentialCheckErrors.isEmpty()}">
   <span id="externalReferentialCheck_valid_${id}_${label}" class="tag-valid externalLink">
-    <g:message code="external.referential.checks.ok" />
+    <g:message code="externalService.message.referentialChecksOk" />
   </span>
 </g:if>
 <g:else>
@@ -10,6 +10,6 @@
     </g:each>
   </ul>
   <span id="externalReferentialCheck_invalid_${id}_${label}" class="tag-invalid externalLink">
-    <g:message code="external.referential.checks.invalid" />
+    <g:message code="externalService.message.referentialChecksInvalid" />
   </span>
 </g:else>

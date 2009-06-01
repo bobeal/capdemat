@@ -68,70 +68,32 @@ public class EdemandeService implements IExternalProviderService {
     //private static final String PS_CODE_TIERS = "89837";
 
     @Override
-    public void checkConfiguration(ExternalServiceBean externalServiceBean)
-            throws CvqConfigurationException {
-    }
-
-    @Override
-    public void creditHomeFolderAccounts(Collection<PurchaseItem> purchaseItems,
-            String cvqReference, String bankReference, Long homeFolderId,
-            String externalHomeFolderId, String externalId, Date validationDate)
-            throws CvqException {
-    }
-
-    @Override
-    public Map<String, List<ExternalAccountItem>> getAccountsByHomeFolder(Long homeFolderId,
-            String externalHomeFolderId, String externalId) throws CvqException {
-        return null;
-    }
-
-    @Override
-    public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
-            throws CvqException {
-        return null;
-    }
-
-    @Override
-    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId,
-            String externalHomeFolderId, String externalId) throws CvqException {
-        return null;
-    }
-
-    @Override
-    public String getLabel() {
-        return label;
-    }
-
-    @Override
-    public String helloWorld() throws CvqException {
-        return null;
-    }
-
-    @Override
-    public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {
-    }
-
-    @Override
-    public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
-    }
-
-    @Override
     public String sendRequest(XmlObject requestXml) {
         StudyGrantRequest sgr = ((StudyGrantRequestDocument) requestXml).getStudyGrantRequest();
         ExternalServiceTrace lastTrace = externalService.getLastTrace(sgr.getId(), label);
         String psCodeTiers = sgr.getSubject().getIndividual().getExternalId();
         if (psCodeTiers == null || psCodeTiers.trim().isEmpty()) {
+            // external id (code tiers) not known locally : 
+            //     either check if tiers has been created in eDemande
+            //     either ask for its creation in eDemande
             psCodeTiers = searchIndividual(sgr);
-            if ((psCodeTiers == null || psCodeTiers.trim().isEmpty())) {
-                if (!externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.IN_PROGRESS)) {
+            if (psCodeTiers == null || psCodeTiers.trim().isEmpty()) {
+                // tiers has not been created in eDemande ...
+                if (!externalService.hasTraceWithStatus(sgr.getId(), label, 
+                        TraceStatusEnum.IN_PROGRESS)) {
+                    // ... and no request in progress so ask for its creation
                     createIndividual(sgr);
                 } else if (psCodeTiers != null) {
-                    addTrace(sgr.getId(), TraceStatusEnum.IN_PROGRESS, "Le tiers n'est pas encore créé");
+                    // FIXME BOR : i don't get this one ...
+                    addTrace(sgr.getId(), TraceStatusEnum.IN_PROGRESS, 
+                            "Le tiers n'est pas encore créé");
                 }
                 return null;
             } else {
+                // tiers has been created in eDemande, store its code locally
                 sgr.getSubject().getIndividual().setExternalId(psCodeTiers);
-                externalService.setExternalId(label, sgr.getHomeFolder().getId(), sgr.getSubject().getIndividual().getId(), psCodeTiers);
+                externalService.setExternalId(label, sgr.getHomeFolder().getId(), 
+                        sgr.getSubject().getIndividual().getId(), psCodeTiers);
             }
         }
         if (lastTrace == null || !lastTrace.getStatus().equals(TraceStatusEnum.SENT)) {
@@ -169,6 +131,11 @@ public class EdemandeService implements IExternalProviderService {
         }
     }
 
+    /**
+     * Search for this request's subject in eDemande.
+     * 
+     * @return the subject's code in eDemande or null if not found
+     */
     private String searchIndividual(StudyGrantRequest sgr) {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("lastName", sgr.getSubject().getIndividual().getLastName());
@@ -177,7 +144,8 @@ public class EdemandeService implements IExternalProviderService {
         model.put("accountNumber", sgr.getAccountNumber());
         model.put("accountKey", sgr.getAccountKey());
         try {
-            return parseData(edemandeClient.rechercherTiers(model).getRechercherTiersResponse().getReturn(), "//resultatRechTiers/listeTiers/tiers/codeTiers");
+            return parseData(edemandeClient.rechercherTiers(model).getRechercherTiersResponse().getReturn(), 
+                    "//resultatRechTiers/listeTiers/tiers/codeTiers");
         } catch (CvqException e) {
             addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
             return null;
@@ -366,6 +334,54 @@ public class EdemandeService implements IExternalProviderService {
             e.printStackTrace();
             throw new CvqException("Erreur lors de la lecture de la réponse du service externe");
         }
+    }
+
+    @Override
+    public void checkConfiguration(ExternalServiceBean externalServiceBean)
+        throws CvqConfigurationException {
+    }
+
+    @Override
+    public void creditHomeFolderAccounts(Collection<PurchaseItem> purchaseItems,
+            String cvqReference, String bankReference, Long homeFolderId,
+            String externalHomeFolderId, String externalId, Date validationDate)
+            throws CvqException {
+    }
+
+    @Override
+    public Map<String, List<ExternalAccountItem>> getAccountsByHomeFolder(Long homeFolderId,
+            String externalHomeFolderId, String externalId) throws CvqException {
+        return null;
+    }
+
+    @Override
+    public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
+            throws CvqException {
+        return null;
+    }
+
+    @Override
+    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId,
+            String externalHomeFolderId, String externalId) throws CvqException {
+        return null;
+    }
+
+    @Override
+    public String getLabel() {
+        return label;
+    }
+
+    @Override
+    public String helloWorld() throws CvqException {
+        return null;
+    }
+
+    @Override
+    public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {
+    }
+
+    @Override
+    public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
     }
 
     public void setRequestService(IRequestService requestService) {

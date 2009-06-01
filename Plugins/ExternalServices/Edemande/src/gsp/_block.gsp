@@ -2,20 +2,20 @@
   <h3>${externalProviderService.label}</h3>
   <div class="body">
     <p>
-      <h4><g:message code="external.referential.checks" /> :</h4>
+      <h4><g:message code="externalService.header.referentialChecks" /> :</h4>
       <div id="externalChecksPendingMessage" class="invisible">
         <span id="externalReferentialCheck_pending_${request.id}_${externalProviderService.label}" class="tag-pending externalLink">
-          <g:message code="external.referential.checks.pending" />
+          <g:message code="externalService.message.referentialChecksPending" />
         </span>
       </div>
       <div id="localReferentialChecksContainer">
         <span id="externalReferentialCheck_notsent_${request.id}_${externalProviderService.label}"class="tag-notsent externalLink">
-          <g:message code="external.referential.checks.not.done" />
+          <g:message code="externalService.message.referentialChecksNotDone" />
         </span>
       </div>
     </p>
     <p class="block">
-      <h4><g:message code="external.status" /> :</h4>
+      <h4><g:message code="externalService.header.status" /> :</h4>
       <div id="externalStatusContainer">
         <g:render template="/backofficeRequestInstruction/external/${externalProviderService.label}/externalStatus"
           model="['externalProviderService' : externalProviderService, 'lastTraceStatus' : lastTraceStatus]" />

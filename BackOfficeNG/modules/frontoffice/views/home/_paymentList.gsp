@@ -1,6 +1,6 @@
+<g:if test="${dashBoard.payments?.all.size() > 0}">
 <div class="list-box">
   <h2><g:message code="payment.header.lastPayments" /></h2>
-  <g:if test="${dashBoard.payments?.all.size() > 0}">
     <ul>
       <g:each var="record" in="${dashBoard.payments.all}">
         <li>
@@ -25,8 +25,5 @@
         <g:message code="action.seeAll" />
       </a>
     </p>
-  </g:if>
-  <g:else>
-    <p class="empty"><g:message code="message.noPayments" /></p>
-  </g:else>
 </div>
+</g:if>

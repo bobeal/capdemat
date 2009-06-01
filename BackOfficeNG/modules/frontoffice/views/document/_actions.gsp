@@ -5,14 +5,12 @@
       <ul>
         <g:each var="action" in="${actions}">
           <li>
-            <g:capdematEnumToFlag var="${action.resultingState}" i18nKeyPrefix="document.state" />
             ${action.label}
-            <g:if test="${action.date}">
-              - <g:formatDate date="${action.date}" formatName="format.date" />
+            <g:if test="${action.resultingState}">
+              (<g:message code="property.newState" /> : <g:message code="${action.resultingState}"/>)
             </g:if>
-            <g:if test="${action.agentName}">
-              - ${action.agentName}
-            </g:if>
+            - <g:message code="searchResult.actionDate" /> <g:formatDate formatName="format.fullDate" date="${action.date}"/>
+            <g:message code="layout.by" /> ${action.agentName}
           </li>
         </g:each>
       </ul>

@@ -12,13 +12,13 @@
           <div class="list-box">
             <h2><g:message code="menu.documents" /></h2>
             <g:if test="${documents.count > 0}">
-            <p class="paginator">
-              <g:paginate action="index" total="${documents.count}" max="${maxRows}" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
-            </p>
-            <g:render template="documentList" />
-            <p class="paginator">
-              <g:paginate action="index" total="${documents.count}" max="${maxRows}" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
-            </p>
+              <p class="paginator">
+                <g:paginate action="index" total="${documents.count}" max="${maxRows}" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+              </p>
+              <g:render template="documentList" />
+              <p class="paginator">
+                <g:paginate action="index" total="${documents.count}" max="${maxRows}" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
+              </p>
             </g:if>
             <g:else>
               <p class="empty"><g:message code="message.noDocuments" /></strong>
@@ -35,6 +35,15 @@
             <g:message code="header.filterBy" />
           </h3>
           <div class="body">
+            <label for="nf">
+              <g:message code="property.individual" /> :
+            </label>
+
+            <g:select id="nf" name="nf"
+              optionKey="id" optionValue="fullName"
+              from="${individuals}" value="${state?.nf}"
+              noSelection="['':message(code:'search.filter.defaultValue')]" />
+
             <label for="df">
               <g:message code="property.type" /> :
             </label>
@@ -44,15 +53,6 @@
               from="${types}" value="${state?.df}"
               noSelection="['':message(code:'search.filter.defaultValue')]"
               valueMessagePrefix="document.type" />
-
-            <label for="nf">
-              <g:message code="property.individual" /> :
-            </label>
-
-            <g:select id="nf" name="nf"
-              optionKey="id" optionValue="fullName"
-              from="${individuals}" value="${state?.nf}"
-              noSelection="['':message(code:'search.filter.defaultValue')]" />
 
             <label for="sf">
               <g:message code="property.state" /> :

@@ -618,9 +618,10 @@ public class LocalAuthorityRegistry
         if (localAuthority == null) {
             logger.debug("instantiateLocalAuthority() creating " + localAuthorityName);
             try {
-                localAuthority = new LocalAuthority();
-                localAuthority.setName(lacb.getName().toLowerCase());
-                localAuthority.setDisplayTitle(lacb.getName().toLowerCase());
+                localAuthority = 
+                    new LocalAuthority(lacb.getName().toLowerCase(), lacb.getName().toLowerCase());
+                if (lacb.getDefaultServerName() != null)
+                    localAuthority.getServerNames().add(lacb.getDefaultServerName());
                 localAuthorityDAO.create(localAuthority);
             } catch (CvqPermissionException cpe) {
                 // can't happen, we are admin here
@@ -629,7 +630,8 @@ public class LocalAuthorityRegistry
                         + localAuthorityName + " (" + e.getMessage() + ")");
             }
         }
-        if (localAuthority.getServerNames() == null) {
+        if (localAuthority.getServerNames() == null 
+                || localAuthority.getServerNames().isEmpty()) {
             localAuthority.setServerNames(new TreeSet<String>());
             String serverName = "vosdemarches.ville-" + lacb.getName() + ".fr";
             localAuthority.getServerNames().add(serverName);

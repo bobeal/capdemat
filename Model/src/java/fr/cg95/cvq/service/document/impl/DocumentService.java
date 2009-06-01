@@ -15,7 +15,6 @@ import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.document.DocumentTypeValidity;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.dao.document.IDocumentBinaryDAO;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
@@ -42,7 +41,6 @@ public class DocumentService implements IDocumentService {
     
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
-    protected IDocumentBinaryDAO documentBinaryDAO;
     
     public DocumentService() {
         super();
@@ -146,7 +144,8 @@ public class DocumentService implements IDocumentService {
 
         document.setState(DocumentState.PENDING);
         document.setCreationDate(new Date());
-
+        document.setDepositId(SecurityContext.getCurrentUserId());
+        
         // set required default values
         if (document.getDepositType() == null)
             document.setDepositType(DepositType.PC);
@@ -199,6 +198,8 @@ public class DocumentService implements IDocumentService {
         }
 
         documentDAO.update(document);
+        
+        addActionTrace(PAGE_ADD_ACTION, null, document);
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
@@ -207,9 +208,18 @@ public class DocumentService implements IDocumentService {
 
         checkDocumentDigitalizationIsEnabled();
         
-        documentBinaryDAO.update(documentBinary);
+        documentDAO.update(documentBinary);
 
-        logger.debug("Modified document binary with id : " + documentBinary.getId());
+        Document document = getById(documentId);
+        
+        addActionTrace(PAGE_EDIT_ACTION, null, document);
+
+        if (document.getState().equals(DocumentState.OUTDATED)) {
+            document.setState(DocumentState.PENDING);
+            document.setValidationDate(null);
+            documentDAO.update(document);
+            addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
+        }
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
@@ -218,17 +228,13 @@ public class DocumentService implements IDocumentService {
 
         checkDocumentDigitalizationIsEnabled();
         
-        DocumentBinary docBin =
-            documentBinaryDAO.findByDocumentAndPageId(documentId, pageId);
-        if (docBin == null)
-            throw new CvqObjectNotFoundException("Could not find page " + pageId + " of document " + documentId);
-
         Document document = getById(documentId);
-        document.getDatas().remove(docBin);
-        documentBinaryDAO.delete(docBin);
+        DocumentBinary documentBinary = document.getDatas().get(pageId);
+        document.getDatas().remove(documentBinary);
+        documentDAO.delete(documentBinary);
         documentDAO.update(document);
         
-        logger.debug("Deleted document binary with id : " + docBin.getId());
+        addActionTrace(PAGE_DELETE_ACTION, null, document);
     }
 
     private void checkDocumentDigitalizationIsEnabled() 
@@ -242,18 +248,6 @@ public class DocumentService implements IDocumentService {
         }
     }
     
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public DocumentBinary getPage(final Long documentId, final Integer pageId)
-        throws CvqException, CvqObjectNotFoundException {
-
-        DocumentBinary docBin =
-            documentBinaryDAO.findByDocumentAndPageId(documentId, pageId);
-        if (docBin == null)
-            throw new CvqObjectNotFoundException("Could not find page " + pageId + " of document " + documentId);
-
-        return docBin;
-    }
-
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Set<DocumentBinary> getAllPages(final Long documentId)
         throws CvqException {
@@ -311,34 +305,21 @@ public class DocumentService implements IDocumentService {
     
     @Context(type=ContextType.ECITIZEN, privilege=ContextPrivilege.NONE)
     public Integer searchCount(Hashtable<String,Object> searchParams) {
-        return this.documentDAO.searchCount(this.prepareSearchParams(searchParams));
-    }
-    
-    public Integer searchCount() {
-        return this.searchCount(new Hashtable<String, Object>());
+        return documentDAO.searchCount(this.prepareSearchParams(searchParams));
     }
     
     @Context(type=ContextType.ECITIZEN, privilege=ContextPrivilege.NONE)
     public List<Document> search(Hashtable<String,Object> searchParams,int max,int offset) {
-        return this.documentDAO.search(this.prepareSearchParams(searchParams),max,offset);
-    }
-    
-    public List<Document> search() {
-        return this.search(new Hashtable<String, Object>(),-1,-1);
-    }
-    
-    public List<Document> search(Hashtable<String,Object> searchParams,int max) {
-        return this.search(searchParams,max,-1);
-    }
-    
-    public List<Document> search(Hashtable<String,Object> searchParams) {
-        return this.search(searchParams,-1,-1);
+        return documentDAO.search(this.prepareSearchParams(searchParams),max,offset);
     }
     
     protected Hashtable<String,Object> prepareSearchParams(Hashtable<String,Object> searchParams) {
-        Adult user = SecurityContext.getCurrentEcitizen();
+        
+        if (searchParams == null)
+            searchParams = new Hashtable<String, Object>();
         
         if(!searchParams.containsKey("homeFolderId") && !searchParams.containsKey("individualId")) {
+            Adult user = SecurityContext.getCurrentEcitizen();
             List<Long> individuals = new ArrayList<Long>();
             for(Individual i : user.getHomeFolder().getIndividuals())
                 individuals.add(i.getId());
@@ -357,7 +338,7 @@ public class DocumentService implements IDocumentService {
     @Context(type=ContextType.AGENT)
     public void updateDocumentState(final Long id, final DocumentState ds, final String message, 
             final Date validityDate)
-            throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
         if (ds.equals(DocumentState.VALIDATED))
             validate(id, validityDate, message);
         else if (ds.equals(DocumentState.CHECKED))
@@ -380,6 +361,8 @@ public class DocumentService implements IDocumentService {
             || document.getState().equals(DocumentState.CHECKED)) {
             try {
                 document.setState(DocumentState.VALIDATED);
+                document.setEndValidityDate(validityDate);
+                document.setValidationDate(new Date());
                 documentDAO.update(document);
             } catch (RuntimeException e) {
                 throw new CvqException("Could not validate document " + e.toString());
@@ -462,7 +445,7 @@ public class DocumentService implements IDocumentService {
         } else if (ds.equals(DocumentState.REFUSED)) {
             // no more transitions available
         } else if (ds.equals(DocumentState.OUTDATED)) {
-            // no more transitions available
+            documentStateList.add(DocumentState.PENDING);
         }
 
         return (DocumentState[]) documentStateList.toArray(new DocumentState[0]);
@@ -500,10 +483,6 @@ public class DocumentService implements IDocumentService {
     
     public void setDocumentDAO(final IDocumentDAO documentDAO) {
         this.documentDAO = documentDAO;
-    }
-
-    public void setDocumentBinaryDAO(final IDocumentBinaryDAO documentBinaryDAO) {
-        this.documentBinaryDAO = documentBinaryDAO;
     }
 
     public void setDocumentTypeDAO(final IDocumentTypeDAO documentTypeDAO) {

@@ -317,7 +317,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="documentService" class="fr.cg95.cvq.service.document.impl.DocumentService">
     <property name="documentDAO" ref="documentDAO"/>
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
-    <property name="documentBinaryDAO" ref="documentBinaryDAO"/>
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
   </bean>
 
@@ -643,8 +642,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="historyEntryDAO" class="fr.cg95.cvq.dao.users.hibernate.HistoryEntryDAO" parent="genericDAO"/>
 
   <bean id="documentDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentDAO" parent="genericDAO"/>
-
-  <bean id="documentBinaryDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentBinaryDAO" parent="genericDAO"/>
 
   <bean id="paymentDAO" class="fr.cg95.cvq.dao.users.hibernate.PaymentDAO" parent="genericDAO"/>
 

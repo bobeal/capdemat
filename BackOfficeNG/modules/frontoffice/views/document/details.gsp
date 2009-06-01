@@ -7,7 +7,7 @@
   <body>
     <div class="main-box data-detail">
       <h2><g:message code="document.header.details"
-                     args="${[doc.title,doc.id]}"/></h2>
+                     args="${[doc.title,doc.id.toString()]}"/></h2>
      
       <div class="yui-g">
          <h3><g:message code="document.header.generalInformations" /></h3>
@@ -23,7 +23,11 @@
             <dd><g:formatDate date="${doc.validationDate}" formatName="format.date" /></dd>
     
             <dt><g:message code="document.property.state"/> :</dt>
-            <dd><g:capdematEnumToFlag var="${doc.state}" i18nKeyPrefix="document.state" /></dd>
+            <dd>
+              <g:if test="${doc.state}">
+                <g:capdematEnumToFlag var="${doc.state}" i18nKeyPrefix="document.state" />
+              </g:if>
+            </dd>
           </dl>
         </div>
         <div class="yui-u">
@@ -35,12 +39,18 @@
             <dd>${doc.agentNone}</dd>
 
             <dt><g:message code="document.property.depositType"/> :</dt>
-            <dd><g:capdematEnumToFlag var="${doc.depositType}" i18nKeyPrefix="document.depositType" /></dd>
-
+            <dd>
+              <g:if test="${doc.depositType}">
+                <g:capdematEnumToFlag var="${doc.depositType}" i18nKeyPrefix="document.depositType" />
+			  </g:if>
+			</dd>
+			
             <dt><g:message code="document.property.depositOrigin"/> :</dt>
             <dd>
               ${doc.depositor}
-              <g:capdematEnumToFlag var="${doc.depositOrigin}" i18nKeyPrefix="document.depositOrigin" />
+              <g:if test="${doc.depositType}">
+                <g:capdematEnumToFlag var="${doc.depositOrigin}" i18nKeyPrefix="document.depositOrigin" />
+              </g:if>
             </dd>
           </dl>
         </div>

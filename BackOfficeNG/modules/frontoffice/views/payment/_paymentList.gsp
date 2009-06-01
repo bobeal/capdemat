@@ -1,6 +1,6 @@
+<g:if test="${payments?.all?.size() > 0}">
 <div class="list-box">
   <h2><g:message code="payment.header.paymentsHistory" /></h2>
-  <g:if test="${payments?.all?.size() > 0}">
     <p class="paginator">
       <g:paginate action="history" total="${payments.count}" max="${maxRows}" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
     </p>
@@ -28,8 +28,10 @@
     <p class="paginator">
       <g:paginate action="history" total="${payments.count}" max="${maxRows}" next="&gt;" prev="&lt;" params="${['ps':pageState]}"  />
     </p>
-  </g:if>
-  <g:else>
-    <p class="empty"><g:message code="message.noPayments" /></p>
-  </g:else>
 </div>
+</g:if>
+<g:else>
+  <div class="information-box">
+  	<g:message code="payment.message.noPayments" />
+  </div>
+</g:else>

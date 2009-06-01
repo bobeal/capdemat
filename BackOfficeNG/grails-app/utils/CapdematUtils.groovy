@@ -27,8 +27,16 @@ class CapdematUtils {
     }
     
     public static adaptRequestActionLabel(label) {
+    	return composeActionLabelKey("request.actionLabel",label)
+    }
+    
+    public static adaptDocumentActionLabel(label) {
+    	return composeActionLabelKey("document.actionLabel",label)
+    }
+
+    private static composeActionLabelKey(prefix,label) {
         def transformedLabel = label.toLowerCase().replaceAll('_.',{it.toUpperCase().substring(1)})
-        return "request.actionLabel.${transformedLabel}"
+        return "${prefix}.${transformedLabel}"
     }
     
     public static requestTypeLabelAsDir(label) {

@@ -219,7 +219,7 @@ public class DocumentServiceTest extends ServiceTestCase {
         Assert.assertNotNull(allDocumentTypes);
         
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        int count = iDocumentService.searchCount();
+        int count = iDocumentService.searchCount(null);
         Assert.assertNotSame(count, 0);
         
         List<Document> docs = new ArrayList<Document>();
@@ -227,14 +227,14 @@ public class DocumentServiceTest extends ServiceTestCase {
         params.put("documentType", iDocumentTypeService.getDocumentTypeByType(
                 IDocumentTypeService.TAXES_NOTIFICATION_TYPE));
         
-        docs = iDocumentService.search(params);
+        docs = iDocumentService.search(params,-1,-1);
         Assert.assertNotSame(docs.size(), 0);
         
         params = new Hashtable<String, Object>();
         params.put("homeFolderId", homeFolderId);        
         
         count = iDocumentService.searchCount(params);
-        docs = iDocumentService.search(params);
+        docs = iDocumentService.search(params,-1,-1);
         Assert.assertEquals(docs.size(), count);
     }
     

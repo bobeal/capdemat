@@ -3,7 +3,6 @@ import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 
@@ -15,7 +14,6 @@ class DocumentController {
     
     IDocumentService documentService
     IDocumentTypeService documentTypeService
-    IIndividualService individualService
     
     def instructionService
     def documentAdaptorService
@@ -31,8 +29,10 @@ class DocumentController {
     def details = {
         def result = [:], prevPage = null, nextPage = null, index = 0
         Document document
-        if (params.sessionUuid == null) document = documentService.getById(Long.valueOf(params.id))
-        else document = documentAdaptorService.deserializeDocument(params.id, params.sessionUuid)
+        if (params.sessionUuid == null || params.sessionUuid == "") 
+        	document = documentService.getById(Long.valueOf(params.id))
+        else 
+        	document = documentAdaptorService.deserializeDocument(params.id, params.sessionUuid)
         
         result.page = params.pn ? Integer.parseInt(params.pn) : 0
         result.actions = this.getActions(document)        
@@ -56,9 +56,10 @@ class DocumentController {
             "ecitizenNote": document.ecitizenNote,
             "agentNote": document.agentNote,
             'certified' : document.certified,
+            'numberOfPages': pages.size(),
             'nextPage' : nextPage,
             'prevPage' : prevPage,
-            'pagesTitle': StringUtils.firstCase(message(code:'property.pages'),'')
+            'pagesTitle': StringUtils.firstCase(message(code:'property.page'),'')
         ]
         return result
     }
@@ -93,23 +94,16 @@ class DocumentController {
         response.outputStream << binary.data
     }
     
-    def protected getActions = {document ->
+    def protected getActions(document) {
         def actions = []
         document.actions.each {
-            actions.add(
-                [ "id": it.id,
-                  "agentName": this.instructionService.getActionPosterDetails(it.agentId),
-                  "label": message(code:CapdematUtils.adaptRequestActionLabel(it.label)),
-                  "note": it.note,
-                  "date": it.date,
-                  "resultingState": it.resultingState
-                ])
+            actions.add(documentAdaptorService.adaptDocumentAction(it))
         }
         
         return actions
     }
     
-    def protected getDocuments = {state,params ->
+    def protected getDocuments(state,params) {
         def result = []
         def criterias = new Hashtable<String,Object>();
         int offset = !params?.offset ? 0 : Integer.parseInt(params.offset)
@@ -121,19 +115,17 @@ class DocumentController {
         else if(state?.nf)
             criterias.put('individualId',Long.valueOf(state.nf))
         
-        this.documentService.search(criterias,maxRows,offset).each{
-            Individual sbj;
-            if(it?.individualId != null) sbj = this.individualService.getById(it.individualId)
+        this.documentService.search(criterias,maxRows,offset).each {
             result.add([
                 'id' : it.id,
                 'creationDate' : it.creationDate,
                 'certified' : it.certified,
                 'endValidityDate' : it.endValidityDate,
                 'state' : it.state.toString(),
-                'subject' : sbj?.firstName,
+                'subject' : instructionService.getActionPosterDetails(it.individualId),
                 'depositType' : it.depositType,
                 'depositOrigin' : it.depositOrigin,
-                'depositor' : this.instructionService.getActionPosterDetails(it.depositId),
+                'depositor' : instructionService.getActionPosterDetails(it.depositId),
                 'title' : message(code: CapdematUtils.adaptDocumentTypeName(it.documentType.name))
             ]);
         }
@@ -144,7 +136,7 @@ class DocumentController {
         ]
     }
     
-    def protected getTypes = {
+    def protected getTypes() {
         def result = []
         this.documentTypeService.allDocumentTypes.each{
             result.add([
@@ -155,13 +147,13 @@ class DocumentController {
         return result.sort {it.name}
     }
     
-    def protected getIndividuals = {
+    def protected getIndividuals() {
         def individuals = []
         
         currentEcitizen.homeFolder.individuals.each{
             individuals.add([
                 id : it.id,
-                fullName : "${it?.firstName}"
+                fullName : instructionService.getActionPosterDetails(it.id)
             ])
         }
         individuals = individuals.sort {it.fullName}

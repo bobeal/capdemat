@@ -7,7 +7,7 @@
           <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
           <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
             ${record.label}
-            <g:message code="request.searchResult.requestId" />
+            <g:message code="searchResult.id" />
             <span>${record.id}</span>
             - <g:message code="layout.from" />
             <span>${record.requesterLastName} ${record.requesterFirstName}</span>

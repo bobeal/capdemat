@@ -9,6 +9,16 @@
   
   zcf.RequestCreation = function() {
     
+    var selectTab = function(href) {
+      var tabs = zcf.RequestCreation.requestFormTabView.get('tabs');
+      for (var i = 0, len = tabs.length; i < len; ++i) {
+        if (tabs[i].get('href') === href) {
+          zcf.RequestCreation.requestFormTabView.set('activeIndex', i);
+          break;
+        }
+      }
+    }
+    
     var viewTab = function(offset) {
       zcf.RequestCreation.requestFormTabView.set(
           'activeIndex',
@@ -98,6 +108,12 @@
       nextTab : function(e) {
           yue.preventDefault(e);
           viewTab(1);
+      },
+      
+      activeTab : function(e) {
+          yue.preventDefault(e);
+          var targetEl = yue.getTarget(e);
+          selectTab(targetEl.hash);
       }
     };
     

@@ -186,11 +186,16 @@ h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
 #requestTabView .account-fieldset-edit dl input,  
 #requestTabView .account-fieldset-edit dl select { font-size: .85em; margin-bottom: 0; }
 
+#requestTabView .account-fieldset-edit dl.role-add       { border-color: #bbb !important; background: transparent !important; }
+#requestTabView .account-fieldset-edit dl.role-add dt    { width: 15em; border-color: #bbb !important; }
+#requestTabView .account-fieldset-edit dl.role-add dd    { width: 22.5em; padding: .5em; border-color: #bbb !important; }
+#requestTabView .account-fieldset-edit dl.role-add dd a  { display: block; }
+
 #requestTabView .account-fieldset-edit select,
 #requestTabView .account-fieldset-edit input { width: auto; display: inline; }
 #requestTabView .account-fieldset-edit label { width: 100%; }
 
-#requestTabView .account-fieldset-edit .message { display: inline; padding: .2em; font: bold italic .8em sans-serif; color: #20aa20; background: #fff; }
+#requestTabView .account-fieldset-edit .message { display: inline; padding: .2em; font: bold italic .9em sans-serif; color: #20aa20; background: #fff; }
 
 #requestTabView .account-fieldset-edit { 
   margin-top: 1em; padding: 1em; 

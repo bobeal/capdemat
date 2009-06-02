@@ -8,7 +8,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-	  ,"steps": [  "adults-required", "children", "account-required", "document", "validation"  ]
+	  ,"steps": [  "adults-required", "children", "foreignAdults", "account-required", "document", "validation"  ]
 	  }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
@@ -41,14 +41,21 @@
           <span class="tag-state ${stepStates!= null ? stepStates.adults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.adults.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <strong><g:message code="vcr.step.adults.label" /> * </strong>
           </em></a>
-        </li>    
+        </li>
 
         <li class="${currentStep == 'children' ? 'selected' : ''}">
           <a href="#children"><em>
             <span class="tag-state ${stepStates!= null ? stepStates.children.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.children.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <span><g:message code="vcr.step.children.label" /></span>
           </em></a>
-        </li>          
+        </li>
+        
+        <li class="${currentStep == 'foreignAdults' ? 'selected' : ''}">
+          <a href="#foreignAdults"><em>
+            <span class="tag-state ${stepStates!= null ? stepStates.foreignAdults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.foreignAdults.i18nKey : 'request.step.state.uncomplete'}" /></span>
+            <span><g:message code="vcr.step.foreignAdults.label" /></span>
+          </em></a>
+        </li>
         
         <li class="${currentStep == 'account' ? 'selected' : ''}">
           <a href="#account"><em>
@@ -62,15 +69,14 @@
             <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <g:message code="request.step.document.label" />
           </em></a>
-        </li>   
+        </li>
 
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
           <a href="#validation"><em>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
           <strong><g:message code="request.step.validation.label" /> *</strong>
           </em></a>
-        </li>    
-
+        </li>
 		 </ul>
 		 
      <div class="yui-content">
@@ -129,15 +135,46 @@
          
          </form>
          <div class="navTab">
-         
-   		   <a id="prev-tab" href="#adults"><g:message code="request.step.navigation.previous"/></a>
-           <a id="next-tab" href="#account"><g:message code="request.step.navigation.next"/></a>
-  
+   		     <a id="prev-tab" href="#adults"><g:message code="request.step.navigation.previous"/></a>
+           <a id="next-tab" href="#foreignAdults"><g:message code="request.step.navigation.next"/></a>
          </div>
          <g:if test="${helps.children != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
            ${helps.children}
+         </div>
+         </g:if>
+       </div>
+       
+       <div id="foreignAdults">
+         <form method="POST"  id="stepForm-foreignAdults" action="<g:createLink action="step" />">
+           <h3>
+             <span class="tag-state ${stepStates!= null ? stepStates.foreignAdults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.adults.i18nKey : 'request.step.state.uncomplete'}" /></span>
+  
+             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
+  
+             <g:message code="vcr.step.foreignAdults.label" />
+             <span><g:message code="vcr.step.foreignAdults.desc" /></span>
+             <span class="error">${stepStates?.adults?.errorMsg}</span>
+           </h3>
+           <div>
+         	   <g:render template="/frontofficeRequestType/vOCardRequest/foreignAdults" /> 
+           </div>
+
+           <!-- Input submit-->
+           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="uuidString" value="${uuidString}" />
+           <input type="submit" id="submit-step-foreignAdults" class="submit-step" name="submit-step-foreignAdults" value="${message(code:'action.save')}" />
+  
+         </form>
+         <div class="navTab">
+           <a id="prev-tab" href="#children"><g:message code="request.step.navigation.previous"/></a>
+           <a id="next-tab" href="#account"><g:message code="request.step.navigation.next"/></a>
+         </div>
+         <g:if test="${helps.foreignAdults != null}">       
+         <div class="requestHelp">
+           <h3><g:message code="header.help"/></h3>
+           ${helps.foreignAdults}
          </div>
          </g:if>
        </div> 
@@ -160,9 +197,7 @@
            <!-- Input submit-->
            <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           <g:if test="${!session[uuidString]?.isTutorsEdit}">
-             <input type="submit" id="submit-step-account" class="submit-step" name="submit-step-account" value="${message(code:'action.save')}" />
-           </g:if>
+           <input type="submit" id="submit-step-account" class="submit-step" name="submit-step-account" value="${message(code:'action.save')}" />
          </form>
          <div class="navTab">
   

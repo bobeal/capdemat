@@ -315,17 +315,6 @@ class RequestCreationController {
                 else homeFolderService.removeRole(owner, individual, homeFolderId, role)
                 stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
-            else if (submitAction[1] == 'tutorsEdit') {
-                session[uuidString].isTutorsEdit = true
-                session[uuidString].tutorsSize = 
-                    objectToBind.individuals.tutors == null ? 0 : objectToBind.individuals.tutors.size() 
-            }
-            else if (submitAction[1] == 'tutorsEndEdit') {
-                session[uuidString].isTutorsEdit = false
-                flash.isTutorAvailable = 
-                    session[uuidString].tutorsSize < 
-                    (objectToBind.individuals.tutors == null ? 0 : objectToBind.individuals.tutors.size())
-            }
             // standard save action
             else {
                 if (params.objectToBind != null)

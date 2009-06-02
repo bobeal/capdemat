@@ -134,5 +134,3 @@
   </g:each>
 </div>
 
-<input type="submit" name="submit-tutorsEndEdit-account" value="${message(code:'homeFolder.action.backToRelationEdition')}" />
-

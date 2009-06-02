@@ -61,10 +61,6 @@
         <g:message code="document.header.noDocuments"/>
       </g:else>
     </div>
-    <div class="document-add-new">
-      <input type="submit" name="submit-documentAdd-document-documentTypeId:${documentType.key}" value="${message(code:'document.header.attachNew')}" />
-    </div>
-    
     <label><g:message code="document.header.available"/></label>
     <div class="document-fieldset">
       <g:if test="${documentType.value.provided}">
@@ -86,6 +82,9 @@
       <g:else>
         <g:message code="document.header.noDocuments"/>
       </g:else>
+    </div>
+    <div class="document-add-new">
+      <input type="submit" name="submit-documentAdd-document-documentTypeId:${documentType.key}" value="${message(code:'document.header.attachNew')}" />
     </div>
   </fieldset>
   </g:each>

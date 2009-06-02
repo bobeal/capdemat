@@ -29,7 +29,7 @@
                 <a href="${createLink(action:'edit',id:category.id)}">${category.name}</a>
                 <span>- ${category.primaryEmail}</span>
                 <span onclick="zenexity.capdemat.bong.categoryList.askCategoryDeleteConfirmation('${category.id}','${category.name}', '${message(code:'category.message.askConfirmDelete',args:[category.name])}');">
-                  <img src="${createLinkTo(dir:'images',file:'delete.png')}" 
+                  <img src="${createLinkTo(dir:'images/icons',file:'16-delete.png')}" 
                       alt="<g:message code="request.action.removeCategory" />">
                 </span>
               </h3>

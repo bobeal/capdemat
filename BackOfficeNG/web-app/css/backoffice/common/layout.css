@@ -174,8 +174,8 @@ strong { font-weight: bold !important; }
 	-webkit-border-radius: .5em;
   color: #fff;
 }
-.error-top   { color: #ff0000; background: transparent /*#ffdddd*/ url(../../../images/icon_error.png) no-repeat 6px 6px;}
-.success-top { color: #ffffff; background: transparent /*#20aa20*/;}
+.error-top   { color: #ff0000; background: transparent url(../../../images/icons/24-error.png) no-repeat 6px 6px;}
+.success-top { color: #ffffff; background: transparent;}
 
 .error { color: red; text-align: center; }
 

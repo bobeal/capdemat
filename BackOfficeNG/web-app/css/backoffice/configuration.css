@@ -38,8 +38,8 @@
 /* creation cancel link*/
 .createConfigurationItem   { margin: 0 2em; text-align: right; }
 .createConfigurationItem a {
-  padding: 0 21px 0 0; font-size: 1.3em;
-  background: transparent url(../../images/icons/create.png) no-repeat right 4px;
+  padding: 0 21px 0 0; font-size: 1.3em; cursor: pointer;
+  background: transparent url(../../images/icons/16-add.png) no-repeat right center;
 }
 .createConfigurationItem a:hover       { background-color: #0000ff; }
 #cancelCreateCategory a:hover { background: transparent; }
@@ -59,10 +59,10 @@
 
 .editableTree li a                 { width: 16px; height: 16px; float: left; margin: 0 .3em; cursor: pointer; }
 .editableTree li a span            { display: none; }
-.editableTree li a.associate       { background-image: url(../../images/icons/associate.png); }
-.editableTree li a.unassociate     { background-image: url(../../images/icons/unassociate.png); }
-.editableTree li a.editItem        { background-image: url(../../images/icons/edit.png); }
-.editableTree li a.createSubItem   { background-image: url(../../images/icons/create.png); }
+.editableTree li a.associate       { background-image: url(../../images/icons/16-associate.png); }
+.editableTree li a.unassociate     { background-image: url(../../images/icons/16-unassociate.png); }
+.editableTree li a.editItem        { background-image: url(../../images/icons/16-edit.png); }
+.editableTree li a.createSubItem   { background-image: url(../../images/icons/16-add.png); }
 .editableTree li a.currentEditItem { cursor: default; }
 .editableTree li a:hover           { background-color: transparent;}
 .editableTree li strong            { float: left; font-weight: normal !important; }
@@ -93,10 +93,12 @@
 .editableList li a.calendarLink, a.calendarLink { float : left; margin : 0.5em 0 0 0; }
 .editableList li a span            { display: none; }
 .editableList li a.link-close span { display : inline; }
-.editableList li a.associate       { background-image: url(../../images/icons/associate.png); }
-.editableList li a.unassociate     { background-image: url(../../images/icons/unassociate.png); }
-.editableList li a.editItem        { background-image: url(../../images/icons/edit.png); }
-.editableList li a.createSubItem   { background-image: url(../../images/icons/create.png); }
+.editableList li a.associate       { background-image: url(../../images/icons/16-associate.png); }
+.editableList li a.unassociate     { background-image: url(../../images/icons/16-unassociate.png); }
+.editableList li a.activate       { background-image: url(../../images/icons/16-unactive.png); }
+.editableList li a.unactivate     { background-image: url(../../images/icons/16-active.png); }
+.editableList li a.editItem        { background-image: url(../../images/icons/16-edit.png); }
+.editableList li a.createSubItem   { background-image: url(../../images/icons/16-add.png); }
 .editableList li a.currentEditItem { cursor: default; }
 .editableList li a:hover           { background-color: transparent;}
 
@@ -116,7 +118,7 @@
 
 .editableListSwithcher a#linkShowDatasheet {
   padding: 0 21px 0 0; font-size: 1.3em;
-  background: transparent url(../../images/icons/create.png) no-repeat right 4px;
+  background: transparent url(../../images/icons/16-add.png) no-repeat right 4px;
 }
 
 .editableListSwithcher a:hover,

@@ -50,16 +50,7 @@
 /* collection add/remove link action */
 #homeFolderData .collection-action { margin: 5px 10px; overflow: auto;}
 
-#homeFolderData a.addListItem, 
-#homeFolderData a.deleteListItem {
-  width: 16px; height: 16px;
-  float: right;
-  margin: 0 .3em;
-  cursor: pointer;
-}
 #homeFolderData a span   { display: none; }
-#homeFolderData a.addListItem    { background-image: url(../../images/icons/associate.png); }
-#homeFolderData a.deleteListItem { background-image: url(../../images/icons/unassociate.png); }
 #homeFolderData a:hover  { background-color: transparent; }
 
 #homeFolderData .listItemSkeleton { display: none; }

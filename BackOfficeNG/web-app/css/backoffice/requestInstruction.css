@@ -103,8 +103,8 @@
   cursor: pointer;
 }
 #requestData a span   { display: none; }
-#requestData a.addListItem    { background-image: url(../../images/icons/associate.png); }
-#requestData a.deleteListItem { background-image: url(../../images/icons/unassociate.png); }
+#requestData a.addListItem    { background-image: url(../../images/icons/16-associate.png); }
+#requestData a.deleteListItem { background-image: url(../../images/icons/16-unassociate.png); }
 #requestData a:hover  { background-color: transparent; }
 
 #requestData .listItemSkeleton { display: none; }
@@ -246,7 +246,7 @@
 #ecitizenContactPanel .bd h1 span { float: right; font-size: .7em; } 
 
 /* color just for mainbox-yellow !! */
-#ecitizenContactPanel .bd form fieldset               { margin: 1em 0; padding: .2em 0; /*border-top: 1px dashed #FFD053;*/ border-bottom: 1px dashed #FFD053; }
+#ecitizenContactPanel .bd form fieldset               { margin: 1em 0; padding: .2em 0; border-bottom: 1px dashed #FFD053; }
 #ecitizenContactPanel .bd form label                  { width: 25% !important; }
 #ecitizenContactPanel .bd form hr                     { margin: 0; border: 0 !important; }
 #ecitizenContactPanel .bd form .required              { font-size: 1em }
@@ -256,9 +256,8 @@
 #ecitizenContactPanel .bd form input[type="checkbox"] { margin: 6px 0 0 1%; }
 
 .add-link em {
-  background:transparent url(../../images/icons/create.png) no-repeat scroll right 4px;
+  background:transparent url(../../images/icons/16-add.png) no-repeat scroll right 4px;
   padding-right:21px !important;
-  /*font-size: 1.1em !important;*/
 }
 
 .button-panel {

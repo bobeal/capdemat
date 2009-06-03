@@ -53,7 +53,7 @@
       </g:each>
       </dl>
     </g:if>
-    <p>${message(code:'homeFolder.property.tutors.help')}</p>
+    <p>${message(code:'homeFolder.property.accountTutors.help')}</p>
     <dl class="role-add">
       <dt> 
         <label><g:message code="homeFolder.property.tutors" /></label>

@@ -149,7 +149,7 @@
        <div id="foreignAdults">
          <form method="POST"  id="stepForm-foreignAdults" action="<g:createLink action="step" />">
            <h3>
-             <span class="tag-state ${stepStates!= null ? stepStates.foreignAdults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.adults.i18nKey : 'request.step.state.uncomplete'}" /></span>
+             <span class="tag-state ${stepStates!= null ? stepStates.foreignAdults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.foreignAdults.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
              <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
   

@@ -195,7 +195,7 @@
         </dl>
       </g:if>
       
-      <p>${message(code:'homeFolder.property.tutors.help')}</p>
+      <p>${message(code:'homeFolder.property.adultTutors.help')}</p>
       <dl class="role-add">
         <dt>
           <label><g:message code="homeFolder.adult.property.tutors" /></label>

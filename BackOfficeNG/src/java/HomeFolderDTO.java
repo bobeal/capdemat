@@ -29,7 +29,7 @@ public class HomeFolderDTO {
     
     private Long homeFolderId;
     
-    public HomeFolderDTO () {}
+    public HomeFolderDTO() {}
     
     public HomeFolderDTO (HomeFolder homeFolder, Set<Individual> roleOwners) {
         homeFolderId = homeFolder.getId();
@@ -46,8 +46,8 @@ public class HomeFolderDTO {
         }
     }
     
-    public Map<Integer, Map<String, Object>> getRoleOwnersOnIndividual (Individual individual, List<Adult> owners) {
-        Map<Integer, Map<String, Object>> individuals = new HashMap<Integer, Map<String, Object>>();
+    public Set<Map<String, Object>> getRoleOwnersOnIndividual (Individual individual, List<Adult> owners) {
+        Set<Map<String, Object>> individuals = new HashSet<Map<String, Object>>();;
         if (owners == null)
             return individuals;
         
@@ -60,17 +60,18 @@ public class HomeFolderDTO {
                     || (role.getIndividualId() != null 
                         && role.getIndividualId().equals(individual.getId()))) {
                     Map<String, Object> roles = new HashMap<String, Object>();
+                    roles.put("index", owners.indexOf(owner));
                     roles.put("role", role.getRole());
                     roles.put("owner", owner);
-                    individuals.put(owners.indexOf(owner), roles);
+                    individuals.add(roles);
                 }
             }
         }
         return individuals;
     }
 
-    public Map<Integer, Map<String, Object>> getRoleOwnersOnHomeFolder(List<Adult> owners) {
-        Map<Integer, Map<String, Object>> individuals = new HashMap<Integer, Map<String, Object>>();
+    public Set<Map<String, Object>> getRoleOwnersOnHomeFolder(RoleType roleType ,List<Adult> owners) {
+        Set<Map<String, Object>> individuals = new HashSet<Map<String, Object>>();
         if (owners == null)
             return individuals;
               
@@ -78,21 +79,32 @@ public class HomeFolderDTO {
             Set<IndividualRole> individualRoles = owner.getIndividualRoles()!= null ?
                     owner.getIndividualRoles() : new HashSet<IndividualRole>();
             for (IndividualRole role : individualRoles) {
+                if (!role.getRole().equals(roleType))
+                    continue;
                 if ((role.getHomeFolderId() != null 
                         && role.getHomeFolderId().equals(homeFolderId)) 
                     || (role.getHomeFolderId() == null
                         && role.getIndividualId() == null
                         && role.getIndividualName() == null)) {
                     Map<String, Object> roles = new HashMap<String, Object>();
+                    roles.put("index", owners.indexOf(owner));
                     roles.put("role", role.getRole());
                     roles.put("owner", owner);
-                    individuals.put(owners.indexOf(owner), roles);
+                    individuals.add(roles);
                 }
             }
         }
         return individuals;
     }
-
+    
+    public Set<Map<String, Object>> getHomeFolderResponsibles(List<Adult> owners) {
+        return getRoleOwnersOnHomeFolder(RoleType.HOME_FOLDER_RESPONSIBLE ,owners);
+    }
+    
+    public Set<Map<String, Object>> getHomeFolderTutors(List<Adult> owners) {
+        return getRoleOwnersOnHomeFolder(RoleType.TUTOR ,owners);
+    }
+    
     public boolean isLegalsResponsible (Individual individual) {
         if (individual.getIndividualRoles() != null)
             for (IndividualRole role : individual.getIndividualRoles())
@@ -108,7 +120,7 @@ public class HomeFolderDTO {
      */
     public void checkRoles() throws CvqModelException {
         List<RoleType> homeFolderRoleTypes = new ArrayList<RoleType>();
-        for (Map<String, Object> rMap : getRoleOwnersOnHomeFolder(adults).values()){
+        for (Map<String, Object> rMap : getHomeFolderResponsibles(adults)){
             RoleType rt = (RoleType)rMap.get("role");
             if (rt.equals(RoleType.HOME_FOLDER_RESPONSIBLE))
                 homeFolderRoleTypes.add(rt);
@@ -122,7 +134,7 @@ public class HomeFolderDTO {
             return;
         for (Child child : children) {
             List<RoleType> childRoleTypes = new ArrayList<RoleType>();
-            for (Map<String, Object> rMap : getRoleOwnersOnIndividual(child, adults).values()){
+            for (Map<String, Object> rMap : getRoleOwnersOnIndividual(child, adults)){
                 RoleType rt = (RoleType)rMap.get("role");
                 if (Arrays.asList(RoleType.childRoleTypes).contains(rt))
                     childRoleTypes.add(rt);

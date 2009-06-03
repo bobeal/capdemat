@@ -267,6 +267,9 @@ class RequestCreationController {
                 def listWrapper = params.objectToBind == null ? cRequest : objectToBind[params.objectToBind]
                 if (listWrapper[listFieldToken[0]].size() > Integer.valueOf(listFieldToken[1]))
                     listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
+                
+                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {

@@ -205,14 +205,14 @@ class RequestCreationController {
                         }
                     }
                 }
+
                 if (request.getFile('documentData-0').bytes.size() > 0) {
                     def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
                     if (docParam.id == null) 
                         doc = makeDoument(docParam, uuidString)
                     doc = documentAdaptorService.addDocumentPage(addParam, doc, request, uuidString)
                 }
-                              
-                newDocuments += doc.id
+                if (doc != null) newDocuments += doc.id
                 isDocumentEditMode = false
                 stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }

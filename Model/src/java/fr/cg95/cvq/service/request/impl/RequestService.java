@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.ListableBeanFactory;
 import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
@@ -987,6 +989,23 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         }
         if (request.getRequesterId() != null) {
             xmlRequestType.addNewRequester().set(Adult.modelToXml(individualService.getAdultById(request.getRequesterId())));
+        }
+        return result;
+    }
+
+    public List<Request> getSendableRequests(String externalServiceLabel) {
+        Set<RequestState> set = new HashSet<RequestState>(1);
+        set.add(RequestState.VALIDATED);
+        List<Request> result = new ArrayList<Request>();
+        for (String rt : externalService.getRequestTypesForExternalService(externalServiceLabel)) {
+            for (Request req : requestDAO.listByStatesAndType(set, rt)) {
+                if (!externalService.hasTraceWithStatus(req.getId(), externalServiceLabel,
+                        TraceStatusEnum.ACCEPTED)
+                    && !externalService.hasTraceWithStatus(req.getId(), externalServiceLabel,
+                            TraceStatusEnum.REJECTED)) {
+                    result.add(req);
+                }
+            }
         }
         return result;
     }

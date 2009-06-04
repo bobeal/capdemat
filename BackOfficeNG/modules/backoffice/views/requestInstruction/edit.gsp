@@ -15,8 +15,10 @@
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" ></link>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'document.css')}" />
-    <g:if test="${externalProviderService != null}">
-      <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:externalProviderService.label + '.js')}"></script>
+    <g:if test="${externalProviderServiceLabel != null}">
+      <script type="text/javascript">
+        zenexity.capdemat.bong.request.External.label = '${externalProviderServiceLabel}';
+      </script>
     </g:if>
   </head>
   <body>
@@ -125,9 +127,9 @@
       </div>
 
       <!-- external service block -->
-      <g:if test="${externalProviderService != null}">
-        <g:render template="/backofficeRequestInstruction/external/${externalProviderService.label}/block"
-          model="['request' : request, 'externalProviderService' : externalProviderService, 'lastTraceStatus' : lastTraceStatus]" />
+      <g:if test="${externalProviderServiceLabel != null}">
+        <g:render template="/backofficeRequestInstruction/external/${externalProviderServiceLabel}/block"
+          model="['request' : request, 'externalProviderServiceLabel' : externalProviderServiceLabel, 'lastTraceStatus' : lastTraceStatus]" />
       </g:if>
 
       <!-- instruction state panel [default display = none] -->

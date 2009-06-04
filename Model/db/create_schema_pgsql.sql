@@ -2108,6 +2108,7 @@
         has_europe_help bool,
         current_studies varchar(255),
         current_studies_level varchar(255),
+        edemande_id varchar(255),
         current_school_postal_code varchar(5),
         abroad_internship_start_date timestamp,
         tax_household_first_name varchar(38),

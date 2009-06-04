@@ -29,6 +29,12 @@ public interface IRequestActionService {
         throws CvqException;
 
     /**
+     * Get the last action related to the request, or null if it has no action.
+     */
+    RequestAction getLastAction(@IsRequest final Long requestId)
+        throws CvqException;
+
+    /**
      * Get action related to given request and resulting state.
      */
     RequestAction getActionByResultingState(@IsRequest final Long requestId,

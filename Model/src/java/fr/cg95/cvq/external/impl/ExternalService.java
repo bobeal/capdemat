@@ -202,7 +202,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
 
     }
 
-    public boolean hasMatchingExternalService(String requestLabel) throws CvqException {
+    public boolean hasMatchingExternalService(String requestLabel) {
         Set<IExternalProviderService> externalProviderServices =
             getExternalServicesByRequestType(requestLabel);
         if (externalProviderServices != null && !externalProviderServices.isEmpty())
@@ -527,14 +527,10 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     }
 
     public IExternalProviderService getExternalServiceByRequestType(final String requestTypeLabel) {
-
-        Set<String> requestTypesLabels = new HashSet<String>();
-        requestTypesLabels.add(requestTypeLabel);
-        Set<IExternalProviderService> externalProviderServices = getExternalServicesByRequestTypes(requestTypesLabels);
-        if (externalProviderServices == null || externalProviderServices.isEmpty()) {
-            return null;
+        if (hasMatchingExternalService(requestTypeLabel)) {
+            return getExternalServicesByRequestType(requestTypeLabel).toArray(new IExternalProviderService[1])[0];
         }
-        return externalProviderServices.toArray(new IExternalProviderService[1])[0];
+        return null;
     }
 
     /**
@@ -582,10 +578,10 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                 criterias, ExternalServiceTrace.class);
     }
 
-    public Set<ExternalServiceTrace> getTraces(Long requestId, String label) {
+    public Set<ExternalServiceTrace> getTraces(Long key, String label) {
         CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
         criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.ASC));
-        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, requestId));
+        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
         criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
         criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
         return externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class);
@@ -670,11 +666,11 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         }
     }
 
-    public ExternalServiceTrace getLastTrace(Long requestId, String label) {
+    public ExternalServiceTrace getLastTrace(Long key, String label) {
         CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
         criteriasDescriptor.setMax(1);
         criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.DESC));
-        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, requestId));
+        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
         criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
         criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
         Set<ExternalServiceTrace> traces = externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class);
@@ -685,9 +681,9 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return lastTrace;
     }
 
-    public boolean hasTraceWithStatus(Long requestId, String label, TraceStatusEnum status) {
+    public boolean hasTraceWithStatus(Long key, String label, TraceStatusEnum status) {
         CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
-        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, requestId));
+        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
         criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
         criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
         criteriasDescriptor.addSearch(new SimpleCriteria("status", BaseOperator.EQUALS, status.toString()));
@@ -697,6 +693,19 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     public void create(ExternalServiceTrace trace)
         throws CvqPermissionException {
         externalServiceTraceDAO.create(trace);
+    }
+
+    public List<String> checkExternalReferential(Request request) {
+        List<String> errors = new ArrayList<String>();
+        for (IExternalProviderService eps :
+            getExternalServicesByRequestType(request.getRequestType().getLabel())) {
+            try {
+                errors.addAll(eps.checkExternalReferential(requestService.fillRequestXml(request)));
+            } catch (CvqException e) {
+                errors.add("Erreur lors de la vérification des référentiels pour " + eps.getLabel());
+            }
+        }
+        return errors;
     }
 
     public void setExternalServiceTraceDAO(IExternalServiceTraceDAO externalServiceTraceDAO) {

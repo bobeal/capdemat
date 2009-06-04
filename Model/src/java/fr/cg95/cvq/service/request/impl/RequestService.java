@@ -544,7 +544,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         Set<Long> documentIds = new HashSet<Long>();
         for (Document document : documents) {
            document.setId(null);
-           document.setIndividualId(request.getRequesterId());
+           document.setHomeFolderId(request.getHomeFolderId());
            documentIds.add(documentService.create(document));
         }
         for (Long documentId : documentIds)

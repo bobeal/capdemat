@@ -25,7 +25,7 @@ public class HomeFolderDTO {
 
     private List<Adult> adults;
     private List<Child> children;
-    private List<Adult> tutors;
+    private List<Adult> foreignAdults;
     
     private Long homeFolderId;
     
@@ -42,7 +42,7 @@ public class HomeFolderDTO {
         
         for (Individual owner : roleOwners) {
             if (!homeFolder.getIndividuals().contains(owner))
-                addTutor((Adult)owner);
+                addForeignAdult((Adult)owner);
         }
     }
     
@@ -180,18 +180,18 @@ public class HomeFolderDTO {
         children.add(child);
     }
     
-    public List<Adult> getTutors() {
-        return tutors;
+    public List<Adult> getForeignAdults() {
+        return foreignAdults;
     }
 
-    public void setTutors(List<Adult> tutors) {
-        this.tutors = tutors;
+    public void setForeignAdults(List<Adult> foreignAdults) {
+        this.foreignAdults = foreignAdults;
     }
     
-    private void addTutor(Adult tutor) {
-        if (tutors == null)
-            tutors = new ArrayList<Adult>();
-        tutors.add(tutor);
+    private void addForeignAdult(Adult foreignAdult) {
+        if (foreignAdults == null)
+            foreignAdults = new ArrayList<Adult>();
+        foreignAdults.add(foreignAdult);
     }
     
 }

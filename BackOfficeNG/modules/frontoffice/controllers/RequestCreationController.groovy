@@ -355,10 +355,10 @@ class RequestCreationController {
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
                     if (requestTypeInfo.label == 'Home Folder Modification') {
                         cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
-                        requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.tutors, objectToBind.requester.adress, docs)
+                        requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
                     }
                     else if (requestTypeInfo.label == 'VO Card Request')
-                        requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.tutors, objectToBind.requester.adress, docs)
+                        requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
                     else if (SecurityContext.currentEcitizen == null) 
                         requestService.create(cRequest, objectToBind.requester, null, docs)
                     else if (!cRequest.draft) 

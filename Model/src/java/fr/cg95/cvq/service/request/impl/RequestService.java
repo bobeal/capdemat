@@ -532,8 +532,9 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
     public Long create(Request request, List<Document> documents)
         throws CvqException, CvqObjectNotFoundException {
+        Long requestId = create(request);
         addDocuments(request, documents);
-        return create(request);
+        return requestId;
     }
     
     protected void addDocuments(Request request, List<Document> documents)

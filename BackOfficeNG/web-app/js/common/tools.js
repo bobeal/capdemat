@@ -978,10 +978,26 @@
     };
     return func;
   };
-  
-  
+
+  /**
+   * @description Catch "enter" keypress events that happen in <input>s and stop them,
+   * to force people to click on the form submit button and go through custom form submission
+   * @namespace zenexity.capdemat.tools
+   *
+   * @param e {Event} The event fired when a key was pressed
+   */
+  zct.disableEnterFormSubmission = function(e) {
+    if (e.keyCode == 13 && yue.getTarget(e).nodeName == "INPUT") {
+      yue.stopEvent(e);
+    }
+  }
+
   YAHOO.util.Event.onDOMReady(function(){
     zct.Notifier.init();
+    zct.enterEvent = new zct.Event(zct, zct.disableEnterFormSubmission);
+    yue.on(document,'keypress', zct.enterEvent.dispatch,
+      zct.enterEvent, true
+    );
   });
 
 }());

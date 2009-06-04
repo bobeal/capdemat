@@ -656,6 +656,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       init : function() {
         zcbr.External.clickEvent = new zct.Event(zcbr.External, zcbr.External.processClick);
         yue.on(yud.get('externalService'),'click',zcbr.External.clickEvent.dispatch,zcbr.External.clickEvent,true);
+        if (!!(zcbr.External.label)) {
+          zcbr.External.externalReferentialCheck(null, zcb.requestId, zcbr.External.label);
+        }
       },
       processClick : function(e) {
         var targetEl = yue.getTarget(e);
@@ -664,9 +667,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         }
         return (targetEl.id||'_').split('_')[0];
       },
-      externalReferentialCheck : function(e) {
-        var id = yue.getTarget(e).id.split('_')[2];
-        var label = yue.getTarget(e).id.split('_')[3];
+      externalReferentialCheck : function(e, _id, _label) {
+        var id, label;
+        if (e != null) {
+          id = yue.getTarget(e).id.split('_')[2];
+          label = yue.getTarget(e).id.split('_')[3];
+        } else {
+          id = _id;
+          label = _label;
+        }
         yud.get("externalReferentialChecksContainer").innerHTML = "";
         yud.removeClass(yud.get("externalReferentialChecksPendingMessage"), 'invisible');
         zct.doAjaxCall("/externalReferentialChecks?id=" + id + "&label=" + label, null, function(o) {

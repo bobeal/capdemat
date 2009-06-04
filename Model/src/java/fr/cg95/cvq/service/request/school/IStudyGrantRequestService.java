@@ -1,9 +1,8 @@
 package fr.cg95.cvq.service.request.school;
 
-import java.util.List;
-
-import fr.cg95.cvq.business.request.school.StudyGrantRequest;
+import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
 
 /**
  * @author Jean-Sébastien Bour (jsb@zenexity.fr)
@@ -13,7 +12,8 @@ public interface IStudyGrantRequestService extends IRequestService {
     public final String SERVICE_NAME = "studyGrantRequestService";
 
     /**
-     * Get the requests that are sendable to the external service
+     * Set the Edemande ID of this request
      */
-    public List<StudyGrantRequest> getSendableRequests(String externalServiceLabel);
+    void setEdemandeId(@IsRequest final Long requestId, final String edemandeId)
+        throws CvqException;
 }

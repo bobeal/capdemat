@@ -581,6 +581,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           infoTabView.addTab( new yw.Tab({
               label: 'Demandes', dataSrc: zenexity.capdemat.baseUrl + '/homeFolderRequests/' + zcb.requestId,
               cacheData: true }));
+          if (!!(zcbr.External.label)) {
+            infoTabView.addTab( new yw.Tab({
+              label: zcbr.External.label, dataSrc: zenexity.capdemat.baseUrl + '/externalHistory?label=' + zcbr.External.label + '&id=' + zcb.requestId,
+              cacheData: true }));
+          }
           infoTabView.addTab( new yw.Tab({
               label: 'Aide', dataSrc: zenexity.capdemat.baseUrl + '/help',
               cacheData: true }));
@@ -621,8 +626,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       refreshTab : function(label) {
         var activeTab = infoTabView.get("activeTab");
         if (activeTab.get("label") == label) {
+          var cacheData = activeTab.get("cacheData");
+          activeTab.set("cacheData", false);
           activeTab.set("contentVisible", false);
           activeTab.set("contentVisible", true);
+          activeTab.set("cacheData", cacheData);
         }
       },
       refreshNotes : function(el, msg) {
@@ -642,6 +650,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   YAHOO.util.Event.onDOMReady(zcbr.Information.init);
 
   zcbr.External = function() {
+    var sending = false;
     return {
       clickEvent : undefined,
       init : function() {
@@ -658,18 +667,21 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       externalReferentialCheck : function(e) {
         var id = yue.getTarget(e).id.split('_')[2];
         var label = yue.getTarget(e).id.split('_')[3];
-        yud.get("localReferentialChecksContainer").innerHTML = "";
-        yud.removeClass(yud.get("externalChecksPendingMessage"), 'invisible');
-        zct.doAjaxCall("/externalChecks?id=" + id + "&label=" + label, null, function(o) {
-          yud.addClass(yud.get("externalChecksPendingMessage"), 'invisible');
-          yud.get("localReferentialChecksContainer").innerHTML = o.responseText;
+        yud.get("externalReferentialChecksContainer").innerHTML = "";
+        yud.removeClass(yud.get("externalReferentialChecksPendingMessage"), 'invisible');
+        zct.doAjaxCall("/externalReferentialChecks?id=" + id + "&label=" + label, null, function(o) {
+          yud.addClass(yud.get("externalReferentialChecksPendingMessage"), 'invisible');
+          yud.get("externalReferentialChecksContainer").innerHTML = o.responseText;
         });
       },
       sendRequest : function(e) {
+        if (sending) return;
         var label = yue.getTarget(e).id.split('_')[1];
+        sending = true;
         zct.doAjaxFormSubmitCall("sendRequestForm", null, function(o) {
           zcbr.Information.refreshTab(label);
           yud.get("externalStatusContainer").innerHTML = o.responseText;
+          sending = false;
         });
       }
     };

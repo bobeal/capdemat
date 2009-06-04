@@ -15,6 +15,8 @@ public final class TraceStatusEnum extends PersistentStringEnum {
     public static final TraceStatusEnum NOT_SENT = new TraceStatusEnum("NotSent");
     public static final TraceStatusEnum ACKNOWLEDGED = new TraceStatusEnum("Acknowledged");
     public static final TraceStatusEnum ERROR = new TraceStatusEnum("Error");
+    public static final TraceStatusEnum ACCEPTED = new TraceStatusEnum("Accepted");
+    public static final TraceStatusEnum REJECTED = new TraceStatusEnum("Rejected");
     
     /**
      * Prevent instantiation and subclassing with a private constructor.
@@ -39,6 +41,10 @@ public final class TraceStatusEnum extends PersistentStringEnum {
             return ACKNOWLEDGED;
         else if (enumAsString.equals(ERROR.toString()))
             return ERROR;
+        else if (enumAsString.equals(ACCEPTED.toString()))
+            return ACCEPTED;
+        else if (enumAsString.equals(REJECTED.toString()))
+            return REJECTED;
 
         return SENT;
     }

@@ -2,31 +2,43 @@ package fr.capwebct.capdemat.plugins.externalservices.edemande.job;
 
 import java.util.List;
 
-import fr.cg95.cvq.business.request.school.StudyGrantRequest;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
+
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 
 /*
  * Job dedicated to Edemande integration.
  * Checks all study grant requests and tries to send those which aren't acknowledged
  */
-public class EdemandeCommunicationJob {
+public class EdemandeCommunicationJob implements BeanFactoryAware {
 
     private ILocalAuthorityRegistry localAuthorityRegistry;
-    private IStudyGrantRequestService studyGrantRequestService;
+    private IRequestService requestService;
     private IExternalProviderService edemandeService;
+    private IExternalService externalService;
+    private ListableBeanFactory beanFactory;
+
+    public void init() {
+        requestService = (IRequestService)beanFactory.getBean("defaultRequestService");
+    }
 
     public void launchJob() {
         localAuthorityRegistry.browseAndCallback(this, "sendRequests", null);
     }
 
     public void sendRequests() {
-        List<StudyGrantRequest> requests = studyGrantRequestService.getSendableRequests(edemandeService.getLabel());
-        for (StudyGrantRequest request : requests) {
+        List<Request> requests = requestService.getSendableRequests(edemandeService.getLabel());
+        for (Request request : requests) {
             try {
-                String externalId = edemandeService.sendRequest(studyGrantRequestService.fillRequestXml(request));
+                externalService.sendRequest(request);
             } catch (CvqException e) {
                 // TODO
             }
@@ -37,11 +49,19 @@ public class EdemandeCommunicationJob {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }
 
-    public void setStudyGrantRequestService(IStudyGrantRequestService studyGrantRequestService) {
-        this.studyGrantRequestService = studyGrantRequestService;
-    }
-
     public void setEdemandeService(IExternalProviderService edemandeService) {
         this.edemandeService = edemandeService;
+    }
+
+    public void setRequestService(IRequestService requestService) {
+        this.requestService = requestService;
+    }
+
+    public void setExternalService(IExternalService externalService) {
+        this.externalService = externalService;
+    }
+
+    public void setBeanFactory(BeanFactory arg0) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) arg0;
     }
 }

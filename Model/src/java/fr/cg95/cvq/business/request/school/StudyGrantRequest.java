@@ -72,6 +72,7 @@ public class StudyGrantRequest extends Request implements Serializable {
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudies(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(this.currentStudies.toString()));
         if (this.currentStudiesLevel != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesLevel(fr.cg95.cvq.xml.request.school.CurrentStudiesLevelType.Enum.forString(this.currentStudiesLevel.toString()));
+        studyGrantRequest.setEdemandeId(this.edemandeId);
         SgrCurrentSchoolType sgrCurrentSchoolTypeCurrentSchool = studyGrantRequest.addNewCurrentSchool();
         sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolPostalCode(this.currentSchoolPostalCode);
         date = this.abroadInternshipStartDate;
@@ -156,6 +157,7 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel().toString()));
         else
             studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.getDefaultCurrentStudiesLevelType());
+        studyGrantRequest.setEdemandeId(studyGrantRequestXml.getEdemandeId());
         studyGrantRequest.setCurrentSchoolPostalCode(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolPostalCode());
         calendar = studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipStartDate();
         if (calendar != null) {
@@ -267,6 +269,21 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final fr.cg95.cvq.business.request.school.CurrentStudiesLevelType getCurrentStudiesLevel() {
         return this.currentStudiesLevel;
+    }
+
+    private String edemandeId;
+
+    public final void setEdemandeId(final String edemandeId) {
+        this.edemandeId = edemandeId;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="edemande_id"
+     */
+    public final String getEdemandeId() {
+        return this.edemandeId;
     }
 
     private String currentSchoolPostalCode;

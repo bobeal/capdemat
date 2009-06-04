@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
 import org.jaxen.dom.DOMXPath;
@@ -47,8 +51,8 @@ import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.service.document.IDocumentService;
-import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
+import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument.StudyGrantRequest;
 
@@ -57,7 +61,7 @@ public class EdemandeService implements IExternalProviderService {
     private String label;
     private IEdemandeClient edemandeClient;
     private IExternalService externalService;
-    private IRequestService requestService;
+    private IStudyGrantRequestService requestService;
     private IDocumentService documentService;
     private IRequestWorkflowService requestWorkflowService;
 
@@ -70,7 +74,6 @@ public class EdemandeService implements IExternalProviderService {
     @Override
     public String sendRequest(XmlObject requestXml) {
         StudyGrantRequest sgr = ((StudyGrantRequestDocument) requestXml).getStudyGrantRequest();
-        ExternalServiceTrace lastTrace = externalService.getLastTrace(sgr.getId(), label);
         String psCodeTiers = sgr.getSubject().getIndividual().getExternalId();
         if (psCodeTiers == null || psCodeTiers.trim().isEmpty()) {
             // external id (code tiers) not known locally : 
@@ -84,7 +87,12 @@ public class EdemandeService implements IExternalProviderService {
                     // ... and no request in progress so ask for its creation
                     createIndividual(sgr);
                 } else if (psCodeTiers != null) {
-                    // FIXME BOR : i don't get this one ...
+                    // eDemande answered since psCodeTiers is not null,
+                    // and that means psCodeTiers is empty, so tiers
+                    // has not been created yet.
+                    // If psCodeTiers was null, that would mean searchIndividual
+                    // caught an exception while contacting eDemande, and
+                    // has already added a NOT_SENT trace.
                     addTrace(sgr.getId(), TraceStatusEnum.IN_PROGRESS, 
                             "Le tiers n'est pas encore créé");
                 }
@@ -96,12 +104,58 @@ public class EdemandeService implements IExternalProviderService {
                         sgr.getSubject().getIndividual().getId(), psCodeTiers);
             }
         }
-        if (lastTrace == null || !lastTrace.getStatus().equals(TraceStatusEnum.SENT)) {
-            submitRequest(sgr, psCodeTiers);
-            return null;
-        } else {
-            return checkRequest(sgr, psCodeTiers);
+        // reaching this code means we have a valid psCodeTiers (either because
+        // it was already set since it is not the subject's first request, or because
+        // searchIndividual returned the newly created tiers' psCodeTiers)
+        // Try to get the external ID if we don't already know it
+        String psCodeDemande = sgr.getEdemandeId();
+        if (psCodeDemande == null || psCodeDemande.trim().isEmpty()) {
+            psCodeDemande = searchRequest(sgr, psCodeTiers);
+            if (psCodeDemande != null && !psCodeDemande.trim().isEmpty() && !"-1".equals(psCodeDemande)) {
+                sgr.setEdemandeId(psCodeDemande);
+                try {
+                    requestService.setEdemandeId(sgr.getId(), psCodeDemande);
+                } catch (CvqException e) {
+                    // TODO
+                }
+            }
         }
+        // (Re)send request if needed
+        if (mustSendNewRequest(sgr)) {
+            submitRequest(sgr, psCodeTiers, true);
+        } else if (mustResendRequest(sgr)) {
+            submitRequest(sgr, psCodeTiers, false);
+        }
+        // check request status
+        String msStatut = getRequestStatus(sgr, psCodeTiers);
+        if (msStatut == null) {
+            // got an exception while contacting Edemande
+            return null;
+        }
+        if (msStatut.trim().isEmpty()) {
+            addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, 
+                "La demande n'a pas encore été reçue");
+            return null;
+        }
+        if ("En attente de réception par la collectivité".equals(msStatut)) {
+            return null;
+        } else if ("A compléter ou corriger".equals(msStatut) ||
+            "A compléter".equals(msStatut) ||
+            "En erreur".equals(msStatut)) {
+            addTrace(sgr.getId(), TraceStatusEnum.ERROR, msStatut);
+        } else if ("En cours d'analyse".equals(msStatut) ||
+            "En attente d'avis externe".equals(msStatut) ||
+            "En cours d'instruction".equals(msStatut)) {
+            addTrace(sgr.getId(), TraceStatusEnum.ACKNOWLEDGED, msStatut);
+        } else if ("Accepté".equals(msStatut) ||
+            "En cours de paiement".equals(msStatut) ||
+            "Payé partiellement".equals(msStatut) ||
+            "Terminé".equals(msStatut)) {
+            addTrace(sgr.getId(), TraceStatusEnum.ACCEPTED, msStatut);
+        } else if ("Refusé".equals(msStatut)) {
+            addTrace(sgr.getId(), TraceStatusEnum.REJECTED, msStatut);
+        }
+        return null;
     }
 
     private void addTrace(Long requestId, TraceStatusEnum status, String message) {
@@ -134,7 +188,8 @@ public class EdemandeService implements IExternalProviderService {
     /**
      * Search for this request's subject in eDemande.
      * 
-     * @return the subject's code in eDemande or null if not found
+     * @return the subject's code in eDemande, an empty string if the subject is not found,
+     * or null if there is an error while contacting eDemande.
      */
     private String searchIndividual(StudyGrantRequest sgr) {
         Map<String, Object> model = new HashMap<String, Object>();
@@ -193,19 +248,51 @@ public class EdemandeService implements IExternalProviderService {
         }
     }
 
-    private void submitRequest(StudyGrantRequest sgr, String psCodeTiers) {
+    private void submitRequest(StudyGrantRequest sgr, String psCodeTiers, boolean firstSending) {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("date", new SimpleDateFormat("yyyyMMdd").format(new Date(sgr.getCreationDate().getTimeInMillis())));
+        //model.put("date", new SimpleDateFormat("yyyyMMdd").format(new Date(sgr.getCreationDate().getTimeInMillis())));
+        model.put("externalRequestId", buildExternalRequestId(sgr));
+        model.put("psCodeDemande",
+            sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty() ? "-1" : sgr.getEdemandeId());
+        model.put("msStatut", firstSending ? "" : "A compléter ou corriger");
+        model.put("etatCourant", firstSending ? 2 : 1);
+        model.put("millesime", firstSending ? "" : Calendar.getInstance().get(Calendar.YEAR));
         model.put("firstName", sgr.getSubject().getIndividual().getFirstName());
         model.put("lastName", sgr.getSubject().getIndividual().getLastName());
         model.put("postalCode", sgr.getSubject().getIndividual().getAddress().getPostalCode());
         model.put("city", sgr.getSubject().getIndividual().getAddress().getCity());
-        model.put("id", sgr.getId());
+        //model.put("id", sgr.getId());
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
         model.put("accountNumber", sgr.getAccountNumber());
         model.put("accountKey", sgr.getAccountKey());
+        model.put("firstRequest", sgr.getSubjectInformations().getSubjectFirstRequest());
+        model.put("creationDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date(sgr.getCreationDate().getTimeInMillis())));
+        model.put("taxHouseholdIncome", sgr.getTaxHouseholdIncome());
+        model.put("hasCROUSHelp", sgr.getHasCROUSHelp());
+        model.put("hasRegionalCouncilHelp", sgr.getHasRegionalCouncilHelp());
+        model.put("hasEuropeHelp", sgr.getHasEuropeHelp());
+        model.put("hasOtherHelp", sgr.getHasOtherHelp());
+        model.put("AlevelsDate", sgr.getALevelsInformations().getAlevelsDate());
+        model.put("AlevelsType", sgr.getALevelsInformations().getAlevels().toString().toUpperCase());
+        model.put("currentStudiesType", sgr.getCurrentStudiesInformations().getCurrentStudies().toString().toUpperCase());
+        model.put("currentStudiesLevel", sgr.getCurrentStudiesInformations().getCurrentStudiesLevel().toString());
+        model.put("sandwichCourses", sgr.getCurrentStudiesInformations().getSandwichCourses());
+        model.put("abroadInternship", sgr.getCurrentStudiesInformations().getAbroadInternship());
+        model.put("abroadInternshipStartDate", sgr.getCurrentStudiesInformations().getAbroadInternshipStartDate());
+        model.put("abroadInternshipEndDate", sgr.getCurrentStudiesInformations().getAbroadInternshipEndDate());
+        model.put("currentSchoolName", sgr.getCurrentSchool().getCurrentSchoolName());
+        model.put("currentSchoolPostalCode", sgr.getCurrentSchool().getCurrentSchoolPostalCode());
+        model.put("currentSchoolCity", sgr.getCurrentSchool().getCurrentSchoolCity());
+        model.put("currentSchoolCountry", sgr.getCurrentSchool().getCurrentSchoolCountry());
+        model.put("abroadInternshipSchoolName", sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolName());
+        model.put("abroadInternshipSchoolCountry", sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry());
+        model.put("distance", sgr.getDistance().toString());
         try {
+            model.put("msCodext",
+                    firstSending || sgr.getEdemandeId() == null ||
+                        sgr.getEdemandeId().trim().isEmpty() ? "" :
+                            parseData(edemandeClient.chargerDemande(psCodeTiers, sgr.getEdemandeId()).getChargerDemandeResponse().getReturn(), "//donneesDemande/Demande/msCodext"));
             model.put("requestTypeCode", parseData(edemandeClient.chargerTypeDemande(null).getChargerTypeDemandeResponse().getReturn(), "//typeDemande/code"));
             model.put("psCodeTiers", psCodeTiers);
             model.put("address", parseAddress((String)model.get("psCodeTiers")));
@@ -222,7 +309,7 @@ public class EdemandeService implements IExternalProviderService {
                     model.put("filename", StringUtils.arrayToDelimitedString(new String[]{"CapDemat", doc.getDocumentType().getName(), String.valueOf(sgr.getId())}, "-"));
                     //model.put("remotePath", );
                     model.put("description", doc.getDocumentType().getName());
-                    //model.put("binaryData", new String(Base64.encodeBase64Chunked(doc.getDatas().get(0).getData())));
+                    model.put("binaryData", new String(Base64.encodeBase64Chunked(doc.getDatas().get(0).getData())));
                     AjouterPiecesJointesResponseDocument response = edemandeClient.ajouterPiecesJointes(model);
                     if (!"0".equals(parseData(response.getAjouterPiecesJointesResponse().getReturn(), "//Retour/codeRetour"))) {
                         addTrace(sgr.getId(), TraceStatusEnum.ERROR, parseData(response.getAjouterPiecesJointesResponse().getReturn(), "//Retour/messageRetour"));
@@ -240,14 +327,34 @@ public class EdemandeService implements IExternalProviderService {
         }
     }
 
-    private String checkRequest(StudyGrantRequest sgr, String psCodeTiers) {
-        //TODO
+    private String searchRequest(StudyGrantRequest sgr, String psCodeTiers) {
         try {
-            String requestCode = parseRequestCode(sgr, psCodeTiers);
-            String toto = edemandeClient.chargerDemande(psCodeTiers, requestCode).getChargerDemandeResponse().getReturn();
-            return toto;
+            return parseData(edemandeClient.rechercheDemandesTiers(psCodeTiers)
+                .getRechercheDemandesTiersResponse().getReturn(),
+                "//resultatRechDemandes/listeDemandes/Demande/moOrigineApsect[msIdentifiant ='"
+                + buildExternalRequestId(sgr) + "']/../miCode");
         } catch (CvqException e) {
-        return null;}
+            addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
+            return null;
+        }
+    }
+
+    private String getRequestStatus(StudyGrantRequest sgr, String psCodeTiers) {
+        try {
+            if (sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()) {
+                return parseData(edemandeClient.rechercheDemandesTiers(psCodeTiers)
+                    .getRechercheDemandesTiersResponse().getReturn(),
+                    "//resultatRechDemandes/listeDemandes/Demande/moOrigineApsect[msIdentifiant ='"
+                        + buildExternalRequestId(sgr) + "']/../msStatut");
+            } else {
+                return parseData(edemandeClient.chargerDemande(psCodeTiers, sgr.getEdemandeId())
+                        .getChargerDemandeResponse().getReturn(),
+                        "//donneesDemande/Demande/msStatut");
+            }
+        } catch (CvqException e) {
+            addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
+            return null;
+        }
     }
 
     public List<String> checkExternalReferential(final XmlObject requestXml) {
@@ -266,25 +373,6 @@ public class EdemandeService implements IExternalProviderService {
             result.add("Error contacting Edemande");
         }
         return result;
-    }
-
-    private String parseRequestCode(StudyGrantRequest sgr, String psCodeTiers) {
-        String requestId =
-            StringUtils.arrayToDelimitedString(
-                new String[] {
-                    "CapDemat",
-                    new SimpleDateFormat("yyyyMMdd").format(new Date(sgr.getCreationDate().getTimeInMillis())),
-                    sgr.getSubject().getIndividual().getFirstName(),
-                    sgr.getSubject().getIndividual().getLastName(),
-                    String.valueOf(sgr.getId())
-                },
-            "-");
-        try {
-            return parseData(edemandeClient.rechercheDemandesTiers(psCodeTiers).getRechercheDemandesTiersResponse().getReturn(),
-                    "//resultatRechDemandes/listeDemandes/Demande/moOrigineApsect[msIdentifiant ='" + HtmlUtils.htmlEscape(requestId) + "']/../miCode");
-        } catch (CvqException e) {
-            return null;
-        }
     }
 
     public void setLabel(String label) {
@@ -336,6 +424,52 @@ public class EdemandeService implements IExternalProviderService {
         }
     }
 
+    private String buildExternalRequestId(StudyGrantRequest sgr) {
+        return HtmlUtils.htmlEscape(
+            StringUtils.arrayToDelimitedString(
+                new String[] {
+                    "CapDemat",
+                    new SimpleDateFormat("yyyyMMdd").format(new Date(sgr.getCreationDate().getTimeInMillis())),
+                    sgr.getSubject().getIndividual().getFirstName(),
+                    sgr.getSubject().getIndividual().getLastName(),
+                    String.valueOf(sgr.getId())
+                },
+                "-")
+            );
+    }
+
+    private boolean mustSendNewRequest(StudyGrantRequest sgr) {
+        return !externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.ERROR)
+            && !externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.SENT);
+    }
+
+    private boolean mustResendRequest(StudyGrantRequest sgr) {
+        if (!externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.ERROR)) {
+            return false;
+        }
+        List<ExternalServiceTrace> traces = new ArrayList<ExternalServiceTrace>(
+            externalService.getTraces(sgr.getId(), label));
+        Collections.sort(traces, new Comparator<ExternalServiceTrace>() {
+            public int compare(ExternalServiceTrace o1, ExternalServiceTrace o2) {
+                return o2.getDate().compareTo(o1.getDate());
+            }
+        });
+        int lastErrorIndex = 0;
+        for (int i = 0; i < traces.size(); i++) {
+            if (TraceStatusEnum.ERROR.equals(traces.get(i).getStatus())) {
+                lastErrorIndex = i;
+                break;
+            }
+        }
+        traces = traces.subList(0, lastErrorIndex);
+        for (ExternalServiceTrace est : traces) {
+            if (TraceStatusEnum.SENT.equals(est)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public void checkConfiguration(ExternalServiceBean externalServiceBean)
         throws CvqConfigurationException {
@@ -384,7 +518,7 @@ public class EdemandeService implements IExternalProviderService {
     public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
     }
 
-    public void setRequestService(IRequestService requestService) {
+    public void setRequestService(IStudyGrantRequestService requestService) {
         this.requestService = requestService;
     }
 

@@ -1,6 +1,7 @@
 package fr.cg95.cvq.external;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,8 +53,7 @@ public interface IExternalService {
     /**
      * Return whether given request type has at least an associated external service.
      */
-    boolean hasMatchingExternalService(final String requestLabel)
-        throws CvqException;
+    boolean hasMatchingExternalService(final String requestLabel);
 
     /**
      * Get consumptions for a specific request.
@@ -159,7 +159,7 @@ public interface IExternalService {
     Set<ExternalServiceTrace> getTraces(Long key, String name, 
             TraceStatusEnum status, Date dateFrom, Date dateTo);
 
-    Set<ExternalServiceTrace> getTraces(Long requestId, String label);
+    Set<ExternalServiceTrace> getTraces(Long key, String label);
 
     Set<ExternalServiceTrace> getTracesByStatus(TraceStatusEnum status);
     
@@ -193,10 +193,17 @@ public interface IExternalService {
     void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
             String externalId);
 
-    ExternalServiceTrace getLastTrace(Long requestId, String label);
+    ExternalServiceTrace getLastTrace(Long key, String label);
 
-    boolean hasTraceWithStatus(Long requestId, String label, TraceStatusEnum status);
+    boolean hasTraceWithStatus(Long key, String label, TraceStatusEnum status);
 
     void create(ExternalServiceTrace trace)
         throws CvqPermissionException;
+
+    /**
+     * Check the coherence of CapDemat's local referentials and external service's referentials
+     * for each external service interested in this request (usually none or one).
+     * @return a list of reasons for failed tests.
+     */
+    List<String> checkExternalReferential(Request request);
 }

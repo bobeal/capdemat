@@ -533,6 +533,24 @@
                 </xs:restriction>
               </xs:simpleType>
             </xs:element>
+            <xs:element name="EdemandeId" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Identifiant Edemande du téléservice
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Identifiant Edemande du téléservice
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Edemande request ID
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Edemande request ID
+                </xs:documentation>
+                <xs:appinfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
           </xs:sequence>
         </xs:extension>
       </xs:complexContent>

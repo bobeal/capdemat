@@ -12,6 +12,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.request.IRequestActionService;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -33,6 +34,16 @@ public class RequestActionService implements IRequestActionService {
         throws CvqException {
 
         return requestActionDAO.listByRequest(requestId);
+    }
+
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public RequestAction getLastAction(@IsRequest final Long requestId)
+        throws CvqException {
+        List<RequestAction> actions = getActions(requestId);
+        if (actions != null && !actions.isEmpty()) {
+            return actions.get(actions.size() - 1);
+        }
+        return null;
     }
 
     @Override

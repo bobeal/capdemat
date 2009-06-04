@@ -1,19 +1,19 @@
 <form>
  <FormCommunOrbeon>
   <CBdosDemandeVO>
-   <miCode>-1</miCode>
+   <miCode>${psCodeDemande}</miCode>
    <moOrigineApsect>
-    <msIdentifiant>${["CapDemat", date, firstName, lastName, id].join('-')}</msIdentifiant>
+    <msIdentifiant>${externalRequestId}</msIdentifiant>
     <moApplicatifSectoriel>
      <miCode/>
      <msCodext>EXTSUB</msCodext>
     </moApplicatifSectoriel>
    </moOrigineApsect>
    <affichage/>
-   <msStatut/>
+   <msStatut>${msStatut}</msStatut>
    <msAdresse>/dep/?formID=dep</msAdresse>
    <msIdentifiant/>
-   <msDescription>${["TEST", date, firstName, lastName, id].join('-')}</msDescription>
+   <msDescription>${"TEST-" + externalRequestId}</msDescription>
    <mdMtProjetHT/>
    <mdMtProjetTTC/>
    <moTvaProjet>
@@ -25,12 +25,12 @@
    <moTypDem>
     <msNom>Mobil_Etudes_Extranet</msNom>
     <miCode>${requestTypeCode}</miCode>
-    <msLib>xxxx</msLib>
-    <msDescri>xxxx</msDescri>
+    <msLib>Mobil'Etudes 77 Extranet</msLib>
+    <msDescri>Bourses Mobil'Etudes 77 - Extranet</msDescri>
     <mvPiecesNec/>
    </moTypDem>
    <moEtatCourant>
-     <miCode>2</miCode>
+     <miCode>${etatCourant}</miCode>
    </moEtatCourant>
    <mbComplet/>
    <moBeneficiaire>
@@ -44,13 +44,13 @@
     <msFonction>Chargé du suivi de la demande</msFonction>
    </moDemandeur>
    <miAnneeProg/>
-   <miMillesime/>
+   <miMillesime>${millesime}</miMillesime>
    <mdtDateAcc/>
    <mdtDateRec/>
    <mdtDateCre/>
    <mdtDateDecision/>
    <msComment/>
-   <msCodext/>
+   <msCodext>${msCodext}</msCodext>
    <mdMtDemande>1000,00</mdMtDemande>
    <mvListePiecesReq/>
    <mvListePiecesRecu/>
@@ -60,14 +60,14 @@
   </CBdosDemandeVO>
   <DemandeTiers>
    <CodeAppliSecto>EXTSUB</CodeAppliSecto>
-   <NumAppliSecto/>
+   <NumAppliSecto>1242713008262</NumAppliSecto>
    <miCode>${psCodeTiers}</miCode>
    <LoginUtilisateurGda/>
    <msNom>${lastName}</msNom>
    <msLib>${lastName}</msLib>
    <moAttach>
     <moProcedure>
-     <miCode/>
+     <miCode>27</miCode>
     </moProcedure>
    </moAttach>
    <moTiersVirePrincipal/>
@@ -147,7 +147,7 @@
     </CCgenNatureCptVO>
    </mvComptesContrePartie>
    <PersonnePhysique>
-     <msPrenom>Prenom</msPrenom>
+     <msPrenom>${firstName}</msPrenom>
    </PersonnePhysique>
    <mvDocuments/>
   </DemandeTiers>
@@ -188,42 +188,40 @@
  </FormCommunOrbeon>
  <FormDispositif>
   <InfoXml type="" nom="">
-   <moGeneral type="noeud" nom="Renseignements de la demande">
-    <mbDemande type="texte" nom="Type de demande">Première demande</mbDemande>
-    <mbAnnee type="texte" nom="Typologie Année">Civile</mbAnnee>
-    <msAnneeCivile type="texte" nom="Année Civile">2008</msAnneeCivile>
-    <msAnneeScolaire type="texte" nom="Année Scolaire"/>
-    <miAdherent type="entier" nom="Nombre d'adhérents"/>
-    <mbSalarie type="booleen" nom="Salariés ?">false</mbSalarie>
-    <miSalarie type="entier" nom="Nombre de salariés">2</miSalarie>
-    <miEquivalent type="entier" nom="Nombre en équivalent temps plein">1</miEquivalent>
+   <moGeneral type="noeud" nom="DEMANDE">
+    <mbPremiereDem type="booleen" nom="Indicateur Première Demande">${firstRequest}</mbPremiereDem>
+    <mdtDateCreation type="date" nom="Date de validation de la demande par l'étudiant">${creationDate}</mdtDateCreation>
    </moGeneral>
-   <moAssociation type="noeud" nom="Renseignements Association">
-    <mbBenevole type="booleen" nom="Bénévolat ?">false</mbBenevole>
-    <miBenevole type="entier" nom="Nombre de bénévoles"/>
-   </moAssociation>
-   <moSociete type="noeud" nom="Renseignements Société">
-    <msStatut type="texte" nom="Statut"/>
-    <mdtImmat type="date" nom="Date d'immatriculation au RCS"/>
-   </moSociete>
-   <moProjet type="noeud" nom="Présentation du projet">
-    <mbprojet type="texte" nom="Type de projet">Nouveau projet</mbprojet>
-    <msBilan type="texte" nom="Bilan des actions menées"/>
-    <msDescri type="texte" nom="Description du projet"/>
-    <msPublic type="texte" nom="Publics concernés"/>
-    <miBeneficiaire type="entier" nom="Nombre de bénéficiaires de l'action"/>
-    <msLieu type="texte" nom="Lieux de réalisation"/>
-    <mdtMiseEnOeuvre type="date" nom="Date de mise en oeuvre prévue"/>
-    <miDureeAction type="date" nom="Durée de l'action "/>
-    <miMontant type="montant" nom="Montant de l'action projetée"/>
-    <mbPartenaire type="booleen" nom="Partenaires associés au projet ?">false</mbPartenaire>
-    <moPartenaire type="noeud" nom="Partenaire">
-     <msNom type="texte" nom="Nom"/>
-     <msType type="texte" nom="Type"/>
-     <miSollicite type="texte" nom="Montant ou prestations en nature sollicité(es)"/>
-     <miRecu type="texte" nom="Montant ou prestations en nature reçu(es)"/>
-    </moPartenaire>
-   </moProjet>
+   <moFoyerFiscal type="noeud" nom="FOYER FISCAL">
+    <mdMtRevenuBrutGlobal type="montant" nom="Revenu brut global indiqué sur l'Avis d'imposition">${taxHouseholdIncome}</mdMtRevenuBrutGlobal>
+   </moFoyerFiscal>
+   <moAutresAides type="noeud" nom="AUTRES AIDES">
+    <mbAideCROUS type="booleen" nom="Aide CROUS">${hasCROUSHelp}</mbAideCROUS>
+    <mbAideCR type="booleen" nom="Aide du Conseil Régional">${hasRegionalCouncilHelp}</mbAideCR>
+    <mbAideEurope type="booleen" nom="Aide Europe">${hasEuropeHelp}</mbAideEurope>
+    <mbAideAutres type="booleen" nom="Autres aides obtenues">${hasOtherHelp}</mbAideAutres>
+   </moAutresAides>
+   <moEtudes type="noeud" nom="ETUDES EN COURS">
+    <miAnneeBac type="entier" nom="Année d'obtention du baccalauréat">${AlevelsDate}</miAnneeBac>
+    <msTypeBac type="texte" nom="Type de baccalauréat">${AlevelsType}</msTypeBac>
+    <msDiplomePrepare type="texte" nom="Diplôme préparé">${currentStudiesType}</msDiplomePrepare>
+    <msDiplomeNiveau type="texte" nom="Niveau diplôme">${currentStudiesLevel}</msDiplomeNiveau>
+    <mbEtudeAlternance type="booleen" nom="Etudes en alternance">${sandwichCourses}</mbEtudeAlternance>
+    <mbStageEtranger type="booleen" nom="Stage conventionné à l'étranger">${abroadInternship}</mbStageEtranger>
+    <mdtDateDebutStage type="date" nom="Date de début de stage">${abroadInternshipStartDate}</mdtDateDebutStage>
+    <mdtDateFinStage type="date" nom="Date de fin de stage">${abroadInternshipEndDate}</mdtDateFinStage>
+   </moEtudes>
+   <moEtablissement type="noeud" nom="ETABLISSEMENT SCOLAIRE">
+    <msNomEtab type="texte" nom="Nom de l'établissement">${currentSchoolName}</msNomEtab>
+    <miCPEtab type="entier" nom="Code postal de l'établissement">${currentSchoolPostalCode}</miCPEtab>
+    <msVilleEtab type="texte" nom="Ville de l'établissement">${currentSchoolCity}</msVilleEtab>
+    <msPaysEtab type="texte" nom="Pays de l'établissement">${currentSchoolCountry}</msPaysEtab>
+    <msNomEtabAccueil type="texte" nom="Nom de l'établissement d'accueil à l'étranger">${abroadInternshipSchoolName}</msNomEtabAccueil>
+    <msPaysEtabAccueil type="texte" nom="Pays de l'établissement d'accueil à l'étranger">${abroadInternshipSchoolCountry}</msPaysEtabAccueil>
+   </moEtablissement>
+   <moCalcul type="noeud" nom="ELEMENTS DE CALCUL">
+    <msElementCalculDistance type="texte" nom="Elément de calcul de la bourse">${distance}</msElementCalculDistance>
+   </moCalcul>
   </InfoXml>
  </FormDispositif>
  <traitement>Validation</traitement>

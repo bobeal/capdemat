@@ -131,17 +131,20 @@ class RequestInstructionController {
         def localReferentialTypes = getLocalReferentialTypes(localReferentialService, request.requestType.label)
         localReferentialTypes.each { lazyInit(request, it.key) }
 
-        def externalProviderService = externalService.getExternalServiceByRequestType(request.requestType.label)
+        def externalProviderServiceLabel = null
         def lastTraceStatus = null
-        if (externalProviderService != null) {
-            def lastTrace = externalService.getLastTrace(request.id, externalProviderService.label)
+        if (externalService.hasMatchingExternalService(request.requestType.label)) {
+            externalProviderServiceLabel = externalService
+                .getExternalServiceByRequestType(request.requestType.label).label
+            def lastTrace = externalService.getLastTrace(request.id, externalProviderServiceLabel)
             if (lastTrace != null) {
-                lastTraceStatus = CapdematUtils.adaptCapdematEnum(lastTrace.status, "externalservice.trace.status")
+                lastTraceStatus = CapdematUtils
+                    .adaptCapdematEnum(lastTrace.status, "externalservice.trace.status")
             }
         }
 
-        def actions = requestActionService.getActions(request.id)
-        def lastActionNote = actions.get(actions.size()-1).note
+        def lastAction = requestActionService.getLastAction(request.id)
+        def lastActionNote = lastAction != null ? lastAction.note : ""
         return ([
             "request": request,
             "requestTypeLabel": request.requestType.label,
@@ -159,7 +162,7 @@ class RequestInstructionController {
             "requestLabel": requestLabel,
             "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
             "documentList": documentList,
-            "externalProviderService" : externalProviderService,
+            "externalProviderServiceLabel" : externalProviderServiceLabel,
             "lastTraceStatus" : lastTraceStatus
         ])
     }
@@ -535,12 +538,12 @@ class RequestInstructionController {
 
     def external = {
         if (request.post) {
-            def request = defaultRequestService.getById(Long.valueOf(params.id))
-            def externalProviderService = externalService.getExternalServiceByRequestType(request.requestType.label)
-            externalProviderService.sendRequest(defaultRequestService.fillRequestXml(request))
-            def lastTraceStatus = CapdematUtils.adaptCapdematEnum(externalService.getLastTrace(Long.valueOf(params.id), params.label).status, "externalservice.trace.status")
+            externalService.sendRequest(defaultRequestService.getById(Long.valueOf(params.id)))
+            def lastTraceStatus = CapdematUtils.adaptCapdematEnum(
+                externalService.getLastTrace(
+                    Long.valueOf(params.id), params.label).status, "externalservice.trace.status")
             render(template : "/backofficeRequestInstruction/external/" + params.label + "/externalStatus",
-                   model : ["externalProviderService" : externalProviderService,
+                   model : ["externalProviderServiceLabel" : params.label,
                             "lastTraceStatus" : lastTraceStatus])
         }
     }
@@ -555,12 +558,12 @@ class RequestInstructionController {
         render(template : "externalHistory", model : ["traces" : traces])
     }
 
-    def externalChecks = {
+    def externalReferentialChecks = {
         def request = defaultRequestService.getById(Long.valueOf(params.id))
-        render(template : "/backofficeRequestInstruction/external/" + params.label + "/localReferentialChecks",
+        render(template : "/backofficeRequestInstruction/external/" + params.label + "/externalReferentialChecks",
                model : ["id" : params.id, "label" : params.label,
-                        "localReferentialCheckErrors" : externalService.getExternalServiceByRequestType(request.requestType.label)
-                            .checkExternalReferential(defaultRequestService.fillRequestXml(request))])
+                        "externalReferentialCheckErrors" : externalService
+                            .checkExternalReferential(request)])
     }
 
    /* eCitizen contact managment

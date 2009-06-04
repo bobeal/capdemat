@@ -447,4 +447,9 @@ public interface IRequestService {
      */
     XmlObject fillRequestXml(Request request)
         throws CvqException;
+
+    /**
+     * Get all the requests that are sendable to this external service
+     */
+    List<Request> getSendableRequests(String externalServiceLabel);
 }

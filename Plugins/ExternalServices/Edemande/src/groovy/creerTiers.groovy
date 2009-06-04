@@ -12,7 +12,7 @@
   </compteExtranet>
   <tiers>
     <msNom>${lastName}</msNom>
-    <msLib/>
+    <msLib>${firstName} ${lastName}</msLib>
     <msSiret/>
     <mbActivationSeuil>true</mbActivationSeuil>
     <mvAdresses>

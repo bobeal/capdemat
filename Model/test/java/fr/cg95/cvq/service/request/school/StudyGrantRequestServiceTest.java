@@ -42,6 +42,7 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
             request.setHasEuropeHelp(Boolean.valueOf(true));
               request.setCurrentStudies(CurrentStudiesType.LICENCE);
                   request.setCurrentStudiesLevel(CurrentStudiesLevelType.FIRST_YEAR);
+                    request.setEdemandeId("EdemandeId");
                   if ("CurrentSchoolPostalCode".length() > 5)
         request.setCurrentSchoolPostalCode("CurrentSchoolPostalCode".substring(0, 5));
       else

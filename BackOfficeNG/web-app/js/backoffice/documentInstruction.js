@@ -210,7 +210,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
           zcbd.Instruction.overlay.setBody(o.responseText);
           zcbd.Instruction.overlay.show();
         },true);
-      }
+      },
+      modifyAgentNote : function(e) {
+        var target = yue.getTarget(e);
+        zct.doAjaxFormSubmitCall(target.parentNode.id,[],function(o){
+          var json = ylj.parse(o.responseText);
+          if (json)
+            zct.Notifier.processMessage(json.status,json.message,'documentInformationtMsg');
+        });
+      },
     };
   }();
   

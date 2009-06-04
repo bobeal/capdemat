@@ -32,20 +32,20 @@
   <p class="third-line">
     CP : 
     <g:if test="${record.permanent}">
-      <img src="${createLinkTo(dir:'images',file:'12-em-check.png')}"/>
+      <img src="${createLinkTo(dir:'images/icons',file:'12-check-green.png')}"/>
     </g:if>
     <g:else>
-      <img src="${createLinkTo(dir:'images',file:'12-em-cross.png')}"/>
+      <img src="${createLinkTo(dir:'images/icons',file:'HorsFoyerListe.gif')}"/>
     </g:else>
     - QS :
     <g:if test="${record.quality == 'red'}">
-      <img src="${createLinkTo(dir:'images',file:'circle-red-10.png')}"/>
+      <img src="${createLinkTo(dir:'images/icons',file:'10-circle-red.png')}"/>
     </g:if>
     <g:elseif test="${record.quality == 'orange'}">
-      <img src="${createLinkTo(dir:'images',file:'circle-orange-10.png')}"/>
+      <img src="${createLinkTo(dir:'images/icons',file:'10-circle-orange.png')}"/>
     </g:elseif>
     <g:else>
-      <img src="${createLinkTo(dir:'images',file:'circle-green-10.png')}"/>
+      <img src="${createLinkTo(dir:'images/icons',file:'10-circle-green.png')}"/>
     </g:else>
   </p>
   

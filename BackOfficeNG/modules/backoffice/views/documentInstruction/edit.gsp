@@ -94,22 +94,19 @@
       <div id="page2">
         <h2><g:message code="document.header.information" /></h2>
         <div id="documentInformationtMsg" style="display:none"></div>
-        <p>
-          <g:message code="document.property.ecitizenNote" /> :
-		  <strong>${document.ecitizenNote}</strong>
+        
+        <p class="static-data">
+          <span><g:message code="document.property.ecitizenNote" /> :</span>
+		      <em>${document.ecitizenNote}</em>
         </p>
-        <form method="POST" id="modifyDocumentForm" action="<g:createLink action="modifyDocument" />">
-          <div id="modifyDocumentFormErrors" class="error"></div> 
-            
-          <label for="agentNote">
-            <g:message code="document.property.agentNote" /> :
-          </label>
+        <form method="POST" id="agentNoteForm" action="<g:createLink action="agentNote" />">
+          <div id="agentNoteFormErrors" class="error"></div> 
+          
+          <label for="agentNote"><g:message code="document.property.agentNote" /> :</label>
           <input type="text" name="agentNote" size="50" title="" value="${document.agentNote}"  />
 
           <input type="hidden" name="documentId" value="${document.id}" />
-          
-          <input type="button" id="submitModifyDocumentForm" class="form-button" value="<g:message code="action.save" />" />
-          
+          <input type="button" id="modifyAgentNote" class="form-button" value="<g:message code="action.save" />" />
         </form>
       </div>
         

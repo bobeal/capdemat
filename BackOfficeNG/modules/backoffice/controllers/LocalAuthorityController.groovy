@@ -5,7 +5,6 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.business.request.MeansOfContact
 import grails.converters.JSON
-import org.apache.commons.lang.StringUtils
 
 class LocalAuthorityController {
     
@@ -22,7 +21,8 @@ class LocalAuthorityController {
 
     def moCs = {
         if (request.get) {
-            render(template : "meansOfContact", model : ["moCs" : meansOfContactService.availableMeansOfContact])
+            render(template : "meansOfContact", 
+                model : ["moCs" : meansOfContactService.availableMeansOfContact])
         } else if (request.post) {
             def moc = meansOfContactService.getById(Long.valueOf(params.id))
             if(params.enabled == 'true') meansOfContactService.disableMeansOfContact(moc)

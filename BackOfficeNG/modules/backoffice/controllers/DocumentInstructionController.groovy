@@ -199,4 +199,11 @@ class DocumentInstructionController {
         		DateUtils.stringToDate(params.endValidityDate))
         render ([status:"success", message:message(code:"message.updateDone")] as JSON)
     }
+    
+    def agentNote = {
+        def document = documentService.getById(Long.valueOf(params.documentId));
+        bind(document)
+        documentService.modify(document)
+        render([status:"success", message:message(code:"message.updateDone")] as JSON)
+    }
 }

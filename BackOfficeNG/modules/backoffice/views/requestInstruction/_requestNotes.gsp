@@ -15,10 +15,10 @@
     <g:each var="requestNote" in="${requestNoteList}">
       <li>
         <span class="tag-${requestNote.nature}">${requestNote.user_name}</span>
-        <p class="comment">
+        <p class="note">
            <g:capdematEnumToFlag var="${requestNote.type}" i18nKeyPrefix="request.note.type" />${requestNote.note}
         </p>
-        <p class="commentMetadata">
+        <p class="noteMetadata">
           <g:message code="request.property.note" /> n° <strong>${requestNote.id}</strong>
           <g:if test="${requestNote.date != null}">
             <g:message code="request.note.date" /> <strong><g:formatDate formatName="format.fullDate" date="${requestNote.date}"/></strong>

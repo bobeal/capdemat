@@ -1,6 +1,7 @@
 package fr.cg95.cvq.business.request;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -18,9 +19,10 @@ public class RequestNote implements Serializable {
 
 	/** identifier field */
     private Long id;
-    private Long agentId;
+    private Long userId;
     private RequestNoteType type;
     private String note;
+    private Date date;
 
     /** default constructor */
     public RequestNote() {
@@ -41,14 +43,14 @@ public class RequestNote implements Serializable {
 
     /**
      * @hibernate.property
-     *  column="agent_id"
+     *  column="user_id"
      */
-    public Long getAgentId() {
-        return this.agentId;
+    public Long getUserId() {
+        return this.userId;
     }
 
-    public void setAgentId(Long agentId) {
-        this.agentId = agentId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     /**
@@ -80,6 +82,18 @@ public class RequestNote implements Serializable {
         return new ToStringBuilder(this)
             .append("id", getId())
             .toString();
+    }
+
+    /**
+     * @hibernate.property
+     *  column="date"
+     */
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
 }

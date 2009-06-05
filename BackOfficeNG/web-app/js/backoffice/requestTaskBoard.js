@@ -86,7 +86,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       showAllPending : function(e) {},
       showAllLast : function(e) {
         var target = yue.getTarget(e);
-        var f = zcbr.TaskBoard.buildFilterUri({lastInterveningAgentIdFilter:target.id.split('_')[1]});
+        var f = zcbr.TaskBoard.buildFilterUri({lastInterveningUserIdFilter:target.id.split('_')[1]});
         target.href = [target.href,'?filterBy=',f].join('');
       }
     }

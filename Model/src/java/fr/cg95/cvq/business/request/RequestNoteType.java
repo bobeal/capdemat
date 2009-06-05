@@ -9,16 +9,15 @@ public final class RequestNoteType extends PersistentStringEnum {
 
     private static final long serialVersionUID = 1L;
 
-    public static final RequestNoteType DEFAULT_NOTE = 
-        new RequestNoteType("Default Note");
-    public static final RequestNoteType INSTRUCTION_INTERNAL = 
-        new RequestNoteType("Instruction Internal");
-    public static final RequestNoteType INSTRUCTION_EXTERNAL = 
-        new RequestNoteType("Instruction External");
-    public static final RequestNoteType DELIVERY_INTERNAL = 
-        new RequestNoteType("Delivery Internal");
-    public static final RequestNoteType DELIVERY_EXTERNAL = 
-        new RequestNoteType("Delivery External");
+    public static final RequestNoteType INTERNAL =
+        new RequestNoteType("Internal");
+    public static final RequestNoteType PUBLIC =
+        new RequestNoteType("Public");
+
+    public static final RequestNoteType[] allRequestNoteTypes = {
+        PUBLIC,
+        INTERNAL
+    };
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
@@ -28,5 +27,15 @@ public final class RequestNoteType extends PersistentStringEnum {
     }
 
     public RequestNoteType() {
+    }
+
+    public static RequestNoteType forString(String enumAsString) {
+        if (enumAsString == null || enumAsString.trim().isEmpty())
+            return null;
+        if (INTERNAL.toString().equals(enumAsString))
+            return INTERNAL;
+        if (PUBLIC.toString().equals(enumAsString))
+            return PUBLIC;
+        return null;
     }
 }

@@ -89,7 +89,7 @@ public class AgentServiceTest extends ServiceTestCase {
         Request request = iRequestService.getById(cb.getRequestId());
         assertNull(request.getNotes());
 
-        iRequestService.addNote(request.getId(), RequestNoteType.DEFAULT_NOTE, 
+        iRequestService.addNote(request.getId(), RequestNoteType.PUBLIC, 
                 "Paris est magique");
 
         // disconnect agent and test the same
@@ -97,7 +97,7 @@ public class AgentServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         
         try {
-            iRequestService.addNote(request.getId(), RequestNoteType.DEFAULT_NOTE,
+            iRequestService.addNote(request.getId(), RequestNoteType.PUBLIC,
                                     "Paris Paris Paris");
             fail("should have thrown an exception");
         } catch (PermissionException pe) {
@@ -110,14 +110,14 @@ public class AgentServiceTest extends ServiceTestCase {
         Set<RequestNote> notes = request.getNotes();
         Assert.assertEquals(notes.size(), 1);
         RequestNote rn = (RequestNote) notes.iterator().next();
-        Assert.assertEquals(rn.getAgentId(), agent.getId());
+        Assert.assertEquals(rn.getUserId(), agent.getId());
 
         // test search by last intervening agent
         iRequestWorkflowService.updateRequestState(cb.getRequestId(), RequestState.COMPLETE, null);
         Agent currentAgent = SecurityContext.getCurrentAgent();
 
         Critere crit = new Critere();
-        crit.setAttribut(Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID);
+        crit.setAttribut(Request.SEARCH_BY_LAST_INTERVENING_USER_ID);
         crit.setComparatif(Critere.EQUALS);
         crit.setValue(currentAgent.getId());
         Set<Critere> criteriaSet = new HashSet<Critere>();

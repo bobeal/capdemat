@@ -71,3 +71,11 @@ DELETE FROM request_type where label = 'Study Grant Request';
 alter table study_grant_request add column subject_first_request bool;
 
 alter table study_grant_request add column edemande_id varchar(255);
+
+alter table request_note rename column agent_id to user_id;
+alter table request rename column last_intervening_agent_id to last_intervening_user_id;
+
+alter table request_note add column date timestamp;
+
+update request_note set type = 'Internal' where type like '%Internal';
+update request_note set type = 'Public' where type like '%External' or type like 'Default%';

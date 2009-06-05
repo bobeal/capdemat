@@ -606,6 +606,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       
       getHandler : function(e) {
           var target = yue.getTarget(e);
+          if (/filterNotes_.*/.test(target.id)) return "filterNotes";
           return target.id;
       },
       
@@ -633,10 +634,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           activeTab.set("cacheData", cacheData);
         }
       },
+      filterNotes : function(e) {
+        zcbr.Information.refreshNotes(yud.getAncestorBy(yud.getAncestorBy(yue.getTarget(e))), null);
+      },
       refreshNotes : function(el, msg) {
-          zct.doAjaxCall('/requestNotes/' + zcb.requestId, null, function(o) {
+          zct.doAjaxCall('/requestNotes/' + zcb.requestId + '?type=' + zct.val(yud.get('requestNotesType')), null, function(o) {
               zct.html(el, o.responseText);     
-              zct.Notifier.processMessage('success',msg,'noteMsg');      
+              if (!!msg) zct.Notifier.processMessage('success',msg,'noteMsg');
           });
       },
       addTab : function(label, url, cacheData, active) {

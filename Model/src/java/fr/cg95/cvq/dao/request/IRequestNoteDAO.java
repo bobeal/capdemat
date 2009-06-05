@@ -1,6 +1,7 @@
 package fr.cg95.cvq.dao.request;
 
 import fr.cg95.cvq.business.request.RequestNote;
+import fr.cg95.cvq.business.request.RequestNoteType;
 import fr.cg95.cvq.dao.IGenericDAO;
 import java.util.List;
 
@@ -10,7 +11,8 @@ import java.util.List;
 public interface IRequestNoteDAO extends IGenericDAO {
 
     /**
-     * Return the list of notes related to a given request.
+     * Return the list of notes related to a given request,
+     * filtered with the specified type if it is not null.
      */
-    List<RequestNote> listByRequest(final Long requestId);
+    List<RequestNote> listByRequestAndType(final Long requestId, final RequestNoteType type);
 }

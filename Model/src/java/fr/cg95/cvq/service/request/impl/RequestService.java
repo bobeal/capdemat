@@ -214,33 +214,34 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             request.setLastModificationDate(date);
         else
             request.setLastModificationDate(new Date());
-        request.setLastInterveningAgentId(SecurityContext.getCurrentUserId());
+        request.setLastInterveningUserId(SecurityContext.getCurrentUserId());
 
         requestDAO.update(request);
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<RequestNote> getNotes(final Long id)
+    public List<RequestNote> getNotes(final Long id, RequestNoteType type)
         throws CvqException {
 
-        // TODO ACMF : if ecitizen, filter notes he is not authorized to see 
-        // (eg instruction internal)
-        return requestNoteDAO.listByRequest(id);
+        // TODO filter private notes one is not allowed to see
+        // (agent private notes when ecitizen, and vice-versa)
+        return requestNoteDAO.listByRequestAndType(id, type);
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void addNote(final Long requestId, final RequestNoteType rtn, final String note)
         throws CvqException, CvqObjectNotFoundException {
 
 
-        Long agentId = SecurityContext.getCurrentUserId();
+        Long userId = SecurityContext.getCurrentUserId();
 
 	    RequestNote requestNote = new RequestNote();
         requestNote.setType(rtn);
         requestNote.setNote(note);
-        requestNote.setAgentId(agentId);
+        requestNote.setUserId(userId);
+        requestNote.setDate(new Date());
 
         Request request = getById(requestId);
 	    if (request.getNotes() == null) {
@@ -953,7 +954,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         requestType.setId(0);
         requestType.setCreationDate(null);
         requestType.setDataState(null);
-        requestType.setLastInterveningAgentId(0);
+        requestType.setLastInterveningUserId(0);
         requestType.setLastModificationDate(null);
         requestType.setObservations(null);
         requestType.setState(null);

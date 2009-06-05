@@ -39,7 +39,7 @@ class RequestAdaptorService {
                 'subjectFirstName': request.subjectFirstName,
                 'state':request.state.toString(),
                 'lastModificationDate':request.lastModificationDate,
-                'lastInterveningAgentId': instructionService.getActionPosterDetails(request.lastInterveningAgentId) ,
+                'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId) ,
         ]
     }
 

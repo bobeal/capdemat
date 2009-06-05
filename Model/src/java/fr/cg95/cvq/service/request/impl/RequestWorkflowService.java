@@ -620,7 +620,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
             request.setLastModificationDate(new Date());
 
         Long userId = SecurityContext.getCurrentUserId();
-        request.setLastInterveningAgentId(userId);
+        request.setLastInterveningUserId(userId);
 
         requestDAO.update(request);
     }

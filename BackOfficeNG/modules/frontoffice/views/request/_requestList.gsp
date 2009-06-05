@@ -28,9 +28,9 @@
           <g:if test="${record.lastModificationDate}">
             - <g:message code="request.property.lastModificationDate" />
             <g:formatDate date="${record.lastModificationDate}" formatName="format.date" />
-            <g:if test="${record.lastInterveningAgentId}">
+            <g:if test="${record.lastInterveningUserId}">
               <g:message code="layout.by" />
-              ${record.lastInterveningAgentId}
+              ${record.lastInterveningUserId}
             </g:if>
           </g:if> 
         </p>

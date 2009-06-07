@@ -2,10 +2,10 @@
   <g:if test="${document.editable}">
     <div class="button-panel">
       <a id="displayEditPanel_${pageNumber}" href="javascript:;">
-        <img src="${createLinkTo(dir:'images/icons',file:'edit.png')}" alt="${message(code:'action.edit')}">
+        <img src="${createLinkTo(dir:'images/icons',file:'16-edit.png')}" alt="${message(code:'action.edit')}">
       </a>
       <a id="confirmDeletePage_${pageNumber}" href="javascript:;">
-        <img src="${createLinkTo(dir:'images',file:'delete.png')}" alt="${message(code:'action.delete')}">
+        <img src="${createLinkTo(dir:'images/icons',file:'16-delete.png')}" alt="${message(code:'action.delete')}">
       </a>
     </div>
     <div id="pageFormPanel_${pageNumber}" style="display:none">

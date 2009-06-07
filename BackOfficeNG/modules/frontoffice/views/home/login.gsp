@@ -35,14 +35,14 @@
           
           En créant un compte, vous avez accès à 
           <ul>
-            <li>Un bouquet riche de téléservices</li>
-            <li>Des fonctionnalités avancées de gestion de votre compte famille</li>
-            <li>Du paiement sécurisé</li>
+            <li>Un bouquet riche de plus de 30 téléservices</li>
+            <li>Du paiement en ligne sécurisé</li>
             <li>Du stockage sécurisé de vos pièces justificatives</li>
             <li>... Une nouvelle vie sans stress !</li>
           </ul>
-          <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':'VO Card Request'])}">
-            <g:translateRequestTypeLabel label="VO Card Request"/>
+          <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':'VO Card Request'])}"
+          	 style="float:right;font-size:1.3em;margin-right:10%;">
+            Je souhaite créer mon compte
           </a>
         </div>
       </div>

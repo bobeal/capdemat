@@ -1,3 +1,4 @@
+import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.request.IRequestStatisticsService
 import fr.cg95.cvq.service.request.IRequestTypeService
@@ -20,13 +21,15 @@ class StatisticController {
     def requestAdaptorService
     def translationService
 
+    def statisticTypes
+
     def beforeInterceptor = {
         session['currentMenu'] = 'statistics'
+        statisticTypes = ['state','type']
+        if (SecurityContext.getCurrentSite().instructionAlertsEnabled) statisticTypes.add('quality')
     }
 
 	def defaultAction = 'type'
-
-    def statisticTypes = ['state','type','quality']
 
     def quality = {
         def state = [:]

@@ -149,7 +149,7 @@ class RequestController {
                 'homeFolderId':it.homeFolderId,
                 'state':it.state.toString(),
                 'lastModificationDate':it.lastModificationDate,
-                'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId),
+                'lastInterveningUserId': instructionService.getActionPosterDetails(it.lastInterveningUserId),
                 'permanent': !homeFolder.boundToRequest,
                 'quality':quality
             ]
@@ -214,7 +214,7 @@ class RequestController {
         if(state?.displayForm?.contains('Validated'))
             requestMap.validatedRequests = filterRequests('SEARCH_BY_STATE',RequestState.VALIDATED,state)
         if(state?.displayForm?.contains('Last'))
-            requestMap.lastRequests = filterRequests('SEARCH_BY_LAST_INTERVENING_AGENT_ID',
+            requestMap.lastRequests = filterRequests('SEARCH_BY_LAST_INTERVENING_USER_ID',
                     SecurityContext.currentUserId,state)
         
         render (view:'taskBoard', model:['requestMap':requestMap,

@@ -606,6 +606,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       
       getHandler : function(e) {
           var target = yue.getTarget(e);
+          if (/filterNotes_.*/.test(target.id)) return "filterNotes";
           return target.id;
       },
       
@@ -633,10 +634,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           activeTab.set("cacheData", cacheData);
         }
       },
+      filterNotes : function(e) {
+        zcbr.Information.refreshNotes(yud.getAncestorBy(yud.getAncestorBy(yue.getTarget(e))), null);
+      },
       refreshNotes : function(el, msg) {
-          zct.doAjaxCall('/requestNotes/' + zcb.requestId, null, function(o) {
+          zct.doAjaxCall('/requestNotes/' + zcb.requestId + '?type=' + zct.val(yud.get('requestNotesType')), null, function(o) {
               zct.html(el, o.responseText);     
-              zct.Notifier.processMessage('success',msg,'noteMsg');      
+              if (!!msg) zct.Notifier.processMessage('success',msg,'noteMsg');
           });
       },
       addTab : function(label, url, cacheData, active) {
@@ -656,6 +660,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       init : function() {
         zcbr.External.clickEvent = new zct.Event(zcbr.External, zcbr.External.processClick);
         yue.on(yud.get('externalService'),'click',zcbr.External.clickEvent.dispatch,zcbr.External.clickEvent,true);
+        if (!!(zcbr.External.label)) {
+          zcbr.External.externalReferentialCheck(null, zcb.requestId, zcbr.External.label);
+        }
       },
       processClick : function(e) {
         var targetEl = yue.getTarget(e);
@@ -664,9 +671,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         }
         return (targetEl.id||'_').split('_')[0];
       },
-      externalReferentialCheck : function(e) {
-        var id = yue.getTarget(e).id.split('_')[2];
-        var label = yue.getTarget(e).id.split('_')[3];
+      externalReferentialCheck : function(e, _id, _label) {
+        var id, label;
+        if (e != null) {
+          id = yue.getTarget(e).id.split('_')[2];
+          label = yue.getTarget(e).id.split('_')[3];
+        } else {
+          id = _id;
+          label = _label;
+        }
         yud.get("externalReferentialChecksContainer").innerHTML = "";
         yud.removeClass(yud.get("externalReferentialChecksPendingMessage"), 'invisible');
         zct.doAjaxCall("/externalReferentialChecks?id=" + id + "&label=" + label, null, function(o) {

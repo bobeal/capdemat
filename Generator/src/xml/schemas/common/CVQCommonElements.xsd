@@ -2055,7 +2055,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="LastInterveningAgentId" type="xs:long" />
+      <xs:element name="LastInterveningUserId" type="xs:long" />
       <xs:element name="Step">
         <xs:simpleType>
           <xs:annotation>

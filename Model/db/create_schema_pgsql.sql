@@ -1934,7 +1934,7 @@
         home_folder_id int8,
         creation_date timestamp,
         last_modification_date timestamp,
-        last_intervening_agent_id int8,
+        last_intervening_user_id int8,
         state varchar(16) not null,
         data_state varchar(16) not null,
         means_of_contact_id int8,
@@ -1987,9 +1987,10 @@
 
     create table request_note (
         id int8 not null,
-        agent_id int8,
+        user_id int8,
         type varchar(32),
         note varchar(255),
+        date timestamp,
         request_id int8,
         primary key (id)
     );

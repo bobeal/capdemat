@@ -221,10 +221,11 @@ public interface IRequestService {
     
     /**
      * Get notes related to a given request.
+     * Optionnal type parameter, used to filter notes if it is not null.
      *
      * @return a set of {@link fr.cg95.cvq.business.request.RequestNote} objects
      */
-    List<RequestNote> getNotes(@IsRequest final Long requestId)
+    List<RequestNote> getNotes(@IsRequest final Long requestId, final RequestNoteType type)
         throws CvqException;
 
     /**

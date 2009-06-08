@@ -104,8 +104,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersValues.add(searchCrit.getDateValue());
                 parametersTypes.add(Hibernate.DATE);
 
-            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID)) {
-                sb.append(" and request.lastInterveningAgentId " + searchCrit.getComparatif() + " ?");
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_LAST_INTERVENING_USER_ID)) {
+                sb.append(" and request.lastInterveningUserId " + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getLongValue());
                 parametersTypes.add(Hibernate.LONG);
 
@@ -143,8 +143,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 sb.append(" order by request.creationDate");
             else if (sort.equals(Request.SEARCH_BY_LAST_MODIFICATION_DATE))
                 sb.append(" order by request.lastModificationDate");
-            else if (sort.equals(Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID))
-                sb.append(" order by request.lastInterveningAgentId");
+            else if (sort.equals(Request.SEARCH_BY_LAST_INTERVENING_USER_ID))
+                sb.append(" order by request.lastInterveningUserId");
             else
                 sb.append(" order by request.id");
         } else {
@@ -267,8 +267,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 objectList.add(searchCrit.getDateValue());
                 typeList.add(Hibernate.TIMESTAMP);
                 
-            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID)) {
-                sb.append(" and request.lastInterveningAgentId "
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_LAST_INTERVENING_USER_ID)) {
+                sb.append(" and request.lastInterveningUserId "
                         + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getLongValue());
                 typeList.add(Hibernate.LONG);
@@ -669,7 +669,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                          +"request_step," 
                          +"home_folder_id," 
                          +"data_state," 
-                         +"last_intervening_agent_id," 
+                         +"last_intervening_user_id," 
                          +"orange_alert," 
                          +"red_alert," 
                          +"validation_date," 

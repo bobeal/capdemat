@@ -36,7 +36,7 @@ public abstract class Request implements Serializable {
     public static final String SEARCH_BY_STATE = "state";    
     public static final String SEARCH_BY_CREATION_DATE = "creationDate";
     public static final String SEARCH_BY_LAST_MODIFICATION_DATE = "lastModificationDate";
-    public static final String SEARCH_BY_LAST_INTERVENING_AGENT_ID = "lastInterveningAgentId";
+    public static final String SEARCH_BY_LAST_INTERVENING_USER_ID = "lastInterveningUserId";
     public static final String SEARCH_BY_QUALITY_TYPE = "qualityType";
 	
     public static final String SEARCH_BY_RESULTING_STATE = "resultingState";
@@ -53,7 +53,7 @@ public abstract class Request implements Serializable {
     private Date creationDate;
     private Date lastModificationDate;
     private Date validationDate;
-    private Long lastInterveningAgentId;
+    private Long lastInterveningUserId;
     private RequestState state;
     private DataState dataState;
     private MeansOfContact meansOfContact;
@@ -113,8 +113,8 @@ public abstract class Request implements Serializable {
             calendar.setTime(this.validationDate);
             requestType.setValidationDate(calendar);
         }
-        if (this.lastInterveningAgentId != null)
-            requestType.setLastInterveningAgentId(this.lastInterveningAgentId.longValue());
+        if (this.lastInterveningUserId != null)
+            requestType.setLastInterveningUserId(this.lastInterveningUserId.longValue());
 
         if (this.state != null)
             requestType.setState(fr.cg95.cvq.xml.common.RequestStateType.Enum.forString(this.state.toString()));
@@ -163,7 +163,7 @@ public abstract class Request implements Serializable {
         calendar = requestType.getValidationDate();
         if (calendar != null)
             request.setValidationDate(calendar.getTime());
-        request.setLastInterveningAgentId(new Long(requestType.getLastInterveningAgentId()));
+        request.setLastInterveningUserId(new Long(requestType.getLastInterveningUserId()));
         if (requestType.getState() != null)
             request.setState(RequestState.forString(requestType.getState().toString()));
         
@@ -241,14 +241,14 @@ public abstract class Request implements Serializable {
 
     /**
      * @hibernate.property
-     *  column="last_intervening_agent_id"
+     *  column="last_intervening_user_id"
      */
-    public Long getLastInterveningAgentId() {
-        return this.lastInterveningAgentId;
+    public Long getLastInterveningUserId() {
+        return this.lastInterveningUserId;
     }
 
-    public void setLastInterveningAgentId(Long lastInterveningAgentId) {
-        this.lastInterveningAgentId = lastInterveningAgentId;
+    public void setLastInterveningUserId(Long lastInterveningUserId) {
+        this.lastInterveningUserId = lastInterveningUserId;
     }
 
     /**

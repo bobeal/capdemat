@@ -85,7 +85,7 @@ class HomeFolderController {
               'homeFolderId':it.homeFolderId,
               'state':it.state.toString(),
               'lastModificationDate':it.lastModificationDate,
-              'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId),
+              'lastInterveningUserId': instructionService.getActionPosterDetails(it.lastInterveningUserId),
               'permanent':!homeFolder.boundToRequest,
               'quality':quality
           ]

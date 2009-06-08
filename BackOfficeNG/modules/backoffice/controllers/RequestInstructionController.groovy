@@ -479,7 +479,7 @@ class RequestInstructionController {
               'homeFolderId':it.homeFolderId,
               'state':it.state.toString(),
               'lastModificationDate':it.lastModificationDate,
-              'lastInterveningAgentId': instructionService.getActionPosterDetails(it.lastInterveningAgentId),
+              'lastInterveningUserId': instructionService.getActionPosterDetails(it.lastInterveningUserId),
               'permanent':!homeFolder.boundToRequest,
               'quality':quality
           ]
@@ -511,25 +511,31 @@ class RequestInstructionController {
     }
 
     def requestNotes = {
-        def requestNotes = defaultRequestService.getNotes(Long.valueOf(params.id))
+        def requestNotes = defaultRequestService.getNotes(Long.valueOf(params.id),
+            RequestNoteType.forString(params.type))
         def requestNoteList = []
         requestNotes.each {
-            def user = instructionService.getActionPosterDetails(it.agentId)
+            def user = instructionService.getActionPosterDetails(it.userId, true)
             def requestNote = [
                'id':it.id,
-               'agent_name':user,
+               'user_name':user.displayName,
+               'nature':user.nature,
                'type':it.type,
                'note':it.note,
+               'date':it.date
             ]
             requestNoteList.add(requestNote)
         }
-        render(template:'requestNotes', model:['requestNoteList':requestNoteList,'requestId':params.id])
+        render(template:'requestNotes', model:['requestNoteList':requestNoteList,
+            'requestNoteTypes' : RequestNoteType.allRequestNoteTypes.collect{CapdematUtils.adaptCapdematEnum(it, "request.note.type")},
+            'currentType' : params.type, 'requestId':params.id])
     }
 
     def requestNote = {
-        if (params.requestId != null && params.note != null) {
+        if (params.requestId != null && params.note != null && params.requestNoteType != null) {
             defaultRequestService.addNote(
-                Long.valueOf(params.requestId), RequestNoteType.DEFAULT_NOTE, params.note)
+                Long.valueOf(params.requestId),
+                RequestNoteType.forString(params.requestNoteType), params.note)
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } else
             render ([status: "error", error_msg:message(code:"error.missingParmeter")] as JSON)

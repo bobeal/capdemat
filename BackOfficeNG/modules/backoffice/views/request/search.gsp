@@ -87,11 +87,11 @@
               </g:each>
             </select>
             
-            <label for="lastInterveningAgentIdFilter"><g:message code="request.property.lastInterveningAgent" /> :</label>
-            <select id="lastInterveningAgentIdFilter">
+            <label for="lastInterveningUserIdFilter"><g:message code="request.property.lastInterveningUser" /> :</label>
+            <select id="lastInterveningUserIdFilter">
               <option value=""><g:message code="search.filter.defaultValue"/></option>
               <g:each in="${allAgents}" var="agent">
-                <option value="${agent.id}" ${filters['lastInterveningAgentIdFilter'] == agent.id.toString() ? 'selected' : ''}>
+                <option value="${agent.id}" ${filters['lastInterveningUserIdFilter'] == agent.id.toString() ? 'selected' : ''}>
                   ${agent.getLastName() != null ? agent.getLastName() + " " + agent.getFirstName() : agent.getLogin()}
                 </option>
               </g:each>

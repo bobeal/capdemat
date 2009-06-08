@@ -148,6 +148,9 @@
 -------------------------------------------------------------- */
 #requestInformation { margin-top: 10px; }
 
+/* list filter */
+#requestInformation div div div select { margin: 0.5em; }
+
 /* list */
 #requestInformation div div div ul { margin: 10px;}
 #requestInformation div div div li { padding: .7em 0; border-bottom: 1px dashed #C1CFE2; }
@@ -158,7 +161,7 @@
 #requestInformation div div div form input { margin: 0; }
  
 /* definition list (for homeFolder.individual) */
-#requestInformation dl {
+#requestInformation dl.account {
   margin : 10px 20px 10px 20px ;
   padding: 5px;
   border: 1px solid #cccccc;
@@ -169,25 +172,53 @@
   background-color: #ffffff; 
 }
 
-#requestInformation dl dt {
+#requestInformation dl.account dt {
   float: left;
   width: 10em;
   font-weight: bold;
   text-align : right;
 }
 
-#requestInformation dl dd {
+#requestInformation dl.account dd {
   border-left: 1px dashed #aaaaaa;
   margin: 0 0 0 11em;
   padding: 0 0 .5em .5em;
   border-left: 1px dashed #aaaaaa;
 }
-#requestInformation dl dd .tag-state { display: inline; float: none; }
-#requestInformation div div div dl dd ul    { margin: 0; }
-#requestInformation div div div dl dd ul li { padding: .3em 0 0 0; border: 0; list-style: disc inside none; }
+#requestInformation dl.account dd .tag-state { display: inline; float: none; }
+#requestInformation div div div dl.account dd ul    { margin: 0; }
+#requestInformation div div div dl.account dd ul li { padding: .3em 0 0 0; border: 0; list-style: disc inside none; }
+
+#requestInformation dl.notes { overflow: auto; margin : 0.5em; border-bottom: 1px dashed #C1CFE2; }
+#requestInformation dl.notes dt,
+#requestInformation dl.notes dd {
+  float: left;
+  margin: 0;
+  border-top: 1px dashed #C1CFE2;
+}
+
+#requestInformation dl.notes dt { padding-top : 1.5em; }
+
+#requestInformation dl.notes dt { width: 25%; min-height: 1.5em; clear: both; }
+#requestInformation dl.notes dd { width: 75%; padding-bottom : 0.5em; padding-top : 0.5em; }
 
 #requestInformation .tag-state { float: right; }
-#requestInformation .comment   { font-size: 1.4em; font-weight: normal; }
+#requestInformation .note {
+  padding : 0.2em;
+  font-size: 1.4em;
+  font-weight: normal;
+  background-color : #ffffff;
+  border: 1px solid #cccccc;
+  border-right: 0;
+  border-bottom: 0;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  margin-top : 0.3em;
+}
+
+#requestInformation .note .tag-state { font-size : 0.75em; }
+
+#requestInformation .noteMetadata { text-align : right; color : #666; }
 
 #requestInformation .homFolderInfo { 
   margin: 10px; padding: 1em;

@@ -6,27 +6,31 @@ class InstructionService {
     IAgentService agentService
     IIndividualService individualService
     
-    def getActionPosterDetails(posterId) {
-    
-        if (posterId == null || posterId.equals(""))
-            return ''
-        else if (posterId == -1)
-            return 'Système'
-
-        def poster
-        try {
-            poster = this.agentService.getById(Long.valueOf(posterId))
-        } catch (CvqObjectNotFoundException) {}
-        
-        if (!poster) {
+    def getActionPosterDetails(posterId, withNature = false) {
+        def displayName
+        def nature
+        if (posterId == null || posterId.equals("")) {
+            displayName = ""
+            nature = ""
+        } else if (posterId == -1) {
+            displayName = "Système"
+            nature = "system"
+        } else {
+            def poster
             try {
-                poster = this.individualService.getById(Long.valueOf(posterId))
+                poster = this.agentService.getById(Long.valueOf(posterId))
+                nature = "agent"
             } catch (CvqObjectNotFoundException) {}
+            if (!poster) {
+                try {
+                    poster = this.individualService.getById(Long.valueOf(posterId))
+                    nature = "ecitizen"
+                } catch (CvqObjectNotFoundException) {}
+            }
+            if (poster) displayName = "${poster.firstName} ${poster.lastName}"
+            else displayName = null
+            if (withNature) return ["displayName" : displayName, "nature" : nature]
+            else return displayName
         }
-
-        if (poster) return "${poster.firstName} ${poster.lastName}"
-        else return null
     }
-    
-
 }

@@ -344,7 +344,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         assertEquals(rs.length, 3);
 
         crit = new Critere();
-        crit.setAttribut(Request.SEARCH_BY_LAST_INTERVENING_AGENT_ID);
+        crit.setAttribut(Request.SEARCH_BY_LAST_INTERVENING_USER_ID);
         crit.setComparatif(Critere.EQUALS);
         crit.setValue(SecurityContext.getCurrentAgent().getId());
         criteriaSet = new HashSet<Critere>();
@@ -362,7 +362,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         String noteMsg = "Une petite note pour CVQ, une grande note pour le CG95";
         try {
             iVoCardRequestService.addNote(dcvoFromDb.getId(),
-                    RequestNoteType.INSTRUCTION_EXTERNAL, noteMsg);
+                    RequestNoteType.PUBLIC, noteMsg);
             fail("should have thrown an exception");
         } catch (PermissionException pe) {
             // ok
@@ -376,7 +376,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         iVoCardRequestService.addNote(dcvoFromDb.getId(),
-                RequestNoteType.DELIVERY_EXTERNAL, noteMsg);
+                RequestNoteType.PUBLIC, noteMsg);
 
         iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.VALIDATED, null);
         iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.NOTIFIED,

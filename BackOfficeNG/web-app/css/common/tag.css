@@ -44,6 +44,8 @@ payment : initialized, validated, refused, cancelled
 .tag-required,
 /* external services traces */
 .tag-sent, .tag-inprogress, .tag-notsent, .tag-acknowledged, .tag-error,
+/* request note type */
+.tag-internal, .tag-public,
 /*  misc */
 .tag-draft { 
   padding: 0 .2em;
@@ -124,4 +126,16 @@ payment : initialized, validated, refused, cancelled
   margin-right: 5px;
   background: #13d6d6 none repeat scroll 0 0;
   border-color: #009999;
+}
+
+.tag-public {
+  background-color : #eeeeee;
+  border-color : #0000ff;
+  color : #0000ff;
+}
+
+.tag-internal {
+  background-color : #eeeeee;
+  border-color : #ff0000;
+  color : #ff0000;
 }

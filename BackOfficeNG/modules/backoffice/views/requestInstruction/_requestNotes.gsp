@@ -11,12 +11,15 @@
  <g:message code="request.message.noNote" /> <g:message code="request.property.note" /> !
 </g:if>
 <g:else>
-  <ul>
+  <dl class="notes">
     <g:each var="requestNote" in="${requestNoteList}">
-      <li>
-        <span class="tag-${requestNote.nature}">${requestNote.user_name}</span>
+      <dt>
+        <span class="tag-${requestNote.nature}">${requestNote.nature}</span>
+        ${requestNote.user_name}
+      </dt>
+      <dd>
         <p class="note">
-           <g:capdematEnumToFlag var="${requestNote.type}" i18nKeyPrefix="request.note.type" />${requestNote.note}
+          <g:capdematEnumToFlag var="${requestNote.type}" i18nKeyPrefix="request.note.type" />${requestNote.note}
         </p>
         <p class="noteMetadata">
           <g:message code="request.property.note" /> n° <strong>${requestNote.id}</strong>
@@ -24,9 +27,9 @@
             <g:message code="request.note.date" /> <strong><g:formatDate formatName="format.fullDate" date="${requestNote.date}"/></strong>
           </g:if>
         </p>
-      </li>
+      </dd>
     </g:each>
-  </ul>
+  </dl>
 </g:else>
 <form method="post" id="requestNoteForm" action="${createLink(action:'requestNote')}">
   <div id="noteMsg" style="display:none"></div>

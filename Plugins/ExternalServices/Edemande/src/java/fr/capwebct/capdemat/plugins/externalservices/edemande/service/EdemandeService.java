@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -254,18 +253,25 @@ public class EdemandeService implements IExternalProviderService {
 
     private void submitRequest(StudyGrantRequest sgr, String psCodeTiers, boolean firstSending) {
         Map<String, Object> model = new HashMap<String, Object>();
-        //model.put("date", new SimpleDateFormat("yyyyMMdd").format(new Date(sgr.getCreationDate().getTimeInMillis())));
+        String requestData = null;
+        if (!firstSending) {
+            try {
+                requestData = edemandeClient.chargerDemande(psCodeTiers, sgr.getEdemandeId()).getChargerDemandeResponse().getReturn();
+            } catch (CvqException e) {
+                e.printStackTrace();
+                addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
+            }
+        }
         model.put("externalRequestId", buildExternalRequestId(sgr));
+        model.put("psCodeTiers", psCodeTiers);
         model.put("psCodeDemande",
-            sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty() ? "-1" : sgr.getEdemandeId());
-        model.put("msStatut", firstSending ? "" : "A compléter ou corriger");
+            sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty() ? "-1" :
+            sgr.getEdemandeId());
         model.put("etatCourant", firstSending ? 2 : 1);
-        model.put("millesime", firstSending ? "" : Calendar.getInstance().get(Calendar.YEAR));
         model.put("firstName", sgr.getSubject().getIndividual().getFirstName());
         model.put("lastName", sgr.getSubject().getIndividual().getLastName());
         model.put("postalCode", sgr.getSubject().getIndividual().getAddress().getPostalCode());
         model.put("city", sgr.getSubject().getIndividual().getAddress().getCity());
-        //model.put("id", sgr.getId());
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
         model.put("accountNumber", sgr.getAccountNumber());
@@ -293,12 +299,14 @@ public class EdemandeService implements IExternalProviderService {
         model.put("abroadInternshipSchoolCountry", sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry());
         model.put("distance", sgr.getDistance().toString());
         try {
-            model.put("msCodext",
-                    firstSending || sgr.getEdemandeId() == null ||
-                        sgr.getEdemandeId().trim().isEmpty() ? "" :
-                            parseData(edemandeClient.chargerDemande(psCodeTiers, sgr.getEdemandeId()).getChargerDemandeResponse().getReturn(), "//donneesDemande/Demande/msCodext"));
-            model.put("requestTypeCode", parseData(edemandeClient.chargerTypeDemande(null).getChargerTypeDemandeResponse().getReturn(), "//typeDemande/code"));
-            model.put("psCodeTiers", psCodeTiers);
+            model.put("msStatut", firstSending ? "" :
+                getRequestStatus(sgr, psCodeTiers));
+            model.put("millesime", firstSending ? "" :
+                parseData(requestData, "//donneesDemande/Demande/miMillesime"));
+            model.put("msCodext", firstSending ? "" :
+                parseData(requestData, "//donneesDemande/Demande/msCodext"));
+            model.put("requestTypeCode",
+                parseData(edemandeClient.chargerTypeDemande(null).getChargerTypeDemandeResponse().getReturn(), "//typeDemande/code"));
             model.put("address", parseAddress((String)model.get("psCodeTiers")));
             EnregistrerValiderFormulaireResponseDocument enregistrerValiderFormulaireResponseDocument = edemandeClient.enregistrerValiderFormulaire(model);
             if (!"0".equals(parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/codeRetour"))) {
@@ -445,21 +453,23 @@ public class EdemandeService implements IExternalProviderService {
     /**
      * Whether or not we have to send the request.
      * 
-     * @return true if the request does not have an ERROR and a SENT trace
+     * @return true if the request has no SENT trace (it has never been successfully sent)
+     * or it has no Edemande ID (it was sent and received, but rejected and must be sent as new)
      */
     private boolean mustSendNewRequest(StudyGrantRequest sgr) {
-        // FIXME BOR : why this check for an ERROR trace ?
-        return !externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.ERROR)
-            && !externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.SENT);
+        return !externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.SENT)
+            || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty();
     }
 
     /**
      * Whether or not we have to resend the request.
      * 
-     * @return true if the request has an ERROR trace not followed by a SENT trace
+     * @return true if the request has an Edemande ID (so it was already sent),
+     * and an ERROR trace not followed by a SENT trace
      */
     private boolean mustResendRequest(StudyGrantRequest sgr) {
-        if (!externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.ERROR)) {
+        if (!externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.ERROR)
+            || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()) {
             return false;
         }
         List<ExternalServiceTrace> traces = new ArrayList<ExternalServiceTrace>(
@@ -469,21 +479,20 @@ public class EdemandeService implements IExternalProviderService {
                 return o2.getDate().compareTo(o1.getDate());
             }
         });
-        // FIXME BOR : could be done in just one loop through the traces
-        int lastErrorIndex = 0;
-        for (int i = 0; i < traces.size(); i++) {
-            if (TraceStatusEnum.ERROR.equals(traces.get(i).getStatus())) {
-                lastErrorIndex = i;
-                break;
-            }
-        }
-        traces = traces.subList(0, lastErrorIndex);
         for (ExternalServiceTrace est : traces) {
-            if (TraceStatusEnum.SENT.equals(est)) {
+            if (TraceStatusEnum.SENT.equals(est.getStatus())) {
                 return false;
+            } else if (TraceStatusEnum.ERROR.equals(est.getStatus())) {
+                return true;
             }
         }
-        return true;
+        // we should never execute the next line :
+        // the above loop should have found a SENT trace and returned false,
+        // or found the ERROR trace that IS in the list
+        // (otherwise the first test would have succeded)
+        // however, for compilation issues (and an hypothetic concurrent traces deletion)
+        // we return false, to do nothing rather than doing something wrong
+        return false;
     }
 
     @Override

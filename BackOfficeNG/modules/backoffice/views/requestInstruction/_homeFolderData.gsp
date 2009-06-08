@@ -19,7 +19,7 @@
     <g:if test="${!homeFolder.adults.isEmpty()}">
       <h2>${message(code:'homeFolder.property.adults')}</h2>
       <g:each var="record" in="${homeFolder.adults}">
-        <dl>
+        <dl class="account">
           <dt>${record.title} ${record.fullName}</dt>
           <g:if test="${record.ownerRoles.homeFolder.size() > 0}">
             <dd>
@@ -58,7 +58,7 @@
     <g:if test="${!homeFolder.children.isEmpty()}">
       <h2>${message(code:'homeFolder.property.children')}</h2>
       <g:each var="record" in="${homeFolder.children}">
-        <dl>
+        <dl class="account">
           <dt>${record.fullName}</dt>
           <dd>
             ${message(code:'homeFolder.child.property.sex')} 

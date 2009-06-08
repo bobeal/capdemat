@@ -93,6 +93,7 @@ public class EdemandeService implements IExternalProviderService {
                     // If psCodeTiers was null, that would mean searchIndividual
                     // caught an exception while contacting eDemande, and
                     // has already added a NOT_SENT trace.
+                    // FIXME BOR : is this trace really needed ?
                     addTrace(sgr.getId(), TraceStatusEnum.IN_PROGRESS, 
                             "Le tiers n'est pas encore créé");
                 }
@@ -104,6 +105,7 @@ public class EdemandeService implements IExternalProviderService {
                         sgr.getSubject().getIndividual().getId(), psCodeTiers);
             }
         }
+        
         // reaching this code means we have a valid psCodeTiers (either because
         // it was already set since it is not the subject's first request, or because
         // searchIndividual returned the newly created tiers' psCodeTiers)
@@ -114,12 +116,14 @@ public class EdemandeService implements IExternalProviderService {
             if (psCodeDemande != null && !psCodeDemande.trim().isEmpty() && !"-1".equals(psCodeDemande)) {
                 sgr.setEdemandeId(psCodeDemande);
                 try {
+                    // FIXME BOR : better to call requestService.modify(...) for business logic reuse
                     requestService.setEdemandeId(sgr.getId(), psCodeDemande);
                 } catch (CvqException e) {
                     // TODO
                 }
             }
         }
+        
         // (Re)send request if needed
         if (mustSendNewRequest(sgr)) {
             submitRequest(sgr, psCodeTiers, true);
@@ -370,7 +374,7 @@ public class EdemandeService implements IExternalProviderService {
                 result.add(parseData(bankInformationsCheck, "//FluxWebService/erreur/message"));
             }
         } catch (CvqException e) {
-            result.add("Error contacting Edemande");
+            result.add("Impossible de contacter Edemande");
         }
         return result;
     }
@@ -438,11 +442,22 @@ public class EdemandeService implements IExternalProviderService {
             );
     }
 
+    /**
+     * Whether or not we have to send the request.
+     * 
+     * @return true if the request does not have an ERROR and a SENT trace
+     */
     private boolean mustSendNewRequest(StudyGrantRequest sgr) {
+        // FIXME BOR : why this check for an ERROR trace ?
         return !externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.ERROR)
             && !externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.SENT);
     }
 
+    /**
+     * Whether or not we have to resend the request.
+     * 
+     * @return true if the request has an ERROR trace not followed by a SENT trace
+     */
     private boolean mustResendRequest(StudyGrantRequest sgr) {
         if (!externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.ERROR)) {
             return false;
@@ -454,6 +469,7 @@ public class EdemandeService implements IExternalProviderService {
                 return o2.getDate().compareTo(o1.getDate());
             }
         });
+        // FIXME BOR : could be done in just one loop through the traces
         int lastErrorIndex = 0;
         for (int i = 0; i < traces.size(); i++) {
             if (TraceStatusEnum.ERROR.equals(traces.get(i).getStatus())) {

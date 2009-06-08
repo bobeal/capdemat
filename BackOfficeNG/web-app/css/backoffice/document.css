@@ -53,6 +53,12 @@
 /* for tag floating TODO : to be refactor */
 #requestDocumentPanel #documentMetaData .yui-content ul li span { float: right; }
 
+#requestDocumentPanel #documentMetaData .yui-content form { margin-bottom: 10px; }
+
+#requestDocumentPanel #documentMetaData .yui-content p.static-data      { overflow: auto; }
+#requestDocumentPanel #documentMetaData .yui-content p.static-data span { width: 35%; float: left; margin-left: 5px; padding-right:10px; text-align: right; }
+#requestDocumentPanel #documentMetaData .yui-content p.static-data em   { float: left; padding: .1em; font: italic 1.1em sans-serif; background: #fff; }
+
 
 /* Change state block 
  * -------------------------------------------------------------- */

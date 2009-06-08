@@ -30,9 +30,12 @@ class DocumentController {
         def result = [:], prevPage = null, nextPage = null, index = 0
         Document document
         if (params.sessionUuid == null || params.sessionUuid == "") 
-        	document = documentService.getById(Long.valueOf(params.id))
+        	  document = documentService.getById(Long.valueOf(params.id))
         else 
-        	document = documentAdaptorService.deserializeDocument(params.id, params.sessionUuid)
+        	  document = documentAdaptorService.deserializeDocument(params.id, params.sessionUuid)
+       
+        if (params.isRequestCreation)
+            result.isRequestCreation = true
         
         result.page = params.pn ? Integer.parseInt(params.pn) : 0
         result.actions = this.getActions(document)        

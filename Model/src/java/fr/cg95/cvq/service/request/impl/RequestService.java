@@ -52,11 +52,13 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestActionService;
+import fr.cg95.cvq.service.request.IRequestNotificationService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestTypeService;
@@ -100,10 +102,12 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     protected IRequestActionService requestActionService;
     protected IRequestTypeService requestTypeService;
     protected IRequestWorkflowService requestWorkflowService;
+    protected IRequestNotificationService requestNotificationService;
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     protected IMailService mailService;
     protected IExternalService externalService;
     protected IIndividualService individualService;
+    protected IAgentService agentService;
 
     protected IGenericDAO genericDAO;
     protected IRequestDAO requestDAO;
@@ -253,6 +257,9 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 	    }
 
         updateLastModificationInformation(request, null);
+        if (agentService.exists(userId)) {
+            requestNotificationService.notifyAgentNote(requestId, requestNote);
+        }
     }
 
     @Override
@@ -1200,5 +1207,13 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
     public void setBeanFactory(BeanFactory arg0) throws BeansException {
         this.beanFactory = (ListableBeanFactory) arg0;
+    }
+
+    public void setAgentService(IAgentService agentService) {
+        this.agentService = agentService;
+    }
+
+    public void setRequestNotificationService(IRequestNotificationService requestNotificationService) {
+        this.requestNotificationService = requestNotificationService;
     }
 }

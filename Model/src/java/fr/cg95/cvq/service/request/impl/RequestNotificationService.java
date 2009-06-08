@@ -1,10 +1,14 @@
 package fr.cg95.cvq.service.request.impl;
 
+import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestNote;
+import fr.cg95.cvq.business.request.RequestNoteType;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestNotificationService;
@@ -26,6 +30,7 @@ public class RequestNotificationService implements IRequestNotificationService {
     private IMailService mailService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private ILocalizationService localizationService;
+    private IAgentService agentService;
 
     private IRequestDAO requestDAO;
 
@@ -72,6 +77,24 @@ public class RequestNotificationService implements IRequestNotificationService {
         }
     }
 
+    public void notifyAgentNote(Long requestId, RequestNote note)
+        throws CvqException {
+        if (note.getType().equals(RequestNoteType.PUBLIC)) {
+            Request request = (Request) requestDAO.findById(Request.class, requestId);
+            Agent agent = agentService.getById(note.getUserId());
+            Adult requester = individualService.getAdultById(request.getRequesterId());
+            if (requester.getEmail() != null) {
+                mailService.send(request.getRequestType().getCategory().getPrimaryEmail(),
+                    requester.getEmail(), null,
+                    "[" + SecurityContext.getCurrentSite().getDisplayTitle() + "] " +
+                    "Une note a été ajoutée à votre demande",
+                    "L'agent " + agent.getFirstName() + " " + agent.getLastName() +
+                    "a ajouté la note suivante sur votre demande n°" + request.getId() + " :\n\n"
+                    + note.getNote());
+            }
+        }
+    }
+
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
     }
@@ -90,5 +113,9 @@ public class RequestNotificationService implements IRequestNotificationService {
 
     public void setMailService(IMailService mailService) {
         this.mailService = mailService;
+    }
+
+    public void setAgentService(IAgentService agentService) {
+        this.agentService = agentService;
     }
 }

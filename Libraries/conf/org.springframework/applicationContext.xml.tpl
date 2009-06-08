@@ -179,6 +179,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
     <property name="requestTypeService" ref="requestTypeService" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="agentService" ref="agentService" />
+    <property name="requestNotificationService" ref="requestNotificationService" />
   </bean>
   
   <bean id="defaultRequestService" class="fr.cg95.cvq.service.request.impl.DefaultRequestService" 
@@ -230,6 +232,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="individualService" ref="individualService"/>
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
     <property name="localizationService" ref="localizationService"/>
+    <property name="agentService" ref="agentService" />
   </bean>
 
   <bean id="requestStatisticsService" class="fr.cg95.cvq.service.request.impl.RequestStatisticsService">

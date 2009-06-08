@@ -225,12 +225,30 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<RequestNote> getNotes(final Long id, RequestNoteType type)
+    public List<RequestNote> getNotes(final Long requestId, RequestNoteType type)
         throws CvqException {
 
-        // TODO filter private notes one is not allowed to see
+        // filter private notes one is not allowed to see
         // (agent private notes when ecitizen, and vice-versa)
-        return requestNoteDAO.listByRequestAndType(id, type);
+        // TODO refactor this security filtering which doesn't look very robust
+        List<RequestNote> result = new ArrayList<RequestNote>();
+        List<RequestNote> notes = requestNoteDAO.listByRequestAndType(requestId, type);
+        for (RequestNote note : notes) {
+            if (!note.getType().equals(RequestNoteType.INTERNAL)
+                || (agentService.exists(note.getUserId())
+                    && SecurityContext.BACK_OFFICE_CONTEXT.equals(SecurityContext.getCurrentContext()))
+                || SecurityContext.FRONT_OFFICE_CONTEXT.equals(SecurityContext.getCurrentContext())) {
+                    result.add(note);
+            }
+        }
+        return result;
+    }
+
+    public RequestNote getLastNote(final Long requestId, RequestNoteType type)
+        throws CvqException {
+        List<RequestNote> notes = getNotes(requestId, type);
+        if (notes == null || notes.isEmpty()) return null;
+        return notes.get(notes.size() -1);
     }
 
     @Override

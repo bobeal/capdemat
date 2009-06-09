@@ -195,6 +195,8 @@ public interface IExternalService {
 
     ExternalServiceTrace getLastTrace(Long key, String label);
 
+    boolean hasTraceWithStatus(String key, String label, TraceStatusEnum status);
+
     boolean hasTraceWithStatus(Long key, String label, TraceStatusEnum status);
 
     void create(ExternalServiceTrace trace)

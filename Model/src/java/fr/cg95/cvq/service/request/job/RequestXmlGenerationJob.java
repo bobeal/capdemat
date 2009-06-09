@@ -79,7 +79,11 @@ public class RequestXmlGenerationJob {
     public String getXmlFileName(Long id) {
         return id + ".xml";
     }
-    
+
+    public String getXmlFileName(String key) {
+        return key + ".xml";
+    }
+
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
     }

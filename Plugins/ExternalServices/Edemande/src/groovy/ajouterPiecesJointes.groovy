@@ -1,6 +1,6 @@
 <ajoutPiecesJointes>
-  <msIdentifiantApsect>1239695907836</msIdentifiantApsect>
-  <msCodextApsect>EXTSUB</msCodextApsect>
+  <codeTiers>${psCodeTiers}</codeTiers>
+  <codeDemande>${psCodeDemande}</codeDemande>
   <codeTiers>${psCodeTiers}</codeTiers>
   <piecesjointes>
     <moDocument>

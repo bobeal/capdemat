@@ -30,7 +30,7 @@ public class ExternalServiceTracesTest extends ServiceTestCase {
             /* Tests entity creation */
             ExternalServiceTrace trace = new ExternalServiceTrace();
             
-            trace.setKey(2345L);
+            trace.setKey("2345");
             trace.setKeyOwner("MyOwner");
             trace.setMessage("No message");
             trace.setName("MyName");

@@ -132,7 +132,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                 est = new ExternalServiceTrace();
                 est.setDate(new Date());
                 est.setKeyOwner("capdemat");
-                est.setKey(request.getId());
+                est.setKey(String.valueOf(request.getId()));
                 est.setName(externalServiceLabel);
             }
             try {
@@ -681,13 +681,17 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return lastTrace;
     }
 
-    public boolean hasTraceWithStatus(Long key, String label, TraceStatusEnum status) {
+    public boolean hasTraceWithStatus(String key, String label, TraceStatusEnum status) {
         CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
         criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
         criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
         criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
         criteriasDescriptor.addSearch(new SimpleCriteria("status", BaseOperator.EQUALS, status.toString()));
         return !externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class).isEmpty();
+    }
+
+    public boolean hasTraceWithStatus(Long key, String label, TraceStatusEnum status) {
+        return hasTraceWithStatus(String.valueOf(key), label, status);
     }
 
     public void create(ExternalServiceTrace trace)

@@ -122,12 +122,22 @@ public class EdemandeService implements IExternalProviderService {
                 }
             }
         }
-        
         // (Re)send request if needed
         if (mustSendNewRequest(sgr)) {
             submitRequest(sgr, psCodeTiers, true);
         } else if (mustResendRequest(sgr)) {
             submitRequest(sgr, psCodeTiers, false);
+        }
+        // send documents if needed
+        try {
+            for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
+                Document document = documentService.getById(requestDoc.getDocumentId());
+                if (mustSendDocument(sgr, document)) {
+                    submitDocument(sgr, psCodeTiers, document);
+                }
+            }
+        } catch (CvqException e) {
+            // TODO
         }
         // check request status
         String msStatut = getRequestStatus(sgr, psCodeTiers);
@@ -164,7 +174,7 @@ public class EdemandeService implements IExternalProviderService {
     private void addTrace(Long requestId, TraceStatusEnum status, String message) {
         ExternalServiceTrace est = new ExternalServiceTrace();
         est.setDate(new Date());
-        est.setKey(requestId);
+        est.setKey(String.valueOf(requestId));
         est.setKeyOwner("capdemat");
         est.setMessage(message);
         est.setName(label);
@@ -185,6 +195,21 @@ public class EdemandeService implements IExternalProviderService {
             } catch (CvqException e) {
                 // TODO
             }
+        }
+    }
+
+    private void addDocumentTrace(Long requestId, Long documentId) {
+        ExternalServiceTrace est = new ExternalServiceTrace();
+        est.setDate(new Date());
+        est.setKey(requestId + "-" + documentId);
+        est.setKeyOwner("capdemat");
+        est.setName(label);
+        est.setStatus(TraceStatusEnum.SENT);
+        try {
+            externalService.create(est);
+        } catch (CvqPermissionException e) {
+            // should never happen
+            e.printStackTrace();
         }
     }
 
@@ -312,30 +337,32 @@ public class EdemandeService implements IExternalProviderService {
             if (!"0".equals(parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/codeRetour"))) {
                 addTrace(sgr.getId(), TraceStatusEnum.ERROR, parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/messageRetour"));
             } else {
-                boolean errorOnDocument = false;
-                for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
-                    Document doc = documentService.getById(requestDoc.getDocumentId());
-                    // put the file on the remote ftp server
-                    ;
-                    // send it to edemande
-                    model.put("filename", StringUtils.arrayToDelimitedString(new String[]{"CapDemat", doc.getDocumentType().getName(), String.valueOf(sgr.getId())}, "-"));
-                    //model.put("remotePath", );
-                    model.put("description", doc.getDocumentType().getName());
-                    model.put("binaryData", new String(Base64.encodeBase64Chunked(doc.getDatas().get(0).getData())));
-                    AjouterPiecesJointesResponseDocument response = edemandeClient.ajouterPiecesJointes(model);
-                    if (!"0".equals(parseData(response.getAjouterPiecesJointesResponse().getReturn(), "//Retour/codeRetour"))) {
-                        addTrace(sgr.getId(), TraceStatusEnum.ERROR, parseData(response.getAjouterPiecesJointesResponse().getReturn(), "//Retour/messageRetour"));
-                        errorOnDocument = true;
-                        break;
-                    }
-                }
-                if (!errorOnDocument) {
-                    addTrace(sgr.getId(), TraceStatusEnum.SENT, "Demande transmise");
-                }
+                addTrace(sgr.getId(), TraceStatusEnum.SENT, "Demande transmise");
             }
         } catch (CvqException e) {
             e.printStackTrace();
             addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
+        }
+    }
+
+    private void submitDocument(StudyGrantRequest sgr, String psCodeTiers, Document document) {
+        Map<String, Object> model = new HashMap<String, Object>();
+        // put the file on the remote ftp server
+        ;
+        // send it to edemande
+        model.put("psCodeTiers", psCodeTiers);
+        model.put("psCodeDemande", sgr.getEdemandeId());
+        model.put("filename", StringUtils.arrayToDelimitedString(new String[]{"CapDemat", document.getDocumentType().getName(), String.valueOf(sgr.getId())}, "-"));
+        //model.put("remotePath", );
+        model.put("description", document.getDocumentType().getName());
+        model.put("binaryData", new String(Base64.encodeBase64Chunked(document.getDatas().get(0).getData())));
+        try {
+            AjouterPiecesJointesResponseDocument response = edemandeClient.ajouterPiecesJointes(model);
+            if ("0".equals(parseData(response.getAjouterPiecesJointesResponse().getReturn(), "//Retour/codeRetour"))) {
+                addDocumentTrace(sgr.getId(), document.getId());
+            }
+        } catch (CvqException e) {
+            e.printStackTrace();
         }
     }
 
@@ -493,6 +520,12 @@ public class EdemandeService implements IExternalProviderService {
         // however, for compilation issues (and an hypothetic concurrent traces deletion)
         // we return false, to do nothing rather than doing something wrong
         return false;
+    }
+
+    private boolean mustSendDocument(StudyGrantRequest sgr, Document document) {
+        return sgr.getEdemandeId() != null && !sgr.getEdemandeId().trim().isEmpty()
+            && !externalService.hasTraceWithStatus(sgr.getId() + "-" + document.getId(),
+            label, TraceStatusEnum.SENT);
     }
 
     @Override

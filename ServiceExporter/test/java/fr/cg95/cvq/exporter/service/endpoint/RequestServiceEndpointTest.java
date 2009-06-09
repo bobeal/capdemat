@@ -229,7 +229,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             ExternalServiceTrace trace = externalService.getTraces(null, null, TraceStatusEnum.ERROR, null, null)
                 .iterator().next();
             
-            Assert.assertEquals((long)trace.getKey(), 2347L);
+            Assert.assertEquals(trace.getKey(), "2347");
             Assert.assertEquals(trace.getKeyOwner(),"capdemat");
             Assert.assertEquals(trace.getStatus(), TraceStatusEnum.ERROR);
             

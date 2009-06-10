@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,11 +53,13 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestActionService;
+import fr.cg95.cvq.service.request.IRequestNotificationService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestTypeService;
@@ -100,10 +103,12 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     protected IRequestActionService requestActionService;
     protected IRequestTypeService requestTypeService;
     protected IRequestWorkflowService requestWorkflowService;
+    protected IRequestNotificationService requestNotificationService;
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     protected IMailService mailService;
     protected IExternalService externalService;
     protected IIndividualService individualService;
+    protected IAgentService agentService;
 
     protected IGenericDAO genericDAO;
     protected IRequestDAO requestDAO;
@@ -221,12 +226,46 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<RequestNote> getNotes(final Long id, RequestNoteType type)
+    public List<RequestNote> getNotes(final Long requestId, RequestNoteType type)
         throws CvqException {
 
-        // TODO filter private notes one is not allowed to see
+        // filter private notes one is not allowed to see
         // (agent private notes when ecitizen, and vice-versa)
-        return requestNoteDAO.listByRequestAndType(id, type);
+        // TODO refactor this security filtering which doesn't look very robust
+        List<RequestNote> result = new ArrayList<RequestNote>();
+        List<RequestNote> notes = requestNoteDAO.listByRequestAndType(requestId, type);
+        boolean isAgentNote;
+        for (RequestNote note : notes) {
+            isAgentNote = agentService.exists(note.getUserId());
+            if (!note.getType().equals(RequestNoteType.INTERNAL)
+                || (isAgentNote
+                    && SecurityContext.BACK_OFFICE_CONTEXT.equals(SecurityContext.getCurrentContext()))
+                || (!isAgentNote
+                    && SecurityContext.FRONT_OFFICE_CONTEXT.equals(SecurityContext.getCurrentContext()))) {
+                    result.add(note);
+            }
+        }
+        return result;
+    }
+
+    public RequestNote getLastNote(final Long requestId, RequestNoteType type)
+        throws CvqException {
+        List<RequestNote> notes = getNotes(requestId, type);
+        if (notes == null || notes.isEmpty()) return null;
+        return notes.get(notes.size() -1);
+    }
+
+    public RequestNote getLastAgentNote(final Long requestId, RequestNoteType type)
+        throws CvqException {
+        List<RequestNote> notes = getNotes(requestId, type);
+        if (notes == null || notes.isEmpty()) return null;
+        Collections.reverse(notes);
+        for (RequestNote note : notes) {
+            if (agentService.exists(note.getUserId())) {
+                return note;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -253,6 +292,9 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 	    }
 
         updateLastModificationInformation(request, null);
+        if (agentService.exists(userId)) {
+            requestNotificationService.notifyAgentNote(requestId, requestNote);
+        }
     }
 
     @Override
@@ -1201,5 +1243,13 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
     public void setBeanFactory(BeanFactory arg0) throws BeansException {
         this.beanFactory = (ListableBeanFactory) arg0;
+    }
+
+    public void setAgentService(IAgentService agentService) {
+        this.agentService = agentService;
+    }
+
+    public void setRequestNotificationService(IRequestNotificationService requestNotificationService) {
+        this.requestNotificationService = requestNotificationService;
     }
 }

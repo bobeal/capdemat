@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.DataState;
@@ -226,6 +227,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         requestService.onRequestValidated(request);
 
         validateXmlData(request.modelToXml());
+        List<String> externalCheckErrors = externalService.checkExternalReferential(request);
+        if (!externalCheckErrors.isEmpty()) {
+            throw new CvqException(StringUtils.join(externalCheckErrors.iterator(), '\n'));
+        }
 
         logger.debug("validate() Gonna generate a pdf of the request");
         byte[] pdfData = certificateService.generateRequestCertificate(request);

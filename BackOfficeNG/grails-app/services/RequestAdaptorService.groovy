@@ -1,3 +1,4 @@
+import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.service.request.IRequestTypeService
 
 class RequestAdaptorService {
@@ -39,7 +40,7 @@ class RequestAdaptorService {
                 'subjectFirstName': request.subjectFirstName,
                 'state':request.state.toString(),
                 'lastModificationDate':request.lastModificationDate,
-                'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId) ,
+                'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId)
         ]
     }
 
@@ -50,5 +51,23 @@ class RequestAdaptorService {
         }
         
         return requests
+    }
+
+    public prepareNote(requestNote) {
+        if (!requestNote) return null
+        def user = instructionService.getActionPosterDetails(requestNote.userId, true)
+        return [
+            'id':requestNote.id,
+            'user_name':user.displayName,
+            'nature':user.nature,
+            'type':requestNote.type,
+            'note':requestNote.note,
+            'date':requestNote.date
+        ]
+    }
+
+    public prepareNotes(requestNotes) {
+        if (!requestNotes) requestNotes = []
+        return requestNotes.collect{ prepareNote(it) }
     }
 }

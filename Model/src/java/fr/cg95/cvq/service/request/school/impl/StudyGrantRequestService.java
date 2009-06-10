@@ -36,6 +36,8 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
 
     public void setEdemandeId(Long requestId, String edemandeId)
         throws CvqException {
-        ((StudyGrantRequest)getById(requestId)).setEdemandeId(edemandeId);
+        StudyGrantRequest request = (StudyGrantRequest)getById(requestId);
+        request.setEdemandeId(edemandeId);
+        modify(request);
     }
 }

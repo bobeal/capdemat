@@ -16,7 +16,7 @@ public class ExternalServiceTrace implements Serializable {
     /**
      * Identifier used by the key owner to retrieve data.
      */
-    Long key;
+    String key;
     /**
      * Owner of the key, typically an application, eg CapDemat.
      */
@@ -37,7 +37,7 @@ public class ExternalServiceTrace implements Serializable {
     public ExternalServiceTrace() {
     }
     
-    public ExternalServiceTrace(Date date, Long id, Long key, String keyOwner, String message,
+    public ExternalServiceTrace(Date date, Long id, String key, String keyOwner, String message,
             String name, TraceStatusEnum status) {
         super();
         this.date = date;
@@ -70,7 +70,7 @@ public class ExternalServiceTrace implements Serializable {
      * @hibernate.property
      *  column="key"
      */
-    public Long getKey() {
+    public String getKey() {
         return key;
     }
     
@@ -114,7 +114,7 @@ public class ExternalServiceTrace implements Serializable {
         this.id = id;
     }
     
-    public void setKey(Long key) {
+    public void setKey(String key) {
         this.key = key;
     }
     

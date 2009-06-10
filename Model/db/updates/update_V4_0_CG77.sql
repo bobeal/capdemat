@@ -80,7 +80,6 @@ alter table request_note add column date timestamp;
 update request_note set type = 'Internal' where type like '%Internal';
 update request_note set type = 'Public' where type like '%External' or type like 'Default%';
 
-
 -- study grant request local referential
 alter table study_grant_request drop column current_school_name;
 alter table study_grant_request drop column tax_household_city;
@@ -119,4 +118,6 @@ alter table study_grant_request_tax_household_city
     foreign key (study_grant_request_id) 
     references study_grant_request;
 
+
+alter table external_service_traces alter column key type character varying(255);
 

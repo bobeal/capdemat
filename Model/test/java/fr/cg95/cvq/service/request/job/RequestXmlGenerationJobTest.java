@@ -70,9 +70,9 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
             id3 = this.creationBean.getRequestId();
             SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
             
-            this.externalService.addTrace(new ExternalServiceTrace(null, null, id1,null, null, 
+            this.externalService.addTrace(new ExternalServiceTrace(null, null, String.valueOf(id1),null, null, 
                     "MyName",TraceStatusEnum.SENT));
-            this.externalService.addTrace(new ExternalServiceTrace(null, null, id2, null, null, 
+            this.externalService.addTrace(new ExternalServiceTrace(null, null, String.valueOf(id2), null, null, 
                     "MyName", TraceStatusEnum.ACKNOWLEDGED));
             this.continueWithNewTransaction();
             
@@ -104,7 +104,7 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
             assertTrue(file.exists());
             
             ExternalServiceTrace trace = new ExternalServiceTrace();
-            trace.setKey(this.creationBean.getRequestId());
+            trace.setKey(String.valueOf(this.creationBean.getRequestId()));
             trace.setKeyOwner("capdemat");
             trace.setName("MyName");
             trace.setStatus(TraceStatusEnum.ACKNOWLEDGED);

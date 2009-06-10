@@ -27,8 +27,10 @@
 
   
     <label class="required"><g:message code="sgr.property.taxHouseholdCity.label" /> *  <span><g:message code="sgr.property.taxHouseholdCity.help" /></span></label>
-            <input type="text" name="taxHouseholdCity" value="${rqt.taxHouseholdCity}" 
-                    class="required  validate-city" title="<g:message code="sgr.property.taxHouseholdCity.validationError" />"  maxLength="32"/>
+            <g:set var="taxHouseholdCityIndex" value="${0}" scope="flash" />
+            <g:render template="/frontofficeRequestType/widget/localReferentialData" 
+                      model="['javaName':'taxHouseholdCity', 'i18nPrefixCode':'sgr.property.taxHouseholdCity', 'htmlClass':'required  ', 
+                              'lrEntries': lrTypes.taxHouseholdCity.entries, 'depth':0]" />
             
 
   

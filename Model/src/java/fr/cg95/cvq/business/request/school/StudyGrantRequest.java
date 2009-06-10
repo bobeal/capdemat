@@ -95,12 +95,32 @@ public class StudyGrantRequest extends Request implements Serializable {
         if (this.hasCROUSHelp != null)
             studyGrantRequest.setHasCROUSHelp(this.hasCROUSHelp.booleanValue());
         subjectInformationsTypeSubjectInformations.setSubjectEmail(this.subjectEmail);
-        sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolName(this.currentSchoolName);
+        int i = 0;
+        if (currentSchoolName != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] currentSchoolNameTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[currentSchoolName.size()];
+            Iterator currentSchoolNameIt = currentSchoolName.iterator();
+            while (currentSchoolNameIt.hasNext()) {
+                LocalReferentialData object = (LocalReferentialData) currentSchoolNameIt.next();
+                currentSchoolNameTypeTab[i] = LocalReferentialData.modelToXml(object);
+                i = i + 1;
+            }
+            studyGrantRequest.setCurrentSchoolNameArray(currentSchoolNameTypeTab);
+        }
         if (this.sandwichCourses != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setSandwichCourses(this.sandwichCourses.booleanValue());
         if (this.abroadInternshipSchoolCountry != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(this.abroadInternshipSchoolCountry.toString()));
-        studyGrantRequest.setTaxHouseholdCity(this.taxHouseholdCity);
+        i = 0;
+        if (taxHouseholdCity != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] taxHouseholdCityTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[taxHouseholdCity.size()];
+            Iterator taxHouseholdCityIt = taxHouseholdCity.iterator();
+            while (taxHouseholdCityIt.hasNext()) {
+                LocalReferentialData object = (LocalReferentialData) taxHouseholdCityIt.next();
+                taxHouseholdCityTypeTab[i] = LocalReferentialData.modelToXml(object);
+                i = i + 1;
+            }
+            studyGrantRequest.setTaxHouseholdCityArray(taxHouseholdCityTypeTab);
+        }
         if (this.abroadInternship != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternship(this.abroadInternship.booleanValue());
         studyGrantRequest.setTaxHouseholdLastName(this.taxHouseholdLastName);
@@ -174,13 +194,25 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequest.setCurrentSchoolCity(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCity());
         studyGrantRequest.setHasCROUSHelp(Boolean.valueOf(studyGrantRequestXml.getHasCROUSHelp()));
         studyGrantRequest.setSubjectEmail(studyGrantRequestXml.getSubjectInformations().getSubjectEmail());
-        studyGrantRequest.setCurrentSchoolName(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolName());
+        List<fr.cg95.cvq.business.users.LocalReferentialData> currentSchoolNameList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        if ( studyGrantRequestXml.sizeOfCurrentSchoolNameArray() > 0) {
+            for (int i = 0; i < studyGrantRequestXml.getCurrentSchoolNameArray().length; i++) {
+                currentSchoolNameList.add(LocalReferentialData.xmlToModel(studyGrantRequestXml.getCurrentSchoolNameArray(i)));
+            }
+        }
+        studyGrantRequest.setCurrentSchoolName(currentSchoolNameList);
         studyGrantRequest.setSandwichCourses(Boolean.valueOf(studyGrantRequestXml.getCurrentStudiesInformations().getSandwichCourses()));
         if (studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry() != null)
             studyGrantRequest.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry().toString()));
         else
             studyGrantRequest.setAbroadInternshipSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
-        studyGrantRequest.setTaxHouseholdCity(studyGrantRequestXml.getTaxHouseholdCity());
+        List<fr.cg95.cvq.business.users.LocalReferentialData> taxHouseholdCityList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        if ( studyGrantRequestXml.sizeOfTaxHouseholdCityArray() > 0) {
+            for (int i = 0; i < studyGrantRequestXml.getTaxHouseholdCityArray().length; i++) {
+                taxHouseholdCityList.add(LocalReferentialData.xmlToModel(studyGrantRequestXml.getTaxHouseholdCityArray(i)));
+            }
+        }
+        studyGrantRequest.setTaxHouseholdCity(taxHouseholdCityList);
         studyGrantRequest.setAbroadInternship(Boolean.valueOf(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternship()));
         studyGrantRequest.setTaxHouseholdLastName(studyGrantRequestXml.getTaxHouseholdLastName());
         studyGrantRequest.setAccountNumber(studyGrantRequestXml.getAccountNumber());
@@ -442,18 +474,28 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.subjectEmail;
     }
 
-    private String currentSchoolName;
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> currentSchoolName;
 
-    public final void setCurrentSchoolName(final String currentSchoolName) {
+    public final void setCurrentSchoolName(final List<fr.cg95.cvq.business.users.LocalReferentialData> currentSchoolName) {
         this.currentSchoolName = currentSchoolName;
     }
 
 
     /**
-     * @hibernate.property
-     *  column="current_school_name"
+     * @hibernate.list
+     *  inverse="false"
+     *  lazy="false"
+     *  cascade="all"
+     *  table="study_grant_request_current_school_name"
+     * @hibernate.key
+     *  column="study_grant_request_id"
+     * @hibernate.list-index
+     *  column="current_school_name_index"
+     * @hibernate.many-to-many
+     *  column="current_school_name_id"
+     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      */
-    public final String getCurrentSchoolName() {
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getCurrentSchoolName() {
         return this.currentSchoolName;
     }
 
@@ -487,19 +529,28 @@ public class StudyGrantRequest extends Request implements Serializable {
         return this.abroadInternshipSchoolCountry;
     }
 
-    private String taxHouseholdCity;
+    private List<fr.cg95.cvq.business.users.LocalReferentialData> taxHouseholdCity;
 
-    public final void setTaxHouseholdCity(final String taxHouseholdCity) {
+    public final void setTaxHouseholdCity(final List<fr.cg95.cvq.business.users.LocalReferentialData> taxHouseholdCity) {
         this.taxHouseholdCity = taxHouseholdCity;
     }
 
 
     /**
-     * @hibernate.property
-     *  column="tax_household_city"
-     *  length="32"
+     * @hibernate.list
+     *  inverse="false"
+     *  lazy="false"
+     *  cascade="all"
+     *  table="study_grant_request_tax_household_city"
+     * @hibernate.key
+     *  column="study_grant_request_id"
+     * @hibernate.list-index
+     *  column="tax_household_city_index"
+     * @hibernate.many-to-many
+     *  column="tax_household_city_id"
+     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
      */
-    public final String getTaxHouseholdCity() {
+    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getTaxHouseholdCity() {
         return this.taxHouseholdCity;
     }
 

@@ -71,14 +71,9 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
         request.setCurrentSchoolCity("CurrentSchoolCity");
                 request.setHasCROUSHelp(Boolean.valueOf(true));
                 request.setSubjectEmail("SubjectEmail");
-                    request.setCurrentSchoolName("CurrentSchoolName");
-                request.setSandwichCourses(Boolean.valueOf(true));
+                        request.setSandwichCourses(Boolean.valueOf(true));
               request.setAbroadInternshipSchoolCountry(CountryType.UNKNOWN);
-                  if ("TaxHouseholdCity".length() > 32)
-        request.setTaxHouseholdCity("TaxHouseholdCity".substring(0, 32));
-      else
-        request.setTaxHouseholdCity("TaxHouseholdCity");
-                request.setAbroadInternship(Boolean.valueOf(true));
+                        request.setAbroadInternship(Boolean.valueOf(true));
               if ("TaxHouseholdLastName".length() > 38)
         request.setTaxHouseholdLastName("TaxHouseholdLastName".substring(0, 38));
       else

@@ -79,3 +79,44 @@ alter table request_note add column date timestamp;
 
 update request_note set type = 'Internal' where type like '%Internal';
 update request_note set type = 'Public' where type like '%External' or type like 'Default%';
+
+
+-- study grant request local referential
+alter table study_grant_request drop column current_school_name;
+alter table study_grant_request drop column tax_household_city;
+
+create table study_grant_request_current_school_name (
+    study_grant_request_id int8 not null,
+    current_school_name_id int8 not null,
+    current_school_name_index int4 not null,
+    primary key (study_grant_request_id, current_school_name_index)
+);
+
+create table study_grant_request_tax_household_city (
+    study_grant_request_id int8 not null,
+    tax_household_city_id int8 not null,
+    tax_household_city_index int4 not null,
+    primary key (study_grant_request_id, tax_household_city_index)
+);
+
+alter table study_grant_request_current_school_name 
+    add constraint FK49484F67C1B15A77 
+    foreign key (study_grant_request_id) 
+    references study_grant_request;
+
+alter table study_grant_request_current_school_name 
+    add constraint FK49484F674E42238A 
+    foreign key (current_school_name_id) 
+    references local_referential_data;
+
+alter table study_grant_request_tax_household_city 
+    add constraint FK1B568948A40092FB 
+    foreign key (tax_household_city_id) 
+    references local_referential_data;
+
+alter table study_grant_request_tax_household_city 
+    add constraint FK1B568948C1B15A77 
+    foreign key (study_grant_request_id) 
+    references study_grant_request;
+
+

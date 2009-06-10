@@ -75,7 +75,12 @@
     
       
       <dl>
-        <dt><g:message code="sgr.property.taxHouseholdCity.label" /></dt><dd>${rqt.taxHouseholdCity}</dd>
+        <dt><g:message code="sgr.property.taxHouseholdCity.label" /></dt>
+          <dd>
+          <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
+                    model="['javaName':'taxHouseholdCity', 'lrEntries': lrTypes.taxHouseholdCity.entries, 'depth':0]" />
+          </dd>
+          
 
       </dl>
       
@@ -153,11 +158,20 @@
       
     
       
+      <dl>
+        <dt><g:message code="sgr.property.currentSchoolName.label" /></dt>
+          <dd>
+          <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
+                    model="['javaName':'currentSchoolName', 'lrEntries': lrTypes.currentSchoolName.entries, 'depth':0]" />
+          </dd>
+          
+
+      </dl>
+      
+    
+      
       <h4><g:message code="sgr.property.currentSchool.label" /></h4>
       <dl>
-        
-          <dt><g:message code="sgr.property.currentSchoolName.label" /></dt><dd>${rqt.currentSchoolName}</dd>
-
         
           <dt><g:message code="sgr.property.currentSchoolPostalCode.label" /></dt><dd>${rqt.currentSchoolPostalCode}</dd>
 

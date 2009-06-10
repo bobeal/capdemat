@@ -25,14 +25,18 @@
   
 
   
-    <fieldset class="required">
-    <legend><g:message code="sgr.property.currentSchool.label" /></legend>
-    
-      <label class="required"><g:message code="sgr.property.currentSchoolName.label" /> *  <span><g:message code="sgr.property.currentSchoolName.help" /></span></label>
-            <input type="text" name="currentSchoolName" value="${rqt.currentSchoolName}" 
-                    class="required  validate-string" title="<g:message code="sgr.property.currentSchoolName.validationError" />"  />
+    <label class="required"><g:message code="sgr.property.currentSchoolName.label" /> *  <span><g:message code="sgr.property.currentSchoolName.help" /></span></label>
+            <g:set var="currentSchoolNameIndex" value="${0}" scope="flash" />
+            <g:render template="/frontofficeRequestType/widget/localReferentialData" 
+                      model="['javaName':'currentSchoolName', 'i18nPrefixCode':'sgr.property.currentSchoolName', 'htmlClass':'required  ', 
+                              'lrEntries': lrTypes.currentSchoolName.entries, 'depth':0]" />
             
 
+  
+
+  
+    <fieldset class="required">
+    <legend><g:message code="sgr.property.currentSchool.label" /></legend>
     
       <label class="required"><g:message code="sgr.property.currentSchoolPostalCode.label" /> *  <span><g:message code="sgr.property.currentSchoolPostalCode.help" /></span></label>
             <input type="text" name="currentSchoolPostalCode" value="${rqt.currentSchoolPostalCode}" 

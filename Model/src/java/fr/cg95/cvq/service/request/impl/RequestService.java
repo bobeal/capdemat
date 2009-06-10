@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -233,11 +234,14 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         // TODO refactor this security filtering which doesn't look very robust
         List<RequestNote> result = new ArrayList<RequestNote>();
         List<RequestNote> notes = requestNoteDAO.listByRequestAndType(requestId, type);
+        boolean isAgentNote;
         for (RequestNote note : notes) {
+            isAgentNote = agentService.exists(note.getUserId());
             if (!note.getType().equals(RequestNoteType.INTERNAL)
-                || (agentService.exists(note.getUserId())
+                || (isAgentNote
                     && SecurityContext.BACK_OFFICE_CONTEXT.equals(SecurityContext.getCurrentContext()))
-                || SecurityContext.FRONT_OFFICE_CONTEXT.equals(SecurityContext.getCurrentContext())) {
+                || (!isAgentNote
+                    && SecurityContext.FRONT_OFFICE_CONTEXT.equals(SecurityContext.getCurrentContext()))) {
                     result.add(note);
             }
         }
@@ -249,6 +253,19 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         List<RequestNote> notes = getNotes(requestId, type);
         if (notes == null || notes.isEmpty()) return null;
         return notes.get(notes.size() -1);
+    }
+
+    public RequestNote getLastAgentNote(final Long requestId, RequestNoteType type)
+        throws CvqException {
+        List<RequestNote> notes = getNotes(requestId, type);
+        if (notes == null || notes.isEmpty()) return null;
+        Collections.reverse(notes);
+        for (RequestNote note : notes) {
+            if (agentService.exists(note.getUserId())) {
+                return note;
+            }
+        }
+        return null;
     }
 
     @Override

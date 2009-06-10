@@ -60,6 +60,7 @@ class RequestInstructionController {
     def instructionService
     def documentAdaptorService
     def homeFolderAdaptorService
+    def requestAdaptorService
     def pdfService
     def defaultAction = "edit"
 
@@ -511,24 +512,13 @@ class RequestInstructionController {
     }
 
     def requestNotes = {
-        def requestNotes = defaultRequestService.getNotes(Long.valueOf(params.id),
-            RequestNoteType.forString(params.type))
-        def requestNoteList = []
-        requestNotes.each {
-            def user = instructionService.getActionPosterDetails(it.userId, true)
-            def requestNote = [
-               'id':it.id,
-               'user_name':user.displayName,
-               'nature':user.nature,
-               'type':it.type,
-               'note':it.note,
-               'date':it.date
-            ]
-            requestNoteList.add(requestNote)
-        }
-        render(template:'requestNotes', model:['requestNoteList':requestNoteList,
-            'requestNoteTypes' : RequestNoteType.allRequestNoteTypes.collect{CapdematUtils.adaptCapdematEnum(it, "request.note.type")},
-            'currentType' : params.type, 'requestId':params.id])
+        render(template : 'requestNotes',
+               model : ['requestNoteList' : requestAdaptorService.prepareNotes(
+                            defaultRequestService.getNotes(Long.valueOf(params.id),
+                            RequestNoteType.forString(params.type))),
+                        'requestNoteTypes' : RequestNoteType.allRequestNoteTypes.collect{
+                            CapdematUtils.adaptCapdematEnum(it, "request.note.type")},
+                        'currentType' : params.type, 'requestId' : params.id])
     }
 
     def requestNote = {

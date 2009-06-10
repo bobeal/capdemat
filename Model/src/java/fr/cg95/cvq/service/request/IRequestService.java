@@ -237,6 +237,12 @@ public interface IRequestService {
         throws CvqException;
 
     /**
+     * Get the last readable note written by an agent (of this type, if not null).
+     */
+    RequestNote getLastAgentNote(@IsRequest final Long requestId, final RequestNoteType type)
+        throws CvqException;
+
+    /**
      * Add a note to a request.
      *
      * @param requestId the request to which note has to be added

@@ -155,17 +155,25 @@ public interface IExternalService {
     Set<ExternalServiceIdentifierMapping> getIdentifiersMappings(final String externalServiceLabel);
     
     Long addTrace(ExternalServiceTrace trace) throws CvqPermissionException;
-    
+
     Set<ExternalServiceTrace> getTraces(Long key, String name, 
             TraceStatusEnum status, Date dateFrom, Date dateTo);
 
+    Set<ExternalServiceTrace> getTraces(String key, String name,
+            TraceStatusEnum status, Date dateFrom, Date dateTo);
+
     Set<ExternalServiceTrace> getTraces(Long key, String label);
+
+    Set<ExternalServiceTrace> getTraces(String key, String label);
 
     Set<ExternalServiceTrace> getTracesByStatus(TraceStatusEnum status);
     
     Set<Long> getTraceKeysByStatus(Set<Long> ids, Set<String> statuses);
     
     int deleteTraces(Long key, String keyOwner) 
+        throws CvqPermissionException, CvqObjectNotFoundException;
+
+    int deleteTraces(String key, String keyOwner)
         throws CvqPermissionException, CvqObjectNotFoundException;
     
     int deleteTraces(String name) throws CvqPermissionException, CvqObjectNotFoundException;
@@ -194,6 +202,8 @@ public interface IExternalService {
             String externalId);
 
     ExternalServiceTrace getLastTrace(Long key, String label);
+
+    ExternalServiceTrace getLastTrace(String key, String label);
 
     boolean hasTraceWithStatus(String key, String label, TraceStatusEnum status);
 

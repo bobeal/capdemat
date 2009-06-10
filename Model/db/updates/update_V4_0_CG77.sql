@@ -79,3 +79,5 @@ alter table request_note add column date timestamp;
 
 update request_note set type = 'Internal' where type like '%Internal';
 update request_note set type = 'Public' where type like '%External' or type like 'Default%';
+
+alter table external_service_traces alter column key type character varying(255);

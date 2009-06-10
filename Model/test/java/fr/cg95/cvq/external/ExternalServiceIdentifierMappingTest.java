@@ -125,7 +125,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         esimFromDb = 
             externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
         assertNull(esimFromDb);
-        assertEquals(0, externalService.getTraces(null, null, null, null, null).size());
+        assertEquals(0, externalService.getTraces((String)null, null, null, null, null).size());
     }
     
     public void testGet() throws CvqException {
@@ -200,7 +200,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         esimFromDb = 
             externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
         assertNull(esimFromDb);        
-        assertEquals(0, externalService.getTraces(null, null, null, null, null).size());
+        assertEquals(0, externalService.getTraces((String)null, null, null, null, null).size());
     }
     
     public void testIdentifiersIntroduction() throws CvqException {
@@ -260,6 +260,6 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
 
         continueWithNewTransaction();
 
-        assertEquals(0, externalService.getTraces(null, null, null, null, null).size());
+        assertEquals(0, externalService.getTraces((String)null, null, null, null, null).size());
     }
 }

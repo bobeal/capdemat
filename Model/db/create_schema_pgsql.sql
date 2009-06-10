@@ -1027,7 +1027,7 @@
     create table external_service_traces (
         id int8 not null,
         date timestamp,
-        key int8,
+        key varchar(255),
         key_owner varchar(255),
         message varchar(255),
         name varchar(255),

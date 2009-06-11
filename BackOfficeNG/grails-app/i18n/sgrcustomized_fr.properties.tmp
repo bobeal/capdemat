@@ -46,11 +46,11 @@ sgr.property.taxHouseholdLastName.validationError =
 sgr.property.taxHouseholdFirstName.help =
 sgr.property.taxHouseholdFirstName.validationError =
 
-sgr.property.taxHouseholdPostalCode.help =
-sgr.property.taxHouseholdPostalCode.validationError =
-
 sgr.property.taxHouseholdCity.help =
 sgr.property.taxHouseholdCity.validationError =
+
+sgr.property.taxHouseholdCityPrecision.help =
+sgr.property.taxHouseholdCityPrecision.validationError =
 
 sgr.property.taxHouseholdIncome.help =
 sgr.property.taxHouseholdIncome.validationError =
@@ -67,20 +67,14 @@ sgr.property.hasEuropeHelp.validationError =
 sgr.property.hasOtherHelp.help =
 sgr.property.hasOtherHelp.validationError =
 
-sgr.property.aLevelsInformations.help =
-sgr.property.aLevelsInformations.validationError =
-
-sgr.property.alevelsDate.help =
-sgr.property.alevelsDate.validationError =
-
-sgr.property.alevels.help =
-sgr.property.alevels.validationError =
+sgr.property.currentSchoolName.help =
+sgr.property.currentSchoolName.validationError =
 
 sgr.property.currentSchool.help =
 sgr.property.currentSchool.validationError =
 
-sgr.property.currentSchoolName.help =
-sgr.property.currentSchoolName.validationError =
+sgr.property.currentSchoolNamePrecision.help =
+sgr.property.currentSchoolNamePrecision.validationError =
 
 sgr.property.currentSchoolPostalCode.help =
 sgr.property.currentSchoolPostalCode.validationError =
@@ -90,6 +84,15 @@ sgr.property.currentSchoolCity.validationError =
 
 sgr.property.currentSchoolCountry.help =
 sgr.property.currentSchoolCountry.validationError =
+
+sgr.property.aLevelsInformations.help =
+sgr.property.aLevelsInformations.validationError =
+
+sgr.property.alevelsDate.help =
+sgr.property.alevelsDate.validationError =
+
+sgr.property.alevels.help =
+sgr.property.alevels.validationError =
 
 sgr.property.currentStudiesInformations.help =
 sgr.property.currentStudiesInformations.validationError =
@@ -123,6 +126,21 @@ sgr.property.abroadInternshipSchoolCountry.validationError =
 
 sgr.property.distance.help =
 sgr.property.distance.validationError =
+
+sgr.property.isSubjectAccountHolder.help =
+sgr.property.isSubjectAccountHolder.validationError =
+
+sgr.property.accountHolderTitle.help =
+sgr.property.accountHolderTitle.validationError =
+
+sgr.property.accountHolderLastName.help =
+sgr.property.accountHolderLastName.validationError =
+
+sgr.property.accountHolderFirstName.help =
+sgr.property.accountHolderFirstName.validationError =
+
+sgr.property.accountHolderBirthDate.help =
+sgr.property.accountHolderBirthDate.validationError =
 
 sgr.property.bankCode.help =
 sgr.property.bankCode.validationError =

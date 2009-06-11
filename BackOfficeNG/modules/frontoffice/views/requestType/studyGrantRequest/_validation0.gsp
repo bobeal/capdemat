@@ -68,19 +68,19 @@
     
       
       <dl>
-        <dt><g:message code="sgr.property.taxHouseholdPostalCode.label" /></dt><dd>${rqt.taxHouseholdPostalCode}</dd>
-
-      </dl>
-      
-    
-      
-      <dl>
         <dt><g:message code="sgr.property.taxHouseholdCity.label" /></dt>
           <dd>
           <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
                     model="['javaName':'taxHouseholdCity', 'lrEntries': lrTypes.taxHouseholdCity.entries, 'depth':0]" />
           </dd>
           
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="sgr.property.taxHouseholdCityPrecision.label" /></dt><dd>${rqt.taxHouseholdCityPrecision}</dd>
 
       </dl>
       
@@ -139,25 +139,6 @@
     <h3><g:message code="sgr.step.currentStudies.label" /></h3>
     
       
-      <h4><g:message code="sgr.property.aLevelsInformations.label" /></h4>
-      <dl>
-        
-          <dt><g:message code="sgr.property.alevelsDate.label" /></dt><dd>${rqt.alevelsDate}</dd>
-
-        
-          <dt><g:message code="sgr.property.alevels.label" /></dt>
-          <dd>
-            <g:if test="${rqt.alevels}">
-              <g:capdematEnumToField var="${rqt.alevels}" i18nKeyPrefix="sgr.property.alevels" />
-            </g:if>
-          </dd>
-          
-
-        
-      </dl>
-      
-    
-      
       <dl>
         <dt><g:message code="sgr.property.currentSchoolName.label" /></dt>
           <dd>
@@ -173,6 +154,9 @@
       <h4><g:message code="sgr.property.currentSchool.label" /></h4>
       <dl>
         
+          <dt><g:message code="sgr.property.currentSchoolNamePrecision.label" /></dt><dd>${rqt.currentSchoolNamePrecision}</dd>
+
+        
           <dt><g:message code="sgr.property.currentSchoolPostalCode.label" /></dt><dd>${rqt.currentSchoolPostalCode}</dd>
 
         
@@ -183,6 +167,25 @@
           <dd>
             <g:if test="${rqt.currentSchoolCountry}">
               <g:capdematEnumToField var="${rqt.currentSchoolCountry}" i18nKeyPrefix="sgr.property.currentSchoolCountry" />
+            </g:if>
+          </dd>
+          
+
+        
+      </dl>
+      
+    
+      
+      <h4><g:message code="sgr.property.aLevelsInformations.label" /></h4>
+      <dl>
+        
+          <dt><g:message code="sgr.property.alevelsDate.label" /></dt><dd>${rqt.alevelsDate}</dd>
+
+        
+          <dt><g:message code="sgr.property.alevels.label" /></dt>
+          <dd>
+            <g:if test="${rqt.alevels}">
+              <g:capdematEnumToField var="${rqt.alevels}" i18nKeyPrefix="sgr.property.alevels" />
             </g:if>
           </dd>
           
@@ -273,6 +276,51 @@
 
   
     <h3><g:message code="sgr.step.bankReference.label" /></h3>
+    
+      
+      <dl>
+        <dt><g:message code="sgr.property.isSubjectAccountHolder.label" /></dt>
+          <dd><g:message code="message.${rqt.isSubjectAccountHolder ? 'yes' : 'no'}" /></dd>
+          
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="sgr.property.accountHolderTitle.label" /></dt>
+          <dd>
+            <g:if test="${rqt.accountHolderTitle}">
+              <g:capdematEnumToField var="${rqt.accountHolderTitle}" i18nKeyPrefix="sgr.property.accountHolderTitle" />
+            </g:if>
+          </dd>
+          
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="sgr.property.accountHolderLastName.label" /></dt><dd>${rqt.accountHolderLastName}</dd>
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="sgr.property.accountHolderFirstName.label" /></dt><dd>${rqt.accountHolderFirstName}</dd>
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="sgr.property.accountHolderBirthDate.label" /></dt>
+          <dd><g:formatDate formatName="format.date" date="${rqt.accountHolderBirthDate}"/></dd>
+          
+
+      </dl>
+      
     
       
       <dl>

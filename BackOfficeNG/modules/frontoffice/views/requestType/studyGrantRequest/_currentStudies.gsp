@@ -2,41 +2,24 @@
 
 
   
-    <fieldset class="required">
-    <legend><g:message code="sgr.property.aLevelsInformations.label" /></legend>
-    
-      <label class="required"><g:message code="sgr.property.alevelsDate.label" /> *  <span><g:message code="sgr.property.alevelsDate.help" /></span></label>
-            <input type="text" name="alevelsDate" value="${rqt.alevelsDate}" 
-                    class="required  validate-regex" title="<g:message code="sgr.property.alevelsDate.validationError" />" regex="^\d{2,4}$" maxLength="4"/>
-            
-
-    
-      <label class="required"><g:message code="sgr.property.alevels.label" /> *  <span><g:message code="sgr.property.alevels.help" /></span></label>
-            <select name="alevels" class="required  validate-not-first" title="<g:message code="sgr.property.alevels.validationError" />">
-              <option value=""><g:message code="message.select.defaultOption" /></option>
-              <g:each in="${['es','l','s','stg','sti','stl','st2s','stav','tmd','h','p']}">
-                <option value="fr.cg95.cvq.business.request.school.ALevelsType_${it}" ${it == rqt.alevels?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="sgr.property.alevels" /></option>
-              </g:each>
-            </select>
-            
-
-    
-    </fieldset>
-  
-
-  
     <label class="required"><g:message code="sgr.property.currentSchoolName.label" /> *  <span><g:message code="sgr.property.currentSchoolName.help" /></span></label>
             <g:set var="currentSchoolNameIndex" value="${0}" scope="flash" />
             <g:render template="/frontofficeRequestType/widget/localReferentialData" 
-                      model="['javaName':'currentSchoolName', 'i18nPrefixCode':'sgr.property.currentSchoolName', 'htmlClass':'required  ', 
+                      model="['javaName':'currentSchoolName', 'i18nPrefixCode':'sgr.property.currentSchoolName', 'htmlClass':'required condition-isCurrentSchoolNameOther-trigger  ', 
                               'lrEntries': lrTypes.currentSchoolName.entries, 'depth':0]" />
             
 
   
 
   
-    <fieldset class="required">
+    <fieldset class="required condition-isCurrentSchoolNameOther-filled">
     <legend><g:message code="sgr.property.currentSchool.label" /></legend>
+    
+      <label class="required"><g:message code="sgr.property.currentSchoolNamePrecision.label" /> *  <span><g:message code="sgr.property.currentSchoolNamePrecision.help" /></span></label>
+            <input type="text" name="currentSchoolNamePrecision" value="${rqt.currentSchoolNamePrecision}" 
+                    class="required  validate-string" title="<g:message code="sgr.property.currentSchoolNamePrecision.validationError" />"  />
+            
+
     
       <label class="required"><g:message code="sgr.property.currentSchoolPostalCode.label" /> *  <span><g:message code="sgr.property.currentSchoolPostalCode.help" /></span></label>
             <input type="text" name="currentSchoolPostalCode" value="${rqt.currentSchoolPostalCode}" 
@@ -55,6 +38,29 @@
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']}">
                 <option value="fr.cg95.cvq.business.users.CountryType_${it}" ${it == rqt.currentSchoolCountry?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="sgr.property.currentSchoolCountry" /></option>
+              </g:each>
+            </select>
+            
+
+    
+    </fieldset>
+  
+
+  
+    <fieldset class="required">
+    <legend><g:message code="sgr.property.aLevelsInformations.label" /></legend>
+    
+      <label class="required"><g:message code="sgr.property.alevelsDate.label" /> *  <span><g:message code="sgr.property.alevelsDate.help" /></span></label>
+            <input type="text" name="alevelsDate" value="${rqt.alevelsDate}" 
+                    class="required  validate-regex" title="<g:message code="sgr.property.alevelsDate.validationError" />" regex="^\d{2,4}$" maxLength="4"/>
+            
+
+    
+      <label class="required"><g:message code="sgr.property.alevels.label" /> *  <span><g:message code="sgr.property.alevels.help" /></span></label>
+            <select name="alevels" class="required  validate-not-first" title="<g:message code="sgr.property.alevels.validationError" />">
+              <option value=""><g:message code="message.select.defaultOption" /></option>
+              <g:each in="${['es','l','s','stg','sti','stl','st2s','stav','tmd','h','p']}">
+                <option value="fr.cg95.cvq.business.request.school.ALevelsType_${it}" ${it == rqt.alevels?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="sgr.property.alevels" /></option>
               </g:each>
             </select>
             

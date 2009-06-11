@@ -80,7 +80,7 @@ alter table request_note add column date timestamp;
 update request_note set type = 'Internal' where type like '%Internal';
 update request_note set type = 'Public' where type like '%External' or type like 'Default%';
 
--- study grant request local referential
+-- study grant refectoring 5
 alter table study_grant_request drop column current_school_name;
 alter table study_grant_request drop column tax_household_city;
 
@@ -117,6 +117,15 @@ alter table study_grant_request_tax_household_city
     add constraint FK1B568948C1B15A77 
     foreign key (study_grant_request_id) 
     references study_grant_request;
+
+alter table study_grant_request drop column tax_household_postal_code;
+alter table study_grant_request add column tax_household_city_precision varchar(255);
+alter table study_grant_request add column current_school_name_precision  varchar(255);
+alter table study_grant_request add column is_subject_account_holder bool;
+alter table study_grant_request add column account_holder_birth_date timestamp;
+alter table study_grant_request add column account_holder_last_name  varchar(38);
+alter table study_grant_request add column account_holder_title varchar(255);
+alter table study_grant_request add column account_holder_first_name  varchar(38);
 
 
 alter table external_service_traces alter column key type character varying(255);

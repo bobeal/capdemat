@@ -74,7 +74,7 @@
             """
          ,'subject' :
             """
-            <select name="subjectId" class="required validate-not-first ${element.autofillClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" /> ">
+            <select name="subjectId" <g:if test="\${isEdition}">disabled="disabled"</g:if> class="required validate-not-first ${element.autofillClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="\${subjects}">
                 <option value="\${it.key}" \${it.key == rqt.subjectId ? 'selected=\"selected\"': ''}>\${it.value}</option>

@@ -40,7 +40,9 @@ class RequestAdaptorService {
                 'subjectFirstName': request.subjectFirstName,
                 'state':request.state.toString(),
                 'lastModificationDate':request.lastModificationDate,
-                'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId)
+                'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId),
+                'isEditable' : RequestState.PENDING.equals(request.state)
+                               || RequestState.UNCOMPLETE.equals(request.state)
         ]
     }
 

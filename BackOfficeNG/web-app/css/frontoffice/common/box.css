@@ -88,7 +88,7 @@
   border-bottom: 1px dashed #bbbbbb;
 }
 .list-box ul li p          { margin: 0; }
-.list-box ul li .tag-state { float: right; }
+.list-box ul li .tag-state { float: right; margin-left : 0.5em; }
 
 
 /* main box 

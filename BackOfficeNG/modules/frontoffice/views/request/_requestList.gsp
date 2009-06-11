@@ -10,6 +10,13 @@
           <g:else>
             <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
           </g:else>
+          <g:if test="${record.isEditable}">
+            <span class="tag-state">
+              <a href="${module.createLink(module:'frontoffice',action:'draft',controller:'RequestCreation',id:record.id)}">
+                <g:message code="action.modify"/>
+              </a>
+            </span>
+          </g:if>
           <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
             ${record.label}
             <g:message code="request.searchResult.requestId" />
@@ -34,6 +41,16 @@
             </g:if>
           </g:if> 
         </p>
+        <g:if test="${record.lastAgentNote}">
+          <p>
+            <g:message code="request.property.lastAgentNote" />
+            <g:if test="${record.lastAgentNote.date}">
+                <g:message code="layout.on.date" /> <g:formatDate date="${record.lastAgentNote.date}" formatName="format.date" />
+              </g:if>
+            <g:message code="layout.by" />&nbsp;${record.lastAgentNote.user_name} :
+            ${record.lastAgentNote.note}
+          </p>
+        </g:if>
       </li>
     </g:each>
   </ul>

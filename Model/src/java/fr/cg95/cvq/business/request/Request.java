@@ -465,7 +465,7 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.property
      *  column="subject_id"
-     *  
+     *  update="false"
      */
     public Long getSubjectId() {
         return subjectId;
@@ -478,6 +478,7 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.property
      *  column="subject_last_name"
+     *  update="false"
      */
     public String getSubjectLastName() {
         return subjectLastName;
@@ -490,6 +491,7 @@ public abstract class Request implements Serializable {
     /**
      * @hibernate.property
      *  column="subject_first_name"
+     *  update="false"
      */
     public String getSubjectFirstName() {
         return subjectFirstName;

@@ -237,6 +237,24 @@ h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
 .requestSummary #requestTabView dl dt { width: 19em !important; }
 .requestSummary #requestTabView dl dd { width: 38.75em !important; }
 
+/* request notes on summary page */
+.requestSummary #requestTabView dl.notes dt { padding-top : 1.5em; }
+.requestSummary #requestTabView dl.notes dd { font-size : 1em; width : 44.75em !important; }
+.requestSummary #requestTabView .tag-state { float : right; }
+.requestSummary #requestTabView .note {
+  padding : 0.2em;
+  font-size: 1.4em;
+  font-weight: normal;
+  background-color : #ffffff;
+  border: 1px solid #cccccc;
+  border-right: 0;
+  border-bottom: 0;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  margin-top : 0.3em;
+}
+.requestSummary #requestTabView .noteMetadata { text-align : right; color : #666; }
+.requestSummary #requestTabView .note .tag-state { font-size : 0.75em; }
 
 /* exit request creation screen
 --------------------------------------------------------------*/

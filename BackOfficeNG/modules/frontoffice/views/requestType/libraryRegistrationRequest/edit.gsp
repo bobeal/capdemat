@@ -32,7 +32,7 @@
     </g:if>
     
     <g:render template="/frontofficeRequestType/cancelPanel" />
-    <g:if test="${session.currentEcitizen}">
+    <g:if test="${session.currentEcitizen && !isEdition}">
       <g:render template="/frontofficeRequestType/draftPanel" />
     </g:if>
     
@@ -212,12 +212,15 @@
              </label>
              <select name="meansOfContact" class="required">
                <g:each in="${meansOfContact}" var="moc">
-                 <option value="${moc.key}">${moc.label}</option>
+                 <option value="${moc.key}" <g:if test="${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>>${moc.label}</option>
                </g:each>
              </select>
     
             <g:render template="/frontofficeRequestType/libraryRegistrationRequest/validation0" />
     
+            <h3><g:message code="request.step.note.label" /></h3>
+            <g:message code="request.step.note.desc" />
+            <textarea name="requestNote" rows="" cols=""></textarea>
             <h3><g:message code="request.step.validation.label" /></h3>
             <g:if test="${!hasHomeFolder}">
               <g:render template="/frontofficeRequestType/outOfAccountValidation" />

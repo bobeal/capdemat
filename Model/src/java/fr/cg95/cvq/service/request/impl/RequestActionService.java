@@ -82,7 +82,7 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void addWorfklowAction(final Long requestId, final String note, final Date date,
             final RequestState resultingState, final byte[] pdfData)
         throws CvqException {

@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request;
 
 import fr.cg95.cvq.business.request.DataState;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -34,6 +35,12 @@ public interface IRequestWorkflowService {
      */
     void archiveHomeFolderRequests(@IsHomeFolder final Long homeFolderId)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
+
+    /**
+     * Set a request in pending state after edition by an ecitizen
+     */
+    void rewindWorkflow(@IsRequest Request request)
+        throws CvqException, CvqInvalidTransitionException;
 
     /**
      * Get possible data state transitions from the given data state

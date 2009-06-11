@@ -144,7 +144,13 @@ public interface IRequestService {
     Node getRequestClone(@IsSubject final Long subjectId, @IsHomeFolder Long homeFolderId, 
             final String requestLabel) 
     	throws CvqException;
-    
+
+    /**
+     * Edit a request
+     */
+    void rewindWorkflow(@IsRequest Request request)
+        throws CvqException;
+
     /**
      * Modify a request.
      */

@@ -1,6 +1,7 @@
 import fr.cg95.cvq.authentication.IAuthenticationService
 import fr.cg95.cvq.business.request.DisplayGroup
 import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.HomeFolder
@@ -17,6 +18,7 @@ import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.util.quering.sort.SortDirection
 
 class HomeController {
 
@@ -55,7 +57,17 @@ class HomeController {
         
         if(infoFile.exists()) result.commonInfo = infoFile.text
         
-        result.dashBoard.requests = requestAdaptorService.prepareRecords(this.getTopFiveRequests())
+        result.dashBoard.lastRequests = requestAdaptorService.prepareRecords(this.getTopFiveRequests())
+        result.dashBoard.lastRequests.records.each {
+            it.lastAgentNote = requestAdaptorService.prepareNote(
+                defaultRequestService.getLastAgentNote(it.id, null))
+        }
+        result.dashBoard.incompleteRequests = requestAdaptorService
+            .prepareRecords(getLastIncompleteRequests())
+        result.dashBoard.incompleteRequests.records.each {
+            it.lastAgentNote = requestAdaptorService.prepareNote(
+                    defaultRequestService.getLastAgentNote(it.id, null))
+        }
         result.dashBoard.drafts =
             requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
         result.dashBoard.drafts.records.each {
@@ -184,7 +196,25 @@ class HomeController {
             'records' : []
         ]
     }
-    
+
+    def protected getLastIncompleteRequests() {
+        Set criteriaSet = new HashSet<Critere>();
+        Critere critere = new Critere();
+        critere.comparatif = Critere.EQUALS;
+        critere.attribut = Request.SEARCH_BY_HOME_FOLDER_ID;
+        critere.value = currentEcitizen.homeFolder.id
+        criteriaSet.add(critere)
+        critere.attribut = Request.SEARCH_BY_STATE
+        critere.value = RequestState.UNCOMPLETE
+        criteriaSet.add(critere)
+        return [
+            'all' : defaultRequestService.get(criteriaSet, Request.SEARCH_BY_CREATION_DATE,
+                , SortDirection.DESC.value(), -1, 0),
+            'count' : defaultRequestService.getCount(criteriaSet),
+            'records' : []
+        ]
+    }
+
     def protected getTopFivePayments() {
         
         Set criteriaSet = new HashSet<Critere>();

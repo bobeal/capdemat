@@ -472,6 +472,21 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         }
     }
 
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void rewindWorkflow(Request request)
+        throws CvqException, CvqInvalidTransitionException {
+        if (request.getState().equals(RequestState.PENDING)
+            || request.getState().equals(RequestState.UNCOMPLETE)) {
+            request.setState(RequestState.PENDING);
+            Date date = new Date();
+            updateLastModificationInformation(request, date);
+            requestActionService.addWorfklowAction(request.getId(), null, date,
+                RequestState.PENDING, null);
+        } else {
+            throw new CvqInvalidTransitionException();
+        }
+    }
+
     public DataState[] getPossibleTransitions(DataState ds) {
         List<DataState> dataStateList = new ArrayList<DataState>();
 

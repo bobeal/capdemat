@@ -1053,6 +1053,12 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         return result;
     }
 
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void rewindWorkflow(Request request)
+        throws CvqException {
+        requestWorkflowService.rewindWorkflow(request);
+    }
+
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void modify(Request request)

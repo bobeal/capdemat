@@ -35,6 +35,10 @@ class RequestController {
         
         requests = filterRequests(state,params)
         requests = requestAdaptorService.prepareRecords(requests)
+        requests.records.each {
+            it.lastAgentNote = requestAdaptorService.prepareNote(
+                defaultRequestService.getLastAgentNote(it.id, null))
+        }
         
         return ([
             'state': state,
@@ -68,6 +72,8 @@ class RequestController {
                 'requestTypeLabel':requestTypeLabel,
                 'requester':requester,
                 'subjects': subjects,
+                'requestNotes' : requestAdaptorService.prepareNotes(
+                    defaultRequestService.getNotes(Long.parseLong(params.id), null)),
                 'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(request.requestType.label),
                 'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, null, [] as Set),
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label)

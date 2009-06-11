@@ -2,6 +2,7 @@ import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
@@ -124,7 +125,8 @@ class RequestCreationController {
             'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
             'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
             'isDocumentEditMode': false,
-            'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
+            'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
+            "isEdition" : cRequest.id != null && !cRequest.draft
         ])
     }
     
@@ -353,7 +355,8 @@ class RequestCreationController {
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
         
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
-                    if (requestTypeInfo.label == 'Home Folder Modification') {
+                    if (cRequest.id && !cRequest.draft) requestService.rewindWorkflow(cRequest)
+                    else if (requestTypeInfo.label == 'Home Folder Modification') {
                         cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
                         requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
                     }
@@ -365,7 +368,9 @@ class RequestCreationController {
                         requestService.create(cRequest, docs)
                     else 
                         requestService.finalizeDraft(cRequest)
-                    
+                    if (params.requestNote && !params.requestNote.trim().isEmpty()) {
+                        requestService.addNote(cRequest.id, RequestNoteType.PUBLIC, params.requestNote)
+                    }
                     session.removeAttribute(uuidString)
                     def parameters = ['id':cRequest.id, 'label':requestTypeInfo.label]
                     if (params.returnUrl != "") {
@@ -409,7 +414,8 @@ class RequestCreationController {
                      'isDocumentEditMode': isDocumentEditMode,
                      'documentType': documentType,
                      'document': document,
-                     'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
+                     'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
+                     "isEdition" : cRequest.id != null && !cRequest.draft
                     ])
     }  
     
@@ -472,7 +478,7 @@ class RequestCreationController {
                 subjects[subjectId] = subject.lastName + ' ' + subject.firstName
             }
             
-            if(cRequest.draft && cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))
+            if(cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))
                 subjects[cRequest.subjectId] = "${cRequest.subjectLastName} ${cRequest.subjectFirstName}"
         }
         return subjects

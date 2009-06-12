@@ -3,6 +3,7 @@ package fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.serv
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -400,5 +401,10 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
 
     public List<String> checkExternalReferential(final XmlObject requestXml) {
         return new ArrayList<String>(0);
+    }
+
+    public Map<String, Object> loadExternalInformations(XmlObject requestXml)
+        throws CvqException {
+        return Collections.emptyMap();
     }
 }

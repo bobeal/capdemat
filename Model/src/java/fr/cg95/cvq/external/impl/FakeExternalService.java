@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -546,5 +547,10 @@ public class FakeExternalService implements IExternalProviderService {
 
     public List<String> checkExternalReferential(final XmlObject requestXml) {
         return new ArrayList<String>(0);
+    }
+
+    public Map<String, Object> loadExternalInformations(XmlObject requestXml)
+        throws CvqException {
+        return Collections.emptyMap();
     }
 }

@@ -126,3 +126,37 @@
 .outOfAccount-login-box p.error    { padding: 0; sans-serif; text-align: left; }
 .outOfAccount-login-box input.text { margin-right: 1em; font-size:1.2em; border: 1px solid #ffaa00; }
 
+/* summary box (eg. all the fields of a request)
+--------------------------------------------------------------*/
+
+.summary-box { background-color : #fff; }
+
+.summary-box #requestTabViewContainerHack { padding : 0.5em; }
+.summary-box #requestTabViewContainerHack #requestTabView dl dt { width : 30%; }
+.summary-box #requestTabViewContainerHack #requestTabView dl dd { width : 66%; }
+
+.summary-box h2 {
+  color: #C690BB; background: #4c3848;
+  border-bottom: 3px solid #C690BB;
+}
+
+.summary-box dl {
+  margin : 10px;
+  border-bottom: 1px dashed #C690BB;
+  color: #333; background: #eee;
+  overflow: auto;
+}
+
+.summary-box dl dt,
+.summary-box dl dd {
+  float: left;
+  margin: 0;
+  padding: .4em;
+  border-top: 1px dashed #C690BB;
+}
+
+.summary-box dl dt { width : 30%; min-height: 1.5em; text-align: right; clear: both; }
+.summary-box dl dd { width : 61%; font-size: 1.15em; }
+
+.summary-box dl dd p { margin: 0; padding: 0.1em; }
+.summary-box dl dd li { display:block; }

@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -710,6 +711,38 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             }
         }
         return errors;
+    }
+
+    public Map<String, Object> loadExternalInformations(Request request)
+        throws CvqException {
+        Map<String, Object> informations = new TreeMap<String, Object>();
+        HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
+        for (IExternalProviderService eps :
+            getExternalServicesByRequestType(request.getRequestType().getLabel())) {
+            ExternalServiceIdentifierMapping esim = getIdentifierMapping(eps.getLabel(), homeFolder.getId());
+            if (esim != null) {
+                homeFolder.setExternalId(esim.getExternalId());
+                homeFolder.setExternalCapDematId(esim.getExternalCapDematId());
+                for (Individual individual : homeFolder.getIndividuals()) {
+                    Set<ExternalServiceIndividualMapping> esimSet =
+                        esim.getIndividualsMappings();
+                    for (ExternalServiceIndividualMapping esimTemp : esimSet) {
+                        if (esimTemp.getIndividualId().equals(individual.getId())) {
+                            individual.setExternalId(esimTemp.getExternalId());
+                            individual.setExternalCapDematId(esimTemp.getExternalCapDematId());
+                            break;
+                        }
+                    }
+                }
+                try {
+                    informations.putAll(
+                        eps.loadExternalInformations(requestService.fillRequestXml(request)));
+                } catch (CvqException e) {
+                    // TODO JSB
+                }
+            }
+        }
+        return informations;
     }
 
     public void setExternalServiceTraceDAO(IExternalServiceTraceDAO externalServiceTraceDAO) {

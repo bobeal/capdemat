@@ -233,19 +233,26 @@ h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
 #requestTabView form div .captcha input { float: left; width: 54.5%; margin: 0 0 0 .5em; }
 #requestTabView form div #useAcceptance { margin : 2em 0 0; }
 
-.requestSummary { padding: 0 2em 2em; }
-.requestSummary #requestTabView dl dt { width: 19em !important; }
-.requestSummary #requestTabView dl dd { width: 38.75em !important; }
-
 /* request notes on summary page */
-.requestSummary #requestTabView dl.notes dt { padding-top : 1.5em; }
-.requestSummary #requestTabView dl.notes dd { font-size : 1em; width : 44.75em !important; }
-.requestSummary #requestTabView .tag-state { float : right; }
-.requestSummary #requestTabView .note {
+#requestNotes dl.notes { overflow: auto; margin : 0.5em; border-bottom: 1px dashed #C1CFE2; }
+#requestNotes dl.notes dt,
+#requestNotes dl.notes dd {
+  float: left;
+  margin: 0;
+  border-top: 1px dashed #C1CFE2;
+}
+
+#requestNotes dl.notes dt { padding-top : 1.5em; }
+
+#requestNotes dl.notes dt { width: 25%; min-height: 1.5em; clear: both; }
+#requestNotes dl.notes dd { width: 75%; padding-bottom : 0.5em; padding-top : 0.5em; }
+
+#requestNotes .tag-state { float: right; }
+#requestNotes .note {
   padding : 0.2em;
   font-size: 1.4em;
   font-weight: normal;
-  background-color : #ffffff;
+  background-color : #EEEEEE;
   border: 1px solid #cccccc;
   border-right: 0;
   border-bottom: 0;
@@ -253,8 +260,10 @@ h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
   -webkit-border-radius: .5em;
   margin-top : 0.3em;
 }
-.requestSummary #requestTabView .noteMetadata { text-align : right; color : #666; }
-.requestSummary #requestTabView .note .tag-state { font-size : 0.75em; }
+
+#requestNotes .note .tag-state { font-size : 0.75em; }
+
+#requestNotes .noteMetadata { text-align : right; color : #666; }
 
 /* exit request creation screen
 --------------------------------------------------------------*/

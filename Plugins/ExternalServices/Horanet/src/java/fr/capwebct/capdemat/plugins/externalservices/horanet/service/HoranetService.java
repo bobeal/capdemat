@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -947,5 +948,10 @@ public class HoranetService implements IExternalProviderService {
 
     public List<String> checkExternalReferential(final XmlObject requestXml) {
         return new ArrayList<String>(0);
+    }
+
+    public Map<String, Object> loadExternalInformations(XmlObject requestXml)
+        throws CvqException {
+        return Collections.emptyMap();
     }
 }

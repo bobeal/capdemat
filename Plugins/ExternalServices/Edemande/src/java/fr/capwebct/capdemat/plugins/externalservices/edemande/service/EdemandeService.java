@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -412,6 +413,33 @@ public class EdemandeService implements IExternalProviderService {
             result.add("Impossible de contacter Edemande");
         }
         return result;
+    }
+
+    public Map<String, Object> loadExternalInformations(XmlObject requestXml)
+        throws CvqException {
+        StudyGrantRequest sgr = ((StudyGrantRequestDocument) requestXml).getStudyGrantRequest();
+        if (sgr.getSubject().getIndividual().getExternalId() == null
+            || sgr.getSubject().getIndividual().getExternalId().trim().isEmpty()
+            || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()) {
+            return Collections.emptyMap();
+        }
+        Map<String, Object> informations = new TreeMap<String, Object>();
+        String request = edemandeClient.chargerDemande(
+            sgr.getSubject().getIndividual().getExternalId(), sgr.getEdemandeId())
+            .getChargerDemandeResponse().getReturn();
+        String status = getRequestStatus(sgr, sgr.getSubject().getIndividual().getExternalId());
+        if (status != null && !status.trim().isEmpty()) {
+            informations.put("sgr.property.externalStatus", status);
+        }
+        String grantedAmount = parseData(request, "//donneesDemande/Demande/mdMtAccorde");
+        if (grantedAmount != null && !grantedAmount.trim().isEmpty()) {
+            informations.put("sgr.property.grantedAmount", grantedAmount);
+        }
+        String paidAmount = parseData(request, "//donneesDemande/Demande/mdMtRealise");
+        if (paidAmount != null && !paidAmount.trim().isEmpty()) {
+            informations.put("sgr.property.paidAmount", paidAmount);
+        }
+        return informations;
     }
 
     public void setLabel(String label) {

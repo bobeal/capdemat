@@ -208,4 +208,12 @@ public interface IExternalService {
      * @return a list of reasons for failed tests.
      */
     List<String> checkExternalReferential(Request request);
+
+    /**
+     * Asks the external services for informations they know about the request
+     * (for example, its state) to display them to the ecitizen
+     * @return The map of corresponding i18nKey - value
+     */
+    Map<String, Object> loadExternalInformations(Request request)
+        throws CvqException;
 }

@@ -1,6 +1,7 @@
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.external.IExternalService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
@@ -19,6 +20,7 @@ class RequestController {
     IIndividualService individualService
     IRequestServiceRegistry requestServiceRegistry
     IRequestService defaultRequestService
+    IExternalService externalService
     
     def defaultAction = 'index'
     Adult currentEcitizen
@@ -74,6 +76,7 @@ class RequestController {
                 'subjects': subjects,
                 'requestNotes' : requestAdaptorService.prepareNotes(
                     defaultRequestService.getNotes(Long.parseLong(params.id), null)),
+                'externalInformations' : externalService.loadExternalInformations(request),
                 'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(request.requestType.label),
                 'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, null, [] as Set),
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label)

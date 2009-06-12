@@ -124,4 +124,12 @@ public interface IExternalProviderService {
      * @return a list of reasons for failed tests.
      */
     List<String> checkExternalReferential(final XmlObject requestXml);
+
+    /**
+     * Asks the external service for informations it knows about the request
+     * (for example, its state) to display them to the ecitizen
+     * @return The map of corresponding i18nKey - value
+     */
+    Map<String, Object> loadExternalInformations(XmlObject requestXml)
+        throws CvqException;
 }

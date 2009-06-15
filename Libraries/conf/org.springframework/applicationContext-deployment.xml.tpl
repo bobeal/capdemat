@@ -203,5 +203,18 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="label" value="Fake Point External Service" />
   </bean>
 
+  <bean id="translationService" class="fr.cg95.cvq.util.translation.impl.TranslationService">
+    <property name="messageSource">
+      <bean class="fr.cg95.cvq.util.translation.FolderReloadableResourceBundleMessageSource">
+        <property name="cacheSeconds" value="${translationService.cacheSeconds}" />
+        <property name="defaultEncoding" value="UTF-8" />
+        <property name="paths">
+          <list>
+            <value>grails-app/i18n</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
 
 </beans>

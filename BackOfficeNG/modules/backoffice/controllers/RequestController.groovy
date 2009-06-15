@@ -140,7 +140,7 @@ class RequestController {
                 quality = 'orange'
             def record = [
                 'id':it.id,
-                'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
+                'label':translationService.translateRequestTypeLabel(it.requestType.label).encodeAsHTML(),
                 'creationDate':it.creationDate,
                 'requesterLastName':it.requesterLastName,
                 'requesterFirstName': it.requesterFirstName,

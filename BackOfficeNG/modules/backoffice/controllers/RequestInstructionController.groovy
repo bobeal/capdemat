@@ -71,7 +71,7 @@ class RequestInstructionController {
     def edit = {
         Agent agent = SecurityContext.getCurrentAgent();
         def request = defaultRequestService.getById(Long.valueOf(params.id))
-        def requestLabel = translationService.getEncodedRequestTypeLabelTranslation(request)
+        def requestLabel = translationService.translateRequestTypeLabel(request).encodeAsHTML()
         
         def requester = individualService.getById(request.requesterId)     
 
@@ -473,7 +473,7 @@ class RequestInstructionController {
               quality = 'orange'
           def record = [
               'id':it.id,
-              'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
+              'label':translationService.translateRequestTypeLabel(it.requestType.label).encodeAsHTML(),
               'creationDate':it.creationDate,
               'requesterLastName':it.requesterLastName + " " + it.requesterFirstName,
               'subjectLastName':it.subjectId ? it.subjectLastName + " " + it.subjectFirstName : "",

@@ -66,7 +66,7 @@ class RequestController {
         def requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
         def request = defaultRequestService.getById(Long.parseLong(params.id))
         def requestTypeLabel =
-            translationService.getEncodedRequestTypeLabelTranslation(request.requestType.label)
+            translationService.translateRequestTypeLabel(request.requestType.label).encodeAsHTML()
         def requester = individualService.getById(request.requesterId)
         def subjects = [:]
         subjects[request.subjectId] = "${request.subjectLastName} ${request.subjectFirstName}"

@@ -78,7 +78,7 @@ class HomeFolderController {
           else if (it.orangeAlert) quality = 'orange'
           def record = [
               'id':it.id,
-              'label':translationService.getEncodedRequestTypeLabelTranslation(it.requestType.label),
+              'label':translationService.translateRequestTypeLabel(it.requestType.label).encodeAsHTML(),
               'creationDate':it.creationDate,
               'requesterLastName':it.requesterLastName + " " + it.requesterFirstName,
               'subjectLastName':it.subjectId ? it.subjectLastName + " " + it.subjectFirstName : "",

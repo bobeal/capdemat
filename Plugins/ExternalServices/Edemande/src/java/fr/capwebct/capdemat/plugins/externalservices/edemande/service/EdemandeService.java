@@ -2,6 +2,8 @@ package fr.capwebct.capdemat.plugins.externalservices.edemande.service;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,6 +55,7 @@ import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
+import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument.StudyGrantRequest;
 
@@ -64,6 +67,7 @@ public class EdemandeService implements IExternalProviderService {
     private IStudyGrantRequestService requestService;
     private IDocumentService documentService;
     private IRequestWorkflowService requestWorkflowService;
+    private ITranslationService translationService;
 
     private static final String ADDRESS_FIELDS[] = {
         "miCode", "moNature/miCode", "msVoie", "miBoitePostale", "msCodePostal", "msVille",
@@ -433,11 +437,15 @@ public class EdemandeService implements IExternalProviderService {
         }
         String grantedAmount = parseData(request, "//donneesDemande/Demande/mdMtAccorde");
         if (grantedAmount != null && !grantedAmount.trim().isEmpty()) {
-            informations.put("sgr.property.grantedAmount", grantedAmount);
+            informations.put("sgr.property.grantedAmount",
+                new DecimalFormat(translationService.translate("format.currency"))
+                .format(new BigDecimal(grantedAmount)));
         }
         String paidAmount = parseData(request, "//donneesDemande/Demande/mdMtRealise");
         if (paidAmount != null && !paidAmount.trim().isEmpty()) {
-            informations.put("sgr.property.paidAmount", paidAmount);
+            informations.put("sgr.property.paidAmount",
+                new DecimalFormat(translationService.translate("format.currency"))
+                .format(new BigDecimal(paidAmount)));
         }
         return informations;
     }
@@ -618,5 +626,9 @@ public class EdemandeService implements IExternalProviderService {
 
     public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
         this.requestWorkflowService = requestWorkflowService;
+    }
+
+    public void setTranslationService(ITranslationService translationService) {
+        this.translationService = translationService;
     }
 }

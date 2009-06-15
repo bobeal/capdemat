@@ -191,7 +191,7 @@ class StatisticController {
 			if (count.intValue() > 0) {
                 def requestType = requestTypeService.getRequestTypeById(rtId)
                 def label = new StringBuffer()
-                    .append(translationService.getEncodedRequestTypeLabelTranslation(requestType.label))
+                    .append(translationService.translateRequestTypeLabel(requestType.label).encodeAsHTML())
 			    	.append(" (").append(count).append(")")
         		textLabels.add(label)
             	cdData.add(count.intValue())
@@ -268,7 +268,7 @@ class StatisticController {
         def filenameParts = []
         [message(code : "statistics.header." + params.currentStatisticType),
          categoryId != null ? categoryService.getById(categoryId).name : null,
-         requestTypeId != null ? translationService.getEncodedRequestTypeLabelTranslation(requestTypeService.getRequestTypeById(requestTypeId).label).decodeHTML() : null,
+         requestTypeId != null ? translationService.translateRequestTypeLabel(requestTypeService.getRequestTypeById(requestTypeId).label) : null,
          startDate != null ? message(code : "statistics.filename.start.date") + fr.cg95.cvq.util.DateUtils.format(startDate) : null,
          endDate != null ? message(code : "statistics.filename.end.date") + fr.cg95.cvq.util.DateUtils.format(endDate) : null].each {
             if (it != null) {
@@ -330,7 +330,7 @@ class StatisticController {
                                     shiftUnit = Calendar.YEAR
                                 }
                                 line = new String[4]
-                                line[0] = translationService.getEncodedRequestTypeLabelTranslation(requestTypeService.getRequestTypeById(currentRequestTypeId).label).decodeHTML()
+                                line[0] = translationService.translateRequestTypeLabel(requestTypeService.getRequestTypeById(currentRequestTypeId).label)
                                 line[1] = new SimpleDateFormat(format).format(date)
                                 //if (i == statsForRequest.size() - 1) {
                                 //    line[2] = line[1]

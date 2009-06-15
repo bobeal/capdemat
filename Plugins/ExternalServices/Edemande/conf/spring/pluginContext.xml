@@ -11,6 +11,7 @@
     <property name="requestService" ref="studyGrantRequestService" />
     <property name="documentService" ref="documentService" />
     <property name="requestWorkflowService" ref="requestWorkflowService" />
+    <property name="translationService" ref="translationService" />
   </bean>
 
   <!-- WS CLIENT  -->

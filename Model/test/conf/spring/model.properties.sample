@@ -35,6 +35,8 @@ agent.contributor_group=CVQ_CONTRIBUTORS
 
 fake_payment.url=https://localhost/ServiceExporter/payment/fake_payment_input.html
 
+translationService.cacheSeconds = 0
+
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################

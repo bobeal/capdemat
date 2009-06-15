@@ -1,5 +1,7 @@
 class CapdematUtils {
 
+    def translationService
+
     /*
      * Generic method to adapt CapDemat enums-like classes (Like RequestState / MeansOfContact / TitleType / ...)
      */
@@ -16,7 +18,7 @@ class CapdematUtils {
         return [
             id: requestType.id,
             active: requestType.active,
-            label: translationService.getEncodedRequestTypeLabelTranslation(requestType.label),
+            label: translationService.translateRequestTypeLabel(requestType.label).encodeAsHTML(),
             categoryId: requestType.category?.id, 
             categoryName: requestType.category?.name
         ]

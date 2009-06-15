@@ -41,6 +41,8 @@ agent.contributor_group=CVQ_CONTRIBUTORS
 
 fake_payment.url=http://localhost:8080/BackOfficeNG/service/fakePayment
 
+translationService.cacheSeconds = 0
+
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################

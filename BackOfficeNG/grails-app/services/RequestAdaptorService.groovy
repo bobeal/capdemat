@@ -15,7 +15,7 @@ class RequestAdaptorService {
         allRequestTypes.each {
             allRequestTypesTranslated.add([
                 id:it.id,
-                label:translationService.getEncodedRequestTypeLabelTranslation(it.label).decodeHTML(),
+                label:translationService.translateRequestTypeLabel(it.label),
                 categoryId:it.category?.id
             ])
         }
@@ -25,14 +25,15 @@ class RequestAdaptorService {
     /* currently unused, remove it later if still not used */
     public translateRequestType(requestTypeId) {
         def requestType = requestTypeService.getRequestTypeById(requestTypeId)
-        return translationService.getEncodedRequestTypeLabelTranslation(requestType.label).decodeHTML()
+        return translationService.translateRequestTypeLabel(requestType.label)
     }
 
     public prepareRecord(request) {
         return ['id':request.id,
                 'draft':request.draft,
                 'requestTypeLabel':request.requestType.label,
-                'label':translationService.getEncodedRequestTypeLabelTranslation(request.requestType.label),
+                'label':translationService
+                    .translateRequestTypeLabel(request.requestType.label).encodeAsHTML(),
                 'creationDate':request.creationDate,
                 'requesterLastName':request.requesterLastName,
                 'requesterFirstName': request.requesterFirstName,

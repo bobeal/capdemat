@@ -91,7 +91,7 @@ class RequestTypeController {
     	def requestType = 
         	requestTypeService.getRequestTypeById(Long.valueOf(params.id))
         def requestTypeLabel =
-            translationService.getEncodedRequestTypeLabelTranslation(requestType.label)
+            translationService.translateRequestTypeLabel(requestType.label).encodeAsHTML()
         def requestService = requestServiceRegistry.getRequestService(requestType.label)
         if (requestService.getLocalReferentialFilename() != null)
             baseConfigurationItems["localReferential"] =

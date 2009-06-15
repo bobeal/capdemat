@@ -450,7 +450,7 @@ class RequestCreationController {
         def requester = individualService.getById(cRequest.requesterId)
         render( view: "frontofficeRequestType/exit",
                 model:
-                    ['requestTypeLabel': translationService.getEncodedRequestTypeLabelTranslation(cRequest.requestType.label),
+                    ['requestTypeLabel': translationService.translateRequestTypeLabel(cRequest.requestType.label).encodeAsHTML(),
                      'rqt': cRequest,
                      'requester': requester,
                      'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,

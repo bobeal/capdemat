@@ -2,7 +2,7 @@ package fr.cg95.cvq.util.admin;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class SpringApplicationContaxtLoader {
+public class SpringApplicationContextLoader {
 
     public static ClassPathXmlApplicationContext loadContext(String config){
         String[] configLocations = new String[4];

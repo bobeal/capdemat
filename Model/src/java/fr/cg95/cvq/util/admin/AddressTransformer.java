@@ -153,7 +153,7 @@ public class AddressTransformer {
         // Switch Off logs for this
         logger.setLevel(Level.DEBUG);
         
-        ClassPathXmlApplicationContext cpxa = SpringApplicationContaxtLoader.loadContext(config);
+        ClassPathXmlApplicationContext cpxa = SpringApplicationContextLoader.loadContext(config);
         
         localAuthorityRegistry = (LocalAuthorityRegistry)cpxa.getBean("localAuthorityRegistry");
         genericDAO = (GenericDAO)cpxa.getBean("genericDAO");

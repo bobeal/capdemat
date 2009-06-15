@@ -7,7 +7,7 @@ if [ "$config" = "deployment" ]; then
   # deployment configuration
   echo "Deployment configuration ..."
   CommonLibPath="$CAPDEMAT_LIB_PATH"
-  CLASSPATH=$CAPDEMAT_HOME/conf:$CAPDEMAT_HOME/conf/spring
+  CLASSPATH="$CAPDEMAT_HOME/conf:$CAPDEMAT_HOME/conf/spring:$CAPDEMAT_HOME/conf/log4j"
   CLASSPATH="$CLASSPATH:$CAPDEMAT_HOME/conf/referential/$local_authority"
 else
   # development configuration

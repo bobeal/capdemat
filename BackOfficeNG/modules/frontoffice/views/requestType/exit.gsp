@@ -9,8 +9,10 @@
       <h2>${requestTypeLabel}</h2>
       <div class="info">
         <p><g:message code="request.message.successfulCreation" /></p>
-        <p><g:message code="request.message.requestIdNotice" args="${[rqt.id]}"/></p>
-        <p><g:message code="account.message.tempLoginToFollowRequest" /> : <strong>${requester.login}</strong></p>
+        <g:if test="${hasHomeFolder}">
+          <p><g:message code="request.message.requestIdNotice" args="${[rqt.id]}"/></p>
+          <p><g:message code="account.message.tempLoginToFollowRequest" /> : <strong>${requester.login}</strong></p>
+        </g:if>
       </div>
       <g:if test="${hasHomeFolder}">
         <div class="link">

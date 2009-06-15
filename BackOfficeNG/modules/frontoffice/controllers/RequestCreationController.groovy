@@ -371,6 +371,7 @@ class RequestCreationController {
                     if (params.returnUrl != "") {
                         parameters.returnUrl = params.returnUrl
                     }
+                    parameters.canFollowRequest = params.'_requester.activeHomeFolder'
                     redirect(action:'exit', params:parameters)
                     return
                 }
@@ -447,7 +448,7 @@ class RequestCreationController {
                     ['requestTypeLabel': translationService.getEncodedRequestTypeLabelTranslation(cRequest.requestType.label),
                      'rqt': cRequest,
                      'requester': requester,
-                     'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
+                     'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest)),
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
                     ])
     }

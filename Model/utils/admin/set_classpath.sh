@@ -1,35 +1,34 @@
-#! /bin/sh
+#!/bin/sh
 
 config=$1
 local_authority=$2
 
-if [ "$config" == "deployment" ]
-then
+if [ "$config" = "deployment" ]; then
   # deployment configuration
   echo "Deployment configuration ..."
-  libDirCommon="$CVQ95_HOME/utils/lib"
-  CLASSPATH=$CVQ95_HOME/conf:$CVQ95_HOME/conf/spring
-  CLASSPATH="$CLASSPATH:$CVQ95_HOME/conf/referential/$local_authority"
+  CommonLibPath="$CAPDEMAT_LIB_PATH"
+  CLASSPATH=$CAPDEMAT_HOME/conf:$CAPDEMAT_HOME/conf/spring
+  CLASSPATH="$CLASSPATH:$CAPDEMAT_HOME/conf/referential/$local_authority"
 else
   # development configuration
   echo "Test configuration ..."
-  libDirCommon="$CVQ95_HOME/Libraries"
-  libDir="$CVQ95_HOME/Model/lib"
-  archivesDir="$CVQ95_HOME/Model/build/archives"
-  CLASSPATH="$CVQ95_HOME/Model/build/test/"
+  CommonLibPath="$CAPDEMAT_HOME/Libraries"
+  libDir="$CAPDEMAT_HOME/Model/lib"
+  archivesDir="$CAPDEMAT_HOME/Model/build/archives"
+  CLASSPATH="$CAPDEMAT_HOME/Model/build/test/"
   for lib in $(find $archivesDir -name *.jar); do
     CLASSPATH="${CLASSPATH}:$lib"
   done
-  for lib in $(find $libDir -name *.jar); do
-    CLASSPATH="${CLASSPATH}:$lib"
-  done
- # CLASSPATH="$CLASSPATH:$CVQ95_HOME/Model/build/admin/conf/referential/$local_authority:$CVQ95_HOME/Model/build/admin/conf/spring"
-  CLASSPATH="$CLASSPATH:$CVQ95_HOME/Model/conf/spring"
+  CLASSPATH="$CLASSPATH:$CAPDEMAT_HOME/Model/conf/spring"
+    for lib in $(find $libD  -name *.jar); do
+      CLASSPATH="${CLASSPATH}:$lib"
+    done
 fi
 
-for lib in $(find $libDirCommon -name *.jar); do
+for dir in $(echo $CommonLibPath | sed 's/:/ /g'); do
+  for lib in $(find $dir -name *.jar); do
     CLASSPATH="${CLASSPATH}:$lib"
+  done
 done
 
-#echo $CLASSPATH
 export CLASSPATH

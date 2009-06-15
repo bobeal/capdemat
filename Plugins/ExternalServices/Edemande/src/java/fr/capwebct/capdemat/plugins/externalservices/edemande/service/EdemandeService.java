@@ -258,7 +258,8 @@ public class EdemandeService implements IExternalProviderService {
             }
         }
         model.put("firstName", sgr.getSubject().getIndividual().getFirstName());
-        model.put("birthPlace", sgr.getSubject().getIndividual().getBirthPlace().getCity());
+        if (sgr.getSubject().getIndividual().getBirthPlace() != null)
+            model.put("birthPlace", sgr.getSubject().getIndividual().getBirthPlace().getCity());
         model.put("birthDate", sgr.getSubject().getIndividual().getBirthDate());
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());

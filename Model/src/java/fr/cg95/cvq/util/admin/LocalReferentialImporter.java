@@ -109,7 +109,7 @@ public class LocalReferentialImporter {
         String csvFileName = args[1];
         String lrTypeDataName = args[2];
         
-        ClassPathXmlApplicationContext cpxa = SpringApplicationContaxtLoader.loadContext(config);
+        ClassPathXmlApplicationContext cpxa = SpringApplicationContextLoader.loadContext(config);
         localAuthorityRegistry = (LocalAuthorityRegistry)cpxa.getBean("localAuthorityRegistry");
         localReferentialService = (ILocalReferentialService)cpxa.getBean("localReferentialService");
         

@@ -28,8 +28,10 @@
     
     // hack to append submit input as hidden
     var addSubmitAsHidden = function (submitEl) {
-      var submitAsHiddenEl = submitEl.cloneNode(false);
-      submitAsHiddenEl.type = 'hidden'
+      var submitAsHiddenEl = document.createElement("input");
+      submitAsHiddenEl.type = 'hidden';
+      submitAsHiddenEl.name = submitEl.name;
+
       var fromYuiEl = new yu.Element(submitEl.form);
       fromYuiEl.appendChild(submitAsHiddenEl);
     }

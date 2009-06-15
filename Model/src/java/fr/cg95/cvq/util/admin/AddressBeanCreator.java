@@ -32,7 +32,7 @@ public class AddressBeanCreator {
     private Pattern otherFieldsPattern = Pattern.compile("(.*?)?((\\d{5})(.*?))?");
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext cpxa = SpringApplicationContaxtLoader.loadContext(null);
+        ClassPathXmlApplicationContext cpxa = SpringApplicationContextLoader.loadContext(null);
         AddressBeanCreator addressBeanCreator = new AddressBeanCreator();
         addressBeanCreator.localAuthorityRegistry = (LocalAuthorityRegistry)cpxa.getBean("localAuthorityRegistry");
         addressBeanCreator.customDAO = new CustomDAO();

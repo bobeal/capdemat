@@ -89,6 +89,7 @@
 		<delete dir="${basedir}/${build.dir}" />
 		<delete dir="${basedir}/${src.xml.hibernate.dir}/fr" />
 		<delete dir="${conf.dir.spring}" />
+		<delete dir="${conf.dir.log4j}" />
 	    <delete dir="${basedir}/utils/lib" />
 		<antcall target="clean-tests" />
 		<antcall target="clean-documentation" />
@@ -197,17 +198,19 @@
 
 	<!-- a special zip file containing setup and referential data -->
 	<target name="admin-package" depends="prepare-configfiles, schemaexport">
-	    <ant dir="${libraries.dir}" target="runtime-libs">
-	      <property name="project.lib.dir" value="${basedir}/utils/lib" />
-	    </ant>
+	  <copy file="${basedir}/test/conf/log4j/log4j.properties" todir="${conf.dir.log4j}" overwrite="true">
+			<filterset>
+				<filter token="perform_db_updates" value="true" />
+			</filterset>
+		</copy>
 		<zip destfile="${application.name}-admin-${application.version}-${application.revision}.zip">
 			<fileset dir="${basedir}">
 				<include name="db/**/*.sql" />
 				<include name="conf/local_referential/**" />
 				<include name="conf/xsl/**" />
 				<include name="conf/spring/**" />
+				<include name="conf/log4j/**" />
 				<include name="utils/admin/**" />
-			    <include name="utils/lib/**" />
 			</fileset>
 		</zip>
 	</target>

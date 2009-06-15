@@ -259,7 +259,7 @@ public class MeansOfContactTransformer {
         // Switch Off logs for this
         logger.setLevel(Level.ERROR);
         
-        ClassPathXmlApplicationContext cpxa = SpringApplicationContaxtLoader.loadContext(config);
+        ClassPathXmlApplicationContext cpxa = SpringApplicationContextLoader.loadContext(config);
         
         localAuthorityRegistry = (LocalAuthorityRegistry)cpxa.getBean("localAuthorityRegistry");
         meansOfContactService = (MeansOfContactService)cpxa.getBean("meansOfContactService");

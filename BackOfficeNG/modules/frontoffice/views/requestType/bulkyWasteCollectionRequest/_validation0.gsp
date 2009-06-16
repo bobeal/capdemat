@@ -2,11 +2,11 @@
 
 
   
-    <h3><g:message code="bwc.step.waste.label" /></h3>
+    <h3><g:message code="bwcr.step.waste.label" /></h3>
     
       
       <dl>
-        <dt><g:message code="bwc.property.bulkyWasteType.label" /></dt>
+        <dt><g:message code="bwcr.property.bulkyWasteType.label" /></dt>
           <dd>
           <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
                     model="['javaName':'bulkyWasteType', 'lrEntries': lrTypes.bulkyWasteType.entries, 'depth':0]" />
@@ -18,14 +18,14 @@
     
       
       <dl>
-        <dt><g:message code="bwc.property.otherWaste.label" /></dt><dd>${rqt.otherWaste}</dd>
+        <dt><g:message code="bwcr.property.otherWaste.label" /></dt><dd>${rqt.otherWaste}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="bwc.property.collectionAddress.label" /></dt>
+        <dt><g:message code="bwcr.property.collectionAddress.label" /></dt>
           <dd>
           <g:if test="${rqt.collectionAddress}">
               <p>${rqt.collectionAddress?.additionalDeliveryInformation}</p>

@@ -4,7 +4,7 @@
   <ul class="yui-nav">
   
     <li class="selected">
-      <a href="#page0"><em><g:message code="bwc.step.waste.label" /></em></a>
+      <a href="#page0"><em><g:message code="bwcr.step.waste.label" /></em></a>
     </li>
   
   </ul>
@@ -15,7 +15,7 @@
       <!-- step start -->
       <div id="page0">
         <h2><g:message code="property.form" />
-          <span><g:message code="bwc.step.waste.label" /></span>
+          <span><g:message code="bwcr.step.waste.label" /></span>
         </h2>
         <div class="yui-g">
           
@@ -24,7 +24,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="bwc.property.bulkyWasteType.label" /> * : </dt><dd id="bulkyWasteType" class="action-editField validate-localReferentialData required-true i18n-bwc.property.bulkyWasteType data-localReferentialData" >
+                <dt class="required"><g:message code="bwcr.property.bulkyWasteType.label" /> * : </dt><dd id="bulkyWasteType" class="action-editField validate-localReferentialData required-true i18n-bwcr.property.bulkyWasteType data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'bulkyWasteType', 'lrEntries': lrTypes.bulkyWasteType?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.bulkyWasteType?.entriesSupportMultiple, 'depth':0]" />
@@ -35,13 +35,13 @@
             
               
               <dl>
-                <dt class=""><g:message code="bwc.property.otherWaste.label" />  : </dt><dd id="otherWaste" class="action-editField validate-string i18n-bwc.property.otherWaste" ><span>${request?.otherWaste}</span></dd>
+                <dt class=""><g:message code="bwcr.property.otherWaste.label" />  : </dt><dd id="otherWaste" class="action-editField validate-string i18n-bwcr.property.otherWaste" ><span>${request?.otherWaste}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="bwc.property.collectionAddress.label" />  : </dt><dd id="collectionAddress" class="action-editField validate-address i18n-bwc.property.collectionAddress" ><div><p class="additionalDeliveryInformation">${request?.collectionAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request?.collectionAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${request?.collectionAddress?.streetNumber}</span> <span class="streetName">${request?.collectionAddress?.streetName}</span><p class="placeNameOrService">${request?.collectionAddress?.placeNameOrService}</p><span class="postalCode">${request?.collectionAddress?.postalCode}</span> <span class="city">${request?.collectionAddress?.city}</span><p class="countryName">${request?.collectionAddress?.countryName}</p></div></dd>
+                <dt class=""><g:message code="bwcr.property.collectionAddress.label" />  : </dt><dd id="collectionAddress" class="action-editField validate-address i18n-bwcr.property.collectionAddress" ><div><p class="additionalDeliveryInformation">${request?.collectionAddress?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request?.collectionAddress?.additionalGeographicalInformation}</p><span class="streetNumber">${request?.collectionAddress?.streetNumber}</span> <span class="streetName">${request?.collectionAddress?.streetName}</span><p class="placeNameOrService">${request?.collectionAddress?.placeNameOrService}</p><span class="postalCode">${request?.collectionAddress?.postalCode}</span> <span class="city">${request?.collectionAddress?.city}</span><p class="countryName">${request?.collectionAddress?.countryName}</p></div></dd>
               </dl>
               
             

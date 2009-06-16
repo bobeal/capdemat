@@ -38,9 +38,9 @@
     
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
     
-    <h2 class="request-creation"> <g:message code="bwc.label" /></h2>
-    <p><g:message code="bwc.description" /></p> 
-    <p><g:message code="request.duration.label" /><strong> : <g:message code="bwc.duration.value" /></strong></p>
+    <h2 class="request-creation"> <g:message code="bwcr.label" /></h2>
+    <p><g:message code="bwcr.description" /></p> 
+    <p><g:message code="request.duration.label" /><strong> : <g:message code="bwcr.duration.value" /></strong></p>
     <p>
       <g:message code="request.requiredDocuments.header" /> :
       <g:if test="${!documentTypes.isEmpty()}">
@@ -64,7 +64,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.waste.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.waste.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="bwc.step.waste.label" /> *
+            <g:message code="bwcr.step.waste.label" /> *
           </strong>
             
           </em></a>
@@ -116,8 +116,8 @@
   
              <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
   
-             <g:message code="bwc.step.waste.label" />
-             <span><g:message code="bwc.step.waste.desc" /></span>
+             <g:message code="bwcr.step.waste.label" />
+             <span><g:message code="bwcr.step.waste.desc" /></span>
              <span class="error">${stepStates?.waste?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>

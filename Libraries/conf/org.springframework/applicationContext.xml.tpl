@@ -549,7 +549,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     class="fr.cg95.cvq.service.request.environment.impl.BulkyWasteCollectionRequestService" 
     parent="requestService">
     <property name="label" value="Bulky Waste Collection"/>
-    <property name="localReferentialFilename" value="local_referential_bwc.xml"/>
+    <property name="localReferentialFilename" value="local_referential_bwcr.xml"/>
     <property name="xslFoFilename" value="bulkyWasteCollectionRequest.xsl"/>
   </bean>
 

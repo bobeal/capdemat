@@ -4,15 +4,5 @@
     <data name="BulkyWasteType">
         <label lang="fr">Type d'encombrants</label>
         <label lang="en">Kind of waste</label>
-         <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
-            <entry key="mobilier">
-                <label lang="fr">Mobilier</label>
-                <message lang="fr"/>
-            </entry>
-            <entry key="gravats">
-                <label lang="fr">Gravats</label>
-                <message lang="fr"/>
-            </entry>
-        </entries>
     </data>
 </LocalReferential>

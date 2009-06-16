@@ -134,7 +134,7 @@
   </xb:namespace>
 
   <!-- Bulky Waste Collection Request -->
-  <xb:namespace uri="http://www.cg95.fr/cvq/schema/bwc">
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/bwcr">
     <xb:package>fr.cg95.cvq.xml.request.environment</xb:package>
   </xb:namespace>
 

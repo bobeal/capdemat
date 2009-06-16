@@ -1,15 +1,15 @@
-bwc.duration.value =
+bwcr.duration.value =
 
-bwc.step.waste.label =
-bwc.step.waste.desc =
+bwcr.step.waste.label =
+bwcr.step.waste.desc =
 
 
-bwc.property.bulkyWasteType.help =
-bwc.property.bulkyWasteType.validationError =
+bwcr.property.bulkyWasteType.help =
+bwcr.property.bulkyWasteType.validationError =
 
-bwc.property.otherWaste.help =
-bwc.property.otherWaste.validationError =
+bwcr.property.otherWaste.help =
+bwcr.property.otherWaste.validationError =
 
-bwc.property.collectionAddress.help =
-bwc.property.collectionAddress.validationError =
+bwcr.property.collectionAddress.help =
+bwcr.property.collectionAddress.validationError =
 

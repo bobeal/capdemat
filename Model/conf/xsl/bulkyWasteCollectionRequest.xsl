@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" 
-  xmlns:bwc="http://www.cg95.fr/cvq/schema/bwc" 
+  xmlns:bwcr="http://www.cg95.fr/cvq/schema/bwcr" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:fo="http://www.w3.org/1999/XSL/Format" 
@@ -62,8 +62,8 @@
         
                                                   <fo:block xsl:use-attribute-sets="request.field.inline.label">Type d'encombrants* :</fo:block>
       	    <xsl:call-template name="LocalReferentialDataType">
-	      <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_bwc.xml')))//ref:data[@name = 'BulkyWasteType']/ref:entries"/>
-	      <xsl:with-param name="RequestData" select="//bwc:BulkyWasteType"/>
+	      <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_bwcr.xml')))//ref:data[@name = 'BulkyWasteType']/ref:entries"/>
+	      <xsl:with-param name="RequestData" select="//bwcr:BulkyWasteType"/>
 	    </xsl:call-template>
 
     
@@ -81,8 +81,8 @@
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//bwc:OtherWaste and //bwc:OtherWaste != ''">
-                                    <xsl:value-of select="//bwc:OtherWaste" />
+                        <xsl:when test="//bwcr:OtherWaste and //bwcr:OtherWaste != ''">
+                                    <xsl:value-of select="//bwcr:OtherWaste" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -96,7 +96,7 @@
 
     
           
-                    	    <xsl:apply-templates select="//bwc:CollectionAddress"/>
+                    	    <xsl:apply-templates select="//bwcr:CollectionAddress"/>
       
     
       
@@ -120,10 +120,10 @@
   
 	    <xsl:call-template name="requestFooter">
 	      <xsl:with-param name="RequestId">
-            <xsl:value-of select="bwc:BulkyWasteCollectionRequest/cvq:Id"/>
+            <xsl:value-of select="bwcr:BulkyWasteCollectionRequest/cvq:Id"/>
           </xsl:with-param>
 	      <xsl:with-param name="CreationDate">
-            <xsl:value-of select="bwc:BulkyWasteCollectionRequest/cvq:CreationDate"/>
+            <xsl:value-of select="bwcr:BulkyWasteCollectionRequest/cvq:CreationDate"/>
           </xsl:with-param>
 	    </xsl:call-template>
 
@@ -138,7 +138,7 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                <xsl:template match="//bwc:CollectionAddress">
+                                <xsl:template match="//bwcr:CollectionAddress">
           <xsl:call-template name="AddressType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>

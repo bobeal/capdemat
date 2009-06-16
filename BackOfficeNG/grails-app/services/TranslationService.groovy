@@ -29,6 +29,10 @@ class TranslationService {
     // see FIXME in fr.cg95.cvq.util.localization.ILocalizationService
     def getEncodedRequestTypeLabelTranslation(String label) {
         def tempRequestService = requestServiceRegistry.getRequestService(label)
+        if (tempRequestService == null) {
+        	log.error "no service found for request type ${label}"
+        	return ""
+        }
         def request = tempRequestService.getSkeletonRequest()
         return localizationService.getRequestLabelTranslation(request.class.name,"fr",false).encodeAsHTML()
     }

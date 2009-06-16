@@ -19,10 +19,17 @@ class CategoryController {
 
     def list = {
         def categories = categoryService.getAll()
-        // hack to load request types
-        categories.each { it.requestTypes.label }
 
-        return ["categories":categories]
+        def requestTypesByCategory = [:]
+        categories.each { category ->
+        	requestTypesByCategory[category.id] = []
+        	category.requestTypes?.each { rt ->
+        		requestTypesByCategory[category.id].add(CapdematUtils.adaptRequestType(translationService, rt))
+        	}
+        	requestTypesByCategory[category.id].sort {it.label.toLowerCase()}
+        }
+
+        return ['categories':categories, 'requestTypesByCategory':requestTypesByCategory]
     }
     
     def edit = {

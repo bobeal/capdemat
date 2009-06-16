@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
@@ -263,8 +264,10 @@ public class HomeFolderModificationRequestService
 
         // TODO REFACTORING : branch into common treatments
         logger.debug("modify() Gonna generate a pdf of the request");
+        XmlObject xmlRequest = fillRequestXml(hfmr);
         byte[] pdfData =
-            certificateService.generateRequestCertificate(hfmr);
+            certificateService.generateRequestCertificate(xmlRequest.getDomNode(),
+                    hfmr.getRequestType());
         requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData);
 
         super.notifyRequestCreation(hfmr, pdfData);

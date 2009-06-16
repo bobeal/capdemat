@@ -33,16 +33,25 @@
                 </subject>
               </widgets>
             </step>
-            <step index="1" name="taxHousehold" />
+            <step index="1" name="taxHousehold">
+              <conditions>
+                <condition name="isTaxHouseholdCityOther" />
+              </conditions>
+            </step>
             <step index="2" name="otherHelps" />
             <step index="3" name="currentStudies">
               <conditions>
+                <condition name="isCurrentSchoolNameOther" />
                 <condition name="isInOtherStudies" />
                 <condition name="makesAbroadInternship" />
               </conditions>
             </step>
             <step index="4" name="calculationElements" />
-            <step index="5" name="bankReference" />
+            <step index="5" name="bankReference">
+              <conditions>
+                <condition name="isSubjectAccountHolder" />
+              </conditions>
+            </step>
             <step index="6" ref="document" />
             <step index="7" ref="validation" />
           </steps>
@@ -144,17 +153,31 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="TaxHouseholdPostalCode" type="cvq:PostalCodeType">
+            <xs:element name="TaxHouseholdCity" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
               <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Commune
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  City
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Commune  
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  City
+                </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users" />
+                  <model namespace="users" isTiedToRequest="true" />
                   <common>
                     <step name="taxHousehold" />
-                    <validation jsregexp="^77[0-9]{3}$" />
+                    <conditions>
+                      <condition name="isTaxHouseholdCityOther" type="trigger" />
+                    </conditions>
                   </common>
                   <xslfo>
-                    <element blockId="1" line="1" column="0">
-                      <string />
+                    <element blockId="1" line="1" column="1">
+                      <localReferential />
                     </element>
                   </xslfo>
                   <fo />
@@ -162,12 +185,27 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="TaxHouseholdCity" type="cvq:CityType">
+            <xs:element name="TaxHouseholdCityPrecision" type="xs:string" minOccurs="0">
               <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Précisez la commune
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Specify city
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Précisez la commune
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Specify city
+                </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" />
                   <common>
                     <step name="taxHousehold" />
+                    <conditions>
+                      <condition name="isTaxHouseholdCityOther" type="filled" required="true" />
+                    </conditions>
                   </common>
                   <xslfo>
                     <element blockId="1" line="1" column="1">
@@ -321,14 +359,49 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="ALevelsInformations" type="sgr:ALevelsInformationsType">
+            <xs:element name="CurrentSchoolName" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom de l'établissement
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  School name
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom de l'établissement
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  School name
+                </xs:documentation>
+                <xs:appinfo> 
+                  <model namespace="users" isTiedToRequest="true" />
+                  <common>
+                    <step name="currentStudies" />
+                    <conditions>
+                    <condition name="isCurrentSchoolNameOther" type="trigger" />
+                    </conditions>
+                  </common>
+                  <xslfo>
+                    <element blockId="3" line="3" column="0">
+                      <localReferential />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="CurrentSchool" type="sgr:SgrCurrentSchoolType" minOccurs="0">
               <xs:annotation>
                 <xs:appinfo>
                   <common>
                     <step name="currentStudies" />
+                    <conditions>
+                      <condition name="isCurrentSchoolNameOther" type="filled" required="true" />
+                    </conditions>
                   </common>
                   <xslfo>
-                    <element blockId="3" line="0" column="0">
+                    <element blockId="3" line="4" column="0">
                       <localComplexElement />
                     </element>
                   </xslfo>
@@ -337,14 +410,14 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="CurrentSchool" type="sgr:SgrCurrentSchoolType">
+            <xs:element name="ALevelsInformations" type="sgr:ALevelsInformationsType">
               <xs:annotation>
                 <xs:appinfo>
                   <common>
                     <step name="currentStudies" />
                   </common>
                   <xslfo>
-                    <element blockId="3" line="2" column="0">
+                    <element blockId="3" line="0" column="0">
                       <localComplexElement />
                     </element>
                   </xslfo>
@@ -389,6 +462,164 @@
                   </common>
                   <xslfo>
                     <element blockId="6" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="IsSubjectAccountHolder" type="xs:boolean" default="true">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Etes-vous titulaire du compte ?
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Are you Account holder ?
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Etes-vous titulaire du compte ?
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Are you Account holder ?
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="trigger" />
+                    </conditions>
+                  </common>
+                  <xslfo>
+                    <element blockId="7" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderTitle" type="cvq:TitleType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Civilité du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Account holder title
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Civilité du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Account holder title
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                  <xslfo>
+                    <element blockId="7" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderLastName" type="cvq:LastNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Nom du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Account holder lastname
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Nom du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Account holder lastname
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                  <xslfo>
+                    <element blockId="7" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderFirstName" type="cvq:FirstNameType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Prénom du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Account holder firstname
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Prénom du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Account holder firstname
+                </xs:documentation>
+                <xs:appinfo>
+                  <model namespace="users" />
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                  <xslfo>
+                    <element blockId="7" line="0" column="0">
+                      <string />
+                    </element>
+                  </xslfo>
+                  <fo />
+                  <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderBirthDate" type="xs:date" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Date de naissance du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Account holder birth date
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Date de naissance du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Account holder birth date
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                    <conditions>
+                      <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
+                    </conditions>
+                  </common>
+                  <xslfo>
+                    <element blockId="7" line="0" column="0">
                       <string />
                     </element>
                   </xslfo>
@@ -1243,39 +1474,39 @@
   <xs:complexType name="SgrCurrentSchoolType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Établissement scolaire
+        Précisez l'établissement scolaire
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Current school
+        Specify the current school
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Établissement scolaire
+        Précisez l'établissement scolaire
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Current school
+        Specify the current school
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="CurrentSchoolName" type="xs:string">
+      <xs:element name="CurrentSchoolNamePrecision" type="xs:string">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom de l'établissement
+            Nom
           </xs:documentation>
           <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-            School name
+            Name
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom de l'établissement
+            Nom
           </xs:documentation>
           <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            School name
+            Name
           </xs:documentation>
           <xs:appinfo>
             <common>
               <step name="currentStudies" />
             </common>
             <xslfo>
-              <element blockId="3" line="2" column="0">
+              <element blockId="3" line="3" column="1">
                 <string />
               </element>
             </xslfo>

@@ -108,7 +108,7 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         
         continueWithNewTransaction();
 
-        assertEquals(0, externalService.getTraces(null, null, null, null, null).size());
+        assertEquals(0, externalService.getTraces((String)null, null, null, null, null).size());
         assertEquals(0, lacb.getExternalServices().size());
     }
     
@@ -153,6 +153,6 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
 
         continueWithNewTransaction();
 
-        assertEquals(0, externalService.getTraces(null, null, null, null, null).size());        
+        assertEquals(0, externalService.getTraces((String)null, null, null, null, null).size());
     }
 }

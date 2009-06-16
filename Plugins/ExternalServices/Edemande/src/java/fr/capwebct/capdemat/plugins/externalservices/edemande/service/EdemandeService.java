@@ -32,6 +32,7 @@ import com.unilog.gda.edem.service.EnregistrerValiderFormulaireResponseDocument;
 import com.unilog.gda.glob.service.GestionCompteResponseDocument;
 
 import fr.capwebct.capdemat.plugins.externalservices.edemande.webservice.client.IEdemandeClient;
+
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
@@ -321,7 +322,10 @@ public class EdemandeService implements IExternalProviderService {
         model.put("abroadInternship", sgr.getCurrentStudiesInformations().getAbroadInternship());
         model.put("abroadInternshipStartDate", sgr.getCurrentStudiesInformations().getAbroadInternshipStartDate());
         model.put("abroadInternshipEndDate", sgr.getCurrentStudiesInformations().getAbroadInternshipEndDate());
-        model.put("currentSchoolName", sgr.getCurrentSchool().getCurrentSchoolName());
+        // FIXME - manage all localReferentialData use case (not requiere, mutliples values)
+        fr.cg95.cvq.xml.common.LocalReferentialDataType sgrCurrentSchoolName = sgr.getCurrentSchoolNameArray(0);
+        model.put("currentSchoolName", sgrCurrentSchoolName);
+        
         model.put("currentSchoolPostalCode", sgr.getCurrentSchool().getCurrentSchoolPostalCode());
         model.put("currentSchoolCity", sgr.getCurrentSchool().getCurrentSchoolCity());
         model.put("currentSchoolCountry", sgr.getCurrentSchool().getCurrentSchoolCountry());

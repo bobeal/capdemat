@@ -8,7 +8,7 @@
   </g:each>
 </select>
 <g:if test="${requestNoteList.isEmpty()}">
- <g:message code="request.message.noNote" /> <g:message code="request.property.note" /> !
+ <g:message code="request.message.noNote" /> !
 </g:if>
 <g:else>
   <dl class="notes">

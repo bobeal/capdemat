@@ -443,6 +443,18 @@
     alter table study_grant_request 
         drop constraint FK7D2F0A7687B85F15;
 
+    alter table study_grant_request_current_school_name 
+        drop constraint FK49484F67C1B15A77;
+
+    alter table study_grant_request_current_school_name 
+        drop constraint FK49484F674E42238A;
+
+    alter table study_grant_request_tax_household_city 
+        drop constraint FK1B568948A40092FB;
+
+    alter table study_grant_request_tax_household_city 
+        drop constraint FK1B568948C1B15A77;
+
     alter table technical_intervention_request 
         drop constraint FKC051B8C974526C97;
 
@@ -656,6 +668,10 @@
     drop table sms_notification_request_interests;
 
     drop table study_grant_request;
+
+    drop table study_grant_request_current_school_name;
+
+    drop table study_grant_request_tax_household_city;
 
     drop table technical_intervention_request;
 
@@ -1027,7 +1043,7 @@
     create table external_service_traces (
         id int8 not null,
         date timestamp,
-        key int8,
+        key varchar(255),
         key_owner varchar(255),
         message varchar(255),
         name varchar(255),
@@ -2108,28 +2124,31 @@
         abroad_internship_end_date timestamp,
         has_europe_help bool,
         current_studies varchar(255),
+        tax_household_city_precision varchar(255),
         current_studies_level varchar(255),
         edemande_id varchar(255),
         current_school_postal_code varchar(5),
         abroad_internship_start_date timestamp,
         tax_household_first_name varchar(38),
         alevels_date varchar(4),
+        account_holder_birth_date timestamp,
         bank_code varchar(5),
         subject_birth_date timestamp,
         counter_code varchar(5),
+        account_holder_last_name varchar(38),
         current_school_city varchar(32),
         has_c_r_o_u_s_help bool,
         subject_email varchar(255),
-        current_school_name varchar(255),
+        account_holder_title varchar(255),
         sandwich_courses bool,
+        account_holder_first_name varchar(38),
         abroad_internship_school_country varchar(255),
-        tax_household_city varchar(32),
         abroad_internship bool,
         tax_household_last_name varchar(38),
         account_number varchar(11),
         distance varchar(255),
         alevels varchar(255),
-        tax_household_postal_code varchar(5),
+        is_subject_account_holder bool,
         subject_first_request bool,
         subject_mobile_phone varchar(10),
         abroad_internship_school_name varchar(255),
@@ -2138,10 +2157,25 @@
         has_regional_council_help bool,
         tax_household_income float8,
         has_other_help bool,
+        current_school_name_precision varchar(255),
         subject_address_id int8,
         current_school_country varchar(255),
         subject_phone varchar(10),
         primary key (id)
+    );
+
+    create table study_grant_request_current_school_name (
+        study_grant_request_id int8 not null,
+        current_school_name_id int8 not null,
+        current_school_name_index int4 not null,
+        primary key (study_grant_request_id, current_school_name_index)
+    );
+
+    create table study_grant_request_tax_household_city (
+        study_grant_request_id int8 not null,
+        tax_household_city_id int8 not null,
+        tax_household_city_index int4 not null,
+        primary key (study_grant_request_id, tax_household_city_index)
     );
 
     create table technical_intervention_request (
@@ -2911,6 +2945,26 @@
         add constraint FK7D2F0A7687B85F15 
         foreign key (subject_address_id) 
         references address;
+
+    alter table study_grant_request_current_school_name 
+        add constraint FK49484F67C1B15A77 
+        foreign key (study_grant_request_id) 
+        references study_grant_request;
+
+    alter table study_grant_request_current_school_name 
+        add constraint FK49484F674E42238A 
+        foreign key (current_school_name_id) 
+        references local_referential_data;
+
+    alter table study_grant_request_tax_household_city 
+        add constraint FK1B568948A40092FB 
+        foreign key (tax_household_city_id) 
+        references local_referential_data;
+
+    alter table study_grant_request_tax_household_city 
+        add constraint FK1B568948C1B15A77 
+        foreign key (study_grant_request_id) 
+        references study_grant_request;
 
     alter table technical_intervention_request 
         add constraint FKC051B8C974526C97 

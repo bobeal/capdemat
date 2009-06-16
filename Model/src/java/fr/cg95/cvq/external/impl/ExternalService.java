@@ -564,7 +564,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return externalServiceTraceDAO.create(trace);
     }
 
-    public Set<ExternalServiceTrace> getTraces(Long key, String name,
+    public Set<ExternalServiceTrace> getTraces(String key, String name,
             TraceStatusEnum status, Date dateFrom, Date dateTo) {
 
         Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
@@ -579,13 +579,22 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                 criterias, ExternalServiceTrace.class);
     }
 
-    public Set<ExternalServiceTrace> getTraces(Long key, String label) {
+    public Set<ExternalServiceTrace> getTraces(Long key, String name,
+            TraceStatusEnum status, Date dateFrom, Date dateTo) {
+        return getTraces(String.valueOf(key), name, status, dateFrom, dateTo);
+    }
+
+    public Set<ExternalServiceTrace> getTraces(String key, String label) {
         CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
         criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.ASC));
         criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
         criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
         criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
         return externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class);
+    }
+
+    public Set<ExternalServiceTrace> getTraces(Long key, String label) {
+        return getTraces(String.valueOf(key), label);
     }
 
     public Set<Long> getTraceKeysByStatus(Set<Long> ids, Set<String> statuses) {
@@ -611,7 +620,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                 criterias, ExternalServiceTrace.class);
     }
 
-    public int deleteTraces(Long key, String keyOwner) throws CvqPermissionException,
+    public int deleteTraces(String key, String keyOwner) throws CvqPermissionException,
             CvqObjectNotFoundException {
         
         Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
@@ -620,6 +629,11 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         
         return this.externalServiceTraceDAO.<ExternalServiceTrace>delete(criterias,
                 ExternalServiceTrace.class);
+    }
+
+    public int deleteTraces(Long key, String keyOwner)
+        throws CvqPermissionException, CvqObjectNotFoundException {
+        return deleteTraces(String.valueOf(key), keyOwner);
     }
 
     public int deleteTraces(String name) throws CvqPermissionException, 
@@ -667,7 +681,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         }
     }
 
-    public ExternalServiceTrace getLastTrace(Long key, String label) {
+    public ExternalServiceTrace getLastTrace(String key, String label) {
         CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
         criteriasDescriptor.setMax(1);
         criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.DESC));
@@ -680,6 +694,10 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             lastTrace = traces.toArray(new ExternalServiceTrace[]{})[0];
         }
         return lastTrace;
+    }
+
+    public ExternalServiceTrace getLastTrace(Long key, String label) {
+        return getLastTrace(String.valueOf(key), label);
     }
 
     public boolean hasTraceWithStatus(String key, String label, TraceStatusEnum status) {

@@ -103,13 +103,18 @@
             
               
               <dl>
-                <dt class="required"><g:message code="sgr.property.taxHouseholdPostalCode.label" /> * : </dt><dd id="taxHouseholdPostalCode" class="action-editField validate-regex required-true i18n-sgr.property.taxHouseholdPostalCode maxLength-5" regex="^77[0-9]{3}$"><span>${request?.taxHouseholdPostalCode}</span></dd>
+                <dt class="required condition-isTaxHouseholdCityOther-trigger"><g:message code="sgr.property.taxHouseholdCity.label" /> * : </dt><dd id="taxHouseholdCity" class="action-editField validate-localReferentialData required-true i18n-sgr.property.taxHouseholdCity data-localReferentialData" >
+           <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
+                     model="['javaName':'taxHouseholdCity', 'lrEntries': lrTypes.taxHouseholdCity?.entries, 
+                             'rqt':request, 'isMultiple':lrTypes.taxHouseholdCity?.entriesSupportMultiple, 'depth':0]" />
+ 
+          </dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="sgr.property.taxHouseholdCity.label" /> * : </dt><dd id="taxHouseholdCity" class="action-editField validate-city required-true i18n-sgr.property.taxHouseholdCity maxLength-32" ><span>${request?.taxHouseholdCity}</span></dd>
+                <dt class="required condition-isTaxHouseholdCityOther-filled"><g:message code="sgr.property.taxHouseholdCityPrecision.label" /> * : </dt><dd id="taxHouseholdCityPrecision" class="action-editField validate-string required-true i18n-sgr.property.taxHouseholdCityPrecision" ><span>${request?.taxHouseholdCityPrecision}</span></dd>
               </dl>
               
             
@@ -192,27 +197,38 @@
           <div class="yui-u first">
             
               
-              <h3><g:message code="sgr.property.aLevelsInformations.label" /></h3>
-              <dl class="required">
-                
-                  <dt class="required"><g:message code="sgr.property.alevelsDate.label" /> * : </dt><dd id="alevelsDate" class="action-editField validate-regex required-true i18n-sgr.property.alevelsDate maxLength-4" regex="^\d{2,4}$"><span>${request?.alevelsDate}</span></dd>
-                
-                  <dt class="required"><g:message code="sgr.property.alevels.label" /> * : </dt><dd id="alevels" class="action-editField validate-capdematEnum required-true i18n-sgr.property.alevels javatype-fr.cg95.cvq.business.request.school.ALevelsType" ><g:capdematEnumToField var="${request?.alevels}" i18nKeyPrefix="sgr.property.alevels" /></dd>
-                
+              <dl>
+                <dt class="required condition-isCurrentSchoolNameOther-trigger"><g:message code="sgr.property.currentSchoolName.label" /> * : </dt><dd id="currentSchoolName" class="action-editField validate-localReferentialData required-true i18n-sgr.property.currentSchoolName data-localReferentialData" >
+           <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
+                     model="['javaName':'currentSchoolName', 'lrEntries': lrTypes.currentSchoolName?.entries, 
+                             'rqt':request, 'isMultiple':lrTypes.currentSchoolName?.entriesSupportMultiple, 'depth':0]" />
+ 
+          </dd>
               </dl>
               
             
               
               <h3><g:message code="sgr.property.currentSchool.label" /></h3>
-              <dl class="required">
+              <dl class="required condition-isCurrentSchoolNameOther-filled">
                 
-                  <dt class="required"><g:message code="sgr.property.currentSchoolName.label" /> * : </dt><dd id="currentSchoolName" class="action-editField validate-string required-true i18n-sgr.property.currentSchoolName" ><span>${request?.currentSchoolName}</span></dd>
+                  <dt class="required"><g:message code="sgr.property.currentSchoolNamePrecision.label" /> * : </dt><dd id="currentSchoolNamePrecision" class="action-editField validate-string required-true i18n-sgr.property.currentSchoolNamePrecision" ><span>${request?.currentSchoolNamePrecision}</span></dd>
                 
                   <dt class="required"><g:message code="sgr.property.currentSchoolPostalCode.label" /> * : </dt><dd id="currentSchoolPostalCode" class="action-editField validate-postalCode required-true i18n-sgr.property.currentSchoolPostalCode maxLength-5" ><span>${request?.currentSchoolPostalCode}</span></dd>
                 
                   <dt class="required"><g:message code="sgr.property.currentSchoolCity.label" /> * : </dt><dd id="currentSchoolCity" class="action-editField validate-city required-true i18n-sgr.property.currentSchoolCity maxLength-32" ><span>${request?.currentSchoolCity}</span></dd>
                 
                   <dt class="required"><g:message code="sgr.property.currentSchoolCountry.label" /> * : </dt><dd id="currentSchoolCountry" class="action-editField validate-capdematEnum required-true i18n-sgr.property.currentSchoolCountry javatype-fr.cg95.cvq.business.users.CountryType" ><g:capdematEnumToField var="${request?.currentSchoolCountry}" i18nKeyPrefix="sgr.property.currentSchoolCountry" /></dd>
+                
+              </dl>
+              
+            
+              
+              <h3><g:message code="sgr.property.aLevelsInformations.label" /></h3>
+              <dl class="required">
+                
+                  <dt class="required"><g:message code="sgr.property.alevelsDate.label" /> * : </dt><dd id="alevelsDate" class="action-editField validate-regex required-true i18n-sgr.property.alevelsDate maxLength-4" regex="^\d{2,4}$"><span>${request?.alevelsDate}</span></dd>
+                
+                  <dt class="required"><g:message code="sgr.property.alevels.label" /> * : </dt><dd id="alevels" class="action-editField validate-capdematEnum required-true i18n-sgr.property.alevels javatype-fr.cg95.cvq.business.request.school.ALevelsType" ><g:capdematEnumToField var="${request?.alevels}" i18nKeyPrefix="sgr.property.alevels" /></dd>
                 
               </dl>
               
@@ -295,6 +311,36 @@
           
           <!-- column start -->
           <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class="required condition-isSubjectAccountHolder-trigger"><g:message code="sgr.property.isSubjectAccountHolder.label" /> * : </dt><dd id="isSubjectAccountHolder" class="action-editField validate-boolean required-true i18n-sgr.property.isSubjectAccountHolder" ><span class="value-${request?.isSubjectAccountHolder}"><g:message code="message.${request?.isSubjectAccountHolder ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderTitle.label" /> * : </dt><dd id="accountHolderTitle" class="action-editField validate-capdematEnum required-true i18n-sgr.property.accountHolderTitle javatype-fr.cg95.cvq.business.users.TitleType" ><g:capdematEnumToField var="${request?.accountHolderTitle}" i18nKeyPrefix="sgr.property.accountHolderTitle" /></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderLastName.label" /> * : </dt><dd id="accountHolderLastName" class="action-editField validate-lastName required-true i18n-sgr.property.accountHolderLastName maxLength-38" ><span>${request?.accountHolderLastName}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderFirstName.label" /> * : </dt><dd id="accountHolderFirstName" class="action-editField validate-firstName required-true i18n-sgr.property.accountHolderFirstName maxLength-38" ><span>${request?.accountHolderFirstName}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderBirthDate.label" /> * : </dt><dd id="accountHolderBirthDate" class="action-editField validate-date required-true i18n-sgr.property.accountHolderBirthDate" ><span><g:formatDate formatName="format.date" date="${request?.accountHolderBirthDate}"/></span></dd>
+              </dl>
+              
             
               
               <dl>

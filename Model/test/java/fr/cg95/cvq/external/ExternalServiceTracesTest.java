@@ -64,14 +64,14 @@ public class ExternalServiceTracesTest extends ServiceTestCase {
                     DateUtils.parseDate("13/09/2007"), DateUtils.parseDate("17/06/2008"));
             assertEquals(0, traces.size());
             
-            traces = externalService.getTraces(null, null, null, 
+            traces = externalService.getTraces((String)null, null, null,
                     DateUtils.parseDate("13/09/2007"), new Date());
             assertEquals(1, traces.size());
             
             /* Test different trace removal methods */
             externalService.addTrace(trace);
             
-            traces = externalService.getTraces(null, null, null, 
+            traces = externalService.getTraces((String)null, null, null,
                     DateUtils.parseDate("13/09/2007"), new Date());
             assertNotNull(traces);
             assertEquals(2, traces.size());
@@ -80,7 +80,7 @@ public class ExternalServiceTracesTest extends ServiceTestCase {
 
             continueWithNewTransaction();
             
-            traces = externalService.getTraces(null, "MyName", null, null, null);
+            traces = externalService.getTraces((String)null, "MyName", null, null, null);
             assertEquals(0, traces.size());
             
             externalService.addTrace(trace);
@@ -89,7 +89,7 @@ public class ExternalServiceTracesTest extends ServiceTestCase {
 
             continueWithNewTransaction();
             
-            traces = externalService.getTraces(null, null, null, 
+            traces = externalService.getTraces((String)null, null, null,
                     DateUtils.parseDate("13/09/2007"), new Date());
             assertEquals(1, traces.size());
             
@@ -98,7 +98,7 @@ public class ExternalServiceTracesTest extends ServiceTestCase {
             
             count = externalService.deleteTraces(2345L, "MyOwner");
             assertEquals(traces.size(), count);
-            traces = externalService.getTraces(null, null, null, 
+            traces = externalService.getTraces((String)null, null, null,
                     DateUtils.parseDate("13/09/2007"), new Date());
             assertEquals(0, traces.size());
             

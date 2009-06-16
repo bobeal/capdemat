@@ -403,6 +403,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     parent="requestService">
     <!-- Service specific -->
     <property name="label" value="Study Grant"/>
+    <property name="localReferentialFilename" value="local_referential_sgr.xml"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="xslFoFilename" value="studyGrantRequest.xsl"/>

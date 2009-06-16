@@ -18,17 +18,19 @@
   
 
   
-    <label class="required"><g:message code="sgr.property.taxHouseholdPostalCode.label" /> *  <span><g:message code="sgr.property.taxHouseholdPostalCode.help" /></span></label>
-            <input type="text" name="taxHouseholdPostalCode" value="${rqt.taxHouseholdPostalCode}" 
-                    class="required  validate-regex" title="<g:message code="sgr.property.taxHouseholdPostalCode.validationError" />" regex="^77[0-9]{3}$" maxLength="5"/>
+    <label class="required"><g:message code="sgr.property.taxHouseholdCity.label" /> *  <span><g:message code="sgr.property.taxHouseholdCity.help" /></span></label>
+            <g:set var="taxHouseholdCityIndex" value="${0}" scope="flash" />
+            <g:render template="/frontofficeRequestType/widget/localReferentialData" 
+                      model="['javaName':'taxHouseholdCity', 'i18nPrefixCode':'sgr.property.taxHouseholdCity', 'htmlClass':'required condition-isTaxHouseholdCityOther-trigger  ', 
+                              'lrEntries': lrTypes.taxHouseholdCity.entries, 'depth':0]" />
             
 
   
 
   
-    <label class="required"><g:message code="sgr.property.taxHouseholdCity.label" /> *  <span><g:message code="sgr.property.taxHouseholdCity.help" /></span></label>
-            <input type="text" name="taxHouseholdCity" value="${rqt.taxHouseholdCity}" 
-                    class="required  validate-city" title="<g:message code="sgr.property.taxHouseholdCity.validationError" />"  maxLength="32"/>
+    <label class="required condition-isTaxHouseholdCityOther-filled"><g:message code="sgr.property.taxHouseholdCityPrecision.label" /> *  <span><g:message code="sgr.property.taxHouseholdCityPrecision.help" /></span></label>
+            <input type="text" name="taxHouseholdCityPrecision" value="${rqt.taxHouseholdCityPrecision}" 
+                    class="required condition-isTaxHouseholdCityOther-filled  validate-string" title="<g:message code="sgr.property.taxHouseholdCityPrecision.validationError" />"  />
             
 
   

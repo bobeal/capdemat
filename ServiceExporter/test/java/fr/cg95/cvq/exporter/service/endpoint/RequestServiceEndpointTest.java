@@ -77,7 +77,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         endpoint2.setLocalAuthorityRegistry(localAuthorityRegistry);
         
         try {
-            externalService.deleteTraces(null, "capdemat");
+            externalService.deleteTraces((String)null, "capdemat");
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             
@@ -103,7 +103,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             Assert.assertEquals(1, getCountBefore);
             
             int tracesCount = 
-                externalService.getTraces(null, null, null, DateUtils.parseDate("13/07/2007"), null)
+                externalService.getTraces((String)null, null, null, DateUtils.parseDate("13/07/2007"), null)
                     .size();
             Assert.assertEquals(1, tracesCount);
             
@@ -124,7 +124,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             Assert.assertTrue(ackResponse.getAccomplished());
             
             int newCount = externalService
-                .getTraces(null, null, null, DateUtils.parseDate("13/07/2007"), null)
+                .getTraces((String)null, null, null, DateUtils.parseDate("13/07/2007"), null)
                 .size();
             
             Assert.assertEquals(2, newCount);
@@ -136,7 +136,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
-            externalService.deleteTraces(null, "capdemat");
+            externalService.deleteTraces((String)null, "capdemat");
         }
     }
     
@@ -161,7 +161,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         endpoint2.setLocalAuthorityRegistry(localAuthorityRegistry);
         
         try {
-            externalService.deleteTraces(null, "capdemat");
+            externalService.deleteTraces((String)null, "capdemat");
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             
@@ -193,7 +193,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             Assert.assertEquals(1, getCountBefore);
             
             int tracesCount = 
-                externalService.getTraces(null, null, null, DateUtils.parseDate("13/07/2007"), null)
+                externalService.getTraces((String)null, null, null, DateUtils.parseDate("13/07/2007"), null)
                     .size();
             Assert.assertNotSame(0, tracesCount);
             
@@ -221,12 +221,12 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             Assert.assertNotNull(ackResponse);
 
             int newCount = externalService
-                .getTraces(null, null, null, DateUtils.parseDate("13/07/2007"), null)
+                .getTraces((String)null, null, null, DateUtils.parseDate("13/07/2007"), null)
                 .size();
             
             Assert.assertEquals(newCount, tracesCount+3);
             
-            ExternalServiceTrace trace = externalService.getTraces(null, null, TraceStatusEnum.ERROR, null, null)
+            ExternalServiceTrace trace = externalService.getTraces((String)null, null, TraceStatusEnum.ERROR, null, null)
                 .iterator().next();
             
             Assert.assertEquals(trace.getKey(), "2347");
@@ -238,7 +238,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
-            externalService.deleteTraces(null, "capdemat");
+            externalService.deleteTraces((String)null, "capdemat");
         }
         
     }
@@ -383,7 +383,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
-            externalService.deleteTraces(null, "capdemat");
+            externalService.deleteTraces((String)null, "capdemat");
         }
     }
 }

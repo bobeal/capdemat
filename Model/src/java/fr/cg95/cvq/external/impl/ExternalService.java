@@ -2,6 +2,7 @@ package fr.cg95.cvq.external.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -718,6 +719,8 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     }
 
     public List<String> checkExternalReferential(Request request) {
+        if (!hasMatchingExternalService(request.getRequestType().getLabel()))
+            return Collections.<String>emptyList();
         List<String> errors = new ArrayList<String>();
         for (IExternalProviderService eps :
             getExternalServicesByRequestType(request.getRequestType().getLabel())) {

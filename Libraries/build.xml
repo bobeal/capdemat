@@ -94,7 +94,9 @@
 				<include name="CapDemat-Model-*.jar" />
 				<include name="CapDemat-RequestSchemas-*.jar" />
 			</fileset>
-			<fileset dir="${deploy.plugins.dir}" />
+			<fileset dir="${deploy.plugins.dir}">
+				<include name="CapDemat-Plugin-ExternalServices-Edemande-*.jar" />
+			</fileset>
 			<fileset dir="${csvobjects.lib.dir}" />
 			<fileset dir="${xmlbean.lib.dir}" />
 			<fileset dir="${mail.lib.dir}" />

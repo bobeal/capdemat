@@ -126,7 +126,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="arguments">
       <list>
         <value>valdoise</value>
-        <value>VO Card Request</value>
+        <value>VO Card</value>
         <value>Pending</value>
         <value>Complete</value>
       </list>

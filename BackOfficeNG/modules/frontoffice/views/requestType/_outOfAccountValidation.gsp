@@ -1,4 +1,4 @@
-  <g:if test="${requestTypeLabel != 'VO Card Request'}">
+  <g:if test="${requestTypeLabel != 'VO Card'}">
     <p>${message(code:'request.step.validation.help.followRequest')}</p>
     <label class="required">${message(code:'request.step.validation.label.followRequest')} * 
     </label>

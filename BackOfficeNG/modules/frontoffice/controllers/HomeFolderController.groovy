@@ -132,7 +132,7 @@ class HomeFolderController {
             if (adult.answer == params.answer) {
                 def password = authenticationService.generatePassword()
                 authenticationService.resetAdultPassword(adult, password)
-                def category = requestTypeService.getRequestTypeByLabel("VO Card Request").category
+                def category = requestTypeService.getRequestTypeByLabel("VO Card").category
                 def categoryEmail = null
                 if (category != null) {
                     categoryEmail = category.primaryEmail

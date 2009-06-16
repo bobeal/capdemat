@@ -14,7 +14,7 @@
   <!-- **************** REQUESTS NAMESPACES DECLARATIONS ******************** -->
 
   <!-- Vo Card Request -->  
-  <xb:namespace uri="http://www.cg95.fr/cvq/schema/vo">
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/vcr">
     <xb:package>fr.cg95.cvq.xml.request.ecitizen</xb:package>
   </xb:namespace>
 

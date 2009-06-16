@@ -94,7 +94,7 @@
             <property name="requestTypes">
               <list>
                 <value>Place Reservation</value>
-                <value>VO Card Request</value>
+                <value>VO Card</value>
                 <value>Perischool Activity Registration</value>
               </list>
             </property>

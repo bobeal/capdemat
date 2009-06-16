@@ -40,7 +40,7 @@
             <li>Du stockage sécurisé de vos pièces justificatives</li>
             <li>... Une nouvelle vie sans stress !</li>
           </ul>
-          <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':'VO Card Request'])}"
+          <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':'VO Card'])}"
           	 style="float:right;font-size:1.3em;margin-right:10%;">
             Je souhaite créer mon compte
           </a>

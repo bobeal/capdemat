@@ -130,3 +130,4 @@ alter table study_grant_request add column account_holder_first_name  varchar(38
 
 alter table external_service_traces alter column key type character varying(255);
 
+update request_type set label = 'VO Card' where label = 'VO Card Request';

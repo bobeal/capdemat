@@ -55,7 +55,7 @@ public interface IRequestService {
     String SUBJECT_POLICY_CHILD = "SUBJECT_POLICY_CHILD";
     
     /** @deprecated */
-    String VO_CARD_REGISTRATION_REQUEST = "VO Card Request";
+    String VO_CARD_REGISTRATION_REQUEST = "VO Card";
     /** @deprecated */
     String HOME_FOLDER_MODIFICATION_REQUEST = "Home Folder Modification Request";
 

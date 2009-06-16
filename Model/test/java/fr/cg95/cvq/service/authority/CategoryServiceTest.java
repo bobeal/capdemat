@@ -116,7 +116,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         Set<Long> categoryRtSet = new HashSet<Long>();
         for (RequestType rt : requestTypesSet) {
             // add VO Card Request to the new category
-            if (rt.getLabel().equals("VO Card Request")) {
+            if (rt.getLabel().equals("VO Card")) {
                 categoryRtSet.add(rt.getId());
                 break;
             }

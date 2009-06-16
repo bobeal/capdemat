@@ -56,7 +56,7 @@ public class ExternalServiceGeneralTest extends ServiceTestCase {
         if (!matched)
             fail("should have matched");
         
-        matched = externalService.hasMatchingExternalService("VO Card Request");
+        matched = externalService.hasMatchingExternalService("VO Card");
         if (matched)
             fail("should have not matched");
 

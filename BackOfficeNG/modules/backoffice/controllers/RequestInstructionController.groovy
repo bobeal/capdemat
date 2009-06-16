@@ -272,7 +272,7 @@ class RequestInstructionController {
         if (params.requestId == null)
              return false
         def request = defaultRequestService.getById(Long.valueOf(params.requestId))
-        if (["VO Card Request", "Home Folder Modification"].contains(request.requestType.label)) {
+        if (["VO Card", "Home Folder Modification"].contains(request.requestType.label)) {
             def homeFolder = homeFolderService.getById(request.homeFolderId)
             DataBindingUtils.initBind(homeFolder, params)
             bind(homeFolder)

@@ -341,7 +341,7 @@ class RequestCreationController {
                     stepState(cRequest.stepStates.get(currentStep), 'complete', '')
                 }
                 
-                if (['VO Card Request','Home Folder Modification'].contains(requestTypeInfo.label)) {
+                if (['VO Card','Home Folder Modification'].contains(requestTypeInfo.label)) {
                     if (['collectionAdd'].contains(submitAction[1])) {
                         stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
                         stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
@@ -360,7 +360,7 @@ class RequestCreationController {
                         cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
                         requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
                     }
-                    else if (requestTypeInfo.label == 'VO Card Request')
+                    else if (requestTypeInfo.label == 'VO Card')
                         requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
                     else if (SecurityContext.currentEcitizen == null) 
                         requestService.create(cRequest, objectToBind.requester, null, docs)

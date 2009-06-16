@@ -252,7 +252,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="voCardRequestService" class="fr.cg95.cvq.service.request.ecitizen.impl.VoCardRequestService" 
     parent="requestService">
     <property name="supportUnregisteredCreation" value="true"/>
-    <property name="label" value="VO Card Request"/>
+    <property name="label" value="VO Card"/>
     <property name="xslFoFilename" value="voCardRequest.xsl"/>
   </bean>
 

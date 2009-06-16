@@ -71,7 +71,8 @@ class RequestInstructionController {
     def edit = {
         Agent agent = SecurityContext.getCurrentAgent();
         def request = defaultRequestService.getById(Long.valueOf(params.id))
-        def requestLabel = translationService.translateRequestTypeLabel(request).encodeAsHTML()
+        def requestLabel = translationService
+            .translateRequestTypeLabel(request.requestType.label).encodeAsHTML()
         
         def requester = individualService.getById(request.requesterId)     
 

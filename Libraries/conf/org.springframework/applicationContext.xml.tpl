@@ -540,7 +540,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     class="fr.cg95.cvq.service.request.leisure.impl.SmsNotificationRequestService" 
     parent="requestService">
     <property name="label" value="Sms Notification"/>
-    <property name="localReferentialFilename" value="local_referential_sms.xml"/>
+    <property name="localReferentialFilename" value="local_referential_snr.xml"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="xslFoFilename" value="smsNotificationRequest.xsl"/>
   </bean>
@@ -557,7 +557,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     class="fr.cg95.cvq.service.request.environment.impl.CompostableWasteCollectionRequestService" 
     parent="requestService">
     <property name="label" value="Compostable Waste Collection"/>
-    <property name="localReferentialFilename" value="local_referential_cwc.xml"/>
+    <property name="localReferentialFilename" value="local_referential_cwcr.xml"/>
     <property name="xslFoFilename" value="compostableWasteCollectionRequest.xsl"/>
   </bean>
 

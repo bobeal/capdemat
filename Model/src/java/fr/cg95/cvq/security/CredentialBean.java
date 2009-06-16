@@ -62,6 +62,12 @@ public class CredentialBean {
     private CategoryRoles[] categoryRoles = null;
 
     /**
+     * Whether or not current agent is the manager of at least one category 
+     * (used to display statistics and request configuration menus)
+     */
+    private boolean isACategoryManager = false;
+    
+    /**
      * Used to keep trace of current citizen's "managed" individuals.
      */
     private Set<IndividualRole> individualRoles = null;
@@ -260,6 +266,8 @@ public class CredentialBean {
                 int i = 0;
                 for (CategoryRoles cr : categoryRolesSet) {
                     categoryRoles[i] = cr;
+                    if (cr.getProfile().equals(CategoryProfile.MANAGER))
+                        isACategoryManager = true;
                     i++;
                 }
             }
@@ -268,6 +276,10 @@ public class CredentialBean {
         return categoryRoles;
     }
 
+    public boolean isACategoryManager() {
+        return isACategoryManager;
+    }
+    
     public CategoryProfile getProfileForCategory(Category category) {
         CategoryRoles[] categoryRoles = getCategoryRoles();
         for (CategoryRoles cr : categoryRoles) {

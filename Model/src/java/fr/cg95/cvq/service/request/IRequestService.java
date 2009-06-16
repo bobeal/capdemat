@@ -57,7 +57,7 @@ public interface IRequestService {
     /** @deprecated */
     String VO_CARD_REGISTRATION_REQUEST = "VO Card";
     /** @deprecated */
-    String HOME_FOLDER_MODIFICATION_REQUEST = "Home Folder Modification Request";
+    String HOME_FOLDER_MODIFICATION_REQUEST = "Home Folder Modification";
 
     //////////////////////////////////////////////////////////
     // CRUD related methods

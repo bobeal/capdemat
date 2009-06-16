@@ -4,8 +4,8 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
+import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -17,7 +17,7 @@ import fr.cg95.cvq.util.translation.ITranslationService;
  */
 public class TranslationService implements ITranslationService {
 
-    private ReloadableResourceBundleMessageSource messageSource;
+    private MessageSource messageSource;
 
     public String translate(String code) {
         return translate(code, null, null);
@@ -39,7 +39,11 @@ public class TranslationService implements ITranslationService {
                 locale = Locale.FRANCE;
             }
         }
-        return messageSource.getMessage(code, args, locale);
+        try {
+            return messageSource.getMessage(code, args, locale);
+        } catch (NoSuchMessageException e) {
+            return code;
+        }
     }
 
     public String translateRequestTypeLabel(String label) {
@@ -51,14 +55,11 @@ public class TranslationService implements ITranslationService {
         for (String word : StringUtils.split(WordUtils.uncapitalize(label), null)) {
             polygramm.append(word.charAt(0));
         }
-        try {
-            return translate(polygramm.append("r.label").toString(), locale);
-        } catch (NoSuchMessageException e) {
-            return label;
-        }
+        String translation = translate(polygramm.append("r.label").toString(), locale);
+        return !translation.equals(polygramm.toString()) ? translation : label;
     }
 
-    public void setMessageSource(ReloadableResourceBundleMessageSource messageSource) {
+    public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 }

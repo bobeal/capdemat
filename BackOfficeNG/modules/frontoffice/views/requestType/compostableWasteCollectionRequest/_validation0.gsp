@@ -2,11 +2,11 @@
 
 
   
-    <h3><g:message code="cwc.step.waste.label" /></h3>
+    <h3><g:message code="cwcr.step.waste.label" /></h3>
     
       
       <dl>
-        <dt><g:message code="cwc.property.compostableWasteType.label" /></dt>
+        <dt><g:message code="cwcr.property.compostableWasteType.label" /></dt>
           <dd>
           <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
                     model="['javaName':'compostableWasteType', 'lrEntries': lrTypes.compostableWasteType.entries, 'depth':0]" />
@@ -18,14 +18,14 @@
     
       
       <dl>
-        <dt><g:message code="cwc.property.otherWaste.label" /></dt><dd>${rqt.otherWaste}</dd>
+        <dt><g:message code="cwcr.property.otherWaste.label" /></dt><dd>${rqt.otherWaste}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="cwc.property.collectionAddress.label" /></dt>
+        <dt><g:message code="cwcr.property.collectionAddress.label" /></dt>
           <dd>
           <g:if test="${rqt.collectionAddress}">
               <p>${rqt.collectionAddress?.additionalDeliveryInformation}</p>

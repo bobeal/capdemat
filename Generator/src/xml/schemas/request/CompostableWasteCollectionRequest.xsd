@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/cwc"
-  xmlns:cwc="http://www.cg95.fr/cvq/schema/cwc" 
+<xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/cwcr"
+  xmlns:cwcr="http://www.cg95.fr/cvq/schema/cwcr" 
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:cvq="http://www.cg95.fr/cvq/schema/common" 
   elementFormDefault="qualified"

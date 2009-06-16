@@ -2,25 +2,25 @@
 
 
   
-    <label class="required"><g:message code="cwc.property.compostableWasteType.label" /> *  <span><g:message code="cwc.property.compostableWasteType.help" /></span></label>
+    <label class="required"><g:message code="cwcr.property.compostableWasteType.label" /> *  <span><g:message code="cwcr.property.compostableWasteType.help" /></span></label>
             <g:set var="compostableWasteTypeIndex" value="${0}" scope="flash" />
             <g:render template="/frontofficeRequestType/widget/localReferentialData" 
-                      model="['javaName':'compostableWasteType', 'i18nPrefixCode':'cwc.property.compostableWasteType', 'htmlClass':'required  ', 
+                      model="['javaName':'compostableWasteType', 'i18nPrefixCode':'cwcr.property.compostableWasteType', 'htmlClass':'required  ', 
                               'lrEntries': lrTypes.compostableWasteType.entries, 'depth':0]" />
             
 
   
 
   
-    <label class=""><g:message code="cwc.property.otherWaste.label" />   <span><g:message code="cwc.property.otherWaste.help" /></span></label>
+    <label class=""><g:message code="cwcr.property.otherWaste.label" />   <span><g:message code="cwcr.property.otherWaste.help" /></span></label>
             <input type="text" name="otherWaste" value="${rqt.otherWaste}" 
-                    class="  validate-string" title="<g:message code="cwc.property.otherWaste.validationError" />"  />
+                    class="  validate-string" title="<g:message code="cwcr.property.otherWaste.validationError" />"  />
             
 
   
 
   
-    <label class=""><g:message code="cwc.property.collectionAddress.label" />   <span><g:message code="cwc.property.collectionAddress.help" /></span></label>
+    <label class=""><g:message code="cwcr.property.collectionAddress.label" />   <span><g:message code="cwcr.property.collectionAddress.help" /></span></label>
             <div class="address-fieldset  ">
             <label><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" value="${rqt.collectionAddress?.additionalDeliveryInformation}" maxlength="38" name="collectionAddress.additionalDeliveryInformation"/>  

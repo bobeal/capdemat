@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" 
-  xmlns:cwc="http://www.cg95.fr/cvq/schema/cwc" 
+  xmlns:cwcr="http://www.cg95.fr/cvq/schema/cwcr" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:fo="http://www.w3.org/1999/XSL/Format" 
@@ -62,8 +62,8 @@
         
                                                   <fo:block xsl:use-attribute-sets="request.field.inline.label">Type de végétaux* :</fo:block>
       	    <xsl:call-template name="LocalReferentialDataType">
-	      <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_cwc.xml')))//ref:data[@name = 'CompostableWasteType']/ref:entries"/>
-	      <xsl:with-param name="RequestData" select="//cwc:CompostableWasteType"/>
+	      <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_cwcr.xml')))//ref:data[@name = 'CompostableWasteType']/ref:entries"/>
+	      <xsl:with-param name="RequestData" select="//cwcr:CompostableWasteType"/>
 	    </xsl:call-template>
 
     
@@ -81,8 +81,8 @@
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//cwc:OtherWaste and //cwc:OtherWaste != ''">
-                                    <xsl:value-of select="//cwc:OtherWaste" />
+                        <xsl:when test="//cwcr:OtherWaste and //cwcr:OtherWaste != ''">
+                                    <xsl:value-of select="//cwcr:OtherWaste" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -96,7 +96,7 @@
 
     
           
-                    	    <xsl:apply-templates select="//cwc:CollectionAddress"/>
+                    	    <xsl:apply-templates select="//cwcr:CollectionAddress"/>
       
     
       
@@ -120,10 +120,10 @@
   
 	    <xsl:call-template name="requestFooter">
 	      <xsl:with-param name="RequestId">
-            <xsl:value-of select="cwc:CompostableWasteCollectionRequest/cvq:Id"/>
+            <xsl:value-of select="cwcr:CompostableWasteCollectionRequest/cvq:Id"/>
           </xsl:with-param>
 	      <xsl:with-param name="CreationDate">
-            <xsl:value-of select="cwc:CompostableWasteCollectionRequest/cvq:CreationDate"/>
+            <xsl:value-of select="cwcr:CompostableWasteCollectionRequest/cvq:CreationDate"/>
           </xsl:with-param>
 	    </xsl:call-template>
 
@@ -138,7 +138,7 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                <xsl:template match="//cwc:CollectionAddress">
+                                <xsl:template match="//cwcr:CollectionAddress">
           <xsl:call-template name="AddressType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>

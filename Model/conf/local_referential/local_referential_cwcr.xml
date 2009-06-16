@@ -4,15 +4,5 @@
     <data name="CompostableWasteType">
         <label lang="fr">Type de végétaux</label>
         <label lang="en">Kind of waste</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
-            <entry key="phanérophytes_">
-                <label lang="fr">phanérophytes</label>
-                <message lang="fr"/>
-            </entry>
-            <entry key="chamaephytes">
-                <label lang="fr">chamaephytes</label>
-                <message lang="fr"/>
-            </entry>
-        </entries>
     </data>
 </LocalReferential>

@@ -1,15 +1,15 @@
-cwc.duration.value =
+cwcr.duration.value =
 
-cwc.step.waste.label =
-cwc.step.waste.desc =
+cwcr.step.waste.label =
+cwcr.step.waste.desc =
 
 
-cwc.property.compostableWasteType.help =
-cwc.property.compostableWasteType.validationError =
+cwcr.property.compostableWasteType.help =
+cwcr.property.compostableWasteType.validationError =
 
-cwc.property.otherWaste.help =
-cwc.property.otherWaste.validationError =
+cwcr.property.otherWaste.help =
+cwcr.property.otherWaste.validationError =
 
-cwc.property.collectionAddress.help =
-cwc.property.collectionAddress.validationError =
+cwcr.property.collectionAddress.help =
+cwcr.property.collectionAddress.validationError =
 

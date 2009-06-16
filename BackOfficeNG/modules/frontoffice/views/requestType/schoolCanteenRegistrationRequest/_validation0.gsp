@@ -13,7 +13,7 @@
     
       
       <dl>
-        <dt><g:message code="scrr.property.urgencyPhone.label" /></dt><dd>${rqt.urgencyPhone}</dd>
+        <dt><g:message code="scrr.property.urgencyPhone.label" /></dt><dd>${rqt.urgencyPhone?.toString()}</dd>
 
       </dl>
       
@@ -53,14 +53,14 @@
     
       
       <dl>
-        <dt><g:message code="scrr.property.doctorName.label" /></dt><dd>${rqt.doctorName}</dd>
+        <dt><g:message code="scrr.property.doctorName.label" /></dt><dd>${rqt.doctorName?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="scrr.property.doctorPhone.label" /></dt><dd>${rqt.doctorPhone}</dd>
+        <dt><g:message code="scrr.property.doctorPhone.label" /></dt><dd>${rqt.doctorPhone?.toString()}</dd>
 
       </dl>
       

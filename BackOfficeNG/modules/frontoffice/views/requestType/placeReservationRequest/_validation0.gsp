@@ -29,7 +29,7 @@
     
       
       <dl>
-        <dt><g:message code="prr.property.subscriberNumber.label" /></dt><dd>${rqt.subscriberNumber}</dd>
+        <dt><g:message code="prr.property.subscriberNumber.label" /></dt><dd>${rqt.subscriberNumber?.toString()}</dd>
 
       </dl>
       

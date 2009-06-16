@@ -18,7 +18,7 @@
 
     
       <label class="required condition-isSchoolingEnrolment-filled"><g:message code="hccr.property.schoolingSchoolName.label" /> *  <span><g:message code="hccr.property.schoolingSchoolName.help" /></span></label>
-            <input type="text" name="schoolingSchoolName" value="${rqt.schoolingSchoolName}" 
+            <input type="text" name="schoolingSchoolName" value="${rqt.schoolingSchoolName?.toString()}" 
                     class="required condition-isSchoolingEnrolment-filled  " title="<g:message code="hccr.property.schoolingSchoolName.validationError" />"  maxLength="80"/>
             
 
@@ -78,7 +78,7 @@
 
     
       <label class="required condition-isSpecializedGrade-filled"><g:message code="hccr.property.schoolingSpecializedGradeDetails.label" /> *  <span><g:message code="hccr.property.schoolingSpecializedGradeDetails.help" /></span></label>
-            <input type="text" name="schoolingSpecializedGradeDetails" value="${rqt.schoolingSpecializedGradeDetails}" 
+            <input type="text" name="schoolingSpecializedGradeDetails" value="${rqt.schoolingSpecializedGradeDetails?.toString()}" 
                     class="required condition-isSpecializedGrade-filled  " title="<g:message code="hccr.property.schoolingSpecializedGradeDetails.validationError" />"  maxLength="30"/>
             
 
@@ -94,7 +94,7 @@
 
     
       <label class="required condition-isPartTimeSchooling-filled"><g:message code="hccr.property.schoolingTime.label" /> *  <span><g:message code="hccr.property.schoolingTime.help" /></span></label>
-            <input type="text" name="schoolingTime" value="${rqt.schoolingTime}" 
+            <input type="text" name="schoolingTime" value="${rqt.schoolingTime?.toString()}" 
                     class="required condition-isPartTimeSchooling-filled  " title="<g:message code="hccr.property.schoolingTime.validationError" />"  />
             
 
@@ -134,13 +134,13 @@
 
     
       <label class="required condition-isAccompaniedHomeSchooling-filled"><g:message code="hccr.property.schoolingHomeSchoolingAccompanistLastName.label" /> *  <span><g:message code="hccr.property.schoolingHomeSchoolingAccompanistLastName.help" /></span></label>
-            <input type="text" name="schoolingHomeSchoolingAccompanistLastName" value="${rqt.schoolingHomeSchoolingAccompanistLastName}" 
+            <input type="text" name="schoolingHomeSchoolingAccompanistLastName" value="${rqt.schoolingHomeSchoolingAccompanistLastName?.toString()}" 
                     class="required condition-isAccompaniedHomeSchooling-filled  validate-lastName" title="<g:message code="hccr.property.schoolingHomeSchoolingAccompanistLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required condition-isAccompaniedHomeSchooling-filled"><g:message code="hccr.property.schoolingHomeSchoolingAccompanistFirstName.label" /> *  <span><g:message code="hccr.property.schoolingHomeSchoolingAccompanistFirstName.help" /></span></label>
-            <input type="text" name="schoolingHomeSchoolingAccompanistFirstName" value="${rqt.schoolingHomeSchoolingAccompanistFirstName}" 
+            <input type="text" name="schoolingHomeSchoolingAccompanistFirstName" value="${rqt.schoolingHomeSchoolingAccompanistFirstName?.toString()}" 
                     class="required condition-isAccompaniedHomeSchooling-filled  validate-firstName" title="<g:message code="hccr.property.schoolingHomeSchoolingAccompanistFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -178,7 +178,7 @@
 
     
       <label class="required condition-isExtraCurricular-filled"><g:message code="hccr.property.schoolingExtraCurricularDetails.label" /> *  <span><g:message code="hccr.property.schoolingExtraCurricularDetails.help" /></span></label>
-            <input type="text" name="schoolingExtraCurricularDetails" value="${rqt.schoolingExtraCurricularDetails}" 
+            <input type="text" name="schoolingExtraCurricularDetails" value="${rqt.schoolingExtraCurricularDetails?.toString()}" 
                     class="required condition-isExtraCurricular-filled  " title="<g:message code="hccr.property.schoolingExtraCurricularDetails.validationError" />"  maxLength="50"/>
             
 
@@ -203,13 +203,13 @@
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hccr.property.studiesHighSchoolGrade.label" /> *  <span><g:message code="hccr.property.studiesHighSchoolGrade.help" /></span></label>
-            <input type="text" name="studiesHighSchoolGrade" value="${rqt.studiesHighSchoolGrade}" 
+            <input type="text" name="studiesHighSchoolGrade" value="${rqt.studiesHighSchoolGrade?.toString()}" 
                     class="required condition-isHighSchool-filled  " title="<g:message code="hccr.property.studiesHighSchoolGrade.validationError" />"  maxLength="60"/>
             
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hccr.property.studiesHighSchoolName.label" /> *  <span><g:message code="hccr.property.studiesHighSchoolName.help" /></span></label>
-            <input type="text" name="studiesHighSchoolName" value="${rqt.studiesHighSchoolName}" 
+            <input type="text" name="studiesHighSchoolName" value="${rqt.studiesHighSchoolName?.toString()}" 
                     class="required condition-isHighSchool-filled  " title="<g:message code="hccr.property.studiesHighSchoolName.validationError" />"  maxLength="60"/>
             
 
@@ -247,7 +247,7 @@
 
     
       <label class="required condition-isAssistanceUnderDisability-filled"><g:message code="hccr.property.studiesAssistanceUnderDisabilityDetails.label" /> *  <span><g:message code="hccr.property.studiesAssistanceUnderDisabilityDetails.help" /></span></label>
-            <input type="text" name="studiesAssistanceUnderDisabilityDetails" value="${rqt.studiesAssistanceUnderDisabilityDetails}" 
+            <input type="text" name="studiesAssistanceUnderDisabilityDetails" value="${rqt.studiesAssistanceUnderDisabilityDetails?.toString()}" 
                     class="required condition-isAssistanceUnderDisability-filled  " title="<g:message code="hccr.property.studiesAssistanceUnderDisabilityDetails.validationError" />"  maxLength="60"/>
             
 
@@ -260,7 +260,7 @@
     <legend><g:message code="hccr.property.formation.label" /></legend>
     
       <label class=""><g:message code="hccr.property.formationStudiesLevel.label" />   <span><g:message code="hccr.property.formationStudiesLevel.help" /></span></label>
-            <input type="text" name="formationStudiesLevel" value="${rqt.formationStudiesLevel}" 
+            <input type="text" name="formationStudiesLevel" value="${rqt.formationStudiesLevel?.toString()}" 
                     class="  " title="<g:message code="hccr.property.formationStudiesLevel.validationError" />"  maxLength="30"/>
             
 
@@ -314,13 +314,13 @@
 
     
       <label class="required condition-isEmployed-filled"><g:message code="hccr.property.professionalStatusProfession.label" /> *  <span><g:message code="hccr.property.professionalStatusProfession.help" /></span></label>
-            <input type="text" name="professionalStatusProfession" value="${rqt.professionalStatusProfession}" 
+            <input type="text" name="professionalStatusProfession" value="${rqt.professionalStatusProfession?.toString()}" 
                     class="required condition-isEmployed-filled  " title="<g:message code="hccr.property.professionalStatusProfession.validationError" />"  maxLength="60"/>
             
 
     
       <label class="required condition-isEmployed-filled"><g:message code="hccr.property.professionalStatusEmployerName.label" /> *  <span><g:message code="hccr.property.professionalStatusEmployerName.help" /></span></label>
-            <input type="text" name="professionalStatusEmployerName" value="${rqt.professionalStatusEmployerName}" 
+            <input type="text" name="professionalStatusEmployerName" value="${rqt.professionalStatusEmployerName?.toString()}" 
                     class="required condition-isEmployed-filled  validate-lastName" title="<g:message code="hccr.property.professionalStatusEmployerName.validationError" />"  maxLength="38"/>
             
 
@@ -394,7 +394,7 @@
 
     
       <label class="required condition-isElectiveFunction-filled"><g:message code="hccr.property.professionalStatusElectiveFunctionDetails.label" /> *  <span><g:message code="hccr.property.professionalStatusElectiveFunctionDetails.help" /></span></label>
-            <input type="text" name="professionalStatusElectiveFunctionDetails" value="${rqt.professionalStatusElectiveFunctionDetails}" 
+            <input type="text" name="professionalStatusElectiveFunctionDetails" value="${rqt.professionalStatusElectiveFunctionDetails?.toString()}" 
                     class="required condition-isElectiveFunction-filled  " title="<g:message code="hccr.property.professionalStatusElectiveFunctionDetails.validationError" />"  maxLength="60"/>
             
 

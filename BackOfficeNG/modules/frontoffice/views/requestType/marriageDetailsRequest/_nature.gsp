@@ -15,7 +15,7 @@
 
   
     <label class="condition-isOtherRequesterQuality-filled"><g:message code="mdr.property.requesterQualityPrecision.label" />   <span><g:message code="mdr.property.requesterQualityPrecision.help" /></span></label>
-            <input type="text" name="requesterQualityPrecision" value="${rqt.requesterQualityPrecision}" 
+            <input type="text" name="requesterQualityPrecision" value="${rqt.requesterQualityPrecision?.toString()}" 
                     class="condition-isOtherRequesterQuality-filled  validate-string" title="<g:message code="mdr.property.requesterQualityPrecision.validationError" />"  />
             
 
@@ -26,13 +26,13 @@
     <legend><g:message code="mdr.property.marriageHusband.label" /></legend>
     
       <label class="required"><g:message code="mdr.property.marriageHusbandLastName.label" /> *  <span><g:message code="mdr.property.marriageHusbandLastName.help" /></span></label>
-            <input type="text" name="marriageHusbandLastName" value="${rqt.marriageHusbandLastName}" 
+            <input type="text" name="marriageHusbandLastName" value="${rqt.marriageHusbandLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="mdr.property.marriageHusbandLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required"><g:message code="mdr.property.marriageHusbandFirstNames.label" /> *  <span><g:message code="mdr.property.marriageHusbandFirstNames.help" /></span></label>
-            <input type="text" name="marriageHusbandFirstNames" value="${rqt.marriageHusbandFirstNames}" 
+            <input type="text" name="marriageHusbandFirstNames" value="${rqt.marriageHusbandFirstNames?.toString()}" 
                     class="required  validate-string" title="<g:message code="mdr.property.marriageHusbandFirstNames.validationError" />"  />
             
 
@@ -45,13 +45,13 @@
     <legend><g:message code="mdr.property.marriageWife.label" /></legend>
     
       <label class="required"><g:message code="mdr.property.marriageWifeLastName.label" /> *  <span><g:message code="mdr.property.marriageWifeLastName.help" /></span></label>
-            <input type="text" name="marriageWifeLastName" value="${rqt.marriageWifeLastName}" 
+            <input type="text" name="marriageWifeLastName" value="${rqt.marriageWifeLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="mdr.property.marriageWifeLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required"><g:message code="mdr.property.marriageWifeFirstNames.label" /> *  <span><g:message code="mdr.property.marriageWifeFirstNames.help" /></span></label>
-            <input type="text" name="marriageWifeFirstNames" value="${rqt.marriageWifeFirstNames}" 
+            <input type="text" name="marriageWifeFirstNames" value="${rqt.marriageWifeFirstNames?.toString()}" 
                     class="required  validate-string" title="<g:message code="mdr.property.marriageWifeFirstNames.validationError" />"  />
             
 
@@ -70,13 +70,13 @@
 
     
       <label class="required"><g:message code="mdr.property.marriageCity.label" /> *  <span><g:message code="mdr.property.marriageCity.help" /></span></label>
-            <input type="text" name="marriageCity" value="${rqt.marriageCity}" 
+            <input type="text" name="marriageCity" value="${rqt.marriageCity?.toString()}" 
                     class="required  validate-city" title="<g:message code="mdr.property.marriageCity.validationError" />"  maxLength="32"/>
             
 
     
       <label class="required"><g:message code="mdr.property.marriagePostalCode.label" /> *  <span><g:message code="mdr.property.marriagePostalCode.help" /></span></label>
-            <input type="text" name="marriagePostalCode" value="${rqt.marriagePostalCode}" 
+            <input type="text" name="marriagePostalCode" value="${rqt.marriagePostalCode?.toString()}" 
                     class="required  validate-departmentCode" title="<g:message code="mdr.property.marriagePostalCode.validationError" />"  maxLength="2"/>
             
 

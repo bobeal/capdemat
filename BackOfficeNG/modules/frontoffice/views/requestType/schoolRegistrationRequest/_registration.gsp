@@ -27,7 +27,7 @@
 
   
     <label class="required"><g:message code="srr.property.urgencyPhone.label" /> *  <span><g:message code="srr.property.urgencyPhone.help" /></span></label>
-            <input type="text" name="urgencyPhone" value="${rqt.urgencyPhone}" 
+            <input type="text" name="urgencyPhone" value="${rqt.urgencyPhone?.toString()}" 
                     class="required  validate-phone" title="<g:message code="srr.property.urgencyPhone.validationError" />"  maxLength="10"/>
             
 
@@ -38,7 +38,7 @@
     <legend><g:message code="srr.property.currentSchool.label" /></legend>
     
       <label class=""><g:message code="srr.property.currentSchoolName.label" />   <span><g:message code="srr.property.currentSchoolName.help" /></span></label>
-            <input type="text" name="currentSchoolName" value="${rqt.currentSchoolName}" 
+            <input type="text" name="currentSchoolName" value="${rqt.currentSchoolName?.toString()}" 
                     class="  validate-string" title="<g:message code="srr.property.currentSchoolName.validationError" />"  />
             
 

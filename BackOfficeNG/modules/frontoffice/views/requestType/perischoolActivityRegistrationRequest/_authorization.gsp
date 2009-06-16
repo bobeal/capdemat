@@ -8,13 +8,13 @@
       <fieldset class="collection-fieldset-add ">
     
         <label class="required"><g:message code="parr.property.lastName.label" /> *  <span><g:message code="parr.property.lastName.help" /></span></label>
-            <input type="text" name="authorizedIndividuals[${listIndex}].lastName" value="${editList?.authorizedIndividuals?.lastName}" 
+            <input type="text" name="authorizedIndividuals[${listIndex}].lastName" value="${editList?.authorizedIndividuals?.lastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="parr.property.lastName.validationError" />"  maxLength="38"/>
             
 
     
         <label class="required"><g:message code="parr.property.firstName.label" /> *  <span><g:message code="parr.property.firstName.help" /></span></label>
-            <input type="text" name="authorizedIndividuals[${listIndex}].firstName" value="${editList?.authorizedIndividuals?.firstName}" 
+            <input type="text" name="authorizedIndividuals[${listIndex}].firstName" value="${editList?.authorizedIndividuals?.firstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="parr.property.firstName.validationError" />"  maxLength="38"/>
             
 
@@ -40,13 +40,13 @@
 
     
         <label class=""><g:message code="parr.property.homePhone.label" />   <span><g:message code="parr.property.homePhone.help" /></span></label>
-            <input type="text" name="authorizedIndividuals[${listIndex}].homePhone" value="${editList?.authorizedIndividuals?.homePhone}" 
+            <input type="text" name="authorizedIndividuals[${listIndex}].homePhone" value="${editList?.authorizedIndividuals?.homePhone?.toString()}" 
                     class="  validate-phone" title="<g:message code="parr.property.homePhone.validationError" />"  maxLength="10"/>
             
 
     
         <label class=""><g:message code="parr.property.officePhone.label" />   <span><g:message code="parr.property.officePhone.help" /></span></label>
-            <input type="text" name="authorizedIndividuals[${listIndex}].officePhone" value="${editList?.authorizedIndividuals?.officePhone}" 
+            <input type="text" name="authorizedIndividuals[${listIndex}].officePhone" value="${editList?.authorizedIndividuals?.officePhone?.toString()}" 
                     class="  validate-phone" title="<g:message code="parr.property.officePhone.validationError" />"  maxLength="10"/>
             
 
@@ -63,10 +63,10 @@
         <dl>
     
         <dt><g:message code="parr.property.lastName.label" /></dt>
-        <dd>${it.lastName}</dd>
+        <dd>${it.lastName?.toString()}</dd>
     
         <dt><g:message code="parr.property.firstName.label" /></dt>
-        <dd>${it.firstName}</dd>
+        <dd>${it.firstName?.toString()}</dd>
     
         <dt><g:message code="parr.property.address.label" /></dt>
         
@@ -83,10 +83,10 @@
               
     
         <dt><g:message code="parr.property.homePhone.label" /></dt>
-        <dd>${it.homePhone}</dd>
+        <dd>${it.homePhone?.toString()}</dd>
     
         <dt><g:message code="parr.property.officePhone.label" /></dt>
-        <dd>${it.officePhone}</dd>
+        <dd>${it.officePhone?.toString()}</dd>
     
         </dl>
         <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-authorization-authorizedIndividuals[${index}]" />

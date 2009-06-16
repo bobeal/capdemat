@@ -18,7 +18,7 @@
     
       
       <dl>
-        <dt><g:message code="cwc.property.otherWaste.label" /></dt><dd>${rqt.otherWaste}</dd>
+        <dt><g:message code="cwc.property.otherWaste.label" /></dt><dd>${rqt.otherWaste?.toString()}</dd>
 
       </dl>
       

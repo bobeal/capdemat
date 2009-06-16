@@ -6,7 +6,7 @@
     <legend><g:message code="mcr.property.familySituationInformation.label" /></legend>
     
       <label class="required"><g:message code="mcr.property.aliveChildren.label" /> *  <span><g:message code="mcr.property.aliveChildren.help" /></span></label>
-            <input type="text" name="aliveChildren" value="${rqt.aliveChildren}" 
+            <input type="text" name="aliveChildren" value="${rqt.aliveChildren?.toString()}" 
                     class="required  validate-positiveInteger" title="<g:message code="mcr.property.aliveChildren.validationError" />"  />
             
 
@@ -22,13 +22,13 @@
 
     
       <label class="required"><g:message code="mcr.property.childrenInCharge.label" /> *  <span><g:message code="mcr.property.childrenInCharge.help" /></span></label>
-            <input type="text" name="childrenInCharge" value="${rqt.childrenInCharge}" 
+            <input type="text" name="childrenInCharge" value="${rqt.childrenInCharge?.toString()}" 
                     class="required  validate-positiveInteger" title="<g:message code="mcr.property.childrenInCharge.validationError" />"  />
             
 
     
       <label class=""><g:message code="mcr.property.otherSituation.label" />   <span><g:message code="mcr.property.otherSituation.help" /></span></label>
-            <input type="text" name="otherSituation" value="${rqt.otherSituation}" 
+            <input type="text" name="otherSituation" value="${rqt.otherSituation?.toString()}" 
                     class="  validate-string" title="<g:message code="mcr.property.otherSituation.validationError" />"  />
             
 
@@ -95,13 +95,13 @@
 
     
       <label class=""><g:message code="mcr.property.childSpeciality.label" />   <span><g:message code="mcr.property.childSpeciality.help" /></span></label>
-            <input type="text" name="childSpeciality" value="${rqt.childSpeciality}" 
+            <input type="text" name="childSpeciality" value="${rqt.childSpeciality?.toString()}" 
                     class="  validate-string" title="<g:message code="mcr.property.childSpeciality.validationError" />"  />
             
 
     
       <label class=""><g:message code="mcr.property.childProfession.label" />   <span><g:message code="mcr.property.childProfession.help" /></span></label>
-            <input type="text" name="childProfession" value="${rqt.childProfession}" 
+            <input type="text" name="childProfession" value="${rqt.childProfession?.toString()}" 
                     class="  validate-string" title="<g:message code="mcr.property.childProfession.validationError" />"  />
             
 

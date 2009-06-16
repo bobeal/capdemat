@@ -15,7 +15,7 @@
 
   
     <label class="required"><g:message code="scrr.property.urgencyPhone.label" /> *  <span><g:message code="scrr.property.urgencyPhone.help" /></span></label>
-            <input type="text" name="urgencyPhone" value="${rqt.urgencyPhone}" 
+            <input type="text" name="urgencyPhone" value="${rqt.urgencyPhone?.toString()}" 
                     class="required  validate-phone" title="<g:message code="scrr.property.urgencyPhone.validationError" />"  maxLength="10"/>
             
 
@@ -57,7 +57,7 @@
 
   
     <label class=""><g:message code="scrr.property.doctorName.label" />   <span><g:message code="scrr.property.doctorName.help" /></span></label>
-            <input type="text" name="doctorName" value="${rqt.doctorName}" 
+            <input type="text" name="doctorName" value="${rqt.doctorName?.toString()}" 
                     class="  validate-string" title="<g:message code="scrr.property.doctorName.validationError" />"  />
             
 
@@ -65,7 +65,7 @@
 
   
     <label class=""><g:message code="scrr.property.doctorPhone.label" />   <span><g:message code="scrr.property.doctorPhone.help" /></span></label>
-            <input type="text" name="doctorPhone" value="${rqt.doctorPhone}" 
+            <input type="text" name="doctorPhone" value="${rqt.doctorPhone?.toString()}" 
                     class="  validate-phone" title="<g:message code="scrr.property.doctorPhone.validationError" />"  maxLength="10"/>
             
 

@@ -50,7 +50,7 @@
     
       
       <dl>
-        <dt><g:message code="hsr.property.alertPhone.label" /></dt><dd>${rqt.alertPhone}</dd>
+        <dt><g:message code="hsr.property.alertPhone.label" /></dt><dd>${rqt.alertPhone?.toString()}</dd>
 
       </dl>
       
@@ -62,14 +62,14 @@
     
       
       <dl>
-        <dt><g:message code="hsr.property.otherContactLastName.label" /></dt><dd>${rqt.otherContactLastName}</dd>
+        <dt><g:message code="hsr.property.otherContactLastName.label" /></dt><dd>${rqt.otherContactLastName?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="hsr.property.otherContactFirstName.label" /></dt><dd>${rqt.otherContactFirstName}</dd>
+        <dt><g:message code="hsr.property.otherContactFirstName.label" /></dt><dd>${rqt.otherContactFirstName?.toString()}</dd>
 
       </dl>
       
@@ -94,7 +94,7 @@
     
       
       <dl>
-        <dt><g:message code="hsr.property.otherContactPhone.label" /></dt><dd>${rqt.otherContactPhone}</dd>
+        <dt><g:message code="hsr.property.otherContactPhone.label" /></dt><dd>${rqt.otherContactPhone?.toString()}</dd>
 
       </dl>
       

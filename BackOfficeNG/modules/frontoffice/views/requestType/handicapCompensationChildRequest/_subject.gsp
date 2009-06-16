@@ -22,13 +22,13 @@
 
     
       <label class="required"><g:message code="hccr.property.subjectBirthCity.label" /> *  <span><g:message code="hccr.property.subjectBirthCity.help" /></span></label>
-            <input type="text" name="subjectBirthCity" value="${rqt.subjectBirthCity}" 
+            <input type="text" name="subjectBirthCity" value="${rqt.subjectBirthCity?.toString()}" 
                     class="required  validate-city" title="<g:message code="hccr.property.subjectBirthCity.validationError" />"  maxLength="32"/>
             
 
     
       <label class="required"><g:message code="hccr.property.subjectBirthCountry.label" /> *  <span><g:message code="hccr.property.subjectBirthCountry.help" /></span></label>
-            <input type="text" name="subjectBirthCountry" value="${rqt.subjectBirthCountry}" 
+            <input type="text" name="subjectBirthCountry" value="${rqt.subjectBirthCountry?.toString()}" 
                     class="required  " title="<g:message code="hccr.property.subjectBirthCountry.validationError" />"  maxLength="50"/>
             
 
@@ -51,19 +51,19 @@
     <legend><g:message code="hccr.property.father.label" /></legend>
     
       <label class=""><g:message code="hccr.property.fatherLastName.label" />   <span><g:message code="hccr.property.fatherLastName.help" /></span></label>
-            <input type="text" name="fatherLastName" value="${rqt.fatherLastName}" 
+            <input type="text" name="fatherLastName" value="${rqt.fatherLastName?.toString()}" 
                     class="  validate-lastName" title="<g:message code="hccr.property.fatherLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class=""><g:message code="hccr.property.fatherFirstName.label" />   <span><g:message code="hccr.property.fatherFirstName.help" /></span></label>
-            <input type="text" name="fatherFirstName" value="${rqt.fatherFirstName}" 
+            <input type="text" name="fatherFirstName" value="${rqt.fatherFirstName?.toString()}" 
                     class="  validate-firstName" title="<g:message code="hccr.property.fatherFirstName.validationError" />"  maxLength="38"/>
             
 
     
       <label class=""><g:message code="hccr.property.fatherJob.label" />   <span><g:message code="hccr.property.fatherJob.help" /></span></label>
-            <input type="text" name="fatherJob" value="${rqt.fatherJob}" 
+            <input type="text" name="fatherJob" value="${rqt.fatherJob?.toString()}" 
                     class="  " title="<g:message code="hccr.property.fatherJob.validationError" />"  maxLength="60"/>
             
 
@@ -81,7 +81,7 @@
 
     
       <label class="condition-isFatherActivityReduction-filled"><g:message code="hccr.property.fatherActivityReductionRatio.label" />   <span><g:message code="hccr.property.fatherActivityReductionRatio.help" /></span></label>
-            <input type="text" name="fatherActivityReductionRatio" value="${rqt.fatherActivityReductionRatio}" 
+            <input type="text" name="fatherActivityReductionRatio" value="${rqt.fatherActivityReductionRatio?.toString()}" 
                     class="condition-isFatherActivityReduction-filled  validate-positiveInteger" title="<g:message code="hccr.property.fatherActivityReductionRatio.validationError" />"  />
             
 
@@ -94,19 +94,19 @@
     <legend><g:message code="hccr.property.mother.label" /></legend>
     
       <label class=""><g:message code="hccr.property.motherLastName.label" />   <span><g:message code="hccr.property.motherLastName.help" /></span></label>
-            <input type="text" name="motherLastName" value="${rqt.motherLastName}" 
+            <input type="text" name="motherLastName" value="${rqt.motherLastName?.toString()}" 
                     class="  validate-lastName" title="<g:message code="hccr.property.motherLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class=""><g:message code="hccr.property.motherFirstName.label" />   <span><g:message code="hccr.property.motherFirstName.help" /></span></label>
-            <input type="text" name="motherFirstName" value="${rqt.motherFirstName}" 
+            <input type="text" name="motherFirstName" value="${rqt.motherFirstName?.toString()}" 
                     class="  validate-firstName" title="<g:message code="hccr.property.motherFirstName.validationError" />"  maxLength="38"/>
             
 
     
       <label class=""><g:message code="hccr.property.motherJob.label" />   <span><g:message code="hccr.property.motherJob.help" /></span></label>
-            <input type="text" name="motherJob" value="${rqt.motherJob}" 
+            <input type="text" name="motherJob" value="${rqt.motherJob?.toString()}" 
                     class="  " title="<g:message code="hccr.property.motherJob.validationError" />"  maxLength="60"/>
             
 
@@ -124,7 +124,7 @@
 
     
       <label class="condition-isMotherActivityReduction-filled"><g:message code="hccr.property.motherActivityReductionRatio.label" />   <span><g:message code="hccr.property.motherActivityReductionRatio.help" /></span></label>
-            <input type="text" name="motherActivityReductionRatio" value="${rqt.motherActivityReductionRatio}" 
+            <input type="text" name="motherActivityReductionRatio" value="${rqt.motherActivityReductionRatio?.toString()}" 
                     class="condition-isMotherActivityReduction-filled  validate-positiveInteger" title="<g:message code="hccr.property.motherActivityReductionRatio.validationError" />"  />
             
 
@@ -137,13 +137,13 @@
     <legend><g:message code="hccr.property.aseReferent.label" /></legend>
     
       <label class=""><g:message code="hccr.property.aseReferentLastName.label" />   <span><g:message code="hccr.property.aseReferentLastName.help" /></span></label>
-            <input type="text" name="aseReferentLastName" value="${rqt.aseReferentLastName}" 
+            <input type="text" name="aseReferentLastName" value="${rqt.aseReferentLastName?.toString()}" 
                     class="  validate-lastName" title="<g:message code="hccr.property.aseReferentLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class=""><g:message code="hccr.property.aseReferentDepartment.label" />   <span><g:message code="hccr.property.aseReferentDepartment.help" /></span></label>
-            <input type="text" name="aseReferentDepartment" value="${rqt.aseReferentDepartment}" 
+            <input type="text" name="aseReferentDepartment" value="${rqt.aseReferentDepartment?.toString()}" 
                     class="  validate-departmentCode" title="<g:message code="hccr.property.aseReferentDepartment.validationError" />"  maxLength="2"/>
             
 
@@ -156,13 +156,13 @@
     <legend><g:message code="hccr.property.referent.label" /></legend>
     
       <label class="required"><g:message code="hccr.property.referentLastName.label" /> *  <span><g:message code="hccr.property.referentLastName.help" /></span></label>
-            <input type="text" name="referentLastName" value="${rqt.referentLastName}" 
+            <input type="text" name="referentLastName" value="${rqt.referentLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="hccr.property.referentLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required"><g:message code="hccr.property.referentFirstName.label" /> *  <span><g:message code="hccr.property.referentFirstName.help" /></span></label>
-            <input type="text" name="referentFirstName" value="${rqt.referentFirstName}" 
+            <input type="text" name="referentFirstName" value="${rqt.referentFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="hccr.property.referentFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -178,7 +178,7 @@
 
     
       <label class="required condition-isReferentMadam-filled"><g:message code="hccr.property.referentMaidenName.label" /> *  <span><g:message code="hccr.property.referentMaidenName.help" /></span></label>
-            <input type="text" name="referentMaidenName" value="${rqt.referentMaidenName}" 
+            <input type="text" name="referentMaidenName" value="${rqt.referentMaidenName?.toString()}" 
                     class="required condition-isReferentMadam-filled  validate-lastName" title="<g:message code="hccr.property.referentMaidenName.validationError" />"  maxLength="38"/>
             
 
@@ -190,13 +190,13 @@
 
     
       <label class="required"><g:message code="hccr.property.referentBirthCity.label" /> *  <span><g:message code="hccr.property.referentBirthCity.help" /></span></label>
-            <input type="text" name="referentBirthCity" value="${rqt.referentBirthCity}" 
+            <input type="text" name="referentBirthCity" value="${rqt.referentBirthCity?.toString()}" 
                     class="required  validate-city" title="<g:message code="hccr.property.referentBirthCity.validationError" />"  maxLength="32"/>
             
 
     
       <label class="required"><g:message code="hccr.property.referentBirthCountry.label" /> *  <span><g:message code="hccr.property.referentBirthCountry.help" /></span></label>
-            <input type="text" name="referentBirthCountry" value="${rqt.referentBirthCountry}" 
+            <input type="text" name="referentBirthCountry" value="${rqt.referentBirthCountry?.toString()}" 
                     class="required  " title="<g:message code="hccr.property.referentBirthCountry.validationError" />"  maxLength="50"/>
             
 
@@ -233,13 +233,13 @@
       <fieldset class="collection-fieldset-add required condition-isReferentFamilyDependents-filled">
     
         <label class="required"><g:message code="hccr.property.referentFamilyDependentLastName.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentLastName.help" /></span></label>
-            <input type="text" name="familyDependents[${listIndex}].referentFamilyDependentLastName" value="${editList?.familyDependents?.referentFamilyDependentLastName}" 
+            <input type="text" name="familyDependents[${listIndex}].referentFamilyDependentLastName" value="${editList?.familyDependents?.referentFamilyDependentLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="hccr.property.referentFamilyDependentLastName.validationError" />"  maxLength="38"/>
             
 
     
         <label class="required"><g:message code="hccr.property.referentFamilyDependentFirstName.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentFirstName.help" /></span></label>
-            <input type="text" name="familyDependents[${listIndex}].referentFamilyDependentFirstName" value="${editList?.familyDependents?.referentFamilyDependentFirstName}" 
+            <input type="text" name="familyDependents[${listIndex}].referentFamilyDependentFirstName" value="${editList?.familyDependents?.referentFamilyDependentFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="hccr.property.referentFamilyDependentFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -272,10 +272,10 @@
         <dl>
     
         <dt><g:message code="hccr.property.referentFamilyDependentLastName.label" /></dt>
-        <dd>${it.referentFamilyDependentLastName}</dd>
+        <dd>${it.referentFamilyDependentLastName?.toString()}</dd>
     
         <dt><g:message code="hccr.property.referentFamilyDependentFirstName.label" /></dt>
-        <dd>${it.referentFamilyDependentFirstName}</dd>
+        <dd>${it.referentFamilyDependentFirstName?.toString()}</dd>
     
         <dt><g:message code="hccr.property.referentFamilyDependentBirthDate.label" /></dt>
         <dd><g:formatDate formatName="format.date" date="${it.referentFamilyDependentBirthDate}"/></dd>

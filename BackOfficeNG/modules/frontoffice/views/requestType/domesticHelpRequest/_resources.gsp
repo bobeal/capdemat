@@ -6,31 +6,31 @@
     <legend><g:message code="dhr.property.dhrRequesterIncomes.label" /></legend>
     
       <label class=""><g:message code="dhr.property.pensions.label" />   <span><g:message code="dhr.property.pensions.help" /></span></label>
-            <input type="text" name="pensions" value="${rqt.pensions}" 
+            <input type="text" name="pensions" value="${rqt.pensions?.toString()}" 
                     class="  validate-positiveInteger" title="<g:message code="dhr.property.pensions.validationError" />"  />
             
 
     
       <label class=""><g:message code="dhr.property.dhrAllowances.label" />   <span><g:message code="dhr.property.dhrAllowances.help" /></span></label>
-            <input type="text" name="dhrAllowances" value="${rqt.dhrAllowances}" 
+            <input type="text" name="dhrAllowances" value="${rqt.dhrAllowances?.toString()}" 
                     class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrAllowances.validationError" />"  />
             
 
     
       <label class=""><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" />   <span><g:message code="dhr.property.dhrFurnitureInvestmentIncome.help" /></span></label>
-            <input type="text" name="dhrFurnitureInvestmentIncome" value="${rqt.dhrFurnitureInvestmentIncome}" 
+            <input type="text" name="dhrFurnitureInvestmentIncome" value="${rqt.dhrFurnitureInvestmentIncome?.toString()}" 
                     class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrFurnitureInvestmentIncome.validationError" />"  />
             
 
     
       <label class=""><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" />   <span><g:message code="dhr.property.dhrRealEstateInvestmentIncome.help" /></span></label>
-            <input type="text" name="dhrRealEstateInvestmentIncome" value="${rqt.dhrRealEstateInvestmentIncome}" 
+            <input type="text" name="dhrRealEstateInvestmentIncome" value="${rqt.dhrRealEstateInvestmentIncome?.toString()}" 
                     class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrRealEstateInvestmentIncome.validationError" />"  />
             
 
     
       <label class=""><g:message code="dhr.property.dhrNetIncome.label" />   <span><g:message code="dhr.property.dhrNetIncome.help" /></span></label>
-            <input type="text" name="dhrNetIncome" value="${rqt.dhrNetIncome}" 
+            <input type="text" name="dhrNetIncome" value="${rqt.dhrNetIncome?.toString()}" 
                     class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrNetIncome.validationError" />"  />
             
 
@@ -65,13 +65,13 @@
 
     
         <label class="required"><g:message code="dhr.property.dhrRealAssetValue.label" /> *  <span><g:message code="dhr.property.dhrRealAssetValue.help" /></span></label>
-            <input type="text" name="dhrRealAsset[${listIndex}].dhrRealAssetValue" value="${editList?.dhrRealAsset?.dhrRealAssetValue}" 
+            <input type="text" name="dhrRealAsset[${listIndex}].dhrRealAssetValue" value="${editList?.dhrRealAsset?.dhrRealAssetValue?.toString()}" 
                     class="required  validate-positiveInteger" title="<g:message code="dhr.property.dhrRealAssetValue.validationError" />"  />
             
 
     
         <label class="required"><g:message code="dhr.property.realAssetNetFloorArea.label" /> *  <span><g:message code="dhr.property.realAssetNetFloorArea.help" /></span></label>
-            <input type="text" name="dhrRealAsset[${listIndex}].realAssetNetFloorArea" value="${editList?.dhrRealAsset?.realAssetNetFloorArea}" 
+            <input type="text" name="dhrRealAsset[${listIndex}].realAssetNetFloorArea" value="${editList?.dhrRealAsset?.realAssetNetFloorArea?.toString()}" 
                     class="required  validate-positiveInteger" title="<g:message code="dhr.property.realAssetNetFloorArea.validationError" />"  />
             
 
@@ -102,10 +102,10 @@
               
     
         <dt><g:message code="dhr.property.dhrRealAssetValue.label" /></dt>
-        <dd>${it.dhrRealAssetValue}</dd>
+        <dd>${it.dhrRealAssetValue?.toString()}</dd>
     
         <dt><g:message code="dhr.property.realAssetNetFloorArea.label" /></dt>
-        <dd>${it.realAssetNetFloorArea}</dd>
+        <dd>${it.realAssetNetFloorArea?.toString()}</dd>
     
         </dl>
         <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-resources-dhrRealAsset[${index}]" />
@@ -166,13 +166,13 @@
 
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.help" /></span></label>
-            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryName}" 
+            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.validationError" />"  maxLength="38"/>
             
 
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.help" /></span></label>
-            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryFirstName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryFirstName}" 
+            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryFirstName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -198,7 +198,7 @@
 
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetValue.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetValue.help" /></span></label>
-            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetValue" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetValue}" 
+            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetValue" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetValue?.toString()}" 
                     class="required  validate-positiveInteger" title="<g:message code="dhr.property.dhrNotRealAssetValue.validationError" />"  />
             
 
@@ -210,7 +210,7 @@
 
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryName.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetNotaryName.help" /></span></label>
-            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetNotaryName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetNotaryName}" 
+            <input type="text" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetNotaryName" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetNotaryName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="dhr.property.dhrNotRealAssetNotaryName.validationError" />"  maxLength="38"/>
             
 
@@ -279,10 +279,10 @@
               
     
         <dt><g:message code="dhr.property.dhrNotRealAssetBeneficiaryName.label" /></dt>
-        <dd>${it.dhrNotRealAssetBeneficiaryName}</dd>
+        <dd>${it.dhrNotRealAssetBeneficiaryName?.toString()}</dd>
     
         <dt><g:message code="dhr.property.dhrNotRealAssetBeneficiaryFirstName.label" /></dt>
-        <dd>${it.dhrNotRealAssetBeneficiaryFirstName}</dd>
+        <dd>${it.dhrNotRealAssetBeneficiaryFirstName?.toString()}</dd>
     
         <dt><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.label" /></dt>
         
@@ -299,13 +299,13 @@
               
     
         <dt><g:message code="dhr.property.dhrNotRealAssetValue.label" /></dt>
-        <dd>${it.dhrNotRealAssetValue}</dd>
+        <dd>${it.dhrNotRealAssetValue?.toString()}</dd>
     
         <dt><g:message code="dhr.property.dhrNotRealAssetDate.label" /></dt>
         <dd><g:formatDate formatName="format.date" date="${it.dhrNotRealAssetDate}"/></dd>
     
         <dt><g:message code="dhr.property.dhrNotRealAssetNotaryName.label" /></dt>
-        <dd>${it.dhrNotRealAssetNotaryName}</dd>
+        <dd>${it.dhrNotRealAssetNotaryName?.toString()}</dd>
     
         <dt><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.label" /></dt>
         

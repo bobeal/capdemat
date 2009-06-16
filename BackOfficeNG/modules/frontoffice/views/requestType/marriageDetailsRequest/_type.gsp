@@ -17,7 +17,7 @@
 
   
     <label class="required"><g:message code="mdr.property.copies.label" /> *  <span><g:message code="mdr.property.copies.help" /></span></label>
-            <input type="text" name="copies" value="${rqt.copies}" 
+            <input type="text" name="copies" value="${rqt.copies?.toString()}" 
                     class="required  validate-positiveInteger" title="<g:message code="mdr.property.copies.validationError" />"  />
             
 
@@ -59,13 +59,13 @@
     <legend><g:message code="mdr.property.fatherInformation.label" /></legend>
     
       <label class="required"><g:message code="mdr.property.fatherLastName.label" /> *  <span><g:message code="mdr.property.fatherLastName.help" /></span></label>
-            <input type="text" name="fatherLastName" value="${rqt.fatherLastName}" 
+            <input type="text" name="fatherLastName" value="${rqt.fatherLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="mdr.property.fatherLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required"><g:message code="mdr.property.fatherFirstNames.label" /> *  <span><g:message code="mdr.property.fatherFirstNames.help" /></span></label>
-            <input type="text" name="fatherFirstNames" value="${rqt.fatherFirstNames}" 
+            <input type="text" name="fatherFirstNames" value="${rqt.fatherFirstNames?.toString()}" 
                     class="required  validate-string" title="<g:message code="mdr.property.fatherFirstNames.validationError" />"  />
             
 
@@ -78,13 +78,13 @@
     <legend><g:message code="mdr.property.motherInformation.label" /></legend>
     
       <label class="required"><g:message code="mdr.property.motherMaidenName.label" /> *  <span><g:message code="mdr.property.motherMaidenName.help" /></span></label>
-            <input type="text" name="motherMaidenName" value="${rqt.motherMaidenName}" 
+            <input type="text" name="motherMaidenName" value="${rqt.motherMaidenName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="mdr.property.motherMaidenName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required"><g:message code="mdr.property.motherFirstNames.label" /> *  <span><g:message code="mdr.property.motherFirstNames.help" /></span></label>
-            <input type="text" name="motherFirstNames" value="${rqt.motherFirstNames}" 
+            <input type="text" name="motherFirstNames" value="${rqt.motherFirstNames?.toString()}" 
                     class="required  validate-string" title="<g:message code="mdr.property.motherFirstNames.validationError" />"  />
             
 

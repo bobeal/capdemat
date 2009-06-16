@@ -26,7 +26,7 @@
     
       
       <dl>
-        <dt><g:message code="mcr.property.maidenName.label" /></dt><dd>${rqt.maidenName}</dd>
+        <dt><g:message code="mcr.property.maidenName.label" /></dt><dd>${rqt.maidenName?.toString()}</dd>
 
       </dl>
       
@@ -59,14 +59,14 @@
     
       
       <dl>
-        <dt><g:message code="mcr.property.childPhone.label" /></dt><dd>${rqt.childPhone}</dd>
+        <dt><g:message code="mcr.property.childPhone.label" /></dt><dd>${rqt.childPhone?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="mcr.property.childMail.label" /></dt><dd>${rqt.childMail}</dd>
+        <dt><g:message code="mcr.property.childMail.label" /></dt><dd>${rqt.childMail?.toString()}</dd>
 
       </dl>
       
@@ -99,7 +99,7 @@
     
       
       <dl>
-        <dt><g:message code="mcr.property.childConvention.label" /></dt><dd>${rqt.childConvention}</dd>
+        <dt><g:message code="mcr.property.childConvention.label" /></dt><dd>${rqt.childConvention?.toString()}</dd>
 
       </dl>
       
@@ -113,10 +113,10 @@
       <h4><g:message code="mcr.property.fatherInformation.label" /></h4>
       <dl>
         
-          <dt><g:message code="mcr.property.fatherLastName.label" /></dt><dd>${rqt.fatherLastName}</dd>
+          <dt><g:message code="mcr.property.fatherLastName.label" /></dt><dd>${rqt.fatherLastName?.toString()}</dd>
 
         
-          <dt><g:message code="mcr.property.fatherFirstName.label" /></dt><dd>${rqt.fatherFirstName}</dd>
+          <dt><g:message code="mcr.property.fatherFirstName.label" /></dt><dd>${rqt.fatherFirstName?.toString()}</dd>
 
         
           <dt><g:message code="mcr.property.fatherBirthDate.label" /></dt>
@@ -124,7 +124,7 @@
           
 
         
-          <dt><g:message code="mcr.property.fatherBirthCity.label" /></dt><dd>${rqt.fatherBirthCity}</dd>
+          <dt><g:message code="mcr.property.fatherBirthCity.label" /></dt><dd>${rqt.fatherBirthCity?.toString()}</dd>
 
         
           <dt><g:message code="mcr.property.fatherBirthDepartment.label" /></dt>
@@ -161,10 +161,10 @@
       <h4><g:message code="mcr.property.motherInformation.label" /></h4>
       <dl>
         
-          <dt><g:message code="mcr.property.motherLastName.label" /></dt><dd>${rqt.motherLastName}</dd>
+          <dt><g:message code="mcr.property.motherLastName.label" /></dt><dd>${rqt.motherLastName?.toString()}</dd>
 
         
-          <dt><g:message code="mcr.property.motherFirstName.label" /></dt><dd>${rqt.motherFirstName}</dd>
+          <dt><g:message code="mcr.property.motherFirstName.label" /></dt><dd>${rqt.motherFirstName?.toString()}</dd>
 
         
           <dt><g:message code="mcr.property.motherBirthDate.label" /></dt>
@@ -172,7 +172,7 @@
           
 
         
-          <dt><g:message code="mcr.property.motherBirthCity.label" /></dt><dd>${rqt.motherBirthCity}</dd>
+          <dt><g:message code="mcr.property.motherBirthCity.label" /></dt><dd>${rqt.motherBirthCity?.toString()}</dd>
 
         
           <dt><g:message code="mcr.property.motherBirthDepartment.label" /></dt>
@@ -214,7 +214,7 @@
       <h4><g:message code="mcr.property.familySituationInformation.label" /></h4>
       <dl>
         
-          <dt><g:message code="mcr.property.aliveChildren.label" /></dt><dd>${rqt.aliveChildren}</dd>
+          <dt><g:message code="mcr.property.aliveChildren.label" /></dt><dd>${rqt.aliveChildren?.toString()}</dd>
 
         
           <dt><g:message code="mcr.property.childStatus.label" /></dt>
@@ -226,10 +226,10 @@
           
 
         
-          <dt><g:message code="mcr.property.childrenInCharge.label" /></dt><dd>${rqt.childrenInCharge}</dd>
+          <dt><g:message code="mcr.property.childrenInCharge.label" /></dt><dd>${rqt.childrenInCharge?.toString()}</dd>
 
         
-          <dt><g:message code="mcr.property.otherSituation.label" /></dt><dd>${rqt.otherSituation}</dd>
+          <dt><g:message code="mcr.property.otherSituation.label" /></dt><dd>${rqt.otherSituation?.toString()}</dd>
 
         
           <dt><g:message code="mcr.property.statePupil.label" /></dt>
@@ -276,10 +276,10 @@
           
 
         
-          <dt><g:message code="mcr.property.childSpeciality.label" /></dt><dd>${rqt.childSpeciality}</dd>
+          <dt><g:message code="mcr.property.childSpeciality.label" /></dt><dd>${rqt.childSpeciality?.toString()}</dd>
 
         
-          <dt><g:message code="mcr.property.childProfession.label" /></dt><dd>${rqt.childProfession}</dd>
+          <dt><g:message code="mcr.property.childProfession.label" /></dt><dd>${rqt.childProfession?.toString()}</dd>
 
         
       </dl>

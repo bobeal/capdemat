@@ -16,13 +16,13 @@
 
     
       <label class="required condition-isSocialSecurityMemberShip-filled"><g:message code="hcar.property.socialSecurityNumber.label" /> *  <span><g:message code="hcar.property.socialSecurityNumber.help" /></span></label>
-            <input type="text" name="socialSecurityNumber" value="${rqt.socialSecurityNumber}" 
+            <input type="text" name="socialSecurityNumber" value="${rqt.socialSecurityNumber?.toString()}" 
                     class="required condition-isSocialSecurityMemberShip-filled  " title="<g:message code="hcar.property.socialSecurityNumber.validationError" />"  />
             
 
     
       <label class="required condition-isSocialSecurityMemberShip-filled"><g:message code="hcar.property.socialSecurityAgencyName.label" /> *  <span><g:message code="hcar.property.socialSecurityAgencyName.help" /></span></label>
-            <input type="text" name="socialSecurityAgencyName" value="${rqt.socialSecurityAgencyName}" 
+            <input type="text" name="socialSecurityAgencyName" value="${rqt.socialSecurityAgencyName?.toString()}" 
                     class="required condition-isSocialSecurityMemberShip-filled  " title="<g:message code="hcar.property.socialSecurityAgencyName.validationError" />"  maxLength="50"/>
             
 
@@ -65,13 +65,13 @@
 
     
       <label class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hcar.property.paymentAgencyBeneficiaryNumber.label" /> *  <span><g:message code="hcar.property.paymentAgencyBeneficiaryNumber.help" /></span></label>
-            <input type="text" name="paymentAgencyBeneficiaryNumber" value="${rqt.paymentAgencyBeneficiaryNumber}" 
+            <input type="text" name="paymentAgencyBeneficiaryNumber" value="${rqt.paymentAgencyBeneficiaryNumber?.toString()}" 
                     class="required condition-isPaymentAgencyBeneficiary-filled  " title="<g:message code="hcar.property.paymentAgencyBeneficiaryNumber.validationError" />"  maxLength="20"/>
             
 
     
       <label class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hcar.property.paymentAgencyName.label" /> *  <span><g:message code="hcar.property.paymentAgencyName.help" /></span></label>
-            <input type="text" name="paymentAgencyName" value="${rqt.paymentAgencyName}" 
+            <input type="text" name="paymentAgencyName" value="${rqt.paymentAgencyName?.toString()}" 
                     class="required condition-isPaymentAgencyBeneficiary-filled  " title="<g:message code="hcar.property.paymentAgencyName.validationError" />"  maxLength="50"/>
             
 

@@ -282,7 +282,7 @@
 
     
       <label class="required condition-isOtherRequest-filled"><g:message code="hccr.property.projectRequestsOtherDetails.label" /> *  <span><g:message code="hccr.property.projectRequestsOtherDetails.help" /></span></label>
-            <input type="text" name="projectRequestsOtherDetails" value="${rqt.projectRequestsOtherDetails}" 
+            <input type="text" name="projectRequestsOtherDetails" value="${rqt.projectRequestsOtherDetails?.toString()}" 
                     class="required condition-isOtherRequest-filled  " title="<g:message code="hccr.property.projectRequestsOtherDetails.validationError" />"  maxLength="60"/>
             
 

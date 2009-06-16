@@ -231,7 +231,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="mailService" ref="mailService" />
     <property name="individualService" ref="individualService"/>
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
-    <property name="localizationService" ref="localizationService"/>
+    <property name="translationService" ref="translationService"/>
     <property name="agentService" ref="agentService" />
   </bean>
 

@@ -42,7 +42,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestActionService"><ref bean="requestActionService"/></property>
     <property name="requestWorkflowService"><ref bean="requestWorkflowService"/></property>
     <property name="mailService"><ref bean="mailService"/></property>
-    <property name="localizationService"><ref bean="localizationService"/></property>
+    <property name="translationService" ref="translationService" />
     <property name="requestDAO"><ref bean="requestDAO"/></property>
   </bean>
 
@@ -79,7 +79,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
     <property name="requestActionService"><ref bean="requestActionService"/></property>
     <property name="mailService"><ref bean="mailService"/></property>
-    <property name="localizationService"><ref bean="localizationService"/></property>
+    <property name="translationService" ref="translationService" />
     <property name="requestDAO"><ref bean="requestDAO"/></property>
   </bean>
 
@@ -187,7 +187,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     class="fr.cg95.cvq.service.request.job.DraftManagementJob">
     <property name="requestActionService" ref="requestActionService" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
-    <property name="localizationService" ref="localizationService" />
+    <property name="translationService" ref="translationService" />
     <property name="requestDAO" ref="requestDAO"/>
     <property name="mailService" ref="mailService"/>
     <property name="individualService" ref="individualService"/>

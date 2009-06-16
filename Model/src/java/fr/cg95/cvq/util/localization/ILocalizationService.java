@@ -14,6 +14,7 @@ import net.sf.saxon.om.NodeInfo;
  * @author mna@zenexity.fr
  * 
  */
+@Deprecated
 public interface ILocalizationService {
 
     /** service name used by Spring's application context */
@@ -57,17 +58,6 @@ public interface ILocalizationService {
     public String getEnumKeyFromTranslation(final String className, final String elementName,
             final String enumTranslatedValue, final String lang) ;
 
-	/**
-	 * Get the translation of a request label.
-     * 
-     * @param requestTypeName class name of the request object for which label is requested (very badly chosen
-     *                                              parameter name)
-	 * @param lang langage of the requested translation                                              
-	 * @param fullDesc whether full or short description is asked for
-	 */
-	public String getRequestLabelTranslation(final String requestTypeName, final String lang, 
-            boolean fullDesc);
-	
 	/**
 	 * Get global referential data associated to the given element type name
 	 * from the given request namespace.

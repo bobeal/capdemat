@@ -14,8 +14,8 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.RequestUtils;
-import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
+import fr.cg95.cvq.util.translation.ITranslationService;
 
 /**
  * A job that sends email notifications of the newly created requests to category managers.
@@ -27,9 +27,9 @@ public class RequestCreationNotificationJob {
     private static Logger logger = Logger.getLogger(RequestCreationNotificationJob.class);
 
     private IRequestActionService requestActionService;
-    private ILocalizationService localizationService;
     private IMailService mailService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
+    private ITranslationService translationService;
 
     private IRequestDAO requestDAO;
 
@@ -63,8 +63,7 @@ public class RequestCreationNotificationJob {
                     .append("Voici la liste des derniers télé-services créés :\n");
                 for (Request request : requestList) {
                     String requestTypeLabel = 
-                        localizationService.getRequestLabelTranslation(request.getClass().getName(),
-                        "fr", false);
+                        translationService.translateRequestTypeLabel(request.getRequestType().getLabel());
                     body.append("\t").append(requestTypeLabel).append(" : ")
                         .append(request.getId()).append("\n");
                 }
@@ -94,10 +93,6 @@ public class RequestCreationNotificationJob {
         }
     }
 
-    public void setLocalizationService(ILocalizationService localizationService) {
-        this.localizationService = localizationService;
-    }
-
     public void setMailService(IMailService mailService) {
         this.mailService = mailService;
     }
@@ -113,5 +108,9 @@ public class RequestCreationNotificationJob {
     public void setLocalAuthorityRegistry(
             ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
+    }
+
+    public void setTranslationService(ITranslationService translationService) {
+        this.translationService = translationService;
     }
 }

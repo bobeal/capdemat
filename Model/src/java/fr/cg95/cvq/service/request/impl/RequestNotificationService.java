@@ -13,8 +13,8 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestNotificationService;
 import fr.cg95.cvq.service.users.IIndividualService;
-import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
+import fr.cg95.cvq.util.translation.ITranslationService;
 
 import org.apache.log4j.Logger;
 
@@ -29,8 +29,8 @@ public class RequestNotificationService implements IRequestNotificationService {
     private IIndividualService individualService;
     private IMailService mailService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
-    private ILocalizationService localizationService;
     private IAgentService agentService;
+    private ITranslationService translationService;
 
     private IRequestDAO requestDAO;
 
@@ -62,17 +62,19 @@ public class RequestNotificationService implements IRequestNotificationService {
                 return;
             }
 
-            StringBuffer mailSubject = new StringBuffer();
-            mailSubject.append("[").append(SecurityContext.getCurrentSite().getDisplayTitle()).append("] ")
-                .append(localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr", false))
-                .append(" validée");
+            String mailSubject = translationService.translate(
+                "request.notification.validation.subject",
+                new Object[] {
+                    SecurityContext.getCurrentSite().getDisplayTitle(),
+                    translationService.translateRequestTypeLabel(request.getRequestType().getLabel())
+                });
 
             if (pdfData != null && attachPdf.booleanValue()) {
                 mailService.send(null, requester.getEmail(), null,
-                        mailSubject.toString(), mailDataBody, pdfData, "Attestation_Demande.pdf");
+                        mailSubject, mailDataBody, pdfData, "Attestation_Demande.pdf");
             } else {
                 mailService.send(null, requester.getEmail(), null,
-                        mailSubject.toString(), mailDataBody);
+                        mailSubject, mailDataBody);
             }
         }
     }
@@ -86,11 +88,12 @@ public class RequestNotificationService implements IRequestNotificationService {
             if (requester.getEmail() != null) {
                 mailService.send(request.getRequestType().getCategory().getPrimaryEmail(),
                     requester.getEmail(), null,
-                    "[" + SecurityContext.getCurrentSite().getDisplayTitle() + "] " +
-                    "Une note a été ajoutée à votre demande",
-                    "L'agent " + agent.getFirstName() + " " + agent.getLastName() +
-                    "a ajouté la note suivante sur votre demande n°" + request.getId() + " :\n\n"
-                    + note.getNote());
+                    translationService.translate("request.notification.agentNote.subject",
+                        new Object[]{SecurityContext.getCurrentSite().getDisplayTitle()}),
+                    translationService.translate("request.notification.agentNote.body",
+                        new Object[] {
+                            agent.getFirstName(), agent.getLastName(), request.getId(), note.getNote()
+                        }));
             }
         }
     }
@@ -107,15 +110,15 @@ public class RequestNotificationService implements IRequestNotificationService {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }
 
-    public void setLocalizationService(ILocalizationService localizationService) {
-        this.localizationService = localizationService;
-    }
-
     public void setMailService(IMailService mailService) {
         this.mailService = mailService;
     }
 
     public void setAgentService(IAgentService agentService) {
         this.agentService = agentService;
+    }
+
+    public void setTranslationService(ITranslationService translationService) {
+        this.translationService = translationService;
     }
 }

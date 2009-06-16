@@ -11,8 +11,8 @@ import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
-import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
+import fr.cg95.cvq.util.translation.ITranslationService;
 
 import org.apache.log4j.Logger;
 
@@ -42,7 +42,7 @@ public class DraftManagementJob {
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IMailService mailService;
     private IIndividualService individualService;
-    private ILocalizationService localizationService;
+    private ITranslationService translationService;
 
     private static String DRAFT_NOTIFICATION_SUBJECT = 
         "[CapDémat] Expiration d'une demande sauvée en tant que brouillon";
@@ -125,8 +125,7 @@ public class DraftManagementJob {
             return null;
         
         template = template.replace("${requestType}", 
-            localizationService.getRequestLabelTranslation(
-                request.getClass().getName(), "fr", false));
+            translationService.translateRequestTypeLabel(request.getRequestType().getLabel()));
         template = template.replace("${requestId}",request.getId().toString());
         template = template.replace("${creationDate}", 
                 DateUtils.format(request.getCreationDate()));
@@ -176,7 +175,7 @@ public class DraftManagementJob {
         this.requestDAO = requestDAO;
     }
 
-    public void setLocalizationService(ILocalizationService localizationService) {
-        this.localizationService = localizationService;
+    public void setTranslationService(ITranslationService translationService) {
+        this.translationService = translationService;
     }
 }

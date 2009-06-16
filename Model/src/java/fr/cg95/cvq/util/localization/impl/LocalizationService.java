@@ -16,13 +16,11 @@ import net.sf.saxon.xpath.XPathException;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.SchemaAnnotation;
-import org.apache.xmlbeans.SchemaGlobalElement;
 import org.apache.xmlbeans.SchemaLocalElement;
 import org.apache.xmlbeans.SchemaParticle;
 import org.apache.xmlbeans.SchemaProperty;
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.SchemaTypeLoader;
-import org.apache.xmlbeans.SchemaTypeSystem;
 import org.apache.xmlbeans.XmlBeans;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
@@ -41,6 +39,7 @@ import fr.cg95.cvq.util.localization.ILocalizationService;
  * @author bor@zenexity.fr
  * @author mna@zenexity.fr
  */
+@Deprecated
 public class LocalizationService implements ILocalizationService {
 
     private static Logger logger = Logger.getLogger(LocalizationService.class);
@@ -277,73 +276,6 @@ public class LocalizationService implements ILocalizationService {
         }
 
         return resultEnums;
-    }
-    
-    public String getRequestLabelTranslation(String requestTypeName, String lang, 
-            boolean fullDesc) {
-
-        String wantedSource = 
-            fullDesc ? "http://www.cg95.fr/cvq/schema/longdesc" : "http://www.cg95.fr/cvq/schema/shortdesc" ;
-        
-        String requestTypeShortName = requestTypeName.substring(requestTypeName.lastIndexOf('.') + 1);
-        SchemaType schemaType = getSchemaTypeFromRequestLabel(requestTypeName);
-        SchemaTypeSystem schemaTypeSystem = schemaType.getTypeSystem();
-        SchemaGlobalElement[] schemaGlobalElements = schemaTypeSystem.globalElements();
-        SchemaGlobalElement schemaGlobalElement = null;
-        for (int i = 0; i < schemaGlobalElements.length; i++) {
-            String globalElementName = schemaGlobalElements[i].getName().getLocalPart();
-            if (globalElementName.equals(requestTypeShortName)) {
-                schemaGlobalElement = schemaGlobalElements[i];
-                break;
-            }
-        }
-        if (schemaGlobalElement == null) {
-            logger.warn("getRequestTypeLabel() no global element with name " 
-                    + requestTypeShortName + " found");
-            return requestTypeName;
-        }
-        
-        SchemaAnnotation schemaAnnotation = schemaGlobalElement.getAnnotation();
-        if (schemaAnnotation == null) {
-            logger.warn("getRequestTypeLabel() no annotation found");
-            return requestTypeName;
-        }
-
-        XmlObject[] xmlObjects = schemaAnnotation.getUserInformation();
-        for (int j = 0; j < xmlObjects.length; j++) {
-            boolean foundLang = false;
-            boolean foundSource = false;
-            XmlCursor xc = xmlObjects[j].newCursor();
-            try {
-
-                xc.push();
-
-                if (xc.toFirstAttribute()) {
-                    // look for attributes
-                    do {
-                        if (xc.getName().getLocalPart().equals("lang")
-                                && xc.getTextValue().equals(lang)) {
-                            foundLang = true;
-                        }
-                        if (xc.getName().getLocalPart().equals("source")
-                                && xc.getTextValue().equals(wantedSource)) {
-                            foundSource = true;
-                        }
-
-                        if (foundLang && foundSource) {
-                            xc.pop();
-                            return normalize(xc.getTextValue());
-                        }
-
-                    } while (xc.toNextAttribute());
-                }
-
-            } finally {
-                xc.dispose();
-            }
-        }
-
-        return requestTypeName;
     }
 
     private SchemaType getSchemaTypeFromRequestLabel(final String requestLabel) {

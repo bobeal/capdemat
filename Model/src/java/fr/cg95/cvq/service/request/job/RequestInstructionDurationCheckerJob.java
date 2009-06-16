@@ -21,8 +21,8 @@ import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.RequestUtils;
 import fr.cg95.cvq.util.DateUtils;
-import fr.cg95.cvq.util.localization.ILocalizationService;
 import fr.cg95.cvq.util.mail.IMailService;
+import fr.cg95.cvq.util.translation.ITranslationService;
 
 /**
  * A job that checks instruction duration for each request type. 
@@ -39,7 +39,7 @@ public class RequestInstructionDurationCheckerJob {
     private IRequestActionService requestActionService;
     private IRequestWorkflowService requestWorkflowService;
 
-    private ILocalizationService localizationService;
+    private ITranslationService translationService;
     private IMailService mailService;
     
     private IRequestDAO requestDAO;
@@ -150,7 +150,7 @@ public class RequestInstructionDurationCheckerJob {
                         body.append("\n").append("Détail des alertes oranges :\n");
                         for (Request request : orangeRequests) {
                             String requestTypeLabel = 
-                                localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr", false);
+                                translationService.translateRequestTypeLabel(request.getRequestType().getLabel());
                             body.append("\t").append(requestTypeLabel)
                                 .append(" : ").append(request.getId())
                                 .append("\n");
@@ -160,7 +160,7 @@ public class RequestInstructionDurationCheckerJob {
                         body.append("\n\n").append("Détail des alertes rouges :\n");
                         for (Request request : redRequests) {
                             String requestTypeLabel = 
-                                localizationService.getRequestLabelTranslation(request.getClass().getName(), "fr", false);
+                                translationService.translateRequestTypeLabel(request.getRequestType().getLabel());
                             body.append("\t").append(requestTypeLabel)
                                 .append(" : ").append(request.getId())
                                 .append("\n");
@@ -200,10 +200,6 @@ public class RequestInstructionDurationCheckerJob {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }
 
-    public void setLocalizationService(ILocalizationService localizationService) {
-        this.localizationService = localizationService;
-    }
-
     public void setMailService(IMailService mailService) {
         this.mailService = mailService;
     }
@@ -218,5 +214,9 @@ public class RequestInstructionDurationCheckerJob {
 
     public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
         this.requestWorkflowService = requestWorkflowService;
+    }
+
+    public void setTranslationService(ITranslationService translationService) {
+        this.translationService = translationService;
     }
 }

@@ -38,9 +38,9 @@
     
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
     
-    <h2 class="request-creation"> <g:message code="sms.label" /></h2>
-    <p><g:message code="sms.description" /></p> 
-    <p><g:message code="request.duration.label" /><strong> : <g:message code="sms.duration.value" /></strong></p>
+    <h2 class="request-creation"> <g:message code="snr.label" /></h2>
+    <p><g:message code="snr.description" /></p> 
+    <p><g:message code="request.duration.label" /><strong> : <g:message code="snr.duration.value" /></strong></p>
     <p>
       <g:message code="request.requiredDocuments.header" /> :
       <g:if test="${!documentTypes.isEmpty()}">
@@ -64,7 +64,7 @@
           <span class="tag-state ${stepStates!= null ? stepStates.subscription.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subscription.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
-            <g:message code="sms.step.subscription.label" /> *
+            <g:message code="snr.step.subscription.label" /> *
           </strong>
             
           </em></a>
@@ -116,8 +116,8 @@
   
              <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
   
-             <g:message code="sms.step.subscription.label" />
-             <span><g:message code="sms.step.subscription.desc" /></span>
+             <g:message code="snr.step.subscription.label" />
+             <span><g:message code="snr.step.subscription.desc" /></span>
              <span class="error">${stepStates?.subscription?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>

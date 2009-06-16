@@ -2,7 +2,7 @@
 
 
   
-    <h3><g:message code="sms.step.subscription.label" /></h3>
+    <h3><g:message code="snr.step.subscription.label" /></h3>
     
       
       <dl>
@@ -13,14 +13,14 @@
     
       
       <dl>
-        <dt><g:message code="sms.property.mobilePhone.label" /></dt><dd>${rqt.mobilePhone}</dd>
+        <dt><g:message code="snr.property.mobilePhone.label" /></dt><dd>${rqt.mobilePhone}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="sms.property.subscription.label" /></dt>
+        <dt><g:message code="snr.property.subscription.label" /></dt>
           <dd><g:message code="message.${rqt.subscription ? 'yes' : 'no'}" /></dd>
           
 
@@ -29,7 +29,7 @@
     
       
       <dl>
-        <dt><g:message code="sms.property.interests.label" /></dt>
+        <dt><g:message code="snr.property.interests.label" /></dt>
           <dd>
           <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
                     model="['javaName':'interests', 'lrEntries': lrTypes.interests.entries, 'depth':0]" />

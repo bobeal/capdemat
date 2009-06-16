@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" 
-  xmlns:sms="http://www.cg95.fr/cvq/schema/sms" 
+  xmlns:snr="http://www.cg95.fr/cvq/schema/snr" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:fo="http://www.w3.org/1999/XSL/Format" 
@@ -66,8 +66,8 @@
 		  </fo:table-cell>
 		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-		      <xsl:if test="//sms:Subscription = &quot;true&quot;">X</xsl:if>
-		      <xsl:if test="//sms:Subscription = &quot;false&quot;">&#160;</xsl:if>
+		      <xsl:if test="//snr:Subscription = &quot;true&quot;">X</xsl:if>
+		      <xsl:if test="//snr:Subscription = &quot;false&quot;">&#160;</xsl:if>
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -75,8 +75,8 @@
 		  </fo:table-cell>
 		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
-		      <xsl:if test="//sms:Subscription = &quot;false&quot;">X</xsl:if>
-		      <xsl:if test="//sms:Subscription = &quot;true&quot;">&#160;</xsl:if>
+		      <xsl:if test="//snr:Subscription = &quot;false&quot;">X</xsl:if>
+		      <xsl:if test="//snr:Subscription = &quot;true&quot;">&#160;</xsl:if>
 		    </fo:block>
 		  </fo:table-cell>
       		</fo:table-row>
@@ -111,8 +111,8 @@
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//sms:MobilePhone and //sms:MobilePhone != ''">
-                                    <xsl:value-of select="//sms:MobilePhone" />
+                        <xsl:when test="//snr:MobilePhone and //snr:MobilePhone != ''">
+                                    <xsl:value-of select="//snr:MobilePhone" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -137,8 +137,8 @@
         
                                                   <fo:block xsl:use-attribute-sets="request.field.inline.label">Centres d'intérêt* :</fo:block>
       	    <xsl:call-template name="LocalReferentialDataType">
-	      <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_sms.xml')))//ref:data[@name = 'Interests']/ref:entries"/>
-	      <xsl:with-param name="RequestData" select="//sms:Interests"/>
+	      <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_snr.xml')))//ref:data[@name = 'Interests']/ref:entries"/>
+	      <xsl:with-param name="RequestData" select="//snr:Interests"/>
 	    </xsl:call-template>
 
     
@@ -163,10 +163,10 @@
   
 	    <xsl:call-template name="requestFooter">
 	      <xsl:with-param name="RequestId">
-            <xsl:value-of select="sms:SmsNotificationRequest/cvq:Id"/>
+            <xsl:value-of select="snr:SmsNotificationRequest/cvq:Id"/>
           </xsl:with-param>
 	      <xsl:with-param name="CreationDate">
-            <xsl:value-of select="sms:SmsNotificationRequest/cvq:CreationDate"/>
+            <xsl:value-of select="snr:SmsNotificationRequest/cvq:CreationDate"/>
           </xsl:with-param>
 	    </xsl:call-template>
 

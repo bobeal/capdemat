@@ -129,7 +129,7 @@
   </xb:namespace>
 
   <!-- Sms Notification Request -->
-  <xb:namespace uri="http://www.cg95.fr/cvq/schema/sms">
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/snr">
     <xb:package>fr.cg95.cvq.xml.request.leisure</xb:package>
   </xb:namespace>
 

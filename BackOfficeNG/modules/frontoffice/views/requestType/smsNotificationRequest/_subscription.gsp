@@ -14,15 +14,15 @@
   
 
   
-    <label class=""><g:message code="sms.property.mobilePhone.label" />   <span><g:message code="sms.property.mobilePhone.help" /></span></label>
+    <label class=""><g:message code="snr.property.mobilePhone.label" />   <span><g:message code="snr.property.mobilePhone.help" /></span></label>
             <input type="text" name="mobilePhone" value="${rqt.mobilePhone}" 
-                    class=" autofill-subjectFilling-listener-MobilePhone validate-phone" title="<g:message code="sms.property.mobilePhone.validationError" />"  maxLength="10"/>
+                    class=" autofill-subjectFilling-listener-MobilePhone validate-phone" title="<g:message code="snr.property.mobilePhone.validationError" />"  maxLength="10"/>
             
 
   
 
   
-    <label class="required"><g:message code="sms.property.subscription.label" /> *  <span><g:message code="sms.property.subscription.help" /></span></label>
+    <label class="required"><g:message code="snr.property.subscription.label" /> *  <span><g:message code="snr.property.subscription.help" /></span></label>
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
@@ -36,10 +36,10 @@
   
 
   
-    <label class="required"><g:message code="sms.property.interests.label" /> *  <span><g:message code="sms.property.interests.help" /></span></label>
+    <label class="required"><g:message code="snr.property.interests.label" /> *  <span><g:message code="snr.property.interests.help" /></span></label>
             <g:set var="interestsIndex" value="${0}" scope="flash" />
             <g:render template="/frontofficeRequestType/widget/localReferentialData" 
-                      model="['javaName':'interests', 'i18nPrefixCode':'sms.property.interests', 'htmlClass':'required  ', 
+                      model="['javaName':'interests', 'i18nPrefixCode':'snr.property.interests', 'htmlClass':'required  ', 
                               'lrEntries': lrTypes.interests.entries, 'depth':0]" />
             
 

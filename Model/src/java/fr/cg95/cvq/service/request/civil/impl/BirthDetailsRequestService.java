@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.civil.impl;
 
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.BirthDetailsRequest;
 import fr.cg95.cvq.exception.CvqException;
@@ -26,12 +27,13 @@ public final class BirthDetailsRequestService
     @Override
     public Request getSkeletonRequest() throws CvqException {
         BirthDetailsRequest request = new BirthDetailsRequest();
-        //FIXME this test is here only because, on frontoffice homepage, requests are created
+        // this test is here only because, on frontoffice homepage, requests are created
         // to display their translated labels, while the currentSite has already been reset by
         // the "after" in openSessionInViewFilter
         if (SecurityContext.getCurrentSite() != null) {
-            request.setBirthCity(SecurityContext.getCurrentSite().getDisplayTitle());
-            request.setBirthPostalCode(SecurityContext.getCurrentSite().getPostalCode());
+            LocalAuthority localAuthority = SecurityContext.getCurrentSite();
+            request.setBirthCity(localAuthority.getDisplayTitle());
+            request.setBirthPostalCode(localAuthority.getPostalCode().substring(0,2));
         }
         return request;
     }

@@ -4,7 +4,8 @@
   </g:if>
   <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
   <input type="hidden" name="uuidString" value="${uuidString}" />
-  <input type="hidden" name="currentTabIndex" value="${params?.currentTabIndex}" />
+  <input type="hidden" name="currentTabIndex" value="${currentTabIndex}" />
+  <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
   <input type="submit" value="${message(code:'action.saveDraft')}"
-         id="submitDraft" name="submitDraft" ${session.currentEcitizen && draftVisible ? '' : 'disabled=\"disabled\"'}/>
+         id="submit-draft" name="submit-draft" ${session.currentEcitizen && draftVisible ? '' : 'disabled=\"disabled\"'}/>
 </form>

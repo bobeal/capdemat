@@ -46,7 +46,8 @@ class RequestCreationController {
         def requestService = null
         
         flash.fromDraft = true
-        
+        def targetAction
+        def newParams = [:]
         if(request.post) {
             requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
             def cRequest = session[params.uuidString].cRequest
@@ -54,12 +55,18 @@ class RequestCreationController {
             requestService.processDraft(cRequest)
             flash.cRequest = cRequest
             flash.confirmationMessage = message(code:'message.savedAsDraft')
+            targetAction = 'step'
+            newParams.uuidString = params.uuidString
+            newParams.requestTypeInfo = params.requestTypeInfo
+            if (!params.currentTabIndex) params.currentTabIndex = 0
+            newParams.('submit-draft-' + JSON.parse(params.requestTypeInfo).steps.get(Integer.valueOf(params.currentTabIndex)).tokenize('-')[0]) = params.'submit-draft'
         } else if (request.get) {
             requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
             flash.cRequest = requestService.getById(Long.parseLong(params.id))
+            targetAction = 'edit'
+            newParams.label = requestService.label
         }
-        redirect(controller:controllerName, params:[
-            'label':requestService.label,'currentTabIndex': params.currentTabIndex])
+        redirect(controller : controllerName, action : targetAction, params : newParams)
         return false
     }
     
@@ -317,6 +324,9 @@ class RequestCreationController {
                 if (SecurityContext.currentEcitizen == null) homeFolderService.removeRole(owner, individual, role)
                 else homeFolderService.removeRole(owner, individual, homeFolderId, role)
                 stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+            }
+            else if (submitAction[1] == 'draft') {
+                // do nothing as the draft has already been saved
             }
             // standard save action
             else {

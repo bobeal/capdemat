@@ -64,6 +64,8 @@ class RequestInstructionController {
     def pdfService
     def defaultAction = "edit"
 
+    def messageSource
+
     def beforeInterceptor = {
         session["currentMenu"] = "request"
     }
@@ -702,7 +704,7 @@ class RequestInstructionController {
             requestAttributes.setOut(out)
             template.make(['forms':forms,'type':type,'logoLink':logoLink]).writeTo(out);
             requestAttributes.setOut(originalOut)
-                        
+
             String content = out.toString().replace('#{','${')
             def model = [
                 'DATE' : java.text.DateFormat.getDateInstance().format(new Date()),
@@ -714,11 +716,13 @@ class RequestInstructionController {
                 'HF_ID' : requester.homeFolder.id,
                 'RR_FNAME' : requester.firstName,
                 'RR_LNAME' : requester.lastName,
-                'RR_TITLE' : requester.title,
+                'RR_TITLE' : messageSource.getMessage("homeFolder.adult.title.${requester.title.toString().toLowerCase()}",
+                				null, SecurityContext.currentLocale),
                 'RR_LOGIN' : requester.login,
                 'SU_FNAME' : subject?.firstName,
                 'SU_LNAME' : subject?.lastName,
-                'SU_TITLE' : subject?.title,
+                'SU_TITLE' : messageSource.getMessage("homeFolder.adult.title.${subject?.title.toString().toLowerCase()}",
+        						null, SecurityContext.currentLocale),
                 'HF_ADDRESS_ADI' : address.additionalDeliveryInformation,
                 'HF_ADDRESS_AGI' : address.additionalGeographicalInformation,
                 'HF_ADDRESS_SNAME' : address.streetName,
@@ -750,7 +754,7 @@ class RequestInstructionController {
         result.firstName = ((Individual)sub).getFirstName()
         result.lastName = ((Individual)sub).getLastName()
 
-        if(sub.getClass().getSimpleName() == 'Child')result.title = 'request.individual.kid'
+        if(sub.getClass().getSimpleName() == 'Child')result.title = 'Unknown'
         else if(sub.getClass().getSimpleName() == 'Adult')result.title = ((Adult)sub).getTitle()
 
         return result

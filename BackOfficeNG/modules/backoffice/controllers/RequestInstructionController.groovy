@@ -693,8 +693,7 @@ class RequestInstructionController {
             def logoLink = ''
             if (type == 'pdf') {
                 File logoFile = 
-                    localAuthorityRegistry.getCurrentLocalAuthorityResource(ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE,
-                        "logoPdf.jpg", false)
+                    localAuthorityRegistry.getLocalAuthorityResourceFile("logoPdf", false)
                 logoLink = logoFile.absolutePath
             }
 

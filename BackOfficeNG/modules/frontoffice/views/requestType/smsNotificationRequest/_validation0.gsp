@@ -13,7 +13,7 @@
     
       
       <dl>
-        <dt><g:message code="sms.property.mobilePhone.label" /></dt><dd>${rqt.mobilePhone}</dd>
+        <dt><g:message code="sms.property.mobilePhone.label" /></dt><dd>${rqt.mobilePhone?.toString()}</dd>
 
       </dl>
       

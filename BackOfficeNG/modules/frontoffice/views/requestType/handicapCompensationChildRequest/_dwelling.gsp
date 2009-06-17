@@ -43,7 +43,7 @@
 
     
       <label class="required condition-isInEstablishmentReception-filled"><g:message code="hccr.property.dwellingReceptionNaming.label" /> *  <span><g:message code="hccr.property.dwellingReceptionNaming.help" /></span></label>
-            <input type="text" name="dwellingReceptionNaming" value="${rqt.dwellingReceptionNaming}" 
+            <input type="text" name="dwellingReceptionNaming" value="${rqt.dwellingReceptionNaming?.toString()}" 
                     class="required condition-isInEstablishmentReception-filled  " title="<g:message code="hccr.property.dwellingReceptionNaming.validationError" />"  maxLength="80"/>
             
 
@@ -81,7 +81,7 @@
 
     
       <label class="required condition-isInSocialReception-filled"><g:message code="hccr.property.dwellingSocialReceptionNaming.label" /> *  <span><g:message code="hccr.property.dwellingSocialReceptionNaming.help" /></span></label>
-            <input type="text" name="dwellingSocialReceptionNaming" value="${rqt.dwellingSocialReceptionNaming}" 
+            <input type="text" name="dwellingSocialReceptionNaming" value="${rqt.dwellingSocialReceptionNaming?.toString()}" 
                     class="required condition-isInSocialReception-filled  " title="<g:message code="hccr.property.dwellingSocialReceptionNaming.validationError" />"  maxLength="80"/>
             
 

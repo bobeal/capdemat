@@ -6,13 +6,13 @@
     <legend><g:message code="mcr.property.fatherInformation.label" /></legend>
     
       <label class=""><g:message code="mcr.property.fatherLastName.label" />   <span><g:message code="mcr.property.fatherLastName.help" /></span></label>
-            <input type="text" name="fatherLastName" value="${rqt.fatherLastName}" 
+            <input type="text" name="fatherLastName" value="${rqt.fatherLastName?.toString()}" 
                     class="  validate-lastName" title="<g:message code="mcr.property.fatherLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class=""><g:message code="mcr.property.fatherFirstName.label" />   <span><g:message code="mcr.property.fatherFirstName.help" /></span></label>
-            <input type="text" name="fatherFirstName" value="${rqt.fatherFirstName}" 
+            <input type="text" name="fatherFirstName" value="${rqt.fatherFirstName?.toString()}" 
                     class="  validate-firstName" title="<g:message code="mcr.property.fatherFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -24,7 +24,7 @@
 
     
       <label class=""><g:message code="mcr.property.fatherBirthCity.label" />   <span><g:message code="mcr.property.fatherBirthCity.help" /></span></label>
-            <input type="text" name="fatherBirthCity" value="${rqt.fatherBirthCity}" 
+            <input type="text" name="fatherBirthCity" value="${rqt.fatherBirthCity?.toString()}" 
                     class="  validate-string" title="<g:message code="mcr.property.fatherBirthCity.validationError" />"  />
             
 
@@ -67,13 +67,13 @@
     <legend><g:message code="mcr.property.motherInformation.label" /></legend>
     
       <label class="required"><g:message code="mcr.property.motherLastName.label" /> *  <span><g:message code="mcr.property.motherLastName.help" /></span></label>
-            <input type="text" name="motherLastName" value="${rqt.motherLastName}" 
+            <input type="text" name="motherLastName" value="${rqt.motherLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="mcr.property.motherLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required"><g:message code="mcr.property.motherFirstName.label" /> *  <span><g:message code="mcr.property.motherFirstName.help" /></span></label>
-            <input type="text" name="motherFirstName" value="${rqt.motherFirstName}" 
+            <input type="text" name="motherFirstName" value="${rqt.motherFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="mcr.property.motherFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -85,7 +85,7 @@
 
     
       <label class="required"><g:message code="mcr.property.motherBirthCity.label" /> *  <span><g:message code="mcr.property.motherBirthCity.help" /></span></label>
-            <input type="text" name="motherBirthCity" value="${rqt.motherBirthCity}" 
+            <input type="text" name="motherBirthCity" value="${rqt.motherBirthCity?.toString()}" 
                     class="required  validate-string" title="<g:message code="mcr.property.motherBirthCity.validationError" />"  />
             
 

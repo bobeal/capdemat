@@ -42,7 +42,7 @@
             alt="CapWebCT"
             style="float:left; margin: 0 0 1em;" />
      </a>
-     <a href="http://www.prai-idf.fr/public/rubrique.tpl?id=8364&titre=8364">
+     <a href="http://europa.eu">
        <img src="${createLinkTo(dir:'images',file:'logoUE.png')}"
             alt="Projet cofinancé par l’Union Européenne (FEDER)"
             style="float:left; margin: 0 0 1em;" />

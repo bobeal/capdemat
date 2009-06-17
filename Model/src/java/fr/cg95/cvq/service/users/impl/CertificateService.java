@@ -26,7 +26,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestType;
@@ -52,20 +51,6 @@ public class CertificateService implements ICertificateService {
     protected ILocalizationService localizationService;
     protected IRequestFormDAO requestFormDAO;
     
-    public byte[] generateRequestCertificate(Request request)
-        throws CvqException {
-
-        // DEBUG
-//        logger.debug("generateRequestCertificate() Got XML for request :");
-//        logger.debug(request.modelToXmlString());
-
-        if (request.modelToXml() == null)
-            throw new CvqException("Unable to translate request to XML");
-        else
-            return generateRequestCertificate(request.modelToXml().getDomNode(),
-                    request.getRequestType());
-    }
-
     public byte[] generateRequestCertificate(Node node, File xslFoFile)
         throws CvqException {
 
@@ -121,15 +106,6 @@ public class CertificateService implements ICertificateService {
         }
 
         return convertXmlSource2PDF(new DOMSource(node), requestXslFoFile);
-    }
-
-    public byte[] generateEmptyRequestCertificate(RequestType requestType) 
-        throws CvqException {
-        
-//        ElectoralRollRegistrationRequest request = ElectoralRollRegistrationRequest.getEmpty();
-//        
-//        return generateRequestCertificate(request.modelToXml().getDomNode(), null, requestType);
-        return null;
     }
 
     public byte[] generatePdf(Node node, Long requestFormIId) throws CvqException {

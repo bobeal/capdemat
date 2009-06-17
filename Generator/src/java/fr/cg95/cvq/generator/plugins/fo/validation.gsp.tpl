@@ -47,7 +47,7 @@
           <dd><g:formatDate formatName="format.date" date="\${${wrapper}.${element.javaFieldName}}"/></dd>
           """
       ,'text' :
-          """<dd>\${${wrapper}.${element.javaFieldName}}</dd>"""
+          """<dd>\${${wrapper}.${element.javaFieldName}?.toString()}</dd>"""
       ,'subject' :
           """<dd>\${subjects.get(rqt.subjectId)}</dd>"""
       ,'requester' :

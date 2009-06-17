@@ -18,7 +18,7 @@
 
     
       <label class="required condition-isDisabilityRecognition-filled"><g:message code="hcar.property.benefitsDisabilityRatio.label" /> *  <span><g:message code="hcar.property.benefitsDisabilityRatio.help" /></span></label>
-            <input type="text" name="benefitsDisabilityRatio" value="${rqt.benefitsDisabilityRatio}" 
+            <input type="text" name="benefitsDisabilityRatio" value="${rqt.benefitsDisabilityRatio?.toString()}" 
                     class="required condition-isDisabilityRecognition-filled  " title="<g:message code="hcar.property.benefitsDisabilityRatio.validationError" />"  maxLength="3"/>
             
 
@@ -84,7 +84,7 @@
 
     
       <label class="required condition-isProfessionalOrientation-filled"><g:message code="hcar.property.benefitsProfessionalOrientationDetails.label" /> *  <span><g:message code="hcar.property.benefitsProfessionalOrientationDetails.help" /></span></label>
-            <input type="text" name="benefitsProfessionalOrientationDetails" value="${rqt.benefitsProfessionalOrientationDetails}" 
+            <input type="text" name="benefitsProfessionalOrientationDetails" value="${rqt.benefitsProfessionalOrientationDetails?.toString()}" 
                     class="required condition-isProfessionalOrientation-filled  " title="<g:message code="hcar.property.benefitsProfessionalOrientationDetails.validationError" />"  maxLength="60"/>
             
 
@@ -138,7 +138,7 @@
 
     
       <label class="required condition-isEducationOfDisabledChildren-filled"><g:message code="hcar.property.benefitsEducationOfDisabledChildrenDetails.label" /> *  <span><g:message code="hcar.property.benefitsEducationOfDisabledChildrenDetails.help" /></span></label>
-            <input type="text" name="benefitsEducationOfDisabledChildrenDetails" value="${rqt.benefitsEducationOfDisabledChildrenDetails}" 
+            <input type="text" name="benefitsEducationOfDisabledChildrenDetails" value="${rqt.benefitsEducationOfDisabledChildrenDetails?.toString()}" 
                     class="required condition-isEducationOfDisabledChildren-filled  " title="<g:message code="hcar.property.benefitsEducationOfDisabledChildrenDetails.validationError" />"  maxLength="60"/>
             
 
@@ -216,7 +216,7 @@
 
     
       <label class="required condition-isDisabilityPension-filled"><g:message code="hcar.property.benefitsDisabilityPensionCategory.label" /> *  <span><g:message code="hcar.property.benefitsDisabilityPensionCategory.help" /></span></label>
-            <input type="text" name="benefitsDisabilityPensionCategory" value="${rqt.benefitsDisabilityPensionCategory}" 
+            <input type="text" name="benefitsDisabilityPensionCategory" value="${rqt.benefitsDisabilityPensionCategory?.toString()}" 
                     class="required condition-isDisabilityPension-filled  " title="<g:message code="hcar.property.benefitsDisabilityPensionCategory.validationError" />"  maxLength="60"/>
             
 
@@ -234,7 +234,7 @@
 
     
       <label class="required condition-isWorkAccidentAnnuity-filled"><g:message code="hcar.property.benefitsWorkAccidentAnnuityRatio.label" /> *  <span><g:message code="hcar.property.benefitsWorkAccidentAnnuityRatio.help" /></span></label>
-            <input type="text" name="benefitsWorkAccidentAnnuityRatio" value="${rqt.benefitsWorkAccidentAnnuityRatio}" 
+            <input type="text" name="benefitsWorkAccidentAnnuityRatio" value="${rqt.benefitsWorkAccidentAnnuityRatio?.toString()}" 
                     class="required condition-isWorkAccidentAnnuity-filled  " title="<g:message code="hcar.property.benefitsWorkAccidentAnnuityRatio.validationError" />"  maxLength="3"/>
             
 
@@ -300,7 +300,7 @@
 
     
       <label class="required condition-isSupportedByAnInstitution-filled"><g:message code="hcar.property.benefitsSupportedByAnInstitutionDetails.label" /> *  <span><g:message code="hcar.property.benefitsSupportedByAnInstitutionDetails.help" /></span></label>
-            <input type="text" name="benefitsSupportedByAnInstitutionDetails" value="${rqt.benefitsSupportedByAnInstitutionDetails}" 
+            <input type="text" name="benefitsSupportedByAnInstitutionDetails" value="${rqt.benefitsSupportedByAnInstitutionDetails?.toString()}" 
                     class="required condition-isSupportedByAnInstitution-filled  " title="<g:message code="hcar.property.benefitsSupportedByAnInstitutionDetails.validationError" />"  maxLength="60"/>
             
 
@@ -327,7 +327,7 @@
       <fieldset class="collection-fieldset-add condition-isOtherBenefits-filled">
     
         <label class="required"><g:message code="hcar.property.otherBenefitName.label" /> *  <span><g:message code="hcar.property.otherBenefitName.help" /></span></label>
-            <input type="text" name="otherBenefits[${listIndex}].otherBenefitName" value="${editList?.otherBenefits?.otherBenefitName}" 
+            <input type="text" name="otherBenefits[${listIndex}].otherBenefitName" value="${editList?.otherBenefits?.otherBenefitName?.toString()}" 
                     class="required  " title="<g:message code="hcar.property.otherBenefitName.validationError" />"  maxLength="60"/>
             
 
@@ -344,7 +344,7 @@
         <dl>
     
         <dt><g:message code="hcar.property.otherBenefitName.label" /></dt>
-        <dd>${it.otherBenefitName}</dd>
+        <dd>${it.otherBenefitName?.toString()}</dd>
     
         </dl>
         <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-benefits-otherBenefits[${index}]" />
@@ -361,19 +361,19 @@
       <fieldset class="collection-fieldset-add ">
     
         <label class="required"><g:message code="hcar.property.additionalFeeKind.label" /> *  <span><g:message code="hcar.property.additionalFeeKind.help" /></span></label>
-            <input type="text" name="additionalFee[${listIndex}].additionalFeeKind" value="${editList?.additionalFee?.additionalFeeKind}" 
+            <input type="text" name="additionalFee[${listIndex}].additionalFeeKind" value="${editList?.additionalFee?.additionalFeeKind?.toString()}" 
                     class="required  " title="<g:message code="hcar.property.additionalFeeKind.validationError" />"  maxLength="30"/>
             
 
     
         <label class="required"><g:message code="hcar.property.additionalFeeCost.label" /> *  <span><g:message code="hcar.property.additionalFeeCost.help" /></span></label>
-            <input type="text" name="additionalFee[${listIndex}].additionalFeeCost" value="${editList?.additionalFee?.additionalFeeCost}" 
+            <input type="text" name="additionalFee[${listIndex}].additionalFeeCost" value="${editList?.additionalFee?.additionalFeeCost?.toString()}" 
                     class="required  " title="<g:message code="hcar.property.additionalFeeCost.validationError" />"  />
             
 
     
         <label class="required"><g:message code="hcar.property.additionalFeePeriodicity.label" /> *  <span><g:message code="hcar.property.additionalFeePeriodicity.help" /></span></label>
-            <input type="text" name="additionalFee[${listIndex}].additionalFeePeriodicity" value="${editList?.additionalFee?.additionalFeePeriodicity}" 
+            <input type="text" name="additionalFee[${listIndex}].additionalFeePeriodicity" value="${editList?.additionalFee?.additionalFeePeriodicity?.toString()}" 
                     class="required  " title="<g:message code="hcar.property.additionalFeePeriodicity.validationError" />"  maxLength="30"/>
             
 
@@ -390,13 +390,13 @@
         <dl>
     
         <dt><g:message code="hcar.property.additionalFeeKind.label" /></dt>
-        <dd>${it.additionalFeeKind}</dd>
+        <dd>${it.additionalFeeKind?.toString()}</dd>
     
         <dt><g:message code="hcar.property.additionalFeeCost.label" /></dt>
-        <dd>${it.additionalFeeCost}</dd>
+        <dd>${it.additionalFeeCost?.toString()}</dd>
     
         <dt><g:message code="hcar.property.additionalFeePeriodicity.label" /></dt>
-        <dd>${it.additionalFeePeriodicity}</dd>
+        <dd>${it.additionalFeePeriodicity?.toString()}</dd>
     
         </dl>
         <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-benefits-additionalFee[${index}]" />

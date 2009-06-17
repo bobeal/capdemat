@@ -18,13 +18,13 @@
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolGrade.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolGrade.help" /></span></label>
-            <input type="text" name="studiesHighSchoolGrade" value="${rqt.studiesHighSchoolGrade}" 
+            <input type="text" name="studiesHighSchoolGrade" value="${rqt.studiesHighSchoolGrade?.toString()}" 
                     class="required condition-isHighSchool-filled  " title="<g:message code="hcar.property.studiesHighSchoolGrade.validationError" />"  maxLength="60"/>
             
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolName.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolName.help" /></span></label>
-            <input type="text" name="studiesHighSchoolName" value="${rqt.studiesHighSchoolName}" 
+            <input type="text" name="studiesHighSchoolName" value="${rqt.studiesHighSchoolName?.toString()}" 
                     class="required condition-isHighSchool-filled  " title="<g:message code="hcar.property.studiesHighSchoolName.validationError" />"  maxLength="60"/>
             
 
@@ -62,7 +62,7 @@
 
     
       <label class="required condition-isAssistanceUnderDisability-filled"><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.label" /> *  <span><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.help" /></span></label>
-            <input type="text" name="studiesAssistanceUnderDisabilityDetails" value="${rqt.studiesAssistanceUnderDisabilityDetails}" 
+            <input type="text" name="studiesAssistanceUnderDisabilityDetails" value="${rqt.studiesAssistanceUnderDisabilityDetails?.toString()}" 
                     class="required condition-isAssistanceUnderDisability-filled  " title="<g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.validationError" />"  maxLength="60"/>
             
 
@@ -75,7 +75,7 @@
     <legend><g:message code="hcar.property.formation.label" /></legend>
     
       <label class=""><g:message code="hcar.property.formationStudiesLevel.label" />   <span><g:message code="hcar.property.formationStudiesLevel.help" /></span></label>
-            <input type="text" name="formationStudiesLevel" value="${rqt.formationStudiesLevel}" 
+            <input type="text" name="formationStudiesLevel" value="${rqt.formationStudiesLevel?.toString()}" 
                     class="  " title="<g:message code="hcar.property.formationStudiesLevel.validationError" />"  maxLength="30"/>
             
 
@@ -129,13 +129,13 @@
 
     
       <label class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusProfession.label" /> *  <span><g:message code="hcar.property.professionalStatusProfession.help" /></span></label>
-            <input type="text" name="professionalStatusProfession" value="${rqt.professionalStatusProfession}" 
+            <input type="text" name="professionalStatusProfession" value="${rqt.professionalStatusProfession?.toString()}" 
                     class="required condition-isEmployed-filled  " title="<g:message code="hcar.property.professionalStatusProfession.validationError" />"  maxLength="60"/>
             
 
     
       <label class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusEmployerName.label" /> *  <span><g:message code="hcar.property.professionalStatusEmployerName.help" /></span></label>
-            <input type="text" name="professionalStatusEmployerName" value="${rqt.professionalStatusEmployerName}" 
+            <input type="text" name="professionalStatusEmployerName" value="${rqt.professionalStatusEmployerName?.toString()}" 
                     class="required condition-isEmployed-filled  validate-lastName" title="<g:message code="hcar.property.professionalStatusEmployerName.validationError" />"  maxLength="38"/>
             
 
@@ -209,7 +209,7 @@
 
     
       <label class="required condition-isElectiveFunction-filled"><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.label" /> *  <span><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.help" /></span></label>
-            <input type="text" name="professionalStatusElectiveFunctionDetails" value="${rqt.professionalStatusElectiveFunctionDetails}" 
+            <input type="text" name="professionalStatusElectiveFunctionDetails" value="${rqt.professionalStatusElectiveFunctionDetails?.toString()}" 
                     class="required condition-isElectiveFunction-filled  " title="<g:message code="hcar.property.professionalStatusElectiveFunctionDetails.validationError" />"  maxLength="60"/>
             
 

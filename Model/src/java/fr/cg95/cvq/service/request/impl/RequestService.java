@@ -893,8 +893,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         if(!request.getDraft() || request.getDraft() == null) {
             // TODO DECOUPLING
             logger.debug("create() Gonna generate a pdf of the request");
+            XmlObject xmlRequest = fillRequestXml(request);
             byte[] pdfData =
-                certificateService.generateRequestCertificate(request);
+                certificateService.generateRequestCertificate(xmlRequest.getDomNode(),
+                        request.getRequestType());
+            
             requestActionService.addCreationAction(requestId, new Date(), pdfData);
     
             // TODO DECOUPLING

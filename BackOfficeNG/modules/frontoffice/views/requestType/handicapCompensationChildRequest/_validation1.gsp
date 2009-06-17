@@ -21,13 +21,13 @@
       <g:each var="it" in="${rqt.familyAssistanceMembers}" status="index">
       <dl>
         
-          <dt><g:message code="hccr.property.familyAssistanceMemberRelationship.label" /></dt><dd>${it.familyAssistanceMemberRelationship}</dd>
+          <dt><g:message code="hccr.property.familyAssistanceMemberRelationship.label" /></dt><dd>${it.familyAssistanceMemberRelationship?.toString()}</dd>
 
         
-          <dt><g:message code="hccr.property.familyAssistanceMemberLastName.label" /></dt><dd>${it.familyAssistanceMemberLastName}</dd>
+          <dt><g:message code="hccr.property.familyAssistanceMemberLastName.label" /></dt><dd>${it.familyAssistanceMemberLastName?.toString()}</dd>
 
         
-          <dt><g:message code="hccr.property.familyAssistanceMemberFirstName.label" /></dt><dd>${it.familyAssistanceMemberFirstName}</dd>
+          <dt><g:message code="hccr.property.familyAssistanceMemberFirstName.label" /></dt><dd>${it.familyAssistanceMemberFirstName?.toString()}</dd>
 
         
       </dl>
@@ -60,7 +60,7 @@
           
 
         
-          <dt><g:message code="hccr.property.homeIntervenantDetails.label" /></dt><dd>${it.homeIntervenantDetails}</dd>
+          <dt><g:message code="hccr.property.homeIntervenantDetails.label" /></dt><dd>${it.homeIntervenantDetails?.toString()}</dd>
 
         
       </dl>
@@ -84,7 +84,7 @@
       <g:each var="it" in="${rqt.careServices}" status="index">
       <dl>
         
-          <dt><g:message code="hccr.property.careServiceKind.label" /></dt><dd>${it.careServiceKind}</dd>
+          <dt><g:message code="hccr.property.careServiceKind.label" /></dt><dd>${it.careServiceKind?.toString()}</dd>
 
         
           <dt><g:message code="hccr.property.careServiceCareServiceEmployer.label" /></dt>
@@ -92,7 +92,7 @@
           
 
         
-          <dt><g:message code="hccr.property.careServiceProviderName.label" /></dt><dd>${it.careServiceProviderName}</dd>
+          <dt><g:message code="hccr.property.careServiceProviderName.label" /></dt><dd>${it.careServiceProviderName?.toString()}</dd>
 
         
           <dt><g:message code="hccr.property.careServiceProviderAddress.label" /></dt>
@@ -122,7 +122,7 @@
           
 
         
-          <dt><g:message code="hccr.property.facilitiesHousingDetails.label" /></dt><dd>${rqt.facilitiesHousingDetails}</dd>
+          <dt><g:message code="hccr.property.facilitiesHousingDetails.label" /></dt><dd>${rqt.facilitiesHousingDetails?.toString()}</dd>
 
         
           <dt><g:message code="hccr.property.facilitiesTechnicalAssistance.label" /></dt>
@@ -130,7 +130,7 @@
           
 
         
-          <dt><g:message code="hccr.property.facilitiesTechnicalAssistanceDetails.label" /></dt><dd>${rqt.facilitiesTechnicalAssistanceDetails}</dd>
+          <dt><g:message code="hccr.property.facilitiesTechnicalAssistanceDetails.label" /></dt><dd>${rqt.facilitiesTechnicalAssistanceDetails?.toString()}</dd>
 
         
           <dt><g:message code="hccr.property.facilitiesCustomCar.label" /></dt>
@@ -138,7 +138,7 @@
           
 
         
-          <dt><g:message code="hccr.property.facilitiesCustomCarDetails.label" /></dt><dd>${rqt.facilitiesCustomCarDetails}</dd>
+          <dt><g:message code="hccr.property.facilitiesCustomCarDetails.label" /></dt><dd>${rqt.facilitiesCustomCarDetails?.toString()}</dd>
 
         
           <dt><g:message code="hccr.property.facilitiesAnimalAid.label" /></dt>
@@ -146,7 +146,7 @@
           
 
         
-          <dt><g:message code="hccr.property.facilitiesAnimalAidDetails.label" /></dt><dd>${rqt.facilitiesAnimalAidDetails}</dd>
+          <dt><g:message code="hccr.property.facilitiesAnimalAidDetails.label" /></dt><dd>${rqt.facilitiesAnimalAidDetails?.toString()}</dd>
 
         
           <dt><g:message code="hccr.property.facilitiesSpecializedTransport.label" /></dt>
@@ -154,7 +154,7 @@
           
 
         
-          <dt><g:message code="hccr.property.facilitiesSpecializedTransportDetails.label" /></dt><dd>${rqt.facilitiesSpecializedTransportDetails}</dd>
+          <dt><g:message code="hccr.property.facilitiesSpecializedTransportDetails.label" /></dt><dd>${rqt.facilitiesSpecializedTransportDetails?.toString()}</dd>
 
         
       </dl>
@@ -182,10 +182,10 @@
       <g:each var="it" in="${rqt.professionals}" status="index">
       <dl>
         
-          <dt><g:message code="hccr.property.professionalLastName.label" /></dt><dd>${it.professionalLastName}</dd>
+          <dt><g:message code="hccr.property.professionalLastName.label" /></dt><dd>${it.professionalLastName?.toString()}</dd>
 
         
-          <dt><g:message code="hccr.property.professionalFirstName.label" /></dt><dd>${it.professionalFirstName}</dd>
+          <dt><g:message code="hccr.property.professionalFirstName.label" /></dt><dd>${it.professionalFirstName?.toString()}</dd>
 
         
           <dt><g:message code="hccr.property.professionalAddress.label" /></dt>
@@ -215,7 +215,7 @@
           
 
         
-          <dt><g:message code="hccr.property.socialServiceName.label" /></dt><dd>${rqt.socialServiceName}</dd>
+          <dt><g:message code="hccr.property.socialServiceName.label" /></dt><dd>${rqt.socialServiceName?.toString()}</dd>
 
         
           <dt><g:message code="hccr.property.socialServiceAddress.label" /></dt>
@@ -249,10 +249,10 @@
           
 
         
-          <dt><g:message code="hccr.property.healthDoctorLastName.label" /></dt><dd>${rqt.healthDoctorLastName}</dd>
+          <dt><g:message code="hccr.property.healthDoctorLastName.label" /></dt><dd>${rqt.healthDoctorLastName?.toString()}</dd>
 
         
-          <dt><g:message code="hccr.property.healthDoctorFirstName.label" /></dt><dd>${rqt.healthDoctorFirstName}</dd>
+          <dt><g:message code="hccr.property.healthDoctorFirstName.label" /></dt><dd>${rqt.healthDoctorFirstName?.toString()}</dd>
 
         
           <dt><g:message code="hccr.property.healthFollowedByProfessional.label" /></dt>
@@ -260,10 +260,10 @@
           
 
         
-          <dt><g:message code="hccr.property.healthProfessionalLastName.label" /></dt><dd>${rqt.healthProfessionalLastName}</dd>
+          <dt><g:message code="hccr.property.healthProfessionalLastName.label" /></dt><dd>${rqt.healthProfessionalLastName?.toString()}</dd>
 
         
-          <dt><g:message code="hccr.property.healthProfessionalFirstName.label" /></dt><dd>${rqt.healthProfessionalFirstName}</dd>
+          <dt><g:message code="hccr.property.healthProfessionalFirstName.label" /></dt><dd>${rqt.healthProfessionalFirstName?.toString()}</dd>
 
         
           <dt><g:message code="hccr.property.healthFollowedByHospital.label" /></dt>
@@ -271,7 +271,7 @@
           
 
         
-          <dt><g:message code="hccr.property.healthHospitalName.label" /></dt><dd>${rqt.healthHospitalName}</dd>
+          <dt><g:message code="hccr.property.healthHospitalName.label" /></dt><dd>${rqt.healthHospitalName?.toString()}</dd>
 
         
       </dl>
@@ -401,7 +401,7 @@
           
 
         
-          <dt><g:message code="hccr.property.projectRequestsOtherDetails.label" /></dt><dd>${rqt.projectRequestsOtherDetails}</dd>
+          <dt><g:message code="hccr.property.projectRequestsOtherDetails.label" /></dt><dd>${rqt.projectRequestsOtherDetails?.toString()}</dd>
 
         
       </dl>
@@ -409,21 +409,21 @@
     
       
       <dl>
-        <dt><g:message code="hccr.property.projectWish.label" /></dt><dd>${rqt.projectWish}</dd>
+        <dt><g:message code="hccr.property.projectWish.label" /></dt><dd>${rqt.projectWish?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="hccr.property.projectNeeds.label" /></dt><dd>${rqt.projectNeeds}</dd>
+        <dt><g:message code="hccr.property.projectNeeds.label" /></dt><dd>${rqt.projectNeeds?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="hccr.property.projectComments.label" /></dt><dd>${rqt.projectComments}</dd>
+        <dt><g:message code="hccr.property.projectComments.label" /></dt><dd>${rqt.projectComments?.toString()}</dd>
 
       </dl>
       

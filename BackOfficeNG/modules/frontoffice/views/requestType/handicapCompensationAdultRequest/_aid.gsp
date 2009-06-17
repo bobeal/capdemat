@@ -27,19 +27,19 @@
       <fieldset class="collection-fieldset-add required condition-isFamilyAssistance-filled">
     
         <label class="required"><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberRelationship.help" /></span></label>
-            <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberRelationship" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberRelationship}" 
+            <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberRelationship" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberRelationship?.toString()}" 
                     class="required  " title="<g:message code="hcar.property.familyAssistanceMemberRelationship.validationError" />"  maxLength="60"/>
             
 
     
         <label class="required"><g:message code="hcar.property.familyAssistanceMemberLastName.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberLastName.help" /></span></label>
-            <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberLastName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberLastName}" 
+            <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberLastName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="hcar.property.familyAssistanceMemberLastName.validationError" />"  maxLength="38"/>
             
 
     
         <label class="required"><g:message code="hcar.property.familyAssistanceMemberFirstName.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberFirstName.help" /></span></label>
-            <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberFirstName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberFirstName}" 
+            <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberFirstName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="hcar.property.familyAssistanceMemberFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -56,13 +56,13 @@
         <dl>
     
         <dt><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /></dt>
-        <dd>${it.familyAssistanceMemberRelationship}</dd>
+        <dd>${it.familyAssistanceMemberRelationship?.toString()}</dd>
     
         <dt><g:message code="hcar.property.familyAssistanceMemberLastName.label" /></dt>
-        <dd>${it.familyAssistanceMemberLastName}</dd>
+        <dd>${it.familyAssistanceMemberLastName?.toString()}</dd>
     
         <dt><g:message code="hcar.property.familyAssistanceMemberFirstName.label" /></dt>
-        <dd>${it.familyAssistanceMemberFirstName}</dd>
+        <dd>${it.familyAssistanceMemberFirstName?.toString()}</dd>
     
         </dl>
         <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-aid-familyAssistanceMembers[${index}]" />
@@ -108,7 +108,7 @@
 
     
         <label class="required condition-isOtherHomeIntervant-filled"><g:message code="hcar.property.homeIntervenantDetails.label" /> *  <span><g:message code="hcar.property.homeIntervenantDetails.help" /></span></label>
-            <input type="text" name="homeIntervenants[${listIndex}].homeIntervenantDetails" value="${editList?.homeIntervenants?.homeIntervenantDetails}" 
+            <input type="text" name="homeIntervenants[${listIndex}].homeIntervenantDetails" value="${editList?.homeIntervenants?.homeIntervenantDetails?.toString()}" 
                     class="required condition-isOtherHomeIntervant-filled  " title="<g:message code="hcar.property.homeIntervenantDetails.validationError" />"  maxLength="60"/>
             
 
@@ -134,7 +134,7 @@
               
     
         <dt><g:message code="hcar.property.homeIntervenantDetails.label" /></dt>
-        <dd>${it.homeIntervenantDetails}</dd>
+        <dd>${it.homeIntervenantDetails?.toString()}</dd>
     
         </dl>
         <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-aid-homeIntervenants[${index}]" />
@@ -170,7 +170,7 @@
       <fieldset class="collection-fieldset-add required condition-isCareServices-filled">
     
         <label class="required"><g:message code="hcar.property.careServiceKind.label" /> *  <span><g:message code="hcar.property.careServiceKind.help" /></span></label>
-            <input type="text" name="careServices[${listIndex}].careServiceKind" value="${editList?.careServices?.careServiceKind}" 
+            <input type="text" name="careServices[${listIndex}].careServiceKind" value="${editList?.careServices?.careServiceKind?.toString()}" 
                     class="required  validate-string" title="<g:message code="hcar.property.careServiceKind.validationError" />"  />
             
 
@@ -188,7 +188,7 @@
 
     
         <label class="required condition-isCareServiceEmployer-unfilled"><g:message code="hcar.property.careServiceProviderName.label" /> *  <span><g:message code="hcar.property.careServiceProviderName.help" /></span></label>
-            <input type="text" name="careServices[${listIndex}].careServiceProviderName" value="${editList?.careServices?.careServiceProviderName}" 
+            <input type="text" name="careServices[${listIndex}].careServiceProviderName" value="${editList?.careServices?.careServiceProviderName?.toString()}" 
                     class="required condition-isCareServiceEmployer-unfilled  validate-lastName" title="<g:message code="hcar.property.careServiceProviderName.validationError" />"  maxLength="38"/>
             
 
@@ -225,13 +225,13 @@
         <dl>
     
         <dt><g:message code="hcar.property.careServiceKind.label" /></dt>
-        <dd>${it.careServiceKind}</dd>
+        <dd>${it.careServiceKind?.toString()}</dd>
     
         <dt><g:message code="hcar.property.careServiceCareServiceEmployer.label" /></dt>
         <dd><g:message code="message.${it.careServiceCareServiceEmployer ? 'yes' : 'no'}" /></dd>
     
         <dt><g:message code="hcar.property.careServiceProviderName.label" /></dt>
-        <dd>${it.careServiceProviderName}</dd>
+        <dd>${it.careServiceProviderName?.toString()}</dd>
     
         <dt><g:message code="hcar.property.careServiceProviderAddress.label" /></dt>
         
@@ -272,7 +272,7 @@
 
     
       <label class="required condition-isHousing-filled"><g:message code="hcar.property.facilitiesHousingDetails.label" /> *  <span><g:message code="hcar.property.facilitiesHousingDetails.help" /></span></label>
-            <input type="text" name="facilitiesHousingDetails" value="${rqt.facilitiesHousingDetails}" 
+            <input type="text" name="facilitiesHousingDetails" value="${rqt.facilitiesHousingDetails?.toString()}" 
                     class="required condition-isHousing-filled  " title="<g:message code="hcar.property.facilitiesHousingDetails.validationError" />"  maxLength="60"/>
             
 
@@ -290,7 +290,7 @@
 
     
       <label class="required condition-isTechnicalAssistance-filled"><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.label" /> *  <span><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.help" /></span></label>
-            <input type="text" name="facilitiesTechnicalAssistanceDetails" value="${rqt.facilitiesTechnicalAssistanceDetails}" 
+            <input type="text" name="facilitiesTechnicalAssistanceDetails" value="${rqt.facilitiesTechnicalAssistanceDetails?.toString()}" 
                     class="required condition-isTechnicalAssistance-filled  " title="<g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.validationError" />"  maxLength="60"/>
             
 
@@ -308,7 +308,7 @@
 
     
       <label class="required condition-isCustomCar-filled"><g:message code="hcar.property.facilitiesCustomCarDetails.label" /> *  <span><g:message code="hcar.property.facilitiesCustomCarDetails.help" /></span></label>
-            <input type="text" name="facilitiesCustomCarDetails" value="${rqt.facilitiesCustomCarDetails}" 
+            <input type="text" name="facilitiesCustomCarDetails" value="${rqt.facilitiesCustomCarDetails?.toString()}" 
                     class="required condition-isCustomCar-filled  " title="<g:message code="hcar.property.facilitiesCustomCarDetails.validationError" />"  maxLength="60"/>
             
 
@@ -326,7 +326,7 @@
 
     
       <label class="required condition-isAnimalAid-filled"><g:message code="hcar.property.facilitiesAnimalAidDetails.label" /> *  <span><g:message code="hcar.property.facilitiesAnimalAidDetails.help" /></span></label>
-            <input type="text" name="facilitiesAnimalAidDetails" value="${rqt.facilitiesAnimalAidDetails}" 
+            <input type="text" name="facilitiesAnimalAidDetails" value="${rqt.facilitiesAnimalAidDetails?.toString()}" 
                     class="required condition-isAnimalAid-filled  " title="<g:message code="hcar.property.facilitiesAnimalAidDetails.validationError" />"  maxLength="60"/>
             
 
@@ -344,7 +344,7 @@
 
     
       <label class="required condition-isSpecializedTransport-filled"><g:message code="hcar.property.facilitiesSpecializedTransportDetails.label" /> *  <span><g:message code="hcar.property.facilitiesSpecializedTransportDetails.help" /></span></label>
-            <input type="text" name="facilitiesSpecializedTransportDetails" value="${rqt.facilitiesSpecializedTransportDetails}" 
+            <input type="text" name="facilitiesSpecializedTransportDetails" value="${rqt.facilitiesSpecializedTransportDetails?.toString()}" 
                     class="required condition-isSpecializedTransport-filled  " title="<g:message code="hcar.property.facilitiesSpecializedTransportDetails.validationError" />"  maxLength="60"/>
             
 
@@ -390,13 +390,13 @@
       <fieldset class="collection-fieldset-add condition-isProfessionals-filled">
     
         <label class="required"><g:message code="hcar.property.professionalLastName.label" /> *  <span><g:message code="hcar.property.professionalLastName.help" /></span></label>
-            <input type="text" name="professionals[${listIndex}].professionalLastName" value="${editList?.professionals?.professionalLastName}" 
+            <input type="text" name="professionals[${listIndex}].professionalLastName" value="${editList?.professionals?.professionalLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="hcar.property.professionalLastName.validationError" />"  maxLength="38"/>
             
 
     
         <label class="required"><g:message code="hcar.property.professionalFirstName.label" /> *  <span><g:message code="hcar.property.professionalFirstName.help" /></span></label>
-            <input type="text" name="professionals[${listIndex}].professionalFirstName" value="${editList?.professionals?.professionalFirstName}" 
+            <input type="text" name="professionals[${listIndex}].professionalFirstName" value="${editList?.professionals?.professionalFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="hcar.property.professionalFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -433,10 +433,10 @@
         <dl>
     
         <dt><g:message code="hcar.property.professionalLastName.label" /></dt>
-        <dd>${it.professionalLastName}</dd>
+        <dd>${it.professionalLastName?.toString()}</dd>
     
         <dt><g:message code="hcar.property.professionalFirstName.label" /></dt>
-        <dd>${it.professionalFirstName}</dd>
+        <dd>${it.professionalFirstName?.toString()}</dd>
     
         <dt><g:message code="hcar.property.professionalAddress.label" /></dt>
         
@@ -477,7 +477,7 @@
 
     
       <label class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceName.label" /> *  <span><g:message code="hcar.property.professionalSupportSocialServiceName.help" /></span></label>
-            <input type="text" name="professionalSupportSocialServiceName" value="${rqt.professionalSupportSocialServiceName}" 
+            <input type="text" name="professionalSupportSocialServiceName" value="${rqt.professionalSupportSocialServiceName?.toString()}" 
                     class="required condition-isSocialServiceSupport-filled  " title="<g:message code="hcar.property.professionalSupportSocialServiceName.validationError" />"  maxLength="60"/>
             
 

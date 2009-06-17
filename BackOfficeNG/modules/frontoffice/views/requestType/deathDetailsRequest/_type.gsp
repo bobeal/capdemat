@@ -17,7 +17,7 @@
 
   
     <label class="required"><g:message code="ddr.property.copies.label" /> *  <span><g:message code="ddr.property.copies.help" /></span></label>
-            <input type="text" name="copies" value="${rqt.copies}" 
+            <input type="text" name="copies" value="${rqt.copies?.toString()}" 
                     class="required  validate-positiveInteger" title="<g:message code="ddr.property.copies.validationError" />"  />
             
 

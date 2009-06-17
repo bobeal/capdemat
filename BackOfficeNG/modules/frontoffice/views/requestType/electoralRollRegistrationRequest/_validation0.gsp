@@ -39,7 +39,7 @@
     
       
       <dl>
-        <dt><g:message code="errr.property.subjectOldCity.label" /></dt><dd>${rqt.subjectOldCity}</dd>
+        <dt><g:message code="errr.property.subjectOldCity.label" /></dt><dd>${rqt.subjectOldCity?.toString()}</dd>
 
       </dl>
       

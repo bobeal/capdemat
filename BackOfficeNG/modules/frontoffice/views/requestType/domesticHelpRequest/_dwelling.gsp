@@ -26,7 +26,7 @@
 
     
       <label class=""><g:message code="dhr.property.dhrCurrentDwellingPhone.label" />   <span><g:message code="dhr.property.dhrCurrentDwellingPhone.help" /></span></label>
-            <input type="text" name="dhrCurrentDwellingPhone" value="${rqt.dhrCurrentDwellingPhone}" 
+            <input type="text" name="dhrCurrentDwellingPhone" value="${rqt.dhrCurrentDwellingPhone?.toString()}" 
                     class="  validate-phone" title="<g:message code="dhr.property.dhrCurrentDwellingPhone.validationError" />"  maxLength="10"/>
             
 
@@ -60,13 +60,13 @@
 
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.label" /> *  <span><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.help" /></span></label>
-            <input type="text" name="dhrCurrentDwellingNumberOfRoom" value="${rqt.dhrCurrentDwellingNumberOfRoom}" 
+            <input type="text" name="dhrCurrentDwellingNumberOfRoom" value="${rqt.dhrCurrentDwellingNumberOfRoom?.toString()}" 
                     class="required condition-isCurrentDwellingPlaceOfResidence-filled  validate-dhrDwellingNumberOfRoom" title="<g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.validationError" />"  />
             
 
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> *  <span><g:message code="dhr.property.dhrCurrentDwellingNetArea.help" /></span></label>
-            <input type="text" name="dhrCurrentDwellingNetArea" value="${rqt.dhrCurrentDwellingNetArea}" 
+            <input type="text" name="dhrCurrentDwellingNetArea" value="${rqt.dhrCurrentDwellingNetArea?.toString()}" 
                     class="required condition-isCurrentDwellingPlaceOfResidence-filled  validate-regex" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />" regex="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/" />
             
 
@@ -135,7 +135,7 @@
 
     
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingComment.help" /></span></label>
-            <input type="text" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingComment}" 
+            <input type="text" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingComment?.toString()}" 
                     class="required  validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />"  />
             
 
@@ -190,7 +190,7 @@
         <dd><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingDepartureDate}"/></dd>
     
         <dt><g:message code="dhr.property.dhrPreviousDwellingComment.label" /></dt>
-        <dd>${it.dhrPreviousDwellingComment}</dd>
+        <dd>${it.dhrPreviousDwellingComment?.toString()}</dd>
     
         </dl>
         <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-dwelling-dhrPreviousDwelling[${index}]" />

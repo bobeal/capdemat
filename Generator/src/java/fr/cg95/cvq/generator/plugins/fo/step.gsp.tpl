@@ -69,7 +69,7 @@
             """
          ,'text' :
             """
-            <input type="text" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}}" 
+            <input type="text" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}?.toString()}" 
                     class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits}/>
             """
          ,'subject' :
@@ -154,7 +154,7 @@
           ,'date' :
               """<dd><g:formatDate formatName="format.date" date="\${${valuePrefix}.${element.javaFieldName}}"/></dd>"""
           ,'text' : 
-              """<dd>\${${valuePrefix}.${element.javaFieldName}}</dd>"""
+              """<dd>\${${valuePrefix}.${element.javaFieldName}?.toString()}</dd>"""
       ]
   
       if (staticWidgets[element.widget] != null)

@@ -3,7 +3,7 @@
 
   
     <label class="required"><g:message code="hsr.property.otherContactLastName.label" /> *  <span><g:message code="hsr.property.otherContactLastName.help" /></span></label>
-            <input type="text" name="otherContactLastName" value="${rqt.otherContactLastName}" 
+            <input type="text" name="otherContactLastName" value="${rqt.otherContactLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="hsr.property.otherContactLastName.validationError" />"  maxLength="38"/>
             
 
@@ -11,7 +11,7 @@
 
   
     <label class="required"><g:message code="hsr.property.otherContactFirstName.label" /> *  <span><g:message code="hsr.property.otherContactFirstName.help" /></span></label>
-            <input type="text" name="otherContactFirstName" value="${rqt.otherContactFirstName}" 
+            <input type="text" name="otherContactFirstName" value="${rqt.otherContactFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="hsr.property.otherContactFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -41,7 +41,7 @@
 
   
     <label class="required"><g:message code="hsr.property.otherContactPhone.label" /> *  <span><g:message code="hsr.property.otherContactPhone.help" /></span></label>
-            <input type="text" name="otherContactPhone" value="${rqt.otherContactPhone}" 
+            <input type="text" name="otherContactPhone" value="${rqt.otherContactPhone?.toString()}" 
                     class="required  validate-phone" title="<g:message code="hsr.property.otherContactPhone.validationError" />"  maxLength="10"/>
             
 

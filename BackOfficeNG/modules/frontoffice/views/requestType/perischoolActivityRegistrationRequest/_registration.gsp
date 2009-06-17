@@ -25,7 +25,7 @@
 
   
     <label class="required"><g:message code="parr.property.urgencyPhone.label" /> *  <span><g:message code="parr.property.urgencyPhone.help" /></span></label>
-            <input type="text" name="urgencyPhone" value="${rqt.urgencyPhone}" 
+            <input type="text" name="urgencyPhone" value="${rqt.urgencyPhone?.toString()}" 
                     class="required  validate-phone" title="<g:message code="parr.property.urgencyPhone.validationError" />"  maxLength="10"/>
             
 

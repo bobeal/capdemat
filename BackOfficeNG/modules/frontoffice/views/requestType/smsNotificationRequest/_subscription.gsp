@@ -15,7 +15,7 @@
 
   
     <label class=""><g:message code="sms.property.mobilePhone.label" />   <span><g:message code="sms.property.mobilePhone.help" /></span></label>
-            <input type="text" name="mobilePhone" value="${rqt.mobilePhone}" 
+            <input type="text" name="mobilePhone" value="${rqt.mobilePhone?.toString()}" 
                     class=" autofill-subjectFilling-listener-MobilePhone validate-phone" title="<g:message code="sms.property.mobilePhone.validationError" />"  maxLength="10"/>
             
 

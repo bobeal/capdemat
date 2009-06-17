@@ -41,7 +41,7 @@
 
   
     <label class="required condition-isDirect-unfilled"><g:message code="errr.property.subjectOldCity.label" /> *  <span><g:message code="errr.property.subjectOldCity.help" /></span></label>
-            <input type="text" name="subjectOldCity" value="${rqt.subjectOldCity}" 
+            <input type="text" name="subjectOldCity" value="${rqt.subjectOldCity?.toString()}" 
                     class="required condition-isDirect-unfilled  validate-city" title="<g:message code="errr.property.subjectOldCity.validationError" />"  maxLength="32"/>
             
 

@@ -158,9 +158,7 @@ public class CertificateService implements ICertificateService {
                 transformer.setParameter("localizationService", localizationService);
                 
                 File logoFile = 
-                    localAuthorityRegistry.getCurrentLocalAuthorityResource(
-                            ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE, "logoPdf.jpg",
-                            false);
+                    localAuthorityRegistry.getLocalAuthorityResourceFile("logoPdf", false);
                 if (logoFile != null && logoFile.exists())
                     transformer.setParameter("logoSource", logoFile.getPath());
 

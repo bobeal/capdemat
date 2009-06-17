@@ -131,17 +131,25 @@
 
 .summary-box { background-color : #fff; }
 
-.summary-box #requestTabViewContainerHack { padding : 0.5em; }
-.summary-box #requestTabViewContainerHack #requestTabView dl dt { width : 30%; }
-.summary-box #requestTabViewContainerHack #requestTabView dl dd { width : 66%; }
-
 .summary-box h2 {
   color: #C690BB; background: #4c3848;
   border-bottom: 3px solid #C690BB;
 }
 
+.summary-box .body { padding : 10px; }
+
+.summary-box h3 {
+  margin: 1em 0;
+  padding: 0 0 .5em 0;
+  font-size: 1.5em;
+  font-weight: normal;
+  border-bottom: 1px solid #A0D158;
+}
+
+.summary-box h4 { margin: 1em 0 0 0; font-size: 1.2em; }
+
 .summary-box dl {
-  margin : 10px;
+  margin : 10px 0;
   border-bottom: 1px dashed #C690BB;
   color: #333; background: #eee;
   overflow: auto;
@@ -151,12 +159,13 @@
 .summary-box dl dd {
   float: left;
   margin: 0;
-  padding: .4em;
+  padding: 0.4em 2%;
   border-top: 1px dashed #C690BB;
 }
 
 .summary-box dl dt { width : 30%; min-height: 1.5em; text-align: right; clear: both; }
-.summary-box dl dd { width : 61%; font-size: 1.15em; }
+.summary-box dl dd { width : 62%; font-size: 1.15em; }
 
 .summary-box dl dd p { margin: 0; padding: 0.1em; }
+
 .summary-box dl dd li { display:block; }

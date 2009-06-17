@@ -205,35 +205,15 @@ h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
 }
 
 
-/* validation step (summary)
+/* validation step
 --------------------------------------------------------------*/
-#requestTabView dl {
-  margin : 10px;
-  border-bottom: 1px dashed #C690BB;
-  color: #333; background: #eee;
-  overflow: auto;
-}
- 
-#requestTabView dl dt,
-#requestTabView dl dd {
-  float: left;
-  margin: 0;
-  padding: .4em;
-  border-top: 1px dashed #C690BB;
-}
-
-#requestTabView dl dt { width: 14em; min-height: 1.5em; text-align: right; clear: both; }
-#requestTabView dl dd { width: 25.5em; font-size: 1.15em; }
-
-#requestTabView dl dd p { margin: 0; padding: 0.1em; }
-#requestTabView dl dd li { display:block; }
-
 #requestTabView form div .captcha       { margin : .1em 0 .5em; overflow: auto;}
 #requestTabView form div .captcha img   { float: left; border : 1px solid #A0D158}
 #requestTabView form div .captcha input { float: left; width: 54.5%; margin: 0 0 0 .5em; }
 #requestTabView form div #useAcceptance { margin : 2em 0 0; }
 
-/* request notes on summary page */
+/* request notes on summary page
+--------------------------------------------------------------*/
 #requestNotes dl.notes { overflow: auto; margin : 0.5em; border-bottom: 1px dashed #C1CFE2; }
 #requestNotes dl.notes dt,
 #requestNotes dl.notes dd {

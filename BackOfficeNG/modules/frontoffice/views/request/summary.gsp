@@ -8,22 +8,22 @@
     <div class="yui-gc">
       <div class="yui-u first summary-box">
         <h2><g:message code="request.header.summary" args="${[requestTypeLabel,rqt.id.toString()]}"/></h2>
-        <div id="requestTabViewContainerHack">
-          <div id="requestTabView">
-            <g:render template="/frontofficeRequestType/${validationTemplateDirectory}/summary"
-              model="['rqt':rqt]" />
-          </div>
+        <div class="body">
+          <g:render template="/frontofficeRequestType/${validationTemplateDirectory}/summary"
+            model="['rqt':rqt]" />
         </div>
       </div>
       <g:if test="${externalInformations}">
         <div class="yui-u summary-box" id="externalInformations">
           <h2><g:message code="request.header.externalInformations" /></h2>
-          <dl>
-            <g:each var="externalInformation" in="${externalInformations}">
-              <dt><g:message code="${externalInformation.key}" /></dt>
-              <dd>${externalInformation.value}</dd>
-            </g:each>
-          </dl>
+          <div class="body">
+            <dl>
+              <g:each var="externalInformation" in="${externalInformations}">
+                <dt><g:message code="${externalInformation.key}" /></dt>
+                <dd>${externalInformation.value}</dd>
+              </g:each>
+            </dl>
+          </div>
         </div>
       </g:if>
     </div>

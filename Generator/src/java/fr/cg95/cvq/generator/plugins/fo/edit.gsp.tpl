@@ -109,9 +109,11 @@
                  <option value="\${moc.key}" <g:if test="\${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>>\${moc.label}</option>
                </g:each>
              </select>
+             <div class="summary-box">
     <% requestFo.stepBundles.eachWithIndex { stepBundle, index -> %>
             <g:render template="/frontofficeRequestType/${requestFo.camelCaseName + '/'}${step.name}${index}" />
     <% } %>
+            </div>
             <h3><g:message code="request.step.note.label" /></h3>
             <g:message code="request.step.note.desc" />
             <textarea name="requestNote" rows="" cols=""></textarea>

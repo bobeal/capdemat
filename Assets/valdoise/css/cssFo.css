@@ -50,7 +50,7 @@ h2   { color: #fff; }
 .group-box h3      { color: #fff; border-bottom: 3px solid #ff812b; background: #b6aca5; }
 .group-box a:hover { color: #fff; background: #ff812b; }
 
-/* main-box */
+/* main-box and summary-box */
 .summary-box h2,
 .main-box h2      { color: #fff; border-bottom: 3px solid #ff812b; background: #b6aca5; }
 .summary-box p,
@@ -107,6 +107,7 @@ h2.request-creation { margin: 0 !important; }
 #requestTabView                 { margin: 1em 0 0 !important }
 #requestTabView .requestHelp h3 { border-bottom-color: #b21811 !important; }
 
+.summary-box h3,
 #requestTabView h3                    { border-bottom-color:  #ff812b !important; }
 #requestTabView legend                { color: #ff812b !important; }
 #requestTabView fieldset              { border-left-color: #ff812b !important; }
@@ -125,12 +126,9 @@ h2.request-creation { margin: 0 !important; }
   color: #fff !important; background: #ff812b !important; 
 }
 
-.summary-box dl,
-#requestTabView dl    { border-bottom-color: #ff812b !important; }
+.summary-box dl    { border-bottom-color: #ff812b !important; }
 .summary-box dl dt,
-.summary-box dl dd,
-#requestTabView dl dt,
-#requestTabView dl dd { border-top-color: #ff812b !important; }
+.summary-box dl dd { border-top-color: #ff812b !important; }
 
 #requestTabView div.collection-fieldset    { background: #ffd; }
 #requestTabView div.collection-fieldset h4 { color: #ff812b !important; }

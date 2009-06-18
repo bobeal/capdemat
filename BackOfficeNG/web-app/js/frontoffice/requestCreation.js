@@ -99,6 +99,7 @@
           if (fieldType[1] === 'lastName') targetEl.value = targetEl.value.toUpperCase();
           else if (fieldType[1] === 'city') targetEl.value = targetEl.value.toUpperCase();
           else if (fieldType[1] === 'firstName') targetEl.value = zct.capitalize(targetEl.value);
+          else if (fieldType[1] === 'date') targetEl.value = Date.parse(targetEl.value).toString(Date.CultureInfo.formatPatterns.shortDate);
         }
       },
       

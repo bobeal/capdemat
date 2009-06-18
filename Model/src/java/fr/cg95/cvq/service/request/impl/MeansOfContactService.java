@@ -26,7 +26,7 @@ import fr.cg95.cvq.util.sms.ISmsService;
  *
  * @author rdj@zenexity.fr
  */
-public class MeansOfContactService implements IMeansOfContactService , ILocalAuthorityLifecycleAware {
+public class MeansOfContactService implements IMeansOfContactService, ILocalAuthorityLifecycleAware {
 
     static Logger logger = Logger.getLogger(MeansOfContactService.class);
 
@@ -165,40 +165,19 @@ public class MeansOfContactService implements IMeansOfContactService , ILocalAut
             return null;
     }
 
-    // TODO : Must we ever implement notification on abstract notification strategy
-    //-- --- ---
-    private void notifyRequester(Request request) throws CvqException {
-        if (request.getMeansOfContact().getType().equals(MeansOfContactEnum.EMAIL))
-            notifyRequesterByEmail(request);
-        else if (request.getMeansOfContact().getType().equals(MeansOfContactEnum.SMS))
-            notifyRequesterBySMS(request);
-    }
-
-    private void notifyRequesterByEmail(Request request) throws CvqException {
-        // TODO what do we send ?
-    }
-
-    private void notifyRequesterBySMS(Request request) throws CvqException {
-        // TODO what do we send ?
-    }
-    //-- --- ---
-
     public boolean supportAttachment(MeansOfContact moc) {
         if (moc.getType() == MeansOfContactEnum.MAIL || moc.getType() == MeansOfContactEnum.EMAIL)
             return true;
         return false;
     }
 
-    public void notifyRequesterByEmail(
-            Request request,
-            String to,
-            String subject,
-            String body,
-            byte[] data,
-            String attachmentName) throws CvqException {
+    public void notifyRequesterByEmail(Request request, String to, String subject,
+            String body, byte[] data, String attachmentName) throws CvqException {
 
+        String fullSubject = "[" + SecurityContext.getCurrentSite().getDisplayTitle() + "] "
+            + subject;
         String from = request.getRequestType().getCategory().getPrimaryEmail();
-        mailService.send(from, to, null, subject, body, data, attachmentName);
+        mailService.send(from, to, null, fullSubject, body, data, attachmentName);
     }
 
     public void notifyRequesterBySms(String to, String body) throws CvqException {

@@ -634,18 +634,19 @@ class RequestInstructionController {
         def form = requestTypeService.getRequestFormById(Long.valueOf(params?.requestForms))
         
         String template = this.prepareTemplate(
-            params?.requestId,
-            params?.requestForms,
-            params?.message?.encodeAsHTML()
+            params.requestId,
+            params.requestForms,
+            params.message?.encodeAsHTML(),
+            'pdf'
         )
         
         this.meansOfContactService.notifyRequesterByEmail(
             request,
-            params?.email,
+            params.email,
             message(code:"mail.ecitizenContact.subject"),
             message(code:"mail.ecitizenContact.body"),
-            template?.getBytes(),
-            "${form.label}.html")
+            pdfService.htmlToPdf(template),
+            "${form.label}.pdf")
 
         render([status:"ok",success_msg:message(code:"message.emailSent")] as JSON)
     }
@@ -670,7 +671,7 @@ class RequestInstructionController {
         }
     } 
 
-    private prepareTemplate = {requestId,formId,message,type ->
+    private prepareTemplate(requestId,formId,message,type) {
         
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         def form = requestTypeService.getRequestFormById(Long.valueOf(formId))
@@ -746,7 +747,7 @@ class RequestInstructionController {
         }
     }
     
-    private getSubjectDescription = {Object sub ->
+    private getSubjectDescription(Object sub) {
         def result = ['firstName':'','lastName':'','title':'']
         if(!sub) return result
 

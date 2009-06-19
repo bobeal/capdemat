@@ -41,7 +41,7 @@
           <g:capdematEnumToFlag var="${roleOwner.role}" i18nKeyPrefix="homeFolder.role" /> 
           ${roleOwner.owner.fullName}
         </dt>
-        <dd><input type="submit" name="submit-removeRole-account-ownerType:foreignAdults_ownerIndex:${roleOwner.index}_role:${roleOwner.role}" value="${message(code:'action.remove')}" /></dd>
+        <dd><input type="submit" name="submit-removeRole-account-ownerType:adults_ownerIndex:${roleOwner.index}_role:${roleOwner.role}" value="${message(code:'action.remove')}" /></dd>
       </g:each>
       <g:each var="roleOwner" in="${individuals.getHomeFolderTutors(individuals?.foreignAdults)}">
         <dt>

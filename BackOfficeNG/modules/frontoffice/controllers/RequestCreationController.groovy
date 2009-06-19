@@ -459,7 +459,7 @@ class RequestCreationController {
                     ['requestTypeLabel': translationService.getEncodedRequestTypeLabelTranslation(cRequest.requestType.label),
                      'rqt': cRequest,
                      'requester': requester,
-                     'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest)),
+                     'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card Request'),
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
                     ])
     }

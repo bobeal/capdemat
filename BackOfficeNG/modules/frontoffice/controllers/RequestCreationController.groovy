@@ -341,10 +341,11 @@ class RequestCreationController {
                                                                     
                 if (submitAction[1] == 'step') {
                     if (currentStep == 'account') objectToBind.individuals.checkRoles()
-                    if (currentStep == 'document'
-                        &&  !documentAdaptorService.hasAssociatedDocuments(requestService, cRequest, uuidString, newDocuments)) {
-                        throw new CvqException("request.step.document.error.noAssociatedDocument")
-                    }
+                    // TODO : not really an error ... maybe display only a warning message ?
+//                    if (currentStep == 'document'
+//                        &&  !documentAdaptorService.hasAssociatedDocuments(requestService, cRequest, uuidString, newDocuments)) {
+//                        throw new CvqException("request.step.document.error.noAssociatedDocument")
+//                    }
                         
                     stepState(cRequest.stepStates.get(currentStep), 'complete', '')
                 }

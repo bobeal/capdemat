@@ -51,7 +51,7 @@
    <mdtDateDecision/>
    <msComment/>
    <msCodext>${msCodext}</msCodext>
-   <mdMtDemande>1000,00</mdMtDemande>
+   <mdMtDemande/>
    <mvListePiecesReq/>
    <mvListePiecesRecu/>
    <mvListeInformations/>
@@ -60,7 +60,7 @@
   </CBdosDemandeVO>
   <DemandeTiers>
    <CodeAppliSecto>EXTSUB</CodeAppliSecto>
-   <NumAppliSecto>1242713008262</NumAppliSecto>
+   <NumAppliSecto/>
    <miCode>${psCodeTiers}</miCode>
    <LoginUtilisateurGda/>
    <msNom>${lastName}</msNom>
@@ -151,40 +151,7 @@
    </PersonnePhysique>
    <mvDocuments/>
   </DemandeTiers>
-  <mvIndicateurs>
-   <SiteInternet/>
-   <EstAsso>false</EstAsso>
-   <EstAssoLoi1901>false</EstAssoLoi1901>
-   <NumEnregPref/>
-   <DtJournalOfficiel/>
-   <EstAssoUtilitePublique>false</EstAssoUtilitePublique>
-   <DtReconnaissanceUtilPub/>
-   <EstAssoAgreee>false</EstAssoAgreee>
-   <AgrementAutres1/>
-   <NumAgrementAutres1/>
-   <DtAgrementAutres1/>
-   <AgrementAutres2/>
-   <NumAgrementAutres2/>
-   <DtAgrementAutres2/>
-   <EstAssoAffilieeFederation>false</EstAssoAffilieeFederation>
-   <FederationAffiliee1/>
-   <FederationAffiliee2/>
-   <NumFederationAffiliee1/>
-   <NumFederationAffiliee2/>
-   <EstCommune>true</EstCommune>
-   <EstSociete>false</EstSociete>
-   <EstEtablissementScolaire>false</EstEtablissementScolaire>
-   <EstEtablissementPublic>false</EstEtablissementPublic>
-   <EstAutre>false</EstAutre>
-   <LibelleAgrement/>
-   <NumAgrement/>
-   <DtAgrement/>
-   <LibelleLicence/>
-   <NumLicence/>
-   <DtLicence/>
-   <LibelleLabel/>
-   <NumLabel/>
-  </mvIndicateurs>
+  <mvIndicateurs/>
  </FormCommunOrbeon>
  <FormDispositif>
   <InfoXml type="" nom="">

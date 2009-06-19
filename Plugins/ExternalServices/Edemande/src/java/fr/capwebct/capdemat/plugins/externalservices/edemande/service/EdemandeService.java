@@ -16,10 +16,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
 import org.jaxen.dom.DOMXPath;
-import org.springframework.util.StringUtils;
 import org.springframework.web.util.HtmlUtils;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -246,7 +246,7 @@ public class EdemandeService implements IExternalProviderService {
             model.put("phone", sgr.getSubjectInformations().getSubjectMobilePhone());
         }
         model.put("email",
-            org.apache.commons.lang.StringUtils.defaultString(sgr.getSubjectInformations().getSubjectEmail()));
+            StringUtils.defaultString(sgr.getSubjectInformations().getSubjectEmail()));
         //TODO translation
         if (sgr.getSubject().getAdult() != null) {
             model.put("title", sgr.getSubject().getAdult().getTitle());
@@ -262,7 +262,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("firstName", sgr.getSubject().getIndividual().getFirstName());
         model.put("birthPlace",
             sgr.getSubject().getIndividual().getBirthPlace() != null ?
-            org.apache.commons.lang.StringUtils.defaultString(sgr.getSubject().getIndividual().getBirthPlace().getCity())
+            StringUtils.defaultString(sgr.getSubject().getIndividual().getBirthPlace().getCity())
             : "");
         model.put("birthDate", sgr.getSubjectInformations().getSubjectBirthDate());
         model.put("bankCode", sgr.getBankCode());
@@ -296,7 +296,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("externalRequestId", buildExternalRequestId(sgr));
         model.put("psCodeTiers", psCodeTiers);
         model.put("psCodeDemande",
-            org.apache.commons.lang.StringUtils.defaultIfEmpty(sgr.getEdemandeId(), "-1"));
+            StringUtils.defaultIfEmpty(sgr.getEdemandeId(), "-1"));
         model.put("etatCourant", firstSending ? 2 : 1);
         model.put("firstName", sgr.getSubject().getIndividual().getFirstName());
         model.put("lastName", sgr.getSubject().getIndividual().getLastName());
@@ -308,6 +308,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("accountKey", sgr.getAccountKey());
         model.put("firstRequest", sgr.getSubjectInformations().getSubjectFirstRequest());
         model.put("creationDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date(sgr.getCreationDate().getTimeInMillis())));
+        //TODO put tax household city
         model.put("taxHouseholdIncome", sgr.getTaxHouseholdIncome());
         model.put("hasCROUSHelp", sgr.getHasCROUSHelp());
         model.put("hasRegionalCouncilHelp", sgr.getHasRegionalCouncilHelp());
@@ -319,16 +320,24 @@ public class EdemandeService implements IExternalProviderService {
         model.put("currentStudiesLevel", sgr.getCurrentStudiesInformations().getCurrentStudiesLevel().toString());
         model.put("sandwichCourses", sgr.getCurrentStudiesInformations().getSandwichCourses());
         model.put("abroadInternship", sgr.getCurrentStudiesInformations().getAbroadInternship());
-        model.put("abroadInternshipStartDate", sgr.getCurrentStudiesInformations().getAbroadInternshipStartDate());
-        model.put("abroadInternshipEndDate", sgr.getCurrentStudiesInformations().getAbroadInternshipEndDate());
+        model.put("abroadInternshipStartDate", sgr.getCurrentStudiesInformations().getAbroadInternship() ?
+            sgr.getCurrentStudiesInformations().getAbroadInternshipStartDate() : "");
+        model.put("abroadInternshipEndDate", sgr.getCurrentStudiesInformations().getAbroadInternship() ?
+            sgr.getCurrentStudiesInformations().getAbroadInternshipEndDate() : "");
         // FIXME - manage all localReferentialData use case (not requiere, mutliples values)
-        fr.cg95.cvq.xml.common.LocalReferentialDataType sgrCurrentSchoolName = sgr.getCurrentSchoolNameArray(0);
-        model.put("currentSchoolName", sgrCurrentSchoolName.getName());
-        model.put("currentSchoolPostalCode", sgr.getCurrentSchool().getCurrentSchoolPostalCode());
-        model.put("currentSchoolCity", sgr.getCurrentSchool().getCurrentSchoolCity());
-        model.put("currentSchoolCountry", sgr.getCurrentSchool().getCurrentSchoolCountry());
-        model.put("abroadInternshipSchoolName", sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolName());
-        model.put("abroadInternshipSchoolCountry", sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry());
+        model.put("currentSchoolName",
+            StringUtils.defaultIfEmpty(sgr.getCurrentSchool().getCurrentSchoolNamePrecision(),
+            sgr.getCurrentSchoolNameArray(0).getName()));
+        model.put("currentSchoolPostalCode",
+            StringUtils.defaultString(sgr.getCurrentSchool().getCurrentSchoolPostalCode()));
+        model.put("currentSchoolCity",
+            StringUtils.defaultString(sgr.getCurrentSchool().getCurrentSchoolCity()));
+        model.put("currentSchoolCountry", sgr.getCurrentSchool().getCurrentSchoolCountry() != null ?
+            sgr.getCurrentSchool().getCurrentSchoolCountry() : "");
+        model.put("abroadInternshipSchoolName", sgr.getCurrentStudiesInformations().getAbroadInternship() ?
+            sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolName() : "");
+        model.put("abroadInternshipSchoolCountry", sgr.getCurrentStudiesInformations().getAbroadInternship() ?
+            sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry() : "");
         //TODO translation
         model.put("distance", sgr.getDistance().toString());
         try {
@@ -360,7 +369,9 @@ public class EdemandeService implements IExternalProviderService {
         // send it to edemande
         model.put("psCodeTiers", psCodeTiers);
         model.put("psCodeDemande", sgr.getEdemandeId());
-        model.put("filename", StringUtils.arrayToDelimitedString(new String[]{"CapDemat", document.getDocumentType().getName(), String.valueOf(sgr.getId())}, "-"));
+        model.put("filename",
+            org.springframework.util.StringUtils.arrayToDelimitedString(
+            new String[]{"CapDemat", document.getDocumentType().getName(), String.valueOf(sgr.getId())}, "-"));
         //model.put("remotePath", );
         model.put("description", document.getDocumentType().getName());
         model.put("binaryData", new String(Base64.encodeBase64Chunked(document.getDatas().get(0).getData())));
@@ -473,7 +484,7 @@ public class EdemandeService implements IExternalProviderService {
 
     private String buildExternalRequestId(StudyGrantRequest sgr) {
         return HtmlUtils.htmlEscape(
-            StringUtils.arrayToDelimitedString(
+            org.springframework.util.StringUtils.arrayToDelimitedString(
                 new String[] {
                     "CapDemat",
                     new SimpleDateFormat("yyyyMMdd").format(new Date(sgr.getCreationDate().getTimeInMillis())),

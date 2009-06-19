@@ -245,7 +245,9 @@ public class EdemandeService implements IExternalProviderService {
         } else if (sgr.getSubjectInformations().getSubjectMobilePhone() != null && !sgr.getSubjectInformations().getSubjectMobilePhone().trim().isEmpty()) {
             model.put("phone", sgr.getSubjectInformations().getSubjectMobilePhone());
         }
-        model.put("email", sgr.getSubjectInformations().getSubjectEmail());
+        model.put("email",
+            org.apache.commons.lang.StringUtils.defaultString(sgr.getSubjectInformations().getSubjectEmail()));
+        //TODO translation
         if (sgr.getSubject().getAdult() != null) {
             model.put("title", sgr.getSubject().getAdult().getTitle());
         } else {
@@ -260,8 +262,9 @@ public class EdemandeService implements IExternalProviderService {
         model.put("firstName", sgr.getSubject().getIndividual().getFirstName());
         model.put("birthPlace",
             sgr.getSubject().getIndividual().getBirthPlace() != null ?
-            sgr.getSubject().getIndividual().getBirthPlace().getCity() : "");
-        model.put("birthDate", sgr.getSubject().getIndividual().getBirthDate());
+            org.apache.commons.lang.StringUtils.defaultString(sgr.getSubject().getIndividual().getBirthPlace().getCity())
+            : "");
+        model.put("birthDate", sgr.getSubjectInformations().getSubjectBirthDate());
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
         model.put("accountNumber", sgr.getAccountNumber());
@@ -293,13 +296,12 @@ public class EdemandeService implements IExternalProviderService {
         model.put("externalRequestId", buildExternalRequestId(sgr));
         model.put("psCodeTiers", psCodeTiers);
         model.put("psCodeDemande",
-            sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty() ? "-1" :
-            sgr.getEdemandeId());
+            org.apache.commons.lang.StringUtils.defaultIfEmpty(sgr.getEdemandeId(), "-1"));
         model.put("etatCourant", firstSending ? 2 : 1);
         model.put("firstName", sgr.getSubject().getIndividual().getFirstName());
         model.put("lastName", sgr.getSubject().getIndividual().getLastName());
-        model.put("postalCode", sgr.getSubject().getIndividual().getAddress().getPostalCode());
-        model.put("city", sgr.getSubject().getIndividual().getAddress().getCity());
+        model.put("postalCode", sgr.getSubjectInformations().getSubjectAddress().getPostalCode());
+        model.put("city", sgr.getSubjectInformations().getSubjectAddress().getCity());
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
         model.put("accountNumber", sgr.getAccountNumber());
@@ -321,13 +323,13 @@ public class EdemandeService implements IExternalProviderService {
         model.put("abroadInternshipEndDate", sgr.getCurrentStudiesInformations().getAbroadInternshipEndDate());
         // FIXME - manage all localReferentialData use case (not requiere, mutliples values)
         fr.cg95.cvq.xml.common.LocalReferentialDataType sgrCurrentSchoolName = sgr.getCurrentSchoolNameArray(0);
-        model.put("currentSchoolName", sgrCurrentSchoolName);
-        
+        model.put("currentSchoolName", sgrCurrentSchoolName.getName());
         model.put("currentSchoolPostalCode", sgr.getCurrentSchool().getCurrentSchoolPostalCode());
         model.put("currentSchoolCity", sgr.getCurrentSchool().getCurrentSchoolCity());
         model.put("currentSchoolCountry", sgr.getCurrentSchool().getCurrentSchoolCountry());
         model.put("abroadInternshipSchoolName", sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolName());
         model.put("abroadInternshipSchoolCountry", sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry());
+        //TODO translation
         model.put("distance", sgr.getDistance().toString());
         try {
             model.put("msStatut", firstSending ? "" :
@@ -487,11 +489,12 @@ public class EdemandeService implements IExternalProviderService {
      * Whether or not we have to send the request.
      * 
      * @return true if the request has no SENT trace (it has never been successfully sent)
-     * or it has no Edemande ID (it was sent and received, but rejected and must be sent as new)
+     * or it has an error trace and no Edemande ID (it was sent and received, but rejected and must be sent as new)
      */
     private boolean mustSendNewRequest(StudyGrantRequest sgr) {
         return !externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.SENT)
-            || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty();
+            || (externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.ERROR)
+                && (sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()));
     }
 
     /**

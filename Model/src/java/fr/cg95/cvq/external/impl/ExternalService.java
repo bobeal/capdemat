@@ -23,6 +23,7 @@ import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
@@ -91,7 +92,9 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             getExternalServicesByRequestType(requestTypeLabel);
         if (externalProviderServices == null || externalProviderServices.isEmpty())
             return;
-        
+        if (!request.getState().equals(RequestState.VALIDATED)) {
+            throw new CvqException("Request must be validated before sending", "plugins.externalservices.error.requestMustBeValidated");
+        }
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         for (IExternalProviderService externalProviderService : externalProviderServices) {
             // before sending the request to the external service, eventually set 

@@ -89,7 +89,7 @@
     <miCode/>
    </moCdrAppartenance>
    <moSectorisation>
-    <miCode/>
+    <miCode>${taxHouseholdCityCode}</miCode>
    </moSectorisation>
    <mvAdresses>
     <CTierAdresseVO>

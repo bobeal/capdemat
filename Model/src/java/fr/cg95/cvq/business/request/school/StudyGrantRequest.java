@@ -112,7 +112,7 @@ public class StudyGrantRequest extends Request implements Serializable {
                 currentSchoolNameTypeTab[i] = LocalReferentialData.modelToXml(object);
                 i = i + 1;
             }
-            studyGrantRequest.setCurrentSchoolNameArray(currentSchoolNameTypeTab);
+            sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolNameArray(currentSchoolNameTypeTab);
         }
         if (this.accountHolderTitle != null)
             studyGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(this.accountHolderTitle.toString()));
@@ -214,9 +214,9 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequest.setHasCROUSHelp(Boolean.valueOf(studyGrantRequestXml.getHasCROUSHelp()));
         studyGrantRequest.setSubjectEmail(studyGrantRequestXml.getSubjectInformations().getSubjectEmail());
         List<fr.cg95.cvq.business.users.LocalReferentialData> currentSchoolNameList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
-        if ( studyGrantRequestXml.sizeOfCurrentSchoolNameArray() > 0) {
-            for (int i = 0; i < studyGrantRequestXml.getCurrentSchoolNameArray().length; i++) {
-                currentSchoolNameList.add(LocalReferentialData.xmlToModel(studyGrantRequestXml.getCurrentSchoolNameArray(i)));
+        if ( studyGrantRequestXml.getCurrentSchool().sizeOfCurrentSchoolNameArray() > 0) {
+            for (int i = 0; i < studyGrantRequestXml.getCurrentSchool().getCurrentSchoolNameArray().length; i++) {
+                currentSchoolNameList.add(LocalReferentialData.xmlToModel(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolNameArray(i)));
             }
         }
         studyGrantRequest.setCurrentSchoolName(currentSchoolNameList);

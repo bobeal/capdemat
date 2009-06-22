@@ -25,13 +25,13 @@
           
 
         
-          <dt><g:message code="sgr.property.subjectPhone.label" /></dt><dd>${rqt.subjectPhone}</dd>
+          <dt><g:message code="sgr.property.subjectPhone.label" /></dt><dd>${rqt.subjectPhone?.toString()}</dd>
 
         
-          <dt><g:message code="sgr.property.subjectMobilePhone.label" /></dt><dd>${rqt.subjectMobilePhone}</dd>
+          <dt><g:message code="sgr.property.subjectMobilePhone.label" /></dt><dd>${rqt.subjectMobilePhone?.toString()}</dd>
 
         
-          <dt><g:message code="sgr.property.subjectEmail.label" /></dt><dd>${rqt.subjectEmail}</dd>
+          <dt><g:message code="sgr.property.subjectEmail.label" /></dt><dd>${rqt.subjectEmail?.toString()}</dd>
 
         
           <dt><g:message code="sgr.property.subjectBirthDate.label" /></dt>
@@ -54,14 +54,14 @@
     
       
       <dl>
-        <dt><g:message code="sgr.property.taxHouseholdLastName.label" /></dt><dd>${rqt.taxHouseholdLastName}</dd>
+        <dt><g:message code="sgr.property.taxHouseholdLastName.label" /></dt><dd>${rqt.taxHouseholdLastName?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="sgr.property.taxHouseholdFirstName.label" /></dt><dd>${rqt.taxHouseholdFirstName}</dd>
+        <dt><g:message code="sgr.property.taxHouseholdFirstName.label" /></dt><dd>${rqt.taxHouseholdFirstName?.toString()}</dd>
 
       </dl>
       
@@ -80,14 +80,14 @@
     
       
       <dl>
-        <dt><g:message code="sgr.property.taxHouseholdCityPrecision.label" /></dt><dd>${rqt.taxHouseholdCityPrecision}</dd>
+        <dt><g:message code="sgr.property.taxHouseholdCityPrecision.label" /></dt><dd>${rqt.taxHouseholdCityPrecision?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="sgr.property.taxHouseholdIncome.label" /></dt><dd>${rqt.taxHouseholdIncome}</dd>
+        <dt><g:message code="sgr.property.taxHouseholdIncome.label" /></dt><dd>${rqt.taxHouseholdIncome?.toString()}</dd>
 
       </dl>
       
@@ -139,28 +139,24 @@
     <h3><g:message code="sgr.step.currentStudies.label" /></h3>
     
       
+      <h4><g:message code="sgr.property.currentSchool.label" /></h4>
       <dl>
-        <dt><g:message code="sgr.property.currentSchoolName.label" /></dt>
+        
+          <dt><g:message code="sgr.property.currentSchoolName.label" /></dt>
           <dd>
           <g:render template="/frontofficeRequestType/widget/localReferentialDataSummary" 
                     model="['javaName':'currentSchoolName', 'lrEntries': lrTypes.currentSchoolName.entries, 'depth':0]" />
           </dd>
           
 
-      </dl>
-      
-    
-      
-      <h4><g:message code="sgr.property.currentSchool.label" /></h4>
-      <dl>
         
-          <dt><g:message code="sgr.property.currentSchoolNamePrecision.label" /></dt><dd>${rqt.currentSchoolNamePrecision}</dd>
+          <dt><g:message code="sgr.property.currentSchoolNamePrecision.label" /></dt><dd>${rqt.currentSchoolNamePrecision?.toString()}</dd>
 
         
-          <dt><g:message code="sgr.property.currentSchoolPostalCode.label" /></dt><dd>${rqt.currentSchoolPostalCode}</dd>
+          <dt><g:message code="sgr.property.currentSchoolPostalCode.label" /></dt><dd>${rqt.currentSchoolPostalCode?.toString()}</dd>
 
         
-          <dt><g:message code="sgr.property.currentSchoolCity.label" /></dt><dd>${rqt.currentSchoolCity}</dd>
+          <dt><g:message code="sgr.property.currentSchoolCity.label" /></dt><dd>${rqt.currentSchoolCity?.toString()}</dd>
 
         
           <dt><g:message code="sgr.property.currentSchoolCountry.label" /></dt>
@@ -179,7 +175,7 @@
       <h4><g:message code="sgr.property.aLevelsInformations.label" /></h4>
       <dl>
         
-          <dt><g:message code="sgr.property.alevelsDate.label" /></dt><dd>${rqt.alevelsDate}</dd>
+          <dt><g:message code="sgr.property.alevelsDate.label" /></dt><dd>${rqt.alevelsDate?.toString()}</dd>
 
         
           <dt><g:message code="sgr.property.alevels.label" /></dt>
@@ -207,7 +203,7 @@
           
 
         
-          <dt><g:message code="sgr.property.otherStudiesLabel.label" /></dt><dd>${rqt.otherStudiesLabel}</dd>
+          <dt><g:message code="sgr.property.otherStudiesLabel.label" /></dt><dd>${rqt.otherStudiesLabel?.toString()}</dd>
 
         
           <dt><g:message code="sgr.property.currentStudiesLevel.label" /></dt>
@@ -239,7 +235,7 @@
           
 
         
-          <dt><g:message code="sgr.property.abroadInternshipSchoolName.label" /></dt><dd>${rqt.abroadInternshipSchoolName}</dd>
+          <dt><g:message code="sgr.property.abroadInternshipSchoolName.label" /></dt><dd>${rqt.abroadInternshipSchoolName?.toString()}</dd>
 
         
           <dt><g:message code="sgr.property.abroadInternshipSchoolCountry.label" /></dt>
@@ -301,14 +297,14 @@
     
       
       <dl>
-        <dt><g:message code="sgr.property.accountHolderLastName.label" /></dt><dd>${rqt.accountHolderLastName}</dd>
+        <dt><g:message code="sgr.property.accountHolderLastName.label" /></dt><dd>${rqt.accountHolderLastName?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="sgr.property.accountHolderFirstName.label" /></dt><dd>${rqt.accountHolderFirstName}</dd>
+        <dt><g:message code="sgr.property.accountHolderFirstName.label" /></dt><dd>${rqt.accountHolderFirstName?.toString()}</dd>
 
       </dl>
       
@@ -324,28 +320,28 @@
     
       
       <dl>
-        <dt><g:message code="sgr.property.bankCode.label" /></dt><dd>${rqt.bankCode}</dd>
+        <dt><g:message code="sgr.property.bankCode.label" /></dt><dd>${rqt.bankCode?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="sgr.property.counterCode.label" /></dt><dd>${rqt.counterCode}</dd>
+        <dt><g:message code="sgr.property.counterCode.label" /></dt><dd>${rqt.counterCode?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="sgr.property.accountNumber.label" /></dt><dd>${rqt.accountNumber}</dd>
+        <dt><g:message code="sgr.property.accountNumber.label" /></dt><dd>${rqt.accountNumber?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="sgr.property.accountKey.label" /></dt><dd>${rqt.accountKey}</dd>
+        <dt><g:message code="sgr.property.accountKey.label" /></dt><dd>${rqt.accountKey?.toString()}</dd>
 
       </dl>
       

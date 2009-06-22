@@ -308,7 +308,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("accountKey", sgr.getAccountKey());
         model.put("firstRequest", sgr.getSubjectInformations().getSubjectFirstRequest());
         model.put("creationDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date(sgr.getCreationDate().getTimeInMillis())));
-        //TODO put tax household city
+        model.put("taxHouseholdCityCode", sgr.getTaxHouseholdCityArray(0).getName());
         model.put("taxHouseholdIncome", sgr.getTaxHouseholdIncome());
         model.put("hasCROUSHelp", sgr.getHasCROUSHelp());
         model.put("hasRegionalCouncilHelp", sgr.getHasRegionalCouncilHelp());
@@ -327,7 +327,7 @@ public class EdemandeService implements IExternalProviderService {
         // FIXME - manage all localReferentialData use case (not requiere, mutliples values)
         model.put("currentSchoolName",
             StringUtils.defaultIfEmpty(sgr.getCurrentSchool().getCurrentSchoolNamePrecision(),
-            sgr.getCurrentSchoolNameArray(0).getName()));
+            sgr.getCurrentSchool().getCurrentSchoolNameArray(0).getName()));
         model.put("currentSchoolPostalCode",
             StringUtils.defaultString(sgr.getCurrentSchool().getCurrentSchoolPostalCode()));
         model.put("currentSchoolCity",

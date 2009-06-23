@@ -69,24 +69,46 @@ public class EdemandeService implements IExternalProviderService {
         "miCode", "moNature/miCode", "msVoie", "miBoitePostale", "msCodePostal", "msVille",
         "miCedex", "msPays", "msTel", "msFax", "msMail", "mbUsuel"
     };
-    //private static final String PS_CODE_TIERS = "89837";
+    private static final String SUBJECT_TRACE_SUBKEY = "subject";
+    private static final String ACCOUNT_HOLDER_TRACE_SUBKEY = "accountHolder";
 
     @Override
     public String sendRequest(XmlObject requestXml) {
         StudyGrantRequest sgr = ((StudyGrantRequestDocument) requestXml).getStudyGrantRequest();
-        String psCodeTiers = sgr.getSubject().getIndividual().getExternalId();
-        if (psCodeTiers == null || psCodeTiers.trim().isEmpty()) {
+        if (!sgr.getIsSubjectAccountHolder()) {
+            String psCodeTiersAH = sgr.getAccountHolderEdemandeId();
+            if (psCodeTiersAH == null || psCodeTiersAH.trim().isEmpty()) {
+                psCodeTiersAH = searchAccountHolder(sgr);
+                if (psCodeTiersAH == null || psCodeTiersAH.trim().isEmpty()) {
+                    if (mustCreateAccountHolder(sgr)) {
+                        createAccountHolder(sgr);
+                    } else if (psCodeTiersAH != null) {
+                        addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, TraceStatusEnum.IN_PROGRESS, 
+                            "Le tiers viré n'est pas encore créé");
+                    }
+                    return null;
+                } else {
+                    sgr.setAccountHolderEdemandeId(psCodeTiersAH);
+                    try {
+                        requestService.setAccountHolderEdemandeId(sgr.getId(), psCodeTiersAH);
+                    } catch (CvqException e) {
+                        // TODO
+                    }
+                }
+            }
+        }
+        String psCodeTiersS = sgr.getSubject().getIndividual().getExternalId();
+        if (psCodeTiersS == null || psCodeTiersS.trim().isEmpty()) {
             // external id (code tiers) not known locally : 
             //     either check if tiers has been created in eDemande
             //     either ask for its creation in eDemande
-            psCodeTiers = searchIndividual(sgr);
-            if (psCodeTiers == null || psCodeTiers.trim().isEmpty()) {
+            psCodeTiersS = searchSubject(sgr);
+            if (psCodeTiersS == null || psCodeTiersS.trim().isEmpty()) {
                 // tiers has not been created in eDemande ...
-                if (!externalService.hasTraceWithStatus(sgr.getId(), label, 
-                        TraceStatusEnum.IN_PROGRESS)) {
+                if (mustCreateSubject(sgr)) {
                     // ... and no request in progress so ask for its creation
-                    createIndividual(sgr);
-                } else if (psCodeTiers != null) {
+                    createSubject(sgr);
+                } else if (psCodeTiersS != null) {
                     // eDemande answered since psCodeTiers is not null,
                     // and that means psCodeTiers is empty, so tiers
                     // has not been created yet.
@@ -94,25 +116,25 @@ public class EdemandeService implements IExternalProviderService {
                     // caught an exception while contacting eDemande, and
                     // has already added a NOT_SENT trace.
                     // FIXME BOR : is this trace really needed ?
-                    addTrace(sgr.getId(), TraceStatusEnum.IN_PROGRESS, 
-                            "Le tiers n'est pas encore créé");
+                    addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.IN_PROGRESS, 
+                            "Le tiers sujet n'est pas encore créé");
                 }
                 return null;
             } else {
                 // tiers has been created in eDemande, store its code locally
-                sgr.getSubject().getIndividual().setExternalId(psCodeTiers);
+                sgr.getSubject().getIndividual().setExternalId(psCodeTiersS);
                 externalService.setExternalId(label, sgr.getHomeFolder().getId(), 
-                        sgr.getSubject().getIndividual().getId(), psCodeTiers);
+                        sgr.getSubject().getIndividual().getId(), psCodeTiersS);
             }
         }
         
-        // reaching this code means we have a valid psCodeTiers (either because
-        // it was already set since it is not the subject's first request, or because
+        // reaching this code means we have valid psCodeTiers (either because
+        // they were already set since it is not the subject and account holder's first request, or because
         // searchIndividual returned the newly created tiers' psCodeTiers)
         // Try to get the external ID if we don't already know it
         String psCodeDemande = sgr.getEdemandeId();
         if (psCodeDemande == null || psCodeDemande.trim().isEmpty()) {
-            psCodeDemande = searchRequest(sgr, psCodeTiers);
+            psCodeDemande = searchRequest(sgr, psCodeTiersS);
             if (psCodeDemande != null && !psCodeDemande.trim().isEmpty() && !"-1".equals(psCodeDemande)) {
                 sgr.setEdemandeId(psCodeDemande);
                 try {
@@ -125,29 +147,29 @@ public class EdemandeService implements IExternalProviderService {
         }
         // (Re)send request if needed
         if (mustSendNewRequest(sgr)) {
-            submitRequest(sgr, psCodeTiers, true);
+            submitRequest(sgr, psCodeTiersS, true);
         } else if (mustResendRequest(sgr)) {
-            submitRequest(sgr, psCodeTiers, false);
+            submitRequest(sgr, psCodeTiersS, false);
         }
         // send documents if needed
         try {
             for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
                 Document document = documentService.getById(requestDoc.getDocumentId());
                 if (mustSendDocument(sgr, document)) {
-                    submitDocument(sgr, psCodeTiers, document);
+                    submitDocument(sgr, psCodeTiersS, document);
                 }
             }
         } catch (CvqException e) {
             // TODO
         }
         // check request status
-        String msStatut = getRequestStatus(sgr, psCodeTiers);
+        String msStatut = getRequestStatus(sgr, psCodeTiersS);
         if (msStatut == null) {
             // got an exception while contacting Edemande
             return null;
         }
         if (msStatut.trim().isEmpty()) {
-            addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, 
+            addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, 
                 "La demande n'a pas encore été reçue");
             return null;
         }
@@ -156,26 +178,27 @@ public class EdemandeService implements IExternalProviderService {
         } else if ("A compléter ou corriger".equals(msStatut) ||
             "A compléter".equals(msStatut) ||
             "En erreur".equals(msStatut)) {
-            addTrace(sgr.getId(), TraceStatusEnum.ERROR, msStatut);
+            addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, msStatut);
         } else if ("En cours d'analyse".equals(msStatut) ||
             "En attente d'avis externe".equals(msStatut) ||
             "En cours d'instruction".equals(msStatut)) {
-            addTrace(sgr.getId(), TraceStatusEnum.ACKNOWLEDGED, msStatut);
+            addTrace(sgr.getId(), null, TraceStatusEnum.ACKNOWLEDGED, msStatut);
         } else if ("Accepté".equals(msStatut) ||
             "En cours de paiement".equals(msStatut) ||
             "Payé partiellement".equals(msStatut) ||
             "Terminé".equals(msStatut)) {
-            addTrace(sgr.getId(), TraceStatusEnum.ACCEPTED, msStatut);
+            addTrace(sgr.getId(), null, TraceStatusEnum.ACCEPTED, msStatut);
         } else if ("Refusé".equals(msStatut)) {
-            addTrace(sgr.getId(), TraceStatusEnum.REJECTED, msStatut);
+            addTrace(sgr.getId(), null, TraceStatusEnum.REJECTED, msStatut);
         }
         return null;
     }
 
-    private void addTrace(Long requestId, TraceStatusEnum status, String message) {
+    private void addTrace(Long requestId, String subkey, TraceStatusEnum status, String message) {
         ExternalServiceTrace est = new ExternalServiceTrace();
         est.setDate(new Date());
         est.setKey(String.valueOf(requestId));
+        est.setSubkey(subkey);
         est.setKeyOwner("capdemat");
         est.setMessage(message);
         est.setName(label);
@@ -199,30 +222,15 @@ public class EdemandeService implements IExternalProviderService {
         }
     }
 
-    private void addDocumentTrace(Long requestId, Long documentId) {
-        ExternalServiceTrace est = new ExternalServiceTrace();
-        est.setDate(new Date());
-        est.setKey(requestId + "-" + documentId);
-        est.setKeyOwner("capdemat");
-        est.setName(label);
-        est.setStatus(TraceStatusEnum.SENT);
-        try {
-            externalService.create(est);
-        } catch (CvqPermissionException e) {
-            // should never happen
-            e.printStackTrace();
-        }
-    }
-
     /**
-     * Search for this request's subject in eDemande.
+     * Search for this request's individual in eDemande.
      * 
-     * @return the subject's code in eDemande, an empty string if the subject is not found,
+     * @return the individual's code in eDemande, an empty string if the individual is not found,
      * or null if there is an error while contacting eDemande.
      */
-    private String searchIndividual(StudyGrantRequest sgr) {
+    private String searchIndividual(StudyGrantRequest sgr, String lastName, String subkey) {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("lastName", sgr.getSubject().getIndividual().getLastName());
+        model.put("lastName", lastName);
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
         model.put("accountNumber", sgr.getAccountNumber());
@@ -231,12 +239,20 @@ public class EdemandeService implements IExternalProviderService {
             return parseData(edemandeClient.rechercherTiers(model).getRechercherTiersResponse().getReturn(), 
                     "//resultatRechTiers/listeTiers/tiers/codeTiers");
         } catch (CvqException e) {
-            addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), subkey, TraceStatusEnum.NOT_SENT, e.getMessage());
             return null;
         }
     }
 
-    private void createIndividual(StudyGrantRequest sgr) {
+    private String searchSubject(StudyGrantRequest sgr) {
+        return searchIndividual(sgr, sgr.getSubject().getIndividual().getLastName(), SUBJECT_TRACE_SUBKEY);
+    }
+
+    private String searchAccountHolder(StudyGrantRequest sgr) {
+        return searchIndividual(sgr, sgr.getAccountHolderLastName(), ACCOUNT_HOLDER_TRACE_SUBKEY);
+    }
+
+    private void createSubject(StudyGrantRequest sgr) {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("lastName", sgr.getSubject().getIndividual().getLastName());
         model.put("address", sgr.getSubjectInformations().getSubjectAddress());
@@ -272,13 +288,42 @@ public class EdemandeService implements IExternalProviderService {
         try {
             GestionCompteResponseDocument response = edemandeClient.creerTiers(model);
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
-                addTrace(sgr.getId(), TraceStatusEnum.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
+                addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
             } else {
-                addTrace(sgr.getId(), TraceStatusEnum.IN_PROGRESS, "Demande de création du tiers");
+                addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.IN_PROGRESS, "Demande de création du tiers");
             }
         } catch (CvqException e) {
             e.printStackTrace();
-            addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.NOT_SENT, e.getMessage());
+        }
+    }
+
+    private void createAccountHolder(StudyGrantRequest sgr) {
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("title", sgr.getAccountHolderTitle());
+        model.put("lastName", sgr.getAccountHolderLastName());
+        //FIXME placeholders; are these really needed ?
+        model.put("address", sgr.getSubjectInformations().getSubjectAddress());
+        model.put("phone", "");
+        model.put("email", "");
+        model.put("birthPlace", "");
+        //ENDFIXME
+        model.put("firstName", sgr.getAccountHolderFirstName());
+        model.put("birthDate", sgr.getAccountHolderBirthDate());
+        model.put("bankCode", sgr.getBankCode());
+        model.put("counterCode", sgr.getCounterCode());
+        model.put("accountNumber", sgr.getAccountNumber());
+        model.put("accountKey", sgr.getAccountKey());
+        try {
+            GestionCompteResponseDocument response = edemandeClient.creerTiers(model);
+            if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
+                addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, TraceStatusEnum.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
+            } else {
+                addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, TraceStatusEnum.IN_PROGRESS, "Demande de création du tiers viré");
+            }
+        } catch (CvqException e) {
+            e.printStackTrace();
+            addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, TraceStatusEnum.NOT_SENT, e.getMessage());
         }
     }
 
@@ -290,7 +335,7 @@ public class EdemandeService implements IExternalProviderService {
                 requestData = edemandeClient.chargerDemande(psCodeTiers, sgr.getEdemandeId()).getChargerDemandeResponse().getReturn();
             } catch (CvqException e) {
                 e.printStackTrace();
-                addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
+                addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, e.getMessage());
             }
         }
         model.put("externalRequestId", buildExternalRequestId(sgr));
@@ -352,13 +397,13 @@ public class EdemandeService implements IExternalProviderService {
             model.put("address", parseAddress((String)model.get("psCodeTiers")));
             EnregistrerValiderFormulaireResponseDocument enregistrerValiderFormulaireResponseDocument = edemandeClient.enregistrerValiderFormulaire(model);
             if (!"0".equals(parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/codeRetour"))) {
-                addTrace(sgr.getId(), TraceStatusEnum.ERROR, parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/messageRetour"));
+                addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/messageRetour"));
             } else {
-                addTrace(sgr.getId(), TraceStatusEnum.SENT, "Demande transmise");
+                addTrace(sgr.getId(), null, TraceStatusEnum.SENT, "Demande transmise");
             }
         } catch (CvqException e) {
             e.printStackTrace();
-            addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, e.getMessage());
         }
     }
 
@@ -377,11 +422,14 @@ public class EdemandeService implements IExternalProviderService {
         model.put("binaryData", new String(Base64.encodeBase64Chunked(document.getDatas().get(0).getData())));
         try {
             AjouterPiecesJointesResponseDocument response = edemandeClient.ajouterPiecesJointes(model);
-            if ("0".equals(parseData(response.getAjouterPiecesJointesResponse().getReturn(), "//Retour/codeRetour"))) {
-                addDocumentTrace(sgr.getId(), document.getId());
+            if (!"0".equals(parseData(response.getAjouterPiecesJointesResponse().getReturn(), "//Retour/codeRetour"))) {
+                addTrace(sgr.getId(), String.valueOf(document.getId()), TraceStatusEnum.ERROR, parseData(response.getAjouterPiecesJointesResponse().getReturn(), "//Retour/messageRetour"));
+            } else {
+                addTrace(sgr.getId(), String.valueOf(document.getId()), TraceStatusEnum.SENT, null);
             }
         } catch (CvqException e) {
             e.printStackTrace();
+            addTrace(sgr.getId(), String.valueOf(document.getId()), TraceStatusEnum.NOT_SENT, e.getMessage());
         }
     }
 
@@ -392,7 +440,7 @@ public class EdemandeService implements IExternalProviderService {
                 "//resultatRechDemandes/listeDemandes/Demande/moOrigineApsect[msIdentifiant ='"
                 + buildExternalRequestId(sgr) + "']/../miCode");
         } catch (CvqException e) {
-            addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, e.getMessage());
             return null;
         }
     }
@@ -410,7 +458,7 @@ public class EdemandeService implements IExternalProviderService {
                         "//donneesDemande/Demande/msStatut");
             }
         } catch (CvqException e) {
-            addTrace(sgr.getId(), TraceStatusEnum.NOT_SENT, e.getMessage());
+            addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, e.getMessage());
             return null;
         }
     }
@@ -503,8 +551,8 @@ public class EdemandeService implements IExternalProviderService {
      * or it has an error trace and no Edemande ID (it was sent and received, but rejected and must be sent as new)
      */
     private boolean mustSendNewRequest(StudyGrantRequest sgr) {
-        return !externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.SENT)
-            || (externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.ERROR)
+        return !externalService.hasTraceWithStatus(sgr.getId(), null, label, TraceStatusEnum.SENT)
+            || (externalService.hasTraceWithStatus(sgr.getId(), null, label, TraceStatusEnum.ERROR)
                 && (sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()));
     }
 
@@ -515,7 +563,7 @@ public class EdemandeService implements IExternalProviderService {
      * and an ERROR trace not followed by a SENT trace
      */
     private boolean mustResendRequest(StudyGrantRequest sgr) {
-        if (!externalService.hasTraceWithStatus(sgr.getId(), label, TraceStatusEnum.ERROR)
+        if (!externalService.hasTraceWithStatus(sgr.getId(), null, label, TraceStatusEnum.ERROR)
             || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()) {
             return false;
         }
@@ -544,8 +592,42 @@ public class EdemandeService implements IExternalProviderService {
 
     private boolean mustSendDocument(StudyGrantRequest sgr, Document document) {
         return sgr.getEdemandeId() != null && !sgr.getEdemandeId().trim().isEmpty()
-            && !externalService.hasTraceWithStatus(sgr.getId() + "-" + document.getId(),
+            && !externalService.hasTraceWithStatus(sgr.getId(), String.valueOf(document.getId()),
             label, TraceStatusEnum.SENT);
+    }
+
+    /**
+     * Determines if we must send an individual creation request for the request's subject
+     * or account holder when this individual has no psCodeTiers yet.
+     */
+    private boolean mustCreateIndividual(StudyGrantRequest sgr, String subkey) {
+        if (!externalService.hasTraceWithStatus(sgr.getId(), subkey, label,
+            TraceStatusEnum.IN_PROGRESS)) {
+            return true;
+        }
+        List<ExternalServiceTrace> traces = new ArrayList<ExternalServiceTrace>(
+            externalService.getTraces(sgr.getId(), subkey, label));
+        Collections.sort(traces, new Comparator<ExternalServiceTrace>() {
+            public int compare(ExternalServiceTrace o1, ExternalServiceTrace o2) {
+                return o2.getDate().compareTo(o1.getDate());
+            }
+        });
+        for (ExternalServiceTrace est : traces) {
+            if (TraceStatusEnum.IN_PROGRESS.equals(est.getStatus())) {
+                return false;
+            } else if (TraceStatusEnum.ERROR.equals(est.getStatus())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean mustCreateAccountHolder(StudyGrantRequest sgr) {
+        return mustCreateIndividual(sgr, ACCOUNT_HOLDER_TRACE_SUBKEY);
+    }
+
+    private boolean mustCreateSubject(StudyGrantRequest sgr) {
+        return mustCreateIndividual(sgr, SUBJECT_TRACE_SUBKEY);
     }
 
     @Override

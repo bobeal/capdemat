@@ -18,6 +18,11 @@ public class ExternalServiceTrace implements Serializable {
      */
     String key;
     /**
+     * Additionnal information to distinguish between traces related to
+     * different parts of the communication with the external service.
+     */
+    String subkey;
+    /**
      * Owner of the key, typically an application, eg CapDemat.
      */
     String keyOwner;
@@ -37,12 +42,12 @@ public class ExternalServiceTrace implements Serializable {
     public ExternalServiceTrace() {
     }
     
-    public ExternalServiceTrace(Date date, Long id, String key, String keyOwner, String message,
+    public ExternalServiceTrace(Date date, String key, String subkey, String keyOwner, String message,
             String name, TraceStatusEnum status) {
         super();
         this.date = date;
-        this.id = id;
         this.key = key;
+        this.subkey = subkey;
         this.keyOwner = keyOwner;
         this.message = message;
         this.name = name;
@@ -132,5 +137,17 @@ public class ExternalServiceTrace implements Serializable {
     
     public void setStatus(TraceStatusEnum status) {
         this.status = status;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="subkey"
+     */
+    public String getSubkey() {
+        return subkey;
+    }
+
+    public void setSubkey(String subkey) {
+        this.subkey = subkey;
     }
 }

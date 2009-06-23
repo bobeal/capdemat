@@ -130,3 +130,6 @@ alter table study_grant_request add column account_holder_first_name  varchar(38
 
 alter table external_service_traces alter column key type character varying(255);
 
+alter table study_grant_request add column account_holder_edemande_id varchar(255);
+
+alter table external_service_traces add column subkey varchar(255);

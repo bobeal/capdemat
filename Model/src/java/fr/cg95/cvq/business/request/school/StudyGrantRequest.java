@@ -72,6 +72,7 @@ public class StudyGrantRequest extends Request implements Serializable {
         if (this.currentStudies != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudies(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(this.currentStudies.toString()));
         studyGrantRequest.setTaxHouseholdCityPrecision(this.taxHouseholdCityPrecision);
+        studyGrantRequest.setAccountHolderEdemandeId(this.accountHolderEdemandeId);
         if (this.currentStudiesLevel != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesLevel(fr.cg95.cvq.xml.request.school.CurrentStudiesLevelType.Enum.forString(this.currentStudiesLevel.toString()));
         studyGrantRequest.setEdemandeId(this.edemandeId);
@@ -187,6 +188,7 @@ public class StudyGrantRequest extends Request implements Serializable {
         else
             studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.getDefaultCurrentStudiesType());
         studyGrantRequest.setTaxHouseholdCityPrecision(studyGrantRequestXml.getTaxHouseholdCityPrecision());
+        studyGrantRequest.setAccountHolderEdemandeId(studyGrantRequestXml.getAccountHolderEdemandeId());
         if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel() != null)
             studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel().toString()));
         else
@@ -326,6 +328,21 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final String getTaxHouseholdCityPrecision() {
         return this.taxHouseholdCityPrecision;
+    }
+
+    private String accountHolderEdemandeId;
+
+    public final void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
+        this.accountHolderEdemandeId = accountHolderEdemandeId;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="account_holder_edemande_id"
+     */
+    public final String getAccountHolderEdemandeId() {
+        return this.accountHolderEdemandeId;
     }
 
     private fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel;

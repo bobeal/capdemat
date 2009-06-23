@@ -70,9 +70,9 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
             id3 = this.creationBean.getRequestId();
             SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
             
-            this.externalService.addTrace(new ExternalServiceTrace(null, null, String.valueOf(id1),null, null, 
+            this.externalService.addTrace(new ExternalServiceTrace(null, String.valueOf(id1), null, null, null, 
                     "MyName",TraceStatusEnum.SENT));
-            this.externalService.addTrace(new ExternalServiceTrace(null, null, String.valueOf(id2), null, null, 
+            this.externalService.addTrace(new ExternalServiceTrace(null, String.valueOf(id2), null, null, null, 
                     "MyName", TraceStatusEnum.ACKNOWLEDGED));
             this.continueWithNewTransaction();
             

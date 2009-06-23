@@ -112,7 +112,6 @@
    </mvAdresses>
    <mvReferencesBancaires>
     <CTierReferenceBancaireVO>
-      <miCode>1</miCode>
       <moModePaiement>
         <msDescription>Virement bancaire</msDescription>
       </moModePaiement>
@@ -125,7 +124,7 @@
       <mbEtranger>false</mbEtranger>
       <mbIban>false</mbIban>
       <mbUsuel>true</mbUsuel>
-      <msIntitule>XXXXXXXXX</msIntitule>
+      <msIntitule/>
       <miBloquee>0</miBloquee>
       <mdtDateBlocage/>
       <msMotifBlocage/>

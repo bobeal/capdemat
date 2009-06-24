@@ -2,8 +2,10 @@ package fr.capwebct.capdemat.plugins.externalservices.edemande.service;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,7 +17,6 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
@@ -24,13 +25,12 @@ import org.springframework.web.util.HtmlUtils;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.unilog.gda.edem.service.AjouterPiecesJointesResponseDocument;
 import com.unilog.gda.edem.service.EnregistrerValiderFormulaireResponseDocument;
 import com.unilog.gda.glob.service.GestionCompteResponseDocument;
 
 import fr.capwebct.capdemat.plugins.externalservices.edemande.webservice.client.IEdemandeClient;
-
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.Request;
@@ -64,6 +64,7 @@ public class EdemandeService implements IExternalProviderService {
     private IStudyGrantRequestService requestService;
     private IDocumentService documentService;
     private IRequestWorkflowService requestWorkflowService;
+    private EdemandeUploader uploader;
 
     private static final String ADDRESS_FIELDS[] = {
         "miCode", "moNature/miCode", "msVoie", "miBoitePostale", "msCodePostal", "msVille",
@@ -71,6 +72,7 @@ public class EdemandeService implements IExternalProviderService {
     };
     private static final String SUBJECT_TRACE_SUBKEY = "subject";
     private static final String ACCOUNT_HOLDER_TRACE_SUBKEY = "accountHolder";
+    private DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     public String sendRequest(XmlObject requestXml) {
@@ -150,17 +152,6 @@ public class EdemandeService implements IExternalProviderService {
             submitRequest(sgr, psCodeTiersS, true);
         } else if (mustResendRequest(sgr)) {
             submitRequest(sgr, psCodeTiersS, false);
-        }
-        // send documents if needed
-        try {
-            for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
-                Document document = documentService.getById(requestDoc.getDocumentId());
-                if (mustSendDocument(sgr, document)) {
-                    submitDocument(sgr, psCodeTiersS, document);
-                }
-            }
-        } catch (CvqException e) {
-            // TODO
         }
         // check request status
         String msStatut = getRequestStatus(sgr, psCodeTiersS);
@@ -280,7 +271,7 @@ public class EdemandeService implements IExternalProviderService {
             sgr.getSubject().getIndividual().getBirthPlace() != null ?
             StringUtils.defaultString(sgr.getSubject().getIndividual().getBirthPlace().getCity())
             : "");
-        model.put("birthDate", sgr.getSubjectInformations().getSubjectBirthDate());
+        model.put("birthDate", formatDate(sgr.getSubjectInformations().getSubjectBirthDate()));
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
         model.put("accountNumber", sgr.getAccountNumber());
@@ -290,7 +281,7 @@ public class EdemandeService implements IExternalProviderService {
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
                 addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
             } else {
-                addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.IN_PROGRESS, "Demande de création du tiers");
+                addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.IN_PROGRESS, "Demande de création du tiers sujet");
             }
         } catch (CvqException e) {
             e.printStackTrace();
@@ -309,7 +300,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("birthPlace", "");
         //ENDFIXME
         model.put("firstName", sgr.getAccountHolderFirstName());
-        model.put("birthDate", sgr.getAccountHolderBirthDate());
+        model.put("birthDate", formatDate(sgr.getAccountHolderBirthDate()));
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
         model.put("accountNumber", sgr.getAccountNumber());
@@ -352,7 +343,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("accountNumber", sgr.getAccountNumber());
         model.put("accountKey", sgr.getAccountKey());
         model.put("firstRequest", sgr.getSubjectInformations().getSubjectFirstRequest());
-        model.put("creationDate", new SimpleDateFormat("yyyy-MM-dd").format(new Date(sgr.getCreationDate().getTimeInMillis())));
+        model.put("creationDate", formatDate(sgr.getCreationDate()));
         model.put("taxHouseholdCityCode", sgr.getTaxHouseholdCityArray(0).getName());
         model.put("taxHouseholdIncome", sgr.getTaxHouseholdIncome());
         model.put("hasCROUSHelp", sgr.getHasCROUSHelp());
@@ -365,10 +356,10 @@ public class EdemandeService implements IExternalProviderService {
         model.put("currentStudiesLevel", sgr.getCurrentStudiesInformations().getCurrentStudiesLevel().toString());
         model.put("sandwichCourses", sgr.getCurrentStudiesInformations().getSandwichCourses());
         model.put("abroadInternship", sgr.getCurrentStudiesInformations().getAbroadInternship());
-        model.put("abroadInternshipStartDate", sgr.getCurrentStudiesInformations().getAbroadInternship() ?
-            sgr.getCurrentStudiesInformations().getAbroadInternshipStartDate() : "");
-        model.put("abroadInternshipEndDate", sgr.getCurrentStudiesInformations().getAbroadInternship() ?
-            sgr.getCurrentStudiesInformations().getAbroadInternshipEndDate() : "");
+        model.put("abroadInternshipStartDate",
+            formatDate(sgr.getCurrentStudiesInformations().getAbroadInternshipStartDate()));
+        model.put("abroadInternshipEndDate",
+                formatDate(sgr.getCurrentStudiesInformations().getAbroadInternshipEndDate()));
         // FIXME - manage all localReferentialData use case (not requiere, mutliples values)
         model.put("currentSchoolName",
             StringUtils.defaultIfEmpty(sgr.getCurrentSchool().getCurrentSchoolNamePrecision(),
@@ -385,7 +376,33 @@ public class EdemandeService implements IExternalProviderService {
             sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry() : "");
         //TODO translation
         model.put("distance", sgr.getDistance().toString());
+        List<Map<String, Object>> documents = new ArrayList<Map<String, Object>>();
+        model.put("documents", documents);
         try {
+            if (false)
+            for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
+                Document document = documentService.getById(requestDoc.getDocumentId());
+                Map<String, Object> doc = new HashMap<String, Object>();
+                documents.add(doc);
+                List<Map<String, String>> parts = new ArrayList<Map<String, String>>();
+                doc.put("parts", parts);
+                int i = 1;
+                for (DocumentBinary documentBinary : document.getDatas()) {
+                    Map<String, String> part = new HashMap<String, String>();
+                    parts.add(part);
+                    String filename = org.springframework.util.StringUtils.arrayToDelimitedString(
+                        new String[] {
+                            "CapDemat", document.getDocumentType().getName(),
+                            String.valueOf(sgr.getId()), String.valueOf(i++)
+                        }, "-");
+                    part.put("filename", filename);
+                    try {
+                        part.put("remotePath", uploader.upload(filename, documentBinary.getData()));
+                    } catch (Exception e) {
+                        //TODO
+                    }
+                }
+            }
             model.put("msStatut", firstSending ? "" :
                 getRequestStatus(sgr, psCodeTiers));
             model.put("millesime", firstSending ? "" :
@@ -404,32 +421,6 @@ public class EdemandeService implements IExternalProviderService {
         } catch (CvqException e) {
             e.printStackTrace();
             addTrace(sgr.getId(), null, TraceStatusEnum.NOT_SENT, e.getMessage());
-        }
-    }
-
-    private void submitDocument(StudyGrantRequest sgr, String psCodeTiers, Document document) {
-        Map<String, Object> model = new HashMap<String, Object>();
-        // put the file on the remote ftp server
-        ;
-        // send it to edemande
-        model.put("psCodeTiers", psCodeTiers);
-        model.put("psCodeDemande", sgr.getEdemandeId());
-        model.put("filename",
-            org.springframework.util.StringUtils.arrayToDelimitedString(
-            new String[]{"CapDemat", document.getDocumentType().getName(), String.valueOf(sgr.getId())}, "-"));
-        //model.put("remotePath", );
-        model.put("description", document.getDocumentType().getName());
-        model.put("binaryData", new String(Base64.encodeBase64Chunked(document.getDatas().get(0).getData())));
-        try {
-            AjouterPiecesJointesResponseDocument response = edemandeClient.ajouterPiecesJointes(model);
-            if (!"0".equals(parseData(response.getAjouterPiecesJointesResponse().getReturn(), "//Retour/codeRetour"))) {
-                addTrace(sgr.getId(), String.valueOf(document.getId()), TraceStatusEnum.ERROR, parseData(response.getAjouterPiecesJointesResponse().getReturn(), "//Retour/messageRetour"));
-            } else {
-                addTrace(sgr.getId(), String.valueOf(document.getId()), TraceStatusEnum.SENT, null);
-            }
-        } catch (CvqException e) {
-            e.printStackTrace();
-            addTrace(sgr.getId(), String.valueOf(document.getId()), TraceStatusEnum.NOT_SENT, e.getMessage());
         }
     }
 
@@ -590,12 +581,6 @@ public class EdemandeService implements IExternalProviderService {
         return false;
     }
 
-    private boolean mustSendDocument(StudyGrantRequest sgr, Document document) {
-        return sgr.getEdemandeId() != null && !sgr.getEdemandeId().trim().isEmpty()
-            && !externalService.hasTraceWithStatus(sgr.getId(), String.valueOf(document.getId()),
-            label, TraceStatusEnum.SENT);
-    }
-
     /**
      * Determines if we must send an individual creation request for the request's subject
      * or account holder when this individual has no psCodeTiers yet.
@@ -620,6 +605,11 @@ public class EdemandeService implements IExternalProviderService {
             }
         }
         return false;
+    }
+
+    private String formatDate(Calendar calendar) {
+        if (calendar == null) return "";
+        return formatter.format(new Date(calendar.getTimeInMillis()));
     }
 
     private boolean mustCreateAccountHolder(StudyGrantRequest sgr) {

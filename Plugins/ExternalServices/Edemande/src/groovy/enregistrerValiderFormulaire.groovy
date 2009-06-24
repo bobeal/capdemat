@@ -53,7 +53,31 @@
    <msCodext>${msCodext}</msCodext>
    <mdMtDemande/>
    <mvListePiecesReq/>
-   <mvListePiecesRecu/>
+   <mvListePiecesRecu>
+    <% documents.each { %>
+     <CBdosPieceRecueVO>
+      <msDescri/>
+      <msLib>PJ</msLib>
+      <miNombre>1</miNombre>
+      <moDocument>
+       <msDescri/>
+       <msLib/>
+       <miNombre/>
+       <% it.parts.each { %>
+        <moImage>
+         <msReferenceExt>${it.filename}</msReferenceExt>
+         <mtbFluxBinaire>${it.filename}</mtbFluxBinaire>
+         <msSourceImage>${it.filename}</msSourceImage>
+         <msCle/>
+        </moImage>
+       <% } %>
+       <moFormat>
+        <msTypeMime>text/plain</msTypeMime>
+       </moFormat>
+      </moDocument>
+     </CBdosPieceRecueVO>
+    <% } %>
+   </mvListePiecesRecu>
    <mvListeInformations/>
    <moLot/>
    <moLigneDossier/>

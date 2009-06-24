@@ -105,6 +105,7 @@
 			<fileset dir="${saxon.lib.dir}" />
             <fileset dir="${joda.lib.dir}" />
             <fileset dir="${opencsv.lib.dir}" />
+			<fileset dir="${jsch.lib.dir}" />
 			<fileset dir="${spring.lib.dir}">
 				<include name="spring-oxm*.jar" />
 				<include name="spring-ws*.jar" />

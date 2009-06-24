@@ -8,26 +8,24 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.service.authority.ICategoryService;
-import org.apache.log4j.Logger;
+import fr.cg95.cvq.service.request.annotation.RequestFilter;
+import fr.cg95.cvq.util.Critere;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.Ordered;
 
-import fr.cg95.cvq.service.request.annotation.RequestFilter;
-import fr.cg95.cvq.util.Critere;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 /**
  *
- * @author bor
+ * @author bor@zenexity.fr
  */
 @Aspect
 public class RequestFilterAspect implements Ordered {
-
-    private Logger logger = Logger.getLogger(RequestFilterAspect.class);
 
     private ICategoryService categoryService;
 
@@ -54,7 +52,7 @@ public class RequestFilterAspect implements Ordered {
                 }
             }
             StringBuffer sb = new StringBuffer();
-            if (agentCategories == null) {
+            if (agentCategories == null || agentCategories.isEmpty()) {
                 sb.append("'-1'");
             } else {
                 for (Category category : agentCategories) {

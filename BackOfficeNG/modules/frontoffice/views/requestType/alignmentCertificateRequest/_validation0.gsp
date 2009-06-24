@@ -33,14 +33,14 @@
     
       
       <dl>
-        <dt><g:message code="acr.property.ownerLastName.label" /></dt><dd>${rqt.ownerLastName}</dd>
+        <dt><g:message code="acr.property.ownerLastName.label" /></dt><dd>${rqt.ownerLastName?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="acr.property.ownerFirstNames.label" /></dt><dd>${rqt.ownerFirstNames}</dd>
+        <dt><g:message code="acr.property.ownerFirstNames.label" /></dt><dd>${rqt.ownerFirstNames?.toString()}</dd>
 
       </dl>
       
@@ -65,28 +65,28 @@
     
       
       <dl>
-        <dt><g:message code="acr.property.section.label" /></dt><dd>${rqt.section}</dd>
+        <dt><g:message code="acr.property.section.label" /></dt><dd>${rqt.section?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="acr.property.number.label" /></dt><dd>${rqt.number}</dd>
+        <dt><g:message code="acr.property.number.label" /></dt><dd>${rqt.number?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="acr.property.locality.label" /></dt><dd>${rqt.locality}</dd>
+        <dt><g:message code="acr.property.locality.label" /></dt><dd>${rqt.locality?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="acr.property.transportationRoute.label" /></dt><dd>${rqt.transportationRoute}</dd>
+        <dt><g:message code="acr.property.transportationRoute.label" /></dt><dd>${rqt.transportationRoute?.toString()}</dd>
 
       </dl>
       
@@ -106,9 +106,13 @@
           <g:if test="${document.endValidityDate}">${message(code:'document.header.expireOn')} ${formatDate(date:document.endValidityDate,formatName:'format.date')}</g:if>
         </dt>
         <dd>
-          <g:if test="${document.isNew}"><span class="tag-state tag-active">${message(code:'document.header.new')}</span></g:if>
-          <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">${message(code:'document.header.preview')}</a>
-        </dd>
+          <g:if test="${document.isNew}"><span class="tag-state tag-active">${message(code:'document.header.new')}</span>
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&sessionUuid=${uuidString}" target="blank">${message(code:'document.header.preview')}</a>
+          </g:if>
+          <g:else>
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">${message(code:'document.header.preview')}</a>
+          </g:else>
+          </dd>
         </g:each>
       </dl>
       </g:if>

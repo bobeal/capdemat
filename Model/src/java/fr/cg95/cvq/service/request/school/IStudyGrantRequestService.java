@@ -16,4 +16,10 @@ public interface IStudyGrantRequestService extends IRequestService {
      */
     void setEdemandeId(@IsRequest final Long requestId, final String edemandeId)
         throws CvqException;
+
+    /**
+     * Set the Edemande ID of the account holder of this request
+     */
+    void setAccountHolderEdemandeId(@IsRequest final Long requestId, final String accountHolderEdemandeId)
+        throws CvqException;
 }

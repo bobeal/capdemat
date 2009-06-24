@@ -27,7 +27,7 @@
 
   
     <label class=""><g:message code="mcr.property.maidenName.label" />   <span><g:message code="mcr.property.maidenName.help" /></span></label>
-            <input type="text" name="maidenName" value="${rqt.maidenName}" 
+            <input type="text" name="maidenName" value="${rqt.maidenName?.toString()}" 
                     class="  validate-lastName" title="<g:message code="mcr.property.maidenName.validationError" />"  maxLength="38"/>
             
 
@@ -59,7 +59,7 @@
 
   
     <label class="required"><g:message code="mcr.property.childPhone.label" /> *  <span><g:message code="mcr.property.childPhone.help" /></span></label>
-            <input type="text" name="childPhone" value="${rqt.childPhone}" 
+            <input type="text" name="childPhone" value="${rqt.childPhone?.toString()}" 
                     class="required  validate-phone" title="<g:message code="mcr.property.childPhone.validationError" />"  maxLength="10"/>
             
 
@@ -67,7 +67,7 @@
 
   
     <label class=""><g:message code="mcr.property.childMail.label" />   <span><g:message code="mcr.property.childMail.help" /></span></label>
-            <input type="text" name="childMail" value="${rqt.childMail}" 
+            <input type="text" name="childMail" value="${rqt.childMail?.toString()}" 
                     class="  validate-email" title="<g:message code="mcr.property.childMail.validationError" />"  />
             
 

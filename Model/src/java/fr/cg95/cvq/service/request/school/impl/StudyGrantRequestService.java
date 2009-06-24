@@ -4,7 +4,10 @@ import java.util.Arrays;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -24,10 +27,22 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
         return new StudyGrantRequest();
     }
 
-    public Long create(Request request) throws CvqException {
-        return super.create(request);
+    public void onRequestValidated(Request request) throws CvqException {
+        StudyGrantRequest sgr = (StudyGrantRequest) request;
+        Individual subject = individualService.getById(sgr.getSubjectId());
+        subject.setBirthDate(sgr.getSubjectBirthDate());
+        if (subject instanceof Adult) {
+            Adult adult = (Adult) subject;
+            if (sgr.getSubjectMobilePhone() != null 
+                    && (adult.getMobilePhone() == null || adult.getMobilePhone().isEmpty()))
+                adult.setMobilePhone(sgr.getSubjectMobilePhone());
+            if (sgr.getSubjectPhone() != null 
+                    && (adult.getHomePhone() == null || adult.getHomePhone().isEmpty()))
+                adult.setHomePhone(sgr.getSubjectPhone());
+        }
+        individualService.modify(subject);
     }
-
+    
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("abroadInternship", new EqualityChecker("true"));
@@ -41,6 +56,13 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
         throws CvqException {
         StudyGrantRequest request = (StudyGrantRequest)getById(requestId);
         request.setEdemandeId(edemandeId);
+        modify(request);
+    }
+
+    public void setAccountHolderEdemandeId(@IsRequest final Long requestId, final String accountHolderEdemandeId)
+        throws CvqException {
+        StudyGrantRequest request = (StudyGrantRequest)getById(requestId);
+        request.setAccountHolderEdemandeId(accountHolderEdemandeId);
         modify(request);
     }
 }

@@ -126,24 +126,6 @@ public abstract class Request implements Serializable {
         
         if (this.step != null)
             requestType.setStep(fr.cg95.cvq.xml.common.RequestType.Step.Enum.forString(this.step.toString()));
-        // TODO REFACTORING
-        /*
-        if (requester != null) {
-            requestType.setRequester(Adult.modelToXml(requester));
-        }
-        if (homeFolder != null) {
-            requestType.setHomeFolder(homeFolder.modelToXml());
-        }
-        if (subject != null) {
-            if (subject instanceof Adult) {
-                requestType.addNewSubject().setAdult(Adult.modelToXml((Adult) subject));
-            } else if (subject instanceof Child) {
-                requestType.addNewSubject().setChild(Child.modelToXml((Child) subject));
-            } else if (subject instanceof Individual) {
-                requestType.addNewSubject().setIndividual(Individual.modelToXml((Individual) subject));
-            }
-        }
-        */
     }
 
     public void fillCommonModelInfo(Request request,

@@ -68,34 +68,16 @@ public interface IMeansOfContactService {
      */
     void disableMeansOfContact(MeansOfContact meansOfContact) throws CvqException;
 
-    /*
-     * Notify Requester by using :
-     * <ul>
-     *   <li>Request's Means of contact</li>
-     *   <li>
-     *     "Notification Service" associated with that Means of Contact
-     *     (for Means of Contact Email, MailService would be used)
-     *   </li>
-     * </ul>
-     *
-     * void notifyRequester(Request request) throws CvqException;
-     */
-
     /**
      * Test if the given MeansOfContact supports attachment
      */
     boolean supportAttachment(MeansOfContact moc);
 
     /**
-     * Notify by email
+     * Notify a requester by email.
      */
-    public void notifyRequesterByEmail(
-            Request request,
-            String to,
-            String subject,
-            String body,
-            byte[] data,
-            String attachmentName) throws CvqException;
+    public void notifyRequesterByEmail(Request request, String to, String subject,
+            String body, byte[] data, String attachmentName) throws CvqException;
 
     /**
      * Notify by Sms

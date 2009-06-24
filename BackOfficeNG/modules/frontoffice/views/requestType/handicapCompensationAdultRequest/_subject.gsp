@@ -26,7 +26,7 @@
 
     
       <label class="required condition-isMadam-filled"><g:message code="hcar.property.subjectMaidenName.label" /> *  <span><g:message code="hcar.property.subjectMaidenName.help" /></span></label>
-            <input type="text" name="subjectMaidenName" value="${rqt.subjectMaidenName}" 
+            <input type="text" name="subjectMaidenName" value="${rqt.subjectMaidenName?.toString()}" 
                     class="required condition-isMadam-filled  validate-lastName" title="<g:message code="hcar.property.subjectMaidenName.validationError" />"  maxLength="38"/>
             
 
@@ -38,13 +38,13 @@
 
     
       <label class="required"><g:message code="hcar.property.subjectBirthCity.label" /> *  <span><g:message code="hcar.property.subjectBirthCity.help" /></span></label>
-            <input type="text" name="subjectBirthCity" value="${rqt.subjectBirthCity}" 
+            <input type="text" name="subjectBirthCity" value="${rqt.subjectBirthCity?.toString()}" 
                     class="required  validate-city" title="<g:message code="hcar.property.subjectBirthCity.validationError" />"  maxLength="32"/>
             
 
     
       <label class="required"><g:message code="hcar.property.subjectBirthCountry.label" /> *  <span><g:message code="hcar.property.subjectBirthCountry.help" /></span></label>
-            <input type="text" name="subjectBirthCountry" value="${rqt.subjectBirthCountry}" 
+            <input type="text" name="subjectBirthCountry" value="${rqt.subjectBirthCountry?.toString()}" 
                     class="required  " title="<g:message code="hcar.property.subjectBirthCountry.validationError" />"  maxLength="50"/>
             
 
@@ -89,19 +89,19 @@
 
     
       <label class="required condition-isOtherLegalAccessRepresentative-filled"><g:message code="hcar.property.legalAccessRepresentativeKindDetail.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeKindDetail.help" /></span></label>
-            <input type="text" name="legalAccessRepresentativeKindDetail" value="${rqt.legalAccessRepresentativeKindDetail}" 
+            <input type="text" name="legalAccessRepresentativeKindDetail" value="${rqt.legalAccessRepresentativeKindDetail?.toString()}" 
                     class="required condition-isOtherLegalAccessRepresentative-filled  " title="<g:message code="hcar.property.legalAccessRepresentativeKindDetail.validationError" />"  maxLength="80"/>
             
 
     
       <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeName.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeName.help" /></span></label>
-            <input type="text" name="legalAccessRepresentativeName" value="${rqt.legalAccessRepresentativeName}" 
+            <input type="text" name="legalAccessRepresentativeName" value="${rqt.legalAccessRepresentativeName?.toString()}" 
                     class="required condition-isLegalAccessPresence-filled  validate-lastName" title="<g:message code="hcar.property.legalAccessRepresentativeName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeFirstName.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeFirstName.help" /></span></label>
-            <input type="text" name="legalAccessRepresentativeFirstName" value="${rqt.legalAccessRepresentativeFirstName}" 
+            <input type="text" name="legalAccessRepresentativeFirstName" value="${rqt.legalAccessRepresentativeFirstName?.toString()}" 
                     class="required condition-isLegalAccessPresence-filled  validate-firstName" title="<g:message code="hcar.property.legalAccessRepresentativeFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -145,13 +145,13 @@
       <fieldset class="collection-fieldset-add required condition-isFamilyDependents-filled">
     
         <label class="required"><g:message code="hcar.property.familyDependentLastName.label" /> *  <span><g:message code="hcar.property.familyDependentLastName.help" /></span></label>
-            <input type="text" name="familyDependents[${listIndex}].familyDependentLastName" value="${editList?.familyDependents?.familyDependentLastName}" 
+            <input type="text" name="familyDependents[${listIndex}].familyDependentLastName" value="${editList?.familyDependents?.familyDependentLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="hcar.property.familyDependentLastName.validationError" />"  maxLength="38"/>
             
 
     
         <label class="required"><g:message code="hcar.property.familyDependentFirstName.label" /> *  <span><g:message code="hcar.property.familyDependentFirstName.help" /></span></label>
-            <input type="text" name="familyDependents[${listIndex}].familyDependentFirstName" value="${editList?.familyDependents?.familyDependentFirstName}" 
+            <input type="text" name="familyDependents[${listIndex}].familyDependentFirstName" value="${editList?.familyDependents?.familyDependentFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -184,10 +184,10 @@
         <dl>
     
         <dt><g:message code="hcar.property.familyDependentLastName.label" /></dt>
-        <dd>${it.familyDependentLastName}</dd>
+        <dd>${it.familyDependentLastName?.toString()}</dd>
     
         <dt><g:message code="hcar.property.familyDependentFirstName.label" /></dt>
-        <dd>${it.familyDependentFirstName}</dd>
+        <dd>${it.familyDependentFirstName?.toString()}</dd>
     
         <dt><g:message code="hcar.property.familyDependentBirthDate.label" /></dt>
         <dd><g:formatDate formatName="format.date" date="${it.familyDependentBirthDate}"/></dd>

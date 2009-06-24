@@ -20,19 +20,19 @@
     <legend><g:message code="rsr.property.firstContact.label" /></legend>
     
       <label class="required"><g:message code="rsr.property.contactLastName.label" /> *  <span><g:message code="rsr.property.contactLastName.help" /></span></label>
-            <input type="text" name="contactLastName" value="${rqt.contactLastName}" 
+            <input type="text" name="contactLastName" value="${rqt.contactLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="rsr.property.contactLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required"><g:message code="rsr.property.contactFirstName.label" /> *  <span><g:message code="rsr.property.contactFirstName.help" /></span></label>
-            <input type="text" name="contactFirstName" value="${rqt.contactFirstName}" 
+            <input type="text" name="contactFirstName" value="${rqt.contactFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="rsr.property.contactFirstName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required"><g:message code="rsr.property.contactPhone.label" /> *  <span><g:message code="rsr.property.contactPhone.help" /></span></label>
-            <input type="text" name="contactPhone" value="${rqt.contactPhone}" 
+            <input type="text" name="contactPhone" value="${rqt.contactPhone?.toString()}" 
                     class="required  validate-phone" title="<g:message code="rsr.property.contactPhone.validationError" />"  maxLength="10"/>
             
 
@@ -45,19 +45,19 @@
     <legend><g:message code="rsr.property.secondContact.label" /></legend>
     
       <label class=""><g:message code="rsr.property.secondContactLastName.label" />   <span><g:message code="rsr.property.secondContactLastName.help" /></span></label>
-            <input type="text" name="secondContactLastName" value="${rqt.secondContactLastName}" 
+            <input type="text" name="secondContactLastName" value="${rqt.secondContactLastName?.toString()}" 
                     class="  validate-lastName" title="<g:message code="rsr.property.secondContactLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class=""><g:message code="rsr.property.secondContactFirstName.label" />   <span><g:message code="rsr.property.secondContactFirstName.help" /></span></label>
-            <input type="text" name="secondContactFirstName" value="${rqt.secondContactFirstName}" 
+            <input type="text" name="secondContactFirstName" value="${rqt.secondContactFirstName?.toString()}" 
                     class="  validate-firstName" title="<g:message code="rsr.property.secondContactFirstName.validationError" />"  maxLength="38"/>
             
 
     
       <label class=""><g:message code="rsr.property.secondContactPhone.label" />   <span><g:message code="rsr.property.secondContactPhone.help" /></span></label>
-            <input type="text" name="secondContactPhone" value="${rqt.secondContactPhone}" 
+            <input type="text" name="secondContactPhone" value="${rqt.secondContactPhone?.toString()}" 
                     class="  validate-phone" title="<g:message code="rsr.property.secondContactPhone.validationError" />"  maxLength="10"/>
             
 
@@ -70,19 +70,19 @@
     <legend><g:message code="rsr.property.trustee.label" /></legend>
     
       <label class=""><g:message code="rsr.property.trusteeLastName.label" />   <span><g:message code="rsr.property.trusteeLastName.help" /></span></label>
-            <input type="text" name="trusteeLastName" value="${rqt.trusteeLastName}" 
+            <input type="text" name="trusteeLastName" value="${rqt.trusteeLastName?.toString()}" 
                     class="  validate-lastName" title="<g:message code="rsr.property.trusteeLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class=""><g:message code="rsr.property.trusteeFirstName.label" />   <span><g:message code="rsr.property.trusteeFirstName.help" /></span></label>
-            <input type="text" name="trusteeFirstName" value="${rqt.trusteeFirstName}" 
+            <input type="text" name="trusteeFirstName" value="${rqt.trusteeFirstName?.toString()}" 
                     class="  validate-firstName" title="<g:message code="rsr.property.trusteeFirstName.validationError" />"  maxLength="38"/>
             
 
     
       <label class=""><g:message code="rsr.property.trusteePhone.label" />   <span><g:message code="rsr.property.trusteePhone.help" /></span></label>
-            <input type="text" name="trusteePhone" value="${rqt.trusteePhone}" 
+            <input type="text" name="trusteePhone" value="${rqt.trusteePhone?.toString()}" 
                     class="  validate-phone" title="<g:message code="rsr.property.trusteePhone.validationError" />"  maxLength="10"/>
             
 

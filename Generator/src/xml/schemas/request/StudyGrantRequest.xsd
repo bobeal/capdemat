@@ -359,46 +359,11 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="CurrentSchoolName" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Nom de l'établissement
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  School name
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nom de l'établissement
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  School name
-                </xs:documentation>
-                <xs:appinfo> 
-                  <model namespace="users" isTiedToRequest="true" />
-                  <common>
-                    <step name="currentStudies" />
-                    <conditions>
-                    <condition name="isCurrentSchoolNameOther" type="trigger" />
-                    </conditions>
-                  </common>
-                  <xslfo>
-                    <element blockId="3" line="3" column="0">
-                      <localReferential />
-                    </element>
-                  </xslfo>
-                  <fo />
-                  <bo column="1" />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
             <xs:element name="CurrentSchool" type="sgr:SgrCurrentSchoolType" minOccurs="0">
               <xs:annotation>
                 <xs:appinfo>
                   <common>
                     <step name="currentStudies" />
-                    <conditions>
-                      <condition name="isCurrentSchoolNameOther" type="filled" required="true" />
-                    </conditions>
                   </common>
                   <xslfo>
                     <element blockId="3" line="4" column="0">
@@ -625,6 +590,24 @@
                   </xslfo>
                   <fo />
                   <bo column="1" />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="AccountHolderEdemandeId" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Identifiant Edemande du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Identifiant Edemande du titulaire du compte
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Edemande account holder ID
+                </xs:documentation>
+                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Edemande account holder ID
+                </xs:documentation>
+                <xs:appinfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -1474,36 +1457,71 @@
   <xs:complexType name="SgrCurrentSchoolType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Précisez l'établissement scolaire
+        Établissement scolaire
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Specify the current school
+        Current school
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Précisez l'établissement scolaire
+        Établissement scolaire
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Specify the current school
+        Current school
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
+      <xs:element name="CurrentSchoolName" type="cvq:LocalReferentialDataType" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Nom de l'établissement
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            School name
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Nom de l'établissement
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            School name
+          </xs:documentation>
+          <xs:appinfo>
+            <model namespace="users" isTiedToRequest="true" />
+            <common>
+              <step name="currentStudies" />
+              <conditions>
+                <condition name="isCurrentSchoolNameOther" type="trigger" />
+              </conditions>
+            </common>
+            <xslfo>
+              <element blockId="3" line="3" column="0">
+                <localReferential />
+              </element>
+            </xslfo>
+            <fo />
+            <bo column="1" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="CurrentSchoolNamePrecision" type="xs:string">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Nom
+            Précisez le nom
           </xs:documentation>
           <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-            Name
+            Specify school name
           </xs:documentation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Nom
+            Précisez le nom
           </xs:documentation>
           <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-            Name
+            Specify school name
           </xs:documentation>
           <xs:appinfo>
             <common>
               <step name="currentStudies" />
+              <conditions>
+                <condition name="isCurrentSchoolNameOther" type="filled" required="true" />
+              </conditions>
             </common>
             <xslfo>
               <element blockId="3" line="3" column="1">

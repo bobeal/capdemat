@@ -162,6 +162,10 @@ public interface IExternalService {
     Set<ExternalServiceTrace> getTraces(String key, String name,
             TraceStatusEnum status, Date dateFrom, Date dateTo);
 
+    Set<ExternalServiceTrace> getTraces(Long key, String subkey, String label);
+
+    Set<ExternalServiceTrace> getTraces(String key, String subkey, String label);
+
     Set<ExternalServiceTrace> getTraces(Long key, String label);
 
     Set<ExternalServiceTrace> getTraces(String key, String label);
@@ -204,6 +208,10 @@ public interface IExternalService {
     ExternalServiceTrace getLastTrace(Long key, String label);
 
     ExternalServiceTrace getLastTrace(String key, String label);
+
+    boolean hasTraceWithStatus(String key, String subkey, String label, TraceStatusEnum status);
+
+    boolean hasTraceWithStatus(Long key, String subkey, String label, TraceStatusEnum status);
 
     boolean hasTraceWithStatus(String key, String label, TraceStatusEnum status);
 

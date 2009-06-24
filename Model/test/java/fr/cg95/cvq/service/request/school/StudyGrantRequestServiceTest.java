@@ -42,6 +42,7 @@ public class StudyGrantRequestServiceTest extends ServiceTestCase {
             request.setHasEuropeHelp(Boolean.valueOf(true));
               request.setCurrentStudies(CurrentStudiesType.LICENCE);
                     request.setTaxHouseholdCityPrecision("TaxHouseholdCityPrecision");
+                    request.setAccountHolderEdemandeId("AccountHolderEdemandeId");
                   request.setCurrentStudiesLevel(CurrentStudiesLevelType.FIRST_YEAR);
                     request.setEdemandeId("EdemandeId");
                   if ("CurrentSchoolPostalCode".length() > 5)

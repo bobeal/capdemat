@@ -2,7 +2,6 @@ package fr.capwebct.capdemat.plugins.externalservices.edemande.webservice.client
 
 import java.util.Map;
 
-import com.unilog.gda.edem.service.AjouterPiecesJointesResponseDocument;
 import com.unilog.gda.edem.service.ChargerDemandeResponseDocument;
 import com.unilog.gda.edem.service.ChargerTypeDemandeResponseDocument;
 import com.unilog.gda.edem.service.EnregistrerValiderFormulaireResponseDocument;
@@ -34,9 +33,6 @@ public interface IEdemandeClient {
         throws CvqException;
 
     GestionCompteResponseDocument creerTiers(Map<String, Object> model)
-        throws CvqException;
-
-    AjouterPiecesJointesResponseDocument ajouterPiecesJointes(Map<String, Object> model)
         throws CvqException;
 
     RechercheDemandesTiersResponseDocument rechercheDemandesTiers(String psCodeTiers)

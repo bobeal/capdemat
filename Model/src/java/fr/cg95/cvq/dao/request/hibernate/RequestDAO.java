@@ -393,6 +393,9 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         objectList.add(homeFolderId);
         typeList.add(Hibernate.LONG);
 
+        //FIXME jsb : use only one method that builds queries
+        sb.append(" and (request.draft = false or request.draft is null) ");
+
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
         return HibernateUtil.getSession()

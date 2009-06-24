@@ -31,7 +31,12 @@
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/tabview', file:'tabview-min.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'tools.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'validation.js')}"></script>
-  
+  <g:if test="${Locale.FRENCH.getLanguage().equals(request.locale.getLanguage())}">
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'date-fr-FR.js')}"></script>
+  </g:if>
+  <g:else>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'date-en-US.js')}"></script>
+  </g:else>
   <script type="text/javascript">
     zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     zenexity.capdemat.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';

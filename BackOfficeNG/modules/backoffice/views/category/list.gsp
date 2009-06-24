@@ -34,15 +34,13 @@
                 </span>
               </h3>
               <div>
-                <g:each in="${category.requestTypes}" var="requestType">
+                <g:each in="${requestTypesByCategory[category.id]}" var="requestType">
                   <g:if test="${requestType.active}">
-                    <!-- <strong class="enabled"> -->
-                      <g:translateRequestTypeLabel label="${requestType.label}" />
-                    <!-- </strong> -->
+                    ${requestType.label}
                   </g:if>
                   <g:else>
                     <span class="disabled">
-                      <g:translateRequestTypeLabel label="${requestType.label}" />
+                      ${requestType.label}
                     </span>
                   </g:else>
                   - 

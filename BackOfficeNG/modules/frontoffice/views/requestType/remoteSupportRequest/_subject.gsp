@@ -123,13 +123,13 @@
     <legend><g:message code="rsr.property.spouse.label" /></legend>
     
       <label class="required"><g:message code="rsr.property.spouseLastName.label" /> *  <span><g:message code="rsr.property.spouseLastName.help" /></span></label>
-            <input type="text" name="spouseLastName" value="${rqt.spouseLastName}" 
+            <input type="text" name="spouseLastName" value="${rqt.spouseLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="rsr.property.spouseLastName.validationError" />"  maxLength="38"/>
             
 
     
       <label class="required"><g:message code="rsr.property.spouseFirstName.label" /> *  <span><g:message code="rsr.property.spouseFirstName.help" /></span></label>
-            <input type="text" name="spouseFirstName" value="${rqt.spouseFirstName}" 
+            <input type="text" name="spouseFirstName" value="${rqt.spouseFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="rsr.property.spouseFirstName.validationError" />"  maxLength="38"/>
             
 

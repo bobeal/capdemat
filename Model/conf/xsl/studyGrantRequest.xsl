@@ -38,7 +38,7 @@
 
 	  <fo:block>
 	    <xsl:call-template name="requestHeader">
-	      <xsl:with-param name="RequestName">Dossier de demande de bourse</xsl:with-param>
+	      <xsl:with-param name="RequestName">Demande de Mobil'Etudes</xsl:with-param>
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 
@@ -163,6 +163,33 @@
     </fo:table-row>
   </fo:table-body>
 </fo:table>
+                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
+  <fo:table-column column-width="proportional-column-width(100)" />
+  <fo:table-column column-width="proportional-column-width(200)" />
+  <fo:table-column column-width="proportional-column-width(100)" />
+  
+  <fo:table-body>
+    <fo:table-row>
+      <fo:table-cell>
+       <fo:block xsl:use-attribute-sets="request.field.inline.label">
+	Première demande
+       </fo:block>
+      </fo:table-cell>
+      <fo:table-cell>
+        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+            <xsl:choose>
+            <xsl:when test="./sgr:SubjectFirstRequest and ./sgr:SubjectFirstRequest != ''">
+                  <xsl:value-of select="./sgr:SubjectFirstRequest" />
+                 </xsl:when>
+             <xsl:otherwise>
+               <xsl:text>&#160;</xsl:text>
+             </xsl:otherwise>
+           </xsl:choose>
+          </fo:block>
+      </fo:table-cell>
+    </fo:table-row>
+  </fo:table-body>
+</fo:table>
                     <xsl:if test="$withTotal = 'true'  or not(position() = last())">
         <fo:block>
           <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
@@ -228,23 +255,22 @@
 
     
           
-                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
                         <fo:table-column column-width="proportional-column-width(100)" />
           <fo:table-column column-width="proportional-column-width(100)" />
-                                <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-body>
+                    	      <fo:table-column column-width="proportional-column-width(200)" />
+      	      <fo:table-body>
 		<fo:table-row>
-      	                        		  <fo:table-cell>
+      	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Code postal*
+		      Précisez la commune
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
                                       <xsl:choose>
-                        <xsl:when test="//sgr:TaxHouseholdPostalCode and //sgr:TaxHouseholdPostalCode != ''">
-                                    <xsl:value-of select="//sgr:TaxHouseholdPostalCode" />
+                        <xsl:when test="//sgr:TaxHouseholdCityPrecision and //sgr:TaxHouseholdCityPrecision != ''">
+                                    <xsl:value-of select="//sgr:TaxHouseholdCityPrecision" />
                                   </xsl:when>
                         <xsl:otherwise>
                           <xsl:text>&#160;</xsl:text>
@@ -252,24 +278,10 @@
                       </xsl:choose>
         		    </fo:block>
 		  </fo:table-cell>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Ville*
-		    </fo:block>
+            		  <fo:table-cell>
+		    <fo:block>&#160;</fo:block>
 		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:TaxHouseholdCity and //sgr:TaxHouseholdCity != ''">
-                                    <xsl:value-of select="//sgr:TaxHouseholdCity" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		</fo:table-row>
+      		</fo:table-row>
 	      </fo:table-body>
 	    </fo:table>
 
@@ -511,8 +523,8 @@
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
             <xsl:choose>
-            <xsl:when test="./sgr:ALevelsDate and ./sgr:ALevelsDate != ''">
-                  <xsl:value-of select="./sgr:ALevelsDate" />
+            <xsl:when test="./sgr:AlevelsDate and ./sgr:AlevelsDate != ''">
+                  <xsl:value-of select="./sgr:AlevelsDate" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -538,8 +550,8 @@
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
             <xsl:choose>
-            <xsl:when test="./sgr:ALevels and ./sgr:ALevels != ''">
-                  <xsl:value-of select="./sgr:ALevels" />
+            <xsl:when test="./sgr:Alevels and ./sgr:Alevels != ''">
+                  <xsl:value-of select="./sgr:Alevels" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -559,6 +571,14 @@
     </xsl:for-each>
     
           
+                                                  <fo:block xsl:use-attribute-sets="request.field.inline.label">Nom de l'établissement* :</fo:block>
+      	    <xsl:call-template name="LocalReferentialDataType">
+	      <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_sgr.xml')))//ref:data[@name = 'CurrentSchoolName']/ref:entries"/>
+	      <xsl:with-param name="RequestData" select="//sgr:CurrentSchoolName"/>
+	    </xsl:call-template>
+
+    
+          
                   <xsl:variable name="withTotal" select="'false'" />
 
     <xsl:for-each select="//sgr:CurrentSchool">
@@ -571,14 +591,14 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Nom de l'établissement
+	Nom
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
             <xsl:choose>
-            <xsl:when test="./sgr:CurrentSchoolName and ./sgr:CurrentSchoolName != ''">
-                  <xsl:value-of select="./sgr:CurrentSchoolName" />
+            <xsl:when test="./sgr:CurrentSchoolNamePrecision and ./sgr:CurrentSchoolNamePrecision != ''">
+                  <xsl:value-of select="./sgr:CurrentSchoolNamePrecision" />
                  </xsl:when>
              <xsl:otherwise>
                <xsl:text>&#160;</xsl:text>
@@ -1136,4 +1156,4 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                                                                                                                                                                                                                                                                                            </xsl:stylesheet>
+                                                                                                                                                                                                                                                                                                                                                                </xsl:stylesheet>

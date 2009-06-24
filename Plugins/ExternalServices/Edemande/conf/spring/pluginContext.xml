@@ -70,11 +70,6 @@
         <constructor-arg value="creerTiers.groovy" />
        </bean>
     </property>
-    <property name="ajouterPiecesJointesTemplate">
-      <bean class="org.springframework.core.io.ClassPathResource">
-        <constructor-arg value="ajouterPiecesJointes.groovy" />
-       </bean>
-    </property>
   </bean>
 
   <!-- *******************************************************************  -->

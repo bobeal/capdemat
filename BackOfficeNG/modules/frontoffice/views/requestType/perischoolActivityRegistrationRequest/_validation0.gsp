@@ -25,7 +25,7 @@
     
       
       <dl>
-        <dt><g:message code="parr.property.urgencyPhone.label" /></dt><dd>${rqt.urgencyPhone}</dd>
+        <dt><g:message code="parr.property.urgencyPhone.label" /></dt><dd>${rqt.urgencyPhone?.toString()}</dd>
 
       </dl>
       
@@ -40,10 +40,10 @@
       <g:each var="it" in="${rqt.contactIndividuals}" status="index">
       <dl>
         
-          <dt><g:message code="parr.property.lastName.label" /></dt><dd>${it.lastName}</dd>
+          <dt><g:message code="parr.property.lastName.label" /></dt><dd>${it.lastName?.toString()}</dd>
 
         
-          <dt><g:message code="parr.property.firstName.label" /></dt><dd>${it.firstName}</dd>
+          <dt><g:message code="parr.property.firstName.label" /></dt><dd>${it.firstName?.toString()}</dd>
 
         
           <dt><g:message code="parr.property.address.label" /></dt>
@@ -60,10 +60,10 @@
           
 
         
-          <dt><g:message code="parr.property.homePhone.label" /></dt><dd>${it.homePhone}</dd>
+          <dt><g:message code="parr.property.homePhone.label" /></dt><dd>${it.homePhone?.toString()}</dd>
 
         
-          <dt><g:message code="parr.property.officePhone.label" /></dt><dd>${it.officePhone}</dd>
+          <dt><g:message code="parr.property.officePhone.label" /></dt><dd>${it.officePhone?.toString()}</dd>
 
         
       </dl>
@@ -80,10 +80,10 @@
       <g:each var="it" in="${rqt.authorizedIndividuals}" status="index">
       <dl>
         
-          <dt><g:message code="parr.property.lastName.label" /></dt><dd>${it.lastName}</dd>
+          <dt><g:message code="parr.property.lastName.label" /></dt><dd>${it.lastName?.toString()}</dd>
 
         
-          <dt><g:message code="parr.property.firstName.label" /></dt><dd>${it.firstName}</dd>
+          <dt><g:message code="parr.property.firstName.label" /></dt><dd>${it.firstName?.toString()}</dd>
 
         
           <dt><g:message code="parr.property.address.label" /></dt>
@@ -100,10 +100,10 @@
           
 
         
-          <dt><g:message code="parr.property.homePhone.label" /></dt><dd>${it.homePhone}</dd>
+          <dt><g:message code="parr.property.homePhone.label" /></dt><dd>${it.homePhone?.toString()}</dd>
 
         
-          <dt><g:message code="parr.property.officePhone.label" /></dt><dd>${it.officePhone}</dd>
+          <dt><g:message code="parr.property.officePhone.label" /></dt><dd>${it.officePhone?.toString()}</dd>
 
         
       </dl>
@@ -166,9 +166,13 @@
           <g:if test="${document.endValidityDate}">${message(code:'document.header.expireOn')} ${formatDate(date:document.endValidityDate,formatName:'format.date')}</g:if>
         </dt>
         <dd>
-          <g:if test="${document.isNew}"><span class="tag-state tag-active">${message(code:'document.header.new')}</span></g:if>
-          <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">${message(code:'document.header.preview')}</a>
-        </dd>
+          <g:if test="${document.isNew}"><span class="tag-state tag-active">${message(code:'document.header.new')}</span>
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&sessionUuid=${uuidString}" target="blank">${message(code:'document.header.preview')}</a>
+          </g:if>
+          <g:else>
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">${message(code:'document.header.preview')}</a>
+          </g:else>
+          </dd>
         </g:each>
       </dl>
       </g:if>

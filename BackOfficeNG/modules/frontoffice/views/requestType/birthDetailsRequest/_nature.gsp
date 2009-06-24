@@ -15,7 +15,7 @@
 
   
     <label class="condition-isOtherRequesterQuality-filled"><g:message code="bdr.property.requesterQualityPrecision.label" />   <span><g:message code="bdr.property.requesterQualityPrecision.help" /></span></label>
-            <input type="text" name="requesterQualityPrecision" value="${rqt.requesterQualityPrecision}" 
+            <input type="text" name="requesterQualityPrecision" value="${rqt.requesterQualityPrecision?.toString()}" 
                     class="condition-isOtherRequesterQuality-filled  validate-string" title="<g:message code="bdr.property.requesterQualityPrecision.validationError" />"  />
             
 
@@ -23,7 +23,7 @@
 
   
     <label class="required"><g:message code="bdr.property.birthLastName.label" /> *  <span><g:message code="bdr.property.birthLastName.help" /></span></label>
-            <input type="text" name="birthLastName" value="${rqt.birthLastName}" 
+            <input type="text" name="birthLastName" value="${rqt.birthLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="bdr.property.birthLastName.validationError" />"  maxLength="38"/>
             
 
@@ -31,7 +31,7 @@
 
   
     <label class=""><g:message code="bdr.property.birthMarriageName.label" />   <span><g:message code="bdr.property.birthMarriageName.help" /></span></label>
-            <input type="text" name="birthMarriageName" value="${rqt.birthMarriageName}" 
+            <input type="text" name="birthMarriageName" value="${rqt.birthMarriageName?.toString()}" 
                     class="  validate-lastName" title="<g:message code="bdr.property.birthMarriageName.validationError" />"  maxLength="38"/>
             
 
@@ -39,7 +39,7 @@
 
   
     <label class="required"><g:message code="bdr.property.birthFirstNames.label" /> *  <span><g:message code="bdr.property.birthFirstNames.help" /></span></label>
-            <input type="text" name="birthFirstNames" value="${rqt.birthFirstNames}" 
+            <input type="text" name="birthFirstNames" value="${rqt.birthFirstNames?.toString()}" 
                     class="required  validate-string" title="<g:message code="bdr.property.birthFirstNames.validationError" />"  />
             
 
@@ -55,7 +55,7 @@
 
   
     <label class="required"><g:message code="bdr.property.birthCity.label" /> *  <span><g:message code="bdr.property.birthCity.help" /></span></label>
-            <input type="text" name="birthCity" value="${rqt.birthCity}" 
+            <input type="text" name="birthCity" value="${rqt.birthCity?.toString()}" 
                     class="required  validate-city" title="<g:message code="bdr.property.birthCity.validationError" />"  maxLength="32"/>
             
 
@@ -63,7 +63,7 @@
 
   
     <label class="required"><g:message code="bdr.property.birthPostalCode.label" /> *  <span><g:message code="bdr.property.birthPostalCode.help" /></span></label>
-            <input type="text" name="birthPostalCode" value="${rqt.birthPostalCode}" 
+            <input type="text" name="birthPostalCode" value="${rqt.birthPostalCode?.toString()}" 
                     class="required  validate-departmentCode" title="<g:message code="bdr.property.birthPostalCode.validationError" />"  maxLength="2"/>
             
 

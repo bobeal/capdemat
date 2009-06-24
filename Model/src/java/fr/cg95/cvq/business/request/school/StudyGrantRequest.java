@@ -72,6 +72,7 @@ public class StudyGrantRequest extends Request implements Serializable {
         if (this.currentStudies != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudies(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(this.currentStudies.toString()));
         studyGrantRequest.setTaxHouseholdCityPrecision(this.taxHouseholdCityPrecision);
+        studyGrantRequest.setAccountHolderEdemandeId(this.accountHolderEdemandeId);
         if (this.currentStudiesLevel != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesLevel(fr.cg95.cvq.xml.request.school.CurrentStudiesLevelType.Enum.forString(this.currentStudiesLevel.toString()));
         studyGrantRequest.setEdemandeId(this.edemandeId);
@@ -112,7 +113,7 @@ public class StudyGrantRequest extends Request implements Serializable {
                 currentSchoolNameTypeTab[i] = LocalReferentialData.modelToXml(object);
                 i = i + 1;
             }
-            studyGrantRequest.setCurrentSchoolNameArray(currentSchoolNameTypeTab);
+            sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolNameArray(currentSchoolNameTypeTab);
         }
         if (this.accountHolderTitle != null)
             studyGrantRequest.setAccountHolderTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(this.accountHolderTitle.toString()));
@@ -187,6 +188,7 @@ public class StudyGrantRequest extends Request implements Serializable {
         else
             studyGrantRequest.setCurrentStudies(fr.cg95.cvq.business.request.school.CurrentStudiesType.getDefaultCurrentStudiesType());
         studyGrantRequest.setTaxHouseholdCityPrecision(studyGrantRequestXml.getTaxHouseholdCityPrecision());
+        studyGrantRequest.setAccountHolderEdemandeId(studyGrantRequestXml.getAccountHolderEdemandeId());
         if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel() != null)
             studyGrantRequest.setCurrentStudiesLevel(fr.cg95.cvq.business.request.school.CurrentStudiesLevelType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesLevel().toString()));
         else
@@ -214,9 +216,9 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequest.setHasCROUSHelp(Boolean.valueOf(studyGrantRequestXml.getHasCROUSHelp()));
         studyGrantRequest.setSubjectEmail(studyGrantRequestXml.getSubjectInformations().getSubjectEmail());
         List<fr.cg95.cvq.business.users.LocalReferentialData> currentSchoolNameList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
-        if ( studyGrantRequestXml.sizeOfCurrentSchoolNameArray() > 0) {
-            for (int i = 0; i < studyGrantRequestXml.getCurrentSchoolNameArray().length; i++) {
-                currentSchoolNameList.add(LocalReferentialData.xmlToModel(studyGrantRequestXml.getCurrentSchoolNameArray(i)));
+        if ( studyGrantRequestXml.getCurrentSchool().sizeOfCurrentSchoolNameArray() > 0) {
+            for (int i = 0; i < studyGrantRequestXml.getCurrentSchool().getCurrentSchoolNameArray().length; i++) {
+                currentSchoolNameList.add(LocalReferentialData.xmlToModel(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolNameArray(i)));
             }
         }
         studyGrantRequest.setCurrentSchoolName(currentSchoolNameList);
@@ -326,6 +328,21 @@ public class StudyGrantRequest extends Request implements Serializable {
      */
     public final String getTaxHouseholdCityPrecision() {
         return this.taxHouseholdCityPrecision;
+    }
+
+    private String accountHolderEdemandeId;
+
+    public final void setAccountHolderEdemandeId(final String accountHolderEdemandeId) {
+        this.accountHolderEdemandeId = accountHolderEdemandeId;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="account_holder_edemande_id"
+     */
+    public final String getAccountHolderEdemandeId() {
+        return this.accountHolderEdemandeId;
     }
 
     private fr.cg95.cvq.business.request.school.CurrentStudiesLevelType currentStudiesLevel;

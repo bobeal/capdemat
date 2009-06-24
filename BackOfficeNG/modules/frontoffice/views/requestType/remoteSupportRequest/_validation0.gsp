@@ -70,7 +70,7 @@
           
 
         
-          <dt><g:message code="rsr.property.requestInformationEmergencyMotive.label" /></dt><dd>${rqt.requestInformationEmergencyMotive}</dd>
+          <dt><g:message code="rsr.property.requestInformationEmergencyMotive.label" /></dt><dd>${rqt.requestInformationEmergencyMotive?.toString()}</dd>
 
         
       </dl>
@@ -80,10 +80,10 @@
       <h4><g:message code="rsr.property.spouse.label" /></h4>
       <dl>
         
-          <dt><g:message code="rsr.property.spouseLastName.label" /></dt><dd>${rqt.spouseLastName}</dd>
+          <dt><g:message code="rsr.property.spouseLastName.label" /></dt><dd>${rqt.spouseLastName?.toString()}</dd>
 
         
-          <dt><g:message code="rsr.property.spouseFirstName.label" /></dt><dd>${rqt.spouseFirstName}</dd>
+          <dt><g:message code="rsr.property.spouseFirstName.label" /></dt><dd>${rqt.spouseFirstName?.toString()}</dd>
 
         
           <dt><g:message code="rsr.property.spouseTitle.label" /></dt>
@@ -130,13 +130,13 @@
       <h4><g:message code="rsr.property.firstContact.label" /></h4>
       <dl>
         
-          <dt><g:message code="rsr.property.contactLastName.label" /></dt><dd>${rqt.contactLastName}</dd>
+          <dt><g:message code="rsr.property.contactLastName.label" /></dt><dd>${rqt.contactLastName?.toString()}</dd>
 
         
-          <dt><g:message code="rsr.property.contactFirstName.label" /></dt><dd>${rqt.contactFirstName}</dd>
+          <dt><g:message code="rsr.property.contactFirstName.label" /></dt><dd>${rqt.contactFirstName?.toString()}</dd>
 
         
-          <dt><g:message code="rsr.property.contactPhone.label" /></dt><dd>${rqt.contactPhone}</dd>
+          <dt><g:message code="rsr.property.contactPhone.label" /></dt><dd>${rqt.contactPhone?.toString()}</dd>
 
         
       </dl>
@@ -146,13 +146,13 @@
       <h4><g:message code="rsr.property.secondContact.label" /></h4>
       <dl>
         
-          <dt><g:message code="rsr.property.secondContactLastName.label" /></dt><dd>${rqt.secondContactLastName}</dd>
+          <dt><g:message code="rsr.property.secondContactLastName.label" /></dt><dd>${rqt.secondContactLastName?.toString()}</dd>
 
         
-          <dt><g:message code="rsr.property.secondContactFirstName.label" /></dt><dd>${rqt.secondContactFirstName}</dd>
+          <dt><g:message code="rsr.property.secondContactFirstName.label" /></dt><dd>${rqt.secondContactFirstName?.toString()}</dd>
 
         
-          <dt><g:message code="rsr.property.secondContactPhone.label" /></dt><dd>${rqt.secondContactPhone}</dd>
+          <dt><g:message code="rsr.property.secondContactPhone.label" /></dt><dd>${rqt.secondContactPhone?.toString()}</dd>
 
         
       </dl>
@@ -162,13 +162,13 @@
       <h4><g:message code="rsr.property.trustee.label" /></h4>
       <dl>
         
-          <dt><g:message code="rsr.property.trusteeLastName.label" /></dt><dd>${rqt.trusteeLastName}</dd>
+          <dt><g:message code="rsr.property.trusteeLastName.label" /></dt><dd>${rqt.trusteeLastName?.toString()}</dd>
 
         
-          <dt><g:message code="rsr.property.trusteeFirstName.label" /></dt><dd>${rqt.trusteeFirstName}</dd>
+          <dt><g:message code="rsr.property.trusteeFirstName.label" /></dt><dd>${rqt.trusteeFirstName?.toString()}</dd>
 
         
-          <dt><g:message code="rsr.property.trusteePhone.label" /></dt><dd>${rqt.trusteePhone}</dd>
+          <dt><g:message code="rsr.property.trusteePhone.label" /></dt><dd>${rqt.trusteePhone?.toString()}</dd>
 
         
       </dl>
@@ -189,9 +189,13 @@
           <g:if test="${document.endValidityDate}">${message(code:'document.header.expireOn')} ${formatDate(date:document.endValidityDate,formatName:'format.date')}</g:if>
         </dt>
         <dd>
-          <g:if test="${document.isNew}"><span class="tag-state tag-active">${message(code:'document.header.new')}</span></g:if>
-          <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">${message(code:'document.header.preview')}</a>
-        </dd>
+          <g:if test="${document.isNew}"><span class="tag-state tag-active">${message(code:'document.header.new')}</span>
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&sessionUuid=${uuidString}" target="blank">${message(code:'document.header.preview')}</a>
+          </g:if>
+          <g:else>
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">${message(code:'document.header.preview')}</a>
+          </g:else>
+          </dd>
         </g:each>
       </dl>
       </g:if>

@@ -50,7 +50,7 @@
     
       
       <dl>
-        <dt><g:message code="hsr.property.alertPhone.label" /></dt><dd>${rqt.alertPhone}</dd>
+        <dt><g:message code="hsr.property.alertPhone.label" /></dt><dd>${rqt.alertPhone?.toString()}</dd>
 
       </dl>
       
@@ -62,14 +62,14 @@
     
       
       <dl>
-        <dt><g:message code="hsr.property.otherContactLastName.label" /></dt><dd>${rqt.otherContactLastName}</dd>
+        <dt><g:message code="hsr.property.otherContactLastName.label" /></dt><dd>${rqt.otherContactLastName?.toString()}</dd>
 
       </dl>
       
     
       
       <dl>
-        <dt><g:message code="hsr.property.otherContactFirstName.label" /></dt><dd>${rqt.otherContactFirstName}</dd>
+        <dt><g:message code="hsr.property.otherContactFirstName.label" /></dt><dd>${rqt.otherContactFirstName?.toString()}</dd>
 
       </dl>
       
@@ -94,7 +94,7 @@
     
       
       <dl>
-        <dt><g:message code="hsr.property.otherContactPhone.label" /></dt><dd>${rqt.otherContactPhone}</dd>
+        <dt><g:message code="hsr.property.otherContactPhone.label" /></dt><dd>${rqt.otherContactPhone?.toString()}</dd>
 
       </dl>
       
@@ -137,9 +137,13 @@
           <g:if test="${document.endValidityDate}">${message(code:'document.header.expireOn')} ${formatDate(date:document.endValidityDate,formatName:'format.date')}</g:if>
         </dt>
         <dd>
-          <g:if test="${document.isNew}"><span class="tag-state tag-active">${message(code:'document.header.new')}</span></g:if>
-          <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">${message(code:'document.header.preview')}</a>
-        </dd>
+          <g:if test="${document.isNew}"><span class="tag-state tag-active">${message(code:'document.header.new')}</span>
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&sessionUuid=${uuidString}" target="blank">${message(code:'document.header.preview')}</a>
+          </g:if>
+          <g:else>
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank">${message(code:'document.header.preview')}</a>
+          </g:else>
+          </dd>
         </g:each>
       </dl>
       </g:if>

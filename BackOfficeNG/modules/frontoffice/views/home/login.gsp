@@ -21,10 +21,12 @@
             
             <label for="password"><g:message code="account.property.password"/></label>
             <input type="password" id="password" name="password" />
-            <input type="submit" value="${message(code:'action.login')}" />
-            <a href="${createLink(controller : 'frontofficeHomeFolder', action:'resetPassword')}">
-              <g:message code="account.message.forgottenPassword" />
-            </a>
+            <p>
+              <input type="submit" value="${message(code:'action.login')}" />
+              <a href="${createLink(controller : 'frontofficeHomeFolder', action:'resetPassword')}">
+                <g:message code="account.message.forgottenPassword" />
+              </a>
+            </p>
             <g:if test="${flash.isOutOfAccountRequest}">
               <input type="hidden" name="requestLabel" class="hidden" value="${requestLabel}" />
             </g:if>

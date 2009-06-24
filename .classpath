@@ -131,6 +131,7 @@
 	<classpathentry kind="lib" path="Libraries/groovy/groovy-all-1.5.4.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.joda/joda-time-1.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/opencsv/opencsv-1.8.jar"/>
+	<classpathentry kind="lib" path="Libraries/jsch/jsch-0.1.41.jar" sourcepath="/home/jsb/Bureau/jsch-0.1.41.zip"/>
 	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-1.5.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-tiger-1.5.6.jar"/>

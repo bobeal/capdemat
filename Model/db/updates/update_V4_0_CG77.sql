@@ -131,3 +131,8 @@ alter table study_grant_request add column account_holder_first_name  varchar(38
 alter table external_service_traces alter column key type character varying(255);
 
 update request_type set label = 'VO Card' where label = 'VO Card Request';
+
+alter table study_grant_request add column account_holder_edemande_id varchar(255);
+
+alter table external_service_traces add column subkey varchar(255);
+update external_service_traces set subkey = 'subject' where message like '%tiers%';

@@ -457,14 +457,16 @@ public interface IRequestService {
         throws CvqException;
     
     /**
-     * Entry point for business conditions treatments
-     * @param triggers - A map where key=control.name and value=control.value, for all controls triggering the same condition 
+     * Entry point for business conditions treatments.
+     * 
+     * @param triggers - A map where key=control.name and value=control.value, 
+     *      for all controls triggering the same condition 
      */
     boolean isConditionFilled (Map<String, String> triggers);
 
     /**
-     * Insert home folder, subject and requester XML data into the request XML data
-     * to generate a full XML to send to external services
+     * Insert home folder, subject and requester data into the XML representation of
+     * the request.
      */
     XmlObject fillRequestXml(Request request)
         throws CvqException;

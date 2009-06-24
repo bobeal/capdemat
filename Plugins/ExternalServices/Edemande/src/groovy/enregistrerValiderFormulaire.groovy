@@ -51,16 +51,40 @@
    <mdtDateDecision/>
    <msComment/>
    <msCodext>${msCodext}</msCodext>
-   <mdMtDemande>1000,00</mdMtDemande>
+   <mdMtDemande/>
    <mvListePiecesReq/>
-   <mvListePiecesRecu/>
+   <mvListePiecesRecu>
+    <% documents.each { %>
+     <CBdosPieceRecueVO>
+      <msDescri/>
+      <msLib>PJ</msLib>
+      <miNombre>1</miNombre>
+      <moDocument>
+       <msDescri/>
+       <msLib/>
+       <miNombre/>
+       <% it.parts.each { %>
+        <moImage>
+         <msReferenceExt>${it.filename}</msReferenceExt>
+         <mtbFluxBinaire>${it.filename}</mtbFluxBinaire>
+         <msSourceImage>${it.filename}</msSourceImage>
+         <msCle/>
+        </moImage>
+       <% } %>
+       <moFormat>
+        <msTypeMime>text/plain</msTypeMime>
+       </moFormat>
+      </moDocument>
+     </CBdosPieceRecueVO>
+    <% } %>
+   </mvListePiecesRecu>
    <mvListeInformations/>
    <moLot/>
    <moLigneDossier/>
   </CBdosDemandeVO>
   <DemandeTiers>
    <CodeAppliSecto>EXTSUB</CodeAppliSecto>
-   <NumAppliSecto>1242713008262</NumAppliSecto>
+   <NumAppliSecto/>
    <miCode>${psCodeTiers}</miCode>
    <LoginUtilisateurGda/>
    <msNom>${lastName}</msNom>
@@ -89,7 +113,7 @@
     <miCode/>
    </moCdrAppartenance>
    <moSectorisation>
-    <miCode/>
+    <miCode>${taxHouseholdCityCode}</miCode>
    </moSectorisation>
    <mvAdresses>
     <CTierAdresseVO>
@@ -112,7 +136,6 @@
    </mvAdresses>
    <mvReferencesBancaires>
     <CTierReferenceBancaireVO>
-      <miCode>1</miCode>
       <moModePaiement>
         <msDescription>Virement bancaire</msDescription>
       </moModePaiement>
@@ -125,7 +148,7 @@
       <mbEtranger>false</mbEtranger>
       <mbIban>false</mbIban>
       <mbUsuel>true</mbUsuel>
-      <msIntitule>XXXXXXXXX</msIntitule>
+      <msIntitule/>
       <miBloquee>0</miBloquee>
       <mdtDateBlocage/>
       <msMotifBlocage/>
@@ -151,40 +174,7 @@
    </PersonnePhysique>
    <mvDocuments/>
   </DemandeTiers>
-  <mvIndicateurs>
-   <SiteInternet/>
-   <EstAsso>false</EstAsso>
-   <EstAssoLoi1901>false</EstAssoLoi1901>
-   <NumEnregPref/>
-   <DtJournalOfficiel/>
-   <EstAssoUtilitePublique>false</EstAssoUtilitePublique>
-   <DtReconnaissanceUtilPub/>
-   <EstAssoAgreee>false</EstAssoAgreee>
-   <AgrementAutres1/>
-   <NumAgrementAutres1/>
-   <DtAgrementAutres1/>
-   <AgrementAutres2/>
-   <NumAgrementAutres2/>
-   <DtAgrementAutres2/>
-   <EstAssoAffilieeFederation>false</EstAssoAffilieeFederation>
-   <FederationAffiliee1/>
-   <FederationAffiliee2/>
-   <NumFederationAffiliee1/>
-   <NumFederationAffiliee2/>
-   <EstCommune>true</EstCommune>
-   <EstSociete>false</EstSociete>
-   <EstEtablissementScolaire>false</EstEtablissementScolaire>
-   <EstEtablissementPublic>false</EstEtablissementPublic>
-   <EstAutre>false</EstAutre>
-   <LibelleAgrement/>
-   <NumAgrement/>
-   <DtAgrement/>
-   <LibelleLicence/>
-   <NumLicence/>
-   <DtLicence/>
-   <LibelleLabel/>
-   <NumLabel/>
-  </mvIndicateurs>
+  <mvIndicateurs/>
  </FormCommunOrbeon>
  <FormDispositif>
   <InfoXml type="" nom="">

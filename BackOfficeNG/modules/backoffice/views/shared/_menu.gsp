@@ -13,12 +13,14 @@
     <a id="requestMenuItem" href="<g:createLink controller='backofficeRequest'/>">
       <g:message code="menu.search" />
     </a>
-    <a id="statisticsMenuItem" href="<g:createLink controller='backofficeStatistic'/>">
-      <g:message code="menu.statistics" />
-    </a>
     <a id="requestTypeMenuItem" href="<g:createLink controller='backofficeRequestType'/>">
       <g:message code="menu.requestTypes" />
     </a>
+    <g:if test="${session.currentCredentialBean.isACategoryManager()}">
+      <a id="statisticsMenuItem" href="<g:createLink controller='backofficeStatistic'/>">
+        <g:message code="menu.statistics" />
+      </a>
+    </g:if>
   </g:if>
   <g:if test="${session.currentCredentialBean.hasSiteAdminRole()}">
     <a id="localAuthorityMenuItem" href="<g:createLink controller='backofficeLocalAuthority'/>">

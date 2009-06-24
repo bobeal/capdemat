@@ -15,7 +15,7 @@
 
   
     <label class=""><g:message code="snr.property.mobilePhone.label" />   <span><g:message code="snr.property.mobilePhone.help" /></span></label>
-            <input type="text" name="mobilePhone" value="${rqt.mobilePhone}" 
+            <input type="text" name="mobilePhone" value="${rqt.mobilePhone?.toString()}" 
                     class=" autofill-subjectFilling-listener-MobilePhone validate-phone" title="<g:message code="snr.property.mobilePhone.validationError" />"  maxLength="10"/>
             
 

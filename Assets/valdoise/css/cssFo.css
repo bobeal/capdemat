@@ -52,7 +52,7 @@ h2   { color: #fff; }
 
 /* main-box and summary-box */
 .summary-box h2,
-.main-box h2      { color: #fff; border-bottom: 3px solid #ff812b; background: #b6aca5; }
+.main-box h2      { color: #fff; border-bottom: 3px solid #ff812b; background: #b6aca5; margin:0;}
 .summary-box p,
 .main-box p       { padding: .1em 1em; }
 

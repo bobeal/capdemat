@@ -71,9 +71,15 @@ public class LocalReferentialImporter {
             
             for (Object o : csvReader.readAll()) {
                 String[] line = (String[])o;
-                logger.info(line[0]);
                 LocalReferentialEntry lrEntry = new LocalReferentialEntry();
-                lrEntry.addLabel("fr", line[0]);
+                if (line.length == 2) {
+                    logger.info(line[0] + " : " + line[1]);
+                    lrEntry.setKey(line[0]);
+                    lrEntry.addLabel("fr", line[1]);
+                } else {
+                    logger.info(line[0]);
+                    lrEntry.addLabel("fr", line[0]);
+                }
                 lrType.addEntry(lrEntry, null);
             }
             
@@ -98,10 +104,11 @@ public class LocalReferentialImporter {
             System.out.println(" USAGE - . ./invoke_localreferential_importer.sh [MODE] [CSV_FILE] [DATANAME]");
             System.out.println("  - [MODE] : One of {deployment | dev | help }");
             System.out.println("  - [CSV_FILE] : Csv file to import as local referential (separator=';' / quotechar='\"' / first line ignored)");
+            System.out.println("                 If the file has two columns, the first one is used as key and the second as label.");
+            System.out.println("                 Otherwise, the first column is used as label and the keys are generated.");
             System.out.println("  - [DATANAME] : LocalReferential data to update. One of");
             for(String dataName : authorizedLrTypeDataNames)
                 System.out.println("     . " + dataName);
-            
             System.exit(0);
         }
         
@@ -109,7 +116,7 @@ public class LocalReferentialImporter {
         String csvFileName = args[1];
         String lrTypeDataName = args[2];
         
-        ClassPathXmlApplicationContext cpxa = SpringApplicationContaxtLoader.loadContext(config);
+        ClassPathXmlApplicationContext cpxa = SpringApplicationContextLoader.loadContext(config);
         localAuthorityRegistry = (LocalAuthorityRegistry)cpxa.getBean("localAuthorityRegistry");
         localReferentialService = (ILocalReferentialService)cpxa.getBean("localReferentialService");
         

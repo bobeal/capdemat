@@ -47,7 +47,8 @@ class RequestCreationController {
         def requestService = null
         
         flash.fromDraft = true
-        
+        def targetAction
+        def newParams = [:]
         if(request.post) {
             requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
             def cRequest = session[params.uuidString].cRequest
@@ -55,12 +56,18 @@ class RequestCreationController {
             requestService.processDraft(cRequest)
             flash.cRequest = cRequest
             flash.confirmationMessage = message(code:'message.savedAsDraft')
+            targetAction = 'step'
+            newParams.uuidString = params.uuidString
+            newParams.requestTypeInfo = params.requestTypeInfo
+            if (!params.currentTabIndex) params.currentTabIndex = 0
+            newParams.('submit-draft-' + JSON.parse(params.requestTypeInfo).steps.get(Integer.valueOf(params.currentTabIndex)).tokenize('-')[0]) = params.'submit-draft'
         } else if (request.get) {
             requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
             flash.cRequest = requestService.getById(Long.parseLong(params.id))
+            targetAction = 'edit'
+            newParams.label = requestService.label
         }
-        redirect(controller:controllerName, params:[
-            'label':requestService.label,'currentTabIndex': params.currentTabIndex])
+        redirect(controller : controllerName, action : targetAction, params : newParams)
         return false
     }
     
@@ -320,6 +327,9 @@ class RequestCreationController {
                 else homeFolderService.removeRole(owner, individual, homeFolderId, role)
                 stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
+            else if (submitAction[1] == 'draft') {
+                // do nothing as the draft has already been saved
+            }
             // standard save action
             else {
                 if (params.objectToBind != null)
@@ -333,10 +343,11 @@ class RequestCreationController {
                                                                     
                 if (submitAction[1] == 'step') {
                     if (currentStep == 'account') objectToBind.individuals.checkRoles()
-                    if (currentStep == 'document'
-                        &&  !documentAdaptorService.hasAssociatedDocuments(requestService, cRequest, uuidString, newDocuments)) {
-                        throw new CvqException("request.step.document.error.noAssociatedDocument")
-                    }
+                    // TODO : not really an error ... maybe display only a warning message ?
+//                    if (currentStep == 'document'
+//                        &&  !documentAdaptorService.hasAssociatedDocuments(requestService, cRequest, uuidString, newDocuments)) {
+//                        throw new CvqException("request.step.document.error.noAssociatedDocument")
+//                    }
                         
                     stepState(cRequest.stepStates.get(currentStep), 'complete', '')
                 }
@@ -376,6 +387,7 @@ class RequestCreationController {
                     if (params.returnUrl != "") {
                         parameters.returnUrl = params.returnUrl
                     }
+                    parameters.canFollowRequest = params.'_requester.activeHomeFolder'
                     redirect(action:'exit', params:parameters)
                     return
                 }
@@ -453,7 +465,7 @@ class RequestCreationController {
                     ['requestTypeLabel': translationService.translateRequestTypeLabel(cRequest.requestType.label).encodeAsHTML(),
                      'rqt': cRequest,
                      'requester': requester,
-                     'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
+                     'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card Request'),
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
                     ])
     }

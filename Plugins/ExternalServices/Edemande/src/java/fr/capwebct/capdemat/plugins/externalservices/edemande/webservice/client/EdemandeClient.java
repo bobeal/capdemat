@@ -15,8 +15,6 @@ import org.springframework.oxm.XmlMappingException;
 import org.springframework.ws.client.WebServiceClientException;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-import com.unilog.gda.edem.service.AjouterPiecesJointesDocument;
-import com.unilog.gda.edem.service.AjouterPiecesJointesResponseDocument;
 import com.unilog.gda.edem.service.ChargerDemandeDocument;
 import com.unilog.gda.edem.service.ChargerDemandeResponseDocument;
 import com.unilog.gda.edem.service.ChargerTypeDemandeDocument;
@@ -35,7 +33,6 @@ import com.unilog.gda.edem.service.RechercherTiersDocument;
 import com.unilog.gda.edem.service.RechercherTiersResponseDocument;
 import com.unilog.gda.edem.service.VerifierRIBDocument;
 import com.unilog.gda.edem.service.VerifierRIBResponseDocument;
-import com.unilog.gda.edem.service.AjouterPiecesJointesDocument.AjouterPiecesJointes;
 import com.unilog.gda.edem.service.ChargerDemandeDocument.ChargerDemande;
 import com.unilog.gda.edem.service.ChargerTypeDemandeDocument.ChargerTypeDemande;
 import com.unilog.gda.edem.service.EnregistrerValiderFormulaireDocument.EnregistrerValiderFormulaire;
@@ -60,7 +57,6 @@ public class EdemandeClient implements IEdemandeClient {
     private ClassPathResource enregistrerValiderFormulaireTemplate;
     private ClassPathResource rechercherTiersTemplate;
     private ClassPathResource creerTiersTemplate;
-    private ClassPathResource ajouterPiecesJointesTemplate;
 
     public ChargerTypeDemandeResponseDocument chargerTypeDemande(Object requestPayload)
         throws CvqException {
@@ -230,42 +226,6 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
-    public AjouterPiecesJointesResponseDocument ajouterPiecesJointes(Map<String, Object> model)
-        throws CvqException {
-        StringWriter request = new StringWriter();
-        try {
-            templateEngine.createTemplate(ajouterPiecesJointesTemplate.getURL()).make(model).writeTo(request);
-        } catch (FileNotFoundException e) {
-            logger.error("template parsing failed", e);
-            throw new CvqException("Erreur lors de la construction de la demande");
-        } catch (CompilationFailedException e) {
-            logger.error("template parsing failed", e);
-            throw new CvqException("Erreur lors de la construction de la demande");
-        } catch (ClassNotFoundException e) {
-            logger.error("template parsing failed", e);
-            throw new CvqException("Erreur lors de la construction de la demande");
-        } catch (IOException e) {
-            logger.error("template parsing failed", e);
-            throw new CvqException("Erreur lors de la construction de la demande");
-        }
-        AjouterPiecesJointesDocument ajouterPiecesJointesDocument = AjouterPiecesJointesDocument.Factory.newInstance();
-        AjouterPiecesJointes ajouterPiecesJointes = ajouterPiecesJointesDocument.addNewAjouterPiecesJointes();
-        ajouterPiecesJointes.setPsPieces(request.toString());
-        logger.debug("ajouterPieces() got payload : " + ajouterPiecesJointes.xmlText());
-        AjouterPiecesJointesResponseDocument result;
-        try {
-            result = (AjouterPiecesJointesResponseDocument)edemandeSuiviDemandeService.marshalSendAndReceive(ajouterPiecesJointesDocument);
-        } catch (XmlMappingException e) {
-            logger.error("error treating request", e);
-            throw new CvqException("Erreur lors du traitement de la demande");
-        } catch (WebServiceClientException e) {
-            logger.error("error sending request", e);
-            throw new CvqException("Erreur lors de l'envoi de la demande au service externe");
-        }
-        logger.debug("ajouterPieces() got result : " + result.xmlText());
-        return result;
-    }
-
     public RechercheDemandesTiersResponseDocument rechercheDemandesTiers(String psCodeTiers)
         throws CvqException {
         RechercheDemandesTiersDocument rechercheDemandesTiersDocument = RechercheDemandesTiersDocument.Factory.newInstance();
@@ -380,10 +340,6 @@ public class EdemandeClient implements IEdemandeClient {
 
     public void setCreerTiersTemplate(ClassPathResource creerTiersTemplate) {
         this.creerTiersTemplate = creerTiersTemplate;
-    }
-
-    public void setAjouterPiecesJointesTemplate(ClassPathResource ajouterPiecesJointesTemplate) {
-        this.ajouterPiecesJointesTemplate = ajouterPiecesJointesTemplate;
     }
 
 }

@@ -35,12 +35,11 @@
         <div class="yui-u">
           <h2>Créer un compte</h2>
           
-          En créant un compte, vous avez accès à 
+          En créant un compte, vous avez la possibilité de : 
           <ul>
-            <li>Un bouquet riche de plus de 30 téléservices</li>
-            <li>Du paiement en ligne sécurisé</li>
-            <li>Du stockage sécurisé de vos pièces justificatives</li>
-            <li>... Une nouvelle vie sans stress !</li>
+            <li>gérer vos données administratives et déclarer les membres de votre foyer,</li>
+            <li>accéder à des démarches en ligne pour vous ou un membre de votre foyer,</li>
+            <li>suivre l'avancement de vos demandes.</li>
           </ul>
           <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':'VO Card'])}"
           	 style="float:right;font-size:1.3em;margin-right:10%;">

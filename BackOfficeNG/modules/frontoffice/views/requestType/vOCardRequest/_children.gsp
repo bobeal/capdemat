@@ -18,7 +18,7 @@
         <option value=""><g:message code="message.select.defaultOption" /></option>
         <g:each in="${['Male','Female']}">
           <option value="fr.cg95.cvq.business.users.SexType_${it}" ${it == editList?.children?.sex?.toString() ? 'selected="selected"': ''}>
-              <g:capdematEnumToField var="${it}" i18nKeyPrefix="homeFolder.child.sex" />
+              <g:capdematEnumToField var="${it}" i18nKeyPrefix="homeFolder.child.property.sex" />
           </option>
         </g:each>
       </select>

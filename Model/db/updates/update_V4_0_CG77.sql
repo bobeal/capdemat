@@ -136,3 +136,4 @@ alter table study_grant_request add column account_holder_edemande_id varchar(25
 
 alter table external_service_traces add column subkey varchar(255);
 update external_service_traces set subkey = 'subject' where message like '%tiers%';
+

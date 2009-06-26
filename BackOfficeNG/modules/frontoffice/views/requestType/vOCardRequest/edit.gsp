@@ -24,9 +24,14 @@
     <p><g:message code="request.duration.label" /><strong> : <g:message code="vcr.duration.value" /></strong></p>
     <p>
       <g:message code="request.requiredDocuments.header" /> :
-      <g:each in="${documentTypes}" var="documentType" status="index">
-        <strong>${documentType.value.name}<g:if test="${index < documentTypes.size() - 1}">,</g:if></strong>
-      </g:each>
+      <g:if test="${!documentTypes.isEmpty()}">
+        <g:each in="${documentTypes}" var="documentType" status="index">
+          <strong>${documentType.value.name}<g:if test="${index < documentTypes.size() - 1}">,</g:if></strong>
+        </g:each>
+      </g:if>
+      <g:else>
+        <g:message code="message.none" />
+      </g:else>
     </p>
     <g:if test="${flash.confirmationMessage}">
       <p class="message-confirmation">${flash.confirmationMessage}</p>
@@ -64,13 +69,15 @@
           </em></a>
         </li>
 
+		<g:if test="${!documentTypes.isEmpty()}">
         <li class="${currentStep == 'document' ? 'selected' : ''}">
           <a href="#document"><em>
             <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <g:message code="request.step.document.label" />
           </em></a>
         </li>
-
+		</g:if>
+		
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
           <a href="#validation"><em>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
@@ -92,6 +99,7 @@
              <span><g:message code="vcr.step.adults.desc" /></span>
              <span class="error">${stepStates?.adults?.errorMsg}</span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/adults" /> 
            </div>
@@ -124,6 +132,7 @@
              <span><g:message code="vcr.step.children.desc" /></span>
              <span class="error">${stepStates?.children?.errorMsg}</span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/children" />
            </div>
@@ -157,6 +166,7 @@
              <span><g:message code="vcr.step.foreignAdults.desc" /></span>
              <span class="error">${stepStates?.adults?.errorMsg}</span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/foreignAdults" /> 
            </div>
@@ -190,6 +200,7 @@
              <span><g:message code="vcr.step.account.desc" /></span>
              <span class="error">${stepStates?.account?.errorMsg}</span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/account" /> 
            </div>
@@ -213,6 +224,7 @@
          </g:if>
        </div>
 
+       <g:if test="${!documentTypes.isEmpty()}">
        <div id="document">
          <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
            <h3>
@@ -245,7 +257,8 @@
          </div>
          </g:if>
        </div>  
-
+	   </g:if>
+	   
        <div id="validation">
          <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
            <h3>
@@ -257,6 +270,7 @@
              <span><g:message code="request.step.validation.desc" /></span>
              <span class="error">${stepStates?.validation?.errorMsg}</span>
            </h3>
+           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
              
            <label for="meansOfContact" class="required">

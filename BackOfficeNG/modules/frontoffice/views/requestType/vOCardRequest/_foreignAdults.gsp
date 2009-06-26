@@ -4,7 +4,6 @@
   <g:set var="listIndex" value="${editList?.name == 'foreignAdults' ? editList?.index : ( individuals?.foreignAdults ? individuals?.foreignAdults.size() : 0 ) }" />
 
   <fieldset class="account-fieldset-add">
-    <h4><g:message code="homeFolder.property.foreignAdults" /></h4>
     <div class="yui-g">
       <div class="yui-u first">
         <label class="required"><g:message code="homeFolder.adult.property.title" /></label>

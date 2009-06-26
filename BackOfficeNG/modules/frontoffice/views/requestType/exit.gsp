@@ -8,7 +8,7 @@
     <div class="main-box requestExit">
       <h2>${requestTypeLabel}</h2>
       <div class="info">
-        <g:if test="isEdition">
+        <g:if test="${isEdition}">
           <p><g:message code="request.message.successfulEdition" /></p>
         </g:if>
         <g:else>

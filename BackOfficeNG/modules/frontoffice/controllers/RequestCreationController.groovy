@@ -366,7 +366,11 @@ class RequestCreationController {
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
         
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
-                    if (cRequest.id && !cRequest.draft) requestService.rewindWorkflow(cRequest)
+                    def parameters = [:]
+                    if (cRequest.id && !cRequest.draft) {
+                        requestService.rewindWorkflow(cRequest)
+                        parameters.isEdition = true
+                    }
                     else if (requestTypeInfo.label == 'Home Folder Modification') {
                         cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
                         requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
@@ -383,7 +387,8 @@ class RequestCreationController {
                         requestService.addNote(cRequest.id, RequestNoteType.PUBLIC, params.requestNote)
                     }
                     session.removeAttribute(uuidString)
-                    def parameters = ['id':cRequest.id, 'label':requestTypeInfo.label]
+                    parameters.id = cRequest.id
+                    parameters.label = requestTypeInfo.label
                     if (params.returnUrl != "") {
                         parameters.returnUrl = params.returnUrl
                     }
@@ -465,8 +470,9 @@ class RequestCreationController {
                     ['requestTypeLabel': translationService.translateRequestTypeLabel(cRequest.requestType.label).encodeAsHTML(),
                      'rqt': cRequest,
                      'requester': requester,
-                     'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card Request'),
-                     'returnUrl' : (params.returnUrl != null ? params.returnUrl : "")
+                     'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card'),
+                     'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
+                     'isEdition' : params.isEdition
                     ])
     }
     

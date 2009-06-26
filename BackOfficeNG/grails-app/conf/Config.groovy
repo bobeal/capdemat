@@ -162,6 +162,7 @@ jcaptchas {
 
 environments {
     development {
+        i18n.basedir = "classpath:"
         log4j {
             appender.'stdout.layout.ConversionPattern'='[%d{ABSOLUTE}] %c{2} %m%n'
             appender.'errors.layout.ConversionPattern'='[%d{ABSOLUTE}] %c{2} %m%n'
@@ -171,6 +172,7 @@ environments {
         }
     }
     production {
+        i18n.basedir = "/WEB-INF"
         log4j {
             appender.'stdout.layout.ConversionPattern'='[%d{ISO8601}] %c{2} %m%n'
             appender.'errors.layout.ConversionPattern'='[%d{ISO8601}] %c{2} %m%n'

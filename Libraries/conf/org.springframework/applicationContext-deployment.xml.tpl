@@ -205,14 +205,14 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="translationService" class="fr.cg95.cvq.util.translation.impl.TranslationService">
     <property name="messageSource">
-      <bean class="fr.cg95.cvq.util.translation.FolderReloadableResourceBundleMessageSource">
+      <bean class="fr.cg95.cvq.util.translation.FolderReloadableResourceBundleMessageSource" autowire="constructor">
         <property name="cacheSeconds" value="${translationService.cacheSeconds}" />
         <property name="defaultEncoding" value="UTF-8" />
-        <property name="paths">
+        <constructor-arg index="1">
           <list>
-            <value>grails-app/i18n</value>
+            <value>${i18n.basedir}/grails-app/i18n</value>
           </list>
-        </property>
+        </constructor-arg>
       </bean>
     </property>
   </bean>

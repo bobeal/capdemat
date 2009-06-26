@@ -6,21 +6,31 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 /**
  * @author jsb@zenexity.fr
  *
  */
 public class FolderReloadableResourceBundleMessageSource extends
-        ReloadableResourceBundleMessageSource {
+        ReloadableResourceBundleMessageSource implements ResourceLoaderAware {
 
-    public void setPaths(String[] paths) throws IOException {
+    private ResourceLoader resourceLoader;
+
+    public FolderReloadableResourceBundleMessageSource(ResourceLoader resourceLoader, String[] paths)
+        throws IOException {
+        this.resourceLoader = resourceLoader;
+        super.setResourceLoader(resourceLoader);
+        setPaths(paths);
+    }
+
+    private void setPaths(String[] paths) throws IOException {
         Set<String> basenames = new HashSet<String>();
         for (String path : paths) {
-            Resource resource = new ClassPathResource(path);
+            Resource resource = resourceLoader.getResource(path);
             if (resource.exists()) {
                 basenames.addAll(parseBasenames(new File[]{resource.getFile()}, StringUtils.substringBeforeLast(path, "/")));
             }
@@ -32,7 +42,7 @@ public class FolderReloadableResourceBundleMessageSource extends
         Set<String> basenames = new HashSet<String>();
         for (File file : files) {
             if (file.isFile()) {
-                basenames.add("classpath:" + root + "/" + parseBasename(file));
+                basenames.add(root + "/" + parseBasename(file));
             } else if (file.isDirectory()) {
                 basenames.addAll(parseBasenames(file.listFiles(), root + "/" + file.getName()));
             }

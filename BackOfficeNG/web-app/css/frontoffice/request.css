@@ -182,14 +182,15 @@ h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
 #requestTabView .account-fieldset-edit h4 input[type="submit"] { margin: 0; font-size: .6em; }
 
 #requestTabView .account-fieldset-edit dl     { background: #fff; }
-#requestTabView .account-fieldset-edit dl dt  { width: 22em; }
-#requestTabView .account-fieldset-edit dl dd  { width: 16.75em; }
+#requestTabView .summary-box dl dt  { width: 50%; }
+#requestTabView .summary-box dl dd  { width: 42%; }
+#requestTabView .summary-box dl input { font-size: .85em; }
 #requestTabView .account-fieldset-edit dl input,  
-#requestTabView .account-fieldset-edit dl select { font-size: .85em; margin-bottom: 0; }
+#requestTabView .account-fieldset-edit dl select { margin-bottom: 0; }
 
 #requestTabView .account-fieldset-edit dl.role-add       { border-color: #bbb !important; background: transparent !important; }
-#requestTabView .account-fieldset-edit dl.role-add dt    { width: 15em; border-color: #bbb !important; }
-#requestTabView .account-fieldset-edit dl.role-add dd    { width: 22.5em; padding: .5em; border-color: #bbb !important; }
+#requestTabView .account-fieldset-edit dl.role-add dt    { border-color: #bbb !important; }
+#requestTabView .account-fieldset-edit dl.role-add dd    { padding: .5em; border-color: #bbb !important; }
 #requestTabView .account-fieldset-edit dl.role-add dd a  { display: block; }
 
 #requestTabView .account-fieldset-edit select,

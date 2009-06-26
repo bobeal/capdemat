@@ -277,7 +277,9 @@
              </g:each>
            </select>
   
-            <g:render template="/frontofficeRequestType/vOCardRequest/validation" /> 
+           <div class="summary-box">
+             <g:render template="/frontofficeRequestType/vOCardRequest/validation" />
+           </div>
 
 						<h3><g:message code="request.step.validation.label" /></h3>
             <g:if test="${!hasHomeFolder}">

@@ -49,7 +49,7 @@
       <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-children-children[${index}]" />
       <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-children-children[${index}]" />
     </h4>
-    <dl>
+    <div class="summary-box"><dl>
       <!--
       <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt>
       <dd>${it.lastName}</dd>
@@ -62,7 +62,7 @@
 
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
       <dd><span><g:formatDate formatName="format.date" date="${it.birthDate}"/></span></dd>
-    </dl>
+    </dl></div>
   </fieldset>
   </g:each>
 </div>

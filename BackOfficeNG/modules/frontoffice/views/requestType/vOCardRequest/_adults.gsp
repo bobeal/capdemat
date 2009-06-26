@@ -88,7 +88,7 @@
         <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-adults-adults[${index}]" />
         <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-adults-adults[${index}]" />
       </h4> 
-      <dl>
+      <div class="summary-box"><dl>
         <!--
         <dt><g:message code="homeFolder.adult.property.title" /> : </dt>
         <dd> <g:capdematEnumToField var="${it.title}" i18nKeyPrefix="homeFolder.adult.title" /></dd>
@@ -121,13 +121,12 @@
 
         <dt><g:message code="homeFolder.adult.property.homePhone" /> : </dt>
         <dd>${it.homePhone}</dd>
-
         <dt><g:message code="homeFolder.adult.property.mobilePhone" /> : </dt>
         <dd>${it.mobilePhone}</dd>
 
         <dt><g:message code="homeFolder.adult.property.officePhone" /> : </dt>
         <dd>${it.officePhone}</dd>
-      </dl>
+      </dl></div>
     </fieldset>
   </g:each>
 </div>

@@ -2,7 +2,7 @@
   <input type="hidden" name="homeFolderId" value="${individuals?.homeFolderId}" />
   <fieldset class="account-fieldset-edit validation-scope">
     <g:if test="${individuals.getHomeFolderResponsibles(individuals?.adults).size() > 0}">
-      <dl>
+      <div class="summary-box"><dl>
       <g:each var="roleOwner" in="${individuals.getHomeFolderResponsibles(individuals?.adults)}">
         <dt>
           <g:capdematEnumToFlag var="${roleOwner.role}" i18nKeyPrefix="homeFolder.role" /> 
@@ -10,7 +10,7 @@
         </dt>
         <dd><input type="submit" name="submit-removeRole-account-ownerType:adults_ownerIndex:${roleOwner.index}_role:${roleOwner.role}" value="${message(code:'action.remove')}" /></dd>
       </g:each>
-      </dl>
+      </dl></div>
     </g:if>
     
     <p>${message(code:'homeFolder.property.responsible.help')}</p>
@@ -35,7 +35,7 @@
   
   <fieldset class="account-fieldset-edit validation-scope">
     <g:if test="${individuals.getHomeFolderTutors(individuals?.adults).size() + individuals.getHomeFolderTutors(individuals?.foreignAdults).size() > 0}">
-      <dl>
+      <div class="summary-box"><dl>
       <g:each var="roleOwner" in="${individuals.getHomeFolderTutors(individuals?.adults)}">
         <dt>
           <g:capdematEnumToFlag var="${roleOwner.role}" i18nKeyPrefix="homeFolder.role" /> 
@@ -51,7 +51,7 @@
         </dt>
         <dd><input type="submit" name="submit-removeRole-account-ownerType:foreignAdults_ownerIndex:${roleOwner.index}_role:${roleOwner.role}" value="${message(code:'action.remove')}" /></dd>
       </g:each>
-      </dl>
+      </dl></div>
     </g:if>
     <p>${message(code:'homeFolder.property.accountTutors.help')}</p>
     <dl class="role-add">
@@ -100,7 +100,7 @@
     <fieldset class="account-fieldset-edit validation-scope">
       <h4>${it.fullName}</h4>
       <g:if test="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults).size()  + individuals.getRoleOwnersOnIndividual(it, individuals?.foreignAdults).size() > 0}">
-        <dl>
+        <div class="summary-box"><dl>
         <g:each var="roleOwner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults)}">
           <dt>
             <g:capdematEnumToFlag var="${roleOwner.role}" i18nKeyPrefix="homeFolder.role" /> 
@@ -116,7 +116,7 @@
           </dt>
           <dd><input type="submit" name="submit-removeRole-account-ownerType:foreignAdults_ownerIndex:${roleOwner.index}_role:${roleOwner.role}_individualIndex:${index}_individualType:children" value="${message(code:'action.remove')}" /></dd>
         </g:each>
-        </dl>
+        </dl></div>
       </g:if>
       <p>${message(code:'homeFolder.child.property.legalResponsibles.help')}</p>
       <dl class="role-add">
@@ -178,7 +178,7 @@
         <g:capdematEnumToField var="${it.title}" i18nKeyPrefix="homeFolder.adult.title" /> ${it.fullName}
       </h4>
       <g:if test="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults).size() + individuals.getRoleOwnersOnIndividual(it, individuals?.foreignAdults).size() > 0}">
-        <dl>
+        <div class="summary-box"><dl>
         <g:each var="roleOwner" in="${individuals.getRoleOwnersOnIndividual(it, individuals?.adults)}">
           <dt>
             <g:capdematEnumToFlag var="${roleOwner.role}" i18nKeyPrefix="homeFolder.role" /> ${roleOwner.owner.fullName}
@@ -192,7 +192,7 @@
           </dt>
           <dd><input type="submit" name="submit-removeRole-account-ownerType:foreignAdults_ownerIndex:${roleOwner.index}_role:${roleOwner.role}_individualIndex:${index}_individualType:adults" value="${message(code:'action.remove')}" /></dd>
         </g:each>
-        </dl>
+        </dl></div>
       </g:if>
       
       <p>${message(code:'homeFolder.property.adultTutors.help')}</p>

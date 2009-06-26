@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -145,7 +146,6 @@ public class EdemandeService implements IExternalProviderService {
             if (psCodeDemande != null && !psCodeDemande.trim().isEmpty() && !"-1".equals(psCodeDemande)) {
                 sgr.setEdemandeId(psCodeDemande);
                 try {
-                    // FIXME BOR : better to call requestService.modify(...) for business logic reuse
                     requestService.setEdemandeId(sgr.getId(), psCodeDemande);
                 } catch (CvqException e) {
                     // TODO
@@ -259,16 +259,20 @@ public class EdemandeService implements IExternalProviderService {
         }
         model.put("email",
             StringUtils.defaultString(sgr.getSubjectInformations().getSubjectEmail()));
-        //TODO translation
         if (sgr.getSubject().getAdult() != null) {
-            model.put("title", sgr.getSubject().getAdult().getTitle());
+            model.put("title",
+                translationService.translate("homeFolder.adult.title."
+                + sgr.getSubject().getAdult().getTitle().toString().toLowerCase(), Locale.FRANCE));
         } else {
             if (SexType.MALE.toString().equals(sgr.getSubject().getIndividual().getSex().toString())) {
-                model.put("title", "Monsieur");
+                model.put("title",
+                    translationService.translate("homeFolder.adult.title.mister", Locale.FRANCE));
             } else if (SexType.FEMALE.toString().equals(sgr.getSubject().getIndividual().getSex().toString())) {
-                model.put("title", "Mademoiselle");
+                model.put("title",
+                    translationService.translate("homeFolder.adult.title.miss", Locale.FRANCE));
             } else {
-                model.put("title", "Inconnu");
+                model.put("title",
+                    translationService.translate("homeFolder.adult.title.unknown", Locale.FRANCE));
             }
         }
         model.put("firstName", sgr.getSubject().getIndividual().getFirstName());
@@ -296,7 +300,9 @@ public class EdemandeService implements IExternalProviderService {
 
     private void createAccountHolder(StudyGrantRequest sgr) {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("title", sgr.getAccountHolderTitle());
+        model.put("title",
+            translationService.translate("homeFolder.adult.title."
+            + sgr.getAccountHolderTitle().toString().toLowerCase(), Locale.FRANCE));
         model.put("lastName", sgr.getAccountHolderLastName());
         //FIXME placeholders; are these really needed ?
         model.put("address", sgr.getSubjectInformations().getSubjectAddress());
@@ -356,16 +362,21 @@ public class EdemandeService implements IExternalProviderService {
         model.put("hasEuropeHelp", sgr.getHasEuropeHelp());
         model.put("hasOtherHelp", sgr.getHasOtherHelp());
         model.put("AlevelsDate", sgr.getALevelsInformations().getAlevelsDate());
-        model.put("AlevelsType", sgr.getALevelsInformations().getAlevels().toString().toUpperCase());
-        model.put("currentStudiesType", sgr.getCurrentStudiesInformations().getCurrentStudies().toString().toUpperCase());
-        model.put("currentStudiesLevel", sgr.getCurrentStudiesInformations().getCurrentStudiesLevel().toString());
+        model.put("AlevelsType",
+            translationService.translate("sgr.property.alevels."
+            + sgr.getALevelsInformations().getAlevels().toString().toLowerCase(), Locale.FRANCE));
+        model.put("currentStudiesType",
+            translationService.translate("sgr.property.currentStudies."
+            + sgr.getCurrentStudiesInformations().getCurrentStudies().toString(), Locale.FRANCE));
+        model.put("currentStudiesLevel",
+            translationService.translate("sgr.property.currentStudiesLevel."
+            + sgr.getCurrentStudiesInformations().getCurrentStudiesLevel().toString(), Locale.FRANCE));
         model.put("sandwichCourses", sgr.getCurrentStudiesInformations().getSandwichCourses());
         model.put("abroadInternship", sgr.getCurrentStudiesInformations().getAbroadInternship());
         model.put("abroadInternshipStartDate",
             formatDate(sgr.getCurrentStudiesInformations().getAbroadInternshipStartDate()));
         model.put("abroadInternshipEndDate",
                 formatDate(sgr.getCurrentStudiesInformations().getAbroadInternshipEndDate()));
-        // FIXME - manage all localReferentialData use case (not requiere, mutliples values)
         model.put("currentSchoolName",
             StringUtils.defaultIfEmpty(sgr.getCurrentSchool().getCurrentSchoolNamePrecision(),
             sgr.getCurrentSchool().getCurrentSchoolNameArray(0).getName()));
@@ -379,8 +390,9 @@ public class EdemandeService implements IExternalProviderService {
             sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolName() : "");
         model.put("abroadInternshipSchoolCountry", sgr.getCurrentStudiesInformations().getAbroadInternship() ?
             sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry() : "");
-        //TODO translation
-        model.put("distance", sgr.getDistance().toString());
+        model.put("distance",
+            translationService.translate("sgr.property.distance."
+            + sgr.getDistance().toString(), Locale.FRANCE));
         List<Map<String, Object>> documents = new ArrayList<Map<String, Object>>();
         model.put("documents", documents);
         try {

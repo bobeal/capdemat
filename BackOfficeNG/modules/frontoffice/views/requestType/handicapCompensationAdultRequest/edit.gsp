@@ -689,11 +689,13 @@
                  <option value="${moc.key}" <g:if test="${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>>${moc.label}</option>
                </g:each>
              </select>
+             <div class="summary-box">
     
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/validation0" />
     
             <g:render template="/frontofficeRequestType/handicapCompensationAdultRequest/validation1" />
     
+            </div>
             <h3><g:message code="request.step.note.label" /></h3>
             <g:message code="request.step.note.desc" />
             <textarea name="requestNote" rows="" cols=""></textarea>
@@ -704,7 +706,7 @@
             <div id="useAcceptance">
              <input type="checkbox" name="useAcceptance" class="required validate-one-required"
                     title="${message(code:'request.error.useAcceptanceRequired')}" />
-             <a href="${createLink(controller:'localAuthorityResource',action:'pdf',id:'use')}" target="blank">
+             <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'use')}" target="blank">
                <g:message code="request.step.validation.useAcceptance"/>
              </a>
            </div>

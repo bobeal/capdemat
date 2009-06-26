@@ -147,7 +147,8 @@ public class LocalAuthorityRegistry
 
     @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.READ)
     public boolean isAvailableLocalAuthorityServerName(String serverName) {
-        return (serverNameMappings.get(serverName) == null || serverNameMappings.get(serverName).getId().compareTo(SecurityContext.getCurrentSite().getId()) == 0);
+        return (serverNameMappings.get(serverName) == null 
+                || serverNameMappings.get(serverName).getId().equals(SecurityContext.getCurrentSite().getId()));
     }
 
     public LocalAuthorityConfigurationBean getLocalAuthorityBeanByName(final String name) {

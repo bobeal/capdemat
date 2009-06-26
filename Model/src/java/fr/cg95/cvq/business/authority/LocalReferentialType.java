@@ -51,18 +51,21 @@ public class LocalReferentialType {
     public final String getDataName() {
         return dataName;
     }
+    
     public final void setDataName(String dataName) {
         this.dataName = dataName;
     }
+    
     public final Set<LocalReferentialEntry> getEntries() {
         return entries;
     }
+    
     public final void setEntries(Set<LocalReferentialEntry> entries) {
         this.entries = entries;
     }
 
-    public final void addEntry(final LocalReferentialEntry lre , final LocalReferentialEntry parentLre) 
-            throws CvqLocalReferentialException {
+    public final void addEntry(final LocalReferentialEntry lre, 
+            final LocalReferentialEntry parentLre) throws CvqLocalReferentialException {
         if (lre.getKey() == null)
             lre.setKey(generateEntryKey(lre, parentLre));
         putkeyEntry(lre);
@@ -75,7 +78,8 @@ public class LocalReferentialType {
         }
     }
     
-    public final void removeEntry(final LocalReferentialEntry lre , final LocalReferentialEntry parentLre) {
+    public final void removeEntry(final LocalReferentialEntry lre, 
+            final LocalReferentialEntry parentLre) {
         removeKeyEntries(lre.getEntries());
         keyEntriesMap.remove(lre.getKey());
         if (parentLre != null)

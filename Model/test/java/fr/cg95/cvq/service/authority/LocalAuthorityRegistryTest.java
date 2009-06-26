@@ -95,12 +95,12 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
         String serverName = la.getServerNames().first();
         assertTrue(iLocalAuthorityRegistry.isAvailableLocalAuthorityServerName(serverName));
         assertTrue(iLocalAuthorityRegistry.isAvailableLocalAuthorityServerName(serverName + "inexistent"));
-        SecurityContext.setCurrentSite(localAuthorityName + "2", SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite("gloubi", SecurityContext.BACK_OFFICE_CONTEXT);
         iLocalAuthorityRegistry.registerLocalAuthorityServerName(serverName + "existent");
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         continueWithNewTransaction();
         assertFalse(iLocalAuthorityRegistry.isAvailableLocalAuthorityServerName(serverName + "existent"));
-        SecurityContext.setCurrentSite(localAuthorityName + "2", SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite("gloubi", SecurityContext.BACK_OFFICE_CONTEXT);
         iLocalAuthorityRegistry.unregisterLocalAuthorityServerName(serverName + "existent");
     }
 

@@ -53,5 +53,6 @@ public class DocumentDigitalizationTest extends ServiceTestCase {
         } catch (CvqDisabledFunctionalityException cdfe) {
             // that was expected
         }
+        la.setDocumentDigitalizationEnabled(true);
     }
 }

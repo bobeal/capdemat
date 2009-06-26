@@ -38,6 +38,7 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
             if (sgr.getSubjectPhone() != null 
                     && (adult.getHomePhone() == null || adult.getHomePhone().isEmpty()))
                 adult.setHomePhone(sgr.getSubjectPhone());
+            adult.setEmail(sgr.getSubjectEmail());
         }
         individualService.modify(subject);
     }

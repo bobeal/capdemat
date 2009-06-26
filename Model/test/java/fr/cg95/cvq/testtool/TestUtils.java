@@ -48,20 +48,16 @@ public final class TestUtils {
         }
     }
     
-    public static void printLocalRefData(Set allLocalReferentialData) {
+    public static void printLocalRefData(Set<LocalReferentialType> allLocalReferentialData) {
 
-        Iterator dataIt = allLocalReferentialData.iterator();
-        while (dataIt.hasNext()) {
-            LocalReferentialType lrt = (LocalReferentialType) dataIt.next();
+        for (LocalReferentialType lrt : allLocalReferentialData) {
             logger.debug("From request : " + lrt.getRequest());
             logger.debug("Data name : " + lrt.getDataName());
 
             logger.debug("Labels : ");
-            Map labelsMap = lrt.getLabelsMap();
-            Iterator langIt = labelsMap.keySet().iterator();
-            while (langIt.hasNext()) {
-                String lang = (String) langIt.next();
-                String value = (String) labelsMap.get(lang);
+            Map<String, String> labelsMap = lrt.getLabelsMap();
+            for (String lang : labelsMap.keySet()) {
+                String value = labelsMap.get(lang);
                 logger.debug("Data for lang : " + lang + " is " + value);
             }
 
@@ -71,27 +67,20 @@ public final class TestUtils {
             logger.debug("Entries support multiple : " + lrt.getEntriesSupportMultiple());
 
             if (lrt.getEntries() != null) {
-                Set entries = lrt.getEntries();
-                Iterator entriesIt = entries.iterator();
-                while (entriesIt.hasNext()) {
-                    LocalReferentialEntry lre = (LocalReferentialEntry) entriesIt.next();
+                for (LocalReferentialEntry lre : lrt.getEntries()) {
                     printEntry(lre, 0);
                 }
             }
         }
     }
 
-    public static void printLocalRefDataSummary(Map allLocalRefDataSummary) {
+    public static void printLocalRefDataSummary(Map<String, Map<String, String>> allLocalRefDataSummary) {
 
-        Iterator keysIt = allLocalRefDataSummary.keySet().iterator();
-        while (keysIt.hasNext()) {
-            String dataName = (String) keysIt.next();
+        for (String dataName : allLocalRefDataSummary.keySet()) {
             logger.debug("Labels : ");
-            Map labelsMap = (Map) allLocalRefDataSummary.get(dataName);
-            Iterator langIt = labelsMap.keySet().iterator();
-            while (langIt.hasNext()) {
-                String lang = (String) langIt.next();
-                String value = (String) labelsMap.get(lang);
+            Map<String, String> labelsMap = allLocalRefDataSummary.get(dataName);
+            for (String lang : labelsMap.keySet()) {
+                String value = labelsMap.get(lang);
                 logger.debug("Data for lang : " + lang + " is " + value);
             }
         }

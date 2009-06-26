@@ -41,33 +41,25 @@ public class NextGenerationGenericDAOTest extends ServiceTestCase{
     
     public void testSelectQueries() throws Exception {
         //init
-        try {
-            int count = 5;
-            this.initTestEnvironment(count);
-            
-            // Simplest select test
-            Set<Long> ids = this.extractRequestIds();
-            Assert.assertEquals(ids.size(), count);
-            Set<Request> requests = this.extractRequestWithIn(ids);
-            Assert.assertEquals(requests.size(), count);
-            Assert.assertEquals(this.getCount(), count);
-            
-            // Cross join tests
-            Assert.assertEquals(this.extractRequestIdsViaActions().size(), count);
-            
-            // Composite criterias
-            Assert.assertEquals(this.realizeComplexIdsExtract(ids).size(), count);
-            Assert.assertEquals(this.realizeExtractionWithDescriptor(ids).size(), count);
-            Assert.assertEquals(this.realizeComplexIdsExtract2(ids).size(), count-1);
-            Assert.assertEquals(this.testDescriptorTop2(ids).size(), 2);
-            Assert.assertEquals(this.testDescriptorTop1(ids).size(), 1);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Unwaited exception trown : " + e.getMessage());
-            //throw e;
-        }
-        
+        int count = 5;
+        this.initTestEnvironment(count);
+
+        // Simplest select test
+        Set<Long> ids = this.extractRequestIds();
+        Assert.assertEquals(ids.size(), count);
+        Set<Request> requests = this.extractRequestWithIn(ids);
+        Assert.assertEquals(requests.size(), count);
+        Assert.assertEquals(this.getCount(), count);
+
+        // Cross join tests
+        Assert.assertEquals(this.extractRequestIdsViaActions().size(), count);
+
+        // Composite criterias
+        Assert.assertEquals(this.realizeComplexIdsExtract(ids).size(), count);
+        Assert.assertEquals(this.realizeExtractionWithDescriptor(ids).size(), count);
+        Assert.assertEquals(this.realizeComplexIdsExtract2(ids).size(), count-1);
+        Assert.assertEquals(this.testDescriptorTop2(ids).size(), 2);
+        Assert.assertEquals(this.testDescriptorTop1(ids).size(), 1);
     }
     
     private Set<Long> testDescriptorTop1(Set<Long> ids) throws ParseException {

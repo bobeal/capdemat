@@ -98,7 +98,8 @@ public class DraftManagementJobTest extends ServiceTestCase {
             SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
             SecurityContext.setCurrentEcitizen(bean.getLogin());
             Request request = new BirthDetailsRequest();
-            this.requestService.prepareDraft(request);
+            request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
+            request.setHomeFolderId(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
             Long id = this.requestService.processDraft(request);
             request = this.requestService.getById(id);
             request.setCreationDate(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,i*(-1)));

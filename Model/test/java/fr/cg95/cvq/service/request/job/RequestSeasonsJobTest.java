@@ -6,8 +6,6 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-import org.springframework.context.ConfigurableApplicationContext;
-
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.request.MeansOfContact;
@@ -36,51 +34,46 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        requestSeasonsJob = 
-            (RequestSeasonsJob) cac.getBean("requestSeasonsJob");
+        requestSeasonsJob = super.<RequestSeasonsJob>getApplicationBean("requestSeasonsJob");
         schoolRegistrationRequestService =
-            (ISchoolRegistrationRequestService) cac.getBean(ISchoolRegistrationRequestService.SERVICE_NAME);
+            super.<ISchoolRegistrationRequestService>getApplicationBean(ISchoolRegistrationRequestService.SERVICE_NAME);
     }
     
-    /* Bypass service business rules (like "request.season.registration_started")
+    /**
+     * Bypass service business rules (like "request.season.registration_started")
      * Add month's offset to registration and effect dates
      */
     private void daoUpdateSeason(String seasonUuid, int registrationStartOffset, 
             int registrationEndOffset, int effectStartOffset, int effectEndOffset) 
         throws CvqException {
-       try {
-           ConfigurableApplicationContext cac = getContext(getConfigLocations());
-           GenericDAO genericDAO = (GenericDAO)cac.getBean("genericDAO");
-       
-           Calendar calendar = new GregorianCalendar();
-           
-           Set<RequestSeason> seasonSet = requestType.getSeasons();
-           for (RequestSeason season : seasonSet)
-               if (season.getUuid().equals(seasonUuid)) {
-                   // registration start
-                   calendar.setTime(season.getRegistrationStart());
-                   calendar.add(Calendar.MONTH, registrationStartOffset);
-                   season.setRegistrationStart(calendar.getTime());
-                   // registration end
-                   calendar.setTime(season.getRegistrationEnd());
-                   calendar.add(Calendar.MONTH, registrationEndOffset);
-                   season.setRegistrationEnd(calendar.getTime());
-                   // effect start
-                   calendar.setTime(season.getEffectStart());
-                   calendar.add(Calendar.MONTH, effectStartOffset);
-                   season.setEffectStart(calendar.getTime());
-                   // effect end
-                   calendar.setTime(season.getEffectEnd());
-                   calendar.add(Calendar.MONTH, effectEndOffset);
-                   season.setEffectEnd(calendar.getTime());
-               }
-           
-           genericDAO.update(requestType);
-           continueWithNewTransaction();
-       } catch (Exception e) {
-           fail(e.getMessage());
-       }
+
+        GenericDAO genericDAO = super.<GenericDAO>getApplicationBean("genericDAO");
+
+        Calendar calendar = new GregorianCalendar();
+
+        Set<RequestSeason> seasonSet = requestType.getSeasons();
+        for (RequestSeason season : seasonSet)
+            if (season.getUuid().equals(seasonUuid)) {
+                // registration start
+                calendar.setTime(season.getRegistrationStart());
+                calendar.add(Calendar.MONTH, registrationStartOffset);
+                season.setRegistrationStart(calendar.getTime());
+                // registration end
+                calendar.setTime(season.getRegistrationEnd());
+                calendar.add(Calendar.MONTH, registrationEndOffset);
+                season.setRegistrationEnd(calendar.getTime());
+                // effect start
+                calendar.setTime(season.getEffectStart());
+                calendar.add(Calendar.MONTH, effectStartOffset);
+                season.setEffectStart(calendar.getTime());
+                // effect end
+                calendar.setTime(season.getEffectEnd());
+                calendar.add(Calendar.MONTH, effectEndOffset);
+                season.setEffectEnd(calendar.getTime());
+            }
+
+        genericDAO.update(requestType);
+        continueWithNewTransaction();
     }
 
     public void testJob() throws CvqException {
@@ -186,8 +179,10 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         requestFromDb = iRequestService.getById(requestId);
-        Assert.assertEquals(requestFromDb.getState(), RequestState.EXPIRED);
-        
+        assertEquals(requestFromDb.getState(), RequestState.EXPIRED);
         iRequestService.delete(requestId);
+        
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
+        iRequestTypeService.removeRequestTypeSeason(requestType.getId(), season.getUuid());
     }
 }

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -38,18 +37,18 @@ public class LocalReferentialService
 
     protected ILocalAuthorityRegistry localAuthorityRegistry;
 
-    private String commonReferentialFilename = "local_referential_cvq.xml";
-
     /**
      * A map of (localAuthorityName, {@link Map}(requestTypeLabel, {@link LocalReferentialDocument})).
      */
-    private Map<String, Map> localReferentialFileMap = new LinkedHashMap<String, Map>();
+    private Map<String, Map<String, LocalReferentialDocument>> localReferentialFileMap = 
+        new LinkedHashMap<String, Map<String, LocalReferentialDocument>>();
 
     /**
      * A map of (localAuthorityName, {@link Map}(requestTypeLabel, parsingTimestamp)).
      * Used to know if local referential file stored on disk changed since parsing time.
      */
-    private Map<String, Map> localReferentialTimestampMap = new LinkedHashMap<String, Map>();
+    private Map<String, Map<String, Long>> localReferentialTimestampMap = 
+        new LinkedHashMap<String, Map<String, Long>>();
     
     /**
      * A map of (dataName, requestTypeLabel).
@@ -111,19 +110,16 @@ public class LocalReferentialService
         logger.debug("removing request type : " + requestTypeLabel);
 
         synchronized(this) {
-            // remove entries from local referential file map
-            Iterator localReferentialFileMapIt = localReferentialFileMap.values().iterator();
-            while (localReferentialFileMapIt.hasNext()) {
-                Map requestTypeDoc = (Map) localReferentialFileMapIt.next();
+            // remove entries from local maps
+            
+            for (Map<String, LocalReferentialDocument> requestTypeDoc : localReferentialFileMap.values()) {
                 requestTypeDoc.remove(requestTypeLabel);
             }
-            Iterator localReferentialTimestampMapIt = localReferentialTimestampMap.values().iterator();
-            while (localReferentialTimestampMapIt.hasNext()) {
-                Map requestTypeDoc = (Map) localReferentialTimestampMapIt.next();
-                requestTypeDoc.remove(requestTypeLabel);
+            for (Map<String, Long> requestTypeTimestamp : localReferentialTimestampMap.values()) {
+                requestTypeTimestamp.remove(requestTypeLabel);
             }
 
-            // remove entries from local referential data map
+            // TODO remove entries from local referential data map
         }
     }
 
@@ -158,18 +154,12 @@ public class LocalReferentialService
 
         synchronized(this) {
 
-            // add entry for local authority and default request type
-            addLocalReferentialForLocalAuthority(localAuthorityName,
-                                                 commonReferentialFilename, "All");
-
             // for all already known request type services, add an entry for local authority
-            Iterator requestServicesIt = parsedRequestServices.iterator();
-            while (requestServicesIt.hasNext()) {
-                IRequestService service = (IRequestService) requestServicesIt.next();
+            for(IRequestService service : parsedRequestServices) {
                 if (service.getLocalReferentialFilename() != null) {
                     addLocalReferentialForLocalAuthority(localAuthorityName,
-                                                         service.getLocalReferentialFilename(),
-                                                         service.getLabel());
+                            service.getLocalReferentialFilename(),
+                            service.getLabel());
                 }
             }
         }
@@ -181,25 +171,17 @@ public class LocalReferentialService
     private void parseDataNamesForPendingRequestServices() {
 
         synchronized(this) {
-            if (localReferentialDataMap.isEmpty()) {
-                // add entries for common local referential data
-                addDataNamesForRequestType(commonReferentialFilename, "All");
-            }
 
-            Iterator unparsedRequestServicesIt = unparsedRequestServices.iterator();
-            while (unparsedRequestServicesIt.hasNext()) {
-                IRequestService service = (IRequestService) unparsedRequestServicesIt.next();
+            for (IRequestService service : unparsedRequestServices) {
                 // add entries for local referential data map
                 addDataNamesForRequestType(service.getLocalReferentialFilename(),
-                                           service.getLabel());
+                        service.getLabel());
 
                 // update all known local authorities with new request type
-                Iterator localAuthoritiesIt = allLocalAuthorities.iterator();
-                while (localAuthoritiesIt.hasNext()) {
-                    String localAuthorityName = (String) localAuthoritiesIt.next();
+                for (String localAuthorityName : allLocalAuthorities) {
                     addLocalReferentialForLocalAuthority(localAuthorityName,
-                                                         service.getLocalReferentialFilename(),
-                                                         service.getLabel());
+                            service.getLocalReferentialFilename(),
+                            service.getLabel());
                 }
 
                 parsedRequestServices.add(service);
@@ -213,7 +195,8 @@ public class LocalReferentialService
         throws CvqException {
 
         synchronized(this) {
-            if (localReferentialDataMap.get(dataName) == null && unparsedRequestServices.isEmpty()) {
+            if (localReferentialDataMap.get(dataName) == null 
+                    && unparsedRequestServices.isEmpty()) {
                 throw new CvqException(dataName + " not found !");
             } else {
                 parseDataNamesForPendingRequestServices();
@@ -228,12 +211,11 @@ public class LocalReferentialService
      * local authority
      */
     private void addLocalReferentialForLocalAuthority(final String localAuthorityName,
-                                                      final String localReferentialFilename,
-                                                      final String requestTypeLabel) {
+            final String localReferentialFilename, final String requestTypeLabel) {
 
         synchronized(this) {
             if (localReferentialFileMap.get(localAuthorityName) != null
-                && ((Map) localReferentialFileMap.get(localAuthorityName)).get(requestTypeLabel) != null) {
+                && (localReferentialFileMap.get(localAuthorityName)).get(requestTypeLabel) != null) {
                 logger.debug("addLocalReferentialForLocalAuthority() " + localAuthorityName
                              + " already contains data for request type " + requestTypeLabel);
                 return;
@@ -262,9 +244,11 @@ public class LocalReferentialService
                 requestTypeTimestampMap.put(requestTypeLabel, new Long(now.getTime()));
                 localReferentialTimestampMap.put(localAuthorityName, requestTypeTimestampMap);
             } else {
-                Map requestTypeFileMap = localReferentialFileMap.get(localAuthorityName);
+                Map<String, LocalReferentialDocument> requestTypeFileMap = 
+                    localReferentialFileMap.get(localAuthorityName);
                 requestTypeFileMap.put(requestTypeLabel, refDoc);
-                Map requestTypeTimestampMap = localReferentialTimestampMap.get(localAuthorityName);
+                Map<String, Long> requestTypeTimestampMap = 
+                    localReferentialTimestampMap.get(localAuthorityName);
                 requestTypeTimestampMap.put(requestTypeLabel, new Long(now.getTime()));
             }
         }
@@ -282,15 +266,14 @@ public class LocalReferentialService
         synchronized (this) {
 
             String currentSiteName = SecurityContext.getCurrentSite().getName().toLowerCase();
-            Map requestTypeTimestampMap = localReferentialTimestampMap.get(currentSiteName);
+            Map<String, Long> requestTypeTimestampMap = 
+                localReferentialTimestampMap.get(currentSiteName);
             if (requestTypeTimestampMap == null) {
                 logger.info("checkCurrentSite() timestamp map not initialized, returning");
                 return false;
             }
-            Iterator requestTypeTimestampIt = requestTypeTimestampMap.keySet().iterator();
             boolean didARefresh = false;
-            while (requestTypeTimestampIt.hasNext()) {
-                String requestTypeLabel = (String) requestTypeTimestampIt.next();
+            for (String requestTypeLabel : requestTypeTimestampMap.keySet()) {
                 Long requestTypeTimestamp = (Long) requestTypeTimestampMap.get(requestTypeLabel);
                 String referentialFileName = getReferentialFilename(requestTypeLabel);
                 File referentialFile =
@@ -298,10 +281,13 @@ public class LocalReferentialService
                             ILocalAuthorityRegistry.LOCAL_REFERENTIAL_RESOURCE_TYPE, 
                             referentialFileName, false);
                 if (referentialFile.lastModified() > requestTypeTimestamp.longValue()) {
-                    logger.info("checkCurrentSiteCache() refreshing cache for " + referentialFileName);
-                    Map requestTypeFileMap = (Map) localReferentialFileMap.get(currentSiteName);
+                    logger.info("checkCurrentSiteCache() refreshing cache for " 
+                            + referentialFileName);
+                    Map<String, LocalReferentialDocument> requestTypeFileMap = 
+                        localReferentialFileMap.get(currentSiteName);
                     requestTypeFileMap.remove(requestTypeLabel);
-                    addLocalReferentialForLocalAuthority(currentSiteName, referentialFileName, requestTypeLabel);
+                    addLocalReferentialForLocalAuthority(currentSiteName, referentialFileName, 
+                            requestTypeLabel);
                     didARefresh = true;
                 }
             }
@@ -317,27 +303,21 @@ public class LocalReferentialService
     private String getReferentialFilename(final String requestTypeLabel) 
             throws CvqException {
 
-        if (requestTypeLabel.equals("All")) {
-            return commonReferentialFilename;
-        } else {
-            Iterator servicesIt = parsedRequestServices.iterator();
-            IRequestService associatedService = null;
-            while (servicesIt.hasNext()) {
-                IRequestService service = (IRequestService) servicesIt.next();
-                if (service.getLabel().equals(requestTypeLabel))
-                    associatedService = service;
-            }
-
-            if (associatedService == null)
-                throw new CvqException("No service found for " + requestTypeLabel);
-
-            return associatedService.getLocalReferentialFilename();
+        IRequestService associatedService = null;
+        for (IRequestService service : parsedRequestServices) {
+            if (service.getLabel().equals(requestTypeLabel))
+                associatedService = service;
         }
+
+        if (associatedService == null)
+            throw new CvqException("No service found for " + requestTypeLabel);
+
+        return associatedService.getLocalReferentialFilename();
     }
     
     private void addDataNamesForRequestType(final String localReferentialFilename,
-                                            final String requestTypeLabel) {
-
+            final String requestTypeLabel) {
+        
         logger.debug("addDataNamesForRequestType() adding file " + localReferentialFilename
                      + " for request type : " + requestTypeLabel);
 
@@ -370,7 +350,7 @@ public class LocalReferentialService
     }
 
     private void parseXmlEntries(LocalReferentialEntryType lretXml, LocalReferentialType lrt,
-                                 LocalReferentialEntry lre) throws CvqLocalReferentialException {
+            LocalReferentialEntry lre) throws CvqLocalReferentialException {
 
         logger.debug("parseXmlEntries()");
 
@@ -433,7 +413,7 @@ public class LocalReferentialService
      * @throws CvqLocalReferentialException 
      */
     private LocalReferentialType xmlToModel(final String requestLabel,
-                                            final Data refData) throws CvqLocalReferentialException {
+            final Data refData) throws CvqLocalReferentialException {
 
         logger.debug("xmlToModel()");
 
@@ -466,7 +446,7 @@ public class LocalReferentialService
 
     private void parseModelEntries(LocalReferentialEntry lre, LocalReferentialEntryType lretXml) {
 
-        logger.debug("parseModelEntries()");
+        logger.debug("parseModelEntries() for LRE : " + lre);
 
         Entry entry = lretXml.addNewEntry();
 
@@ -474,10 +454,8 @@ public class LocalReferentialService
 
         // set labels
         if (lre.getLabelsMap() != null) {
-            Iterator labelsIt = lre.getLabelsMap().keySet().iterator();
-            while (labelsIt.hasNext()) {
-                String lang = (String) labelsIt.next();
-                String value = (String) lre.getLabelsMap().get(lang);
+            for (String lang : lre.getLabelsMap().keySet()) {
+                String value = lre.getLabelsMap().get(lang);
                 Entry.Label label = entry.addNewLabel();
                 label.setLang(lang);
                 label.setStringValue(value);
@@ -486,16 +464,12 @@ public class LocalReferentialService
 
         // set precisions
         if (lre.getPrecisionsMap() != null) {
-            Iterator precisionsIt = lre.getPrecisionsMap().keySet().iterator();
-            while (precisionsIt.hasNext()) {
-                String key = (String) precisionsIt.next();
-                Map valuesMap = (Map) lre.getPrecisionsMap().get(key);
+            for (String key : lre.getPrecisionsMap().keySet()) {
+                Map<String, String> valuesMap = lre.getPrecisionsMap().get(key);
                 Entry.Precision precision = entry.addNewPrecision();
                 precision.setKey(key);
-                Iterator valuesIt = valuesMap.keySet().iterator();
-                while (valuesIt.hasNext()) {
-                    String lang = (String) valuesIt.next();
-                    String value = (String) valuesMap.get(lang);
+                for (String lang : valuesMap.keySet()) {
+                    String value = valuesMap.get(lang);
                     Entry.Precision.Label label = precision.addNewLabel();
                     label.setLang(lang);
                     label.setStringValue(value);
@@ -505,10 +479,8 @@ public class LocalReferentialService
 
         // set messages
         if (lre.getMessagesMap() != null) {
-            Iterator messagesIt = lre.getMessagesMap().keySet().iterator();
-            while (messagesIt.hasNext()) {
-                String lang = (String) messagesIt.next();
-                String value = (String) lre.getMessagesMap().get(lang);
+            for (String lang : lre.getMessagesMap().keySet()) {
+                String value = lre.getMessagesMap().get(lang);
                 Entry.Message message = entry.addNewMessage();
                 message.setLang(lang);
                 message.setStringValue(value);
@@ -517,14 +489,12 @@ public class LocalReferentialService
 
         // set children entries
         if (lre.getEntries() != null) {
-            Iterator entriesIt = lre.getEntries().iterator();
             LocalReferentialEntryType innerLretXml = entry.addNewEntries();
             innerLretXml.setSupportPriority(lre.getEntriesSupportPriority());
             innerLretXml.setSupportPrecision(lre.getEntriesSupportPrecision());
             innerLretXml.setSupportMultiple(lre.getEntriesSupportMultiple());
 
-            while (entriesIt.hasNext()) {
-                LocalReferentialEntry innerLre = (LocalReferentialEntry) entriesIt.next();
+            for (LocalReferentialEntry innerLre : lre.getEntries()) {
                 parseModelEntries(innerLre, innerLretXml);
             }
         }
@@ -535,25 +505,21 @@ public class LocalReferentialService
         Data data = Data.Factory.newInstance();
         data.setName(lrt.getDataName());
 
-        Map labelsMap = lrt.getLabelsMap();
-        Iterator labelsMapIt = labelsMap.keySet().iterator();
-        while (labelsMapIt.hasNext()) {
-            String lang = (String) labelsMapIt.next();
-            String value = (String) labelsMap.get(lang);
+        Map<String, String> labelsMap = lrt.getLabelsMap();
+        for (String lang : labelsMap.keySet()) {
+            String value = labelsMap.get(lang);
             Data.Label label = data.addNewLabel();
             label.setLang(lang);
             label.setStringValue(value);
         }
 
         if (lrt.getEntries() != null) {
-            Iterator entriesIt = lrt.getEntries().iterator();
             LocalReferentialEntryType lret = data.addNewEntries();
             lret.setSupportPriority(lrt.getEntriesSupportPriority());
             lret.setSupportPrecision(lrt.getEntriesSupportPrecision());
             lret.setSupportMultiple(lrt.getEntriesSupportMultiple());
 
-            while (entriesIt.hasNext()) {
-                LocalReferentialEntry lre = (LocalReferentialEntry) entriesIt.next();
+            for (LocalReferentialEntry lre : lrt.getEntries()) {
                 parseModelEntries(lre, lret);
             }
         }
@@ -561,7 +527,7 @@ public class LocalReferentialService
         return data;
     }
 
-    public final Set getAllLocalReferentialData()
+    public final Set<LocalReferentialType> getAllLocalReferentialData()
         throws CvqException {
 
         logger.debug("getAllLocalReferentialData()");
@@ -569,15 +535,12 @@ public class LocalReferentialService
         checkCurrentSiteCache();
         parseDataNamesForPendingRequestServices();
 
-        Set resultSet = new LinkedHashSet();
+        Set<LocalReferentialType> resultSet = new LinkedHashSet<LocalReferentialType>();
         String currentSiteName = SecurityContext.getCurrentSite().getName().toLowerCase();
         parseLocalReferentialForLocalAuthority(currentSiteName);
-        Map localAuthorityReferentialDataMap =
-            (Map) localReferentialFileMap.get(currentSiteName);
-        Iterator localReferentialDocsIt = localAuthorityReferentialDataMap.values().iterator();
-        while (localReferentialDocsIt.hasNext()) {
-            LocalReferentialDocument refDoc =
-                (LocalReferentialDocument) localReferentialDocsIt.next();
+        Map<String, LocalReferentialDocument> localAuthorityReferentialDataMap =
+            localReferentialFileMap.get(currentSiteName);
+        for (LocalReferentialDocument refDoc : localAuthorityReferentialDataMap.values()) {
             if (refDoc.getLocalReferential() != null
                 && refDoc.getLocalReferential().sizeOfDataArray() > 0) {
                 Data[] refDataTab = refDoc.getLocalReferential().getDataArray();
@@ -592,7 +555,7 @@ public class LocalReferentialService
         return resultSet;
     }
 
-    public Map getAllLocalReferentialDataNames()
+    public Map<String, Map<String, String>> getAllLocalReferentialDataNames()
         throws CvqException {
 
         logger.debug("getAllLocalReferentialDataNames()");
@@ -600,16 +563,15 @@ public class LocalReferentialService
         checkCurrentSiteCache();
         parseDataNamesForPendingRequestServices();
 
-        Map resultMap = new LinkedHashMap();
+        Map<String, Map<String, String>> resultMap = 
+            new LinkedHashMap<String, Map<String, String>>();
         String currentSiteName = SecurityContext.getCurrentSite().getName().toLowerCase();
         parseLocalReferentialForLocalAuthority(currentSiteName);
-        Map localAuthorityReferentialDataMap =
+        Map<String, LocalReferentialDocument> localAuthorityReferentialDataMap =
             localReferentialFileMap.get(SecurityContext.getCurrentSite().getName().toLowerCase());
-        Iterator localReferentialDocsIt = localAuthorityReferentialDataMap.values().iterator();
-        while (localReferentialDocsIt.hasNext()) {
-            LocalReferentialDocument refDoc =
-                (LocalReferentialDocument) localReferentialDocsIt.next();
-            logger.debug("getAllLocalReferentialDataNames() parsing data for request " + refDoc.getLocalReferential().getRequest());
+        for (LocalReferentialDocument refDoc : localAuthorityReferentialDataMap.values()) {
+            logger.debug("getAllLocalReferentialDataNames() parsing data for request " 
+                    + refDoc.getLocalReferential().getRequest());
             if (refDoc.getLocalReferential() != null
                 && refDoc.getLocalReferential().sizeOfDataArray() > 0) {
                 Data[] refDataTab = refDoc.getLocalReferential().getDataArray();
@@ -639,8 +601,8 @@ public class LocalReferentialService
         String requestTypeLabel = (String) localReferentialDataMap.get(dataName);
         String currentSiteName = SecurityContext.getCurrentSite().getName().toLowerCase();
         parseLocalReferentialForLocalAuthority(currentSiteName);
-        Map localAuthorityReferentialDataMap =
-            (Map) localReferentialFileMap.get(currentSiteName);
+        Map<String, LocalReferentialDocument> localAuthorityReferentialDataMap =
+            localReferentialFileMap.get(currentSiteName);
         LocalReferentialDocument refDoc =
             (LocalReferentialDocument) localAuthorityReferentialDataMap.get(requestTypeLabel);
         if (refDoc.getLocalReferential() != null
@@ -656,15 +618,15 @@ public class LocalReferentialService
         return null;
     }
 
-    public Set getLocalReferentialDataByRequestType(final String requestTypeLabel)
+    public Set<LocalReferentialType> getLocalReferentialDataByRequestType(final String requestTypeLabel)
         throws CvqException {
 
         checkCurrentSiteCache();
         parseDataNamesForPendingRequestServices();
         String currentSiteName = SecurityContext.getCurrentSite().getName().toLowerCase();
         parseLocalReferentialForLocalAuthority(currentSiteName);
-        Map localAuthorityReferentialDataMap =
-            (Map) localReferentialFileMap.get(currentSiteName);
+        Map<String, LocalReferentialDocument> localAuthorityReferentialDataMap =
+            localReferentialFileMap.get(currentSiteName);
         if (localAuthorityReferentialDataMap.get(requestTypeLabel) == null
             && unparsedRequestServices.isEmpty()) {
             throw new CvqException(requestTypeLabel + " not found !");
@@ -674,7 +636,7 @@ public class LocalReferentialService
                 throw new CvqException(requestTypeLabel + " not found !");
         }
 
-        Set resultSet = new LinkedHashSet();
+        Set<LocalReferentialType> resultSet = new LinkedHashSet<LocalReferentialType>();
         LocalReferentialDocument refDoc =
             (LocalReferentialDocument) localAuthorityReferentialDataMap.get(requestTypeLabel);
         if (refDoc.getLocalReferential() != null
@@ -691,7 +653,9 @@ public class LocalReferentialService
         return resultSet;
     }
 
-    public boolean isLocalReferentialConfigured(final String requestTypeLabel) throws CvqException {
+    public boolean isLocalReferentialConfigured(final String requestTypeLabel) 
+        throws CvqException {
+        
         Set<LocalReferentialType> lrTypes = getLocalReferentialDataByRequestType(requestTypeLabel);
         boolean isConfigure = true;
         for (LocalReferentialType lrType : lrTypes)
@@ -713,10 +677,10 @@ public class LocalReferentialService
             String requestTypeLabel = (String) localReferentialDataMap.get(newLrt.getDataName());
             String currentSiteName = SecurityContext.getCurrentSite().getName().toLowerCase();
             parseLocalReferentialForLocalAuthority(currentSiteName);
-            Map localAuthorityReferentialDataMap =
-                (Map) localReferentialFileMap.get(currentSiteName);
+            Map<String, LocalReferentialDocument> localAuthorityReferentialDataMap =
+                localReferentialFileMap.get(currentSiteName);
             LocalReferentialDocument refDoc =
-                (LocalReferentialDocument) localAuthorityReferentialDataMap.get(requestTypeLabel);
+                localAuthorityReferentialDataMap.get(requestTypeLabel);
             int dataIndex = -1;
             if (refDoc.getLocalReferential() != null
                 && refDoc.getLocalReferential().sizeOfDataArray() > 0) {
@@ -730,13 +694,12 @@ public class LocalReferentialService
             refDoc.getLocalReferential().setDataArray(dataIndex, modelToXml(newLrt));
 
             // Set up the validation error listener.
-            ArrayList validationErrors = new ArrayList();
+            ArrayList<Object> validationErrors = new ArrayList<Object>();
             XmlOptions validationOptions = new XmlOptions();
             validationOptions.setErrorListener(validationErrors);
             if (!refDoc.validate(validationOptions)) {
-                Iterator iter = validationErrors.iterator();
-                while (iter.hasNext()) {
-                    logger.error("setLocalReferentialData() Validation error : " + iter.next());
+                for (Object object : validationErrors) {
+                    logger.error("setLocalReferentialData() Validation error : " + object);
                 }
                 throw new CvqLocalReferentialException();
             }

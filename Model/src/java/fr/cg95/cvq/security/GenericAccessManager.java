@@ -129,6 +129,8 @@ public class GenericAccessManager {
                         + " an AGENT profile (" + SecurityContext.getCurrentAgent() + ")");
                 return false;
             }
+        } else if (credentialBean.isAdminContext()) {
+            return true;
         } else {
             return false;
         }        

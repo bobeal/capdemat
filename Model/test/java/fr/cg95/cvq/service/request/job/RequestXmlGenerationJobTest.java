@@ -57,66 +57,57 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
     }
     
     public void testXmlDataGeneration() throws Exception {
-        try {
-            Long id1, id2, id3;
-            this.createDummyEntities();
-            this.validateRequest();
-            id1 = this.creationBean.getRequestId();
-            this.createDummyEntities();
-            this.validateRequest();
-            id2 = this.creationBean.getRequestId();
-            this.createDummyEntities();
-            this.validateRequest();
-            id3 = this.creationBean.getRequestId();
-            SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-            
-            this.externalService.addTrace(new ExternalServiceTrace(null, null, String.valueOf(id1),null, null, 
-                    "MyName",TraceStatusEnum.SENT));
-            this.externalService.addTrace(new ExternalServiceTrace(null, null, String.valueOf(id2), null, null, 
-                    "MyName", TraceStatusEnum.ACKNOWLEDGED));
-            this.continueWithNewTransaction();
-            
-            this.generationJob.launchJob();
-            this.remakeSecurityContext();
-            
-            File file = this.localAuthorityRegistry.getRequestXmlResource(id3);
-            assertTrue(file.exists());
-            file = this.localAuthorityRegistry.getRequestXmlResource(id1);
-            assertTrue(file.exists());
-            file = this.localAuthorityRegistry.getRequestXmlResource(id2);
-            assertFalse(file.exists());
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+
+        Long id1, id2, id3;
+        this.createDummyEntities();
+        this.validateRequest();
+        id1 = this.creationBean.getRequestId();
+        this.createDummyEntities();
+        this.validateRequest();
+        id2 = this.creationBean.getRequestId();
+        this.createDummyEntities();
+        this.validateRequest();
+        id3 = this.creationBean.getRequestId();
+        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
+
+        this.externalService.addTrace(new ExternalServiceTrace(null, null, String.valueOf(id1),null, null, 
+                "MyName",TraceStatusEnum.SENT));
+        this.externalService.addTrace(new ExternalServiceTrace(null, null, String.valueOf(id2), null, null, 
+                "MyName", TraceStatusEnum.ACKNOWLEDGED));
+        this.continueWithNewTransaction();
+
+        this.generationJob.launchJob();
+        this.remakeSecurityContext();
+
+        File file = this.localAuthorityRegistry.getRequestXmlResource(id3);
+        assertTrue(file.exists());
+        file = this.localAuthorityRegistry.getRequestXmlResource(id1);
+        assertTrue(file.exists());
+        file = this.localAuthorityRegistry.getRequestXmlResource(id2);
+        assertFalse(file.exists());
     }
     
     public void testXmlDataErasing() throws Exception {
-        try {
-            this.createDummyEntities();
-            this.validateRequest();
+
+        this.createDummyEntities();
+        this.validateRequest();
+
+        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
+        this.generationJob.performGeneration();
+
+        File file = this.localAuthorityRegistry.getRequestXmlResource(creationBean.getRequestId());
+        assertTrue(file.exists());
+
+        ExternalServiceTrace trace = new ExternalServiceTrace();
+        trace.setKey(String.valueOf(this.creationBean.getRequestId()));
+        trace.setKeyOwner("capdemat");
+        trace.setName("MyName");
+        trace.setStatus(TraceStatusEnum.ACKNOWLEDGED);
+        this.externalService.addTrace(trace);
+
+        this.generationJob.eraseAcknowledgedRequests();
+        assertFalse(file.exists());
             
-            SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-            this.generationJob.performGeneration();
-            
-            File file = this.localAuthorityRegistry.getRequestXmlResource(creationBean.getRequestId());
-            assertTrue(file.exists());
-            
-            ExternalServiceTrace trace = new ExternalServiceTrace();
-            trace.setKey(String.valueOf(this.creationBean.getRequestId()));
-            trace.setKeyOwner("capdemat");
-            trace.setName("MyName");
-            trace.setStatus(TraceStatusEnum.ACKNOWLEDGED);
-            this.externalService.addTrace(trace);
-            
-            this.generationJob.eraseAcknowledgedRequests();
-            assertFalse(file.exists());
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
     }
     
     protected String getXmlOutputFolder() {

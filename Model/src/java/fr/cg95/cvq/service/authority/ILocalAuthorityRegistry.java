@@ -72,7 +72,7 @@ public interface ILocalAuthorityRegistry {
     void unregisterLocalAuthorityServerName(final String serverName);
 
     /**
-     * Return true if the server name isn't used or if it is used by current local authority
+     * Return true if the server name isn't used or if it is used by current local authority.
      */
     boolean isAvailableLocalAuthorityServerName(final String serverName);
 
@@ -190,7 +190,9 @@ public interface ILocalAuthorityRegistry {
     void generateLocalAuthoritiesList();
     
     String getReferentialBase();
+    
     String getAssetsBase();
+    
     @Deprecated
     void saveLocalAuthorityResource(String resourceType, String filename, byte[] data)
         throws CvqException;

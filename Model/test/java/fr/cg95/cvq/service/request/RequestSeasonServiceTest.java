@@ -125,37 +125,34 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
     private void daoUpdateSeason(String seasonUuid, int registrationStartOffset, 
             int registrationEndOffset, int effectStartOffset, int effectEndOffset) 
         throws CvqException {
-       try {
-           GenericDAO genericDAO = (GenericDAO) getBean("genericDAO");
-       
-           Calendar calendar = new GregorianCalendar();
-           
-           Set<RequestSeason> seasonSet = requestType.getSeasons();
-           for (RequestSeason season : seasonSet)
-               if (season.getUuid().equals(seasonUuid)) {
-                   // registration start
-                   calendar.setTime(season.getRegistrationStart());
-                   calendar.add(Calendar.MONTH, registrationStartOffset);
-                   season.setRegistrationStart(calendar.getTime());
-                   // registration end
-                   calendar.setTime(season.getRegistrationEnd());
-                   calendar.add(Calendar.MONTH, registrationEndOffset);
-                   season.setRegistrationEnd(calendar.getTime());
-                   // effect start
-                   calendar.setTime(season.getEffectStart());
-                   calendar.add(Calendar.MONTH, effectStartOffset);
-                   season.setEffectStart(calendar.getTime());
-                   // effect end
-                   calendar.setTime(season.getEffectEnd());
-                   calendar.add(Calendar.MONTH, effectEndOffset);
-                   season.setEffectEnd(calendar.getTime());
-               }
-           
-           genericDAO.update(requestType);
-           continueWithNewTransaction();
-       } catch (Exception e) {
-           throw new CvqException(e.getMessage());
-       }
+
+        GenericDAO genericDAO = super.<GenericDAO>getApplicationBean("genericDAO");
+
+        Calendar calendar = new GregorianCalendar();
+
+        Set<RequestSeason> seasonSet = requestType.getSeasons();
+        for (RequestSeason season : seasonSet)
+            if (season.getUuid().equals(seasonUuid)) {
+                // registration start
+                calendar.setTime(season.getRegistrationStart());
+                calendar.add(Calendar.MONTH, registrationStartOffset);
+                season.setRegistrationStart(calendar.getTime());
+                // registration end
+                calendar.setTime(season.getRegistrationEnd());
+                calendar.add(Calendar.MONTH, registrationEndOffset);
+                season.setRegistrationEnd(calendar.getTime());
+                // effect start
+                calendar.setTime(season.getEffectStart());
+                calendar.add(Calendar.MONTH, effectStartOffset);
+                season.setEffectStart(calendar.getTime());
+                // effect end
+                calendar.setTime(season.getEffectEnd());
+                calendar.add(Calendar.MONTH, effectEndOffset);
+                season.setEffectEnd(calendar.getTime());
+            }
+
+        genericDAO.update(requestType);
+        continueWithNewTransaction();
     }
     
     private void checkCreateSeasonError(RequestSeason season, String errorMessage) throws CvqException {

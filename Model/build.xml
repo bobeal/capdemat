@@ -35,14 +35,16 @@
 				<include name="**/jsmtpd-core-*.jar" />
 				<include name="**/jmock-*.jar" />
                 <include name="**/hamcrest-*.jar" />
+				<include name="**/aspectjtools.jar" />
 			</fileset>
 
 			<pathelement path="${basedir}/${build.classes.dir}" />
 			
-	    		<fileset dir="${basedir}/${lib.dir}/cobertura">
-	      			<include name="cobertura.jar" />
-	      			<include name="asm-tree-2.2.1.jar" />
-	    		</fileset>
+    		<fileset dir="${basedir}/${lib.dir}/cobertura">
+      			<include name="cobertura.jar" />
+      			<include name="asm-tree-2.2.1.jar" />
+    		</fileset>
+
 			<pathelement path="${basedir}/generated" />
 		</path>
 
@@ -285,10 +287,10 @@
 
 	<target name="compile-tests" depends="compile-sources">
 		<mkdir dir="${basedir}/${build.test.dir}" />
-		<javac optimize="on" deprecation="on" debug="on" verbose="off" srcdir="${basedir}/${test.java.dir}" destdir="${basedir}/${build.test.dir}">
-			<classpath refid="classpath.compile.test" />
-			<include name="**/*.java" />
-		</javac>
+		<taskdef classpathref="classpath.compile.test"
+			resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties"/>
+		<iajc destdir="${basedir}/${build.test.dir}" srcdir="${basedir}/${test.java.dir}" 
+			fork="true" source="1.5" classpathRef="classpath.compile.test"/>
 	</target>
 
 	<!--
@@ -357,7 +359,7 @@
 			<formatter type="plain" usefile="false" />
 			<batchtest>
 				<fileset dir="${basedir}/${build.test.dir}">
-				  <include name="**/StudyGrantRequestServiceTest.class"/>
+				  <include name="**/PaymentServiceJobTest.class"/>
 				  <!--include name="**/CapdematTestSuite.class"/-->
 					<!-- requires mail sending infrastructure -->
 					<exclude name="**/MailServiceTest.class" />
@@ -366,8 +368,7 @@
 				</fileset>
 				<!-- Plugins unit tests -->
 				<!--
-      	        <fileset dir="${basedir}/../Plugins/PaymentProviders/Spplus/build/test">
-      	          <exclude name="**/*.class"/>
+      	        <fileset dir="${basedir}/../Plugins/ExternalServices/Edemande/build/test">
       		      <include name="**/*Test.class" />
       	        </fileset>
       	        -->

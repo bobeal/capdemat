@@ -7,11 +7,9 @@ import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.leisure.music.IMusicSchoolRegistrationRequestService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
@@ -27,9 +25,9 @@ import java.util.Set;
  * @author Victor Bartel (vba@zenexity.fr)
  */
 public class RequestDraftTest extends ServiceTestCase {
+
     private IRequestDAO requestDAO;
     private IMusicSchoolRegistrationRequestService requestService;
-    private IHomeFolderService homeFolderService;
     
     @Override
     protected void onSetUp() throws Exception {
@@ -37,7 +35,21 @@ public class RequestDraftTest extends ServiceTestCase {
         
         requestDAO = this.getApplicationBean("requestDAO");
         requestService = this.getApplicationBean("musicSchoolRegistrationRequestService");
-        homeFolderService = this.getApplicationBean("homeFolderService");
+    }
+
+    @Override
+    protected void onTearDown() throws Exception {
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(this.agentNameWithManageRoles);
+        List<Request> requests = this.getDrafts();
+        
+        try {
+            for(Request r : requests) this.requestService.delete(r.getId());
+        } catch(CvqObjectNotFoundException e) {
+            e.printStackTrace();
+            for(Request r : requests) this.requestDAO.delete(r);
+        }
+        super.onTearDown();
     }
     
     public void testDrafts() throws CvqException {
@@ -46,7 +58,7 @@ public class RequestDraftTest extends ServiceTestCase {
         List<Request> drafts = this.getDrafts();
         assertEquals(draftStep,drafts.size());
         
-        List<Adult> adults = this.homeFolderService.getAdults(drafts.get(0).getHomeFolderId());
+        List<Adult> adults = iHomeFolderService.getAdults(drafts.get(0).getHomeFolderId());
         if(adults.size() > 0) {
             Request draft1 = drafts.get(0);
             Adult adult1 = adults.get(0);
@@ -57,13 +69,8 @@ public class RequestDraftTest extends ServiceTestCase {
             this.requestService.processDraft(draft1);
             
             Request draft2 = drafts.get(1);
-            
-            try {
-                this.continueWithNewTransaction();
-                draft2.setSubjectId(adult1.getId());
-                this.requestService.processDraft(draft2);
-                fail();
-            }catch (CvqModelException e) {}
+            draft2.setSubjectId(adult1.getId());
+            this.requestService.processDraft(draft2);
             
             this.requestService.delete(draft1.getId());
             this.continueWithNewTransaction();
@@ -73,7 +80,7 @@ public class RequestDraftTest extends ServiceTestCase {
             try {
                 this.getDraftById(draft2.getId());
                 fail();
-            }catch (IndexOutOfBoundsException e) {}
+            } catch (IndexOutOfBoundsException e) {}
             this.requestService.delete(draft2.getId());
         }
     }
@@ -122,7 +129,6 @@ public class RequestDraftTest extends ServiceTestCase {
             Request request = new MusicSchoolRegistrationRequest();
             request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
             request.setSubjectId(indivs.get(i).getId());
-            this.requestService.prepareDraft(request);
             Long id = this.requestService.processDraft(request);
             request = this.requestService.getById(id);
             request.setCreationDate(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,i*(-1)));
@@ -132,21 +138,4 @@ public class RequestDraftTest extends ServiceTestCase {
             this.requestService.modify(request);
         }
     }
-    
-    @Override
-    protected void onTearDown() throws Exception {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(this.agentNameWithManageRoles);
-        List<Request> requests = this.getDrafts();
-        
-        try {
-            for(Request r : requests) this.requestService.delete(r.getId());
-        } catch(CvqObjectNotFoundException e) {
-            e.printStackTrace();
-            for(Request r : requests) this.requestDAO.delete(r);
-        }
-        super.onTearDown();
-    }
-    
-    
 }

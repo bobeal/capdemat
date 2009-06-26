@@ -1,6 +1,5 @@
 package fr.cg95.cvq.payment.job;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +20,6 @@ import fr.cg95.cvq.util.mail.IMailService;
  * 
  * @author Rafik Djedjig (rdj@zenexity.fr)
  */
-
 public class PaymentInitializationDateCheckerJob {
 
 	private Logger logger = Logger.getLogger(PaymentInitializationDateCheckerJob.class);
@@ -51,8 +49,9 @@ public class PaymentInitializationDateCheckerJob {
 		logger.debug("checkInitializedPayment() starting job for local authority " 
             + SecurityContext.getCurrentSite().getName());
 
-		List paymentList = paymentDAO.searchNotCommited();
-		logger.debug("checkInitializedPayment() number of fail payments : " + paymentList.size());
+		List<Payment> paymentList = paymentDAO.searchNotCommited();
+		logger.debug("checkInitializedPayment() number of not commited payments : " 
+		        + paymentList.size());
 		
 		LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         
@@ -75,9 +74,7 @@ public class PaymentInitializationDateCheckerJob {
 		
 		StringBuffer mailBodyLoopBuffer = new StringBuffer();
 		
-		for (Iterator iter = paymentList.iterator(); iter.hasNext();) {
-			Payment payment = (Payment) iter.next();
-			
+		for (Payment payment : paymentList) {
 			String mailBodyLoopTp = mailBodyLoop;
 			
 			mailBodyLoopTp = mailBodyLoopTp.replace("${broker}",

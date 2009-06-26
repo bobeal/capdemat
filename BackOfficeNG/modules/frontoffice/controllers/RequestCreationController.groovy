@@ -51,7 +51,7 @@ class RequestCreationController {
         if(request.post) {
             requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
             def cRequest = session[params.uuidString].cRequest
-            requestService.prepareDraft(cRequest)
+            cRequest.homeFolderId = SecurityContext.getCurrentEcitizen().getHomeFolder().getId()
             requestService.processDraft(cRequest)
             flash.cRequest = cRequest
             flash.confirmationMessage = message(code:'message.savedAsDraft')

@@ -10,13 +10,13 @@
   <xs:element name="StudyGrantRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande de Mobil'Etudes
+        Demande de bourse Mobil'Etudes
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Study grant request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Mobil'Etudes
+        Bourse Mobil'Etudes
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Study grant request

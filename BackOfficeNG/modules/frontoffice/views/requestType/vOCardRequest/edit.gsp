@@ -99,7 +99,6 @@
              <span><g:message code="vcr.step.adults.desc" /></span>
              <span class="error">${stepStates?.adults?.errorMsg}</span>
            </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/adults" /> 
            </div>
@@ -132,7 +131,6 @@
              <span><g:message code="vcr.step.children.desc" /></span>
              <span class="error">${stepStates?.children?.errorMsg}</span>
            </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/children" />
            </div>
@@ -166,7 +164,6 @@
              <span><g:message code="vcr.step.foreignAdults.desc" /></span>
              <span class="error">${stepStates?.adults?.errorMsg}</span>
            </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/foreignAdults" /> 
            </div>
@@ -200,7 +197,6 @@
              <span><g:message code="vcr.step.account.desc" /></span>
              <span class="error">${stepStates?.account?.errorMsg}</span>
            </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/account" /> 
            </div>
@@ -270,7 +266,6 @@
              <span><g:message code="request.step.validation.desc" /></span>
              <span class="error">${stepStates?.validation?.errorMsg}</span>
            </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
              
            <label for="meansOfContact" class="required">

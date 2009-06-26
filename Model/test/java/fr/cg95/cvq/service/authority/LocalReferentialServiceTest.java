@@ -8,7 +8,6 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.TestUtils;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,16 +29,16 @@ public class LocalReferentialServiceTest extends ServiceTestCase {
         // //////////////////////////////////////////////
 
         // check retrieving of whole tree of local referential data
-        Set allLocalReferentialData = localReferentialService.getAllLocalReferentialData();
+        Set<LocalReferentialType> allLocalReferentialData = 
+            localReferentialService.getAllLocalReferentialData();
         TestUtils.printLocalRefData(allLocalReferentialData);
         
         // check retrieving of referential data summary information
-        Map allLocalReferentialDataNames = 
+        Map<String, Map<String, String>> allLocalReferentialDataNames = 
             localReferentialService.getAllLocalReferentialDataNames();
         TestUtils.printLocalRefDataSummary(allLocalReferentialDataNames);
         
-        Iterator keysIt = allLocalReferentialDataNames.keySet().iterator();
-        String dataName = (String) keysIt.next();
+        String dataName = allLocalReferentialDataNames.keySet().iterator().next();
         logger.debug("Asking information for : " + dataName);
 
         // check retrieving by data name
@@ -48,8 +47,8 @@ public class LocalReferentialServiceTest extends ServiceTestCase {
         Assert.assertEquals(lrt.getDataName(), dataName);
 
         // check retrieving by request type
-        Set commonLocalReferentialDataSet = 
-            localReferentialService.getLocalReferentialDataByRequestType("All");
+        Set<LocalReferentialType> commonLocalReferentialDataSet = 
+            localReferentialService.getLocalReferentialDataByRequestType("Study Grant");
         Assert.assertNotNull(commonLocalReferentialDataSet);
         TestUtils.printLocalRefData(commonLocalReferentialDataSet);
 
@@ -88,8 +87,8 @@ public class LocalReferentialServiceTest extends ServiceTestCase {
         Assert.assertNotNull(retrievedLre);
         Assert.assertEquals(retrievedLre.getEntries().size(), 1);
 
-        retrievedLrt.getEntries().remove(retrievedLre);
-        retrievedLrt.getEntries().add(backupLre);
+        retrievedLrt.removeEntry(retrievedLre, null);
+        retrievedLrt.addEntry(backupLre, null);
         localReferentialService.setLocalReferentialData(retrievedLrt);
         
         // check modifications have been effectively saved

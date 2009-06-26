@@ -22,9 +22,6 @@ public class RequestStatisticsServiceTest extends ServiceTestCase {
 
     public void testRequestStatistic() throws CvqException {
 
-        try {
-
-
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
@@ -106,12 +103,6 @@ public class RequestStatisticsServiceTest extends ServiceTestCase {
         for (Date date : periodStats.keySet()) {
 //            System.err.println("got " + periodStats.get(date) + " for date " + date);
         }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
 
 //        countFetch = iRequestStatisticsService.getCountByResultingState(

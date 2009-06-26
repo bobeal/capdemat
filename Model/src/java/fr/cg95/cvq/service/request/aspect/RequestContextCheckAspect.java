@@ -1,9 +1,7 @@
 package fr.cg95.cvq.service.request.aspect;
 
-import fr.cg95.cvq.business.authority.Category;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -12,6 +10,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
 
+import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.request.Request;
@@ -68,6 +67,7 @@ public class RequestContextCheckAspect implements Ordered {
         Object[] arguments = joinPoint.getArgs();
         Long homeFolderId = null;
         Long individualId = null;
+        Long categoryId = null;
         int i = 0;
         for (Object argument : arguments) {
             if (parametersAnnotations[i] != null && parametersAnnotations[i].length > 0) {
@@ -92,6 +92,17 @@ public class RequestContextCheckAspect implements Ordered {
                         }
                     } else if (argument instanceof Request) {
                         request = (Request) argument;
+                    }
+                    if (SecurityContext.isBackOfficeContext()) {
+                        if (request.getRequestType() != null 
+                                && request.getRequestType().getCategory() != null)
+                            categoryId = request.getRequestType().getCategory().getId();
+                        else
+                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                                joinPoint.getSignature().getName(), context.type(),
+                                context.privilege(), 
+                                "no category associated to request type : " 
+                                    + request.getRequestType().getLabel());
                     }
                     homeFolderId = request.getHomeFolderId();
                     individualId = request.getSubjectId();
@@ -120,35 +131,38 @@ public class RequestContextCheckAspect implements Ordered {
                             "no request type specified");
                     }
 
-                    CategoryRoles[] categoryRoles = 
-                        SecurityContext.getCurrentCredentialBean().getCategoryRoles();
-                    for (CategoryRoles categoryRole : categoryRoles) {
-                        Set<RequestType> categoryRequests = 
-                            categoryRole.getCategory().getRequestTypes();
-                        if (categoryRequests == null)
-                            continue;
-                        for (RequestType requestTypeToCheck : categoryRequests) {
-                            if (requestTypeToCheck.getId().equals(requestType.getId())) {
-                                // we found the request type we are interested in
-                                if (context.privilege().equals(ContextPrivilege.READ)
-                                        || (context.privilege().equals(ContextPrivilege.WRITE)
-                                                && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
-                                                        || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
-                                                        || (context.privilege().equals(ContextPrivilege.MANAGE)
-                                                                && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
-                                    // that's ok, let's return
-                                    return;
-                                } else {
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                    categoryId = requestType.getCategory().getId();
+                    
+                    // TODO : mutualize
+//                    CategoryRoles[] categoryRoles = 
+//                        SecurityContext.getCurrentCredentialBean().getCategoryRoles();
+//                    for (CategoryRoles categoryRole : categoryRoles) {
+//                        Set<RequestType> categoryRequests = 
+//                            categoryRole.getCategory().getRequestTypes();
+//                        if (categoryRequests == null)
+//                            continue;
+//                        for (RequestType requestTypeToCheck : categoryRequests) {
+//                            if (requestTypeToCheck.getId().equals(requestType.getId())) {
+//                                // we found the request type we are interested in
+//                                if (context.privilege().equals(ContextPrivilege.READ)
+//                                        || (context.privilege().equals(ContextPrivilege.WRITE)
+//                                                && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
+//                                                        || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
+//                                                        || (context.privilege().equals(ContextPrivilege.MANAGE)
+//                                                                && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
+//                                    // that's ok, let's return
+//                                    return;
+//                                } else {
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                    }
                     
                     // if we are here, that means agent is not authorized
-                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
-                            "request type " + requestType.getLabel());
+//                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+//                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+//                            "request type " + requestType.getLabel());
                     
                 } else if (parameterAnnotation.annotationType().equals(IsCategory.class)) {
                     Category categoryToCheck = null;
@@ -170,30 +184,33 @@ public class RequestContextCheckAspect implements Ordered {
                             "no category specified");
                     }
 
-                    CategoryRoles[] categoryRoles =
-                        SecurityContext.getCurrentCredentialBean().getCategoryRoles();
-                    for (CategoryRoles categoryRole : categoryRoles) {
-                        Category category = categoryRole.getCategory();
-                        if (categoryToCheck.getId().equals(category.getId())) {
-                            // we found the category we are interested in
-                            if (context.privilege().equals(ContextPrivilege.READ)
-                                || (context.privilege().equals(ContextPrivilege.WRITE)
-                                    && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
-                                        || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
-                                || (context.privilege().equals(ContextPrivilege.MANAGE)
-                                    && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
-                                // that's ok, let's return
-                                return;
-                            } else {
-                                break;
-                            }
-                        }
-                    }
-
-                    // if we are here, that means agent is not authorized
-                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
-                            "category " + categoryToCheck.getName());
+                    categoryId = categoryToCheck.getId();
+                    
+                    // TODO : mutualize
+//                    CategoryRoles[] categoryRoles =
+//                        SecurityContext.getCurrentCredentialBean().getCategoryRoles();
+//                    for (CategoryRoles categoryRole : categoryRoles) {
+//                        Category category = categoryRole.getCategory();
+//                        if (categoryToCheck.getId().equals(category.getId())) {
+//                            // we found the category we are interested in
+//                            if (context.privilege().equals(ContextPrivilege.READ)
+//                                || (context.privilege().equals(ContextPrivilege.WRITE)
+//                                    && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
+//                                        || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
+//                                || (context.privilege().equals(ContextPrivilege.MANAGE)
+//                                    && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
+//                                // that's ok, let's return
+//                                return;
+//                            } else {
+//                                break;
+//                            }
+//                        }
+//                    }
+//
+//                    // if we are here, that means agent is not authorized
+//                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+//                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+//                            "category " + categoryToCheck.getName());
                 }
             }
             i++;
@@ -207,7 +224,6 @@ public class RequestContextCheckAspect implements Ordered {
                     " / individual " + individualId);
         
         if (SecurityContext.isBackOfficeContext()) {
-            // TODO ACMF : to be completed
 
             if (context.privilege().equals(ContextPrivilege.MANAGE)) {
                 CategoryRoles[] categoryRoles =
@@ -222,6 +238,45 @@ public class RequestContextCheckAspect implements Ordered {
                     joinPoint.getSignature().getName(), context.type(), context.privilege(),
                     "access denied on home folder " + homeFolderId);
             }
+
+            // TODO ACMF : to be completed
+            if (categoryId == null) {
+                logger.debug("contextAnnotatedMethod() no category or request type provided, "
+                    + "not performing any more special permission checks");
+                return;
+            }
+            
+            Category categoryToCheck = null;
+            try {
+                categoryToCheck = (Category) categoryDAO.findById(Category.class, categoryId);
+            } catch (CvqObjectNotFoundException confe) {
+                // this has been checked before
+            }
+
+            CategoryRoles[] categoryRoles =
+                SecurityContext.getCurrentCredentialBean().getCategoryRoles();
+            for (CategoryRoles categoryRole : categoryRoles) {
+                Category category = categoryRole.getCategory();
+                if (categoryToCheck.getId().equals(category.getId())) {
+                    // we found the category we are interested in
+                    if (context.privilege().equals(ContextPrivilege.READ)
+                        || (context.privilege().equals(ContextPrivilege.WRITE)
+                            && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
+                                || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
+                        || (context.privilege().equals(ContextPrivilege.MANAGE)
+                            && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
+                        // that's ok, let's return
+                        return;
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            // if we are here, that means agent is not authorized
+            throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                    joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                    "category " + categoryToCheck.getName());
         }
     }
     

@@ -13,19 +13,17 @@ public interface ILocalReferentialService {
 
     /**
      * Get a list of all known local referential data.
-     *
-     * @return a {@link Set} of {@link LocalReferentialType} objects
      */
-    Set getAllLocalReferentialData()
+    Set<LocalReferentialType> getAllLocalReferentialData()
         throws CvqException;
 
     /**
      * Get a summary of all local referential data names (data name being the name of the
      * corresponding element in the request's XML schema).
      *
-     * @return a {@link Map} of (dataName, {@link Map}(lang, value))
+     * @return a map of (dataName, {@link Map}(lang, value))
      */
-    Map getAllLocalReferentialDataNames()
+    Map<String, Map<String, String>> getAllLocalReferentialDataNames()
         throws CvqException;
 
     /**
@@ -36,16 +34,15 @@ public interface ILocalReferentialService {
 
     /**
      * Get a list of all local referential data names belonging to a given request type.
-     *
-     * @return a {@link Set} of {@link LocalReferentialType} objects
      */
-    Set getLocalReferentialDataByRequestType(final String requestTypeLabel)
+    Set<LocalReferentialType> getLocalReferentialDataByRequestType(final String requestTypeLabel)
         throws CvqException;
 
     /**
-     * Test localreferential configuration for a requestType
-     * <br />Return false if at least one localReferentialType has null or empty entries. 
-     * <br />Otherwise return true.
+     * Return whether local referential is configured for the given request type.
+     * 
+     * @return false if at least one localReferentialType has null or empty entries. 
+     *  Otherwise return true.
      */
     public boolean isLocalReferentialConfigured(final String requestTypeLabel) throws CvqException;
     

@@ -37,7 +37,6 @@ import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
@@ -359,14 +358,8 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(homeFolderResponsible.getLogin());
 
-        String noteMsg = "Une petite note pour CVQ, une grande note pour le CG95";
-        try {
-            iVoCardRequestService.addNote(dcvoFromDb.getId(),
-                    RequestNoteType.PUBLIC, noteMsg);
-            fail("should have thrown an exception");
-        } catch (PermissionException pe) {
-            // ok
-        }
+        String noteMsg = "Une petite note par le citoyen";
+        iVoCardRequestService.addNote(dcvoFromDb.getId(), RequestNoteType.PUBLIC, noteMsg);
 
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -375,8 +368,8 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iVoCardRequestService.addNote(dcvoFromDb.getId(),
-                RequestNoteType.PUBLIC, noteMsg);
+        noteMsg = "Une petite note par l'agent";
+        iVoCardRequestService.addNote(dcvoFromDb.getId(), RequestNoteType.PUBLIC, noteMsg);
 
         iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.VALIDATED, null);
         iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.NOTIFIED,
@@ -413,9 +406,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         // test addition and modification of the note
         Set<RequestNote> notes = yaRequest.getNotes();
         assertNotNull(notes);
-        assertEquals(notes.size(), 1);
-        RequestNote requestNote = notes.iterator().next();
-        assertEquals(requestNote.getNote(), noteMsg);
+        assertEquals(2, notes.size());
 
         /////////////////////////////////////////////////////////
         // Change user's password                              //

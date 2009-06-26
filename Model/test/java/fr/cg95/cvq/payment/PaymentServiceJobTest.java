@@ -71,8 +71,8 @@ public class PaymentServiceJobTest extends ServiceTestCase {
     	
     	continueWithNewTransaction();
     	
-    	List listPayment = paymentDAO.searchNotCommited();
-    	assertEquals(listPayment.size(), 3);
+    	List<Payment> listPayment = paymentDAO.searchNotCommited();
+    	assertEquals(3, listPayment.size());
     	
     	// Drop testing datas
     	paymentDAO.delete(paymentDAO.findById(Payment.class, payment.getId()));
@@ -82,9 +82,11 @@ public class PaymentServiceJobTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         listPayment = paymentDAO.searchNotCommited();
-        assertEquals(listPayment.size(), 0);
+        assertEquals(0, listPayment.size());
         
     	commitTransaction();
+    	
+    	throw new CvqException();
     }
 	
     public void testPaymentInitialization() throws CvqException {
@@ -114,8 +116,8 @@ public class PaymentServiceJobTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(homeFolderResponsible.getLogin());
 
-    	List listPayment = paymentDAO.searchNotCommited();
-    	assertEquals(listPayment.size(), 0);
+    	List<Payment> listPayment = paymentDAO.searchNotCommited();
+    	assertTrue(listPayment.isEmpty());
     	
     	// Drop testing datas
     	paymentDAO.delete(paymentDAO.findById(Payment.class, payment.getId()));
@@ -128,7 +130,7 @@ public class PaymentServiceJobTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         listPayment = paymentDAO.searchNotCommited();
-        assertEquals(listPayment.size(), 0);
+        assertTrue(listPayment.isEmpty());
 
         commitTransaction();
     }

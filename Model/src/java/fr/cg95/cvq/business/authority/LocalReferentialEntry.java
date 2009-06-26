@@ -20,7 +20,7 @@ public class LocalReferentialEntry {
     /**
      * Map of precisions fields for users keyed by their two-letters language code.
      */
-    private Map<String, Map> precisionsMap;
+    private Map<String, Map<String, String>> precisionsMap;
 
     /**
      * Map of additional messages keyed by their two-letters language code.
@@ -107,13 +107,13 @@ public class LocalReferentialEntry {
         messagesMap.put(lang, value);
     }
 
-    public final Map getPrecisionsMap() {
+    public final Map<String, Map<String, String>> getPrecisionsMap() {
         return precisionsMap;
     }
 
-    public final void addPrecision(final String key, final Map labelsMap) {
+    public final void addPrecision(final String key, final Map<String, String> labelsMap) {
         if (precisionsMap == null)
-            precisionsMap = new LinkedHashMap<String, Map>();
+            precisionsMap = new LinkedHashMap<String, Map<String, String>>();
         precisionsMap.put(key, labelsMap);
     }
     

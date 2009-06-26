@@ -45,6 +45,8 @@ public interface IDocumentTypeService {
     Integer HANDICAP_CARD_TYPE = new Integer(32);
     Integer FAMILY_HELP_CERTIFICATE_TYPE = new Integer(33);
     Integer IDENTITY_PHOTO_TYPE = new Integer(34);
+    Integer REGISTRATION_CERTIFICATE = new Integer(35);
+    Integer REVENUE_TAXES_NOTIFICATION_TWO_YEARS_AGO = new Integer(36);
     
     /**
      * Get a document type by type id.

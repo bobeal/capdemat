@@ -64,35 +64,12 @@ public interface IRequestService {
     //////////////////////////////////////////////////////////
 
     /**
-     * Prepares request draft.
+     * Create or update a draft of the given request.
      */
-    void prepareDraft(@IsRequest Request request) throws CvqException;
-    
     Long processDraft(@IsRequest Request request) throws CvqException;
     
     /**
-     * Creates a draft request, bypass standard validation procedure. 
-     * 
-     * @param request current request
-     * @return Newly created request identifier
-     * @throws CvqException standard capdemat exception
-     * @throws CvqObjectNotFoundException
-     */
-    Long createDraft(@IsRequest Request request) throws CvqException;
-    
-    /**
-     * Modifies a draft of request
-     * 
-     * @param request draft
-     * @throws CvqException standard capdemat exception
-     */
-    void modifyDraft(@IsRequest Request request) throws CvqException;
-
-    /**
-     * Finalizes a request draft
-     * 
-     * @param request draft to finalize
-     * @throws CvqException standard exception
+     * Finalize a request previously saved as a draft.
      */
     void finalizeDraft(@IsRequest Request request) throws CvqException;
     

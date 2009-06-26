@@ -26,11 +26,11 @@ import fr.cg95.cvq.schema.referential.PlaceReservationDocument.PlaceReservation;
  * and local (ie up to the collectivity's choice) referential data.
  *
  * It generateds the following XML files :
- * &lt;li&gt;
- *   &lt;ul&gt;An XML global referential file&lt;/ul&gt;
- *   &lt;ul&gt;An XML local referential file for each request defining a new one&lt;/ul&gt;
- *   &lt;ul&gt;An XML local referential file for common referential data types&lt;/ul&gt;
- * &lt;/li&gt;
+ * <li>
+ *   <ul>An XML global referential file</ul>
+ *   <ul>An XML local referential file for each request defining a new one</ul>
+ *   <ul>An XML local referential file for common referential data types</ul>
+ * </li>
  *
  * @author bor@zenexity.fr
  * @see Generator/src/xml/schemas/referential/ReferentialData.xsd
@@ -79,8 +79,6 @@ public class EnumerationPlugin implements IPluginGenerator {
     private LocalReferentialDocument requestLrdDoc;
     private PlaceReservationDocument requestPrdDoc;
     
-    private LocalReferentialDocument commonLrdDoc;
-
     private LocalReferential.Data currentLocalReferentialData;
     private PlaceReservation.Data currentPlaceReservationData;
     
@@ -97,15 +95,10 @@ public class EnumerationPlugin implements IPluginGenerator {
                 localReferentialDir = valueAttribute.getNodeValue();
             }
         }
-
-        commonLrdDoc = LocalReferentialDocument.Factory.newInstance();
-        LocalReferential commonLocalReferential = commonLrdDoc.addNewLocalReferential();
-        commonLocalReferential.setRequest("All");
     }
 
     public void shutdown() {
         logger.debug("shutdown()");
-        generateCommonLocalReferential();
     }
 
     public void startRequest(String requestName, String targetNamespace) {
@@ -149,37 +142,18 @@ public class EnumerationPlugin implements IPluginGenerator {
 
         // local referential
         if (waitingForLocalReferential) {
-            // add to common or local according to element's origin
-            if (elementProperties.isInherited()) {
-                // inherited so that's a common local referential type
-                LocalReferential localReferential = commonLrdDoc.getLocalReferential();
-                // check we have not yet added it to common local referential
-                boolean alreadyAdded = false;
-                LocalReferential.Data[] addedData = localReferential.getDataArray();
-                for (int i = 0; i < addedData.length; i++) {
-                    LocalReferential.Data data = addedData[i];
-                    if (data.getName().equals(currentLocalReferentialData.getName())) {
-                        alreadyAdded = true;
-                    }
-                }
-                if (!alreadyAdded) {
-                    localReferential.addNewData();
-                    localReferential.setDataArray(localReferential.sizeOfDataArray() - 1,
-                                                  currentLocalReferentialData);
-                }
+            // not inherited so that's a request local referential type
+            LocalReferential localReferential = null;
+            if (requestLrdDoc == null) {
+                requestLrdDoc = LocalReferentialDocument.Factory.newInstance();
+                localReferential = requestLrdDoc.addNewLocalReferential();
+                localReferential.setRequest(currentRequestName);
             } else {
-                // not inherited so that's a request local referential type
-                LocalReferential localReferential = null;
-                if (requestLrdDoc == null) {
-                    requestLrdDoc = LocalReferentialDocument.Factory.newInstance();
-                    localReferential = requestLrdDoc.addNewLocalReferential();
-                    localReferential.setRequest(currentRequestName);
-                } else {
-                    localReferential = requestLrdDoc.getLocalReferential();
-                }
-                localReferential.addNewData();
-                localReferential.setDataArray(localReferential.sizeOfDataArray() - 1, currentLocalReferentialData);
+                localReferential = requestLrdDoc.getLocalReferential();
             }
+            localReferential.addNewData();
+            localReferential.setDataArray(localReferential.sizeOfDataArray() - 1, 
+                    currentLocalReferentialData);
         }
         
         if (waitingForPlaceReservation) {
@@ -278,24 +252,6 @@ public class EnumerationPlugin implements IPluginGenerator {
         writeXmlFile(outputFile.toString(), requestPrdDoc);
     }
     
-    /**
-     * Create and save the XML file containing local referential data common to all requests.
-     */
-    private void generateCommonLocalReferential() {
-
-        logger.debug("generateComonLocalReferential()");
-
-        if (!XmlValidator.validate(commonLrdDoc)) {
-            logger.error("generateComonLocalReferential() local referential file is not valid, cancelling generation ...");
-            return;
-        }
-
-        StringBuffer outputFile =  new StringBuffer().append(localReferentialDir).append("/")
-            .append("local_referential_cvq.xml");
-
-        writeXmlFile(outputFile.toString(), commonLrdDoc);
-    }
-
     private final void writeXmlFile(final String filename, final XmlObject xmlObject) {
 
         XmlOptions opts = new XmlOptions();

@@ -223,7 +223,8 @@ public class ServiceTestCase
         startTransaction();
     }
 
-    private Agent bootstrapAgent(String agentName, Category category, CategoryProfile categoryProfile) {
+    private Agent bootstrapAgent(String agentName, Category category, 
+            CategoryProfile categoryProfile) {
 
         Agent agent = new Agent();
         agent.setActive(Boolean.TRUE);

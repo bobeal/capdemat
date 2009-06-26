@@ -10,7 +10,6 @@ import org.jmock.Mockery;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
-import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -20,6 +19,7 @@ import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.testtool.HasInnerProperty;
 import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
 public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
 
@@ -30,6 +30,21 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
     public void onSetUp() throws Exception {
         super.onSetUp();
         externalService = (IExternalService) getBean("externalService");
+    }
+    
+    public void onTearDown() throws Exception {
+        
+        externalService.deleteHomeFoldersMappings(EXTERNAL_SERVICE_LABEL);
+        externalService.deleteTraces(EXTERNAL_SERVICE_LABEL);
+
+        continueWithNewTransaction();
+
+        ExternalServiceIdentifierMapping esimFromDb = 
+            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, (Long) null);
+        assertNull(esimFromDb);        
+        assertEquals(0, externalService.getTraces((String) null, null, null, null, null).size());
+        
+        super.onTearDown();
     }
     
     public void testAdd() throws CvqException {
@@ -114,18 +129,6 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         assertNotNull(esimFromDb);
         assertNotNull(esimFromDb.getIndividualsMappings());
         assertEquals(1, esimFromDb.getIndividualsMappings().size());
-        
-        // delete our traces
-        
-        externalService.deleteHomeFolderMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
-        externalService.deleteTraces(EXTERNAL_SERVICE_LABEL);
-        
-        continueWithNewTransaction();
-        
-        esimFromDb = 
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
-        assertNull(esimFromDb);
-        assertEquals(0, externalService.getTraces((String)null, null, null, null, null).size());
     }
     
     public void testGet() throws CvqException {
@@ -189,18 +192,6 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         esim =
             externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, "External Id 2");
         assertNotNull(esim);
-
-        // delete our traces
-        
-        externalService.deleteHomeFoldersMappings(EXTERNAL_SERVICE_LABEL);
-        externalService.deleteTraces(EXTERNAL_SERVICE_LABEL);
-        
-        continueWithNewTransaction();
-        
-        esimFromDb = 
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
-        assertNull(esimFromDb);        
-        assertEquals(0, externalService.getTraces((String)null, null, null, null, null).size());
     }
     
     public void testIdentifiersIntroduction() throws CvqException {
@@ -213,16 +204,19 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         requestTypes.add(IVoCardRequestService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         Mockery context = new Mockery();
-        final IExternalProviderService mockExternalService = context.mock(IExternalProviderService.class);
+        final IExternalProviderService mockExternalService = 
+            context.mock(IExternalProviderService.class);
         
         // set up the mock expectations
         context.checking(new Expectations() {{
-            oneOf (mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)));
+            oneOf(mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)));
             allowing(mockExternalService).getLabel();will(returnValue(EXTERNAL_SERVICE_LABEL));
+            oneOf(mockExternalService).handlesTraces();
             oneOf(mockExternalService)
-                .sendRequest(iRequestService.fillRequestXml(with(AllOf.<VoCardRequest>allOf(
-                        HasInnerProperty.<VoCardRequest>hasProperty("homeFolder.externalId"),
-                        HasInnerProperty.<VoCardRequest>hasProperty("homeFolder.externalCapDematId")))));
+                .sendRequest(with(AllOf.<VoCardRequestDocument>allOf(
+                        HasInnerProperty.<VoCardRequestDocument>hasProperty("homeFolder.externalId"),
+                        HasInnerProperty.<VoCardRequestDocument>hasProperty("homeFolder.externalCapDematId"))));
+            allowing(mockExternalService).handlesTraces();
         }});
         
         // register the mock external provider service with the LACB
@@ -255,11 +249,6 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         
         context.assertIsSatisfied();
         
-        externalService.deleteTraces(EXTERNAL_SERVICE_LABEL);
         lacb.unregisterExternalService(mockExternalService);
-
-        continueWithNewTransaction();
-
-        assertEquals(0, externalService.getTraces((String)null, null, null, null, null).size());
     }
 }

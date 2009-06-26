@@ -481,32 +481,25 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     //////////////////////////////////////////////////////////
 
     @Override
-    public void prepareDraft(Request request) throws CvqException {
-        request.setDraft(true);
-        request.setHomeFolderId(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
-    }
-    
-    @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public Long processDraft(Request request) throws CvqException {
-        if(request.getId() == null) {
-            return this.createDraft(request);
+        request.setDraft(true);
+        if (request.getId() == null) {
+            return createDraft(request);
         } else {
-            this.modifyDraft(request);
+            modifyDraft(request);
             return request.getId();
         }
     }
     
-    @Override
-    public Long createDraft(Request request) throws CvqException {
+    private Long createDraft(Request request) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen(), null);
         return finalizeAndPersist(request);
     }
     
-    @Override
-    public void modifyDraft(Request request) throws CvqException {
-        if(this.isSubjectChanged(request)) {
-            this.createDraft(request);
+    private void modifyDraft(Request request) throws CvqException {
+        if (isSubjectChanged(request)) {
+            createDraft(request);
         } else {
             createOrSynchronizeHomeFolder(request, null);
             finalizeAndPersist(request);
@@ -517,11 +510,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void finalizeDraft(Request request) throws CvqException {
         request.setDraft(false);
-        this.modifyDraft(request);
+        modifyDraft(request);
     }
     
     protected boolean isSubjectChanged(Request request) {
-        Long subjectId = this.requestDAO.getSubjectId(request.getId());
+        Long subjectId = requestDAO.getSubjectId(request.getId());
         if(subjectId == null) {
             if(request.getSubjectId() != null) return true;
             else return false;
@@ -624,8 +617,9 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         
         HomeFolder homeFolder = createOrSynchronizeHomeFolder(request, requester);
         
-        if(!request.getDraft() || request.getDraft() == null)
-            checkSubjectPolicy(request.getSubjectId(),request.getHomeFolderId(),getSubjectPolicy());
+        if (!request.getDraft() || request.getDraft() == null)
+            checkSubjectPolicy(request.getSubjectId(), request.getHomeFolderId(),
+                    getSubjectPolicy());
         
         if (request.getSubjectId() != null) {
             Individual individual = individualService.getById(request.getSubjectId());

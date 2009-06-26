@@ -40,9 +40,12 @@ public class DocumentServiceTest extends ServiceTestCase {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
+        // ensure document digitalization is enabled
+        assertTrue(SecurityContext.getCurrentSite().isDocumentDigitalizationEnabled());
+        
         // ensure all document types have been bootstrapped
         List<DocumentType> allDocumentTypes = iDocumentTypeService.getAllDocumentTypes();
-        assertEquals(34, allDocumentTypes.size());
+        assertEquals(36, allDocumentTypes.size());
         
         // create background data
         CreationBean cb = gimmeAnHomeFolder();

@@ -10,8 +10,10 @@
       <g:if test="${commonInfo != null}">
         <div class="information-box">${commonInfo}</div>
       </g:if>
-      <g:render template="requestList"
-          model="['requests' : dashBoard.incompleteRequests, 'requestListName' : 'incompleteRequests']" />
+      <g:if test="${dashBoard.incompleteRequests?.count > 0}">
+      	<g:render template="requestList"
+        	model="['requests' : dashBoard.incompleteRequests, 'requestListName' : 'incompleteRequests']" />
+      </g:if>
       <g:render template="draftList" />
       <g:render template="requestList"
           model="['requests' : dashBoard.lastRequests, 'requestListName' : 'lastRequests']" />

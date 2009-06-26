@@ -43,30 +43,32 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
           a=a*100000+parseInt(gui, 10);
           a=a%97;
           a=a*Math.pow(10, 11) + cp;
-          a=a%97
+          a=a%97;
           a=a*100;
-          a=a%97
+          a=a%97;
           a=97-a;
-          if (isRIBvalid.arguments.length>3)
+          if (isRIBvalid.arguments.length>3) {
               return isRIBvalid.arguments[3]==a;
-          else
+          } else {
               return a;
           }
-      else {
+      } else {
           return false;
       }
-    }
+    };
     
     /* 
      * TODO - Copy/Paste from requestCreation.js
      * hack to append submit input as hidden
      */
     var addSubmitAsHidden = function (submitEl) {
-      var submitAsHiddenEl = submitEl.cloneNode(false);
-      submitAsHiddenEl.type = 'hidden'
-      var fromYuiEl = new yu.Element(submitEl.form);
-      fromYuiEl.appendChild(submitAsHiddenEl);
-    }
+        var submitAsHiddenEl = document.createElement("input");
+        submitAsHiddenEl.type = 'hidden';
+        submitAsHiddenEl.name = submitEl.name;
+
+        var fromYuiEl = new yu.Element(submitEl.form);
+        fromYuiEl.appendChild(submitAsHiddenEl);
+    };
 
     return {
       
@@ -78,10 +80,11 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
         yue.preventDefault(e);
         var targetEl = yue.getTarget(e);
 
-        var errorEl = yud.get(targetEl.form.id + '-error')
-        if (!FIC_checkForm(e, errorEl, false))
+        var errorEl = yud.get(targetEl.form.id + '-error');
+        if (!FIC_checkForm(e, errorEl, false)) {
           return;
-
+        }
+        
         if (targetEl.name.indexOf('bankReference') > -1) {
           var bankCode = targetEl.form.bankCode.value;
           var counterCode = targetEl.form.counterCode.value;

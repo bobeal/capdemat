@@ -17,14 +17,14 @@
           break;
         }
       }
-    }
+    };
     
     var viewTab = function(offset) {
       zcf.RequestCreation.requestFormTabView.set(
           'activeIndex',
           zcf.RequestCreation.requestFormTabView.get('activeIndex') + offset
       );
-    }
+    };
     
     // hack to append submit input as hidden
     var addSubmitAsHidden = function (submitEl) {
@@ -34,7 +34,7 @@
 
       var fromYuiEl = new yu.Element(submitEl.form);
       fromYuiEl.appendChild(submitAsHiddenEl);
-    }
+    };
 
     var validateAndSubmit = function (e, includeScope) {
       yue.preventDefault(e);
@@ -47,7 +47,7 @@
         
         targetEl.form.submit();
       }
-    }
+    };
     
     return {
       clickEvent : undefined,

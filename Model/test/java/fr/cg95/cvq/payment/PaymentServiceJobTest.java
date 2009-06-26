@@ -4,8 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.context.ConfigurableApplicationContext;
-
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.business.users.payment.PaymentMode;
@@ -24,12 +22,10 @@ public class PaymentServiceJobTest extends ServiceTestCase {
 	
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        
-        paymentDAO = (IPaymentDAO)cac.getBean("paymentDAO");
+
+        paymentDAO = super.<IPaymentDAO>getApplicationBean("paymentDAO");
         paymentInitilizationDateCheckerJob = 
-            (PaymentInitializationDateCheckerJob) cac.getBean("paymentInitializationCheckerJob");
+            super.<PaymentInitializationDateCheckerJob>getApplicationBean("paymentInitializationCheckerJob");
     }
 	
 	private Payment createPayment(int timeShifting, PaymentState paymentState, boolean commitAlert, 
@@ -85,8 +81,6 @@ public class PaymentServiceJobTest extends ServiceTestCase {
         assertEquals(0, listPayment.size());
         
     	commitTransaction();
-    	
-    	throw new CvqException();
     }
 	
     public void testPaymentInitialization() throws CvqException {

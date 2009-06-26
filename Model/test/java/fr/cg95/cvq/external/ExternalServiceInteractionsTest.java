@@ -13,6 +13,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
@@ -75,7 +76,8 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         esb.setRequestTypes(requestTypes);
         esb.setSupportAccountsByHomeFolder(true);
         Mockery context = new Mockery();
-        final IExternalProviderService mockExternalService = context.mock(IExternalProviderService.class);
+        final IExternalProviderService mockExternalService = 
+            context.mock(IExternalProviderService.class);
         
         final ExternalInvoiceItem eii = new ExternalInvoiceItem();
         eii.setExternalServiceLabel(EXTERNAL_SERVICE_LABEL);
@@ -91,7 +93,8 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         
         // set up the mock expectations
         context.checking(new Expectations() {{
-            oneOf (mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)));
+            oneOf(mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)));
+            oneOf(mockExternalService).checkExternalReferential(with(any(VoCardRequestDocument.class)));
             allowing(mockExternalService).getLabel();will(returnValue(EXTERNAL_SERVICE_LABEL));
             oneOf(mockExternalService).handlesTraces();
             oneOf(mockExternalService)
@@ -115,7 +118,9 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        externalService.sendRequest(iRequestService.getById(cb.getRequestId()));
+        iRequestWorkflowService.updateRequestState(cb.getRequestId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(cb.getRequestId(), RequestState.VALIDATED, null);
+
         externalService.getExternalAccounts(homeFolder.getId(), 
                 new HashSet<String>(requestTypes), IPaymentService.EXTERNAL_INVOICES);
         externalService.loadInvoiceDetails(eii);

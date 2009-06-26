@@ -10,6 +10,8 @@ import org.jmock.Mockery;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -29,7 +31,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
     
     public void onSetUp() throws Exception {
         super.onSetUp();
-        externalService = (IExternalService) getBean("externalService");
+        externalService = super.<IExternalService>getApplicationBean("externalService");
     }
     
     public void onTearDown() throws Exception {
@@ -210,6 +212,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         // set up the mock expectations
         context.checking(new Expectations() {{
             oneOf(mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)));
+            oneOf(mockExternalService).checkExternalReferential(with(any(VoCardRequestDocument.class)));
             allowing(mockExternalService).getLabel();will(returnValue(EXTERNAL_SERVICE_LABEL));
             oneOf(mockExternalService).handlesTraces();
             oneOf(mockExternalService)
@@ -245,8 +248,10 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        externalService.sendRequest(iRequestService.getById(cb.getRequestId()));
-        
+        Request request = iRequestService.getById(cb.getRequestId());
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
+
         context.assertIsSatisfied();
         
         lacb.unregisterExternalService(mockExternalService);

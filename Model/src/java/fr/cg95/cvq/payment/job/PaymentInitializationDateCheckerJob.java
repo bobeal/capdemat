@@ -40,10 +40,8 @@ public class PaymentInitializationDateCheckerJob {
 	}
 	
 	/**
-	 * Get List of "Not Commited Payments".
-	 * <br>Get the email's template for those payments.
-	 * <br>Format the email's body by replacing variables by their values for each matched payment
-	 * <br>Send an email alert to the configured email address.
+	 * Search payments older than 3 hours that are still in initialized state and
+	 * send an email alert if there are some.
 	 */
 	public void checkInitializedPayment() throws CvqException {
 		logger.debug("checkInitializedPayment() starting job for local authority " 
@@ -66,7 +64,7 @@ public class PaymentInitializationDateCheckerJob {
                     ILocalAuthorityRegistry.TXT_ASSETS_RESOURCE_TYPE, mailBodyFilename, false);
 		String mailSendTo = agentNotificationMap.get("mailSendTo");
 		
-		String TAG_LOOP_OPEN = "<loop>";
+        String TAG_LOOP_OPEN = "<loop>";
 		String TAG_LOOP_CLOSE = "</loop>";
 		String mailBodyLoop = mailBody.substring(
 				mailBody.indexOf(TAG_LOOP_OPEN) + TAG_LOOP_OPEN.length(),

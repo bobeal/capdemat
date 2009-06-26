@@ -37,7 +37,7 @@ public interface IPaymentDAO extends IGenericDAO {
             int recordsReturned, int startIndex);
 
     /**
-     * Initialized but not commited search amongst payments.
+     * Search payments older than 3 hours that are still in initialized state.
      */
     List<Payment> searchNotCommited();   
     

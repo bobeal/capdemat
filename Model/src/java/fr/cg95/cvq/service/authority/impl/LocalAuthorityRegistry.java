@@ -186,17 +186,24 @@ public class LocalAuthorityRegistry
 
     public File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
         throws CvqException {
-        return getLocalAuthorityResourceFile(id, LocalAuthorityResource.Version.CURRENT, fallbackToDefault);
+        
+        return getLocalAuthorityResourceFile(id, LocalAuthorityResource.Version.CURRENT, 
+                fallbackToDefault);
     }
 
-    public File getLocalAuthorityResourceFile(String id, LocalAuthorityResource.Version version, boolean fallbackToDefault)
+    public File getLocalAuthorityResourceFile(String id, LocalAuthorityResource.Version version, 
+            boolean fallbackToDefault)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
-        String completeFilename = resource.getFilename() + LocalAuthorityResource.versionExtensions.get(version) + resource.getExtension();
-        String filePath = assetsBase + SecurityContext.getCurrentSite().getName().toLowerCase() + "/" + resource.getResourceType() + "/";
+        String completeFilename = 
+            resource.getFilename() + LocalAuthorityResource.versionExtensions.get(version) 
+                + resource.getExtension();
+        String filePath = assetsBase + SecurityContext.getCurrentSite().getName().toLowerCase() 
+            + "/" + resource.getResourceType() + "/";
         File file = new File(filePath + completeFilename);
         if (!file.exists() && fallbackToDefault) {
-            logger.warn("getLocalAuthorityResourceFile() did not find " + filePath + completeFilename + ", trying default");
+            logger.warn("getLocalAuthorityResourceFile() did not find " + filePath 
+                    + completeFilename + ", trying default");
             return getReferentialResource(resource.getResourceType(), completeFilename);
         }
         return file;

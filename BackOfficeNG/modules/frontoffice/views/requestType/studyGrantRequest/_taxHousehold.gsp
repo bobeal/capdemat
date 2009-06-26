@@ -3,7 +3,7 @@
 
   
     <label class="required"><g:message code="sgr.property.taxHouseholdLastName.label" /> *  <span><g:message code="sgr.property.taxHouseholdLastName.help" /></span></label>
-            <input type="text" name="taxHouseholdLastName" value="${rqt.taxHouseholdLastName}" 
+            <input type="text" name="taxHouseholdLastName" value="${rqt.taxHouseholdLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="sgr.property.taxHouseholdLastName.validationError" />"  maxLength="38"/>
             
 
@@ -11,7 +11,7 @@
 
   
     <label class="required"><g:message code="sgr.property.taxHouseholdFirstName.label" /> *  <span><g:message code="sgr.property.taxHouseholdFirstName.help" /></span></label>
-            <input type="text" name="taxHouseholdFirstName" value="${rqt.taxHouseholdFirstName}" 
+            <input type="text" name="taxHouseholdFirstName" value="${rqt.taxHouseholdFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="sgr.property.taxHouseholdFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -29,7 +29,7 @@
 
   
     <label class="required condition-isTaxHouseholdCityOther-filled"><g:message code="sgr.property.taxHouseholdCityPrecision.label" /> *  <span><g:message code="sgr.property.taxHouseholdCityPrecision.help" /></span></label>
-            <input type="text" name="taxHouseholdCityPrecision" value="${rqt.taxHouseholdCityPrecision}" 
+            <input type="text" name="taxHouseholdCityPrecision" value="${rqt.taxHouseholdCityPrecision?.toString()}" 
                     class="required condition-isTaxHouseholdCityOther-filled  validate-string" title="<g:message code="sgr.property.taxHouseholdCityPrecision.validationError" />"  />
             
 
@@ -37,7 +37,7 @@
 
   
     <label class="required"><g:message code="sgr.property.taxHouseholdIncome.label" /> *  <span><g:message code="sgr.property.taxHouseholdIncome.help" /></span></label>
-            <input type="text" name="taxHouseholdIncome" value="${rqt.taxHouseholdIncome}" 
+            <input type="text" name="taxHouseholdIncome" value="${rqt.taxHouseholdIncome?.toString()}" 
                     class="required  validate-regex" title="<g:message code="sgr.property.taxHouseholdIncome.validationError" />" regex="^\d+(?:\.\d{1,2})?$" />
             
 

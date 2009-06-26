@@ -29,7 +29,7 @@
 
   
     <label class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderLastName.label" /> *  <span><g:message code="sgr.property.accountHolderLastName.help" /></span></label>
-            <input type="text" name="accountHolderLastName" value="${rqt.accountHolderLastName}" 
+            <input type="text" name="accountHolderLastName" value="${rqt.accountHolderLastName?.toString()}" 
                     class="required condition-isSubjectAccountHolder-unfilled  validate-lastName" title="<g:message code="sgr.property.accountHolderLastName.validationError" />"  maxLength="38"/>
             
 
@@ -37,7 +37,7 @@
 
   
     <label class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderFirstName.label" /> *  <span><g:message code="sgr.property.accountHolderFirstName.help" /></span></label>
-            <input type="text" name="accountHolderFirstName" value="${rqt.accountHolderFirstName}" 
+            <input type="text" name="accountHolderFirstName" value="${rqt.accountHolderFirstName?.toString()}" 
                     class="required condition-isSubjectAccountHolder-unfilled  validate-firstName" title="<g:message code="sgr.property.accountHolderFirstName.validationError" />"  maxLength="38"/>
             
 
@@ -53,7 +53,7 @@
 
   
     <label class="required"><g:message code="sgr.property.bankCode.label" /> *  <span><g:message code="sgr.property.bankCode.help" /></span></label>
-            <input type="text" name="bankCode" value="${rqt.bankCode}" 
+            <input type="text" name="bankCode" value="${rqt.bankCode?.toString()}" 
                     class="required  validate-regex" title="<g:message code="sgr.property.bankCode.validationError" />" regex="^\d{1,5}$" maxLength="5"/>
             
 
@@ -61,7 +61,7 @@
 
   
     <label class="required"><g:message code="sgr.property.counterCode.label" /> *  <span><g:message code="sgr.property.counterCode.help" /></span></label>
-            <input type="text" name="counterCode" value="${rqt.counterCode}" 
+            <input type="text" name="counterCode" value="${rqt.counterCode?.toString()}" 
                     class="required  validate-regex" title="<g:message code="sgr.property.counterCode.validationError" />" regex="^\d{1,5}$" maxLength="5"/>
             
 
@@ -69,7 +69,7 @@
 
   
     <label class="required"><g:message code="sgr.property.accountNumber.label" /> *  <span><g:message code="sgr.property.accountNumber.help" /></span></label>
-            <input type="text" name="accountNumber" value="${rqt.accountNumber}" 
+            <input type="text" name="accountNumber" value="${rqt.accountNumber?.toString()}" 
                     class="required  validate-regex" title="<g:message code="sgr.property.accountNumber.validationError" />" regex="^[a-zA-Z0-9]{1,11}$" maxLength="11"/>
             
 
@@ -77,7 +77,7 @@
 
   
     <label class="required"><g:message code="sgr.property.accountKey.label" /> *  <span><g:message code="sgr.property.accountKey.help" /></span></label>
-            <input type="text" name="accountKey" value="${rqt.accountKey}" 
+            <input type="text" name="accountKey" value="${rqt.accountKey?.toString()}" 
                     class="required  validate-regex" title="<g:message code="sgr.property.accountKey.validationError" />" regex="^(?:O[1-9])|(?:[1-8]\d)|(?:9[0-7])$" maxLength="2"/>
             
 

@@ -2,22 +2,6 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	attributeFormDefault="qualified" elementFormDefault="qualified"
 	targetNamespace="http://service.edem.gda.unilog.com">
-	<xs:element name="ajouterPiecesJointes">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element minOccurs="0" name="psPieces" nillable="true"
-					type="xs:string" />
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ajouterPiecesJointesResponse">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element minOccurs="0" name="return" nillable="true"
-					type="xs:string" />
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="chargerDemande">
 		<xs:complexType>
 			<xs:sequence>

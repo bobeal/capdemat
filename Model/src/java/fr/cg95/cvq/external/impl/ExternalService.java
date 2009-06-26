@@ -23,6 +23,7 @@ import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
@@ -91,7 +92,9 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             getExternalServicesByRequestType(requestTypeLabel);
         if (externalProviderServices == null || externalProviderServices.isEmpty())
             return;
-        
+        if (!request.getState().equals(RequestState.VALIDATED)) {
+            throw new CvqException("Request must be validated before sending", "plugins.externalservices.error.requestMustBeValidated");
+        }
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         for (IExternalProviderService externalProviderService : externalProviderServices) {
             // before sending the request to the external service, eventually set 
@@ -584,6 +587,20 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return getTraces(String.valueOf(key), name, status, dateFrom, dateTo);
     }
 
+    public Set<ExternalServiceTrace> getTraces(String key, String subkey, String label) {
+        CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
+        criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.ASC));
+        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
+        criteriasDescriptor.addSearch(new SimpleCriteria("subkey", BaseOperator.EQUALS, subkey));
+        criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
+        criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
+        return externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class);
+    }
+
+    public Set<ExternalServiceTrace> getTraces(Long key, String subkey, String label) {
+        return getTraces(String.valueOf(key), subkey, label);
+    }
+
     public Set<ExternalServiceTrace> getTraces(String key, String label) {
         CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
         criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.ASC));
@@ -698,6 +715,20 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
 
     public ExternalServiceTrace getLastTrace(Long key, String label) {
         return getLastTrace(String.valueOf(key), label);
+    }
+
+    public boolean hasTraceWithStatus(String key, String subkey, String label, TraceStatusEnum status) {
+        CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
+        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
+        criteriasDescriptor.addSearch(new SimpleCriteria("subkey", BaseOperator.EQUALS, subkey));
+        criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
+        criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
+        criteriasDescriptor.addSearch(new SimpleCriteria("status", BaseOperator.EQUALS, status.toString()));
+        return !externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class).isEmpty();
+    }
+
+    public boolean hasTraceWithStatus(Long key, String subkey, String label, TraceStatusEnum status) {
+        return hasTraceWithStatus(String.valueOf(key), subkey, label, status);
     }
 
     public boolean hasTraceWithStatus(String key, String label, TraceStatusEnum status) {

@@ -197,21 +197,17 @@
           <div class="yui-u first">
             
               
-              <dl>
-                <dt class="required condition-isCurrentSchoolNameOther-trigger"><g:message code="sgr.property.currentSchoolName.label" /> * : </dt><dd id="currentSchoolName" class="action-editField validate-localReferentialData required-true i18n-sgr.property.currentSchoolName data-localReferentialData" >
+              <h3><g:message code="sgr.property.currentSchool.label" /></h3>
+              <dl class="">
+                
+                  <dt class="required condition-isCurrentSchoolNameOther-trigger"><g:message code="sgr.property.currentSchoolName.label" /> * : </dt><dd id="currentSchoolName" class="action-editField validate-localReferentialData required-true i18n-sgr.property.currentSchoolName data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'currentSchoolName', 'lrEntries': lrTypes.currentSchoolName?.entries, 
                              'rqt':request, 'isMultiple':lrTypes.currentSchoolName?.entriesSupportMultiple, 'depth':0]" />
  
           </dd>
-              </dl>
-              
-            
-              
-              <h3><g:message code="sgr.property.currentSchool.label" /></h3>
-              <dl class="required condition-isCurrentSchoolNameOther-filled">
                 
-                  <dt class="required"><g:message code="sgr.property.currentSchoolNamePrecision.label" /> * : </dt><dd id="currentSchoolNamePrecision" class="action-editField validate-string required-true i18n-sgr.property.currentSchoolNamePrecision" ><span>${request?.currentSchoolNamePrecision}</span></dd>
+                  <dt class="required condition-isCurrentSchoolNameOther-filled"><g:message code="sgr.property.currentSchoolNamePrecision.label" /> * : </dt><dd id="currentSchoolNamePrecision" class="action-editField validate-string required-true i18n-sgr.property.currentSchoolNamePrecision" ><span>${request?.currentSchoolNamePrecision}</span></dd>
                 
                   <dt class="required"><g:message code="sgr.property.currentSchoolPostalCode.label" /> * : </dt><dd id="currentSchoolPostalCode" class="action-editField validate-postalCode required-true i18n-sgr.property.currentSchoolPostalCode maxLength-5" ><span>${request?.currentSchoolPostalCode}</span></dd>
                 

@@ -35,14 +35,11 @@ grails.enable.native2ascii = true
 log4j {
     appender.stdout = "org.apache.log4j.ConsoleAppender"
     appender.'stdout.layout'="org.apache.log4j.PatternLayout"
-    appender.'stdout.layout.ConversionPattern'='[%r] %c{2} %m%n'
     appender.errors = "org.apache.log4j.FileAppender"
     appender.'errors.layout'="org.apache.log4j.PatternLayout"
-    appender.'errors.layout.ConversionPattern'='[%r] %c{2} %m%n'
     appender.'errors.File'="stacktrace.log"
     rootLogger="error,stdout"
     logger {
-        grails="debug"
         StackTrace="error,errors"
         org {
             codehaus.groovy.grails.web.servlet="error"  //  controllers
@@ -136,7 +133,7 @@ jcaptchas {
 		new GenericCaptchaEngine(
 			new GimpyFactory(
 				new RandomWordGenerator(
-					"abcdefghijklmnopqrstuvwxyz1234567890"
+					"abcdefghijklmnpqrstuvwxyz123456789"
 				),
 				new ComposedWordToImage(
 					new RandomFontGenerator(
@@ -163,3 +160,23 @@ jcaptchas {
 	)
 }
 
+environments {
+    development {
+        log4j {
+            appender.'stdout.layout.ConversionPattern'='[%d{ABSOLUTE}] %c{2} %m%n'
+            appender.'errors.layout.ConversionPattern'='[%d{ABSOLUTE}] %c{2} %m%n'
+            logger {
+                grails="debug"
+            }
+        }
+    }
+    production {
+        log4j {
+            appender.'stdout.layout.ConversionPattern'='[%d{ISO8601}] %c{2} %m%n'
+            appender.'errors.layout.ConversionPattern'='[%d{ISO8601}] %c{2} %m%n'
+            logger {
+                grails="error"
+            }
+        }
+    }
+}

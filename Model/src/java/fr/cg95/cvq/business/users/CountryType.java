@@ -1,5 +1,7 @@
 package fr.cg95.cvq.business.users;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 
 /**
@@ -10,6 +12,8 @@ import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 public final class CountryType extends PersistentStringEnum { 
 
     private static final long serialVersionUID = 1L;
+
+    public static CountryType[] allCountryTypes = null;
 
     public static final CountryType UNKNOWN = new CountryType("Unknown");
     public static final CountryType AF = new CountryType("af");
@@ -224,6 +228,7 @@ public final class CountryType extends PersistentStringEnum {
      */
     private CountryType(String value) {
        super(value);
+       allCountryTypes = (CountryType[])ArrayUtils.add(allCountryTypes, this);
     }
 
 

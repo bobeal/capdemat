@@ -1048,6 +1048,7 @@
         message varchar(255),
         name varchar(255),
         status varchar(255),
+        subkey varchar(255),
         primary key (id)
     );
 
@@ -2125,6 +2126,7 @@
         has_europe_help bool,
         current_studies varchar(255),
         tax_household_city_precision varchar(255),
+        account_holder_edemande_id varchar(255),
         current_studies_level varchar(255),
         edemande_id varchar(255),
         current_school_postal_code varchar(5),

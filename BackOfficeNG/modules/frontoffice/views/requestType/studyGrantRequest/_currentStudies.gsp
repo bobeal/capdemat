@@ -2,33 +2,31 @@
 
 
   
-    <label class="required"><g:message code="sgr.property.currentSchoolName.label" /> *  <span><g:message code="sgr.property.currentSchoolName.help" /></span></label>
+    <fieldset class="">
+    <legend><g:message code="sgr.property.currentSchool.label" /></legend>
+    
+      <label class="required"><g:message code="sgr.property.currentSchoolName.label" /> *  <span><g:message code="sgr.property.currentSchoolName.help" /></span></label>
             <g:set var="currentSchoolNameIndex" value="${0}" scope="flash" />
             <g:render template="/frontofficeRequestType/widget/localReferentialData" 
                       model="['javaName':'currentSchoolName', 'i18nPrefixCode':'sgr.property.currentSchoolName', 'htmlClass':'required condition-isCurrentSchoolNameOther-trigger  ', 
                               'lrEntries': lrTypes.currentSchoolName.entries, 'depth':0]" />
             
 
-  
-
-  
-    <fieldset class="required condition-isCurrentSchoolNameOther-filled">
-    <legend><g:message code="sgr.property.currentSchool.label" /></legend>
     
-      <label class="required"><g:message code="sgr.property.currentSchoolNamePrecision.label" /> *  <span><g:message code="sgr.property.currentSchoolNamePrecision.help" /></span></label>
-            <input type="text" name="currentSchoolNamePrecision" value="${rqt.currentSchoolNamePrecision}" 
-                    class="required  validate-string" title="<g:message code="sgr.property.currentSchoolNamePrecision.validationError" />"  />
+      <label class="required condition-isCurrentSchoolNameOther-filled"><g:message code="sgr.property.currentSchoolNamePrecision.label" /> *  <span><g:message code="sgr.property.currentSchoolNamePrecision.help" /></span></label>
+            <input type="text" name="currentSchoolNamePrecision" value="${rqt.currentSchoolNamePrecision?.toString()}" 
+                    class="required condition-isCurrentSchoolNameOther-filled  validate-string" title="<g:message code="sgr.property.currentSchoolNamePrecision.validationError" />"  />
             
 
     
       <label class="required"><g:message code="sgr.property.currentSchoolPostalCode.label" /> *  <span><g:message code="sgr.property.currentSchoolPostalCode.help" /></span></label>
-            <input type="text" name="currentSchoolPostalCode" value="${rqt.currentSchoolPostalCode}" 
+            <input type="text" name="currentSchoolPostalCode" value="${rqt.currentSchoolPostalCode?.toString()}" 
                     class="required  validate-postalCode" title="<g:message code="sgr.property.currentSchoolPostalCode.validationError" />"  maxLength="5"/>
             
 
     
       <label class="required"><g:message code="sgr.property.currentSchoolCity.label" /> *  <span><g:message code="sgr.property.currentSchoolCity.help" /></span></label>
-            <input type="text" name="currentSchoolCity" value="${rqt.currentSchoolCity}" 
+            <input type="text" name="currentSchoolCity" value="${rqt.currentSchoolCity?.toString()}" 
                     class="required  validate-city" title="<g:message code="sgr.property.currentSchoolCity.validationError" />"  maxLength="32"/>
             
 
@@ -51,7 +49,7 @@
     <legend><g:message code="sgr.property.aLevelsInformations.label" /></legend>
     
       <label class="required"><g:message code="sgr.property.alevelsDate.label" /> *  <span><g:message code="sgr.property.alevelsDate.help" /></span></label>
-            <input type="text" name="alevelsDate" value="${rqt.alevelsDate}" 
+            <input type="text" name="alevelsDate" value="${rqt.alevelsDate?.toString()}" 
                     class="required  validate-regex" title="<g:message code="sgr.property.alevelsDate.validationError" />" regex="^\d{2,4}$" maxLength="4"/>
             
 
@@ -84,7 +82,7 @@
 
     
       <label class="required condition-isInOtherStudies-filled"><g:message code="sgr.property.otherStudiesLabel.label" /> *  <span><g:message code="sgr.property.otherStudiesLabel.help" /></span></label>
-            <input type="text" name="otherStudiesLabel" value="${rqt.otherStudiesLabel}" 
+            <input type="text" name="otherStudiesLabel" value="${rqt.otherStudiesLabel?.toString()}" 
                     class="required condition-isInOtherStudies-filled  validate-string" title="<g:message code="sgr.property.otherStudiesLabel.validationError" />"  />
             
 
@@ -136,7 +134,7 @@
 
     
       <label class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipSchoolName.label" /> *  <span><g:message code="sgr.property.abroadInternshipSchoolName.help" /></span></label>
-            <input type="text" name="abroadInternshipSchoolName" value="${rqt.abroadInternshipSchoolName}" 
+            <input type="text" name="abroadInternshipSchoolName" value="${rqt.abroadInternshipSchoolName?.toString()}" 
                     class="required condition-makesAbroadInternship-filled  validate-string" title="<g:message code="sgr.property.abroadInternshipSchoolName.validationError" />"  />
             
 

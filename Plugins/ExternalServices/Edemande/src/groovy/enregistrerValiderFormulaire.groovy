@@ -53,7 +53,31 @@
    <msCodext>${msCodext}</msCodext>
    <mdMtDemande/>
    <mvListePiecesReq/>
-   <mvListePiecesRecu/>
+   <mvListePiecesRecu>
+    <% documents.each { %>
+     <CBdosPieceRecueVO>
+      <msDescri/>
+      <msLib>PJ</msLib>
+      <miNombre>1</miNombre>
+      <moDocument>
+       <msDescri/>
+       <msLib/>
+       <miNombre/>
+       <% it.parts.each { %>
+        <moImage>
+         <msReferenceExt>${it.filename}</msReferenceExt>
+         <mtbFluxBinaire>${it.filename}</mtbFluxBinaire>
+         <msSourceImage>${it.filename}</msSourceImage>
+         <msCle/>
+        </moImage>
+       <% } %>
+       <moFormat>
+        <msTypeMime>text/plain</msTypeMime>
+       </moFormat>
+      </moDocument>
+     </CBdosPieceRecueVO>
+    <% } %>
+   </mvListePiecesRecu>
    <mvListeInformations/>
    <moLot/>
    <moLigneDossier/>
@@ -89,7 +113,7 @@
     <miCode/>
    </moCdrAppartenance>
    <moSectorisation>
-    <miCode/>
+    <miCode>${taxHouseholdCityCode}</miCode>
    </moSectorisation>
    <mvAdresses>
     <CTierAdresseVO>
@@ -112,7 +136,6 @@
    </mvAdresses>
    <mvReferencesBancaires>
     <CTierReferenceBancaireVO>
-      <miCode>1</miCode>
       <moModePaiement>
         <msDescription>Virement bancaire</msDescription>
       </moModePaiement>
@@ -125,7 +148,7 @@
       <mbEtranger>false</mbEtranger>
       <mbIban>false</mbIban>
       <mbUsuel>true</mbUsuel>
-      <msIntitule>XXXXXXXXX</msIntitule>
+      <msIntitule/>
       <miBloquee>0</miBloquee>
       <mdtDateBlocage/>
       <msMotifBlocage/>

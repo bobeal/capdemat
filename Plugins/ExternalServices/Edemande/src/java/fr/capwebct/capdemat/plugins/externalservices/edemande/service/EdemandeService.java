@@ -366,8 +366,9 @@ public class EdemandeService implements IExternalProviderService {
             translationService.translate("sgr.property.alevels."
             + sgr.getALevelsInformations().getAlevels().toString().toLowerCase(), Locale.FRANCE));
         model.put("currentStudiesType",
+            StringUtils.defaultIfEmpty(sgr.getCurrentStudiesInformations().getOtherStudiesLabel(),
             translationService.translate("sgr.property.currentStudies."
-            + sgr.getCurrentStudiesInformations().getCurrentStudies().toString(), Locale.FRANCE));
+            + sgr.getCurrentStudiesInformations().getCurrentStudies().toString(), Locale.FRANCE)));
         model.put("currentStudiesLevel",
             translationService.translate("sgr.property.currentStudiesLevel."
             + sgr.getCurrentStudiesInformations().getCurrentStudiesLevel().toString(), Locale.FRANCE));
@@ -385,11 +386,13 @@ public class EdemandeService implements IExternalProviderService {
         model.put("currentSchoolCity",
             StringUtils.defaultString(sgr.getCurrentSchool().getCurrentSchoolCity()));
         model.put("currentSchoolCountry", sgr.getCurrentSchool().getCurrentSchoolCountry() != null ?
-            sgr.getCurrentSchool().getCurrentSchoolCountry() : "");
+            translationService.translate("sgr.property.currentSchoolCountry."
+            + sgr.getCurrentSchool().getCurrentSchoolCountry()) : "");
         model.put("abroadInternshipSchoolName", sgr.getCurrentStudiesInformations().getAbroadInternship() ?
             sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolName() : "");
         model.put("abroadInternshipSchoolCountry", sgr.getCurrentStudiesInformations().getAbroadInternship() ?
-            sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry() : "");
+            translationService.translate("sgr.property.abroadInternshipSchoolCountry."
+            + sgr.getCurrentStudiesInformations().getAbroadInternshipSchoolCountry()) : "");
         model.put("distance",
             translationService.translate("sgr.property.distance."
             + sgr.getDistance().toString(), Locale.FRANCE));

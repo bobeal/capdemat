@@ -88,7 +88,7 @@
    <miCode>${psCodeTiers}</miCode>
    <LoginUtilisateurGda/>
    <msNom>${lastName}</msNom>
-   <msLib>${lastName}</msLib>
+   <msLib>${firstName} ${lastName}</msLib>
    <moAttach>
     <moProcedure>
      <miCode>27</miCode>
@@ -181,6 +181,7 @@
    <moGeneral type="noeud" nom="DEMANDE">
     <mbPremiereDem type="booleen" nom="Indicateur Première Demande">${firstRequest}</mbPremiereDem>
     <mdtDateCreation type="date" nom="Date de validation de la demande par l'étudiant">${creationDate}</mdtDateCreation>
+    <msRIB type="texte" nom="RIB">${bankCode} ${counterCode} ${accountNumber} ${accountKey}</msRIB>
    </moGeneral>
    <moFoyerFiscal type="noeud" nom="FOYER FISCAL">
     <mdMtRevenuBrutGlobal type="montant" nom="Revenu brut global indiqué sur l'Avis d'imposition">${taxHouseholdIncome}</mdMtRevenuBrutGlobal>

@@ -3,9 +3,24 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.security.annotation.ContextType
 
 public class SecurityService {
+	
+	/**
+	 * Define allowed controller/action pairs according to user context 
+	 * (agent, unauthenticated ecitizen, ...).
+	 */ 
     protected Map permissions
+
+    /**
+     * Define default entry point (controller/action) for special
+     * contexts (agent and unauthenticated ecitizen).
+     */
     protected Map defaultPoints = [:]
     
+	/**
+	 * According to user context, check whether requested controller and action are authorized.
+	 * 
+	 * Return given controller and action if they are authorized, default entry point either.
+	 */
     public Map defineAccessPoint(ContextType context,String controller,String action) {
         this.initPermissionsMap()
         if(!context) context = ContextType.UNAUTH_ECITIZEN
@@ -23,7 +38,6 @@ public class SecurityService {
             
             if(factor) return current
             else return (Map) defaultPoints[context.value()]
-            
         } else {
             return (Map) defaultPoints[context.value()]
         }
@@ -41,10 +55,12 @@ public class SecurityService {
     }
     
     protected void initPermissionsMap() {
-        if(this.permissions) return
+        if (this.permissions) return
         
-        defaultPoints[ContextType.AGENT.value()] = [controller:'frontofficeRequestType',action:'index']
-        defaultPoints[ContextType.UNAUTH_ECITIZEN.value()] = [ controller:'frontofficeHome',action:'login']
+        this.defaultPoints[ContextType.AGENT.value()] = 
+        	[controller:'frontofficeRequestType',action:'index']
+        this.defaultPoints[ContextType.UNAUTH_ECITIZEN.value()] = 
+        	[controller:'frontofficeHome',action:'login']
         
         this.permissions = [:]
         this.permissions[ContextType.ECITIZEN.value()] = /.*/
@@ -55,7 +71,6 @@ public class SecurityService {
             'frontofficeHome' : /logout/
         ]
         this.permissions[ContextType.UNAUTH_ECITIZEN.value()] = [
-            'frontofficeVOCardRequestCreation' : /.*/,
             'frontofficeRequestCreation' : /.*/,
             'frontofficeHomeFolder' : /resetPassword/,
             'frontofficeHome' : [/loginAgent/,/login/,/test/],

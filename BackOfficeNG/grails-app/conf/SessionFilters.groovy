@@ -79,12 +79,14 @@ class SessionFilters {
         setupFrontUser(controller: 'frontoffice*', action: '*') {
             before = {
                 def securityService = applicationContext.getBean("securityService")
-                def point = securityService.defineAccessPoint(session.frontContext,controllerName,actionName)
+                def point = 
+                	securityService.defineAccessPoint(session.frontContext,
+                			controllerName, actionName)
                 
                 try {
                     SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
                     
-                    if((point.controller == controllerName && point.action != actionName) || 
+                    if ((point.controller == controllerName && point.action != actionName) || 
                         (point.controller != controllerName)) {
                         if(point.action) redirect(controller: point.controller, action: point.action)
                         else redirect(controller: point.controller)

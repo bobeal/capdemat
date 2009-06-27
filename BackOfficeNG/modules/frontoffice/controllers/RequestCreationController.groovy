@@ -35,6 +35,7 @@ class RequestCreationController {
     def requestTypeAdaptorService
     def translationService
     def jcaptchaService
+    def securityService
     
     def defaultAction = 'edit'
     
@@ -375,14 +376,16 @@ class RequestCreationController {
                         cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
                         requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
                     }
-                    else if (requestTypeInfo.label == 'VO Card')
+                    else if (requestTypeInfo.label == 'VO Card') {
                         requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
-                    else if (SecurityContext.currentEcitizen == null) 
+                        securityService.setEcitizenSessionInformation(objectToBind.requester.login, session)
+                    } else if (SecurityContext.currentEcitizen == null) { 
                         requestService.create(cRequest, objectToBind.requester, null, docs)
-                    else if (!cRequest.draft) 
+                    } else if (!cRequest.draft) { 
                         requestService.create(cRequest, docs)
-                    else 
+                    } else { 
                         requestService.finalizeDraft(cRequest)
+                    }
                     if (params.requestNote && !params.requestNote.trim().isEmpty()) {
                         requestService.addNote(cRequest.id, RequestNoteType.PUBLIC, params.requestNote)
                     }

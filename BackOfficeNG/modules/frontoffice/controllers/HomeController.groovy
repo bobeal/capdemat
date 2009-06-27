@@ -25,6 +25,7 @@ class HomeController {
     def requestAdaptorService
     def instructionService
     def requestTypeAdaptorService
+    def securityService
     
     IRequestService defaultRequestService
     IRequestActionService requestActionService
@@ -93,14 +94,7 @@ class HomeController {
             catch (CvqDisabledAccountException e) {error='account.error.disabledAccount'}
             
             if(result && result instanceof HomeFolder) {
-                session.currentEcitizen = params.login
-                session.frontContext = ContextType.ECITIZEN
-                
-                SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
-                SecurityContext.setCurrentEcitizen(session.currentEcitizen)
-                
-                def adult = SecurityContext.currentEcitizen
-                session.currentEcitizenName = adult.firstName + " " + adult.lastName
+            	securityService.setEcitizenSessionInformation(params.login, session)
                 
                 if (params.requestTypeLabel == null) {
                     redirect(controller:'frontofficeHome')

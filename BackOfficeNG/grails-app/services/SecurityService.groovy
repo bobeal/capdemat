@@ -1,3 +1,5 @@
+import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.security.annotation.ContextType
 
 public class SecurityService {
@@ -25,6 +27,17 @@ public class SecurityService {
         } else {
             return (Map) defaultPoints[context.value()]
         }
+    }
+    
+    public void setEcitizenSessionInformation(ecitizenLogin,session) {
+        session.currentEcitizen = ecitizenLogin
+        session.frontContext = ContextType.ECITIZEN
+        
+        SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
+        SecurityContext.setCurrentEcitizen(ecitizenLogin)
+        
+        def adult = SecurityContext.currentEcitizen
+        session.currentEcitizenName = adult.firstName + " " + adult.lastName    	
     }
     
     protected void initPermissionsMap() {

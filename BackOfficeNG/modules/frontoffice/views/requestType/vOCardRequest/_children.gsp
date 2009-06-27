@@ -58,7 +58,7 @@
       <dd>${it.firstName}</dd>
       -->
       <dt><g:message code="homeFolder.child.property.sex" /> : </dt>
-      <dd><g:capdematEnumToField var="${it.sex}" i18nKeyPrefix="homeFolder.child.sex" /></dd>
+      <dd><g:capdematEnumToField var="${it.sex}" i18nKeyPrefix="homeFolder.child.property.sex" /></dd>
 
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
       <dd><span><g:formatDate formatName="format.date" date="${it.birthDate}"/></span></dd>

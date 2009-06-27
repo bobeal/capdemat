@@ -4,7 +4,7 @@
       <dt>${record.fullName}</dt>
       <dd>
         <g:message code="homeFolder.child.property.sex" /> 
-        <g:capdematEnumToText var="${record.sex}" i18nKeyPrefix="homeFolder.child.sex"/>
+        <g:capdematEnumToText var="${record.sex}" i18nKeyPrefix="homeFolder.child.property.sex"/>
       </dd>
       <dd>
         <g:message code="homeFolder.header.born" />

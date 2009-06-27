@@ -47,6 +47,7 @@
   </div>
 </g:each>
 
+<g:if test="${individuals?.children}">
 <h3><g:message code="vcr.step.children.label" /></h3>
 <g:each var="it" in="${individuals?.children}" status="index">
   <div class="account-fieldset-edit">
@@ -67,4 +68,5 @@
   </dl>
   </div>
 </g:each>
+</g:if>
 

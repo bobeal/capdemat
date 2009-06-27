@@ -48,19 +48,23 @@
           </em></a>
         </li>
 
+        <g:if test="${displayChildrenInAccountCreation}">
         <li class="${currentStep == 'children' ? 'selected' : ''}">
           <a href="#children"><em>
             <span class="tag-state ${stepStates!= null ? stepStates.children.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.children.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <span><g:message code="vcr.step.children.label" /></span>
           </em></a>
         </li>
+        </g:if>
         
+        <g:if test="${displayTutorsInAccountCreation && displayChildrenInAccountCreation}">
         <li class="${currentStep == 'foreignAdults' ? 'selected' : ''}">
           <a href="#foreignAdults"><em>
             <span class="tag-state ${stepStates!= null ? stepStates.foreignAdults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.foreignAdults.i18nKey : 'request.step.state.uncomplete'}" /></span>
             <span><g:message code="vcr.step.foreignAdults.label" /></span>
           </em></a>
         </li>
+        </g:if>
         
         <li class="${currentStep == 'account' ? 'selected' : ''}">
           <a href="#account"><em>
@@ -84,7 +88,7 @@
           <strong><g:message code="request.step.validation.label" /> *</strong>
           </em></a>
         </li>
-		 </ul>
+	  </ul>
 		 
      <div class="yui-content">
 
@@ -122,6 +126,7 @@
          </g:if>
        </div>  
        
+       <g:if test="${displayChildrenInAccountCreation}">
        <div id="children">
          <form method="POST"  id="stepForm-children" action="<g:createLink action="step" />">
            <h3>
@@ -152,7 +157,9 @@
          </div>
          </g:if>
        </div>
+       </g:if>
        
+       <g:if test="${displayTutorsInAccountCreation && displayChildrenInAccountCreation}">
        <div id="foreignAdults">
          <form method="POST"  id="stepForm-foreignAdults" action="<g:createLink action="step" />">
            <h3>
@@ -185,6 +192,7 @@
          </div>
          </g:if>
        </div> 
+       </g:if>
        
        <div id="account">
          <form method="POST"  id="stepForm-account" action="<g:createLink action="step" />">
@@ -194,7 +202,14 @@
              <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
   
              <g:message code="vcr.step.account.label" />
-             <span><g:message code="vcr.step.account.desc" /></span>
+             <span>
+               <g:if test="${displayTutorsInAccountCreation}">
+                 <g:message code="vcr.step.account.desc" />
+               </g:if>
+               <g:else>
+                 <g:message code="vcr.step.accountWithoutTutors.desc" />
+               </g:else>
+             </span>
              <span class="error">${stepStates?.account?.errorMsg}</span>
            </h3>
            <div>

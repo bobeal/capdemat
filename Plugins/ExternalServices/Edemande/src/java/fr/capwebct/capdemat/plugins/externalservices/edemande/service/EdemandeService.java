@@ -29,6 +29,8 @@ import org.springframework.web.util.HtmlUtils;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import com.unilog.gda.edem.service.EnregistrerValiderFormulaireResponseDocument;
 import com.unilog.gda.glob.service.GestionCompteResponseDocument;
 
@@ -399,7 +401,6 @@ public class EdemandeService implements IExternalProviderService {
         List<Map<String, Object>> documents = new ArrayList<Map<String, Object>>();
         model.put("documents", documents);
         try {
-            if (false)
             for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
                 Document document = documentService.getById(requestDoc.getDocumentId());
                 Map<String, Object> doc = new HashMap<String, Object>();
@@ -418,8 +419,10 @@ public class EdemandeService implements IExternalProviderService {
                     part.put("filename", filename);
                     try {
                         part.put("remotePath", uploader.upload(filename, documentBinary.getData()));
-                    } catch (Exception e) {
-                        //TODO
+                    } catch (JSchException e) {
+                        addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, "Erreur à l'envoi d'une pièce jointe");
+                    } catch (SftpException e) {
+                        addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, "Erreur à l'envoi d'une pièce jointe");
                     }
                 }
             }
@@ -737,5 +740,9 @@ public class EdemandeService implements IExternalProviderService {
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+
+    public void setUploader(EdemandeUploader uploader) {
+        this.uploader = uploader;
     }
 }

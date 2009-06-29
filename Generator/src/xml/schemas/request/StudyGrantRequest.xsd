@@ -247,7 +247,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="HasCROUSHelp" type="xs:boolean" default="false">
+            <xs:element name="HasCROUSHelp" type="xs:boolean">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   CROUS
@@ -275,7 +275,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="HasRegionalCouncilHelp" type="xs:boolean" default="false">
+            <xs:element name="HasRegionalCouncilHelp" type="xs:boolean">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Conseil Régional
@@ -303,7 +303,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="HasEuropeHelp" type="xs:boolean" default="false">
+            <xs:element name="HasEuropeHelp" type="xs:boolean">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Europe
@@ -331,7 +331,7 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="HasOtherHelp" type="xs:boolean" default="false">
+            <xs:element name="HasOtherHelp" type="xs:boolean">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Autres (Établissement...)
@@ -1591,7 +1591,7 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CurrentSchoolCountry" type="cvq:CountryType">
+      <xs:element name="CurrentSchoolCountry" type="cvq:CountryType" default="fr">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Pays

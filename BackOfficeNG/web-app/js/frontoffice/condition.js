@@ -1,4 +1,3 @@
-
 zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
 
 (function() {
@@ -97,13 +96,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
             triggerEls.push(this);       
       });
       return triggerEls;
-    }
+    };
     
     var isMultipleTrigger = function (triggerEl) {
       var triggerArray = triggerEl.className.match(/condition-(\w+)-trigger/ig);
       if (triggerArray.length > 1) return true;
       else return false;
-    }
+    };
     
     var getTriggerValue = function (triggerEl) {
       if (zct.nodeName(triggerEl,'select') && yud.hasClass(triggerEl, 'data-localReferentialData'))
@@ -112,12 +111,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         return triggerEl.value.split('_')[1] || "";
       else
         return triggerEl.value || "";
-    }
+    };
     
     var getRequestTypeLabel = function () {
       var inputEl = yud.get('requestTypeInfo');
       return ylj.parse(yl.trim(inputEl.value.replace(/\n/g,''))).label;
-    }
+    };
     
     var setDisabled = function (controlEl, active) {
       if (zct.nodeName(controlEl, 'div'))
@@ -126,7 +125,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
       if (!(zct.nodeName(controlEl, 'input') || zct.nodeName(controlEl, 'textarea') || zct.nodeName(controlEl, 'select')))
         return;
       controlEl.disabled = active;
-    }
+    };
     
     var listenerSwitch = function (listenerEl, active) {
       
@@ -155,7 +154,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         descendants = descendants.concat(children);
         if (children.length > 0)
           addChildren(children);
-      }
+      };
       addChildren(listenerEls);
       return descendants;
     };
@@ -284,7 +283,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
       },
       set : function(e) {
         var targetEl = yue.getTarget(e);
-        var hasTrigger = false
+        var hasTrigger = false;
         zct.each (targetEl.className.split(' '), function() {
           var trigger = /condition-(\w+)-trigger/i.exec(this);
           if (trigger) {
@@ -304,7 +303,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
             var jsonTrigger = {};
             zct.each (triggerEls, function() {
               if (yud.hasClass(this, 'data-localReferentialData')) {
-                jsonTrigger[this.name.split('[')[0]] = getTriggerValue(this)
+                jsonTrigger[this.name.split('[')[0]] = getTriggerValue(this);
               } else {
                 jsonTrigger[this.name] = getTriggerValue(this);
               }

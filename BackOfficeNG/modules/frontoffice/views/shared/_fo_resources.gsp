@@ -12,20 +12,14 @@
   <!--[if IE 6]>
   <link rel="stylesheet" href="${createLinkTo(dir:'css/frontoffice/hacks',file:'ie6.css')}" />
   <![endif]-->
-    <!-- Utilities --> 
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/utilities',file:'utilities.js')}"></script>
   <!-- Dependencies for tabview and button and probably our own scripts -->
-  %{--<script type="text/javascript" src="${createLinkTo(dir:'js/yui/yahoo-dom-event', file:'yahoo-dom-event.js')}"></script>--}%
-  %{--<script type="text/javascript" src="${createLinkTo(dir:'js/yui/element', file:'element-beta-min.js')}"></script>--}%
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/utilities',file:'utilities.js')}"></script>
   <!-- Dependency for tools / FIXME : should not be required for FO -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/container',file:'container-min.js')}"></script>
-  
   <!-- Selector -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/selector',file:'selector-beta-min.js')}"></script>
   <!-- Json -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/json',file:'json-min.js')}"></script> 
-    
-  %{--<script type="text/javascript" src="${createLinkTo(dir:'js/yui/connection',file:'connection-min.js')}"></script>--}%
   <!-- Directly used scripts -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/button',file:'button-min.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/tabview', file:'tabview-min.js')}"></script>

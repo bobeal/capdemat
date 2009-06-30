@@ -33,6 +33,7 @@
     </dl>
   </fieldset>
   
+  <g:if test="${displayTutorsInAccountCreation}">
   <fieldset class="account-fieldset-edit validation-scope">
     <g:if test="${individuals.getHomeFolderTutors(individuals?.adults).size() + individuals.getHomeFolderTutors(individuals?.foreignAdults).size() > 0}">
       <div class="summary-box"><dl>
@@ -89,6 +90,7 @@
       </dd>
     </dl>
   </fieldset>
+  </g:if>
   
   <g:if test="${${individuals?.children?.size()}}">
     <h3>
@@ -166,6 +168,7 @@
     </fieldset>
   </g:each>
   
+  <g:if test="${displayTutorsInAccountCreation}">
   <g:if test="${${individuals?.adults?.size()}}">
     <h3>
       <g:message code="homeFolder.header.rolesOnAdults" />
@@ -232,4 +235,5 @@
       </dl>
     </fieldset>
   </g:each>
+  </g:if>
 

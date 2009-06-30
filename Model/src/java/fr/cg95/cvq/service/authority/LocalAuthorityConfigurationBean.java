@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.authority;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,9 +30,6 @@ public final class LocalAuthorityConfigurationBean {
     private String name;
     private String defaultServerName;
     
-    private List foAccountTabs;
-    
-    
     private SessionFactory sessionFactory;
     
     private Map<IPaymentProviderService, PaymentServiceBean> paymentServices;
@@ -44,6 +40,9 @@ public final class LocalAuthorityConfigurationBean {
     private Map agentNotifications;
     private Map paymentNotifications;
 
+    private boolean displayChildrenInAccountCreation = true;
+    private boolean displayTutorsInAccountCreation = true;
+    
     /**
      * Get the list of payment services objects for the current local authority.
      */
@@ -293,13 +292,20 @@ public final class LocalAuthorityConfigurationBean {
 	public void setPaymentNotifications(Map paymentNotifications) {
 		this.paymentNotifications = paymentNotifications;
 	}
-	
 
-    public List getFoAccountTabs() {
-        return foAccountTabs;
+    public boolean isDisplayChildrenInAccountCreation() {
+        return displayChildrenInAccountCreation;
     }
 
-    public void setFoAccountTabs(final List displayProperties) {
-        this.foAccountTabs = displayProperties;
+    public void setDisplayChildrenInAccountCreation(boolean displayChildrenInAccountCreation) {
+        this.displayChildrenInAccountCreation = displayChildrenInAccountCreation;
+    }
+
+    public boolean isDisplayTutorsInAccountCreation() {
+        return displayTutorsInAccountCreation;
+    }
+
+    public void setDisplayTutorsInAccountCreation(boolean displayTutorsInAccountCreation) {
+        this.displayTutorsInAccountCreation = displayTutorsInAccountCreation;
     }
 }

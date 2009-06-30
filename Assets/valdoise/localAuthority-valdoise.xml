@@ -18,17 +18,6 @@
         <value>vosdemarches.valdoise.fr</value>
       </list>
     </property> -->
-    <property name="foAccountTabs">
-      <list>
-        <value>welcome</value>
-        <value>individuals</value>
-        <value>requests</value>
-        <value>documents</value>
-        <value>services</value>
-        <value>checklist</value>
-        <value>caddy</value>
-      </list>
-    </property>
     <property name="sessionFactory">
       <ref bean="sessionFactory_valdoise" />
     </property>

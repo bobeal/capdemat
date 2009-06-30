@@ -34,7 +34,7 @@
   <div class="yui-u first">
     <dl>
       <dt><g:message code="homeFolder.child.property.sex" /> : </dt> 
-      <dd><g:capdematEnumToText var="${child.sex}" i18nKeyPrefix="homeFolder.child.sex"/></dd>
+      <dd><g:capdematEnumToText var="${child.sex}" i18nKeyPrefix="homeFolder.child.property.sex"/></dd>
       
       <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt> 
       <dd>${child.lastName}</dd>

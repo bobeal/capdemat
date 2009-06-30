@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService
 
 class RequestAdaptorService {
@@ -42,8 +43,11 @@ class RequestAdaptorService {
                 'state':request.state.toString(),
                 'lastModificationDate':request.lastModificationDate,
                 'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId),
-                'isEditable' : RequestState.PENDING.equals(request.state)
-                               || RequestState.UNCOMPLETE.equals(request.state)
+                /* FIXME : use IRequestWorkflowService.isEditable when circular dependencies are resolved */
+                'isEditable' : (RequestState.PENDING.equals(request.state) 
+                        || RequestState.UNCOMPLETE.equals(request.state)) 
+                        && !IRequestService.VO_CARD_REGISTRATION_REQUEST.equals(request.requestType.label)
+                        && !IRequestService.HOME_FOLDER_MODIFICATION_REQUEST.equals(request.requestType.label)
         ]
     }
 

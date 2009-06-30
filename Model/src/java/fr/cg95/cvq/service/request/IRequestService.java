@@ -53,10 +53,19 @@ public interface IRequestService {
      * Subject policy for request types that have a child as subject.
      */
     String SUBJECT_POLICY_CHILD = "SUBJECT_POLICY_CHILD";
-    
-    /** @deprecated */
+
+    /**
+     * Label used to identify account creation requests.
+     * 
+     * TODO : rename to ACCOUNT_CREATION_REQUEST
+     */
     String VO_CARD_REGISTRATION_REQUEST = "VO Card";
-    /** @deprecated */
+    
+    /**
+     * Label used to identify account modification requests.
+     * 
+     * TODO : rename to ACCOUNT_MODIFICATION_REQUEST
+     */    
     String HOME_FOLDER_MODIFICATION_REQUEST = "Home Folder Modification";
 
     //////////////////////////////////////////////////////////

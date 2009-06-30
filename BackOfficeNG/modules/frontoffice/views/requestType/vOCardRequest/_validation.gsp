@@ -47,6 +47,7 @@
   </div>
 </g:each>
 
+<g:if test="${individuals?.children}">
 <h3><g:message code="vcr.step.children.label" /></h3>
 <g:each var="it" in="${individuals?.children}" status="index">
   <div class="account-fieldset-edit">
@@ -60,11 +61,12 @@
     <dd>${it.firstName}</dd>
     -->
     <dt><g:message code="homeFolder.child.property.sex" /> : </dt>
-    <dd><g:capdematEnumToField var="${it.sex}" i18nKeyPrefix="homeFolder.child.sex" /></dd>
+    <dd><g:capdematEnumToField var="${it.sex}" i18nKeyPrefix="homeFolder.child.property.sex" /></dd>
 
     <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>
     <dd><span><g:formatDate formatName="format.date" date="${it.birthDate}"/></span></dd>
   </dl>
   </div>
 </g:each>
+</g:if>
 

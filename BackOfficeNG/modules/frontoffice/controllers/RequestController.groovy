@@ -6,6 +6,7 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
 
 import grails.converters.JSON
@@ -21,6 +22,7 @@ class RequestController {
     IRequestServiceRegistry requestServiceRegistry
     IRequestService defaultRequestService
     IExternalService externalService
+    IHomeFolderService homeFolderService
     
     def defaultAction = 'index'
     Adult currentEcitizen
@@ -65,6 +67,12 @@ class RequestController {
     def summary = {
         def requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
         def request = defaultRequestService.getById(Long.parseLong(params.id))
+        def individuals = [:]
+        if (request.requestType.label == 'VO Card' || request.requestType.label == 'Home Folder Modification') {
+        	def homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
+        	individuals.adults = homeFolderService.getAdults(homeFolderId)
+        	individuals.children = homeFolderService.getChildren(homeFolderId)
+        }
         def requestTypeLabel =
             translationService.translateRequestTypeLabel(request.requestType.label).encodeAsHTML()
         def requester = individualService.getById(request.requesterId)
@@ -79,7 +87,8 @@ class RequestController {
                 'externalInformations' : externalService.loadExternalInformations(request),
                 'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(request.requestType.label),
                 'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, null, [] as Set),
-                'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label)
+                'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
+                'individuals':individuals
         ]
     }
 

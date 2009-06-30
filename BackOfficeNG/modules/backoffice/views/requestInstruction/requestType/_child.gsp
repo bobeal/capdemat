@@ -27,7 +27,7 @@
     <dl>
       <dt><g:message code="homeFolder.child.property.sex" /> : </dt>
       <dd id="homeFolder.individual[${child.id}].sex" class="${action}-editField validate-capdematEnum javatype-fr.cg95.cvq.business.users.SexType">
-          <g:capdematEnumToField var="${child.sex}" i18nKeyPrefix="homeFolder.child.sex" />
+          <g:capdematEnumToField var="${child.sex}" i18nKeyPrefix="homeFolder.child.property.sex" />
       </dd>
     
       <dt><g:message code="homeFolder.individual.property.birthDate" /> : </dt>

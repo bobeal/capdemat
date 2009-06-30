@@ -35,6 +35,7 @@ class RequestCreationController {
     def requestTypeAdaptorService
     def translationService
     def jcaptchaService
+    def securityService
     
     def defaultAction = 'edit'
     
@@ -122,19 +123,15 @@ class RequestCreationController {
             'draftVisible': session[uuidString].draftVisible,
             'subjects': getAuthorizedSubjects(requestService, cRequest),
             'meansOfContact': getMeansOfContact(meansOfContactService, requester),
-            'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(params.label),
             'currentStep': 'firstStep',
-            'requestTypeLabel': params.label,
             'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
-            'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(params.label)),
-            'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(params.label)),
             'uuidString': uuidString,
             'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
             'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
             'isDocumentEditMode': false,
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-            "isEdition" : cRequest.id != null && !cRequest.draft
-        ])
+            'isEdition' : cRequest.id != null && !cRequest.draft
+        ].plus(fillCommonRequestModel(params.label)))
     }
     
     def step = {
@@ -375,14 +372,16 @@ class RequestCreationController {
                         cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
                         requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
                     }
-                    else if (requestTypeInfo.label == 'VO Card')
+                    else if (requestTypeInfo.label == 'VO Card') {
                         requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
-                    else if (SecurityContext.currentEcitizen == null) 
+                        securityService.setEcitizenSessionInformation(objectToBind.requester.login, session)
+                    } else if (SecurityContext.currentEcitizen == null) { 
                         requestService.create(cRequest, objectToBind.requester, null, docs)
-                    else if (!cRequest.draft) 
+                    } else if (!cRequest.draft) { 
                         requestService.create(cRequest, docs)
-                    else 
+                    } else { 
                         requestService.finalizeDraft(cRequest)
+                    }
                     if (params.requestNote && !params.requestNote.trim().isEmpty()) {
                         requestService.addNote(cRequest.id, RequestNoteType.PUBLIC, params.requestNote)
                     }
@@ -418,12 +417,8 @@ class RequestCreationController {
                      'draftVisible': session[uuidString].draftVisible,                     
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
                      'meansOfContact': getMeansOfContact(meansOfContactService, objectToBind.requester),
-                     'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(requestTypeInfo.label),
                      'currentStep': currentStep,
-                     'requestTypeLabel': requestTypeInfo.label,
                      'stepStates': cRequest.stepStates,
-                     'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)),
-                     'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)),
                      'uuidString': uuidString,
                      'editList': editList,
                      'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
@@ -432,9 +427,20 @@ class RequestCreationController {
                      'documentType': documentType,
                      'document': document,
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-                     "isEdition" : cRequest.id != null && !cRequest.draft
-                    ])
+                     'isEdition' : cRequest.id != null && !cRequest.draft
+                    ].plus(fillCommonRequestModel(requestTypeInfo.label)))
     }  
+    
+    def fillCommonRequestModel(requestTypeLabel) {
+    	return [
+            'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(requestTypeLabel),
+            'requestTypeLabel': requestTypeLabel,
+            'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)),
+            'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)),
+            'displayChildrenInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayChildrenInAccountCreation(),
+            'displayTutorsInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayTutorsInAccountCreation(),
+    	]
+    }
     
     def condition = {
         def result = []

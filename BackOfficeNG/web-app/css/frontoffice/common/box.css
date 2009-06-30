@@ -94,7 +94,7 @@
 /* main box 
 --------------------------------------------------------------*/
 
-.main-box { margin: 0 0 1em 0; background: #ffffff; }
+.main-box { margin: 0 0 1em 0; background: #fff; }
 
 .main-box h2 { 
   color: #C690BB; background: #4c3848;
@@ -129,7 +129,7 @@
 /* summary box (eg. all the fields of a request)
 --------------------------------------------------------------*/
 
-.summary-box { background-color : #fff; }
+.summary-box { margin: 0 0 1em 0; background-color: #fff; }
 
 .summary-box h2 {
   color: #C690BB; background: #4c3848;

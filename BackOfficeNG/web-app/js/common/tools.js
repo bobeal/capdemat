@@ -166,7 +166,7 @@
           ret[--i] = array[i];
     }
     return ret;
-  }
+  };
 
   /**
    * @description Mergs two arrays
@@ -714,7 +714,6 @@
     if (zct.isFunction(callback)) handlers[!!upload?'upload':'success'] = callback;
     if (args) handlers.argument = args;
     var url = formElement.get('action');
-
     YAHOO.util.Connect.asyncRequest('POST', url, handlers, null);
   };
   
@@ -990,7 +989,7 @@
     if (e.keyCode == 13 && yue.getTarget(e).nodeName == "INPUT") {
       yue.stopEvent(e);
     }
-  }
+  };
 
   YAHOO.util.Event.onDOMReady(function(){
     zct.Notifier.init();

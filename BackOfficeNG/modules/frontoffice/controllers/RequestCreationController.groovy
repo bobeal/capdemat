@@ -445,8 +445,10 @@ class RequestCreationController {
     def condition = {
         def result = []
         
-        if (params.requestTypeLabel == null)
+        if (params.requestTypeLabel == null) {
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
+            return
+        }
         
         try {
             IRequestService service = requestServiceRegistry.getRequestService(params.requestTypeLabel)

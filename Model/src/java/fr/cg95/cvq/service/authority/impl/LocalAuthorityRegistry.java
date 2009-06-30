@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -354,7 +355,7 @@ public class LocalAuthorityRegistry
             .append("/").append(PDF_ASSETS_RESOURCE_TYPE).append("/").append(requestTypeLabel);
         File requestTypeDir = new File(requestTypePath.toString());
         if (!requestTypeDir.exists()) {
-            return new ArrayList<String>(0);
+            return Collections.emptyList();
         }
         List<String> result = new ArrayList<String>();
         for (String filename : requestTypeDir.list()) {

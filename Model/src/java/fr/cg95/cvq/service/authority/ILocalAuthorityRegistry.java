@@ -125,10 +125,13 @@ public interface ILocalAuthorityRegistry {
         throws CvqException;
 
     /**
-     * Get the helps data for the given request as a Map<v=stepName,k=helpDataAsString>.
+     * Get the helps data for the given request type as a Map<v=stepName,k=helpDataAsString>.
      */
     Map<String,String> getBufferedCurrentLocalAuthorityRequestHelpMap(final String requestLabel);
 
+    /**
+     * Get the rules data for the given request type.
+     */
     List<String> getLocalAuthorityRules(String requestTypeLabel);
 
     /**

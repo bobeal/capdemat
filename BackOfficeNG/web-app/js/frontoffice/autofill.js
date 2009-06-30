@@ -5,6 +5,7 @@
  */
 
 zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
+
 (function() {
   var zcf = zenexity.capdemat.fong;
   var zct = zenexity.capdemat.tools;
@@ -14,23 +15,27 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
   var yus = yu.Selector;
   var yl = YAHOO.lang;
   var ylj = yl.JSON;
+  
   zcf.Autofill = function() {
+	  
     var reset = function() {
       zcf.Autofill.listeners = {};
       zcf.Autofill.fields = {};
     };
+    
     return {
       listeners : undefined,
       fields : undefined,
       init : function() {
         reset();
         yue.on('requestTabView', 'change', zcf.Autofill.fill, zcf.Autofill, true);
+        yue.on('requestTabView', 'click', zcf.Autofill.fill, zcf.Autofill, true);
       },
       fill : function(e) {
         reset();
         var target = yue.getTarget(e);
         var trigger = /autofill-(\w+)-trigger/i.exec(target.className);
-        if (trigger && target.value != "") {
+        if (trigger && target.value !== "") {
           zct.val(yud.get("triggerName"), target.name);
           zct.val(yud.get("triggerValue"), zct.val(target));
           var regexp = new RegExp("autofill-" + trigger[1] + "-listener-(\\w+)", "i");
@@ -42,14 +47,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
                 zct.each(
                   complexElementChildren,
                   function(child) {
-                    if (zcf.Autofill.listeners[this.name] == undefined) {
+                    if (zcf.Autofill.listeners[this.name] === undefined) {
                       zcf.Autofill.listeners[this.name] = [];
                     }
                     zcf.Autofill.listeners[this.name].push(complexElementChildren[child]);
                     zcf.Autofill.fields[this.name] = listener[1] + "." + this.name.split('.')[1];
                 });
               } else {
-                if (zcf.Autofill.listeners[this.name] == undefined) {
+                if (zcf.Autofill.listeners[this.name] === undefined) {
                   zcf.Autofill.listeners[this.name] = [];
                 }
                 zcf.Autofill.listeners[this.name].push(this);

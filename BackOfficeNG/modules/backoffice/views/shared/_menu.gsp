@@ -1,7 +1,9 @@
 <h1><a class="logo">CapDémat</a></h1>
 <div id="userInfo">
   ${session.currentUser} 
-  - <a href="${createLinkTo(dir:'',file:'casLogout.gsp')}"><g:message code="action.logout" /></a>
+  - <a href="${createLink(controller:'backofficeLogin',action:'logout')}">
+      <g:message code="action.logout" />
+    </a>
   - <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'helpBo')}"
        target="blank"><g:message code="header.help" /></a>
 </div>

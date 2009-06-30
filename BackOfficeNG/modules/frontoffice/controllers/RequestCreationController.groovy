@@ -33,6 +33,7 @@ class RequestCreationController {
     
     def documentAdaptorService
     def requestTypeAdaptorService
+    def requestAdaptorService
     def translationService
     def jcaptchaService
     def securityService
@@ -171,7 +172,7 @@ class RequestCreationController {
             requestTypeInfo.steps.each {
                 def nameToken = it.tokenize('-')
                 def value = ['required': nameToken.size() == 2]
-                stepState(value, 'uncomplete', '')
+                requestAdaptorService.stepState(value, 'uncomplete', '')
                 cRequest.stepStates.put(nameToken[0], value)
             }
         }
@@ -220,26 +221,26 @@ class RequestCreationController {
                 }
                 if (doc != null) newDocuments += doc.id
                 isDocumentEditMode = false
-                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentDelete') {
                 def docParam = targetAsMap(submitAction[3])
                 newDocuments -= docParam.id
                 documentAdaptorService.deleteDocument(docParam.id, uuidString)
                 isDocumentEditMode = false
-                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentAssociate') {
                 def docParam = targetAsMap(submitAction[3])
                 requestService.addDocument(cRequest, Long.valueOf(docParam.id))
                 isDocumentEditMode = false
-                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentUnassociate') {
                 def docParam = targetAsMap(submitAction[3])
                 requestService.removeDocument(cRequest, Long.valueOf(docParam.id))
                 isDocumentEditMode = false
-                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentCancel') { 
                 isDocumentEditMode = false
@@ -274,8 +275,8 @@ class RequestCreationController {
                 if (listWrapper[listFieldToken[0]].size() > Integer.valueOf(listFieldToken[1]))
                     listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
                 
-                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
-                stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
+                requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                requestAdaptorService.stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {
@@ -308,7 +309,7 @@ class RequestCreationController {
                 
                 if (SecurityContext.currentEcitizen == null) homeFolderService.addRole(owner, individual, role)
                 else homeFolderService.addRole(owner, individual, homeFolderId, role)
-                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'removeRole') {
                 def roleParam = targetAsMap(submitAction[3])
@@ -322,7 +323,7 @@ class RequestCreationController {
                 
                 if (SecurityContext.currentEcitizen == null) homeFolderService.removeRole(owner, individual, role)
                 else homeFolderService.removeRole(owner, individual, homeFolderId, role)
-                stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'draft') {
                 // do nothing as the draft has already been saved
@@ -346,13 +347,13 @@ class RequestCreationController {
 //                        throw new CvqException("request.step.document.error.noAssociatedDocument")
 //                    }
                         
-                    stepState(cRequest.stepStates.get(currentStep), 'complete', '')
+                    requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'complete', '')
                 }
                 
                 if (['VO Card','Home Folder Modification'].contains(requestTypeInfo.label)) {
                     if (['collectionAdd'].contains(submitAction[1])) {
-                        stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
-                        stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
+                        requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                        requestAdaptorService.stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
                     }
                 }
                 
@@ -402,7 +403,7 @@ class RequestCreationController {
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
 //            ce.printStackTrace()
-            stepState(cRequest.stepStates.get(currentStep), 'invalid', 
+            requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'invalid',
                     message(code:ExceptionUtils.getModelI18nKey(ce),args:ExceptionUtils.getModelI18nArgs(ce)))
         }
 
@@ -480,13 +481,6 @@ class RequestCreationController {
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
                      'isEdition' : params.isEdition
                     ])
-    }
-    
-    def stepState(step, state, errorMsg) {
-        step.state = state
-        step.cssClass = 'tag-' + state
-        step.i18nKey = 'request.step.state.' + state
-        step.errorMsg = errorMsg
     }
     
     /* Step and Validation

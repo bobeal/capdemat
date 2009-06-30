@@ -77,4 +77,11 @@ class RequestAdaptorService {
         if (!requestNotes) requestNotes = []
         return requestNotes.collect{ prepareNote(it) }
     }
+
+    public stepState(step, state, errorMsg) {
+        step.state = state
+        step.cssClass = 'tag-' + state
+        step.i18nKey = 'request.step.state.' + state
+        step.errorMsg = errorMsg
+    }
 }

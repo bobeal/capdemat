@@ -544,6 +544,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             if (mailDataBody == null) {
                 logger.warn("notifyRequestCreation() no mail data for ecitizen request creation notification");
             } else {
+                mailDataBody = mailDataBody.replaceAll("__ecitizenLogin__",
+                    homeFolderService.getHomeFolderResponsible(request.getHomeFolderId()).getLogin());
                 StringBuffer mailSubject = new StringBuffer();
                 mailSubject.append("[").append(SecurityContext.getCurrentSite().getDisplayTitle()).append("] ")
                     .append(ecitizenCreationNotifications.get("mailSubject"));

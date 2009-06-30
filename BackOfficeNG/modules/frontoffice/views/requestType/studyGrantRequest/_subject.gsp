@@ -22,12 +22,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.subjectAddress?.additionalGeographicalInformation}" maxlength="38" name="subjectAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.subjectAddress?.streetNumber}" maxlength="5" name="subjectAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.subjectAddress?.streetNumber}" size="5" maxlength="5" name="subjectAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.subjectAddress?.streetName}" maxlength="32" name="subjectAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.subjectAddress?.placeNameOrService}" maxlength="38" name="subjectAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.subjectAddress?.postalCode}" maxlength="5" name="subjectAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.subjectAddress?.postalCode}" size="5" maxlength="5" name="subjectAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.subjectAddress?.city}" maxlength="32" name="subjectAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.subjectAddress?.countryName}" maxlength="38" name="subjectAddress.countryName"/>

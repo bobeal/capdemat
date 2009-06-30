@@ -40,12 +40,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.additionalGeographicalInformation}" maxlength="38" name="${namePrefix}${element.javaFieldName}.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="\${${valuePrefix}.${element.javaFieldName}?.streetNumber}" maxlength="5" name="${namePrefix}${element.javaFieldName}.streetNumber"/>
+            <input type="text" class="line1" value="\${${valuePrefix}.${element.javaFieldName}?.streetNumber}" size="5" maxlength="5" name="${namePrefix}${element.javaFieldName}.streetNumber"/>
             <input type="text" class="line2 required" value="\${${valuePrefix}.${element.javaFieldName}?.streetName}" maxlength="32" name="${namePrefix}${element.javaFieldName}.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.placeNameOrService}" maxlength="38" name="${namePrefix}${element.javaFieldName}.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="\${${valuePrefix}.${element.javaFieldName}?.postalCode}" maxlength="5" name="${namePrefix}${element.javaFieldName}.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="\${${valuePrefix}.${element.javaFieldName}?.postalCode}" size="5" maxlength="5" name="${namePrefix}${element.javaFieldName}.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="\${${valuePrefix}.${element.javaFieldName}?.city}" maxlength="32" name="${namePrefix}${element.javaFieldName}.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.countryName}" maxlength="38" name="${namePrefix}${element.javaFieldName}.countryName"/>

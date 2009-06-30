@@ -33,7 +33,6 @@ public class StudyGrantRequest extends Request implements Serializable {
     public StudyGrantRequest() {
         super();
         sandwichCourses = Boolean.valueOf(false);
-        abroadInternshipSchoolCountry = fr.cg95.cvq.business.users.CountryType.FR;
         abroadInternship = Boolean.valueOf(false);
         isSubjectAccountHolder = Boolean.valueOf(true);
         subjectFirstRequest = Boolean.valueOf(true);

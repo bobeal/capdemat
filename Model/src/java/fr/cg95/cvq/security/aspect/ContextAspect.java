@@ -33,6 +33,12 @@ public class ContextAspect implements Ordered {
 
         String securityContext = SecurityContext.getCurrentContext();
 
+        if (securityContext.equals(SecurityContext.ADMIN_CONTEXT)) {
+            logger.info("contextAnnotatedMethod() letting super adminstrator "
+                    + "go through the process");
+            return;
+        }
+
         if (contextType.equals(ContextType.UNAUTH_ECITIZEN)
                 && (!securityContext.equals(SecurityContext.FRONT_OFFICE_CONTEXT)
                         || SecurityContext.getCurrentEcitizen() != null))
@@ -74,12 +80,6 @@ public class ContextAspect implements Ordered {
             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                     joinPoint.getSignature().getName(), context.type(), context.privilege(), 
                     "can only be called by authenticad ecitizens");
-        
-        if (securityContext.equals(SecurityContext.ADMIN_CONTEXT)) {
-            logger.info("contextAnnotatedMethod() letting super adminstrator "
-                    + "go through the process");
-            return;
-        }
         
         if (contextType.equals(ContextType.AGENT)) {
             if (!securityContext.equals(SecurityContext.BACK_OFFICE_CONTEXT))

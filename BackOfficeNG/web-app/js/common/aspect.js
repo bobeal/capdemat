@@ -1,10 +1,3 @@
-
-/**
- * @description This file contains PUT YOUR DESCRIPTION
- * 
- * @author rdj@zenexity.fr
- */
-
 zenexity.capdemat.tools.namespace('zenexity.capdemat.aspect');
 
 (function(){

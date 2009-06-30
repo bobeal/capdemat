@@ -13,7 +13,7 @@ class AgentController {
     def translationService
     def defaultAction = "list"
 
-    def beforeInterceptor = { session["currentMenu"] = "agent" }
+    def beforeInterceptor = { session["currentMenu"] = "user" }
 
     def list = {
         def agents = agentService.getAll()

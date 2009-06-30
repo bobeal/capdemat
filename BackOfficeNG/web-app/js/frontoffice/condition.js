@@ -18,11 +18,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
    * @param el {HTMLElement} element to check
    */  
   zcfi.getType = function(el) {
-    if(el.constructor == 'String') el = yus.query('#requestTabView [name=' + el + ']')[0];
-    if(/radio|checkbox/i.test(el.type)) return el.type;
-    else if(zct.nodeName(el,'select')) return 'select';
-    else if(/text/i.test(el.type) || zct.nodeName(el,'textarea')) return 'text';
-    else return undefined;
+    if(el.constructor == 'String') {
+    	el = yus.query('#requestTabView [name=' + el + ']')[0];
+    }
+    if(/radio|checkbox/i.test(el.type)) { return el.type; }
+    else if(zct.nodeName(el,'select')) { return 'select'; }
+    else if(/text/i.test(el.type) || zct.nodeName(el,'textarea')) { return 'text'; }
+    else { return undefined; }
   };
   zcfi.getByName = function(nm,tag,root) {
     var _r = root || yud.get('#requestTabView');
@@ -32,12 +34,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
   zcfi.radio = {
     getValue : function(nm) {
       var r = zct.grep(zcfi.getByName(nm,'input'), function(n) {return !!n.checked;});
-      if (r.length > 0) return zct.val(r[0]);
+      if (r.length > 0) { return zct.val(r[0]); }
     },
     setValue : function(nm, val) {
       zct.each(zcfi.getByName(nm,'input'), function() {
         this.checked = undefined;
-        if (this.value == val) this.checked = 'checked';
+        if (this.value === val) { this.checked = 'checked'; }
       });
     },
     empty : function(nm) {
@@ -120,7 +122,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
     
     var setDisabled = function (controlEl, active) {
       if (zct.nodeName(controlEl, 'div'))
-        zct.each(yud.getChildren(controlEl), function() { setDisabled(this, active) });
+        zct.each(yud.getChildren(controlEl), function() { setDisabled(this, active); });
         
       if (!(zct.nodeName(controlEl, 'input') || zct.nodeName(controlEl, 'textarea') || zct.nodeName(controlEl, 'select')))
         return;
@@ -233,7 +235,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
           if(/submit|file/i.test(target.type)||!zct.isIn(target.nodeName,['select','input'])) return true;
           if( !zct.isIn(target.nodeName,['select','input','textarea'])) return yue.stopEvent(e);
           if(/radio|checkbox/i.test(target.type) && e.type == 'change') return yue.stopEvent(e);
-          if(!/radio|checkbox/i.test(target.type) && e.type == 'click') return yue.stopEvent(e);
+          if(!/radio|checkbox|select/i.test(target.type) && e.type == 'click') return yue.stopEvent(e);
         }
         reset();
         if(zcf.Condition.set(e)) zcf.Condition.test(e,true);
@@ -243,8 +245,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         zct.doAjaxFormSubmitCall('conditionsForm',[],function(o){
           var json = ylj.parse(o.responseText), t = yue.getTarget(e||{target:undefined});
           zct.each(json,function(i,el){
-            if(!el.test && !!confirm && zcf.Condition.checkChanges(i)
-               && !yud.hasClass(zcf.Condition.filleds[i][0],'unactive')) {
+            if(!el.test && !!confirm && zcf.Condition.checkChanges(i) && !yud.hasClass(zcf.Condition.filleds[i][0],'unactive')) {
               zcf.Condition.confirmDialog.triggerIndex = i;
               zcf.Condition.confirmDialog.triggerTarget = yue.getTarget(e);
               zcf.Condition.confirmDialog.show(e);

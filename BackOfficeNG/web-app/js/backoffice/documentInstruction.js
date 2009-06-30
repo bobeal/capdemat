@@ -218,7 +218,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
           if (json)
             zct.Notifier.processMessage(json.status,json.message,'documentInformationtMsg');
         });
-      },
+      }
     };
   }();
   

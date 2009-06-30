@@ -220,16 +220,16 @@
             <xs:element name="TaxHouseholdIncome" type="xs:double">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Revenu brut global indiqué sur l’avis d’imposition pour l'année précédente (à joindre au dossier)
+                  Revenu brut global pour l'année 2007 et inférieur à 32 000 euros
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Global gross income as stated on previous year income tax declaration (attach a copy)
+                  Global gross income for 2007 and less than 32,000 euros
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Revenu brut global indiqué sur l’avis d’imposition pour l'année précédente (à joindre au dossier)
+                  Revenu brut global pour l'année 2007 et inférieur à 32 000 euros
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Global gross income as stated on previous year income tax declaration (attach a copy)
+                  Global gross income for 2007 and less than 32,000 euros
                 </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" />
@@ -410,16 +410,16 @@
             <xs:element name="Distance" type="sgr:DistanceType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Lieu d'études situé à
+                  Lieu d'études ou de stage situé à
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Distance between home and school
+                  Distance between home and school or internship
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Lieu d'études situé à
+                  Lieu d'études ou de stage situé à
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Distance between home and school
+                  Distance between home and school or internship
                 </xs:documentation>
                 <xs:appinfo>
                   <common>

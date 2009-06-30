@@ -295,7 +295,7 @@
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Revenu brut global indiqué sur l’avis d’imposition pour l'année précédente (à joindre au dossier)*
+		      Revenu brut global pour l'année 2007 et inférieur à 32 000 euros*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
@@ -999,7 +999,7 @@
 		<fo:table-row>
       	                        		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Lieu d'études situé à*
+		      Lieu d'études ou de stage situé à*
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>

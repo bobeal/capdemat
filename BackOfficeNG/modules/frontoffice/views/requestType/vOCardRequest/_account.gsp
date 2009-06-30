@@ -28,7 +28,7 @@
             </option>
           </g:each>
         </select>
-        <input type="submit" name="submit-addRole-account-homeFolderResponsible_ownerType:adults" value="${message(code:'action.save')}" />
+        <input type="submit" name="submit-addRole-account-homeFolderResponsible_ownerType:adults" value="${message(code:'action.add')}" />
       </dd>
     </dl>
   </fieldset>

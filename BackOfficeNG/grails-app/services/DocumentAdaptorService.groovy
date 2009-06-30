@@ -18,6 +18,7 @@ public class DocumentAdaptorService {
 
     def messageSource
     def instructionService
+    def requestAdaptorService
     
     IRequestTypeService requestTypeService
     IDocumentService documentService
@@ -44,7 +45,12 @@ public class DocumentAdaptorService {
             documentTypeList.add(docType)
         }
         documentTypeList = documentTypeList.sort { it.name }
-        documentTypeList.each { result[it.id] = it }
+        documentTypeList.each {
+            result[it.id] = it
+            if (it.associated.isEmpty()
+                && cRequest.stepStates != null && cRequest.stepStates.get('document') != null)
+                requestAdaptorService.stepState(cRequest.stepStates.get('document'), 'uncomplete', '')
+        }
         return result
     }
     

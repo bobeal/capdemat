@@ -184,7 +184,7 @@
     <msRIB type="texte" nom="RIB">${bankCode} ${counterCode} ${accountNumber} ${accountKey}</msRIB>
    </moGeneral>
    <moFoyerFiscal type="noeud" nom="FOYER FISCAL">
-    <mdMtRevenuBrutGlobal type="montant" nom="Revenu brut global indiqué sur l'Avis d'imposition">${taxHouseholdIncome}</mdMtRevenuBrutGlobal>
+    <mdMtRevenuBrutGlobal type="montant" nom="Revenu brut global pour l'année 2007 et inférieur à 32 000 euros">${taxHouseholdIncome}</mdMtRevenuBrutGlobal>
    </moFoyerFiscal>
    <moAutresAides type="noeud" nom="AUTRES AIDES">
     <mbAideCROUS type="booleen" nom="Aide CROUS">${hasCROUSHelp}</mbAideCROUS>

@@ -185,6 +185,7 @@
    </moGeneral>
    <moFoyerFiscal type="noeud" nom="FOYER FISCAL">
     <mdMtRevenuBrutGlobal type="montant" nom="Revenu brut global pour l'année 2007 et inférieur à 32 000 euros">${taxHouseholdIncome}</mdMtRevenuBrutGlobal>
+    <msSecto type="texte" nom="">${taxHouseholdCityPrecision}</msSecto>
    </moFoyerFiscal>
    <moAutresAides type="noeud" nom="AUTRES AIDES">
     <mbAideCROUS type="booleen" nom="Aide CROUS">${hasCROUSHelp}</mbAideCROUS>

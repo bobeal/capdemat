@@ -48,7 +48,7 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
         super.initFilledConditions();
         filledConditions.put("abroadInternship", new EqualityChecker("true"));
         filledConditions.put("currentStudies", new EqualityListChecker(Arrays.asList("otherStudies")));
-        filledConditions.put("taxHouseholdCity", new EqualityChecker("autre"));
+        filledConditions.put("taxHouseholdCity", new EqualityChecker("573"));
         filledConditions.put("currentSchoolName", new EqualityChecker("autre"));
         filledConditions.put("isSubjectAccountHolder", new EqualityChecker("true"));
     }

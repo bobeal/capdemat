@@ -4,7 +4,8 @@
 <beans>
 
   <bean id="edemandeExternalService"
-    class="fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeService">
+    class="fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeService"
+    init-method="init">
     <property name="label" value="Edemande" />
     <property name="edemandeClient" ref="edemandeClient" />
     <property name="externalService" ref="externalService" />
@@ -12,6 +13,7 @@
     <property name="documentService" ref="documentService" />
     <property name="requestWorkflowService" ref="requestWorkflowService" />
     <property name="translationService" ref="translationService" />
+    <property name="localReferentialService" ref="localReferentialService" />
     <property name="uploader">
       <bean class="fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeUploader">
         <constructor-arg index="0" value="${plugins.externalservices.edemande.ssh.username}"/>

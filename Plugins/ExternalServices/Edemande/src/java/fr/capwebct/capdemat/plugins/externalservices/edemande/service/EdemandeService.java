@@ -25,6 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
 import org.jaxen.dom.DOMXPath;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.web.util.HtmlUtils;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -56,14 +60,16 @@ import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.permission.CvqPermissionException;
+import fr.cg95.cvq.service.authority.ILocalReferentialService;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
+import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument.StudyGrantRequest;
 
-public class EdemandeService implements IExternalProviderService {
+public class EdemandeService implements IExternalProviderService, BeanFactoryAware {
 
     private String label;
     private IEdemandeClient edemandeClient;
@@ -72,7 +78,10 @@ public class EdemandeService implements IExternalProviderService {
     private IDocumentService documentService;
     private IRequestWorkflowService requestWorkflowService;
     private ITranslationService translationService;
+    private IHomeFolderService homeFolderService;
+    private ILocalReferentialService localReferentialService;
     private EdemandeUploader uploader;
+    private ListableBeanFactory beanFactory;
 
     private static final String ADDRESS_FIELDS[] = {
         "miCode", "moNature/miCode", "msVoie", "miBoitePostale", "msCodePostal", "msVille",
@@ -81,6 +90,10 @@ public class EdemandeService implements IExternalProviderService {
     private static final String SUBJECT_TRACE_SUBKEY = "subject";
     private static final String ACCOUNT_HOLDER_TRACE_SUBKEY = "accountHolder";
     private DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+    public void init() {
+        this.homeFolderService = (IHomeFolderService)beanFactory.getBean("homeFolderService");
+    }
 
     @Override
     public String sendRequest(XmlObject requestXml) {
@@ -259,8 +272,6 @@ public class EdemandeService implements IExternalProviderService {
         } else if (sgr.getSubjectInformations().getSubjectMobilePhone() != null && !sgr.getSubjectInformations().getSubjectMobilePhone().trim().isEmpty()) {
             model.put("phone", sgr.getSubjectInformations().getSubjectMobilePhone());
         }
-        model.put("email",
-            StringUtils.defaultString(sgr.getSubjectInformations().getSubjectEmail()));
         if (sgr.getSubject().getAdult() != null) {
             model.put("title",
                 translationService.translate("homeFolder.adult.title."
@@ -288,6 +299,9 @@ public class EdemandeService implements IExternalProviderService {
         model.put("accountNumber", sgr.getAccountNumber());
         model.put("accountKey", sgr.getAccountKey());
         try {
+            model.put("email",
+                StringUtils.defaultIfEmpty(sgr.getSubjectInformations().getSubjectEmail(),
+                homeFolderService.getHomeFolderResponsible(sgr.getHomeFolder().getId()).getEmail()));
             GestionCompteResponseDocument response = edemandeClient.creerTiers(model);
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
                 addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
@@ -309,7 +323,6 @@ public class EdemandeService implements IExternalProviderService {
         //FIXME placeholders; are these really needed ?
         model.put("address", sgr.getSubjectInformations().getSubjectAddress());
         model.put("phone", "");
-        model.put("email", "");
         model.put("birthPlace", "");
         //ENDFIXME
         model.put("firstName", sgr.getAccountHolderFirstName());
@@ -319,6 +332,9 @@ public class EdemandeService implements IExternalProviderService {
         model.put("accountNumber", sgr.getAccountNumber());
         model.put("accountKey", sgr.getAccountKey());
         try {
+            //FIXME placeholder
+            model.put("email",
+                homeFolderService.getHomeFolderResponsible(sgr.getHomeFolder().getId()).getEmail());
             GestionCompteResponseDocument response = edemandeClient.creerTiers(model);
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
                 addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, TraceStatusEnum.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
@@ -426,6 +442,13 @@ public class EdemandeService implements IExternalProviderService {
                     }
                 }
             }
+            //FIXME
+            //model.put("taxHouseholdCityPrecision",
+            //    StringUtils.defaultIfEmpty(sgr.getTaxHouseholdCityPrecision(),
+            //    localReferentialService.getLocalReferentialDataByName(
+            //    sgr.getTaxHouseholdCityArray(0).getName()).getLabelsMap().get("fr")));
+            model.put("taxHouseholdCityPrecision",
+                StringUtils.defaultString(sgr.getTaxHouseholdCityPrecision()));
             model.put("msStatut", firstSending ? "" :
                 getRequestStatus(sgr, psCodeTiers));
             model.put("millesime", firstSending ? "" :
@@ -744,5 +767,13 @@ public class EdemandeService implements IExternalProviderService {
 
     public void setUploader(EdemandeUploader uploader) {
         this.uploader = uploader;
+    }
+
+    public void setLocalReferentialService(ILocalReferentialService localReferentialService) {
+        this.localReferentialService = localReferentialService;
+    }
+
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = (ListableBeanFactory)beanFactory;
     }
 }

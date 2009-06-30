@@ -625,6 +625,18 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         return result;
     }
 
+    public boolean isEditable(final Long requestId) throws CvqObjectNotFoundException {
+        Request request = (Request) requestDAO.findById(Request.class, requestId);
+        String requestTypeLabel = request.getRequestType().getLabel();
+        if ((RequestState.PENDING.equals(request.getState()) 
+                || RequestState.UNCOMPLETE.equals(request.getState())) 
+                && !IRequestService.VO_CARD_REGISTRATION_REQUEST.equals(requestTypeLabel)
+                && !IRequestService.HOME_FOLDER_MODIFICATION_REQUEST.equals(requestTypeLabel))
+            return true;
+        
+        return false;
+    }
+    
     public List<RequestState> getInstructionDoneStates() {
         List<RequestState> result = new ArrayList<RequestState>();
         result.add(RequestState.REJECTED);

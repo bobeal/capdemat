@@ -62,10 +62,18 @@ public interface IRequestWorkflowService {
     Set<RequestState> getStatesBefore(RequestState rs);
 
     /**
-     * Get the list of states for which request edition is authorized.
+     * Get the list of states for which request edition in BO is authorized.
      */
     List<RequestState> getEditableStates();
 
+    /**
+     * Return whether the given request is editable in FO.
+     * 
+     * Currently, a request is editable if it is in pending or uncomplete state
+     * and is not a account creation or modification request.
+     */
+    boolean isEditable(@IsRequest final Long requestId) throws CvqObjectNotFoundException;
+    
     /**
      * Get the list of states for which instruction is done.
      */

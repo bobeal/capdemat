@@ -49,11 +49,11 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
      */
     @Deprecated
     CreationBean modify(final HomeFolderModificationRequest hfmr,
-            final List<Adult> adults, final List<Child> children, final Address adress)
+            final List<Adult> adults, List<Child> children, final Address adress)
         throws CvqException;
     
     CreationBean modify(final HomeFolderModificationRequest hfmr,
-            final List<Adult> adults, final List<Child> children, List<Adult> foreignRoleOwners, 
+            final List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners, 
             final Address adress, List<Document> documents)
         throws CvqException;
     

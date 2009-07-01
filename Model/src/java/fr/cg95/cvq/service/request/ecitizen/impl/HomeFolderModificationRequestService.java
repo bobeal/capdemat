@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request.ecitizen.impl;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -121,9 +122,9 @@ public class HomeFolderModificationRequestService
 
     @Override
     public CreationBean modify(final HomeFolderModificationRequest hfmr,
-            final List<Adult> newAdults, final List<Child> newChildren, Address adress)
+            final List<Adult> newAdults, List<Child> newChildren, Address adress)
         throws CvqException {
-        
+
         // Merge new homeFolder object if reuired
         for (int i = 0; i < newAdults.size(); i++) {
             if (newAdults.get(i).getId() != null) {
@@ -131,6 +132,9 @@ public class HomeFolderModificationRequestService
                 newAdults.set(i, mergeAdult);
             }
         }
+        // to prevent NPE if we have a null children list
+        if (newChildren == null) 
+            newChildren = Collections.<Child>emptyList();
         for (int i = 0; i < newChildren.size(); i++) {
             if (newChildren.get(i).getId() != null) {
                 Child mergeChild = (Child)HibernateUtil.getSession().merge(newChildren.get(i));

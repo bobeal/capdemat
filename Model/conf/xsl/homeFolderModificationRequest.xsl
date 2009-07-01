@@ -143,11 +143,7 @@
         <fo:leader leader-pattern="space" />
       </fo:block>
 
-        <fo:block xsl:use-attribute-sets="request.field.inline.label">Comment souhaitez-vous être informé ? :</fo:block>
-      <xsl:call-template name="LocalReferentialDataType">
-        <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_cvq.xml')))//ref:data[@name = 'MeansOfContact']/ref:entries"/>
-        <xsl:with-param name="RequestData" select="//cvq:MeansOfContact"/>
-      </xsl:call-template>
+   	  <xsl:apply-templates select="//cvq:MeansOfContact"/>
 
       <fo:block>
         <fo:leader leader-pattern="space" />

@@ -32,6 +32,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
         yue.on('requestTabView', 'click', zcf.Autofill.fill, zcf.Autofill, true);
       },
       fill : function(e) {
+        if(e) {
+          var target = yue.getTarget(e);
+          if( !zct.isIn(target.nodeName,['select','input','textarea'])) return yue.stopEvent(e);
+          if(/radio|checkbox/i.test(target.type) && e.type == 'change') return yue.stopEvent(e);
+          if(!/radio|checkbox|select/i.test(target.type) && e.type == 'click') return yue.stopEvent(e);
+        }
         reset();
         var target = yue.getTarget(e);
         var trigger = /autofill-(\w+)-trigger/i.exec(target.className);

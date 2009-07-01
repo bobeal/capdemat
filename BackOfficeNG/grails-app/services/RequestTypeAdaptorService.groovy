@@ -7,6 +7,7 @@ import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 
+import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
 public class RequestTypeAdaptorService {
     
@@ -68,6 +69,15 @@ public class RequestTypeAdaptorService {
         return result
     }
 
+    public Map getCustomJS(requestTypeLabel) {
+        def customJS = [
+            dir : "js/frontoffice/requesttype",
+            file : CapdematUtils.requestTypeLabelAsDir(requestTypeLabel) + ".js"
+        ]
+        if (ServletContextHolder.servletContext.getResource(["", customJS.dir, customJS.file].join('/')) != null)
+            return customJS
+        return null
+    }
 
     protected Boolean eval(Boolean exp, String message, List coll) {
         if(!exp) coll.add(message)

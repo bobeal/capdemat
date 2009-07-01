@@ -48,7 +48,22 @@
         targetEl.form.submit();
       }
     };
-    
+
+    var computeIncludeScope = function(form) {
+      var allEmpty = true;
+      var subScopes = yud.getElementsByClassName("validation-scope", null, form);
+      zct.each(subScopes, function() {
+        var inputs = yud.getElementsBy(function(el) {
+          return (zct.inArray(el.nodeName, ["INPUT", "SELECT", "TEXTAREA"]) > -1 && zct.inArray(el.type, ["submit", "hidden"]) == -1);
+        }, null, this);
+        zct.each(inputs, function() {
+          allEmpty = allEmpty && (zct.val(this) === "");
+        });
+      });
+      if (!allEmpty) return undefined;
+      return false;
+    };
+
     return {
       clickEvent : undefined,
       requestFormTabView : undefined,
@@ -76,7 +91,7 @@
             return tokens[0];
       },
       
-      submitStep : function(e) { validateAndSubmit(e, false); },
+      submitStep : function(e) { validateAndSubmit(e, computeIncludeScope(yue.getTarget(e).form)); },
       
       submitCollectionAdd : function(e) { validateAndSubmit(e, true); },
       

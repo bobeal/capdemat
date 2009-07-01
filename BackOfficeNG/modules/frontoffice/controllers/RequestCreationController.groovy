@@ -355,6 +355,10 @@ class RequestCreationController {
                         requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
                         requestAdaptorService.stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
                     }
+                    if (submitAction[1] == 'step' && currentStep == 'adults'
+                            && (objectToBind.individuals.adults == null || objectToBind.individuals.adults.isEmpty())){
+                        requestAdaptorService.stepState(cRequest.stepStates.get('adults'), 'uncomplete', '')
+                    }
                 }
                 
                 if (currentStep == 'validation') {

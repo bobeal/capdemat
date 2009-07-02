@@ -70,8 +70,13 @@
             	displayCondition="//sgr:AbroadInternship" />
             <block id="6" column="2" label="Éléments de calcul de la bourse" />
             <block id="7" column="2" label="Références bancaires de l'étudiant" />
+            <block id="8" label="Moyen de contact*" />
           </blocks-def>
           <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
+            <complexTemplate />
+          </element>
+          <element blockId="8" line="0" column="0" link="MeansOfContact"
+            prefixLabel="Comment souhaitez-vous être informé ?">
             <complexTemplate />
           </element>
         </xslfo>
@@ -164,7 +169,7 @@
                   City
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Commune  
+                  Commune
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   City
@@ -178,7 +183,7 @@
                     </conditions>
                   </common>
                   <xslfo>
-                    <element blockId="1" line="1" column="1">
+                    <element blockId="1" line="1" column="0">
                       <localReferential />
                     </element>
                   </xslfo>
@@ -210,7 +215,7 @@
                     </conditions>
                   </common>
                   <xslfo>
-                    <element blockId="1" line="1" column="1">
+                    <element blockId="1" line="2" column="0">
                       <string />
                     </element>
                   </xslfo>
@@ -240,7 +245,7 @@
                     <validation jsregexp="^\d+(?:\.\d{1,2})?$" />
                   </common>
                   <xslfo>
-                    <element blockId="1" line="2" column="0">
+                    <element blockId="1" line="3" column="0">
                       <string />
                     </element>
                   </xslfo>
@@ -368,7 +373,7 @@
                     <step name="currentStudies" />
                   </common>
                   <xslfo>
-                    <element blockId="3" line="4" column="0">
+                    <element blockId="3" line="0" column="0">
                       <localComplexElement />
                     </element>
                   </xslfo>
@@ -384,7 +389,7 @@
                     <step name="currentStudies" />
                   </common>
                   <xslfo>
-                    <element blockId="3" line="0" column="0">
+                    <element blockId="3" line="5" column="0">
                       <localComplexElement />
                     </element>
                   </xslfo>
@@ -400,7 +405,7 @@
                     <step name="currentStudies" />
                   </common>
                   <xslfo>
-                    <element blockId="3" line="5" column="0">
+                    <element blockId="3" line="7" column="0">
                       <localComplexElement />
                     </element>
                   </xslfo>
@@ -491,7 +496,7 @@
                     </conditions>
                   </common>
                   <xslfo>
-                    <element blockId="7" line="0" column="0">
+                    <element blockId="7" line="1" column="0">
                       <varargCheckbox displayModulo="2"/>
                     </element>
                   </xslfo>
@@ -523,7 +528,7 @@
                     </conditions>
                   </common>
                   <xslfo>
-                    <element blockId="7" line="0" column="0">
+                    <element blockId="7" line="2" column="0">
                       <string />
                     </element>
                   </xslfo>
@@ -555,7 +560,7 @@
                     </conditions>
                   </common>
                   <xslfo>
-                    <element blockId="7" line="0" column="0">
+                    <element blockId="7" line="2" column="1">
                       <string />
                     </element>
                   </xslfo>
@@ -586,7 +591,7 @@
                     </conditions>
                   </common>
                   <xslfo>
-                    <element blockId="7" line="0" column="0">
+                    <element blockId="7" line="3" column="0">
                       <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
                     </element>
                   </xslfo>
@@ -633,7 +638,7 @@
                     <validation jsregexp="^\d{1,5}$" />
                   </common>
                   <xslfo>
-                    <element blockId="7" line="0" column="0">
+                    <element blockId="7" line="4" column="0">
                       <string />
                     </element>
                   </xslfo>
@@ -667,7 +672,7 @@
                     <validation jsregexp="^\d{1,5}$" />
                   </common>
                   <xslfo>
-                    <element blockId="7" line="0" column="1">
+                    <element blockId="7" line="4" column="1">
                       <string />
                     </element>
                   </xslfo>
@@ -701,7 +706,7 @@
                     <validation jsregexp="^[a-zA-Z0-9]{1,11}$" />
                   </common>
                   <xslfo>
-                    <element blockId="7" line="2" column="0">
+                    <element blockId="7" line="5" column="0">
                       <string />
                     </element>
                   </xslfo>
@@ -735,7 +740,7 @@
                     <validation jsregexp="^(?:O[1-9])|(?:[1-8]\d)|(?:9[0-7])$" />
                   </common>
                   <xslfo>
-                    <element blockId="7" line="2" column="1">
+                    <element blockId="7" line="5" column="1">
                       <string />
                     </element>
                   </xslfo>
@@ -1118,7 +1123,7 @@
               <validation jsregexp="^\d{2,4}$" />
             </common>
             <xslfo>
-              <element blockId="3" line="0" column="0">
+              <element blockId="3" line="5" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1151,7 +1156,7 @@
               <step name="currentStudies" />
             </common>
             <xslfo>
-              <element blockId="3" line="1" column="0">
+              <element blockId="3" line="6" column="0">
                 <varargCheckbox displayModulo="3"/>
               </element>
             </xslfo>
@@ -1201,7 +1206,7 @@
               </conditions>
             </common>
             <xslfo>
-              <element blockId="3" line="5" column="0">
+              <element blockId="3" line="7" column="0">
                 <varargCheckbox displayModulo="3"/>
               </element>
             </xslfo>
@@ -1260,7 +1265,7 @@
               <step name="currentStudies" />
             </common>
             <xslfo>
-              <element blockId="3" line="6" column="0">
+              <element blockId="3" line="8" column="0">
                 <varargCheckbox displayModulo="3"/>
               </element>
             </xslfo>
@@ -1288,7 +1293,7 @@
               <step name="currentStudies" />
             </common>
             <xslfo>
-              <element blockId="3" line="7" column="0">
+              <element blockId="3" line="9" column="0">
                 <yesnoCheckbox />
               </element>
             </xslfo>
@@ -1319,7 +1324,7 @@
               </conditions>
             </common>
             <xslfo>
-              <element blockId="3" line="8" column="0">
+              <element blockId="3" line="10" column="0">
                 <yesnoCheckbox />
               </element>
             </xslfo>
@@ -1495,7 +1500,7 @@
               </conditions>
             </common>
             <xslfo>
-              <element blockId="3" line="3" column="0">
+              <element blockId="3" line="0" column="0">
                 <localReferential />
               </element>
             </xslfo>
@@ -1526,7 +1531,7 @@
               </conditions>
             </common>
             <xslfo>
-              <element blockId="3" line="3" column="1">
+              <element blockId="3" line="1" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1555,7 +1560,7 @@
               <step name="currentStudies" />
             </common>
             <xslfo>
-              <element blockId="3" line="3" column="0">
+              <element blockId="3" line="2" column="0">
                 <string />
               </element>
             </xslfo>
@@ -1584,7 +1589,7 @@
               <step name="currentStudies" />
             </common>
             <xslfo>
-              <element blockId="3" line="3" column="1">
+              <element blockId="3" line="3" column="0">
                 <string />
               </element>
             </xslfo>

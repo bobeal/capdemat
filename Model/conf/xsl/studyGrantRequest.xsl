@@ -38,7 +38,7 @@
 
 	  <fo:block>
 	    <xsl:call-template name="requestHeader">
-	      <xsl:with-param name="RequestName">Demande de Mobil'Etudes</xsl:with-param>
+	      <xsl:with-param name="RequestName">Demande de bourse Mobil'Etudes</xsl:with-param>
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 
@@ -150,45 +150,55 @@
       </fo:table-cell>
       <fo:table-cell>
         <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./sgr:SubjectBirthDate and ./sgr:SubjectBirthDate != ''">
-                  <xsl:value-of select="./sgr:SubjectBirthDate" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
+            <xsl:call-template name="cvq:DisplayDate">
+            <xsl:with-param name="DateToDisplay">
+              <xsl:value-of select="./sgr:SubjectBirthDate"/>
+            </xsl:with-param>
+          </xsl:call-template>
           </fo:block>
       </fo:table-cell>
     </fo:table-row>
   </fo:table-body>
 </fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Première demande
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./sgr:SubjectFirstRequest and ./sgr:SubjectFirstRequest != ''">
-                  <xsl:value-of select="./sgr:SubjectFirstRequest" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
+                                                                            
+    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+    <fo:table-column column-width="proportional-column-width(2 * 1)" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+    <fo:table-column column-width="30pt" />
+    <fo:table-column column-width="proportional-column-width(4)" />
+
+    <fo:table-body>
+      <fo:table-row>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+  Première demande
           </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
+        </fo:table-cell>
+        <fo:table-cell>
+          <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./sgr:SubjectFirstRequest = &quot;true&quot;">X</xsl:if>
+           <xsl:if test="./sgr:SubjectFirstRequest = &quot;false&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+           <xsl:if test="./sgr:SubjectFirstRequest = &quot;false&quot;">X</xsl:if>
+           <xsl:if test="./sgr:SubjectFirstRequest = &quot;true&quot;">&#160;</xsl:if>
+         </fo:block>
+       </fo:table-cell>
+       <fo:table-cell>
+         <fo:block>&#160;</fo:block>
+       </fo:table-cell>
+     </fo:table-row>
+   </fo:table-body>
 </fo:table>
                     <xsl:if test="$withTotal = 'true'  or not(position() = last())">
         <fo:block>
@@ -535,33 +545,62 @@
     </fo:table-row>
   </fo:table-body>
 </fo:table>
-                                                            <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Type de baccalauréat
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./sgr:Alevels and ./sgr:Alevels != ''">
-                  <xsl:value-of select="./sgr:Alevels" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
+                                                                                                
+                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
+              <xsl:variable name="mod_column" select="'3'"/>
+              <xsl:variable name="enum_tokens">
+                <xsl:call-template name="split-string">
+                        <xsl:with-param name="string" select="./sgr:Alevels/text()"/>
+                      </xsl:call-template>
+              </xsl:variable>
+                    <fo:table-column column-width="100pt" />
+      
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/sgr','ALevelsType','fr')//ref:data[@name = 'ALevelsType']/ref:entry">
+                <xsl:if test="not(position() &gt; ($mod_column + 1))">
+                  <fo:table-column column-width="30pt" />
+                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
+                </xsl:if>
+              </xsl:for-each>
+
+              <fo:table-body>
+                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+                <fo:table-cell>
+	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		    Type de baccalauréat
+		  </fo:block>
+	        </fo:table-cell>
+      
+                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/sgr','ALevelsType','fr')//ref:data[@name = 'ALevelsType']/ref:entry">
+
+	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
+	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
+      	          </xsl:if>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
+		      <xsl:variable name="current_value" select="@key"/>
+		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
+			<xsl:choose>
+			  <xsl:when test="text() = $current_value">X</xsl:when>
+			  <xsl:otherwise>&#160;</xsl:otherwise>
+			</xsl:choose>
+                      </xsl:for-each>
+	            </fo:block>
+	          </fo:table-cell>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
+                      <xsl:value-of select="./ref:label[@lang='fr']"/>
+      	            </fo:block>
+	          </fo:table-cell>
+	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
+	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
+	            	            <xsl:if test="not(position() = last())">
+	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
+	            </xsl:if>
+	          </xsl:if>
+	        </xsl:for-each>
+              </fo:table-body>
+            </fo:table>
                     <xsl:if test="$withTotal = 'true'  or not(position() = last())">
         <fo:block>
           <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
@@ -571,18 +610,10 @@
     </xsl:for-each>
     
           
-                                                  <fo:block xsl:use-attribute-sets="request.field.inline.label">Nom de l'établissement* :</fo:block>
-      	    <xsl:call-template name="LocalReferentialDataType">
-	      <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_sgr.xml')))//ref:data[@name = 'CurrentSchoolName']/ref:entries"/>
-	      <xsl:with-param name="RequestData" select="//sgr:CurrentSchoolName"/>
-	    </xsl:call-template>
-
-    
-          
                   <xsl:variable name="withTotal" select="'false'" />
 
     <xsl:for-each select="//sgr:CurrentSchool">
-                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+                                                                                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
   <fo:table-column column-width="proportional-column-width(100)" />
   <fo:table-column column-width="proportional-column-width(200)" />
   <fo:table-column column-width="proportional-column-width(100)" />
@@ -591,7 +622,7 @@
     <fo:table-row>
       <fo:table-cell>
        <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Nom
+	Précisez le nom
        </fo:block>
       </fo:table-cell>
       <fo:table-cell>
@@ -702,33 +733,62 @@
                   <xsl:variable name="withTotal" select="'false'" />
 
     <xsl:for-each select="//sgr:CurrentStudiesInformations">
-                                                    <fo:table xsl:use-attribute-sets="request.field.inline.table">
-  <fo:table-column column-width="proportional-column-width(100)" />
-  <fo:table-column column-width="proportional-column-width(200)" />
-  <fo:table-column column-width="proportional-column-width(100)" />
-  
-  <fo:table-body>
-    <fo:table-row>
-      <fo:table-cell>
-       <fo:block xsl:use-attribute-sets="request.field.inline.label">
-	Diplôme préparé
-       </fo:block>
-      </fo:table-cell>
-      <fo:table-cell>
-        <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-            <xsl:choose>
-            <xsl:when test="./sgr:CurrentStudies and ./sgr:CurrentStudies != ''">
-                  <xsl:value-of select="./sgr:CurrentStudies" />
-                 </xsl:when>
-             <xsl:otherwise>
-               <xsl:text>&#160;</xsl:text>
-             </xsl:otherwise>
-           </xsl:choose>
-          </fo:block>
-      </fo:table-cell>
-    </fo:table-row>
-  </fo:table-body>
-</fo:table>
+                                                                                        
+                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
+              <xsl:variable name="mod_column" select="'3'"/>
+              <xsl:variable name="enum_tokens">
+                <xsl:call-template name="split-string">
+                        <xsl:with-param name="string" select="./sgr:CurrentStudies/text()"/>
+                      </xsl:call-template>
+              </xsl:variable>
+                    <fo:table-column column-width="100pt" />
+      
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/sgr','CurrentStudiesType','fr')//ref:data[@name = 'CurrentStudiesType']/ref:entry">
+                <xsl:if test="not(position() &gt; ($mod_column + 1))">
+                  <fo:table-column column-width="30pt" />
+                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
+                </xsl:if>
+              </xsl:for-each>
+
+              <fo:table-body>
+                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+                <fo:table-cell>
+	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		    Diplôme préparé
+		  </fo:block>
+	        </fo:table-cell>
+      
+                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/sgr','CurrentStudiesType','fr')//ref:data[@name = 'CurrentStudiesType']/ref:entry">
+
+	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
+	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
+      	          </xsl:if>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
+		      <xsl:variable name="current_value" select="@key"/>
+		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
+			<xsl:choose>
+			  <xsl:when test="text() = $current_value">X</xsl:when>
+			  <xsl:otherwise>&#160;</xsl:otherwise>
+			</xsl:choose>
+                      </xsl:for-each>
+	            </fo:block>
+	          </fo:table-cell>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
+                      <xsl:value-of select="./ref:label[@lang='fr']"/>
+      	            </fo:block>
+	          </fo:table-cell>
+	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
+	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
+	            	            <xsl:if test="not(position() = last())">
+	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
+	            </xsl:if>
+	          </xsl:if>
+	        </xsl:for-each>
+              </fo:table-body>
+            </fo:table>
                     <xsl:if test="$withTotal = 'true'  or not(position() = last())">
         <fo:block>
           <fo:leader leader-pattern="dots" leader-length.optimum="100%"/>
@@ -738,62 +798,99 @@
     </xsl:for-each>
     
           
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                    		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Niveau
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:CurrentStudiesLevel and //sgr:CurrentStudiesLevel != ''">
-                                    <xsl:value-of select="//sgr:CurrentStudiesLevel" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
+                                        
+                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
+              <xsl:variable name="mod_column" select="'3'"/>
+              <xsl:variable name="enum_tokens">
+                <xsl:call-template name="split-string">
+                        <xsl:with-param name="string" select="//sgr:CurrentStudiesLevel/text()"/>
+                      </xsl:call-template>
+              </xsl:variable>
+                    <fo:table-column column-width="100pt" />
+      
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/sgr','CurrentStudiesLevelType','fr')//ref:data[@name = 'CurrentStudiesLevelType']/ref:entry">
+                <xsl:if test="not(position() &gt; ($mod_column + 1))">
+                  <fo:table-column column-width="30pt" />
+                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
+                </xsl:if>
+              </xsl:for-each>
+
+              <fo:table-body>
+                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+                <fo:table-cell>
+	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		    Niveau
+		  </fo:block>
+	        </fo:table-cell>
+      
+                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/sgr','CurrentStudiesLevelType','fr')//ref:data[@name = 'CurrentStudiesLevelType']/ref:entry">
+
+	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
+	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
+      	          </xsl:if>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
+		      <xsl:variable name="current_value" select="@key"/>
+		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
+			<xsl:choose>
+			  <xsl:when test="text() = $current_value">X</xsl:when>
+			  <xsl:otherwise>&#160;</xsl:otherwise>
+			</xsl:choose>
+                      </xsl:for-each>
+	            </fo:block>
+	          </fo:table-cell>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
+                      <xsl:value-of select="./ref:label[@lang='fr']"/>
+      	            </fo:block>
+	          </fo:table-cell>
+	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
+	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
+	            	            <xsl:if test="not(position() = last())">
+	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
+	            </xsl:if>
+	          </xsl:if>
+	        </xsl:for-each>
+              </fo:table-body>
+            </fo:table>
 
     
           
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
+                            
+      	    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+	      <fo:table-column column-width="proportional-column-width(2 * 1)" />
+	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+	      <fo:table-column column-width="30pt" />
+	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+	      <fo:table-column column-width="30pt" />
+      	      <fo:table-column column-width="proportional-column-width(4)" />
       	      <fo:table-body>
 		<fo:table-row>
-      	                    		  <fo:table-cell>
+		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
 		      Études en alternance
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:SandwichCourses and //sgr:SandwichCourses != ''">
-                                    <xsl:value-of select="//sgr:SandwichCourses" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
 		  </fo:table-cell>
-            		  <fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+		      <xsl:if test="//sgr:SandwichCourses = &quot;true&quot;">X</xsl:if>
+		      <xsl:if test="//sgr:SandwichCourses = &quot;false&quot;">&#160;</xsl:if>
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+		      <xsl:if test="//sgr:SandwichCourses = &quot;false&quot;">X</xsl:if>
+		      <xsl:if test="//sgr:SandwichCourses = &quot;true&quot;">&#160;</xsl:if>
+		    </fo:block>
+		  </fo:table-cell>
+      		  <fo:table-cell>
 		    <fo:block>&#160;</fo:block>
 		  </fo:table-cell>
       		</fo:table-row>
@@ -802,30 +899,40 @@
 
     
           
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
+                            
+      	    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+	      <fo:table-column column-width="proportional-column-width(2 * 1)" />
+	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+	      <fo:table-column column-width="30pt" />
+	      <fo:table-column column-width="proportional-column-width(1) - 30pt" />
+	      <fo:table-column column-width="30pt" />
+      	      <fo:table-column column-width="proportional-column-width(4)" />
       	      <fo:table-body>
 		<fo:table-row>
-      	                    		  <fo:table-cell>
+		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
 		      Stage à l'étranger
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:AbroadInternship and //sgr:AbroadInternship != ''">
-                                    <xsl:value-of select="//sgr:AbroadInternship" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">OUI</fo:block>
 		  </fo:table-cell>
-            		  <fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+		      <xsl:if test="//sgr:AbroadInternship = &quot;true&quot;">X</xsl:if>
+		      <xsl:if test="//sgr:AbroadInternship = &quot;false&quot;">&#160;</xsl:if>
+		    </fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.label">NON</fo:block>
+		  </fo:table-cell>
+		  <fo:table-cell>
+		    <fo:block xsl:use-attribute-sets="request.field.yesno.value">
+		      <xsl:if test="//sgr:AbroadInternship = &quot;false&quot;">X</xsl:if>
+		      <xsl:if test="//sgr:AbroadInternship = &quot;true&quot;">&#160;</xsl:if>
+		    </fo:block>
+		  </fo:table-cell>
+      		  <fo:table-cell>
 		    <fo:block>&#160;</fo:block>
 		  </fo:table-cell>
       		</fo:table-row>
@@ -901,15 +1008,12 @@
 		  </fo:table-cell>
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:AbroadInternshipStartDate and //sgr:AbroadInternshipStartDate != ''">
-                                    <xsl:value-of select="//sgr:AbroadInternshipStartDate" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
+                	              <xsl:call-template name="cvq:DisplayDate">
+		        <xsl:with-param name="DateToDisplay">
+		          <xsl:value-of select="//sgr:AbroadInternshipStartDate"/>
+		        </xsl:with-param>
+	              </xsl:call-template>
+			    </fo:block>
 		  </fo:table-cell>
       	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
@@ -918,15 +1022,12 @@
 		  </fo:table-cell>
 		  <fo:table-cell>
         		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:AbroadInternshipEndDate and //sgr:AbroadInternshipEndDate != ''">
-                                    <xsl:value-of select="//sgr:AbroadInternshipEndDate" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
+                	              <xsl:call-template name="cvq:DisplayDate">
+		        <xsl:with-param name="DateToDisplay">
+		          <xsl:value-of select="//sgr:AbroadInternshipEndDate"/>
+		        </xsl:with-param>
+	              </xsl:call-template>
+			    </fo:block>
 		  </fo:table-cell>
             		</fo:table-row>
 	      </fo:table-body>
@@ -991,35 +1092,62 @@
 	      <fo:leader leader-pattern="space" />
 	    </fo:block>
         
-                              <fo:table xsl:use-attribute-sets="request.field.inline.table">
-                        <fo:table-column column-width="proportional-column-width(100)" />
-          <fo:table-column column-width="proportional-column-width(100)" />
-                    	      <fo:table-column column-width="proportional-column-width(200)" />
-      	      <fo:table-body>
-		<fo:table-row>
-      	                        		  <fo:table-cell>
-		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Lieu d'études ou de stage situé à*
-		    </fo:block>
-		  </fo:table-cell>
-		  <fo:table-cell>
-        		    <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
-                                      <xsl:choose>
-                        <xsl:when test="//sgr:Distance and //sgr:Distance != ''">
-                                    <xsl:value-of select="//sgr:Distance" />
-                                  </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:text>&#160;</xsl:text>
-                        </xsl:otherwise>
-                      </xsl:choose>
-        		    </fo:block>
-		  </fo:table-cell>
-            		  <fo:table-cell>
-		    <fo:block>&#160;</fo:block>
-		  </fo:table-cell>
-      		</fo:table-row>
-	      </fo:table-body>
-	    </fo:table>
+                                            
+                  <fo:table xsl:use-attribute-sets="request.field.inline.table">
+              <xsl:variable name="mod_column" select="'2'"/>
+              <xsl:variable name="enum_tokens">
+                <xsl:call-template name="split-string">
+                        <xsl:with-param name="string" select="//sgr:Distance/text()"/>
+                      </xsl:call-template>
+              </xsl:variable>
+                    <fo:table-column column-width="100pt" />
+      
+              <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/sgr','DistanceType','fr')//ref:data[@name = 'DistanceType']/ref:entry">
+                <xsl:if test="not(position() &gt; ($mod_column + 1))">
+                  <fo:table-column column-width="30pt" />
+                  <fo:table-column column-width="proportional-column-width(1) - 30pt"/>
+                </xsl:if>
+              </xsl:for-each>
+
+              <fo:table-body>
+                      <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+                <fo:table-cell>
+	          <fo:block xsl:use-attribute-sets="request.field.inline.label">
+		    Lieu d'études ou de stage situé à*
+		  </fo:block>
+	        </fo:table-cell>
+      
+                <xsl:for-each select="locservice:getEnumsDataNode($localizationService,'http://www.cg95.fr/cvq/schema/sgr','DistanceType','fr')//ref:data[@name = 'DistanceType']/ref:entry">
+
+	                	          	          <xsl:if test="(position() != 1) and ((position() mod $mod_column) = 1)">
+	            <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;</xsl:text>
+	                  	              <xsl:text disable-output-escaping="yes">&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;</xsl:text>
+      	          </xsl:if>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.value">
+		      <xsl:variable name="current_value" select="@key"/>
+		      <xsl:for-each select="exslt:node-set($enum_tokens)/words/w">
+			<xsl:choose>
+			  <xsl:when test="text() = $current_value">X</xsl:when>
+			  <xsl:otherwise>&#160;</xsl:otherwise>
+			</xsl:choose>
+                      </xsl:for-each>
+	            </fo:block>
+	          </fo:table-cell>
+	          <fo:table-cell>
+	            <fo:block xsl:use-attribute-sets="request.field.checkbox.label">
+                      <xsl:value-of select="./ref:label[@lang='fr']"/>
+      	            </fo:block>
+	          </fo:table-cell>
+	          <xsl:if test="((position() mod $mod_column) = 0) or (position() = last())">
+	            <xsl:text disable-output-escaping="yes">&lt;/fo:table-row&gt;</xsl:text>
+	            	            <xsl:if test="not(position() = last())">
+	              <xsl:text disable-output-escaping="yes">&lt;fo:table-row&gt;&lt;fo:table-cell&gt;&lt;fo:block&gt;&#160;&lt;/fo:block&gt;&lt;/fo:table-cell&gt;&lt;/fo:table-row&gt;</xsl:text>
+	            </xsl:if>
+	          </xsl:if>
+	        </xsl:for-each>
+              </fo:table-body>
+            </fo:table>
 
     
       
@@ -1156,4 +1284,4 @@
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
-                                                                                                                                                                                                                                                                                                                                                                </xsl:stylesheet>
+                                                                                                                                                                                                                                                                                                                                                                        </xsl:stylesheet>

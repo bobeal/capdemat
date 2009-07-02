@@ -89,7 +89,7 @@
       <fo:table-body>
         <fo:table-row>
           <fo:table-cell>
-            <fo:block xsl:use-attribute-sets="request.field.inline.label">Numero et libéllé de voie**</fo:block>
+            <fo:block xsl:use-attribute-sets="request.field.inline.label">Numéro et libellé de voie *</fo:block>
           </fo:table-cell>
           <fo:table-cell>
             <fo:block xsl:use-attribute-sets="request.field.inline.string_value">

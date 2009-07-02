@@ -481,9 +481,10 @@ class RequestCreationController {
         def requester = individualService.getById(cRequest.requesterId)
         render( view: "frontofficeRequestType/exit",
                 model:
-                    ['requestTypeLabel': translationService.translateRequestTypeLabel(cRequest.requestType.label).encodeAsHTML(),
-                     'rqt': cRequest,
-                     'requester': requester,
+                    ['translatedRequestTypeLabel': translationService.translateRequestTypeLabel(cRequest.requestType.label).encodeAsHTML(),
+                     'requestTypeLabel': cRequest.requestType.label,
+                     'requestId': cRequest.id,
+                     'requesterLogin': requester.login,
                      'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card'),
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
                      'isEdition' : params.isEdition

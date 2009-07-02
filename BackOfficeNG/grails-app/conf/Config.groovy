@@ -133,7 +133,7 @@ jcaptchas {
 		new GenericCaptchaEngine(
 			new GimpyFactory(
 				new RandomWordGenerator(
-					"abcdefghijklmnpqrstuvwxyz123456789"
+					"abcdefghijkmnpqrstuvwxyz23456789"
 				),
 				new ComposedWordToImage(
 					new RandomFontGenerator(

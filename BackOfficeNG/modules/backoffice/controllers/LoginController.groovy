@@ -1,4 +1,5 @@
 import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+import fr.cg95.cvq.util.web.filter.CASFilter
 
 class LoginController {
 
@@ -7,6 +8,9 @@ class LoginController {
     def logout = {
        	session.currentUser = null
         session.currentCredentialBean = null
+		session.removeAttribute(CASFilter.CAS_FILTER_USER)
+		session.removeAttribute(CASFilter.CAS_FILTER_RECEIPT)
+
        	if (CH.config.cas_mocking == "true")
        		response.sendRedirect('/BackOfficeNG/cas.gsp')
        	else

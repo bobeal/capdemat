@@ -37,6 +37,8 @@ fake_payment.url=https://localhost/ServiceExporter/payment/fake_payment_input.ht
 
 translationService.cacheSeconds = 0
 
+i18n.basedir = 
+
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################
@@ -65,6 +67,13 @@ plugins.externalservices.capwebctpaymentmodule.webservice_uri=http://localhost:8
 plugins.externalservices.edemande.connexion_service_uri=http://edemtest:80/Extranet_WSAxis/services/ConnexionService
 plugins.externalservices.edemande.formulaire_service_uri=http://edemtest:80/Extranet_WSAxis/services/FormulaireService
 plugins.externalservices.edemande.suivi_demande_service_uri=http://edemtest:80/Extranet_WSAxis/services/SuiviDemandeService
+plugins.externalservices.edemande.ssh.username=root
+plugins.externalservices.edemande.ssh.hostname=edemtest
+plugins.externalservices.edemande.ssh.port=22
+plugins.externalservices.edemande.ssh.prvkey=-----BEGIN RSA PRIVATE KEY-----\nProc-Type: 4,ENCRYPTED\nDEK-Info: DES-EDE3-CBC,CAA39CECB887244A\n\ne5dqQFQXPK/ntfrkOGfqNzx35bYhtbWYBodnBWb83p2SfJgml8qgzON9KYPJKgXI\nKMqEXwytNhz/hYxPh+zWnMPvoQhsE0Wr8R6wXUatsGM4aRRKVl9DjnDv9xZ4d6io\nemLAfUvYZY0rL4mMURS0GNhNMyuEoG4qvucWxtoJ+XYzcK+hSdNTD5FK/T5DHSVV\nAyXliDdmGtnWgg2wj4rRUH1AoALfaupVaI622iiqP/pMPzZ7EIr4aOO6EysrR8E/\nxrkbJXeVE+s2NpUvb7VZrPwoR/GwWAMoIW04G8AjtMq5TuXHKJiXELpUfmzWHqVE\nNaosk1cnIl4hI61BjZg5afvJqbizY39cj7PHeD6cqJYvjOwFSiYQrpr635yXjSTi\nkMD8n26Czds7sI2SLxviMy9Qczdt+sBQrYuyfw09NM+LM6d1wij4GTqUawk0bFEZ\ndZPT5wvxhW89BpfaEjNguM97o7XZb8FBxaFJRWC8lOM7C0wA5XBl5s8F7wl58mAJ\nzuI43cGaaMoE96zFUwI85cmQb9VeM5Gp01JNWawsa9niZNnPnMxuqwutHa2IVMy1\n++epE3FBRCbyVwQ6Quj6C7WZpJFCjUpUuL0M2CABnBMoRSw1IQre5OfQS+AtVfjT\nowCxJNPZKDZW/3MZ/QMzUyyCR3oXQnMDUfJMbRmI/49qv7V/+GwmlVLKNK6QPFy2\n8twoVpDpo8CEZQeh0e+dQrRS3Esf+jxOp0glZZFbTHMPk1sgnv31m1HYVliGVn5H\nnXFBXGVCEFqUOucolbmJuAHlQUWYu7RzkLH6aM/tWjxYy6Wzv4fe0vtDhUB7Sm4Z\n6wOu95pWzI+qR0OCzObpRHEQMH82f2VdYT0g/3tQi06F4EVpcqvZZHQb+Avj/oGJ\nPV/TUchuG70536G5UEvf7R/LQPJtR/Sd6g001nxyfuQSweCwdisKN0vYaDzZwZ0W\n3pSJGvWgp1xjRNQhidPO7uBvTPwftBq0jZZda/e7D80t4ub58YkVQNY/4yZrGxVy\nDDY5ukKM6NZ6zfFuybdILsnfavmBy/nXCjkHQpKTvBNkKgfOd1rt6TmEjxaOa/xR\nZOgXn2qpzCX/oqqHR44yQK2G/yzJXCeenVzNqEr0EO6Dk9FWq6Yf77tXxBQbQC36\nAKNac45chd8zh+hjD5fPSFNkKKiAUPooEUpiD8k+L12QosDswtnIGUm8Pqo+JNfy\nVUk2GxOLbQVWADMudsl8nbWKi4ZiGVxctC1nkPM5CO0lXWSkSRxWyocAA6RVAMn6\nxhBukENZpgMzzXJ2Xt1dO7A1wW7NVZyYIsPhkg+LGDZ4HseBJWOzWenU/CFKq+CA\nKp2Tw0wnP5wfGnMx/AKvQLAXObWhrDEck1vd2Wde7Qo4YOjzl7vWcVYbA21oU69Q\nXN96B3Em2TLjzEHxOp4b0A/DIzmnrR/I1DnDlLzMsYEhTI+vYFm0KNBkGsVti/0h\nuTfqQyV9EYcYuE7bireo7/h4fe0EmQjDdCJ3NjPf0YlLF4ukK2R/Gm+tGNMXn5Vd\njq3Gw4RWyX7Y3fHOxWFrNdiIobULb1sQTsfUExmJfJ2LtiJRvvs4eg==\n-----END RSA PRIVATE KEY-----
+plugins.externalservices.edemande.ssh.passphrase=edemtest
+plugins.externalservices.edemande.ssh.basedir=/tmp
+plugins.externalservices.edemande.ssh.hostkey=AAAAB3NzaC1yc2EAAAABIwAAAQEA5iEnOBgL/AAzSe6siuqEOrJJmJiCO4Vmb3t+wWCcphE/d/UoSea33fcjcoMflQ9ppK/PmqFWTUW87anEuSW1a3ROqyT6kgnqDAj5Nz2zHMrR9SjdykNNjuPd6Y587+5y61JBtUzi20Z7T9uicGImXMXKegobC9gZln+txEcKd/GtTDJES4nLXStFJnaC3Gk4EUWQxuZbnyRCLlvW0BYXaafSiTck5nFuhGVPy+IU0jOAQ3s9iQWucF2DUva8QJuTqqccU9nZqyUb8kQWF2Xr12LclUvwaT/cBZf4JTh+eLxPBiPcS3N3QM94rT4SBm8FAnKpk82vzYwkBKXvLx78aQ==
 
 # PaymentProviders - Spplus
 plugins.paymentproviders.spplus.payment_url=https://www.spplus.net/IPaiement/initialiserPaiement.do?

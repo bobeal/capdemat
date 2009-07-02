@@ -66,7 +66,7 @@ form.editable-list-form p.same-line input.first-button { margin-left: 28%; }
 /* document.css
 -------------------------------------------------------------- */
 
-#requestDocumentPanel #requestDocumentData img { width: 100% ; }
+#requestDocumentPanel #requestDocumentData img.page { width: 90% ; }
 
 #requestDocumentPanel .bd h1 { height: 1%; }
 

@@ -26,5 +26,5 @@
       </form>
     </div>
   </g:if>
-  <img alt="" src="${g.createLink(action:"documentPage")}/${document.id}/?pageNumber=${pageNumber}&uuid=${UUID.randomUUID().toString().substring(0,4)}"/>
+  <img class="page" src="${g.createLink(action:'documentPage')}/${document.id}/?pageNumber=${pageNumber}&uuid=${UUID.randomUUID().toString().substring(0,4)}"/>
 </div>

@@ -44,7 +44,7 @@
   padding: 1em 0;
 }
 
-#requestDocumentPanel #requestDocumentData img { max-width: 100%; }
+#requestDocumentPanel #requestDocumentData img { max-width: 90%; }
 
 #requestDocumentPanel #documentMetaData { margin : 2em 0 0 0; }
 /* list */

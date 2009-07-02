@@ -13,7 +13,7 @@
 
 #bd { background-position: left 22px; }
 #narrow { background-position: 3px 22px; }
-#narrow { _height: 500px; background-color: transparent; overflow:hidden; }
+#narrow { height: 800px; background-color: transparent; }
 
 #narrow .nobox .body form select   { margin: 0 0 1em 0; width: 100%; }
 #narrow .nobox .body form li label { width: 70% !important; }
@@ -52,8 +52,8 @@ form.editable-list-form p.same-line input.first-button { margin-left: 28%; }
 -------------------------------------------------------------- */
 #requestData dl { height: 1%; }
 
-#requestData dl dd { width: 12em !important; height: 1.2em; overflow: visible; }
-#requestData dl dt { height: 1.2em; width: 10.5em !important; overflow: hidden; }
+#requestData dl dd { width: 12em !important; height: 2em; overflow: visible; }
+#requestData dl dt { height: 2em; width: 10.5em !important; overflow: hidden; }
 
 #requestData dl dd form                  { overflow: visible; }
 #requestData dl dd form input            { width: 98% !important; }
@@ -66,7 +66,7 @@ form.editable-list-form p.same-line input.first-button { margin-left: 28%; }
 /* document.css
 -------------------------------------------------------------- */
 
-#requestDocumentPanel #requestDocumentData img { width: 100% ; }
+#requestDocumentPanel #requestDocumentData img.page { width: 90% ; }
 
 #requestDocumentPanel .bd h1 { height: 1%; }
 

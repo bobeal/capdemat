@@ -6,7 +6,7 @@
   
   <body>
     <div class="main-box requestExit">
-      <h2>${requestTypeLabel}</h2>
+      <h2>${translatedRequestTypeLabel}</h2>
       <div class="info">
         <g:if test="${isEdition}">
           <p><g:message code="request.message.successfulEdition" /></p>
@@ -15,8 +15,8 @@
           <p><g:message code="request.message.successfulCreation" /></p>
         </g:else>
         <g:if test="${hasHomeFolder}">
-          <p><g:message code="request.message.requestIdNotice" args="${[rqt.id]}"/></p>
-          <p><g:message code="account.message.tempLoginToFollowRequest" /> : <strong>${requester.login}</strong></p>
+          <p><g:message code="request.message.requestIdNotice" args="${[requestId]}"/></p>
+          <p><g:message code="account.message.loginReminder" /> : <strong>${requesterLogin}</strong></p>
         </g:if>
       </div>
       <g:if test="${hasHomeFolder}">
@@ -24,13 +24,18 @@
           <g:message code="request.message.actionAfterCreation" /> :
           <ul>
             <li>
-              <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:rqt.id)}">
+              <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:requestId)}">
                 <g:message code="request.action.seeSummary" />
               </a>
             </li>
             <li>
               <a href="${createLink(controller:'frontofficeRequestType')}">
-                <g:message code="request.action.issueNewRequest" />
+              	<g:if test="${requestTypeLabel == 'VO Card'}">
+                  <g:message code="request.action.issueRequest" />
+                </g:if>
+                <g:else>
+                  <g:message code="request.action.issueNewRequest" />
+                </g:else>
               </a>
             </li>
             <li>
@@ -41,7 +46,7 @@
             <g:if test="${returnUrl != ''}">
               <li>
                 <a href="${returnUrl}">
-                  <g:message code="request.action.return.to.local.authority.site" />
+                  <g:message code="request.action.returnToLocalAuthoritySite" />
                 </a>
               </li>
             </g:if>

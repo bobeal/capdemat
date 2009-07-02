@@ -322,6 +322,17 @@
           #yesNoCheckboxElementToXslfo( $subElement )
         #elseif ($subElement.displayType == "vararg_checkbox" || $subElement.displayType == "vararg_checkbox_with_precision")
           #varargCheckboxElementToXslfo( $subElement )
+        #elseif ($subElement.displayType == "local_referential")
+          #set($element = $subElement)
+          #setElementLabel( $element )
+          #setXpathExpr( $element )
+          #if($element.usePrefixLabel)
+            <fo:block xsl:use-attribute-sets="request.field.inline.label">$elementLabel :</fo:block>
+          #end
+          <xsl:call-template name="LocalReferentialDataType">
+            <xsl:with-param name="ReferentialData" select="document(string(concat($localAuthorityName,'/local_referential/local_referential_${element.namespaceAlias}.xml')))//ref:data[@name = '${element.elementName}']/ref:entries"/>
+            <xsl:with-param name="RequestData" select="//${element.namespaceAlias}:${element.elementName}"/>
+          </xsl:call-template>
         #end 
       #end
       <xsl:if test="$withTotal = 'true'  or not(position() = last())">

@@ -18,6 +18,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IMeansOfContactService;
+import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.sms.ISmsService;
 
@@ -30,6 +31,8 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
 
     static Logger logger = Logger.getLogger(MeansOfContactService.class);
 
+    private IRequestActionService requestActionService;
+    
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     private IMeansOfContactDAO meansOfContactDAO;
     private Boolean performDbUpdates;
@@ -178,13 +181,17 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
             + subject;
         String from = request.getRequestType().getCategory().getPrimaryEmail();
         mailService.send(from, to, null, fullSubject, body, data, attachmentName);
+        
+        requestActionService.addAction(request.getId(), 
+                IRequestActionService.REQUEST_CONTACT_CITIZEN, null, data);
     }
 
     public void notifyRequesterBySms(String to, String body) throws CvqException {
-        if (smsService.isEnabled())
+        if (smsService.isEnabled()) {
             smsService.send(to, body);
-        else
+        } else {
             throw new CvqException("sms_service.not.enabled");
+        }
     }
 
     public void setMeansOfContactDAO(IMeansOfContactDAO meansOfContactDAO) {
@@ -208,6 +215,10 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
+    }
+
+    public void setRequestActionService(IRequestActionService requestActionService) {
+        this.requestActionService = requestActionService;
     }
 
 }

@@ -29,9 +29,9 @@ public interface IRequestActionService {
         throws CvqException;
 
     /**
-     * Get the last action related to the request, or null if it has no action.
+     * Get the last workflow action related to the request, or null if it has none.
      */
-    RequestAction getLastAction(@IsRequest final Long requestId)
+    RequestAction getLastWorkflowAction(@IsRequest final Long requestId)
         throws CvqException;
 
     /**
@@ -65,8 +65,8 @@ public interface IRequestActionService {
     /**
      * Add an (non-workflow) action trace for the given request.
      */
-    void addAction(@IsRequest final Long requestId, final String label, final String note)
-        throws CvqException;
+    void addAction(@IsRequest final Long requestId, final String label, final String note,
+            final byte[] pdfData) throws CvqException;
 
     /**
      * Add a system action trace for the given request.

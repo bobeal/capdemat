@@ -40,7 +40,7 @@ public class LocalComplexElement extends Element {
         if (elementList == null)
             elementList = new ArrayList<Element>();
         
-       return( elementList.add(element));
+       return elementList.add(element);
     }
     
     public Element getChildElement(int index) {

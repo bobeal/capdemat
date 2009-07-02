@@ -37,13 +37,11 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public RequestAction getLastAction(@IsRequest final Long requestId)
+    public RequestAction getLastWorkflowAction(@IsRequest final Long requestId)
         throws CvqException {
-        List<RequestAction> actions = getActions(requestId);
-        if (actions != null && !actions.isEmpty()) {
-            return actions.get(actions.size() - 1);
-        }
-        return null;
+        
+        return requestActionDAO.findLastAction(requestId, 
+                IRequestActionService.STATE_CHANGE_ACTION);
     }
 
     @Override
@@ -62,10 +60,10 @@ public class RequestActionService implements IRequestActionService {
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public void addAction(final Long requestId, final String label, final String note)
-        throws CvqException {
+    public void addAction(final Long requestId, final String label, final String note,
+            final byte[] pdfData) throws CvqException {
 
-        addActionTrace(label, note, new Date(), null, requestId, null);
+        addActionTrace(label, note, new Date(), null, requestId, pdfData);
     }
 
     @Override

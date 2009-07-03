@@ -121,18 +121,13 @@
                 zct.Notifier.processMessage('modelError',response.success_msg);
         });
       },
-      
+
       cancelEditItem : function(e) {
           cancelAgentEditForm(getAgentId(e));
       },
-      
+
       viewAgents : function(scope) {
           zct.doAjaxCall("/agents/?id=" + zcb.categoryId + "&scope=" + scope, [scope], displayAgents);
-      },
-      // TODO - no more used - remove from code
-      sortAgents : function() {
-          if (yus.query("select[name=orderAgentBy]", "sortAgentForm", true).value != "")
-            zct.doAjaxFormSubmitCall ("sortAgentForm", ["All"], displayAgents);
       }
     };
 

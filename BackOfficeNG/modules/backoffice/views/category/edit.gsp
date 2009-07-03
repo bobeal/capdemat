@@ -43,7 +43,6 @@
           <div class="editableListSwithcher">
             <form id="sortRequestTypeForm" method="post" action="${createLink(action:'requestTypes')}" />
               <select name="orderRequestTypeBy" onchange="zenexity.capdemat.bong.categoryRequestType.sortRequestTypes();">
-                <option value=""><g:message code="category.filter.sortBy" /></option>
                 <option value="label" ${orderRequestTypeBy == 'label' ? 'selected' : ''}>
                   <g:message code="category.filter.byLabel" />
                 </option>
@@ -72,12 +71,6 @@
           <h2><g:message code="category.header.users" /></h2>
           <div class="editableListSwithcher">
             <form id="sortAgentsForm" method="post" action="<g:createLink action="users" />" />
-              <!-- 
-              <select name="orderAgentBy" onchange="zenexity.capdemat.bong.categoryAgent.sortAgents();">
-                <option value=""><g:message code="category.filter.sortBy" /></option>
-                <option value="lastName"><g:message code="category.filter.byName" /></option>
-              </select>
-              -->
               <input type="hidden" name="id" value="${category?.id}" />
 
               <a id="viewCategoryAgentsLink" class="current"
@@ -107,9 +100,8 @@
           <g:if test="${categories.size > 0}">
             <form action="<g:createLink action="edit" />">
               <select name="categoryId" id="categoryId" onchange="submit();">
-                <option value=""></option>
-                <g:each in="${categories}" var="category">
-                  <option value="${category.id}">${category.name}</option>
+                <g:each in="${categories}">
+                  <option value="${it.id}" ${it.id == category?.id ? 'selected' : ''}>${it.name}</option>
                 </g:each>
               </select>
             </form>

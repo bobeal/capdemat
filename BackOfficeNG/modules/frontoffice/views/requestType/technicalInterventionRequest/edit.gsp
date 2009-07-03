@@ -31,7 +31,12 @@
       <g:render template="/frontofficeRequestType/loginPanel" />
     </g:if>
     <g:if test="${flash.confirmationMessage}">
-      <div class="information-box"><p>${flash.confirmationMessage}</p></div>
+      <div class="information-box">
+      	<p>${flash.confirmationMessage}</p>
+      	<g:if test="${flash.confirmationMessageNotice}">
+      	  <strong>${flash.confirmationMessageNotice}</strong>
+      	</g:if>
+      </div>
     </g:if>
     
     <g:render template="/frontofficeRequestType/cancelPanel" />

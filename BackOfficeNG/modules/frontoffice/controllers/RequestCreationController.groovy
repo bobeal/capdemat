@@ -57,7 +57,8 @@ class RequestCreationController {
             cRequest.homeFolderId = SecurityContext.getCurrentEcitizen().getHomeFolder().getId()
             requestService.processDraft(cRequest)
             flash.cRequest = cRequest
-            flash.confirmationMessage = message(code:'message.savedAsDraft')
+            flash.confirmationMessage = message(code:'request.message.savedAsDraft')
+            flash.confirmationMessageNotice = message(code:'request.message.savedAsDraftNotice')
             targetAction = 'step'
             newParams.uuidString = params.uuidString
             newParams.requestTypeInfo = params.requestTypeInfo

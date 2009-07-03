@@ -34,7 +34,7 @@
     <label><g:message code="document.header.attachments"/></label>
     <div class="document-fieldset">
       <g:if test="${documentType.value.associated}">
-      <dl class="document-linked">
+      <dl class="document-linked summary-box">
         <g:each in="${documentType.value.associated}" var="document">
         <dt>
           <g:if test="${document.ecitizenNote}">
@@ -66,7 +66,7 @@
     <label><g:message code="document.header.available"/></label>
     <div class="document-fieldset">
       <g:if test="${documentType.value.provided}">
-      <dl class="document-available">
+      <dl class="document-available summary-box">
         <g:each in="${documentType.value.provided}" var="document">
         <dt>
           <g:if test="${document.endValidityDate}">

@@ -30,14 +30,14 @@
   </p>
 
   <p class="third-line">
-    CP : 
+    <g:message code="request.property.withAccount"/> : 
     <g:if test="${record.permanent}">
       <img src="${createLinkTo(dir:'images/icons',file:'12-check-green.png')}"/>
     </g:if>
     <g:else>
       <img src="${createLinkTo(dir:'images/icons',file:'HorsFoyerListe.gif')}"/>
     </g:else>
-    - QS :
+    - <g:message code="request.property.qualityOfService"/> :
     <g:if test="${record.quality == 'red'}">
       <img src="${createLinkTo(dir:'images/icons',file:'10-circle-red.png')}"/>
     </g:if>

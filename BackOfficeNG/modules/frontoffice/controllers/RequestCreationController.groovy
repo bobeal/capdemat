@@ -105,6 +105,15 @@ class RequestCreationController {
         
         def newDocuments = [] as Set
         
+        if (params.label == 'Home Folder Modification') {
+            ["adults-required", "children", "foreignAdults", "account-required", "document", "validation"].each {
+                def nameToken = it.tokenize('-')
+                def value = ['required': nameToken.size() == 2]
+                requestAdaptorService.stepState(value, 'complete', '')
+                cRequest.stepStates.put(nameToken[0], value)
+            }
+        }
+
         session['javax.servlet.context.tempdir'] = servletContext['javax.servlet.context.tempdir'].absolutePath
         def uuidString = UUID.randomUUID().toString()
         session[uuidString] = [:]

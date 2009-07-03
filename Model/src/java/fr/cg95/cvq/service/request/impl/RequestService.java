@@ -1026,12 +1026,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         if (request.getSubjectId() != null) {
             Individual individual = individualService.getById(request.getSubjectId());
             SubjectType subject = xmlRequestType.addNewSubject();
+            subject.setIndividual(Individual.modelToXml(individual));
             if (individual instanceof Adult) {
                 subject.setAdult(Adult.modelToXml((Adult)individual));
             } else if (individual instanceof Child) {
                 subject.setChild(Child.modelToXml((Child)individual));
-            } else {
-                subject.setIndividual(Individual.modelToXml(individual));
             }
         }
         if (request.getHomeFolderId() != null) {

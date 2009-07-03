@@ -123,8 +123,6 @@
       <fieldset id="smsButtons">
         <input type="button" id="sendSms" name="sendSms"
                class="form-button" value="${message(code:'action.send')}" />
-        <input type="button" id="trace_sms" name="trace_sms"
-            value="${message(code:'action.trace')}" />
         <input type="button" id="discardChanges_Sms" name="discardChanges_Sms"
             value="${message(code:'action.close')}" />
       </fieldset>
@@ -133,8 +131,6 @@
       <fieldset id="emailButtons">
         <input type="button" id="sendEmail" name="sendEmail"
                class="form-button" value="${message(code:'action.send')}" />
-        <input type="button" id="trace_email" name="trace_email"
-            value="${message(code:'action.trace')}" />
         <input type="button" id="discardChanges_mail" name="discardChanges_mail"
             value="${message(code:'action.close')}" />
       </fieldset>

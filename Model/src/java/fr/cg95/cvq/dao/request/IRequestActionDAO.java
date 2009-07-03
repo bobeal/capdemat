@@ -19,6 +19,11 @@ public interface IRequestActionDAO extends IGenericDAO {
 
 	boolean hasAction(final Long requestId, final String actionLabel);
 	
+	/**
+	 * Get the last action for the given action label and request. 
+	 */
+	RequestAction findLastAction(final Long requestId, final String actionLabel);
+	
     /**
      * Return the list of actions related to a given request.
      */

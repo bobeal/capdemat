@@ -147,7 +147,7 @@ class RequestInstructionController {
             }
         }
 
-        def lastAction = requestActionService.getLastAction(request.id)
+        def lastAction = requestActionService.getLastWorkflowAction(request.id)
         def lastActionNote = lastAction != null ? lastAction.note : ""
         return ([
             "request": request,
@@ -626,7 +626,7 @@ class RequestInstructionController {
 
     def trace = {
         requestActionService.addAction(Long.valueOf(params.requestId),
-                params.traceLabel, params.message)
+                params.traceLabel, params.message, null)
         render([status:"ok", success_msg:message(code:"message.actionTraced")] as JSON)
     }
 
@@ -722,8 +722,8 @@ class RequestInstructionController {
                 'RR_LOGIN' : requester.login,
                 'SU_FNAME' : subject?.firstName,
                 'SU_LNAME' : subject?.lastName,
-                'SU_TITLE' : messageSource.getMessage("homeFolder.adult.title.${subject?.title.toString().toLowerCase()}",
-        						null, SecurityContext.currentLocale),
+                'SU_TITLE' : subject.firstName != '' ? messageSource.getMessage("homeFolder.adult.title.${subject?.title.toString().toLowerCase()}",
+        						null, SecurityContext.currentLocale) : '',
                 'HF_ADDRESS_ADI' : address.additionalDeliveryInformation,
                 'HF_ADDRESS_AGI' : address.additionalGeographicalInformation,
                 'HF_ADDRESS_SNAME' : address.streetName,
@@ -760,7 +760,4 @@ class RequestInstructionController {
 
         return result
     }
-
 }
-
-

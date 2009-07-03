@@ -90,7 +90,7 @@ public class XslFoPlugin implements IPluginGenerator {
 
     public void endRequest(String requestName) {
         logger.debug("endRequest() Name : " + requestName);
-        HashMap contextsObjects = new HashMap();
+        HashMap<String, XslFoObject> contextsObjects = new HashMap<String, XslFoObject>();
         contextsObjects.put("request", xslFoObject);
         VelocityManager.launchGeneration("Generator/src/java/fr/cg95/cvq/generator/plugins/xslfo/XslFoPlugin.vm", 
                 StringUtils.uncapitalize(requestName) + ".xsl", outputDir, null, contextsObjects);
@@ -323,7 +323,7 @@ public class XslFoPlugin implements IPluginGenerator {
     }
     
     /**
-     * Insert element in Local Complex Element if it belong to that
+     * Insert element in Local Complex Element if it belongs to it.
      */
     private boolean fillLocalComplexElement(final Element element, final String blockId) {
         if (currentElementsStack.isEmpty())
@@ -333,16 +333,17 @@ public class XslFoPlugin implements IPluginGenerator {
         // Add subElement to current localComplexElement
         if (topStackElement.isInsideLocalComplexType() && depth == 2) {   
             if (currentElementBlockLines.peek().getElement() instanceof LocalComplexElement) {
-                LocalComplexElement localComplexElement = (LocalComplexElement)currentElementBlockLines.peek().getElement();
+                LocalComplexElement localComplexElement = 
+                    (LocalComplexElement) currentElementBlockLines.peek().getElement();
                 if (currentElementBlockLines.peek().getBlockId().equals(blockId)){
                     // Set element properies used to format Xpath expression
                     element.setParentElementName(currentElementsStack.get(currentElementsStack.size() - 2).getName());
                     element.setNamespaceAlias(xslFoObject.getNamespaceAlias());
-                    return(localComplexElement.addElement(element));
+                    return localComplexElement.addElement(element);
                 }
             }
         }
-        return false ;
+        return false;
     }
     
     private void foldElement(final Element element, final String link, final String blockId) {
@@ -420,9 +421,9 @@ public class XslFoPlugin implements IPluginGenerator {
                 SignatureElement signatureElement = new SignatureElement(element);
 
                 Node[] acceptMsgNodes = ApplicationDocumentation.getChildrenNodes(child, "acceptMessage");
-                TreeMap acceptMsg = null;
+                TreeMap<Integer, String> acceptMsg = null;
                 if (acceptMsgNodes != null) {
-                    acceptMsg = new TreeMap();
+                    acceptMsg = new TreeMap<Integer, String>();
                     for (int i = 0; i < acceptMsgNodes.length; i++) {
                         Node msgNode = acceptMsgNodes[i];
                         Integer index =
@@ -434,9 +435,9 @@ public class XslFoPlugin implements IPluginGenerator {
                 signatureElement.setAcceptMessages(acceptMsg);
 
                 Node[] rejectMsgNodes = ApplicationDocumentation.getChildrenNodes(child, "rejectMessage");
-                TreeMap rejectMsg = null;
+                TreeMap<Integer, String> rejectMsg = null;
                 if (rejectMsgNodes != null) {
-                    rejectMsg = new TreeMap();
+                    rejectMsg = new TreeMap<Integer, String>();
                     for (int i = 0; i < rejectMsgNodes.length; i++) {
                         Node msgNode = rejectMsgNodes[i];
                         Integer index =
@@ -473,8 +474,7 @@ public class XslFoPlugin implements IPluginGenerator {
                 simpleElement.setTemplateParam(ApplicationDocumentation.getNodeAttributeValue(child, "templateParam"));
                 simpleElement.setValueWeight(ApplicationDocumentation.getNodeAttributeValue(child, "valueWeight"));
                 foldElement(simpleElement, link, blockId);
-            }
-            else if (child.getNodeName().equals("localComplexElement")){
+            } else if (child.getNodeName().equals("localComplexElement")) {
                 LocalComplexElement localComplexElement = new LocalComplexElement(element);
                 localComplexElement.setWithTotal(new Boolean( ApplicationDocumentation.getNodeAttributeValue(child, "withTotal")));
                 foldElement(localComplexElement, link, blockId);

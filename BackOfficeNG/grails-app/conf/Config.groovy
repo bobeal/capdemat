@@ -53,7 +53,7 @@ log4j {
             springframework="off"
             hibernate="off"
         }
-        fr.cg95="info"
+        fr.cg95="debug"
     }
     additivity.StackTrace=false
 }

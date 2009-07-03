@@ -98,4 +98,30 @@ public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
             .createQuery(sb.toString())
             .setParameters(objectTab, typeTab).list();
     }
+    
+    public RequestAction findLastAction(final Long requestId, final String actionLabel) {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("from RequestAction as requestAction");
+
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+
+        sb.append(" where request_id = ? ");
+        objectList.add(requestId);
+        typeList.add(Hibernate.LONG);
+
+        sb.append(" and label = ? ");
+        objectList.add(actionLabel);
+        typeList.add(Hibernate.STRING);
+        
+        sb.append(" order by date desc");
+        
+        Type[] typeTab = typeList.toArray(new Type[0]);
+        Object[] objectTab = objectList.toArray(new Object[0]);
+
+        return (RequestAction) HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list().get(0);        
+    }
 }

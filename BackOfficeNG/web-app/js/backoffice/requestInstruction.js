@@ -58,15 +58,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         });
       zcb.instructionStatePanel.render();
 
-//      zcb.requestDocumentPanel = new yw.Panel(
-//        'requestDocumentPanel',
-//        { width: '800px', y: 120,
-//          visible: false,
-//          constraintoviewport: false, draggable: true,
-//          underlay: 'shadow', close: true
-//        });
-//      zcb.requestDocumentPanel.render();
-
       zcb.ecitizenContactPanel = new yw.Panel(
         'ecitizenContactPanel',
         { width: '650px',
@@ -153,17 +144,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         if (FIC_checkForm(e, yud.get('changeStateFormErrors')))
           submitChangeStateForm(targetEl, 'changeStateForm');
       }
-//      else if (yud.hasClass(targetEl, 'documentLink')) {
-//        yue.preventDefault(e);
-//        //zcb.document.Instruction.displayDocPanel(e);
-//        
-//        //zcb.document.getRequestDocument(targetEl);
-//      }
       else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, 'documentLink') && !yud.hasClass(targetEl, 'externalLink')) {
         switchStatePanel(targetEl);
       }
     };
-//    narrowHandler = zca.condition(narrowHandler,zcbr.Permission.validateState);
     yue.on('narrow','click',narrowHandler);
 
     /*
@@ -372,6 +356,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   
   zcbr.Contact = function() {
 
+	// TODO : seems to not be used
     function submitContactForm(formId) {
       zct.doAjaxFormSubmitCall (formId,null,
         function(o) {

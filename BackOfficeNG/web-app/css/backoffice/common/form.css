@@ -99,15 +99,10 @@ form.editable-list-form {
   overflow : auto;
 }
 
-/* TODO check it is useless
-form.editable-list-form a       { width: auto; height: auto; float: none !important; cursor: pointer; }
-form.editable-list-form a:hover { background: #00f !important; }
-*/
 form.editable-list-form .error  { margin: 0; }
 
 form.editable-list-form label   { width: 30%; margin: .7em 0 .7em; font-size: 0.9em; clear: both; }
 
-form.editable-list-form .box-left,
 form.editable-list-form select,
 form.editable-list-form input   { float: left; margin: .5em 0 .5em 1%; }
 form.editable-list-form input.required { font-size: 1em; font-style: normal; }
@@ -122,9 +117,8 @@ form.editable-list-form fieldset {
 }
 form.editable-list-form fieldset legend { font-size: 1.2em; color: #FFA000; }
 
-/* TODO check it is useless
-form.editable-list-form a { width: auto; height: auto; float: none; margin: 0; }
-*/
+form.editable-list-form a.personalize { float: left; margin: .5em 0 .5em 1%; width:auto; }
+form.editable-list-form a.personalize:hover { background-color: #00f;}
 
 form.editable-list-form p.same-line                    { clear: both; margin: .5em 0; overflow: auto; }
 form.editable-list-form p.same-line input              { width: 25%;  margin: .5em 0; }
@@ -137,8 +131,6 @@ form.editable-list-form ul    { margin: .5em 0  0 21%; clear: both; overflow: au
 form.editable-list-form ul li { width: 30%;  float: left; padding: .2em 0; border: 0; }
 form.editable-list-form ul li:hover { background: transparent !important; }
 form.editable-list-form ul li label { width: 66%; }
-
-/*form ul li { clear : both; margin-bottom : 1.5em; }*/
 
 /* Validation classes
 -------------------------------------------------------------- */

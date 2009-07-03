@@ -28,11 +28,9 @@
         value="${requestForm?.getTemplateName()}" />
         
       <g:if test="${requestForm?.getId()}">
-      <div class="box-left">
-        <a id="personalize_${requestForm?.getId()}" href="javascript:;">
+        <a id="personalize_${requestForm?.getId()}" class="personalize" href="javascript:;">
           ${message(code:'action.personalize')}
         </a>
-      </div>
       </g:if>
         
       <input type="hidden" name="currentTemplateName" value="${requestForm?.getTemplateName()}" />

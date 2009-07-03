@@ -720,6 +720,8 @@ class RequestInstructionController {
                 'RR_TITLE' : messageSource.getMessage("homeFolder.adult.title.${requester.title.toString().toLowerCase()}",
                 				null, SecurityContext.currentLocale),
                 'RR_LOGIN' : requester.login,
+                'RR_QUESTION' : requester.question,
+                'RR_ANSWER' : requester.answer,
                 'SU_FNAME' : subject?.firstName,
                 'SU_LNAME' : subject?.lastName,
                 'SU_TITLE' : subject.firstName != '' ? messageSource.getMessage("homeFolder.adult.title.${subject?.title.toString().toLowerCase()}",

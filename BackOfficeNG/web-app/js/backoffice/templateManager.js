@@ -36,6 +36,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
           { text: '(DM) Nom', value:'#{RR_LNAME}' },
           { text: '(DM) Civilité', value:'#{RR_TITLE}' },
           { text: '(DM) Login', value:'#{RR_LOGIN}' },
+          { text: '(DM) Question', value:'#{RR_QUESTION}' },
+          { text: '(DM) Réponse', value:'#{RR_ANSWER}' },
           { text: '(SU) Prénom', value:'#{SU_FNAME}' },
           { text: '(SU) Nom', value:'#{SU_LNAME}' },
           { text: '(SU) Civilité', value:'#{SU_TITLE}' }

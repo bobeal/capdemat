@@ -1024,7 +1024,15 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             throw new CvqException("No such method exception while filling request xml");
         }
         if (request.getSubjectId() != null) {
-            xmlRequestType.addNewSubject().setIndividual(Individual.modelToXml(individualService.getById(request.getSubjectId())));
+            Individual individual = individualService.getById(request.getSubjectId());
+            SubjectType subject = xmlRequestType.addNewSubject();
+            if (individual instanceof Adult) {
+                subject.setAdult(Adult.modelToXml((Adult)individual));
+            } else if (individual instanceof Child) {
+                subject.setChild(Child.modelToXml((Child)individual));
+            } else {
+                subject.setIndividual(Individual.modelToXml(individual));
+            }
         }
         if (request.getHomeFolderId() != null) {
             xmlRequestType.addNewHomeFolder().set(homeFolderService.getById(request.getHomeFolderId()).modelToXml());

@@ -72,7 +72,7 @@
             <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="condition-isFatherActivityReduction-trigger  validate-boolean" title="" value="${it}" name="fatherActivityReduction" ${it == rqt.fatherActivityReduction ? 'checked="checked"': ''} />
+                <input type="radio" class="condition-isFatherActivityReduction-trigger  validate-one-required" title="" value="${it}" name="fatherActivityReduction" ${it == rqt.fatherActivityReduction ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -115,7 +115,7 @@
             <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="condition-isMotherActivityReduction-trigger  validate-boolean" title="" value="${it}" name="motherActivityReduction" ${it == rqt.motherActivityReduction ? 'checked="checked"': ''} />
+                <input type="radio" class="condition-isMotherActivityReduction-trigger  validate-one-required" title="" value="${it}" name="motherActivityReduction" ${it == rqt.motherActivityReduction ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -215,7 +215,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isReferentFamilyDependents-trigger  validate-boolean" title="" value="${it}" name="referentFamilyDependents" ${it == rqt.referentFamilyDependents ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isReferentFamilyDependents-trigger  validate-one-required" title="" value="${it}" name="referentFamilyDependents" ${it == rqt.referentFamilyDependents ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>

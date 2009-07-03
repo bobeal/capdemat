@@ -9,7 +9,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isFollowedByDoctor-trigger  validate-boolean" title="" value="${it}" name="healthFollowedByDoctor" ${it == rqt.healthFollowedByDoctor ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isFollowedByDoctor-trigger  validate-one-required" title="" value="${it}" name="healthFollowedByDoctor" ${it == rqt.healthFollowedByDoctor ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -33,7 +33,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isFollowedByProfessional-trigger  validate-boolean" title="" value="${it}" name="healthFollowedByProfessional" ${it == rqt.healthFollowedByProfessional ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isFollowedByProfessional-trigger  validate-one-required" title="" value="${it}" name="healthFollowedByProfessional" ${it == rqt.healthFollowedByProfessional ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -57,7 +57,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isFollowedByHospital-trigger  validate-boolean" title="" value="${it}" name="healthFollowedByHospital" ${it == rqt.healthFollowedByHospital ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isFollowedByHospital-trigger  validate-one-required" title="" value="${it}" name="healthFollowedByHospital" ${it == rqt.healthFollowedByHospital ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>

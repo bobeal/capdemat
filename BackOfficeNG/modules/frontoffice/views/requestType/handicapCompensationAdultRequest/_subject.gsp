@@ -60,7 +60,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isLegalAccessPresence-trigger  validate-boolean" title="" value="${it}" name="legalAccessPresence" ${it == rqt.legalAccessPresence ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isLegalAccessPresence-trigger  validate-one-required" title="" value="${it}" name="legalAccessPresence" ${it == rqt.legalAccessPresence ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -127,7 +127,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isFamilyDependents-trigger  validate-boolean" title="" value="${it}" name="familyFamilyDependents" ${it == rqt.familyFamilyDependents ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isFamilyDependents-trigger  validate-one-required" title="" value="${it}" name="familyFamilyDependents" ${it == rqt.familyFamilyDependents ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>

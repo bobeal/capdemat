@@ -34,12 +34,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.socialSecurityAgencyAddress?.additionalGeographicalInformation}" maxlength="38" name="socialSecurityAgencyAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.socialSecurityAgencyAddress?.streetNumber}" maxlength="5" name="socialSecurityAgencyAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.socialSecurityAgencyAddress?.streetNumber}" size="5" maxlength="5" name="socialSecurityAgencyAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.socialSecurityAgencyAddress?.streetName}" maxlength="32" name="socialSecurityAgencyAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.socialSecurityAgencyAddress?.placeNameOrService}" maxlength="38" name="socialSecurityAgencyAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.socialSecurityAgencyAddress?.postalCode}" maxlength="5" name="socialSecurityAgencyAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.socialSecurityAgencyAddress?.postalCode}" size="5" maxlength="5" name="socialSecurityAgencyAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.socialSecurityAgencyAddress?.city}" maxlength="32" name="socialSecurityAgencyAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.socialSecurityAgencyAddress?.countryName}" maxlength="38" name="socialSecurityAgencyAddress.countryName"/>
@@ -83,12 +83,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.paymentAgencyAddress?.additionalGeographicalInformation}" maxlength="38" name="paymentAgencyAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.paymentAgencyAddress?.streetNumber}" maxlength="5" name="paymentAgencyAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.paymentAgencyAddress?.streetNumber}" size="5" maxlength="5" name="paymentAgencyAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.paymentAgencyAddress?.streetName}" maxlength="32" name="paymentAgencyAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.paymentAgencyAddress?.placeNameOrService}" maxlength="38" name="paymentAgencyAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.paymentAgencyAddress?.postalCode}" maxlength="5" name="paymentAgencyAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.paymentAgencyAddress?.postalCode}" size="5" maxlength="5" name="paymentAgencyAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.paymentAgencyAddress?.city}" maxlength="32" name="paymentAgencyAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.paymentAgencyAddress?.countryName}" maxlength="38" name="paymentAgencyAddress.countryName"/>

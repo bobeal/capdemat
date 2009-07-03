@@ -26,12 +26,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${editList?.authorizedIndividuals?.address?.additionalGeographicalInformation}" maxlength="38" name="authorizedIndividuals[${listIndex}].address.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${editList?.authorizedIndividuals?.address?.streetNumber}" maxlength="5" name="authorizedIndividuals[${listIndex}].address.streetNumber"/>
+            <input type="text" class="line1" value="${editList?.authorizedIndividuals?.address?.streetNumber}" size="5" maxlength="5" name="authorizedIndividuals[${listIndex}].address.streetNumber"/>
             <input type="text" class="line2 required" value="${editList?.authorizedIndividuals?.address?.streetName}" maxlength="32" name="authorizedIndividuals[${listIndex}].address.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${editList?.authorizedIndividuals?.address?.placeNameOrService}" maxlength="38" name="authorizedIndividuals[${listIndex}].address.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${editList?.authorizedIndividuals?.address?.postalCode}" maxlength="5" name="authorizedIndividuals[${listIndex}].address.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${editList?.authorizedIndividuals?.address?.postalCode}" size="5" maxlength="5" name="authorizedIndividuals[${listIndex}].address.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${editList?.authorizedIndividuals?.address?.city}" maxlength="32" name="authorizedIndividuals[${listIndex}].address.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${editList?.authorizedIndividuals?.address?.countryName}" maxlength="38" name="authorizedIndividuals[${listIndex}].address.countryName"/>

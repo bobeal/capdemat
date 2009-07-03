@@ -55,12 +55,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.subjectAddressOutsideCity?.additionalGeographicalInformation}" maxlength="38" name="subjectAddressOutsideCity.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.subjectAddressOutsideCity?.streetNumber}" maxlength="5" name="subjectAddressOutsideCity.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.subjectAddressOutsideCity?.streetNumber}" size="5" maxlength="5" name="subjectAddressOutsideCity.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.subjectAddressOutsideCity?.streetName}" maxlength="32" name="subjectAddressOutsideCity.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.subjectAddressOutsideCity?.placeNameOrService}" maxlength="38" name="subjectAddressOutsideCity.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.subjectAddressOutsideCity?.postalCode}" maxlength="5" name="subjectAddressOutsideCity.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.subjectAddressOutsideCity?.postalCode}" size="5" maxlength="5" name="subjectAddressOutsideCity.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.subjectAddressOutsideCity?.city}" maxlength="32" name="subjectAddressOutsideCity.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.subjectAddressOutsideCity?.countryName}" maxlength="38" name="subjectAddressOutsideCity.countryName"/>

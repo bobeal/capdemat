@@ -27,12 +27,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.collectionAddress?.additionalGeographicalInformation}" maxlength="38" name="collectionAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.collectionAddress?.streetNumber}" maxlength="5" name="collectionAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.collectionAddress?.streetNumber}" size="5" maxlength="5" name="collectionAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.collectionAddress?.streetName}" maxlength="32" name="collectionAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.collectionAddress?.placeNameOrService}" maxlength="38" name="collectionAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.collectionAddress?.postalCode}" maxlength="5" name="collectionAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.collectionAddress?.postalCode}" size="5" maxlength="5" name="collectionAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.collectionAddress?.city}" maxlength="32" name="collectionAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.collectionAddress?.countryName}" maxlength="38" name="collectionAddress.countryName"/>

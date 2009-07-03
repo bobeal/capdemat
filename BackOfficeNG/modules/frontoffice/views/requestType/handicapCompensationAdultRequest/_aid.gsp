@@ -9,7 +9,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isFamilyAssistance-trigger  validate-boolean" title="" value="${it}" name="isFamilyAssistance" ${it == rqt.isFamilyAssistance ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isFamilyAssistance-trigger  validate-one-required" title="" value="${it}" name="isFamilyAssistance" ${it == rqt.isFamilyAssistance ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -80,7 +80,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isHomeIntervenant-trigger  validate-boolean" title="" value="${it}" name="homeInterventionHomeIntervenant" ${it == rqt.homeInterventionHomeIntervenant ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isHomeIntervenant-trigger  validate-one-required" title="" value="${it}" name="homeInterventionHomeIntervenant" ${it == rqt.homeInterventionHomeIntervenant ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -152,7 +152,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isCareServices-trigger  validate-boolean" title="" value="${it}" name="careCareServices" ${it == rqt.careCareServices ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isCareServices-trigger  validate-one-required" title="" value="${it}" name="careCareServices" ${it == rqt.careCareServices ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -179,7 +179,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isCareServiceEmployer-trigger  validate-boolean" title="" value="${it}" name="careServices[${listIndex}].careServiceCareServiceEmployer" ${it == editList?.careServices?.careServiceCareServiceEmployer ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isCareServiceEmployer-trigger  validate-one-required" title="" value="${it}" name="careServices[${listIndex}].careServiceCareServiceEmployer" ${it == editList?.careServices?.careServiceCareServiceEmployer ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -200,12 +200,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.additionalGeographicalInformation}" maxlength="38" name="careServices[${listIndex}].careServiceProviderAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${editList?.careServices?.careServiceProviderAddress?.streetNumber}" maxlength="5" name="careServices[${listIndex}].careServiceProviderAddress.streetNumber"/>
+            <input type="text" class="line1" value="${editList?.careServices?.careServiceProviderAddress?.streetNumber}" size="5" maxlength="5" name="careServices[${listIndex}].careServiceProviderAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${editList?.careServices?.careServiceProviderAddress?.streetName}" maxlength="32" name="careServices[${listIndex}].careServiceProviderAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.placeNameOrService}" maxlength="38" name="careServices[${listIndex}].careServiceProviderAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${editList?.careServices?.careServiceProviderAddress?.postalCode}" maxlength="5" name="careServices[${listIndex}].careServiceProviderAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${editList?.careServices?.careServiceProviderAddress?.postalCode}" size="5" maxlength="5" name="careServices[${listIndex}].careServiceProviderAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${editList?.careServices?.careServiceProviderAddress?.city}" maxlength="32" name="careServices[${listIndex}].careServiceProviderAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.countryName}" maxlength="38" name="careServices[${listIndex}].careServiceProviderAddress.countryName"/>
@@ -263,7 +263,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isHousing-trigger  validate-boolean" title="" value="${it}" name="facilitiesHousing" ${it == rqt.facilitiesHousing ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isHousing-trigger  validate-one-required" title="" value="${it}" name="facilitiesHousing" ${it == rqt.facilitiesHousing ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -281,7 +281,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isTechnicalAssistance-trigger  validate-boolean" title="" value="${it}" name="facilitiesTechnicalAssistance" ${it == rqt.facilitiesTechnicalAssistance ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isTechnicalAssistance-trigger  validate-one-required" title="" value="${it}" name="facilitiesTechnicalAssistance" ${it == rqt.facilitiesTechnicalAssistance ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -299,7 +299,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isCustomCar-trigger  validate-boolean" title="" value="${it}" name="facilitiesCustomCar" ${it == rqt.facilitiesCustomCar ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isCustomCar-trigger  validate-one-required" title="" value="${it}" name="facilitiesCustomCar" ${it == rqt.facilitiesCustomCar ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -317,7 +317,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isAnimalAid-trigger  validate-boolean" title="" value="${it}" name="facilitiesAnimalAid" ${it == rqt.facilitiesAnimalAid ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isAnimalAid-trigger  validate-one-required" title="" value="${it}" name="facilitiesAnimalAid" ${it == rqt.facilitiesAnimalAid ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -335,7 +335,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isSpecializedTransport-trigger  validate-boolean" title="" value="${it}" name="facilitiesSpecializedTransport" ${it == rqt.facilitiesSpecializedTransport ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isSpecializedTransport-trigger  validate-one-required" title="" value="${it}" name="facilitiesSpecializedTransport" ${it == rqt.facilitiesSpecializedTransport ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -360,7 +360,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isProfessionals-trigger  validate-boolean" title="" value="${it}" name="professionalSupportProfessionals" ${it == rqt.professionalSupportProfessionals ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isProfessionals-trigger  validate-one-required" title="" value="${it}" name="professionalSupportProfessionals" ${it == rqt.professionalSupportProfessionals ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -372,7 +372,7 @@
             <ul class="yes-no required condition-isProfessionals-filled">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isProfessionals-filled  validate-boolean" title="" value="${it}" name="professionalSupportDealsWithSameProfessional" ${it == rqt.professionalSupportDealsWithSameProfessional ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isProfessionals-filled  validate-one-required" title="" value="${it}" name="professionalSupportDealsWithSameProfessional" ${it == rqt.professionalSupportDealsWithSameProfessional ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -408,12 +408,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${editList?.professionals?.professionalAddress?.additionalGeographicalInformation}" maxlength="38" name="professionals[${listIndex}].professionalAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${editList?.professionals?.professionalAddress?.streetNumber}" maxlength="5" name="professionals[${listIndex}].professionalAddress.streetNumber"/>
+            <input type="text" class="line1" value="${editList?.professionals?.professionalAddress?.streetNumber}" size="5" maxlength="5" name="professionals[${listIndex}].professionalAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${editList?.professionals?.professionalAddress?.streetName}" maxlength="32" name="professionals[${listIndex}].professionalAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${editList?.professionals?.professionalAddress?.placeNameOrService}" maxlength="38" name="professionals[${listIndex}].professionalAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${editList?.professionals?.professionalAddress?.postalCode}" maxlength="5" name="professionals[${listIndex}].professionalAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${editList?.professionals?.professionalAddress?.postalCode}" size="5" maxlength="5" name="professionals[${listIndex}].professionalAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${editList?.professionals?.professionalAddress?.city}" maxlength="32" name="professionals[${listIndex}].professionalAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${editList?.professionals?.professionalAddress?.countryName}" maxlength="38" name="professionals[${listIndex}].professionalAddress.countryName"/>
@@ -468,7 +468,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isSocialServiceSupport-trigger  validate-boolean" title="" value="${it}" name="professionalSupportSocialServiceSupport" ${it == rqt.professionalSupportSocialServiceSupport ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isSocialServiceSupport-trigger  validate-one-required" title="" value="${it}" name="professionalSupportSocialServiceSupport" ${it == rqt.professionalSupportSocialServiceSupport ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -489,12 +489,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.additionalGeographicalInformation}" maxlength="38" name="professionalSupportSocialServiceAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.professionalSupportSocialServiceAddress?.streetNumber}" maxlength="5" name="professionalSupportSocialServiceAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.professionalSupportSocialServiceAddress?.streetNumber}" size="5" maxlength="5" name="professionalSupportSocialServiceAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.professionalSupportSocialServiceAddress?.streetName}" maxlength="32" name="professionalSupportSocialServiceAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.placeNameOrService}" maxlength="38" name="professionalSupportSocialServiceAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.professionalSupportSocialServiceAddress?.postalCode}" maxlength="5" name="professionalSupportSocialServiceAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.professionalSupportSocialServiceAddress?.postalCode}" size="5" maxlength="5" name="professionalSupportSocialServiceAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.professionalSupportSocialServiceAddress?.city}" maxlength="32" name="professionalSupportSocialServiceAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.countryName}" maxlength="38" name="professionalSupportSocialServiceAddress.countryName"/>

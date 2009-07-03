@@ -47,7 +47,7 @@
             <ul class="yes-no required condition-isNonEuropean-filled">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isNonEuropean-filled  validate-boolean" title="" value="${it}" name="dhrRequesterIsFrenchResident" ${it == rqt.dhrRequesterIsFrenchResident ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isNonEuropean-filled  validate-one-required" title="" value="${it}" name="dhrRequesterIsFrenchResident" ${it == rqt.dhrRequesterIsFrenchResident ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -95,7 +95,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-haveGuardian-trigger  validate-boolean" title="" value="${it}" name="dhrRequesterHaveGuardian" ${it == rqt.dhrRequesterHaveGuardian ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-haveGuardian-trigger  validate-one-required" title="" value="${it}" name="dhrRequesterHaveGuardian" ${it == rqt.dhrRequesterHaveGuardian ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -126,12 +126,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.dhrGuardianAddress?.additionalGeographicalInformation}" maxlength="38" name="dhrGuardianAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.dhrGuardianAddress?.streetNumber}" maxlength="5" name="dhrGuardianAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.dhrGuardianAddress?.streetNumber}" size="5" maxlength="5" name="dhrGuardianAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.dhrGuardianAddress?.streetName}" maxlength="32" name="dhrGuardianAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.dhrGuardianAddress?.placeNameOrService}" maxlength="38" name="dhrGuardianAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.dhrGuardianAddress?.postalCode}" maxlength="5" name="dhrGuardianAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.dhrGuardianAddress?.postalCode}" size="5" maxlength="5" name="dhrGuardianAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.dhrGuardianAddress?.city}" maxlength="32" name="dhrGuardianAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.dhrGuardianAddress?.countryName}" maxlength="38" name="dhrGuardianAddress.countryName"/>

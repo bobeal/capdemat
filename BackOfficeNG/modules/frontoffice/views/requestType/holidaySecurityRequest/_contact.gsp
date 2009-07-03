@@ -25,12 +25,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.otherContactAddress?.additionalGeographicalInformation}" maxlength="38" name="otherContactAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.otherContactAddress?.streetNumber}" maxlength="5" name="otherContactAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.otherContactAddress?.streetNumber}" size="5" maxlength="5" name="otherContactAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.otherContactAddress?.streetName}" maxlength="32" name="otherContactAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.otherContactAddress?.placeNameOrService}" maxlength="38" name="otherContactAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.otherContactAddress?.postalCode}" maxlength="5" name="otherContactAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.otherContactAddress?.postalCode}" size="5" maxlength="5" name="otherContactAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.otherContactAddress?.city}" maxlength="32" name="otherContactAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.otherContactAddress?.countryName}" maxlength="38" name="otherContactAddress.countryName"/>

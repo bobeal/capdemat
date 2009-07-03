@@ -39,12 +39,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.ownerAddress?.additionalGeographicalInformation}" maxlength="38" name="ownerAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.ownerAddress?.streetNumber}" maxlength="5" name="ownerAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.ownerAddress?.streetNumber}" size="5" maxlength="5" name="ownerAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.ownerAddress?.streetName}" maxlength="32" name="ownerAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.ownerAddress?.placeNameOrService}" maxlength="38" name="ownerAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.ownerAddress?.postalCode}" maxlength="5" name="ownerAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.ownerAddress?.postalCode}" size="5" maxlength="5" name="ownerAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.ownerAddress?.city}" maxlength="32" name="ownerAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.ownerAddress?.countryName}" maxlength="38" name="ownerAddress.countryName"/>

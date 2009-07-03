@@ -24,7 +24,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isInEstablishmentReception-trigger  validate-boolean" title="" value="${it}" name="dwellingEstablishmentReception" ${it == rqt.dwellingEstablishmentReception ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isInEstablishmentReception-trigger  validate-one-required" title="" value="${it}" name="dwellingEstablishmentReception" ${it == rqt.dwellingEstablishmentReception ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -55,12 +55,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.dwellingReceptionAddress?.additionalGeographicalInformation}" maxlength="38" name="dwellingReceptionAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.dwellingReceptionAddress?.streetNumber}" maxlength="5" name="dwellingReceptionAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.dwellingReceptionAddress?.streetNumber}" size="5" maxlength="5" name="dwellingReceptionAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.dwellingReceptionAddress?.streetName}" maxlength="32" name="dwellingReceptionAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.dwellingReceptionAddress?.placeNameOrService}" maxlength="38" name="dwellingReceptionAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.dwellingReceptionAddress?.postalCode}" maxlength="5" name="dwellingReceptionAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.dwellingReceptionAddress?.postalCode}" size="5" maxlength="5" name="dwellingReceptionAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.dwellingReceptionAddress?.city}" maxlength="32" name="dwellingReceptionAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.dwellingReceptionAddress?.countryName}" maxlength="38" name="dwellingReceptionAddress.countryName"/>
@@ -72,7 +72,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isInSocialReception-trigger  validate-boolean" title="" value="${it}" name="dwellingSocialReception" ${it == rqt.dwellingSocialReception ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isInSocialReception-trigger  validate-one-required" title="" value="${it}" name="dwellingSocialReception" ${it == rqt.dwellingSocialReception ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -93,12 +93,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.dwellingSocialReceptionAddress?.additionalGeographicalInformation}" maxlength="38" name="dwellingSocialReceptionAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.dwellingSocialReceptionAddress?.streetNumber}" maxlength="5" name="dwellingSocialReceptionAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.dwellingSocialReceptionAddress?.streetNumber}" size="5" maxlength="5" name="dwellingSocialReceptionAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.dwellingSocialReceptionAddress?.streetName}" maxlength="32" name="dwellingSocialReceptionAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.dwellingSocialReceptionAddress?.placeNameOrService}" maxlength="38" name="dwellingSocialReceptionAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.dwellingSocialReceptionAddress?.postalCode}" maxlength="5" name="dwellingSocialReceptionAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.dwellingSocialReceptionAddress?.postalCode}" size="5" maxlength="5" name="dwellingSocialReceptionAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.dwellingSocialReceptionAddress?.city}" maxlength="32" name="dwellingSocialReceptionAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.dwellingSocialReceptionAddress?.countryName}" maxlength="38" name="dwellingSocialReceptionAddress.countryName"/>

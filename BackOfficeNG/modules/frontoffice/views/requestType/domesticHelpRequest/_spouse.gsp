@@ -87,7 +87,7 @@
             <ul class="yes-no required condition-isSpouseNonEuropean-filled">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isSpouseNonEuropean-filled  validate-boolean" title="" value="${it}" name="dhrSpouseIsFrenchResident" ${it == rqt.dhrSpouseIsFrenchResident ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isSpouseNonEuropean-filled  validate-one-required" title="" value="${it}" name="dhrSpouseIsFrenchResident" ${it == rqt.dhrSpouseIsFrenchResident ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -106,7 +106,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isSpouseRetired-trigger  validate-boolean" title="" value="${it}" name="dhrIsSpouseRetired" ${it == rqt.dhrIsSpouseRetired ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isSpouseRetired-trigger  validate-one-required" title="" value="${it}" name="dhrIsSpouseRetired" ${it == rqt.dhrIsSpouseRetired ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -155,12 +155,12 @@
             <label><g:message code="address.property.additionalGeographicalInformation" /></label>
             <input type="text" value="${rqt.dhrSpouseAddress?.additionalGeographicalInformation}" maxlength="38" name="dhrSpouseAddress.additionalGeographicalInformation"/>
             <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.dhrSpouseAddress?.streetNumber}" maxlength="5" name="dhrSpouseAddress.streetNumber"/>
+            <input type="text" class="line1" value="${rqt.dhrSpouseAddress?.streetNumber}" size="5" maxlength="5" name="dhrSpouseAddress.streetNumber"/>
             <input type="text" class="line2 required" value="${rqt.dhrSpouseAddress?.streetName}" maxlength="32" name="dhrSpouseAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" value="${rqt.dhrSpouseAddress?.placeNameOrService}" maxlength="38" name="dhrSpouseAddress.placeNameOrService"/>
             <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.dhrSpouseAddress?.postalCode}" maxlength="5" name="dhrSpouseAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line1 required" value="${rqt.dhrSpouseAddress?.postalCode}" size="5" maxlength="5" name="dhrSpouseAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required" value="${rqt.dhrSpouseAddress?.city}" maxlength="32" name="dhrSpouseAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label><g:message code="address.property.countryName" /></label>
             <input type="text" value="${rqt.dhrSpouseAddress?.countryName}" maxlength="38" name="dhrSpouseAddress.countryName"/>

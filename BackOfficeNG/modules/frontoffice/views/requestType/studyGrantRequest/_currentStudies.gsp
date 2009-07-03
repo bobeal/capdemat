@@ -101,7 +101,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-boolean" title="" value="${it}" name="sandwichCourses" ${it == rqt.sandwichCourses ? 'checked="checked"': ''} />
+                <input type="radio" class="required  validate-one-required" title="" value="${it}" name="sandwichCourses" ${it == rqt.sandwichCourses ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -113,7 +113,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-makesAbroadInternship-trigger  validate-boolean" title="" value="${it}" name="abroadInternship" ${it == rqt.abroadInternship ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-makesAbroadInternship-trigger  validate-one-required" title="" value="${it}" name="abroadInternship" ${it == rqt.abroadInternship ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>

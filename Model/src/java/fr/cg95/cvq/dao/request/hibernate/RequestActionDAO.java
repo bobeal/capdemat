@@ -120,8 +120,9 @@ public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
 
-        return (RequestAction) HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).list().get(0);        
+        List<RequestAction> matchingActions = (List<RequestAction>)HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list();
+        if (!matchingActions.isEmpty()) return matchingActions.get(0);
+        return null;
     }
 }

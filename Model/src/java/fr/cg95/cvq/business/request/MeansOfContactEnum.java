@@ -38,26 +38,10 @@ public class MeansOfContactEnum extends PersistentStringEnum {
     };
     
     public static MeansOfContactEnum forString(String enumAsString) {
-        
-        if (enumAsString.equals(MAIL.toString()))
-            return MAIL;
-        else if (enumAsString.equals(EMAIL.toString()))
-            return EMAIL;
-        else if (enumAsString.equals(HOME_PHONE.toString()))
-            return HOME_PHONE;
-        else if (enumAsString.equals(OFFICE_PHONE.toString()))
-            return OFFICE_PHONE;
-        else if (enumAsString.equals(MOBILE_PHONE.toString()))
-            return MOBILE_PHONE;
-        else if (enumAsString.equals(SMS.toString()))
-            return SMS;
-//        else if (enumAsString.equals(FAX.toString()))
-//            return FAX;
-//        else if (enumAsString.equals(CAPDEMAT_MESSAGE.toString()))
-//            return CAPDEMAT_MESSAGE;
-        else if (enumAsString.equals(LOCAL_AUTHORITY_OFFICE.toString()))
-            return LOCAL_AUTHORITY_OFFICE;
-
+        for (MeansOfContactEnum moce : allMeansOfContactEnums) {
+            if (moce.toString().equals(enumAsString))
+                return moce;
+        }
         return null;
     }
 }

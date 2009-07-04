@@ -211,6 +211,15 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         return requestDAO.listByHomeFolderAndLabel(homeFolderId, requestLabel, null);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public boolean isAccountRequest(final Long requestId) 
+        throws CvqException, CvqObjectNotFoundException {
+        Request request = getById(requestId);
+        return request.getRequestType().getLabel().equals(VO_CARD_REGISTRATION_REQUEST)
+            || request.getRequestType().getLabel().equals(HOME_FOLDER_MODIFICATION_REQUEST);
+    }
+
     private void updateLastModificationInformation(Request request, final Date date)
         throws CvqException {
 

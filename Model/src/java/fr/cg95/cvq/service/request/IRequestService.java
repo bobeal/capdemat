@@ -132,7 +132,7 @@ public interface IRequestService {
     	throws CvqException;
 
     /**
-     * Edit a request
+     * Edit a request.
      */
     void rewindWorkflow(@IsRequest Request request)
         throws CvqException;
@@ -206,6 +206,12 @@ public interface IRequestService {
     List<Request> getByHomeFolderIdAndRequestLabel(@IsHomeFolder final Long homeFolderId, 
             final String requestLabel)
             throws CvqException, CvqObjectNotFoundException;
+    
+    /**
+     * Return whether the given request is an account related request (creation or modification).
+     */
+    boolean isAccountRequest(@IsRequest final Long requestId) 
+        throws CvqException, CvqObjectNotFoundException;
     
     //////////////////////////////////////////////////////////
     // Notes and documents related methods

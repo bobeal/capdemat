@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><g:message code="request.header.requestTreatment" /></title>
+    <title><g:message code="request.header.instruction" /></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestInstruction.js')}"></script>
@@ -10,9 +10,8 @@
       zenexity.capdemat.bong.requestId = '${request.id}';
       zenexity.capdemat.bong.editableStates = ${editableStates} ; 
       zenexity.capdemat.bong.agentCanWrite = '${agentCanWrite}';
-      
     </script>
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" ></link>
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'container.css')}" ></link>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'document.css')}" />
     <g:if test="${externalProviderServiceLabel != null}">
@@ -38,7 +37,10 @@
             </div>
           </div>
           <h1>
-            <g:message code="request.header.request" /> :
+            <g:message code="request.header.request" />
+          	<g:if test="${!hasHomeFolder}">
+              (<g:message code="request.message.outOfAccount" />)
+            </g:if>
             ${requestLabel} (${request.id})
           </h1>
           <span id="requestTypeLabel">${request.requestType.label}</span>

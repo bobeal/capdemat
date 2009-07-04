@@ -71,11 +71,7 @@ class RequestInstructionController {
     }
 
     def edit = {
-        Agent agent = SecurityContext.getCurrentAgent();
         def request = defaultRequestService.getById(Long.valueOf(params.id))
-        def requestLabel = translationService
-            .translateRequestTypeLabel(request.requestType.label).encodeAsHTML()
-        
         def requester = individualService.getById(request.requesterId)     
 
         def documentList = []
@@ -98,9 +94,8 @@ class RequestInstructionController {
         // manage allowed and associated documents to a request
         def isDocumentProvided
         requestTypeService.getAllowedDocuments(request.requestType.id).each { documentTypeIt ->
-            isDocumentProvided = false
-            if (providedDocumentTypes.contains(documentTypeIt.id))
-                isDocumentProvided = true
+            isDocumentProvided = 
+                providedDocumentTypes.contains(documentTypeIt.id) ? true : false
             if (!isDocumentProvided)
                 documentList.add([
                     "id": 0,
@@ -114,8 +109,7 @@ class RequestInstructionController {
         def adults = []
         def children = []
         def clr = [:]
-        if (request instanceof  fr.cg95.cvq.business.request.ecitizen.VoCardRequest
-            || request instanceof fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest) {
+        if (defaultRequestService.isAccountRequest(request.id)) {
             def individuals = homeFolderService.getIndividuals(request.homeFolderId)
             individuals.eachWithIndex { individual, index ->
                 def item = ['data':individual, 'index':index]
@@ -132,7 +126,8 @@ class RequestInstructionController {
         for(RequestState state : requestWorkflowService.getEditableStates())
             editableStates.add(state.toString())
         
-        def localReferentialTypes = getLocalReferentialTypes(localReferentialService, request.requestType.label)
+        def localReferentialTypes = getLocalReferentialTypes(localReferentialService, 
+        		request.requestType.label)
         localReferentialTypes.each { lazyInit(request, it.key) }
 
         def externalProviderServiceLabel = null
@@ -159,11 +154,12 @@ class RequestInstructionController {
             'hasHomeFolder': !homeFolderService.getById(request.homeFolderId).boundToRequest,
             "childrenLegalResponsibles": clr,
             "editableStates": (editableStates as JSON).toString(),
-            "agentCanWrite": categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id),
+            "agentCanWrite": categoryService.hasWriteProfileOnCategory(SecurityContext.currentAgent, 
+            		request.requestType.category.id),
             "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
             "lastActionNote" : lastActionNote,
             "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
-            "requestLabel": requestLabel,
+            "requestLabel": translationService.translateRequestTypeLabel(request.requestType.label).encodeAsHTML(),
             "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
             "documentList": documentList,
             "externalProviderServiceLabel" : externalProviderServiceLabel,

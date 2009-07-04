@@ -15,6 +15,8 @@ class LocalAuthorityController {
 
     def defaultAction = "requests"
 
+    def subMenuEntries = ["requests", "aspect", "pdf", "identity"]
+
     def beforeInterceptor = { 
         session["currentMenu"] = "localAuthority"
     }
@@ -126,7 +128,4 @@ class LocalAuthorityController {
         render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
         return false
     }
-
-    def subMenuEntries = ["requests", "aspect", "pdf", "identity"]
-
 }

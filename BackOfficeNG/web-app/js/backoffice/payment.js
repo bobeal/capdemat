@@ -48,17 +48,6 @@
       }
     };
   
-    var initSwitcher = function() {
-        yue.addListener("paymentSearchSwitcher", "click", 
-          function(e) {
-            var targetEl = yue.getTarget(e);
-            if (targetEl.tagName === "A") {
-              switchSearchForm(targetEl.className);
-            }
-          }
-        );        
-    };
-    
     var sortSearchPayment = function(sortType) {
         yud.get('sortBy').value = sortType;
         yud.get('paymentForm').submit();
@@ -70,23 +59,10 @@
         yud.get('paymentForm').submit();
     };
       
-    var switchSearchForm = function(formType) {
-        var url = '/loadSearchForm?formType=' + formType + '&' + zcc.collectSearchFormValues('paymentForm');
-        zct.doAjaxCall(url, null,
-          function(o) {
-            yud.get('head').innerHTML = o.responseText;
-            initButton();
-            initCalendars();
-            initSwitcher();
-          }
-        );
-    };
-    
     return {
       init: function() {
         initButton();
         initCalendars();
-        initSwitcher();
         yue.on(yus.query('input[type*=radio]'), 'click', 
           function(e) {
             sortSearchPayment(yue.getTarget(e).id);

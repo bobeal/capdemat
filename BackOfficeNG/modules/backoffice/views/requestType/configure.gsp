@@ -101,7 +101,7 @@
       </div>
 
       <div class="nobox">
-        <h3><g:message code="requestType.header.subMenu" /></h3>
+        <h3><g:message code="header.subMenus" /></h3>
         <div class="body">
           <ul class="second-level-menu" id="secondMenu">
           <g:each in="${baseConfigurationItems}">

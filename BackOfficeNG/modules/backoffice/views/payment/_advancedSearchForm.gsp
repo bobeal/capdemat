@@ -1,10 +1,5 @@
-<div class="txt-right" id="paymentSearchSwitcher">
-  <a href="javascript:void(0);" class="simple"><g:message code="action.goToSimpleSearch" /></a> | 
-  <g:message code="action.goToAdvancedSearch" />
-</div>
-
 <div id="search-form">
-  <h1><g:message code="payment.header.advancedSearch" /></h1>
+  <h1><g:message code="payment.header.search" /></h1>
   <form method="POST" id="paymentForm" class="advanced-search" action="<g:createLink action="search" />">
     <input type="hidden" id="totalRecords" name="totalRecords" value="${totalRecords}" />
     <input type="hidden" id="recordsReturned" name="recordsReturned" value="${recordsReturned}" />

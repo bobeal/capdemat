@@ -66,7 +66,7 @@
       </div>
       
       <div class="nobox taskstate">
-        <h3><g:message code="homeFolder.header.subMenu" /></h3>
+        <h3><g:message code="header.subMenus" /></h3>
         <div class="body">
           <a href="${createLink(controller: 'frontofficeHome',action:'loginAgent')}/?login=${responsableLogin}" target="_blank">
             <g:message code="homeFolder.header.createRequest"/>

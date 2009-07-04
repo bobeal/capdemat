@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><g:message code="payment.header.simpleSearch" /></title>
+    <title><g:message code="payment.header.search" /></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'payment.js')}"></script>
@@ -11,12 +11,7 @@
       <div class="yui-b">
       
         <div id="head" class="head">
-          <g:if test="${mode == 'simple'}">
-            <g:render template="simpleSearchForm" />
-          </g:if>
-          <g:else>
-            <g:render template="advancedSearchForm" />
-          </g:else>
+          <g:render template="advancedSearchForm" />
         </div>
 
         <div id="search-results">
@@ -28,13 +23,8 @@
 
     <!-- filters and sorters -->
     <div id="narrow" class="yui-b">
-    
-      <div class="nobox">
-        <h3><g:message code="header.switchTo" /></h3>
-        <div class="body">
-          <g:link action="configure">${message(code:'payment.header.configure')}</g:link>
-        </div>
-      </div>
+      <menu:subMenu id="secondMenu" i18nPrefix="payment.header" 
+        data="${subMenuEntries}" />
       
       <div class="nobox">
         <h3><g:message code="header.sortBy" /></h3>

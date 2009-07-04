@@ -46,7 +46,7 @@ class MenuTagLib {
         
         out << """
           <div class="nobox">
-            <h3>${message(code:i18nPrefix+'.subMenu')}</h3>
+            <h3>${message(code:'header.subMenus')}</h3>
             <div class="body">
               <ul class="second-level-menu" id="${id}">
                 ${blocks}

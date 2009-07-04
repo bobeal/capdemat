@@ -1,4 +1,3 @@
-import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry
 import fr.cg95.cvq.business.users.payment.PaymentState
 import fr.cg95.cvq.business.users.payment.PaymentMode
 import fr.cg95.cvq.payment.IPaymentService
@@ -12,52 +11,20 @@ class PaymentController {
     IPaymentService paymentService
     ILocalAuthorityRegistry localAuthorityRegistry
     
-    def translationService
-    def defaultAction = "initSearch"
+    def defaultAction = 'search'
     def defaultSortBy = 'initializationDate'
-    def supportedKeys = ["requesterLastName", "homeFolderId", "cvqReference","bankReference", "initDateFrom", "initDateTo"]
+    def supportedKeys = ["requesterLastName", "homeFolderId", "cvqReference","bankReference", 
+                         "initDateFrom", "initDateTo"]
     def longKeys = ["homeFolderId"]
     def dateKeys = ["initDateFrom", "initDateTo"]
     def resultsPerPage = 25
     
     def beforeInterceptor = {
-        session["currentMenu"] = "payment"
+        session['currentMenu'] = 'payment'
     }
 
-    /**
-     * Called when first entering the search screen
-     */
-    def initSearch = {
-
-        render(view:'search', model:['mode':'simple',
-                                     'inSearch':false,
-                                     'sortBy':defaultSortBy,
-                                     'filters':[:]].plus(initSearchReferential()))
-    }
-
-    /**
-     * Called asynchronously when switching from simple to advanced search mode and vice versa
-     */
-    def loadSearchForm = {
-        def model = ['totalRecords':params.totalRecords,
-                     'recordOffset':params.recordOffset,
-                     'recordsReturned':params.recordsReturned,
-                     'sortBy':params.sortBy,
-                     'filterBy':params.filterBy].plus(initSearchReferential())
-        
-    	if (params.formType == 'simple') {
-    		model['mode'] = 'simple'
-    		render(template:'simpleSearchForm', model:model)
-    	} else {
-    		model['mode'] = 'advanced'
-    		render(template:'advancedSearchForm', model:model)
-    	}
-    }   
-    
-    def initSearchReferential() {
-    	return ['allStates':PaymentState.allPaymentStates,
-    	        'allBrokers':paymentService.getAllBrokers(),
-    	        'allModes': PaymentMode.allPaymentModes]
+    def afterInterceptor = { model ->
+    	model['subMenuEntries'] = ['search', 'configure']
     }
     
     def configure = {
@@ -169,7 +136,12 @@ class PaymentController {
                                      'filterBy':parsedFilters.filterBy,
                                      'sortBy':params.sortBy,
                                      'dir':params.dir,
-                                     'mode':params.mode,
                                      'inSearch':true].plus(initSearchReferential()))        
     }
+    
+    def initSearchReferential() {
+    	return ['allStates':PaymentState.allPaymentStates,
+    	        'allBrokers':paymentService.getAllBrokers(),
+    	        'allModes': PaymentMode.allPaymentModes]
+    }    
 }

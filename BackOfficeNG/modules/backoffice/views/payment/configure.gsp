@@ -24,10 +24,8 @@
     </div>
 
     <div id="narrow" class="yui-b">
-      <div class="nobox">
-        <h3>Explications et aide ...</h3>
-        <div class="body"></div>
-      </div>
+      <menu:subMenu id="secondMenu" i18nPrefix="payment.header" 
+        data="${subMenuEntries}" />
     </div>    
 
   </body>

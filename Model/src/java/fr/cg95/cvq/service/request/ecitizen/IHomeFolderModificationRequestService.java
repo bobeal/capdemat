@@ -25,11 +25,11 @@ public interface IHomeFolderModificationRequestService extends IRequestService {
     /**
      * Create an home folder modification request in DB.
      *
+     * @param request the request object to persist
      * @param homeFolderId the {@link HomeFolder home folder}'s id
-     * @param requesterId the {@link Adult adult} who issued the request
-     * @return the newly created home folder modification request
+     * @return the id of the newly created home folder modification request
      */
-    HomeFolderModificationRequest create(final Long homeFolderId, final Long requesterId)
+    Long create(HomeFolderModificationRequest request, final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException;
 
     public void checkIsAuthorized(final HomeFolder homeFolder)

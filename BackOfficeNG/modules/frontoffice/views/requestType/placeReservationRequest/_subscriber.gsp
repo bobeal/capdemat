@@ -6,7 +6,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-hasSubscriberNumber-trigger  validate-one-required" title="" value="${it}" name="isSubscriber" ${it == rqt.isSubscriber ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-hasSubscriberNumber-trigger  validate-one-required boolean" title="" value="${it}" name="isSubscriber" ${it == rqt.isSubscriber ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>

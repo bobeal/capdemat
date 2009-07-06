@@ -55,7 +55,7 @@ public class HomeFolderModificationRequestService
     protected HistoryInterceptor historyInterceptor;
 
     @Override
-    public HomeFolderModificationRequest create(final Long homeFolderId, final Long requesterId)
+    public Long create(HomeFolderModificationRequest hfmr, final Long homeFolderId)
         throws CvqException, CvqObjectNotFoundException {
 
         // load home folder first to check for the existence of another
@@ -63,15 +63,12 @@ public class HomeFolderModificationRequestService
         HomeFolder homeFolder = homeFolderService.getById(homeFolderId);
         checkIsAuthorized(homeFolder);
         
-        HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
         hfmr.setHomeFolderId(homeFolderId);
-        hfmr.setRequesterId(requesterId);
-        hfmr.setRequestType(requestTypeService.getRequestTypeByLabel(getLabel()));
         performBusinessChecks(hfmr);
 
         setAdministrativeInformation(hfmr);
         requestDAO.create(hfmr);
-        return hfmr;
+        return hfmr.getId();
     }
 
     private boolean hasModificationRequestInProgress(final HomeFolder homeFolder)

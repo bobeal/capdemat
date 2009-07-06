@@ -26,7 +26,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required" title="" value="${it}" name="subscription" ${it == rqt.subscription ? 'checked="checked"': ''} />
+                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="subscription" ${it == rqt.subscription ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>

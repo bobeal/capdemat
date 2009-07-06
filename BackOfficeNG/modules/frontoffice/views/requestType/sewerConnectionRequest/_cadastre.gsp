@@ -90,7 +90,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required" title="" value="${it}" name="moreThanTwoYears" ${it == rqt.moreThanTwoYears ? 'checked="checked"': ''} />
+                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="moreThanTwoYears" ${it == rqt.moreThanTwoYears ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>

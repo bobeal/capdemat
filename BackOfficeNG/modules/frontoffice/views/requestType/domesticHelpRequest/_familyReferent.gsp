@@ -9,7 +9,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-haveFamilyReferent-trigger  validate-one-required" title="" value="${it}" name="dhrHaveFamilyReferent" ${it == rqt.dhrHaveFamilyReferent ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-haveFamilyReferent-trigger  validate-one-required boolean" title="" value="${it}" name="dhrHaveFamilyReferent" ${it == rqt.dhrHaveFamilyReferent ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>

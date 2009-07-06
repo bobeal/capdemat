@@ -109,7 +109,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
     var getTriggerValue = function (triggerEl) {
       if (zct.nodeName(triggerEl,'select') && yud.hasClass(triggerEl, 'data-localReferentialData'))
         return triggerEl.value || "";
-      if (zct.nodeName(triggerEl,'select') || yud.hasClass(triggerEl, 'validate-one-required'))
+      if (zct.nodeName(triggerEl,'select')
+        || (!yud.hasClass(triggerEl, 'boolean') && yud.hasClass(triggerEl, 'validate-one-required')))
         return triggerEl.value.split('_')[1] || "";
       else
         return triggerEl.value || "";

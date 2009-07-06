@@ -29,7 +29,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
-import org.springframework.web.util.HtmlUtils;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -60,7 +59,6 @@ import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.permission.CvqPermissionException;
-import fr.cg95.cvq.service.authority.ILocalReferentialService;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
@@ -79,7 +77,6 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     private IRequestWorkflowService requestWorkflowService;
     private ITranslationService translationService;
     private IHomeFolderService homeFolderService;
-    private ILocalReferentialService localReferentialService;
     private EdemandeUploader uploader;
     private ListableBeanFactory beanFactory;
 
@@ -442,11 +439,6 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                     }
                 }
             }
-            //FIXME
-            //model.put("taxHouseholdCityPrecision",
-            //    StringUtils.defaultIfEmpty(sgr.getTaxHouseholdCityPrecision(),
-            //    localReferentialService.getLocalReferentialDataByName(
-            //    sgr.getTaxHouseholdCityArray(0).getName()).getLabelsMap().get("fr")));
             model.put("taxHouseholdCityPrecision",
                 StringUtils.defaultString(sgr.getTaxHouseholdCityPrecision()));
             model.put("msStatut", firstSending ? "" :
@@ -599,17 +591,15 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     }
 
     private String buildExternalRequestId(StudyGrantRequest sgr) {
-        return HtmlUtils.htmlEscape(
-            org.springframework.util.StringUtils.arrayToDelimitedString(
-                new String[] {
-                    "CapDemat",
-                    new SimpleDateFormat("yyyyMMdd").format(new Date(sgr.getCreationDate().getTimeInMillis())),
-                    sgr.getSubject().getIndividual().getFirstName(),
-                    sgr.getSubject().getIndividual().getLastName(),
-                    String.valueOf(sgr.getId())
-                },
-                "-")
-            );
+        return org.springframework.util.StringUtils.arrayToDelimitedString(
+            new String[] {
+                "CapDemat",
+                new SimpleDateFormat("yyyyMMdd").format(new Date(sgr.getCreationDate().getTimeInMillis())),
+                sgr.getSubject().getIndividual().getFirstName(),
+                sgr.getSubject().getIndividual().getLastName(),
+                String.valueOf(sgr.getId())
+            },
+            "-");
     }
 
     /**
@@ -767,10 +757,6 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
 
     public void setUploader(EdemandeUploader uploader) {
         this.uploader = uploader;
-    }
-
-    public void setLocalReferentialService(ILocalReferentialService localReferentialService) {
-        this.localReferentialService = localReferentialService;
     }
 
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {

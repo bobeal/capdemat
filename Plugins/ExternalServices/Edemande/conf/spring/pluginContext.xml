@@ -13,7 +13,6 @@
     <property name="documentService" ref="documentService" />
     <property name="requestWorkflowService" ref="requestWorkflowService" />
     <property name="translationService" ref="translationService" />
-    <property name="localReferentialService" ref="localReferentialService" />
     <property name="uploader">
       <bean class="fr.capwebct.capdemat.plugins.externalservices.edemande.service.EdemandeUploader">
         <constructor-arg index="0" value="${plugins.externalservices.edemande.ssh.username}"/>

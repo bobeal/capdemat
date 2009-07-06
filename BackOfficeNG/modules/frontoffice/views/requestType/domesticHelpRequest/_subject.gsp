@@ -47,7 +47,7 @@
             <ul class="yes-no required condition-isNonEuropean-filled">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isNonEuropean-filled  validate-one-required" title="" value="${it}" name="dhrRequesterIsFrenchResident" ${it == rqt.dhrRequesterIsFrenchResident ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isNonEuropean-filled  validate-one-required boolean" title="" value="${it}" name="dhrRequesterIsFrenchResident" ${it == rqt.dhrRequesterIsFrenchResident ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -95,7 +95,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-haveGuardian-trigger  validate-one-required" title="" value="${it}" name="dhrRequesterHaveGuardian" ${it == rqt.dhrRequesterHaveGuardian ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-haveGuardian-trigger  validate-one-required boolean" title="" value="${it}" name="dhrRequesterHaveGuardian" ${it == rqt.dhrRequesterHaveGuardian ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>

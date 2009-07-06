@@ -47,7 +47,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required" title="" value="${it}" name="subjectIsTaxable" ${it == rqt.subjectIsTaxable ? 'checked="checked"': ''} />
+                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="subjectIsTaxable" ${it == rqt.subjectIsTaxable ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -59,7 +59,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required" title="" value="${it}" name="subjectIsAPABeneficiary" ${it == rqt.subjectIsAPABeneficiary ? 'checked="checked"': ''} />
+                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="subjectIsAPABeneficiary" ${it == rqt.subjectIsAPABeneficiary ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -71,7 +71,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required" title="" value="${it}" name="subjectIsDisabledPerson" ${it == rqt.subjectIsDisabledPerson ? 'checked="checked"': ''} />
+                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="subjectIsDisabledPerson" ${it == rqt.subjectIsDisabledPerson ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -102,7 +102,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isEmergency-trigger  validate-one-required" title="" value="${it}" name="requestInformationEmergency" ${it == rqt.requestInformationEmergency ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isEmergency-trigger  validate-one-required boolean" title="" value="${it}" name="requestInformationEmergency" ${it == rqt.requestInformationEmergency ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -154,7 +154,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required" title="" value="${it}" name="spouseIsDisabledPerson" ${it == rqt.spouseIsDisabledPerson ? 'checked="checked"': ''} />
+                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="spouseIsDisabledPerson" ${it == rqt.spouseIsDisabledPerson ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>

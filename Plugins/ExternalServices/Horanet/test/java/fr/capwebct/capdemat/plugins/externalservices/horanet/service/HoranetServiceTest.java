@@ -317,9 +317,8 @@ public class HoranetServiceTest extends ServiceTestCase {
         // send an home folder modification request
         /////////////////////////////////////////////
 
-        HomeFolderModificationRequest hfmr = 
-            iHomeFolderModificationRequestService.create(homeFolder.getId(), 
-                    homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId());
+        HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
+        iHomeFolderModificationRequestService.create(hfmr, homeFolder.getId());
         Address address = homeFolder.getAdress();
         address.setStreetName("Ma nouvelle adresse");
         iHomeFolderModificationRequestService.modify(hfmr, 

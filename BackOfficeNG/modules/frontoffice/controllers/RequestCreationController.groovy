@@ -384,7 +384,7 @@ class RequestCreationController {
                         parameters.isEdition = true
                     }
                     else if (requestTypeInfo.label == 'Home Folder Modification') {
-                        cRequest = requestService.create(objectToBind.requester.homeFolder.id, objectToBind.requester.id)
+                        requestService.create(cRequest, objectToBind.requester.homeFolder.id)
                         requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
                     }
                     else if (requestTypeInfo.label == 'VO Card') {

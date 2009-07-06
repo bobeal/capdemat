@@ -115,8 +115,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         assertNotNull(homeFolderId);
 
         // create the home folder modification request
-        hfmr = iHomeFolderModificationRequestService.create(homeFolderId,
-                iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
+        hfmr = new HomeFolderModificationRequest();
+        iHomeFolderModificationRequestService.create(hfmr, homeFolderId);
 
         // prepare objects for modifications
         adress = homeFolder.getAdress();
@@ -733,9 +733,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         homeFolder = iHomeFolderService.getById(homeFolderId);
         homeFolderResponsible = 
             iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
-        hfmr = iHomeFolderModificationRequestService.create(homeFolderId,
-                homeFolderResponsible.getId());
-        hfmrId = hfmr.getId();
+        HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
+        hfmrId = iHomeFolderModificationRequestService.create(hfmr, homeFolder.getId());
 
         List<Adult> adultSet = new ArrayList<Adult>();
         adultSet.add(homeFolderResponsible);

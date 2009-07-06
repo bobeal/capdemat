@@ -24,8 +24,9 @@ public abstract class ExternalAccountItem extends PurchaseItem {
     private Map<String, String> externalServiceSpecificData = new HashMap<String, String>();
     
     public ExternalAccountItem(final String label, final Double amount,
-            final String externalServiceLabel, final String externalItemId) {
-        super(label, amount, null, null);
+            final String externalServiceLabel, final String externalItemId,
+            final String broker) {
+        super(label, amount, null, broker);
         this.externalServiceLabel = externalServiceLabel;
         this.externalItemId = externalItemId;
     }

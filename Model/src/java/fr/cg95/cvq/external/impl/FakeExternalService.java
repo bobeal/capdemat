@@ -2,7 +2,6 @@ package fr.cg95.cvq.external.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,7 +49,6 @@ import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.xml.common.RequestType;
 
 /**
  * A fake implementation of the {@link IExternalProviderService external provider service interface}
@@ -78,20 +76,6 @@ public class FakeExternalService implements IExternalProviderService {
     private String invoiceDetailsFile;
 
     public final String sendRequest(XmlObject requestXml) throws CvqException {
-        RequestType request = null;
-        try {
-            request = (RequestType)requestXml.getClass().getMethod("get" + requestXml.getClass().getName().substring(0, requestXml.getClass().getName().lastIndexOf("Document"))).invoke(requestXml);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return null;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            return null;
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            return null;
-        }
-        logger.debug("sendRequest() sending request id " + request.getId());
         logger.debug("sendRequest() sending request data " + requestXml.xmlText());
         return null;
     }
@@ -196,7 +180,8 @@ public class FakeExternalService implements IExternalProviderService {
 
                 ExternalDepositAccountItem edai = 
                     new ExternalDepositAccountItem(accountLabel, Double.valueOf(accountValue), 
-                            getLabel(), accountId, accountDate, Double.parseDouble(accountValue));
+                            getLabel(), accountId, accountDate, Double.parseDouble(accountValue),
+                            null);
                 depositAccounts.add(edai);
             }
             results.put(IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS, depositAccounts);
@@ -227,7 +212,7 @@ public class FakeExternalService implements IExternalProviderService {
                 ExternalInvoiceItem eii = 
                     new ExternalInvoiceItem(billLabel, Double.valueOf(billAmount),
                             getLabel(), billId, billIssueDate, billExpirationDate,
-                            billPaymentDate, isPayed);
+                            billPaymentDate, isPayed, null);
                 bills.add(eii);
             }
             results.put(IPaymentService.EXTERNAL_INVOICES, bills);
@@ -285,7 +270,7 @@ public class FakeExternalService implements IExternalProviderService {
                                     null, getLabel(), contractId, subject.getId(),
                                     Double.valueOf(buyPrice), Integer.valueOf(minBuy), 
                                     Integer.valueOf(maxBuy), null, contractDate,
-                                    Integer.valueOf(contractValue));
+                                    Integer.valueOf(contractValue), null);
                         etci.addExternalServiceSpecificData("child-csn", childCsn);
 
                         ticketingAccounts.add(etci);

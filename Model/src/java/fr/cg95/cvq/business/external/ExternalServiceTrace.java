@@ -42,8 +42,8 @@ public class ExternalServiceTrace implements Serializable {
     public ExternalServiceTrace() {
     }
     
-    public ExternalServiceTrace(Date date, String key, String subkey, String keyOwner, String message,
-            String name, TraceStatusEnum status) {
+    public ExternalServiceTrace(Date date, String key, String subkey, String keyOwner, 
+            String message, String name, TraceStatusEnum status) {
         super();
         this.date = date;
         this.key = key;

@@ -18,7 +18,7 @@ public class PaymentServiceBean {
     protected Map serviceProperties;
 
     /** a list of request types this service is interested in. */
-    protected List requestTypes;
+    protected List<String> requestTypes;
 
     public final Object getProperty(final String propertyName) {
         if (serviceProperties == null || serviceProperties.isEmpty())
@@ -31,11 +31,11 @@ public class PaymentServiceBean {
         this.serviceProperties = serviceProperties;
     }
 
-    public final void setRequestTypes(final List requestTypes) {
+    public final void setRequestTypes(final List<String> requestTypes) {
         this.requestTypes = requestTypes;
     }
 
-    public final List getRequestTypes() {
+    public final List<String> getRequestTypes() {
         return this.requestTypes;
     }
     

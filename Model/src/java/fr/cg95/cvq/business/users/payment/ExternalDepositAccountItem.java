@@ -27,8 +27,9 @@ public class ExternalDepositAccountItem extends ExternalAccountItem {
     
     public ExternalDepositAccountItem(final String label, final Double amount,
             final String externalServiceLabel, final String externalItemId,
-            final Date oldValueDate, final Double oldValue) {
-        super(label, amount, externalServiceLabel, externalItemId);
+            final Date oldValueDate, final Double oldValue,
+            final String broker) {
+        super(label, amount, externalServiceLabel, externalItemId, broker);
         this.oldValue = oldValue;
         this.oldValueDate = oldValueDate;
     }

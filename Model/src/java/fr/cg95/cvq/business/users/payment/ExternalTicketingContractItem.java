@@ -28,8 +28,8 @@ public class ExternalTicketingContractItem extends ExternalAccountItem {
             final String externalServiceLabel, final String externalItemId,
             final Long subjectId, final Double unitPrice, final Integer minBuy,
             final Integer maxBuy, final Integer quantity, final Date creationDate,
-            final Integer oldQuantity) {
-        super(label, amount, externalServiceLabel, externalItemId);
+            final Integer oldQuantity, final String broker) {
+        super(label, amount, externalServiceLabel, externalItemId, broker);
         this.subjectId = subjectId;
         this.unitPrice = unitPrice;
         this.minBuy = minBuy;

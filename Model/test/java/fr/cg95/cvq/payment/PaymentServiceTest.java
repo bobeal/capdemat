@@ -81,17 +81,17 @@ public class PaymentServiceTest extends ServiceTestCase {
         Request request = iRequestService.getById(requestId);
         InternalRequestItem internalRequestItem1 =
             new InternalRequestItem("IRI 1", Double.valueOf("154"),
-                    request, null, 2, Double.valueOf("77"));
+                    request, broker, 2, Double.valueOf("77"));
         iPaymentService.addPurchaseItemToPayment(payment, internalRequestItem1);
         
         InternalRequestItem internalRequestItem2 =
             new InternalRequestItem("IRI 2", Double.valueOf("140"),
-                    request, null, 2, Double.valueOf("70"));
+                    request, broker, 2, Double.valueOf("70"));
         iPaymentService.addPurchaseItemToPayment(payment, internalRequestItem2);
 
         ExternalAccountItem eai = 
             new ExternalDepositAccountItem("eai", Double.valueOf("30"), fakeExternalService.getLabel(), 
-                    "Deposit Account Label", new Date(), Double.valueOf("70"));
+                    "Deposit Account Label", new Date(), Double.valueOf("70"), broker);
         eai.addExternalServiceSpecificData("externalFamilyAccountId", "EFA-ID");
         eai.addExternalServiceSpecificData("externalApplicationLabel", "Cantine");
         iPaymentService.addPurchaseItemToPayment(payment, eai);

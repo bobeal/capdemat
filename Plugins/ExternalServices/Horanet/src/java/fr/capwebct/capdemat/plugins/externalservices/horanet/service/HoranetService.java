@@ -434,7 +434,8 @@ public class HoranetService implements IExternalProviderService {
 
                 ExternalDepositAccountItem edai = 
                     new ExternalDepositAccountItem(label, null, 
-                            getLabel(), accountId, accountDate, Double.parseDouble(accountValue));
+                            getLabel(), accountId, accountDate, Double.parseDouble(accountValue),
+                            null);
                 depositAccounts.add(edai);
             }
             results.put(IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS, depositAccounts);
@@ -469,7 +470,7 @@ public class HoranetService implements IExternalProviderService {
                 ExternalInvoiceItem eii = 
                     new ExternalInvoiceItem(label, Double.valueOf(billAmount),
                             getLabel(), billId, billIssueDate, billExpirationDate, 
-                            billPaymentDate, isPayed);
+                            billPaymentDate, isPayed, null);
                 bills.add(eii);
             }
             results.put(IPaymentService.EXTERNAL_INVOICES, bills);
@@ -526,7 +527,7 @@ public class HoranetService implements IExternalProviderService {
                                     null, getLabel(), contractId, child.getId(),
                                     Double.valueOf(buyPrice), Integer.valueOf(minBuy), 
                                     Integer.valueOf(maxBuy), null, contractDate, 
-                                    Integer.valueOf(contractValue));
+                                    Integer.valueOf(contractValue), null);
                         if (childCsn != null)
                             etci.addExternalServiceSpecificData("child-csn", childCsn);
                         

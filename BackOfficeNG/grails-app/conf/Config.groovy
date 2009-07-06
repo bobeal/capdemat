@@ -33,8 +33,11 @@ grails.enable.native2ascii = true
 
 // log4j configuration
 log4j {
-    appender.stdout = "org.apache.log4j.ConsoleAppender"
+    appender.stdout = "org.apache.log4j.RollingFileAppender"
     appender.'stdout.layout'="org.apache.log4j.PatternLayout"
+    appender.'stdout.File'="capdemat.log"
+    appender.'stdout.MaxFileSize'="20000KB"
+    appender.'stdout.MaxBackupIndex'="10"
     appender.errors = "org.apache.log4j.FileAppender"
     appender.'errors.layout'="org.apache.log4j.PatternLayout"
     appender.'errors.File'="stacktrace.log"

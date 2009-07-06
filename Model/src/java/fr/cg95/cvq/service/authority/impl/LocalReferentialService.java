@@ -357,7 +357,7 @@ public class LocalReferentialService
         Entry[] entryTab = lretXml.getEntryArray();
         for (int i = 0; i < entryTab.length; i++) {
             Entry entry = entryTab[i];
-            logger.debug("parseXmlEntries() parsing entry " + entry.getKey());
+//            logger.debug("parseXmlEntries() parsing entry " + entry.getKey());
 
             LocalReferentialEntry tempLre = new LocalReferentialEntry();
             tempLre.setKey(entry.getKey());

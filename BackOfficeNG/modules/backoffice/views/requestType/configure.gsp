@@ -105,10 +105,12 @@
         <div class="body">
           <ul class="second-level-menu" id="secondMenu">
           <g:each in="${baseConfigurationItems}">
-            <li id="requestType-${it.key}">
+            <li>
               <span class="second-level-menu-item" id="display_${it.key}">
-                <g:message code="${it.value[0]}"/>
-                <g:if test="${it.value[1]}">*</g:if>
+                <a id="requestType_${it.key}" href="javascript:;">
+                  <g:message code="${it.value[0]}"/>
+                  <g:if test="${it.value[1]}">*</g:if>
+                </a>
               </span>
               <span>&nbsp;</span>
             </li>
@@ -122,9 +124,8 @@
         <div class="body">
           <form action="${createLink(action : 'configure')}" method="get">
             <select name="id" id="requestTypeId" onchange="submit();">
-              <option value=""></option>
-              <g:each in="${requestTypes}" var="requestType">
-                <option value="${requestType.id}">${requestType.label}</option>
+              <g:each in="${requestTypes}">
+                <option value="${it.id}" ${it.id == requestType?.id ? 'selected' : ''}>${it.label}</option>
               </g:each>
             </select>
           </form>

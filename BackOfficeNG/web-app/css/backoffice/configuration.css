@@ -175,9 +175,6 @@ form.editable-list-form ul li .tag-manager    { color: #aa00ff; }
 -------------------------------------------------------------- */
 div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
 
-.second-level-menu li:hover,
-.second-level-menu li.selected { background-color: #dce6fb; }
-
 .second-level-menu li:hover    { cursor: pointer; }
 .second-level-menu li.selected { font-weight: bold; font-style: italic; }
 
@@ -185,11 +182,11 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
   width: 90%;
   display: block; 
   float: left;
-	padding: 0;
-	text-align: left;
+  padding: 0;
+  text-align: left;
 }
 
-/*state (same green & red than tag) 
+/* state (same green & red than tag) 
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 .enabled { color: #20cc20; }
 .disabled { color: #cc2020; }

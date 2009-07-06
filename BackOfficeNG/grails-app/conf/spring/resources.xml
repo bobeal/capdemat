@@ -8,5 +8,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
   <import resource="applicationContext-deployment.xml"/>
   <import resource="applicationContext-admin.xml"/>
   <import resource="classpath*:pluginContext.xml"/>
-      
+  <import resource="classpath*:pluginContext-job.xml"/>
+
 </beans>

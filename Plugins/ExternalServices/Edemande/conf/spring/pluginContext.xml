@@ -85,36 +85,4 @@
     </property>
   </bean>
 
-  <!-- *******************************************************************  -->
-  <!-- ************ Edemande communication Job Configuration *************  -->
-  <!-- *******************************************************************  -->
-
-  <bean class="fr.cg95.cvq.platform.PluginBeanFactoryPostProcessor">
-    <property name="extensionBeanName" value="quartzScheduler" />
-    <property name="propertyName" value="triggers" />
-    <property name="pluginBeanName" value="edemandeCommunicationTrigger" />
-  </bean>
-
-  <bean id="edemandeCommunicationJob"
-    class="fr.capwebct.capdemat.plugins.externalservices.edemande.job.EdemandeCommunicationJob"
-    init-method="init">
-    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
-    <property name="edemandeService" ref="edemandeExternalService" />
-    <property name="externalService" ref="externalService" />
-  </bean>
-
-  <bean id="edemandeCommunicationJobInvoker"
-    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-    <property name="targetObject" ref="edemandeCommunicationJob" />
-    <property name="targetMethod" value="launchJob" />
-    <property name="concurrent" value="false" />
-  </bean>
-
-  <bean id="edemandeCommunicationTrigger"
-    class="org.springframework.scheduling.quartz.CronTriggerBean">
-    <property name="jobDetail" ref="edemandeCommunicationJobInvoker" />
-    <property name="cronExpression" value="0 0 */6 * * ?" />
-    <!-- <property name="cronExpression" value="0 */2 * * * ?" /> -->
-  </bean>
-
 </beans>

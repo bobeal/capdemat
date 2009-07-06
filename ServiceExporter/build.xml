@@ -12,7 +12,6 @@
 
     <fileset id="exporter-runtime-libs" dir="${libraries.dir}">
       <include name="**/edu.yale/**/*.jar" />
-	  <include name="**/org.quartz/**/*.jar" />
 	  <include name="**/fr.cg95/model/CVQ-ExternalServicesSchemas-*.jar" />    	
     </fileset>
 
@@ -60,6 +59,7 @@
         <include name="applicationContext.xml" />
         <include name="web.xml" />
         <exclude name="log4j.properties" />
+      	<exclude name="serviceexporter.properties" />
       </fileset>
     </delete>
   </target>

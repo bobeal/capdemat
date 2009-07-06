@@ -66,7 +66,7 @@
         <include name="**/**" />
       </fileset>
       <fileset dir="${basedir}/conf/spring">
-        <include name="pluginContext.xml"/>
+        <include name="pluginContext*.xml"/>
       </fileset>
       <!--  add other directories and files here (eg, CSV mapping definition file) -->
     </jar>

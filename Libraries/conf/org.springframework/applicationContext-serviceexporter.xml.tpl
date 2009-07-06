@@ -8,8 +8,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="configurer"
     class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="location">
-      <value>@deploy_properties_file@</value>
+    <property name="locations">
+      <list>
+        <value>@deploy_properties_file@</value>
+        <value>/WEB-INF/serviceexporter.properties</value>
+      </list>
     </property>
   </bean>
 

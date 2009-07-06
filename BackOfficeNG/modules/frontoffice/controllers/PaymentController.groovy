@@ -45,11 +45,10 @@ class PaymentController {
     }
     
     def afterInterceptor = { result ->
-        if(['index','history'].contains(actionName.toString())) {
+        if(['index','history'].contains(actionName)) {
             result.state = state
             result.pageState = (new JSON(state)).toString()
-            
-            result.errorMessage = flash?.invalid?.message ? flash.invalid.message : this.errorMessage
+            result.errorMessage = flash.invalid?.message ? flash.invalid.message : this.errorMessage
         }
 
         if(['index','details','cartDetails'].contains(actionName)) { 

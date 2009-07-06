@@ -162,8 +162,10 @@ public class ElementFo {
             return;
         else if (widget.equals("select"))
             this.htmlClass += "validate-not-first";
-        else if (widget.equals("radio") || widget.equals("boolean"))
+        else if (widget.equals("radio"))
             this.htmlClass += "validate-one-required";
+        else if (widget.equals("boolean"))
+            this.htmlClass += "validate-one-required boolean";
         else 
             this.htmlClass += "validate-" + widget;
     }

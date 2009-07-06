@@ -25,25 +25,23 @@
                          args="${[formatDate(date:record.creationDate,formatName:'format.date')]}" />
           </a>
           <g:if test="${record.lastAgentNote}">
-            <p>
+            <p class="agent-note">
               <g:message code="request.property.lastAgentNote" />
               <g:if test="${record.lastAgentNote.date != null}">
                 <g:message code="layout.on.date" /> <g:formatDate date="${record.lastAgentNote.date}" formatName="format.date" />
               </g:if>
               <g:message code="layout.by" />&nbsp;${record.lastAgentNote.user_name} :
-              ${record.lastAgentNote.note}
+              <strong>${record.lastAgentNote.note}</strong>
             </p>
           </g:if>
         </li>
       </g:each>
     </ul>
-    <g:if test="${requests.count != requests.records.size}">
-      <p class="see-all">
-        <a href="${createLink(controller:'frontofficeRequest')}" id="showAllRequests">
-          <g:message code="action.seeAll" />
-        </a>
-      </p>
-    </g:if>
+    <p class="see-all">
+      <a href="${createLink(controller:'frontofficeRequest')}" id="showAllRequests">
+        <g:message code="action.seeAll" />
+      </a>
+    </p>
   </g:if>
   <g:else>
     <p class="empty"><g:message code="message.noRequests" /></p>

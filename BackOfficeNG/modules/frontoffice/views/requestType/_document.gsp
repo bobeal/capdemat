@@ -32,9 +32,9 @@
     <legend>${message(code:documentType.value.name)}</legend>
     
     <label><g:message code="document.header.attachments"/></label>
-    <div class="document-fieldset">
+    <div class="document-fieldset summary-box">
       <g:if test="${documentType.value.associated}">
-      <dl class="document-linked summary-box">
+      <dl class="document-linked">
         <g:each in="${documentType.value.associated}" var="document">
         <dt>
           <g:if test="${document.ecitizenNote}">
@@ -64,9 +64,9 @@
       </g:else>
     </div>
     <label><g:message code="document.header.available"/></label>
-    <div class="document-fieldset">
+    <div class="document-fieldset summary-box">
       <g:if test="${documentType.value.provided}">
-      <dl class="document-available summary-box">
+      <dl class="document-available">
         <g:each in="${documentType.value.provided}" var="document">
         <dt>
           <g:if test="${document.endValidityDate}">

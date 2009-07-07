@@ -124,8 +124,10 @@ h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
 #requestTabView .document-fieldset                          { margin: 0 0 1em; }
 #requestTabView .document-fieldset dl.document-linked       { background: #ffb; }
 #requestTabView .document-fieldset dl.document-available    { background: #ffd; }
-#requestTabView .document-fieldset dl dt { width: 14em; font-size:1.1em; }
-#requestTabView .document-fieldset dl dd { width: 26.75em; font-size:1em; }
+#requestTabView .summary-box.document-fieldset dl dt { width: 13.75em; font-size:1.1em; }
+#requestTabView .summary-box.document-fieldset dl dt input { font-size:1.1em; }
+#requestTabView .summary-box.document-fieldset dl dd { width: 26.75em; font-size:1em; }
+#requestTabView .summary-box.document-fieldset dl dd input { font-size:1em; }
 #requestTabView .document-fieldset dl dd .tag-state { float: right; }
 
 #requestTabView div.collection-fieldset                      { margin: 0 0 1em 0; padding: 1em 2em; font-size: .9em; background: #ffd; }

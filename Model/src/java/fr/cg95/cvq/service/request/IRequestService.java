@@ -80,7 +80,7 @@ public interface IRequestService {
     /**
      * Finalize a request previously saved as a draft.
      */
-    void finalizeDraft(@IsRequest Request request) throws CvqException;
+    void finalizeDraft(@IsRequest Request request, List<Document> documents) throws CvqException;
     
     /**
      * Create a new request from given data.
@@ -125,6 +125,12 @@ public interface IRequestService {
         throws CvqException;
     
     /**
+     * Edit a request.
+     */
+    void rewindWorkflow(@IsRequest Request request, List<Document> documents)
+        throws CvqException;
+
+    /**
      * Get a clone of a request with the given label whose subject is either the given subject 
      * either the given home folder (depending on the subject policy supported by the associated
      * request type).
@@ -140,12 +146,6 @@ public interface IRequestService {
     Node getRequestClone(@IsSubject final Long subjectId, @IsHomeFolder Long homeFolderId, 
             final String requestLabel) 
     	throws CvqException;
-
-    /**
-     * Edit a request.
-     */
-    void rewindWorkflow(@IsRequest Request request)
-        throws CvqException;
 
     /**
      * Modify a request.

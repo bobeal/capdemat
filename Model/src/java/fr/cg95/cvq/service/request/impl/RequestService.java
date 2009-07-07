@@ -517,9 +517,10 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void finalizeDraft(Request request) throws CvqException {
+    public void finalizeDraft(Request request, List<Document> documents) throws CvqException {
         request.setDraft(false);
         modifyDraft(request);
+        addDocuments(request, documents);
     }
     
     protected boolean isSubjectChanged(Request request) {
@@ -1066,9 +1067,10 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void rewindWorkflow(Request request)
+    public void rewindWorkflow(Request request, List<Document> documents)
         throws CvqException {
         requestWorkflowService.rewindWorkflow(request);
+        addDocuments(request, documents);
     }
 
     @Override

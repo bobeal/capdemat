@@ -17,6 +17,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.commons.lang.StringUtils;
 import org.apache.fop.apps.Driver;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.configuration.Configuration;
@@ -157,10 +158,12 @@ public class CertificateService implements ICertificateService {
                         SecurityContext.getCurrentSite().getDisplayTitle());
                 transformer.setParameter("localizationService", localizationService);
                 
-                File logoFile = 
-                    localAuthorityRegistry.getLocalAuthorityResourceFile("logoPdf", false);
-                if (logoFile != null && logoFile.exists())
-                    transformer.setParameter("logoSource", logoFile.getPath());
+                File logoFile = new File(StringUtils.removeEnd(
+                    localAuthorityRegistry.getLocalAuthorityResourceFile("logoPdf", false).getPath(), "png").concat("jpg"));
+                if (!logoFile.exists()) {
+                    localAuthorityRegistry.generateJPEGLogo();
+                }
+                transformer.setParameter("logoSource", logoFile.getPath());
 
                 //Resulting SAX events (the generated FO) must be piped through to FOP
                 Result res = new StreamResult(out);

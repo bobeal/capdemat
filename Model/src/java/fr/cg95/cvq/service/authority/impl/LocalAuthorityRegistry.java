@@ -18,6 +18,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.imageio.ImageIO;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.fop.image.FopImageFactory;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.BeansException;
@@ -471,6 +475,10 @@ public class LocalAuthorityRegistry
         if (hasLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP)) {
             renameLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP, LocalAuthorityResource.Version.OLD);
         }
+        // JSB : hack for PDF generation
+        if (LocalAuthorityResource.LOGO_PDF.getId().equals(id)) {
+            generateJPEGLogo();
+        }
     }
 
     public void rollbackLocalAuthorityResource(String id)
@@ -478,6 +486,10 @@ public class LocalAuthorityRegistry
         renameLocalAuthorityResource(id, LocalAuthorityResource.Version.OLD, LocalAuthorityResource.Version.TEMP);
         renameLocalAuthorityResource(id, LocalAuthorityResource.Version.CURRENT, LocalAuthorityResource.Version.OLD);
         renameLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP, LocalAuthorityResource.Version.CURRENT);
+        // JSB : hack for PDF generation
+        if (LocalAuthorityResource.LOGO_PDF.getId().equals(id)) {
+            generateJPEGLogo();
+        }
     }
 
     public boolean hasLocalAuthorityResource(String id, Version version)
@@ -538,6 +550,24 @@ public class LocalAuthorityRegistry
             if (!file.delete())
                 logger.warn("removeLocalAuthorityResource() can't delete " + file.getPath() + file.getName());
         }
+    }
+
+    public void generateJPEGLogo() {
+        File png;
+        try {
+            png = getLocalAuthorityResourceFile(LocalAuthorityResource.LOGO_PDF.getId(), false);
+        } catch (CvqException e) {
+            logger.warn("generateJPEGLogo() could not get PNG logo");
+            return;
+        }
+        File jpeg = new File(StringUtils.removeEnd(png.getPath(), "png").concat("jpg"));
+        try {
+            jpeg.createNewFile();
+            ImageIO.write(ImageIO.read(png), "jpg", jpeg);
+        } catch (IOException e) {
+            logger.warn("generateJPEGLogo() failed to generate JPEG logo");
+        }
+        FopImageFactory.resetCache();
     }
 
     public void registerLocalAuthorities(Resource[] localAuthoritiesFiles)

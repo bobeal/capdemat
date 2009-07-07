@@ -33,8 +33,8 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
     public ExternalInvoiceItem(final String label, final Double amount,
             final String externalServiceLabel, final String externalItemId,
             final Date issueDate, final Date expirationDate, final Date paymentDate,
-            final Boolean isPaid) {
-        super(label, amount, externalServiceLabel, externalItemId);
+            final Boolean isPaid, final String broker) {
+        super(label, amount, externalServiceLabel, externalItemId, broker);
         this.issueDate = issueDate;
         this.expirationDate = expirationDate;
         this.paymentDate = paymentDate;

@@ -42,14 +42,6 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
     protected ISchoolRegistrationRequestService iSchoolRegistrationRequestService;
 
-    @Override
-    protected void onSetUp() throws Exception {
-        super.onSetUp();
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        iSchoolRegistrationRequestService = 
-            (ISchoolRegistrationRequestService) cac.getBean("schoolRegistrationRequestService");
-    }
-
     // define some objects that will be reused throughout the different tests
     private Address adress;
     private List<Adult> adults;
@@ -62,6 +54,14 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
     private Child newChild;
     private Adult newAdult;
 
+    @Override
+    protected void onSetUp() throws Exception {
+        super.onSetUp();
+        ConfigurableApplicationContext cac = getContext(getConfigLocations());
+        iSchoolRegistrationRequestService = 
+            (ISchoolRegistrationRequestService) cac.getBean("schoolRegistrationRequestService");
+    }
+
     /**
      * Overrided to run invariant tests.
      */
@@ -69,8 +69,6 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
     protected void onTearDown() 
         throws Exception {
 
-        logger.debug("onTearDown()");
-        
         try {
             // check entries have been deleted from history table
             Set<HistoryEntry> remainingEntries =
@@ -151,17 +149,22 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         }
 
         List<Adult> foreignOwners = new ArrayList<Adult>();
-        foreignOwners.add(BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "TUTOR", "Foreign", address.clone(), FamilyStatusType.OTHER));
-        iHomeFolderService.addHomeFolderRole(foreignOwners.get(0), homeFolder.getId(), RoleType.HOME_FOLDER_RESPONSIBLE);
+        foreignOwners.add(BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "TUTOR", "Foreign", 
+                address.clone(), FamilyStatusType.OTHER));
+        iHomeFolderService.addHomeFolderRole(foreignOwners.get(0), homeFolder.getId(), 
+                RoleType.HOME_FOLDER_RESPONSIBLE);
         continueWithNewTransaction();
 
-        iHomeFolderModificationRequestService.modify(hfmr, copyAdults, copyChildren, foreignOwners, adress, null);
-        Assert.assertEquals(copyAdults.size() + copyChildren.size(), homeFolder.getIndividuals().size());
+        iHomeFolderModificationRequestService.modify(hfmr, copyAdults, copyChildren, foreignOwners, 
+                adress, null);
+        Assert.assertEquals(copyAdults.size() + copyChildren.size(), 
+                homeFolder.getIndividuals().size());
 
         continueWithNewTransaction();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+
         iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
         iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 

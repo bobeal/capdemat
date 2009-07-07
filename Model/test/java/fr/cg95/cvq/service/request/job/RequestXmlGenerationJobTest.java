@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.context.ConfigurableApplicationContext;
-
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.RequestState;
@@ -24,26 +22,22 @@ import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class RequestXmlGenerationJobTest extends ServiceTestCase {
-    private IRequestService                requestService;
+
     private IExternalService           externalService;
     private RequestXmlGenerationJob        generationJob;
-    private ConfigurableApplicationContext context;
     private CreationBean                   creationBean;
-    private ILocalAuthorityRegistry        localAuthorityRegistry;
     private IExternalProviderService fakeExternalService;
 
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
         
-        this.context = getContext(getConfigLocations());
-        this.requestService = (IRequestService) context.getBean("defaultRequestService");
         this.externalService = 
-            (IExternalService) context.getBean("externalService");
-        this.generationJob = (RequestXmlGenerationJob) context.getBean("requestXmlGenerationJob");
-        this.localAuthorityRegistry = 
-            (ILocalAuthorityRegistry) context.getBean("localAuthorityRegistry");
-        fakeExternalService = (IExternalProviderService) getBean("fakeExternalService");
+            super.<IExternalService>getApplicationBean("externalService");
+        this.generationJob = 
+            super.<RequestXmlGenerationJob>getApplicationBean("requestXmlGenerationJob");
+        this.fakeExternalService = 
+            super.<IExternalProviderService>getApplicationBean("fakeExternalService");
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
 
@@ -54,6 +48,13 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
         esb.setRequestTypes(requestTypes);
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         lacb.registerExternalService(fakeExternalService, esb);
+    }
+    
+    @Override
+    protected void onTearDown() throws Exception {
+        this.externalService.deleteTraces("MyName");
+        this.eraseTestFiles();
+        super.onTearDown();
     }
     
     public void testXmlDataGeneration() throws Exception {
@@ -68,22 +69,23 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
         this.createDummyEntities();
         this.validateRequest();
         id3 = this.creationBean.getRequestId();
+        
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
 
-        this.externalService.addTrace(new ExternalServiceTrace(null, null, String.valueOf(id1),null, null, 
-                "MyName",TraceStatusEnum.SENT));
-        this.externalService.addTrace(new ExternalServiceTrace(null, null, String.valueOf(id2), null, null, 
-                "MyName", TraceStatusEnum.ACKNOWLEDGED));
+        this.externalService.addTrace(new ExternalServiceTrace(null, String.valueOf(id1), null,
+                null, null, "MyName", TraceStatusEnum.SENT));
+        this.externalService.addTrace(new ExternalServiceTrace(null, String.valueOf(id2), null, 
+                null, null, "MyName", TraceStatusEnum.ACKNOWLEDGED));
         this.continueWithNewTransaction();
 
         this.generationJob.launchJob();
         this.remakeSecurityContext();
 
-        File file = this.localAuthorityRegistry.getRequestXmlResource(id3);
+        File file = iLocalAuthorityRegistry.getRequestXmlResource(id3);
         assertTrue(file.exists());
-        file = this.localAuthorityRegistry.getRequestXmlResource(id1);
+        file = iLocalAuthorityRegistry.getRequestXmlResource(id1);
         assertTrue(file.exists());
-        file = this.localAuthorityRegistry.getRequestXmlResource(id2);
+        file = iLocalAuthorityRegistry.getRequestXmlResource(id2);
         assertFalse(file.exists());
     }
     
@@ -95,7 +97,7 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         this.generationJob.performGeneration();
 
-        File file = this.localAuthorityRegistry.getRequestXmlResource(creationBean.getRequestId());
+        File file = iLocalAuthorityRegistry.getRequestXmlResource(creationBean.getRequestId());
         assertTrue(file.exists());
 
         ExternalServiceTrace trace = new ExternalServiceTrace();
@@ -112,7 +114,7 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
     
     protected String getXmlOutputFolder() {
         return String.format("%1$s/%2$s/%3$s/", 
-                this.localAuthorityRegistry.getAssetsBase(),
+                iLocalAuthorityRegistry.getAssetsBase(),
                 SecurityContext.getCurrentConfigurationBean().getName(),
                 ILocalAuthorityRegistry.REQUEST_XML_RESOURCE_TYPE);
     }
@@ -131,13 +133,6 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
         iRequestWorkflowService.updateRequestState(creationBean.getRequestId(),
             RequestState.VALIDATED, null);
         this.continueWithNewTransaction();
-    }
-    
-    @Override
-    protected void onTearDown() throws Exception {
-        this.externalService.deleteTraces("MyName");
-        this.eraseTestFiles();
-        super.onTearDown();
     }
     
     protected void remakeSecurityContext() throws CvqException {

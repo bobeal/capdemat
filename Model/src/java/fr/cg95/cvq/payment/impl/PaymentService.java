@@ -340,6 +340,10 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         } else if (purchaseItem instanceof InternalRequestItem) {
             if (purchaseItem.getRequestId() == null)
                 throw new CvqModelException("payment.internal_request_item.missing_request");
+            // it item carries its broker, return it
+            // else get it from its associated request type
+            if (purchaseItem.getSupportedBroker() != null)
+                return purchaseItem.getSupportedBroker();
             Request request = requestService.getById(purchaseItem.getRequestId());
             RequestType requestType = request.getRequestType();
             broker = getBrokerFromRequestType(requestType.getLabel(), paymentMode);
@@ -366,7 +370,7 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
     /**
      * Find the broker associated with the given request type and payment mode.
      */
-   private String getBrokerFromRequestType(String requestType, PaymentMode paymentMode) {
+    private String getBrokerFromRequestType(String requestType, PaymentMode paymentMode) {
         Map<IPaymentProviderService, PaymentServiceBean> paymentProviders = 
             SecurityContext.getCurrentConfigurationBean().getPaymentServices();
         if (paymentProviders == null || paymentProviders.isEmpty())
@@ -374,7 +378,7 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         for (IPaymentProviderService paymentProviderService : paymentProviders.keySet()) {
             if (paymentProviderService.getPaymentMode().equals(paymentMode)) {
                 PaymentServiceBean psb = paymentProviders.get(paymentProviderService);
-                List requestTypes = psb.getRequestTypes();
+                List<String> requestTypes = psb.getRequestTypes();
                 if (requestTypes == null || requestTypes.isEmpty())
                     continue;
                 for (int i = 0 ; i < requestTypes.size(); i++) {

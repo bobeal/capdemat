@@ -2,6 +2,8 @@ package fr.cg95.cvq.service.users;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -53,6 +55,8 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
     private Child newChild;
     private Adult newAdult;
+    // Usefull to clean indiviual who do not belong to homeFolder in onTearDown
+    protected Set< Long> foreignOwnersIds = new HashSet<Long>();
 
     @Override
     protected void onSetUp() throws Exception {
@@ -66,8 +70,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
      * Overrided to run invariant tests.
      */
     @Override
-    protected void onTearDown() 
-        throws Exception {
+    protected void onTearDown() throws Exception {
 
         try {
             // check entries have been deleted from history table
@@ -80,12 +83,19 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        
+
         iHomeFolderModificationRequestService.delete(hfmrId);
-        
+
+        Iterator<Long> it = foreignOwnersIds.iterator();
+        while (it.hasNext()) {
+            Adult a = iIndividualService.getAdultById(it.next());
+            iIndividualService.delete(a);
+            it.remove();
+        }
+
         super.onTearDown();
     }
-    
+
     private Long createModificationRequest()
         throws CvqException {
 
@@ -102,7 +112,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         iRequestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
         iRequestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
-        
+
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
@@ -130,7 +140,7 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
 
         return hfmr.getId();
     }
-    
+
     public void testMultiHibernateTransaction()
         throws CvqException {
 
@@ -169,6 +179,9 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
+
+        for (Adult adult : foreignOwners)
+            foreignOwnersIds.add(adult.getId());
     }
     
     private void prepareSimpleModifications()
@@ -574,7 +587,6 @@ public class HomeFolderModificationRequestServiceTest extends ServiceTestCase {
         iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
-        
         // check removed adult has been restored
         try {
             iIndividualService.getById(homeFolderUncle.getId());

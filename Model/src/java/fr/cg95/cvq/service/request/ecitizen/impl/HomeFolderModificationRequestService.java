@@ -416,6 +416,16 @@ public class HomeFolderModificationRequestService
 
         for (Object object : objectsToUpdate) {
             logger.debug("updateObjects() Updating " + object);
+            if (object instanceof Individual) {
+                Individual individual = (Individual) object;
+                HomeFolder homeFolder = individual.getHomeFolder();
+                if (homeFolder != null) {
+                    if (homeFolder.getIndividuals().contains((individual)))
+                        homeFolder.getIndividuals().set(homeFolder.getIndividuals().indexOf(individual), individual);
+                    else
+                        homeFolder.getIndividuals().add(individual);
+                }
+            }
 
             // only for children because new adults are written when calling
             // modify method (because we need their login and pwd)

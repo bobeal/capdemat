@@ -1,6 +1,5 @@
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.PermissionException
-import grails.converters.JSON
 
 class ExceptionUtils {
     

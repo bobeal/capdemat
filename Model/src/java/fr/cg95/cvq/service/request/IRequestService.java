@@ -80,13 +80,13 @@ public interface IRequestService {
     /**
      * Finalize a request previously saved as a draft.
      */
-    void finalizeDraft(@IsRequest Request request) throws CvqException;
+    void finalizeDraft(@IsRequest Request request, List<Document> documents) throws CvqException;
     
     /**
      * Create a new request from given data.
      * 
      * It is meant to be used <strong>only</strong> by requests who require an home folder, 
-     * requester will be the currently logged in ecitizen, eventual subject id will be set
+     * requester will be the currently logged in ecitizen, eventual subject id must be set
      * directly on request object.
      * 
      * A default implementation suitable for requests types that do not have any specific stuff 
@@ -94,26 +94,42 @@ public interface IRequestService {
      * be overrided.
      */
     Long create(@IsRequest Request request)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqException;
     
+    /**
+     * The same as {@link #create(Request)} but with a provided documents list.
+     */
     Long create(@IsRequest Request request, List<Document> documents)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqException;
 
     /**
      * Create a new request from given data.
      * 
      * It is meant to be used by requests issued outside an home folder. An home folder
-     * containing at least the requester will be created. The subject is optional (FIXME : is
-     * it ever used ?)
+     * containing at least the requester will be created. The subject is optional.
+     * 
+     * FIXME : can we have out of account requests with a subject ?
      */
     Long create(@IsRequest Request request, @IsRequester Adult requester, 
             @IsSubject Individual subject)
         throws CvqException;
     
+    /**
+     * The same as {@link #create(Request, Adult, Individual)} but with a provided
+     * documents list.
+     * 
+     * FIXME : can we have out of account requests with a subject ?
+     */
     Long create(@IsRequest Request request, @IsRequester Adult requester, 
             @IsSubject Individual subject, List<Document> documents)
         throws CvqException;
     
+    /**
+     * Edit a request.
+     */
+    void rewindWorkflow(@IsRequest Request request, List<Document> documents)
+        throws CvqException;
+
     /**
      * Get a clone of a request with the given label whose subject is either the given subject 
      * either the given home folder (depending on the subject policy supported by the associated
@@ -130,12 +146,6 @@ public interface IRequestService {
     Node getRequestClone(@IsSubject final Long subjectId, @IsHomeFolder Long homeFolderId, 
             final String requestLabel) 
     	throws CvqException;
-
-    /**
-     * Edit a request.
-     */
-    void rewindWorkflow(@IsRequest Request request)
-        throws CvqException;
 
     /**
      * Modify a request.

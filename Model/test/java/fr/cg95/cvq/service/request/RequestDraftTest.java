@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request;
 
+import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.leisure.music.MusicSchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Adult;
@@ -15,6 +16,7 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,7 +77,7 @@ public class RequestDraftTest extends ServiceTestCase {
             this.requestService.delete(draft1.getId());
             this.continueWithNewTransaction();
             this.requestService.processDraft(draft2);
-            this.requestService.finalizeDraft(draft2);
+            this.requestService.finalizeDraft(draft2, Collections.<Document>emptyList());
             
             try {
                 this.getDraftById(draft2.getId());

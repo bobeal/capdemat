@@ -5,16 +5,6 @@
     <g:capdematEnumToField var="${it.title}" i18nKeyPrefix="homeFolder.adult.title" /> ${it.firstName} ${it.lastName}
   </h4> 
   <dl>
-    <!--
-    <dt><g:message code="homeFolder.adult.property.title" /> : </dt>
-    <dd> <g:capdematEnumToField var="${it.title}" i18nKeyPrefix="homeFolder.adult.title" /></dd>
-
-    <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt>
-    <dd>${it.lastName}</dd>
-
-    <dt><g:message code="homeFolder.individual.property.firstName" /> : </dt>
-    <dd>${it.firstName}</dd>
-    -->
     <dt><g:message code="homeFolder.adult.property.familyStatus" /> : </dt>
     <dd> <g:capdematEnumToField var="${it.familyStatus}" i18nKeyPrefix="homeFolder.adult.familyStatus" /></dd>
 
@@ -53,13 +43,6 @@
   <div class="account-fieldset-edit">
   <h4>${it.firstName} ${it.lastName}</h4>
   <dl>
-    <!--
-    <dt><g:message code="homeFolder.individual.property.lastName" /> : </dt>
-    <dd>${it.lastName}</dd>
-
-    <dt><g:message code="homeFolder.individual.property.firstName" /> : </dt>
-    <dd>${it.firstName}</dd>
-    -->
     <dt><g:message code="homeFolder.child.property.sex" /> : </dt>
     <dd><g:capdematEnumToField var="${it.sex}" i18nKeyPrefix="homeFolder.child.property.sex" /></dd>
 

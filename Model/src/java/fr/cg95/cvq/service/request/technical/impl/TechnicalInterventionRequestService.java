@@ -18,6 +18,7 @@ public class TechnicalInterventionRequestService extends RequestService
         return request instanceof TechnicalInterventionRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         TechnicalInterventionRequest request = new TechnicalInterventionRequest();
         if (SecurityContext.getCurrentEcitizen() != null) {
@@ -26,8 +27,10 @@ public class TechnicalInterventionRequestService extends RequestService
         return request;
     }
 
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
-        filledConditions.put("interventionType", new EqualityListChecker(Arrays.asList("other", "Other", "Autre", "autre")));
+        filledConditions.put("interventionType", 
+                new EqualityListChecker(Arrays.asList("other", "Other", "Autre", "autre")));
     }
 }

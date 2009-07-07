@@ -147,6 +147,7 @@ public class DocumentAdaptorService {
         def newDocBinary = new DocumentBinary()
         newDocBinary.data = request.getFile('documentData-0').bytes
         doc.datas.add(newDocBinary)
+        doc.ecitizenNote = request.getParameter("ecitizenNote")
         serializeDocument(doc, sessionUuid)
         return getDocument(doc.id, sessionUuid)
     }
@@ -157,9 +158,25 @@ public class DocumentAdaptorService {
         
         newDocBinary.data = request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes
         doc.datas[Integer.parseInt(docParam.dataPageNumber)] = newDocBinary
+        doc.ecitizenNote = request.getParameter("ecitizenNote")
         
         serializeDocument(doc, sessionUuid)
         return adaptDocument(doc)
+    }
+    
+    def deleteDocumentPage(docParam, request, sessionUuid) {
+        def pageNumber = Integer.valueOf(docParam.dataPageNumber)
+        def doc = deserializeDocument(docParam.id, sessionUuid)
+        doc.datas.remove(pageNumber)
+        doc.ecitizenNote = request.getParameter("ecitizenNote")
+        serializeDocument(doc, sessionUuid)
+        return adaptDocument(doc)    	
+    }
+    
+    def modifyDocumentNote(docParam, sessionUuid, ecitizenNote) {
+        def doc = deserializeDocument(docParam.id, sessionUuid)
+        doc.ecitizenNote = ecitizenNote
+        serializeDocument(doc, sessionUuid)
     }
     
     def deleteDocument(docId, sessionUuid) {

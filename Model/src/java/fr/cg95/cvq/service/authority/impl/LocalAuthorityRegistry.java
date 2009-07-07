@@ -1,5 +1,9 @@
 package fr.cg95.cvq.service.authority.impl;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -563,7 +567,19 @@ public class LocalAuthorityRegistry
         File jpeg = new File(StringUtils.removeEnd(png.getPath(), "png").concat("jpg"));
         try {
             jpeg.createNewFile();
-            ImageIO.write(ImageIO.read(png), "jpg", jpeg);
+            BufferedImage image = ImageIO.read(png);
+            if (image.getColorModel().getTransparency() != Transparency.OPAQUE) {
+                int w = image.getWidth();
+                int h = image.getHeight();
+                BufferedImage image2 = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+                Graphics2D g = image2.createGraphics();
+                g.setColor(Color.WHITE);
+                g.fillRect(0,0,w,h);
+                g.drawRenderedImage(image, null);
+                g.dispose();
+                image = image2;
+            }
+            ImageIO.write(image, "jpg", jpeg);
         } catch (IOException e) {
             logger.warn("generateJPEGLogo() failed to generate JPEG logo");
         }

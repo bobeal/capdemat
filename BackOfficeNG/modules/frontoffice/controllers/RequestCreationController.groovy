@@ -415,14 +415,6 @@ class RequestCreationController {
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
             ce.printStackTrace()
-//			session.doRollback = true
-//			def newCRequest = cRequest.clone()
-//			newCRequest.id = null
-//			cRequest = newCRequest
-//			cRequest.id = null
-//			if (requestTypeInfo.label == 'VO Card') {
-//				SecurityContext.resetCurrentEcitizen()
-//			}
             requestAdaptorService.stepState(cRequest.stepStates?.get(currentStep), 'invalid',
                     message(code:ExceptionUtils.getModelI18nKey(ce),
                     		args:ExceptionUtils.getModelI18nArgs(ce)))

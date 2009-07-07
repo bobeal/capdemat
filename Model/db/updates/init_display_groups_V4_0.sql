@@ -29,7 +29,8 @@ label = 'Military Census';
 UPDATE request_type SET
   display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'social' LIMIT 1)  
 WHERE label = 'Domestic Help' OR
-label = 'Handicap Allowance' OR
+label = 'Handicap Compensation Adult' OR
+label = 'Handicap Compensation Child' OR
 label = 'Remote Support';
 
 UPDATE request_type SET

@@ -89,9 +89,7 @@ class RequestCreationController {
             return false
         }
         
-        def cRequest
-        if (flash.cRequest) cRequest = flash.cRequest 
-        else cRequest = requestService.getSkeletonRequest()
+        def cRequest = flash.cRequest ? flash.cRequest : requestService.getSkeletonRequest()
         
         def requester = SecurityContext.currentEcitizen
         if (requester == null) {
@@ -122,7 +120,7 @@ class RequestCreationController {
         session[uuidString].individuals = individuals
         session[uuidString].newDocuments = newDocuments
         session[uuidString].documentCounter = 0
-        session[uuidString].draftVisible = false //(cRequest.draft && !flash.fromDraft)
+        session[uuidString].draftVisible = false
         
         def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
         render(view: viewPath, model: [
@@ -210,11 +208,12 @@ class RequestCreationController {
                 isDocumentEditMode = true
                 document = documentAdaptorService.getDocument(docParam.id, uuidString)
             }
-           else if (submitAction[1] == 'documentSave') {
+            else if (submitAction[1] == 'documentSave') {
                 def docParam = targetAsMap(submitAction[3]), index = 0, doc = null
                 
                 if (docParam.id != null) {
                     doc = documentAdaptorService.getDocument(docParam.id, uuidString)
+            	    documentAdaptorService.modifyDocumentNote(docParam, uuidString, params.ecitizenNote)
                     for (DocumentBinary page: (doc?.datas ? doc.datas : [])) {
                         if (request.getFile('documentData-' + (index + 1)).bytes.size() > 0) {
                             def modifyParam = targetAsMap("id:${doc.id}_dataPageNumber:${index}")
@@ -226,10 +225,12 @@ class RequestCreationController {
                 if (request.getFile('documentData-0').bytes.size() > 0) {
                     def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
                     if (docParam.id == null) 
-                        doc = makeDoument(docParam, uuidString)
+                        doc = makeDocument(docParam, uuidString)
                     doc = documentAdaptorService.addDocumentPage(addParam, doc, request, uuidString)
                 }
-                if (doc != null) newDocuments += doc.id
+                if (doc != null) {
+                	newDocuments += doc.id
+                }
                 isDocumentEditMode = false
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
@@ -257,7 +258,7 @@ class RequestCreationController {
             }
             else if (submitAction[1] == 'documentAddPage') {
                 def docParam = targetAsMap(submitAction[3])
-                def doc = makeDoument(docParam, uuidString)
+                def doc = makeDocument(docParam, uuidString)
                 document = documentAdaptorService.addDocumentPage(docParam, doc, request, uuidString)
                 documentType = documentAdaptorService.getDocumentType(document.documentType.id)
                 isDocumentEditMode = true
@@ -270,12 +271,8 @@ class RequestCreationController {
             }
             else if (submitAction[1] == 'documentDeletePage') {
                 def docParam = targetAsMap(submitAction[3])
-                def pageNumber = Integer.valueOf(docParam.dataPageNumber)
-                def doc = documentAdaptorService.deserializeDocument(docParam.id, uuidString)
-                doc.datas.remove(pageNumber)                
-                documentAdaptorService.serializeDocument(doc, uuidString)
-                document = documentAdaptorService.adaptDocument(doc)
-                documentType = documentAdaptorService.getDocumentType(doc.documentType.id)
+                document = documentAdaptorService.deleteDocumentPage(docParam, request, uuidString)
+                documentType = documentAdaptorService.getDocumentType(document.documentType.id)
                 isDocumentEditMode = true
             }
             // removal of a collection element
@@ -372,7 +369,7 @@ class RequestCreationController {
                 }
                 
                 if (currentStep == 'validation') {
-                    checkCaptcha (params);
+                    checkCaptcha(params)
                     // bind the selected means of contact into request
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
@@ -382,12 +379,10 @@ class RequestCreationController {
                     if (cRequest.id && !cRequest.draft) {
                         requestService.rewindWorkflow(cRequest)
                         parameters.isEdition = true
-                    }
-                    else if (requestTypeInfo.label == 'Home Folder Modification') {
+                    } else if (requestTypeInfo.label == 'Home Folder Modification') {
                         requestService.create(cRequest, objectToBind.requester.homeFolder.id)
                         requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
-                    }
-                    else if (requestTypeInfo.label == 'VO Card') {
+                    } else if (requestTypeInfo.label == 'VO Card') {
                         requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
                         securityService.setEcitizenSessionInformation(objectToBind.requester.login, session)
                     } else if (SecurityContext.currentEcitizen == null) { 
@@ -397,9 +392,12 @@ class RequestCreationController {
                     } else { 
                         requestService.finalizeDraft(cRequest)
                     }
+                    
                     if (params.requestNote && !params.requestNote.trim().isEmpty()) {
-                        requestService.addNote(cRequest.id, RequestNoteType.PUBLIC, params.requestNote)
+                        requestService.addNote(cRequest.id, RequestNoteType.PUBLIC, 
+                        		params.requestNote.trim())
                     }
+                    
                     session.removeAttribute(uuidString)
                     parameters.id = cRequest.id
                     parameters.label = requestTypeInfo.label
@@ -410,15 +408,24 @@ class RequestCreationController {
                     redirect(action:'exit', params:parameters)
                     return
                 }
-            }        
+            }
             session[uuidString].cRequest = cRequest
             session[uuidString].requester = objectToBind.requester
             session[uuidString].individuals = objectToBind.individuals
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
-//            ce.printStackTrace()
-            requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'invalid',
-                    message(code:ExceptionUtils.getModelI18nKey(ce),args:ExceptionUtils.getModelI18nArgs(ce)))
+            ce.printStackTrace()
+//			session.doRollback = true
+//			def newCRequest = cRequest.clone()
+//			newCRequest.id = null
+//			cRequest = newCRequest
+//			cRequest.id = null
+//			if (requestTypeInfo.label == 'VO Card') {
+//				SecurityContext.resetCurrentEcitizen()
+//			}
+            requestAdaptorService.stepState(cRequest.stepStates?.get(currentStep), 'invalid',
+                    message(code:ExceptionUtils.getModelI18nKey(ce),
+                    		args:ExceptionUtils.getModelI18nArgs(ce)))
         }
 
         render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",
@@ -572,7 +579,7 @@ class RequestCreationController {
     /* Document step
      * ------------------------------------------------------------------------------------------- */
      
-    def makeDoument(docParam, sessionUuid) {
+    def makeDocument(docParam, sessionUuid) {
         def doc
         if (docParam.id == null) {
             doc = new Document()

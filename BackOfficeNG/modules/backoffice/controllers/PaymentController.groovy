@@ -65,11 +65,7 @@ class PaymentController {
                 if (key == 'requesterLastName')
                     critere.comparatif = Critere.STARTSWITH
                 if (longKeys.contains(key)) {
-                    try {
-                        critere.value = Long.valueOf(value.trim())
-                    } catch (Exception e) {
-                        critere.value = null
-                    }
+                    critere.value = LongUtils.stringToLong(value.trim())
                 } else if (dateKeys.contains(key)) {
                     critere.value = DateUtils.stringToDate(value)
                     if (key == 'initDateFrom') {

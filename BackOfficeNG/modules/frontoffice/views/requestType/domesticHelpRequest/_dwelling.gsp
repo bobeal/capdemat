@@ -76,7 +76,7 @@
 
   
     <label class="required"><g:message code="dhr.property.dhrPreviousDwelling.label" /> <span><g:message code="dhr.property.dhrPreviousDwelling.help" /></span></label>
-    <div class="collection-fieldset required validation-scope">
+    <div class="collection-fieldset required validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'dhrPreviousDwelling' ? editList?.index : ( rqt.dhrPreviousDwelling ? rqt.dhrPreviousDwelling.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required">
     

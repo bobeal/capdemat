@@ -140,7 +140,7 @@
 
   
     <label class="required condition-isFamilyDependents-filled"><g:message code="hcar.property.familyDependents.label" /> <span><g:message code="hcar.property.familyDependents.help" /></span></label>
-    <div class="collection-fieldset required condition-isFamilyDependents-filled validation-scope">
+    <div class="collection-fieldset required condition-isFamilyDependents-filled validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'familyDependents' ? editList?.index : ( rqt.familyDependents ? rqt.familyDependents.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required condition-isFamilyDependents-filled">
     

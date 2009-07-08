@@ -94,7 +94,7 @@
 
   
     <label class="condition-isOtherFolders-filled"><g:message code="hcar.property.otherFolders.label" /> <span><g:message code="hcar.property.otherFolders.help" /></span></label>
-    <div class="collection-fieldset condition-isOtherFolders-filled validation-scope">
+    <div class="collection-fieldset condition-isOtherFolders-filled validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'otherFolders' ? editList?.index : ( rqt.otherFolders ? rqt.otherFolders.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add condition-isOtherFolders-filled">
     

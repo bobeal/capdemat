@@ -3,7 +3,7 @@
 
   
     <label class="required"><g:message code="prr.property.placeReservation.label" /> <span><g:message code="prr.property.placeReservation.help" /></span></label>
-    <div class="collection-fieldset required validation-scope">
+    <div class="collection-fieldset required validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'placeReservation' ? editList?.index : ( rqt.placeReservation ? rqt.placeReservation.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required">
     

@@ -40,7 +40,7 @@
 
   
     <label class="required"><g:message code="dhr.property.dhrRealAsset.label" /> <span><g:message code="dhr.property.dhrRealAsset.help" /></span></label>
-    <div class="collection-fieldset required validation-scope">
+    <div class="collection-fieldset required validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'dhrRealAsset' ? editList?.index : ( rqt.dhrRealAsset ? rqt.dhrRealAsset.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required">
     
@@ -117,7 +117,7 @@
 
   
     <label class="required"><g:message code="dhr.property.dhrNotRealAsset.label" /> <span><g:message code="dhr.property.dhrNotRealAsset.help" /></span></label>
-    <div class="collection-fieldset required validation-scope">
+    <div class="collection-fieldset required validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'dhrNotRealAsset' ? editList?.index : ( rqt.dhrNotRealAsset ? rqt.dhrNotRealAsset.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required">
     

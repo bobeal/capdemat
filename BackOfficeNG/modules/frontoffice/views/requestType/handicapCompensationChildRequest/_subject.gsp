@@ -228,7 +228,7 @@
 
   
     <label class="required condition-isReferentFamilyDependents-filled"><g:message code="hccr.property.familyDependents.label" /> <span><g:message code="hccr.property.familyDependents.help" /></span></label>
-    <div class="collection-fieldset required condition-isReferentFamilyDependents-filled validation-scope">
+    <div class="collection-fieldset required condition-isReferentFamilyDependents-filled validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'familyDependents' ? editList?.index : ( rqt.familyDependents ? rqt.familyDependents.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required condition-isReferentFamilyDependents-filled">
     

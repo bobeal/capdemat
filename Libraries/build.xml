@@ -112,6 +112,9 @@
 				<include name="spring-ws*.jar" />
 				<include name="spring-xml*.jar" />
 			</fileset>
+			<fileset dir="${common.lib.dir}">
+				<include name="commons-codec.jar" />
+			</fileset>
 		</copy>
 	</target>
 

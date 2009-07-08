@@ -50,6 +50,7 @@
     };
 
     var computeIncludeScope = function(form) {
+      if (form.id.split('-')[1] === "account") return false;
       var allEmpty = true;
       var subScopes = yud.getElementsByClassName("validation-scope", null, form);
       zct.each(subScopes, function() {

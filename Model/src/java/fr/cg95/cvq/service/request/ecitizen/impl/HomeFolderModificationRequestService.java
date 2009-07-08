@@ -401,7 +401,7 @@ public class HomeFolderModificationRequestService
         // clear history entries and persist changes in DB
         //////////////////////////////////////////////////
 
-        updateObjects(objectsToUpdate, objectsToRemove);
+        updateObjects(objectsToUpdate, objectsToRemove, homeFolderService.getById(request.getHomeFolderId()));
 
         int deletedEntries = historyEntryDAO.deleteEntries(hfmr.getId());
         logger.debug("validate() deleted " + deletedEntries + " history entries");
@@ -411,21 +411,27 @@ public class HomeFolderModificationRequestService
      * Do the real work of making the changes (update or delete) persistent.
      */
     private void updateObjects(final Set<Object> objectsToUpdate, 
-            final Set<Object> objectsToRemove)
-        throws CvqException {
+            final Set<Object> objectsToRemove, HomeFolder homeFolder) throws CvqException {
+
+        List<Individual> individuals = new ArrayList<Individual>(homeFolder.getIndividuals());
+
+        for (Object object : objectsToRemove) {
+            logger.debug("updateObjects() Removing " + object);
+            if (object instanceof Individual)
+                individuals.remove((Individual)object);
+            genericDAO.delete(object);
+        }
 
         for (Object object : objectsToUpdate) {
             logger.debug("updateObjects() Updating " + object);
             if (object instanceof Individual) {
-                Individual individual = (Individual) object;
-                HomeFolder homeFolder = individual.getHomeFolder();
-                if (homeFolder != null) {
-                    if (homeFolder.getIndividuals().contains((individual)))
-                        homeFolder.getIndividuals().set(homeFolder.getIndividuals().indexOf(individual), individual);
-                    else
-                        homeFolder.getIndividuals().add(individual);
-                }
+                Individual individual = (Individual)object;
+                if (individuals.contains((individual)))
+                    individuals.set(homeFolder.getIndividuals().indexOf(individual), individual);
+                else
+                    individuals.add(individual);
             }
+            homeFolder.setIndividuals(individuals);
 
             // only for children because new adults are written when calling
             // modify method (because we need their login and pwd)
@@ -434,11 +440,6 @@ public class HomeFolderModificationRequestService
                 Child child = (Child) object;
                 individualService.assignLogin(child);
             }
-        }
-
-        for (Object object : objectsToRemove) {
-            logger.debug("updateObjects() Removing " + object);
-            genericDAO.delete(object);
         }
     }
 
@@ -551,15 +552,7 @@ public class HomeFolderModificationRequestService
 
                     if (he.getNewValue() == null) {
                         logger.debug("restoreOriginalHomeFolder() an object was planned for removal, re-attach it");
-
-                        String oldValue = he.getOldValue();
-                        String oldHomeFolderId =
-                            oldValue.substring(oldValue.indexOf("id=") + 3, 
-                                    oldValue.lastIndexOf(']'));
-                        HomeFolder oldHomeFolder = 
-                            homeFolderService.getById(Long.valueOf(oldHomeFolderId));
-                        Object object = restoreOldProperty(he, HomeFolder.class, oldHomeFolder);
-
+                        Object object = genericDAO.findById(getClassFromHistoryEntry(he.getClazz()), he.getObjectId());
                         if (!objectsToRemove.contains(object))
                             objectsToUpdate.add(object);
                     } 
@@ -657,8 +650,7 @@ public class HomeFolderModificationRequestService
         }
 
         // clear history entries and persist changes in DB
-
-        updateObjects(objectsToUpdate, objectsToRemove);
+        updateObjects(objectsToUpdate, objectsToRemove, homeFolderService.getById(request.getHomeFolderId()));
 
         historyEntryDAO.deleteEntries(request.getId());
     }

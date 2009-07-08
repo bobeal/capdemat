@@ -311,7 +311,7 @@ public class ServiceTestCase
 
             // ensure all requests have been deleted after each test
             assertEquals(0, iRequestService.get(new HashSet<Critere>(), null, null, -1, 0).size());
-            assertEquals(0, iIndividualService.get(new HashSet<Critere>(), null, true));
+            assertEquals(0, iIndividualService.get(new HashSet<Critere>(), null, true).size());
 
             rollbackTransaction();
             SecurityContext.resetCurrentSite();

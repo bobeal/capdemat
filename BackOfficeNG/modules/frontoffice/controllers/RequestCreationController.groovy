@@ -79,7 +79,7 @@ class RequestCreationController {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
-        
+
         if (SecurityContext.currentEcitizen == null)
             flash.isOutOfAccountRequest = true
 
@@ -88,7 +88,7 @@ class RequestCreationController {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
-        
+
         def cRequest = flash.cRequest ? flash.cRequest : requestService.getSkeletonRequest()
         
         def requester = SecurityContext.currentEcitizen
@@ -96,13 +96,14 @@ class RequestCreationController {
             requester = new Adult()
             homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE)
         }
-        
+
+
         def individuals
         if (params.label != 'Home Folder Modification') individuals = new HomeFolderDTO()
         else individuals = new HomeFolderDTO(requester.homeFolder, getAllRoleOwners(requester.homeFolder))
-        
+
         def newDocuments = [] as Set
-        
+
         if (params.label == 'Home Folder Modification') {
             ["adults-required", "children", "foreignAdults", "account-required", "document", "validation"].each {
                 def nameToken = it.tokenize('-')
@@ -117,16 +118,18 @@ class RequestCreationController {
         session[uuidString] = [:]
         session[uuidString].cRequest = cRequest
         session[uuidString].requester = requester
+        session[uuidString].homeFolderResponsible = requester
         session[uuidString].individuals = individuals
         session[uuidString].newDocuments = newDocuments
         session[uuidString].documentCounter = 0
         session[uuidString].draftVisible = false
-        
+
         def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
         render(view: viewPath, model: [
             'isRequestCreation': true,
             'rqt': cRequest,
             'requester': requester,
+            'homeFolderResponsible' : requester,
             'individuals' : individuals,
             'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
             'draftVisible': session[uuidString].draftVisible,
@@ -164,6 +167,7 @@ class RequestCreationController {
         def objectToBind = [:]
         objectToBind.requester = SecurityContext.currentEcitizen != null ? 
             SecurityContext.currentEcitizen : session[uuidString].requester
+        objectToBind.homeFolderResponsible = session[uuidString].homeFolderResponsible
         objectToBind.individuals = session[uuidString].individuals
         
         def isDocumentEditMode = false
@@ -311,9 +315,9 @@ class RequestCreationController {
                         if (SecurityContext.currentEcitizen == null) homeFolderService.removeRole(adult, null, role)
                         else homeFolderService.removeRole(adult, null, homeFolderId, role)
                     }
-                    objectToBind.requester = owner
+                    objectToBind.homeFolderResponsible = owner
                 }
-                
+
                 if (SecurityContext.currentEcitizen == null) homeFolderService.addRole(owner, individual, role)
                 else homeFolderService.addRole(owner, individual, homeFolderId, role)
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
@@ -327,7 +331,7 @@ class RequestCreationController {
                 if (roleParam.individualIndex != null) {
                     individual = objectToBind.individuals."${roleParam.individualType}"[Integer.valueOf("${roleParam.individualIndex}")]
                 }
-                
+
                 if (SecurityContext.currentEcitizen == null) homeFolderService.removeRole(owner, individual, role)
                 else homeFolderService.removeRole(owner, individual, homeFolderId, role)
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
@@ -384,13 +388,13 @@ class RequestCreationController {
                         requestService.modify(cRequest, objectToBind.individuals.adults, 
                         		objectToBind.individuals.children, 
                         		objectToBind.individuals.foreignAdults, 
-                        		objectToBind.requester.adress, docs)
+                        		objectToBind.homeFolderResponsible.adress, docs)
                     } else if (requestTypeInfo.label == 'VO Card') {
                         requestService.create(cRequest, objectToBind.individuals.adults, 
                         		objectToBind.individuals.children, 
                         		objectToBind.individuals.foreignAdults, 
-                        		objectToBind.requester.adress, docs)
-                        securityService.setEcitizenSessionInformation(objectToBind.requester.login, 
+                        		objectToBind.homeFolderResponsible.adress, docs)
+                        securityService.setEcitizenSessionInformation(objectToBind.homeFolderResponsible.login, 
                         		session)
                     } else if (SecurityContext.currentEcitizen == null) { 
                         requestService.create(cRequest, objectToBind.requester, null, docs)
@@ -411,13 +415,15 @@ class RequestCreationController {
                     if (params.returnUrl != "") {
                         parameters.returnUrl = params.returnUrl
                     }
-                    parameters.canFollowRequest = params.'_requester.activeHomeFolder'
+                    parameters.canFollowRequest = params.'_homeFolderResponsible.activeHomeFolder'
+                    parameters.requesterLogin = objectToBind.homeFolderResponsible.login
                     redirect(action:'exit', params:parameters)
                     return
                 }
             }
             session[uuidString].cRequest = cRequest
             session[uuidString].requester = objectToBind.requester
+            session[uuidString].homeFolderResponsible = objectToBind.homeFolderResponsible
             session[uuidString].individuals = objectToBind.individuals
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
@@ -433,11 +439,12 @@ class RequestCreationController {
                      'askConfirmCancel': askConfirmCancel, 
                      'rqt': cRequest,
                      'requester': objectToBind.requester,
+                     'homeFolderResponsible': objectToBind.homeFolderResponsible,
                      'individuals' : objectToBind.individuals,
                      'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
                      'draftVisible': session[uuidString].draftVisible,                     
                      'subjects': getAuthorizedSubjects(requestService, cRequest),
-                     'meansOfContact': getMeansOfContact(meansOfContactService, objectToBind.requester),
+                     'meansOfContact': getMeansOfContact(meansOfContactService, objectToBind.homeFolderResponsible),
                      'currentStep': currentStep,
                      'stepStates': cRequest.stepStates,
                      'uuidString': uuidString,
@@ -494,13 +501,12 @@ class RequestCreationController {
     def exit = {
         def requestService = requestServiceRegistry.getRequestService(params.label)
         def cRequest = requestService.getById(Long.parseLong(params.id))
-        def requester = individualService.getById(cRequest.requesterId)
         render( view: "frontofficeRequestType/exit",
                 model:
                     ['translatedRequestTypeLabel': translationService.translateRequestTypeLabel(cRequest.requestType.label).encodeAsHTML(),
                      'requestTypeLabel': cRequest.requestType.label,
                      'requestId': cRequest.id,
-                     'requesterLogin': requester.login,
+                     'requesterLogin': params.requesterLogin,
                      'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card'),
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
                      'isEdition' : params.isEdition
@@ -550,8 +556,8 @@ class RequestCreationController {
         def paramKeyPrefix = params.objectToBind ? params.objectToBind : ''
         params.each { param ->
             if (param.value.getClass() == GrailsParameterMap.class && param.key == '_' + paramKeyPrefix) {
-                if (paramKeyPrefix == 'requester')
-                    checkRequesterPassword(param.value)
+                if (paramKeyPrefix == 'homeFolderResponsible')
+                    checkAdultPassword(param.value)
                 DataBindingUtils.initBind(object, param.value)
                 bindParam (object, param.value)
                 DataBindingUtils.cleanBind(object, param.value)
@@ -559,7 +565,7 @@ class RequestCreationController {
         }
     }
     
-    def checkRequesterPassword (params) {
+    def checkAdultPassword (params) {
         flash.activeHomeFolder = params.activeHomeFolder == 'true' ? true : false
         if (params.password == null || params.activeHomeFolder == 'false')
             return

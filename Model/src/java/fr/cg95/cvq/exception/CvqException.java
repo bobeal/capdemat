@@ -8,6 +8,7 @@ package fr.cg95.cvq.exception;
 public class CvqException extends Exception {
 
     private static final long serialVersionUID = 1L;
+    
     private String i18nKey;
     private String[] i18nArgs;
 

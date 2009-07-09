@@ -51,7 +51,7 @@ class RequestCreationController {
         flash.fromDraft = true
         def targetAction
         def newParams = [:]
-        if(request.post) {
+        if (request.post) {
             requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
             def cRequest = session[params.uuidString].cRequest
             cRequest.homeFolderId = SecurityContext.getCurrentEcitizen().getHomeFolder().getId()
@@ -377,20 +377,27 @@ class RequestCreationController {
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
                     def parameters = [:]
                     if (cRequest.id && !cRequest.draft) {
-                        requestService.rewindWorkflow(cRequest)
+                        requestService.rewindWorkflow(cRequest, docs)
                         parameters.isEdition = true
                     } else if (requestTypeInfo.label == 'Home Folder Modification') {
                         requestService.create(cRequest, objectToBind.requester.homeFolder.id)
-                        requestService.modify(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
+                        requestService.modify(cRequest, objectToBind.individuals.adults, 
+                        		objectToBind.individuals.children, 
+                        		objectToBind.individuals.foreignAdults, 
+                        		objectToBind.requester.adress, docs)
                     } else if (requestTypeInfo.label == 'VO Card') {
-                        requestService.create(cRequest, objectToBind.individuals.adults, objectToBind.individuals.children, objectToBind.individuals.foreignAdults, objectToBind.requester.adress, docs)
-                        securityService.setEcitizenSessionInformation(objectToBind.requester.login, session)
+                        requestService.create(cRequest, objectToBind.individuals.adults, 
+                        		objectToBind.individuals.children, 
+                        		objectToBind.individuals.foreignAdults, 
+                        		objectToBind.requester.adress, docs)
+                        securityService.setEcitizenSessionInformation(objectToBind.requester.login, 
+                        		session)
                     } else if (SecurityContext.currentEcitizen == null) { 
                         requestService.create(cRequest, objectToBind.requester, null, docs)
                     } else if (!cRequest.draft) { 
                         requestService.create(cRequest, docs)
                     } else { 
-                        requestService.finalizeDraft(cRequest)
+                        requestService.finalizeDraft(cRequest, docs)
                     }
                     
                     if (params.requestNote && !params.requestNote.trim().isEmpty()) {
@@ -415,14 +422,6 @@ class RequestCreationController {
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
             ce.printStackTrace()
-//			session.doRollback = true
-//			def newCRequest = cRequest.clone()
-//			newCRequest.id = null
-//			cRequest = newCRequest
-//			cRequest.id = null
-//			if (requestTypeInfo.label == 'VO Card') {
-//				SecurityContext.resetCurrentEcitizen()
-//			}
             requestAdaptorService.stepState(cRequest.stepStates?.get(currentStep), 'invalid',
                     message(code:ExceptionUtils.getModelI18nKey(ce),
                     		args:ExceptionUtils.getModelI18nArgs(ce)))

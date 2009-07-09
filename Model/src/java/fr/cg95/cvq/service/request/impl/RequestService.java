@@ -517,9 +517,10 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void finalizeDraft(Request request) throws CvqException {
+    public void finalizeDraft(Request request, List<Document> documents) throws CvqException {
         request.setDraft(false);
         modifyDraft(request);
+        addDocuments(request, documents);
     }
     
     protected boolean isSubjectChanged(Request request) {
@@ -570,17 +571,16 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         }
     }
 
+    @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public Long create(Request request)
-        throws CvqException, CvqObjectNotFoundException {
-
+    public Long create(Request request) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen(), null);
-        
         return finalizeAndPersist(request);
     }
 
-    public Long create(Request request, List<Document> documents)
-        throws CvqException, CvqObjectNotFoundException {
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public Long create(Request request, List<Document> documents) throws CvqException {
         Long requestId = create(request);
         addDocuments(request, documents);
         return requestId;
@@ -605,21 +605,19 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
     public Long create(Request request, Adult requester, Individual subject)
         throws CvqException {
-        
         HomeFolder homeFolder = performBusinessChecks(request, requester, subject);
-        
         return finalizeAndPersist(request, homeFolder);
     }
     
+    @Override
+    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
     public Long create(Request request, Adult requester, Individual subject, 
-            List<Document> documents)
-        throws CvqException, CvqObjectNotFoundException {
-        HomeFolder homeFolder = performBusinessChecks(request, requester, subject);
+            List<Document> documents) throws CvqException {
         
+        HomeFolder homeFolder = performBusinessChecks(request, requester, subject);
         SecurityContext.setCurrentEcitizen(
                 homeFolderService.getHomeFolderResponsible(homeFolder.getId()));
         addDocuments(request, documents);
-        
         return finalizeAndPersist(request, homeFolder);
     }
     
@@ -1069,9 +1067,10 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void rewindWorkflow(Request request)
+    public void rewindWorkflow(Request request, List<Document> documents)
         throws CvqException {
         requestWorkflowService.rewindWorkflow(request);
+        addDocuments(request, documents);
     }
 
     @Override

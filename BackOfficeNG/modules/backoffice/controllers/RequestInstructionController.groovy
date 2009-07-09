@@ -72,8 +72,7 @@ class RequestInstructionController {
 
     def edit = {
         def request = defaultRequestService.getById(Long.valueOf(params.id))
-        def requester = individualService.getById(request.requesterId)     
-
+        def requester = request.requesterId != null ? individualService.getById(request.requesterId) : null
         def documentList = []
         def providedDocumentTypes = []
         def requestDocuments = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.id))
@@ -567,7 +566,10 @@ class RequestInstructionController {
     // TODO : rename action
     def contactInformation = {
         def request = defaultRequestService.getById(Long.valueOf(params.id))
-        Adult requester = individualService.getById(request.requesterId)
+        // FIXME RDJ - if no requester use homefolder responsible
+        Adult requester
+        if (request.requesterId != null) requester = individualService.getById(request.requesterId)
+        else requester = homeFolderService.getHomeFolderResponsible(request.homeFolderId)
 
         def requesterMeansOfContacts = []
         meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
@@ -673,8 +675,12 @@ class RequestInstructionController {
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         def form = requestTypeService.getRequestFormById(Long.valueOf(formId))
         Request request = defaultRequestService.getById(Long.valueOf(requestId))
-            
-        Adult requester = individualService.getById(request.requesterId)
+
+        // FIXME RDJ - if no requester use homefolder responsible     
+        Adult requester
+        if (request.requesterId != null) requester = individualService.getById(request.requesterId)
+        else requester = homeFolderService.getHomeFolderResponsible(request.homeFolderId)
+
         def address = requester.getHomeFolder().getAdress()
         def subjectObject = null
         if (request.subjectId) {

@@ -299,7 +299,7 @@
             <g:message code="request.step.note.desc" />
             <textarea name="requestNote" rows="" cols=""></textarea>
 			<h3><g:message code="request.step.validation.label" /></h3>
-            <g:if test="${!hasHomeFolder}">
+            <g:if test="${!hasHomeFolder || homeFolderResponsible.password == null}">
               <g:render template="/frontofficeRequestType/outOfAccountValidation" />
             </g:if>
             

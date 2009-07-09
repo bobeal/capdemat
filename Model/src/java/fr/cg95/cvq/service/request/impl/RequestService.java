@@ -1130,7 +1130,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     
     protected void initFilledConditions() {
         filledConditions = new HashMap<String,IConditionChecker>();
-        filledConditions.put("_requester.activeHomeFolder", new EqualityChecker("true"));
+        filledConditions.put("_homeFolderResponsible.activeHomeFolder", new EqualityChecker("true"));
     }
     
     public boolean isConditionFilled (Map<String, String> triggers) {

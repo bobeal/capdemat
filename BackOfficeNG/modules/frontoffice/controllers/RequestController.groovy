@@ -75,7 +75,7 @@ class RequestController {
         }
         def requestTypeLabel =
             translationService.translateRequestTypeLabel(request.requestType.label).encodeAsHTML()
-        def requester = individualService.getById(request.requesterId)
+        def requester = request.requesterId != null ? individualService.getById(request.requesterId) : null
         def subjects = [:]
         subjects[request.subjectId] = "${request.subjectLastName} ${request.subjectFirstName}"
         return ['rqt': request,

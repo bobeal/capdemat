@@ -167,7 +167,7 @@
 <% elementList.each { element -> %>
   <% if (element.typeClass == "COLLECTION") { %>
     <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
-    <div class="collection-fieldset ${element.listenerConditionsClass} validation-scope">
+    <div class="collection-fieldset ${element.listenerConditionsClass} validation-scope summary-box">
       <g:set var="listIndex" value="\${editList?.name == '${element.javaFieldName}' ? editList?.index : ( rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add ${element.conditionsClass}">
     <% element.elements.each { subElement -> %>

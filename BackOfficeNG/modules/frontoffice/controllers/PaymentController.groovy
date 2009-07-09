@@ -12,6 +12,7 @@ import fr.cg95.cvq.business.users.payment.Payment
 import fr.cg95.cvq.business.users.payment.PaymentState
 import fr.cg95.cvq.payment.IPaymentService
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
@@ -25,6 +26,7 @@ class PaymentController {
     IHomeFolderService homeFolderService
     IIndividualService individualService
     IPaymentService paymentService
+    ILocalAuthorityRegistry localAuthorityRegistry
     Adult ecitizen
     
     def maxRows = 10
@@ -32,6 +34,10 @@ class PaymentController {
     def state = [:]
 
     def beforeInterceptor = {
+        if (params.action != "history" && !localAuthorityRegistry.isPaymentEnabled()) {
+            render(view : "index", model : ["displayedMessage" : localAuthorityRegistry.getCurrentLocalAuthorityResource(
+                ILocalAuthorityRegistry.HTML_RESOURCE_TYPE,"paymentlackmessage.html",false)?.getText()])
+        }
         this.errorMessage = message(code:'message.invalidFormat')
         this.ecitizen = SecurityContext.getCurrentEcitizen();
         

@@ -1,6 +1,7 @@
 import fr.cg95.cvq.business.users.payment.PaymentState
 import fr.cg95.cvq.business.users.payment.PaymentMode
 import fr.cg95.cvq.payment.IPaymentService
+import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.util.Critere
 
@@ -28,6 +29,34 @@ class PaymentController {
     }
     
     def configure = {
+        return false
+    }
+
+    def deactivation = {
+        if (request.get) {
+            def paymentDeactivationStartDate = SecurityContext.currentSite.paymentDeactivationStartDate
+            def paymentDeactivationEndDate = SecurityContext.currentSite.paymentDeactivationEndDate
+            def inactive = paymentDeactivationStartDate || paymentDeactivationEndDate
+            if (!inactive) paymentDeactivationStartDate = new Date()
+            render(template : "deactivation", model : [
+                "inactive" : inactive,
+                "paymentDeactivationStartDate" : paymentDeactivationStartDate,
+                "paymentDeactivationEndDate" : paymentDeactivationEndDate
+            ])
+            return false
+        } else if (request.post) {
+            if (!params.inactive) {
+                SecurityContext.currentSite.paymentDeactivationStartDate = null
+                SecurityContext.currentSite.paymentDeactivationEndDate = null
+            } else {
+                bind(SecurityContext.currentSite)
+            }
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            return false
+        }
+    }
+
+    def displayedMessage = {
         def name = "paymentlackmessage.html"
         File file = localAuthorityRegistry.getCurrentLocalAuthorityResource(
             ILocalAuthorityRegistry.HTML_RESOURCE_TYPE,name,false)
@@ -49,7 +78,7 @@ class PaymentController {
 
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } else {
-            render(view:'configure',model:[editorContent:file.getText()])
+            render(template:'displayedMessage',model:[editorContent:file.getText()])
         }
     }
 

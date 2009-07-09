@@ -50,6 +50,7 @@
     };
 
     var computeIncludeScope = function(form) {
+      if (form.id.split('-')[1] === "account") return false;
       var allEmpty = true;
       var subScopes = yud.getElementsByClassName("validation-scope", null, form);
       zct.each(subScopes, function() {
@@ -57,7 +58,11 @@
           return (zct.inArray(el.nodeName, ["INPUT", "SELECT", "TEXTAREA"]) > -1 && zct.inArray(el.type, ["submit", "hidden"]) == -1);
         }, null, this);
         zct.each(inputs, function() {
-          allEmpty = allEmpty && (zct.val(this) === "");
+          if (zct.inArray(this.type, ["checkbox", "radio"]) != -1) {
+            allEmpty = allEmpty && !this.checked;
+          } else {
+            allEmpty = allEmpty && (zct.val(this) === "");
+          }
         });
       });
       if (!allEmpty) return undefined;

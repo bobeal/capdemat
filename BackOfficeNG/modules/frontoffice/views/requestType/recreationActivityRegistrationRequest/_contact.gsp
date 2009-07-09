@@ -3,7 +3,7 @@
 
   
     <label class=""><g:message code="rarr.property.contactIndividuals.label" /> <span><g:message code="rarr.property.contactIndividuals.help" /></span></label>
-    <div class="collection-fieldset  validation-scope">
+    <div class="collection-fieldset  validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'contactIndividuals' ? editList?.index : ( rqt.contactIndividuals ? rqt.contactIndividuals.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add ">
     

@@ -261,4 +261,9 @@ public interface ILocalAuthorityRegistry {
     @Deprecated
     void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
         throws CvqException;
+
+    /**
+     * Indicates if payments are enabled or disabled for current local authority
+     */
+    boolean isPaymentEnabled();
 }

@@ -36,7 +36,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         super.onSetUp();
         requestSeasonsJob = super.<RequestSeasonsJob>getApplicationBean("requestSeasonsJob");
         schoolRegistrationRequestService =
-            super.<ISchoolRegistrationRequestService>getApplicationBean(ISchoolRegistrationRequestService.SERVICE_NAME);
+            super.<ISchoolRegistrationRequestService>getApplicationBean("schoolRegistrationRequestService");
     }
     
     /**

@@ -20,8 +20,6 @@ import fr.cg95.cvq.service.request.IRequestService;
  */
 public interface IHomeFolderModificationRequestService extends IRequestService {
 
-    public final String SERVICE_NAME = "homeFolderModificationRequestService";
-
     /**
      * Create an home folder modification request in DB.
      *

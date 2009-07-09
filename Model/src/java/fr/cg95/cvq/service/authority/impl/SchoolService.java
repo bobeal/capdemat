@@ -23,7 +23,6 @@ public class SchoolService implements ISchoolService {
 
     private ISchoolDAO schoolDAO;
 
-    @Deprecated
     public School getByName(final String schoolName)
         throws CvqException {
         return schoolDAO.findByName(schoolName);

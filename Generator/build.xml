@@ -88,7 +88,7 @@
     <xmlbean destfile="${build.archives.dir}/${application.name}-RequestSchemas-${application.version}.jar"
       classpathref="classpath.compile">
       <fileset refid="generated-requests" />
-      <!-- add XSD of non completely generated requests -->
+      <!-- add XSD of not generated requests -->
       <fileset dir="${src.xml.schema.dir}/request">
         <include name="VoCardRequest.xsd" />
         <include name="HomeFolderModificationRequest.xsd" />
@@ -138,13 +138,12 @@
     </taskdef>
 
     <generator>
-      <!--
       <fileset refid="generated-requests" />
-      -->
+      <!--
       <fileset id="generated-requests" dir="${src.xml.schema.dir}/request">
       	<include name="StudyGrantRequest.xsd" />
       </fileset>
-      
+      -->
       <plugins>
         <fileset dir="${src.xml.plugins.dir}">
           <include name="fong_plugin.xml" />
@@ -152,9 +151,7 @@
           <include name="model_plugin.xml" />
           <include name="i18n_plugin.xml" />
           <include name="enumeration_plugin.xml" />
-          <!--
           <include name="xslfo_plugin.xml" />
-          -->
         </fileset>
       </plugins>
     </generator>
@@ -218,7 +215,7 @@
       </packageset>
 
       <doctitle><![CDATA[<h1>${application.name}-${module.name}</h1>]]></doctitle>
-      <bottom><![CDATA[<i>Benoit Orihuela, René Le Clercq, 2004-2007.</i>]]></bottom>
+      <bottom><![CDATA[<i>Benoit Orihuela, Rafik Djedjig 2004-2009.</i>]]></bottom>
       <tag name="todo" scope="all" description="TODO :" />
       <tag name="fixme" scope="all" description="FIXME :" />
     </javadoc>
@@ -240,7 +237,7 @@
       <fileset dir="${src.xml.schema.dir}/referential" />
       <fileset dir="${src.xml.schema.dir}/certificate" />
       <fileset refid="generated-requests" />
-      <!-- add XSD of non completely generated requests -->
+      <!-- add XSD of not completely generated requests -->
       <fileset dir="${src.xml.schema.dir}/request">
     <include name="VoCardRequest.xsd" />
     <include name="HomeFolderModificationRequest.xsd" />

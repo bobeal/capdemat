@@ -15,9 +15,6 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
  */
 public interface ICategoryService {
 
-    /** category name used by Spring's application context */
-    String SERVICE_NAME = "categoryService";
-
     /**
      * Update the list of requests types handled by a given category.
      */

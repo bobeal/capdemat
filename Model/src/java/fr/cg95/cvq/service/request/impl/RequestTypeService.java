@@ -504,7 +504,7 @@ public class RequestTypeService implements IRequestTypeService {
     }
 
     protected boolean requestTypeContainsForm(RequestType type, RequestForm form) {
-        for(RequestForm f : (Set<RequestForm>)type.getForms()) {
+        for (RequestForm f : type.getForms()) {
             if(f.getId().equals(form.getId())) return true;
         }
 
@@ -526,7 +526,7 @@ public class RequestTypeService implements IRequestTypeService {
         RequestForm requestForm =
             (RequestForm) requestFormDAO.findById(RequestForm.class, requestFormId);
 
-        for(RequestType t : (Set<RequestType>)requestForm.getRequestTypes())
+        for(RequestType t : requestForm.getRequestTypes())
             t.getForms().remove(requestForm);
 
         requestFormDAO.delete(requestForm);

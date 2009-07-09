@@ -15,7 +15,7 @@ public class PaymentServiceBean {
     protected String friendlyLabel;
     
     /** a map of service specific properties. */
-    protected Map serviceProperties;
+    protected Map<String, Object> serviceProperties;
 
     /** a list of request types this service is interested in. */
     protected List<String> requestTypes;
@@ -27,7 +27,7 @@ public class PaymentServiceBean {
         return serviceProperties.get(propertyName);
     }
 
-    public final void setServiceProperties(final Map serviceProperties) {
+    public final void setServiceProperties(final Map<String, Object>  serviceProperties) {
         this.serviceProperties = serviceProperties;
     }
 

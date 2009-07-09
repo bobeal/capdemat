@@ -19,9 +19,6 @@ import fr.cg95.cvq.util.Critere;
  */
 public interface IAgentService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "agentService";
-
     String SEARCH_BY_SERVICE_ID = "id";
     String SEARCH_BY_CATEGORY_ID = "categoryId";
     String SEARCH_BY_LOGIN = "login";

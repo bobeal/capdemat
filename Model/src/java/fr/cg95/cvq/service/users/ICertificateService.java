@@ -14,9 +14,6 @@ import fr.cg95.cvq.exception.CvqException;
  */
 public interface ICertificateService {
 
-    /** service name used by Spring's application context */
-    public final String SERVICE_NAME = "certificateService";
-
     /**
      * Generate a certificate for the given XML node using the given XSL-FO stylesheet file.
      *

@@ -2,7 +2,6 @@ package fr.cg95.cvq.business.request;
 
 import java.io.Serializable;
 import java.util.Set;
-import java.util.List;
 
 /**
  * @hibernate.class

@@ -43,7 +43,7 @@ public class RequestForm implements Serializable {
     private String xslFoFilename;
 
     /** the request types that use this form */
-    private Set requestTypes;
+    private Set<RequestType> requestTypes;
 
     /** default constructor */
     public RequestForm() {
@@ -85,11 +85,11 @@ public class RequestForm implements Serializable {
      *  class="fr.cg95.cvq.business.request.RequestType"
      *  column="request_type_id"
      */
-    public Set getRequestTypes() {
+    public Set<RequestType> getRequestTypes() {
         return this.requestTypes;
     }
 
-    public void setRequestTypes(Set requestTypes) {
+    public void setRequestTypes(Set<RequestType> requestTypes) {
         this.requestTypes = requestTypes;
     }
 

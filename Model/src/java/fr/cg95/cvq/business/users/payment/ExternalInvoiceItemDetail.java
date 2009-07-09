@@ -1,12 +1,14 @@
 package fr.cg95.cvq.business.users.payment;
 
+import java.math.BigDecimal;
+
 public class ExternalInvoiceItemDetail {
 
     private String subjectName;
     private String subjectSurname;
     private String label;
     private Integer unitPrice;
-    private Integer quantity;
+    private BigDecimal quantity;
     private Integer value;
     
     public ExternalInvoiceItemDetail() {
@@ -28,11 +30,11 @@ public class ExternalInvoiceItemDetail {
         this.label = label;
     }
 
-    public final Integer getQuantity() {
+    public final BigDecimal getQuantity() {
         return quantity;
     }
 
-    public final void setQuantity(Integer quantity) {
+    public final void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 

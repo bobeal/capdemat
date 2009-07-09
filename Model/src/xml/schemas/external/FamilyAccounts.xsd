@@ -187,6 +187,13 @@
         </xs:documentation>
       </xs:annotation>          
     </xs:attribute>
+    <xs:attribute name="invoice-total-value" type="xs:int">
+      <xs:annotation>
+        <xs:documentation>
+          The total value (in cents of euros) of the invoice (including what has already been paid)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="invoice-label" type="xs:string" >
       <xs:annotation>
         <xs:documentation>

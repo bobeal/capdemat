@@ -90,7 +90,9 @@
   margin: 0 .3em;
   cursor: pointer;
 }
+
 .editableList li a.calendarLink, a.calendarLink { float : left; margin : 0.5em 0 0 0; }
+p.field a.calendarLink { float : none; }
 .editableList li a span            { display: none; }
 .editableList li a.link-close span { display : inline; }
 .editableList li a.associate       { background-image: url(../../images/icons/16-associate.png); }

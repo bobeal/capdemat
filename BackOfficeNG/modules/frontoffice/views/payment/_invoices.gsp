@@ -7,6 +7,11 @@
           ${record.label} <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}
           (<g:message code="message.ref"/> ${record.externalItemId})
         </p>
+        <g:if test="${record.totalValue && record.totalValue != record.amount}">
+          <p>
+            <g:message code="payment.header.totalValue" /> : ${record.totalValue / 100} €
+          </p>
+        </g:if>
         <p>
           <g:message code="payment.header.issueAt"/>
           <g:formatDate date="${record.issueDate}" formatName="format.date"/> - 

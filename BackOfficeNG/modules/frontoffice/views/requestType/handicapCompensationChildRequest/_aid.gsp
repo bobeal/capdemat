@@ -22,7 +22,7 @@
 
   
     <label class="required condition-isFamilyAssistance-filled"><g:message code="hccr.property.familyAssistanceMembers.label" /> <span><g:message code="hccr.property.familyAssistanceMembers.help" /></span></label>
-    <div class="collection-fieldset required condition-isFamilyAssistance-filled validation-scope">
+    <div class="collection-fieldset required condition-isFamilyAssistance-filled validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'familyAssistanceMembers' ? editList?.index : ( rqt.familyAssistanceMembers ? rqt.familyAssistanceMembers.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required condition-isFamilyAssistance-filled">
     
@@ -93,7 +93,7 @@
 
   
     <label class="condition-isHomeIntervenant-filled"><g:message code="hccr.property.homeIntervenants.label" /> <span><g:message code="hccr.property.homeIntervenants.help" /></span></label>
-    <div class="collection-fieldset condition-isHomeIntervenant-filled validation-scope">
+    <div class="collection-fieldset condition-isHomeIntervenant-filled validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'homeIntervenants' ? editList?.index : ( rqt.homeIntervenants ? rqt.homeIntervenants.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add condition-isHomeIntervenant-filled">
     
@@ -165,7 +165,7 @@
 
   
     <label class="required condition-isCareServices-filled"><g:message code="hccr.property.careServices.label" /> <span><g:message code="hccr.property.careServices.help" /></span></label>
-    <div class="collection-fieldset required condition-isCareServices-filled validation-scope">
+    <div class="collection-fieldset required condition-isCareServices-filled validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'careServices' ? editList?.index : ( rqt.careServices ? rqt.careServices.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required condition-isCareServices-filled">
     
@@ -385,7 +385,7 @@
 
   
     <label class="condition-isProfessionals-filled"><g:message code="hccr.property.professionals.label" /> <span><g:message code="hccr.property.professionals.help" /></span></label>
-    <div class="collection-fieldset condition-isProfessionals-filled validation-scope">
+    <div class="collection-fieldset condition-isProfessionals-filled validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'professionals' ? editList?.index : ( rqt.professionals ? rqt.professionals.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add condition-isProfessionals-filled">
     

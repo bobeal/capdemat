@@ -27,10 +27,11 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
     /** only available for already paid invoices */
     private Date paymentDate;
     private Boolean isPaid;
-    
+    private Double totalValue;
+
     private Set<ExternalInvoiceItemDetail> invoiceDetails;
     
-    public ExternalInvoiceItem(final String label, final Double amount,
+    public ExternalInvoiceItem(final String label, final Double amount, final Double totalValue,
             final String externalServiceLabel, final String externalItemId,
             final Date issueDate, final Date expirationDate, final Date paymentDate,
             final Boolean isPaid, final String broker) {
@@ -39,6 +40,7 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
         this.expirationDate = expirationDate;
         this.paymentDate = paymentDate;
         this.isPaid = isPaid;
+        this.totalValue = totalValue;
     }
 
     public ExternalInvoiceItem() {
@@ -125,5 +127,13 @@ public class ExternalInvoiceItem extends ExternalAccountItem {
 
     public final void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
+    }
+
+    public Double getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(Double totalValue) {
+        this.totalValue = totalValue;
     }
 }

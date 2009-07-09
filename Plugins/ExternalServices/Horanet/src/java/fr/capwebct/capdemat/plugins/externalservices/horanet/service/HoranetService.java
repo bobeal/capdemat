@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -469,8 +470,8 @@ public class HoranetService implements IExternalProviderService {
 
                 ExternalInvoiceItem eii = 
                     new ExternalInvoiceItem(label, Double.valueOf(billAmount),
-                            getLabel(), billId, billIssueDate, billExpirationDate, 
-                            billPaymentDate, isPayed, null);
+                            null, getLabel(), billId, billIssueDate,
+                            billExpirationDate, billPaymentDate, isPayed, null);
                 bills.add(eii);
             }
             results.put(IPaymentService.EXTERNAL_INVOICES, bills);
@@ -761,7 +762,7 @@ public class HoranetService implements IExternalProviderService {
                         } else if (childNode.getNodeName().equals("value")) {
                             eiiDetail.setValue(Integer.valueOf(childNode.getTextContent()));
                         } else if (childNode.getNodeName().equals("quantity")) {
-                            eiiDetail.setQuantity(Integer.valueOf(childNode.getTextContent()));
+                            eiiDetail.setQuantity(new BigDecimal(childNode.getTextContent()));
                         } else if (childNode.getNodeName().equals("unit-price")) {
                             eiiDetail.setUnitPrice(Integer.valueOf(childNode.getTextContent()));
                         }

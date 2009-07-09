@@ -3,7 +3,7 @@
 
   
     <label class=""><g:message code="rarr.property.authorizedIndividuals.label" /> <span><g:message code="rarr.property.authorizedIndividuals.help" /></span></label>
-    <div class="collection-fieldset  validation-scope">
+    <div class="collection-fieldset  validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'authorizedIndividuals' ? editList?.index : ( rqt.authorizedIndividuals ? rqt.authorizedIndividuals.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add ">
     

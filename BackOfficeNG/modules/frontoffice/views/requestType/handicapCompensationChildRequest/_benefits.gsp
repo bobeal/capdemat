@@ -322,7 +322,7 @@
 
   
     <label class="condition-isOtherBenefits-filled"><g:message code="hccr.property.otherBenefits.label" /> <span><g:message code="hccr.property.otherBenefits.help" /></span></label>
-    <div class="collection-fieldset condition-isOtherBenefits-filled validation-scope">
+    <div class="collection-fieldset condition-isOtherBenefits-filled validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'otherBenefits' ? editList?.index : ( rqt.otherBenefits ? rqt.otherBenefits.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add condition-isOtherBenefits-filled">
     
@@ -356,7 +356,7 @@
 
   
     <label class=""><g:message code="hccr.property.additionalFee.label" /> <span><g:message code="hccr.property.additionalFee.help" /></span></label>
-    <div class="collection-fieldset  validation-scope">
+    <div class="collection-fieldset  validation-scope summary-box">
       <g:set var="listIndex" value="${editList?.name == 'additionalFee' ? editList?.index : ( rqt.additionalFee ? rqt.additionalFee.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add ">
     

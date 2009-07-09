@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +29,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.fop.image.FopImageFactory;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -850,5 +854,17 @@ public class LocalAuthorityRegistry
     
     public void setLocalAuthoritiesListFilename(final String localAuthoritiesListFilename) {
         this.localAuthoritiesListFilename = localAuthoritiesListFilename;
+    }
+
+    public boolean isPaymentEnabled() {
+        DateMidnight start = null;
+        DateMidnight end = null;
+        if (SecurityContext.getCurrentSite().getPaymentDeactivationStartDate() != null) {
+            start = new DateMidnight(SecurityContext.getCurrentSite().getPaymentDeactivationStartDate());
+        }
+        if (SecurityContext.getCurrentSite().getPaymentDeactivationEndDate() != null) {
+            end = new DateMidnight(SecurityContext.getCurrentSite().getPaymentDeactivationEndDate()).plusDays(1);
+        }
+        return !new Interval(start, end).containsNow();
     }
 }

@@ -5,6 +5,10 @@
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice', file:'payment.js')}"></script>
   </head>
   <body>
+    <g:if test="${displayedMessage}">
+      <div class="information-box">${displayedMessage}</div>
+    </g:if>
+    <g:else>
   <div id="yui-main">
     <div id="main" class="yui-b">
       <g:if test="${!invoices.isEmpty()}">
@@ -35,7 +39,7 @@
   <!-- end of yui-main -->
 
   <g:render template="cart"/>
-
+  </g:else>
   <div id="narrow" class="yui-b">
     <div class="narrow-box">
       <h3>

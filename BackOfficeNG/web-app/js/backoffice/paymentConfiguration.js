@@ -7,52 +7,75 @@
  *
  **/
 
+zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
+
 (function(){
-  
-  var yus = YAHOO.util.Selector;
-  var yue = YAHOO.util.Event;
+
   var zct = zenexity.capdemat.tools;
-  var zcc = zenexity.capdemat.common;
   var zcbet = zenexity.capdemat.bong.editor.toolbars;
-  
-  zct.namespace("zenexity.capdemat.bong.payment");
   var zcbp = zenexity.capdemat.bong.payment;
-  
+
+  var yue = YAHOO.util.Event;
+  var yud = YAHOO.util.Dom;
+  var ylj = YAHOO.lang.JSON;
+  var ycc = YAHOO.capdematBo.calendar;
+
   zcbp.Config = function() {
-    var yus = YAHOO.util.Selector;
-    var zct = zenexity.capdemat.tools;
-    var zcc = zenexity.capdemat.common;
-    
-    var initButtons = function() {
-      var button = new YAHOO.widget.Button(document.getElementById('submit'));
-      button.on('click',function(e){
-        zenexity.capdemat.bong.payment.Config.editor.saveHTML();
-        var form = yus.query('#form1')[0];
-        zct.doAjaxFormSubmitCall('form1',[],function(r){
-          var json = YAHOO.lang.JSON.parse(r.responseText);
-          zct.Notifier.processMessage('success',json.success_msg);
-          return false;
-        });
-      });
-    };
     return {
+      clickEv : undefined,
       editor : undefined,
       init : function() {
-        var conf = zenexity.capdemat.bong.payment.Config;
-        var ta = yus.query('textarea[id=editor]')[0];
-        
-        conf.editor = new YAHOO.widget.SimpleEditor('editor', {
-          focusAtStart: true,
-          toolbar : zcbet.def,
-          width: zct.width(ta.parentNode)+'px',
-          height : '400px'
+        ycc.cal = new Array(2);
+        zcbp.Config.loadBox("deactivation");
+        zcbp.Config.loadBox("displayedMessage");
+        zcbp.Config.clickEv = new zct.Event(zcbp.Config,zcbp.Config.processClick);
+        yue.on(yud.get("deactivationBox"),'click',zcbp.Config.clickEv.dispatch,zcbp.Config.clickEv,true);
+        yue.on(yud.get("displayedMessageBox"),'click',zcbp.Config.clickEv.dispatch,zcbp.Config.clickEv,true);
+      },
+      processClick : function(e) {
+        return yue.getTarget(e).getAttribute("rel");
+      },
+      loadBox : function(boxName) {
+        zct.doAjaxCall('/' + boxName, null, function(o){
+          yud.get(boxName + "Box").innerHTML = o.responseText;
+          if (boxName === "displayedMessage") {
+            var ta = yud.get('editor');
+            zcbp.Config.editor = new YAHOO.widget.SimpleEditor('editor', {
+              focusAtStart: false,
+              toolbar : zcbet.def,
+              width: (zct.width(ta.parentNode)-5)+'px',
+              height : '400px'
+            });
+            zcbp.Config.editor.render();
+          } else if (boxName === "deactivation") {
+            ycc.init(null, null, {id : 'paymentDeactivationStartDate', label : 'paymentDeactivationStartDate'});
+            ycc.init(null, null, {id : 'paymentDeactivationEndDate', label : 'paymentDeactivationEndDate'});
+          }
         });
-        conf.editor.render();
-        initButtons();
+      },
+      toggleDeactivationDatesPanel : function(e) {
+        var el = yue.getTarget(e);
+        if (el.checked) {
+          yud.removeClass("deactivationDatesPanel", "invisible");
+        }
+        else {
+          yud.addClass("deactivationDatesPanel", "invisible");
+        }
+      },
+      saveActivation : function(e) {
+        zct.doAjaxFormSubmitCall(yue.getTarget(e).form.id, [], function(o){
+          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
+        });
+      },
+      saveDisplayedMessage : function(e) {
+        zcbp.Config.editor.saveHTML();
+        zct.doAjaxFormSubmitCall('form1',[],function(r){
+          zct.Notifier.processMessage('success',ylj.parse(r.responseText).success_msg);
+        });
       }
     }
   }();
-  
+
   yue.onDOMReady(zcbp.Config.init);
-  
+
 }());

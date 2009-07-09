@@ -1,6 +1,7 @@
 package fr.cg95.cvq.business.authority;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -55,6 +56,9 @@ public class LocalAuthority implements Serializable {
 
     /** using an explicit ArrayList instead of List interface to allow Hibernate to instantiate it */
     private TreeSet<String> serverNames = new TreeSet<String>();
+
+    private Date paymentDeactivationStartDate;
+    private Date paymentDeactivationEndDate;
 
     /** full constructor */
     public LocalAuthority(String name, String displayTitle) {
@@ -272,5 +276,29 @@ public class LocalAuthority implements Serializable {
 
     public void setAdminEmail(String adminEmail) {
         this.adminEmail = adminEmail;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="payment_deactivation_start_date"
+     */
+    public Date getPaymentDeactivationStartDate() {
+        return paymentDeactivationStartDate;
+    }
+
+    public void setPaymentDeactivationStartDate(Date paymentDeactivationStartDate) {
+        this.paymentDeactivationStartDate = paymentDeactivationStartDate;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="payment_deactivation_end_date"
+     */
+    public Date getPaymentDeactivationEndDate() {
+        return paymentDeactivationEndDate;
+    }
+
+    public void setPaymentDeactivationEndDate(Date paymentDeactivationEndDate) {
+        this.paymentDeactivationEndDate = paymentDeactivationEndDate;
     }
 }

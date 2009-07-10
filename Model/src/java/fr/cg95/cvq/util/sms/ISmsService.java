@@ -9,9 +9,6 @@ import fr.cg95.cvq.exception.CvqException;
  */
 public interface ISmsService {
 
-    /** service name used by Spring's application context. */
-    String SERVICE_NAME = "smsService";
-
     void send(final String number, final String message)
         throws CvqException;
 

@@ -17,9 +17,6 @@ import net.sf.saxon.om.NodeInfo;
 @Deprecated
 public interface ILocalizationService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "localizationService";
-
 	/**
 	 * Get the translation of an element's name.
 	 */

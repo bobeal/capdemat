@@ -25,13 +25,6 @@ public final class RecreationCenterService implements IRecreationCenterService {
         super();
     }
 
-    @Deprecated
-    public RecreationCenter getByName(final String recreationCenterName)
-        throws CvqException {
-
-        return recreationCenterDAO.findByName(recreationCenterName);
-    }
-
     public RecreationCenter getById(final Long id)
         throws CvqObjectNotFoundException {
         return (RecreationCenter)recreationCenterDAO.findById(RecreationCenter.class, id);

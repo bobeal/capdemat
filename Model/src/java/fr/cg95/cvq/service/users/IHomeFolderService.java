@@ -27,9 +27,6 @@ import fr.cg95.cvq.security.annotation.IsIndividual;
  */
 public interface IHomeFolderService {
 
-    /** service name used by Spring's application context. */
-    String SERVICE_NAME = "homeFolderService";
-
     /** the notification type to use when a password is reset via secret question/answer */
     public static enum PasswordResetNotificationType {
         /** the adult has an email address it will be sent to*/

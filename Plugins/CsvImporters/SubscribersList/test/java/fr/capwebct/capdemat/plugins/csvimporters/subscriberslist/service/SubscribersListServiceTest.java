@@ -4,8 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.springframework.context.ConfigurableApplicationContext;
-
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.importer.ICsvParserService;
@@ -41,13 +39,11 @@ public class SubscribersListServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        ConfigurableApplicationContext cac;
         try {
-            cac = getContext(getConfigLocations());
             ByteArrayOutputStream csvBaos = loadData("/data/ListeAbonnesNumeroSlt.csv");
             
             ICsvParserService csvParserService =
-                (ICsvParserService) cac.getBean(ICsvParserService.SERVICE_NAME);
+                super.<ICsvParserService>getApplicationBean("cvsParserService");
             
             csvParserService.parseData("SubscribersList", csvBaos.toByteArray());
             

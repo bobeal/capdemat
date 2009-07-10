@@ -9,8 +9,6 @@ import fr.cg95.cvq.service.request.annotation.IsRequest;
  */
 public interface IStudyGrantRequestService extends IRequestService {
 
-    public final String SERVICE_NAME = "studyGrantRequestService";
-
     /**
      * Set the Edemande ID of this request
      */

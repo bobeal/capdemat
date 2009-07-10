@@ -152,7 +152,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         iHomeFolderService.addIndividualRole(mother, child2, RoleType.CLR_MOTHER);
         iHomeFolderService.addIndividualRole(tutorNotInHomeFolder, child2, RoleType.CLR_TUTOR);
 
-        iVoCardRequestService.create(dcvo, adultSet, childSet, address);
+        iVoCardRequestService.create(dcvo, adultSet, childSet, null, address, null);
 
         homeFolderVoCardRequestIds.put(dcvo.getHomeFolderId(), dcvo.getId()); 
 

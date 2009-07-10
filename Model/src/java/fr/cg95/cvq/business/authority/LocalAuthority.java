@@ -54,7 +54,7 @@ public class LocalAuthority implements Serializable {
     private int instructionDefaultMaxDelay = 10;
     private int instructionDefaultAlertDelay = 3;
 
-    /** using an explicit ArrayList instead of List interface to allow Hibernate to instantiate it */
+    /* using an explicit ArrayList instead of List interface to allow Hibernate to instantiate it */
     private TreeSet<String> serverNames = new TreeSet<String>();
 
     private Date paymentDeactivationStartDate;

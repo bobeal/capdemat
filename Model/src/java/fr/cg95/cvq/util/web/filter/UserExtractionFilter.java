@@ -31,7 +31,6 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
 
-@Deprecated
 public class UserExtractionFilter extends GenericFilterBean {
 
     private static Log log = LogFactory.getLog(UserExtractionFilter.class);

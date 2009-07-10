@@ -1,3 +1,90 @@
+-- Document related refactorings (DRR)
+
+-- DRR1 : constraint on individual
+alter table document 
+    drop constraint FK335CD11B59302132;
+-- DRR2 : constraint on home folder
+alter table document 
+    drop constraint FK335CD11B8BD77771;
+
+-- Request related refactorings (RRR)
+
+-- RRR1 : constraint on home folder
+alter table request 
+    drop constraint FK414EF28F8BD77771;
+    
+-- RRR2 : constraint on individual (requester)
+alter table request
+    drop constraint FK414EF28F1BC4A960;
+
+-- RRR3 : contraint on documents
+create table request_document (
+    id int8 not null,
+    document_id int8,
+    request_id int8,
+    primary key (id)
+);
+alter table request_document owner to cvq95;
+alter table request_document 
+    add constraint FK712980CB848EB249 
+    foreign key (request_id) 
+    references request;
+         
+insert into request_document select nextval('hibernate_sequence'), document_id, request_id from request_document_map;
+
+drop table request_document_map cascade;
+
+-- RRR4 : add requester and subject last name
+alter table request add column requester_last_name varchar(255);
+alter table request add column requester_first_name varchar(255);
+alter table request add column subject_last_name varchar(255);
+alter table request add column subject_first_name varchar(255);
+
+UPDATE request set requester_last_name = (select last_name from individual where individual.id = request.requester_id);
+UPDATE request set requester_first_name = (select first_name from individual where individual.id = request.requester_id);
+UPDATE request set subject_first_name = (select first_name from individual where individual.id = request.subject_id);
+UPDATE request set subject_last_name = (select last_name from individual where individual.id = request.subject_id);
+alter table request drop column subject_table_name;
+
+-- Home folder related constraints (HFRC)
+
+-- HFRC1 : object model for roles 
+create table individual_role (
+    id int8 not null,
+    role varchar(255),
+    home_folder_id int8,
+    individual_id int8,
+    owner_id int8,
+    primary key (id)
+);
+
+alter table individual_role 
+    add constraint FK3C7D4E5CD4C3A2D8
+    foreign key (owner_id)
+    references individual;
+
+-- migration of existing "home folder responsible" roles
+insert into individual_role select nextval('hibernate_sequence'), 'HomeFolderResponsible', home_folder_id, null, adult.id from adult, individual where adult.id = individual.id and (home_folder_roles = 1 or home_folder_roles = 3);
+
+alter table adult drop column home_folder_roles;
+
+-- migration of existing "child legal responsible" roles
+insert into individual_role select nextval('hibernate_sequence'), 'ClrFather', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Father' and child_id is not null;
+insert into individual_role select nextval('hibernate_sequence'), 'ClrMother', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Mother' and child_id is not null;
+insert into individual_role select nextval('hibernate_sequence'), 'ClrTutor', null, child_id, legal_responsible_id from child_legal_responsible_map where role = 'Tutor' and child_id is not null;
+
+alter table child_legal_responsible_map 
+    drop constraint FK62E1102A30CABB22;
+alter table child_legal_responsible_map 
+    drop constraint FK62E1102AC5C931EC;
+drop table child_legal_responsible_map;
+
+-- Side effet : Payment related refactorings (PRR)
+
+-- PRR1 : purchase item constraint on request
+alter table purchase_item
+    drop constraint fkb1132791ef51c842;
+    
 -- request letter templates enhancements
 alter table request_form add column personalized_data bytea ;
 alter table request_form add column template_name varchar(255);
@@ -10,27 +97,6 @@ delete from requirement where request_type_id = (select id from request_type whe
 delete from request_type where label = 'Vacations Registration';
 
 -- start of migration to indexed lists in requests collections elements
-
--- stgl specific drop contraint managment
-create function stgl_constraint_drop() returns void as $$
-  begin
-    begin
-      alter table bulky_waste_collection_request_bulky_waste_type drop constraint FK7E2C4DCBAEAD5FA0;
-      alter table compostable_waste_collection_request_compostable_waste_type drop constraint FK765E424BAC577A08;
-      alter table sms_notification_request_interests drop constraint FKCE60DA2B37C4119F; 
-      exception when undefined_object then
-    end;
-    begin
-      alter table bulky_waste_collection_request_bulky_waste_type drop constraint FK7E2C4DCBEAC2AB0F;
-      alter table compostable_waste_collection_request_compostable_waste_type drop constraint FK765E424B4B0F61E3;
-      alter table sms_notification_request_interests drop constraint FKCE60DA2BEE8163B9;
-      exception when undefined_object then
-    end;
-    return;
-  end;
-$$ language plpgsql;
-select stgl_constraint_drop();
-drop function  stgl_constraint_drop();
 
 alter table dhr_not_real_asset drop constraint FK2BA9F1EC66C81F29;
 alter table dhr_real_asset drop constraint FK6AA7D98066C81F29;
@@ -285,7 +351,8 @@ label = 'Military Census';
 UPDATE request_type SET
   display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'social' LIMIT 1)  
 WHERE label = 'Domestic Help' OR
-label = 'Handicap Allowance' OR
+label = 'Handicap Compensation Adult' OR
+label = 'Handicap Compensation Child' OR
 label = 'Remote Support';
 
 UPDATE request_type SET
@@ -509,4 +576,143 @@ WHERE label = 'Alignment Numbering Connection';
 
 -- update individual_role (to enable hibernate merge)
 alter table individual_role add column individual_name varchar(255);
+
+alter table study_grant_request 
+  drop constraint FK7D2F0A7682587E99;
+
+alter table study_grant_request 
+  drop constraint FK7D2F0A7687B85F15;
+
+drop table study_grant_request;
+
+create table study_grant_request (
+  id int8 not null,
+  abroad_internship_end_date timestamp,
+  has_europe_help bool,
+  current_studies varchar(255),
+  current_studies_level varchar(255),
+  current_school_postal_code varchar(5),
+  abroad_internship_start_date timestamp,
+  tax_household_first_name varchar(38),
+  alevels_date varchar(4),
+  bank_code varchar(5),
+  subject_birth_date timestamp,
+  counter_code varchar(5),
+  current_school_city varchar(32),
+  has_c_r_o_u_s_help bool,
+  subject_email varchar(255),
+  current_school_name varchar(255),
+  sandwich_courses bool,
+  abroad_internship_school_country varchar(255),
+  tax_household_city varchar(32),
+  abroad_internship bool,
+  tax_household_last_name varchar(38),
+  account_number varchar(11),
+  distance varchar(255),
+  alevels varchar(255),
+  tax_household_postal_code varchar(5),
+  subject_mobile_phone varchar(10),
+  abroad_internship_school_name varchar(255),
+  account_key varchar(2),
+  other_studies_label varchar(255),
+  has_regional_council_help bool,
+  tax_household_income float8,
+  has_other_help bool,
+  subject_address_id int8,
+  current_school_country varchar(255),
+  subject_phone varchar(10),
+  primary key (id)
+);
+
+alter table study_grant_request 
+  add constraint FK7D2F0A7682587E99 
+  foreign key (id) 
+  references request;
+
+alter table study_grant_request 
+  add constraint FK7D2F0A7687B85F15 
+  foreign key (subject_address_id) 
+  references address;
+
+UPDATE request_type SET
+  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'school' LIMIT 1)
+WHERE label = 'Study Grant';
+
+
+-- optional cleanup instructions : old label
+DELETE FROM forms where request_type_id = (select id from request_type where label = 'Study Grant Request');
+DELETE FROM request_type where label = 'Study Grant Request';
+
+-- optional cleanup instructions : old requests
+-- DELETE FROM request_action where request_id in (SELECT id from request where request_type_id = (select id from request_type where label = 'Study Grant'));
+-- DELETE FROM request where id in (SELECT id from request where request_type_id = (select id from request_type where label = 'Study Grant'));
+
+alter table study_grant_request add column subject_first_request bool;
+
+alter table study_grant_request add column edemande_id varchar(255);
+
+alter table request_note rename column agent_id to user_id;
+alter table request rename column last_intervening_agent_id to last_intervening_user_id;
+
+alter table request_note add column date timestamp;
+
+update request_note set type = 'Internal' where type like '%Internal';
+update request_note set type = 'Public' where type like '%External' or type like 'Default%';
+
+-- study grant refectoring 5
+alter table study_grant_request drop column current_school_name;
+alter table study_grant_request drop column tax_household_city;
+
+create table study_grant_request_current_school_name (
+    study_grant_request_id int8 not null,
+    current_school_name_id int8 not null,
+    current_school_name_index int4 not null,
+    primary key (study_grant_request_id, current_school_name_index)
+);
+
+create table study_grant_request_tax_household_city (
+    study_grant_request_id int8 not null,
+    tax_household_city_id int8 not null,
+    tax_household_city_index int4 not null,
+    primary key (study_grant_request_id, tax_household_city_index)
+);
+
+alter table study_grant_request_current_school_name 
+    add constraint FK49484F67C1B15A77 
+    foreign key (study_grant_request_id) 
+    references study_grant_request;
+
+alter table study_grant_request_current_school_name 
+    add constraint FK49484F674E42238A 
+    foreign key (current_school_name_id) 
+    references local_referential_data;
+
+alter table study_grant_request_tax_household_city 
+    add constraint FK1B568948A40092FB 
+    foreign key (tax_household_city_id) 
+    references local_referential_data;
+
+alter table study_grant_request_tax_household_city 
+    add constraint FK1B568948C1B15A77 
+    foreign key (study_grant_request_id) 
+    references study_grant_request;
+
+alter table study_grant_request drop column tax_household_postal_code;
+alter table study_grant_request add column tax_household_city_precision varchar(255);
+alter table study_grant_request add column current_school_name_precision  varchar(255);
+alter table study_grant_request add column is_subject_account_holder bool;
+alter table study_grant_request add column account_holder_birth_date timestamp;
+alter table study_grant_request add column account_holder_last_name  varchar(38);
+alter table study_grant_request add column account_holder_title varchar(255);
+alter table study_grant_request add column account_holder_first_name  varchar(38);
+
+
+alter table external_service_traces alter column key type character varying(255);
+
+update request_type set label = 'VO Card' where label = 'VO Card Request';
+
+alter table study_grant_request add column account_holder_edemande_id varchar(255);
+
+alter table external_service_traces add column subkey varchar(255);
+update external_service_traces set subkey = 'subject' where message like '%tiers%';
 

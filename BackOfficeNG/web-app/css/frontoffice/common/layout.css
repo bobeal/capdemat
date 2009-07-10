@@ -23,16 +23,21 @@ html { background: #cccccc; }
 }
 #hd h1 span { display: block; padding: .1em 0 0 0; font-size: .5em; }
 
-#hd-menu { display: block; text-align: right; }
+#hd-menu { text-align: right; }
 
-#hd-menu a {
-  height: 20px;
-  margin: 0 0 1px 1px; padding: .5em 1em;
+#hd-menu a.menu {
+  padding: .5em 1em;
   -moz-border-radius: 0 0 .5em .5em;
   text-decoration: none;
   color: #ffffff; background: #4c3848 ;
 }
-#hd-menu a:hover {  background: #c690bb; }
+#hd-menu a.menu:hover {  background: #c690bb; }
+
+#loginForm              { float: left; padding: .4em; -moz-border-radius-bottomleft: .5em; -moz-border-radius-bottomright: .5em;  background: #ffffcc;} 
+#loginForm input.text   { border: 1px solid #ffaa00; }
+#loginForm input.button { font-size: .85em; }
+#loginForm a            { color: #095BA6; background: transparent; }
+#loginForm a:hover      { color: #fff; text-decoration: none; background: #095BA6; }
 
 
 /* main menu
@@ -124,51 +129,10 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
 
 strong { font-weight: bold; }
 
-/* login box
---------------------------------------------------------------*/
-
-.login-box {
-  margin: 0 0 1em; padding: 0 0 2em;
-  font-size: 1.1em; font-weight: normal;
-  border-bottom: 2px solid #c690bb;
-  color: #ffffff;
-  
-/*  width: 62.3em;*/
-/*  margin:0; padding:0 3em 2em;*/
-/*  position:relative;   left:-2em;*/
-}
-
-.login-box form label { display: block; margin: .5em 0 .1em 0; }
-.login-box form input[type="text"],
-.login-box form input[type="password"] {
-  width: 80%;
-  display: block;
-  padding: .2em;
-  border: 0; border-top: 3px solid #c690bb;
-  font-size: 1.1em; font-weight: normal;
-}
-.login-box form input.hidden { display:none; }
-.login-box form input[type="submit"] {
-  width: auto;
-  margin-top: .5em;
-  border: 1px solid #cccccc;
-  font-size: 1.2em;
-  -moz-border-radius: .3em;
-}
-
-.login-box a       { color: #c690bb; }
-.login-box a:hover { color: #000000; background: #c690bb; text-decoration: none; }
-
-.login-box a#voCardRequestLink { font-size: 1.5em; font-weight: normal; }
-
-.login-box ul    { margin: 1em; }
-.login-box ul li { padding: .1em 0; list-style-type: disc; }
-
-.login-box p.same-line input { display : inline; }
 
 /* group box
 --------------------------------------------------------------*/
-.group-box { margin: 1em; background: #ffffff; overflow:auto;}
+.group-box { margin: 1em; background: #ffffff; overflow:auto; }
 
 .group-box h3 { 
   margin: 0 !important;

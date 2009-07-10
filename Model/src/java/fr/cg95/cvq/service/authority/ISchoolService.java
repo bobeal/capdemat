@@ -12,9 +12,6 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
  */
 public interface ISchoolService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "schoolService";
-
     Long create(final School school)
         throws CvqException;
     
@@ -24,7 +21,6 @@ public interface ISchoolService {
     List<School> getAll()
         throws CvqException;
 
-    @Deprecated
     School getByName(final String schoolName)
         throws CvqException;
 

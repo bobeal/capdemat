@@ -21,9 +21,6 @@ import fr.cg95.cvq.service.document.annotation.IsDocument;
  */
 public interface IDocumentService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "documentService";
-
     String CREATION_ACTION = "CREATION_ACTION";
     String STATE_CHANGE_ACTION = "STATE_CHANGE_ACTION";
     String PAGE_ADD_ACTION = "PAGE_ADD_ACTION";

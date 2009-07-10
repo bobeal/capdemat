@@ -13,8 +13,6 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
  */
 public interface IRequestServiceRegistry {
 
-    String SERVICE_NAME = "requestServiceRegistry";
-
     /**
      * Get the service responsible for the management of the given request.
      */

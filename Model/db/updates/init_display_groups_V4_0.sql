@@ -16,7 +16,8 @@ UPDATE request_type SET
 WHERE label = 'School Registration' OR
 label = 'Perischool Activity Registration' OR
 label = 'School Canteen Registration' OR
-label = 'Recreation Activity Registration';
+label = 'Recreation Activity Registration' OR
+label = 'Study Grant';
 
 UPDATE request_type SET
   display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'civil' LIMIT 1)  
@@ -63,11 +64,8 @@ WHERE label = 'Technical Intervention';
 UPDATE request_type SET
   display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'urbanism' LIMIT 1)  
 WHERE label = 'Sewer Connection' OR
-label = 'Alignment Certificate'; 
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'urbanism' LIMIT 1)  
-WHERE label = 'Alignment Numbering Connection'; 
+label = 'Alignment Certificate' OR
+label = 'Alignment Numbering Connection'; 
 
 -- End of statement
 ALTER TABLE display_group ALTER id SET DEFAULT NULL;

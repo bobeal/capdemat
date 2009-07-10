@@ -122,9 +122,12 @@
 .success-box       { border-color: #20CC20; background: #ECFDEC; }
 .information-box   { border-color: #ffaa00; background: #ffffcc; text-align: left; }
 
-.outOfAccount-login-box p          { font: normal 1.5em sans-serif; margin: 0 0 .5em;  }
+.outOfAccount-login-box a          { color: #095BA6; }
+.outOfAccount-login-box a:hover    { color: #fff; text-decoration: none; background: #095BA6; }
+.outOfAccount-login-box p          { font: normal 1.5em sans-serif; margin: 0 0 .5em; }
 .outOfAccount-login-box p.error    { padding: 0; sans-serif; text-align: left; }
-.outOfAccount-login-box input.text { margin-right: 1em; font-size:1.2em; border: 1px solid #ffaa00; }
+.outOfAccount-login-box ul         { margin: .3em 1em 0; }
+.outOfAccount-login-box ul li      { padding: .1em 0; list-style-type: disc; }
 
 /* summary box (eg. all the fields of a request)
 --------------------------------------------------------------*/

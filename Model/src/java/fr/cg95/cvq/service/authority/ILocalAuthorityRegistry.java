@@ -22,8 +22,6 @@ import fr.cg95.cvq.permission.CvqPermissionException;
  */
 public interface ILocalAuthorityRegistry {
 
-    String SERVICE_NAME = "localAuthorityRegistry";
-    
     String XSL_RESOURCE_TYPE = "xsl";
     String LOCAL_REFERENTIAL_RESOURCE_TYPE = "local_referential";
     String EXTERNAL_REFERENTIAL_RESOURCE_TYPE = "external_referential";

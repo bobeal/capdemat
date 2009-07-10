@@ -18,7 +18,7 @@
     <label><g:message code="document.header.newPage"/></label>
     <input type="file" name="documentData-0"/>
     <input type="submit" value="${message(code:'action.add')}"
-           name="submit-documentAddPage-document-documentTypeId:${documentType.id}${document.id ? '_id:'+document.id : ''}" />
+           name="submit-documentAddPage-document-documentTypeId:${documentType.id}_id:${document.id}" />
     
   </fieldset>
   <p class="document-button">

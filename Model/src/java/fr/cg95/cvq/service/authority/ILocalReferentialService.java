@@ -8,9 +8,6 @@ import fr.cg95.cvq.exception.CvqException;
 
 public interface ILocalReferentialService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "localReferentialService";
-
     /**
      * Get a list of all known local referential data.
      */

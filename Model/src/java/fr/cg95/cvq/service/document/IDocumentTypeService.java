@@ -7,9 +7,6 @@ import fr.cg95.cvq.exception.CvqException;
 
 public interface IDocumentTypeService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "documentTypeService";
-
     Integer NO_TYPE = new Integer(0);
     Integer OLD_CNI_TYPE = new Integer(1);
     Integer SCHOOL_INSURANCE_TYPE = new Integer(2);

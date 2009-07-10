@@ -12,8 +12,6 @@ import fr.cg95.cvq.service.request.IRequestService;
 
 public interface IPlaceReservationRequestService extends IRequestService {
 
-    public final String SERVICE_NAME = "placeReservationRequestService";
-
     /**
      * Return the number of places authorized for a given subscriber.
      * 

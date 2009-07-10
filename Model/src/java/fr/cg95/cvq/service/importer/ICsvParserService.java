@@ -9,8 +9,6 @@ import fr.cg95.cvq.exception.CvqException;
  */
 public interface ICsvParserService {
 
-    final String SERVICE_NAME = "csvParserService";
-    
     /**
      * Parse CSV data according to provided CSV importer and data.
      */

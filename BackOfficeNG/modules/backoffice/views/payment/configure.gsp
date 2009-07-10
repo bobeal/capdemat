@@ -15,6 +15,8 @@
         <div class="head">
           <h1><g:message code="payment.header.configure" /></h1>
         </div>
+        <div id="displayConfigurationBox" class="mainbox mainbox-yellow">
+        </div>
         <div id="deactivationBox" class="mainbox mainbox-yellow">
         </div>
         <div id="displayedMessageBox" class="mainbox mainbox-yellow">

@@ -26,9 +26,11 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
       editor : undefined,
       init : function() {
         ycc.cal = new Array(2);
+        zcbp.Config.loadBox("displayConfiguration");
         zcbp.Config.loadBox("deactivation");
         zcbp.Config.loadBox("displayedMessage");
         zcbp.Config.clickEv = new zct.Event(zcbp.Config,zcbp.Config.processClick);
+        yue.on(yud.get("displayConfigurationBox"),'click',zcbp.Config.clickEv.dispatch,zcbp.Config.clickEv,true);
         yue.on(yud.get("deactivationBox"),'click',zcbp.Config.clickEv.dispatch,zcbp.Config.clickEv,true);
         yue.on(yud.get("displayedMessageBox"),'click',zcbp.Config.clickEv.dispatch,zcbp.Config.clickEv,true);
       },
@@ -61,6 +63,11 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
         else {
           yud.addClass("deactivationDatesPanel", "invisible");
         }
+      },
+      saveDisplayConfiguration : function(e) {
+        zct.doAjaxFormSubmitCall(yue.getTarget(e).form.id, [], function(o){
+          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
+        });
       },
       saveActivation : function(e) {
         zct.doAjaxFormSubmitCall(yue.getTarget(e).form.id, [], function(o){

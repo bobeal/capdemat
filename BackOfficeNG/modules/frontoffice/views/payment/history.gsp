@@ -9,7 +9,10 @@
       
       <div id="yui-main"> 
         <div id="main" class="yui-b">
-          <g:render template="paymentList" />
+          <g:if test="${inProgressPayments}">
+            <g:render template="paymentList" model="${[payments : inProgressPayments, paginate : false, title : 'payment.header.inProgressPayments']}"/>
+          </g:if>
+          <g:render template="paymentList" model="${[payments : paymentsHistory, paginate : true, title : 'payment.header.paymentsHistory']}"/>
         </div> 
       </div> <!-- end of yui-main -->
       

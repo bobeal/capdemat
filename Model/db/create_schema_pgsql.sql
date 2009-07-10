@@ -1654,6 +1654,7 @@
         admin_email varchar(255),
         payment_deactivation_start_date timestamp,
         payment_deactivation_end_date timestamp,
+        display_in_progress_payments bool not null,
         primary key (id)
     );
 

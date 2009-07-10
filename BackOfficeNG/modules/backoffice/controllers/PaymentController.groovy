@@ -32,6 +32,18 @@ class PaymentController {
         return false
     }
 
+    def displayConfiguration = {
+        if (request.get) {
+            render(template : "displayConfiguration",
+                   model : ["displayInProgressPayments" : SecurityContext.currentSite.displayInProgressPayments])
+            return false
+        } else if (request.post) {
+            bind(SecurityContext.currentSite)
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+            return false
+        }
+    }
+
     def deactivation = {
         if (request.get) {
             def paymentDeactivationStartDate = SecurityContext.currentSite.paymentDeactivationStartDate

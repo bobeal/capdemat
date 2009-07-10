@@ -77,7 +77,9 @@ class PaymentController {
         def result = [:]
         
         result.paymentStates = PaymentState.allPaymentStates.collect{it.toString().toLowerCase()}
-        result.payments = this.paymentsHistory
+        result.paymentsHistory = this.paymentsHistory
+        if (SecurityContext.currentSite.displayInProgressPayments)
+            result.inProgressPayments = this.inProgressPayments
         result.state = state
         result.maxRows = maxRows
         
@@ -220,9 +222,31 @@ class PaymentController {
         critere.value = this.ecitizen.homeFolder.id
         criteriaSet.add(critere)        
 
+        critere = new Critere()
+        critere.comparatif = Critere.NEQUALS
+        critere.attribut = Payment.SEARCH_BY_PAYMENT_STATE
+        critere.value = PaymentState.INITIALIZED.toString()
+        criteriaSet.add(critere)
+
         result.all = paymentService.get(criteriaSet, 'initializationDate', 'desc', maxRows, offset)
         result.count = paymentService.getCount(criteriaSet)
+        return result
+    }
 
+    protected Map getInProgressPayments() {
+        def result = [:]
+        Set criteriaSet = new HashSet<Critere>();
+        Critere critere = new Critere();
+        critere.comparatif = Critere.EQUALS;
+        critere.attribut = Payment.SEARCH_BY_HOME_FOLDER_ID;
+        critere.value = this.ecitizen.homeFolder.id
+        criteriaSet.add(critere)
+        critere = new Critere()
+        critere.comparatif = Critere.EQUALS
+        critere.attribut = Payment.SEARCH_BY_PAYMENT_STATE
+        critere.value = PaymentState.INITIALIZED.toString()
+        criteriaSet.add(critere)
+        result.all = paymentService.get(criteriaSet, 'initializationDate', 'desc', 0, 0)
         return result
     }
 

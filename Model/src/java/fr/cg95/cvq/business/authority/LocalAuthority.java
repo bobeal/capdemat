@@ -60,6 +60,8 @@ public class LocalAuthority implements Serializable {
     private Date paymentDeactivationStartDate;
     private Date paymentDeactivationEndDate;
 
+    private boolean displayInProgressPayments;
+
     /** full constructor */
     public LocalAuthority(String name, String displayTitle) {
         this.name = name;
@@ -300,5 +302,18 @@ public class LocalAuthority implements Serializable {
 
     public void setPaymentDeactivationEndDate(Date paymentDeactivationEndDate) {
         this.paymentDeactivationEndDate = paymentDeactivationEndDate;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="display_in_progress_payments"
+     *  not-null="true"
+     */
+    public boolean isDisplayInProgressPayments() {
+        return displayInProgressPayments;
+    }
+
+    public void setDisplayInProgressPayments(boolean displayInProgressPayments) {
+        this.displayInProgressPayments = displayInProgressPayments;
     }
 }

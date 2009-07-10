@@ -139,3 +139,5 @@ update external_service_traces set subkey = 'subject' where message like '%tiers
 
 alter table local_authority add column payment_deactivation_start_date timestamp;
 alter table local_authority add column payment_deactivation_end_date timestamp;
+
+alter table local_authority add column display_in_progress_payments bool not null default false;

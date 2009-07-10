@@ -865,6 +865,9 @@ public class LocalAuthorityRegistry
         if (SecurityContext.getCurrentSite().getPaymentDeactivationEndDate() != null) {
             end = new DateMidnight(SecurityContext.getCurrentSite().getPaymentDeactivationEndDate()).plusDays(1);
         }
+        if (start == null && end == null) return true;
+        if (start != null && end == null) return start.isAfterNow();
+        if (start == null && end != null) return end.isBeforeNow();
         return !new Interval(start, end).containsNow();
     }
 }

@@ -358,7 +358,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="sgr.property.accountKey.label" /> * : </dt><dd id="accountKey" class="action-editField validate-regex required-true i18n-sgr.property.accountKey maxLength-2" regex="^(?:O[1-9])|(?:[1-8]\d)|(?:9[0-7])$"><span>${request?.accountKey}</span></dd>
+                <dt class="required"><g:message code="sgr.property.accountKey.label" /> * : </dt><dd id="accountKey" class="action-editField validate-regex required-true i18n-sgr.property.accountKey maxLength-2" regex="^\d{1,2}$"><span>${request?.accountKey}</span></dd>
               </dl>
               
             

@@ -24,7 +24,7 @@ create table request_document (
     request_id int8,
     primary key (id)
 );
-alter table request_document owner to cvq95;
+
 alter table request_document 
     add constraint FK712980CB848EB249 
     foreign key (request_id) 
@@ -166,9 +166,7 @@ alter table school_canteen_registration_request_food_diet drop constraint school
 alter table sms_notification_request_interests drop constraint sms_notification_request_interests_pkey ;
 alter table technical_intervention_request_intervention_type drop constraint technical_intervention_request_intervention_type_pkey ;
 
-
--- Add and int hibernate list index
-
+-- Add an int hibernate list index
 CREATE FUNCTION init_hibernate_list_index(table_name text, foreign_id_col_name text, id_col_name text, index_col_name text) RETURNS void AS $$
  DECLARE
     current_index integer := 0;
@@ -313,82 +311,11 @@ CREATE TABLE display_group (
     name VARCHAR(255),
     label VARCHAR(255),
     PRIMARY KEY (id) 
-); 
-alter table display_group owner to cvq95;
+);
 
 ALTER TABLE request_type ADD COLUMN display_group_id int8;
 ALTER TABLE request_type ADD CONSTRAINT FK4DAE96EA1D0DF06 FOREIGN KEY (
   display_group_id) REFERENCES display_group;
-
-ALTER TABLE display_group ALTER id SET DEFAULT NEXTVAL('hibernate_sequence');
-
-INSERT INTO display_group( name, label) VALUES( 'school', 'Scolaire');
-INSERT INTO display_group( name, label) VALUES( 'civil', 'Etat civil');
-INSERT INTO display_group( name, label) VALUES( 'social', 'Social');
-INSERT INTO display_group( name, label) VALUES( 'environment', 'Environnement');
-INSERT INTO display_group( name, label) VALUES( 'election', 'Election');
-INSERT INTO display_group( name, label) VALUES( 'security', 'Sécurité');
-INSERT INTO display_group( name, label) VALUES( 'leisure', 'Loisirs');
-INSERT INTO display_group( name, label) VALUES( 'culture', 'Culturel');
-INSERT INTO display_group( name, label) VALUES( 'technical', 'Service technique');
-INSERT INTO display_group( name, label) VALUES( 'urbanism', 'Urbanisme');
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'school' LIMIT 1)  
-WHERE label = 'School Registration' OR
-label = 'Perischool Activity Registration' OR
-label = 'School Canteen Registration' OR
-label = 'Recreation Activity Registration';
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'civil' LIMIT 1)  
-WHERE label = 'Death Details' OR
-label = 'Marriage Details' OR
-label = 'Birth Details' OR
-label = 'Personal Details' OR
-label = 'Military Census';
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'social' LIMIT 1)  
-WHERE label = 'Domestic Help' OR
-label = 'Handicap Compensation Adult' OR
-label = 'Handicap Compensation Child' OR
-label = 'Remote Support';
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'environment' LIMIT 1)  
-WHERE label = 'Bulky Waste Collection' OR
-label = 'Compostable Waste Collection';
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'election' LIMIT 1)  
-WHERE label = 'Electoral Roll Registration';
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'security' LIMIT 1)  
-WHERE label = 'Holiday Security';
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'leisure' LIMIT 1)  
-WHERE label = 'Sms Notification' OR
-label = 'Music School Registration';
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'culture' LIMIT 1)  
-WHERE label = 'Place Reservation' OR
-label = 'Library Registration';
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'technical' LIMIT 1)  
-WHERE label = 'Technical Intervention';
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'urbanism' LIMIT 1)  
-WHERE label = 'Sewer Connection' OR
-label = 'Alignment Certificate'; 
-
--- End of statement
-ALTER TABLE display_group ALTER id SET DEFAULT NULL;
 
 -- update to Birth and Death Details request
 alter table birth_details_request add column birth_marriage_name varchar(38);
@@ -553,7 +480,6 @@ create table alignment_numbering_connection_request (
   owner_last_name varchar(38),
   primary key (id)
 );
--- alter table alignment_numbering_connection_request owner to cvq95;
 
 alter table alignment_numbering_connection_request 
   add constraint FKEBD1311082587E99 
@@ -570,10 +496,6 @@ alter table alignment_numbering_connection_request
   foreign key (other_address_id) 
   references address;
   
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'urbanism' LIMIT 1)  
-WHERE label = 'Alignment Numbering Connection'; 
-
 -- update individual_role (to enable hibernate merge)
 alter table individual_role add column individual_name varchar(255);
 
@@ -633,11 +555,6 @@ alter table study_grant_request
   add constraint FK7D2F0A7687B85F15 
   foreign key (subject_address_id) 
   references address;
-
-UPDATE request_type SET
-  display_group_id = (SELECT dg.id FROM display_group dg WHERE dg.name = 'school' LIMIT 1)
-WHERE label = 'Study Grant';
-
 
 -- optional cleanup instructions : old label
 DELETE FROM forms where request_type_id = (select id from request_type where label = 'Study Grant Request');
@@ -715,4 +632,9 @@ alter table study_grant_request add column account_holder_edemande_id varchar(25
 
 alter table external_service_traces add column subkey varchar(255);
 update external_service_traces set subkey = 'subject' where message like '%tiers%';
+
+alter table local_authority add column payment_deactivation_start_date timestamp;
+alter table local_authority add column payment_deactivation_end_date timestamp;
+
+alter table local_authority add column display_in_progress_payments bool not null default false;
 

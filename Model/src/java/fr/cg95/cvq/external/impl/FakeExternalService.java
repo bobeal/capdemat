@@ -2,6 +2,7 @@ package fr.cg95.cvq.external.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -196,6 +197,7 @@ public class FakeExternalService implements IExternalProviderService {
                 String billId = nodeAttrs.getNamedItem("bill-id").getNodeValue();
                 String billLabel = nodeAttrs.getNamedItem("bill-label").getNodeValue();
                 String billAmount = nodeAttrs.getNamedItem("bill-value").getNodeValue();
+                String billTotalValue = nodeAttrs.getNamedItem("bill-total-value").getNodeValue();
                 Date billIssueDate = 
                     simpleDateFormat.parse(nodeAttrs.getNamedItem("bill-date").getNodeValue());
                 Date billExpirationDate = 
@@ -211,8 +213,8 @@ public class FakeExternalService implements IExternalProviderService {
                     
                 ExternalInvoiceItem eii = 
                     new ExternalInvoiceItem(billLabel, Double.valueOf(billAmount),
-                            getLabel(), billId, billIssueDate, billExpirationDate,
-                            billPaymentDate, isPayed, null);
+                            Double.valueOf(billTotalValue), getLabel(), billId, billIssueDate,
+                            billExpirationDate, billPaymentDate, isPayed, null);
                 bills.add(eii);
             }
             results.put(IPaymentService.EXTERNAL_INVOICES, bills);
@@ -445,7 +447,7 @@ public class FakeExternalService implements IExternalProviderService {
                         } else if (childNode.getNodeName().equals("value")) {
                             eiiDetail.setValue(Integer.valueOf(childNode.getTextContent()));
                         } else if (childNode.getNodeName().equals("quantity")) {
-                            eiiDetail.setQuantity(Integer.valueOf(childNode.getTextContent()));
+                            eiiDetail.setQuantity(new BigDecimal(childNode.getTextContent()));
                         } else if (childNode.getNodeName().equals("unit-price")) {
                             eiiDetail.setUnitPrice(Integer.valueOf(childNode.getTextContent()));
                         }

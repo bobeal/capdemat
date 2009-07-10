@@ -31,7 +31,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         super.onSetUp();
         
         schoolRegistrationRequestService = 
-            (ISchoolRegistrationRequestService) getBean(ISchoolRegistrationRequestService.SERVICE_NAME);
+            super.<ISchoolRegistrationRequestService>getApplicationBean("schoolRegistrationRequestService");
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);

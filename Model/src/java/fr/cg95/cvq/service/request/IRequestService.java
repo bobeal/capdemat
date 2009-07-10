@@ -34,9 +34,6 @@ import java.util.Set;
  */
 public interface IRequestService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "requestService";
-    
     /** 
      * Subject policy for request types that have a whole account (aka home folder) as subject.
      */

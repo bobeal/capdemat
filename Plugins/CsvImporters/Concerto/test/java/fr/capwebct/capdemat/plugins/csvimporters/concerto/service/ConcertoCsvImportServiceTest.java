@@ -10,8 +10,6 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-import org.springframework.context.ConfigurableApplicationContext;
-
 import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
@@ -56,13 +54,11 @@ public class ConcertoCsvImportServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        ConfigurableApplicationContext cac;
         try {
-            cac = getContext(getConfigLocations());
             ByteArrayOutputStream csvBaos = loadData("/data/export_inscrits.csv");
             
             ICsvParserService csvParserService =
-                (ICsvParserService) cac.getBean(ICsvParserService.SERVICE_NAME);
+                super.<ICsvParserService>getApplicationBean("cvsParserService");
             
             csvParserService.parseData("Concerto", csvBaos.toByteArray());
             
@@ -76,13 +72,11 @@ public class ConcertoCsvImportServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        ConfigurableApplicationContext cac;
         try {
-            cac = getContext(getConfigLocations());
             ByteArrayOutputStream csvBaos = loadData("/data/two_children_simple_home_folder.csv");
             
             ICsvParserService csvParserService =
-                (ICsvParserService) cac.getBean(ICsvParserService.SERVICE_NAME);
+                super.<ICsvParserService>getApplicationBean("cvsParserService");
             
             csvParserService.parseData("Concerto", csvBaos.toByteArray());
         } catch (Exception e) {

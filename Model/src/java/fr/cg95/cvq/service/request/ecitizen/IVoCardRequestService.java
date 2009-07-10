@@ -17,19 +17,10 @@ import fr.cg95.cvq.service.request.IRequestService;
  */
 public interface IVoCardRequestService extends IRequestService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "voCardRequestService";
-
     /**
      * Create an account creation request.
      */
-    @Deprecated
-    void create(VoCardRequest vocd, List<Adult> adults, List<Child> children, 
-            final Address adress)
-        throws CvqException;
-    
     void create(VoCardRequest vocd, List<Adult> adults, List<Child> children, 
             List<Adult> foreignRoleOwners, final Address adress, List<Document> documents)
-        throws CvqException;
-    
+        throws CvqException;    
 }

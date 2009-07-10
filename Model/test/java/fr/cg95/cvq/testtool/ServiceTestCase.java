@@ -150,7 +150,7 @@ public class ServiceTestCase
                 iIndividualService = (IIndividualService) cac.getBean("individualService");
                 
                 iMeansOfContactService = 
-                    (IMeansOfContactService) cac.getBean(IMeansOfContactService.SERVICE_NAME);
+                    (IMeansOfContactService) cac.getBean("meansOfContactService");
 
                 sessionFactory = (SessionFactory) cac.getBean("sessionFactory_dummy");
                 
@@ -486,7 +486,7 @@ public class ServiceTestCase
         childSet.add(child1);
         childSet.add(child2);
 
-        iVoCardRequestService.create(request, adultSet, childSet, address);
+        iVoCardRequestService.create(request, adultSet, childSet, null, address, null);
 
         CreationBean cb = new CreationBean();
         cb.setRequestId(request.getId());

@@ -21,9 +21,6 @@ import fr.cg95.cvq.util.Critere;
  */
 public interface IIndividualService extends IAutofillTriggerService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "individualService";
-
     Long create(Individual individual, final HomeFolder homeFolder, Address address, 
             boolean assignLogin)
         throws CvqException;

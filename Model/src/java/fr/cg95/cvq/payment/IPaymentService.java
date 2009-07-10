@@ -22,8 +22,6 @@ import fr.cg95.cvq.util.Critere;
  */
 public interface IPaymentService {
 
-    String SERVICE_NAME = "paymentService";
-    
     String EXTERNAL_INVOICES = "ExternalInvoices";
     String EXTERNAL_DEPOSIT_ACCOUNTS = "ExternalDepositAccounts";
     String EXTERNAL_TICKETING_ACCOUNTS = "ExternalTicketingAccounts";

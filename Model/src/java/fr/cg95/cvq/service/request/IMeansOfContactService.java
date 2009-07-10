@@ -18,9 +18,6 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
  */
 public interface IMeansOfContactService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "meansOfContactService";
-
     MeansOfContact getMeansOfContactByType(MeansOfContactEnum type) throws CvqException;
 
     /**

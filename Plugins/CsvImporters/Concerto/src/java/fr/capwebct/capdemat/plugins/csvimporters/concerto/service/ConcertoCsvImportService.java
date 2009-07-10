@@ -258,7 +258,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 // create an home folder through account creation request
                 VoCardRequest voCardRequest = new VoCardRequest();
                 voCardRequestService.create(voCardRequest, cdto.getAdults(), 
-                        cdto.getChildren(), cdto.getAddress());
+                        cdto.getChildren(), null, cdto.getAddress(), null);
                 HomeFolder homeFolder = homeFolderService.getById(voCardRequest.getHomeFolderId());
 
                 // if known, add family quotient information to home folder

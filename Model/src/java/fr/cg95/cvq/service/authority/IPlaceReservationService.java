@@ -13,9 +13,6 @@ import fr.cg95.cvq.exception.CvqPlaceReservationReferentialException;
  */
 public interface IPlaceReservationService {
 
-    /** service name used by Spring's application context */
-    String SERVICE_NAME = "placeReservationService";
-    
     public static final String REDUCED_PRICE_SUBSCRIBER = "ReducedPriceSubscriber";
     public static final String FULL_PRICE_SUBSCRIBER = "FullPriceSubscriber";
     

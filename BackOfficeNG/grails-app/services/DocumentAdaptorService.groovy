@@ -154,6 +154,8 @@ public class DocumentAdaptorService {
     
     def modifyDocumentPage(docParam, request, sessionUuid) {
         def doc = deserializeDocument(docParam.id, sessionUuid)
+    	if (request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes.length == 0)
+    		return adaptDocument(doc)
         def newDocBinary = doc.datas.get(Integer.parseInt(docParam.dataPageNumber))
         
         newDocBinary.data = request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes

@@ -11,9 +11,6 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
  */
 public interface ICardService {
 
-    /** service name used by Spring's application context */
-    public final String SERVICE_NAME = "cardService";
-
     /**
      * Create a card (typically a Cartevaloise one but can be of another type)
      * associated to the given individual

@@ -22,34 +22,11 @@
 	<classpathentry kind="src" output="Model/build/test" path="Model/test/java"/>
 	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/src/java"/>
 	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/test/java"/>
-	<classpathentry kind="lib" path="BackOffice/webapp/applets/JTwain.jar"/>
-	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/commons-httpclient-3.0.1.jar"/>
-	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/lp-certviewer.jar"/>
-	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/lp-crl.jar"/>
-	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/xalan.jar"/>
-	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="BackOffice/webapp/applets/lib/xml-apis.jar"/>
-	<classpathentry kind="lib" path="BackOffice/webapp/applets/lp7certify.jar"/>
-	<classpathentry kind="lib" path="BackOffice/webapp/applets/lp7viewer.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.entrouvert/lasso.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/bcprov.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/deployer/LPAppletDeployer.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/deployer/resources/iaikPkcs11Wrapper.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/deployer/resources/usjpf15/local_policy.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/iaik_jce.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/iaikPkcs11Provider.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/lp-applet-util.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/lp-crypto-extension.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/lp7.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/LPApplets.jar"/>
-	<classpathentry kind="lib" path="Libraries/com.lexpersona/xlp7.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.lowagie/iText.jar"/>
 	<classpathentry kind="lib" path="Libraries/edu.yale/cas/casclient-2.1.1-1.jar" sourcepath="/home/bor/java/cas/cas-client-java-2.1.1/src"/>
 	<classpathentry kind="lib" path="Libraries/jaf/activation.jar"/>
 	<classpathentry kind="lib" path="Libraries/mail/mail.jar"/>
-	<classpathentry kind="lib" path="Libraries/net.sf/jasperreports/jasperreports-1.2.7.jar"/>
 	<classpathentry kind="lib" path="Libraries/net.sf/saxon/saxon8.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.apache/ant/ant.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/axis.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/commons-discovery-0.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/jaxrpc.jar"/>
@@ -68,7 +45,6 @@
 	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/batik.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/fop.jar" sourcepath="/home/bor/java/fop-0.20.5/src"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-oro-2.0.8/jakarta-oro-2.0.8.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-struts-1.1/struts.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/jaxen-core.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/jaxen-dom.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/saxpath.jar"/>
@@ -82,9 +58,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="Libraries/org.apache/xmlsec/xmlsec-1.3.0.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.bouncycastle/bcprov-jdk15-128.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.jfree/jcommon-1.0.0.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.jfree/jfreechart-1.0.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.quartz/quartz.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/jdom.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/jta.jar"/>
@@ -136,5 +109,6 @@
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-tiger-1.5.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-security-1.5.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-xml-1.5.6.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/ant/ant.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

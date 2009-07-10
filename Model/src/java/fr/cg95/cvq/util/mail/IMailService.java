@@ -11,9 +11,6 @@ import fr.cg95.cvq.exception.CvqException;
  */
 public interface IMailService {
 
-    /** service name used by Spring's application context. */
-    String SERVICE_NAME = "mailService";
-
     void send(final String from, final String to, final String[] cc,
             final String subject, final String body)
         throws CvqException;

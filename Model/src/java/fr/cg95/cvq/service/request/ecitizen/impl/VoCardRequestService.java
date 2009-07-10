@@ -29,52 +29,6 @@ public final class VoCardRequestService
 
     static Logger logger = Logger.getLogger(VoCardRequestService.class);
 
-    /**
-     * Create an account creation request and associated objects (home folder, individuals, ...).
-     *
-     * Other created objects are :<br/>
-     * <li>
-     *  <ul>the home folder</ul>
-     *  <ul>the home folder responsible</ul>
-     *  <ul>the other home folder adults</ul>
-     *  <ul>the home folder children</ul>
-     *  <ul>the home folder address</ul>
-     * </li>
-     *
-     */
-    @Override
-    @Deprecated
-    public void create(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
-            final Address address) throws CvqException {
-
-        HomeFolder homeFolder = homeFolderService.create(adults, children, address);
-        dcvo.setHomeFolderId(homeFolder.getId());
-        // by default, set the home folder responsible as requester
-        Adult homeFolderResponsible = null;
-        for (Adult adult : adults) {
-            if (adult.getIndividualRoles() != null) {
-                for (IndividualRole individualRole : adult.getIndividualRoles()) {
-                    if (individualRole.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE)) {
-                        homeFolderResponsible = adult;
-                        break;
-                    }
-                }
-            }
-        }
-        SecurityContext.setCurrentEcitizen(homeFolderResponsible);
-        
-        dcvo.setRequesterId(homeFolderResponsible.getId());
-        dcvo.setRequesterLastName(homeFolderResponsible.getLastName());
-        dcvo.setRequesterFirstName(homeFolderResponsible.getFirstName());
-        
-        Long requestId = super.finalizeAndPersist(dcvo);
-        
-        homeFolder.setOriginRequestId(requestId);
-        homeFolderService.modify(homeFolder);
-
-        logger.debug("create() Created request object with id : " + requestId);
-    }
-
     public void create(VoCardRequest dcvo, List<Adult> adults, List<Child> children, 
             List<Adult> foreignRoleOwners, final Address address, List<Document> documents) 
             throws CvqException {

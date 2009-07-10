@@ -330,6 +330,7 @@ class PaymentController {
         def entry = [:]
         entry.id = item.id
         entry.amount = item.amount
+        entry.totalValue = item.totalValue
         entry.label = item.label
         entry.externalItemId = item.externalItemId
         entry.issueDate = item.issueDate

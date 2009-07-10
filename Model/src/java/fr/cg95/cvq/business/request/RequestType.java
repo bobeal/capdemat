@@ -36,7 +36,7 @@ public class RequestType implements Serializable {
     /** the set of requirements to fulfill this request type */
     private Set<Requirement> requirements;
     /** the set of forms associated with this request type */
-    private Set forms;
+    private Set<RequestForm> forms;
     /** the set of seasons associated with this request type */
     private Set<RequestSeason> seasons;
     /** 
@@ -139,11 +139,11 @@ public class RequestType implements Serializable {
      *  class="fr.cg95.cvq.business.request.RequestForm"
      *  column="request_form_id"
      */
-    public Set getForms() {
+    public Set<RequestForm> getForms() {
         return this.forms;
     }
 
-    public void setForms(Set forms) {
+    public void setForms(Set<RequestForm> forms) {
         this.forms = forms;
     }
 

@@ -26,10 +26,6 @@ public class DocumentAdaptorService {
     
     def servletContext
     
-    private getServletContext (context) {
-        this.servletContext = context
-    }
-    
     def getDocumentTypes(IRequestService requestService, Request cRequest, String sessionUuid, Set newDocuments) {
         def requestType = requestTypeService.getRequestTypeByLabel(requestService.getLabel())
         def documentTypes = requestTypeService.getAllowedDocuments(requestType.getId())
@@ -144,6 +140,9 @@ public class DocumentAdaptorService {
         if (docParam.id != null)
             doc = deserializeDocument(docParam.id, sessionUuid)
         
+        if (request.getFile('documentData-0').bytes.length == 0)
+        	return getDocument(doc.id, sessionUuid)
+        	
         def newDocBinary = new DocumentBinary()
         newDocBinary.data = request.getFile('documentData-0').bytes
         doc.datas.add(newDocBinary)

@@ -113,7 +113,8 @@ class RequestCreationController {
             }
         }
 
-        session['javax.servlet.context.tempdir'] = servletContext['javax.servlet.context.tempdir'].absolutePath
+        session['javax.servlet.context.tempdir'] = 
+        	servletContext['javax.servlet.context.tempdir'].absolutePath
         def uuidString = UUID.randomUUID().toString()
         session[uuidString] = [:]
         session[uuidString].cRequest = cRequest
@@ -213,28 +214,33 @@ class RequestCreationController {
                 document = documentAdaptorService.getDocument(docParam.id, uuidString)
             }
             else if (submitAction[1] == 'documentSave') {
-                def docParam = targetAsMap(submitAction[3]), index = 0, doc = null
+                def docParam = targetAsMap(submitAction[3]), doc = null
                 
                 if (docParam.id != null) {
+                	// we are saving a previously added document
                     doc = documentAdaptorService.getDocument(docParam.id, uuidString)
-            	    documentAdaptorService.modifyDocumentNote(docParam, uuidString, params.ecitizenNote)
+            	    documentAdaptorService.modifyDocumentNote(docParam, uuidString, 
+            	    		params.ecitizenNote)
+            	    def index = 0
+            	    // synchronize all existing binary datas
                     for (DocumentBinary page: (doc?.datas ? doc.datas : [])) {
                         if (request.getFile('documentData-' + (index + 1)).bytes.size() > 0) {
                             def modifyParam = targetAsMap("id:${doc.id}_dataPageNumber:${index}")
                             documentAdaptorService.modifyDocumentPage(modifyParam, request, uuidString)
                         }
                     }
-                }
-
-                if (request.getFile('documentData-0').bytes.size() > 0) {
-                    def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
-                    if (docParam.id == null) 
-                        doc = makeDocument(docParam, uuidString)
+                	// eventually add last and new page
+                    if (request.getFile('documentData-0').bytes.size() > 0) {
+                        def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc.id}")
+                        documentAdaptorService.addDocumentPage(addParam, doc, request, uuidString)
+                    }
+                } else if (request.getFile('documentData-0').bytes.size() > 0) {
+                    def addParam = 
+                    	targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
+                    doc = makeDocument(docParam, uuidString)
                     doc = documentAdaptorService.addDocumentPage(addParam, doc, request, uuidString)
                 }
-                if (doc != null) {
-                	newDocuments += doc.id
-                }
+                newDocuments += doc.id
                 isDocumentEditMode = false
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }

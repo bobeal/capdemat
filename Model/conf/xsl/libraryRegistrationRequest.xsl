@@ -124,7 +124,7 @@
 	      </xsl:if>
 	      <xsl:if test="//lrr:RulesAndRegulationsAcceptance/text() = &quot;false&quot;">
       		<fo:inline>
-                          Vous n'avez pas accepté le réglement intérieur de la
+                          Vous n'avez pas accepté le règlement intérieur de la
                           bibliothèque
                         </fo:inline>
 		<fo:block>

@@ -3,10 +3,6 @@
 
   <description>Ant build file for the CapDémat - Generator project.</description>
 
-  <!-- ==================================== -->
-  <!--                        Initialization                               -->
-  <!-- ==================================== -->
-
   <target name="init">
     <!-- generator specific properties -->
     <property file="${basedir}/build.properties" />
@@ -32,7 +28,6 @@
         <include name="*.jar" />
       </fileset>
       <pathelement location="${lib.common.dir}/org.apache/common/commons-collections-3.1.jar" />
-      <!-- <pathelement path="${build.classes.dir}" /> -->
     </path>
 
     <path id="classpath.xsddoc">

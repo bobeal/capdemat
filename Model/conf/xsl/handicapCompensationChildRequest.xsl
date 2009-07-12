@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" 
-  xmlns:dhr="http://www.cg95.fr/cvq/schema/dhr" 
+  xmlns:hccr="http://www.cg95.fr/cvq/schema/hccr" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:fo="http://www.w3.org/1999/XSL/Format" 
@@ -38,17 +38,17 @@
 
 	  <fo:block>
 	    <xsl:call-template name="requestHeader">
-	      <xsl:with-param name="RequestName">Demande d'aide ménagère</xsl:with-param>
+	      <xsl:with-param name="RequestName">Demande de compensation du handicap (Enfant de moins de 20 ans)</xsl:with-param>
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 
 
 	    <xsl:call-template name="requestFooter">
 	      <xsl:with-param name="RequestId">
-            <xsl:value-of select="dhr:DomesticHelpRequest/cvq:Id"/>
+            <xsl:value-of select="hccr:HandicapCompensationChildRequest/cvq:Id"/>
           </xsl:with-param>
 	      <xsl:with-param name="CreationDate">
-            <xsl:value-of select="dhr:DomesticHelpRequest/cvq:CreationDate"/>
+            <xsl:value-of select="hccr:HandicapCompensationChildRequest/cvq:CreationDate"/>
           </xsl:with-param>
 	    </xsl:call-template>
 

@@ -214,7 +214,7 @@
 
     
     	    <fo:block xsl:use-attribute-sets="request.field.notice">
-	      Si oui, un certificat médical est obligatoire et il est         impératif de contacter le service Restaurants Scolaires.
+	      Si oui, un certificat médical est obligatoire et il est                 impératif de contacter le service Restaurants Scolaires.
 	    </fo:block>
 
           
@@ -244,7 +244,7 @@
 		  </fo:table-cell>
       	                    		  <fo:table-cell>
 		    <fo:block xsl:use-attribute-sets="request.field.inline.label">
-		      Téléphone
+		      Téléphone du médecin traitant
 		    </fo:block>
 		  </fo:table-cell>
 		  <fo:table-cell>

@@ -38,7 +38,7 @@
 
 	  <fo:block>
 	    <xsl:call-template name="requestHeader">
-	      <xsl:with-param name="RequestName">Demande extrait d'acte décès</xsl:with-param>
+	      <xsl:with-param name="RequestName">Demande d'acte de décès</xsl:with-param>
 	      <xsl:with-param name="FriendlyLocalAuthorityName"><xsl:value-of select="$friendlyLocalAuthorityName"/></xsl:with-param>
 	    </xsl:call-template>
 

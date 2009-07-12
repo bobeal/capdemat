@@ -67,11 +67,11 @@ sgr.property.hasEuropeHelp.validationError =
 sgr.property.hasOtherHelp.help =
 sgr.property.hasOtherHelp.validationError =
 
-sgr.property.currentSchoolName.help =
-sgr.property.currentSchoolName.validationError =
-
 sgr.property.currentSchool.help =
 sgr.property.currentSchool.validationError =
+
+sgr.property.currentSchoolName.help =
+sgr.property.currentSchoolName.validationError =
 
 sgr.property.currentSchoolNamePrecision.help =
 sgr.property.currentSchoolNamePrecision.validationError =

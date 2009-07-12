@@ -361,10 +361,6 @@
 				<fileset dir="${basedir}/${build.test.dir}">
 				  	<!--include name="**/CapdematTestSuite.class"/-->
 					<include name="**/*Test.class"/>
-				  	<!-- don't know why the next three do not work -->
-				  	<exclude name="**/HandicapCompensationAdultRequestServiceTest.class" />
-				  	<exclude name="**/HandicapCompensationChildRequestServiceTest.class" />
-				  	<exclude name="**/RemoteSupportRequestServiceTest.class" />
 				  	<!-- has to be ported -->
 				  	<exclude name="**/NextGenerationGenericDAOTest.class"/>
 					<!-- requires mail sending infrastructure -->

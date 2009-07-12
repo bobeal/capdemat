@@ -47,13 +47,13 @@ public class BirthDetailsRequestServiceTest extends ServiceTestCase {
                 request.setComment("Comment");
                 request.setBirthFirstNames("BirthFirstNames");
                   request.setMotive(BirthCertificateMotiveType.NOTARY_ACT);
-                    request.setRequesterQualityPrecision("RequesterQualityPrecision");
                 request.setBirthDate(new Date());
-              request.setRequesterQuality(BirthRequesterQualityType.REQUESTER);
+                request.setRequesterQualityPrecision("RequesterQualityPrecision");
                   if ("BirthCity".length() > 32)
         request.setBirthCity("BirthCity".substring(0, 32));
       else
         request.setBirthCity("BirthCity");
+                  request.setRequesterQuality(BirthRequesterQualityType.REQUESTER);
                   if ("FatherLastName".length() > 38)
         request.setFatherLastName("FatherLastName".substring(0, 38));
       else
@@ -62,16 +62,16 @@ public class BirthDetailsRequestServiceTest extends ServiceTestCase {
         request.setBirthMarriageName("BirthMarriageName".substring(0, 38));
       else
         request.setBirthMarriageName("BirthMarriageName");
-                    request.setFatherFirstNames("FatherFirstNames");
                     request.setMotherFirstNames("MotherFirstNames");
-                  if ("BirthLastName".length() > 38)
-        request.setBirthLastName("BirthLastName".substring(0, 38));
-      else
-        request.setBirthLastName("BirthLastName");
+                    request.setFatherFirstNames("FatherFirstNames");
                   if ("MotherMaidenName".length() > 38)
         request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
       else
         request.setMotherMaidenName("MotherMaidenName");
+                  if ("BirthLastName".length() > 38)
+        request.setBirthLastName("BirthLastName".substring(0, 38));
+      else
+        request.setBirthLastName("BirthLastName");
       
         // Means Of Contact
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(

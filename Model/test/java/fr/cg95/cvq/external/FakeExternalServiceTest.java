@@ -141,7 +141,7 @@ public class FakeExternalServiceTest extends ServiceTestCase {
             ExternalInvoiceItem eii =
                 (ExternalInvoiceItem) externalAccountItem;
             if (eii.getExternalItemId().equals("95999-3-1910782195")) {
-                Assert.assertEquals(Boolean.TRUE, eii.isPaid());
+                Assert.assertEquals(Boolean.FALSE, eii.isPaid());
                 iHomeFolderService.loadExternalInvoiceDetails(eii);
                 Assert.assertEquals(2, eii.getInvoiceDetails().size());
                 boolean foundLolita = false;

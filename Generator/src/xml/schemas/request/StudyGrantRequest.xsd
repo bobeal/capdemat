@@ -737,7 +737,7 @@
                 <xs:appinfo>
                   <common>
                     <step name="bankReference" />
-                    <validation jsregexp="^(?:O[1-9])|(?:[1-8]\d)|(?:9[0-7])$" />
+                    <validation jsregexp="^\d{1,2}$" />
                   </common>
                   <xslfo>
                     <element blockId="7" line="5" column="1">

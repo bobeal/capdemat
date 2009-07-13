@@ -78,7 +78,7 @@
   
     <label class="required"><g:message code="sgr.property.accountKey.label" /> *  <span><g:message code="sgr.property.accountKey.help" /></span></label>
             <input type="text" name="accountKey" value="${rqt.accountKey?.toString()}" 
-                    class="required  validate-regex" title="<g:message code="sgr.property.accountKey.validationError" />" regex="^(?:O[1-9])|(?:[1-8]\d)|(?:9[0-7])$" maxLength="2"/>
+                    class="required  validate-regex" title="<g:message code="sgr.property.accountKey.validationError" />" regex="^\d{1,2}$" maxLength="2"/>
             
 
   

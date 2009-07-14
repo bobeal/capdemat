@@ -14,19 +14,6 @@ cas_url_pattern = /*
 
 authentication.method = builtin
 
-ldap.enabled=false
-ldap.host=localhost
-ldap.port=389
-ldap.security_principal=cn=admin,dc=liberacces,dc=zenexity,dc=fr
-ldap.security_credentials=secret_password
-ldap.security_authentication=simple
-ldap.dit_root=dc=liberacces,dc=zenexity,dc=fr
-ldap.people_branch=ou=people
-ldap.people.first_name_attribute=sn
-ldap.people.last_name_attribute=givenName
-ldap.school_branch=ou=schools
-ldap.recreation_center_branch=ou=recreation centers
-
 referential.properties.path=/home/bor/cvq.svn/trunk/Model/conf/
 assets.properties.path=/home/bor/cvq.svn/trunk/Assets/
 assets.included_authorities=valdoise

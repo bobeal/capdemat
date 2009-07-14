@@ -126,14 +126,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   </bean>
 
   <bean id="agentService" class="fr.cg95.cvq.service.authority.impl.AgentService">
-    <property name="DAO">
+    <property name="agentDAO">
       <ref local="agentDAO"/>
     </property>
     <property name="categoryDAO">
       <ref local="categoryDAO"/>
-    </property>
-    <property name="ldapService">
-      <ref bean="ldapService"/>
     </property>
   </bean>
 

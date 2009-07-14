@@ -90,58 +90,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   </bean>
 
-  <bean id="ldapService" class="fr.cg95.cvq.service.authority.impl.LdapService"
-    init-method="init">
-    <property name="enabled">
-      <value>${ldap.enabled}</value>
-    </property>
-    <property name="host">
-      <value>${ldap.host}</value>
-    </property>
-    <property name="port">
-      <value>${ldap.port}</value>
-    </property>
-    <property name="securityPrincipal">
-      <value>${ldap.security_principal}</value>
-    </property>
-    <property name="securityCredentials">
-      <value>${ldap.security_credentials}</value>
-    </property>
-    <property name="securityAuthentication">
-      <value>${ldap.security_authentication}</value>
-    </property>
-    <property name="ditRoot">
-      <value>${ldap.dit_root}</value>
-    </property>
-    <property name="peopleBranch">
-      <value>${ldap.people_branch}</value>
-    </property>
-    <property name="peopleLastName">
-      <value>${ldap.people.last_name_attribute}</value>
-    </property>
-    <property name="peopleFirstName">
-      <value>${ldap.people.first_name_attribute}</value>
-    </property>
-    <property name="schoolBranch">
-      <value>${ldap.school_branch}</value>
-    </property>
-    <property name="recreationCenterBranch">
-      <value>${ldap.recreation_center_branch}</value>
-    </property>
-    <property name="localAuthorityDAO">
-      <ref bean="localAuthorityDAO" />
-    </property>
-    <property name="schoolDAO">
-      <ref bean="schoolDAO" />
-    </property>
-    <property name="recreationCenterDAO">
-      <ref bean="recreationCenterDAO" />
-    </property>
-    <property name="localAuthorityRegistry">
-      <ref bean="localAuthorityRegistry" />
-    </property>
-  </bean>
-
   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
     <!-- the SMTP host responsible for sending mail messages -->
     <property name="host">

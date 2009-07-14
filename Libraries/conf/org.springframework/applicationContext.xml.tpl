@@ -335,15 +335,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     </property>
   </bean>
 
-  <bean id="cardService" class="fr.cg95.cvq.service.users.impl.CardService">
-    <property name="DAO">
-      <ref local="genericDAO"/>
-    </property>
-    <property name="individualDAO">
-      <ref local="individualDAO"/>
-    </property>
-  </bean>
-
   <bean id="homeFolderModificationRequestService" 
     class="fr.cg95.cvq.service.request.ecitizen.impl.HomeFolderModificationRequestService" 
     parent="requestService">

@@ -95,12 +95,6 @@ public class IndividualService implements IIndividualService {
         return individualDAO.findByLogin(login);
     }
 
-    public Individual getByCertificate(final String certificate)
-        throws CvqException {
-
-        return individualDAO.findByCertificate(certificate);
-    }
-
     public Individual getByFederationKey(final String federationKey)
         throws CvqException {
 

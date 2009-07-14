@@ -12,12 +12,10 @@ cas_logout_url = https://localhost:8443/cas/logout
 cas_mocking = true
 cas_url_pattern = /*
 
-authentication.method = builtin
-
-referential.properties.path=/home/bor/cvq.svn/trunk/Model/conf/
-assets.properties.path=/home/bor/cvq.svn/trunk/Assets/
+referential.properties.path=/home/bor/capdemat/Model/conf/
+assets.properties.path=/home/bor/capdemat/Assets/
 assets.included_authorities=valdoise
-data.properties.path=/home/bor/cvq.svn/trunk/Model/test/data/
+data.properties.path=/home/bor/capdemat/Model/test/data/
 
 mail.sender_host=127.0.0.1
 mail.admin_address=root@localhost

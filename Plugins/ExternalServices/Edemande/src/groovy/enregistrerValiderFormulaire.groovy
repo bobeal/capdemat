@@ -55,27 +55,25 @@
    <mvListePiecesReq/>
    <mvListePiecesRecu>
     <% documents.each { document -> %>
-     <% document.parts.each { part -> %>
-      <CBdosPieceRecueVO>
+     <CBdosPieceRecueVO>
+      <msDescri/>
+      <msLib>${document.label}</msLib>
+      <miNombre>1</miNombre>
+      <moDocument>
        <msDescri/>
-       <msLib>PJ</msLib>
-       <miNombre>1</miNombre>
-       <moDocument>
-        <msDescri/>
-        <msLib/>
-        <miNombre/>
-        <moImage>
-         <msReferenceExt>${part.filename}</msReferenceExt>
-         <mtbFluxBinaire>${part.filename}</mtbFluxBinaire>
-         <msSourceImage>${part.remotePath}</msSourceImage>
-         <msCle/>
-        </moImage>
-        <moFormat>
-         <msTypeMime>text/plain</msTypeMime>
-        </moFormat>
-       </moDocument>
-      </CBdosPieceRecueVO>
-     <% } %>
+       <msLib/>
+       <miNombre/>
+       <moImage>
+        <msReferenceExt>${document.filename}</msReferenceExt>
+        <mtbFluxBinaire>${document.filename}</mtbFluxBinaire>
+        <msSourceImage>${document.remotePath}</msSourceImage>
+        <msCle/>
+       </moImage>
+       <moFormat>
+        <msTypeMime>text/plain</msTypeMime>
+       </moFormat>
+      </moDocument>
+     </CBdosPieceRecueVO>
     <% } %>
    </mvListePiecesRecu>
    <mvListeInformations/>

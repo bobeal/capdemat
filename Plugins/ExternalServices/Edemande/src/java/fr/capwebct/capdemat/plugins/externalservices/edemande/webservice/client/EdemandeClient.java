@@ -58,7 +58,7 @@ public class EdemandeClient implements IEdemandeClient {
     private ClassPathResource rechercherTiersTemplate;
     private ClassPathResource creerTiersTemplate;
 
-    public ChargerTypeDemandeResponseDocument chargerTypeDemande(Object requestPayload)
+    public ChargerTypeDemandeResponseDocument chargerTypeDemande()
         throws CvqException {
         ChargerTypeDemandeDocument chargerTypeDemandeDocument = ChargerTypeDemandeDocument.Factory.newInstance();
         ChargerTypeDemande chargerTypeDemande = chargerTypeDemandeDocument.addNewChargerTypeDemande();

@@ -448,7 +448,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
             model.put("msCodext", firstSending ? "" :
                 parseData(requestData, "//donneesDemande/Demande/msCodext"));
             model.put("requestTypeCode",
-                parseData(edemandeClient.chargerTypeDemande(null).getChargerTypeDemandeResponse().getReturn(), "//typeDemande/code"));
+                parseData(edemandeClient.chargerTypeDemande().getChargerTypeDemandeResponse().getReturn(), "//typeDemande/code"));
             model.put("address", parseAddress((String)model.get("psCodeTiers")));
             EnregistrerValiderFormulaireResponseDocument enregistrerValiderFormulaireResponseDocument = edemandeClient.enregistrerValiderFormulaire(model);
             if (!"0".equals(parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/codeRetour"))) {

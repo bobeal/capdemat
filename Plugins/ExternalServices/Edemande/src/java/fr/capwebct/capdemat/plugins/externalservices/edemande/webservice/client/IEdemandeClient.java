@@ -17,7 +17,7 @@ import fr.cg95.cvq.exception.CvqException;
 
 public interface IEdemandeClient {
 
-    ChargerTypeDemandeResponseDocument chargerTypeDemande(Object requestPayload)
+    ChargerTypeDemandeResponseDocument chargerTypeDemande()
         throws CvqException;
 
     InitialiserFormulaireResponseDocument initialiserFormulaire()

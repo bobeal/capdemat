@@ -1,6 +1,5 @@
 package fr.cg95.cvq.testtool;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -91,37 +90,29 @@ public final class TestUtils {
 
         logger.debug("(" + depth + ") Key : " + lre.getKey());
 
-        Map labelsMap = lre.getLabelsMap();
-        Set labelsMapKeys = labelsMap.keySet();
-        Iterator labelsMapKeysIt = labelsMapKeys.iterator();
-        while (labelsMapKeysIt.hasNext()) {
-            String key = (String) labelsMapKeysIt.next();
+        Map<String, String> labelsMap = lre.getLabelsMap();
+        Set<String> labelsMapKeys = labelsMap.keySet();
+        for (String key : labelsMapKeys) {
             logger.debug("(" + depth + ") Label in " + key + " : " + labelsMap.get(key));
         }
 
-        Map messagesMap = lre.getMessagesMap();
+        Map<String, String> messagesMap = lre.getMessagesMap();
         if (messagesMap != null) {
-            Set messagesMapKeys = messagesMap.keySet();
-            Iterator messagesMapKeysIt = messagesMapKeys.iterator();
-            while (messagesMapKeysIt.hasNext()) {
-                String key = (String) messagesMapKeysIt.next();
+            Set<String> messagesMapKeys = messagesMap.keySet();
+            for (String key : messagesMapKeys) {
                 logger.debug("(" + depth + ") Message in " + key + " : " + messagesMap.get(key));
             }
         }
 
-        Map precisionsMap = lre.getPrecisionsMap();
+        Map<String, Map<String, String>> precisionsMap = lre.getPrecisionsMap();
         if (precisionsMap != null) {
-            Set precisionsMapKeys = precisionsMap.keySet();
-            Iterator precisionsMapKeysIt = precisionsMapKeys.iterator();
-            while (precisionsMapKeysIt.hasNext()) {
-                String key = (String) precisionsMapKeysIt.next();
-                Map precLabelsMap = (Map) precisionsMap.get(key);
-                Set precLabelsMapKeys = precLabelsMap.keySet();
-                Iterator precLabelsMapKeysIt = precLabelsMapKeys.iterator();
-                while (precLabelsMapKeysIt.hasNext()) {
-                    String langKey = (String) precLabelsMapKeysIt.next();
+            Set<String> precisionsMapKeys = precisionsMap.keySet();
+            for (String key : precisionsMapKeys) {
+                Map<String, String> precLabelsMap = precisionsMap.get(key);
+                Set<String> precLabelsMapKeys = precLabelsMap.keySet();
+                for (String langKey : precLabelsMapKeys) {
                     logger.debug("(" + depth + ") Precision " + key + " has label "
-                                 + precLabelsMap.get(langKey) + " in " + langKey);
+                            + precLabelsMap.get(langKey) + " in " + langKey);
                 }
             }
         }
@@ -130,11 +121,9 @@ public final class TestUtils {
         logger.debug("(" + depth + ") Entries support precision : " + lre.getEntriesSupportPrecision());
         logger.debug("(" + depth + ") Entries support multiple : " + lre.getEntriesSupportMultiple());
 
-        Set entries = lre.getEntries();
+        Set<LocalReferentialEntry> entries = lre.getEntries();
         if (entries != null) {
-            Iterator entriesIt = entries.iterator();
-            while (entriesIt.hasNext()) {
-                LocalReferentialEntry subLre = (LocalReferentialEntry) entriesIt.next();
+            for (LocalReferentialEntry subLre : entries) {
                 printEntry(subLre, depth + 1);
             }
         }

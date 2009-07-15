@@ -36,7 +36,7 @@ public interface IIndividualService extends IAutofillTriggerService {
         throws CvqException;
     
     List<Individual> get(Set<Critere> criterias, Map<String,String> sortParams,
-                                    Integer max, Integer offset);
+            Integer max, Integer offset);
 
     Integer getCount(Set<Critere> criterias);
 
@@ -59,9 +59,6 @@ public interface IIndividualService extends IAutofillTriggerService {
         throws CvqException;
     
     Individual getByLogin(final String login)
-        throws CvqException;
-
-    Individual getByCertificate(final String certificate)
         throws CvqException;
 
     /**

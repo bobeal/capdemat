@@ -7,32 +7,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
   <!-- *******************************************************************  -->
-  <!-- ************** LDAP Synchronizer Job Configuration ****************  -->
-  <!-- *******************************************************************  -->
-
-  <!--
-  <bean id="ldapSynchronizerJob"
-    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-    <property name="targetObject" ref="ldapService" />
-    <property name="targetMethod" value="synchronizeDatabasesWithDirectory" />
-    <property name="concurrent" value="false" />
-  </bean>
-
-  <bean id="ldapSynchronizerTestTrigger" 
-    class="org.springframework.scheduling.quartz.SimpleTriggerBean">
-    <property name="jobDetail" ref="ldapSynchronizerJob"/>
-    <property name="startDelay" value="5000"/>
-    <property name="repeatInterval" value="600000"/>
-  </bean>
-
-  <bean id="ldapSynchronizerTrigger"
-    class="org.springframework.scheduling.quartz.CronTriggerBean">
-    <property name="jobDetail" ref="ldapSynchronizerJob" />
-    <property name="cronExpression" value="0 0 6 * * ?" />
-  </bean>
-  -->
-
-  <!-- *******************************************************************  -->
   <!-- ***** Requests Instruction Duration Checker Job Configuration *****  -->
   <!-- *******************************************************************  -->
 
@@ -341,7 +315,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <ref bean="draftManagementNotifierJobTrigger"/>
 	    <!--
         <ref bean="requestWorkflowNavigatorTrigger" />
-        <ref bean="ldapSynchronizerTrigger" />
         <ref bean="paymentInitializationCheckerTrigger" />
 	    -->
       </list>

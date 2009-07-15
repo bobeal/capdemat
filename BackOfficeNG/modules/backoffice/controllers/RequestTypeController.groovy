@@ -82,9 +82,9 @@ class RequestTypeController {
     // the configuration items all request types will have
     // the boolean indicates if it's a mandatory step
     def baseConfigurationItems = [
-        "forms":["requestType.configuration.forms", true],
-        "alerts":["requestType.configuration.alerts", true],
-        "documents":["requestType.configuration.documentType", true]
+        "forms":["requestType.configuration.forms", false],
+        "alerts":["requestType.configuration.alerts", false],
+        "documents":["requestType.configuration.documentType", false]
     ]
     
     def configure = {
@@ -97,7 +97,7 @@ class RequestTypeController {
             baseConfigurationItems["localReferential"] =
                 ["requestType.configuration.localReferential", true]
         if (requestService.isOfRegistrationKind()) {
-            baseConfigurationItems["seasons"] = ["requestType.configuration.seasons", true]
+            baseConfigurationItems["seasons"] = ["requestType.configuration.seasons", false]
         }
         return ["requestType":requestType, "requestTypeLabel":requestTypeLabel,
                 "baseConfigurationItems":baseConfigurationItems,

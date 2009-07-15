@@ -25,7 +25,6 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.IAgentService;
-import fr.cg95.cvq.service.authority.ILdapService;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -39,8 +38,6 @@ public final class AgentService implements IAgentService {
 
     private IAgentDAO agentDAO;
     private ICategoryDAO categoryDAO;
-
-    private ILdapService ldapService;
 
     public AgentService() {
         super();
@@ -77,9 +74,6 @@ public final class AgentService implements IAgentService {
         throws CvqException {
 
         List<Agent> agents = agentDAO.search(criteriaSet);
-        for (Agent agent : agents)
-            feedWithLdapData(agent);
-
         return agents;
     }
 
@@ -87,10 +81,6 @@ public final class AgentService implements IAgentService {
         throws CvqException {
 
         List<Agent> agents = agentDAO.listAll();
-        for (Agent agent : agents) {
-            feedWithLdapData(agent);
-        }
-
         return agents;
     }
 
@@ -105,34 +95,18 @@ public final class AgentService implements IAgentService {
             return null;
         }
         
-        Agent agent = null;
-        agent = (Agent) agentDAO.findById(Agent.class, id);
-        feedWithLdapData(agent);
+        Agent agent = (Agent) agentDAO.findById(Agent.class, id);
         return agent;
     }
 
     public Agent getByLogin(final String login)
         throws CvqException, CvqObjectNotFoundException {
 
-        Agent agent = null;
-        agent = agentDAO.findByLogin(login);
-        
+        Agent agent = agentDAO.findByLogin(login);
         if (agent == null)
             throw new CvqObjectNotFoundException("Agent not found in DB, maybe DB needs to be synchronized with LDAP directory ??");
 
-        feedWithLdapData(agent);
         return agent;
-    }
-
-    protected void feedWithLdapData(Agent agent)
-        throws CvqException {
-
-        try {
-            ldapService.completeAgentData(agent);
-        } catch (CvqException e) {
-            logger.warn("feedWithLdapData() Agent " + agent.getLogin() + " seems to have been "
-                    + " removed from LDAP");
-        }
     }
 
     public Set<Agent> getAuthorizedForCategory(Long categoryId) throws CvqException {
@@ -315,7 +289,8 @@ public final class AgentService implements IAgentService {
     }
     
     public void modifyPreference(Agent agent,String key,Hashtable<String,String> preference) 
-    throws CvqException{
+        throws CvqException {
+        
         Hashtable<String, Hashtable<String, String>> preferences;
         if(agent.getPreferences() == null) 
             agent.setPreferences(new Hashtable<String, Hashtable<String,String>>());
@@ -326,16 +301,8 @@ public final class AgentService implements IAgentService {
         this.modify(agent);
     }
     
-    public void setDAO(IAgentDAO agentDAO) {
-        this.agentDAO = agentDAO;
-    }
-
     public void setCategoryDAO(ICategoryDAO categoryDAO) {
         this.categoryDAO = categoryDAO;
-    }
-
-    public void setLdapService(ILdapService ldapService) {
-        this.ldapService = ldapService;
     }
 
     public void setAgentDAO(IAgentDAO agentDAO) {

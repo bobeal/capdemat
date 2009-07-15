@@ -8,19 +8,6 @@ cas_logout_url = https://localhost:8443/cas/logout
 cas_mocking = true
 cas_url_pattern = /*
 
-ldap.enabled=false
-ldap.host=localhost
-ldap.port=389
-ldap.security_principal=cn=admin,dc=valdoise,dc=fr
-ldap.security_credentials=secret_password
-ldap.security_authentication=simple
-ldap.dit_root=dc=valdoise,dc=fr
-ldap.people_branch=ou=people
-ldap.people.first_name_attribute=sn
-ldap.people.last_name_attribute=givenName
-ldap.school_branch=ou=schools
-ldap.recreation_center_branch=ou=recreation centers
-
 referential.properties.path=Model/conf/
 assets.properties.path=/home/capdemat/Model/test/assets/
 assets.included_authorities=dummy

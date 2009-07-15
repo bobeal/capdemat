@@ -7,7 +7,7 @@
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean"
     init-method="init">
     <property name="name" value="valdoise"/>
-    <property name="defaultServerName" value="vosdemarches.valdoise.fr"/>
+    <property name="defaultServerName" value="localhost"/>
     <property name="sessionFactory">
       <ref bean="sessionFactory_valdoise" />
     </property>

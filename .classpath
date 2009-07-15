@@ -88,8 +88,6 @@
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-2.5.5.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-webmvc-2.5.5.jar"/>
 	<classpathentry kind="lib" path="Model/lib/jsmtpd/jsmtpd-core-2.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-1.0.4.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-tiger-1.0.4.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/xws-security-2.0-FCS.jar"/>
 	<classpathentry kind="lib" path="Model/lib/org.jmock/jmock-2.5.1.jar"/>
 	<classpathentry kind="lib" path="Model/lib/org.jmock/hamcrest-core-1.1.jar"/>
@@ -110,5 +108,7 @@
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-security-1.5.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-xml-1.5.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/ant/ant.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-1.5.6.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-tiger-1.5.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -23,13 +23,6 @@ public interface IIndividualDAO extends IGenericDAO {
     Individual findByLogin(final String login);
 
     /**
-     * Look up an Individual by its certificate stored on the card.
-     *
-     * @return the sole individual if found or none else
-     */
-    Individual findByCertificate(final String certificate);
-
-    /**
      * Look up an Individual by its public key.
      *
      * @return the sole individual if found or none else
@@ -90,7 +83,7 @@ public interface IIndividualDAO extends IGenericDAO {
      * @return List of individuals
      */
     List<Individual> search(Set<Critere> criterias, Map<String,String> sortParams,
-                                    Integer max, Integer offset);
+            Integer max, Integer offset);
 
     /**
      * Gets individuals count using criterias and sort/offset params.

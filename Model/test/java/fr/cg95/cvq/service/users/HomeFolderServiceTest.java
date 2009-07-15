@@ -19,7 +19,6 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Card;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
@@ -291,7 +290,6 @@ public class HomeFolderServiceTest extends ServiceTestCase {
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "STNAME", 
                     Critere.LIKE, null, null, null, false);
         Assert.assertEquals(individuals.size(), ilikeLastNameSearchSize + 5);
-        Individual firstIndividualFound = (Individual)individuals.iterator().next();
   
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_FIRSTNAME, "OSTNAM", 
@@ -301,18 +299,6 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         individuals = performIndividualSearch(Individual.SEARCH_BY_BIRTHDATE, new Date(), 
                 Critere.GT, null, null, null, false);
         Assert.assertEquals(individuals.size(), 2);
-        
-        Card card = new Card();
-        card.setCardType("Carte d'abonné du Parc des Princes");
-        card.setIdentifier("111-333-CVDSRGSDFSER");
-        String certificate = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-        card.setCertificate(certificate);
-        card.setPin("12345678");
-        iCardService.create(card, firstIndividualFound.getId());
-
-        Individual individualByCertificate =
-            iIndividualService.getByCertificate(certificate);
-        Assert.assertNotNull(individualByCertificate);
     }
     
     private List<Individual> performIndividualSearch(final String attribut, final Object value,

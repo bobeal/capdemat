@@ -47,13 +47,6 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
         return (Individual) crit.uniqueResult();
     }
 
-    public Individual findByCertificate(final String certificate) {
-        Criteria crit = HibernateUtil.getSession().createCriteria(Individual.class);
-        crit.createCriteria("card").add(
-                Critere.compose("certificate", certificate, Critere.EQUALS));
-        return (Individual) crit.uniqueResult();
-    }
-    
     public List<Individual> search(final Set<Critere> criteria, final String orderedBy, 
             final ActorState[] excludedStates) {
 

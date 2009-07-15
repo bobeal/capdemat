@@ -56,7 +56,6 @@ import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
-import fr.cg95.cvq.service.users.ICardService;
 import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
@@ -91,7 +90,6 @@ public class ServiceTestCase
     protected static IAuthenticationService iAuthenticationService;
     protected static IDocumentService iDocumentService;
     protected static IDocumentTypeService iDocumentTypeService;
-    protected static ICardService iCardService;
     protected static ICertificateService iCertificateService;
 
     // authority related services
@@ -375,10 +373,6 @@ public class ServiceTestCase
         iDocumentTypeService = documentTypeService;
     }
     
-    public void setCardService(ICardService cardService) {
-        iCardService = cardService;
-    }
-
     public void setCertificateService(ICertificateService certificateService) {
         iCertificateService = certificateService;
     }

@@ -638,3 +638,6 @@ alter table local_authority add column payment_deactivation_end_date timestamp;
 
 alter table local_authority add column display_in_progress_payments bool not null default false;
 
+-- remove card data
+alter table individual drop constraint FKFD3DA29948B0ABD2;
+drop table card;

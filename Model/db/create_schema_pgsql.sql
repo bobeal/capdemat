@@ -255,9 +255,6 @@
         drop constraint FKFD3DA2996AB1E860;
 
     alter table individual 
-        drop constraint FKFD3DA29948B0ABD2;
-
-    alter table individual 
         drop constraint FKFD3DA2998BD77771;
 
     alter table individual_role 
@@ -492,8 +489,6 @@
     drop table bulky_waste_collection_request;
 
     drop table bulky_waste_collection_request_bulky_waste_type;
-
-    drop table card;
 
     drop table category;
 
@@ -776,16 +771,16 @@
         comment varchar(255),
         birth_first_names varchar(255),
         motive varchar(255),
-        requester_quality_precision varchar(255),
         birth_date timestamp,
-        requester_quality varchar(255),
+        requester_quality_precision varchar(255),
         birth_city varchar(32),
+        requester_quality varchar(255),
         father_last_name varchar(38),
         birth_marriage_name varchar(38),
-        father_first_names varchar(255),
         mother_first_names varchar(255),
-        birth_last_name varchar(38),
+        father_first_names varchar(255),
         mother_maiden_name varchar(38),
+        birth_last_name varchar(38),
         primary key (id)
     );
 
@@ -801,18 +796,6 @@
         bulky_waste_type_id int8 not null,
         bulky_waste_type_index int4 not null,
         primary key (bulky_waste_collection_request_id, bulky_waste_type_index)
-    );
-
-    create table card (
-        id int8 not null,
-        card_delivery_date timestamp,
-        card_validity_date timestamp,
-        card_type varchar(255),
-        identifier varchar(255),
-        certificate varchar(4096),
-        pin varchar(32),
-        card_state varchar(16),
-        primary key (id)
     );
 
     create table category (
@@ -1605,7 +1588,6 @@
         creation_date timestamp,
         state varchar(16) not null,
         adress_id int8,
-        card_id int8,
         home_folder_id int8,
         home_folder_index int4,
         primary key (id)
@@ -2125,47 +2107,47 @@
 
     create table study_grant_request (
         id int8 not null,
-        abroad_internship_end_date timestamp,
-        has_europe_help bool,
-        current_studies varchar(255),
-        tax_household_city_precision varchar(255),
-        account_holder_edemande_id varchar(255),
-        current_studies_level varchar(255),
         edemande_id varchar(255),
-        current_school_postal_code varchar(5),
-        abroad_internship_start_date timestamp,
-        tax_household_first_name varchar(38),
+        subject_birth_date timestamp,
+        current_school_city varchar(32),
+        subject_email varchar(255),
+        subject_first_request bool,
+        has_other_help bool,
+        subject_phone varchar(10),
+        current_studies varchar(255),
         alevels_date varchar(4),
         account_holder_birth_date timestamp,
-        bank_code varchar(5),
-        subject_birth_date timestamp,
         counter_code varchar(5),
-        account_holder_last_name varchar(38),
-        current_school_city varchar(32),
-        has_c_r_o_u_s_help bool,
-        subject_email varchar(255),
         account_holder_title varchar(255),
-        sandwich_courses bool,
-        account_holder_first_name varchar(38),
         abroad_internship_school_country varchar(255),
-        abroad_internship bool,
         tax_household_last_name varchar(38),
+        abroad_internship_school_name varchar(255),
+        account_key varchar(2),
+        has_regional_council_help bool,
+        tax_household_city_precision varchar(255),
+        current_studies_level varchar(255),
+        current_school_postal_code varchar(5),
+        abroad_internship_start_date timestamp,
+        account_holder_last_name varchar(38),
+        has_c_r_o_u_s_help bool,
+        account_holder_first_name varchar(38),
         account_number varchar(11),
         distance varchar(255),
         alevels varchar(255),
         is_subject_account_holder bool,
-        subject_first_request bool,
         subject_mobile_phone varchar(10),
-        abroad_internship_school_name varchar(255),
-        account_key varchar(2),
         other_studies_label varchar(255),
-        has_regional_council_help bool,
         tax_household_income float8,
-        has_other_help bool,
         current_school_name_precision varchar(255),
-        subject_address_id int8,
         current_school_country varchar(255),
-        subject_phone varchar(10),
+        subject_address_id int8,
+        abroad_internship_end_date timestamp,
+        has_europe_help bool,
+        account_holder_edemande_id varchar(255),
+        tax_household_first_name varchar(38),
+        bank_code varchar(5),
+        sandwich_courses bool,
+        abroad_internship bool,
         primary key (id)
     );
 
@@ -2635,11 +2617,6 @@
         add constraint FKFD3DA2996AB1E860 
         foreign key (adress_id) 
         references address;
-
-    alter table individual 
-        add constraint FKFD3DA29948B0ABD2 
-        foreign key (card_id) 
-        references card;
 
     alter table individual 
         add constraint FKFD3DA2998BD77771 

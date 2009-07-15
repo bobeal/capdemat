@@ -69,7 +69,6 @@ public class Individual implements Historizable, Serializable {
     private Date creationDate;
     private ActorState state;
     private Address adress;
-    private Card card;
     private HomeFolder homeFolder;
     
     private Set<IndividualRole> individualRoles;
@@ -446,20 +445,6 @@ public class Individual implements Historizable, Serializable {
 
     public void setAdress(Address adress) {
         this.adress = adress;
-    }
-
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.users.Card"
-     *  column="card_id"
-     *  cascade="all"
-     */
-    public Card getCard() {
-        return this.card;
-    }
-
-    public void setCard(Card card) {
-        this.card = card;
     }
 
     /**

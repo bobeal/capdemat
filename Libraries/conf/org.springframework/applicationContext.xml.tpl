@@ -126,14 +126,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   </bean>
 
   <bean id="agentService" class="fr.cg95.cvq.service.authority.impl.AgentService">
-    <property name="DAO">
+    <property name="agentDAO">
       <ref local="agentDAO"/>
     </property>
     <property name="categoryDAO">
       <ref local="categoryDAO"/>
-    </property>
-    <property name="ldapService">
-      <ref bean="ldapService"/>
     </property>
   </bean>
 
@@ -332,15 +329,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
       <bean class="fr.cg95.cvq.service.document.impl.DocumentBootstrapper">
         <property name="documentTypeDAO" ref="documentTypeDAO" />
       </bean>
-    </property>
-  </bean>
-
-  <bean id="cardService" class="fr.cg95.cvq.service.users.impl.CardService">
-    <property name="DAO">
-      <ref local="genericDAO"/>
-    </property>
-    <property name="individualDAO">
-      <ref local="individualDAO"/>
     </property>
   </bean>
 

@@ -24,6 +24,8 @@
 
   <target name="clean-configfiles" depends="init">
     <delete file="${libraries.springconf.dir}/applicationContext.xml" />
+    <delete file="${libraries.springconf.dir}/applicationContext-serviceexporter.xml" />
+    <delete file="${libraries.springconf.dir}/applicationContext-deployment.xml" />
   </target>
 
   <target name="clean-generator" depends="init">

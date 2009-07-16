@@ -38,6 +38,7 @@ html { background: #cccccc; }
 #loginForm input.button { font-size: .85em; }
 #loginForm a            { color: #095BA6; background: transparent; }
 #loginForm a:hover      { color: #fff; text-decoration: none; background: #095BA6; }
+#loginForm p.error      { margin: 0; padding: 0 0 .3em; text-align: left; font-size: 1.2em; }
 
 
 /* main menu

@@ -19,6 +19,9 @@
         </g:if>
         <g:elseif test="${isLogin}">
           <form action="/BackOfficeNG/frontoffice/home/login" method="post" id="loginForm">
+            <g:if test="${error}">
+              <p class="error">${error}</p>
+            </g:if>
             <label for="login"><g:message code="account.property.login"/></label>
             <input type="text" class="text" name="login" id="login"/>
             <label for="password"><g:message code="account.property.password"/></label>

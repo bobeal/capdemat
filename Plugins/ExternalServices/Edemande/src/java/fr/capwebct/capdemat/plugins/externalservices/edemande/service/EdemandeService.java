@@ -60,6 +60,7 @@ import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
@@ -95,8 +96,9 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     @Override
     public String sendRequest(XmlObject requestXml) {
         StudyGrantRequest sgr = ((StudyGrantRequestDocument) requestXml).getStudyGrantRequest();
+        String psCodeTiersAH = null;
         if (!sgr.getIsSubjectAccountHolder()) {
-            String psCodeTiersAH = sgr.getAccountHolderEdemandeId();
+            psCodeTiersAH = sgr.getAccountHolderEdemandeId();
             if (psCodeTiersAH == null || psCodeTiersAH.trim().isEmpty()) {
                 psCodeTiersAH = searchAccountHolder(sgr);
                 if (psCodeTiersAH == null || psCodeTiersAH.trim().isEmpty()) {
@@ -123,7 +125,9 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
             //     either check if tiers has been created in eDemande
             //     either ask for its creation in eDemande
             psCodeTiersS = searchSubject(sgr);
-            if (psCodeTiersS == null || psCodeTiersS.trim().isEmpty()) {
+            // add a "hack" condition when psCodeTiersS == psCodeTiersAH
+            // to handle homonyms until individual search accepts birth date etc.
+            if (psCodeTiersS == null || psCodeTiersS.trim().isEmpty() || psCodeTiersS.trim().equals(psCodeTiersAH)) {
                 // tiers has not been created in eDemande ...
                 if (mustCreateSubject(sgr)) {
                     // ... and no request in progress so ask for its creation
@@ -411,27 +415,40 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         model.put("distance",
             translationService.translate("sgr.property.distance."
             + sgr.getDistance().toString(), Locale.FRANCE));
-        List<Map<String, Object>> documents = new ArrayList<Map<String, Object>>();
+        List<Map<String, String>> documents = new ArrayList<Map<String, String>>();
         model.put("documents", documents);
         try {
             for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
                 Document document = documentService.getById(requestDoc.getDocumentId());
-                Map<String, Object> doc = new HashMap<String, Object>();
-                documents.add(doc);
-                List<Map<String, String>> parts = new ArrayList<Map<String, String>>();
-                doc.put("parts", parts);
+                //Map<String, Object> doc = new HashMap<String, Object>();
+                //documents.add(doc);
+                //List<Map<String, String>> parts = new ArrayList<Map<String, String>>();
+                //doc.put("parts", parts);
                 int i = 1;
                 for (DocumentBinary documentBinary : document.getDatas()) {
-                    Map<String, String> part = new HashMap<String, String>();
-                    parts.add(part);
+                    Map<String, String> doc = new HashMap<String, String>();
+                    documents.add(doc);
                     String filename = org.springframework.util.StringUtils.arrayToDelimitedString(
                         new String[] {
                             "CapDemat", document.getDocumentType().getName(),
                             String.valueOf(sgr.getId()), String.valueOf(i++)
                         }, "-");
-                    part.put("filename", filename);
+                    doc.put("filename", filename);
+                    if (IDocumentTypeService.BANK_IDENTITY_RECEIPT_TYPE.equals(
+                        document.getDocumentType().getType())) {
+                        doc.put("label", "RIB");
+                    } else if (IDocumentTypeService.SCHOOL_CERTIFICATE_TYPE.equals(
+                        document.getDocumentType().getType())) {
+                        doc.put("label", "Certificat d'inscription");
+                    } else if (IDocumentTypeService.SCHOOL_CERTIFICATE_TYPE.equals(
+                        document.getDocumentType().getType())) {
+                        doc.put("label", "Avis d'imposition");
+                    } else {
+                        // should never happen
+                        doc.put("label", document.getDocumentType().getName());
+                    }
                     try {
-                        part.put("remotePath", uploader.upload(filename, documentBinary.getData()));
+                        doc.put("remotePath", uploader.upload(filename, documentBinary.getData()));
                     } catch (JSchException e) {
                         addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, "Erreur à l'envoi d'une pièce jointe");
                     } catch (SftpException e) {
@@ -448,7 +465,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
             model.put("msCodext", firstSending ? "" :
                 parseData(requestData, "//donneesDemande/Demande/msCodext"));
             model.put("requestTypeCode",
-                parseData(edemandeClient.chargerTypeDemande(null).getChargerTypeDemandeResponse().getReturn(), "//typeDemande/code"));
+                parseData(edemandeClient.chargerTypeDemande().getChargerTypeDemandeResponse().getReturn(), "//typeDemande/code"));
             model.put("address", parseAddress((String)model.get("psCodeTiers")));
             EnregistrerValiderFormulaireResponseDocument enregistrerValiderFormulaireResponseDocument = edemandeClient.enregistrerValiderFormulaire(model);
             if (!"0".equals(parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/codeRetour"))) {

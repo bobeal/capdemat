@@ -1,7 +1,7 @@
 <rechercheTiers>
-  <nom>${lastName}</nom>
+  <nom>${lastName.encodeAsXML()}</nom>
   <infoRIB>
     <type>RIB</type>
-    <numero>${bankCode} ${counterCode} ${accountNumber} ${accountKey}</numero>
+    <numero>${bankCode.encodeAsXML()} ${counterCode.encodeAsXML()} ${accountNumber.encodeAsXML()} ${accountKey.encodeAsXML()}</numero>
   </infoRIB>
 </rechercheTiers>

@@ -1,19 +1,19 @@
 <form>
  <FormCommunOrbeon>
   <CBdosDemandeVO>
-   <miCode>${psCodeDemande}</miCode>
+   <miCode>${psCodeDemande.encodeAsXML()}</miCode>
    <moOrigineApsect>
-    <msIdentifiant>${externalRequestId}</msIdentifiant>
+    <msIdentifiant>${externalRequestId.encodeAsXML()}</msIdentifiant>
     <moApplicatifSectoriel>
      <miCode/>
      <msCodext>EXTSUB</msCodext>
     </moApplicatifSectoriel>
    </moOrigineApsect>
    <affichage/>
-   <msStatut>${msStatut}</msStatut>
+   <msStatut>${msStatut.encodeAsXML()}</msStatut>
    <msAdresse>/dep/?formID=dep</msAdresse>
    <msIdentifiant/>
-   <msDescription>${"TEST-" + externalRequestId}</msDescription>
+   <msDescription>${"TEST-" + externalRequestId.encodeAsXML()}</msDescription>
    <mdMtProjetHT/>
    <mdMtProjetTTC/>
    <moTvaProjet>
@@ -24,7 +24,7 @@
    </moCdr>
    <moTypDem>
     <msNom>Mobil_Etudes_Extranet</msNom>
-    <miCode>${requestTypeCode}</miCode>
+    <miCode>${requestTypeCode.encodeAsXML()}</miCode>
     <msLib>Mobil'Etudes 77 Extranet</msLib>
     <msDescri>Bourses Mobil'Etudes 77 - Extranet</msDescri>
     <mvPiecesNec/>
@@ -44,38 +44,36 @@
     <msFonction>Chargé du suivi de la demande</msFonction>
    </moDemandeur>
    <miAnneeProg/>
-   <miMillesime>${millesime}</miMillesime>
+   <miMillesime>${millesime.encodeAsXML()}</miMillesime>
    <mdtDateAcc/>
    <mdtDateRec/>
    <mdtDateCre/>
    <mdtDateDecision/>
    <msComment/>
-   <msCodext>${msCodext}</msCodext>
+   <msCodext>${msCodext.encodeAsXML()}</msCodext>
    <mdMtDemande/>
    <mvListePiecesReq/>
    <mvListePiecesRecu>
     <% documents.each { document -> %>
-     <% document.parts.each { part -> %>
-      <CBdosPieceRecueVO>
+     <CBdosPieceRecueVO>
+      <msDescri/>
+      <msLib>${document.label.encodeAsXML()}</msLib>
+      <miNombre>1</miNombre>
+      <moDocument>
        <msDescri/>
-       <msLib>PJ</msLib>
-       <miNombre>1</miNombre>
-       <moDocument>
-        <msDescri/>
-        <msLib/>
-        <miNombre/>
-        <moImage>
-         <msReferenceExt>${part.filename}</msReferenceExt>
-         <mtbFluxBinaire>${part.filename}</mtbFluxBinaire>
-         <msSourceImage>${part.remotePath}</msSourceImage>
-         <msCle/>
-        </moImage>
-        <moFormat>
-         <msTypeMime>text/plain</msTypeMime>
-        </moFormat>
-       </moDocument>
-      </CBdosPieceRecueVO>
-     <% } %>
+       <msLib/>
+       <miNombre/>
+       <moImage>
+        <msReferenceExt>${document.filename.encodeAsXML()}</msReferenceExt>
+        <mtbFluxBinaire>${document.filename.encodeAsXML()}</mtbFluxBinaire>
+        <msSourceImage>${document.remotePath.encodeAsXML()}</msSourceImage>
+        <msCle/>
+       </moImage>
+       <moFormat>
+        <msTypeMime>text/plain</msTypeMime>
+       </moFormat>
+      </moDocument>
+     </CBdosPieceRecueVO>
     <% } %>
    </mvListePiecesRecu>
    <mvListeInformations/>
@@ -85,10 +83,10 @@
   <DemandeTiers>
    <CodeAppliSecto>EXTSUB</CodeAppliSecto>
    <NumAppliSecto/>
-   <miCode>${psCodeTiers}</miCode>
+   <miCode>${psCodeTiers.encodeAsXML()}</miCode>
    <LoginUtilisateurGda/>
-   <msNom>${lastName}</msNom>
-   <msLib>${lastName}</msLib>
+   <msNom>${lastName.encodeAsXML()}</msNom>
+   <msLib>${lastName.encodeAsXML()}</msLib>
    <moAttach>
     <moProcedure>
      <miCode>27</miCode>
@@ -113,24 +111,24 @@
     <miCode/>
    </moCdrAppartenance>
    <moSectorisation>
-    <miCode>${taxHouseholdCityCode}</miCode>
+    <miCode>${taxHouseholdCityCode.encodeAsXML()}</miCode>
    </moSectorisation>
    <mvAdresses>
     <CTierAdresseVO>
-     <miCode>${address.miCode}</miCode>
-     <msVoie>${address.msVoie}</msVoie>
+     <miCode>${address.miCode.encodeAsXML()}</miCode>
+     <msVoie>${address.msVoie.encodeAsXML()}</msVoie>
      <msComplement/>
-     <msCodePostal>${address.msCodePostal}</msCodePostal>
-     <msPays>${address.msPays}</msPays>
-     <miBoitePostale>${address.miBoitePostale}</miBoitePostale>
-     <miCedex>${address.miCedex}</miCedex>
-     <msVille>${address.msVille}</msVille>
-     <msTel>${address.msTel}</msTel>
-     <msFax>${address.msFax}</msFax>
-     <msMail>${address.msMail}</msMail>
-     <mbUsuel>${address.mbUsuel}</mbUsuel>
+     <msCodePostal>${address.msCodePostal.encodeAsXML()}</msCodePostal>
+     <msPays>${address.msPays.encodeAsXML()}</msPays>
+     <miBoitePostale>${address.miBoitePostale.encodeAsXML()}</miBoitePostale>
+     <miCedex>${address.miCedex.encodeAsXML()}</miCedex>
+     <msVille>${address.msVille.encodeAsXML()}</msVille>
+     <msTel>${address.msTel.encodeAsXML()}</msTel>
+     <msFax>${address.msFax.encodeAsXML()}</msFax>
+     <msMail>${address.msMail.encodeAsXML()}</msMail>
+     <mbUsuel>${address.mbUsuel.encodeAsXML()}</mbUsuel>
      <moNature>
-      <miCode>${address."moNature/miCode"}</miCode>
+      <miCode>${address."moNature/miCode".encodeAsXML()}</miCode>
      </moNature>
     </CTierAdresseVO>
    </mvAdresses>
@@ -140,11 +138,11 @@
         <msDescription>Virement bancaire</msDescription>
       </moModePaiement>
       <moAgence>
-        <miBanque>${bankCode}</miBanque>
-        <miAgence>${counterCode}</miAgence>
+        <miBanque>${bankCode.encodeAsXML()}</miBanque>
+        <miAgence>${counterCode.encodeAsXML()}</miAgence>
       </moAgence>
-      <msCompte>${accountNumber}</msCompte>
-      <miCleRib>${accountKey}</miCleRib>
+      <msCompte>${accountNumber.encodeAsXML()}</msCompte>
+      <miCleRib>${accountKey.encodeAsXML()}</miCleRib>
       <mbEtranger>false</mbEtranger>
       <mbIban>false</mbIban>
       <mbUsuel>true</mbUsuel>
@@ -170,7 +168,7 @@
     </CCgenNatureCptVO>
    </mvComptesContrePartie>
    <PersonnePhysique>
-     <msPrenom>${firstName}</msPrenom>
+     <msPrenom>${firstName.encodeAsXML()}</msPrenom>
    </PersonnePhysique>
    <mvDocuments/>
   </DemandeTiers>
@@ -181,11 +179,11 @@
    <moGeneral type="noeud" nom="DEMANDE">
     <mbPremiereDem type="booleen" nom="Indicateur Première Demande">${firstRequest}</mbPremiereDem>
     <mdtDateCreation type="date" nom="Date de validation de la demande par l'étudiant">${creationDate}</mdtDateCreation>
-    <msRIB type="texte" nom="RIB">${bankCode} ${counterCode} ${accountNumber} ${accountKey}</msRIB>
+    <msRIB type="texte" nom="RIB">${bankCode.encodeAsXML()} ${counterCode.encodeAsXML()} ${accountNumber.encodeAsXML()} ${accountKey.encodeAsXML()}</msRIB>
    </moGeneral>
    <moFoyerFiscal type="noeud" nom="FOYER FISCAL">
     <mdMtRevenuBrutGlobal type="montant" nom="Revenu brut global pour l'année 2007 et inférieur à 32 000 euros">${taxHouseholdIncome}</mdMtRevenuBrutGlobal>
-    <msSecto type="texte" nom="Sectorisation hors 77">${taxHouseholdCityPrecision}</msSecto>
+    <msSecto type="texte" nom="Sectorisation hors 77">${taxHouseholdCityPrecision.encodeAsXML()}</msSecto>
    </moFoyerFiscal>
    <moAutresAides type="noeud" nom="AUTRES AIDES">
     <mbAideCROUS type="booleen" nom="Aide CROUS">${hasCROUSHelp}</mbAideCROUS>
@@ -195,24 +193,24 @@
    </moAutresAides>
    <moEtudes type="noeud" nom="ETUDES EN COURS">
     <miAnneeBac type="entier" nom="Année d'obtention du baccalauréat">${AlevelsDate}</miAnneeBac>
-    <msTypeBac type="texte" nom="Type de baccalauréat">${AlevelsType}</msTypeBac>
-    <msDiplomePrepare type="texte" nom="Diplôme préparé">${currentStudiesType}</msDiplomePrepare>
-    <msDiplomeNiveau type="texte" nom="Niveau diplôme">${currentStudiesLevel}</msDiplomeNiveau>
+    <msTypeBac type="texte" nom="Type de baccalauréat">${AlevelsType.encodeAsXML()}</msTypeBac>
+    <msDiplomePrepare type="texte" nom="Diplôme préparé">${currentStudiesType.encodeAsXML()}</msDiplomePrepare>
+    <msDiplomeNiveau type="texte" nom="Niveau diplôme">${currentStudiesLevel.encodeAsXML()}</msDiplomeNiveau>
     <mbEtudeAlternance type="booleen" nom="Etudes en alternance">${sandwichCourses}</mbEtudeAlternance>
     <mbStageEtranger type="booleen" nom="Stage conventionné à l'étranger">${abroadInternship}</mbStageEtranger>
     <mdtDateDebutStage type="date" nom="Date de début de stage">${abroadInternshipStartDate}</mdtDateDebutStage>
     <mdtDateFinStage type="date" nom="Date de fin de stage">${abroadInternshipEndDate}</mdtDateFinStage>
    </moEtudes>
    <moEtablissement type="noeud" nom="ETABLISSEMENT SCOLAIRE">
-    <msNomEtab type="texte" nom="Nom de l'établissement">${currentSchoolName}</msNomEtab>
+    <msNomEtab type="texte" nom="Nom de l'établissement">${currentSchoolName.encodeAsXML()}</msNomEtab>
     <miCPEtab type="entier" nom="Code postal de l'établissement">${currentSchoolPostalCode}</miCPEtab>
-    <msVilleEtab type="texte" nom="Ville de l'établissement">${currentSchoolCity}</msVilleEtab>
-    <msPaysEtab type="texte" nom="Pays de l'établissement">${currentSchoolCountry}</msPaysEtab>
-    <msNomEtabAccueil type="texte" nom="Nom de l'établissement d'accueil à l'étranger">${abroadInternshipSchoolName}</msNomEtabAccueil>
-    <msPaysEtabAccueil type="texte" nom="Pays de l'établissement d'accueil à l'étranger">${abroadInternshipSchoolCountry}</msPaysEtabAccueil>
+    <msVilleEtab type="texte" nom="Ville de l'établissement">${currentSchoolCity.encodeAsXML()}</msVilleEtab>
+    <msPaysEtab type="texte" nom="Pays de l'établissement">${currentSchoolCountry.encodeAsXML()}</msPaysEtab>
+    <msNomEtabAccueil type="texte" nom="Nom de l'établissement d'accueil à l'étranger">${abroadInternshipSchoolName.encodeAsXML()}</msNomEtabAccueil>
+    <msPaysEtabAccueil type="texte" nom="Pays de l'établissement d'accueil à l'étranger">${abroadInternshipSchoolCountry.encodeAsXML()}</msPaysEtabAccueil>
    </moEtablissement>
    <moCalcul type="noeud" nom="ELEMENTS DE CALCUL">
-    <msElementCalculDistance type="texte" nom="Elément de calcul de la bourse">${distance}</msElementCalculDistance>
+    <msElementCalculDistance type="texte" nom="Elément de calcul de la bourse">${distance.encodeAsXML()}</msElementCalculDistance>
    </moCalcul>
   </InfoXml>
  </FormDispositif>

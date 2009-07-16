@@ -8,92 +8,52 @@
 /* global reset
 --------------------------------------------------------------*/
 
-html { background: #cccccc; }
+html { background: #fff; }
 
 
 /* header
 --------------------------------------------------------------*/
-#hd { margin: 0 0 1.5em 0; overflow: auto; }
+#hd    { margin: 0 0 .5em; overflow: auto; }
+#hd h1 { margin: .3em 0; }
 
-#hd h1 {
-  float: left;
-  margin: .3em 0;
-  font: normal 3em sans-serif;
-  color: #4c3848;
-}
-#hd h1 span { display: block; padding: .1em 0 0 0; font-size: .5em; }
+#hd .top { min-height: 1.8em; text-align: right; overflow: auto; }
 
-#hd-menu { min-height: 1.8em; text-align: right; overflow: auto; }
+#hd .top a.menu       { padding: .5em 1em; -moz-border-radius: 0 0 .5em .5em; text-decoration: none; color: #ffffff; background: #9eca27; }
+#hd .top a.menu:hover { background: #e6648d; }
 
-#hd-menu a.menu {
-  padding: .5em 1em;
-  -moz-border-radius: 0 0 .5em .5em;
-  text-decoration: none;
-  color: #ffffff; background: #4c3848 ;
-}
-#hd-menu a.menu:hover {  background: #c690bb; }
-
-#loginForm              { float: left; padding: .4em; -moz-border-radius-bottomleft: .5em; -moz-border-radius-bottomright: .5em;  background: #ffffcc;} 
-#loginForm input.text   { border: 1px solid #ffaa00; }
-#loginForm input.button { font-size: .85em; }
-#loginForm a            { color: #095BA6; background: transparent; }
-#loginForm a:hover      { color: #fff; text-decoration: none; background: #095BA6; }
-#loginForm p.error      { margin: 0; padding: 0 0 .3em; text-align: left; font-size: 1.2em; }
+#hd .top form              { float: left; padding: .4em; -moz-border-radius-bottomleft: .5em; -moz-border-radius-bottomright: .5em; background: #ffffcc; } 
+#hd .top form input.text   { border: 1px solid #ffaa00; }
+#hd .top form input.button { font-size: .85em; }
+#hd .top form a            { color: #095BA6; background: transparent; }
+#hd .top form a:hover      { color: #fff; text-decoration: none; background: #095BA6; }
+#hd .top form p.error      { margin: 0; padding: 0 0 .3em; text-align: left; font-size: 1.2em; }
 
 
 /* main menu
 --------------------------------------------------------------*/
 
-#main-menu {
-  font-size: 1.2em;
-  text-align: center;
-  background: transparent;
-}
+#menu { font-weight: bold; text-align: center; }
 
-#main-menu a {
-  height: 35px;
+#menu a {
   float: left;
-  margin: 0 0 1px 1px; padding: 0 1em;
+  margin: 0 0 1px 1px; padding: .7em 1.7em .8em;
   -moz-border-radius: .5em .5em 0 0;
   text-decoration: none;
-  background: #c690bb;
+  color: #fff; background: #9eca27;
 }
-#main-menu a:hover,
-#main-menu a.current     { border-color: #4c3848; background: #4c3848 ; }
-#main-menu a:first-child { margin-left: 0; }
-
-#main-menu a.disable     { border-color: #ddd; background: #ddd; }
-#main-menu a.current     { position: relative; top: 6px; border-bottom: 0; }
-
-#main-menu a span {
-  height: 20px;
-  display: block;
-  padding: .5em;
-  font-size: 0.85em; font-weight: bold;
-  color: #ffffff; background: #c690bb;
-}
-
-#main-menu a.current span, #main-menu a:hover span { background: #4c3848 ; }
-#main-menu a.current span { height: 25px; position: relative; border-bottom:0; }
-
+#menu a:first-child { margin-left: 0; }
+#menu a:hover       { border-color: #4c3848; background: #e6648d; }
+#menu a.current     { position: relative; top: 6px; border-bottom: 0; color: #DB4366; }
+#menu a.current,
+#menu a.disable     { background-color: #d4d4d4; }
 
 /* main body
 --------------------------------------------------------------*/
 
-#bd {
-  padding: 2em;
-  background: #4c3848;
-  overflow: auto;
-  clear: both;
-}
+#bd     { padding: 2em; background: #d4d4d4; overflow: auto; clear: both; } 
+#main   { padding-right: 1em; background: transparent; }
 
-#main { padding-right: 1em; background: transparent; }
-
-h2 {
-  margin: 0; padding: 0;
-  font-size: 2em; font-weight: normal;
-  color: #C690BB;
-}
+h2      { margin: 0; padding: 0; font-size: 2em; font-weight: normal; }
 h2 span { display: block; line-height: 1.5em; font-size: .5em; }
 
 
@@ -109,45 +69,7 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
 
 /* misc
 --------------------------------------------------------------*/
-.mandatory {
-  padding: 0 .5em;
-  color: #000000;
-  background: #C690BB;
-}
-
-/* messages (error , alert, validation) */
-.message {
- padding: 1em 0;
- text-align: center;
- font-size: 2em;
- color: #ffffff;
- background: #20aa20;
-}
-
 .hidden { display: none; }
-
-.login-error { color: red;}
-
-strong { font-weight: bold; }
+strong  { font-weight: bold; }
 
 
-/* group box
---------------------------------------------------------------*/
-.group-box { margin: 1em; background: #ffffff; overflow:auto; }
-
-.group-box h3 { 
-  margin: 0 !important;
-  font-size: 1.7em; font-weight: normal;
-  color: #C690BB; background: #4c3848;
-  border-bottom: 3px solid #C690BB;
-}
-
-.group-box a       { color: #000000; }
-.group-box a:hover { color: #000000; background: #c690bb; text-decoration: none; }
-
-.group-box ul    { margin: 1em 1em 0 10em; padding: 0 0 1em; font-size: 1.2em; }
-.group-box ul li { padding: .3em 0; }
-
-.group-box img { float:left; padding:1em; }
-
-.group-box span.disabled-request-notice { color:gray; font-size:0.85em; font-style:italic; display:block; } 

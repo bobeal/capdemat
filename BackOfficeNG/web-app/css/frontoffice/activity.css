@@ -5,7 +5,7 @@
 .narrow-box .body ul.legend li                  { border:none; }
 .narrow-box .body ul.legend span.legend-label   { display: block; float: left; margin-right: 1em; width: 1.2em; }
 
-.data-detail dl dd { width: 12.75em ; }
+.activities .data-detail dl dd  { width: 11.9em; }
 
 /* Used inside a yui-g container */
 .details-panel { text-align: right; clear: both; padding-top: 0.5em; }
@@ -15,16 +15,16 @@
 table.activity-calendar {
   margin: 2em;
   font-size: 1.2em;
-  border-left: dashed 1px #FF812B;
-  border-top: dashed 1px #FF812B;
+  border-left: dashed 1px #ddd;
+  border-top: dashed 1px #ddd;
 }
 table.activity-calendar th {
   width: 5.8em;
   padding: 0.7em 0 1em 0;
   vertical-align: middle;
   text-align: center;
-  border-right: dashed 1px #FF812B;
-  border-bottom: dashed 1px #FF812B;
+  border-right: dashed 1px #ddd;
+  border-bottom: dashed 1px #ddd;
   background: #eee;
 }
 table.activity-calendar td {
@@ -32,8 +32,8 @@ table.activity-calendar td {
   vertical-align:top;
   font-size:1.4em;
   text-align: center;
-  border-right: dashed 1px #FF812B;
-  border-bottom: dashed 1px #FF812B;
+  border-right: dashed 1px #ddd;
+  border-bottom: dashed 1px #ddd;
 }
 table.activity-calendar td div.container  { margin-left:0.5em; }
 table.activity-calendar td span.value     { display:block;  }
@@ -44,4 +44,8 @@ span.legend-label-1 { background-color : blue; }
 span.legend-label-2 { background-color : red; }
 span.legend-label-3 { background-color : darkgreen; }
 span.legend-label-4 { background-color : yellowgreen; }
+
+table.activity-calendar,
+table.activity-calendar th,
+table.activity-calendar td { border-color: #DB4366; }
 

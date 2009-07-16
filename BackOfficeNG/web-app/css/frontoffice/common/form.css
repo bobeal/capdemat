@@ -25,13 +25,12 @@ form textarea {
   margin: .1em 0 1em 0;
   padding: .1em;
   border: 1px solid #cdcdcd;
-  border-top-color: #7fa646;
+  border-top-color: #e6648d;
   font-size: 1.1em;
   font-weight: normal;
-  color: #4e662b;
+  color: #095ba6;
 }
 
 form p.submit-form { margin-left: 30%; }
 
 form input[type="submit"] { margin: 1em auto; }
-

@@ -12,13 +12,13 @@
    
      <!-- header -->
      <div id="hd">
-       <div id="hd-menu">
+       <div class="top">
         <g:if test="${session.currentEcitizen}">
           <strong>${session.currentEcitizenName} &nbsp;</strong>
           <a href="${createLink(controller:'frontofficeHome',action:'logout')}" class="menu"><g:message code="action.logout" /></a>
         </g:if>
         <g:elseif test="${isLogin}">
-          <form action="/BackOfficeNG/frontoffice/home/login" method="post" id="loginForm">
+          <form action="/BackOfficeNG/frontoffice/home/login" method="post">
             <g:if test="${error}">
               <p class="error">${error}</p>
             </g:if>

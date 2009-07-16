@@ -20,19 +20,20 @@ h2   { color: #fff; }
 /* menus
  * ----------------------------------------------------- */
  
-#main-menu a, #main-menu a span                 { background-color: #ff812b; }
-#main-menu a:hover, #main-menu a:hover span     { color: #fff; background-color: #b6aca5; }
-#main-menu a.current, #main-menu a.current span { color: #fff; background-color: #b6aca5; }
-#main-menu a.disable ,#main-menu a.disable span { background-color: #b6aca5 !important; }
+#menu a, #menu a span                 { background-color: #ff812b; }
+#menu a:hover, #menu a:hover span     { color: #fff; background-color: #b6aca5; }
+#menu a.current, #menu a.current span { color: #fff; background-color: #b6aca5; }
+#menu a.disable ,#menu a.disable span { background-color: #b6aca5 !important; }
 
-#hd-menu a.menu       { color: #fff; background-color: #b6aca5; }
-#hd-menu a.menu:hover { background-color: #ff812b; }
+#hd .top a.menu       { color: #fff; background-color: #b6aca5; }
+#hd .top a.menu:hover { background-color: #ff812b; }
 
 /* boxes
  * ----------------------------------------------------- */
 
 /* list-box */
-.list-box h2            { color: #fff; border-bottom: 3px solid #ff812b; background: #b6aca5; }
+.list-box               { border-color: #ff812b; }
+.list-box h2            { color: #ff812b; border-color: #ff812b; }
 .list-box p.paginator a, 
 .list-box p.see-all a   { color: #095ba6; }
 
@@ -40,24 +41,23 @@ h2   { color: #fff; }
 .list-box p.paginator a:hover,
 .list-box p.paginator span.currentStep { color: #ffffff; background: #ff812b; }
 
-/* login-box */
-.login-box         { color: #fff; border-color: #fff; }
-.login-box a       { color: #fff; }
-.login-box a:hover { color: #fff; background: #ff812b; }
-.login-box form input[type="submit"] { border-color: #ff812b; }
 
 /* group-box */
-.group-box h3      { color: #fff; border-bottom: 3px solid #ff812b; background: #b6aca5; }
+.group-box         { border-color: #ff812b; }
+.group-box h3      { color: #ff812b; border-color: #ff812b; }
 .group-box a:hover { color: #fff; background: #ff812b; }
 
-/* main-box and summary-box */
-.summary-box h2,
-.main-box h2      { color: #fff; border-bottom: 3px solid #ff812b; background: #b6aca5; margin:0;}
-.summary-box p,
-.main-box p       { padding: .1em 1em; }
+/* summary-box */
+.summary-box.created { border-color: #ff812b; }   
+.summary-box h2      { color: #ff812b; border-color: #ff812b; }
+
+/* main-box */
+.main-box    { border-color: #ff812b; }   
+.main-box h2 { color: #ff812b; border-color: #ff812b; }
+.main-box a:hover { color: #ffffff !important; background: #ff812b !important; }
 
 /* request-box */
-.narrow-box h3           { margin: 0; color: #fff; background: #ff812b; }
+.narrow-box h3           { color: #fff; background: #ff812b; }
 .narrow-box .body        { background: #FFFFFF; }
 .narrow-box .body select { border-top-color: #ff812b; }
 
@@ -74,7 +74,10 @@ form textarea { border-top-color: #ff812b !important; }
 /* home folder screen
  * ----------------------------------------------------- */
 
-.individual dl { margin: 0 0 1em; border-top: 3px solid #ff812b !important; }
+.individual .yui-u     { border-color: #ff812b !important; }
+.individual .yui-u h2  { color: #ff812b !important; border-color: #ff812b !important; }
+.individual dl         { border-color:#ff812b !important ; }
+.individual dl a:hover { color: #ffffff !important; background: #ff812b !important; }
 
 .data-detail h3     { color: #ff812b !important; }
 .data-detail .yui-g { border-color: #ff812b !important; }
@@ -86,7 +89,7 @@ form textarea { border-top-color: #ff812b !important; }
 /* request creation
  * ----------------------------------------------------- */
 
-h2.request-creation { margin: 0 !important; }
+h2.request-creation { color: #fff !important; }
 
 .yui-skin-fong .yui-navset .yui-nav a,
 .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
@@ -104,8 +107,7 @@ h2.request-creation { margin: 0 !important; }
   border-color: #fff !important;
 }
 
-#requestTabView                 { margin: 1em 0 0 !important }
-#requestTabView .requestHelp h3 { border-bottom-color: #b21811 !important; }
+#requestTabView .requestHelp h3 { border-bottom-color: #ff812b !important; }
 
 .summary-box h3,
 #requestTabView h3                    { border-bottom-color:  #ff812b !important; }

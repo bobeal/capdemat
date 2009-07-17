@@ -157,7 +157,7 @@
    </mvReferencesBancaires>
    <mvCategories>
     <CTierCatTiersVO>
-     <miCode>16</miCode>
+     <miCode>17</miCode>
      <msDescription>Tiers Extranet</msDescription>
      <mbConfidentiel>false</mbConfidentiel>
     </CTierCatTiersVO>

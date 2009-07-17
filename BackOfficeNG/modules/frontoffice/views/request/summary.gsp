@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
   </head>
   <body>
-    <div class="summary-box">
+    <div class="summary-box created">
       <h2><g:message code="request.header.summary" args="${[requestTypeLabel,rqt.id.toString()]}"/></h2>
       <div class="body">
         <g:render template="/frontofficeRequestType/${validationTemplateDirectory}/summary"

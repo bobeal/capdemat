@@ -1,33 +1,31 @@
-/* definition list (for homeFolder.individual) */
+/*--------------------------------------------------------------
+
+    Home Folder 
+
+---------------------------------------------------------------*/
+
+/* individual
+---------------------------------------------------------------*/
+.individual .yui-u     { border-top: 2px solid #e6648d; background: #fff; }
+.individual .yui-u h2  { margin: .1em .5em; color: #e6648d; background: #fff; border-bottom: 1px dashed #e6648d; }
+
 .individual dl {
-  margin-bottom : 1em ;
-  padding: 1em;
-  border-top: 3px solid #C690BB;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em;
-  background-color: #ffffff; 
+  margin: 1em; padding: 1em;
+  border: 1px solid #e6648d;
+  -moz-border-radius: .5em; -webkit-border-radius: .5em;
 }
+.individual dl a       { color: #095ba6; }
+.individual dl a:hover { color: #ffffff; background: #e6648d; }
 
-.individual dl dt {
-  float: left; width: 9em;
-  font-weight: bold;
-  text-align : right;
-}
+.individual dl dt { float: left; width: 9em; font-weight: bold; text-align : right; }
+.individual dl dd { margin-left: 10em; padding-left: .5em; border-left: 1px dashed #aaaaaa; }
 
-.individual dl dd {
-  border-left: 1px dashed #aaaaaa;
-  margin: 0 0 0 10em;
-  padding: 0 0 0 .5em;
-}
+.individual dl dd ul li       { margin-left: 1em; padding: 0.1em; }
+.individual dl dd.see-details { margin-top: 1em; text-align: right;border: none; }
 
-.individual dl dd ul li { margin-left: 1em; padding: 0.1em; }
 
-.individual dl dd.see-details {
-  margin-top: 1em;
-  text-align: right;
-  border: none;
-}
-
+/* misc
+---------------------------------------------------------------*/
 .homeFolder-action        { padding: .75em; text-align: right; }
 .homeFolder-action .first { text-align: left; }
 .homeFolder-action p      { padding: .2em 0; }

@@ -1,6 +1,6 @@
 <div class="information-box outOfAccount-login-box">
   <p>${message(code:'account.message.useAccountToFillRequest')}</p>
-  <form id="loginForm" method="post" action="${createLink(controller : 'frontofficeHome', action:'login')}">
+  <form method="post" action="${createLink(controller : 'frontofficeHome', action:'login')}">
     <g:if test="${flash.loginError}">
       <p class="error">${flash.loginError}</p>
     </g:if>

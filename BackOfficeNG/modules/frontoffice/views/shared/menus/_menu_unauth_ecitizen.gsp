@@ -1,4 +1,4 @@
-<div id="main-menu">
+<div id="menu">
   <g:if test="${isRequestCreation}">
      <a class="disable"><span><g:message code="menu.home" /></span></a>
   </g:if>

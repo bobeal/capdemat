@@ -1,5 +1,5 @@
  <g:if test="${isRequestCreation}">
-   <div id="main-menu">
+   <div id="menu">
      <a class="disable"><span><g:message code="menu.home" /></span></a>
      <a class="disable"><span><g:message code="menu.services" /></span></a>
      <a class="disable"><span><g:message code="menu.accounts" /></span></a>
@@ -14,7 +14,7 @@
    </div>
  </g:if>
  <g:elseif test="${!isLogin}">
-   <div id="main-menu">
+   <div id="menu">
      <a href="${createLink(controller:'frontofficeHome')}" 
         class="${menu.current(elem:'home')}" >
         <span>

@@ -1,12 +1,12 @@
 /*--------------------------------------------------------------
 
     request
-
+    
 ---------------------------------------------------------------*/
 
 /* tmp style
 ---------------------------------------------------------------*/
-h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
+h2.request-creation { margin: 0; color: #DB4366;}
 
 /* creation form
    TODO : rename this class
@@ -28,59 +28,46 @@ h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
 
 /* creation form
 --------------------------------------------------------------*/
+#requestTabView { margin-top: 1em ; }
 #requestTabView h3 {
-  margin: 1em 0;
-  padding: 0 0 .5em 0;
-  font-size: 1.5em;
-  font-weight: normal;
-  border-bottom: 1px solid #A0D158;
+  margin: 1em 0; padding: 0 0 .5em 0;
+  font-size: 1.5em; font-weight: normal;
+  border-bottom: 1px solid #DB4366;
 }
 #requestTabView h3 span       { display: block;  font-size: .75em; }
 #requestTabView h3 span.error { margin: 0; padding: 0; text-align: right; }
 #requestTabView h3 .tag-state { float: right; }
  
-#requestTabView h4 { margin: 1em 0 0 0; font-size: 1.2em; }
-
-#requestTabView form {
-  min-height: 30em;
-  padding:  0 1.5em 1.5em 1.5em;
-  border: 1px solid /* #A0D158 */ #ffffff;
-/* background: #fff2fc;*/
-  background: #fff;
-}
+#requestTabView h4   { margin: 1em 0 0 0; font-size: 1.2em; }
+#requestTabView form { min-height: 30em; padding:  0 1.5em 1.5em 1.5em; }
 
 #requestTabView form div label {
-  display: block;
-  width: 80%;
-  font-size: 1.2em;
-  font-weight: normal;
-  font-style: normal;
+  width: 80%; display: block;
+  font-size: 1.2em; font-weight: normal;
 }
+
 #requestTabView form div label.required { font-weight: bold; }
 #requestTabView form div label span     { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
 
-#requestTabView form div p { margin:0 0 .5em; font-size: 1.1em; }
+#requestTabView form div p { margin: 0 0 .5em; font-size: 1.1em; }
 
 #requestTabView form div input[type="text"],
 #requestTabView form div input[type="password"],
 #requestTabView form div select,
 #requestTabView form div textarea {
-  width: 80%;
-  display: block;
-  margin: .1em 0 1em 0;
-  padding: .1em;
+  width: 80%; display: block;
+  margin: .1em 0 1em 0; padding: .1em;
   border: 1px solid #cdcdcd;
-  border-top-color: #7fa646;
-  font-size: 1.1em;
-  font-weight: normal;
-  color: #4e662b;
+  border-top-color: #DB4366;
+  font-size: 1.1em; font-weight: normal;
+  color: #095ba6;
 }
 
 #requestTabView form input.submit-step { display: block; margin: 1em auto; font-size: 1.2em; }
 
 /* tree
 -------------------------------------------------------------- */
-#requestTabView form ul.dataTree        { width: 78%; padding: 1%; border: 1px dashed #A0D158; }
+#requestTabView form ul.dataTree        { width: 78%; padding: 1%; border: 1px dashed #DB4366; }
 #requestTabView form .dataTree li       { width: 100%; display: block; }
 #requestTabView form .dataTree li ul    { margin: .5em 0 0 1em !important; }
 #requestTabView form .dataTree li ul li { width: 90%; padding: .2em 0 0 .4em; }
@@ -97,20 +84,20 @@ h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
 
 #requestTabView form div fieldset {
   margin: 0 0 .5em 0; padding: 1em 0 0 1em;
-  border-left: 3px solid #A0D158;
+  border-left: 3px solid #DB4366;
 }
 #requestTabView legend {
   margin-top: .5em !important; 
   font-size: 1.3em;
   font-weight: bold;
-  color: #7fa646;
+  color: #DB4366;
 }
 
 /* TODO - generalize address-fieldset as sub-fieldset selector */
 #requestTabView .address-fieldset {
   width: 80%;
   margin: 0 0 1em; padding: .5em;
-  border: 1px dashed #A0D158;
+  border: 1px dashed #DB4366;
   font-size: .9em;
 }
 
@@ -211,37 +198,26 @@ h2.request-creation { margin: 0 1em 1em 0; color: #ffffff; }
 /* validation step
 --------------------------------------------------------------*/
 #requestTabView form div .captcha       { margin : .1em 0 .5em; overflow: auto;}
-#requestTabView form div .captcha img   { float: left; border : 1px solid #A0D158}
+#requestTabView form div .captcha img   { float: left; border : 1px solid #DB4366}
 #requestTabView form div .captcha input { float: left; width: 54.5%; margin: 0 0 0 .5em; }
 #requestTabView form div #useAcceptance { margin : 2em 0 0; }
 
 /* request notes on summary page
 --------------------------------------------------------------*/
-#requestNotes dl.notes { overflow: auto; margin : 0.5em; border-bottom: 1px dashed #C1CFE2; }
+#requestNotes dl.notes    { overflow: auto; margin : 0.5em; border-bottom: 1px dashed #C1CFE2; }
 #requestNotes dl.notes dt,
-#requestNotes dl.notes dd {
-  float: left;
-  margin: 0;
-  border-top: 1px dashed #C1CFE2;
-}
-
+#requestNotes dl.notes dd { float: left; margin: 0; border-top: 1px dashed #C1CFE2; }
 #requestNotes dl.notes dt { padding-top : 1.5em; }
-
 #requestNotes dl.notes dt { width: 25%; min-height: 1.5em; clear: both; }
 #requestNotes dl.notes dd { width: 75%; padding-bottom : 0.5em; padding-top : 0.5em; }
 
 #requestNotes .tag-state { float: right; }
 #requestNotes .note {
-  padding : 0.2em;
+  margin-top : 0.3em; padding : 0.2em;
   font-size: 1.4em;
-  font-weight: normal;
+  border: 1px solid #cccccc; border-right: 0; border-bottom: 0;
+  -moz-border-radius: .5em; -webkit-border-radius: .5em;
   background-color : #EEEEEE;
-  border: 1px solid #cccccc;
-  border-right: 0;
-  border-bottom: 0;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em;
-  margin-top : 0.3em;
 }
 
 #requestNotes .note .tag-state { font-size : 0.75em; }

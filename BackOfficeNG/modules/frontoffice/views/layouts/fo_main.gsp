@@ -12,18 +12,16 @@
    
      <!-- header -->
      <div id="hd">
-       <h1>
-         <img src="${createLink(controller : 'localAuthorityResource', action : 'resource', id : 'logoFo')}"
-              alt="Logo Collectivité" />
-         <!-- <span>Vos démarches - ${session.currentSiteDisplayTitle}</span> -->
-       </h1>
-       <div id="hd-menu">
+       <div class="top">
         <g:if test="${session.currentEcitizen}">
           <strong>${session.currentEcitizenName} &nbsp;</strong>
           <a href="${createLink(controller:'frontofficeHome',action:'logout')}" class="menu"><g:message code="action.logout" /></a>
         </g:if>
         <g:elseif test="${isLogin}">
-          <form action="/BackOfficeNG/frontoffice/home/login" method="post" id="loginForm" style="display: inline;">
+          <form action="/BackOfficeNG/frontoffice/home/login" method="post">
+            <g:if test="${error}">
+              <p class="error">${error}</p>
+            </g:if>
             <label for="login"><g:message code="account.property.login"/></label>
             <input type="text" class="text" name="login" id="login"/>
             <label for="password"><g:message code="account.property.password"/></label>
@@ -37,6 +35,11 @@
         <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'helpFo')}" class="menu" target="blank">Aide</a>
         <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'faqFo')}" class="menu" target="blank">FAQ</a>
        </div>
+       <h1>
+         <img src="${createLink(controller : 'localAuthorityResource', action : 'resource', id : 'logoFo')}"
+              alt="Logo Collectivité" />
+         <!-- <span>Vos démarches - ${session.currentSiteDisplayTitle}</span> -->
+       </h1>
        <g:if test="${isLogin}">
        <div class="information-box outOfAccount-login-box">
             <div class="yui-gc">

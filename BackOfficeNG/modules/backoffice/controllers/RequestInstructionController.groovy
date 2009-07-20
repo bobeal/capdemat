@@ -635,7 +635,7 @@ class RequestInstructionController {
         String template = this.prepareTemplate(
             params.requestId,
             params.requestForms,
-            params.message?.encodeAsHTML(),
+            params.message?.encodeAsXML().replaceAll(/\n/, "<br />"),
             'pdf'
         )
         

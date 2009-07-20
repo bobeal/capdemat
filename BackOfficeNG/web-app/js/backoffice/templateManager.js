@@ -51,8 +51,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         focusAtStart: true,
         toolbar : zcbet.def,
         width : '600px',
-        height: '300px'
+        height: '300px',
+        markup : 'xhtml'
       });
+      zcbrt.Manager.editor._docType =
+        '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
       zcbrt.Manager.editor.render();
     };
     var initPanel = function() {

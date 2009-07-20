@@ -130,10 +130,21 @@ class RequestInstructionController {
         localReferentialTypes.each { lazyInit(request, it.key) }
 
         def externalProviderServiceLabel = null
+        def externalTemplateName = null
         def lastTraceStatus = null
         if (externalService.hasMatchingExternalService(request.requestType.label)) {
             externalProviderServiceLabel = externalService
                 .getExternalServiceByRequestType(request.requestType.label).label
+            externalTemplateName = ["/backofficeRequestInstruction/external",
+                externalProviderServiceLabel, "_block"].join('/')
+            def externalTemplate = groovyPagesTemplateEngine
+                .getResourceForUri(externalTemplateName)
+            if (!externalTemplate || !externalTemplate.file
+                || !externalTemplate.exists())
+                externalTemplateName = null
+            else
+                externalTemplateName = ["/backofficeRequestInstruction/external",
+                    externalProviderServiceLabel, "block"].join('/')
             def lastTrace = externalService.getLastTrace(request.id, externalProviderServiceLabel)
             if (lastTrace != null) {
                 lastTraceStatus = CapdematUtils
@@ -162,6 +173,7 @@ class RequestInstructionController {
             "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
             "documentList": documentList,
             "externalProviderServiceLabel" : externalProviderServiceLabel,
+            "externalTemplateName" : externalTemplateName,
             "lastTraceStatus" : lastTraceStatus
         ])
     }

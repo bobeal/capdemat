@@ -131,8 +131,8 @@
       </div>
 
       <!-- external service block -->
-      <g:if test="${externalProviderServiceLabel != null}">
-        <g:render template="/backofficeRequestInstruction/external/${externalProviderServiceLabel}/block"
+      <g:if test="${externalProviderServiceLabel != null && externalTemplateName != null}">
+        <g:render template="${externalTemplateName}"
           model="['request' : request, 'externalProviderServiceLabel' : externalProviderServiceLabel, 'lastTraceStatus' : lastTraceStatus]" />
       </g:if>
 

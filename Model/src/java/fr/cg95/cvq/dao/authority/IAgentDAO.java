@@ -5,7 +5,6 @@ import java.util.Set;
 
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.dao.IGenericDAO;
-import fr.cg95.cvq.permission.CvqPermissionException;
 
 /**
  * @author bor@zenexity.fr
@@ -18,17 +17,17 @@ public interface IAgentDAO extends IGenericDAO {
     boolean exists(final Long id);
     
     /**
-     * Look up an Agent by login.
+     * Look up an agent by login.
      */
     Agent findByLogin(final String login);
 
     /**
-     * Look up a Agent given a set of search criteria.
+     * Look up an agent given a set of search criteria.
      */
-    List search(final Set criteria) throws CvqPermissionException ;
+    List search(final Set criteria);
 
     /**
-     * Return the list of all known Agent.
+     * Return the list of all known agents.
      */
-    List listAll() throws CvqPermissionException;
+    List listAll();
 }

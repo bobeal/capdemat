@@ -15,14 +15,11 @@ import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.dao.authority.IAgentDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
-import fr.cg95.cvq.permission.CvqPermissionException;
-import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.util.Critere;
 
 
 /**
- * The "Agent" service Hibernate implementation.
- * This class is responsible for data access logic functions
+ * Implementation of the {@link IAgentDAO} interface.
  *
  * @author bor@zenexity.fr
  */
@@ -30,36 +27,23 @@ public class AgentDAO extends GenericDAO implements IAgentDAO {
 
     private static Logger logger = Logger.getLogger(AgentDAO.class);
 
-    public AgentDAO() {
-        super();
-    }
-
     public boolean exists(Long id) {
         Query query = HibernateUtil.getSession()
             .createQuery("from Agent agent where agent.id = :id ")
             .setLong("id", id.longValue());
-        if (query.uniqueResult() == null)
-            return false;
-        else
-            return true;
+        return query.uniqueResult() == null ? false : true;
     }
 
     public Agent findByLogin(final String login) {
-        // Since this function is used before an agent logs in
-        // we can't do an access control check here
 
         Query query = HibernateUtil.getSession()
             .createQuery("from Agent agent where agent.login = :login ")
             .setString("login", login);
-//          .setCacheable(true)
-//          .setCacheRegion("query.AgentByLogin");
         
         return (Agent) query.uniqueResult(); 
     }
     
-    public List search(final Set criteria) throws CvqPermissionException {
-
-		cvqPolicy.check(new Agent(), PrivilegeDescriptor.READ);
+    public List search(final Set criteria) {
 
         if (criteria.isEmpty())
             return listAll();
@@ -96,36 +80,13 @@ public class AgentDAO extends GenericDAO implements IAgentDAO {
             .list(); 
     }
 
-    public List listAll()  throws CvqPermissionException {
+    public List listAll() {
 
-		cvqPolicy.check(new Agent(), PrivilegeDescriptor.READ);
-
-        StringBuffer sb = new StringBuffer(100);
+        StringBuffer sb = new StringBuffer();
         sb.append("from Agent as agent order by agent.lastName asc");
 
         return HibernateUtil.getSession()
                 .createQuery(sb.toString())
                 .list();
-    }
-
-    public Long create(final Object object) throws CvqPermissionException {
-        if (object instanceof Agent)
-            cvqPolicy.check((Agent) object, PrivilegeDescriptor.ADMIN);
-
-        return super.create(object);
-    }
-
-    public void update(final Object object) throws CvqPermissionException {
-        if (object instanceof Agent)
-            cvqPolicy.check((Agent) object, PrivilegeDescriptor.ADMIN);
-
-        super.update(object);
-    }
-
-    public void delete(final Object object) throws CvqPermissionException {
-        if (object instanceof Agent)
-            cvqPolicy.check((Agent) object, PrivilegeDescriptor.ADMIN);
-
-        super.delete(object);
     }
 }

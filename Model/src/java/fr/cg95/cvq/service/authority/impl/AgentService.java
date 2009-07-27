@@ -37,10 +37,8 @@ public final class AgentService implements IAgentService {
     private IAgentDAO agentDAO;
     private ICategoryDAO categoryDAO;
 
-    public AgentService() {
-        super();
-    }
-
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public Long create(Agent agent) throws CvqException {
         
         if (agent == null)
@@ -53,6 +51,8 @@ public final class AgentService implements IAgentService {
         return agentId;
     }
 
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public void modify(final Agent agent) throws CvqException {
 
         if (agent != null) {
@@ -60,6 +60,8 @@ public final class AgentService implements IAgentService {
         }
     }
 
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public void delete(final String agentLogin)
         throws CvqException {
         
@@ -68,6 +70,8 @@ public final class AgentService implements IAgentService {
             agentDAO.delete(agent);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
     public List<Agent> get(final Set<Critere> criteriaSet)
         throws CvqException {
 
@@ -75,6 +79,8 @@ public final class AgentService implements IAgentService {
         return agents;
     }
 
+    @Override
+    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
     public List<Agent> getAll()
         throws CvqException {
 
@@ -82,10 +88,13 @@ public final class AgentService implements IAgentService {
         return agents;
     }
 
+    @Override
     public boolean exists(Long id) throws CvqException {
         return agentDAO.exists(id);
     }
 
+    @Override
+    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
     public Agent getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -97,6 +106,8 @@ public final class AgentService implements IAgentService {
         return agent;
     }
 
+    // Since this function is used before an agent logs in, we can't do an access control check
+    @Override
     public Agent getByLogin(final String login)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -107,6 +118,8 @@ public final class AgentService implements IAgentService {
         return agent;
     }
 
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public void updateUserProfiles(String username, List<String> groups,
             Map<String, String> informations) throws CvqException {
 
@@ -201,7 +214,9 @@ public final class AgentService implements IAgentService {
         if (foundCategoryRole)
             agentDAO.update(agent);
     }
-    
+
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public void modifyProfiles(Agent agent, final List<String> newGroups, 
             final List<String> administratorGroups,
             final List<String> agentGroups)
@@ -262,24 +277,25 @@ public final class AgentService implements IAgentService {
         }
     }
     
-    public Hashtable<String, String> getPreferenceByKey(Agent agent,String key) {
-        Hashtable<String, Hashtable<String, String>> preferences;
-        if(agent.getPreferences() == null) return null; 
-        preferences = agent.getPreferences();
-        return preferences.get(key);
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
+    public Hashtable<String, String> getPreferenceByKey(String key) {
+        Agent agent = SecurityContext.getCurrentAgent();
+        if (agent.getPreferences() == null) return null;
+        else return agent.getPreferences().get(key);
     }
     
-    public void modifyPreference(Agent agent,String key,Hashtable<String,String> preference) 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
+    public void modifyPreference(String key, Hashtable<String,String> preference)
         throws CvqException {
         
-        Hashtable<String, Hashtable<String, String>> preferences;
-        if(agent.getPreferences() == null) 
+        Agent agent = SecurityContext.getCurrentAgent();
+        if (agent.getPreferences() == null)
             agent.setPreferences(new Hashtable<String, Hashtable<String,String>>());
         
-        preferences = agent.getPreferences();
-        preferences.put(key, preference);
-        agent.setPreferences(preferences);
-        this.modify(agent);
+        agent.getPreferences().put(key, preference);
+        modify(agent);
     }
     
     public void setCategoryDAO(ICategoryDAO categoryDAO) {

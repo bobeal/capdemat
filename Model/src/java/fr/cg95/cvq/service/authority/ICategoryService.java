@@ -64,7 +64,7 @@ public interface ICategoryService {
         throws CvqException, CvqObjectNotFoundException;
 
     /**
-     * Get the list of all categories that current user has the right to see.
+     * Get the list of all categories that current agent has the right to see.
      * 
      * An administrator can see all categories. An agent can only see categories for which 
      * it has at least a {@link CategoryProfile#READ_ONLY read access}.
@@ -73,14 +73,11 @@ public interface ICategoryService {
         throws CvqException;
 
     /**
-     * Return the categories for which the given agent has a
+     * Return the categories for which the current agent has a
      * {@link CategoryProfile#MANAGER MANAGER profile}.
      */
     List<Category> getManaged();
 
-    Category getByName(final String name)
-        throws CvqException;
-    
     Category getById(final Long id)
         throws CvqException, CvqObjectNotFoundException;
 }

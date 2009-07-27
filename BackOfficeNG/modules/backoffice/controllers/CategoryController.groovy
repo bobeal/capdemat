@@ -131,7 +131,7 @@ class CategoryController {
         }  else if (params.scope == "All")
             agentService.getAll().each { agents.add(adaptAgent(it)) }
         else if (params.scope == "Category")
-            agentService.getAuthorizedForCategory(Long.valueOf(params.id)).each {
+            categoryService.getAuthorizedForCategory(Long.valueOf(params.id)).each {
                 agents.add(adaptAgent(it))
             }
             

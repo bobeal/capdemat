@@ -81,18 +81,21 @@ public class ContextAspect implements Ordered {
                     joinPoint.getSignature().getName(), context.type(), context.privilege(), 
                     "can only be called by authenticad ecitizens");
         
-        if (contextType.equals(ContextType.AGENT)) {
+        if (contextType.equals(ContextType.AGENT) || contextType.equals(ContextType.AGENT_ADMIN)) {
             if (!securityContext.equals(SecurityContext.BACK_OFFICE_CONTEXT))
                 throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                         joinPoint.getSignature().getName(), context.type(), context.privilege(), 
                         "can only be called by in Back Office context");
-            boolean isAgent = false;
+            boolean isAuthorized = false;
             SiteRoles[] siteRoles = SecurityContext.getCurrentCredentialBean().getSiteRoles();
             for (SiteRoles siteRole : siteRoles) {
                 if (siteRole.getProfile().equals(SiteProfile.AGENT))
-                    isAgent = true;
+                    isAuthorized = true;
+                if (siteRole.getProfile().equals(SiteProfile.ADMIN)
+                    && contextType.equals(ContextType.AGENT_ADMIN))
+                    isAuthorized = true;
             }
-            if (!isAgent)
+            if (!isAuthorized)
                 throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                         joinPoint.getSignature().getName(), context.type(), context.privilege(), 
                         "requires an AGENT profile on the site");

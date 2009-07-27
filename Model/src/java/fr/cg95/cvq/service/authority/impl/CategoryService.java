@@ -40,10 +40,6 @@ public class CategoryService implements ICategoryService {
 
     private IAgentService agentService;
     
-    public CategoryService() {
-        super();
-    }
-
     public Category getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
         Category category = 
@@ -51,7 +47,7 @@ public class CategoryService implements ICategoryService {
         return category;
     }
 
-    public Category getByName(final String name) 
+    private Category getByName(final String name)
         throws CvqException {
         return categoryDAO.findByName(name);
     }

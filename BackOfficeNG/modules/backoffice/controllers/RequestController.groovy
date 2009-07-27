@@ -154,9 +154,8 @@ class RequestController {
         def state = [:]
         def pageState = ""
         def method = request.getMethod().toLowerCase()
-        Agent agent = SecurityContext.getCurrentAgent()
         
-        state['displayForm'] = agentService.getPreferenceByKey(agent,'display')?.displayForm?.split(",")
+        state['displayForm'] = agentService.getPreferenceByKey('display')?.displayForm?.split(",")
         if(state['displayForm'] == null)
             state['displayForm'] = ['Late','Alert','New','Last','Validated']
         else 
@@ -172,7 +171,7 @@ class RequestController {
         if(state.modifyDisplay == true) {
             Hashtable<String, String> hash = new Hashtable<String, String>()
             hash.put('displayForm', state.displayForm?.join(",").replace('\"',''))
-            agentService.modifyPreference(agent,'display',hash)
+            agentService.modifyPreference('display',hash)
             state.modifyDisplay = null
             state['defaultDisplay'] = state['displayForm']
             state['message'] = message(code:'message.updateDone')

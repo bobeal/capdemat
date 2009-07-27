@@ -32,7 +32,12 @@ public enum ContextType {
      * For authenticated agents with {@link SiteProfile#ADMIN admin profile} on current site.
      */
     ADMIN("ADMIN"), 
-    
+
+    /**
+     * The union of {@link #AGENT} and {@link #ADMIN}
+     */
+    AGENT_ADMIN("AGENT_ADMIN"),
+
     /** 
      * For super administrators (ie administrators of the whole platform, typically cron jobs :-) ).
      */

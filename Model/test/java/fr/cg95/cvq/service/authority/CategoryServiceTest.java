@@ -97,9 +97,10 @@ public class CategoryServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         // test retrieving by name
-        Category categoryByName = iCategoryService.getByName("Une autre catégorie");
+        Category categoryByName = iCategoryService.getById(categoryId);
         Assert.assertNotNull(categoryByName);
-        
+        Assert.assertEquals("Une autre catégorie", categoryByName.getName());
+
         // test retrieving by id and do some modifications on it
         category2 = iCategoryService.getById(categoryId);
         Assert.assertEquals(2, category2.getEmails().size());

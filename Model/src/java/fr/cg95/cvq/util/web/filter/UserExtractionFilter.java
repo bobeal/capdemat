@@ -149,7 +149,7 @@ public class UserExtractionFilter extends GenericFilterBean {
             agentService.modify(agent);
 
             agentService.modifyProfiles(agent, groups, SecurityContext.getAdministratorGroups(),
-                    SecurityContext.getAgentGroups(), SecurityContext.getCurrentSite());
+                    SecurityContext.getAgentGroups());
             
         } catch (CvqException e) {
             logger.error("updateUserProfiles() unexpected CVQ exception while updating user profiles");

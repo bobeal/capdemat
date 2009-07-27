@@ -69,8 +69,6 @@ public class ExternalFamilyAccountDAO extends GenericHibernateDAO<ExternalFamily
                 typeList.add(Hibernate.STRING);
             }
             
-//            sb.append("group by efa.externalFamilyAccountId ");
-
             if (sort != null) {
                 if (sort.equals("efaId"))
                     sb.append("order by efa.externalFamilyAccountId ");

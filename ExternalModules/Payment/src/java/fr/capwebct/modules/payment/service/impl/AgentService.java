@@ -10,6 +10,7 @@ import fr.capwebct.modules.payment.service.IAgentService;
 public class AgentService implements IAgentService {
 
     private IAgentDAO agentDAO;
+    private String logoutUrl;
     
     public Agent getAgentByLogin(String login) {
         return agentDAO.findByLogin(login);
@@ -34,5 +35,13 @@ public class AgentService implements IAgentService {
 
     public void setAgentDAO(IAgentDAO agentDAO) {
         this.agentDAO = agentDAO;
+    }
+
+    public void setLogoutUrl(String logoutUrl) {
+        this.logoutUrl = logoutUrl;
+    }
+
+    public String getLogoutUrl() {
+        return logoutUrl;
     }
 }

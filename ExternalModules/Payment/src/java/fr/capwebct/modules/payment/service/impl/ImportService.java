@@ -103,7 +103,8 @@ public class ImportService implements IImportService {
             return importResultBean;
         
         try {
-            auditService.addAuditTrace("CSV", externalDataType, externalApplication.getLabel());
+            auditService.addAuditTrace("CSV", externalDataType, 
+                    externalApplication.getLabel(), broker);
         } catch (CpmSecurityException cse) {
             cse.printStackTrace();
             log.error("importExternalData() no agent in current security context !?");
@@ -149,7 +150,7 @@ public class ImportService implements IImportService {
         }
         
         try {
-            invoiceService.importInvoices(invoices, externalApplication.getId());        
+            invoiceService.importInvoices(invoices, externalApplication.getId(), broker);        
         } catch (DataAccessException dae) {
             dae.printStackTrace();
             importResultBean.setSuccessful(false);
@@ -201,7 +202,7 @@ public class ImportService implements IImportService {
         }
         
         try {
-            accountService.importAccounts(accounts, externalApplication.getId());
+            accountService.importAccounts(accounts, externalApplication.getId(), broker);
         } catch (DataAccessException dae) {
             dae.printStackTrace();
             importResultBean.setSuccessful(false);
@@ -288,7 +289,7 @@ public class ImportService implements IImportService {
         }
 
         try {
-            contractService.importContracts(contracts, externalApplication.getId());
+            contractService.importContracts(contracts, externalApplication.getId(), broker);
         } catch (DataAccessException dae) {
             dae.printStackTrace();
             importResultBean.setSuccessful(false);

@@ -257,6 +257,43 @@
 
     <fo:table xsl:use-attribute-sets="request.field.inline.table">
       <fo:table-column column-width="proportional-column-width(1)" />
+      <fo:table-column column-width="proportional-column-width(1)" />
+      <fo:table-column column-width="proportional-column-width(1)" />
+      <fo:table-column column-width="proportional-column-width(1)" />
+      <fo:table-body>
+        <fo:table-row>
+          <fo:table-cell>
+            <fo:block xsl:use-attribute-sets="request.field.inline.label">
+              Ville de naissance*
+            </fo:block>
+          </fo:table-cell>
+          <fo:table-cell>
+            <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+              <xsl:if test="string(./com:BirthPlace/com:City)">
+                <xsl:value-of select="./com:BirthPlace/com:City" />
+              </xsl:if>
+              <xsl:if test="not(string(./com:BirthPlace/com:City))">&#160;</xsl:if>
+            </fo:block>
+          </fo:table-cell>
+          <fo:table-cell>
+            <fo:block xsl:use-attribute-sets="request.field.inline.label">
+              Code postal de naissance *
+            </fo:block>
+          </fo:table-cell>
+          <fo:table-cell>
+            <fo:block xsl:use-attribute-sets="request.field.inline.string_value">
+              <xsl:if test="string(./com:BirthPlace/com:PostalCode)">
+                <xsl:value-of select="./com:BirthPlace/com:PostalCode" />
+              </xsl:if>
+              <xsl:if test="not(string(./com:BirthPlace/com:PostalCode))">&#160;</xsl:if>
+            </fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+      </fo:table-body>
+    </fo:table>
+
+    <fo:table xsl:use-attribute-sets="request.field.inline.table">
+      <fo:table-column column-width="proportional-column-width(1)" />
       <fo:table-column column-width="proportional-column-width(3)" />
       <fo:table-body>
         <fo:table-row>

@@ -33,7 +33,7 @@ public interface IAccountService {
      * 
      * @throws CpmBusinessException if an account has no external family account associated
      */
-    void importAccounts(List<Account> accountList, long externalApplicationId) 
+    void importAccounts(List<Account> accountList, long externalApplicationId, String broker) 
         throws DataAccessException, CpmBusinessException;
 
     Account getAccount(long id, boolean loadCollection) throws DataAccessException;

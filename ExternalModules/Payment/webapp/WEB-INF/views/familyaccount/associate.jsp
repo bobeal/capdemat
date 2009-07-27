@@ -4,6 +4,7 @@
 <html>
   <head>
     <title><fmt:message key="application.name" /> - <fmt:message key="familyaccount.manage.title"/></title>
+    <script type="text/javascript" src="<c:url value="/js/serverSideJsonTable.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/js/familyAccountAssociate.js"/>"></script>
   </head>
   
@@ -33,16 +34,9 @@
 		</label>
 		<select id="externalApplicationId" name="externalApplicationId">
 			<c:forEach items="${externalApplications}" var="externalApplication">
-				<c:if test="${externalApplicationId == externalApplication.id}">
-					<option value="<c:out value="${externalApplication.id}"/>" selected="selected">
-						<c:out value="${externalApplication.label}" />
-					</option>
-				</c:if>
-				<c:if test="${externalApplicationId != externalApplication.id}">
-					<option value="<c:out value="${externalApplication.id}" />">
-						<c:out value="${externalApplication.label}" />
-					</option>
-				</c:if>
+				<option value="<c:out value="${externalApplication.id}" />">
+					<c:out value="${externalApplication.label}" />
+				</option>
 			</c:forEach>
 		</select>
 		<br/>
@@ -55,6 +49,7 @@
     <div id="familyAccountAssociationDialog" class="yui-skin-sam">
 		<div class="hd"><fmt:message key='familyaccount.associate.associate_dialog_legend' /></div>
 		<div class="bd">
+			<div class="errors invisible" id="familyAccountAssociationError"></div>
 			<div id="familyAccountAutoComplete">
 				<form id="familyAccountAssociationForm" name="familyAccountAssociationForm" method="POST" 
 					action="<c:url value='/familyaccount/associate.jsp?action=addFamilyAccountBinding'/>">
@@ -63,6 +58,7 @@
 					</p>
     				<input id="familyAccountInput" type="text" size="50"><br/>
     				<input type="hidden" name="cfaIdToAssociate" id="cfaIdToAssociate"/>
+    				<input type="hidden" name="currentEfaId" id="currentEfaId" />
     				<input type="hidden" name="efaIdToAssociate" id="efaIdToAssociate"/>
     				<input type="hidden" name="externalApplicationIdToAssociate" 
     					id="externalApplicationIdToAssociate"/>
@@ -74,13 +70,16 @@
 	</div>
     
     <div id="search-results-paginator-top" class="search-results-paginator"></div>
-   	<div  class="search-results yui-skin-sam">
-   		<div id="familyAccountsAssociationTable"></div>
+   	<div class="search-results yui-skin-sam">
+   		<div id="resultsDatatable"></div>
    	</div>
     <div id="search-results-paginator-bottom" class="search-results-paginator"></div>
     
     <!-- family accounts labels used by JS code, put here for i18n purposes -->
     <div id="familyAccountsLabels" style="display:none;">
+    	<span id="connectImg"><img src="<c:url value="/img/connect.gif"/>"/></span>
+    	<span id="disconnectImg"><img src="<c:url value="/img/disconnect.gif"/>"/></span>
+    	<span id="hideImg"><img src="<c:url value="/img/folder-minus.gif"/>"/></span>
     	<span id="faTableCfaHeader"><fmt:message key='table.header.capwebct_information'/></span>
     	<span id="faTableEfaHeader"><fmt:message key='table.header.external_application_information'/></span>
     	<span id="faTableId"><fmt:message key='table.header.id'/></span>

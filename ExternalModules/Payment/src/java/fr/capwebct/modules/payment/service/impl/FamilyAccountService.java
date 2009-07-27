@@ -73,6 +73,8 @@ public class FamilyAccountService implements IFamilyAccountService {
 			long externalApplicationId, long capwebctFamilyAccountId)
 			throws DataAccessException {
 
+        CapwebctFamilyAccount capwebctFamilyAccount = getCfaByCapwebctId(capwebctFamilyAccountId);
+
         // First, eventually de-associate an EFA associated to this CFA
         ExternalFamilyAccount efa = 
             externalFamilyAccountDAO.getByCfaAndExternalApplication(capwebctFamilyAccountId, 
@@ -85,25 +87,21 @@ public class FamilyAccountService implements IFamilyAccountService {
         ExternalFamilyAccount externalFamilyAccount = 
             externalFamilyAccountDAO.getByExternalFamilyAccount(externalFamilyAccountId, 
                     externalApplicationId);
-        CapwebctFamilyAccount capwebctFamilyAccount = getCfaByCapwebctId(capwebctFamilyAccountId);
         
         if (externalFamilyAccount == null) {
-            // FIXME : is this still possible ???
-            log.debug("bindFamilyAccounts() creating efa with id " + externalFamilyAccountId 
-                    + " for application " + externalApplicationId);
-            externalFamilyAccount = new ExternalFamilyAccount();
-            externalFamilyAccount.setExternalFamilyAccountId(externalFamilyAccountId);
-            ExternalApplication externalApplication =
-                (ExternalApplication) objectDAO.read(ExternalApplication.class, externalApplicationId);
-            externalFamilyAccount.setExternalApplication(externalApplication);            
-            externalFamilyAccount.setCapwebctFamilyAccount(capwebctFamilyAccount);                
-            externalFamilyAccountDAO.create(externalFamilyAccount);
+            return null;
         } else if (externalFamilyAccount.getCapwebctFamilyAccount() == null
                 || externalFamilyAccount.getCapwebctFamilyAccount().getCapwebctFamilyAccountId() !=
                     capwebctFamilyAccount.getCapwebctFamilyAccountId()) {
-            
             log.debug("bindFamilyAccounts() binding was non existent or has changed for efa with id " 
                     + externalFamilyAccountId + " for application " + externalApplicationId);
+            
+            // if this EFA was previously associated to another CFA, unbind the CFA
+            if (externalFamilyAccount.getCapwebctFamilyAccount() != null) {
+            	setCapwebctAssocationState(externalFamilyAccount.getCapwebctFamilyAccount(), 
+            			externalApplicationId, "not_associated"); 
+            }
+
             externalFamilyAccount.setCapwebctFamilyAccount(capwebctFamilyAccount);
             // reset individuals bindings
             for (ExternalIndividual externalIndividual : externalFamilyAccount.getIndividuals()) {
@@ -400,6 +398,26 @@ public class FamilyAccountService implements IFamilyAccountService {
         }
         capwebctFamilyAccountDAO.create(cfa);
         return cfa;
+    }
+
+    public void initializeCfaAssociations(long externalApplicationId)
+        throws DataAccessException {
+        
+        List<CapwebctFamilyAccount> cfaList = capwebctFamilyAccountDAO.findAll();
+        for (CapwebctFamilyAccount cfa : cfaList) {
+            CapwebctAssociationSummary cas = new CapwebctAssociationSummary();
+            cas.setExternalApplicationId(externalApplicationId);
+            cas.setState("not_associated");
+            if (cfa.getAssociationsSummary() == null)
+                cfa.setAssociationsSummary(new HashSet<CapwebctAssociationSummary>());
+            cfa.getAssociationsSummary().add(cas);
+            capwebctFamilyAccountDAO.update(cfa);
+        }
+    }
+
+    public void removeCfaAssociations(long externalApplicationId)
+        throws DataAccessException {
+
     }
 
     public CapwebctFamilyAccount getCfaById(long id) throws DataAccessException {

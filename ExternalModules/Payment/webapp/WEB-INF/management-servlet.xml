@@ -10,10 +10,6 @@
   </bean>
 
   <bean id="invoiceController" class="fr.capwebct.modules.payment.controller.InvoiceController">
-    <property name="formView" value="invoice" />
-    <property name="successView" value="invoice" />
-    <property name="commandClass" 
-      value="fr.capwebct.modules.payment.controller.GenericAccountCommand" />
     <property name="invoiceService" ref="invoiceService" />
     <property name="externalApplicationService" ref="externalApplicationService" />
   </bean>

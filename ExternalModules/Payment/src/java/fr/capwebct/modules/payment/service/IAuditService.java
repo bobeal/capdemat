@@ -9,7 +9,7 @@ import fr.capwebct.modules.payment.security.CpmSecurityException;
 public interface IAuditService {
 
     void addAuditTrace(final String importType, final ExternalDataType externalDataType,
-            final String externalApplicationLabel)
+            final String externalApplicationLabel, final String broker)
         throws CpmSecurityException;
     
     List<ExternalImportAudit> getAllAuditTraces();

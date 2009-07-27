@@ -91,7 +91,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
         // get all home folders
-        Set<HomeFolder> fetchHomeFolders = iHomeFolderService.getAll();
+        Set<HomeFolder> fetchHomeFolders = iHomeFolderService.getAll(true, true);
         Assert.assertEquals(fetchHomeFolders.size(), 1);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -108,10 +108,16 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         List<Individual> initialResults = iIndividualService.get(new HashSet<Critere>(), null, false);
         int initialResultsSize = initialResults.size();
-        
+        int homeFoldersCountBeforeArchive = iHomeFolderService.getAll(true, false).size();
+
         iHomeFolderService.archive(homeFolder.getId());
 
         continueWithNewTransaction();
+
+        Assert.assertEquals(homeFoldersCountBeforeArchive - 1,
+            iHomeFolderService.getAll(true, false).size());
+        Assert.assertEquals(homeFoldersCountBeforeArchive - 1,
+            iHomeFolderService.getAll(true, true).size());
 
         // individuals from home folder should no longer appear in search results
         initialResults = iIndividualService.get(new HashSet<Critere>(), null, false);

@@ -44,11 +44,11 @@ public class PaymentService implements IPaymentService {
 
     public List<Payment> search(final Date paymentDateStart, final Date paymentDateEnd, 
             final String paymentAck, final String cvqAck, final long externalApplicationId, 
-            final String broker) 
+            final String broker, boolean filterExported) 
         throws DataAccessException {
         
         return paymentDAO.search(paymentDateStart, paymentDateEnd, paymentAck, cvqAck, 
-                externalApplicationId, broker);
+                externalApplicationId, broker, filterExported);
     }
     
     public void savePayment(Payment payment) throws DataAccessException {
@@ -139,6 +139,7 @@ public class PaymentService implements IPaymentService {
 
         Payment payment = paymentTransaction.getPayment();
         payment.setPaymentType("CB");
+        payment.setExported(false);
         
         if (paymentTransaction.getAccountUpdates() != null) {
             for (AccountUpdate accountUpdate : paymentTransaction.getAccountUpdates()) {

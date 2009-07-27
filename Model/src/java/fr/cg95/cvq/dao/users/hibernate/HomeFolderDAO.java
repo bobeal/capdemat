@@ -20,9 +20,13 @@ public class HomeFolderDAO extends GenericDAO implements IHomeFolderDAO {
         super();
     }
 
-    public List<HomeFolder> listAll() {
+    public List<HomeFolder> listAll(boolean filterArchived, boolean filterBoundToRequest) {
         StringBuffer sb = new StringBuffer();
-        sb.append("from HomeFolder as homeFolder");
+        sb.append("from HomeFolder as homeFolder where 1 = 1 ");
+        if (filterArchived)
+            sb.append(" and homeFolder.state != 'Archived'");
+        if (filterBoundToRequest)
+            sb.append(" and homeFolder.boundToRequest = 'false'");
         Query query = HibernateUtil.getSession().createQuery(sb.toString());
         
         return query.list();    

@@ -143,7 +143,7 @@
         <fo:leader leader-pattern="space" />
       </fo:block>
 
-   	  <xsl:apply-templates select="//cvq:MeansOfContact"/>
+  	  <xsl:apply-templates select="//cvq:MeansOfContact"/>
 
       <fo:block>
         <fo:leader leader-pattern="space" />
@@ -201,6 +201,12 @@
 
   <xsl:template match="//cvq:Individuals">
     <xsl:call-template name="AdultType">
+      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="//cvq:MeansOfContact">
+    <xsl:call-template name="MeansOfContactType">
       <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
     </xsl:call-template>
   </xsl:template>

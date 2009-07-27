@@ -38,7 +38,7 @@ function loadExternalApplicationBrokers(callUrl) {
 		+ '&externalApplicationId=' + extAppId.value;
 	var callback = {
 		success: updateExtAppBrokersCallback
-	}
+	};
 	var transaction = YAHOO.util.Connect.asyncRequest('GET', url, callback, null);
 } 
     

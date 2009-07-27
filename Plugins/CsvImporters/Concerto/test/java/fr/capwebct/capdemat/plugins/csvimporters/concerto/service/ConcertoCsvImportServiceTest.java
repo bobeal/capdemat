@@ -83,7 +83,7 @@ public class ConcertoCsvImportServiceTest extends ServiceTestCase {
             throw new CvqException(e.getMessage());
         }
         
-        Set<HomeFolder> allHomeFolders = iHomeFolderService.getAll();
+        Set<HomeFolder> allHomeFolders = iHomeFolderService.getAll(true, true);
         Assert.assertEquals(allHomeFolders.size(), 1);
         
         HomeFolder homeFolder = allHomeFolders.iterator().next();

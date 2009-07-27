@@ -155,24 +155,22 @@ public class FamilyAccountServiceTest extends ServiceTestCase {
 	public void testSearchFamilyAccountBinding() {
 		try {
 			familyAccountService.bindFamilyAccounts("99", externalApplication.getId(), 17, "FIKRA");
-			familyAccountService.bindFamilyAccounts("99", externalApplication.getId(), 17, "FIKRA");
-			familyAccountService.bindFamilyAccounts("88", externalApplication.getId(), 13, "FIKRA");
-			familyAccountService.bindFamilyAccounts("88", externalApplication.getId(), 13, "BOR");
-			familyAccountService.bindFamilyAccounts("77", externalApplication.getId(), 13, "BOR");
+			familyAccountService.bindFamilyAccounts("88", externalApplication.getId(), 13, "BLOP");
+			familyAccountService.bindFamilyAccounts("77", externalApplication.getId(), 15, "BOR");
 
-			List fetchList = familyAccountService.searchExternalFamilyAccount(null, null, 0, 0, null, 0, 0, null, null);
-			assertEquals(5, fetchList.size());
+			List fetchList = familyAccountService.getAllExternalFamilyAccounts();
+			assertEquals(3, fetchList.size());
 
-			fetchList = familyAccountService.searchExternalFamilyAccount("88", null, 0, 0, null, 0, 0, null, null);
-			assertEquals(2, fetchList.size());
+            ExternalFamilyAccount efa = 
+                familyAccountService.getExternalFamilyAccount("99", externalApplication.getId());
+			assertNotNull(efa);
 
-			fetchList = familyAccountService.searchExternalFamilyAccount(null, null, 0, 17, null, 0, 0, null, null);
-			assertEquals(2, fetchList.size());
+			fetchList = familyAccountService.getByCapWebctFamilyAccountId(17);
+			assertEquals(1, fetchList.size());
 
 			fetchList = 
-                familyAccountService.searchExternalFamilyAccount(null, 
-                        null, externalApplication.getId(), 0, null, 0, 0, null, null);
-			assertEquals(5, fetchList.size());
+                familyAccountService.getByExternalApplication(externalApplication.getId());
+			assertEquals(3, fetchList.size());
 
 		} catch (DataAccessException e) {
 			assertNull(e);
@@ -235,17 +233,14 @@ public class FamilyAccountServiceTest extends ServiceTestCase {
 	public void testSearchCapwebctFamilyAccount() {
 		try {
 			familyAccountService.bindFamilyAccounts("99", externalApplication.getId(), 17, "FIKRA");
-			familyAccountService.bindFamilyAccounts("99", externalApplication.getId(), 17, "FIKRA");
 			familyAccountService.bindFamilyAccounts("88", externalApplication.getId(), 13, "FIKRA");
-			familyAccountService.bindFamilyAccounts("88", externalApplication.getId(), 13, "BOR");
-			familyAccountService.bindFamilyAccounts("77", externalApplication.getId(), 13, "BOR");
 
 			List<CapwebctFamilyAccount> fetchList = 
-                familyAccountService.searchCapwebctFamilyAccount(0, null, 0, 0, null, null);
-			assertEquals(fetchList.size(), 5);
+                familyAccountService.getAllCapwebctFamilyAccounts();
+			assertEquals(2, fetchList.size());
 
-			fetchList = familyAccountService.searchCapwebctFamilyAccount(17, null, 0, 0, null, null);
-			assertEquals(fetchList.size(), 2);
+            CapwebctFamilyAccount cfa = familyAccountService.getCfaByCapwebctId(17);
+            assertNotNull(cfa);
 
 		} catch (DataAccessException e) {
 			assertNull(e);

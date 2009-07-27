@@ -22,6 +22,7 @@ public class CleverServiceTest extends ServiceTestCase {
 
     private IExternalProviderService externalProviderService;
 
+    @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
         ConfigurableApplicationContext cac = getContext(getConfigLocations());

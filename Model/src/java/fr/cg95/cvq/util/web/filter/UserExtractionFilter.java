@@ -131,6 +131,7 @@ public class UserExtractionFilter extends GenericFilterBean {
             } catch (CvqObjectNotFoundException confe) {
                 agent = new Agent();
                 agent.setLogin(username);
+		agent.setActive(true);
                 Set<SiteRoles> agentSiteRoles = new HashSet<SiteRoles>();
                 SiteRoles defaultSiteRole = new SiteRoles();
                 defaultSiteRole.setProfile(SiteProfile.AGENT);

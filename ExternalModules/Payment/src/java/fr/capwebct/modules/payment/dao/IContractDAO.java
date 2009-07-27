@@ -21,4 +21,7 @@ public interface IContractDAO extends IGenericDAO<Contract, Long> {
                 final String externalIndividualId, final String efaId, 
                 final long externalApplicationId)
             throws DataAccessException;
+    
+    List<Contract> findByExternalApplicationAndBroker(final long externalApplicationId,
+            final String broker) throws DataAccessException;
 }

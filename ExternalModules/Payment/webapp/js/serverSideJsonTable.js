@@ -1,25 +1,16 @@
-var searchExternalDatatable;
-function searchExternal() {
+var resultsDatatable;
 
-	var efaId = document.getElementById('efaId').value;
-	var efaResponsible = document.getElementById('efaResponsible').value;
-	var externalApplicationId = document.getElementById('externalApplicationId').value;
+function loadServerSideJsonTable(buildComplementaryQueryString, columnDefs, initialRequest,
+	initialSortKey, controllerUrl, resultsList, fields) {
 	
 	// A custom function to translates sorting and pagination values
 	// into a query string the server will accept
 	var buildQueryString = function (state,dt) {
-		var efaId = document.getElementById('efaId').value;
-		var efaResponsible = document.getElementById('efaResponsible').value;
-		var externalApplicationId = document.getElementById('externalApplicationId').value;
-
     	return "startIndex=" + state.pagination.recordOffset +
            "&results=" + state.pagination.rowsPerPage +
            "&sort=" + state.sorting.key +
            "&dir=" + ((state.sorting.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc") +
-           "&action=searchExternal" + 
-           "&efaId=" + efaId + 
-           "&efaResponsible=" + efaResponsible +
-           "&externalApplicationId=" + externalApplicationId;
+           buildComplementaryQueryString();
 	};
 	
 	// Custom function to handle pagination requests
@@ -51,22 +42,6 @@ function searchExternal() {
     	dt.getDataSource().sendRequest(buildQueryString(newState), oCallback);
 	};
 
-	var formatCfaIdLink = function(elCell, oRecord, oColumn, oData) {
-		var url = YAHOO.payment_module.baseUrl + "familyaccount/display.jsp";
-		
-		elCell.innerHTML = "<a href='" + url + "?cfaId=" + oData + "'>" + oData + "</a>";
-	};
-	
-	var myColumnDefs = [
-		{key:"efaId", sortable:true, label:document.getElementById('faTableId').innerHTML},
-       	{key:"efaResponsible", sortable:true, 
-       		label:document.getElementById('faTableResponsible').innerHTML},
-       	{key:"efaAddress", label:document.getElementById('faTableAddress').innerHTML},
-       	{key:"externalApplication", label:document.getElementById('faTableExtApp').innerHTML},
-       	{key:"cfaId", formatter:formatCfaIdLink, label:document.getElementById('faTableCfaId').innerHTML},
-       	{key:"cfaResponsible", label:document.getElementById('faTableResponsible').innerHTML}
-    ];
-
 	var myConfigs = {
 			paginator : new YAHOO.widget.Paginator({
 				containers: ['search-results-paginator-top', 'search-results-paginator-bottom'],
@@ -79,31 +54,28 @@ function searchExternal() {
 				lastPageLinkLabel: "&gt;&gt;",
 				nextPageLinkLabel: "&gt;"
 			}),
-			initialRequest:"action=searchExternal" + "&efaId=" + efaId
-				+ "&efaResponsible=" + efaResponsible 
-				+ "&externalApplicationId=" + externalApplicationId
-				+ "&startIndex=0&results=25",
+			initialRequest:initialRequest + '&startIndex=0&results=25',
 			generateRequest : buildQueryString,
 			paginationEventHandler : handlePagination,
-    		sortedBy : {key:"efaId",dir:YAHOO.widget.DataTable.CLASS_ASC}
+    		sortedBy : {key:initialSortKey, dir:YAHOO.widget.DataTable.CLASS_ASC}
 	};
 
-	var callUrl = YAHOO.payment_module.baseUrl + "familyaccount/search_external.jsp?";
+	var callUrl = YAHOO.payment_module.baseUrl + controllerUrl;
 	this.myDatasource = new YAHOO.util.DataSource(callUrl);
     this.myDatasource.responseType = YAHOO.util.DataSource.TYPE_JSON;
     this.myDatasource.responseSchema = {
-    	resultsList: "efaList",
-        fields: ["efaId","efaResponsible", "efaAddress", "externalApplication", "cfaId", "cfaResponsible"],
+    	resultsList: resultsList,
+        fields: fields,
 		metaFields : {
 			totalRecords: "totalRecords"
 		}
 	};
 	
-    searchExternalDatatable = new YAHOO.widget.DataTable("externalAccountsDatatable",
-    	myColumnDefs, this.myDatasource, myConfigs);
+    resultsDatatable = new YAHOO.widget.DataTable("resultsDatatable",
+    	columnDefs, this.myDatasource, myConfigs);
     	
     // Override function for custom server-side sorting
-	searchExternalDatatable.sortColumn = function(oColumn) {
+	resultsDatatable.sortColumn = function(oColumn) {
     	// Default ascending
     	var sDir = "asc";
     
@@ -139,10 +111,29 @@ function searchExternal() {
 	};
 }
 
-function initSearchExternal() {
+function reloadServerSideJsonTable(buildComplementaryQueryString, initialSortKey) {
 	
-	var oSubmitButton1 = new YAHOO.widget.Button('wrappedSubmit', {type:'button'});
-	oSubmitButton1.on("click", searchExternal);
-}
+	// Re-initialize state
+    var newState = {
+    	startIndex: 0, 
+        sorting: {
+        	key: initialSortKey,
+            dir: 'asc'
+        },
+        pagination : { // Pagination values
+        	recordOffset: 0, // Default to first page when sorting
+            rowsPerPage: 25 // Keep current setting
+        }
+    };
 
-YAHOO.util.Event.onDOMReady(initSearchExternal);
+	var oCallback = {
+    	success : resultsDatatable.onDataReturnInitializeTable,
+    	failure : resultsDatatable.onDataReturnInitializeTable,
+    	scope : resultsDatatable,
+    	argument: newState
+	};
+
+	var queryString = 'startIndex=0&results=25' + buildComplementaryQueryString();
+	
+	resultsDatatable.getDataSource().sendRequest(queryString, oCallback);
+}

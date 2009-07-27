@@ -42,17 +42,17 @@ public class ContractService implements IContractService {
     }
 
     public void importContracts(List<Contract> contractList,
-            long externalApplicationId) throws DataAccessException, CpmBusinessException {
+            long externalApplicationId, String broker) 
+        throws DataAccessException, CpmBusinessException {
 
         if (externalApplicationId == 0) {
             log.warn("importContracts() no external application id provided !");
             return;
         }
 
-        // delete existing accounts for given external application
-        List<Contract> oldContracts = getByExternalId(null, externalApplicationId, null);
-        if (oldContracts != null)
-            deleteContracts(oldContracts);
+        List<Contract> contracts =
+            contractDAO.findByExternalApplicationAndBroker(externalApplicationId, broker);
+        deleteContracts(contracts);
 
         saveContracts(contractList);
     }

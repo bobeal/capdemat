@@ -17,6 +17,7 @@ import fr.capwebct.modules.payment.business.InvoiceDetail;
 import fr.capwebct.modules.payment.business.Payment;
 import fr.capwebct.modules.payment.service.IAccountService;
 import fr.capwebct.modules.payment.service.IInvoiceService;
+import fr.capwebct.modules.payment.util.CurrencyUtil;
 
 public class DetailLoaderController extends AbstractController {
 
@@ -40,9 +41,13 @@ public class DetailLoaderController extends AbstractController {
                 jsObject.put("subject",
                         new String(invoiceDetail.getChildName().getBytes("utf-8")) + " "
                         + new String(invoiceDetail.getChildSurname().getBytes("utf-8")));
-                jsObject.put("unitPrice", invoiceDetail.getUnitPrice());
+                jsObject.put("unitPrice", CurrencyUtil.getFormattedAmount(invoiceDetail.getUnitPrice()));
                 jsObject.put("quantity", invoiceDetail.getQuantity());
-                jsObject.put("value", invoiceDetail.getValue());
+                if (invoiceDetail.getValue() != 0) {
+                    jsObject.put("value", CurrencyUtil.getFormattedAmount(invoiceDetail.getValue()));
+                } else {
+                    jsObject.put("value", "");
+                }
                 jsArray.add(jsObject);
             }
             response.getOutputStream().write(jsArray.toString().getBytes());
@@ -70,7 +75,7 @@ public class DetailLoaderController extends AbstractController {
                 Payment payment = accountDetail.getPayment();
                 jsObject.put("date", 
                         new JsDateJsonValueProcessor().processArrayValue(payment.getPaymentDate()));
-                jsObject.put("value", accountDetail.getValue());
+                jsObject.put("value", CurrencyUtil.getFormattedAmount(accountDetail.getValue()));
                 if (payment.getPaymentType() != null) {
                     jsObject.put("paymentType", 
                             new String(payment.getPaymentType().getBytes("utf-8")));

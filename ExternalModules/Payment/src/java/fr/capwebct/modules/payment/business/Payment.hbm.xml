@@ -17,6 +17,7 @@
     <property name="cvqAck" column="cvq_ack" />
     <property name="cfaId" column="cfa_id" />
     <property name="broker" column="broker" />
+    <property name="exported" column="exported" />
     
   </class>
 

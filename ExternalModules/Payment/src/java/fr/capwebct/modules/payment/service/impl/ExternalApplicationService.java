@@ -1,5 +1,6 @@
 package fr.capwebct.modules.payment.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -43,6 +44,7 @@ public class ExternalApplicationService implements IExternalApplicationService {
             throw new CpmBusinessException("error.label_already_exists");
         
         externalApplicationDAO.create(externalApplication);
+        familyAccountService.initializeCfaAssociations(externalApplication.getId());
     }
 
     public void update(final long id, final String newLabel, final String newDescription,
@@ -70,6 +72,7 @@ public class ExternalApplicationService implements IExternalApplicationService {
         for (ExternalFamilyAccount externalFamilyAccount : familyAccounts) {
             familyAccountService.deleteExternalFamilyAccount(externalFamilyAccount);
         }
+        familyAccountService.removeCfaAssociations(id);
         externalApplicationDAO.delete(externalApplication);
     }
 
@@ -90,6 +93,19 @@ public class ExternalApplicationService implements IExternalApplicationService {
         externalApplicationDAO.update(externalApplication);        
     }
     
+	public List<String> getAllBrokers() {
+		List<String> brokers = new ArrayList<String>();
+		for (ExternalApplication externalApplication : getAll()) {
+			Set<String> externalApplicationBrokers = externalApplication.getBrokers();
+			for (String broker : externalApplicationBrokers) {
+				if (!brokers.contains(broker))
+					brokers.add(broker);
+			}
+		}
+		
+		return brokers;
+	}
+
     public void setExternalApplicationDAO(IExternalApplicationDAO externalApplicationDAO) {
         this.externalApplicationDAO = externalApplicationDAO;
     }

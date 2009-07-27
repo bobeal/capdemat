@@ -34,6 +34,7 @@ public final class MailService implements IMailService {
         if (to == null)
             throw new CvqModelException("email.to_is_required");
         
+        logger.debug("send() sending mail with " + subject);
         try {
             mailSender.send(new MimeMessagePreparator() {
                 public void prepare(MimeMessage mimeMessage)

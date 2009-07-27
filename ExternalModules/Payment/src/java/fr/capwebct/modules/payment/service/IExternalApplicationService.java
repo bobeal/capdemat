@@ -55,4 +55,9 @@ public interface IExternalApplicationService {
      * Remove a broker from the given external application.
      */
     void removeBroker(final long externalApplicationId, final String broker);
+
+    /**
+     * Get the list of all known brokers.
+     */
+    List<String> getAllBrokers();
 }

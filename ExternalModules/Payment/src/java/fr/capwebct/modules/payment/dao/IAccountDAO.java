@@ -16,6 +16,9 @@ public interface IAccountDAO extends IGenericDAO<Account, Long> {
 	List<Account> findByExternalId(String externalFamilyAccountId,
 			long externalApplicationId) throws DataAccessException;
     
+    List<Account> findByExternalApplicationAndBroker(final long externalApplicationId,
+            final String broker) throws DataAccessException;
+    
 	Account findByExternalAndAccountId(String externalFamilyAccountId,
 	        long externalApplicationId, String accountId) throws DataAccessException;
 }

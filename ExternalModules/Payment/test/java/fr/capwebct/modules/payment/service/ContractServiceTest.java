@@ -88,7 +88,8 @@ public class ContractServiceTest extends ServiceTestCase {
         List<Contract> contractList = 
             BusinessObjectsFactory.gimmeTenContracts("contract", externalFamilyAccount);
 		try {
-			contractService.importContracts(contractList, externalApplication.getId());
+			contractService.importContracts(contractList, externalApplication.getId(), 
+                    externalApplication.getBrokers().iterator().next());
 			
 			List fetchList = contractService.getAllContracts(false);
 			assertEquals(10, fetchList.size());

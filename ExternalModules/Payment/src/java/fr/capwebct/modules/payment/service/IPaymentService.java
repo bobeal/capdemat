@@ -15,11 +15,11 @@ public interface IPaymentService {
     List<Payment> getAllPayments() throws DataAccessException;
 
     /**
-     * @fixme externalApplicationId is currently unused
+     * FIXME externalApplicationId is currently unused
      */
     List<Payment> search(final Date paymentDateStart, final Date paymentDateEnd, 
             final String paymentAck, final String cvqAck, final long externalApplicationId, 
-            final String broker) 
+            final String broker, final boolean filterExported) 
         throws DataAccessException;
     
     void savePayment(Payment payment) throws DataAccessException;

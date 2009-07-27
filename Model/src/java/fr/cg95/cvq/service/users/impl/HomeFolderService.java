@@ -220,10 +220,10 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
-    public final Set<HomeFolder> getAll()
+    public final Set<HomeFolder> getAll(boolean filterArchived, boolean filterBoundToRequest)
         throws CvqException {
 
-        List<HomeFolder> homeFolders = homeFolderDAO.listAll();
+        List<HomeFolder> homeFolders = homeFolderDAO.listAll(filterArchived, filterBoundToRequest);
         return new LinkedHashSet<HomeFolder>(homeFolders);
     }
 

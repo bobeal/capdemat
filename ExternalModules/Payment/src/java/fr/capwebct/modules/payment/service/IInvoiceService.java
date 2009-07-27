@@ -33,7 +33,7 @@ public interface IInvoiceService {
      * 
      * @throws CpmBusinessException if an invoice has no external family account associated
      */
-    void importInvoices(List<Invoice> invoiceList, long externalApplicationId) 
+    void importInvoices(List<Invoice> invoiceList, long externalApplicationId, String broker) 
         throws DataAccessException, CpmBusinessException;
 
     Invoice getInvoice(long id, boolean loadCollection) throws DataAccessException;
@@ -44,8 +44,14 @@ public interface IInvoiceService {
 
 	List<Invoice> search(String invoiceId, String invoiceLabel,
 	        Date invoicePaymentDateStart, Date invoicePaymentDateEnd,
-	        String efaId, long externalApplicationId) 
-            throws DataAccessException;
+	        String efaId, long externalApplicationId, String broker,
+	        final int results, final int startIndex, final String sort, final String dir) 
+        throws DataAccessException;
+
+    Long getCountForSearch(String invoiceId, String invoiceLabel,
+            Date invoicePaymentDateStart, Date invoicePaymentDateEnd,
+            String efaId, long externalApplicationId, String broker)
+        throws DataAccessException;
 
 	List<Invoice> getByExternalId(String externalFamilyAccountId, long externalApplicationId)
 			throws DataAccessException;

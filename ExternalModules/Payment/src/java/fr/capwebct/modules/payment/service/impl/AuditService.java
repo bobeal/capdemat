@@ -15,13 +15,17 @@ public class AuditService implements IAuditService {
     private IExternalImportAuditDAO externalImportAuditDAO;
     
     public void addAuditTrace(final String importType,
-            final ExternalDataType externalDataType, final String externalApplicationLabel)
+            final ExternalDataType externalDataType, final String externalApplicationLabel, String broker)
         throws CpmSecurityException {
         
         ExternalImportAudit externalImportAudit = new ExternalImportAudit();
-        externalImportAudit.setAgent(SecurityContext.getCurrentAgent());
+        if (SecurityContext.isSpecialAdminContext())
+        	externalImportAudit.setAgent(null);
+        else
+        	externalImportAudit.setAgent(SecurityContext.getCurrentAgent());
         externalImportAudit.setDate(new Date());
         externalImportAudit.setExternalApplicationLabel(externalApplicationLabel);
+        externalImportAudit.setBroker(broker);
         externalImportAudit.setExternalDataType(externalDataType);
         externalImportAudit.setImportType("CSV");
         externalImportAuditDAO.create(externalImportAudit);

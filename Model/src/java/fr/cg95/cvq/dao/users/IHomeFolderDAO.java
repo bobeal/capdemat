@@ -13,5 +13,5 @@ public interface IHomeFolderDAO extends IGenericDAO {
     /**
      * Return the list of all known home folders.
      */
-    List<HomeFolder> listAll();
+    List<HomeFolder> listAll(boolean filterArchived, boolean filterBoundToRequest);
 }

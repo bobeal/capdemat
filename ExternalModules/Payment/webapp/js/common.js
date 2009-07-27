@@ -47,10 +47,10 @@ function doAjaxFormSubmitCall(successCallback,successCallbackArgs,formId,withFil
 }
 			
 
-var handleConfirmationDialogCancel = function() { 
-	this.hide();
-}
 function loadConfirmationDialog(handleConfirmDelete,header,body,yes_message,no_message) {
+	var handleConfirmationDialogCancel = function() { 
+		this.hide();
+	};
     var confirmDeleteDialog = new YAHOO.widget.SimpleDialog("deleteDialog", { 
         width: "20em", 
         modal:true,

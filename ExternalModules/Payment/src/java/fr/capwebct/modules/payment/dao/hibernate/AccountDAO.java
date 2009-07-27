@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
@@ -80,5 +81,22 @@ public class AccountDAO extends GenericHibernateDAO<Account, Long> implements IA
         }
 
         return (Account) crit.uniqueResult();
+    }
+    
+    public List<Account> findByExternalApplicationAndBroker(long externalApplicationId, 
+            String broker) throws DataAccessException {
+        if (externalApplicationId == 0 || (broker == null || broker.equals("")))
+            return null;
+        
+        StringBuffer sb = new StringBuffer();
+        sb.append("from Account account ")
+            .append("where account.broker = :broker ")
+            .append("and account.externalFamilyAccount.externalApplication.id = :id");
+        
+        Query query = getSession().createQuery(sb.toString())
+            .setString("broker", broker)
+            .setLong("id", externalApplicationId);
+
+        return query.list();
     }
 }

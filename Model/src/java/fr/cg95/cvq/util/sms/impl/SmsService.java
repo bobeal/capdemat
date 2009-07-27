@@ -30,7 +30,12 @@ public class SmsService implements ISmsService {
             CleverSMSMessageSEI smsMessageService = provider.getMessageService();
             SmsMessage smsMessage = new SmsMessage();
             smsMessage.setMessage(message);
-            smsMessage.setNumber(number);
+            // Hack to send internationalized phone numbers
+            if (number.startsWith("06")) {
+                smsMessage.setNumber("+33" + number.substring(1));
+            } else {
+                smsMessage.setNumber(number);
+            }
             
             logger.debug("send() gonna send message " + message 
                     + " to " + number);

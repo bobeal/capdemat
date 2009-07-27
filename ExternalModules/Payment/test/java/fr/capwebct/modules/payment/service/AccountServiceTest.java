@@ -122,7 +122,8 @@ public class AccountServiceTest extends ServiceTestCase {
 		List<Account> accountList = 
             BusinessObjectsFactory.gimmeTenAccounts("account", externalFamilyAccount);
 		try {
-			accountService.importAccounts(accountList, externalApplication.getId());
+			accountService.importAccounts(accountList, externalApplication.getId(), 
+                    externalApplication.getBrokers().iterator().next());
 
 			List<Account> importedAccounts = accountService.getAllAccounts();
 			assertEquals(importedAccounts.size(), 10);

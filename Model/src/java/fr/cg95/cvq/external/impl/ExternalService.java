@@ -94,7 +94,8 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         if (externalProviderServices == null || externalProviderServices.isEmpty())
             return;
         if (!request.getState().equals(RequestState.VALIDATED)) {
-            throw new CvqException("Request must be validated before sending", "plugins.externalservices.error.requestMustBeValidated");
+            throw new CvqException("Request must be validated before sending",
+                "plugins.externalservices.error.requestMustBeValidated");
         }
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         for (IExternalProviderService externalProviderService : externalProviderServices) {
@@ -141,7 +142,12 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                 est.setName(externalServiceLabel);
             }
             try {
-                externalProviderService.sendRequest(requestService.fillRequestXml(request));
+                String externalId = 
+                    externalProviderService.sendRequest(requestService.fillRequestXml(request));
+                if (externalId != null && !externalId.equals("")) {
+                    esim.setExternalId(externalId);
+                    genericDAO.update(esim);
+                }
                 if (!externalProviderService.handlesTraces()) {
                     est.setStatus(TraceStatusEnum.SENT);
                 }

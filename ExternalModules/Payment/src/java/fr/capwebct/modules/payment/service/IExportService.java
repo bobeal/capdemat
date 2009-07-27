@@ -10,4 +10,6 @@ import fr.capwebct.modules.payment.exception.CpmBusinessException;
 public interface IExportService {
 
     void exportPayments() throws CpmBusinessException;
+    
+    void importData() throws CpmBusinessException;
 }

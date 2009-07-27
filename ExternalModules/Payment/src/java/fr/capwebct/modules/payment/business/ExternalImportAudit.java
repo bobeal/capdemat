@@ -9,6 +9,7 @@ public class ExternalImportAudit {
     private String importType;
     private ExternalDataType externalDataType;
     private String externalApplicationLabel;
+    private String broker;
     private Agent agent;
     private Date date;
     
@@ -58,5 +59,13 @@ public class ExternalImportAudit {
 
     public String getImportType() {
         return importType;
+    }
+
+    public String getBroker() {
+        return broker;
+    }
+
+    public void setBroker(String broker) {
+        this.broker = broker;
     }
 }

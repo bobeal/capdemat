@@ -179,6 +179,7 @@
   
   <bean id="agentService" class="fr.capwebct.modules.payment.service.impl.AgentService">
     <property name="agentDAO"><ref bean="agentDAO"/></property>
+    <property name="logoutUrl" value="${cas.logout_url}" />
   </bean>
   
   <bean id="securityContext" class="fr.capwebct.modules.payment.security.SecurityContext">
@@ -274,11 +275,12 @@
     </property>
   </bean>
 
-  <bean id="axelExportService" class="fr.capwebct.modules.payment.service.impl.AxelExportService">
+  <bean id="axelConnectorService" class="fr.capwebct.modules.payment.service.impl.AxelConnectorService">
     <property name="enabled" value="${export.axel.enabled}" />
     <property name="paymentService" ref="paymentService" />
     <property name="invoiceService" ref="invoiceService" />
     <property name="externalApplicationService" ref="externalApplicationService" />
+    <property name="importService" ref="importService" />
     <property name="ftpService">
       <bean class="fr.capwebct.modules.payment.service.impl.FtpService">
         <property name="ftpHost" value="${export.axel.ftp_host}" />
@@ -350,39 +352,68 @@
     class="fr.capwebct.modules.payment.webservice.client.impl.CapwebctWebServiceClient">
     <property name="webServiceTemplate" ref="capwebctWebServiceTemplate" />
     <property name="localAuthority" value="${capdemat.local_authority}" />
+    <property name="interceptors" ref="securityInterceptor" />
   </bean>
   
+  <bean id="securityInterceptor" class="org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor">
+    <property name="securementActions" value="UsernameToken"/>
+    <property name="securementUsername" value="CapwebctPaymentModule"/>
+    <property name="securementPassword" value="${capdemat.webservice.password}"/>
+    <property name="securementPasswordType" value="PasswordText" />
+ </bean>
+
   <!-- Scheduled Jobs -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   
   <bean id="axelPaymentsExporterJob"
     class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-    <property name="targetObject" ref="axelExportService" />
+    <property name="targetObject" ref="axelConnectorService" />
     <property name="targetMethod" value="exportPayments" />
     <property name="concurrent" value="false" />
   </bean>
 
+  <bean id="axelDataImporterJob"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="axelConnectorService" />
+    <property name="targetMethod" value="importData" />
+    <property name="concurrent" value="false" />
+  </bean>
+
   <!-- testing purposes only -->
-    <bean id="axelPaymentsExporterTrigger" 
-      class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+  <!-- 
+  <bean id="axelPaymentsExporterTrigger" 
+  	class="org.springframework.scheduling.quartz.SimpleTriggerBean">
     <property name="jobDetail" ref="axelPaymentsExporterJob" />
     <property name="startDelay" value="5000" />
     <property name="repeatInterval" value="600000" />
-    </bean>
+  </bean>
+
+  <bean id="axelDataImporterTrigger" 
+  	class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+    <property name="jobDetail" ref="axelDataImporterJob" />
+    <property name="startDelay" value="10000" />
+    <property name="repeatInterval" value="600000" />
+  </bean>
+  -->
 
   <!-- production settings -->
-  <!-- 
   <bean id="axelPaymentsExporterTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
     <property name="jobDetail" ref="axelPaymentsExporterJob" />
-    <property name="cronExpression" value="0 0 6 * * ?" />
+    <property name="cronExpression" value="0 0 4 * * ?" />
   </bean>
-  -->
+  
+  <bean id="axelDataImporterTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="axelDataImporterJob" />
+    <property name="cronExpression" value="0 40 4 * * ?" />
+  </bean>
   
   <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
     <property name="triggers">
       <list>
-        <ref bean="axelPaymentsExporterTrigger" />
+		<ref bean="axelPaymentsExporterTrigger" />
+		<ref bean="axelDataImporterTrigger" />
       </list>
     </property>
   </bean>

@@ -16,7 +16,7 @@ YAHOO.payment_module.calendar.init = function(arg1, arg2, arg3) {
 			
 		var txtDate1 = document.getElementById(arg3.label);
 		txtDate1.value = day + "/" + month + "/" + year;
-	}
+	};
 
 	YAHOO.payment_module.calendar.cal[arg3.id] = 
 		new YAHOO.widget.Calendar( arg3.label + "Cal", arg3.label + "CalContainer", 

@@ -78,6 +78,9 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
         }
         criterias.add(criteria);
         
+        if (typedRequest.getId() != 0) 
+            criterias.add(new SimpleCriteria(Request.class,"id",
+                    BaseOperator.EQUALS,typedRequest.getId()));            
         if (typedRequest.getDateFrom() != null)
             criterias.add(new SimpleCriteria(RequestAction.class,"date",
                     BaseOperator.GTE,typedRequest.getDateFrom().getTime()));
@@ -90,11 +93,15 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
         
         try {
             Set<Long> ids = externalService.getRequestIds(criterias);
-            // do not send again requests that have already been acknowledged
-            Set<String> statuses = new HashSet<String>();
-            statuses.add(TraceStatusEnum.ACKNOWLEDGED.toString());
-            ids = SetHelper.MakeRelativeComplement(
-                externalService.getTraceKeysByStatus(ids,statuses), ids);
+            // do not send again requests that have already been acknowledged ...
+            // ... except if we are invoked with an explicit request id !
+            
+            if (typedRequest.getId() == 0) {
+                Set<String> statuses = new HashSet<String>();
+                statuses.add(TraceStatusEnum.ACKNOWLEDGED.toString());
+                ids = SetHelper.MakeRelativeComplement(
+                        externalService.getTraceKeysByStatus(ids,statuses), ids);
+            }
             Set<RequestType> resultArray = new HashSet<RequestType>();
             for (Long id : ids) {
                 RequestType rt = null;

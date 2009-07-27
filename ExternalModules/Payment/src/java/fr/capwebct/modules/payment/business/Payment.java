@@ -16,6 +16,7 @@ public class Payment {
     private String cvqAck;
     private long cfaId;
     private String broker;
+    private boolean exported;
     
     public Payment() {
     }
@@ -114,7 +115,23 @@ public class Payment {
         this.cfaId = cfaId;
     }
 
-    @Override
+    public String getBroker() {
+        return broker;
+    }
+
+    public void setBroker(String broker) {
+        this.broker = broker;
+    }
+
+	public boolean isExported() {
+		return exported;
+	}
+
+	public void setExported(boolean exported) {
+		this.exported = exported;
+	}
+
+	@Override
     public boolean equals(Object object) {
         if (this == object)
             return true;
@@ -130,13 +147,5 @@ public class Payment {
     @Override
     public int hashCode() {
         return (new Long(this.id)).hashCode();
-    }
-
-    public String getBroker() {
-        return broker;
-    }
-
-    public void setBroker(String broker) {
-        this.broker = broker;
     }
 }

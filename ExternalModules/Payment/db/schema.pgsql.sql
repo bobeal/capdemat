@@ -6,10 +6,10 @@
         drop constraint FKB9D38A2D3575AFD6;
 
     alter table account_detail 
-        drop constraint FK196C2EA35EA1AD4A;
+        drop constraint FK196C2EA3F624C47E;
 
     alter table account_detail 
-        drop constraint FK196C2EA3F624C47E;
+        drop constraint FK196C2EA35EA1AD4A;
 
     alter table capwebct_association_summary 
         drop constraint FKF44375DC338E0F2C;
@@ -27,19 +27,19 @@
         drop constraint FKDE3511123575AFD6;
 
     alter table contract_detail 
-        drop constraint FK3FD50C1E28AA4E0;
+        drop constraint FK3FD50C1EF624C47E;
 
     alter table contract_detail 
-        drop constraint FK3FD50C1EF624C47E;
+        drop constraint FK3FD50C1E28AA4E0;
 
     alter table external_application_broker 
         drop constraint FK839CD69CC0CF33BD;
 
     alter table external_family_account 
-        drop constraint FKAB778346C0CF3367;
+        drop constraint FKAB778346338E0ED6;
 
     alter table external_family_account 
-        drop constraint FKAB778346338E0ED6;
+        drop constraint FKAB778346C0CF3367;
 
     alter table external_import_audit 
         drop constraint FK94EB2AB54F731E9E;
@@ -51,13 +51,13 @@
         drop constraint FKC1D4D78D4B60FB31;
 
     alter table invoice 
+        drop constraint FK74D6432DF624C47E;
+
+    alter table invoice 
         drop constraint FK74D6432D1EC32CFC;
 
     alter table invoice 
         drop constraint FK74D6432D3575AFD6;
-
-    alter table invoice 
-        drop constraint FK74D6432DF624C47E;
 
     alter table invoice_detail 
         drop constraint FK119755A36BF85F4A;
@@ -208,6 +208,7 @@
         import_type varchar(255),
         external_data_type bytea,
         external_application_label varchar(255),
+        broker varchar(255),
         date timestamp,
         agent_fk int8,
         primary key (id)
@@ -262,6 +263,7 @@
         cvq_ack varchar(255),
         cfa_id int8,
         broker varchar(255),
+        exported bool,
         primary key (id)
     );
 
@@ -276,14 +278,14 @@
         references external_family_account;
 
     alter table account_detail 
-        add constraint FK196C2EA35EA1AD4A 
-        foreign key (account_fk_id) 
-        references account;
-
-    alter table account_detail 
         add constraint FK196C2EA3F624C47E 
         foreign key (payment_fk) 
         references payment;
+
+    alter table account_detail 
+        add constraint FK196C2EA35EA1AD4A 
+        foreign key (account_fk_id) 
+        references account;
 
     alter table capwebct_association_summary 
         add constraint FKF44375DC338E0F2C 
@@ -311,14 +313,14 @@
         references external_family_account;
 
     alter table contract_detail 
-        add constraint FK3FD50C1E28AA4E0 
-        foreign key (contract_fk_id) 
-        references contract;
-
-    alter table contract_detail 
         add constraint FK3FD50C1EF624C47E 
         foreign key (payment_fk) 
         references payment;
+
+    alter table contract_detail 
+        add constraint FK3FD50C1E28AA4E0 
+        foreign key (contract_fk_id) 
+        references contract;
 
     alter table external_application_broker 
         add constraint FK839CD69CC0CF33BD 
@@ -326,14 +328,14 @@
         references external_application;
 
     alter table external_family_account 
-        add constraint FKAB778346C0CF3367 
-        foreign key (external_application_fk) 
-        references external_application;
-
-    alter table external_family_account 
         add constraint FKAB778346338E0ED6 
         foreign key (capwebct_family_account_fk) 
         references capwebct_family_account;
+
+    alter table external_family_account 
+        add constraint FKAB778346C0CF3367 
+        foreign key (external_application_fk) 
+        references external_application;
 
     alter table external_import_audit 
         add constraint FK94EB2AB54F731E9E 
@@ -351,6 +353,11 @@
         references capwebct_individual;
 
     alter table invoice 
+        add constraint FK74D6432DF624C47E 
+        foreign key (payment_fk) 
+        references payment;
+
+    alter table invoice 
         add constraint FK74D6432D1EC32CFC 
         foreign key (efa_fk) 
         references external_family_account;
@@ -359,11 +366,6 @@
         add constraint FK74D6432D3575AFD6 
         foreign key (external_family_account_fk) 
         references external_family_account;
-
-    alter table invoice 
-        add constraint FK74D6432DF624C47E 
-        foreign key (payment_fk) 
-        references payment;
 
     alter table invoice_detail 
         add constraint FK119755A36BF85F4A 

@@ -82,6 +82,7 @@
 			overwrite="true" />
 		<copy todir="${build.src.dir}" file="${conf.dir}/spring/application.properties" />
 		<copy todir="${build.src.dir}" file="${conf.dir}/spring/applicationContext.xml" />
+        <copy todir="${build.src.dir}" file="${conf.dir}/spring/securityPolicy.xml" />
 		<copy todir="${build.src.dir}">
 			<fileset dir="${src.dir}">
 				<include name="**/*.hbm.xml" />

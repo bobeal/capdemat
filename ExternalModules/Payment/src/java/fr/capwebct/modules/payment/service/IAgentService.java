@@ -13,4 +13,6 @@ public interface IAgentService {
     void modifyAgent(Agent agent);
     
     void updateProfile(Agent agent, List<String> newGroups);
+    
+    String getLogoutUrl();
 }

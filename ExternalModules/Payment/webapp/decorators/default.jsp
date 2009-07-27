@@ -78,7 +78,7 @@
 				alt="Logo de la plateforme CapWebCT" /></div>
 			<div style="float:right;">
 				<c:out value="${sessionScope.username}"/> - 
-				<a href="<c:out value='${sessionScope.logoutUrl}'/>"><fmt:message key="action.logout" /></a>
+				<a href="<c:url value='/home/logout.jsp' />"><fmt:message key="action.logout" /></a>
 			</div>
 			<div id="hd-footer">&nbsp;</div>
 		</div>
@@ -130,11 +130,13 @@
 									<fmt:message key="menu.homefolder.item.search_capwebct" />
 								</a>
 							</li>
+							<!-- 
 							<li id="efaSearchMenuItem" class="yuimenuitem">
 								<a href="<c:url value="/familyaccount/search_external.jsp?action=initExternal"/>">
 									<fmt:message key="menu.homefolder.item.search_external" />
 								</a>
 							</li>
+							-->
 						</ul>
 						
 						<c:if test="${sessionScope.isAdmin}">

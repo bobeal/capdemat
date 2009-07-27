@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[2.1.0.v200808011800]]></pluginVersion>
+	<pluginVersion><![CDATA[2.2.1.v200811281800]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>webapp/WEB-INF/admin-servlet.xml</config>
+		<config>webapp/WEB-INF/homefolder-servlet.xml</config>
 		<config>webapp/WEB-INF/management-servlet.xml</config>
 		<config>webapp/WEB-INF/spring-ws-servlet.xml</config>
 		<config>conf/spring/applicationContext.xml</config>
@@ -19,6 +20,7 @@
 			<incomplete>false</incomplete>
 			<configs>
 				<config>webapp/WEB-INF/admin-servlet.xml</config>
+				<config>webapp/WEB-INF/homefolder-servlet.xml</config>
 				<config>webapp/WEB-INF/management-servlet.xml</config>
 				<config>webapp/WEB-INF/spring-ws-servlet.xml</config>
 				<config>conf/spring/applicationContext.xml</config>

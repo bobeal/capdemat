@@ -28,6 +28,9 @@ public class SecurityContext {
 
     private static ThreadLocal<Agent> currentContextThreadLocal = 
         new ThreadLocal<Agent>();
+    private static ThreadLocal<Boolean> specialAdminContextThreadLocal =
+    	new ThreadLocal<Boolean>();
+    
     
     /**
      * Return whether one of the group in the given list permits access to the Back Office.
@@ -103,11 +106,12 @@ public class SecurityContext {
      * Set the current agent. Can only be called after the current
      * local authority is set with {@link #setCurrentSite}.
      */
-    public static void setCurrentAgent(Agent agent) {
+    private static void setCurrentAgent(Agent agent) {
 
         logger.debug("setCurrentAgent() agent = " + agent);
 
         currentContextThreadLocal.set(agent);
+        specialAdminContextThreadLocal.set(false);
     }
 
     /**
@@ -124,25 +128,24 @@ public class SecurityContext {
     }
 
     /**
-     * Return the login of the current agent.
-     *
-     * @throws CpmSecurityException if security context is not initialized
-     */
-    public static String getCurrentAgentLogin() throws CpmSecurityException {
-
-        Agent agent = currentContextThreadLocal.get();
-        if (agent == null)
-            throw new CpmSecurityException("No agent in security context");
-
-        return agent.getLogin();
-    }
-
-    /**
      * Reset the current security context. To be called at the end of the transaction.
      */
     public static void resetCurrentAgent() {
         logger.debug("resetCurrentAgent()");
         currentContextThreadLocal.set(null);
+        specialAdminContextThreadLocal.set(false);
+    }
+
+    /**
+     * A special admin context used by cron jobs to perform their tasks.
+     */
+    public static void setSpecialAdminContext() {
+    	specialAdminContextThreadLocal.set(true);
+    	currentContextThreadLocal.set(null);
+    }
+    
+    public static Boolean isSpecialAdminContext() {
+    	return specialAdminContextThreadLocal.get();
     }
 
     public void setAgentService(IAgentService iAgentService) {

@@ -205,4 +205,10 @@
     </xsl:call-template>
   </xsl:template>
 
+  <xsl:template match="//cvq:MeansOfContact">
+    <xsl:call-template name="MeansOfContactType">
+      <xsl:with-param name="localizationService" select="$localizationService"></xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
 </xsl:stylesheet>

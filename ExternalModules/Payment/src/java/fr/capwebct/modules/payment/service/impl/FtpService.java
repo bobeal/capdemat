@@ -2,6 +2,7 @@ package fr.capwebct.modules.payment.service.impl;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,7 +34,7 @@ public class FtpService implements IFtpService {
     private boolean loggedIn = false;
 
     
-    public void uploadData(byte[] data, String filename) {
+    public boolean uploadData(byte[] data, String filename) {
         log.debug("uploadData() uploading data to " + filename);
         try {
             connect();
@@ -42,21 +43,74 @@ public class FtpService implements IFtpService {
             String command = "stor " + filename;
 
             ByteArrayInputStream baos = new ByteArrayInputStream(data);
-            boolean success = executeDataCommand(command, baos);
-            log.debug("uploadData() result is " + success);
+            boolean result = executeDataCommand(command, baos);
+            log.debug("uploadData() result is " + result);
             
             disconnect();
+            
+            return result;
         } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
+        	log.error("uploadData() host is unknown : " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+        	log.error("uploadData() IO exception : " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }        
+    }
+
+    public byte[] getData(String filename) {
+        log.debug("getData() trying to get file " + filename);
+        try {
+            connect();
+            login();
+            
+            String command = "retr " + filename;
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            boolean success = executeDataCommand(command, baos);
+            
+            disconnect();
+            
+            if (!success)
+            	return null;
+            else
+            	return baos.toByteArray();
+        } catch (UnknownHostException e) {
+        	log.error("getData() host is unknown : " + e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+        	log.error("getData() IO exception : " + e.getMessage());
             e.printStackTrace();
         }
         
+        return null;
     }
 
-    /**
+
+	public void renameFile(String origFilename, String destFilename) {
+        log.debug("getData() trying to rename file " + origFilename
+        		+ " to " + destFilename);
+        try {
+            connect();
+            login();
+            
+            executeCommand("rnfr " + origFilename);
+            executeCommand("rnto " + destFilename);
+            
+            disconnect();
+
+        } catch (UnknownHostException e) {
+        	log.error("renameFile() host is unknown : " + e.getMessage());
+            e.printStackTrace();
+        } catch (IOException e) {
+        	log.error("renameFile() IO exception : " + e.getMessage());
+            e.printStackTrace();
+        }
+	}
+
+	/**
      * Connects to the given FTP host on the given port.
      */
     public boolean connect()
@@ -94,7 +148,6 @@ public class FtpService implements IFtpService {
         }
     }
 
-
     /**
      * Wrapper for the commands user [username] and pass
      * [password].
@@ -123,6 +176,8 @@ public class FtpService implements IFtpService {
      * commands that do not require an additional data port.
      */
     public int executeCommand(String command) throws IOException {
+    	log.debug(command);
+    	
         outputStream.println(command);
         return getServerReply();
     }
@@ -150,6 +205,26 @@ public class FtpService implements IFtpService {
         serverSocket.close();
 
         return isPositiveCompleteResponse(getServerReply());    
+    }
+
+    public boolean executeDataCommand(String command, OutputStream out)
+    	throws IOException {
+    
+    	// Open a data socket on this computer
+    	ServerSocket serverSocket = new ServerSocket(0);
+    	if (!setupDataPort(command, serverSocket)) return false;
+    	Socket clientSocket = serverSocket.accept();
+
+    	// Transfer the data
+    	InputStream in = clientSocket.getInputStream();
+    	transferData(in, out);
+
+    	// Clean up the data structures
+    	in.close();
+    	clientSocket.close();
+    	serverSocket.close();
+
+    	return isPositiveCompleteResponse(getServerReply());    
     }
 
     /** 
@@ -281,6 +356,11 @@ public class FtpService implements IFtpService {
                              "," + addrshorts[2] + "," + addrshorts[3] + "," +
                              ((localport & 0xff00) >> 8) + "," +
                              (localport & 0x00ff));
+
+//        outputStream.println("port " + addrshorts[0] + "," + addrshorts[1] +
+//                "," + 0 + "," + addrshorts[3] + "," +
+//                ((localport & 0xff00) >> 8) + "," +
+//                (localport & 0x00ff));
 
         return isPositiveCompleteResponse(getServerReply());
     }

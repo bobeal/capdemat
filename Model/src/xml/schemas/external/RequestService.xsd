@@ -6,7 +6,7 @@
   attributeFormDefault="unqualified">
 
   <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-    schemaLocation="http://capdemat.capwebct.fr/browser/tags/CVQ_3_2_0/Generator/src/xml/schemas/common/CVQCommonElements.xsd" />
+    schemaLocation="http://capdemat.capwebct.fr/browser/tags/CVQ_4_0/Generator/src/xml/schemas/common/CVQCommonElements.xsd" />
 
   <xs:element name="GetRequestsRequest">
     <xs:complexType>
@@ -15,14 +15,21 @@
           <xs:annotation>
             <xs:documentation>
               The label of the request types. If not provided, all authorized 
-	      request types will be returned.
+	          request types will be returned.
             </xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="DateFrom" type="xs:dateTime">
+        <xs:element name="Id" type="xs:long" minOccurs="0">
           <xs:annotation>
             <xs:documentation>
-              The date to search from. 
+              To retrieve a specific request by id
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="DateFrom" type="xs:dateTime" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              The date to search from
             </xs:documentation>
           </xs:annotation>
         </xs:element>

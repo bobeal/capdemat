@@ -37,7 +37,7 @@ public class PaymentExportController extends SimpleFormController {
                     DateUtil.processDate(paymentCommand.getPaymentDateEnd()),
                     paymentCommand.getPaymentAck(),
                     paymentCommand.getCvqAck(), 
-                    externalApplicationId, null);
+                    externalApplicationId, null, false);
         mav.addObject("payments", payments);
         mav.addObject("paymentsSize", payments.size());
 

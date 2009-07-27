@@ -46,7 +46,7 @@ public class AccountService implements IAccountService {
         }
     }
 
-    public void importAccounts(List<Account> accountList, long externalApplicationId) 
+    public void importAccounts(List<Account> accountList, long externalApplicationId, String broker) 
         throws DataAccessException, CpmBusinessException {
 
         if (externalApplicationId == 0) {
@@ -54,11 +54,9 @@ public class AccountService implements IAccountService {
             return;
         }
 
-        // delete existing accounts for given external application
-        List<Account> oldAccounts = getByExternalId(null, externalApplicationId);
-        if (oldAccounts != null) {
-            deleteAccounts(oldAccounts);
-        }
+        List<Account> accounts = 
+            accountDAO.findByExternalApplicationAndBroker(externalApplicationId, broker);
+        deleteAccounts(accounts);
 
         saveAccounts(accountList);
     }

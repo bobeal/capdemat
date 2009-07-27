@@ -1,13 +1,11 @@
 package fr.capwebct.modules.payment.dao.hibernate;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
@@ -18,28 +16,28 @@ public class PaymentDAO extends GenericHibernateDAO<Payment, Long> implements IP
 
     public List<Payment> search(final Date paymentDateStart, final Date paymentDateEnd, 
             final String paymentAck, final String cvqAck, final long cfaId, 
-            final String broker) throws DataAccessException {
+            final String broker, boolean filterExported) throws DataAccessException {
         
-        List<Criterion> criterionList = new ArrayList<Criterion>();
-
-        Property paymentDateProperty = Property.forName("paymentDate");
+    	Criteria criteria = getSession().createCriteria(Payment.class);
 
         if (paymentAck != null && !paymentAck.equals(""))
-            criterionList.add(Restrictions.ilike("paymentAck", paymentAck, MatchMode.ANYWHERE));
+        	criteria.add(Restrictions.ilike("paymentAck", paymentAck, MatchMode.ANYWHERE));
         if (cvqAck != null && !cvqAck.equals(""))
-            criterionList.add(Restrictions.ilike("cvqAck", cvqAck, MatchMode.ANYWHERE));
-        else
-            criterionList.add(Restrictions.ne("cvqAck",""));
+        	criteria.add(Restrictions.ilike("cvqAck", cvqAck, MatchMode.ANYWHERE));
         if (paymentDateStart != null)
-            criterionList.add(paymentDateProperty.ge(paymentDateStart));
+        	criteria.add(Restrictions.ge("paymentDate", paymentDateStart));
         if (paymentDateEnd != null)
-            criterionList.add(paymentDateProperty.le(paymentDateEnd));
+        	criteria.add(Restrictions.le("paymentDate", paymentDateEnd));
         if (cfaId != 0)
-            criterionList.add(Restrictions.eq("cfaId", cfaId));
+        	criteria.add(Restrictions.eq("cfaId", cfaId));
         if (broker != null && !broker.equals(""))
-            criterionList.add(Restrictions.ilike("broker", broker, MatchMode.ANYWHERE));
+        	criteria.add(Restrictions.ilike("broker", broker, MatchMode.ANYWHERE));
+        if (filterExported)
+        	criteria.add(Restrictions.eq("exported", false));
+        
+        criteria.addOrder(Order.desc("paymentDate"));
 
-        return findByCriteria(criterionList.toArray(new Criterion[]{}));
+        return criteria.list();
     }
 
     public Payment findByPaymentAck(String paymentAck) throws DataAccessException {

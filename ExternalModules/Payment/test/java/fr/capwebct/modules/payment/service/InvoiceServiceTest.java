@@ -50,11 +50,11 @@ public class InvoiceServiceTest extends ServiceTestCase {
             BusinessObjectsFactory.gimmeTenInvoices("invoice", externalFamilyAccount);
 		try {
 			invoiceService.saveInvoices(invoiceList);
-			List fetchList = invoiceService.search(null, "invoice", null, null, null, 0);
+			List fetchList = invoiceService.search(null, "invoice", null, null, null, 0, null, 25, 0, null, null);
 			assertEquals(fetchList.size(), 10);
-			fetchList = invoiceService.search("invoice_3", null, null, null, null, 0);
+			fetchList = invoiceService.search("invoice_3", null, null, null, null, 0, null, 25, 0, null, null);
 			assertEquals(fetchList.size(), 1);
-			fetchList = invoiceService.search(null, "in", null, new Date(), null, 0);
+			fetchList = invoiceService.search(null, "in", null, new Date(), null, 0, null, 25, 0, null, null);
 			assertEquals(fetchList.size(), 10);
 
 		} catch (DataAccessException e) {
@@ -123,7 +123,8 @@ public class InvoiceServiceTest extends ServiceTestCase {
         List<Invoice> invoiceList = 
             BusinessObjectsFactory.gimmeTenInvoices("invoice", externalFamilyAccount);
 		try {
-			invoiceService.importInvoices(invoiceList, externalApplication.getId());
+			invoiceService.importInvoices(invoiceList, externalApplication.getId(), 
+                    externalApplication.getBrokers().iterator().next());
 			
 			List fetchList = invoiceService.getAllInvoices();
 			assertEquals(fetchList.size(), 10);

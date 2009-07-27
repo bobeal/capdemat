@@ -13,6 +13,7 @@
     <property name="importType" column="import_type" />
     <property name="externalDataType" column="external_data_type" />
     <property name="externalApplicationLabel" column="external_application_label" />
+    <property name="broker" column="broker" />
     <property name="date" column="date" />
 
     <many-to-one name="agent" class="Agent" column="agent_fk" cascade="none" />

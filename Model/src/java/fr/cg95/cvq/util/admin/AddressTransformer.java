@@ -34,8 +34,17 @@ public class AddressTransformer {
     private String[] splitAddressStreetName(String streetInfo){
         if (streetInfo == null)
             return null;
-        Pattern pattern = Pattern.compile("(\\d{1,5})(.*)");
+        Pattern pattern = Pattern.compile("(\\d{1,5}/?\\d{0,5})(.*)");
         Matcher matcher = pattern.matcher(streetInfo);
+//        if (matcher.find()) {
+//            String streetNumber = matcher.group(1);
+//            if (streetNumber.length() > 5) {
+//                pattern = Pattern.compile("(\\d{1,5})(.*)");
+//                matcher = pattern.matcher(streetInfo);
+//            } else {
+//                matcher.reset();
+//            }
+//        }
         if (matcher.find()) {
             String streetNumber = matcher.group(1);
             String streetName = matcher.group(2).trim();
@@ -44,6 +53,18 @@ public class AddressTransformer {
                 matcher = pattern.matcher(streetName);
                 if (matcher.find()) {
                     streetNumber = streetNumber + "B";
+                    streetName = matcher.group(2);
+                }
+                pattern = Pattern.compile("(^B\\b)(.*)", Pattern.CASE_INSENSITIVE);
+                matcher = pattern.matcher(streetName);
+                if (matcher.find()) {
+                    streetNumber = streetNumber + "B";
+                    streetName = matcher.group(2);
+                }
+                pattern = Pattern.compile("(^TER\\b)(.*)", Pattern.CASE_INSENSITIVE);
+                matcher = pattern.matcher(streetName);
+                if (matcher.find()) {
+                    streetNumber = streetNumber + "T";
                     streetName = matcher.group(2);
                 }
             }
@@ -80,24 +101,24 @@ public class AddressTransformer {
      */
     private void formatAddressField(Address address){
         if (address.getStreetName() != null) {
-            address.setStreetName(address.getStreetName().replace(',', ' '));
-            address.setStreetName(address.getStreetName().replace(';', ' '));
+//            address.setStreetName(address.getStreetName().replace(',', ' '));
+//            address.setStreetName(address.getStreetName().replace(';', ' '));
             address.setStreetName(address.getStreetName().replace('\r', ' '));
             address.setStreetName(address.getStreetName().replace('\n', ' '));
-            address.setStreetName(address.getStreetName().replace('\'', ' '));
-            address.setStreetName(address.getStreetName().replace('"', ' '));
-            address.setStreetName(address.getStreetName().replace('-', ' '));
-            address.setStreetName(address.getStreetName().replace('.', ' '));
-            address.setStreetName(address.getStreetName().replace('!', ' '));
-            address.setStreetName(address.getStreetName().replace('?', ' '));
-            address.setStreetName(address.getStreetName().replace('_', ' '));
+//            address.setStreetName(address.getStreetName().replace('\'', ' '));
+//            address.setStreetName(address.getStreetName().replace('"', ' '));
+//            address.setStreetName(address.getStreetName().replace('-', ' '));
+//            address.setStreetName(address.getStreetName().replace('.', ' '));
+//            address.setStreetName(address.getStreetName().replace('!', ' '));
+//            address.setStreetName(address.getStreetName().replace('?', ' '));
+//            address.setStreetName(address.getStreetName().replace('_', ' '));
             address.setStreetName(address.getStreetName().replace("  ", " "));
             address.setStreetName(address.getStreetName().replace("  ", " "));
 
-            address.setStreetName(address.getStreetName().trim().toUpperCase());
+//            address.setStreetName(address.getStreetName().trim().toUpperCase());
         }
-        if (address.getStreetNumber() != null)
-            address.setStreetNumber(address.getStreetNumber().trim().toUpperCase());
+//        if (address.getStreetNumber() != null)
+//            address.setStreetNumber(address.getStreetNumber().trim().toUpperCase());
     }
     
     /* Apply address normalization rules to all local authority's address
@@ -167,7 +188,7 @@ public class AddressTransformer {
      */
     private static class AddressDAO extends GenericDAO  implements IGenericDAO {
         public static List listAll(){
-            return HibernateUtil.getSession().createQuery("from Address").list();
+            return HibernateUtil.getSession().createQuery("from Address order by id").list();
         }
     }
 }

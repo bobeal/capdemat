@@ -129,7 +129,7 @@
   </target>
   
   <target name="prepare-webapp" description="Build the webapp" 
-    depends="prepare-configfiles, compile">
+    depends="prepare-configfiles, compile, compile-tests">
     <mkdir dir="${web.dir}/WEB-INF/lib" />
     <mkdir dir="${web.dir}/WEB-INF/xsd" />
     <!-- copy common libraries -->

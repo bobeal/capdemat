@@ -38,8 +38,8 @@ public class CapwebctFamilyAccountDAO extends GenericHibernateDAO<CapwebctFamily
             }
             
             if (capwebctIndividualLastName != null && !capwebctIndividualLastName.equals("")) {
-                sb.append("and cfa.responsibleFullName like ? ");
-                objectList.add(capwebctIndividualLastName + "%");
+                sb.append("and lower(cfa.responsibleFullName) like ? ");
+                objectList.add("%" + capwebctIndividualLastName.toLowerCase() + "%");
                 typeList.add(Hibernate.STRING);
             }
             

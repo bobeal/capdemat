@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
@@ -96,5 +97,23 @@ public class ContractDAO extends GenericHibernateDAO<Contract, Long>
         } catch (HibernateException exception) {
             throw SessionFactoryUtils.convertHibernateAccessException(exception);
         }
+    }
+    
+    public List<Contract> findByExternalApplicationAndBroker(long externalApplicationId, 
+            String broker) throws DataAccessException {
+        
+        if (externalApplicationId == 0 || (broker == null || broker.equals("")))
+            return null;
+        
+        StringBuffer sb = new StringBuffer();
+        sb.append("from Contract contract ")
+            .append("where contract.broker = :broker ")
+            .append("and contract.externalFamilyAccount.externalApplication.id = :id");
+        
+        Query query = getSession().createQuery(sb.toString())
+            .setString("broker", broker)
+            .setLong("id", externalApplicationId);
+
+        return query.list();
     }
 }

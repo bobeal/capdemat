@@ -41,7 +41,7 @@ public class PaymentController extends SimpleFormController {
             paymentService.search(DateUtil.processDate(paymentCommand.getPaymentDateStart()),
                     DateUtil.processDate(paymentCommand.getPaymentDateEnd()),
                     paymentCommand.getPaymentAck(), paymentCommand.getCvqAck(), 
-                    cfaId, paymentCommand.getBroker());
+                    cfaId, paymentCommand.getBroker(), false);
         mav.addObject("payments", payments);
         mav.addObject("paymentsSize", payments.size());
 

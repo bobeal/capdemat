@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.ws.client.WebServiceClientException;
-import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
 import fr.capwebct.capdemat.GetHomeFoldersRequestDocument;
 import fr.capwebct.capdemat.GetHomeFoldersResponseDocument;
@@ -19,11 +19,11 @@ import fr.capwebct.modules.payment.business.CapwebctIndividual;
 import fr.capwebct.modules.payment.exception.CpmWebServiceException;
 import fr.capwebct.modules.payment.webservice.client.ICapwebctWebServiceClient;
 
-public class CapwebctWebServiceClient implements ICapwebctWebServiceClient {
+public class CapwebctWebServiceClient extends WebServiceGatewaySupport 
+	implements ICapwebctWebServiceClient {
 
     private Log logger = LogFactory.getLog(CapwebctWebServiceClient.class);
 
-    private WebServiceTemplate webServiceTemplate;
     private String localAuthority;
     
     public List<CapwebctFamilyAccount> getCapwebctFamilyAccounts() 
@@ -40,7 +40,7 @@ public class CapwebctWebServiceClient implements ICapwebctWebServiceClient {
         GetHomeFoldersResponseDocument homeFoldersResponseDocument = null;
         try {
             homeFoldersResponseDocument = (GetHomeFoldersResponseDocument) 
-                webServiceTemplate.marshalSendAndReceive(homeFoldersRequestDocument);
+                getWebServiceTemplate().marshalSendAndReceive(homeFoldersRequestDocument);
         } catch (WebServiceClientException wsce) {
             logger.error("getCapwebctFamilyAccounts() error while exchanging with client " 
                     + wsce.getMessage());
@@ -78,10 +78,6 @@ public class CapwebctWebServiceClient implements ICapwebctWebServiceClient {
         }
         
         return capwebctFamilyAccounts;
-    }
-
-    public void setWebServiceTemplate(WebServiceTemplate webServiceTemplate) {
-        this.webServiceTemplate = webServiceTemplate;
     }
 
     public void setLocalAuthority(String localAuthority) {

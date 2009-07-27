@@ -44,7 +44,7 @@ public class InvoiceService implements IInvoiceService {
 		}
 	}
 
-	public void importInvoices(List<Invoice> invoiceList, long externalApplicationId) 
+	public void importInvoices(List<Invoice> invoiceList, long externalApplicationId, String broker) 
 	    throws DataAccessException, CpmBusinessException {
 
 	    if (externalApplicationId == 0) {
@@ -52,10 +52,9 @@ public class InvoiceService implements IInvoiceService {
 	        return;
 	    }
 
-	    // delete existing invoices for given external application
-	    List<Invoice> oldInvoices = getByExternalId(null, externalApplicationId);
-	    if (oldInvoices != null)
-	        deleteInvoices(oldInvoices);
+        List<Invoice> invoices =
+            invoiceDAO.findByExternalApplicationAndBroker(externalApplicationId, broker);
+        deleteInvoices(invoices);
 
 	    saveInvoices(invoiceList);      
 	}
@@ -78,10 +77,22 @@ public class InvoiceService implements IInvoiceService {
 
 	public List<Invoice> search(String invoiceId, String invoiceLabel,
 			Date invoicePaymentDateStart, Date invoicePaymentDateEnd,
-            String efaId, long externalApplicationId) throws DataAccessException {
+            String efaId, long externalApplicationId, String broker, 
+            final int results, final int startIndex, final String sort, final String dir) 
+        throws DataAccessException {
+		
 		return invoiceDAO.search(invoiceId, invoiceLabel, invoicePaymentDateStart,
-				invoicePaymentDateEnd, efaId, externalApplicationId);
+				invoicePaymentDateEnd, efaId, externalApplicationId, broker, results, startIndex,
+                sort, dir);
 	}
+
+    public Long getCountForSearch(String invoiceId, String invoiceLabel,
+            Date invoicePaymentDateStart, Date invoicePaymentDateEnd,
+            String efaId, long externalApplicationId, String broker)
+        throws DataAccessException {
+        return invoiceDAO.countForSearch(invoiceId, invoiceLabel, invoicePaymentDateStart,
+                invoicePaymentDateEnd, efaId, externalApplicationId, broker);
+    }
 
 	public List<Invoice> getByExternalId(String externalFamilyAccountId, long externalApplicationId)
 			throws DataAccessException {
@@ -129,8 +140,11 @@ public class InvoiceService implements IInvoiceService {
         invoiceDAO.delete(invoice);
     }
 
-    public void deleteInvoices(List<Invoice> invoieList) throws DataAccessException {
-		for (Invoice invoice : invoieList) {
+    public void deleteInvoices(List<Invoice> invoiceList) throws DataAccessException {
+    	if (invoiceList == null)
+    		return;
+    	
+		for (Invoice invoice : invoiceList) {
 		    deleteInvoice(invoice);
         }
 	}

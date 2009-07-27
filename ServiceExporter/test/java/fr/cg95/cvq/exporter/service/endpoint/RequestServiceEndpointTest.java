@@ -343,7 +343,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             GetRequestsRequest pendedRequest = GetRequestsRequest.Factory.newInstance();
             
             /*
-             * Retrieving requests that has pending status and has fromDate
+             * Retrieve requests that has pending status and has fromDate
              * equals to current date
              */
             Calendar calendar = Calendar.getInstance();
@@ -366,7 +366,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             activeCountBefore = activeResponse.getRequestArray().length;
             
             /* Create new request and child entities */
-            this.gimmeAnHomeFolder();
+            CreationBean cb = this.gimmeAnHomeFolder();
             this.gimmeAnHomeFolder();
             this.continueWithNewTransaction();
             
@@ -375,8 +375,43 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             int pendedCountAfter = pendedResponse.getRequestArray().length;
             int activeCountAfter = activeResponse.getRequestArray().length;
             
-            Assert.assertEquals("Pended request counts don't match", pendedCountBefore + 2, pendedCountAfter);
-            Assert.assertEquals("Active request counts don't match", activeCountBefore, activeCountAfter);
+            Assert.assertEquals("Pended request counts don't match", 
+                    pendedCountBefore + 2, pendedCountAfter);
+            Assert.assertEquals("Active request counts don't match", 
+                    activeCountBefore, activeCountAfter);
+            
+            /*
+             * Retrieve a request by its id
+             */
+            GetRequestsRequest getRequestById = GetRequestsRequest.Factory.newInstance();
+            getRequestById.setId(cb.getRequestId());
+            pendedRequestDocument.setGetRequestsRequest(getRequestById);
+            GetRequestsResponse getRequestByIdResponse = 
+                (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
+            Assert.assertEquals(1, getRequestByIdResponse.getRequestArray().length);
+            
+            /*
+             * Ack it and check we still get it when asked by id 
+             */
+            AckRequestsRequest ackRequest = AckRequestsRequest.Factory.newInstance();
+            AckRequestType[] types = new AckRequestType[1];
+            AckRequestType type = AckRequestType.Factory.newInstance();
+            type.setRequestId(cb.getRequestId());
+            type.setErroneous(false);
+            types[0] = type;
+            ackRequest.setAckElementsArray(types);
+
+            AckRequestsRequestDocument ackRequestDocument = 
+                AckRequestsRequestDocument.Factory.newInstance();
+            ackRequestDocument.setAckRequestsRequest(ackRequest);
+            AckRequestsResponse ackResponse = 
+                (AckRequestsResponse) endpoint.invokeInternal(ackRequestDocument);
+            Assert.assertNotNull(ackResponse);
+
+            getRequestByIdResponse = 
+                (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
+            Assert.assertEquals(1, getRequestByIdResponse.getRequestArray().length);
+            
             SecurityContext.resetCurrentSite();
             
         } catch (Exception e) {

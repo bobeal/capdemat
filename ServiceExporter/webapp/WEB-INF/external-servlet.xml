@@ -6,6 +6,7 @@
     class="fr.cg95.cvq.exporter.service.endpoint.HomeFolderServiceEndpoint">
     <constructor-arg ref="xmlBeanMarshaller" />
     <property name="homeFolderService" ref="homeFolderService" />  
+    <property name="defaultRequestService" ref="defaultRequestService" />
   </bean>
   
   <bean id="requestServiceEndpoint" 
@@ -63,7 +64,7 @@
       <bean class="org.springframework.ws.wsdl.wsdl11.builder.XsdBasedSoap11Wsdl4jDefinitionBuilder">
         <property name="schema" value="/WEB-INF/xsd/RequestService.xsd"/>
         <property name="portTypeName" value="requests"/>
-        <property name="locationUri" value="/wsdl"/>
+        <property name="locationUri" value=""/>
       </bean>
     </property>
   </bean>

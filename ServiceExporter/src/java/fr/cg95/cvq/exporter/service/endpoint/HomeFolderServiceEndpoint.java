@@ -1,8 +1,8 @@
 package fr.cg95.cvq.exporter.service.endpoint;
 
+import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.springframework.oxm.Marshaller;
 import org.springframework.ws.server.endpoint.AbstractMarshallingPayloadEndpoint;
 
@@ -10,37 +10,45 @@ import fr.capwebct.capdemat.GetHomeFoldersResponseDocument;
 import fr.capwebct.capdemat.HomeFolderType;
 import fr.capwebct.capdemat.IndividualType;
 import fr.capwebct.capdemat.GetHomeFoldersResponseDocument.GetHomeFoldersResponse;
+
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
-public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoint{
+public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoint {
 
-    private Logger logger = Logger.getLogger(HomeFolderServiceEndpoint.class);
-    
     private IHomeFolderService homeFolderService;
+    private IRequestService defaultRequestService;
     
     public HomeFolderServiceEndpoint(Marshaller marshaller) {
         super(marshaller);
     }
 
-   @Override
+    @Override
     protected Object invokeInternal(Object request) throws Exception {
-       logger.debug("invokeInternal() received request : " + request);
        
        GetHomeFoldersResponseDocument responseDocument =
             GetHomeFoldersResponseDocument.Factory.newInstance();
        GetHomeFoldersResponse response = 
             responseDocument.addNewGetHomeFoldersResponse();
-        Set<HomeFolder> homeFolders = homeFolderService.getAll();
+        Set<HomeFolder> homeFolders = homeFolderService.getAll(true, true);
         for (HomeFolder homeFolder : homeFolders) {
+            List<Request> voCardRequests =
+                defaultRequestService.getByHomeFolderIdAndRequestLabel(homeFolder.getId(),
+                    "VO Card Request");
+            if (voCardRequests == null || voCardRequests.isEmpty()) {
+//               logger.debug("invokeInternal() ignoring home folder " + homeFolder.getId()
+//                       + " without VO Card request");
+                continue;
+            }
             HomeFolderType homeFolderType = response.addNewHomeFolder();
             homeFolderType.setId(homeFolder.getId());
-            // TODO : better porting
             Address address = homeFolder.getAdress();
             homeFolderType.setAddress(address.getStreetNumber() + " " + address.getStreetName());
             for (Object object : homeFolder.getIndividuals()) {
@@ -51,7 +59,7 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
                 individualType.setLastName(individual.getLastName());
                 if (individual instanceof Adult) {
                     Adult adult = (Adult) individual;
-                    if (homeFolderService.hasHomeFolderRole(adult.getId(), homeFolder.getId(), 
+                    if (homeFolderService.hasHomeFolderRole(adult.getId(), homeFolder.getId(),
                             RoleType.HOME_FOLDER_RESPONSIBLE))
                         individualType.setIsHomeFolderResponsible(true);
                 } else if (individual instanceof Child) {
@@ -60,11 +68,14 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
             }
         }
 
-        logger.debug("invokeInternal() returning " + response.toString());
         return response;
     }
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
         this.homeFolderService = homeFolderService;
+    }
+
+    public void setDefaultRequestService(IRequestService defaultRequestService) {
+        this.defaultRequestService = defaultRequestService;
     }
 }

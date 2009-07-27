@@ -92,6 +92,10 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         String broker = getBrokerForPurchaseItem(purchaseItem, paymentMode);
         if (broker == null || broker.equals(""))
             throw new CvqInvalidBrokerException("payment.missing_broker");
+        else if (payment.getPurchaseItems() == null || payment.getPurchaseItems().isEmpty())
+            payment.setBroker(broker);
+        else if (!broker.equals(payment.getBroker()))
+            throw new CvqInvalidBrokerException("payment.incompatible_broker");
         payment.setBroker(broker);
         processPurchaseItemAmount(purchaseItem);
         payment.setAmount(purchaseItem.getAmount());
@@ -168,6 +172,9 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
     
         IPaymentProviderService paymentProviderService =
             getPaymentServiceByBrokerAndMode(payment.getBroker(), payment.getPaymentMode());
+        if (paymentProviderService == null) {
+            throw new CvqException("payment.provider_not_found");
+        }
         PaymentServiceBean psb = getPaymentServiceBean(paymentProviderService);
         URL url = paymentProviderService.doInitPayment(payment, psb);
       

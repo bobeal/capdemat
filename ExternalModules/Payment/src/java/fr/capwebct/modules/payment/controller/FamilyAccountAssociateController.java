@@ -112,8 +112,11 @@ public class FamilyAccountAssociateController extends AbstractController {
                     object.put("efaId", efa.getExternalFamilyAccountId());
                     object.put("efaResponsible", 
                             new String(efa.getExternalFamilyAccountResponsible().getBytes("utf-8")));
-                    object.put("efaAddress", 
-                            new String(efa.getAddress().getBytes("utf-8")));
+                    if (efa.getAddress() != null)
+                        object.put("efaAddress", 
+                                new String(efa.getAddress().getBytes("utf-8")));
+                    else
+                        object.put("efaAddress", "");
                     object.put("action", familyAccountType);
                     resultArray.add(object);
                 }
@@ -129,14 +132,28 @@ public class FamilyAccountAssociateController extends AbstractController {
         } else if (action.equals("addFamilyAccountBinding")) {
             String cfaId = request.getParameter("cfaIdToAssociate");
             String efaId = request.getParameter("efaIdToAssociate");
-            String externalApplicationId = request.getParameter("externalApplicationIdToAssociate");
+            Long externalApplicationId = 
+                Long.valueOf(request.getParameter("externalApplicationIdToAssociate"));
+
             try {
-                familyAccountService.bindFamilyAccounts(efaId, 
-                        Long.valueOf(externalApplicationId), Long.valueOf(cfaId));
-                response.getOutputStream().write(new String("OK").getBytes());
+                ExternalFamilyAccount efa =
+                        familyAccountService.bindFamilyAccounts(efaId, externalApplicationId, 
+                                Long.valueOf(cfaId));
+                if (efa == null) {
+                    resultObject.put("result", "KO");
+                } else {
+                    resultObject.put("result", "OK");
+                    resultObject.put("previousEfaId", request.getParameter("currentEfaId"));
+                    resultObject.put("efaId", efaId);
+                    resultObject.put("efaResponsible", 
+                        new String(efa.getExternalFamilyAccountResponsible().getBytes("utf-8")));
+                    resultObject.put("efaAddress", new String(efa.getAddress().getBytes("utf-8")));
+                }
             } catch (DataAccessException dae) {
-                response.getOutputStream().write(new String("KO").getBytes());                
+                resultObject.put("result", "KO");
             }
+            response.getOutputStream().write(resultObject.toString().getBytes());
+            response.setStatus(200);
             
         } else if (action.equals("deleteFamilyAccountBinding")) {
             String externalApplicationId = request.getParameter("externalApplicationId");

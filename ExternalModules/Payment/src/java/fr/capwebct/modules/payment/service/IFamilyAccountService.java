@@ -78,6 +78,9 @@ public interface IFamilyAccountService {
 
     /* ***** Management of associations between external family accounts and CapWebCT accounts ***/
     
+    /**
+     * FIXME remove this method (only used in unit tests) !
+     */
 	ExternalFamilyAccount bindFamilyAccounts(ExternalFamilyAccount externalFamilyAccount,
 			CapwebctFamilyAccount capwebctFamilyAccount) throws DataAccessException;
 
@@ -86,13 +89,15 @@ public interface IFamilyAccountService {
      * 
      *  External family account is created, updated or left unchanged according to its
      *  current state.
+     *  
+     *  @return the newly binded EFA or null if none was found.
      */
     ExternalFamilyAccount bindFamilyAccounts(String externalFamilyAccountId,
 			long externalApplicationId, long capwebctFamilyAccountId)
 			throws DataAccessException;
 
     /**
-     * @fixme remove this method !
+     * FIXME remove this method (only used in unit tests) !
      */
 	ExternalFamilyAccount bindFamilyAccounts(String externalFamilyAccountId,
 			long externalApplicationId, long capwebctFamilyAccountId,
@@ -143,6 +148,22 @@ public interface IFamilyAccountService {
 			String cfaResponsibleLastName, String cfaResponsibleFirstName) 
         throws DataAccessException;
 
+    /**
+     * Called upon the creation of an external application : initialize the associations
+     * summary with this external application for all known CapWebCT family accounts.
+     */
+    void initializeCfaAssociations(long externalApplicationId)
+        throws DataAccessException;
+    
+    /**
+     * Called upon the creation of an external application : remove the associations
+     * summary with this external application for all known CapWebCT family accounts.
+     * 
+     * @todo not implemented
+     */
+    void removeCfaAssociations(long externalApplicationId)
+        throws DataAccessException;
+    
     /**
      * Create a CapWebCT family account with all associated individuals.
      * 

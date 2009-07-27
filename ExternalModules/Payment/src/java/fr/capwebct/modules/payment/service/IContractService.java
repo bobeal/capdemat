@@ -30,7 +30,7 @@ public interface IContractService {
      * 
      * @throws CpmBusinessException if an contract has no external family account associated
      */
-    void importContracts(List<Contract> contractList, long externalApplicationId) 
+    void importContracts(List<Contract> contractList, long externalApplicationId, String broker) 
         throws DataAccessException, CpmBusinessException;
 
     Contract getContract(long id, boolean loadCollection) 

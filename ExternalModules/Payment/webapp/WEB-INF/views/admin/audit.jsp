@@ -12,6 +12,7 @@
     		  	<c:forEach items="${externalImportAudits}" var="audit" varStatus="status">
   					{importType:"<c:out value="${audit.importType}" />",
   					 externalApplicationLabel:"<c:out value="${audit.externalApplicationLabel}" />", 
+  					 broker:"<c:out value="${audit.broker}" />",
   					 externalDataType:"<fmt:message key="${audit.externalDataType.i18nKey}" />",
   					 date:"<fmt:formatDate value="${audit.date}" type="both" dateStyle="short" timeStyle="short" />", 
         			 agent:"<c:out value="${audit.agent.login}" />"}
@@ -26,6 +27,7 @@
         var myColumnDefs = [
             {key:"importType", sortable:true, label:"<fmt:message key='table.header.import_type'/>"},
             {key:"externalApplicationLabel", sortable:true, label:"<fmt:message key='table.header.external_application_label'/>"},
+            {key:"broker", sortable:true, label:"<fmt:message key='table.header.broker'/>"},
             {key:"externalDataType", sortable:true, label:"<fmt:message key='table.header.external_data_type'/>"},
             {key:"date", sortable:true, label:"<fmt:message key='table.header.date'/>"},
             {key:"agent", sortable:true, label:"<fmt:message key='table.header.agent'/>"}
@@ -54,7 +56,7 @@
         this.myDataSource = new YAHOO.util.DataSource(YAHOO.audit.Data.audit);
         this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
         this.myDataSource.responseSchema = {
-            fields: ["importType","externalApplicationLabel","externalDataType","date",
+            fields: ["importType","externalApplicationLabel","broker","externalDataType","date",
             	"agent"]
         };
 

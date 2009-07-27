@@ -470,31 +470,13 @@ class RequestInstructionController {
     }
 
     def homeFolderRequests = {
-   	    def request = defaultRequestService.getById(Long.valueOf(params.id))
+        def request = defaultRequestService.getById(Long.valueOf(params.id))
         def homeFolderRequests = defaultRequestService.getByHomeFolderId(request.homeFolderId);
-        def homeFolder = homeFolderService.getById(request.homeFolderId)             
 
         def records = []
         homeFolderRequests.each {
-          def quality = 'green'
-          if (it.redAlert)
-              quality = 'red'
-          else if (it.orangeAlert)
-              quality = 'orange'
-          def record = [
-              'id':it.id,
-              'label':translationService.translateRequestTypeLabel(it.requestType.label).encodeAsHTML(),
-              'creationDate':it.creationDate,
-              'requesterLastName':it.requesterLastName + " " + it.requesterFirstName,
-              'subjectLastName':it.subjectId ? it.subjectLastName + " " + it.subjectFirstName : "",
-              'homeFolderId':it.homeFolderId,
-              'state':it.state.toString(),
-              'lastModificationDate':it.lastModificationDate,
-              'lastInterveningUserId': instructionService.getActionPosterDetails(it.lastInterveningUserId),
-              'permanent':!homeFolder.boundToRequest,
-              'quality':quality
-          ]
-          records.add(record)
+            def record = requestAdaptorService.prepareRecordForSummaryView(it)
+            records.add(record)
         }
         render(template:'homeFolderRequests', model: ['records': records])
     }

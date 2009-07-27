@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.authority.impl;
 
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +12,6 @@ import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
-import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.dao.authority.IAgentDAO;
@@ -109,20 +107,6 @@ public final class AgentService implements IAgentService {
         return agent;
     }
 
-    public Set<Agent> getAuthorizedForCategory(Long categoryId) throws CvqException {
-        
-        Critere critere = new Critere();
-        critere.setAttribut(SEARCH_BY_CATEGORY_ID);
-        critere.setComparatif(Critere.EQUALS);
-        critere.setValue(categoryId);
-        
-        Set<Critere> critereSet = new HashSet<Critere>();
-        critereSet.add(critere);
-
-        List results = agentDAO.search(critereSet);
-        return new LinkedHashSet<Agent>(results);
-    }
-
     public void updateUserProfiles(String username, List<String> groups,
             Map<String, String> informations) throws CvqException {
 
@@ -150,7 +134,7 @@ public final class AgentService implements IAgentService {
         modify(agent);
 
         modifyProfiles(agent, groups, SecurityContext.getAdministratorGroups(),
-                SecurityContext.getAgentGroups(), SecurityContext.getCurrentSite());
+                SecurityContext.getAgentGroups());
     }
 
     @Override
@@ -220,7 +204,7 @@ public final class AgentService implements IAgentService {
     
     public void modifyProfiles(Agent agent, final List<String> newGroups, 
             final List<String> administratorGroups,
-            final List<String> agentGroups, final LocalAuthority localAuthority)
+            final List<String> agentGroups)
         throws CvqException {
         
         // check if user became administrator
@@ -249,8 +233,6 @@ public final class AgentService implements IAgentService {
             }
         }
         
-        
-
         // check if user is no longer administrator
         Set<SiteRoles> agentSiteRoles = agent.getSitesRoles();
         boolean wasAdmin = false;
@@ -278,7 +260,6 @@ public final class AgentService implements IAgentService {
                 modify(agent);
             }
         }
-        
     }
     
     public Hashtable<String, String> getPreferenceByKey(Agent agent,String key) {

@@ -22,6 +22,8 @@ class HomeFolderController {
     
     def instructionService
     def translationService
+    def requestAdaptorService
+
     def defaultAction = 'search'
     def defaultMax = 15
     
@@ -70,25 +72,9 @@ class HomeFolderController {
     def requests = {
         def result = [requests:[]]
         def homeFolderRequests = defaultRequestService.getByHomeFolderId(Long.valueOf(params.id));
-        def homeFolder = homeFolderService.getById(Long.valueOf(params.id))
 
         homeFolderRequests.each {
-          def quality = 'green'
-          if (it.redAlert) quality = 'red'
-          else if (it.orangeAlert) quality = 'orange'
-          def record = [
-              'id':it.id,
-              'label':translationService.translateRequestTypeLabel(it.requestType.label).encodeAsHTML(),
-              'creationDate':it.creationDate,
-              'requesterLastName':it.requesterLastName + " " + it.requesterFirstName,
-              'subjectLastName':it.subjectId ? it.subjectLastName + " " + it.subjectFirstName : "",
-              'homeFolderId':it.homeFolderId,
-              'state':it.state.toString(),
-              'lastModificationDate':it.lastModificationDate,
-              'lastInterveningUserId': instructionService.getActionPosterDetails(it.lastInterveningUserId),
-              'permanent':!homeFolder.boundToRequest,
-              'quality':quality
-          ]
+          def record = requestAdaptorService.prepareRecordForSummaryView(it)
           result.requests.add(record)
         }
         return result

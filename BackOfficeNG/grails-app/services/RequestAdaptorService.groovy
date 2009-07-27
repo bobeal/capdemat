@@ -1,10 +1,15 @@
 import fr.cg95.cvq.business.request.RequestState
+import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService
+import fr.cg95.cvq.service.users.IHomeFolderService
 
 class RequestAdaptorService {
 
     IRequestTypeService requestTypeService
+    IHomeFolderService homeFolderService
+    ICategoryService categoryService
 
     def instructionService
     def translationService
@@ -58,6 +63,32 @@ class RequestAdaptorService {
         }
         
         return requests
+    }
+
+    public prepareRecordForSummaryView(request) {
+        def homeFolder = homeFolderService.getById(request.homeFolderId)
+        def quality = 'green'
+        if (request.redAlert)
+            quality = 'red'
+        else if (request.orangeAlert)
+            quality = 'orange'
+        def record = [
+              'id':request.id,
+              'label':translationService.translateRequestTypeLabel(request.requestType.label).encodeAsHTML(),
+              'creationDate':request.creationDate,
+              'requesterLastName':request.requesterLastName + " " + request.requesterFirstName,
+              'subjectLastName':request.subjectId ? request.subjectLastName + " " + request.subjectFirstName : "",
+              'homeFolderId':request.homeFolderId,
+              'state':request.state.toString(),
+              'lastModificationDate':request.lastModificationDate,
+              'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId),
+              'permanent':!homeFolder.boundToRequest,
+              'quality':quality,
+              'isViewable':categoryService.hasProfileOnCategory(SecurityContext.currentAgent,
+                           request.requestType.category?.id)
+        ]
+
+        return record
     }
 
     public prepareNote(requestNote) {

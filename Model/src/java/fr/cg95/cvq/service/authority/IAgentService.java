@@ -19,7 +19,6 @@ import fr.cg95.cvq.util.Critere;
  */
 public interface IAgentService {
 
-    String SEARCH_BY_SERVICE_ID = "id";
     String SEARCH_BY_CATEGORY_ID = "categoryId";
     String SEARCH_BY_LOGIN = "login";
 
@@ -38,15 +37,9 @@ public interface IAgentService {
     List<Agent> get(final Set<Critere> criteriaSet)
         throws CvqException;
 
-    /**
-     * Return agents that have a right (read or write) for the given category.
-     */
-    Set<Agent> getAuthorizedForCategory(final Long categoryId)
-        throws CvqException;
-
     void modifyProfiles(Agent agent, final List<String> newGroups, 
             final List<String> administratorGroups,
-            final List<String> agentGroups, final LocalAuthority localAuthority)
+            final List<String> agentGroups)
         throws CvqException;
     
     void updateUserProfiles(String username, List<String> groups, 

@@ -89,7 +89,7 @@ class AgentController {
      * --------------------------------------------------------------------- */
 
     def adaptCategory (businessCategory, agent) {
-        def agentHasProfile = categoryService.hasProfileOnCategory(agent, businessCategory.name)
+        def agentHasProfile = categoryService.hasProfileOnCategory(agent, businessCategory.id)
         
         return [
             id: businessCategory.id,

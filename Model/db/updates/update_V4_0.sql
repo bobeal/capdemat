@@ -557,8 +557,8 @@ alter table study_grant_request
   references address;
 
 -- optional cleanup instructions : old label
-DELETE FROM forms where request_type_id = (select id from request_type where label = 'Study Grant Request');
-DELETE FROM request_type where label = 'Study Grant Request';
+--DELETE FROM forms where request_type_id = (select id from request_type where label = 'Study Grant Request');
+--DELETE FROM request_type where label = 'Study Grant Request';
 
 -- optional cleanup instructions : old requests
 -- DELETE FROM request_action where request_id in (SELECT id from request where request_type_id = (select id from request_type where label = 'Study Grant'));

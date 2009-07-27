@@ -34,6 +34,15 @@ public class Critere {
     /** Comparison criteria */
     private String comparatif;
 
+    public Critere() {
+    }
+
+    public Critere(String attribut, Object value, String comparatif) {
+        this.attribut = attribut;
+        this.value = value;
+        this.comparatif = comparatif;
+    }
+
     public static Criterion compose(String attribute, Object value, String comparator) {
         
         if (EQUALS.equals(comparator))
@@ -163,12 +172,5 @@ public class Critere {
             return new Long((String) value);
         else
             return null;
-    }
-
-    /**
-     * @deprecated use setValue(Object) instead
-     */
-    public void setDateValue(Date dateValue) {
-        this.value = dateValue;
     }
 }

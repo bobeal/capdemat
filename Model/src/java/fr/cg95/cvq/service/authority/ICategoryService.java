@@ -22,16 +22,16 @@ public interface ICategoryService {
         throws CvqException;
 
     /**
-     * Return whether the given agent has a profile on the given category.
+     * Return agents that have a right (read or write) for the given category.
      */
-    boolean hasProfileOnCategory(final Agent agent, final String categoryName)
+    List<Agent> getAuthorizedForCategory(final Long categoryId)
         throws CvqException;
-    
+
     /**
-     * Return whether the given agent has a {@link CategoryProfile#MANAGER MANAGER profile} 
+     * Return whether the given agent has at least a {@link CategoryProfile#READ_ONLY} profile
      * on the given category.
      */
-    boolean hasManagerProfileOnCategory(final Agent agent, final String categoryName)
+    boolean hasProfileOnCategory(final Agent agent, final Long categoryId)
         throws CvqException;
     
     boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) throws CvqException;

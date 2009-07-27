@@ -1,7 +1,10 @@
 <li class="request">
   <p class="first-line">
-    <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" /> 
-    <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit',id:record.id)}">${record.label}
+    <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
+    <g:if test="${record.isViewable}">
+      <a href="${createLink(controller:'backofficeRequestInstruction', action:'edit',id:record.id)}">
+    </g:if>
+    ${record.label}&nbsp;
     <g:message code="request.searchResult.requestId" /> 
     <span class="${sortBy == 'requestId' ? 'current-sort' : ''}">${record.id}</span>
     - <g:message code="layout.from" /> 
@@ -13,7 +16,9 @@
       <span class="${sortBy == 'subjectLastName' ? 'current-sort' : ''}">${record.subjectLastName} ${record.subjectFirstName}</span>
     </g:if>
     <span class="${sortBy == 'homeFolderId' ? 'current-sort' : ''}">(${record.homeFolderId})</span>
-    </a>
+    <g:if test="${record.isViewable}">
+      </a>
+    </g:if>
   </p>
 
   <p class="second-line">

@@ -8,11 +8,10 @@ import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestStatisticsService
-import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.security.SecurityContext
 
-import grails.converters.*
+import grails.converters.JSON
 
 class RequestController {
 
@@ -20,7 +19,6 @@ class RequestController {
     ICategoryService categoryService
     IRequestService defaultRequestService
     IRequestStatisticsService requestStatisticsService
-    IHomeFolderService homeFolderService
     
     def translationService
     def instructionService
@@ -132,27 +130,7 @@ class RequestController {
         def requests = defaultRequestService.get(criteria, sortBy, sortDir, results, recordOffset)
         def recordsList = []
         requests.each {
-            def homeFolder = homeFolderService.getById(it.homeFolderId)             
-            def quality = 'green'
-            if (it.redAlert)
-                quality = 'red'
-            else if (it.orangeAlert)
-                quality = 'orange'
-            def record = [
-                'id':it.id,
-                'label':translationService.translateRequestTypeLabel(it.requestType.label).encodeAsHTML(),
-                'creationDate':it.creationDate,
-                'requesterLastName':it.requesterLastName,
-                'requesterFirstName': it.requesterFirstName,
-                'subjectLastName':it.subjectLastName,
-                'subjectFirstName': it.subjectFirstName,
-                'homeFolderId':it.homeFolderId,
-                'state':it.state.toString(),
-                'lastModificationDate':it.lastModificationDate,
-                'lastInterveningUserId': instructionService.getActionPosterDetails(it.lastInterveningUserId),
-                'permanent': !homeFolder.boundToRequest,
-                'quality':quality
-            ]
+            def record = requestAdaptorService.prepareRecordForSummaryView(it)
             recordsList.add(record)
         }
         

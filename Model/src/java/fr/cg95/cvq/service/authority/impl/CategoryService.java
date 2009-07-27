@@ -24,6 +24,7 @@ import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ICategoryService;
+import fr.cg95.cvq.util.Critere;
 
 /**
  * Implementation of the {@link ICategoryService category service}.
@@ -195,30 +196,29 @@ public class CategoryService implements ICategoryService {
                 + category.getName());
     }
 
-    public boolean hasProfileOnCategory(Agent agent, String categoryName) throws CvqException {
+    @Override
+    public List<Agent> getAuthorizedForCategory(Long categoryId) throws CvqException {
+
+        Critere critere = new Critere(IAgentService.SEARCH_BY_CATEGORY_ID, categoryId,
+            Critere.EQUALS);
+        Set<Critere> critereSet = new HashSet<Critere>();
+        critereSet.add(critere);
+
+        return agentService.get(critereSet);
+    }
+
+    @Override
+    public boolean hasProfileOnCategory(Agent agent, Long categoryId) throws CvqException {
 
         Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
         for (CategoryRoles categoryRole : agentCategoryRoles) {
-            if (categoryRole.getCategory().getName().equals(categoryName))
+            if (categoryRole.getCategory().getId().equals(categoryId))
                     return true;
         }
         
         return false;
     }
 
-    public boolean hasManagerProfileOnCategory(Agent agent, String categoryName) 
-        throws CvqException {
-
-        Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
-        for (CategoryRoles categoryRole : agentCategoryRoles) {
-            if (categoryRole.getCategory().getName().equals(categoryName)
-                    && categoryRole.getProfile().equals(CategoryProfile.MANAGER))
-                    return true;
-        }
-        
-        return false;
-    }
-    
     public boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) throws CvqException {
         Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
         for (CategoryRoles categoryRole : agentCategoryRoles) {

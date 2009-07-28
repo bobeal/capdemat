@@ -58,7 +58,7 @@ public class AgentDAO extends GenericDAO implements IAgentDAO {
         // go through all the criteria and create the query
         while (critIt.hasNext()) {
             Critere searchCrit = (Critere) critIt.next();
-            if (searchCrit.getAttribut().equals("categoryId")) {
+            if (searchCrit.getAttribut().equals(Agent.SEARCH_BY_CATEGORY_ID)) {
                 sb.append(" join agent.categoriesRoles categoriesRoles where categoriesRoles.category " 
                         + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getValue());
@@ -85,8 +85,6 @@ public class AgentDAO extends GenericDAO implements IAgentDAO {
         StringBuffer sb = new StringBuffer();
         sb.append("from Agent as agent order by agent.lastName asc");
 
-        return HibernateUtil.getSession()
-                .createQuery(sb.toString())
-                .list();
+        return HibernateUtil.getSession().createQuery(sb.toString()).list();
     }
 }

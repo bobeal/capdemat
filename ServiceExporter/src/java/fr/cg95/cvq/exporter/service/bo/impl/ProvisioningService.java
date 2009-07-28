@@ -44,9 +44,6 @@ public final class ProvisioningService implements IProvisioningService {
     private IRecreationCenterDAO recreationCenterDAO;
     private Boolean authorizeAlreadyCreated;
     
-    public ProvisioningService() {
-    }
-
     private void setSecurityContext(final String localAuthorityName) 
         throws CvqObjectNotFoundException {
 
@@ -89,11 +86,11 @@ public final class ProvisioningService implements IProvisioningService {
         List agentGroups = Arrays.asList(groups);
         boolean isAdmin = SecurityContext.isOfAnAdminGroup(agentGroups);
         boolean isContributor = false;
-        if (isAdmin == false) {
+        if (!isAdmin) {
             isContributor = SecurityContext.isOfAnAgentGroup(agentGroups);
         }
 
-        if (isAdmin == false && isContributor == false) {
+        if (!isAdmin && !isContributor) {
             logger.info("createAgent() Agent does not belong to one of recognized groups, ignoring");
             resetSecurityContext(true);
             return;
@@ -109,7 +106,7 @@ public final class ProvisioningService implements IProvisioningService {
             // that was expected
         }
 
-        if (existedAlready && !authorizeAlreadyCreated.booleanValue()) {
+        if (existedAlready && !authorizeAlreadyCreated) {
             resetSecurityContext(true);
             throw new CvqUserAlreadyExistsException();
         } else if (!existedAlready) {
@@ -186,8 +183,8 @@ public final class ProvisioningService implements IProvisioningService {
         }
         
         try {
-            agentService.modifyProfiles(agent, newGroupsList, SecurityContext.getAdministratorGroups(),
-                    SecurityContext.getAgentGroups(), SecurityContext.getCurrentSite());
+            agentService.modifyProfiles(agent, newGroupsList, 
+                SecurityContext.getAdministratorGroups(), SecurityContext.getAgentGroups());
             agent.setLogin(newLogin);
             agent.setFirstName(firstName);
             agent.setLastName(lastName);

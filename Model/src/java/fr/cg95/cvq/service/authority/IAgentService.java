@@ -18,9 +18,6 @@ import fr.cg95.cvq.util.Critere;
  */
 public interface IAgentService {
 
-    String SEARCH_BY_CATEGORY_ID = "categoryId";
-    String SEARCH_BY_LOGIN = "login";
-
     Long create(Agent agent)
         throws CvqException;
     
@@ -59,22 +56,30 @@ public interface IAgentService {
         throws CvqException;
 
     void modifyProfiles(Agent agent, final List<String> newGroups, 
-            final List<String> administratorGroups,
-            final List<String> agentGroups)
+        final List<String> administratorGroups,
+        final List<String> agentGroups)
         throws CvqException;
     
     void updateUserProfiles(String username, List<String> groups, 
-            Map<String, String> informations) throws CvqException;
-    
-    public void addCategoryRole(final Long agentId, final  Long categoryId, 
-            final CategoryProfile categoryProfile ) throws CvqException;
+        Map<String, String> informations) throws CvqException;
+
+    /**
+     * FIXME move to Category service
+     */
+    void addCategoryRole(final Long agentId, final Long categoryId,
+        final CategoryProfile categoryProfile) throws CvqException;
     
     /**
      * Modify or add agent's categoryRole
+     *
+     * FIXME move to Category service
      */
     public void modifyCategoryRole(final Long agentId, final  Long categoryId, 
-            final CategoryProfile categoryProfile ) throws CvqException;
+        final CategoryProfile categoryProfile) throws CvqException;
     
+    /**
+     * FIXME move to Category service
+     */
     public void removeCategoryRole(final Long agentId, final  Long categoryId) throws CvqException;
     
     /**

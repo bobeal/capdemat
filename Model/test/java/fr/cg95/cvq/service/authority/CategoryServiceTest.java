@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.authority;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -10,11 +9,10 @@ import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class CategoryServiceTest extends ServiceTestCase {
@@ -33,7 +31,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         try {
             iCategoryService.create(category);
             fail("should have thrown an exception");
-        } catch (CvqPermissionException cpe) {
+        } catch (PermissionException pe) {
             // that was expected
         }
         
@@ -44,7 +42,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         try {
             iCategoryService.delete(category.getId());
             fail("should have thrown an exception");
-        } catch (CvqPermissionException cpe) {
+        } catch (PermissionException pe) {
             // that was expected
         }
         
@@ -80,9 +78,9 @@ public class CategoryServiceTest extends ServiceTestCase {
         List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
         int requestTypesNb = requestTypesSet.size();
 
-        List categoriesList = iCategoryService.getAll();
-        Assert.assertEquals(categoriesList.size(), 1);
-        Category category1 = (Category) categoriesList.get(0);
+        List<Category> categoriesList = iCategoryService.getAll();
+        Assert.assertEquals(1, categoriesList.size());
+        Category category1 = categoriesList.get(0);
 
         // create a category to make some tests with
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
@@ -92,40 +90,37 @@ public class CategoryServiceTest extends ServiceTestCase {
         category2.addEmail("category@dummy.fr");
         category2.addEmail("blop@valdoise.fr");
         
-        Long categoryId = iCategoryService.create(category2);
+        Long newCategoryId = iCategoryService.create(category2);
 
         continueWithNewTransaction();
 
-        // test retrieving by name
-        Category categoryByName = iCategoryService.getById(categoryId);
-        Assert.assertNotNull(categoryByName);
-        Assert.assertEquals("Une autre catégorie", categoryByName.getName());
-
         // test retrieving by id and do some modifications on it
-        category2 = iCategoryService.getById(categoryId);
+        category2 = iCategoryService.getById(newCategoryId);
+        Assert.assertNotNull(category2);
         Assert.assertEquals(2, category2.getEmails().size());
+        Assert.assertEquals("Une autre catégorie", category2.getName());
         category2.removeEmail("blop@valdoise.fr");
         iCategoryService.modify(category2);
         
         continueWithNewTransaction();
         
-        category2 = iCategoryService.getById(categoryId);
+        category2 = iCategoryService.getById(newCategoryId);
         Assert.assertEquals(1, category2.getEmails().size());
         
         // associate the new category with account creation requests
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        Set<Long> categoryRtSet = new HashSet<Long>();
+        RequestType requestTypeToAdd = null;
         for (RequestType rt : requestTypesSet) {
             // add VO Card Request to the new category
-            if (rt.getLabel().equals("VO Card")) {
-                categoryRtSet.add(rt.getId());
+            if (rt.getLabel().equals(IRequestService.VO_CARD_REGISTRATION_REQUEST)) {
+                requestTypeToAdd = rt;
                 break;
             }
         }
         try {
-            iCategoryService.updateCategoryRequestsAssociation(category2.getId(), categoryRtSet);
+            iCategoryService.addRequestType(category2.getId(), requestTypeToAdd.getId());
             fail("should have thrown an exception");
-        } catch (CvqPermissionException cpe) {
+        } catch (PermissionException pe) {
             // ok
         }
 
@@ -133,7 +128,7 @@ public class CategoryServiceTest extends ServiceTestCase {
 
         // now, be an authorized admin and do the modification
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        iCategoryService.updateCategoryRequestsAssociation(category2.getId(), categoryRtSet);
+        iCategoryService.addRequestType(category2.getId(), requestTypeToAdd.getId());
 
         continueWithNewTransaction();
 
@@ -149,7 +144,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         // create an account creation request to make a test on categories rights
-        CreationBean creationBean = gimmeAnHomeFolder();
+        gimmeAnHomeFolder();
         
         continueWithNewTransaction();
 
@@ -170,7 +165,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         
         Agent categoryAgent = iAgentService.getByLogin(agentNameWithCategoriesRoles);
-        Set agentCategoriesRolesSet = categoryAgent.getCategoriesRoles();
+        Set<CategoryRoles> agentCategoriesRolesSet = categoryAgent.getCategoriesRoles();
         CategoryRoles catRole = new CategoryRoles();
         catRole.setAgent(categoryAgent);
         catRole.setCategory(category2);
@@ -187,11 +182,7 @@ public class CategoryServiceTest extends ServiceTestCase {
 
         // rebind the original category with the account creation request
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        categoryRtSet = new HashSet<Long>();
-        for (RequestType rt : requestTypesSet) {
-            categoryRtSet.add(rt.getId());
-        }
-        iCategoryService.updateCategoryRequestsAssociation(category1.getId(), categoryRtSet);
+        iCategoryService.addRequestType(category1.getId(), requestTypeToAdd.getId());
 
         continueWithNewTransaction();
 
@@ -201,7 +192,6 @@ public class CategoryServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        List allCategories = iCategoryService.getAll();
-        Assert.assertEquals(allCategories.size(), 1);
+        Assert.assertEquals(1, iCategoryService.getAll().size());
     }
 }

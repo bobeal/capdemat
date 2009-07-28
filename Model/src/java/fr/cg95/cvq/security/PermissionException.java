@@ -25,6 +25,7 @@ public class PermissionException extends RuntimeException {
         this.fullMessage = sb.toString();
     }
     
+    @Override
     public String getMessage() {
         return this.fullMessage;
     }

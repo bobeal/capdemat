@@ -16,9 +16,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class Agent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
 
-	/** identifier field */
+    private static final long serialVersionUID = 1L;
+
+    /** identifier field */
     private Long id;
 
     private String login;

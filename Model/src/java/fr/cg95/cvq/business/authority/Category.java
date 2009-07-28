@@ -17,9 +17,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class Category implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    /** identifier field */
     private Long id;
     private String name;
     private String primaryEmail;

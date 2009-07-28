@@ -8,8 +8,6 @@ import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.dao.authority.ICategoryDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
-import fr.cg95.cvq.permission.CvqPermissionException;
-import fr.cg95.cvq.permission.PrivilegeDescriptor;
 
 /**
  * Hibernate implementation of the {@link ICategoryDAO category DAO interface}.
@@ -18,11 +16,7 @@ import fr.cg95.cvq.permission.PrivilegeDescriptor;
  */
 public class CategoryDAO extends GenericDAO implements ICategoryDAO {
 
-    public CategoryDAO() {
-        super();
-    }
-
-    public List listAll() throws CvqPermissionException {
+    public List listAll() {
 
         StringBuffer sb = new StringBuffer();
         sb.append("from Category as category")
@@ -37,26 +31,5 @@ public class CategoryDAO extends GenericDAO implements ICategoryDAO {
             .setString("name", name);
     
         return (Category) query.uniqueResult(); 
-    }
-
-    public Long create(final Object object) throws CvqPermissionException {
-        if (object instanceof Category)
-            cvqPolicy.check((Category) object, PrivilegeDescriptor.ADMIN);
-
-        return super.create(object);
-    }
-
-    public void update(final Object object) throws CvqPermissionException {
-        if (object instanceof Category)
-            cvqPolicy.check((Category) object, PrivilegeDescriptor.ADMIN);
-
-        super.update(object);
-    }
-
-    public void delete(final Object object) throws CvqPermissionException {
-        if (object instanceof Category)
-            cvqPolicy.check((Category) object, PrivilegeDescriptor.ADMIN);
-
-        super.delete(object);
     }
 }

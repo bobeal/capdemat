@@ -20,8 +20,10 @@ import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.permission.PrivilegeDescriptor;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ICategoryService;
 import fr.cg95.cvq.util.Critere;
@@ -40,10 +42,11 @@ public class CategoryService implements ICategoryService {
 
     private IAgentService agentService;
     
+    @Override
     public Category getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
         Category category = 
-            (Category) categoryDAO.findById(Category.class, id, PrivilegeDescriptor.READ);
+            (Category) categoryDAO.findById(Category.class, id);
         return category;
     }
 
@@ -51,7 +54,8 @@ public class CategoryService implements ICategoryService {
         throws CvqException {
         return categoryDAO.findByName(name);
     }
-    
+
+    @Override
     public List<Category> getAll() throws CvqException {
         
         if (SecurityContext.isAdminContext())
@@ -82,6 +86,8 @@ public class CategoryService implements ICategoryService {
         return results;
     }
 
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
     public List<Category> getManaged() {
         List<Category> results = new ArrayList<Category>();
 
@@ -95,6 +101,8 @@ public class CategoryService implements ICategoryService {
         return results;
     }
 
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public Long create(final Category category)
         throws CvqException {
 
@@ -114,6 +122,8 @@ public class CategoryService implements ICategoryService {
         return categoryId;
     }
 
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public void modify(final Category category)
         throws CvqException {
 
@@ -123,17 +133,17 @@ public class CategoryService implements ICategoryService {
             categoryDAO.update(category);
     }
 
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
         logger.debug("delete() gonna delete category object with id : " + id);
 
         Category category = 
-            (Category) categoryDAO.findById(Category.class, id, PrivilegeDescriptor.READ);
+            (Category) categoryDAO.findById(Category.class, id);
         if (category.getRequestTypes() != null) {
-            Iterator requestTypesIt = category.getRequestTypes().iterator();
-            while (requestTypesIt.hasNext()) {
-                RequestType requestType = (RequestType) requestTypesIt.next();
+            for (RequestType requestType : category.getRequestTypes()) {
                 requestType.setCategory(null);
             }
             category.setRequestTypes(null);
@@ -157,45 +167,11 @@ public class CategoryService implements ICategoryService {
         categoryDAO.delete(category);
     }
 
-    /**
-     * @deprecated
-     * @see methods addRequestType and removeRequestType
-     */
-    public void updateCategoryRequestsAssociation(final Long categoryId,
-            final Set<Long> requestTypesId)
-        throws CvqException {
-
-        Category category =  
-            (Category) categoryDAO.findById(Category.class, categoryId, 
-                    PrivilegeDescriptor.READ);
-
-        // first, de-associate request types currently associated to this category
-        Set<RequestType> oldRtSet = category.getRequestTypes();
-        for (RequestType oldRt : oldRtSet) {
-            oldRt.setCategory(null);
-        }
-        category.setRequestTypes(null);
-        
-        // then, create new associations
-        Set<RequestType> rtSet = new HashSet<RequestType>();
-        for (Long rtId : requestTypesId) {
-            RequestType requestType = 
-                (RequestType) requestTypeDAO.findById(RequestType.class, rtId);
-            requestType.setCategory(category);
-            rtSet.add(requestType);
-        }
-
-        category.setRequestTypes(rtSet);
-        categoryDAO.update(category);
-        
-        logger.debug("updateCategoryRequestsAssociation() modified requests types for category " 
-                + category.getName());
-    }
-
     @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public List<Agent> getAuthorizedForCategory(Long categoryId) throws CvqException {
 
-        Critere critere = new Critere(IAgentService.SEARCH_BY_CATEGORY_ID, categoryId,
+        Critere critere = new Critere(Agent.SEARCH_BY_CATEGORY_ID, categoryId,
             Critere.EQUALS);
         Set<Critere> critereSet = new HashSet<Critere>();
         critereSet.add(critere);
@@ -204,6 +180,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
     public boolean hasProfileOnCategory(Agent agent, Long categoryId) throws CvqException {
 
         Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
@@ -215,6 +192,8 @@ public class CategoryService implements ICategoryService {
         return false;
     }
 
+    @Override
+    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
     public boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) throws CvqException {
         Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
         for (CategoryRoles categoryRole : agentCategoryRoles) {
@@ -227,11 +206,12 @@ public class CategoryService implements ICategoryService {
         return false;        
     }
 
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public Category addRequestType(Long categoryId, Long requestTypeId) throws CvqException {
 
         Category category = 
-            (Category) categoryDAO.findById(Category.class, categoryId, 
-                    PrivilegeDescriptor.READ);
+            (Category) categoryDAO.findById(Category.class, categoryId);
         RequestType requestType = 
             (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
         requestType.setCategory(category);
@@ -243,11 +223,12 @@ public class CategoryService implements ICategoryService {
         return category;
    }
 
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public Category removeRequestType(Long categoryId, Long requestTypeId) throws CvqException {
 
         Category category = 
-            (Category) categoryDAO.findById(Category.class, categoryId, 
-                    PrivilegeDescriptor.READ);
+            (Category) categoryDAO.findById(Category.class, categoryId);
         RequestType requestType = 
             (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
         requestType.setCategory(null);

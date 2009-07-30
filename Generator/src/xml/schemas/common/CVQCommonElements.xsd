@@ -1772,6 +1772,7 @@
       <xs:element name="Address" type="cvq:AddressType" />
       <xs:element name="CreationDate" type="xs:date" minOccurs="0" />
       <xs:element name="State" type="cvq:ActorStateType" />
+      <xs:element name="Role" type="cvq:IndividualRoleType" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -1870,6 +1871,27 @@
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="IndividualRoleType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Rôle d'un individu
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Individual role
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Rôle d'un individu
+      </xs:documentation>
+      <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Individual role
+      </xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+        <xs:element name="IndividualId" type="xs:long" minOccurs="0" />
+        <xs:element name="HomeFolderId" type="xs:long" minOccurs="0" />
+      </xs:sequence>
   </xs:complexType>
 
   <xs:simpleType name="LegalResponsibleRoleType">

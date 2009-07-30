@@ -11,6 +11,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.business.Historizable;
 import fr.cg95.cvq.xml.common.BirthPlaceType;
+import fr.cg95.cvq.xml.common.IndividualRoleType;
 import fr.cg95.cvq.xml.common.IndividualType;
 
 
@@ -119,6 +120,15 @@ public class Individual implements Historizable, Serializable {
             individualType.setAddress(Address.modelToXml(this.adress));
         if (this.state != null)
             individualType.setState(fr.cg95.cvq.xml.common.ActorStateType.Enum.forString(this.state.toString()));
+        if (this.individualRoles != null && !this.individualRoles.isEmpty()) {
+            IndividualRoleType roles[] =
+                new IndividualRoleType[this.individualRoles.size()];
+            int i = 0;
+            for (IndividualRole individualRole : this.individualRoles) {
+                roles[i++] = IndividualRole.modelToXml(individualRole);
+            }
+            individualType.setRoleArray(roles);
+        }
     }
 
     public void fillCommonModelInfo(IndividualType individualType) {

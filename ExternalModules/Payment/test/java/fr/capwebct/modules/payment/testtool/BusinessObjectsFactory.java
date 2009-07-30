@@ -1,5 +1,6 @@
 package fr.capwebct.modules.payment.testtool;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -44,7 +45,7 @@ public class BusinessObjectsFactory {
         invoiceDetail.setChildName(label + "ChildName");
         invoiceDetail.setChildSurname(label + "ChildSurname");
         invoiceDetail.setLabel(label + "Label");
-        invoiceDetail.setQuantity(id + 10);
+        invoiceDetail.setQuantity(new BigDecimal(id + 10));
         invoiceDetail.setUnitPrice(id + 100);
         invoiceDetail.setValue(id + 1000);
         return invoiceDetail;
@@ -186,6 +187,13 @@ public class BusinessObjectsFactory {
         ExternalFamilyAccount externalFamilyAccount = new ExternalFamilyAccount();
         externalFamilyAccount.setExternalFamilyAccountId(id);
         externalFamilyAccount.setExternalApplication(gimmeExternalApplication(label + "_application_label"));
+        return externalFamilyAccount;
+    }
+
+    public static ExternalFamilyAccount gimmeExternalFamilyAccount(String id) {
+        ExternalFamilyAccount externalFamilyAccount = new ExternalFamilyAccount();
+        externalFamilyAccount.setExternalFamilyAccountId(id);
+        externalFamilyAccount.setExternalApplication(ServiceTestCase.externalApplication);
         return externalFamilyAccount;
     }
 

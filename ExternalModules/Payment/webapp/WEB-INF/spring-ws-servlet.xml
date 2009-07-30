@@ -10,6 +10,7 @@
         <prop key="{http://www.capwebct.fr/modules/payment/schema/acc}accountDetailsRequest">accountEndpoint</prop>
         <prop key="{http://www.capwebct.fr/modules/payment/schema/fam}familyAccountsRequest">familyAccountEndpoint</prop>
         <prop key="{http://www.capwebct.fr/modules/payment/schema/ban}bank-transaction">creditAccountEndpoint</prop>
+        <prop key="{http://www.capwebct.fr/modules/payment/schema/sre}SendRequestRequest">sendRequestEndpoint</prop>
       </props>
     </property>
     <property name="interceptors">
@@ -55,6 +56,12 @@
     class="fr.capwebct.modules.payment.webservice.endpoint.CreditAccountEndpoint">
     <constructor-arg ref="paymentService" />
     <constructor-arg ref="xmlBeanMarshaller" />
+  </bean>
+
+  <bean id="sendRequestEndpoint"
+    class="fr.capwebct.modules.payment.webservice.endpoint.SendRequestEndpoint">
+    <constructor-arg ref="xmlBeanMarshaller" />
+    <constructor-arg ref="familyAccountService" />
   </bean>
 
 </beans>

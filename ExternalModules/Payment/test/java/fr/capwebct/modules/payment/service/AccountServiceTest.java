@@ -15,7 +15,8 @@ public class AccountServiceTest extends ServiceTestCase {
 
 	public void testSaveAndLoadAccountList() {
         ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
 		List<Account> accountList = 
             BusinessObjectsFactory.gimmeTenAccounts("account", externalFamilyAccount);
 		try {
@@ -30,7 +31,7 @@ public class AccountServiceTest extends ServiceTestCase {
             assertNotNull(efa);
 			assertEquals("FAMILY_1", efa.getExternalFamilyAccountId());
 
-			List fetchList = accountService.getAllAccounts();
+			List<Account> fetchList = accountService.getAllAccounts();
 			assertEquals(fetchList.size(), 10);
 		} catch (DataAccessException e) {
 			assertNull(e);
@@ -44,13 +45,14 @@ public class AccountServiceTest extends ServiceTestCase {
 	}
 
 	public void testSearchAccount() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
 		List<Account> accountList = 
             BusinessObjectsFactory.gimmeTenAccounts("account", externalFamilyAccount);
 		try {
 			accountService.saveAccounts(accountList);
-			List fetchList = accountService.search(null, "account", null, null, null, 0);
+			List<Account> fetchList = accountService.search(null, "account", null, null, null, 0);
 			assertEquals(10, fetchList.size());
 			fetchList = accountService.search("account_3", null, null, null, null, 0);
 			assertEquals(1, fetchList.size());
@@ -68,8 +70,9 @@ public class AccountServiceTest extends ServiceTestCase {
 	}
 
 	public void testFindByExternalId() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
 		List<Account> accountList = 
             BusinessObjectsFactory.gimmeTenAccounts("account", externalFamilyAccount);
 		try {
@@ -92,8 +95,9 @@ public class AccountServiceTest extends ServiceTestCase {
 	}
 	
 	public void testFindByExternalAndAccountId() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
 		List<Account> accountList = 
             BusinessObjectsFactory.gimmeTenAccounts("account", externalFamilyAccount);
 		try {
@@ -117,8 +121,9 @@ public class AccountServiceTest extends ServiceTestCase {
 	}
 
 	public void testImportAccounts() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
 		List<Account> accountList = 
             BusinessObjectsFactory.gimmeTenAccounts("account", externalFamilyAccount);
 		try {
@@ -143,14 +148,15 @@ public class AccountServiceTest extends ServiceTestCase {
 	}
 
 	public void testDeleteAccount() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
 		List<Account> accountList = 
             BusinessObjectsFactory.gimmeTenAccounts("account", externalFamilyAccount);
 		try {
 			accountService.saveAccounts(accountList);
 
-            List fetchList = accountService.getAllAccounts();
+            List<Account> fetchList = accountService.getAllAccounts();
             assertEquals(10, fetchList.size());
 
             accountService.deleteAccounts(accountList);

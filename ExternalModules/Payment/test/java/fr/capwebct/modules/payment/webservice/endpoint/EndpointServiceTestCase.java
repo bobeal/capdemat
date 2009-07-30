@@ -22,9 +22,9 @@ public class EndpointServiceTestCase extends ServiceTestCase {
     }
     
     protected void createAccounts() throws Exception {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", 
-                    externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         ExternalIndividual externalIndividual = 
             BusinessObjectsFactory.gimmeExternalIndividual("IND_1", "External Individual");
         familyAccountService.addExternalIndividual(externalFamilyAccount, externalIndividual);
@@ -41,6 +41,8 @@ public class EndpointServiceTestCase extends ServiceTestCase {
         capwebctFamilyAccount.addIndividual(capwebctIndividual);
         familyAccountService.bindFamilyAccounts("FAMILY_1", externalApplication.getId(), 
                 capwebctFamilyAccount.getCapwebctFamilyAccountId());
-        familyAccountService.bindIndividuals(externalIndividual, capwebctIndividual);
+        familyAccountService.bindIndividuals(
+            externalFamilyAccount, externalIndividual.getExternalIndividualId(),
+            capwebctFamilyAccount, capwebctIndividual.getCapwebctIndividualId());
     }
 }

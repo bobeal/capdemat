@@ -39,8 +39,9 @@ import fr.capwebct.modules.payment.testtool.ServiceTestCase;
 public class WebServiceClientTest extends ServiceTestCase {
 
     public void testInvoiceSendAndRecieve() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         List<Invoice> invoiceList = 
             BusinessObjectsFactory.gimmeTenInvoices("invoice", externalFamilyAccount);
         try {
@@ -82,8 +83,9 @@ public class WebServiceClientTest extends ServiceTestCase {
     }
     
     public void testAccountSendAndRecieve() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         List<Account> accountList = 
             BusinessObjectsFactory.gimmeTenAccounts("account", externalFamilyAccount);
         try {
@@ -125,9 +127,9 @@ public class WebServiceClientTest extends ServiceTestCase {
     }
     
     public void testFamilyAccountSendAndRecieve() {
-        
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         ExternalIndividual externalIndividual = new ExternalIndividual();
         externalIndividual.setExternalIndividualId("IND_FAMILY_1");
         externalIndividual.setFirstName("John");
@@ -158,9 +160,16 @@ public class WebServiceClientTest extends ServiceTestCase {
             familyAccountService.addCapwebctIndividual(capwebctFamilyAccount, capwebctIndividual2);
         
             // Bindings 
-            familyAccountService.bindFamilyAccounts(externalFamilyAccount,capwebctFamilyAccount);
-            familyAccountService.bindIndividuals(externalIndividual, capwebctIndividual);
-            familyAccountService.bindIndividuals(externalIndividual2, capwebctIndividual2);
+            familyAccountService.bindFamilyAccounts(
+                externalFamilyAccount.getExternalFamilyAccountId(),
+                externalApplication.getId(),
+                capwebctFamilyAccount.getCapwebctFamilyAccountId());
+            familyAccountService.bindIndividuals(
+                externalFamilyAccount, externalIndividual.getExternalIndividualId(),
+                capwebctFamilyAccount, capwebctIndividual.getCapwebctIndividualId());
+            familyAccountService.bindIndividuals(
+                externalFamilyAccount, externalIndividual2.getExternalIndividualId(),
+                capwebctFamilyAccount, capwebctIndividual2.getCapwebctIndividualId());
         
             // Persist Invoices and Account
             invoiceService.saveInvoices(invoiceList);
@@ -189,9 +198,9 @@ public class WebServiceClientTest extends ServiceTestCase {
     }
     
     public void testCreditAccountSendAndRecieve() {
-
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         ExternalIndividual externalIndividual = new ExternalIndividual();
         externalIndividual.setExternalIndividualId("IND_FAMILY_1");
         externalIndividual.setFirstName("John");

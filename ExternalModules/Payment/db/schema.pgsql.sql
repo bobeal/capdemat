@@ -247,7 +247,7 @@
         child_surname varchar(255),
         label varchar(255),
         unit_price int4,
-        quantity int4,
+        quantity numeric(19, 2),
         value int4,
         invoice_fk_id int8,
         invoice_detail_index int4,

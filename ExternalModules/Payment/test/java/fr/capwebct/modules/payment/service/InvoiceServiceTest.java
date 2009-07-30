@@ -14,8 +14,9 @@ import fr.capwebct.modules.payment.testtool.ServiceTestCase;
 public class InvoiceServiceTest extends ServiceTestCase {
 
 	public void testSaveAndLoadInvoiceList() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
 		List<Invoice> invoiceList = 
             BusinessObjectsFactory.gimmeTenInvoices("invoice", externalFamilyAccount);
 		try {
@@ -29,7 +30,7 @@ public class InvoiceServiceTest extends ServiceTestCase {
 			assertEquals("FAMILY_1", efa.getExternalFamilyAccountId());
 			assertEquals(invoice.isInvoicePayed(), false);
 
-			List fetchList = invoiceService.getAllInvoices();
+			List<Invoice> fetchList = invoiceService.getAllInvoices();
 			assertEquals(fetchList.size(), 10);
 			
 		} catch (DataAccessException e) {
@@ -44,18 +45,19 @@ public class InvoiceServiceTest extends ServiceTestCase {
 	}
 
 	public void testSearchInvoice() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         List<Invoice> invoiceList = 
             BusinessObjectsFactory.gimmeTenInvoices("invoice", externalFamilyAccount);
 		try {
 			invoiceService.saveInvoices(invoiceList);
-			List fetchList = invoiceService.search(null, "invoice", null, null, null, 0, null, 25, 0, null, null);
-			assertEquals(fetchList.size(), 10);
+			List<Invoice> fetchList = invoiceService.search(null, "invoice", null, null, null, 0, null, 25, 0, null, null);
+			assertEquals(10, fetchList.size());
 			fetchList = invoiceService.search("invoice_3", null, null, null, null, 0, null, 25, 0, null, null);
-			assertEquals(fetchList.size(), 1);
+			assertEquals(1, fetchList.size());
 			fetchList = invoiceService.search(null, "in", null, new Date(), null, 0, null, 25, 0, null, null);
-			assertEquals(fetchList.size(), 10);
+			assertEquals(10, fetchList.size());
 
 		} catch (DataAccessException e) {
 			assertNull(e);
@@ -69,13 +71,14 @@ public class InvoiceServiceTest extends ServiceTestCase {
 	}
 
 	public void testFindByExternalId() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         List<Invoice> invoiceList = 
             BusinessObjectsFactory.gimmeTenInvoices("invoice", externalFamilyAccount);
 		try {
 			invoiceService.saveInvoices(invoiceList);
-			List fetchList = 
+            List<Invoice> fetchList =
                 invoiceService.getByExternalId("FAMILY_1", externalApplication.getId());
 			assertEquals(10, fetchList.size());
 			fetchList = invoiceService.getByExternalId("Blop", 0);
@@ -93,8 +96,9 @@ public class InvoiceServiceTest extends ServiceTestCase {
 	}
 	
 	public void testFindByExternalAndInvoiceId() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         List<Invoice> invoiceList = 
             BusinessObjectsFactory.gimmeTenInvoices("invoice", externalFamilyAccount);
 		try {
@@ -118,15 +122,16 @@ public class InvoiceServiceTest extends ServiceTestCase {
 	}
 	
 	public void testImportInvoices() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         List<Invoice> invoiceList = 
             BusinessObjectsFactory.gimmeTenInvoices("invoice", externalFamilyAccount);
 		try {
 			invoiceService.importInvoices(invoiceList, externalApplication.getId(), 
                     externalApplication.getBrokers().iterator().next());
 			
-			List fetchList = invoiceService.getAllInvoices();
+			List<Invoice> fetchList = invoiceService.getAllInvoices();
 			assertEquals(fetchList.size(), 10);
 			
 		} catch (DataAccessException e) {
@@ -141,13 +146,14 @@ public class InvoiceServiceTest extends ServiceTestCase {
 	}
 	
 	public void testDeleteInvoice() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
 	    List<Invoice> invoiceList = 
             BusinessObjectsFactory.gimmeTenInvoices("invoice_delete", externalFamilyAccount);
 		try {
 			invoiceService.saveInvoices(invoiceList);
-            List fetchList = invoiceService.getAllInvoices();
+            List<Invoice> fetchList = invoiceService.getAllInvoices();
             assertEquals(10, fetchList.size());
 			
 			invoiceService.deleteInvoices(invoiceList);			

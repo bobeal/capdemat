@@ -21,9 +21,6 @@
   
   <bean name="capwectPaymentModuleWebServiceTemplate" 
     class="org.springframework.ws.client.core.WebServiceTemplate">
-    <property name="defaultUri">
-      <value>${plugins.externalservices.capwebctpaymentmodule.webservice_uri}</value>
-    </property>
     <property name="marshaller" ref="capwectPaymentModuleXmlBeanMarshaller" />
     <property name="unmarshaller" ref="capwectPaymentModuleXmlBeanMarshaller" />
   </bean>
@@ -31,6 +28,20 @@
   <bean id="capwebctPaymentModuleClient"
     class="fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.webservice.client.CapwebctPaymentModuleClient">
     <property name="webServiceTemplate" ref="capwectPaymentModuleWebServiceTemplate" />
+    <property name="urls">
+      <map>
+        <entry key="loadInvoiceDetails"
+          value="${plugins.externalservices.capwebctpaymentmodule.webservice_uri}" />
+        <entry key="loadAccountDetails"
+          value="${plugins.externalservices.capwebctpaymentmodule.webservice_uri}" />
+        <entry key="getFamilyAccounts"
+          value="${plugins.externalservices.capwebctpaymentmodule.webservice_uri}" />
+        <entry key="creditAccount"
+          value="${plugins.externalservices.capwebctpaymentmodule.webservice_uri}" />
+        <entry key="sendRequest"
+          value="${plugins.externalservices.capwebctpaymentmodule.webservice_uri}" />
+      </map>
+    </property>
   </bean>
 
 </beans>

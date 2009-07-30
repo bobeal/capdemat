@@ -17,7 +17,6 @@ import fr.capwebct.modules.payment.business.ExternalIndividual;
 import fr.capwebct.modules.payment.dao.ICapwebctFamilyAccountDAO;
 import fr.capwebct.modules.payment.dao.IExternalApplicationDAO;
 import fr.capwebct.modules.payment.dao.IExternalFamilyAccountDAO;
-import fr.capwebct.modules.payment.dao.IObjectDAO;
 import fr.capwebct.modules.payment.service.IFamilyAccountService;
 
 public class FamilyAccountService implements IFamilyAccountService {
@@ -25,23 +24,15 @@ public class FamilyAccountService implements IFamilyAccountService {
 	private static Log log = LogFactory.getLog(FamilyAccountService.class);
 
     private IExternalApplicationDAO externalApplicationDAO;
-    
-    private IObjectDAO objectDAO;
+
 	private IExternalFamilyAccountDAO externalFamilyAccountDAO;
 	private ICapwebctFamilyAccountDAO capwebctFamilyAccountDAO;
 
-	public ExternalFamilyAccount createExternalFamilyAccount(String externalFamilyAccountId,
-			long externalApplicationId) throws DataAccessException {
-
-		ExternalFamilyAccount externalFamilyAccount = new ExternalFamilyAccount();
-		externalFamilyAccount.setExternalFamilyAccountId(externalFamilyAccountId);
-        ExternalApplication externalApplication =
-            (ExternalApplication) objectDAO.read(ExternalApplication.class, externalApplicationId);
-		externalFamilyAccount.setExternalApplication(externalApplication);
-
-		externalFamilyAccountDAO.create(externalFamilyAccount);
-		return externalFamilyAccount;
-	}
+    public ExternalFamilyAccount createExternalFamilyAccount(ExternalFamilyAccount externalFamilyAccount)
+        throws DataAccessException {
+        externalFamilyAccountDAO.create(externalFamilyAccount);
+        return externalFamilyAccount;
+    }
 
 	public ExternalFamilyAccount addExternalIndividual(ExternalFamilyAccount externalFamilyAccount,
 			ExternalIndividual individual) throws DataAccessException {
@@ -59,14 +50,6 @@ public class FamilyAccountService implements IFamilyAccountService {
 		toUpdateAccount.removeIndividual(individual);
 		externalFamilyAccountDAO.update(toUpdateAccount);
 		return toUpdateAccount;
-	}
-
-	public ExternalFamilyAccount bindFamilyAccounts(ExternalFamilyAccount externalFamilyAccount,
-			CapwebctFamilyAccount capwebctFamilyAccount) throws DataAccessException {
-
-        externalFamilyAccount.setCapwebctFamilyAccount(capwebctFamilyAccount);
-		externalFamilyAccountDAO.create(externalFamilyAccount);
-		return externalFamilyAccount;
 	}
 
 	public ExternalFamilyAccount bindFamilyAccounts(String externalFamilyAccountId,
@@ -113,32 +96,6 @@ public class FamilyAccountService implements IFamilyAccountService {
         }
         
 		return externalFamilyAccount;
-	}
-
-	public ExternalFamilyAccount bindFamilyAccounts(String externalFamilyAccountId,
-			long externalApplicationId, long capwebctFamilyAccountId,
-			String capwebctFamilyAccountLabel) throws DataAccessException {
-
-		CapwebctFamilyAccount capwebctFamilyAccount = new CapwebctFamilyAccount();
-		capwebctFamilyAccount.setCapwebctFamilyAccountId(capwebctFamilyAccountId);
-
-		ExternalFamilyAccount externalFamilyAccount = new ExternalFamilyAccount();
-		externalFamilyAccount.setExternalFamilyAccountId(externalFamilyAccountId);
-        ExternalApplication externalApplication =
-            (ExternalApplication) objectDAO.read(ExternalApplication.class, externalApplicationId);
-		externalFamilyAccount.setExternalApplication(externalApplication);
-		externalFamilyAccount.setCapwebctFamilyAccount(capwebctFamilyAccount);
-        
-        externalFamilyAccountDAO.create(externalFamilyAccount);
-		return externalFamilyAccount;
-	}
-
-	public ExternalIndividual bindIndividuals(ExternalIndividual externalIndividual,
-			CapwebctIndividual capwebctIndividual) throws DataAccessException {
-
-		externalIndividual.setCapwebctIndividual(capwebctIndividual);
-		objectDAO.create(externalIndividual);
-		return externalIndividual;
 	}
 
     public void bindIndividuals(ExternalFamilyAccount efa, String externalIndividualId,
@@ -345,11 +302,40 @@ public class FamilyAccountService implements IFamilyAccountService {
                     currentAccount.setAddress(capwebctFamilyAccount.getAddress());
                     modifiedAccount = true;
                 }
-                
+                if (!capwebctFamilyAccount.getResponsibleFullName()
+                    .equals(currentAccount.getResponsibleFullName())) {
+                    currentAccount.setResponsibleFullName(
+                        capwebctFamilyAccount.getResponsibleFullName());
+                    modifiedAccount = true;
+                }
                 for (CapwebctIndividual capwebctIndividual : capwebctFamilyAccount.getIndividuals()) {
                     if (!currentAccount.contains(capwebctIndividual.getCapwebctIndividualId())) {
                         currentAccount.addIndividual(capwebctIndividual);
                         modifiedAccount = true;
+                    } else {
+                        for (CapwebctIndividual currentIndividual :
+                            currentAccount.getIndividuals()) {
+                            if (currentIndividual.getCapwebctIndividualId() ==
+                                capwebctIndividual.getCapwebctIndividualId()) {
+                                if (capwebctIndividual.isChild() != currentIndividual.isChild()) {
+                                    currentIndividual.setChild(capwebctIndividual.isChild());
+                                    modifiedAccount = true;
+                                }
+                                if (!capwebctIndividual.getFirstName().equals(currentIndividual.getFirstName())) {
+                                    currentIndividual.setFirstName(capwebctIndividual.getFirstName());
+                                    modifiedAccount = true;
+                                }
+                                if (!capwebctIndividual.getLastName().equals(currentIndividual.getLastName())) {
+                                    currentIndividual.setLastName(capwebctIndividual.getLastName());
+                                    modifiedAccount = true;
+                                }
+                                if (capwebctIndividual.isResponsible() != currentIndividual.isResponsible()) {
+                                    currentIndividual.setResponsible(capwebctIndividual.isResponsible());
+                                    modifiedAccount = true;
+                                }
+                                break;
+                            }
+                        }
                     }
                 }
                  
@@ -365,24 +351,6 @@ public class FamilyAccountService implements IFamilyAccountService {
         
         return results;
     }
-    
-	public CapwebctFamilyAccount createCapwebctFamilyAccount(long cfaId,
-			String cfaResponsibleLastName, String cfaResponsibleFirstName) 
-        throws DataAccessException {
-
-		CapwebctFamilyAccount capwebctFamilyAccount = new CapwebctFamilyAccount();
-		capwebctFamilyAccount.setCapwebctFamilyAccountId(cfaId);
-
-        CapwebctIndividual capwebctIndividual = new CapwebctIndividual();
-        capwebctIndividual.setFirstName(cfaResponsibleFirstName);
-        capwebctIndividual.setLastName(cfaResponsibleLastName);
-        capwebctIndividual.setResponsible(true);
-        capwebctFamilyAccount.addIndividual(capwebctIndividual);
-
-		capwebctFamilyAccountDAO.create(capwebctFamilyAccount);
-
-		return capwebctFamilyAccount;
-	}
 
     public CapwebctFamilyAccount createCapwebctFamilyAccount(CapwebctFamilyAccount cfa)
         throws DataAccessException {
@@ -505,10 +473,6 @@ public class FamilyAccountService implements IFamilyAccountService {
 
 	public void setCapwebctFamilyAccountDAO(ICapwebctFamilyAccountDAO capwebctFamilyAccountDAO) {
 		this.capwebctFamilyAccountDAO = capwebctFamilyAccountDAO;
-	}
-
-	public void setObjectDAO(IObjectDAO objectDAO) {
-		this.objectDAO = objectDAO;
 	}
 
     public void setExternalApplicationDAO(IExternalApplicationDAO externalApplicationDAO) {

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.business.Historizable;
+import fr.cg95.cvq.xml.common.IndividualRoleType;
 
 /**
  * @hibernate.class
@@ -43,7 +44,16 @@ public class IndividualRole implements Historizable, Serializable {
      * It is peristent field, just to enable field's value consistent merge.
      */
     private String individualName;
-    
+
+    public static IndividualRoleType modelToXml(IndividualRole individualRole) {
+        IndividualRoleType individualRoleType = IndividualRoleType.Factory.newInstance();
+        if (individualRole.getHomeFolderId() != null)
+            individualRoleType.setHomeFolderId(individualRole.getHomeFolderId());
+        if (individualRole.getIndividualId() != null)
+            individualRoleType.setIndividualId(individualRole.getIndividualId());
+        return individualRoleType;
+    }
+
     /**
      * @hibernate.id
      *  generator-class="sequence"

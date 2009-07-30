@@ -152,7 +152,6 @@
     <property name="externalApplicationDAO" ref="externalApplicationDAO" />
     <property name="externalFamilyAccountDAO" ref="externalFamilyAccountDAO" />
     <property name="capwebctFamilyAccountDAO" ref="capwebctFamilyAccountDAO" />
-    <property name="objectDAO" ref="objectDAO" />
   </bean>
   
   <bean id="paymentService" class="fr.capwebct.modules.payment.service.impl.PaymentService">

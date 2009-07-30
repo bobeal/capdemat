@@ -1,5 +1,7 @@
 package fr.capwebct.modules.payment.business;
 
+import java.math.BigDecimal;
+
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailType;
 
 public class InvoiceDetail {
@@ -10,7 +12,7 @@ public class InvoiceDetail {
 	private String childSurname;
 	private String label;
 	private int unitPrice;
-	private int quantity;
+	private BigDecimal quantity;
 	private int value;
 
 	public InvoiceDetail() {
@@ -66,11 +68,11 @@ public class InvoiceDetail {
 		this.label = label;
 	}
 
-	public int getQuantity() {
+	public BigDecimal getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(BigDecimal quantity) {
 		this.quantity = quantity;
 	}
 

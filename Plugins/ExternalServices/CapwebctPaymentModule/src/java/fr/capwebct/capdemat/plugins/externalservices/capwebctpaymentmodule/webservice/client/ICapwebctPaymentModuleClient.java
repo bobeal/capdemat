@@ -9,4 +9,6 @@ public interface ICapwebctPaymentModuleClient {
     Object getFamilyAccounts(Object requestPayload);
 
     Object creditAccount(Object requestPayload);
+
+    Object sendRequest(Object requestPayload);
 }

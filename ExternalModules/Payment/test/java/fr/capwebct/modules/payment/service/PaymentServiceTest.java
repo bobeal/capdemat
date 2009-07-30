@@ -34,7 +34,7 @@ public class PaymentServiceTest extends ServiceTestCase {
             Payment payment1 = paymentService.getByPaymentAck(payments.get(1).getPaymentAck());
             assertEquals(payment1, payments.get(1));
 
-            List fetchList = paymentService.getAllPayments();
+            List<Payment> fetchList = paymentService.getAllPayments();
             assertEquals(fetchList.size(), payments.size());
 
         } catch (DataAccessException e) {
@@ -45,8 +45,9 @@ public class PaymentServiceTest extends ServiceTestCase {
     }
 
     public void testPayInvoice() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         List<Invoice> invoices = 
             BusinessObjectsFactory.gimmeTenInvoices("invoice", externalFamilyAccount);
         Invoice invoice = invoices.get(1);
@@ -72,12 +73,14 @@ public class PaymentServiceTest extends ServiceTestCase {
         } finally {
             invoiceService.deleteAllInvoices();
             paymentService.deleteAllPayments();
+            deleteData(true, false, false);
         }
     }
 
     public void testCreditAccount() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         List<Account> accounts = 
             BusinessObjectsFactory.gimmeTenAccounts("accounts", externalFamilyAccount);
         Account account = accounts.get(1);
@@ -107,12 +110,14 @@ public class PaymentServiceTest extends ServiceTestCase {
         } finally {
             accountService.deleteAllAccounts();
             paymentService.deleteAllPayments();
+            deleteData(true, false, false);
         }
     }
 
     public void testCreditContract() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         ExternalIndividual externalIndividual = new ExternalIndividual();
         externalIndividual.setExternalIndividualId("IND_FAMILY_1");
         externalIndividual.setFirstName("John");
@@ -148,13 +153,14 @@ public class PaymentServiceTest extends ServiceTestCase {
         } finally {
             contractService.deleteAllContracts();
             paymentService.deleteAllPayments();
+            deleteData(true, false, false);
         }
     }
 
     public void testCreditFamilyAccount() {
-
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         ExternalIndividual externalIndividual = new ExternalIndividual();
         externalIndividual.setExternalIndividualId("IND_FAMILY_1");
         externalIndividual.setFirstName("John");
@@ -215,9 +221,16 @@ public class PaymentServiceTest extends ServiceTestCase {
             familyAccountService.addCapwebctIndividual(capwebctFamilyAccount, capwebctIndividual2);
             
             // Bindings
-            familyAccountService.bindFamilyAccounts(externalFamilyAccount,capwebctFamilyAccount);
-            familyAccountService.bindIndividuals(externalIndividual, capwebctIndividual);
-            familyAccountService.bindIndividuals(externalIndividual2, capwebctIndividual2);
+            familyAccountService.bindFamilyAccounts(
+                externalFamilyAccount.getExternalFamilyAccountId(),
+                externalApplication.getId(),
+                capwebctFamilyAccount.getCapwebctFamilyAccountId());
+            familyAccountService.bindIndividuals(
+                externalFamilyAccount, externalIndividual.getExternalIndividualId(),
+                capwebctFamilyAccount, capwebctIndividual.getCapwebctIndividualId());
+            familyAccountService.bindIndividuals(
+                externalFamilyAccount, externalIndividual2.getExternalIndividualId(),
+                capwebctFamilyAccount, capwebctIndividual2.getCapwebctIndividualId());
             
             assertEquals(0, paymentService.getAllPayments().size());
 

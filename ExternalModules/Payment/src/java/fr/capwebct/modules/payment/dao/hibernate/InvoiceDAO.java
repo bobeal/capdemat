@@ -18,10 +18,11 @@ import fr.capwebct.modules.payment.dao.IInvoiceDAO;
 
 public class InvoiceDAO extends GenericHibernateDAO<Invoice, Long> implements IInvoiceDAO {
 
-	public List<Invoice> search(String invoiceId, String invoiceLabel,
-			Date invoicePaymentDateStart, Date invoicePaymentDateEnd,
-            String efaId, long externalApplicationId, String broker, 
-            final int results, final int startIndex, final String sort, final String dir) 
+    @SuppressWarnings("unchecked")
+    public List<Invoice> search(String invoiceId, String invoiceLabel,
+        Date invoicePaymentDateStart, Date invoicePaymentDateEnd,
+        String efaId, long externalApplicationId, String broker,
+        final int results, final int startIndex, final String sort, final String dir)
         throws DataAccessException {
         
         try {
@@ -48,13 +49,13 @@ public class InvoiceDAO extends GenericHibernateDAO<Invoice, Long> implements II
             if (invoicePaymentDateStart != null) {
                 sb.append("and invoice.invoicePaymentDate > ? ");
                 objectList.add(invoicePaymentDateStart);
-                typeList.add(Hibernate.DATE);
+                typeList.add(Hibernate.TIMESTAMP);
             }
             
             if (invoicePaymentDateEnd != null) {
                 sb.append("and invoice.invoicePaymentDate < ? ");
                 objectList.add(invoicePaymentDateEnd);
-                typeList.add(Hibernate.DATE);
+                typeList.add(Hibernate.TIMESTAMP);
             }
             
             if (efaId != null && !efaId.equals("")) {
@@ -97,12 +98,12 @@ public class InvoiceDAO extends GenericHibernateDAO<Invoice, Long> implements II
             query.setFirstResult(startIndex);
             query.setMaxResults(results);
 
-            return query.list();
+            return (List<Invoice>)query.list();
 
         } catch (HibernateException exception) {
             throw SessionFactoryUtils.convertHibernateAccessException(exception);
         }
-	}
+    }
 
     public Long countForSearch(String invoiceId, String invoiceLabel, Date invoicePaymentDateStart, 
             Date invoicePaymentDateEnd, String efaId, long externalApplicationId, String broker) 
@@ -131,13 +132,13 @@ public class InvoiceDAO extends GenericHibernateDAO<Invoice, Long> implements II
             if (invoicePaymentDateStart != null) {
                 sb.append("and invoice.invoicePaymentDate > ? ");
                 objectList.add(invoicePaymentDateStart);
-                typeList.add(Hibernate.DATE);
+                typeList.add(Hibernate.TIMESTAMP);
             }
             
             if (invoicePaymentDateEnd != null) {
                 sb.append("and invoice.invoicePaymentDate < ? ");
                 objectList.add(invoicePaymentDateEnd);
-                typeList.add(Hibernate.DATE);
+                typeList.add(Hibernate.TIMESTAMP);
             }
             
             if (efaId != null && !efaId.equals("")) {

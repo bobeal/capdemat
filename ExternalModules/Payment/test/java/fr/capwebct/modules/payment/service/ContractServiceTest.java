@@ -14,8 +14,9 @@ import fr.capwebct.modules.payment.testtool.ServiceTestCase;
 public class ContractServiceTest extends ServiceTestCase {
 
 	public void testSaveAndLoadContractList() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         ExternalIndividual externalIndividual = new ExternalIndividual();
         externalIndividual.setExternalIndividualId("IND_FAMILY_1");
         externalIndividual.setFirstName("John");
@@ -47,8 +48,9 @@ public class ContractServiceTest extends ServiceTestCase {
 	}
 
 	public void testFindByExternalId() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         ExternalIndividual externalIndividual = new ExternalIndividual();
         externalIndividual.setExternalIndividualId("IND_FAMILY_1");
         externalIndividual.setFirstName("John");
@@ -76,9 +78,9 @@ public class ContractServiceTest extends ServiceTestCase {
 	}
 	
 	public void testImportContracts() {
-        
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         ExternalIndividual externalIndividual = new ExternalIndividual();
         externalIndividual.setExternalIndividualId("IND_FAMILY_1");
         externalIndividual.setFirstName("John");
@@ -91,7 +93,7 @@ public class ContractServiceTest extends ServiceTestCase {
 			contractService.importContracts(contractList, externalApplication.getId(), 
                     externalApplication.getBrokers().iterator().next());
 			
-			List fetchList = contractService.getAllContracts(false);
+			List<Contract> fetchList = contractService.getAllContracts(false);
 			assertEquals(10, fetchList.size());
 			
 		} catch (DataAccessException e) {
@@ -107,8 +109,9 @@ public class ContractServiceTest extends ServiceTestCase {
 	}
 	
 	public void testDeleteContract() {
-        ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("FAMILY_1", externalApplication.getId());
+        ExternalFamilyAccount externalFamilyAccount =
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("FAMILY_1"));
         ExternalIndividual externalIndividual = new ExternalIndividual();
         externalIndividual.setExternalIndividualId("IND_FAMILY_1");
         externalIndividual.setFirstName("John");
@@ -120,7 +123,7 @@ public class ContractServiceTest extends ServiceTestCase {
 			contractService.saveContracts(contractList);
 			
 			contractService.deleteContracts(contractList);
-			List fetchList = contractService.getAllContracts(false);
+			List<Contract> fetchList = contractService.getAllContracts(false);
 			assertEquals(fetchList.size(), 0);
 			
 		} catch (DataAccessException e) {

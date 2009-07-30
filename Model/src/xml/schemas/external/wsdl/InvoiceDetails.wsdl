@@ -90,7 +90,7 @@
           </xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element name="quantity" type="xs:int" minOccurs="0">
+               <xs:element name="quantity" type="xs:decimal" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>
             Quantity of items bought

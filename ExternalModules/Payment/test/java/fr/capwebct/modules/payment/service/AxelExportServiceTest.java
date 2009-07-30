@@ -21,7 +21,7 @@ public class AxelExportServiceTest extends ServiceTestCase {
         super.onSetUp();
         
         ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        exportService = (IExportService) cac.getBean("axelExportService");
+        exportService = (IExportService) cac.getBean("axelConnectorService");
     }
     
     public void testAxelExport() throws Exception {
@@ -37,8 +37,8 @@ public class AxelExportServiceTest extends ServiceTestCase {
         externalApplication.addBroker("RégieSPPLU");
         externalApplicationService.create(externalApplication);
         ExternalFamilyAccount externalFamilyAccount = 
-            familyAccountService.createExternalFamilyAccount("1234", 
-                    externalApplication.getId());
+            familyAccountService.createExternalFamilyAccount(
+            BusinessObjectsFactory.gimmeExternalFamilyAccount("1234"));
         Payment payment = BusinessObjectsFactory.gimmePayment("PAYMENT", 100);
         payment.setPaymentDate(paymentCalendar.getTime());
         Invoice invoice = BusinessObjectsFactory.gimmeInvoice("INVOICE", 100);

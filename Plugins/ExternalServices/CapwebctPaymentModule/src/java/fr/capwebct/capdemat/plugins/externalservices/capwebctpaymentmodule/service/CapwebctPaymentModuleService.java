@@ -1,5 +1,6 @@
 package fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -38,6 +39,8 @@ import fr.capwebct.modules.payment.schema.inv.InvoiceDetailType;
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsDocument;
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsRequestDocument;
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsRequestDocument.InvoiceDetailsRequest;
+import fr.capwebct.modules.payment.schema.sre.SendRequestRequestDocument;
+import fr.capwebct.modules.payment.schema.sre.SendRequestRequestDocument.SendRequestRequest;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Individual;
@@ -54,6 +57,7 @@ import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.payment.impl.PaymentService;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.xml.common.RequestType;
 
 public class CapwebctPaymentModuleService implements IExternalProviderService {
 
@@ -350,13 +354,34 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         capwebctPaymentModuleClient.creditAccount(bankTransactionDocument);
     }
 
-    /** ***** Not Implemented methods ****** */
-    /** *********************************** */
-
     public String sendRequest(XmlObject requestXml) throws CvqException {
-        logger.warn("sendRequest() not applicable for Capwect Payment Module Service");
+        SendRequestRequestDocument sendRequestRequestDocument =
+            SendRequestRequestDocument.Factory.newInstance();
+        SendRequestRequest sendRequestRequest =
+            sendRequestRequestDocument.addNewSendRequestRequest();
+        RequestType request;
+        try {
+            request = (RequestType)requestXml.getClass()
+                .getMethod("get" + requestXml.getClass().getSimpleName()
+                .replace("DocumentImpl", "")).invoke(requestXml);
+        } catch (IllegalAccessException e) {
+            logger.error("fillXmlObject() Illegal access exception while filling request xml");
+            throw new CvqException("Illegal access exception while filling request xml");
+        } catch (InvocationTargetException e) {
+            logger.error("fillXmlObject() Invocation target exception while filling request xml");
+            throw new CvqException("Invocation target exception while filling request xml");
+        } catch (NoSuchMethodException e) {
+            logger.error("fillXmlObject() No such method exception while filling request xml");
+            throw new CvqException("No such method exception while filling request xml");
+        }
+        sendRequestRequest.setRequest(request);
+        sendRequestRequest.setRequestTypeLabel(request.getRequestTypeLabel());
+        capwebctPaymentModuleClient.sendRequest(sendRequestRequestDocument);
         return "";
     }
+
+    /** ***** Not Implemented methods ****** */
+    /** *********************************** */
 
     public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
             throws CvqException {

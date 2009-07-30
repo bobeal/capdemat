@@ -1,0 +1,1 @@
+alter table invoice_detail alter column quantity type numeric(19, 2);

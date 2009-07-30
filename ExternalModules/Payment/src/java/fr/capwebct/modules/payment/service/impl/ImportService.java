@@ -139,8 +139,10 @@ public class ImportService implements IImportService {
                 // if still not found, then create it
                 if (efa == null) {
                     importResultBean.addCreatedEfa(invoiceWrapper.getExternalFamilyAccountId());
-                    efa = familyAccountService.createExternalFamilyAccount(
-                            invoiceWrapper.getExternalFamilyAccountId(), externalApplication.getId());
+                    efa = new ExternalFamilyAccount();
+                    efa.setExternalFamilyAccountId(invoiceWrapper.getExternalFamilyAccountId());
+                    efa.setExternalApplication(externalApplication);
+                    familyAccountService.createExternalFamilyAccount(efa);
                 }
             }
             Invoice invoice = invoiceWrapper.getInvoice();
@@ -190,8 +192,10 @@ public class ImportService implements IImportService {
                 }
                 // if still not found, then create it
                 if (efa == null) {
-                    efa = familyAccountService.createExternalFamilyAccount(
-                            accountWrapper.getExternalFamilyAccountId(), externalApplication.getId());
+                    efa = new ExternalFamilyAccount();
+                    efa.setExternalFamilyAccountId(accountWrapper.getExternalFamilyAccountId());
+                    efa.setExternalApplication(externalApplication);
+                    familyAccountService.createExternalFamilyAccount(efa);
                     importResultBean.addCreatedEfa(accountWrapper.getExternalFamilyAccountId());
                 }
             }
@@ -256,8 +260,10 @@ public class ImportService implements IImportService {
                 }
                 // if still not found, then create the external family account and individual
                 if (efa == null) {
-                    efa = familyAccountService.createExternalFamilyAccount(
-                            contractWrapper.getExternalFamilyAccountId(), externalApplication.getId());
+                    efa = new ExternalFamilyAccount();
+                    efa.setExternalFamilyAccountId(contractWrapper.getExternalFamilyAccountId());
+                    efa.setExternalApplication(externalApplication);
+                    familyAccountService.createExternalFamilyAccount(efa);
                     externalIndividual = new ExternalIndividual();
                     externalIndividual.setExternalIndividualId(contractWrapper.getExternalIndividualId());
                     familyAccountService.addExternalIndividual(efa, externalIndividual);
@@ -482,8 +488,10 @@ public class ImportService implements IImportService {
                         externalApplication.getId());
                 if (efa == null) {
                     try {
-                        efa = familyAccountService.createExternalFamilyAccount(efaWrapper.getExternalFamilyAccountId(), 
-                                externalApplication.getId());
+                        efa = new ExternalFamilyAccount();
+                        efa.setExternalFamilyAccountId(efaWrapper.getExternalFamilyAccountId());
+                        efa.setExternalApplication(externalApplication);
+                        familyAccountService.createExternalFamilyAccount(efa);
                         importResultBean.addCreatedEfa(efaWrapper.getExternalFamilyAccountId());
                         efa.setAddress(efaWrapper.getAddress());
                     } catch (DataAccessException dae) {

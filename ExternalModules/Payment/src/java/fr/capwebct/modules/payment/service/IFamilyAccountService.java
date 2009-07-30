@@ -19,9 +19,9 @@ import fr.capwebct.modules.payment.business.ExternalIndividual;
 public interface IFamilyAccountService {
 
     /* *************************** Management of external family accounts ************************/
-    
-	ExternalFamilyAccount createExternalFamilyAccount(String externalFamilyAccountId,
-			long externalApplicationId) throws DataAccessException;
+
+    ExternalFamilyAccount createExternalFamilyAccount(ExternalFamilyAccount externalFamilyAccount)
+        throws DataAccessException;
 
 	ExternalFamilyAccount addExternalIndividual(ExternalFamilyAccount externalFamilyAccount,
 			ExternalIndividual individual) throws DataAccessException;
@@ -77,12 +77,6 @@ public interface IFamilyAccountService {
             throws DataAccessException;
 
     /* ***** Management of associations between external family accounts and CapWebCT accounts ***/
-    
-    /**
-     * FIXME remove this method (only used in unit tests) !
-     */
-	ExternalFamilyAccount bindFamilyAccounts(ExternalFamilyAccount externalFamilyAccount,
-			CapwebctFamilyAccount capwebctFamilyAccount) throws DataAccessException;
 
 	/**
 	 * Bind an external family account and a CapWebCT family account.
@@ -95,16 +89,6 @@ public interface IFamilyAccountService {
     ExternalFamilyAccount bindFamilyAccounts(String externalFamilyAccountId,
 			long externalApplicationId, long capwebctFamilyAccountId)
 			throws DataAccessException;
-
-    /**
-     * FIXME remove this method (only used in unit tests) !
-     */
-	ExternalFamilyAccount bindFamilyAccounts(String externalFamilyAccountId,
-			long externalApplicationId, long capwebctFamilyAccountId,
-			String capwebctFamilyAccountResponsible) throws DataAccessException;
-	
-	ExternalIndividual bindIndividuals(ExternalIndividual externalIndividual,
-			CapwebctIndividual capwebctIndividual) throws DataAccessException;
 
     /**
      * Bind external individual from external family account to CapWebCT individual
@@ -138,15 +122,6 @@ public interface IFamilyAccountService {
      *                number of modified accounts.
      */
     long[] importCapwebctFamilyAccounts(List<CapwebctFamilyAccount> capWebctFamilyAccounts);
-    
-    /**
-     * Create a minimal CapWebCT family account.
-     * 
-     * @return the newly created {@link CapwebctFamilyAccount}
-     */
-    CapwebctFamilyAccount createCapwebctFamilyAccount(long cfaId,
-			String cfaResponsibleLastName, String cfaResponsibleFirstName) 
-        throws DataAccessException;
 
     /**
      * Called upon the creation of an external application : initialize the associations

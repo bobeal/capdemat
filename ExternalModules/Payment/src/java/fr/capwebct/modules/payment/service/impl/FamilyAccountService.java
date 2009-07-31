@@ -315,6 +315,12 @@ public class FamilyAccountService implements IFamilyAccountService {
                     } else {
                         for (CapwebctIndividual currentIndividual :
                             currentAccount.getIndividuals()) {
+                            if (currentIndividual.getCapwebctIndividualId() != capwebctIndividual.getCapwebctIndividualId()
+                                && currentIndividual.isResponsible()
+                                && capwebctIndividual.isResponsible()) {
+                                currentIndividual.setResponsible(false);
+                                modifiedAccount = true;
+                            }
                             if (currentIndividual.getCapwebctIndividualId() ==
                                 capwebctIndividual.getCapwebctIndividualId()) {
                                 if (capwebctIndividual.isChild() != currentIndividual.isChild()) {
@@ -333,7 +339,6 @@ public class FamilyAccountService implements IFamilyAccountService {
                                     currentIndividual.setResponsible(capwebctIndividual.isResponsible());
                                     modifiedAccount = true;
                                 }
-                                break;
                             }
                         }
                     }

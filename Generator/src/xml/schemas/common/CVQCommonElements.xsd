@@ -1891,8 +1891,32 @@
       <xs:sequence>
         <xs:element name="IndividualId" type="xs:long" minOccurs="0" />
         <xs:element name="HomeFolderId" type="xs:long" minOccurs="0" />
+        <xs:element name="RoleName" type="cvq:RoleType" />
       </xs:sequence>
   </xs:complexType>
+
+  <xs:simpleType name="RoleType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Rôle
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Rôle
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
+        <enum key="Pending" value="En attente" />
+        <enum key="Valid" value="Valide" />
+        <enum key="Invalid" value="Invalide" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="HomeFolderResponsible" />
+      <xs:enumeration value="ClrMother" />
+      <xs:enumeration value="ClrFather" />
+      <xs:enumeration value="ClrTutor" />
+      <xs:enumeration value="Tutor" />
+    </xs:restriction>
+  </xs:simpleType>
 
   <xs:simpleType name="LegalResponsibleRoleType">
     <xs:annotation>

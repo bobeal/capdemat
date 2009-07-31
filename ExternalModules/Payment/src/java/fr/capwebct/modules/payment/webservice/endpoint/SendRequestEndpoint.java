@@ -8,7 +8,6 @@ import org.springframework.ws.server.endpoint.AbstractMarshallingPayloadEndpoint
 
 import fr.capwebct.modules.payment.business.CapwebctFamilyAccount;
 import fr.capwebct.modules.payment.business.CapwebctIndividual;
-import fr.capwebct.modules.payment.exception.CpmBusinessException;
 import fr.capwebct.modules.payment.schema.sre.SendRequestRequestDocument;
 import fr.capwebct.modules.payment.service.IFamilyAccountService;
 import fr.cg95.cvq.xml.common.ChildType;
@@ -16,6 +15,7 @@ import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualRoleType;
 import fr.cg95.cvq.xml.common.IndividualType;
 import fr.cg95.cvq.xml.common.RequestType;
+import fr.cg95.cvq.xml.common.RoleType;
 
 public class SendRequestEndpoint extends AbstractMarshallingPayloadEndpoint {
 
@@ -31,11 +31,6 @@ public class SendRequestEndpoint extends AbstractMarshallingPayloadEndpoint {
     protected Object invokeInternal(Object requestObject) throws Exception {
         RequestType request = ((SendRequestRequestDocument) requestObject)
             .getSendRequestRequest().getRequest();
-        if (!"Home Folder Modification".equals(request.getRequestTypeLabel())
-            && !"VO Card".equals(request.getRequestTypeLabel())) {
-            throw new CpmBusinessException("Received an unsupported request type : "
-                + request.getRequestTypeLabel());
-        }
         List<CapwebctFamilyAccount> accounts = new ArrayList<CapwebctFamilyAccount>(1);
         CapwebctFamilyAccount cfa = new CapwebctFamilyAccount();
         accounts.add(cfa);
@@ -52,9 +47,12 @@ public class SendRequestEndpoint extends AbstractMarshallingPayloadEndpoint {
             capwebctIndividual.setResponsible(false);
             for (IndividualRoleType individualRoleType :
                 individualType.getRoleArray()) {
-                if (individualRoleType.isSetHomeFolderId()) {
+                if (individualRoleType.isSetHomeFolderId()
+                    && individualRoleType.getRoleName().equals(
+                    RoleType.HOME_FOLDER_RESPONSIBLE)) {
                     capwebctIndividual.setResponsible(true);
-                    cfa.setResponsibleFullName(individualType.getLastName() + " " + individualType.getFirstName());
+                    cfa.setResponsibleFullName(
+                        individualType.getLastName() + " " + individualType.getFirstName());
                     break;
                 }
             }

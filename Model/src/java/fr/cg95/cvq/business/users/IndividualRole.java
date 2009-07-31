@@ -51,6 +51,9 @@ public class IndividualRole implements Historizable, Serializable {
             individualRoleType.setHomeFolderId(individualRole.getHomeFolderId());
         if (individualRole.getIndividualId() != null)
             individualRoleType.setIndividualId(individualRole.getIndividualId());
+        individualRoleType.setRoleName(
+            fr.cg95.cvq.xml.common.RoleType.Enum.forString(
+            individualRole.getRole().toString()));
         return individualRoleType;
     }
 

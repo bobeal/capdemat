@@ -89,6 +89,7 @@ class LocalAuthorityController {
                     "postalCode" : SecurityContext.getCurrentSite().postalCode,
                     "displayTitle" : SecurityContext.getCurrentSite().displayTitle,
                     "adminEmail" : SecurityContext.getCurrentSite().adminEmail,
+                    "googleAnalyticsId" : SecurityContext.getCurrentSite().googleAnalyticsId,
                     "serverNames" : serverNames]
         } else if (request.post) {
             bind(SecurityContext.getCurrentSite())

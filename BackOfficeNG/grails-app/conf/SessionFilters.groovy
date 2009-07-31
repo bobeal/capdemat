@@ -75,7 +75,16 @@ class SessionFilters {
                 SecurityContext.resetCurrentSite();
             }
         }
-        
+
+        includeGoogleAnalytics(controller: 'frontoffice*', action: '*') {
+            before = {
+                if (SecurityContext.currentSite.googleAnalyticsId != null
+                    && SecurityContext.currentSite.googleAnalyticsId != "") {
+                    session.setAttribute("googleAnalyticsId", SecurityContext.currentSite.googleAnalyticsId)
+                }
+            }
+        }
+
         setupFrontUser(controller: 'frontoffice*', action: '*') {
             before = {
                 def securityService = applicationContext.getBean("securityService")

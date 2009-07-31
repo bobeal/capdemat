@@ -28,6 +28,7 @@ public class LocalAuthority implements Serializable {
     private String adminEmail;
     private Integer draftLiveDuration = 20;
     private Integer draftNotificationBeforeDelete = 7;
+    private String googleAnalyticsId;
 
     /**
      * Whether an email alert is sent to notify of newly created requests, defaults to false.
@@ -315,5 +316,17 @@ public class LocalAuthority implements Serializable {
 
     public void setDisplayInProgressPayments(boolean displayInProgressPayments) {
         this.displayInProgressPayments = displayInProgressPayments;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="google_analytics_id"
+     */
+    public String getGoogleAnalyticsId() {
+        return googleAnalyticsId;
+    }
+
+    public void setGoogleAnalyticsId(String googleAnalyticsId) {
+        this.googleAnalyticsId = googleAnalyticsId;
     }
 }

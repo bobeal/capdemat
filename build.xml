@@ -18,6 +18,7 @@
     <antcall target="clean-configfiles" />
     <ant dir="${generator.dir}" target="clean" />
     <ant dir="${model.dir}" target="clean" />
+    <ant dir="${bong.dir}" target="clean" />
     <ant dir="${serviceexporter.dir}" target="clean" />
     <antcall target="clean-plugins" />
   </target>
@@ -34,6 +35,10 @@
 
   <target name="clean-model" depends="init">
     <ant dir="${model.dir}" target="clean" />
+  </target>
+
+  <target name="clean-fobo" depends="init">
+    <ant dir="${bong.dir}" target="clean" />
   </target>
 
   <target name="clean-serviceexporter" depends="init">
@@ -96,10 +101,6 @@
   <!-- ============================ COMPILATION TARGETS ================================ -->
   <!-- ================================================================================= -->
 
-  <target name="compile-libs" depends="init">
-    <ant dir="${model.dir}" target="compile" />
-  </target>
-
   <target name="compile-model" depends="init">
     <ant dir="${model.dir}" target="compile" />
   </target>
@@ -117,13 +118,12 @@
   </target>
 
   <!-- ================================================================================= -->
-  <!-- ======================= LIBS DEPLOYMENT TARGETS ================================= -->
+  <!-- ==================== CORE LIBS DEPLOYMENT TARGETS =============================== -->
   <!-- ================================================================================= -->
 
   <target name="deploy-libs" depends="init">
     <ant dir="${generator.dir}" target="deploy" />
     <ant dir="${model.dir}" target="deploy" />
-    <ant dir="${serviceexporter.dir}" target="deploy" />
   </target>
 
   <target name="deploy-xmlschemas" depends="init">
@@ -132,10 +132,6 @@
 
   <target name="deploy-model" depends="deploy-xmlschemas">
     <ant dir="${model.dir}" target="deploy" />
-  </target>
-
-  <target name="deploy-serviceexporter" depends="deploy-model">
-    <ant dir="${serviceexporter.dir}" target="deploy" />
   </target>
 
   <!-- ================================================================================= -->
@@ -199,7 +195,7 @@
   <!-- ======================= WEBAPPS PREPARATION TARGETS ============================= -->
   <!-- ================================================================================= -->
 
-  <target name="prepare-webapps" depends="prepare-configfiles, deploy-libs">
+  <target name="prepare-webapps" depends="prepare-configfiles, deploy-libs, deploy-plugins">
     <ant dir="${serviceexporter.dir}" target="prepare-webapp" />
   </target>
 
@@ -209,8 +205,8 @@
     <ant dir="${serviceexporter.dir}" target="prepare-webapp" />
   </target>
 
-  <target name="prepare-webapp-bong"
-          description="Temp target to build BONG"
+  <target name="prepare-webapp-fobo"
+          description="Create the FO/BO webapp"
           depends="prepare-configfiles, deploy-model">
     <ant dir="${libraries.dir}" target="bong-runtime-libs" />
     <copy file="${deploy.properties_dir}/${deploy.properties_file}"
@@ -242,11 +238,16 @@
 
   <target name="release" depends="prepare-configfiles, deploy-libs">
     <ant dir="${serviceexporter.dir}" target="war" />
+    <ant dir="${bong.dir}" target="war" />
     <ant dir="${model.dir}" target="admin-package" />
   </target>
 
   <target name="build-war-serviceexporter" depends="prepare-configfiles, deploy-libs">
     <ant dir="${serviceexporter.dir}" target="war" />
+  </target>
+
+  <target name="build-war-fobo" depends="prepare-configfiles, deploy-libs">
+    <ant dir="${bong.dir}" target="war" />
   </target>
 
   <target name="build-admin-package" depends="prepare-configfiles">

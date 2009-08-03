@@ -783,7 +783,7 @@
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
         <enum key="lessThan30kms" value="Moins de 30 kms du domicile" />
         <enum key="between30and250kms" value="Entre 30 et 250 kms du domicile" />
-        <enum key="moreThan250kmsAndAbroad" value="Plus de 250 kms du domicile et à l’international" />
+        <enum key="moreThan250kmsAndAbroad" value="Plus de 250 kms du domicile et à l'international" />
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/translation/enum">
         <enum key="lessThan30kms" value="Less than 30 kms from home" />

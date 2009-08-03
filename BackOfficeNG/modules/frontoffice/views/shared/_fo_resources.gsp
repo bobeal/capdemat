@@ -31,18 +31,6 @@
   <g:else>
     <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'date-en-US.js')}"></script>
   </g:else>
-  <g:if test="${session.googleAnalyticsId}">
-    <script type="text/javascript">
-      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-    <script type="text/javascript">
-      try {
-        var pageTracker = _gat._getTracker("${session.googleAnalyticsId}");
-        pageTracker._trackPageview();
-      } catch(err) {}
-    </script>
-  </g:if>
   <script type="text/javascript">
     zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     zenexity.capdemat.baseUrl = '<g:createLink controller="${webRequest.controllerName}" />';

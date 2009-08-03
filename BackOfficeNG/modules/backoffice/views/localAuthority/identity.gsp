@@ -34,12 +34,6 @@
               <input type="text" class="validate-email" size="60" name="adminEmail" value="${adminEmail}" />
             </p>
             <p class="field">
-              <label for="googleAnalyticsId">
-                <g:message code="localAuthority.property.googleAnalyticsId" /> :
-              </label>
-              <input type="text" size="60" name="googleAnalyticsId" value="${googleAnalyticsId}" />
-            </p>
-            <p class="field">
               <label for="serverNames">
                 <g:message code="localAuthority.property.serverNames" /> :
               </label>

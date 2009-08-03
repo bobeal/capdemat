@@ -641,5 +641,3 @@ alter table local_authority add column display_in_progress_payments bool not nul
 -- remove card data
 alter table individual drop constraint FKFD3DA29948B0ABD2;
 drop table card;
-
-alter table local_authority add column google_analytics_id varchar(255);

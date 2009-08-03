@@ -4,6 +4,7 @@
         <os family="windows"/>
     </condition>
     <property name="grails" value="grails" />
+    <property file="application.properties" />
 
 	<!-- ================================= 
           target: clean              
@@ -11,7 +12,9 @@
     <target name="clean" description="--> Cleans a Grails application">
 		<exec executable="${grails}" failonerror="true">
 			<arg value="clean"/>
-		</exec>                               
+		</exec>
+                <delete file="${app.name}-${application.version}-${application.revision}.war" />
+                <delete file="*.log" />
     </target>
 
 	<!-- ================================= 
@@ -20,7 +23,8 @@
     <target name="war" description="--> Creates a WAR of a Grails application">
 		<exec executable="${grails}" failonerror="true">
 			<arg value="war"/>
-		</exec>                               
+		</exec>
+                <move file="${app.name}-${app.version}.war" tofile="${app.name}-${application.version}-${application.revision}.war"/>
     </target>
 	
 	<!-- ================================= 

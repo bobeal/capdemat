@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.RequestState;
@@ -113,10 +114,10 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
     }
     
     protected String getXmlOutputFolder() {
-        return String.format("%1$s/%2$s/%3$s/", 
-                iLocalAuthorityRegistry.getAssetsBase(),
-                SecurityContext.getCurrentConfigurationBean().getName(),
-                ILocalAuthorityRegistry.REQUEST_XML_RESOURCE_TYPE);
+        return String.format("%1$s/%2$s/%3$s/",
+            iLocalAuthorityRegistry.getAssetsBase(),
+            SecurityContext.getCurrentConfigurationBean().getName(),
+            Type.REQUEST_XML.getFolder());
     }
     
     protected void createDummyEntities() throws CvqException {
@@ -150,7 +151,7 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
                     return false;
                 }
                 name = name.toLowerCase();
-                return name.endsWith(".xml");
+                return name.endsWith(Type.REQUEST_XML.getExtension());
             }
         }));
         

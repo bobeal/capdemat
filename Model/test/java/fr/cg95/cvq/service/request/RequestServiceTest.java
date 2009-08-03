@@ -206,7 +206,7 @@ public class RequestServiceTest extends ServiceTestCase {
         RequestForm requestForm = new RequestForm();
         requestForm.setLabel("TEST1");
         requestForm.setShortLabel("TEST2");
-        requestForm.setTemplateName("template.html");
+        requestForm.setTemplateName("template");
         requestForm.setType(RequestFormType.REQUEST_MAIL_TEMPLATE);
         requestForm.setPersonalizedData("MyData".getBytes());
         Long id = iRequestTypeService.modifyRequestTypeForm(requestType.getId(), requestForm);
@@ -225,7 +225,7 @@ public class RequestServiceTest extends ServiceTestCase {
         tmpForm.setLabel("new label");
         tmpForm.setShortLabel("new short label");
         tmpForm.setPersonalizedData("new data".getBytes());
-        tmpForm.setTemplateName("tmp.html");
+        tmpForm.setTemplateName("tmp");
 
         Long sameId = iRequestTypeService.modifyRequestTypeForm(requestType.getId(), tmpForm);
         Assert.assertEquals(sameId,id);
@@ -233,7 +233,7 @@ public class RequestServiceTest extends ServiceTestCase {
         tmpForm = iRequestTypeService.getRequestFormById(sameId);
         Assert.assertEquals(tmpForm.getLabel(),"new label");
         Assert.assertEquals(tmpForm.getShortLabel(),"new short label");
-        Assert.assertEquals(tmpForm.getTemplateName(),"tmp.html");
+        Assert.assertEquals(tmpForm.getTemplateName(),"tmp");
         Assert.assertEquals(tmpForm.getType(),requestForm.getType());
         Assert.assertEquals(new String(tmpForm.getPersonalizedData()),"new data");
 
@@ -242,7 +242,7 @@ public class RequestServiceTest extends ServiceTestCase {
             f.setLabel("new label");
             f.setShortLabel("new short label");
             f.setPersonalizedData("new data".getBytes());
-            f.setTemplateName("tmp.html");
+            f.setTemplateName("tmp");
             iRequestTypeService.modifyRequestTypeForm(requestType.getId(), f);
             fail("RequestForm data can't be duplicated");
         } catch (CvqModelException cvqme) {

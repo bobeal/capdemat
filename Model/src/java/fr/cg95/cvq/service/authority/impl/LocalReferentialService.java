@@ -15,6 +15,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.LocalReferentialEntry;
 import fr.cg95.cvq.business.authority.LocalReferentialType;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqLocalReferentialException;
 import fr.cg95.cvq.schema.referential.LocalReferentialDocument;
@@ -223,9 +224,8 @@ public class LocalReferentialService
 
             Date now = new Date();
             File localReferentialFile =
-                localAuthorityRegistry.getLocalAuthorityResource(
-                        localAuthorityName, 
-                        ILocalAuthorityRegistry.LOCAL_REFERENTIAL_RESOURCE_TYPE, localReferentialFilename, true);
+                localAuthorityRegistry.getLocalAuthorityResourceFile(
+                    Type.LOCAL_REFERENTIAL, localReferentialFilename, true);
             LocalReferentialDocument refDoc = null;
             try {
                 refDoc = parse(localReferentialFile);
@@ -277,9 +277,8 @@ public class LocalReferentialService
                 Long requestTypeTimestamp = (Long) requestTypeTimestampMap.get(requestTypeLabel);
                 String referentialFileName = getReferentialFilename(requestTypeLabel);
                 File referentialFile =
-                    localAuthorityRegistry.getCurrentLocalAuthorityResource(
-                            ILocalAuthorityRegistry.LOCAL_REFERENTIAL_RESOURCE_TYPE, 
-                            referentialFileName, false);
+                    localAuthorityRegistry.getLocalAuthorityResourceFile(
+                        Type.LOCAL_REFERENTIAL, referentialFileName, false);
                 if (referentialFile.lastModified() > requestTypeTimestamp.longValue()) {
                     logger.info("checkCurrentSiteCache() refreshing cache for " 
                             + referentialFileName);
@@ -324,8 +323,7 @@ public class LocalReferentialService
         synchronized(this) {
             File localReferentialFile =
                 localAuthorityRegistry.getReferentialResource(
-                        ILocalAuthorityRegistry.LOCAL_REFERENTIAL_RESOURCE_TYPE, 
-                        localReferentialFilename);
+                    Type.LOCAL_REFERENTIAL, localReferentialFilename);
             if (localReferentialFile == null) {
                 logger.error("File not found");
                 return;
@@ -709,9 +707,8 @@ public class LocalReferentialService
 
             String filenameToWriteIn = getReferentialFilename(requestTypeLabel);
             File referentialFile =
-                localAuthorityRegistry.getCurrentLocalAuthorityResource(
-                        ILocalAuthorityRegistry.LOCAL_REFERENTIAL_RESOURCE_TYPE,
-                        filenameToWriteIn, false);
+                localAuthorityRegistry.getLocalAuthorityResourceFile(
+                    Type.LOCAL_REFERENTIAL, filenameToWriteIn, false);
             try {
                 XmlOptions opts = new XmlOptions();
                 opts.setSavePrettyPrint();

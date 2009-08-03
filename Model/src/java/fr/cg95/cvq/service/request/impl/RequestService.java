@@ -21,6 +21,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.w3c.dom.Node;
 
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.DataState;
@@ -548,8 +549,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             Boolean attachPdf =
                 Boolean.valueOf(ecitizenCreationNotifications.get("attachPdf"));
             String mailDataBody =
-                localAuthorityRegistry.getBufferedCurrentLocalAuthorityResource(
-                        ILocalAuthorityRegistry.TXT_ASSETS_RESOURCE_TYPE, mailData, false);
+                localAuthorityRegistry.getBufferedLocalAuthorityResource(
+                        Type.TXT, mailData, false);
 
             if (mailDataBody == null) {
                 logger.warn("notifyRequestCreation() no mail data for ecitizen request creation notification");

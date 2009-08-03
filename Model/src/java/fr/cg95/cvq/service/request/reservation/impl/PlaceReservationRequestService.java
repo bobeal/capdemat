@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
@@ -115,9 +116,8 @@ public final class PlaceReservationRequestService
             return null;
         
         String filename = getExternalReferentialFilename();
-        File file = localAuthorityRegistry.getCurrentLocalAuthorityResource(
-                ILocalAuthorityRegistry.EXTERNAL_REFERENTIAL_RESOURCE_TYPE, 
-                filename, false);
+        File file = localAuthorityRegistry.getLocalAuthorityResourceFile(
+            Type.EXTERNAL_REFERENTIAL, filename, false);
         if (!file.exists()) {
             return null;
         }

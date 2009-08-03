@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import fr.capwebct.capdemat.plugins.csvimporters.subscriberslist.business.SubscriberLine;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.importer.ICsvImportProviderService;
@@ -79,9 +80,8 @@ public class SubscribersListService  implements ICsvImportProviderService {
 
         String filename = placeReservationRequestService.getExternalReferentialFilename();
         logger.debug("importData() Gonna write in " + filename);
-        File file = localAuthorityRegistry.getCurrentLocalAuthorityResource(
-                ILocalAuthorityRegistry.EXTERNAL_REFERENTIAL_RESOURCE_TYPE, 
-                filename, false);
+        File file = localAuthorityRegistry.getLocalAuthorityResourceFile(
+            Type.EXTERNAL_REFERENTIAL, filename, false);
         if (!file.exists()) {
             try {
                 file.createNewFile();

@@ -154,6 +154,7 @@
 	    <xdoclet2>
 	      <fileset dir="${basedir}/${src.java.dir}">
 	        <include name="**/business/**/*.java" />
+	        <exclude name="**/business/authority/LocalAuthorityResource.java" />
           </fileset>
 	      <component
 	        classname="org.xdoclet.plugin.hibernate.HibernateMappingPlugin"

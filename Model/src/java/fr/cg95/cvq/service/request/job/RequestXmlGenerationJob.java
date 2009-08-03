@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.Request;
@@ -50,8 +51,8 @@ public class RequestXmlGenerationJob {
             if (!xmlFileExists(id)) {
                 Request r = (Request) requestDAO.findById(Request.class, id);
                 localAuthorityRegistry.saveLocalAuthorityResource(
-                        ILocalAuthorityRegistry.REQUEST_XML_RESOURCE_TYPE, getXmlFileName(id),
-                        r.modelToXmlString().getBytes());
+                    Type.REQUEST_XML, String.valueOf(id),
+                    r.modelToXmlString().getBytes());
             }
         }
     }
@@ -62,26 +63,15 @@ public class RequestXmlGenerationJob {
         
         for (ExternalServiceTrace t : traces) {
             localAuthorityRegistry.removeLocalAuthorityResource(
-                    ILocalAuthorityRegistry.REQUEST_XML_RESOURCE_TYPE,
-                    getXmlFileName(t.getKey()));
+                Type.REQUEST_XML, t.getKey());
         }
     }
     
     protected boolean xmlFileExists(Long id) {
-        File file = localAuthorityRegistry.getCurrentLocalAuthorityResource(
-                ILocalAuthorityRegistry.REQUEST_XML_RESOURCE_TYPE, 
-                getXmlFileName(id), false);
-        
+        File file = localAuthorityRegistry.getLocalAuthorityResourceFile(
+            Type.REQUEST_XML, String.valueOf(id), false);
         if (file == null) return false;
         else return file.exists();
-    }
-    
-    public String getXmlFileName(Long id) {
-        return id + ".xml";
-    }
-
-    public String getXmlFileName(String key) {
-        return key + ".xml";
     }
 
     public void setRequestDAO(IRequestDAO requestDAO) {

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +29,6 @@ import org.apache.fop.image.FopImageFactory;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -44,6 +42,7 @@ import org.springframework.core.io.Resource;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
 import fr.cg95.cvq.dao.authority.ILocalAuthorityDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -84,16 +83,16 @@ public class LocalAuthorityRegistry
     protected Collection<ILocalAuthorityLifecycleAware> allListenerServices;
 
     private ILocalAuthorityDAO localAuthorityDAO;
-    
+
     private ListableBeanFactory beanFactory;
 
     private Boolean performDbUpdates;
-    
+
     private String referentialBase;
     private String assetsBase;
     private String[] includedLocalAuthorities;
     private String localAuthoritiesListFilename;
-    
+
     public void init() {
         Map services = beanFactory.getBeansOfType(ILocalAuthorityLifecycleAware.class, true, true);
         if (!services.isEmpty()) {
@@ -199,138 +198,70 @@ public class LocalAuthorityRegistry
 
     public File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
         throws CvqException {
-        
-        return getLocalAuthorityResourceFile(id, LocalAuthorityResource.Version.CURRENT, 
-                fallbackToDefault);
+        return getLocalAuthorityResourceFile(id,
+            LocalAuthorityResource.Version.CURRENT, fallbackToDefault);
     }
 
     public File getLocalAuthorityResourceFile(String id, LocalAuthorityResource.Version version, 
             boolean fallbackToDefault)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
-        String completeFilename = 
-            resource.getFilename() + LocalAuthorityResource.versionExtensions.get(version) 
-                + resource.getExtension();
-        String filePath = assetsBase + SecurityContext.getCurrentSite().getName().toLowerCase() 
-            + "/" + resource.getResourceType() + "/";
-        File file = new File(filePath + completeFilename);
-        if (!file.exists() && fallbackToDefault) {
-            logger.warn("getLocalAuthorityResourceFile() did not find " + filePath 
-                    + completeFilename + ", trying default");
-            return getReferentialResource(resource.getResourceType(), completeFilename);
-        }
-        return file;
+        return getAssetsFile(resource.getType(), resource.getFilename(), false);
     }
 
-    @Deprecated
-    private File getAssetsFile(final String resourceType, final String localAuthorityName,
-            final String filename, final boolean fallbackToDefault) {
-
+    private File getAssetsFile(final Type type, final String filename,
+        final boolean fallbackToDefault) {
         StringBuffer filePath = new StringBuffer().append(assetsBase)
-            .append(localAuthorityName.toLowerCase()).append("/");
-        
-        // TODO Refactor this part, put it more flexible
-        if (resourceType.equals(IMAGE_ASSETS_RESOURCE_TYPE)) {
-            filePath.append(IMAGE_ASSETS_RESOURCE_TYPE).append("/");
-        } else if (resourceType.equals(CSS_ASSETS_RESOURCE_TYPE)) {
-            filePath.append(CSS_ASSETS_RESOURCE_TYPE).append("/");
-        } else if (resourceType.equals(LOCAL_REFERENTIAL_RESOURCE_TYPE)) {
-            filePath.append(LOCAL_REFERENTIAL_RESOURCE_TYPE).append("/");
-        } else if (resourceType.equals(EXTERNAL_REFERENTIAL_RESOURCE_TYPE)) {
-            filePath.append(EXTERNAL_REFERENTIAL_RESOURCE_TYPE).append("/");
-        } else if (resourceType.equals(TXT_ASSETS_RESOURCE_TYPE)) {
-            filePath.append(TXT_ASSETS_RESOURCE_TYPE).append("/");
-        } else if (resourceType.equals(XSL_RESOURCE_TYPE)) {
-            filePath.append(XSL_RESOURCE_TYPE).append("/");
-        } else if (resourceType.equals(HTML_RESOURCE_TYPE)) {
-            filePath.append(HTML_RESOURCE_TYPE).append("/");
-        } else if (resourceType.equals(PDF_ASSETS_RESOURCE_TYPE)) {
-            filePath.append(PDF_ASSETS_RESOURCE_TYPE).append("/");
-        } else if (resourceType.equals(REQUEST_XML_RESOURCE_TYPE)) {
-            filePath.append(REQUEST_XML_RESOURCE_TYPE).append("/");
-        } else if (resourceType.equals(MAIL_TEMPLATES_TYPE)) {
-            filePath.append(MAIL_TEMPLATES_TYPE).append("/");
-        } else {
-            logger.warn("getAssetsFile() unrecognized resource type : " + resourceType);
-            return null;
-        }
-
-        filePath.append(filename);
+            .append(SecurityContext.getCurrentSite().getName().toLowerCase())
+            .append("/").append(type.getFolder()).append("/").append(filename)
+            .append(type.getExtension());
         logger.debug("getAssetsFile() searching file : " + filePath.toString());
-        
         File resourceFile = new File(filePath.toString());
         if (!resourceFile.exists() && fallbackToDefault) {
-            logger.warn("getAssetsFile() did not find " + filePath.toString() + ", trying default");
-            return getReferentialResource(resourceType, filename);
+            logger.warn("getAssetsFile() did not find " + filePath.toString()
+                + ", trying default");
+            return getReferentialResource(type, filename);
         }
-
         return resourceFile;
     }
 
-    public File getReferentialResource(final String resourceType, final String filename) {
-
-        StringBuffer filePath = new StringBuffer().append(referentialBase);
-
-        // TODO Refactor this part, put it more flexible
-        if (resourceType.equals(XSL_RESOURCE_TYPE)) {
-            filePath.append("xsl/");
-        } else if (resourceType.equals(LOCAL_REFERENTIAL_RESOURCE_TYPE)) {
-            filePath.append("local_referential/");
-        } else if (resourceType.equals(HTML_RESOURCE_TYPE)) {
-            filePath.append("html/");
-        } else if (resourceType.equals(MAIL_TEMPLATES_TYPE)) { 
-            filePath.append(MAIL_TEMPLATES_TYPE).append("/");
-        } else if (resourceType.equals(EXTERNAL_REFERENTIAL_RESOURCE_TYPE)) {
-            filePath.append("external_referential/");
-        } else if (resourceType.equals(PDF_ASSETS_RESOURCE_TYPE)) {
-            filePath.append(PDF_ASSETS_RESOURCE_TYPE).append("/");
-        } else {
-            logger.warn("getReferentialResource() unrecognized resource type : " + resourceType);
-            return null;
-        }
-
-        filePath.append(filename);
-        
+    public File getReferentialResource(final Type type, final String filename) {
+        StringBuffer filePath = new StringBuffer().append(referentialBase)
+            .append(type.getFolder()).append('/').append(filename)
+            .append(type.getExtension());
         logger.debug("getReferentialResource() searching file : " + filePath.toString());
         File resourceFile = new File(filePath.toString());
         if (!resourceFile.exists()) {
             logger.warn("getReferentialResource() did not find resource file : " + filename
-                    + " of type " + resourceType);
+                    + " of type " + type);
             return null;
         }
-        
         return resourceFile;
     }
-    
-    @Deprecated
-    public File getCurrentLocalAuthorityResource(final String resourceType, final String filename,
-            final boolean fallbackToDefault) {
 
-        String currentSiteName = SecurityContext.getCurrentSite().getName();
-        return getAssetsFile(resourceType, currentSiteName, filename, fallbackToDefault);
+    public File getLocalAuthorityResourceFile(final Type type, final String filename,
+        final boolean fallbackToDefault) {
+        return getAssetsFile(type, filename, fallbackToDefault);
     }
 
     public File getRequestXmlResource(Long id) {
         return new File(getRequestXmlPath(id));
     }
-    
+
     private String getRequestXmlPath(Long id) {
         return String.format("%1$s/%2$s/%3$s/%4$s.xml", 
                 this.getAssetsBase(),
                 SecurityContext.getCurrentConfigurationBean().getName(),
-                REQUEST_XML_RESOURCE_TYPE,
+                Type.REQUEST_XML.getFolder(),
                 id);
     }
 
-    @Deprecated
-    public String getBufferedCurrentLocalAuthorityResource(final String resourceType, 
-            final String filename, final boolean fallbackToDefault) {
-
-        File resourceFile = 
-            getCurrentLocalAuthorityResource(resourceType, filename, fallbackToDefault);
-        return getFileContent(resourceFile);
+    public String getBufferedLocalAuthorityResource(final Type type,
+        final String filename, final boolean fallbackToDefault) {
+        return getFileContent(
+            getLocalAuthorityResourceFile(type, filename, fallbackToDefault));
     }
-    
+
     public String getBufferedLocalAuthorityResource(String id, boolean fallbackToDefault)
         throws CvqException {
         return getFileContent(getLocalAuthorityResourceFile(id, fallbackToDefault));
@@ -340,7 +271,8 @@ public class LocalAuthorityRegistry
         
         StringBuffer requestTypePath = new StringBuffer().append(assetsBase)
             .append(SecurityContext.getCurrentSite().getName().toLowerCase())
-            .append("/").append(HTML_RESOURCE_TYPE).append("/request/").append(requestLabel);
+            .append("/").append(Type.HTML.getFolder()).append("/request/")
+            .append(requestLabel);
             
         File requestTypeDir = new File(requestTypePath.toString());
         
@@ -364,7 +296,7 @@ public class LocalAuthorityRegistry
     public List<String> getLocalAuthorityRules(String requestTypeLabel) {
         StringBuffer requestTypePath = new StringBuffer().append(assetsBase)
             .append(SecurityContext.getCurrentSite().getName().toLowerCase())
-            .append("/").append(PDF_ASSETS_RESOURCE_TYPE).append("/").append(requestTypeLabel);
+            .append("/").append(Type.PDF.getFolder()).append("/").append(requestTypeLabel);
         File requestTypeDir = new File(requestTypePath.toString());
         if (!requestTypeDir.exists()) {
             return Collections.emptyList();
@@ -404,26 +336,16 @@ public class LocalAuthorityRegistry
                     e.printStackTrace();
                 }
         }
-
-        return result;        
+        return result;
     }
-    
-    @Deprecated
-    public File getLocalAuthorityResource(final String localAuthorityName, 
-            final String resourceType, final String filename, 
-            final boolean fallbackToDefault) {
 
-        return getAssetsFile(resourceType, localAuthorityName, filename, fallbackToDefault);
-    }
-    
-    @Deprecated
-    public void saveLocalAuthorityResource(String resourceType, String filename, byte[] data) throws CvqException{
+    public void saveLocalAuthorityResource(Type type, String filename,
+        byte[] data) throws CvqException {
         if (data == null) {
             logger.warn("saveLocalAuthorityResource() received empty data to save");
             return;
         }
-        String currentSiteName = SecurityContext.getCurrentSite().getName();
-        File assetsFile = getAssetsFile(resourceType, currentSiteName, filename, false);
+        File assetsFile = getAssetsFile(type, filename, false);
         try {
             if (!assetsFile.exists())
                 assetsFile.createNewFile();
@@ -439,7 +361,7 @@ public class LocalAuthorityRegistry
             throw new CvqException(ioe.getMessage());
         }
     }
-    
+
     public void saveLocalAuthorityResource(String id, byte[] data)
         throws CvqException {
         if (data == null) {
@@ -505,25 +427,6 @@ public class LocalAuthorityRegistry
         return getLocalAuthorityResourceFile(id, version, false).exists();
     }
 
-    @Deprecated
-    public void renameLocalAuthorityResource(String resourceType, String filename, String newFilename) 
-        throws CvqException {
-        
-        String currentSiteName = SecurityContext.getCurrentSite().getName();
-        File assetsFile = getAssetsFile(resourceType, currentSiteName, filename, false);
-
-        if (!assetsFile.exists())
-            throw new CvqException("File "+ assetsFile.getPath() + "/" + filename + " do not exists !");
-        
-       boolean succeed = 
-           assetsFile.renameTo(getAssetsFile(resourceType, currentSiteName, newFilename, false));
-       if (!succeed)
-           throw new CvqException("Can't rename "
-                   + assetsFile.getPath() + "/" + assetsFile.getName()
-                   + " to "
-                   + assetsFile.getPath() + "/" + newFilename);
-    }
-
     public void renameLocalAuthorityResource(String id, Version oldVersion, Version newVersion)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
@@ -531,17 +434,16 @@ public class LocalAuthorityRegistry
         if (!file.exists()) {
             throw new CvqException("File "+ file.getPath() + " does not exist !");
         }
-        if (!file.renameTo(new File(file.getParent() + "/" + resource.getFilename() + LocalAuthorityResource.versionExtensions.get(newVersion) + resource.getExtension())))
+        if (!file.renameTo(new File(file.getParent() + "/" + resource.getFilename()
+            + newVersion.getExtension() + resource.getType().getExtension())))
             throw new CvqException("Can't rename "
                     + resource.getId() + " from version "
                     + oldVersion + " to "
                     + newVersion);
     }
-    
-    @Deprecated
-    public void removeLocalAuthorityResource(String resourceType, String filename) {
-        String currentSiteName = SecurityContext.getCurrentSite().getName();
-        File assetsFile = getAssetsFile(resourceType, currentSiteName, filename, false);
+
+    public void removeLocalAuthorityResource(Type type, String filename) {
+        File assetsFile = getAssetsFile(type, filename, false);
         if (!assetsFile.exists())
             return;
         if (!assetsFile.delete())
@@ -630,31 +532,13 @@ public class LocalAuthorityRegistry
             if (performDbUpdates.booleanValue()) {
                 callback(lacb.getName(), this, "instantiateLocalAuthority", 
                     new Object[]{lacb.getName()});
-                
-                String externalReferentialDirBase = assetsBase + lacb.getName() + "/"
-                    + EXTERNAL_REFERENTIAL_RESOURCE_TYPE;
-                File file = new File(externalReferentialDirBase);
-                if (!file.exists())
-                    file.mkdir();
-                
-                // TODO Refactor this part, put it more flexible
-                String htmlDirBase = assetsBase + lacb.getName() + "/" + 
-                    HTML_RESOURCE_TYPE;
-                file = new File(htmlDirBase);
-                if (!file.exists())
-                    file.mkdir();
-                
-                String mailTemplates = assetsBase + lacb.getName() + "/" + 
-                    MAIL_TEMPLATES_TYPE;
-                file = new File(mailTemplates);
-                if (!file.exists())
-                    file.mkdirs();
-                
-                String requestXmlDirBase = assetsBase + lacb.getName() + "/"
-                    + REQUEST_XML_RESOURCE_TYPE;
-                file = new File(requestXmlDirBase);
-                if (!file.exists())
-                    file.mkdir();                
+                File resourceDir;
+                for (Type type : Type.values()) {
+                    resourceDir = new File(assetsBase + lacb.getName() + "/"
+                        + type.getFolder());
+                    if (!resourceDir.exists())
+                        resourceDir.mkdir();
+                }
             }
             
             // notify listener services of the new local authority
@@ -702,15 +586,6 @@ public class LocalAuthorityRegistry
         }
     }
 
-    @Deprecated
-    public void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
-        throws CvqException {
-        LocalAuthority localAuthority = SecurityContext.getCurrentSite();
-        localAuthority.setDraftLiveDuration(liveDuration);
-        localAuthority.setDraftNotificationBeforeDelete(notificationBeforeDelete);
-        localAuthorityDAO.saveOrUpdate(localAuthority);
-    }
-    
     public void callback(String localAuthority, Object object, String callbackMethodName, 
             Object[] args) {
         
@@ -755,15 +630,15 @@ public class LocalAuthorityRegistry
             SecurityContext.resetCurrentSite();
         }
     }
-    
-	public void browseAndCallback(Object object, String callbackMethodName, 
-            Object[] methodArgs) {
-		for (String localAuthorityName : configurationBeansMap.keySet()) {
+
+    public void browseAndCallback(Object object, String callbackMethodName,
+        Object[] methodArgs) {
+        for (String localAuthorityName : configurationBeansMap.keySet()) {
             logger.debug("browseAndCallback() calling " + callbackMethodName
-                    + " for " + localAuthorityName);
-			callback(localAuthorityName, object, callbackMethodName, methodArgs);
+                + " for " + localAuthorityName);
+            callback(localAuthorityName, object, callbackMethodName, methodArgs);
         }
-	}
+    }
 
     public void generateLocalAuthoritiesList() {
         Set<String> allLocalAuthoriesNames = getAllLocalAuthoritiesNames();
@@ -797,12 +672,13 @@ public class LocalAuthorityRegistry
         else
             this.referentialBase = referentialBase;
     }
-    
-    public List<File> getLocalResourceContent(String resourceType) 
+
+    public List<File> getLocalResourceContent(Type type)
         throws CvqException {
-        return this.getLocalResourceContent(resourceType, "*");
+        return this.getLocalResourceContent(type, "*");
     }
-    public List<File> getLocalResourceContent(String resourceType, final String pattern) 
+
+    public List<File> getLocalResourceContent(Type type, final String pattern)
         throws CvqException {
         StringBuffer path = new StringBuffer();
         if (pattern == null) 
@@ -810,7 +686,7 @@ public class LocalAuthorityRegistry
         
         path.append(assetsBase).append("/")
             .append(SecurityContext.getCurrentSite().getName())
-            .append("/").append(resourceType);
+            .append("/").append(type.getFolder());
         
         FilenameFilter filter = new FilenameFilter() {
             public boolean accept(File dir, String name) {

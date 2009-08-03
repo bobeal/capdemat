@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.impl;
 
 import fr.cg95.cvq.business.authority.Agent;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
@@ -52,8 +53,8 @@ public class RequestNotificationService implements IRequestNotificationService {
                 Boolean.valueOf(lacb.getEcitizenValidationNotificationData(requestTypeLabel,
                         "attachPdf"));
             String mailDataBody =
-                localAuthorityRegistry.getBufferedCurrentLocalAuthorityResource(
-                        ILocalAuthorityRegistry.TXT_ASSETS_RESOURCE_TYPE, mailData, false);
+                localAuthorityRegistry.getBufferedLocalAuthorityResource(
+                        Type.TXT, mailData, false);
 
             if (mailDataBody == null) {
                 logger.warn("notifyRequestValidation() local authority has activated ecitizen "

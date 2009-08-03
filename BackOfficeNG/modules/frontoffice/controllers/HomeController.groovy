@@ -1,4 +1,5 @@
 import fr.cg95.cvq.authentication.IAuthenticationService
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.request.DisplayGroup
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
@@ -52,9 +53,8 @@ class HomeController {
         def result = [:]
         result.dashBoard = [:]
                             
-        File infoFile = localAuthorityRegistry.getCurrentLocalAuthorityResource(
-            ILocalAuthorityRegistry.HTML_RESOURCE_TYPE, 
-            'information.html',false)
+        File infoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
+            Type.HTML, 'information',false)
         
         if(infoFile.exists()) result.commonInfo = infoFile.text
         

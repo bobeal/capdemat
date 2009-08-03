@@ -1,3 +1,4 @@
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem
@@ -35,8 +36,8 @@ class PaymentController {
 
     def beforeInterceptor = {
         if (params.action != "history" && !localAuthorityRegistry.isPaymentEnabled()) {
-            render(view : "index", model : ["displayedMessage" : localAuthorityRegistry.getCurrentLocalAuthorityResource(
-                ILocalAuthorityRegistry.HTML_RESOURCE_TYPE,"paymentlackmessage.html",false)?.getText()])
+            render(view : "index", model : ["displayedMessage" : localAuthorityRegistry.getLocalAuthorityResourceFile(
+                Type.HTML, "paymentlackmessage", false)?.getText()])
         }
         this.errorMessage = message(code:'message.invalidFormat')
         this.ecitizen = SecurityContext.getCurrentEcitizen();

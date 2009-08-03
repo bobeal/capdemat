@@ -18,6 +18,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.PlaceReservationType;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.authority.PlaceReservationType.TicketSelection;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqPlaceReservationReferentialException;
@@ -502,10 +503,10 @@ public class PlaceReservationService implements IPlaceReservationService,
         isSupportedRequestType(requestTypeLabel);
         
         File placeFile = 
-            localAuthorityRegistry.getCurrentLocalAuthorityResource(
-                    ILocalAuthorityRegistry.LOCAL_REFERENTIAL_RESOURCE_TYPE,
-                    (String) placeReservationRequestMap.get(requestTypeLabel),
-                    fallbackToDefault);
+            localAuthorityRegistry.getLocalAuthorityResourceFile(
+                Type.LOCAL_REFERENTIAL,
+                (String) placeReservationRequestMap.get(requestTypeLabel),
+                fallbackToDefault);
         
         PlaceReservationDocument placeReservationDocument =
             parsePlaceReservationDocument(placeFile);
@@ -570,9 +571,9 @@ public class PlaceReservationService implements IPlaceReservationService,
         validateDocument(placeReservationDocument);
 
         File referentialFile =
-            localAuthorityRegistry.getCurrentLocalAuthorityResource(
-                    ILocalAuthorityRegistry.LOCAL_REFERENTIAL_RESOURCE_TYPE,
-                    (String) placeReservationRequestMap.get(requestTypeLabel), false);
+            localAuthorityRegistry.getLocalAuthorityResourceFile(
+                Type.LOCAL_REFERENTIAL,
+                (String) placeReservationRequestMap.get(requestTypeLabel), false);
         try {
             XmlOptions opts = new XmlOptions();
             opts.setSavePrettyPrint();

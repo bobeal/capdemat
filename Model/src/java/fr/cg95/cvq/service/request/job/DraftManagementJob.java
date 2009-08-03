@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request.job;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.authority.LocalAuthority;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -115,11 +116,9 @@ public class DraftManagementJob {
     }
     
     protected String buildMailTemplate(Request request, Integer liveDuration) throws CvqException {
-        String template = this.localAuthorityRegistry.getBufferedCurrentLocalAuthorityResource(
-            ILocalAuthorityRegistry.TXT_ASSETS_RESOURCE_TYPE,
-            "NotificationBeforeDraftDelete.txt",
-            false
-        );
+        String template =
+            this.localAuthorityRegistry.getBufferedLocalAuthorityResource(
+                Type.TXT, "NotificationBeforeDraftDelete", false);
 
         if (template == null)
             return null;

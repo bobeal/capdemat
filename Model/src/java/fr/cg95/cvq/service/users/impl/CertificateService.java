@@ -27,6 +27,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestType;
@@ -72,8 +73,7 @@ public class CertificateService implements ICertificateService {
         }
 
         File xslFoFile =
-            localAuthorityRegistry.getReferentialResource(ILocalAuthorityRegistry.XSL_RESOURCE_TYPE,
-                    xslFoFileName);
+            localAuthorityRegistry.getReferentialResource(Type.XSL, xslFoFileName);
         if (xslFoFile == null || !xslFoFile.exists()) {
             logger.warn("generateRequestCertificate() XSL-FO file denoted by name " + xslFoFileName 
                     + " does not exist on filesystem");
@@ -98,8 +98,7 @@ public class CertificateService implements ICertificateService {
         String xslFoFilename = requestForm.getXslFoFilename();
 
         File requestXslFoFile =
-            localAuthorityRegistry.getReferentialResource(ILocalAuthorityRegistry.XSL_RESOURCE_TYPE,
-                    xslFoFilename);
+            localAuthorityRegistry.getReferentialResource(Type.XSL, xslFoFilename);
         if (requestXslFoFile == null || !requestXslFoFile.exists()) {
             logger.warn("generateRequestCertificate() XSL-FO file denoted by name " + xslFoFilename 
                     + " does not exist on filesystem");
@@ -115,8 +114,8 @@ public class CertificateService implements ICertificateService {
             (RequestForm) requestFormDAO.findById(RequestForm.class, requestFormIId);
         
         File xslFoFile =
-            localAuthorityRegistry.getReferentialResource(ILocalAuthorityRegistry.XSL_RESOURCE_TYPE,
-                    requestForm.getXslFoFilename());
+            localAuthorityRegistry.getReferentialResource(Type.XSL,
+                requestForm.getXslFoFilename());
         if (xslFoFile == null || !xslFoFile.exists()) {
             logger.warn("generatePdf() XSL-FO file denoted by name " + xslFoFile 
                     + " does not exist on filesystem");

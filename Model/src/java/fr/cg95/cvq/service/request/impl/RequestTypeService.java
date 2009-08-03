@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request.impl;
 
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.business.request.RequestForm;
@@ -459,13 +460,12 @@ public class RequestTypeService implements IRequestTypeService {
     public List<File> getMailTemplates(String pattern) throws CvqException {
         if(pattern == null) pattern="*";
         return this.localAuthorityRegistry.getLocalResourceContent(
-            ILocalAuthorityRegistry.MAIL_TEMPLATES_TYPE,
-            pattern);
+            Type.MAIL_TEMPLATES, pattern);
     }
 
     public File getTemplateByName(String name) {
-        return this.localAuthorityRegistry.getCurrentLocalAuthorityResource(
-            ILocalAuthorityRegistry.MAIL_TEMPLATES_TYPE, name, false);
+        return this.localAuthorityRegistry.getLocalAuthorityResourceFile(
+            Type.MAIL_TEMPLATES, name, false);
     }
 
     public Long modifyRequestTypeForm(Long requestTypeId, RequestForm requestForm)

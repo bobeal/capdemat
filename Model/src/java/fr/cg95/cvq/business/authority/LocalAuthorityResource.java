@@ -1,58 +1,68 @@
-/**
- * 
- */
 package fr.cg95.cvq.business.authority;
 
 import java.util.Hashtable;
 
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-
 /**
  * Represents a file that can be customized on a local authority basis
  *
- * @author jsb
+ * @author jsb@zenexity.fr
  *
  */
 public class LocalAuthorityResource {
 
     public static enum Version {
-        CURRENT,
-        OLD,
-        TEMP
+        CURRENT(""),
+        OLD(".old"),
+        TEMP(".tmp");
+        private String extension;
+        private Version(String extension) { this.extension = extension; }
+        public String getExtension() { return extension; }
     }
 
-    public static final Hashtable<Version, String> versionExtensions = new Hashtable<Version, String>(3);
-    static {
-        versionExtensions.put(Version.CURRENT, "");
-        versionExtensions.put(Version.OLD, ".old");
-        versionExtensions.put(Version.TEMP, ".tmp");
+    public static enum Type {
+        CSS("css", ".css"),
+        EXTERNAL_REFERENTIAL("external_referential", ".txt"),
+        HTML("html", ".html"),
+        IMAGE("img", ".png"),
+        LOCAL_REFERENTIAL("local_referential", ".xml"),
+        MAIL_TEMPLATES("html/templates/mails", ".html"),
+        PDF("pdf", ".pdf"),
+        REQUEST_XML("xml_request", ".xml"),
+        TXT("txt", ".txt"),
+        XSL("xsl", ".xsl");
+        private String folder;
+        private String extension;
+        private Type(String folder, String extension) {
+            this.folder = folder;
+            this.extension = extension;
+        }
+        public String getFolder() { return folder; }
+        public String getExtension() { return extension; }
     }
 
     public static final Hashtable<String, LocalAuthorityResource> localAuthorityResources = new Hashtable<String, LocalAuthorityResource>(10);
-    public static final LocalAuthorityResource CSS_FO = new LocalAuthorityResource("cssFo", "cssFo", ".css", ILocalAuthorityRegistry.CSS_ASSETS_RESOURCE_TYPE, false);
-    public static final LocalAuthorityResource LOGO_FO = new LocalAuthorityResource("logoFo", "logoFo", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE, false);
-    public static final LocalAuthorityResource LOGO_BO = new LocalAuthorityResource("logoBo", "logoBo", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE, false);
-    public static final LocalAuthorityResource BANNER = new LocalAuthorityResource("banner", "banner", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE, false);
-    public static final LocalAuthorityResource LOGO_PDF = new LocalAuthorityResource("logoPdf", "logoPdf", ".png", ILocalAuthorityRegistry.IMAGE_ASSETS_RESOURCE_TYPE, false);
-    public static final LocalAuthorityResource FAQ_FO = new LocalAuthorityResource("faqFo", "faqFo", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE, true);
-    public static final LocalAuthorityResource HELP_BO = new LocalAuthorityResource("helpBo", "helpBo", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE, true);
-    public static final LocalAuthorityResource HELP_FO = new LocalAuthorityResource("helpFo", "helpFo", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE, true);
-    public static final LocalAuthorityResource LEGAL = new LocalAuthorityResource("legal", "legal", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE, false);
-    public static final LocalAuthorityResource USE = new LocalAuthorityResource("use", "use", ".pdf", ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE, false);
+    public static final LocalAuthorityResource CSS_FO = new LocalAuthorityResource("cssFo", "cssFo", Type.CSS, false);
+    public static final LocalAuthorityResource LOGO_FO = new LocalAuthorityResource("logoFo", "logoFo", Type.IMAGE, false);
+    public static final LocalAuthorityResource LOGO_BO = new LocalAuthorityResource("logoBo", "logoBo", Type.IMAGE, false);
+    public static final LocalAuthorityResource BANNER = new LocalAuthorityResource("banner", "banner", Type.IMAGE, false);
+    public static final LocalAuthorityResource LOGO_PDF = new LocalAuthorityResource("logoPdf", "logoPdf", Type.IMAGE, false);
+    public static final LocalAuthorityResource FAQ_FO = new LocalAuthorityResource("faqFo", "faqFo", Type.PDF, true);
+    public static final LocalAuthorityResource HELP_BO = new LocalAuthorityResource("helpBo", "helpBo", Type.PDF, true);
+    public static final LocalAuthorityResource HELP_FO = new LocalAuthorityResource("helpFo", "helpFo", Type.PDF, true);
+    public static final LocalAuthorityResource LEGAL = new LocalAuthorityResource("legal", "legal", Type.PDF, false);
+    public static final LocalAuthorityResource USE = new LocalAuthorityResource("use", "use", Type.PDF, false);
 
     private String id;
     private String filename;
-    private String extension;
-    private String resourceType;
+    private Type type;
     private boolean canFallback;
 
     private LocalAuthorityResource() {}
 
-    private LocalAuthorityResource(String id, String filename, String extension, String resourceType, boolean canFallback) {
+    private LocalAuthorityResource(String id, String filename, Type type, boolean canFallback) {
         this.id = id;
         this.filename = filename;
-        this.extension = extension;
-        this.resourceType = resourceType;
+        this.type = type;
         this.canFallback = canFallback;
         localAuthorityResources.put(id, this);
     }
@@ -65,12 +75,8 @@ public class LocalAuthorityResource {
         return filename;
     }
 
-    public String getExtension() {
-        return extension;
-    }
-
-    public String getResourceType() {
-        return resourceType;
+    public Type getType() {
+        return type;
     }
 
     public boolean canFallback() {

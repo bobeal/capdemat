@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.dao.users.IPaymentDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -60,8 +61,8 @@ public class PaymentInitializationDateCheckerJob {
 		String mailSubject = agentNotificationMap.get("mailSubject");
 		String mailBodyFilename = agentNotificationMap.get("mailData");
         String mailBody = 
-            localAuthorityRegistry.getBufferedCurrentLocalAuthorityResource(
-                    ILocalAuthorityRegistry.TXT_ASSETS_RESOURCE_TYPE, mailBodyFilename, false);
+            localAuthorityRegistry.getBufferedLocalAuthorityResource(
+                    Type.TXT, mailBodyFilename, false);
 		String mailSendTo = agentNotificationMap.get("mailSendTo");
 		
         String TAG_LOOP_OPEN = "<loop>";

@@ -140,7 +140,7 @@
     </property>
     <property name="ecitizenCreationNotifications">
       <map>
-        <entry key="mailData" value="RequestCreationConfirmation.txt"/>
+        <entry key="mailData" value="RequestCreationConfirmation"/>
         <entry key="mailSubject" value="Notification de création de votre demande"/>
         <entry key="attachPdf" value="true"/>
       </map>
@@ -150,7 +150,7 @@
         <entry>
           <key><value>Place Reservation</value></key>
           <map>
-            <entry key="mailData" value="PlaceReservationMailConfirmation.txt"/>
+            <entry key="mailData" value="PlaceReservationMailConfirmation"/>
             <entry key="attachPdf" value="true"/>
           </map>
         </entry>
@@ -163,7 +163,7 @@
           <map>
           	<entry key="mailSendTo" value="bor@zenexity.fr"/>
           	<entry key="mailSubject" value="[CapDémat] Alerte Paiement"/>
-            <entry key="mailData" value="NotCommitedPaymentsAlert.txt"/>
+            <entry key="mailData" value="NotCommitedPaymentsAlert"/>
           </map>
         </entry>
       </map>
@@ -174,7 +174,7 @@
           <key><value>CommitPaymentConfirmation</value></key>
           <map>
           	<entry key="mailSubject" value="[CapDémat] Confirmation de paiement"/>
-            <entry key="mailData" value="CommitPaymentNotification.txt"/>
+            <entry key="mailData" value="CommitPaymentNotification"/>
           </map>
         </entry>
       </map>

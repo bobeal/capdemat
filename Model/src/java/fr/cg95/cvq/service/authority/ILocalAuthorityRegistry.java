@@ -10,6 +10,7 @@ import org.springframework.core.io.Resource;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
@@ -22,19 +23,6 @@ import fr.cg95.cvq.permission.CvqPermissionException;
  */
 public interface ILocalAuthorityRegistry {
 
-    String XSL_RESOURCE_TYPE = "xsl";
-    String LOCAL_REFERENTIAL_RESOURCE_TYPE = "local_referential";
-    String EXTERNAL_REFERENTIAL_RESOURCE_TYPE = "external_referential";
-    String REQUEST_XML_RESOURCE_TYPE = "xml_request";
-    
-    String CSS_ASSETS_RESOURCE_TYPE = "css";
-    String IMAGE_ASSETS_RESOURCE_TYPE = "img";
-    String TXT_ASSETS_RESOURCE_TYPE = "txt";
-    String PDF_ASSETS_RESOURCE_TYPE = "pdf";
-    
-    String HTML_RESOURCE_TYPE = "html";
-    String MAIL_TEMPLATES_TYPE = "html/templates/mails";
-    
     LocalAuthorityConfigurationBean getLocalAuthorityBeanByName(final String name);
     LocalAuthorityConfigurationBean getLocalAuthorityBean(final LocalAuthority localAuthority);
 
@@ -86,34 +74,29 @@ public interface ILocalAuthorityRegistry {
     /**
      * Return a common referential resource located in the referential repository.
      * 
-     * @param resourceType one of {@link #XSL_RESOURCE_TYPE},
-     *                            {@link #LOCAL_REFERENTIAL_RESOURCE_TYPE}
-     *                         or {@link #EXTERNAL_REFERENTIAL_RESOURCE_TYPE}
+     * @param type one of the types defined in LocalAuthorityResource
      * @param filename name of the file to retrieve
      */
-    File getReferentialResource(final String resourceType, final String filename);
+    File getReferentialResource(final Type type, final String filename);
     
     /**
-     * Get resource pointed to by filename for the current local authority.
+     * Get resource pointed to by filename, for the specified type,
+     * for the current local authority.
      *
-     * @param resourceType one of {@link #IMAGE_ASSETS_RESOURCE_TYPE},
-     *                            {@link #LOCAL_REFERENTIAL_RESOURCE_TYPE}
-     *                         or {@link #EXTERNAL_REFERENTIAL_RESOURCE_TYPE}
+     * @param type one of the types defined in LocalAuthorityResource
      * @param filename file name of the resource to load
      * @param fallbackToDefault whether or not we fall back to default directory if resource is not
      *        in current local authority's directory
      */
-    @Deprecated
-    File getCurrentLocalAuthorityResource(final String resourceType, final String filename, 
-            final boolean fallbackToDefault);
+    File getLocalAuthorityResourceFile(final Type type, final String filename,
+        final boolean fallbackToDefault);
 
     /**
-     * Same as {@link #getCurrentLocalAuthorityResource(String, String, boolean)} but
+     * Same as {@link #getLocalAuthorityResource(Type, String, boolean)} but
      * with file content returned in a string.
      */
-    @Deprecated
-    String getBufferedCurrentLocalAuthorityResource(final String resourceType, 
-            final String filename, final boolean fallbackToDefault);
+    String getBufferedLocalAuthorityResource(final Type type,
+        final String filename, final boolean fallbackToDefault);
 
     /**
      * Same as {@link #getLocalAuthorityResourceFile(String, boolean)} but
@@ -131,15 +114,6 @@ public interface ILocalAuthorityRegistry {
      * Get the rules data for the given request type.
      */
     List<String> getLocalAuthorityRules(String requestTypeLabel);
-
-    /**
-     * Get resource pointed to by filename for the given local authority.
-     *
-     * @see #getCurrentLocalAuthorityResource
-     */
-    @Deprecated
-    File getLocalAuthorityResource(final String localAuthorityName, final String resourceType,
-            final String filename, final boolean fallbackToDefault);
 
     /**
      * Same as {@link #getLocalAuthorityResourceFile(String, LocalAuthorityResource.Version, boolean)}
@@ -193,19 +167,14 @@ public interface ILocalAuthorityRegistry {
     String getReferentialBase();
     
     String getAssetsBase();
-    
-    @Deprecated
-    void saveLocalAuthorityResource(String resourceType, String filename, byte[] data)
+
+    void saveLocalAuthorityResource(Type type, String filename, byte[] data)
         throws CvqException;
 
     /**
      * Save the data as the current version of this local authority resource in current local authority assets.
      */
     void saveLocalAuthorityResource(String id, byte[] data)
-        throws CvqException;
-
-    @Deprecated
-    void renameLocalAuthorityResource(String resourceType, String filename, String newFilename)
         throws CvqException;
 
     /**
@@ -233,8 +202,7 @@ public interface ILocalAuthorityRegistry {
     boolean hasLocalAuthorityResource(String id, Version version)
         throws CvqException;
 
-    @Deprecated
-    void removeLocalAuthorityResource(String resourceType, String filename);
+    void removeLocalAuthorityResource(Type type, String filename);
 
     /**
      * Deletes all versions of this local authority resource in current local authority assets.
@@ -247,18 +215,8 @@ public interface ILocalAuthorityRegistry {
      */
     void generateJPEGLogo();
 
-    List<File> getLocalResourceContent(String resourceType) throws CvqException;
-    List<File> getLocalResourceContent(String resourceType, String pattern) throws CvqException;
-
-    /**
-     * Updates local authority draft settings.
-     * 
-     * @param liveDuration the duration the draft will be kept in DB
-     * @param notificationBeforeDelete notification before draft removal
-     */
-    @Deprecated
-    void updateDraftSettings(Integer liveDuration, Integer notificationBeforeDelete) 
-        throws CvqException;
+    List<File> getLocalResourceContent(Type type) throws CvqException;
+    List<File> getLocalResourceContent(Type type, String pattern) throws CvqException;
 
     /**
      * Indicates if payments are enabled or disabled for current local authority

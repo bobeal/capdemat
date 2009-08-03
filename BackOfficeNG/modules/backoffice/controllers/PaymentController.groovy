@@ -1,3 +1,4 @@
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.users.payment.PaymentState
 import fr.cg95.cvq.business.users.payment.PaymentMode
 import fr.cg95.cvq.payment.IPaymentService
@@ -69,24 +70,21 @@ class PaymentController {
     }
 
     def displayedMessage = {
-        def name = "paymentlackmessage.html"
-        File file = localAuthorityRegistry.getCurrentLocalAuthorityResource(
-            ILocalAuthorityRegistry.HTML_RESOURCE_TYPE,name,false)
+        def name = "paymentlackmessage"
+        File file = localAuthorityRegistry.getLocalAuthorityResourceFile(
+            Type.HTML, name, false)
             
         if(!file.exists()) {
-            localAuthorityRegistry.saveLocalAuthorityResource(
-                    ILocalAuthorityRegistry.HTML_RESOURCE_TYPE, 
-                    name,"".getBytes());
-         
-            file = localAuthorityRegistry.getCurrentLocalAuthorityResource(
-                    ILocalAuthorityRegistry.HTML_RESOURCE_TYPE,name,false)
+            localAuthorityRegistry.saveLocalAuthorityResource(Type.HTML, name,
+                "".getBytes());
+            file = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                Type.HTML, name, false)
         }
         
         if(request.post) {
             def String content = (params.editor == null ? "" : params.editor.toString())
-            localAuthorityRegistry.saveLocalAuthorityResource(
-                    ILocalAuthorityRegistry.HTML_RESOURCE_TYPE, 
-                    name,content.getBytes());
+            localAuthorityRegistry.saveLocalAuthorityResource(Type.HTML, name,
+                content.getBytes());
 
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } else {

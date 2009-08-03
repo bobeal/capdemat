@@ -12,8 +12,7 @@ public class LocalAuthorityResourceAdaptorService {
                 localAuthorityResources.(it.key) = [:]
                 localAuthorityResources.(it.key).id = it.value.id
                 localAuthorityResources.(it.key).filename = it.value.filename
-                localAuthorityResources.(it.key).extension = it.value.extension
-                localAuthorityResources.(it.key).resourceType = it.value.resourceType
+                localAuthorityResources.(it.key).type = it.value.type
                 localAuthorityResources.(it.key).canFallback = it.value.canFallback()
             }
 

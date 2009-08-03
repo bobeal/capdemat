@@ -14,6 +14,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
 
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
@@ -819,8 +820,8 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 			String mailSubject = mailMap.get("mailSubject") != null ? mailMap.get("mailSubject") : "";
 			String mailBodyFilename = mailMap.get("mailData") != null ? mailMap.get("mailData") : "";
             String mailBody = 
-                localAuthorityRegistry.getBufferedCurrentLocalAuthorityResource(
-                        ILocalAuthorityRegistry.TXT_ASSETS_RESOURCE_TYPE, mailBodyFilename, false);
+                localAuthorityRegistry.getBufferedLocalAuthorityResource(
+                        Type.TXT, mailBodyFilename, false);
 			
             if (mailBody == null) {
                 logger.warn("notifyPaymentByMail() did not find mail template "

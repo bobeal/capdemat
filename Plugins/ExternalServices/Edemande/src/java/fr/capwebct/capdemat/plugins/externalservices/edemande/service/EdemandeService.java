@@ -608,8 +608,6 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
             new String[] {
                 "CapDemat",
                 new SimpleDateFormat("yyyyMMdd").format(new Date(sgr.getCreationDate().getTimeInMillis())),
-                sgr.getSubject().getIndividual().getFirstName(),
-                sgr.getSubject().getIndividual().getLastName(),
                 String.valueOf(sgr.getId())
             },
             "-");

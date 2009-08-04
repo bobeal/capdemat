@@ -420,10 +420,6 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         try {
             for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
                 Document document = documentService.getById(requestDoc.getDocumentId());
-                //Map<String, Object> doc = new HashMap<String, Object>();
-                //documents.add(doc);
-                //List<Map<String, String>> parts = new ArrayList<Map<String, String>>();
-                //doc.put("parts", parts);
                 int i = 1;
                 for (DocumentBinary documentBinary : document.getDatas()) {
                     Map<String, String> doc = new HashMap<String, String>();
@@ -440,7 +436,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                     } else if (IDocumentTypeService.SCHOOL_CERTIFICATE_TYPE.equals(
                         document.getDocumentType().getType())) {
                         doc.put("label", "Certificat d'inscription");
-                    } else if (IDocumentTypeService.SCHOOL_CERTIFICATE_TYPE.equals(
+                    } else if (IDocumentTypeService.REVENUE_TAXES_NOTIFICATION_TWO_YEARS_AGO.equals(
                         document.getDocumentType().getType())) {
                         doc.put("label", "Avis d'imposition");
                     } else {

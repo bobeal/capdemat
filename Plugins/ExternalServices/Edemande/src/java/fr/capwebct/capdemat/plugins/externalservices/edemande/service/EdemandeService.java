@@ -22,6 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
 import org.jaxen.dom.DOMXPath;
@@ -242,7 +243,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
      */
     private String searchIndividual(StudyGrantRequest sgr, String lastName, String subkey) {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("lastName", lastName);
+        model.put("lastName", StringUtils.upperCase(lastName));
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
         model.put("accountNumber", sgr.getAccountNumber());
@@ -266,7 +267,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
 
     private void createSubject(StudyGrantRequest sgr) {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("lastName", sgr.getSubject().getIndividual().getLastName());
+        model.put("lastName", StringUtils.upperCase(sgr.getSubject().getIndividual().getLastName()));
         model.put("address", sgr.getSubjectInformations().getSubjectAddress());
         if (sgr.getSubjectInformations().getSubjectPhone() != null && !sgr.getSubjectInformations().getSubjectPhone().trim().isEmpty()) {
             model.put("phone", sgr.getSubjectInformations().getSubjectPhone());
@@ -289,7 +290,8 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                     translationService.translate("homeFolder.adult.title.unknown", Locale.FRANCE));
             }
         }
-        model.put("firstName", sgr.getSubject().getIndividual().getFirstName());
+        model.put("firstName", WordUtils.capitalizeFully(
+            sgr.getSubject().getIndividual().getFirstName(), new char[]{' ', '-'}));
         model.put("birthPlace",
             sgr.getSubject().getIndividual().getBirthPlace() != null ?
             StringUtils.defaultString(sgr.getSubject().getIndividual().getBirthPlace().getCity())
@@ -320,13 +322,14 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         model.put("title",
             translationService.translate("homeFolder.adult.title."
             + sgr.getAccountHolderTitle().toString().toLowerCase(), Locale.FRANCE));
-        model.put("lastName", sgr.getAccountHolderLastName());
+        model.put("lastName", StringUtils.upperCase(sgr.getAccountHolderLastName()));
         //FIXME placeholders; are these really needed ?
         model.put("address", sgr.getSubjectInformations().getSubjectAddress());
         model.put("phone", "");
         model.put("birthPlace", "");
         //ENDFIXME
-        model.put("firstName", sgr.getAccountHolderFirstName());
+        model.put("firstName", WordUtils.capitalizeFully(
+            sgr.getAccountHolderFirstName(), new char[]{' ', '-'}));
         model.put("birthDate", formatDate(sgr.getAccountHolderBirthDate()));
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
@@ -364,8 +367,9 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         model.put("psCodeDemande",
             StringUtils.defaultIfEmpty(sgr.getEdemandeId(), "-1"));
         model.put("etatCourant", firstSending ? 2 : 1);
-        model.put("firstName", sgr.getSubject().getIndividual().getFirstName());
-        model.put("lastName", sgr.getSubject().getIndividual().getLastName());
+        model.put("firstName", WordUtils.capitalizeFully(
+            sgr.getSubject().getIndividual().getFirstName(), new char[]{' ', '-'}));
+        model.put("lastName", StringUtils.upperCase(sgr.getSubject().getIndividual().getLastName()));
         model.put("postalCode", sgr.getSubjectInformations().getSubjectAddress().getPostalCode());
         model.put("city", sgr.getSubjectInformations().getSubjectAddress().getCity());
         model.put("bankCode", sgr.getBankCode());

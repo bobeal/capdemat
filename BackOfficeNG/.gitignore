@@ -1,4 +1,4 @@
-BackOfficeNG-config.properties
+grails-app/conf/CapDemat-config.properties
 grails-app/conf/spring/applicationContext.xml
 grails-app/conf/spring/applicationContext-admin.xml
 grails-app/conf/spring/applicationContext-deployment.xml
@@ -8,4 +8,5 @@ grails-app/views/backoffice*
 grails-app/views/frontoffice*
 lib/*.jar
 stacktrace.log
+capdemat.log
 

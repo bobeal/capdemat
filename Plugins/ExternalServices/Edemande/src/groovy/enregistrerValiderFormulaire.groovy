@@ -13,7 +13,7 @@
    <msStatut>${msStatut.encodeAsXML()}</msStatut>
    <msAdresse>/dep/?formID=dep</msAdresse>
    <msIdentifiant/>
-   <msDescription>${"TEST-" + externalRequestId.encodeAsXML()}</msDescription>
+   <msDescription>${"Mobil'études".encodeAsXML()}</msDescription>
    <mdMtProjetHT/>
    <mdMtProjetTTC/>
    <moTvaProjet>

@@ -236,7 +236,7 @@
   <!-- =============================== RELEASE TARGETS ================================= -->
   <!-- ================================================================================= -->
 
-  <target name="release" depends="prepare-configfiles, deploy-libs">
+  <target name="release" depends="prepare-configfiles, deploy-libs, prepare-webapp-fobo">
     <ant dir="${serviceexporter.dir}" target="war" />
     <ant dir="${bong.dir}" target="war" />
     <ant dir="${model.dir}" target="admin-package" />

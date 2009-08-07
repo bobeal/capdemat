@@ -1,90 +1,97 @@
 <project name="CapDemat - Libraries" basedir=".">
 
-	<description>Ant build file for the CapDemat - Libraries project</description>
+    <description>Ant build file for the CapDemat - Libraries project</description>
 
-	<target name="init">
-		<property file="build.properties" />
-	</target>
+    <target name="init">
+        <property file="build.properties" />
+    </target>
 
-	<!-- still used for ServiceExporter webapp -->
-	<target name="runtime-libs" depends="init">
+    <fileset id="capdemat-core-libs" dir="${deploy.model.dir}">
+        <include name="CapDemat-Model-*.jar" />
+        <include name="CapDemat-RequestSchemas-*.jar" />
+        <include name="CapDemat-ExternalServicesSchemas-*.jar" />
+    </fileset>
 
-		<copy todir="${project.lib.dir}" flatten="true">
-			<fileset dir="${postgresql.jdbc.lib.dir}" />
-			<fileset dir="${mail.lib.dir}" />
-			<fileset dir="${jaf.lib.dir}" />
-			<fileset dir="${lowagie.lib.dir}" />
-			<!-- CapDemat jars -->
-			<fileset dir="${deploy.model.dir}" />
-			<fileset dir="${deploy.plugins.dir}" />
-			<fileset dir="${hibernate.lib.dir}" />
-			<fileset dir="${csvobjects.lib.dir}" />
-			<fileset dir="${common.lib.dir}">
-				<include name="*.jar" />
-				<exclude name="commons-dbcp-1.1.jar" />
-				<exclude name="commons-pool.jar" />
-				<exclude name="commons-http*.jar" />
-			</fileset>
-			<fileset dir="${fop.lib.dir}" />
-			<fileset dir="${oro.lib.dir}" />
-			<fileset dir="${jaxen.lib.dir}" />
-			<fileset dir="${log4j.lib.dir}" />
-			<fileset dir="${axis.lib.dir}" />
-			<fileset dir="${xmlbean.lib.dir}" />
-			<fileset dir="${saxon.lib.dir}" />
-			<fileset dir="${spring.lib.dir}" />
-			<fileset dir="${sun.lib.dir}">
-				<include name="saaj-*.jar" />
-			</fileset>
-			<fileset dir="${aspectj.lib.dir}">
-				<include name="aspectjweaver-*.jar" />
-			</fileset>
-			<!--
-			<fileset dir="${cleversms.lib.dir}">
-				<include name="*.jar" />
-			</fileset>
-			-->
-			<fileset dir="${joda.lib.dir}" />
-			<fileset dir="${jsch.lib.dir}" />
-			<fileset dir="${groovy.lib.dir}" />
-		</copy>
-	</target>
+    <fileset id="capdemat-plugins" dir="${deploy.plugins.dir}">
+        <include name="CapDemat-Plugin-ExternalServices-CapwebctPaymentModule-4.0.jar" />
+        <include name="CapDemat-Plugin-ExternalServices-Edemande-4.0.jar" />
+        <include name="CapDemat-Plugin-ExternalServices-Horanet-4.0.jar" />
+        <include name="CapDemat-Plugin-PaymentProviders-Payline-4.0.jar" />
+        <include name="CapDemat-Plugin-PaymentProviders-Spplus-4.0.jar" />
+    </fileset>
 
-	<target name="bong-runtime-libs" depends="init">
-		<copy todir="${bong.dir}/lib" flatten="true">
-			<fileset dir="${jaf.lib.dir}" />
-			<fileset dir="${aspectj.lib.dir}">
-				<include name="aspectjweaver-*.jar" />
-			</fileset>
-			<fileset dir="${fop.lib.dir}" />
-			<fileset dir="${hibernate.lib.dir}">
-				<include name="c3p0-*.jar" />
-			</fileset>
-			<fileset dir="${deploy.model.dir}">
-				<include name="CapDemat-Model-*.jar" />
-				<include name="CapDemat-RequestSchemas-*.jar" />
-			</fileset>
-			<fileset dir="${deploy.plugins.dir}">
-				<include name="CapDemat-Plugin-ExternalServices-Edemande-*.jar" />
-			</fileset>
-			<fileset dir="${csvobjects.lib.dir}" />
-			<fileset dir="${xmlbean.lib.dir}" />
-			<fileset dir="${mail.lib.dir}" />
-			<fileset dir="${postgresql.jdbc.lib.dir}" />
-			<fileset dir="${quartz.lib.dir}" />
-			<fileset dir="${saxon.lib.dir}" />
+    <!-- still used for ServiceExporter webapp -->
+    <target name="runtime-libs" depends="init">
+
+        <copy todir="${project.lib.dir}" flatten="true">
+            <fileset refid="capdemat-core-libs" />
+            <fileset refid="capdemat-plugins" />
+            <fileset dir="${postgresql.jdbc.lib.dir}" />
+            <fileset dir="${mail.lib.dir}" />
+            <fileset dir="${jaf.lib.dir}" />
+            <fileset dir="${lowagie.lib.dir}" />
+            <fileset dir="${hibernate.lib.dir}" />
+            <fileset dir="${csvobjects.lib.dir}" />
+            <fileset dir="${common.lib.dir}">
+                <include name="*.jar" />
+                <exclude name="commons-dbcp-1.1.jar" />
+                <exclude name="commons-pool.jar" />
+                <exclude name="commons-http*.jar" />
+            </fileset>
+            <fileset dir="${fop.lib.dir}" />
+            <fileset dir="${oro.lib.dir}" />
+            <fileset dir="${jaxen.lib.dir}" />
+            <fileset dir="${log4j.lib.dir}" />
+            <fileset dir="${axis.lib.dir}" />
+            <fileset dir="${xmlbean.lib.dir}" />
+            <fileset dir="${saxon.lib.dir}" />
+            <fileset dir="${spring.lib.dir}" />
+            <fileset dir="${sun.lib.dir}">
+                <include name="saaj-*.jar" />
+            </fileset>
+            <fileset dir="${aspectj.lib.dir}">
+                <include name="aspectjweaver-*.jar" />
+            </fileset>
+            <fileset dir="${joda.lib.dir}" />
+            <fileset dir="${jsch.lib.dir}" />
+            <fileset dir="${groovy.lib.dir}" />
+        </copy>
+    </target>
+
+    <target name="bong-runtime-libs" depends="init">
+        <copy todir="${bong.dir}/lib" flatten="true">
+            <fileset refid="capdemat-core-libs" />
+            <fileset refid="capdemat-plugins" />
+            <fileset dir="${jaf.lib.dir}" />
+            <fileset dir="${aspectj.lib.dir}">
+                <include name="aspectjweaver-*.jar" />
+            </fileset>
+            <fileset dir="${fop.lib.dir}" />
+            <fileset dir="${hibernate.lib.dir}">
+                <include name="c3p0-*.jar" />
+            </fileset>
+            <fileset dir="${csvobjects.lib.dir}" />
+            <fileset dir="${xmlbean.lib.dir}" />
+            <fileset dir="${mail.lib.dir}" />
+            <fileset dir="${postgresql.jdbc.lib.dir}" />
+            <fileset dir="${quartz.lib.dir}" />
+            <fileset dir="${saxon.lib.dir}" />
             <fileset dir="${joda.lib.dir}" />
             <fileset dir="${opencsv.lib.dir}" />
-			<fileset dir="${jsch.lib.dir}" />
-			<fileset dir="${spring.lib.dir}">
-				<include name="spring-oxm*.jar" />
-				<include name="spring-ws*.jar" />
-				<include name="spring-xml*.jar" />
-			</fileset>
-			<fileset dir="${common.lib.dir}">
-				<include name="commons-codec.jar" />
-			</fileset>
-		</copy>
-	</target>
+            <fileset dir="${jsch.lib.dir}" />
+            <fileset dir="${spring.lib.dir}">
+                <include name="spring-oxm*.jar" />
+                <include name="spring-ws*.jar" />
+                <include name="spring-xml*.jar" />
+            </fileset>
+            <fileset dir="${common.lib.dir}">
+                <include name="commons-codec.jar" />
+            </fileset>
+            <fileset dir="${axis.lib.dir}" />
+            <fileset dir="${spring.lib.dir}">
+                <include name="jdom*.jar" />
+            </fileset>
+        </copy>
+    </target>
 
 </project>

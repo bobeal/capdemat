@@ -15,20 +15,11 @@
       <props>
         <prop key="/spplus_bo_callback.html">spplusController</prop>
         <prop key="/spplus_user_callback.jsp">spplusUserCallbackController</prop>
-        <prop key="/spplus_test_form.html">spplusTestFormController</prop>
         <prop key="/payline_lost_trans.html">paylineController</prop>
       </props>
     </property>
   </bean>
 
-  <bean id="spplusTestFormController"
-    class="fr.cg95.cvq.exporter.payment.SpplusTestFormController">
-    <property name="paymentService" ref="paymentService"/>
-    <property name="formView" value="spplus_test_form"></property>
-    <property name="validateOnBinding" value="false"/>
-    <property name="commandClass" value="fr.cg95.cvq.exporter.payment.UserData"/>    
-  </bean>
-  
   <bean id="spplusUserCallbackController"
     class="fr.cg95.cvq.exporter.payment.SpplusUserCallbackController">
   </bean>

@@ -124,6 +124,7 @@
   <target name="deploy-libs" depends="init">
     <ant dir="${generator.dir}" target="deploy" />
     <ant dir="${model.dir}" target="deploy" />
+    <ant dir="${serviceexporter.dir}" target="deploy" />
   </target>
 
   <target name="deploy-xmlschemas" depends="init">
@@ -132,6 +133,10 @@
 
   <target name="deploy-model" depends="deploy-xmlschemas">
     <ant dir="${model.dir}" target="deploy" />
+  </target>
+
+  <target name="deploy-serviceexporter" depends="deploy-model">
+    <ant dir="${serviceexporter.dir}" target="deploy" />
   </target>
 
   <!-- ================================================================================= -->

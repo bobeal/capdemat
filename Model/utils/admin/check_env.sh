@@ -6,6 +6,12 @@ else
     echo "Environment variable CAPDEMAT_HOME must be set !";
 fi
 
+if [ -n "$CAPDEMAT_WEBAPP" ]; then
+  echo "CAPDEMAT_WEBAPP is $CAPDEMAT_WEBAPP";
+else
+  echo "Environment variable CAPDEMAT_WEBAPP must be set !";
+fi
+
 if [ "$1" = "deployment" ]; then
   if [ -n "$CAPDEMAT_LIB_PATH" ]; then
       echo "CAPDEMAT_LIB_PATH is $CAPDEMAT_LIB_PATH";
@@ -15,6 +21,9 @@ if [ "$1" = "deployment" ]; then
 fi
 
 if [ -z "$CAPDEMAT_HOME" ]; then
+  exit;
+fi
+if [ -z "$CAPDEMAT_WEBAPP" ]; then
   exit;
 fi
 if [ "$1" = "deployment" -a -z "$CAPDEMAT_LIB_PATH" ]; then

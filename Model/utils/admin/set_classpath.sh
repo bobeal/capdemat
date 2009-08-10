@@ -31,4 +31,6 @@ for dir in $(echo $CommonLibPath | sed 's/:/ /g'); do
   done
 done
 
+CLASSPATH="${CLASSPATH}:$CAPDEMAT_WEBAPP"
+
 export CLASSPATH

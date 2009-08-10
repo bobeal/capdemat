@@ -114,7 +114,7 @@ class SessionFilters {
             		
             	if (org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_mocking == 'true') {
             		if (session.getAttribute(CASFilter.CAS_FILTER_USER) == null) {
-            			response.sendRedirect('/BackOfficeNG/cas.gsp')
+            			response.sendRedirect('/CapDemat/cas.gsp')
             			return false
             		} else {
             			return true

@@ -27,6 +27,8 @@ fake_payment.url=https://localhost/service/fakePayment
 
 translationService.cacheSeconds = 0
 
+i18n.basedir = /WEB-INF
+
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################

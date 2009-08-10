@@ -64,7 +64,7 @@ plugins.externalservices.edemande.ssh.port=22
 plugins.externalservices.edemande.ssh.prvkey=-----BEGIN RSA PRIVATE KEY-----\nProc-Type: 4,ENCRYPTED\nDEK-Info: DES-EDE3-CBC,AAAAAAAAAAAAAAAA\n\nbase64==\n-----END RSA PRIVATE KEY-----
 plugins.externalservices.edemande.ssh.passphrase=passphrase
 plugins.externalservices.edemande.ssh.basedir=/tmp
-plugins.externalservices.edemande.ssh.hostkey=hostkeybase64==
+plugins.externalservices.edemande.ssh.hostkey=AAAAB3NzaC1yc2EAAAABIwAAAQEA5iEnOBgL/AAzSe6siuqEOrJJmJiCO4Vmb3t+wWCcphE/d/UoSea33fcjcoMflQ9ppK/PmqFWTUW87anEuSW1a3ROqyT6kgnqDAj5Nz2zHMrR9SjdykNNjuPd6Y587+5y61JBtUzi20Z7T9uicGImXMXKegobC9gZln+txEcKd/GtTDJES4nLXStFJnaC3Gk4EUWQxuZbnyRCLlvW0BYXaafSiTck5nFuhGVPy+IU0jOAQ3s9iQWucF2DUva8QJuTqqccU9nZqyUb8kQWF2Xr12LclUvwaT/cBZf4JTh+eLxPBiPcS3N3QM94rT4SBm8FAnKpk82vzYwkBKXvLx78aQ==
 
 # PaymentProviders - Spplus
 plugins.paymentproviders.spplus.payment_url=https://www.spplus.net/IPaiement/initialiserPaiement.do?

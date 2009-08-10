@@ -35,12 +35,12 @@ grails.enable.native2ascii = true
 log4j {
     appender.stdout = "org.apache.log4j.RollingFileAppender"
     appender.'stdout.layout'="org.apache.log4j.PatternLayout"
-    appender.'stdout.File'="capdemat.log"
+    appender.'stdout.layout.ConversionPattern'='%d %t-%p [%c] - %m%n'
     appender.'stdout.MaxFileSize'="20000KB"
     appender.'stdout.MaxBackupIndex'="10"
     appender.errors = "org.apache.log4j.FileAppender"
     appender.'errors.layout'="org.apache.log4j.PatternLayout"
-    appender.'errors.File'="stacktrace.log"
+    appender.'errors.layout.ConversionPattern'='%d %t-%p [%c] - %m%n'
     rootLogger="error,stdout"
     logger {
         StackTrace="error,errors"
@@ -167,8 +167,8 @@ environments {
     development {
         i18n.basedir = "classpath:"
         log4j {
-            appender.'stdout.layout.ConversionPattern'='[%d{ABSOLUTE}] %c{2} %m%n'
-            appender.'errors.layout.ConversionPattern'='[%d{ABSOLUTE}] %c{2} %m%n'
+            appender.'stdout.File'="capdemat.log"
+            appender.'errors.File'="stacktrace.log"
             logger {
                 grails="debug"
             }
@@ -177,8 +177,8 @@ environments {
     production {
         i18n.basedir = "/WEB-INF"
         log4j {
-            appender.'stdout.layout.ConversionPattern'='[%d{ISO8601}] %c{2} %m%n'
-            appender.'errors.layout.ConversionPattern'='[%d{ISO8601}] %c{2} %m%n'
+            appender.'stdout.File'="\${BackOfficeNG}/WEB-INF/capdemat.log"
+            appender.'errors.File'="\${BackOfficeNG}/WEB-INF/stacktrace.log"
             logger {
                 grails="error"
             }

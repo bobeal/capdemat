@@ -124,7 +124,8 @@
             </div>
             <h3><g:message code="request.step.note.label" /></h3>
             <g:message code="request.step.note.desc" />
-            <textarea name="requestNote" rows="" cols=""></textarea>
+            <textarea id="requestNote" name="requestNote" rows="" cols="" maxlength="1024"></textarea>
+            <label><span id="requestNoteLimit"></span></label>
             <h3><g:message code="request.step.${step.name}.label" /></h3>
             <g:if test="\${!hasHomeFolder}">
               <g:render template="/frontofficeRequestType/outOfAccountValidation" />

@@ -3,6 +3,7 @@ package fr.cg95.cvq.util.admin;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,19 +40,35 @@ public class RequestWorkflowNavigator {
     private static IRequestWorkflowService requestWorkflowService;
     private static String defaultMotive =
         "Automatic state change by RequestWorkflowNavigator";
+    private static List<Request> requests;
+    private static Set<String> successes = new HashSet<String>();
+    private static Set<String> failures = new HashSet<String>();
+    private static String localAuthority;
+    private static String requestTypeLabel;
+    private static RequestState initialState;
+    private static RequestState targetState;
 
     public static void main(final String[] args) throws Exception {
         Logger rootLogger = Logger.getRootLogger();
         rootLogger.setLevel(Level.OFF);
         logger.setLevel(Level.INFO);
         if (args.length == 0 || args[0].equals("help")
-            || (args.length != 4 && args.length != 5)) {
+            || (args.length != 5 && args.length != 6)) {
             printUsageAndExit();
         }
-        String requestTypeLabel = args[1];
-        String initialState = args[2];
-        String targetState = args[3];
-        String motive = args.length == 5 ? args[4] : defaultMotive;
+        localAuthority = args[1];
+        requestTypeLabel = args[2];
+        initialState = RequestState.forString(args[3]);
+        if (!initialState.toString().equals(args[3])) {
+            System.out.println("ERROR : unrecognized initial state " + args[3]);
+            System.exit(0);
+        }
+        targetState = RequestState.forString(args[4]);
+        if (!targetState.toString().equals(args[4])) {
+            System.out.println("ERROR : unrecognized target state " + args[4]);
+            System.exit(0);
+        }
+        String motive = args.length == 6 ? args[5] : defaultMotive;
         ClassPathXmlApplicationContext cpxa =
             SpringApplicationContextLoader.loadContext(args[0]);
         localAuthorityRegistry =
@@ -60,18 +77,6 @@ public class RequestWorkflowNavigator {
             (IRequestService)cpxa.getBean("defaultRequestService");
         requestWorkflowService =
             (IRequestWorkflowService)cpxa.getBean("requestWorkflowService");
-        RequestWorkflowNavigator requestWorkflowNavigator =
-            new RequestWorkflowNavigator();
-        localAuthorityRegistry.browseAndCallback(requestWorkflowNavigator,
-            "navigateWorkflow",
-            new Object[]{requestTypeLabel, initialState, targetState, motive});
-        System.exit(0);
-    }
-
-    public void navigateWorkflow(String requestTypeLabel, String initial,
-        String target, String motive) {
-        RequestState initialState = RequestState.forString(initial);
-        RequestState targetState = RequestState.forString(target);
         if (!requestWorkflowService.getStatesBefore(targetState)
             .contains(initialState)) {
             System.out.println("FAILED : Target state " + targetState +
@@ -79,44 +84,15 @@ public class RequestWorkflowNavigator {
                 + initialState + " !");
             printUsageAndExit();
         }
-        Set<Critere> criteres = new HashSet<Critere>();
-        Critere critere = new Critere(Request.SEARCH_BY_STATE,
-                initialState, Critere.EQUALS);
-        criteres.add(critere);
-        critere = new Critere(Request.SEARCH_BY_REQUEST_TYPE_LABEL,
-            requestTypeLabel, Critere.EQUALS);
-        criteres.add(critere);
-        List<Request> requests;
-        Set<Long> successes = new HashSet<Long>();
-        Set<Long> failures = new HashSet<Long>();
-        try {
-            requests = requestService.get(criteres, null, null, 0, 0);
-        } catch (CvqException e) {
-            e.printStackTrace();
-            System.out.println("Couldn't get the list of requests, aborting.");
-            return;
-        }
+        RequestWorkflowNavigator requestWorkflowNavigator =
+            new RequestWorkflowNavigator();
+        localAuthorityRegistry.callback(localAuthority,
+            requestWorkflowNavigator, "setRequests", new Object[0]);
         System.out.println("Found " + requests.size() + " requests to update");
         for (Request request : requests) {
-            System.out.print("Handling request " + request.getId() + "... ");
-            try {
-                requestWorkflowService.updateRequestState(request.getId(),
-                    targetState, motive);
-                System.out.println("OK");
-                successes.add(request.getId());
-            } catch (CvqInvalidTransitionException e) {
-                e.printStackTrace();
-                System.out.println("FAILED");
-                failures.add(request.getId());
-            } catch (CvqObjectNotFoundException e) {
-                e.printStackTrace();
-                System.out.println("FAILED");
-                failures.add(request.getId());
-            } catch (CvqException e) {
-                e.printStackTrace();
-                System.out.println("FAILED");
-                failures.add(request.getId());
-            }
+            localAuthorityRegistry.callback(localAuthority,
+                requestWorkflowNavigator, "navigateWorkflow",
+                new Object[]{request.getId().toString(), motive});
         }
         if (failures.isEmpty()) {
             System.out.println("All request states were successfully updated");
@@ -127,32 +103,73 @@ public class RequestWorkflowNavigator {
         try {
             FileOutputStream fos =
                 new FileOutputStream(File.createTempFile("successfull", ".txt"));
-            for (Long id : successes) fos.write((id + "\n").getBytes());
+            for (String id : successes) fos.write((id + "\n").getBytes());
         } catch(IOException ioe){
             ioe.printStackTrace();
             System.out.println(
                 "Couldn't write the list of successful IDs to disk; displaying them here :");
-            for (Long id : successes) System.out.println(id);
+            for (String id : successes) System.out.println(id);
         }
         try {
             FileOutputStream fos =
                 new FileOutputStream(File.createTempFile("failed", ".txt"));
-            for (Long id : failures) fos.write((id + "\n").getBytes());
+            for (String id : failures) fos.write((id + "\n").getBytes());
         } catch(IOException ioe) {
             ioe.printStackTrace();
             System.out.println(
                 "Couldn't write the list of failed IDs to disk; displaying them here :");
-            for (Long id : failures) System.out.println(id);
+            for (String id : failures) System.out.println(id);
+        }
+        System.out.println("Exiting.");
+        System.exit(0);
+    }
+
+    public void navigateWorkflow(String requestId, String motive) {
+        System.out.print("Handling request " + requestId + "... ");
+        try {
+            requestWorkflowService.updateRequestState(Long.valueOf(requestId),
+                targetState, motive);
+            System.out.println("OK");
+            successes.add(requestId);
+        } catch (CvqInvalidTransitionException e) {
+            e.printStackTrace();
+            System.out.println("FAILED");
+            failures.add(requestId);
+        } catch (CvqObjectNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("FAILED");
+            failures.add(requestId);
+        } catch (CvqException e) {
+            e.printStackTrace();
+            System.out.println("FAILED");
+            failures.add(requestId);
         }
     }
 
     private static void printUsageAndExit() {
-        System.out.println(" USAGE -              ./invoke_request_validator.sh [MODE] [REQUEST TYPE LABEL] [INITIAL STATE] [TARGET STATE]");
+        System.out.println(" USAGE -              ./invoke_request_validator.sh [LOCAL AUTHORITY] [MODE] [REQUEST TYPE LABEL] [INITIAL STATE] [TARGET STATE] [MOTIVE]");
         System.out.println("  - [MODE] : One of { deployment | dev | help }");
+        System.out.println("  - [LOCAL AUTHORITY] : The local authority to handle");
         System.out.println("  - [REQUEST TYPE LABEL] : The request type to handle");
         System.out.println("  - [INITIAL STATE] : The state of requests to handle");
         System.out.println("  - [TARGET STATE] : The target state; must be one transition away from initial state");
         System.out.println("  - [MOTIVE] : Motive for state change (optional, default value : \"" + defaultMotive + "\")");
         System.exit(0);
+    }
+
+    public void setRequests() {
+        Set<Critere> criteres = new HashSet<Critere>();
+        criteres.add(new Critere(Request.SEARCH_BY_STATE, initialState,
+            Critere.EQUALS));
+        criteres.add(new Critere(Request.SEARCH_BY_REQUEST_TYPE_LABEL,
+            requestTypeLabel, Critere.EQUALS));
+        requests = Collections.emptyList();
+        try {
+            requests = requestService.get(criteres, null, null, 0, 0);
+        } catch (CvqException e) {
+            e.printStackTrace();
+            System.out.println("Couldn't get the list of requests, aborting.");
+            System.exit(0);
+        }
     }
 }

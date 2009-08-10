@@ -165,7 +165,6 @@ jcaptchas {
 
 environments {
     development {
-        i18n.basedir = "classpath:"
         log4j {
             appender.'stdout.File'="capdemat.log"
             appender.'errors.File'="stacktrace.log"
@@ -175,7 +174,6 @@ environments {
         }
     }
     production {
-        i18n.basedir = "/WEB-INF"
         log4j {
             appender.'stdout.File'="\${BackOfficeNG}/WEB-INF/capdemat.log"
             appender.'errors.File'="\${BackOfficeNG}/WEB-INF/stacktrace.log"

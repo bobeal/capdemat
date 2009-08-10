@@ -1991,7 +1991,7 @@
         id int8 not null,
         user_id int8,
         type varchar(32),
-        note varchar(255),
+        note varchar(1024),
         date timestamp,
         request_id int8,
         primary key (id)

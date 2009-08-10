@@ -557,9 +557,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           infoTabView.addTab( new yw.Tab({
               label: 'Historique', dataSrc: zenexity.capdemat.baseUrl + '/requestActions/' + zcb.requestId,
               cacheData: true, active: true }));
-          infoTabView.addTab( new yw.Tab({
-              label: 'Notes', dataSrc: zenexity.capdemat.baseUrl + '/requestNotes/' + zcb.requestId
-              }));
+          var notesTab = new yw.Tab({
+            label: 'Notes', dataSrc: zenexity.capdemat.baseUrl + '/requestNotes/' + zcb.requestId
+          });
+          infoTabView.addTab(notesTab);
           infoTabView.addTab( new yw.Tab({
               label: 'Compte', dataSrc: zenexity.capdemat.baseUrl + '/homeFolder/' + zcb.requestId,
               cacheData: true }));
@@ -587,6 +588,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           yue.on('requestInformation','click', zcbr.Information.clickEvent.dispatch,
             zcbr.Information.clickEvent, true
           );
+          notesTab.addListener('contentChange', zcbr.Information.limitNote);
       },
       
       getHandler : function(e) {
@@ -594,7 +596,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           if (/filterNotes_.*/.test(target.id)) return "filterNotes";
           return target.id;
       },
-      
+      limitNote : function(e) {
+        yue.on(yud.get("note"), 'keyup', function(e) {
+          zct.limitArea("note",
+            yud.get("note").getAttribute('maxlength'), "noteLimit");
+        });
+        zct.limitArea("note",
+          yud.get("note").getAttribute('maxlength'), "noteLimit");
+      },
       submitNote : function(e) {
           var formEl = yud.getAncestorByTagName(yue.getTarget(e), 'form');
           
@@ -625,6 +634,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       refreshNotes : function(el, msg) {
           zct.doAjaxCall('/requestNotes/' + zcb.requestId + '?type=' + zct.val(yud.get('requestNotesType')), null, function(o) {
               zct.html(el, o.responseText);     
+              zcbr.Information.limitNote();
               if (!!msg) zct.Notifier.processMessage('success',msg,'noteMsg');
           });
       },

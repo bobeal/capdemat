@@ -89,6 +89,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     private static final String SUBJECT_TRACE_SUBKEY = "subject";
     private static final String ACCOUNT_HOLDER_TRACE_SUBKEY = "accountHolder";
     private DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    private boolean sendDocumentsWithRequest = false;
 
     public void init() {
         this.homeFolderService = (IHomeFolderService)beanFactory.getBean("homeFolderService");
@@ -422,37 +423,39 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         List<Map<String, String>> documents = new ArrayList<Map<String, String>>();
         model.put("documents", documents);
         try {
-            for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
-                Document document = documentService.getById(requestDoc.getDocumentId());
-                int i = 1;
-                for (DocumentBinary documentBinary : document.getDatas()) {
-                    Map<String, String> doc = new HashMap<String, String>();
-                    documents.add(doc);
-                    String filename = org.springframework.util.StringUtils.arrayToDelimitedString(
-                        new String[] {
-                            "CapDemat", document.getDocumentType().getName(),
-                            String.valueOf(sgr.getId()), String.valueOf(i++)
-                        }, "-");
-                    doc.put("filename", filename);
-                    if (IDocumentTypeService.BANK_IDENTITY_RECEIPT_TYPE.equals(
-                        document.getDocumentType().getType())) {
-                        doc.put("label", "RIB");
-                    } else if (IDocumentTypeService.SCHOOL_CERTIFICATE_TYPE.equals(
-                        document.getDocumentType().getType())) {
-                        doc.put("label", "Certificat d'inscription");
-                    } else if (IDocumentTypeService.REVENUE_TAXES_NOTIFICATION_TWO_YEARS_AGO.equals(
-                        document.getDocumentType().getType())) {
-                        doc.put("label", "Avis d'imposition");
-                    } else {
-                        // should never happen
-                        doc.put("label", document.getDocumentType().getName());
-                    }
-                    try {
-                        doc.put("remotePath", uploader.upload(filename, documentBinary.getData()));
-                    } catch (JSchException e) {
-                        addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, "Erreur à l'envoi d'une pièce jointe");
-                    } catch (SftpException e) {
-                        addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, "Erreur à l'envoi d'une pièce jointe");
+            if (sendDocumentsWithRequest) {
+                for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
+                    Document document = documentService.getById(requestDoc.getDocumentId());
+                    int i = 1;
+                    for (DocumentBinary documentBinary : document.getDatas()) {
+                        Map<String, String> doc = new HashMap<String, String>();
+                        documents.add(doc);
+                        String filename = org.springframework.util.StringUtils.arrayToDelimitedString(
+                            new String[] {
+                                "CapDemat", document.getDocumentType().getName(),
+                                String.valueOf(sgr.getId()), String.valueOf(i++)
+                            }, "-");
+                        doc.put("filename", filename);
+                        if (IDocumentTypeService.BANK_IDENTITY_RECEIPT_TYPE.equals(
+                            document.getDocumentType().getType())) {
+                            doc.put("label", "RIB");
+                        } else if (IDocumentTypeService.SCHOOL_CERTIFICATE_TYPE.equals(
+                            document.getDocumentType().getType())) {
+                            doc.put("label", "Certificat d'inscription");
+                        } else if (IDocumentTypeService.REVENUE_TAXES_NOTIFICATION_TWO_YEARS_AGO.equals(
+                            document.getDocumentType().getType())) {
+                            doc.put("label", "Avis d'imposition");
+                        } else {
+                            // should never happen
+                            doc.put("label", document.getDocumentType().getName());
+                        }
+                        try {
+                            doc.put("remotePath", uploader.upload(filename, documentBinary.getData()));
+                        } catch (JSchException e) {
+                            addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, "Erreur à l'envoi d'une pièce jointe");
+                        } catch (SftpException e) {
+                            addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, "Erreur à l'envoi d'une pièce jointe");
+                        }
                     }
                 }
             }
@@ -705,6 +708,12 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     @Override
     public void checkConfiguration(ExternalServiceBean externalServiceBean)
         throws CvqConfigurationException {
+        String sendDocumentsWithRequest =
+            (String)externalServiceBean.getProperty("sendDocumentsWithRequest");
+        if (sendDocumentsWithRequest != null) {
+            this.sendDocumentsWithRequest =
+                Boolean.parseBoolean(sendDocumentsWithRequest);
+        }
     }
 
     @Override

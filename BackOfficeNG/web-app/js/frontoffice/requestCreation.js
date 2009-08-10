@@ -83,6 +83,14 @@
         
         yue.on('draftForm','submit',zcf.RequestCreation.submitDraft);
         
+        yue.on(yud.get("requestNote"), 'keyup', function(e) {
+          zct.limitArea("requestNote",
+            yud.get("requestNote").getAttribute('maxlength'),
+            "requestNoteLimit");
+        });
+        zct.limitArea("requestNote",
+          yud.get("requestNote").getAttribute('maxlength'), "requestNoteLimit");
+
         var index = zct.getElementsByName('currentTabIndex','input',yud.get('draftForm'))[0].value;
         if (!!index) zcf.RequestCreation.requestFormTabView.set('activeIndex',index);
       },

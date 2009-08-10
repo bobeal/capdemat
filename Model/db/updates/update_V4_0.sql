@@ -572,6 +572,7 @@ alter table request_note rename column agent_id to user_id;
 alter table request rename column last_intervening_agent_id to last_intervening_user_id;
 
 alter table request_note add column date timestamp;
+alter table request_note alter column note type varchar(1024);
 
 update request_note set type = 'Internal' where type like '%Internal';
 update request_note set type = 'Public' where type like '%External' or type like 'Default%';

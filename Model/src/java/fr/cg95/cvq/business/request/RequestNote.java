@@ -69,6 +69,7 @@ public class RequestNote implements Serializable {
     /**
      * @hibernate.property
      *  column="note"
+     *  length="1024"
      */
     public String getNote() {
         return this.note;

@@ -2,6 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="Zenexity" />
+    <meta name="designer" content="Zenexity" />
+    <meta name="copyright" content="CG95" />
     <title>CapDémat - FrontOffice</title>
     <g:render template="/shared/fo_resources" />
     <g:layoutHead />

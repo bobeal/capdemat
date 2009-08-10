@@ -124,6 +124,7 @@
   <target name="deploy-libs" depends="init">
     <ant dir="${generator.dir}" target="deploy" />
     <ant dir="${model.dir}" target="deploy" />
+    <ant dir="${serviceexporter.dir}" target="deploy" />
   </target>
 
   <target name="deploy-xmlschemas" depends="init">
@@ -132,6 +133,10 @@
 
   <target name="deploy-model" depends="deploy-xmlschemas">
     <ant dir="${model.dir}" target="deploy" />
+  </target>
+
+  <target name="deploy-serviceexporter" depends="deploy-model">
+    <ant dir="${serviceexporter.dir}" target="deploy" />
   </target>
 
   <!-- ================================================================================= -->
@@ -240,6 +245,7 @@
     <ant dir="${serviceexporter.dir}" target="war" />
     <ant dir="${bong.dir}" target="war" />
     <ant dir="${model.dir}" target="admin-package" />
+    <ant dit="${assets.dir}" target="assets-template" />
   </target>
 
   <target name="build-war-serviceexporter" depends="prepare-configfiles, deploy-libs">
@@ -252,6 +258,10 @@
 
   <target name="build-admin-package" depends="prepare-configfiles">
     <ant dir="${model.dir}" target="admin-package" />
+  </target>
+
+  <target name="build-assets-template" depends="init">
+    <ant dir="${assets.dir}" target="assets-template" />
   </target>
 
   <!-- ================================================================================= -->

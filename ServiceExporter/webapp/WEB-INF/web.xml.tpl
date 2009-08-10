@@ -147,9 +147,4 @@
     <url-pattern>/external/*</url-pattern>
   </servlet-mapping>
     
-  <taglib>
-    <taglib-uri>/spring</taglib-uri>
-    <taglib-location>/WEB-INF/tld/spring.tld</taglib-location>
-  </taglib>
-
 </web-app>

@@ -6,12 +6,11 @@
   <target name="init">
     <!-- General config -->
     <property file="${basedir}/build.properties" />
-
   </target>
 
-  <target name="assets" description="Generate local authorities deliverables">
-	<input addproperty="local_authority" message="Enter local authority name to build : " />
-    <zip destfile="assets_${local_authority}.zip">
+  <target name="assets" description="Generate a local authority deliverable">
+    <input addproperty="local_authority" message="Enter local authority name to build : " />
+    <zip destfile="assets-${local_authority}.zip">
       <fileset dir="${basedir}">
         <exclude name="${local_authority}/**/*.svn" />
         <include name="${local_authority}/**/**" />
@@ -19,147 +18,14 @@
     </zip>
   </target>
 
-  <target name="color-file" depends="init" description="Generate css color files for a site">
-    <copy file="${tpl.css.dir}/${filename}.tpl"
-          tofile="${basedir}/${site}/css/${filename}.css"
-          overwrite="true">
-      <filterset>
-        <filter token="header-color" value="${header-color}" />
-        <filter token="background-lightgray" value="${background-lightgray}" />
-        <filter token="background-gray" value="${background-gray}" />
-        <filter token="background-color" value="${background-color}" />
-        <filter token="button-color" value="${button-color}" />
-        <filter token="disabled-color" value="${disabled-color}" />
-        <filter token="detail-color" value="${detail-color}" />
-        <filter token="streamer-color" value="${streamer-color}" />
-        <filter token="product-logo" value="${product-logo}" />
-      </filterset>
-    </copy>
-  </target>
-
-  <target name="all-color-files">
-    <mkdir dir="${basedir}/${site}/css" />
-    <antcall target="color-file">
-      <param name="filename" value="dialogcolor" />
-    </antcall>
-    <antcall target="color-file">
-      <param name="filename" value="formcolor" />
-    </antcall>
-    <antcall target="color-file">
-      <param name="filename" value="frontcolor" />
-    </antcall>
-    <antcall target="color-file">
-      <param name="filename" value="proccolor" />
-    </antcall>
-    <antcall target="color-file">
-      <param name="filename" value="welcomecolor" />
-    </antcall>
-  </target>
-
-  <target name="valdoise-colors">
-    <antcall target="all-color-files">
-      <param name="site" value="valdoise" />
-      <param name="header-color" value="#175495" />
-      <param name="background-lightgray" value="#fdf1c5" />
-      <param name="background-gray" value="#fcecb2" />
-      <param name="background-color" value="#fbe38b" />
-      <param name="button-color" value="#7593b9" />
-      <param name="disabled-color" value="#ded2a5" />
-      <param name="detail-color" value="#fcecb2" />
-      <param name="streamer-color" value="#fdf1c5" />
-      <!-- #f4a11f-->
-      <param name="product-logo" value="none" />
-    </antcall>
-  </target>
-
-  <target name="jouylemoutier-colors">
-    <antcall target="all-color-files">
-      <param name="site" value="jouylemoutier" />
-      <param name="header-color" value="#1e2855" />
-      <param name="background-lightgray" value="#c4d8ec" />
-      <param name="background-gray" value="#b1cbe6" />
-      <param name="background-color" value="#89b1d9" />
-      <param name="button-color" value="#273166" />
-      <param name="disabled-color" value="#8791c0" />
-      <param name="detail-color" value="#a7c5e3" />
-      <param name="streamer-color" value="#c4d8ec" />
-      <param name="product-logo" value="block" />
-    </antcall>
-  </target>
-
-  <target name="franconville-colors">
-    <antcall target="all-color-files">
-      <param name="site" value="franconville" />
-      <param name="header-color" value="#3c4faa" />
-      <param name="background-lightgray" value="#e8f0ff" />
-      <param name="background-gray" value="#e1ebff" />
-      <param name="background-color" value="#d2e1ff" />
-      <param name="button-color" value="#4d61c1" />
-      <param name="disabled-color" value="#c9d1e0" />
-      <param name="detail-color" value="#e1ebff" />
-      <param name="streamer-color" value="#e8f0ff" />
-      <param name="product-logo" value="block" />
-    </antcall>
-  </target>
-
-  <target name="adullact-colors">
-    <antcall target="all-color-files">
-      <param name="site" value="adullact" />
-      <param name="header-color" value="#3c4faa" />
-      <param name="background-lightgray" value="#e8f0ff" />
-      <param name="background-gray" value="#e1ebff" />
-      <param name="background-color" value="#d2e1ff" />
-      <param name="button-color" value="#4d61c1" />
-      <param name="disabled-color" value="#c9d1e0" />
-      <param name="detail-color" value="#e1ebff" />
-      <param name="streamer-color" value="#e8f0ff" />
-      <param name="product-logo" value="block" />
-    </antcall>
-  </target>
-
-  <target name="artesi-colors">
-    <antcall target="all-color-files">
-      <param name="site" value="test" />
-      <param name="header-color" value="#3c4faa" />
-      <param name="background-lightgray" value="#e8f0ff" />
-      <param name="background-gray" value="#e1ebff" />
-      <param name="background-color" value="#d2e1ff" />
-      <param name="button-color" value="#4d61c1" />
-      <param name="disabled-color" value="#c9d1e0" />
-      <param name="detail-color" value="#e1ebff" />
-      <param name="streamer-color" value="#e8f0ff" />
-      <param name="product-logo" value="block" />
-    </antcall>
-  </target>
-
-  <target name="parmain-colors">
-    <antcall target="all-color-files">
-      <param name="site" value="parmain" />
-      <param name="header-color" value="#3f6f0f" />
-      <param name="background-lightgray" value="#e7f1cb" />
-      <param name="background-gray" value="#e0edba" />
-      <param name="background-color" value="#d1e498" />
-      <param name="button-color" value="#458a00" />
-      <param name="disabled-color" value="#82a560" />
-      <param name="detail-color" value="#e0edba" />
-      <param name="streamer-color" value="#e7f1cb" />
-      <param name="product-logo" value="block" />
-    </antcall>
-  </target>
-
-  <target name="louvres-colors">
-    <antcall target="all-color-files">
-      <param name="site" value="louvres" />
-      <param name="header-color" value="#e29056" />
-      <param name="background-lightgray" value="#fffddd" />
-      <param name="background-gray" value="#fffcd2" />
-      <param name="background-color" value="#fffabc" />
-      <param name="button-color" value="#f7b700" />
-      <param name="disabled-color" value="#dcbc60" />
-      <param name="detail-color" value="#fffcd2" />
-      <param name="streamer-color" value="#fffddd" />
-      <param name="product-logo" value="block" />
-    </antcall>
+  <target name="assets-template" description="Generate template local authority deliverable">
+    <zip destfile="assets-template.zip">
+      <fileset dir="valdoise">
+        <exclude name="**/*.svn" />
+        <exclude name="localAuthority-valdoise.xml" />
+        <include name="**/**" />
+      </fileset>
+    </zip>
   </target>
 
 </project>

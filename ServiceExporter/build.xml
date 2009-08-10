@@ -113,7 +113,21 @@
       <classpath refid="classpath.compile" />
     </javac>
   </target>
-  
+
+  <target name="dist" depends="compile"
+    description="Create a JAR file for inclusion by Provisioning module">
+    <jar compress="on" jarfile="${jar.name}.jar">
+      <fileset dir="${web.dir}/WEB-INF/classes">
+        <exclude name="*.xml" />
+        <include name="**/**" />
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="deploy" depends="dist,compile-tests">
+    <move file="${jar.name}.jar" todir="${deploy.model.dir}" />
+  </target>
+
   <target name="prepare-webapp" description="Build the webapp" 
     depends="prepare-configfiles, compile, compile-tests">
     <mkdir dir="${web.dir}/WEB-INF/lib" />

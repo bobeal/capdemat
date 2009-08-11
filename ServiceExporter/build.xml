@@ -59,7 +59,6 @@
         <include name="applicationContext.xml" />
         <include name="web.xml" />
         <exclude name="log4j.properties" />
-      	<exclude name="serviceexporter.properties" />
       </fileset>
     </delete>
   </target>

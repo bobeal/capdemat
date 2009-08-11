@@ -82,10 +82,6 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     private EdemandeUploader uploader;
     private ListableBeanFactory beanFactory;
 
-    private static final String ADDRESS_FIELDS[] = {
-        "miCode", "moNature/miCode", "msVoie", "miBoitePostale", "msCodePostal", "msVille",
-        "miCedex", "msPays", "msTel", "msFax", "msMail", "mbUsuel"
-    };
     private static final String SUBJECT_TRACE_SUBKEY = "subject";
     private static final String ACCOUNT_HOLDER_TRACE_SUBKEY = "accountHolder";
     private DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -371,8 +367,12 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         model.put("firstName", WordUtils.capitalizeFully(
             sgr.getSubject().getIndividual().getFirstName(), new char[]{' ', '-'}));
         model.put("lastName", StringUtils.upperCase(sgr.getSubject().getIndividual().getLastName()));
-        model.put("postalCode", sgr.getSubjectInformations().getSubjectAddress().getPostalCode());
-        model.put("city", sgr.getSubjectInformations().getSubjectAddress().getCity());
+        model.put("address", sgr.getSubjectInformations().getSubjectAddress());
+        if (sgr.getSubjectInformations().getSubjectPhone() != null && !sgr.getSubjectInformations().getSubjectPhone().trim().isEmpty()) {
+            model.put("phone", sgr.getSubjectInformations().getSubjectPhone());
+        } else if (sgr.getSubjectInformations().getSubjectMobilePhone() != null && !sgr.getSubjectInformations().getSubjectMobilePhone().trim().isEmpty()) {
+            model.put("phone", sgr.getSubjectInformations().getSubjectMobilePhone());
+        }
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
         model.put("accountNumber", sgr.getAccountNumber());
@@ -459,6 +459,9 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                     }
                 }
             }
+            model.put("email",
+                StringUtils.defaultIfEmpty(sgr.getSubjectInformations().getSubjectEmail(),
+                homeFolderService.getHomeFolderResponsible(sgr.getHomeFolder().getId()).getEmail()));
             model.put("taxHouseholdCityPrecision",
                 StringUtils.defaultString(sgr.getTaxHouseholdCityPrecision()));
             model.put("msStatut", firstSending ? "" :
@@ -469,7 +472,6 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                 parseData(requestData, "//donneesDemande/Demande/msCodext"));
             model.put("requestTypeCode",
                 parseData(edemandeClient.chargerTypeDemande().getChargerTypeDemandeResponse().getReturn(), "//typeDemande/code"));
-            model.put("address", parseAddress((String)model.get("psCodeTiers")));
             EnregistrerValiderFormulaireResponseDocument enregistrerValiderFormulaireResponseDocument = edemandeClient.enregistrerValiderFormulaire(model);
             if (!"0".equals(parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/codeRetour"))) {
                 addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/messageRetour"));
@@ -575,16 +577,6 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
 
     public boolean handlesTraces() {
         return true;
-    }
-
-    private Map<String, String> parseAddress(String psCodeTiers)
-        throws CvqException {
-        String tiers = edemandeClient.initialiserSuiviDemande(psCodeTiers).getInitialiserSuiviDemandeResponse().getReturn();
-        Map<String, String> address = new HashMap<String, String>();
-        for (String addressField : ADDRESS_FIELDS) {
-            address.put(addressField, parseData(tiers, "//donneesTiers/tiers/mvAdresses/CTierAdresseVO/" + addressField));
-        }
-        return address;
     }
 
     private String parseData(String returnElement, String path)

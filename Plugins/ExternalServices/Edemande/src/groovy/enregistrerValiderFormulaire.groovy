@@ -115,21 +115,17 @@
    </moSectorisation>
    <mvAdresses>
     <CTierAdresseVO>
-     <miCode>${address.miCode.encodeAsXML()}</miCode>
-     <msVoie>${address.msVoie.encodeAsXML()}</msVoie>
-     <msComplement/>
-     <msCodePostal>${address.msCodePostal.encodeAsXML()}</msCodePostal>
-     <msPays>${address.msPays.encodeAsXML()}</msPays>
-     <miBoitePostale>${address.miBoitePostale.encodeAsXML()}</miBoitePostale>
-     <miCedex>${address.miCedex.encodeAsXML()}</miCedex>
-     <msVille>${address.msVille.encodeAsXML()}</msVille>
-     <msTel>${address.msTel.encodeAsXML()}</msTel>
-     <msFax>${address.msFax.encodeAsXML()}</msFax>
-     <msMail>${address.msMail.encodeAsXML()}</msMail>
-     <mbUsuel>${address.mbUsuel.encodeAsXML()}</mbUsuel>
-     <moNature>
-      <miCode>${address."moNature/miCode".encodeAsXML()}</miCode>
-     </moNature>
+     <msVoie>${address.streetNumber.encodeAsXML()} ${address.streetName.encodeAsXML()}</msVoie>
+     <msComplement>${address.additionalDeliveryInformation.encodeAsXML()}</msComplement>
+     <miBoitePostale/>
+     <msCodePostal>${address.postalCode.encodeAsXML()}</msCodePostal>
+     <msVille>${address.city.encodeAsXML()}</msVille>
+     <miCedex/>
+     <msPays>${address.countryName.encodeAsXML()}</msPays>
+     <msTel>${phone.encodeAsXML()}</msTel>
+     <msFax/>
+     <msMail>${email.encodeAsXML()}</msMail>
+     <mbUsuel>true</mbUsuel>
     </CTierAdresseVO>
    </mvAdresses>
    <mvReferencesBancaires>

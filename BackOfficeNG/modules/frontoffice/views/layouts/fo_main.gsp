@@ -18,7 +18,7 @@
           <a href="${createLink(controller:'frontofficeHome',action:'logout')}" class="menu"><g:message code="action.logout" /></a>
         </g:if>
         <g:elseif test="${isLogin}">
-          <form action="/BackOfficeNG/frontoffice/home/login" method="post">
+          <form action="${createLink(controller:'frontofficeHome',action:'login')}" method="post">
             <g:if test="${error}">
               <p class="error">${error}</p>
             </g:if>

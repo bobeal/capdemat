@@ -359,7 +359,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
             SendRequestRequestDocument.Factory.newInstance();
         SendRequestRequest sendRequestRequest =
             sendRequestRequestDocument.addNewSendRequestRequest();
-        RequestType request;
+        RequestType request = null;
         try {
             request = (RequestType)requestXml.getClass()
                 .getMethod("get" + requestXml.getClass().getSimpleName()

@@ -1,21 +1,20 @@
-# Sample file for a local development platform.
-# Make a local copy of it, adapt it to what you need and have, then point to it 
-# in file build.properties at the root of the project.
+# Sample file for a production platform.
 
-deploy_properties_file = /WEB-INF/local.properties
+deploy_properties_file = /WEB-INF/production.properties
 
-cas_login_url = https://localhost:8443/cas/login
-cas_validate_url = https://localhost:8443/cas/proxyValidate
-cas_server_names = localhost:8083,localhost:8445
+cas_login_url = https://<sso_domain_name>/cas/login
+cas_validate_url = https://<sso_domain_name>/cas/proxyValidate
+cas_server_names = <local_authority_domain_name>:443
+# unused
 cas_authorized_proxies = https://localhost:8444/@cas/proxyCallback
-cas_logout_url = https://localhost:8443/cas/logout
-cas_mocking = true
+cas_logout_url = https://<sso_domain_name>/cas/logout
+cas_mocking = false
 cas_url_pattern = /*
 
-referential.properties.path=/home/bor/capdemat/Model/conf/
-assets.properties.path=/home/bor/capdemat/Assets/
-assets.included_authorities=valdoise
-data.properties.path=/home/bor/capdemat/Model/test/data/
+referential.properties.path=/usr/local/CapDemat/conf/
+assets.properties.path=/usr/local/CapDemat/assets/
+assets.included_authorities=**
+data.properties.path=/usr/local/CapDemat/test/data/
 
 mail.sender_host=127.0.0.1
 mail.admin_address=root@localhost
@@ -24,11 +23,11 @@ mail.sender_port=25
 agent.administrator_group=CVQ_ADMINISTRATORS
 agent.contributor_group=CVQ_CONTRIBUTORS
 
-fake_payment.url=http://localhost:8080/BackOfficeNG/service/fakePayment
+fake_payment.url=https://localhost/service/fakePayment
 
 translationService.cacheSeconds = 0
 
-i18n.basedir = classpath:
+i18n.basedir = /WEB-INF
 
 ###############################################################################
 ######################### Plugins configuration ###############################

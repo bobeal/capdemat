@@ -158,6 +158,7 @@
         <exclude name="**/*.tpl" />
       </fileset>
     </war>
+    <move file="${dist.name}.war" todir="${release.dir}" />
   </target>
 
   <target name="compile-tests">

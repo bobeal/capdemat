@@ -216,6 +216,8 @@
 				<include name="utils/admin/**" />
 			</fileset>
 		</zip>
+                <move file="${application.name}-admin-${application.version}-${application.revision}.zip"
+                    todir="${release.dir}" />
 	</target>
 
 	<!-- copy Model production to the common lib repository -->

@@ -21,6 +21,7 @@ import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.xmlbeans.XmlObject;
@@ -66,6 +67,7 @@ import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.translation.ITranslationService;
+import fr.cg95.cvq.xml.common.AddressType;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument.StudyGrantRequest;
 
@@ -246,8 +248,9 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         model.put("accountNumber", sgr.getAccountNumber());
         model.put("accountKey", sgr.getAccountKey());
         try {
-            return parseData(edemandeClient.rechercherTiers(model).getRechercherTiersResponse().getReturn(), 
-                    "//resultatRechTiers/listeTiers/tiers/codeTiers");
+            return parseData(edemandeClient.rechercherTiers(
+                escapeStrings(model)).getRechercherTiersResponse().getReturn(),
+                "//resultatRechTiers/listeTiers/tiers/codeTiers");
         } catch (CvqException e) {
             addTrace(sgr.getId(), subkey, TraceStatusEnum.NOT_SENT, e.getMessage());
             return null;
@@ -302,7 +305,8 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
             model.put("email",
                 StringUtils.defaultIfEmpty(sgr.getSubjectInformations().getSubjectEmail(),
                 homeFolderService.getHomeFolderResponsible(sgr.getHomeFolder().getId()).getEmail()));
-            GestionCompteResponseDocument response = edemandeClient.creerTiers(model);
+            GestionCompteResponseDocument response =
+                edemandeClient.creerTiers(escapeStrings(model));
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
                 addTrace(sgr.getId(), SUBJECT_TRACE_SUBKEY, TraceStatusEnum.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
             } else {
@@ -336,7 +340,8 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
             //FIXME placeholder
             model.put("email",
                 homeFolderService.getHomeFolderResponsible(sgr.getHomeFolder().getId()).getEmail());
-            GestionCompteResponseDocument response = edemandeClient.creerTiers(model);
+            GestionCompteResponseDocument response =
+                edemandeClient.creerTiers(escapeStrings(model));
             if (!"0".equals(parseData(response.getGestionCompteResponse().getReturn(), "//Retour/codeRetour"))) {
                 addTrace(sgr.getId(), ACCOUNT_HOLDER_TRACE_SUBKEY, TraceStatusEnum.ERROR, parseData(response.getGestionCompteResponse().getReturn(), "//Retour/messageRetour"));
             } else {
@@ -472,7 +477,9 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                 parseData(requestData, "//donneesDemande/Demande/msCodext"));
             model.put("requestTypeCode",
                 parseData(edemandeClient.chargerTypeDemande().getChargerTypeDemandeResponse().getReturn(), "//typeDemande/code"));
-            EnregistrerValiderFormulaireResponseDocument enregistrerValiderFormulaireResponseDocument = edemandeClient.enregistrerValiderFormulaire(model);
+            EnregistrerValiderFormulaireResponseDocument
+                enregistrerValiderFormulaireResponseDocument =
+                    edemandeClient.enregistrerValiderFormulaire(escapeStrings(model));
             if (!"0".equals(parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/codeRetour"))) {
                 addTrace(sgr.getId(), null, TraceStatusEnum.ERROR, parseData(enregistrerValiderFormulaireResponseDocument.getEnregistrerValiderFormulaireResponse().getReturn(), "//Retour/messageRetour"));
             } else {
@@ -695,6 +702,39 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
 
     private boolean mustCreateSubject(StudyGrantRequest sgr) {
         return mustCreateIndividual(sgr, SUBJECT_TRACE_SUBKEY);
+    }
+
+    private Map<String, Object> escapeStrings(Map<String, Object> model) {
+        for (Map.Entry<String, Object> entry : model.entrySet()) {
+            if (entry.getValue() instanceof String) {
+                entry.setValue(
+                    StringEscapeUtils.escapeXml((String)entry.getValue()));
+            } else if (entry.getValue() instanceof AddressType) {
+                AddressType addressType = (AddressType)entry.getValue();
+                Map<String, String> address = new HashMap<String, String>();
+                address.put("additionalDeliveryInformation",
+                    StringEscapeUtils.escapeXml(
+                        addressType.getAdditionalDeliveryInformation()));
+                address.put("additionalGeographicalInformation",
+                    StringEscapeUtils.escapeXml(
+                        addressType.getAdditionalGeographicalInformation()));
+                address.put("city",
+                    StringEscapeUtils.escapeXml(addressType.getCity()));
+                address.put("countryName",
+                    StringEscapeUtils.escapeXml(addressType.getCountryName()));
+                address.put("placeNameOrService",
+                    StringEscapeUtils.escapeXml(
+                        addressType.getPlaceNameOrService()));
+                address.put("postalCode",
+                    StringEscapeUtils.escapeXml(addressType.getPostalCode()));
+                address.put("streetName",
+                    StringEscapeUtils.escapeXml(addressType.getStreetName()));
+                address.put("streetNumber",
+                    StringEscapeUtils.escapeXml(addressType.getStreetNumber()));
+                entry.setValue(address);
+            }
+        }
+        return model;
     }
 
     @Override

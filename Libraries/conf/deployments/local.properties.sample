@@ -24,7 +24,7 @@ mail.sender_port=25
 agent.administrator_group=CVQ_ADMINISTRATORS
 agent.contributor_group=CVQ_CONTRIBUTORS
 
-fake_payment.url=http://localhost:8080/BackOfficeNG/service/fakePayment
+fake_payment.url=http://localhost:8080/CapDemat/service/fakePayment
 
 translationService.cacheSeconds = 0
 

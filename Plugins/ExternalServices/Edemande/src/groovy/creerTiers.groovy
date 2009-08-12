@@ -11,22 +11,22 @@
     <password></password>
   </compteExtranet>
   <tiers>
-    <msNom>${lastName.encodeAsXML()}</msNom>
-    <msLib>${lastName.encodeAsXML()}</msLib>
+    <msNom>${lastName}</msNom>
+    <msLib>${lastName}</msLib>
     <msSiret/>
     <mbActivationSeuil>true</mbActivationSeuil>
     <mvAdresses>
       <CTierAdresseVO>
-        <msVoie>${address.streetNumber.encodeAsXML()} ${address.streetName.encodeAsXML()}</msVoie>
-        <msComplement>${address.additionalDeliveryInformation.encodeAsXML()}</msComplement>
+        <msVoie>${address.streetNumber} ${address.streetName}</msVoie>
+        <msComplement>${address.additionalDeliveryInformation}</msComplement>
         <miBoitePostale/>
-        <msCodePostal>${address.postalCode.encodeAsXML()}</msCodePostal>
-        <msVille>${address.city.encodeAsXML()}</msVille>
+        <msCodePostal>${address.postalCode}</msCodePostal>
+        <msVille>${address.city}</msVille>
         <miCedex/>
-        <msPays>${address.countryName.encodeAsXML()}</msPays>
-        <msTel>${phone.encodeAsXML()}</msTel>
+        <msPays>${address.countryName}</msPays>
+        <msTel>${phone}</msTel>
         <msFax/>
-        <msMail>${email.encodeAsXML()}</msMail>
+        <msMail>${email}</msMail>
         <mbUsuel>true</mbUsuel>
       </CTierAdresseVO>
     </mvAdresses>
@@ -36,12 +36,12 @@
           <msDescription>Virement bancaire</msDescription>
         </moModePaiement>
         <moAgence>
-          <miBanque>${bankCode.encodeAsXML()}</miBanque>
-          <miAgence>${counterCode.encodeAsXML()}</miAgence>
+          <miBanque>${bankCode}</miBanque>
+          <miAgence>${counterCode}</miAgence>
           <msLibelle></msLibelle>
         </moAgence>
-        <msCompte>${accountNumber.encodeAsXML()}</msCompte>
-        <miCleRib>${accountKey.encodeAsXML()}</miCleRib>
+        <msCompte>${accountNumber}</msCompte>
+        <miCleRib>${accountKey}</miCleRib>
         <mbEtranger>false</mbEtranger>
         <mbIban>false</mbIban>
         <mbUsuel>true</mbUsuel>
@@ -49,11 +49,11 @@
       </CTierReferenceBancaireVO>
     </mvReferencesBancaires>
     <PersonnePhysique>
-      <msQualite>${title.encodeAsXML()}</msQualite>
-      <msPrenom>${firstName.encodeAsXML()}</msPrenom>
+      <msQualite>${title}</msQualite>
+      <msPrenom>${firstName}</msPrenom>
       <msJeuneFille/>
-      <msLieuNaissance>${birthPlace.encodeAsXML()}</msLieuNaissance>
-      <mdtDateNaissance>${birthDate.encodeAsXML()}</mdtDateNaissance>
+      <msLieuNaissance>${birthPlace}</msLieuNaissance>
+      <mdtDateNaissance>${birthDate}</mdtDateNaissance>
     </PersonnePhysique>
   </tiers>
   <traitement>C</traitement>

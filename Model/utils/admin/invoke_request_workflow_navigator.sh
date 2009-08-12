@@ -4,4 +4,4 @@
 
 . ./set_classpath.sh "$1" "$2"
 
-java -cp $CLASSPATH  fr.cg95.cvq.util.admin.RequestWorkflowNavigator "$1" "$2" "$3" "$4" "$5" "$6"
+java -Xms256m -Xmx256m -cp $CLASSPATH  fr.cg95.cvq.util.admin.RequestWorkflowNavigator "$1" "$2" "$3" "$4" "$5" "$6"

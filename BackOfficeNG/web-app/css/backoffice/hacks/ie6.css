@@ -19,7 +19,7 @@
 #narrow .nobox .body form li label { width: 70% !important; }
 
 /* Do not works ! */
-img { behavior: url(/BackOfficeNG/css/hacks/iepngfix.htc) }
+img { behavior: url(/CapDemat/css/hacks/iepngfix.htc) }
 
 
 

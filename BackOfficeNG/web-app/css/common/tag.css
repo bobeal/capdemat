@@ -43,7 +43,7 @@ payment : initialized, validated, refused, cancelled
 /*  request creation */ 
 .tag-required,
 /* external services traces */
-.tag-sent, .tag-inprogress, .tag-notsent, .tag-acknowledged, .tag-error,
+.tag-sent, .tag-inprogress, .tag-notsent, .tag-acknowledged, .tag-error, .tag-accepted, .tag-rejected,
 /* request note type */
 .tag-internal, .tag-public,
 /*  misc */
@@ -73,6 +73,7 @@ payment : initialized, validated, refused, cancelled
 .tag-complete,
 .tag-notified,
 .tag-acknowledged,
+.tag-accepted,
 .tag-enable        { background: #20cc20; border-color:#20aa20; }
 
 /* red */
@@ -82,6 +83,7 @@ payment : initialized, validated, refused, cancelled
 .tag-refused,
 .tag-outdated,
 .tag-error,
+.tag-rejected,
 .tag-disable       { background: #cc2020; border-color:#aa2020; }
 
 /* negative red */

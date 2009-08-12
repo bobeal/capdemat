@@ -37,8 +37,6 @@ public class EdemandeUploader extends JSch {
     private int port;
     private MyUserInfo ui;
 
-    private EdemandeUploader(){}
-
     public EdemandeUploader(String username, String hostname, int port, byte[] prvkey, String passphrase, String basedir, byte[] hostkey)
         throws JSchException {
         super();

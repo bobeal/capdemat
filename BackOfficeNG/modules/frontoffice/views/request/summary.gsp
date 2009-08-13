@@ -13,7 +13,7 @@
       </div>
     </div>
     <g:if test="${externalInformations}">
-      <div class="summary-box" id="externalInformations">
+      <div class="summary-box created" id="externalInformations">
         <h2><g:message code="request.header.externalInformations" /></h2>
         <div class="body">
           <dl>

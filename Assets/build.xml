@@ -26,6 +26,7 @@
         <include name="**/**" />
       </fileset>
     </zip>
+    <move file="assets-template.zip" todir="${release.dir}" />
   </target>
 
 </project>

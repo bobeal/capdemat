@@ -572,7 +572,6 @@ alter table request_note rename column agent_id to user_id;
 alter table request rename column last_intervening_agent_id to last_intervening_user_id;
 
 alter table request_note add column date timestamp;
-alter table request_note alter column note type varchar(1024);
 
 update request_note set type = 'Internal' where type like '%Internal';
 update request_note set type = 'Public' where type like '%External' or type like 'Default%';
@@ -642,3 +641,5 @@ alter table local_authority add column display_in_progress_payments bool not nul
 -- remove card data
 alter table individual drop constraint FKFD3DA29948B0ABD2;
 drop table card;
+
+alter table request_note alter column note type varchar(1024);

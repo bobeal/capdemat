@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,7 +128,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                 esim.setExternalCapDematId(UUID.randomUUID().toString());
                 for (Individual individual : homeFolder.getIndividuals()) {
                     String externalCapDematId = UUID.randomUUID().toString();
-                    esim.addIndividualMapping(individual.getId(), externalCapDematId, null);
+                    esim.addIndividualMapping(individual.getId(), externalCapDematId, "");
                     individual.setExternalCapDematId(externalCapDematId);
                 }
                 
@@ -695,13 +696,25 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
 
     public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
             String externalId) {
+        ExternalServiceIndividualMapping newMapping = new ExternalServiceIndividualMapping();
+        newMapping.setExternalId(externalId);
+        newMapping.setIndividualId(individualId);
         ExternalServiceIdentifierMapping identifierMapping = 
             getIdentifierMapping(externalServiceLabel, homeFolderId);
-        for (ExternalServiceIndividualMapping esim : identifierMapping.getIndividualsMappings()) {
+        Iterator<ExternalServiceIndividualMapping> it = identifierMapping.getIndividualsMappings().iterator();
+        while (it.hasNext()) {
+            ExternalServiceIndividualMapping esim = it.next();
             if (esim.getIndividualId().equals(individualId)) {
-                esim.setExternalId(externalId);
+                newMapping.setExternalCapDematId(esim.getExternalCapDematId());
+                it.remove();
                 break;
             }
+        }
+        identifierMapping.getIndividualsMappings().add(newMapping);
+        try {
+            genericDAO.update(identifierMapping);
+        } catch (CvqPermissionException e) {
+            // TODO JSB
         }
     }
 

@@ -1,7 +1,6 @@
 <g:if test="${isDocumentEditMode}">  
   <fieldset>
-    <legend>${message(code:documentType.i18nKey)}</legend>
-    
+    <legend>${message(code:documentType.i18nKey)} <span><g:message code="request.step.document.formats"/></span></legend>
     <label><g:message code="document.header.description"/></label>
     <input type="text" name="ecitizenNote" value="${document.ecitizenNote}"/>
     

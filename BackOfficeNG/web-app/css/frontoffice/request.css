@@ -48,6 +48,7 @@ h2.request-creation { margin: 0; color: #DB4366;}
 
 #requestTabView form div label.required { font-weight: bold; }
 #requestTabView form div label span     { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
+#requestTabView legend span             { font-weight: normal; font-size: 0.75em; font-style: italic; }
 
 #requestTabView form div p { margin: 0 0 .5em; font-size: 1.1em; }
 

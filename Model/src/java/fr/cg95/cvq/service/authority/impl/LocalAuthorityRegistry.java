@@ -206,7 +206,8 @@ public class LocalAuthorityRegistry
             boolean fallbackToDefault)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
-        return getAssetsFile(resource.getType(), resource.getFilename(), false);
+        return getAssetsFile(resource.getType(),
+            resource.getFilename() + version.getExtension(), false);
     }
 
     private File getAssetsFile(final Type type, final String filename,

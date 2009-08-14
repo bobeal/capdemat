@@ -4,9 +4,11 @@ import fr.cg95.cvq.business.request.RequestSeason
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.authority.LocalReferentialEntry
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ICategoryService
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.IRequestTypeService
@@ -28,6 +30,7 @@ class RequestTypeController {
     ICategoryService categoryService
     ILocalReferentialService localReferentialService
     IRequestServiceRegistry requestServiceRegistry
+    ILocalAuthorityRegistry localAuthorityRegistry
 
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
     
@@ -246,7 +249,9 @@ class RequestTypeController {
             render(['id':id,status:"ok",success_msg:message(code:"message.updateDone")] as JSON)
         } else if(method=="get") {
             def requestForm = null
-            def templates = requestTypeService.getMailTemplates('.*[.]html$')
+            def templates = localAuthorityRegistry
+                .getLocalAuthorityResourceFileNames(Type.MAIL_TEMPLATES,
+                ".*\\" + Type.MAIL_TEMPLATES.extension)
             if(params.id) 
                 requestForm = requestTypeService
                     .getRequestFormById(Long.valueOf(params.id))
@@ -273,7 +278,8 @@ class RequestTypeController {
             }
         } 
         else {
-            def templates = requestTypeService.getMailTemplates('.*[.]html$')
+            def templates = localAuthorityRegistry
+                .getLocalAuthorityResourceFileNames(Type.MAIL_TEMPLATES, "*")
             render (view: 'mailTemplate', model:['name':params.id,'templates':templates])
         }
     }
@@ -284,7 +290,8 @@ class RequestTypeController {
         def typeId = Long.valueOf(params.typeId)
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         
-        File templateFile = requestTypeService.getTemplateByName(fileName)
+        File templateFile = localAuthorityRegistry
+            .getLocalAuthorityResourceFile(Type.MAIL_TEMPLATES, fileName, false)
         response.contentType = 'text/html; charset=utf-8'
         
         if(templateFile.exists()) {

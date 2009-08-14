@@ -175,18 +175,6 @@ public interface IRequestTypeService {
     RequestForm getRequestFormById(Long id) throws CvqException;
 
     /**
-     * TODO : make its contract more explicit.
-     * TODO : ACMF
-     */
-    File getTemplateByName(String name);
-
-    /**
-     * TODO : make its contract more explicit.
-     * TODO : ACMF
-     */
-    List<File> getMailTemplates(String pattern) throws CvqException;
-
-    /**
      * Method that process request form update/creation.
      *
      * Defines by itself which kind of processing has to be produced.

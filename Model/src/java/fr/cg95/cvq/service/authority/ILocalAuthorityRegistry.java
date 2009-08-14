@@ -215,8 +215,8 @@ public interface ILocalAuthorityRegistry {
      */
     void generateJPEGLogo();
 
-    List<File> getLocalResourceContent(Type type) throws CvqException;
-    List<File> getLocalResourceContent(Type type, String pattern) throws CvqException;
+    List<String> getLocalAuthorityResourceFileNames(Type type) throws CvqException;
+    List<String> getLocalAuthorityResourceFileNames(Type type, String pattern) throws CvqException;
 
     /**
      * Indicates if payments are enabled or disabled for current local authority

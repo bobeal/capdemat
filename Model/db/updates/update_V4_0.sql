@@ -98,9 +98,6 @@ delete from request_type where label = 'Vacations Registration';
 
 -- start of migration to indexed lists in requests collections elements
 
-alter table dhr_not_real_asset drop constraint FK2BA9F1EC66C81F29;
-alter table dhr_real_asset drop constraint FK6AA7D98066C81F29;
-alter table har_family_dependent drop constraint FK6EEA28CAE3200797;
 alter table library_registration_request_subscription drop constraint FK56C4BE0F6E60AC03;
 alter table music_school_registration_request_activity drop constraint FK6393FFD4F5425501;
 alter table perischool_activity_registration_request_other_individual drop constraint FKD6BDD32D4B24749F;
@@ -116,9 +113,6 @@ alter table technical_intervention_request_intervention_type drop constraint FK5
 
 alter table bulky_waste_collection_request_bulky_waste_type add constraint FK7E2C4DCBD1DA5141 foreign key (bulky_waste_collection_request_id) references bulky_waste_collection_request;
 alter table compostable_waste_collection_request_compostable_waste_type add constraint FK765E424BC116EEE9 foreign key (compostable_waste_collection_request_id) references compostable_waste_collection_request;
-alter table dhr_not_real_asset add constraint FK2BA9F1ECD6AE1BE8 foreign key (domestic_help_request_id) references domestic_help_request;
-alter table dhr_real_asset add constraint FK6AA7D980D6AE1BE8 foreign key (domestic_help_request_id) references domestic_help_request;
-alter table har_family_dependent add constraint FK6EEA28CAE5852A38 foreign key (handicap_allowance_request_id) references handicap_allowance_request;
 alter table library_registration_request_subscription add constraint FK56C4BE0FD98B4AC2 foreign key (library_registration_request_id) references library_registration_request;
 alter table music_school_registration_request_activity add constraint FK6393FFD440404000 foreign key (music_school_registration_request_id) references music_school_registration_request;
 alter table perischool_activity_registration_request_other_individual add constraint FKD6BDD32D96225F9E foreign key (perischool_activity_registration_request_id) references perischool_activity_registration_request;
@@ -204,12 +198,6 @@ alter table compostable_waste_collection_request_compostable_waste_type add colu
 select init_hibernate_list_index('compostable_waste_collection_request_compostable_waste_type', 'compostable_waste_collection_request_id', 'compostable_waste_type_id', 'compostable_waste_type_index');
 -- truncate primary key
 alter table compostable_waste_collection_request_compostable_waste_type add constraint compostable_waste_collection_request_compostable_waste_typ_pkey primary key (compostable_waste_collection_request_id, compostable_waste_type_index);
-     
-alter table dhr_not_real_asset add column not_real_assets_index int4;
-
-alter table dhr_real_asset add column real_assets_index int4;
- 
-alter table har_family_dependent add column family_dependents_index int4;
  
 alter table library_registration_request_subscription add column subscription_index int4;
 select init_hibernate_list_index('library_registration_request_subscription', 'library_registration_request_id', 'subscription_id', 'subscription_index');
@@ -459,6 +447,7 @@ delete from request_document where request_id in (select id from request where r
 delete from request_action where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
 delete from forms where request_type_id=(select id from request_type where label='Personal Details');
 delete from request where request_type_id = (select id from request_type where label='Personal Details');
+delete from requirement where request_type_id = (select id from request_type where label = 'Personal Details');
 delete from request_type where id=(select id from request_type where label='Personal Details');
 
 create table alignment_numbering_connection_request (
@@ -498,14 +487,6 @@ alter table alignment_numbering_connection_request
   
 -- update individual_role (to enable hibernate merge)
 alter table individual_role add column individual_name varchar(255);
-
-alter table study_grant_request 
-  drop constraint FK7D2F0A7682587E99;
-
-alter table study_grant_request 
-  drop constraint FK7D2F0A7687B85F15;
-
-drop table study_grant_request;
 
 create table study_grant_request (
   id int8 not null,
@@ -555,14 +536,6 @@ alter table study_grant_request
   add constraint FK7D2F0A7687B85F15 
   foreign key (subject_address_id) 
   references address;
-
--- optional cleanup instructions : old label
---DELETE FROM forms where request_type_id = (select id from request_type where label = 'Study Grant Request');
---DELETE FROM request_type where label = 'Study Grant Request';
-
--- optional cleanup instructions : old requests
--- DELETE FROM request_action where request_id in (SELECT id from request where request_type_id = (select id from request_type where label = 'Study Grant'));
--- DELETE FROM request where id in (SELECT id from request where request_type_id = (select id from request_type where label = 'Study Grant'));
 
 alter table study_grant_request add column subject_first_request bool;
 
@@ -643,3 +616,897 @@ alter table individual drop constraint FKFD3DA29948B0ABD2;
 drop table card;
 
 alter table request_note alter column note type varchar(1024);
+
+-- paph requests (drop / create <= no production data)
+alter table domestic_help_request drop constraint FK3C0081121C4A2C9A;
+alter table domestic_help_request drop constraint FK3C008112A2B2928B;
+alter table domestic_help_request drop constraint FK3C008112B3BAD17C;
+alter table domestic_help_request drop constraint FK3C0081126FFC52CB;
+alter table domestic_help_request drop constraint FK3C008112ED1B9492;
+drop table dhr_donation;
+drop table dhr_personal_estate_and_saving;
+drop table dhr_previous_dwelling;
+drop table dhr_real_asset;        
+drop table domestic_help_request;
+
+alter table remote_support_request drop constraint FKEAA6DC26ED1B9492;
+drop table remote_support_request;
+
+alter table handicap_allowance_request drop constraint FKF20630A16D27AFFE;
+alter table handicap_allowance_request drop constraint FKF20630A1ED1B9492;
+drop table handicap_allowance_request;
+delete from forms where request_type_id=(select id from request_type where label='Handicap Allowance');
+delete from request where request_type_id = (select id from request_type where label='Handicap Allowance');
+delete from requirement where request_type_id = (select id from request_type where label = 'Handicap Allowance');
+delete from request_type where id=(select id from request_type where label='Handicap Allowance');
+
+create table dhr_not_real_asset (
+    id int8 not null,
+    dhr_not_real_asset_value bytea,
+    dhr_not_real_asset_address_id int8,
+    dhr_not_real_asset_date timestamp,
+    dhr_not_real_asset_notary_name varchar(38),
+    dhr_not_real_asset_beneficiary_name varchar(38),
+    dhr_not_real_asset_beneficiary_first_name varchar(38),
+    dhr_not_real_asset_type varchar(255),
+    dhr_not_real_asset_beneficiary_address_id int8,
+    dhr_not_real_asset_notary_address_id int8,
+    dhr_not_real_asset_kind varchar(255),
+    domestic_help_request_id int8,
+    dhr_not_real_asset_index int4,
+    primary key (id)
+);
+
+create table dhr_previous_dwelling (
+    id int8 not null,
+    dhr_previous_dwelling_status varchar(255),
+    dhr_previous_dwelling_kind varchar(255),
+    dhr_previous_dwelling_comment varchar(255),
+    dhr_previous_dwelling_departure_date timestamp,
+    dhr_previous_dwelling_address_id int8,
+    dhr_previous_dwelling_arrival_date timestamp,
+    domestic_help_request_id int8,
+    dhr_previous_dwelling_index int4,
+    primary key (id)
+);
+
+create table dhr_real_asset (
+    id int8 not null,
+    real_asset_net_floor_area bytea,
+    dhr_real_asset_address_id int8,
+    dhr_real_asset_value bytea,
+    domestic_help_request_id int8,
+    dhr_real_asset_index int4,
+    primary key (id)
+);
+
+create table domestic_help_request (
+    id int8 not null,
+    dhr_spouse_principal_pension_plan varchar(255),
+    dhr_spouse_profession varchar(255),
+    dhr_net_income bytea,
+    professional_taxes bytea,
+    dhr_is_spouse_retired bool,
+    dhr_spouse_title varchar(255),
+    dhr_requester_birth_date timestamp,
+    dhr_real_estate_investment_income bytea,
+    dhr_requester_is_french_resident bool,
+    dhr_current_dwelling_address_id int8,
+    dhr_spouse_france_arrival_date timestamp,
+    dhr_requester_nationality varchar(32),
+    dhr_current_dwelling_arrival_date timestamp,
+    dhr_referent_first_name varchar(38),
+    dhr_incomes_annual_total bytea,
+    dhr_requester_have_guardian bool,
+    dhr_income_tax bytea,
+    dhr_spouse_birth_place varchar(255),
+    dhr_spouse_birth_date timestamp,
+    dhr_current_dwelling_net_area int2,
+    dhr_requester_france_arrival_date timestamp,
+    dhr_current_dwelling_status varchar(255),
+    dhr_spouse_first_name varchar(38),
+    dhr_spouse_family_status varchar(255),
+    dhr_furniture_investment_income bytea,
+    dhr_guardian_address_id int8,
+    dhr_referent_name varchar(38),
+    local_rate bytea,
+    dhr_spouse_employer varchar(255),
+    dhr_request_kind varchar(255),
+    dhr_principal_pension_plan varchar(255),
+    dhr_complementary_pension_plan varchar(255),
+    dhr_referent_address_id int8,
+    property_taxes bytea,
+    dhr_guardian_name varchar(38),
+    pensions bytea,
+    dhr_current_dwelling_kind varchar(255),
+    dhr_current_dwelling_number_of_room int2,
+    dhr_guardian_measure varchar(255),
+    dhr_current_dwelling_phone varchar(10),
+    dhr_spouse_is_french_resident bool,
+    dhr_allowances bytea,
+    dhr_spouse_nationality varchar(32),
+    dhr_spouse_maiden_name varchar(38),
+    dhr_spouse_name varchar(38),
+    dhr_spouse_pension_plan_detail varchar(255),
+    dhr_requester_birth_place varchar(255),
+    dhr_spouse_address_id int8,
+    dhr_have_family_referent bool,
+    dhr_pension_plan_detail varchar(255),
+    dhr_spouse_complementary_pension_plan varchar(255),
+    primary key (id)
+);
+
+alter table dhr_not_real_asset 
+    add constraint FK2BA9F1EC6D5B4A55 
+    foreign key (dhr_not_real_asset_address_id) 
+    references address;
+
+alter table dhr_not_real_asset 
+    add constraint FK2BA9F1EC79D85259 
+    foreign key (dhr_not_real_asset_notary_address_id) 
+    references address;
+
+alter table dhr_not_real_asset 
+    add constraint FK2BA9F1EC1F99E36F 
+    foreign key (dhr_not_real_asset_beneficiary_address_id) 
+    references address;
+
+alter table dhr_not_real_asset 
+    add constraint FK2BA9F1ECD6AE1BE8 
+    foreign key (domestic_help_request_id) 
+    references domestic_help_request;
+
+alter table dhr_previous_dwelling 
+    add constraint FKB0B96E274AF76B3A 
+    foreign key (dhr_previous_dwelling_address_id) 
+    references address;
+
+alter table dhr_previous_dwelling 
+    add constraint FKB0B96E27D6AE1BE8 
+    foreign key (domestic_help_request_id) 
+    references domestic_help_request;
+
+alter table dhr_real_asset 
+    add constraint FK6AA7D9809D2A9E41 
+    foreign key (dhr_real_asset_address_id) 
+    references address;
+
+alter table dhr_real_asset 
+    add constraint FK6AA7D980D6AE1BE8 
+    foreign key (domestic_help_request_id) 
+    references domestic_help_request;
+
+alter table domestic_help_request 
+    add constraint FK3C00811289BB4925 
+    foreign key (dhr_referent_address_id) 
+    references address;
+
+alter table domestic_help_request 
+    add constraint FK3C00811282587E99 
+    foreign key (id) 
+    references request;
+
+alter table domestic_help_request 
+    add constraint FK3C0081123044483F 
+    foreign key (dhr_guardian_address_id) 
+    references address;
+
+alter table domestic_help_request 
+    add constraint FK3C008112D045047B 
+    foreign key (dhr_spouse_address_id) 
+    references address;
+
+alter table domestic_help_request 
+    add constraint FK3C008112D6EC023A 
+    foreign key (dhr_current_dwelling_address_id) 
+    references address;
+
+create table remote_support_request (
+    id int8 not null,
+    trustee_phone varchar(10),
+    spouse_is_disabled_person bool,
+    subject_birth_date timestamp,
+    subject_is_a_p_a_beneficiary bool,
+    subject_reside_with varchar(255),
+    spouse_birth_date timestamp,
+    contact_phone varchar(10),
+    spouse_last_name varchar(38),
+    request_information_emergency bool,
+    request_information_request_kind varchar(255),
+    subject_is_disabled_person bool,
+    second_contact_last_name varchar(38),
+    request_information_emergency_motive varchar(180),
+    contact_last_name varchar(38),
+    spouse_title varchar(255),
+    subject_title varchar(255),
+    spouse_first_name varchar(38),
+    contact_first_name varchar(38),
+    trustee_first_name varchar(38),
+    contact_kind varchar(255),
+    second_contact_first_name varchar(38),
+    subject_is_taxable bool,
+    trustee_last_name varchar(38),
+    second_contact_phone varchar(10),
+    primary key (id)
+);
+
+alter table remote_support_request 
+    add constraint FKEAA6DC2682587E99 
+    foreign key (id) 
+    references request;
+
+
+create table handicap_compensation_adult_request (
+    id int8 not null,
+    health_followed_by_professional bool,
+    professional_support_professionals bool,
+    is_family_assistance bool,
+    project_comments varchar(600),
+    folders_mdph_department varchar(2),
+    folders_cdes bool,
+    project_needs varchar(600),
+    benefits_education_allocation_of_disabled_children bool,
+    home_intervention_home_intervenant bool,
+    folders_mdph_number varchar(30),
+    project_requests_housing_facilities bool,
+    subject_birth_date timestamp,
+    benefits_disability_pension bool,
+    legal_access_presence bool,
+    subject_maiden_name varchar(38),
+    project_requests_disabled_worker_recognition bool,
+    benefits_unemployment_benefits bool,
+    professional_status_kind varchar(255),
+    family_family_dependents bool,
+    formation_previous_formation varchar(180),
+    benefits_education_of_disabled_children_details varchar(60),
+    project_requests_vocational_training bool,
+    facilities_custom_car bool,
+    legal_access_representative_kind_detail varchar(80),
+    professional_status_indemnified bool,
+    benefits_disabled_adult_allocation bool,
+    benefits_third_party_compensatory_allowance bool,
+    professional_status_date timestamp,
+    project_requests_transport_cost_allocation bool,
+    benefits_professional_orientation bool,
+    benefits_disability_recognition bool,
+    professional_status_register_as_unemployed bool,
+    dwelling_social_reception_naming varchar(80),
+    professional_status_indemnified_date timestamp,
+    family_status varchar(255),
+    benefits_painful_standing_card bool,
+    benefits_professional_orientation_details varchar(60),
+    folders_cdes_department varchar(2),
+    facilities_specialized_transport bool,
+    benefits_parking_card bool,
+    facilities_specialized_transport_details varchar(60),
+    professional_support_social_service_support bool,
+    social_security_number varchar(13),
+    benefits_work_accident_annuity_ratio varchar(3),
+    benefits_work_accident_annuity bool,
+    care_care_services bool,
+    benefits_disability_ratio varchar(3),
+    benefits_daily_allowances bool,
+    project_requests_custom_car bool,
+    payment_agency_beneficiary_number varchar(20),
+    folders_cotorep_number varchar(30),
+    project_requests_a_c_t_p_renewal bool,
+    dwelling_social_reception_address_id int8,
+    folders_mdph bool,
+    benefits_supported_by_an_institution_details varchar(60),
+    professional_support_deals_with_same_professional bool,
+    dwelling_establishment_reception bool,
+    folders_cotorep_department varchar(2),
+    project_requests_ordinary_working bool,
+    legal_access_representative_first_name varchar(38),
+    dwelling_social_reception bool,
+    benefits_disabled_worker_recognition bool,
+    project_requests_european_parking_card bool,
+    health_followed_by_doctor bool,
+    project_requests_free_pension_membership bool,
+    health_followed_by_hospital bool,
+    professional_status_employer_name varchar(38),
+    project_requests_institution_support bool,
+    benefits_social_welfare bool,
+    project_requests_handicap_recognition bool,
+    project_wish varchar(600),
+    dwelling_kind varchar(255),
+    health_professional_last_name varchar(38),
+    formation_studies_level varchar(30),
+    project_requests_professional_orientation bool,
+    health_doctor_last_name varchar(38),
+    legal_access_kind varchar(255),
+    facilities_housing_details varchar(60),
+    benefits_supplement_for_single_parents bool,
+    project_requests_increase_for_independent_living bool,
+    benefits_disability_pension_category varchar(60),
+    benefits_third_party_supplement bool,
+    studies_high_school_grade varchar(60),
+    subject_birth_city varchar(32),
+    legal_access_representative_name varchar(38),
+    project_requests_assistance bool,
+    professional_status_environment varchar(255),
+    benefits_supported_by_an_institution bool,
+    project_requests_third_party_help bool,
+    project_requests_disabled_adult_allowance bool,
+    payment_agency_beneficiary varchar(255),
+    folders_other_folders bool,
+    facilities_animal_aid_details varchar(60),
+    studies_assistance_under_disability_details varchar(60),
+    payment_agency_address_id int8,
+    project_requests_other bool,
+    benefits_third_person_compensatory_allowance bool,
+    project_requests_disability_cost_allocation bool,
+    social_security_agency_address_id int8,
+    dwelling_reception_address_id int8,
+    professional_status_profession varchar(60),
+    professional_status_address_id int8,
+    formation_diploma varchar(120),
+    subject_title varchar(255),
+    professional_status_elective_function bool,
+    folders_cotorep bool,
+    benefits_increase_for_independent_living bool,
+    subject_birth_country varchar(50),
+    project_requests_disability_card bool,
+    studies_high_school_name varchar(60),
+    dwelling_reception_type varchar(255),
+    professional_status_register_as_unemployed_date timestamp,
+    payment_agency_name varchar(50),
+    dwelling_reception_naming varchar(80),
+    social_security_agency_name varchar(50),
+    benefits_education_of_disabled_children bool,
+    facilities_technical_assistance_details varchar(60),
+    benefits_other_benefits bool,
+    folders_cdes_number varchar(30),
+    benefits_disability_compensation bool,
+    health_doctor_first_name varchar(38),
+    project_requests_technical_help bool,
+    facilities_technical_assistance bool,
+    benefits_compensatory_allowance_for_expenses bool,
+    facilities_housing bool,
+    health_hospital_name varchar(60),
+    project_requests_disabled_priority_card bool,
+    project_requests_education_allocation_of_disabled_children bool,
+    project_requests_other_details varchar(60),
+    legal_access_representative_kind varchar(255),
+    project_requests_sheltered_work bool,
+    formation_current_formation varchar(120),
+    studies_assistance_under_disability bool,
+    professional_support_social_service_address_id int8,
+    studies_high_school bool,
+    health_professional_first_name varchar(38),
+    professional_support_social_service_name varchar(60),
+    facilities_custom_car_details varchar(60),
+    dwelling_precision varchar(120),
+    benefits_disability_card bool,
+    social_security_member_ship_kind varchar(255),
+    professional_status_elective_function_details varchar(60),
+    facilities_animal_aid bool,
+    studies_high_school_address_id int8,
+    primary key (id)
+);
+
+create table handicap_compensation_child_request (
+    id int8 not null,
+    health_followed_by_professional bool,
+    professional_support_professionals bool,
+    referent_family_dependents bool,
+    is_family_assistance bool,
+    schooling_attended_grade varchar(32),
+    referent_title varchar(255),
+    project_comments varchar(600),
+    folders_cdes bool,
+    folders_mdph_department varchar(2),
+    project_needs varchar(600),
+    home_intervention_home_intervenant bool,
+    benefits_education_allocation_of_disabled_children bool,
+    folders_mdph_number varchar(30),
+    subject_parental_authority_holder varchar(255),
+    project_requests_housing_facilities bool,
+    schooling_home_schooling bool,
+    father_activity_reduction_ratio bytea,
+    subject_birth_date timestamp,
+    schooling_extra_curricular_details varchar(50),
+    schooling_specialized_grade bool,
+    benefits_disability_pension bool,
+    referent_maiden_name varchar(38),
+    project_requests_disabled_worker_recognition bool,
+    benefits_unemployment_benefits bool,
+    professional_status_kind varchar(255),
+    schooling_home_schooling_kind varchar(255),
+    benefits_education_of_disabled_children_details varchar(60),
+    formation_previous_formation varchar(180),
+    project_requests_vocational_training bool,
+    facilities_custom_car bool,
+    benefits_disabled_adult_allocation bool,
+    professional_status_indemnified bool,
+    schooling_enrolment bool,
+    benefits_third_party_compensatory_allowance bool,
+    referent_birth_date timestamp,
+    professional_status_date timestamp,
+    project_requests_transport_cost_allocation bool,
+    benefits_professional_orientation bool,
+    schooling_home_schooling_accompanist_last_name varchar(38),
+    benefits_disability_recognition bool,
+    professional_status_register_as_unemployed bool,
+    professional_status_indemnified_date timestamp,
+    dwelling_social_reception_naming varchar(80),
+    benefits_professional_orientation_details varchar(60),
+    benefits_painful_standing_card bool,
+    folders_cdes_department varchar(2),
+    facilities_specialized_transport bool,
+    benefits_parking_card bool,
+    facilities_specialized_transport_details varchar(60),
+    benefits_work_accident_annuity_ratio varchar(3),
+    social_security_number varchar(13),
+    benefits_work_accident_annuity bool,
+    care_care_services bool,
+    benefits_daily_allowances bool,
+    benefits_disability_ratio varchar(3),
+    father_first_name varchar(38),
+    schooling_home_schooling_accompanist_address_id int8,
+    project_requests_custom_car bool,
+    payment_agency_beneficiary_number varchar(20),
+    folders_cotorep_number varchar(30),
+    project_requests_a_c_t_p_renewal bool,
+    referent_family_status varchar(255),
+    schooling_school_name varchar(80),
+    dwelling_social_reception_address_id int8,
+    benefits_supported_by_an_institution_details varchar(60),
+    folders_mdph bool,
+    mother_job varchar(60),
+    schooling_school_address_id int8,
+    schooling_time varchar(4),
+    professional_support_deals_with_same_professional bool,
+    ase_referent_department varchar(2),
+    folders_cotorep_department varchar(2),
+    dwelling_establishment_reception bool,
+    mother_first_name varchar(38),
+    project_requests_ordinary_working bool,
+    benefits_disabled_worker_recognition bool,
+    dwelling_social_reception bool,
+    project_requests_european_parking_card bool,
+    health_followed_by_doctor bool,
+    schooling_home_schooling_accompanist_first_name varchar(38),
+    referent_birth_city varchar(32),
+    project_requests_free_pension_membership bool,
+    schooling_specialized_grade_details varchar(30),
+    referent_birth_country varchar(50),
+    health_followed_by_hospital bool,
+    professional_status_employer_name varchar(38),
+    project_requests_institution_support bool,
+    benefits_social_welfare bool,
+    project_requests_handicap_recognition bool,
+    schooling_extra_curricular bool,
+    project_wish varchar(600),
+    dwelling_kind varchar(255),
+    health_professional_last_name varchar(38),
+    formation_studies_level varchar(30),
+    project_requests_professional_orientation bool,
+    health_doctor_last_name varchar(38),
+    social_service_address_id int8,
+    facilities_housing_details varchar(60),
+    benefits_supplement_for_single_parents bool,
+    project_requests_increase_for_independent_living bool,
+    benefits_third_party_supplement bool,
+    benefits_disability_pension_category varchar(60),
+    studies_high_school_grade varchar(60),
+    referent_last_name varchar(38),
+    subject_birth_city varchar(32),
+    project_requests_assistance bool,
+    benefits_supported_by_an_institution bool,
+    professional_status_environment varchar(255),
+    project_requests_third_party_help bool,
+    project_requests_disabled_adult_allowance bool,
+    folders_other_folders bool,
+    payment_agency_beneficiary varchar(255),
+    father_job varchar(60),
+    facilities_animal_aid_details varchar(60),
+    studies_assistance_under_disability_details varchar(60),
+    payment_agency_address_id int8,
+    project_requests_other bool,
+    benefits_third_person_compensatory_allowance bool,
+    project_requests_disability_cost_allocation bool,
+    social_security_agency_address_id int8,
+    professional_status_address_id int8,
+    professional_status_profession varchar(60),
+    dwelling_reception_address_id int8,
+    formation_diploma varchar(120),
+    mother_last_name varchar(38),
+    folders_cotorep bool,
+    professional_status_elective_function bool,
+    benefits_increase_for_independent_living bool,
+    subject_birth_country varchar(50),
+    father_activity_reduction bool,
+    project_requests_disability_card bool,
+    studies_high_school_name varchar(60),
+    dwelling_reception_type varchar(255),
+    father_last_name varchar(38),
+    mother_activity_reduction_ratio bytea,
+    professional_status_register_as_unemployed_date timestamp,
+    payment_agency_name varchar(50),
+    social_security_agency_name varchar(50),
+    dwelling_reception_naming varchar(80),
+    schooling_send_to_school bool,
+    benefits_education_of_disabled_children bool,
+    referent_first_name varchar(38),
+    facilities_technical_assistance_details varchar(60),
+    benefits_other_benefits bool,
+    folders_cdes_number varchar(30),
+    social_service_name varchar(60),
+    benefits_disability_compensation bool,
+    health_doctor_first_name varchar(38),
+    project_requests_technical_help bool,
+    facilities_technical_assistance bool,
+    benefits_compensatory_allowance_for_expenses bool,
+    facilities_housing bool,
+    health_hospital_name varchar(60),
+    project_requests_disabled_priority_card bool,
+    project_requests_education_allocation_of_disabled_children bool,
+    project_requests_other_details varchar(60),
+    social_service_support bool,
+    project_requests_sheltered_work bool,
+    formation_current_formation varchar(120),
+    schooling_schooling_kind varchar(255),
+    studies_assistance_under_disability bool,
+    studies_high_school bool,
+    health_professional_first_name varchar(38),
+    mother_activity_reduction bool,
+    facilities_custom_car_details varchar(60),
+    schooling_personalized_schooling_plan bool,
+    dwelling_precision varchar(120),
+    benefits_disability_card bool,
+    social_security_member_ship_kind varchar(255),
+    ase_referent_last_name varchar(38),
+    professional_status_elective_function_details varchar(60),
+    facilities_animal_aid bool,
+    studies_high_school_address_id int8,
+    primary key (id)
+);
+
+create table hcar_additional_fee (
+    id int8 not null,
+    additional_fee_kind varchar(30),
+    additional_fee_periodicity varchar(30),
+    additional_fee_cost varchar(6),
+    handicap_compensation_adult_request_id int8,
+    additional_fee_index int4,
+    primary key (id)
+);
+
+create table hcar_care_service (
+    id int8 not null,
+    care_service_care_service_employer bool,
+    care_service_kind varchar(255),
+    care_service_provider_name varchar(38),
+    care_service_provider_address_id int8,
+    handicap_compensation_adult_request_id int8,
+    care_services_index int4,
+    primary key (id)
+);
+
+create table hcar_family_assistance_member (
+    id int8 not null,
+    family_assistance_member_last_name varchar(38),
+    family_assistance_member_relationship varchar(60),
+    family_assistance_member_first_name varchar(38),
+    handicap_compensation_adult_request_id int8,
+    family_assistance_members_index int4,
+    primary key (id)
+);
+
+create table hcar_family_dependent (
+    id int8 not null,
+    family_dependent_actual_situation varchar(255),
+    family_dependent_last_name varchar(38),
+    family_dependent_first_name varchar(38),
+    family_dependent_birth_date timestamp,
+    handicap_compensation_adult_request_id int8,
+    family_dependents_index int4,
+    primary key (id)
+);
+
+create table hcar_home_intervenant (
+    id int8 not null,
+    home_intervenant_kind varchar(255),
+    home_intervenant_details varchar(60),
+    handicap_compensation_adult_request_id int8,
+    home_intervenants_index int4,
+    primary key (id)
+);
+
+create table hcar_other_benefit (
+    id int8 not null,
+    other_benefit_name varchar(60),
+    handicap_compensation_adult_request_id int8,
+    other_benefits_index int4,
+    primary key (id)
+);
+
+create table hcar_other_folder (
+    id int8 not null,
+    other_folder_department varchar(2),
+    other_folder_name varchar(60),
+    other_folder_number varchar(30),
+    handicap_compensation_adult_request_id int8,
+    other_folders_index int4,
+    primary key (id)
+);
+
+create table hcar_professional (
+    id int8 not null,
+    professional_last_name varchar(38),
+    professional_first_name varchar(38),
+    professional_address_id int8,
+    handicap_compensation_adult_request_id int8,
+    professionals_index int4,
+    primary key (id)
+);
+
+create table hccr_additional_fee (
+    id int8 not null,
+    additional_fee_kind varchar(30),
+    additional_fee_periodicity varchar(30),
+    additional_fee_cost varchar(6),
+    handicap_compensation_child_request_id int8,
+    additional_fee_index int4,
+    primary key (id)
+);
+
+create table hccr_care_service (
+    id int8 not null,
+    care_service_care_service_employer bool,
+    care_service_kind varchar(255),
+    care_service_provider_name varchar(38),
+    care_service_provider_address_id int8,
+    handicap_compensation_child_request_id int8,
+    care_services_index int4,
+    primary key (id)
+);
+
+create table hccr_family_assistance_member (
+    id int8 not null,
+    family_assistance_member_last_name varchar(38),
+    family_assistance_member_relationship varchar(60),
+    family_assistance_member_first_name varchar(38),
+    handicap_compensation_child_request_id int8,
+    family_assistance_members_index int4,
+    primary key (id)
+);
+
+create table hccr_family_dependent (
+    id int8 not null,
+    referent_family_dependent_first_name varchar(38),
+    referent_family_dependent_birth_date timestamp,
+    referent_family_dependent_actual_situation varchar(255),
+    referent_family_dependent_last_name varchar(38),
+    handicap_compensation_child_request_id int8,
+    family_dependents_index int4,
+    primary key (id)
+);
+
+create table hccr_home_intervenant (
+    id int8 not null,
+    home_intervenant_kind varchar(255),
+    home_intervenant_details varchar(60),
+    handicap_compensation_child_request_id int8,
+    home_intervenants_index int4,
+    primary key (id)
+);
+
+create table hccr_other_benefit (
+    id int8 not null,
+    other_benefit_name varchar(60),
+    handicap_compensation_child_request_id int8,
+    other_benefits_index int4,
+    primary key (id)
+);
+
+create table hccr_other_folder (
+    id int8 not null,
+    other_folder_department varchar(2),
+    other_folder_name varchar(60),
+    other_folder_number varchar(30),
+    handicap_compensation_child_request_id int8,
+    other_folders_index int4,
+    primary key (id)
+);
+
+create table hccr_professional (
+    id int8 not null,
+    professional_last_name varchar(38),
+    professional_first_name varchar(38),
+    professional_address_id int8,
+    handicap_compensation_child_request_id int8,
+    professionals_index int4,
+    primary key (id)
+);
+
+alter table handicap_compensation_adult_request 
+    add constraint FK73D0EACC2BC49188 
+    foreign key (studies_high_school_address_id) 
+    references address;
+
+alter table handicap_compensation_adult_request 
+    add constraint FK73D0EACCA933FB6F 
+    foreign key (social_security_agency_address_id) 
+    references address;
+
+alter table handicap_compensation_adult_request 
+    add constraint FK73D0EACC82587E99 
+    foreign key (id) 
+    references request;
+
+alter table handicap_compensation_adult_request 
+    add constraint FK73D0EACC2F7F7877 
+    foreign key (professional_status_address_id) 
+    references address;
+
+alter table handicap_compensation_adult_request 
+    add constraint FK73D0EACC2633BF01 
+    foreign key (dwelling_reception_address_id) 
+    references address;
+
+alter table handicap_compensation_adult_request 
+    add constraint FK73D0EACC2AF072D5 
+    foreign key (dwelling_social_reception_address_id) 
+    references address;
+
+alter table handicap_compensation_adult_request 
+    add constraint FK73D0EACCF813ECA3 
+    foreign key (payment_agency_address_id) 
+    references address;
+
+alter table handicap_compensation_adult_request 
+    add constraint FK73D0EACC86312376 
+    foreign key (professional_support_social_service_address_id) 
+    references address;
+
+alter table handicap_compensation_child_request 
+    add constraint FK309E3C2E2BC49188 
+    foreign key (studies_high_school_address_id) 
+    references address;
+
+alter table handicap_compensation_child_request 
+    add constraint FK309E3C2EA933FB6F 
+    foreign key (social_security_agency_address_id) 
+    references address;
+
+alter table handicap_compensation_child_request 
+    add constraint FK309E3C2E82587E99 
+    foreign key (id) 
+    references request;
+
+alter table handicap_compensation_child_request 
+    add constraint FK309E3C2E2F7F7877 
+    foreign key (professional_status_address_id) 
+    references address;
+
+alter table handicap_compensation_child_request 
+    add constraint FK309E3C2EE215BDD5 
+    foreign key (schooling_home_schooling_accompanist_address_id) 
+    references address;
+
+alter table handicap_compensation_child_request 
+    add constraint FK309E3C2E356CE3FE 
+    foreign key (social_service_address_id) 
+    references address;
+
+alter table handicap_compensation_child_request 
+    add constraint FK309E3C2E2633BF01 
+    foreign key (dwelling_reception_address_id) 
+    references address;
+
+alter table handicap_compensation_child_request 
+    add constraint FK309E3C2E2AF072D5 
+    foreign key (dwelling_social_reception_address_id) 
+    references address;
+
+alter table handicap_compensation_child_request 
+    add constraint FK309E3C2EF813ECA3 
+    foreign key (payment_agency_address_id) 
+    references address;
+
+alter table handicap_compensation_child_request 
+    add constraint FK309E3C2E489D3DBC 
+    foreign key (schooling_school_address_id) 
+    references address;
+
+alter table hcar_additional_fee 
+    add constraint FKB357C9A19DDD11C5 
+    foreign key (handicap_compensation_adult_request_id) 
+    references handicap_compensation_adult_request;
+
+alter table hcar_care_service 
+    add constraint FKD2D3BA7A7AB5BC78 
+    foreign key (care_service_provider_address_id) 
+    references address;
+
+alter table hcar_care_service 
+    add constraint FKD2D3BA7A9DDD11C5 
+    foreign key (handicap_compensation_adult_request_id) 
+    references handicap_compensation_adult_request;
+
+alter table hcar_family_assistance_member 
+    add constraint FKF63BE3D99DDD11C5 
+    foreign key (handicap_compensation_adult_request_id) 
+    references handicap_compensation_adult_request;
+
+alter table hcar_family_dependent 
+    add constraint FK6E4B5579DDD11C5 
+    foreign key (handicap_compensation_adult_request_id) 
+    references handicap_compensation_adult_request;
+
+alter table hcar_home_intervenant 
+    add constraint FK6294A7D79DDD11C5 
+    foreign key (handicap_compensation_adult_request_id) 
+    references handicap_compensation_adult_request;
+
+alter table hcar_other_benefit 
+    add constraint FKA530B5D59DDD11C5 
+    foreign key (handicap_compensation_adult_request_id) 
+    references handicap_compensation_adult_request;
+
+alter table hcar_other_folder 
+    add constraint FK4681FB709DDD11C5 
+    foreign key (handicap_compensation_adult_request_id) 
+    references handicap_compensation_adult_request;
+
+alter table hcar_professional 
+    add constraint FK581A111AEB2A3B3A 
+    foreign key (professional_address_id) 
+    references address;
+
+alter table hcar_professional 
+    add constraint FK581A111A9DDD11C5 
+    foreign key (handicap_compensation_adult_request_id) 
+    references handicap_compensation_adult_request;
+
+alter table hccr_additional_fee 
+    add constraint FK54AB85A32860A781 
+    foreign key (handicap_compensation_child_request_id) 
+    references handicap_compensation_child_request;
+
+alter table hccr_care_service 
+    add constraint FK868A8EFC2860A781 
+    foreign key (handicap_compensation_child_request_id) 
+    references handicap_compensation_child_request;
+
+alter table hccr_care_service 
+    add constraint FK868A8EFC7AB5BC78 
+    foreign key (care_service_provider_address_id) 
+    references address;
+
+alter table hccr_family_assistance_member 
+    add constraint FK68DE055B2860A781 
+    foreign key (handicap_compensation_child_request_id) 
+    references handicap_compensation_child_request;
+
+alter table hccr_family_dependent 
+    add constraint FKA23978D92860A781 
+    foreign key (handicap_compensation_child_request_id) 
+    references handicap_compensation_child_request;
+
+alter table hccr_home_intervenant 
+    add constraint FKFDE96B592860A781 
+    foreign key (handicap_compensation_child_request_id) 
+    references handicap_compensation_child_request;
+
+alter table hccr_other_benefit 
+    add constraint FK685471932860A781 
+    foreign key (handicap_compensation_child_request_id) 
+    references handicap_compensation_child_request;
+
+alter table hccr_other_folder 
+    add constraint FKFA38CFF22860A781 
+    foreign key (handicap_compensation_child_request_id) 
+    references handicap_compensation_child_request;
+
+alter table hccr_professional 
+    add constraint FKBD0E59C2860A781 
+    foreign key (handicap_compensation_child_request_id) 
+    references handicap_compensation_child_request;
+
+alter table hccr_professional 
+    add constraint FKBD0E59CEB2A3B3A 
+    foreign key (professional_address_id) 
+    references address;

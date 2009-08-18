@@ -249,374 +249,6 @@ alter table individual add column home_folder_index int4;
 select init_hibernate_list_index('individual', 'home_folder_id', 'id', 'home_folder_index');
 ALTER TABLE individual ADD constraint "home_folder_index_key" unique (home_folder_id, home_folder_index);
 
-/*********************************************
-  *                                       *
-  *           DOCUMENT BINARY             *
-  *                                       *
-**********************************************/  
-ALTER TABLE document_binary DROP COLUMN page_number;
-ALTER TABLE document_binary ADD COLUMN document_binary_index int4;
-select init_hibernate_list_index('document_binary', 'document_id', 'id', 'document_binary_index');
-ALTER TABLE document_binary ADD CONSTRAINT "document_binary_index_key" UNIQUE (document_id, document_binary_index);
-
-
-DROP function init_hibernate_list_index(text,text,text,text);
-
--- end of migration to indexed lists in requests collections elements
-
--- agents preferences enhancements
-ALTER TABLE agent ADD COLUMN preferences bytea;        
-
--- draft requests
-ALTER TABLE request ADD COLUMN draft bool;
-UPDATE request SET draft = false WHERE draft IS NULL;
-ALTER TABLE request ALTER COLUMN draft SET NOT NULL;
-ALTER TABLE request ALTER COLUMN draft SET DEFAULT false;
-
---local authority initial draft configuration 
-ALTER TABLE local_authority ADD COLUMN draft_live_duration int4;
-ALTER TABLE local_authority ADD COLUMN draft_notification_before_delete int4;
-
-UPDATE local_authority 
-SET
-  draft_live_duration = 20,
-  draft_notification_before_delete = 7;
-
-ALTER TABLE local_authority ALTER COLUMN draft_live_duration SET NOT NULL;
-ALTER TABLE local_authority ALTER COLUMN draft_notification_before_delete SET NOT NULL;
-
--- stepState support in requests
-ALTER TABLE request ADD COLUMN step_states bytea;
-
-
-/*********************************************
-  *                                       *
-  *             DISPLAY GROUP             *
-  *                                       *
-**********************************************/  
-CREATE TABLE display_group (
-    id int8 NOT NULL,
-    name VARCHAR(255),
-    label VARCHAR(255),
-    PRIMARY KEY (id) 
-);
-
-ALTER TABLE request_type ADD COLUMN display_group_id int8;
-ALTER TABLE request_type ADD CONSTRAINT FK4DAE96EA1D0DF06 FOREIGN KEY (
-  display_group_id) REFERENCES display_group;
-
--- update to Birth and Death Details request
-alter table birth_details_request add column birth_marriage_name varchar(38);
-
--- assets configuration
-alter table local_authority add column display_title varchar(100);
-update local_authority set display_title=name;
-alter table local_authority alter column display_title set not null;
-
-alter table local_authority add column server_names bytea;
-
-alter table local_authority add column requests_creation_notification_enabled bool;
-update local_authority set requests_creation_notification_enabled=false;
-alter table local_authority alter column requests_creation_notification_enabled set not null;
-
-alter table local_authority add column document_digitalization_enabled bool;
-update local_authority set document_digitalization_enabled=true;
-alter table local_authority alter column document_digitalization_enabled set not null;
-
-alter table local_authority add column instruction_alerts_enabled bool;
-update local_authority set instruction_alerts_enabled=false;
-alter table local_authority alter column instruction_alerts_enabled set not null;
-
-alter table local_authority add column instruction_alerts_detailed bool;
-update local_authority set instruction_alerts_detailed=false;
-alter table local_authority alter column instruction_alerts_detailed set not null;
-
-alter table local_authority add column instruction_default_max_delay int4;
-update local_authority set instruction_default_max_delay=10;
-alter table local_authority alter column instruction_default_max_delay set not null;
-
-alter table local_authority add column instruction_default_alert_delay int4;
-update local_authority set instruction_default_alert_delay=3;
-alter table local_authority alter column instruction_default_alert_delay set not null;
-
-alter table local_authority add column admin_email varchar(255);
-
-alter table technical_intervention_request add column other_intervention_label varchar(255);
-
--- update to electoral roll registration request
-UPDATE electoral_roll_registration_request SET subject_nationality='French' WHERE subject_nationality='FR';
-UPDATE electoral_roll_registration_request SET subject_nationality='EuropeanUnion' WHERE subject_nationality='EEC';
-UPDATE electoral_roll_registration_request SET subject_nationality='OutsideEuropeanUnion' WHERE subject_nationality='OUTSIDE_EEC';
-
--- update to sms notification request
-alter table sms_notification_request add column mobile_phone varchar(10);
-
--- update to perischool activity registration request
-create table perischool_authorized_individual (
-  id int8 not null,
-  office_phone varchar(10),
-  address_id int8,
-  first_name varchar(38),
-  last_name varchar(38),
-  home_phone varchar(10),
-  perischool_activity_registration_request_id int8,
-  authorized_individuals_index int4,
-  primary key (id)
-);
-
-create table perischool_contact_individual (
-  id int8 not null,
-  office_phone varchar(10),
-  address_id int8,
-  first_name varchar(38),
-  last_name varchar(38),
-  home_phone varchar(10),
-  perischool_activity_registration_request_id int8,
-  contact_individuals_index int4,
-  primary key (id)
-);
-    
-alter table perischool_authorized_individual 
-  add constraint FKEE33EA1E96225F9E 
-  foreign key (perischool_activity_registration_request_id) 
-  references perischool_activity_registration_request;
-
-alter table perischool_authorized_individual 
-  add constraint FKEE33EA1EB7531222 
-  foreign key (address_id) 
-  references address;
-
-alter table perischool_contact_individual 
-  add constraint FK5B659D5796225F9E 
-  foreign key (perischool_activity_registration_request_id) 
-  references perischool_activity_registration_request;
-
-alter table perischool_contact_individual 
-  add constraint FK5B659D57B7531222 
-  foreign key (address_id) 
-  references address;
-        
--- update to recreation activity registration request
-create table recreation_authorized_individual (
-  id int8 not null,
-  office_phone varchar(10),
-  address_id int8,
-  first_name varchar(38),
-  last_name varchar(38),
-  home_phone varchar(10),
-  recreation_activity_registration_request_id int8,
-  authorized_individuals_index int4,
-  primary key (id)
-);
-
-create table recreation_contact_individual (
-  id int8 not null,
-  office_phone varchar(10),
-  address_id int8,
-  first_name varchar(38),
-  last_name varchar(38),
-  home_phone varchar(10),
-  recreation_activity_registration_request_id int8,
-  contact_individuals_index int4,
-  primary key (id)
-);
-    
-alter table recreation_authorized_individual 
-  add constraint FK5BA62550B7531222 
-  foreign key (address_id) 
-  references address;
-
-alter table recreation_authorized_individual 
-  add constraint FK5BA625504C4C853A 
-  foreign key (recreation_activity_registration_request_id) 
-  references recreation_activity_registration_request;
-
-alter table recreation_contact_individual 
-  add constraint FK52B67F65B7531222 
-  foreign key (address_id) 
-  references address;
-
-alter table recreation_contact_individual 
-  add constraint FK52B67F654C4C853A 
-  foreign key (recreation_activity_registration_request_id) 
-  references recreation_activity_registration_request; 
-
-drop table personal_details_request;
-delete from request_note where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
-delete from request_document where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
-delete from request_action where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
-delete from forms where request_type_id=(select id from request_type where label='Personal Details');
-delete from request where request_type_id = (select id from request_type where label='Personal Details');
-delete from requirement where request_type_id = (select id from request_type where label = 'Personal Details');
-delete from request_type where id=(select id from request_type where label='Personal Details');
-
-create table alignment_numbering_connection_request (
-  id int8 not null,
-  is_numbering bool,
-  other_address_id int8,
-  owner_first_names varchar(255),
-  number bytea,
-  area bytea,
-  more_than_two_years bool,
-  owner_address_id int8,
-  requester_quality varchar(255),
-  section varchar(255),
-  transportation_route varchar(255),
-  locality varchar(255),
-  is_connection bool,
-  is_account_address bool,
-  is_alignment bool,
-  owner_last_name varchar(38),
-  primary key (id)
-);
-
-alter table alignment_numbering_connection_request 
-  add constraint FKEBD1311082587E99 
-  foreign key (id) 
-  references request;
-
-alter table alignment_numbering_connection_request 
-  add constraint FKEBD131101F88D72E 
-  foreign key (owner_address_id) 
-  references address;
-
-alter table alignment_numbering_connection_request 
-  add constraint FKEBD13110C6C3DEB1 
-  foreign key (other_address_id) 
-  references address;
-  
--- update individual_role (to enable hibernate merge)
-alter table individual_role add column individual_name varchar(255);
-
-create table study_grant_request (
-  id int8 not null,
-  abroad_internship_end_date timestamp,
-  has_europe_help bool,
-  current_studies varchar(255),
-  current_studies_level varchar(255),
-  current_school_postal_code varchar(5),
-  abroad_internship_start_date timestamp,
-  tax_household_first_name varchar(38),
-  alevels_date varchar(4),
-  bank_code varchar(5),
-  subject_birth_date timestamp,
-  counter_code varchar(5),
-  current_school_city varchar(32),
-  has_c_r_o_u_s_help bool,
-  subject_email varchar(255),
-  current_school_name varchar(255),
-  sandwich_courses bool,
-  abroad_internship_school_country varchar(255),
-  tax_household_city varchar(32),
-  abroad_internship bool,
-  tax_household_last_name varchar(38),
-  account_number varchar(11),
-  distance varchar(255),
-  alevels varchar(255),
-  tax_household_postal_code varchar(5),
-  subject_mobile_phone varchar(10),
-  abroad_internship_school_name varchar(255),
-  account_key varchar(2),
-  other_studies_label varchar(255),
-  has_regional_council_help bool,
-  tax_household_income float8,
-  has_other_help bool,
-  subject_address_id int8,
-  current_school_country varchar(255),
-  subject_phone varchar(10),
-  primary key (id)
-);
-
-alter table study_grant_request 
-  add constraint FK7D2F0A7682587E99 
-  foreign key (id) 
-  references request;
-
-alter table study_grant_request 
-  add constraint FK7D2F0A7687B85F15 
-  foreign key (subject_address_id) 
-  references address;
-
-alter table study_grant_request add column subject_first_request bool;
-
-alter table study_grant_request add column edemande_id varchar(255);
-
-alter table request_note rename column agent_id to user_id;
-alter table request rename column last_intervening_agent_id to last_intervening_user_id;
-
-alter table request_note add column date timestamp;
-
-update request_note set type = 'Internal' where type like '%Internal';
-update request_note set type = 'Public' where type like '%External' or type like 'Default%';
-
--- study grant refectoring 5
-alter table study_grant_request drop column current_school_name;
-alter table study_grant_request drop column tax_household_city;
-
-create table study_grant_request_current_school_name (
-    study_grant_request_id int8 not null,
-    current_school_name_id int8 not null,
-    current_school_name_index int4 not null,
-    primary key (study_grant_request_id, current_school_name_index)
-);
-
-create table study_grant_request_tax_household_city (
-    study_grant_request_id int8 not null,
-    tax_household_city_id int8 not null,
-    tax_household_city_index int4 not null,
-    primary key (study_grant_request_id, tax_household_city_index)
-);
-
-alter table study_grant_request_current_school_name 
-    add constraint FK49484F67C1B15A77 
-    foreign key (study_grant_request_id) 
-    references study_grant_request;
-
-alter table study_grant_request_current_school_name 
-    add constraint FK49484F674E42238A 
-    foreign key (current_school_name_id) 
-    references local_referential_data;
-
-alter table study_grant_request_tax_household_city 
-    add constraint FK1B568948A40092FB 
-    foreign key (tax_household_city_id) 
-    references local_referential_data;
-
-alter table study_grant_request_tax_household_city 
-    add constraint FK1B568948C1B15A77 
-    foreign key (study_grant_request_id) 
-    references study_grant_request;
-
-alter table study_grant_request drop column tax_household_postal_code;
-alter table study_grant_request add column tax_household_city_precision varchar(255);
-alter table study_grant_request add column current_school_name_precision  varchar(255);
-alter table study_grant_request add column is_subject_account_holder bool;
-alter table study_grant_request add column account_holder_birth_date timestamp;
-alter table study_grant_request add column account_holder_last_name  varchar(38);
-alter table study_grant_request add column account_holder_title varchar(255);
-alter table study_grant_request add column account_holder_first_name  varchar(38);
-
-
-alter table external_service_traces alter column key type character varying(255);
-
-update request_type set label = 'VO Card' where label = 'VO Card Request';
-
-alter table study_grant_request add column account_holder_edemande_id varchar(255);
-
-alter table external_service_traces add column subkey varchar(255);
-update external_service_traces set subkey = 'subject' where message like '%tiers%';
-
-alter table local_authority add column payment_deactivation_start_date timestamp;
-alter table local_authority add column payment_deactivation_end_date timestamp;
-
-alter table local_authority add column display_in_progress_payments bool not null default false;
-
--- remove card data
-alter table individual drop constraint FKFD3DA29948B0ABD2;
-drop table card;
-
-alter table request_note alter column note type varchar(1024);
-
 -- paph requests (drop / create <= no production data)
 alter table domestic_help_request drop constraint FK3C0081121C4A2C9A;
 alter table domestic_help_request drop constraint FK3C008112A2B2928B;
@@ -626,7 +258,7 @@ alter table domestic_help_request drop constraint FK3C008112ED1B9492;
 drop table dhr_donation;
 drop table dhr_personal_estate_and_saving;
 drop table dhr_previous_dwelling;
-drop table dhr_real_asset;        
+drop table dhr_real_asset;
 drop table domestic_help_request;
 
 alter table remote_support_request drop constraint FKEAA6DC26ED1B9492;
@@ -736,69 +368,69 @@ create table domestic_help_request (
     primary key (id)
 );
 
-alter table dhr_not_real_asset 
-    add constraint FK2BA9F1EC6D5B4A55 
-    foreign key (dhr_not_real_asset_address_id) 
+alter table dhr_not_real_asset
+    add constraint FK2BA9F1EC6D5B4A55
+    foreign key (dhr_not_real_asset_address_id)
     references address;
 
-alter table dhr_not_real_asset 
-    add constraint FK2BA9F1EC79D85259 
-    foreign key (dhr_not_real_asset_notary_address_id) 
+alter table dhr_not_real_asset
+    add constraint FK2BA9F1EC79D85259
+    foreign key (dhr_not_real_asset_notary_address_id)
     references address;
 
-alter table dhr_not_real_asset 
-    add constraint FK2BA9F1EC1F99E36F 
-    foreign key (dhr_not_real_asset_beneficiary_address_id) 
+alter table dhr_not_real_asset
+    add constraint FK2BA9F1EC1F99E36F
+    foreign key (dhr_not_real_asset_beneficiary_address_id)
     references address;
 
-alter table dhr_not_real_asset 
-    add constraint FK2BA9F1ECD6AE1BE8 
-    foreign key (domestic_help_request_id) 
+alter table dhr_not_real_asset
+    add constraint FK2BA9F1ECD6AE1BE8
+    foreign key (domestic_help_request_id)
     references domestic_help_request;
 
-alter table dhr_previous_dwelling 
-    add constraint FKB0B96E274AF76B3A 
-    foreign key (dhr_previous_dwelling_address_id) 
+alter table dhr_previous_dwelling
+    add constraint FKB0B96E274AF76B3A
+    foreign key (dhr_previous_dwelling_address_id)
     references address;
 
-alter table dhr_previous_dwelling 
-    add constraint FKB0B96E27D6AE1BE8 
-    foreign key (domestic_help_request_id) 
+alter table dhr_previous_dwelling
+    add constraint FKB0B96E27D6AE1BE8
+    foreign key (domestic_help_request_id)
     references domestic_help_request;
 
-alter table dhr_real_asset 
-    add constraint FK6AA7D9809D2A9E41 
-    foreign key (dhr_real_asset_address_id) 
+alter table dhr_real_asset
+    add constraint FK6AA7D9809D2A9E41
+    foreign key (dhr_real_asset_address_id)
     references address;
 
-alter table dhr_real_asset 
-    add constraint FK6AA7D980D6AE1BE8 
-    foreign key (domestic_help_request_id) 
+alter table dhr_real_asset
+    add constraint FK6AA7D980D6AE1BE8
+    foreign key (domestic_help_request_id)
     references domestic_help_request;
 
-alter table domestic_help_request 
-    add constraint FK3C00811289BB4925 
-    foreign key (dhr_referent_address_id) 
+alter table domestic_help_request
+    add constraint FK3C00811289BB4925
+    foreign key (dhr_referent_address_id)
     references address;
 
-alter table domestic_help_request 
-    add constraint FK3C00811282587E99 
-    foreign key (id) 
+alter table domestic_help_request
+    add constraint FK3C00811282587E99
+    foreign key (id)
     references request;
 
-alter table domestic_help_request 
-    add constraint FK3C0081123044483F 
-    foreign key (dhr_guardian_address_id) 
+alter table domestic_help_request
+    add constraint FK3C0081123044483F
+    foreign key (dhr_guardian_address_id)
     references address;
 
-alter table domestic_help_request 
-    add constraint FK3C008112D045047B 
-    foreign key (dhr_spouse_address_id) 
+alter table domestic_help_request
+    add constraint FK3C008112D045047B
+    foreign key (dhr_spouse_address_id)
     references address;
 
-alter table domestic_help_request 
-    add constraint FK3C008112D6EC023A 
-    foreign key (dhr_current_dwelling_address_id) 
+alter table domestic_help_request
+    add constraint FK3C008112D6EC023A
+    foreign key (dhr_current_dwelling_address_id)
     references address;
 
 create table remote_support_request (
@@ -830,9 +462,9 @@ create table remote_support_request (
     primary key (id)
 );
 
-alter table remote_support_request 
-    add constraint FKEAA6DC2682587E99 
-    foreign key (id) 
+alter table remote_support_request
+    add constraint FKEAA6DC2682587E99
+    foreign key (id)
     references request;
 
 
@@ -1321,192 +953,562 @@ create table hccr_professional (
     primary key (id)
 );
 
-alter table handicap_compensation_adult_request 
-    add constraint FK73D0EACC2BC49188 
-    foreign key (studies_high_school_address_id) 
+alter table handicap_compensation_adult_request
+    add constraint FK73D0EACC2BC49188
+    foreign key (studies_high_school_address_id)
     references address;
 
-alter table handicap_compensation_adult_request 
-    add constraint FK73D0EACCA933FB6F 
-    foreign key (social_security_agency_address_id) 
+alter table handicap_compensation_adult_request
+    add constraint FK73D0EACCA933FB6F
+    foreign key (social_security_agency_address_id)
     references address;
 
-alter table handicap_compensation_adult_request 
-    add constraint FK73D0EACC82587E99 
-    foreign key (id) 
+alter table handicap_compensation_adult_request
+    add constraint FK73D0EACC82587E99
+    foreign key (id)
     references request;
 
-alter table handicap_compensation_adult_request 
-    add constraint FK73D0EACC2F7F7877 
-    foreign key (professional_status_address_id) 
+alter table handicap_compensation_adult_request
+    add constraint FK73D0EACC2F7F7877
+    foreign key (professional_status_address_id)
     references address;
 
-alter table handicap_compensation_adult_request 
-    add constraint FK73D0EACC2633BF01 
-    foreign key (dwelling_reception_address_id) 
+alter table handicap_compensation_adult_request
+    add constraint FK73D0EACC2633BF01
+    foreign key (dwelling_reception_address_id)
     references address;
 
-alter table handicap_compensation_adult_request 
-    add constraint FK73D0EACC2AF072D5 
-    foreign key (dwelling_social_reception_address_id) 
+alter table handicap_compensation_adult_request
+    add constraint FK73D0EACC2AF072D5
+    foreign key (dwelling_social_reception_address_id)
     references address;
 
-alter table handicap_compensation_adult_request 
-    add constraint FK73D0EACCF813ECA3 
-    foreign key (payment_agency_address_id) 
+alter table handicap_compensation_adult_request
+    add constraint FK73D0EACCF813ECA3
+    foreign key (payment_agency_address_id)
     references address;
 
-alter table handicap_compensation_adult_request 
-    add constraint FK73D0EACC86312376 
-    foreign key (professional_support_social_service_address_id) 
+alter table handicap_compensation_adult_request
+    add constraint FK73D0EACC86312376
+    foreign key (professional_support_social_service_address_id)
     references address;
 
-alter table handicap_compensation_child_request 
-    add constraint FK309E3C2E2BC49188 
-    foreign key (studies_high_school_address_id) 
+alter table handicap_compensation_child_request
+    add constraint FK309E3C2E2BC49188
+    foreign key (studies_high_school_address_id)
     references address;
 
-alter table handicap_compensation_child_request 
-    add constraint FK309E3C2EA933FB6F 
-    foreign key (social_security_agency_address_id) 
+alter table handicap_compensation_child_request
+    add constraint FK309E3C2EA933FB6F
+    foreign key (social_security_agency_address_id)
     references address;
 
-alter table handicap_compensation_child_request 
-    add constraint FK309E3C2E82587E99 
-    foreign key (id) 
+alter table handicap_compensation_child_request
+    add constraint FK309E3C2E82587E99
+    foreign key (id)
     references request;
 
-alter table handicap_compensation_child_request 
-    add constraint FK309E3C2E2F7F7877 
-    foreign key (professional_status_address_id) 
+alter table handicap_compensation_child_request
+    add constraint FK309E3C2E2F7F7877
+    foreign key (professional_status_address_id)
     references address;
 
-alter table handicap_compensation_child_request 
-    add constraint FK309E3C2EE215BDD5 
-    foreign key (schooling_home_schooling_accompanist_address_id) 
+alter table handicap_compensation_child_request
+    add constraint FK309E3C2EE215BDD5
+    foreign key (schooling_home_schooling_accompanist_address_id)
     references address;
 
-alter table handicap_compensation_child_request 
-    add constraint FK309E3C2E356CE3FE 
-    foreign key (social_service_address_id) 
+alter table handicap_compensation_child_request
+    add constraint FK309E3C2E356CE3FE
+    foreign key (social_service_address_id)
     references address;
 
-alter table handicap_compensation_child_request 
-    add constraint FK309E3C2E2633BF01 
-    foreign key (dwelling_reception_address_id) 
+alter table handicap_compensation_child_request
+    add constraint FK309E3C2E2633BF01
+    foreign key (dwelling_reception_address_id)
     references address;
 
-alter table handicap_compensation_child_request 
-    add constraint FK309E3C2E2AF072D5 
-    foreign key (dwelling_social_reception_address_id) 
+alter table handicap_compensation_child_request
+    add constraint FK309E3C2E2AF072D5
+    foreign key (dwelling_social_reception_address_id)
     references address;
 
-alter table handicap_compensation_child_request 
-    add constraint FK309E3C2EF813ECA3 
-    foreign key (payment_agency_address_id) 
+alter table handicap_compensation_child_request
+    add constraint FK309E3C2EF813ECA3
+    foreign key (payment_agency_address_id)
     references address;
 
-alter table handicap_compensation_child_request 
-    add constraint FK309E3C2E489D3DBC 
-    foreign key (schooling_school_address_id) 
+alter table handicap_compensation_child_request
+    add constraint FK309E3C2E489D3DBC
+    foreign key (schooling_school_address_id)
     references address;
 
-alter table hcar_additional_fee 
-    add constraint FKB357C9A19DDD11C5 
-    foreign key (handicap_compensation_adult_request_id) 
+alter table hcar_additional_fee
+    add constraint FKB357C9A19DDD11C5
+    foreign key (handicap_compensation_adult_request_id)
     references handicap_compensation_adult_request;
 
-alter table hcar_care_service 
-    add constraint FKD2D3BA7A7AB5BC78 
-    foreign key (care_service_provider_address_id) 
+alter table hcar_care_service
+    add constraint FKD2D3BA7A7AB5BC78
+    foreign key (care_service_provider_address_id)
     references address;
 
-alter table hcar_care_service 
-    add constraint FKD2D3BA7A9DDD11C5 
-    foreign key (handicap_compensation_adult_request_id) 
+alter table hcar_care_service
+    add constraint FKD2D3BA7A9DDD11C5
+    foreign key (handicap_compensation_adult_request_id)
     references handicap_compensation_adult_request;
 
-alter table hcar_family_assistance_member 
-    add constraint FKF63BE3D99DDD11C5 
-    foreign key (handicap_compensation_adult_request_id) 
+alter table hcar_family_assistance_member
+    add constraint FKF63BE3D99DDD11C5
+    foreign key (handicap_compensation_adult_request_id)
     references handicap_compensation_adult_request;
 
-alter table hcar_family_dependent 
-    add constraint FK6E4B5579DDD11C5 
-    foreign key (handicap_compensation_adult_request_id) 
+alter table hcar_family_dependent
+    add constraint FK6E4B5579DDD11C5
+    foreign key (handicap_compensation_adult_request_id)
     references handicap_compensation_adult_request;
 
-alter table hcar_home_intervenant 
-    add constraint FK6294A7D79DDD11C5 
-    foreign key (handicap_compensation_adult_request_id) 
+alter table hcar_home_intervenant
+    add constraint FK6294A7D79DDD11C5
+    foreign key (handicap_compensation_adult_request_id)
     references handicap_compensation_adult_request;
 
-alter table hcar_other_benefit 
-    add constraint FKA530B5D59DDD11C5 
-    foreign key (handicap_compensation_adult_request_id) 
+alter table hcar_other_benefit
+    add constraint FKA530B5D59DDD11C5
+    foreign key (handicap_compensation_adult_request_id)
     references handicap_compensation_adult_request;
 
-alter table hcar_other_folder 
-    add constraint FK4681FB709DDD11C5 
-    foreign key (handicap_compensation_adult_request_id) 
+alter table hcar_other_folder
+    add constraint FK4681FB709DDD11C5
+    foreign key (handicap_compensation_adult_request_id)
     references handicap_compensation_adult_request;
 
-alter table hcar_professional 
-    add constraint FK581A111AEB2A3B3A 
-    foreign key (professional_address_id) 
+alter table hcar_professional
+    add constraint FK581A111AEB2A3B3A
+    foreign key (professional_address_id)
     references address;
 
-alter table hcar_professional 
-    add constraint FK581A111A9DDD11C5 
-    foreign key (handicap_compensation_adult_request_id) 
+alter table hcar_professional
+    add constraint FK581A111A9DDD11C5
+    foreign key (handicap_compensation_adult_request_id)
     references handicap_compensation_adult_request;
 
-alter table hccr_additional_fee 
-    add constraint FK54AB85A32860A781 
-    foreign key (handicap_compensation_child_request_id) 
+alter table hccr_additional_fee
+    add constraint FK54AB85A32860A781
+    foreign key (handicap_compensation_child_request_id)
     references handicap_compensation_child_request;
 
-alter table hccr_care_service 
-    add constraint FK868A8EFC2860A781 
-    foreign key (handicap_compensation_child_request_id) 
+alter table hccr_care_service
+    add constraint FK868A8EFC2860A781
+    foreign key (handicap_compensation_child_request_id)
     references handicap_compensation_child_request;
 
-alter table hccr_care_service 
-    add constraint FK868A8EFC7AB5BC78 
-    foreign key (care_service_provider_address_id) 
+alter table hccr_care_service
+    add constraint FK868A8EFC7AB5BC78
+    foreign key (care_service_provider_address_id)
     references address;
 
-alter table hccr_family_assistance_member 
-    add constraint FK68DE055B2860A781 
-    foreign key (handicap_compensation_child_request_id) 
+alter table hccr_family_assistance_member
+    add constraint FK68DE055B2860A781
+    foreign key (handicap_compensation_child_request_id)
     references handicap_compensation_child_request;
 
-alter table hccr_family_dependent 
-    add constraint FKA23978D92860A781 
-    foreign key (handicap_compensation_child_request_id) 
+alter table hccr_family_dependent
+    add constraint FKA23978D92860A781
+    foreign key (handicap_compensation_child_request_id)
     references handicap_compensation_child_request;
 
-alter table hccr_home_intervenant 
-    add constraint FKFDE96B592860A781 
-    foreign key (handicap_compensation_child_request_id) 
+alter table hccr_home_intervenant
+    add constraint FKFDE96B592860A781
+    foreign key (handicap_compensation_child_request_id)
     references handicap_compensation_child_request;
 
-alter table hccr_other_benefit 
-    add constraint FK685471932860A781 
-    foreign key (handicap_compensation_child_request_id) 
+alter table hccr_other_benefit
+    add constraint FK685471932860A781
+    foreign key (handicap_compensation_child_request_id)
     references handicap_compensation_child_request;
 
-alter table hccr_other_folder 
-    add constraint FKFA38CFF22860A781 
-    foreign key (handicap_compensation_child_request_id) 
+alter table hccr_other_folder
+    add constraint FKFA38CFF22860A781
+    foreign key (handicap_compensation_child_request_id)
     references handicap_compensation_child_request;
 
-alter table hccr_professional 
-    add constraint FKBD0E59C2860A781 
-    foreign key (handicap_compensation_child_request_id) 
+alter table hccr_professional
+    add constraint FKBD0E59C2860A781
+    foreign key (handicap_compensation_child_request_id)
     references handicap_compensation_child_request;
 
-alter table hccr_professional 
-    add constraint FKBD0E59CEB2A3B3A 
-    foreign key (professional_address_id) 
+alter table hccr_professional
+    add constraint FKBD0E59CEB2A3B3A
+    foreign key (professional_address_id)
     references address;
+
+/*********************************************
+  *                                       *
+  *           DOCUMENT BINARY             *
+  *                                       *
+**********************************************/  
+ALTER TABLE document_binary DROP COLUMN page_number;
+ALTER TABLE document_binary ADD COLUMN document_binary_index int4;
+select init_hibernate_list_index('document_binary', 'document_id', 'id', 'document_binary_index');
+ALTER TABLE document_binary ADD CONSTRAINT "document_binary_index_key" UNIQUE (document_id, document_binary_index);
+
+
+DROP function init_hibernate_list_index(text,text,text,text);
+
+-- end of migration to indexed lists in requests collections elements
+
+-- agents preferences enhancements
+ALTER TABLE agent ADD COLUMN preferences bytea;        
+
+-- draft requests
+ALTER TABLE request ADD COLUMN draft bool;
+UPDATE request SET draft = false WHERE draft IS NULL;
+ALTER TABLE request ALTER COLUMN draft SET NOT NULL;
+ALTER TABLE request ALTER COLUMN draft SET DEFAULT false;
+
+--local authority initial draft configuration 
+ALTER TABLE local_authority ADD COLUMN draft_live_duration int4;
+ALTER TABLE local_authority ADD COLUMN draft_notification_before_delete int4;
+
+UPDATE local_authority 
+SET
+  draft_live_duration = 20,
+  draft_notification_before_delete = 7;
+
+ALTER TABLE local_authority ALTER COLUMN draft_live_duration SET NOT NULL;
+ALTER TABLE local_authority ALTER COLUMN draft_notification_before_delete SET NOT NULL;
+
+-- stepState support in requests
+ALTER TABLE request ADD COLUMN step_states bytea;
+
+
+/*********************************************
+  *                                       *
+  *             DISPLAY GROUP             *
+  *                                       *
+**********************************************/  
+CREATE TABLE display_group (
+    id int8 NOT NULL,
+    name VARCHAR(255),
+    label VARCHAR(255),
+    PRIMARY KEY (id) 
+);
+
+ALTER TABLE request_type ADD COLUMN display_group_id int8;
+ALTER TABLE request_type ADD CONSTRAINT FK4DAE96EA1D0DF06 FOREIGN KEY (
+  display_group_id) REFERENCES display_group;
+
+-- update to Birth and Death Details request
+alter table birth_details_request add column birth_marriage_name varchar(38);
+
+-- assets configuration
+alter table local_authority add column display_title varchar(100);
+update local_authority set display_title=name;
+alter table local_authority alter column display_title set not null;
+
+alter table local_authority add column server_names bytea;
+
+alter table local_authority add column requests_creation_notification_enabled bool;
+update local_authority set requests_creation_notification_enabled=false;
+alter table local_authority alter column requests_creation_notification_enabled set not null;
+
+alter table local_authority add column document_digitalization_enabled bool;
+update local_authority set document_digitalization_enabled=true;
+alter table local_authority alter column document_digitalization_enabled set not null;
+
+alter table local_authority add column instruction_alerts_enabled bool;
+update local_authority set instruction_alerts_enabled=false;
+alter table local_authority alter column instruction_alerts_enabled set not null;
+
+alter table local_authority add column instruction_alerts_detailed bool;
+update local_authority set instruction_alerts_detailed=false;
+alter table local_authority alter column instruction_alerts_detailed set not null;
+
+alter table local_authority add column instruction_default_max_delay int4;
+update local_authority set instruction_default_max_delay=10;
+alter table local_authority alter column instruction_default_max_delay set not null;
+
+alter table local_authority add column instruction_default_alert_delay int4;
+update local_authority set instruction_default_alert_delay=3;
+alter table local_authority alter column instruction_default_alert_delay set not null;
+
+alter table local_authority add column admin_email varchar(255);
+
+alter table technical_intervention_request add column other_intervention_label varchar(255);
+
+-- update to electoral roll registration request
+UPDATE electoral_roll_registration_request SET subject_nationality='French' WHERE subject_nationality='FR';
+UPDATE electoral_roll_registration_request SET subject_nationality='EuropeanUnion' WHERE subject_nationality='EEC';
+UPDATE electoral_roll_registration_request SET subject_nationality='OutsideEuropeanUnion' WHERE subject_nationality='OUTSIDE_EEC';
+
+-- update to sms notification request
+alter table sms_notification_request add column mobile_phone varchar(10);
+
+-- update to perischool activity registration request
+create table perischool_authorized_individual (
+  id int8 not null,
+  office_phone varchar(10),
+  address_id int8,
+  first_name varchar(38),
+  last_name varchar(38),
+  home_phone varchar(10),
+  perischool_activity_registration_request_id int8,
+  authorized_individuals_index int4,
+  primary key (id)
+);
+
+create table perischool_contact_individual (
+  id int8 not null,
+  office_phone varchar(10),
+  address_id int8,
+  first_name varchar(38),
+  last_name varchar(38),
+  home_phone varchar(10),
+  perischool_activity_registration_request_id int8,
+  contact_individuals_index int4,
+  primary key (id)
+);
+    
+alter table perischool_authorized_individual 
+  add constraint FKEE33EA1E96225F9E 
+  foreign key (perischool_activity_registration_request_id) 
+  references perischool_activity_registration_request;
+
+alter table perischool_authorized_individual 
+  add constraint FKEE33EA1EB7531222 
+  foreign key (address_id) 
+  references address;
+
+alter table perischool_contact_individual 
+  add constraint FK5B659D5796225F9E 
+  foreign key (perischool_activity_registration_request_id) 
+  references perischool_activity_registration_request;
+
+alter table perischool_contact_individual 
+  add constraint FK5B659D57B7531222 
+  foreign key (address_id) 
+  references address;
+        
+-- update to recreation activity registration request
+create table recreation_authorized_individual (
+  id int8 not null,
+  office_phone varchar(10),
+  address_id int8,
+  first_name varchar(38),
+  last_name varchar(38),
+  home_phone varchar(10),
+  recreation_activity_registration_request_id int8,
+  authorized_individuals_index int4,
+  primary key (id)
+);
+
+create table recreation_contact_individual (
+  id int8 not null,
+  office_phone varchar(10),
+  address_id int8,
+  first_name varchar(38),
+  last_name varchar(38),
+  home_phone varchar(10),
+  recreation_activity_registration_request_id int8,
+  contact_individuals_index int4,
+  primary key (id)
+);
+    
+alter table recreation_authorized_individual 
+  add constraint FK5BA62550B7531222 
+  foreign key (address_id) 
+  references address;
+
+alter table recreation_authorized_individual 
+  add constraint FK5BA625504C4C853A 
+  foreign key (recreation_activity_registration_request_id) 
+  references recreation_activity_registration_request;
+
+alter table recreation_contact_individual 
+  add constraint FK52B67F65B7531222 
+  foreign key (address_id) 
+  references address;
+
+alter table recreation_contact_individual 
+  add constraint FK52B67F654C4C853A 
+  foreign key (recreation_activity_registration_request_id) 
+  references recreation_activity_registration_request; 
+
+drop table personal_details_request;
+delete from request_note where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from request_document where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from request_action where request_id in (select id from request where request_type_id = (select id from request_type where label='Personal Details'));
+delete from forms where request_type_id=(select id from request_type where label='Personal Details');
+delete from request where request_type_id = (select id from request_type where label='Personal Details');
+delete from requirement where request_type_id = (select id from request_type where label = 'Personal Details');
+delete from request_type where id=(select id from request_type where label='Personal Details');
+
+create table alignment_numbering_connection_request (
+  id int8 not null,
+  is_numbering bool,
+  other_address_id int8,
+  owner_first_names varchar(255),
+  number bytea,
+  area bytea,
+  more_than_two_years bool,
+  owner_address_id int8,
+  requester_quality varchar(255),
+  section varchar(255),
+  transportation_route varchar(255),
+  locality varchar(255),
+  is_connection bool,
+  is_account_address bool,
+  is_alignment bool,
+  owner_last_name varchar(38),
+  primary key (id)
+);
+
+alter table alignment_numbering_connection_request 
+  add constraint FKEBD1311082587E99 
+  foreign key (id) 
+  references request;
+
+alter table alignment_numbering_connection_request 
+  add constraint FKEBD131101F88D72E 
+  foreign key (owner_address_id) 
+  references address;
+
+alter table alignment_numbering_connection_request 
+  add constraint FKEBD13110C6C3DEB1 
+  foreign key (other_address_id) 
+  references address;
+  
+-- update individual_role (to enable hibernate merge)
+alter table individual_role add column individual_name varchar(255);
+
+create table study_grant_request (
+  id int8 not null,
+  abroad_internship_end_date timestamp,
+  has_europe_help bool,
+  current_studies varchar(255),
+  current_studies_level varchar(255),
+  current_school_postal_code varchar(5),
+  abroad_internship_start_date timestamp,
+  tax_household_first_name varchar(38),
+  alevels_date varchar(4),
+  bank_code varchar(5),
+  subject_birth_date timestamp,
+  counter_code varchar(5),
+  current_school_city varchar(32),
+  has_c_r_o_u_s_help bool,
+  subject_email varchar(255),
+  current_school_name varchar(255),
+  sandwich_courses bool,
+  abroad_internship_school_country varchar(255),
+  tax_household_city varchar(32),
+  abroad_internship bool,
+  tax_household_last_name varchar(38),
+  account_number varchar(11),
+  distance varchar(255),
+  alevels varchar(255),
+  tax_household_postal_code varchar(5),
+  subject_mobile_phone varchar(10),
+  abroad_internship_school_name varchar(255),
+  account_key varchar(2),
+  other_studies_label varchar(255),
+  has_regional_council_help bool,
+  tax_household_income float8,
+  has_other_help bool,
+  subject_address_id int8,
+  current_school_country varchar(255),
+  subject_phone varchar(10),
+  primary key (id)
+);
+
+alter table study_grant_request 
+  add constraint FK7D2F0A7682587E99 
+  foreign key (id) 
+  references request;
+
+alter table study_grant_request 
+  add constraint FK7D2F0A7687B85F15 
+  foreign key (subject_address_id) 
+  references address;
+
+alter table study_grant_request add column subject_first_request bool;
+
+alter table study_grant_request add column edemande_id varchar(255);
+
+alter table request_note rename column agent_id to user_id;
+alter table request rename column last_intervening_agent_id to last_intervening_user_id;
+
+alter table request_note add column date timestamp;
+
+update request_note set type = 'Internal' where type like '%Internal';
+update request_note set type = 'Public' where type like '%External' or type like 'Default%';
+
+-- study grant refectoring 5
+alter table study_grant_request drop column current_school_name;
+alter table study_grant_request drop column tax_household_city;
+
+create table study_grant_request_current_school_name (
+    study_grant_request_id int8 not null,
+    current_school_name_id int8 not null,
+    current_school_name_index int4 not null,
+    primary key (study_grant_request_id, current_school_name_index)
+);
+
+create table study_grant_request_tax_household_city (
+    study_grant_request_id int8 not null,
+    tax_household_city_id int8 not null,
+    tax_household_city_index int4 not null,
+    primary key (study_grant_request_id, tax_household_city_index)
+);
+
+alter table study_grant_request_current_school_name 
+    add constraint FK49484F67C1B15A77 
+    foreign key (study_grant_request_id) 
+    references study_grant_request;
+
+alter table study_grant_request_current_school_name 
+    add constraint FK49484F674E42238A 
+    foreign key (current_school_name_id) 
+    references local_referential_data;
+
+alter table study_grant_request_tax_household_city 
+    add constraint FK1B568948A40092FB 
+    foreign key (tax_household_city_id) 
+    references local_referential_data;
+
+alter table study_grant_request_tax_household_city 
+    add constraint FK1B568948C1B15A77 
+    foreign key (study_grant_request_id) 
+    references study_grant_request;
+
+alter table study_grant_request drop column tax_household_postal_code;
+alter table study_grant_request add column tax_household_city_precision varchar(255);
+alter table study_grant_request add column current_school_name_precision  varchar(255);
+alter table study_grant_request add column is_subject_account_holder bool;
+alter table study_grant_request add column account_holder_birth_date timestamp;
+alter table study_grant_request add column account_holder_last_name  varchar(38);
+alter table study_grant_request add column account_holder_title varchar(255);
+alter table study_grant_request add column account_holder_first_name  varchar(38);
+
+
+alter table external_service_traces alter column key type character varying(255);
+
+update request_type set label = 'VO Card' where label = 'VO Card Request';
+
+alter table study_grant_request add column account_holder_edemande_id varchar(255);
+
+alter table external_service_traces add column subkey varchar(255);
+update external_service_traces set subkey = 'subject' where message like '%tiers%';
+
+alter table local_authority add column payment_deactivation_start_date timestamp;
+alter table local_authority add column payment_deactivation_end_date timestamp;
+
+alter table local_authority add column display_in_progress_payments bool not null default false;
+
+-- remove card data
+alter table individual drop constraint FKFD3DA29948B0ABD2;
+drop table card;
+
+alter table request_note alter column note type varchar(1024);
+
+UPDATE request_form set template_name = substring(template_name from 1 for position('.html' in template_name) - 1) ;

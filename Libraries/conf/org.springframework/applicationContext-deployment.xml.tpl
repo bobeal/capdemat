@@ -35,6 +35,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/authority/Category.hbm.xml</value>
         <value>fr/cg95/cvq/business/document/DocumentAction.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestAction.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/RequestLock.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestNote.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestForm.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/HistoryEntry.hbm.xml</value>

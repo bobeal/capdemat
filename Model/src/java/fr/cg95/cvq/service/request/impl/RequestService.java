@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
+import org.joda.time.DateTime;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -28,6 +29,7 @@ import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestDocument;
+import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
 import fr.cg95.cvq.business.request.RequestSeason;
@@ -50,6 +52,8 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.permission.CvqPermissionException;
+import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -118,6 +122,9 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
     private ListableBeanFactory beanFactory;
 
+    private static Map<Long, RequestLock> locks =
+        Collections.synchronizedMap(new HashMap<Long, RequestLock>());
+
     public RequestService() {
         super();
     }
@@ -162,6 +169,109 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     public Request getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
             return (Request) requestDAO.findById(Request.class, id);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public Request getForModification(final Long id)
+        throws CvqException, CvqObjectNotFoundException {
+        synchronized(locks) {
+            lock(id);
+            return (Request)requestDAO.findById(Request.class, id);
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void lock(final Long requestId)
+        throws CvqException {
+        synchronized(locks) {
+            RequestLock lock = getRequestLock(requestId);
+            if (lock == null) {
+                // no lock, we can acquire a new one
+                lock = new RequestLock(requestId, SecurityContext.getCurrentUserId());
+            }
+            else if (lock.getUserId().equals(SecurityContext.getCurrentUserId())
+                || new DateTime(lock.getDate().getTime()).plusMinutes(
+                        SecurityContext.getCurrentSite().getRequestLockMaxDelay())
+                        .isBeforeNow()) {
+                // current user owns the lock,
+                // or the lock is old enough to be overriden
+                lock.setDate(new Date());
+                lock.setUserId(SecurityContext.getCurrentUserId());
+            } else {
+                throw new CvqException("Request is already locked");
+            }
+            requestDAO.saveOrUpdate(lock);
+            locks.put(requestId, lock);
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public RequestLock getRequestLock(final Long requestId) {
+        synchronized (locks) {
+            //check in memory cache
+            RequestLock lock = locks.get(requestId);
+            if (lock != null) return lock;
+            // check in DB
+            return requestDAO.getRequestLock(requestId);
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public boolean isLocked(final Long requestId) {
+        synchronized (locks) {
+            RequestLock lock = getRequestLock(requestId);
+            return (lock != null
+                && !lock.getUserId().equals(SecurityContext.getCurrentUserId())
+                && !new DateTime(lock.getDate().getTime()).plusMinutes(
+                    SecurityContext.getCurrentSite().getRequestLockMaxDelay())
+                    .isBeforeNow());
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public boolean isLockedByCurrentUser(final Long requestId) {
+        synchronized (locks) {
+            RequestLock lock = getRequestLock(requestId);
+            return (lock != null
+                && lock.getUserId().equals(SecurityContext.getCurrentUserId())
+                && !new DateTime(lock.getDate().getTime()).plusMinutes(
+                    SecurityContext.getCurrentSite().getRequestLockMaxDelay())
+                    .isBeforeNow());
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void release(final Long requestId)
+        throws CvqObjectNotFoundException, CvqPermissionException {
+        synchronized (locks) {
+            RequestLock lock = getRequestLock(requestId);
+            if (lock == null) {
+                throw new CvqObjectNotFoundException();
+            }
+            if (!lock.getUserId().equals(SecurityContext.getCurrentUserId())) {
+                throw new PermissionException(this.getClass(), "release",
+                    ContextType.ECITIZEN_AGENT, ContextPrivilege.WRITE,
+                    "tried to release a lock current user doesn't own");
+            }
+            requestDAO.delete(lock);
+            locks.remove(requestId);
+        }
+    }
+
+    @Override
+    public void cleanRequestLocks() {
+        synchronized (locks) {
+            List<Long> requestIds = requestDAO.cleanRequestLocks();
+            for (Long requestId : requestIds) {
+                locks.remove(requestId);
+            }
+        }
     }
 
     @Override

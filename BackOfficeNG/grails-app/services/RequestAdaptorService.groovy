@@ -5,8 +5,12 @@ import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IHomeFolderService
 
+import org.joda.time.DateTime;
+import org.joda.time.Minutes;
+
 class RequestAdaptorService {
 
+    IRequestService defaultRequestService
     IRequestTypeService requestTypeService
     IHomeFolderService homeFolderService
     ICategoryService categoryService
@@ -114,5 +118,26 @@ class RequestAdaptorService {
         step.cssClass = 'tag-' + state
         step.i18nKey = 'request.step.state.' + state
         step.errorMsg = errorMsg
+    }
+
+    public prepareLock(requestId) {
+        def result = [:]
+        result.locked = defaultRequestService.isLocked(requestId)
+        result.lockedByCurrentUser =
+            defaultRequestService.isLockedByCurrentUser(requestId)
+        if (result.lockedByCurrentUser) result.cssClass = "lockacquired"
+        else if (result.locked) result.cssClass = "locked"
+        else result.cssClass = "free"
+        if (result.lockedByCurrentUser || result.locked) result.i18nKey = "locked"
+        else result.i18nKey = "free"
+        def requestLock = defaultRequestService.getRequestLock(requestId)
+        if (requestLock != null) {
+            result.age =
+                Minutes.minutesBetween(new DateTime(requestLock.getDate()),
+                    new DateTime()).minutes
+            result.lifetime =
+                SecurityContext.currentSite.requestLockMaxDelay - result.age
+        }
+        return result
     }
 }

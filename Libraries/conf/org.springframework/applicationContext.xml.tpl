@@ -93,7 +93,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   </bean>
   
   <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService" init-method="init">
-    <property name="requestService" ref="defaultRequestService" />
     <property name="genericDAO" ref="genericDAO" />
     <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
     <!-- 

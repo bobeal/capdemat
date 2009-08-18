@@ -98,6 +98,7 @@
           <g:if test="${lastActionNote}">
           	<p class="block">${lastActionNote}</p>
           </g:if>
+          <div id="requestLockContainer"></div>
         </div>
       </div>
 
@@ -139,6 +140,12 @@
       <!-- instruction state panel [default display = none] -->
       <div id="instructionStatePanel">
         <div class="hd"><g:message code="request.header.changeState" /></div>
+        <div class="bd">
+        </div>
+        <div class="ft"> </div>
+      </div>
+      <div id="requestLockPanel">
+        <div class="hd"></div>
         <div class="bd">
         </div>
         <div class="ft"> </div>

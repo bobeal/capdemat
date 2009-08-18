@@ -638,6 +638,8 @@
 
     drop table request_form;
 
+    drop table request_lock;
+
     drop table request_note;
 
     drop table request_type;
@@ -1637,6 +1639,7 @@
         payment_deactivation_start_date timestamp,
         payment_deactivation_end_date timestamp,
         display_in_progress_payments bool not null,
+        request_lock_max_delay int4 not null,
         primary key (id)
     );
 
@@ -1984,6 +1987,14 @@
         personalized_data bytea,
         template_name varchar(255),
         xsl_fo_filename varchar(255),
+        primary key (id)
+    );
+
+    create table request_lock (
+        id int8 not null,
+        request_id int8 not null,
+        user_id int8 not null,
+        date timestamp not null,
         primary key (id)
     );
 

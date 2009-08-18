@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
+import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
 import fr.cg95.cvq.business.request.RequestSeason;
@@ -13,6 +14,7 @@ import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
@@ -180,6 +182,54 @@ public interface IRequestService {
      */
     Request getById(@IsRequest final Long id)
         throws CvqException, CvqObjectNotFoundException;
+
+    /**
+     * Get a request by id, after locking it.
+     */
+    Request getForModification(@IsRequest final Long id)
+        throws CvqException, CvqObjectNotFoundException;
+
+    /**
+     * Get the lock put on this request if it exists
+     */
+    RequestLock getRequestLock(@IsRequest final Long requestId);
+
+    /**
+     * Put a lock on a request
+     */
+    void lock(@IsRequest final Long requestId)
+        throws CvqException;
+
+    /**
+     * Check if this request is locked by another person than current user.
+     *
+     * @param requestId the ID of the request to check
+     * @return true if the request is locked by another one,
+     *         false otherwise (no lock, or lock owned by current user)
+     */
+    boolean isLocked(@IsRequest final Long requestId);
+
+    /**
+     * Check if this request is locked by current user.
+     *
+     * @param requestId the ID of the request to check
+     * @return true if there is a lock on this request and
+     *         it is owned by current user
+     */
+    boolean isLockedByCurrentUser(@IsRequest final Long requestId);
+
+    /**
+     * Drop the lock on this request if current user has it.
+     *
+     * @param requestId the ID of the request to release
+     */
+    void release(@IsRequest final Long requestId)
+        throws CvqObjectNotFoundException, CvqPermissionException;
+
+    /**
+     * Clean obsolete request locks
+     */
+    void cleanRequestLocks();
 
     /**
      * Get requests by requester's id.

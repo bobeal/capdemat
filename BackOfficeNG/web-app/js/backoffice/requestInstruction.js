@@ -144,7 +144,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         if (FIC_checkForm(e, yud.get('changeStateFormErrors')))
           submitChangeStateForm(targetEl, 'changeStateForm');
       }
-      else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, 'documentLink') && !yud.hasClass(targetEl, 'externalLink')) {
+      else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, 'documentLink')
+        && !yud.hasClass(targetEl, "requestLockLink") && !yud.hasClass(targetEl, 'externalLink')) {
         switchStatePanel(targetEl);
       }
     };
@@ -695,6 +696,65 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
     };
   }();
   YAHOO.util.Event.onDOMReady(zcbr.External.init);
+
+  zcbr.RequestLock = function() {
+    return {
+      clickEvent : undefined,
+      init : function() {
+        zcbr.RequestLock.panel = new yw.Panel(
+          'requestLockPanel',
+          { width: '110%',
+            visible: false,
+            constraintoviewport: true, draggable: false,
+            underlay: 'none', close: false
+          });
+        zcbr.RequestLock.panel.render();
+        zcbr.RequestLock.refreshRequestLock();
+        zcbr.RequestLock.clickEvent = new zct.Event(zcbr.RequestLock, zcbr.RequestLock.processClick);
+        yue.on(yud.get("requestLockContainer"),'click', zcbr.RequestLock.clickEvent.dispatch, zcbr.RequestLock.clickEvent, true);
+        yue.on(yud.get("requestLockPanel"),'click', zcbr.RequestLock.clickEvent.dispatch, zcbr.RequestLock.clickEvent, true);
+        zca.advise("validateAgent",new zca.Advice('before',zcbr.RequestLock.validate),zcbr.Permission);
+      },
+      processClick : function(e) {
+        return yue.getTarget(e).getAttribute("rel");
+      },
+      loadRequestLockPanel : function(e) {
+        zct.doAjaxCall("/requestLock/" + zcb.requestId + "?part=panel", null, function(o) {
+          zcbr.RequestLock.refreshRequestLock();
+          zcbr.RequestLock.panel.setBody(o.responseText);
+          zcbr.RequestLock.panel.cfg.setProperty("context",
+            ["requestLockTag", "tr", "br"]);
+          zcbr.RequestLock.panel.show();
+        });
+      },
+      refreshRequestLock : function(e) {
+        zct.doAjaxCall("/requestLock/" + zcb.requestId + "?part=tag", null, function(o) {
+          yud.get('requestLockContainer').innerHTML = o.responseText;
+          yud.setStyle(zcbr.RequestLock.panel.id, 'border-color',
+            yud.getStyle(yud.get("requestLockTag"), 'background-color'));
+        });
+      },
+      hideRequestLockPanel : function(e) {
+        zcbr.RequestLock.panel.hide();
+      },
+      lockRequest : function (e) {
+        zct.doAjaxPostCall("/requestLock/" + zcb.requestId, null, function(o) {
+          zcbr.RequestLock.refreshRequestLock();
+          zcbr.RequestLock.hideRequestLockPanel();
+        });
+      },
+      releaseRequest : function (e) {
+        zct.doAjaxDeleteCall("/requestLock/" + zcb.requestId, null, function(o) {
+          zcbr.RequestLock.refreshRequestLock();
+          zcbr.RequestLock.hideRequestLockPanel();
+        });
+      },
+      validate : function(e) {
+        return true;
+      }
+    };
+  }();
+  YAHOO.util.Event.onDOMReady(zcbr.RequestLock.init);
 
 }()
 

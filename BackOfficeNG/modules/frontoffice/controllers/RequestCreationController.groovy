@@ -66,7 +66,7 @@ class RequestCreationController {
             newParams.('submit-draft-' + JSON.parse(params.requestTypeInfo).steps.get(Integer.valueOf(params.currentTabIndex)).tokenize('-')[0]) = params.'submit-draft'
         } else if (request.get) {
             requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
-            flash.cRequest = requestService.getById(Long.parseLong(params.id))
+            flash.cRequest = requestService.getForModification(Long.parseLong(params.id))
             targetAction = 'edit'
             newParams.label = requestService.label
         }
@@ -163,7 +163,6 @@ class RequestCreationController {
         
         def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuidString].cRequest
-        
         // Usefull to bind object different from cRequest
         def objectToBind = [:]
         objectToBind.requester = SecurityContext.currentEcitizen != null ? 

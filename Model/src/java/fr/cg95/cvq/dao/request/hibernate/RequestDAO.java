@@ -7,14 +7,18 @@ import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.Type;
+import org.joda.time.DateTime;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -687,4 +691,32 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         
          return (Request)request;
      }
+
+    @Override
+    public RequestLock getRequestLock(Long requestId) {
+        return (RequestLock)
+            HibernateUtil.getSession().createCriteria(RequestLock.class)
+            .add(Restrictions.eq("requestId", requestId)).uniqueResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Long> cleanRequestLocks() {
+        List<RequestLock> requestLocks =
+            (List<RequestLock>)HibernateUtil.getSession()
+            .createCriteria(RequestLock.class)
+            .add(Restrictions.lt("date",
+                new DateTime().minusMinutes(
+                    SecurityContext.getCurrentSite().getRequestLockMaxDelay())
+                    .toDate()))
+            .list();
+        List<Long> requestIds =  new ArrayList<Long>(requestLocks.size());
+        for (RequestLock lock : requestLocks) {
+            requestIds.add(lock.getRequestId());
+        }
+        HibernateUtil.getSession()
+            .createQuery("delete from RequestLock where requestId in (:requestIds)")
+            .setParameterList("requestIds", requestIds, Hibernate.LONG).executeUpdate();
+        return requestIds;
+    }
 }

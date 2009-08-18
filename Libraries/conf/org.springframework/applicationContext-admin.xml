@@ -300,6 +300,26 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <!-- *******************************************************************  -->
+  <!-- ******** Obsolete RequestLocks cleaning job configuration *********  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="requestLocksCleaningJob"
+    class="fr.cg95.cvq.request.job.RequestLocksCleaningJob" init-method="init" />
+
+  <bean id="requestLocksCleaningInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="requestLocksCleaningJob" />
+    <property name="targetMethod" value="launchJob" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+  <bean id="requestLocksCleaningTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="requestLocksCleaningInvoker" />
+    <property name="cronExpression" value="0 0 4 * * ?" />
+  </bean>
+
+  <!-- *******************************************************************  -->
   <!-- ************ Where everything happens (or not) ********************  -->
   <!-- *******************************************************************  -->
 

@@ -62,6 +62,12 @@ public class LocalAuthority implements Serializable {
 
     private boolean displayInProgressPayments;
 
+    /**
+     * The max lifetime of a request modification lock
+     * before it can be discarded (in minutes)
+     */
+    private Integer requestLockMaxDelay = 30;
+
     /** full constructor */
     public LocalAuthority(String name, String displayTitle) {
         this.name = name;
@@ -315,5 +321,18 @@ public class LocalAuthority implements Serializable {
 
     public void setDisplayInProgressPayments(boolean displayInProgressPayments) {
         this.displayInProgressPayments = displayInProgressPayments;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="request_lock_max_delay"
+     *  not-null="true"
+     */
+    public Integer getRequestLockMaxDelay() {
+        return requestLockMaxDelay;
+    }
+
+    public void setRequestLockMaxDelay(Integer requestLockMaxDelay) {
+        this.requestLockMaxDelay = requestLockMaxDelay;
     }
 }

@@ -71,6 +71,8 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     public void init() {
         this.homeFolderService = (IHomeFolderService)
             beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
+        this.requestService =
+            (IRequestService)beanFactory.getBean("defaultRequestService");
     }
     
     public boolean authenticate(String externalServiceLabel, String password) {

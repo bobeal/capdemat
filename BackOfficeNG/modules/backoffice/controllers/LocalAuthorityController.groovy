@@ -115,7 +115,8 @@ class LocalAuthorityController {
                     "instructionAlertsEnabled" : SecurityContext.getCurrentSite().instructionAlertsEnabled,
                     "instructionAlertsDetailed" : SecurityContext.getCurrentSite().instructionAlertsDetailed,
                     "instructionDefaultMaxDelay" : SecurityContext.getCurrentSite().instructionDefaultMaxDelay,
-                    "instructionDefaultAlertDelay" : SecurityContext.getCurrentSite().instructionDefaultAlertDelay]
+                    "instructionDefaultAlertDelay" : SecurityContext.getCurrentSite().instructionDefaultAlertDelay,
+                    "requestLockMaxDelay" : SecurityContext.currentSite.requestLockMaxDelay]
         } else if (request.post) {
             bind(SecurityContext.getCurrentSite())
             render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)

@@ -95,6 +95,13 @@
               <input type="text" class="required validate-number" name="instructionDefaultMaxDelay" id="instructionDefaultMaxDelay" value="${instructionDefaultMaxDelay}" size="3" />
               <g:message code="property.days" />
             </p>
+            <p class="field">
+              <label for="requestLockMaxDelay">
+                <g:message code="localAuthority.property.requestLockMaxDelay" /> :
+              </label>
+              <input type="text" class="required validate-number" name="requestLockMaxDelay" id="requestLockMaxDelay" value="${requestLockMaxDelay}" size="5" />
+              <g:message code="property.minutes" />
+            </p>
             <div class="form-button">
               <input id="save_platformConfiguration" type="button" value="${message(code:'action.save')}" />
             </div>

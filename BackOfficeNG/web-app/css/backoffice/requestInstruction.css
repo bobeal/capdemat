@@ -16,10 +16,14 @@
 .taskstate  .tag-not_provided
 { float: right; margin: 0; font-size: 1.1em;}
 
+.taskstate .tag-free, .taskstate .tag-lockacquired, .taskstate .tag-locked
+{ float: left; margin: 0; font-size: 1.1em; }
+
 .taskstate .tag-pending:hover, .taskstate .tag-complete:hover, .taskstate .tag-uncomplete:hover, .taskstate .tag-validated:hover, .taskstate .tag-notified:hover, .taskstate .tag-active:hover,
 .taskstate .tag-expired:hover, .taskstate .tag-closed:hover, .taskstate .tag-rejected:hover, .taskstate .tag-cancelled:hover, .taskstate .tag-archived:hover,
 .taskstate .tag-checked:hover, .taskstate .tag-refused:hover, .taskstate .tag-outdated:hover,
 .taskstate .tag-sent:hover, .taskstate .tag-inprogress:hover, .taskstate .tag-notsent:hover, .taskstate .tag-acknowledged:hover, .taskstate .tag-error:hover, .taskstate .tag-accepted:hover, .taskstate .tag-rejected:hover,
+.taskstate .tag-free:hover, .taskstate .tag-lockacquired:hover, .taskstate .tag-locked:hover,
 .taskstate .tag-valid:hover, .taskstate .tag-invalid:hover
 { cursor: pointer; border-color: #000000; color: #000000; }
 
@@ -231,6 +235,7 @@
 /* request instruction worflow panel
 -------------------------------------------------------------- */
 
+#requestLockPanel,
 #instructionStatePanel {
   font-size: 1.4em;
   border:5px solid #ddd;
@@ -241,12 +246,18 @@
   text-align: center;
 }
 
+#requestLockPanel .hd,
 #instructionStatePanel .hd { padding: 0; font-weight: normal; border: 0; background: transparent;}
+#requestLockPanel .bd,
 #instructionStatePanel .bd { padding: .1em; background: transparent; border: 0; }
+#requestLockPanel .ft,
 #instructionStatePanel .ft { padding: 0; background: transparent; border: 0; }
 
+#requestLockPanel form,
 #instructionStatePanel form                      { margin: 0; padding: 0;}
+#requestLockPanel input[type="button"],
 #instructionStatePanel form input[type="button"] { font-size: .8em; }
+#requestLockPanel input[type="button"]           { width : 45%; }
 #instructionStatePanel form .error               { margin: 0; font-size: .8em; font-style: italic; text-align: center }
 
 #instructionStatePanel ul    { margin: .2em 0 .5em .5em; text-align: left }

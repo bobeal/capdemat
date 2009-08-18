@@ -738,6 +738,25 @@
   };
   
   /**
+   * @description Provides ajax post-type call
+   * @method doAjaxPostCall
+   * @namespace zenexity.capdemat.tools
+   * @param url {String} call url (is prefixed by project url before sending)
+   * @param params {Array} call parameters
+   * @param callback {Function} function called after on success response
+   * 
+   * @author jsb@zenexity.fr
+   **/
+  zct.doAjaxPostCall = function(url,params,callback) {
+    var handlers = {
+      failure: zct.handleUnexpectedError
+    };
+    if (zct.isFunction(callback)) handlers.success = callback;
+    var uri = [zenexity.capdemat.baseUrl,url,'?',params].join('');
+    YAHOO.util.Connect.asyncRequest('POST', uri, handlers);
+  };
+  
+  /**
    * @description Handles unexpected ajax response errors
    * @method handleUnexpectedError
    * @namespace zenexity.capdemat.tools

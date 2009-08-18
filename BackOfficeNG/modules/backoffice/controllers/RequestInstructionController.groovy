@@ -71,7 +71,7 @@ class RequestInstructionController {
     }
 
     def edit = {
-        def request = defaultRequestService.getById(Long.valueOf(params.id))
+        def request = defaultRequestService.getForModification(Long.valueOf(params.id))
         def requester = request.requesterId != null ? individualService.getById(request.requesterId) : null
         def documentList = []
         def providedDocumentTypes = []
@@ -196,7 +196,7 @@ class RequestInstructionController {
     }
     
     def localReferentialData = {
-        def rqt = defaultRequestService.getById(Long.valueOf(params.requestId))
+        def rqt = defaultRequestService.getForModification(Long.valueOf(params.requestId))
         def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
         render( template: '/backofficeRequestInstruction/widget/localReferentialDataStatic',
                 model: ['rqt':rqt,
@@ -247,7 +247,7 @@ class RequestInstructionController {
             model["propertyValueType"] = propertyTypes.javatype
         }
         else if (propertyType == "localReferentialData") {
-            def rqt = defaultRequestService.getById(Long.valueOf(params.id))
+            def rqt = defaultRequestService.getForModification(Long.valueOf(params.id))
             def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
             model['lrType'] = lrTypes[params.propertyName]
             model['lrDatas'] = rqt[params.propertyName].collect { it.name }
@@ -281,7 +281,7 @@ class RequestInstructionController {
     def modify = {
         if (params.requestId == null)
              return false
-        def request = defaultRequestService.getById(Long.valueOf(params.requestId))
+        def request = defaultRequestService.getForModification(Long.valueOf(params.requestId))
         if (["VO Card", "Home Folder Modification"].contains(request.requestType.label)) {
             def homeFolder = homeFolderService.getById(request.homeFolderId)
             DataBindingUtils.initBind(homeFolder, params)
@@ -314,7 +314,7 @@ class RequestInstructionController {
         if (params.requestId == null || params.listAction == null )
              return
         
-        def cRequest = defaultRequestService.getById(Long.valueOf(params.requestId))
+        def cRequest = defaultRequestService.getForModification(Long.valueOf(params.requestId))
         def actionTokens = params.listAction.tokenize('_')
 
         def listElemTokens = actionTokens[1].tokenize('[]')
@@ -426,7 +426,7 @@ class RequestInstructionController {
     // FIXME : copy-paste from frontOfficeHomeFolderController. mutualize if possible
     def homeFolder = {
         def result = ['adults':[], 'children': [], homeFolder: []]
-        def cRequest = defaultRequestService.getById(Long.valueOf(params.id))
+        def cRequest = defaultRequestService.getForModification(Long.valueOf(params.id))
         def homeFolder = homeFolderService.getById(cRequest.homeFolderId)
         homeFolderService.getAdults(homeFolder.id).each { adult ->
             result.adults.add([
@@ -470,7 +470,7 @@ class RequestInstructionController {
     }
 
     def homeFolderRequests = {
-        def request = defaultRequestService.getById(Long.valueOf(params.id))
+        def request = defaultRequestService.getForModification(Long.valueOf(params.id))
         def homeFolderRequests = defaultRequestService.getByHomeFolderId(request.homeFolderId);
 
         def records = []
@@ -526,7 +526,7 @@ class RequestInstructionController {
 
     def external = {
         if (request.post) {
-            externalService.sendRequest(defaultRequestService.getById(Long.valueOf(params.id)))
+            externalService.sendRequest(defaultRequestService.getForModification(Long.valueOf(params.id)))
             def lastTraceStatus = CapdematUtils.adaptCapdematEnum(
                 externalService.getLastTrace(
                     Long.valueOf(params.id), params.label).status, "externalservice.trace.status")
@@ -547,11 +547,30 @@ class RequestInstructionController {
     }
 
     def externalReferentialChecks = {
-        def request = defaultRequestService.getById(Long.valueOf(params.id))
+        def request = defaultRequestService.getForModification(Long.valueOf(params.id))
         render(template : "/backofficeRequestInstruction/external/" + params.label + "/externalReferentialChecks",
                model : ["id" : params.id, "label" : params.label,
                         "externalReferentialCheckErrors" : externalService
                             .checkExternalReferential(request)])
+    }
+
+    def requestLock = {
+        def id = Long.valueOf(params.id)
+        if (request.get) {
+            if (params.part == "tag") {
+                render(template : "requestLock",
+                       model : requestAdaptorService.prepareLock(id))
+            } else if (params.part == "panel") {
+                render(template : "requestLockPanel",
+                       model : requestAdaptorService.prepareLock(id))
+            }
+        } else if (request.post) {
+            defaultRequestService.lock(Long.valueOf(params.id))
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        } else if (request.method.toLowerCase() == "delete") {
+            defaultRequestService.release(Long.valueOf(params.id))
+            render([status:"ok", success_msg:message(code:"message.deleteDone")] as JSON)
+        }
     }
 
    /* eCitizen contact managment
@@ -559,7 +578,7 @@ class RequestInstructionController {
 
     // TODO : rename action
     def contactInformation = {
-        def request = defaultRequestService.getById(Long.valueOf(params.id))
+        def request = defaultRequestService.getForModification(Long.valueOf(params.id))
         // FIXME RDJ - if no requester use homefolder responsible
         Adult requester
         if (request.requesterId != null) requester = individualService.getById(request.requesterId)
@@ -623,7 +642,7 @@ class RequestInstructionController {
     }
 
     def sendEmail = {
-        def request = defaultRequestService.getById(Long.valueOf(params?.requestId))
+        def request = defaultRequestService.getForModification(Long.valueOf(params?.requestId))
         def form = requestTypeService.getRequestFormById(Long.valueOf(params?.requestForms))
         
         String template = this.prepareTemplate(
@@ -668,7 +687,7 @@ class RequestInstructionController {
         
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         def form = requestTypeService.getRequestFormById(Long.valueOf(formId))
-        Request request = defaultRequestService.getById(Long.valueOf(requestId))
+        Request request = defaultRequestService.getForModification(Long.valueOf(requestId))
 
         // FIXME RDJ - if no requester use homefolder responsible     
         Adult requester

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.util.Critere;
@@ -98,4 +99,8 @@ public interface IRequestDAO extends IGenericDAO {
 
     List<Long> listHomeFolderSubjectIds(Long homeFolderId, String label, 
             RequestState[] excludedStates);
+
+    RequestLock getRequestLock(Long requestId);
+
+    List<Long> cleanRequestLocks();
 }

@@ -186,7 +186,13 @@ public interface IRequestService {
     /**
      * Get a request by id, after locking it.
      */
-    Request getForModification(@IsRequest final Long id)
+    Request getAndLock(@IsRequest final Long id)
+        throws CvqException, CvqObjectNotFoundException;
+
+    /**
+     * Get a request by id, after trying to lock it.
+     */
+    Request getAndTryToLock(@IsRequest final Long id)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
@@ -224,7 +230,7 @@ public interface IRequestService {
      * @param requestId the ID of the request to release
      */
     void release(@IsRequest final Long requestId)
-        throws CvqObjectNotFoundException, CvqPermissionException;
+        throws CvqPermissionException;
 
     /**
      * Clean obsolete request locks

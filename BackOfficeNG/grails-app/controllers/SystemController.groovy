@@ -22,7 +22,12 @@ public class SystemController {
             render(["status":"modelException", 
                     "message":exception.message, 
                     "i18nkey":message(code:'error.permission')] as JSON)
-        else
+        else if (session.frontContext && ExceptionUtils.isModelException(exception)) {
+            return [
+                "i18nKey" : ExceptionUtils.getModelI18nKey(exception),
+                "i18nArgs" : ExceptionUtils.getModelI18nArgs(exception)
+            ]
+        } else
             render(view: "/error")
     }
 }

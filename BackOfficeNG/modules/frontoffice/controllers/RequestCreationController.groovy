@@ -66,7 +66,7 @@ class RequestCreationController {
             newParams.('submit-draft-' + JSON.parse(params.requestTypeInfo).steps.get(Integer.valueOf(params.currentTabIndex)).tokenize('-')[0]) = params.'submit-draft'
         } else if (request.get) {
             requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
-            flash.cRequest = requestService.getForModification(Long.parseLong(params.id))
+            flash.cRequest = requestService.getAndLock(Long.parseLong(params.id))
             targetAction = 'edit'
             newParams.label = requestService.label
         }
@@ -194,6 +194,7 @@ class RequestCreationController {
                 askConfirmCancel = true
             }
             else if (submitAction[1] == 'confirmCancelRequest') {
+                if (cRequest.id) requestService.release(cRequest.id)
                 session.removeAttribute(uuidString)
                 redirect(uri: '/frontoffice/requestType')
                 return
@@ -506,6 +507,7 @@ class RequestCreationController {
     def exit = {
         def requestService = requestServiceRegistry.getRequestService(params.label)
         def cRequest = requestService.getById(Long.parseLong(params.id))
+        requestService.release(cRequest.id)
         render( view: "frontofficeRequestType/exit",
                 model:
                     ['translatedRequestTypeLabel': translationService.translateRequestTypeLabel(cRequest.requestType.label).encodeAsHTML(),

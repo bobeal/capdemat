@@ -57,6 +57,7 @@ class RequestAdaptorService {
                         || RequestState.UNCOMPLETE.equals(request.state)) 
                         && !IRequestService.VO_CARD_REGISTRATION_REQUEST.equals(request.requestType.label)
                         && !IRequestService.HOME_FOLDER_MODIFICATION_REQUEST.equals(request.requestType.label)
+                        && !defaultRequestService.isLocked(request.id)
         ]
     }
 

@@ -32,7 +32,7 @@ class DocumentInstructionController {
     
     def edit = {
         def document = [actions:[],documentType:[:]]
-        Request request = defaultRequestService.getForModification(Long.valueOf(params.rid))
+        Request request = defaultRequestService.getAndTryToLock(Long.valueOf(params.rid))
         Agent agent = SecurityContext.currentAgent;
         
         if(!params.id || Integer.valueOf(params.id) == 0) {
@@ -81,7 +81,7 @@ class DocumentInstructionController {
             	document = documentService.getById(Long.valueOf(params.documentId))
             } else {
                 document = new Document()
-                Request req = defaultRequestService.getForModification(Long.valueOf(params.requestId))
+                Request req = defaultRequestService.getAndTryToLock(Long.valueOf(params.requestId))
                 document.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(params.documentTypeId))
                 document.homeFolderId = req.homeFolderId
                 document.depositOrigin = DepositOrigin.AGENT
@@ -161,7 +161,7 @@ class DocumentInstructionController {
     def documentsList = {
         
         def documents = [], types = [], result = [:], agent = SecurityContext.currentAgent
-        Request request = defaultRequestService.getForModification(Long.valueOf(params.rid))
+        Request request = defaultRequestService.getAndTryToLock(Long.valueOf(params.rid))
         Set docs = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.rid))
 
         for (RequestDocument rd: docs) {

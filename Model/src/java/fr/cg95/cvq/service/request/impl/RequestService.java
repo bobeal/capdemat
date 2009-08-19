@@ -172,11 +172,29 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public Request getForModification(final Long id)
+    @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
+    public Request getAndLock(final Long id)
         throws CvqException, CvqObjectNotFoundException {
         synchronized(locks) {
             lock(id);
+            return (Request)requestDAO.findById(Request.class, id);
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
+    public Request getAndTryToLock(final Long id)
+        throws CvqObjectNotFoundException {
+        synchronized(locks) {
+            try {
+                // FIXME JSB : hack to avoid bypassing aspect security
+                ((IRequestService)beanFactory.getBean("defaultRequestService"))
+                    .lock(id);
+            } catch (PermissionException e) {
+                // couldn't lock request : we only have READ privilege
+            } catch (CvqException e) {
+                // couldn't lock request : it is probably already locked
+            }
             return (Request)requestDAO.findById(Request.class, id);
         }
     }
@@ -200,7 +218,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
                 lock.setDate(new Date());
                 lock.setUserId(SecurityContext.getCurrentUserId());
             } else {
-                throw new CvqException("Request is already locked");
+                throw new CvqException("Request is already locked",
+                    "request.lock.exception.alreadyLocked");
             }
             requestDAO.saveOrUpdate(lock);
             locks.put(requestId, lock);
@@ -248,16 +267,12 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void release(final Long requestId)
-        throws CvqObjectNotFoundException, CvqPermissionException {
+        throws CvqPermissionException {
         synchronized (locks) {
             RequestLock lock = getRequestLock(requestId);
-            if (lock == null) {
-                throw new CvqObjectNotFoundException();
-            }
-            if (!lock.getUserId().equals(SecurityContext.getCurrentUserId())) {
-                throw new PermissionException(this.getClass(), "release",
-                    ContextType.ECITIZEN_AGENT, ContextPrivilege.WRITE,
-                    "tried to release a lock current user doesn't own");
+            if (lock == null || !lock.getUserId()
+                .equals(SecurityContext.getCurrentUserId())) {
+                return;
             }
             requestDAO.delete(lock);
             locks.remove(requestId);

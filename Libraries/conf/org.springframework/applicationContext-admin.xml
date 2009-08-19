@@ -316,7 +316,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="requestLocksCleaningTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
     <property name="jobDetail" ref="requestLocksCleaningInvoker" />
-    <property name="cronExpression" value="0 0 4 * * ?" />
+    <property name="cronExpression" value="0 0 * * * ?" />
   </bean>
 
   <!-- *******************************************************************  -->

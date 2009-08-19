@@ -647,3 +647,10 @@ alter table request_note alter column note type varchar(1024);
 alter table local_authority add column request_lock_max_delay int4;
 update local_authority set request_lock_max_delay = 30;
 alter table local_authority alter column request_lock_max_delay set not null;
+create table request_lock (
+    id int8 not null,
+    request_id int8 not null,
+    user_id int8 not null,
+    date timestamp not null,
+    primary key (id)
+);

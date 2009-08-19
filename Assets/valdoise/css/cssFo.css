@@ -12,7 +12,6 @@
  * ----------------------------------------------------- */
  
 html { background: #fff; }
-#hd  { margin : 0 0 .5em; }
 #bd  { background-color: #b6aca5; }
 h2   { color: #fff; }
 
@@ -31,32 +30,29 @@ h2   { color: #fff; }
 /* boxes
  * ----------------------------------------------------- */
 
-/* list-box */
 .list-box               { border-color: #ff812b; }
 .list-box h2            { color: #ff812b; border-color: #ff812b; }
 .list-box p.paginator a, 
 .list-box p.see-all a   { color: #095ba6; }
-
 .list-box p.see-all a:hover, 
 .list-box p.paginator a:hover,
 .list-box p.paginator span.currentStep { color: #ffffff; background: #ff812b; }
 
-
-/* group-box */
 .group-box         { border-color: #ff812b; }
 .group-box h3      { color: #ff812b; border-color: #ff812b; }
 .group-box a:hover { color: #fff; background: #ff812b; }
 
-/* summary-box */
 .summary-box.created { border-color: #ff812b; }   
 .summary-box h2      { color: #ff812b; border-color: #ff812b; }
+.summary-box h3      { border-bottom-color:  #ff812b !important; }
+.summary-box dl    { border-bottom-color: #ff812b !important; }
+.summary-box dl dt,
+.summary-box dl dd { border-top-color: #ff812b !important; }
 
-/* main-box */
 .main-box    { border-color: #ff812b; }   
 .main-box h2 { color: #ff812b; border-color: #ff812b; }
 .main-box a:hover { color: #ffffff !important; background: #ff812b !important; }
 
-/* request-box */
 .narrow-box h3           { color: #fff; background: #ff812b; }
 .narrow-box .body        { background: #FFFFFF; }
 .narrow-box .body select { border-top-color: #ff812b; }
@@ -71,7 +67,7 @@ form select,
 form textarea { border-top-color: #ff812b !important; }
 
 
-/* home folder screen
+/* home folder screen specific styles
  * ----------------------------------------------------- */
 
 .individual .yui-u     { border-color: #ff812b !important; }
@@ -93,7 +89,6 @@ h2.request-creation { color: #fff !important; }
 
 .yui-skin-fong .yui-navset .yui-nav a,
 .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
-  font-weight: bold !important;
   color: #fff  !important; 
   background: #ff812b !important;
   border: 0 !important;
@@ -109,7 +104,6 @@ h2.request-creation { color: #fff !important; }
 
 #requestTabView .requestHelp h3 { border-bottom-color: #ff812b !important; }
 
-.summary-box h3,
 #requestTabView h3                    { border-bottom-color:  #ff812b !important; }
 #requestTabView legend                { color: #ff812b !important; }
 #requestTabView fieldset              { border-left-color: #ff812b !important; }
@@ -128,10 +122,6 @@ h2.request-creation { color: #fff !important; }
   color: #fff !important; background: #ff812b !important; 
 }
 
-.summary-box dl    { border-bottom-color: #ff812b !important; }
-.summary-box dl dt,
-.summary-box dl dd { border-top-color: #ff812b !important; }
-
 #requestTabView div.collection-fieldset    { background: #ffd; }
 #requestTabView div.collection-fieldset h4 { color: #ff812b !important; }
 #requestTabView fieldset.collection-fieldset-add         { border-color: #ff812b !important; }
@@ -140,7 +130,7 @@ h2.request-creation { color: #fff !important; }
 #requestTabView fieldset.collection-fieldset-edit legend { border-color: #ff812b !important; }
 
 
-/* activities
+/* activities specific styles
  * ----------------------------------------------------- */
  
 table.activity-calendar,

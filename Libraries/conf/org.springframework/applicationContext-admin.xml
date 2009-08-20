@@ -303,8 +303,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- ******** Obsolete RequestLocks cleaning job configuration *********  -->
   <!-- *******************************************************************  -->
 
-  <bean id="requestLocksCleaningJob"
-    class="fr.cg95.cvq.service.request.job.RequestLocksCleaningJob" init-method="init" />
+  <bean id="requestLocksCleaningJob" init-method="init"
+    class="fr.cg95.cvq.service.request.job.RequestLocksCleaningJob">
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
+   </bean>
 
   <bean id="requestLocksCleaningInvoker"
     class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -333,6 +335,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <ref bean="requestSeasonsTrigger" />
         <ref bean="draftManagementRemoverJobTrigger"/>
         <ref bean="draftManagementNotifierJobTrigger"/>
+        <ref bean="requestLocksCleaningTrigger"/>
 	    <!--
         <ref bean="requestWorkflowNavigatorTrigger" />
         <ref bean="paymentInitializationCheckerTrigger" />

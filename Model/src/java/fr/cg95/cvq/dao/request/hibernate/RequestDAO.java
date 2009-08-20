@@ -714,9 +714,12 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         for (RequestLock lock : requestLocks) {
             requestIds.add(lock.getRequestId());
         }
-        HibernateUtil.getSession()
+        if (!requestIds.isEmpty()) {
+            HibernateUtil.getSession()
             .createQuery("delete from RequestLock where requestId in (:requestIds)")
-            .setParameterList("requestIds", requestIds, Hibernate.LONG).executeUpdate();
+            .setParameterList("requestIds", requestIds, Hibernate.LONG)
+            .executeUpdate();
+        }
         return requestIds;
     }
 }

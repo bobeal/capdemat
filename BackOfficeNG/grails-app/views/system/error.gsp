@@ -1,6 +1,7 @@
 <html>
   <head>
     <meta name="layout" content="fo_main" />
+    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'error.css')}" />
   </head>
   <body>
     <div id="yui-main">
@@ -8,7 +9,8 @@
         <p>
           <g:message code="${i18nKey}" args="${i18nArgs}" />
         </p>
-        <div class="link">
+        <div class="links">
+          <g:message code="request.message.actionWhenLocked" /> :
           <ul>
             <li>
               <a href="${createLink(controller:'frontofficeRequestType')}">

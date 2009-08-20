@@ -280,6 +280,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     }
 
     @Override
+    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.NONE)
     public void cleanRequestLocks() {
         synchronized (locks) {
             List<Long> requestIds = requestDAO.cleanRequestLocks();

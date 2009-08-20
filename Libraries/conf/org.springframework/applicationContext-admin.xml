@@ -304,7 +304,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- *******************************************************************  -->
 
   <bean id="requestLocksCleaningJob"
-    class="fr.cg95.cvq.request.job.RequestLocksCleaningJob" init-method="init" />
+    class="fr.cg95.cvq.service.request.job.RequestLocksCleaningJob" init-method="init" />
 
   <bean id="requestLocksCleaningInvoker"
     class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">

@@ -20,13 +20,14 @@
       <label for="templateName" class="required">
         <g:message code="requestType.property.formTemplateName" /> * :
       </label>
-      <g:select
-        optionKey="name"
-        optionValue="name"
-        name="templateName" 
-        from="${templates}" 
-        value="${requestForm?.getTemplateName()}" />
-        
+      <select name="templateName">
+        <g:each in="${templates}" var="template">
+          <option value="${template}"
+            <g:if test="${requestForm?.templateName == template}">selected="selected"</g:if>>
+            ${template}
+          </option>
+        </g:each>
+      </select>
       <g:if test="${requestForm?.getId()}">
         <a id="personalize_${requestForm?.getId()}" class="personalize" href="javascript:;">
           ${message(code:'action.personalize')}

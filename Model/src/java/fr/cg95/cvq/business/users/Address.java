@@ -16,9 +16,9 @@ import fr.cg95.cvq.xml.common.AddressType;
  */
 public class Address implements fr.cg95.cvq.business.Historizable,Serializable,Cloneable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    /** identifier field */
     private Long id;
     
     private String additionalDeliveryInformation;
@@ -30,10 +30,9 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     private String city;
     private String countryName;
 
-    /** default constructor */
     public Address() {
     }
-    
+
     public Address(String streetNumber,String streetName,String postalCode,String city) {
         this.streetNumber = streetNumber;
         this.streetName = streetName;
@@ -60,15 +59,13 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     public static Address xmlToModel(AddressType addressType) {
 
         if (addressType != null) {
-            Address address = new Address();
+            Address address = 
+                new Address(addressType.getStreetNumber(), addressType.getStreetName(),
+                    addressType.getPostalCode(), addressType.getCity());
             if (addressType.getId() != 0)
                 address.setId(new Long(addressType.getId()));
             address.setAdditionalDeliveryInformation(addressType.getAdditionalDeliveryInformation());
             address.setAdditionalGeographicalInformation(addressType.getAdditionalGeographicalInformation());
-            address.setStreetNumber(addressType.getStreetNumber());
-            address.setStreetName(addressType.getStreetName());
-            address.setPostalCode(addressType.getPostalCode());
-            address.setCity(addressType.getCity());
             address.setPlaceNameOrService(addressType.getPlaceNameOrService());
             address.setCountryName(addressType.getCountryName());
 
@@ -200,22 +197,20 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
             this.countryName = countryName.toUpperCase();
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())
             .toString();
     }
 
+    @Override
     public Address clone() {
-        Address clone = new Address();
+        Address clone = new Address(streetNumber, streetName, postalCode, city);
         clone.additionalDeliveryInformation = additionalDeliveryInformation;
         clone.additionalGeographicalInformation = additionalGeographicalInformation;
-        clone.city = city;
         clone.countryName = countryName;
         clone.placeNameOrService = placeNameOrService;
-        clone.postalCode = postalCode;
-        clone.streetName = streetName;
-        clone.streetNumber = streetNumber;
         return clone;
     }
 }

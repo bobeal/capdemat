@@ -1,10 +1,9 @@
 (function() {
   var zcf = zenexity.capdemat.fong;
   var zct = zenexity.capdemat.tools;
-  var yud = YAHOO.util.Dom;
-  var yue = YAHOO.util.Event;
-  var yus = YAHOO.util.Selector;
   var yu = YAHOO.util;
+  var yud = yu.Dom;
+  var yue = yu.Event;
   var yw = YAHOO.widget;
   
   zcf.RequestCreation = function() {
@@ -120,7 +119,7 @@
       formatField : function(e) {
         var targetEl = yue.getTarget(e);
         if (!zct.nodeName(targetEl,'input') || targetEl.type != 'text')
-          return false;
+          return;
         
         var fieldType = /validate-(\w+)/i.exec(targetEl.className);
         if (fieldType) {

@@ -66,7 +66,10 @@ class RequestCreationController {
             newParams.('submit-draft-' + JSON.parse(params.requestTypeInfo).steps.get(Integer.valueOf(params.currentTabIndex)).tokenize('-')[0]) = params.'submit-draft'
         } else if (request.get) {
             requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
-            flash.cRequest = requestService.getAndLock(Long.parseLong(params.id))
+            def cRequest = requestService.getAndLock(Long.parseLong(params.id))
+            if (cRequest.stepStates == null)
+               cRequest.stepStates = [:]
+            flash.cRequest = cRequest
             targetAction = 'edit'
             newParams.label = requestService.label
         }
@@ -180,7 +183,7 @@ class RequestCreationController {
         
         def askConfirmCancel = false
         
-        if (cRequest.stepStates.isEmpty()) { 
+        if (cRequest.stepStates?.isEmpty()) {
             requestTypeInfo.steps.each {
                 def nameToken = it.tokenize('-')
                 def value = ['required': nameToken.size() == 2]
@@ -358,13 +361,7 @@ class RequestCreationController {
                                                                     
                 if (submitAction[1] == 'step') {
                     if (currentStep == 'account') objectToBind.individuals.checkRoles()
-                    // TODO : not really an error ... maybe display only a warning message ?
-//                    if (currentStep == 'document'
-//                        &&  !documentAdaptorService.hasAssociatedDocuments(requestService, cRequest, uuidString, newDocuments)) {
-//                        throw new CvqException("request.step.document.error.noAssociatedDocument")
-//                    }
-                        
-                    requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'complete', '')
+                    requestAdaptorService.stepState(cRequest.stepStates?.get(currentStep), 'complete', '')
                 }
                 
                 if (['VO Card','Home Folder Modification'].contains(requestTypeInfo.label)) {

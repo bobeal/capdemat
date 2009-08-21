@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.authority.Agent
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.request.DataState
 import fr.cg95.cvq.business.request.MeansOfContactEnum
@@ -703,7 +704,9 @@ class RequestInstructionController {
         def forms = []
         forms.add(form)
     
-        File templateFile = requestTypeService.getTemplateByName(form.getTemplateName())
+        File templateFile = localAuthorityRegistry
+            .getLocalAuthorityResourceFile(Type.MAIL_TEMPLATES,
+                form.getTemplateName(), false)
         if (templateFile.exists()) {
 
         	// FIXME BOR : is there a better way to do this ?

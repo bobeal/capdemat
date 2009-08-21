@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.authority.LocalAuthorityResource
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IRequestTypeService
 
@@ -30,12 +31,9 @@ class LocalAuthorityResourceController {
     def rule = {
         def requestType = requestTypeService.getRequestTypeByLabel(params.requestTypeLabel)
         File pdfFile =
-            localAuthorityRegistry.getLocalAuthorityResource(
-                session.currentSiteName,
-                ILocalAuthorityRegistry.PDF_ASSETS_RESOURCE_TYPE,
+            localAuthorityRegistry.getLocalAuthorityResourceFile(Type.PDF,
                 CapdematUtils.requestTypeLabelAsDir(params.requestTypeLabel)
-                    + "/"  + params.filename + ".pdf",
-                false)
+                + "/"  + params.filename, false)
         if (pdfFile.exists()) {
             renderResponse(pdfFile, "application/pdf")
         }

@@ -457,17 +457,6 @@ public class RequestTypeService implements IRequestTypeService {
         }
     }
 
-    public List<File> getMailTemplates(String pattern) throws CvqException {
-        if(pattern == null) pattern="*";
-        return this.localAuthorityRegistry.getLocalResourceContent(
-            Type.MAIL_TEMPLATES, pattern);
-    }
-
-    public File getTemplateByName(String name) {
-        return this.localAuthorityRegistry.getLocalAuthorityResourceFile(
-            Type.MAIL_TEMPLATES, name, false);
-    }
-
     public Long modifyRequestTypeForm(Long requestTypeId, RequestForm requestForm)
         throws CvqException {
         Long result = -1L;

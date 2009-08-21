@@ -206,7 +206,8 @@ public class LocalAuthorityRegistry
             boolean fallbackToDefault)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
-        return getAssetsFile(resource.getType(), resource.getFilename(), false);
+        return getAssetsFile(resource.getType(),
+            resource.getFilename() + version.getExtension(), false);
     }
 
     private File getAssetsFile(final Type type, final String filename,
@@ -673,28 +674,29 @@ public class LocalAuthorityRegistry
             this.referentialBase = referentialBase;
     }
 
-    public List<File> getLocalResourceContent(Type type)
+    public List<String> getLocalAuthorityResourceFileNames(Type type)
         throws CvqException {
-        return this.getLocalResourceContent(type, "*");
+        return getLocalAuthorityResourceFileNames(type, ".*");
     }
 
-    public List<File> getLocalResourceContent(Type type, final String pattern)
+    public List<String> getLocalAuthorityResourceFileNames(Type type, final String pattern)
         throws CvqException {
-        StringBuffer path = new StringBuffer();
-        if (pattern == null) 
+        if (pattern == null)
             throw new CvqException("localresources.mask_cannt_be_null");
-        
-        path.append(assetsBase).append("/")
-            .append(SecurityContext.getCurrentSite().getName())
-            .append("/").append(type.getFolder());
-        
+        StringBuffer path = new StringBuffer(assetsBase).append("/")
+            .append(SecurityContext.getCurrentSite().getName().toLowerCase())
+            .append("/").append(type.getFolder()).append("/");
         FilenameFilter filter = new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.toLowerCase().matches(pattern);
             }
         };
-        File file = new File(path.toString());
-        return Arrays.asList(file.listFiles(filter));
+        File[] files = new File(path.toString()).listFiles(filter);
+        List<String> result = new ArrayList<String>(files.length);
+        for (File file : files) {
+            result.add(StringUtils.removeEnd(file.getName(), type.getExtension()));
+        }
+        return result;
     }
 
     public String getReferentialBase() {

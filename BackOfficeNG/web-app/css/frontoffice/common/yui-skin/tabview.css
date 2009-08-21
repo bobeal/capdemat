@@ -33,6 +33,7 @@ version: 2.5.2
 
 .yui-skin-fong .yui-navset .yui-nav a,
 .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
+    font-weight: bold;
     display: block;
     background: #DB4366 ; /* tab background */
     border: 1px solid #DB4366;
@@ -76,7 +77,7 @@ version: 2.5.2
 .yui-skin-fong .yui-navset .yui-nav .selected a em {
 /*  width: 10.35em;*/
 /*  position: relative;*/
-  border: 1px solid /* #A0D158 */ #ffffff ;
+  border: 1px solid #ffffff ;
   /*  background:#fff2fc;*/
   background: #fff;
 }
@@ -102,8 +103,8 @@ version: 2.5.2
 .yui-skin-fong .yui-navset .yui-navset-right .yui-nav,
 .yui-skin-fong .yui-navset-right .yui-nav {
 /*    border-width:0 5px 0 0;*/
-/*    Xposition:absolute; /* from tabview-core; have to reiterate for skin-sam due to pos:rel on skin-sam yui-nav */*/
-/*    top:0; bottom:0; /* stretch to fill content height */*/
+/*    Xposition:absolute; /* from tabview-core; have to reiterate for skin-sam due to pos:rel on skin-sam yui-nav */
+/*    top:0; bottom:0; /* stretch to fill content height */
 }
 
 .yui-skin-fong .yui-navset .yui-navset-right .yui-nav,
@@ -114,12 +115,12 @@ version: 2.5.2
 .yui-skin-fong .yui-navset-left .yui-nav li,
 .yui-skin-fong .yui-navset .yui-navset-left .yui-nav li,
 .yui-skin-fong .yui-navset-right .yui-nav li {
-/*    margin:0 0 0.16em; /* space between tabs */*/
-/*    padding:0 0 0 1px; /* gecko: make room for overflow */*/
+/*    margin:0 0 0.16em; /* space between tabs */
+/*    padding:0 0 0 1px; /* gecko: make room for overflow */
 }
 
 .yui-skin-fong .yui-navset-right .yui-nav li {
-/*    padding:0 1px 0 0; /* gecko: make room for overflow */*/
+/*    padding:0 1px 0 0; /* gecko: make room for overflow */
 }
 
 .yui-skin-fong .yui-navset-left .yui-nav .selected,
@@ -142,13 +143,13 @@ version: 2.5.2
 /*    border-width:0 0 0 1px;*/
 /*    padding:0.2em .75em;*/
 /*    top:auto;*/
-/*    left:-1px; /* for 1px rounded corners */*/
+/*    left:-1px; /* for 1px rounded corners */
 }
 
 .yui-skin-fong .yui-navset-right .yui-nav a em {
 /*    border-width:0 1px 0 0;*/
 /*    left:auto;*/
-/*    right:-1px; /* for 1px rounded corners */*/
+/*    right:-1px; /* for 1px rounded corners */
 }
 
 .yui-skin-fong .yui-navset-left .yui-nav a,
@@ -160,28 +161,28 @@ version: 2.5.2
 .yui-skin-fong .yui-navset-bottom .yui-nav a,
 .yui-skin-fong .yui-navset-bottom .yui-nav .selected a,
 .yui-skin-fong .yui-navset-bottom .yui-nav a:hover {
-/*    background-image:none; /* no left-right or bottom-top gradient */*/
+/*    background-image:none; /* no left-right or bottom-top gradient */
 }
 
 .yui-skin-fong .yui-navset-left .yui-content {
-/*    border:1px solid #808080; /* content border */*/
-/*    border-left-color:#243356; /* different border color */*/
+/*    border:1px solid #808080; /* content border */
+/*    border-left-color:#243356; /* different border color */
 }
 
 /* bottom orientation */
 .yui-skin-fong .yui-navset-bottom .yui-nav,
 .yui-skin-fong .yui-navset .yui-navset-bottom .yui-nav {
-/*    border-width:5px 0 0; /* color between tab list and content */*/
+/*    border-width:5px 0 0; /* color between tab list and content */
 }
 
 .yui-skin-fong .yui-navset .yui-navset-bottom .yui-nav .selected,
 .yui-skin-fong .yui-navset-bottom .yui-nav .selected { 
-/*    margin:-1px 0.16em 0 0; /* for overlap */*/
+/*    margin:-1px 0.16em 0 0; /* for overlap */
 }
 
 .yui-skin-fong .yui-navset .yui-navset-bottom .yui-nav li,
 .yui-skin-fong .yui-navset-bottom .yui-nav li { 
-/*    padding:0 0 1px 0; /* gecko: make room for overflow */*/
+/*    padding:0 0 1px 0; /* gecko: make room for overflow */
 /*    vertical-align:top;*/
 }
 
@@ -193,12 +194,12 @@ version: 2.5.2
 .yui-skin-fong .yui-navset-bottom .yui-nav a em {
 /*    border-width:0 0 1px;*/
 /*    top:auto;*/
-/*    bottom:-1px; /* for 1px rounded corners */*/
+/*    bottom:-1px; /* for 1px rounded corners */
 }
 
 .yui-skin-fong .yui-navset-bottom .yui-content,
 .yui-skin-fong .yui-navset .yui-navset-bottom .yui-content {
-/*    border:1px solid #808080; /* content border */*/
-/*    border-bottom-color:#243356; /* different border color */*/
+/*    border:1px solid #808080; /* content border */
+/*    border-bottom-color:#243356; /* different border color */
 }
 

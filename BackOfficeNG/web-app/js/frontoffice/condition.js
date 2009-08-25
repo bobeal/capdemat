@@ -211,32 +211,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         yue.on('requestTabView', 'change', zcf.Condition.run,zcf.Condition,true);
         yue.on('requestTabView', 'click', zcf.Condition.run,zcf.Condition,true);
       },
-      /**
-       * @description Restates(assigns default values or states) passed element/container
-       * 
-       * @param el {HTMLElement} DOM Element
-       */
-      restate: function(el) {
-        var factor = zct.isIn(el.nodeName,['select','input','textarea']);
-        if (!factor && (el.childNodes||[]).length == 0)  return false;
-        
-        if(zct.isIn(el.nodeName,['select','input','textarea'])) {
-          zct.tryToCall(zcf.Condition['reset'+zct.capitalize(el.nodeName.toLowerCase())],zcf.Condition,el,'');
-        } else {
-          yud.getElementsBy(function(_el){
-            return zct.isIn(_el.nodeName,['select','input','textarea']);
-          },'',el,function(_el) {
-            zct.tryToCall(zcf.Condition['reset'+zct.capitalize(_el.nodeName.toLowerCase())],zcf.Condition,_el,'');
-          });
-        }
-      },
       run : function(e) {
         if(e) {
           var target = yue.getTarget(e);
           if(/submit|file/i.test(target.type)||!zct.isIn(target.nodeName,['select','input'])) return true;
           if( !zct.isIn(target.nodeName,['select','input','textarea'])) return yue.stopEvent(e);
           if(/radio|checkbox/i.test(target.type) && e.type == 'change') return yue.stopEvent(e);
-          if(!/radio|checkbox|select/i.test(target.type) && e.type == 'click') return yue.stopEvent(e);
+          if(!/radio|checkbox/i.test(target.type) && e.type == 'click') return yue.stopEvent(e);
         }
         reset();
         if(zcf.Condition.set(e)) zcf.Condition.test(e,true);
@@ -249,6 +230,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
             if(!el.test && !!confirm && zcf.Condition.checkChanges(i) && !yud.hasClass(zcf.Condition.filleds[i][0],'unactive')) {
               zcf.Condition.confirmDialog.triggerIndex = i;
               zcf.Condition.confirmDialog.triggerTarget = yue.getTarget(e);
+              zcf.Condition.confirmDialog.triggerTargetValue = yue.getTarget(e).value; // hack RDJ
               zcf.Condition.confirmDialog.show(e);
               
               var v = zcf.Condition.triggered[t.name];
@@ -260,19 +242,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
             }
           });
         });
-      },
-      /**
-       * @description Fills? form fields
-       * 
-       * @param i trigger index
-       * @param flag active/unactive flag
-       * @param init intit contex indicator
-       */
-      fill : function(i,flag,init){
-        zcf.Condition.process(zcf.Condition.filleds[i],!flag,init);
-        zcf.Condition.process(zcf.Condition.unfilleds[i],flag,init);
-        if(flag) zcf.Condition.process(zcf.Condition.unfilledDescendants[i],flag,init);
-        else zcf.Condition.process(zcf.Condition.filledDescendants[i],!flag,init);        
       },
       setAll : function() {
         var named = yus.query('#requestTabView [name]');
@@ -338,17 +307,41 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         
         zct.each(list, function() {
           var that = this, type = _t(this);
-//          if(type && zcfi[type].isModified(this.name)) yud.addClass(this,'data-loss-risk'); //_l[this.name] = this;
-          
-          if(type) result = result || zcfi[type].isModified(this.name);
-          else if(zct.nodeName(this,'fieldset') && (this.childNodes||[]).length > 0) {
+          if(type) {
+            result = result || zcfi[type].isModified(this.name);
+          } else if(zct.isIn(this.nodeName,['div','fieldset']) && (this.childNodes||[]).length > 0) {
             zct.each(yus.query('[name]',that),function(){
-//              if(_t(this) && zcfi[_t(this)].isModified(this.name)) yud.addClass(this,'data-loss-risk');
               if(_t(this) && this.name) result = result || zcfi[_t(this)].isModified(this.name);
             });
           }
         });
         return result;
+      },
+      /**
+       * @description Confirmation handler, called if user confirm current operation
+       * 
+       */
+      confirmRetain : function() {
+        var i = zcf.Condition.confirmDialog.triggerIndex;
+        if(typeof i != 'undefined') {
+          zcf.Condition.fill(i,false);
+          var t = zcf.Condition.confirmDialog.triggerTarget;
+          var v = zcf.Condition.confirmDialog.triggerTargetValue; // hack RDJ
+          zcfi[zcfi.getType(t)].setValue(t.name,v);
+        }
+      },
+      /**
+       * @description Fills? form fields
+       * 
+       * @param i trigger index
+       * @param flag active/unactive flag
+       * @param init intit contex indicator
+       */
+      fill : function(i,flag,init){
+        zcf.Condition.process(zcf.Condition.filleds[i],!flag,init);
+        zcf.Condition.process(zcf.Condition.unfilleds[i],flag,init);
+        if(flag) zcf.Condition.process(zcf.Condition.unfilledDescendants[i],flag,init);
+        else zcf.Condition.process(zcf.Condition.filledDescendants[i],!flag,init);
       },
       /**
        * @description Process event triggers and related html elements
@@ -365,6 +358,26 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
           yud[map1[key1]+'Class'](this, 'unactive');
           if(!init) zcf.Condition.restate(this,!state);
         });
+      },
+      /**
+       * @description Restates(assigns default values or states) passed element/container
+       * 
+       * @param el {HTMLElement} DOM Element
+       */
+      restate: function(el) {
+        var factor = zct.isIn(el.nodeName,['select','input','textarea']);
+        if (!factor && (el.childNodes||[]).length == 0)  return false;
+        if (!yud.hasClass(el, 'unactive')) return false; // hack RDJ
+
+        if(zct.isIn(el.nodeName,['select','input','textarea'])) {
+          zct.tryToCall(zcf.Condition['reset'+zct.capitalize(el.nodeName.toLowerCase())],zcf.Condition,el,'');
+        } else {
+          yud.getElementsBy(function(_el){
+            return zct.isIn(_el.nodeName,['select','input','textarea']);
+          },'',el,function(_el) {
+            zct.tryToCall(zcf.Condition['reset'+zct.capitalize(_el.nodeName.toLowerCase())],zcf.Condition,_el,'');
+          });
+        }
       },
       /**
        * @description Retains initial values of forms elements
@@ -406,19 +419,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
        * @param el {HTMLTextAreaElement} textarea to be set
        * @param val {Object} value
        */
-      resetTextarea : function(el,val) {zct.val(el,val);},
-      /**
-       * @description Confirmation handler, called if user confirm current operation
-       * 
-       */
-      confirmRetain : function() {
-        var i = zcf.Condition.confirmDialog.triggerIndex;
-        if(typeof i != 'undefined') {
-          zcf.Condition.fill(i,false);
-          var t = zcf.Condition.confirmDialog.triggerTarget;
-          zcfi[zcfi.getType(t)].setValue(t.name,t.value);
-        }
-      }
+      resetTextarea : function(el,val) {zct.val(el,val);}
     };
   }();
   

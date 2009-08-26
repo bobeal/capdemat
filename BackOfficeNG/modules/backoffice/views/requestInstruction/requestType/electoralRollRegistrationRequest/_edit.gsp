@@ -44,7 +44,7 @@
             
               
               <dl>
-                <dt class="required condition-isDirect-unfilled"><g:message code="errr.property.subjectOldCity.label" /> * : </dt><dd id="subjectOldCity" class="action-editField validate-city required-true i18n-errr.property.subjectOldCity maxLength-32" ><span>${request?.subjectOldCity}</span></dd>
+                <dt class="required condition-isDirect-unfilled"><g:message code="errr.property.subjectOldCity.label" /> * : </dt><dd id="subjectOldCity" class="action-editField validate-postalCode required-true i18n-errr.property.subjectOldCity maxLength-5" ><span>${request?.subjectOldCity}</span></dd>
               </dl>
               
             

@@ -49,7 +49,7 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="prefectPupil" ${it == rqt.prefectPupil ? 'checked="checked"': ''} />
+                <input type="radio" class="required condition-isPrefectPupil-trigger  validate-one-required boolean" title="" value="${it}" name="prefectPupil" ${it == rqt.prefectPupil ? 'checked="checked"': ''} />
                 <g:message code="message.${it ? 'yes' : 'no'}" />
               </li>
               </g:each>
@@ -57,8 +57,8 @@
             
 
     
-      <label class=""><g:message code="mcr.property.prefectPupilDepartment.label" />   <span><g:message code="mcr.property.prefectPupilDepartment.help" /></span></label>
-            <select name="prefectPupilDepartment" class="  validate-not-first" title="<g:message code="mcr.property.prefectPupilDepartment.validationError" />">
+      <label class="required condition-isPrefectPupil-unfilled"><g:message code="mcr.property.prefectPupilDepartment.label" /> *  <span><g:message code="mcr.property.prefectPupilDepartment.help" /></span></label>
+            <select name="prefectPupilDepartment" class="required condition-isPrefectPupil-unfilled  validate-not-first" title="<g:message code="mcr.property.prefectPupilDepartment.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['None','DEP_01','DEP_02','DEP_03','DEP_04','DEP_05','DEP_06','DEP_07','DEP_08','DEP_09','DEP_10','DEP_11','DEP_12','DEP_13','DEP_14','DEP_15','DEP_16','DEP_17','DEP_18','DEP_19','DEP_2A','DEP_2B','DEP_21','DEP_22','DEP_23','DEP_24','DEP_25','DEP_26','DEP_27','DEP_28','DEP_29','DEP_30','DEP_31','DEP_32','DEP_33','DEP_34','DEP_35','DEP_36','DEP_37','DEP_38','DEP_39','DEP_40','DEP_41','DEP_42','DEP_43','DEP_44','DEP_45','DEP_46','DEP_47','DEP_48','DEP_49','DEP_50','DEP_51','DEP_52','DEP_53','DEP_54','DEP_55','DEP_56','DEP_57','DEP_58','DEP_59','DEP_60','DEP_61','DEP_62','DEP_63','DEP_64','DEP_65','DEP_66','DEP_67','DEP_68','DEP_69','DEP_70','DEP_71','DEP_72','DEP_73','DEP_74','DEP_75','DEP_76','DEP_77','DEP_78','DEP_79','DEP_80','DEP_81','DEP_82','DEP_83','DEP_84','DEP_85','DEP_86','DEP_87','DEP_88','DEP_89','DEP_90','DEP_91','DEP_92','DEP_93','DEP_94','DEP_95','DEP_971','DEP_972','DEP_973','DEP_974']}">
                 <option value="fr.cg95.cvq.business.users.InseeDepartementCodeType_${it}" ${it == rqt.prefectPupilDepartment?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="mcr.property.prefectPupilDepartment" /></option>

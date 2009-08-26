@@ -30,11 +30,17 @@
           <steps>
             <step index="0" name="census">
               <widgets>
-                <subject />
+                <subject>
+                 <autofill name="subjectFilling" type="trigger" />
+                </subject>
               </widgets>
             </step>
             <step index="1" name="parentage" />
-            <step index="2" name="situation" />
+            <step index="2" name="situation">
+              <conditions>
+                <condition name="isPrefectPupil" />
+              </conditions>
+            </step>
             <step index="3" name="exemption" required="false" />
             <step index="4" ref="document" />
             <step index="5" ref="validation" />
@@ -66,7 +72,7 @@
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
 
-            <xs:element name="ChildTitle" type="cvq:TitleType" default="Unknown">
+            <xs:element name="ChildTitle" type="cvq:TitleType">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   La civilité de l'enfant
@@ -107,6 +113,7 @@
                 <xs:appinfo>
                   <common>
                     <step name="census" />
+                    <autofill name="subjectFilling" type="listener" field="LastName" />
                   </common>
                   <fo />
                   <bo column="1" />
@@ -1141,6 +1148,9 @@
           <xs:appinfo>
             <common>
               <step name="situation" />
+              <conditions>
+                <condition name="isPrefectPupil" type="trigger" />
+              </conditions>
             </common>
             <fo />
             <bo />
@@ -1164,6 +1174,9 @@
             <model namespace="users" />
             <common>
               <step name="situation" />
+              <conditions>
+                <condition name="isPrefectPupil" type="unfilled" required="true" />
+              </conditions>
             </common>
             <fo />
             <bo />
@@ -1180,7 +1193,7 @@
 
   <xs:complexType name="ProfessionalSituationInformationType">
     <xs:sequence>
-      <xs:element name="ChildSituation" type="mcr:ChildSituationType" default="Unknown">
+      <xs:element name="ChildSituation" type="mcr:ChildSituationType" >
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             La situation scolaire ou professionnelle de l'enfant
@@ -1209,7 +1222,7 @@
         </xs:annotation>
       </xs:element>
 
-      <xs:element name="ChildDiploma" type="mcr:ChildDiplomaType" default="Unknown">
+      <xs:element name="ChildDiploma" type="mcr:ChildDiplomaType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Diplôme de l'enfant

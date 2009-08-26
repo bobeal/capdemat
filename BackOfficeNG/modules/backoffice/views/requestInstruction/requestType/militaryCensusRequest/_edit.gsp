@@ -200,9 +200,9 @@
                 
                   <dt class="required"><g:message code="mcr.property.statePupil.label" /> * : </dt><dd id="statePupil" class="action-editField validate-boolean required-true i18n-mcr.property.statePupil" ><span class="value-${request?.statePupil}"><g:message code="message.${request?.statePupil ? 'yes' : 'no'}" /></span></dd>
                 
-                  <dt class="required"><g:message code="mcr.property.prefectPupil.label" /> * : </dt><dd id="prefectPupil" class="action-editField validate-boolean required-true i18n-mcr.property.prefectPupil" ><span class="value-${request?.prefectPupil}"><g:message code="message.${request?.prefectPupil ? 'yes' : 'no'}" /></span></dd>
+                  <dt class="required condition-isPrefectPupil-trigger"><g:message code="mcr.property.prefectPupil.label" /> * : </dt><dd id="prefectPupil" class="action-editField validate-boolean required-true i18n-mcr.property.prefectPupil" ><span class="value-${request?.prefectPupil}"><g:message code="message.${request?.prefectPupil ? 'yes' : 'no'}" /></span></dd>
                 
-                  <dt class=""><g:message code="mcr.property.prefectPupilDepartment.label" />  : </dt><dd id="prefectPupilDepartment" class="action-editField validate-capdematEnum i18n-mcr.property.prefectPupilDepartment javatype-fr.cg95.cvq.business.users.InseeDepartementCodeType" ><g:capdematEnumToField var="${request?.prefectPupilDepartment}" i18nKeyPrefix="mcr.property.prefectPupilDepartment" /></dd>
+                  <dt class="required condition-isPrefectPupil-unfilled"><g:message code="mcr.property.prefectPupilDepartment.label" /> * : </dt><dd id="prefectPupilDepartment" class="action-editField validate-capdematEnum required-true i18n-mcr.property.prefectPupilDepartment javatype-fr.cg95.cvq.business.users.InseeDepartementCodeType" ><g:capdematEnumToField var="${request?.prefectPupilDepartment}" i18nKeyPrefix="mcr.property.prefectPupilDepartment" /></dd>
                 
               </dl>
               

@@ -10,15 +10,12 @@ import org.hibernate.type.Type;
 
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.security.IPolicyDelegate;
 
 /**
  *
  * @author bor@zenexity.fr
  */
 public class GenericDAO implements IGenericDAO {
-
-    protected IPolicyDelegate cvqPolicy;
 
     public Object findById(final Class<?> clazz, final Long id)
         throws CvqObjectNotFoundException {
@@ -51,10 +48,6 @@ public class GenericDAO implements IGenericDAO {
 
     public void delete(final Object object) {
         HibernateUtil.getSession().delete(object);
-    }
-
-    public void setCvqPolicy(IPolicyDelegate policyDelegate) {
-        this.cvqPolicy = policyDelegate;
     }
 
     /**

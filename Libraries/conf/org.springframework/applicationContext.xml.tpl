@@ -74,8 +74,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
   </bean>
 
-  <bean id="cvqPolicy" class="fr.cg95.cvq.security.CvqPolicy" init-method="init"/>
-  
   <bean id="securityContext" class="fr.cg95.cvq.security.SecurityContext">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="agentService" ref="agentService" />
@@ -592,11 +590,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <!-- =================== DAO DEFINITION ==================== -->  
   <!-- ======================================================= -->
 
-  <bean id="genericDAO" class="fr.cg95.cvq.dao.hibernate.GenericDAO">
-    <property name="cvqPolicy">
-      <ref bean="cvqPolicy"/>
-	</property>
-  </bean>	
+  <bean id="genericDAO" class="fr.cg95.cvq.dao.hibernate.GenericDAO" />
 
   <bean id="requestDAO" class="fr.cg95.cvq.dao.request.hibernate.RequestDAO" parent="genericDAO"/>
 

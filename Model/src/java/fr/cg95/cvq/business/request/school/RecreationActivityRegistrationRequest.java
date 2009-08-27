@@ -39,6 +39,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         RecreationActivityRegistrationRequestDocument object = (RecreationActivityRegistrationRequestDocument) this.modelToXml();
@@ -50,6 +51,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

@@ -29,13 +29,14 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
 
     protected I${request.requestName}Service i${request.requestName}Service;
 
+    @Override
     protected void onSetUp() throws Exception {
-    	super.onSetUp();
+        super.onSetUp();
         i${request.requestName}Service = 
             (I${request.requestName}Service) getBean(StringUtils.uncapitalize("${request.requestName}") + "Service");
     }
 
-    protected ${request.requestName} fillMeARequest() throws CvqException {
+    protected ${request.requestName} fillMeARequest() {
 
         ${request.requestName} request = new ${request.requestName}();
 #foreach($field in $request.elementsPropertiesMap.keySet())
@@ -86,7 +87,7 @@ public class ${request.requestName}ServiceTest extends ServiceTestCase {
     #elseif($xmlSchemaType == "RecreationCenterType")
        request.set$field(recreationCenterService.getAll().get(0));
     #elseif($xmlSchemaType == "SchoolType")
-       request.set$field((School) schoolService.getAll().iterator().next());
+       request.set$field(schoolService.getAll().iterator().next());
     #end
   #end
 #end

@@ -22,13 +22,14 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class FakeExternalServiceTest extends ServiceTestCase {
 
     private IExternalProviderService fakeExternalService;
 
+    @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
         fakeExternalService = (IExternalProviderService) getBean("fakeExternalService");
@@ -56,7 +57,7 @@ public class FakeExternalServiceTest extends ServiceTestCase {
         // register the mock external provider service with the LACB
         ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IVoCardRequestService.VO_CARD_REGISTRATION_REQUEST);
+        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         esb.setSupportAccountsByHomeFolder(true);
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();

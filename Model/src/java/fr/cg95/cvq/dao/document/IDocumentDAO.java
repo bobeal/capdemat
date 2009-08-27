@@ -15,8 +15,8 @@ public interface IDocumentDAO extends IGenericDAO {
     /**
      * Return the documents who belong to the given home folder with the specified type.
      */
-    List<Document> listProvidedDocuments(final Long docTypeId, final Long homeFolderId, 
-            final Long individualId);
+    List<Document> listProvidedDocuments(final Long docTypeId,
+        final Long homeFolderId, final Long individualId);
 
     /**
      * Return the {@link Document documents} belonging to a given home folder.

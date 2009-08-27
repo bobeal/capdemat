@@ -23,8 +23,8 @@ public class CASFilter extends GenericFilterBean {
 
     private String validateUrl;
     private String serverNames;
-    private List serverNamesList;
-    private List authorizedProxies;
+    private List<String> serverNamesList;
+    private List<String> authorizedProxies;
 
     public CASFilter() {
         addRequiredProperty("validateUrl");
@@ -32,13 +32,13 @@ public class CASFilter extends GenericFilterBean {
         addRequiredProperty("authorizedProxies");
     }
 
+    @Override
     protected void initFilterBean() {
-    		serverNamesList = new ArrayList();
-    		String[] splitted = serverNames.split(",");
-    		for (int i = 0; i < splitted.length; i++)
-    			serverNamesList.add(splitted[i]);
+        serverNamesList = new ArrayList<String>();
+        for (String serverName : serverNames.split(","))
+            serverNamesList.add(serverName);
     }
-    
+
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
         throws ServletException, IOException {
 
@@ -83,7 +83,7 @@ public class CASFilter extends GenericFilterBean {
         }
 
         // check proxy service is really authorized
-        if (!authorizedProxies.contains((String) pv.getProxyList().get(0)))
+        if (!authorizedProxies.contains(pv.getProxyList().get(0)))
             throw new ServletException("Proxy service " + pv.getProxyList().get(0)
                                        + " not allowed to proxy for us");
 
@@ -95,6 +95,7 @@ public class CASFilter extends GenericFilterBean {
     }
 
 
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("[CASFilter:");
@@ -128,7 +129,7 @@ public class CASFilter extends GenericFilterBean {
         this.serverNames = serverNames;
     }
 
-    public void setAuthorizedProxies(List authorizedProxies) {
+    public void setAuthorizedProxies(List<String> authorizedProxies) {
         this.authorizedProxies = authorizedProxies;
     }
 }

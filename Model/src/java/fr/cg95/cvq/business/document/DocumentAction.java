@@ -105,6 +105,7 @@ public class DocumentAction implements Serializable {
         this.resultingState = resultingState;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

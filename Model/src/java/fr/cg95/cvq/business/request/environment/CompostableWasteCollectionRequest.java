@@ -35,6 +35,7 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         CompostableWasteCollectionRequestDocument object = (CompostableWasteCollectionRequestDocument) this.modelToXml();
@@ -46,6 +47,7 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

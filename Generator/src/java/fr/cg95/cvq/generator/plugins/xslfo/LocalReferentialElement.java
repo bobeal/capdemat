@@ -13,6 +13,7 @@ public final class LocalReferentialElement extends Element {
         super(element);
     }
 
+    @Override
     public String getDisplayType() {
         return "local_referential";
     }

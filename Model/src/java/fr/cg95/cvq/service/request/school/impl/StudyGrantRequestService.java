@@ -27,6 +27,7 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
         return new StudyGrantRequest();
     }
 
+    @Override
     public void onRequestValidated(Request request) throws CvqException {
         StudyGrantRequest sgr = (StudyGrantRequest) request;
         Individual subject = individualService.getById(sgr.getSubjectId());
@@ -44,6 +45,7 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
         individualService.modify(subject);
     }
     
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("abroadInternship", new EqualityChecker("true"));

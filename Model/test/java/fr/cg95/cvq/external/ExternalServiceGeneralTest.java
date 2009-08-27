@@ -14,6 +14,7 @@ public class ExternalServiceGeneralTest extends ServiceTestCase {
     private IExternalService externalService;
     private IExternalProviderService fakeExternalService;
     
+    @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
         externalService = (IExternalService) getBean("externalService");

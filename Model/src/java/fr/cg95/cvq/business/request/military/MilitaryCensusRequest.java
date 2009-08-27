@@ -48,6 +48,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         MilitaryCensusRequestDocument object = (MilitaryCensusRequestDocument) this.modelToXml();
@@ -59,6 +60,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

@@ -24,6 +24,7 @@ public class LocalComplexElement extends Element {
         super();
     }      
     
+    @Override
     public String getDisplayType() {
         return "local_complex_element";
     }

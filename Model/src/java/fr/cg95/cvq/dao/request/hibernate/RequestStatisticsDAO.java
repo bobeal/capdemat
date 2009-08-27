@@ -1,13 +1,7 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
-import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.dao.hibernate.GenericDAO;
-import fr.cg95.cvq.dao.hibernate.HibernateUtil;
-import fr.cg95.cvq.dao.request.IRequestStatisticsDAO;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +13,11 @@ import java.util.Map;
 
 import org.hibernate.Hibernate;
 import org.hibernate.type.Type;
+
+import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.dao.hibernate.GenericDAO;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.request.IRequestStatisticsDAO;
 
 /**
  * @author bor@zenexity.fr
@@ -295,12 +294,8 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
     }
 
     public Date getOldestRequest() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("select min(creationDate) from Request as request");
-
-        List<Timestamp> tempResult =
-            HibernateUtil.getSession().createQuery(sb.toString()).list();
-
-        return (Date) tempResult.get(0);
+        return (Date)HibernateUtil.getSession()
+            .createQuery("select min(creationDate) from Request as request")
+            .list().get(0);
     }
 }

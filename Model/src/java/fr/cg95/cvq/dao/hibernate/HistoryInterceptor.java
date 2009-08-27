@@ -137,6 +137,7 @@ public final class HistoryInterceptor extends EmptyInterceptor {
      *      java.lang.Object[], java.lang.String[],
      *      org.hibernate.type.Type[])
      */
+    @Override
     public boolean onLoad(Object obj, Serializable id, Object[] values, String[] properties,
             Type[] types) throws CallbackException {
         return false;
@@ -151,6 +152,7 @@ public final class HistoryInterceptor extends EmptyInterceptor {
      *      java.lang.Object[], java.lang.Object[], java.lang.String[],
      *      org.hibernate.type.Type[])
      */
+    @Override
     public boolean onFlushDirty(Object obj, Serializable id, Object[] newValues,
             Object[] oldValues, String[] properties, Type[] types) throws CallbackException {
 
@@ -208,8 +210,8 @@ public final class HistoryInterceptor extends EmptyInterceptor {
 
             // Generate a new entry
             HistoryEntry entry = new HistoryEntry();
-            entry.setUserName((String) currentContextUser.get()); 
-            entry.setRequestId(((Request) currentContextRequest.get()).getId());
+            entry.setUserName(currentContextUser.get());
+            entry.setRequestId(currentContextRequest.get().getId());
             entry.setOperation("update");
             entry.setClazz(obj.getClass().getName());
             entry.setObjectId(((Historizable) obj).getId());
@@ -234,6 +236,7 @@ public final class HistoryInterceptor extends EmptyInterceptor {
      *      org.hibernate.type.Type[])
      * 
      */
+    @Override
     public boolean onSave(Object obj, Serializable id, Object[] newValues, String[] properties,
             Type[] types) throws CallbackException {
 
@@ -245,8 +248,8 @@ public final class HistoryInterceptor extends EmptyInterceptor {
 //                + Arrays.asList(newValues) + " props=" + Arrays.asList(properties));
 
         HistoryEntry entry = new HistoryEntry();
-        entry.setUserName((String) currentContextUser.get());
-        entry.setRequestId(((Request) currentContextRequest.get()).getId());
+        entry.setUserName(currentContextUser.get());
+        entry.setRequestId((currentContextRequest.get()).getId());
         entry.setOperation("created");
         entry.setClazz(obj.getClass().getName());
         entry.setObjectId(h.getId());
@@ -256,13 +259,16 @@ public final class HistoryInterceptor extends EmptyInterceptor {
         return false;
     }
 
+    @Override
     public void onDelete(Object obj, Serializable id, Object[] newValues, String[] properties,
             Type[] types) throws CallbackException {
     }
 
+    @Override
     public void preFlush(Iterator it) throws CallbackException {
     }
 
+    @Override
     public void postFlush(Iterator it) throws CallbackException {
 
         if (currentContextRequest.get() == null) {
@@ -326,6 +332,7 @@ public final class HistoryInterceptor extends EmptyInterceptor {
         return null;
     }
 
+    @Override
     public int[] findDirty(Object obj, Serializable id, Object[] newValues, Object[] oldValues,
             String[] properties, Type[] types) {
         // if (doObjectHistorization(obj))

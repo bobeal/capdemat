@@ -128,6 +128,7 @@ public class RequestSeason implements Serializable {
         this.validationAuthorizationStart = validationAuthorizationStart;
     }
 
+    @Override
     public boolean equals(Object other) {
         if (this == other) return true;
         if (other == null) return false;
@@ -141,6 +142,7 @@ public class RequestSeason implements Serializable {
         return true;
     }
     
+    @Override
     public int hashCode() {
         int result;
         result = getLabel().hashCode();

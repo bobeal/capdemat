@@ -13,6 +13,7 @@ public class PlaceReservationElement extends Element {
         super(element);
     }
 
+    @Override
     public String getDisplayType() {
         return "place_reservation";
     }

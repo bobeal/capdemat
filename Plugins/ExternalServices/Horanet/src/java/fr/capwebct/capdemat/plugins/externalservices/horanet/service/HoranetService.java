@@ -1,24 +1,5 @@
 package fr.capwebct.capdemat.plugins.externalservices.horanet.service;
 
-import fr.cg95.cvq.business.authority.School;
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.users.Child;
-import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.*;
-import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqConfigurationException;
-import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.exception.CvqRemoteException;
-import fr.cg95.cvq.external.IExternalProviderService;
-import fr.cg95.cvq.external.ExternalServiceBean;
-import fr.cg95.cvq.payment.IPaymentService;
-import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.users.IHomeFolderService;
-import fr.cg95.cvq.service.users.IIndividualService;
-import fr.cg95.cvq.xml.common.RequestType;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -38,9 +19,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.LinkedHashMap;
 
 import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
@@ -62,11 +43,35 @@ import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.jdom.output.XMLOutputter;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import fr.cg95.cvq.business.authority.School;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.users.Child;
+import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItemDetail;
+import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.users.payment.ExternalInvoiceItemDetail;
+import fr.cg95.cvq.business.users.payment.ExternalTicketingContractItem;
+import fr.cg95.cvq.business.users.payment.PurchaseItem;
+import fr.cg95.cvq.exception.CvqConfigurationException;
+import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.exception.CvqRemoteException;
+import fr.cg95.cvq.external.ExternalServiceBean;
+import fr.cg95.cvq.external.IExternalProviderService;
+import fr.cg95.cvq.payment.IPaymentService;
+import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.xml.common.RequestType;
 
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
@@ -101,9 +106,7 @@ public class HoranetService implements IExternalProviderService {
     public void init() {
     }
     
-    private String getPostalCodeFromRequest(final Request request)
-        throws CvqModelException {
-
+    private String getPostalCodeFromRequest(final Request request) {
         return SecurityContext.getCurrentSite().getPostalCode();
     }
 

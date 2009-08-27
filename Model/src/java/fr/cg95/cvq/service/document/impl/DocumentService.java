@@ -290,8 +290,7 @@ public class DocumentService implements IDocumentService {
     }
     
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<Document> getHomeFolderDocuments(final Long homeFolderId, int maxResults)
-        throws CvqException {
+    public List<Document> getHomeFolderDocuments(final Long homeFolderId, int maxResults) {
 
         return documentDAO.listByHomeFolder(homeFolderId, maxResults);
     }
@@ -448,7 +447,7 @@ public class DocumentService implements IDocumentService {
             documentStateList.add(DocumentState.PENDING);
         }
 
-        return (DocumentState[]) documentStateList.toArray(new DocumentState[0]);
+        return documentStateList.toArray(new DocumentState[documentStateList.size()]);
     }
 
     public void addActionTrace(final String label, final DocumentState resultingState,

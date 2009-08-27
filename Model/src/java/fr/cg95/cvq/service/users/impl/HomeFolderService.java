@@ -137,9 +137,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         return homeFolder;
     }
 
-    private void initializeCommonAttributes(HomeFolder homeFolder) 
-        throws CvqException {
-
+    private void initializeCommonAttributes(HomeFolder homeFolder) {
         homeFolder.setState(ActorState.PENDING);
         homeFolder.setEnabled(Boolean.TRUE);
     }
@@ -524,7 +522,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
                         }
                     }
                 }
-                if (legalResponsibles == null || legalResponsibles.isEmpty())
+                if (legalResponsibles.isEmpty())
                     throw new CvqModelException("Child " + child.getFirstName() + 
                             " (" + child.getId() + ") has no legal responsible");
                 else if (legalResponsibles.size() > 3) 

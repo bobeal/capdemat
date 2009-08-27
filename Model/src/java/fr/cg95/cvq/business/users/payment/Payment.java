@@ -258,6 +258,7 @@ public class Payment implements Serializable, Comparable<Payment> {
         this.paymentSpecificData = paymentSpecificData;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

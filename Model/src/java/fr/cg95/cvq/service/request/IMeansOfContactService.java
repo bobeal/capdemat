@@ -7,6 +7,7 @@ import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**
@@ -18,17 +19,17 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
  */
 public interface IMeansOfContactService {
 
-    MeansOfContact getMeansOfContactByType(MeansOfContactEnum type) throws CvqException;
+    MeansOfContact getMeansOfContactByType(MeansOfContactEnum type);
 
     /**
      * Get all available Means Of Contact
      */
-    List<MeansOfContact> getAvailableMeansOfContact() throws CvqException;
+    List<MeansOfContact> getAvailableMeansOfContact();
 
     /**
      * Get all enabled Means Of Contact, in local authority
      */
-    List<MeansOfContact> getEnabledMeansOfContact() throws CvqException;
+    List<MeansOfContact> getEnabledMeansOfContact();
 
     /**
      * Get all enabled Means of Contact, for a particular adult.
@@ -41,21 +42,21 @@ public interface IMeansOfContactService {
      * Example: An adult might be notified by email, if Means of Contact Email is enabled
      * and if he has provided his email (when creating home folder) .
      */
-    List<MeansOfContact> getAdultEnabledMeansOfContact(Adult adult) throws CvqException;
+    List<MeansOfContact> getAdultEnabledMeansOfContact(Adult adult);
 
     /**
      * Same as getAdultEnabledMeansOfContact for the current ecitizen
      */
-    List<MeansOfContact> getCurrentEcitizenEnabledMeansOfContact() throws CvqException;
+    List<MeansOfContact> getCurrentEcitizenEnabledMeansOfContact();
 
     /**
      * Enalbe a Means of Contact for a local authority
      */
-    void enableMeansOfContact(MeansOfContact meansOfContact) throws CvqException;
+    void enableMeansOfContact(MeansOfContact meansOfContact);
 
     /**
      * Disable a Means of Contact for a local authority
-     * @throws CvqException
+     * @throws CvqModelException
      * <br><br>
      * Expected business error code is :
      * <dl>
@@ -63,7 +64,8 @@ public interface IMeansOfContactService {
      *     <dd>MeansOfContact can't be disabled. It is the unique enabled</dd>
      * <dl>
      */
-    void disableMeansOfContact(MeansOfContact meansOfContact) throws CvqException;
+    void disableMeansOfContact(MeansOfContact meansOfContact)
+        throws CvqModelException;
 
     /**
      * Test if the given MeansOfContact supports attachment

@@ -36,7 +36,7 @@ public class PaymentInitializationDateCheckerJob {
 	 * 
 	 * @see #checkInitializedPayment(String)
 	 */
-	public void launchJob()  throws CvqException {
+	public void launchJob() {
 		localAuthorityRegistry.browseAndCallback(this, "checkInitializedPayment", null);
 	}
 	

@@ -21,6 +21,7 @@ public class CvqDaoException extends RuntimeException {
      * <p>Note that this will only check one level of nesting.
      * Use {@link #getRootCause()} to retrieve the innermost cause.
      */
+    @Override
     public Throwable getCause() {
         // Even if you cannot set the cause of this exception other than through
         // the constructor, we check for the cause being "this" here, as the cause

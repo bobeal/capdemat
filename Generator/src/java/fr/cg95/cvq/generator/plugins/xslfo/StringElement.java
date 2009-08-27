@@ -17,6 +17,7 @@ public final class StringElement extends Element {
         super(element);
     }
 
+    @Override
     public String getDisplayType() {
         return "string";
     }

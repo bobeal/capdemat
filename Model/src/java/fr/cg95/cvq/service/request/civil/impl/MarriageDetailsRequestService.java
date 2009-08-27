@@ -35,6 +35,7 @@ public final class MarriageDetailsRequestService extends RequestService
         return request;
     }
     
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("requesterQuality", new EqualityChecker("Other"));

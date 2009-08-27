@@ -22,9 +22,10 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestService;
@@ -65,9 +66,12 @@ public class RequestServiceRegistry
         this.beanFactory = (ListableBeanFactory) beanFactory;
     }
 
+    @SuppressWarnings("unchecked")
     public void init() {
         Map<String, IRequestTypeLifecycleAware> services = 
-            beanFactory.getBeansOfType(IRequestTypeLifecycleAware.class, true, true);
+            (Map<String, IRequestTypeLifecycleAware>)
+            beanFactory.getBeansOfType(IRequestTypeLifecycleAware.class,
+                true, true);
         if (services != null && !services.isEmpty()) {
             allListenerServices = services.values();
         }
@@ -137,27 +141,27 @@ public class RequestServiceRegistry
         }
     }
 
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
     public void addLocalAuthority(String localAuthorityName) {
-        
         if (performDbUpdates) {
             logger.debug("addLocalAuthority() adding " + localAuthorityName);
             for (String serviceLabel : servicesMap.keySet()) {
-                Object[] args = new Object[1];
-                args[0] = serviceLabel;
                 logger.debug("addLocalAuthority() registering service " + serviceLabel);
-                localAuthorityRegistry.callback(localAuthorityName, this, "initRequestData", args);
+                initRequestData(serviceLabel);
             }
         }
-
         localAuthoritiesNamesSet.add(localAuthorityName);
     }
 
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
     public void removeLocalAuthority(String localAuthorityName) {
         // nothing to do
     }
 
-    public void initRequestData(String serviceLabel) 
-        throws CvqException {
+    @Context(type=ContextType.SUPER_ADMIN)
+    public void initRequestData(String serviceLabel) {
         
         if (serviceLabel == null || serviceLabel.trim().length() == 0) {
             logger.info("initRequestData() ignoring empty service label");
@@ -232,7 +236,7 @@ public class RequestServiceRegistry
     public IRequestService getDefaultRequestService() {
         // default request service has an empty label
         // FIXME : make this a property of the service
-        return (IRequestService) servicesMap.get("");
+        return servicesMap.get("");
     }
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

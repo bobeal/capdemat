@@ -37,25 +37,24 @@ import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.IExternalService;
-import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.util.quering.BaseOperator;
-import fr.cg95.cvq.util.quering.CriteriasDescriptor;
 import fr.cg95.cvq.util.quering.ISelectArgument;
 import fr.cg95.cvq.util.quering.SelectField;
 import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
 import fr.cg95.cvq.util.quering.criterias.InCriteria;
 import fr.cg95.cvq.util.quering.criterias.SimpleCriteria;
-import fr.cg95.cvq.util.quering.sort.SortCriteria;
-import fr.cg95.cvq.util.quering.sort.SortDirection;
 
 public class ExternalService implements IExternalService, BeanFactoryAware {
 
@@ -74,7 +73,8 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         this.requestService =
             (IRequestService)beanFactory.getBean("defaultRequestService");
     }
-    
+
+    @Override
     public boolean authenticate(String externalServiceLabel, String password) {
         IExternalProviderService externalProviderService =
             getExternalServiceByLabel(externalServiceLabel);
@@ -88,6 +88,8 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return false;
     }
 
+    @Override
+    @Context(type=ContextType.AGENT, privilege=ContextPrivilege.WRITE)
     public void sendRequest(Request request) throws CvqException {
 
         // get the external services interested by this request type
@@ -167,8 +169,10 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         }
     }
 
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
     public void creditHomeFolderAccounts(Payment payment)
-            throws CvqException {
+        throws CvqException {
 
         if (!payment.getState().equals(PaymentState.VALIDATED)) {
             logger.info("creditHomeFolderAccounts() not re-routing non validated payment");
@@ -216,6 +220,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
 
     }
 
+    @Override
     public boolean hasMatchingExternalService(String requestLabel) {
         Set<IExternalProviderService> externalProviderServices =
             getExternalServicesByRequestType(requestLabel);
@@ -225,6 +230,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             return false;
     }
 
+    @Override
     public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
         throws CvqException {
 
@@ -244,6 +250,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return resultMap;
     }
 
+    @Override
     public Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, 
             Set<String> homeFolderRequestTypes, String type) 
         throws CvqException {
@@ -279,6 +286,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return accountsInfoSet;
     }
 
+    @Override
     public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId, 
             Set<String> homeFolderRequestTypes)
             throws CvqException {
@@ -315,18 +323,21 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return result;
     }
 
+    @Override
     public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {
         IExternalProviderService externalProviderService = 
             getExternalServiceByLabel(edai.getExternalServiceLabel());
         externalProviderService.loadDepositAccountDetails(edai);
     }
 
+    @Override
     public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
         IExternalProviderService externalProviderService = 
             getExternalServiceByLabel(eii.getExternalServiceLabel());
         externalProviderService.loadInvoiceDetails(eii);
     }
-    
+
+    @Override
     public Set<String> getRequestTypesForExternalService(String externalServiceLabel) {
         IExternalProviderService externalProviderService = 
             getExternalServiceByLabel(externalServiceLabel);
@@ -338,6 +349,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             return null;
     }
 
+    @Override
     public Set<String> getGenerableRequestTypes() {
         Set<String> result = new HashSet<String>();
 
@@ -356,8 +368,9 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return result;
     }
 
+    @Override
     public void addHomeFolderMapping(String externalServiceLabel, Long homeFolderId,
-            String externalId) throws CvqPermissionException {
+            String externalId) {
         
         ExternalServiceIdentifierMapping esim =
             getIdentifierMapping(externalServiceLabel, homeFolderId);
@@ -374,8 +387,8 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         genericDAO.create(esim);
     }
 
-    public void addHomeFolderMapping(ExternalServiceIdentifierMapping esim)
-            throws CvqPermissionException {
+    @Override
+    public void addHomeFolderMapping(ExternalServiceIdentifierMapping esim) {
 
         ExternalServiceIdentifierMapping esimFromDb =
             getIdentifierMapping(esim.getExternalServiceLabel(), esim.getHomeFolderId());
@@ -389,6 +402,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         }
     }
 
+    @Override
     public void addIndividualMapping(String externalServiceLabel, Long homeFolderId,
             Long individualId, String externalId) throws CvqException {
 
@@ -430,8 +444,9 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         externalServiceTraceDAO.update(esim);
     }
 
-    public void deleteHomeFolderMapping(String externalServiceLabel, Long homeFolderId) 
-        throws CvqPermissionException {
+    @Override
+    public void deleteHomeFolderMapping(String externalServiceLabel,
+        Long homeFolderId) {
 
         Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
         criterias.add(new SimpleCriteria("externalServiceLabel", BaseOperator.EQUALS, 
@@ -445,8 +460,8 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         externalServiceTraceDAO.delete(esim);
     }
 
-    public void deleteHomeFoldersMappings(String externalServiceLabel)
-        throws CvqPermissionException {
+    @Override
+    public void deleteHomeFoldersMappings(String externalServiceLabel) {
 
         Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
         criterias.add(new SimpleCriteria("externalServiceLabel", BaseOperator.EQUALS, 
@@ -460,8 +475,9 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         }
     }
 
-    public ExternalServiceIdentifierMapping getIdentifierMapping(String externalServiceLabel,
-            Long homeFolderId) {
+    @Override
+    public ExternalServiceIdentifierMapping
+        getIdentifierMapping(String externalServiceLabel, Long homeFolderId) {
 
         Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
         criterias.add(new SimpleCriteria("externalServiceLabel", BaseOperator.EQUALS, 
@@ -477,6 +493,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             return esimSet.iterator().next();
     }
 
+    @Override
     public ExternalServiceIdentifierMapping getIdentifierMapping(String externalServiceLabel,
             String externalId) {
 
@@ -493,6 +510,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             return esimSet.iterator().next();
     }
 
+    @Override
     public Set<ExternalServiceIdentifierMapping> getIdentifiersMappings(String externalServiceLabel) {
 
         Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
@@ -533,6 +551,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return null;
     }
 
+    @Override
     public Set<IExternalProviderService> getExternalServicesByRequestType(final String requestTypeLabel) {
 
         Set<String> requestTypesLabels = new HashSet<String>();
@@ -540,6 +559,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return getExternalServicesByRequestTypes(requestTypesLabels);
     }
 
+    @Override
     public IExternalProviderService getExternalServiceByRequestType(final String requestTypeLabel) {
         if (hasMatchingExternalService(requestTypeLabel)) {
             return getExternalServicesByRequestType(requestTypeLabel).toArray(new IExternalProviderService[1])[0];
@@ -572,83 +592,21 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return resultSet;
     }
 
-    public Long addTrace(ExternalServiceTrace trace) throws CvqPermissionException {
+    @Override
+    @Context(type = ContextType.AGENT, privilege = ContextPrivilege.WRITE)
+    public Long addTrace(ExternalServiceTrace trace) {
         trace.setDate(new Date());
         return externalServiceTraceDAO.create(trace);
     }
 
-    public Set<ExternalServiceTrace> getTraces(String key, String name,
-            TraceStatusEnum status, Date dateFrom, Date dateTo) {
-
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new SimpleCriteria("key",BaseOperator.EQUALS,key));
-        criterias.add(new SimpleCriteria("name",BaseOperator.EQUALS, name));
-        criterias.add(new SimpleCriteria("date",BaseOperator.GTE,dateFrom));
-        criterias.add(new SimpleCriteria("date",BaseOperator.LTE,dateTo));
-        if (status != null) 
-            criterias.add(new SimpleCriteria("status",BaseOperator.EQUALS,status.toString())); 
-        
-        return this.externalServiceTraceDAO.<ExternalServiceTrace,ExternalServiceTrace>get(
-                criterias, ExternalServiceTrace.class);
+    @Override
+    public List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet,
+        String sort, String dir) {
+        return externalServiceTraceDAO.get(criteriaSet, sort, dir);
     }
 
-    public Set<ExternalServiceTrace> getTraces(Long key, String name,
-            TraceStatusEnum status, Date dateFrom, Date dateTo) {
-        return getTraces(String.valueOf(key), name, status, dateFrom, dateTo);
-    }
-
-    public Set<ExternalServiceTrace> getTraces(String key, String subkey, String label) {
-        CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
-        criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.ASC));
-        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
-        criteriasDescriptor.addSearch(new SimpleCriteria("subkey", BaseOperator.EQUALS, subkey));
-        criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
-        criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
-        return externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class);
-    }
-
-    public Set<ExternalServiceTrace> getTraces(Long key, String subkey, String label) {
-        return getTraces(String.valueOf(key), subkey, label);
-    }
-
-    public Set<ExternalServiceTrace> getTraces(String key, String label) {
-        CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
-        criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.ASC));
-        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
-        criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
-        criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
-        return externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class);
-    }
-
-    public Set<ExternalServiceTrace> getTraces(Long key, String label) {
-        return getTraces(String.valueOf(key), label);
-    }
-
-    public Set<Long> getTraceKeysByStatus(Set<Long> ids, Set<String> statuses) {
-        if (ids == null || ids.isEmpty()) 
-            return new HashSet<Long>();
-        
-        Set<ISelectArgument> fields = new HashSet<ISelectArgument>();
-        fields.add(new SelectField(ExternalServiceTrace.class,"key"));
-
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new InCriteria("key", BaseOperator.IN, ids));
-        criterias.add(new InCriteria("status", BaseOperator.IN, statuses));
-        
-        return this.externalServiceTraceDAO.<ExternalServiceTrace,Long> get(fields, criterias,
-                ExternalServiceTrace.class);
-    }
-
-    public Set<ExternalServiceTrace> getTracesByStatus(TraceStatusEnum status) {
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new SimpleCriteria("status",BaseOperator.EQUALS,status.toString()));
-        
-        return this.externalServiceTraceDAO.<ExternalServiceTrace,ExternalServiceTrace> get(
-                criterias, ExternalServiceTrace.class);
-    }
-
-    public int deleteTraces(String key, String keyOwner) throws CvqPermissionException,
-            CvqObjectNotFoundException {
+    @Override
+    public int deleteTraces(String key, String keyOwner) {
         
         Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
         criterias.add(new SimpleCriteria("key",BaseOperator.EQUALS,key));
@@ -658,13 +616,13 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                 ExternalServiceTrace.class);
     }
 
-    public int deleteTraces(Long key, String keyOwner)
-        throws CvqPermissionException, CvqObjectNotFoundException {
+    @Override
+    public int deleteTraces(Long key, String keyOwner) {
         return deleteTraces(String.valueOf(key), keyOwner);
     }
 
-    public int deleteTraces(String name) throws CvqPermissionException, 
-            CvqObjectNotFoundException {
+    @Override
+    public int deleteTraces(String name) {
         
         Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
         criterias.add(new SimpleCriteria("name",BaseOperator.EQUALS,name));
@@ -673,6 +631,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                 ExternalServiceTrace.class);
     }
 
+    @Override
     public Set<Long> getRequestIds(Set<ISearchCriteria> searchCriterias) {
         Set<ISelectArgument> fields = new HashSet<ISelectArgument>();
         fields.add(new SelectField(Request.class,"id"));
@@ -680,6 +639,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return this.externalServiceTraceDAO.<Request,Long> get(fields,searchCriterias,Request.class);
     }
 
+    @Override
     public Set<Long> getValidatedRequestIds(Set<String> requestTypesLabels, int numberOfDays) {
         if (requestTypesLabels == null || requestTypesLabels.isEmpty())
             return new HashSet<Long>();
@@ -696,6 +656,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return this.externalServiceTraceDAO.<Request,Long> get(fields,criterias,Request.class);
     }
 
+    @Override
     public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
             String externalId) {
         ExternalServiceIndividualMapping newMapping = new ExternalServiceIndividualMapping();
@@ -713,64 +674,11 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             }
         }
         identifierMapping.getIndividualsMappings().add(newMapping);
-        try {
-            genericDAO.update(identifierMapping);
-        } catch (CvqPermissionException e) {
-            // TODO JSB
-        }
+        genericDAO.update(identifierMapping);
     }
 
-    public ExternalServiceTrace getLastTrace(String key, String label) {
-        CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
-        criteriasDescriptor.setMax(1);
-        criteriasDescriptor.addSort(new SortCriteria(ExternalServiceTrace.class, "date", SortDirection.DESC));
-        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
-        criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
-        criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
-        Set<ExternalServiceTrace> traces = externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class);
-        ExternalServiceTrace lastTrace = null;
-        if (!traces.isEmpty()) {
-            lastTrace = traces.toArray(new ExternalServiceTrace[]{})[0];
-        }
-        return lastTrace;
-    }
-
-    public ExternalServiceTrace getLastTrace(Long key, String label) {
-        return getLastTrace(String.valueOf(key), label);
-    }
-
-    public boolean hasTraceWithStatus(String key, String subkey, String label, TraceStatusEnum status) {
-        CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
-        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
-        criteriasDescriptor.addSearch(new SimpleCriteria("subkey", BaseOperator.EQUALS, subkey));
-        criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
-        criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
-        criteriasDescriptor.addSearch(new SimpleCriteria("status", BaseOperator.EQUALS, status.toString()));
-        return !externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class).isEmpty();
-    }
-
-    public boolean hasTraceWithStatus(Long key, String subkey, String label, TraceStatusEnum status) {
-        return hasTraceWithStatus(String.valueOf(key), subkey, label, status);
-    }
-
-    public boolean hasTraceWithStatus(String key, String label, TraceStatusEnum status) {
-        CriteriasDescriptor criteriasDescriptor = new CriteriasDescriptor();
-        criteriasDescriptor.addSearch(new SimpleCriteria("key", BaseOperator.EQUALS, key));
-        criteriasDescriptor.addSearch(new SimpleCriteria("keyOwner", BaseOperator.EQUALS, "capdemat"));
-        criteriasDescriptor.addSearch(new SimpleCriteria("name", BaseOperator.EQUALS, label));
-        criteriasDescriptor.addSearch(new SimpleCriteria("status", BaseOperator.EQUALS, status.toString()));
-        return !externalServiceTraceDAO.<ExternalServiceTrace, ExternalServiceTrace>get(criteriasDescriptor, ExternalServiceTrace.class).isEmpty();
-    }
-
-    public boolean hasTraceWithStatus(Long key, String label, TraceStatusEnum status) {
-        return hasTraceWithStatus(String.valueOf(key), label, status);
-    }
-
-    public void create(ExternalServiceTrace trace)
-        throws CvqPermissionException {
-        externalServiceTraceDAO.create(trace);
-    }
-
+    @Override
+    @Context(type = ContextType.AGENT, privilege = ContextPrivilege.READ)
     public List<String> checkExternalReferential(Request request) {
         if (!hasMatchingExternalService(request.getRequestType().getLabel()))
             return Collections.<String>emptyList();
@@ -786,6 +694,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return errors;
     }
 
+    @Override
     public Map<String, Object> loadExternalInformations(Request request)
         throws CvqException {
         Map<String, Object> informations = new TreeMap<String, Object>();

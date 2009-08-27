@@ -13,8 +13,6 @@ public class ElementCommon {
     private String jsRegexp;
     private Autofill autofill;
 
-    public ElementCommon() {}
-
     public Step getStep() {
         return step;
     }

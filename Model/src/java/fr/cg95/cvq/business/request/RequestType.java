@@ -215,6 +215,7 @@ public class RequestType implements Serializable {
         this.hasAutomaticActivation = hasAutomaticActivation;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

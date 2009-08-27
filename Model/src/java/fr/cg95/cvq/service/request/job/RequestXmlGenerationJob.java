@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.request.job;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +12,7 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.util.helpers.SetHelper;
+import fr.cg95.cvq.util.Critere;
 
 
 /**
@@ -29,26 +28,26 @@ public class RequestXmlGenerationJob {
     private ILocalAuthorityRegistry  localAuthorityRegistry;
     private IExternalService externalService;
     
-    public void launchJob() throws CvqException, IOException {
+    public void launchJob() {
         localAuthorityRegistry.browseAndCallback(this, "performGeneration", null);
         localAuthorityRegistry.browseAndCallback(this, "eraseAcknowledgedRequests", null);
     }
     
-    public void performGeneration() throws CvqException, IOException, 
-        InstantiationException, IllegalAccessException, ClassNotFoundException {
-        
+    public void performGeneration()
+        throws CvqException {
         Set<String> types = externalService.getGenerableRequestTypes();
-        
-        Set<String> statuses = new HashSet<String>();
-        statuses.add(TraceStatusEnum.ACKNOWLEDGED.toString());
-
         Set<Long> requestIds = externalService.getValidatedRequestIds(types, -2);
-        requestIds = SetHelper.MakeRelativeComplement(
-            externalService.getTraceKeysByStatus(requestIds,statuses), 
-            requestIds);
-        
+        Set<Critere> criteriaSet = new HashSet<Critere>(2);
+        Critere statusCritere =
+            new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
+                TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS);
         for (Long id : requestIds) {
-            if (!xmlFileExists(id)) {
+            criteriaSet.clear();
+            criteriaSet.add(statusCritere);
+            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+                String.valueOf(id), Critere.EQUALS));
+            if (!xmlFileExists(id)
+                && externalService.getTraces(criteriaSet, null, null).isEmpty()) {
                 Request r = (Request) requestDAO.findById(Request.class, id);
                 localAuthorityRegistry.saveLocalAuthorityResource(
                     Type.REQUEST_XML, String.valueOf(id),
@@ -58,10 +57,11 @@ public class RequestXmlGenerationJob {
     }
     
     public void eraseAcknowledgedRequests() {
-        Set<ExternalServiceTrace> traces = 
-            externalService.getTracesByStatus(TraceStatusEnum.ACKNOWLEDGED);
-        
-        for (ExternalServiceTrace t : traces) {
+        Set<Critere> criteres = new HashSet<Critere>();
+        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
+            TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS));
+        for (ExternalServiceTrace t :
+            externalService.getTraces(criteres, null, null)) {
             localAuthorityRegistry.removeLocalAuthorityResource(
                 Type.REQUEST_XML, t.getKey());
         }

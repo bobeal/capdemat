@@ -79,6 +79,7 @@ public class RequestNote implements Serializable {
         this.note = note;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

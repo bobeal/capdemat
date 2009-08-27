@@ -10,40 +10,58 @@ import java.util.Date;
  * @author vba@zenexity.fr
  */
 public class ExternalServiceTrace implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
-    Long id;
+
+    public static String SEARCH_BY_DATE = "date";
+    public static String SEARCH_BY_ID = "id";
+    public static String SEARCH_BY_KEY = "key";
+    public static String SEARCH_BY_KEY_OWNER = "keyOwner";
+    public static String SEARCH_BY_MESSAGE = "message";
+    public static String SEARCH_BY_NAME = "name";
+    public static String SEARCH_BY_STATUS = "status";
+    public static String SEARCH_BY_SUBKEY = "subkey";
+
+    private Long id;
+
     /**
      * Identifier used by the key owner to retrieve data.
      */
-    String key;
+    private String key;
+
     /**
      * Additionnal information to distinguish between traces related to
      * different parts of the communication with the external service.
      */
-    String subkey;
+    private String subkey;
+
     /**
      * Owner of the key, typically an application, eg CapDemat.
      */
-    String keyOwner;
+    private String keyOwner;
+
     /**
      * Name of the external service label.
      * 
      * TODO : rename to make it more explicit.
      */
-    String name;
+    private String name;
+
     /**
      * An eventual message received from an external service, eg in case of an error.
      */
-    String message;
-    Date date;
-    TraceStatusEnum status;
-    
+    private String message;
+
+    private Date date;
+
+    private TraceStatusEnum status;
+
     public ExternalServiceTrace() {
+        // empty constructor for Hibernate
     }
-    
-    public ExternalServiceTrace(Date date, String key, String subkey, String keyOwner, 
-            String message, String name, TraceStatusEnum status) {
+
+    public ExternalServiceTrace(Date date, String key, String subkey,
+        String keyOwner, String message, String name, TraceStatusEnum status) {
         super();
         this.date = date;
         this.key = key;
@@ -53,7 +71,7 @@ public class ExternalServiceTrace implements Serializable {
         this.name = name;
         this.status = status;
     }
-    
+
     /**
      * @hibernate.property
      *  column="date"
@@ -61,7 +79,7 @@ public class ExternalServiceTrace implements Serializable {
     public Date getDate() {
         return date;
     }
-    
+
     /**
      * @hibernate.id
      *  generator-class="sequence"
@@ -70,7 +88,7 @@ public class ExternalServiceTrace implements Serializable {
     public Long getId() {
         return id;
     }
-    
+
     /**
      * @hibernate.property
      *  column="key"
@@ -78,7 +96,7 @@ public class ExternalServiceTrace implements Serializable {
     public String getKey() {
         return key;
     }
-    
+
     /**
      * @hibernate.property
      *  column="key_owner"
@@ -86,7 +104,7 @@ public class ExternalServiceTrace implements Serializable {
     public String getKeyOwner() {
         return keyOwner;
     }
-    
+
     /**
      * @hibernate.property
      *  column="message"
@@ -94,7 +112,7 @@ public class ExternalServiceTrace implements Serializable {
     public String getMessage() {
         return message;
     }
-    
+
     /**
      * @hibernate.property
      *  column="name"
@@ -102,7 +120,7 @@ public class ExternalServiceTrace implements Serializable {
     public String getName() {
         return name;
     }
-    
+
     /**
      * @hibernate.property
      *  column="status"
@@ -110,31 +128,31 @@ public class ExternalServiceTrace implements Serializable {
     public TraceStatusEnum getStatus() {
         return status;
     }
-    
+
     public void setDate(Date date) {
         this.date = date;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public void setKey(String key) {
         this.key = key;
     }
-    
+
     public void setKeyOwner(String keyOwner) {
         this.keyOwner = keyOwner;
     }
-    
+
     public void setMessage(String message) {
         this.message = message;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public void setStatus(TraceStatusEnum status) {
         this.status = status;
     }

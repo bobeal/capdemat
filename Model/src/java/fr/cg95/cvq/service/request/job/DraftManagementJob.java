@@ -56,7 +56,7 @@ public class DraftManagementJob {
         localAuthorityRegistry.browseAndCallback(this, "deleteExpiredDrafts", null);
     }
     
-    public void deleteExpiredDrafts() throws CvqException {
+    public void deleteExpiredDrafts() {
         LocalAuthority authority = SecurityContext.getCurrentSite();
         
         Set<Critere> criterias = prepareQueryParams(authority.getDraftLiveDuration());
@@ -115,7 +115,7 @@ public class DraftManagementJob {
         return counter;
     }
     
-    protected String buildMailTemplate(Request request, Integer liveDuration) throws CvqException {
+    protected String buildMailTemplate(Request request, Integer liveDuration) {
         String template =
             this.localAuthorityRegistry.getBufferedLocalAuthorityResource(
                 Type.TXT, "NotificationBeforeDraftDelete", false);

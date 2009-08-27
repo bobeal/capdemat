@@ -14,7 +14,6 @@ import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.permission.CvqPermissionException;
 
 /**
  * Registry for registered local authorities.
@@ -24,7 +23,6 @@ import fr.cg95.cvq.permission.CvqPermissionException;
 public interface ILocalAuthorityRegistry {
 
     LocalAuthorityConfigurationBean getLocalAuthorityBeanByName(final String name);
-    LocalAuthorityConfigurationBean getLocalAuthorityBean(final LocalAuthority localAuthority);
 
     LocalAuthority getLocalAuthorityByName(final String name);
 
@@ -38,8 +36,7 @@ public interface ILocalAuthorityRegistry {
      * Add the server name to the ones the current local authority listens to,
      * and register it in the mapping
      */
-    void addLocalAuthorityServerName(final String serverName)
-        throws CvqPermissionException;
+    void addLocalAuthorityServerName(final String serverName);
 
     /**
      * Register this serverName for current local authority in the mapping
@@ -49,8 +46,7 @@ public interface ILocalAuthorityRegistry {
     /**
      * Remove and unregister this serverName for current local authority
      */
-    void removeLocalAuthorityServerName(final String serverName)
-        throws CvqPermissionException;
+    void removeLocalAuthorityServerName(final String serverName);
 
     /**
      * Unregister this serverName for current local authority in the mapping

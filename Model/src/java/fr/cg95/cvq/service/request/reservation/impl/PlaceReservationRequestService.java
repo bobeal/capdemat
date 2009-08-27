@@ -25,7 +25,6 @@ import fr.cg95.cvq.business.users.TicketTypeSelection;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IPlaceReservationService;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -110,7 +109,7 @@ public final class PlaceReservationRequestService
             return false;
     }
 
-    private String getSubscriberLine(final String subscriberNumber) throws CvqException {
+    private String getSubscriberLine(final String subscriberNumber) {
 
         if (subscriberNumber == null || subscriberNumber.equals(""))
             return null;
@@ -303,6 +302,7 @@ public final class PlaceReservationRequestService
         this.placeReservationService = placeReservationService;
     }
     
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("isSubscriber", new EqualityChecker("true"));

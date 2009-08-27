@@ -257,7 +257,7 @@ public class ServiceTestCase
         }
     }
 
-    protected void commitTransaction() throws CvqException {
+    protected void commitTransaction() {
         HibernateUtil.commitTransaction();
         HibernateUtil.closeSession();
     }
@@ -271,7 +271,7 @@ public class ServiceTestCase
         }         
     }
     
-    protected void continueWithNewTransaction() throws CvqException {
+    protected void continueWithNewTransaction() {
         HibernateUtil.commitTransaction();
         HibernateUtil.closeSession();
         HibernateUtil.beginTransaction();

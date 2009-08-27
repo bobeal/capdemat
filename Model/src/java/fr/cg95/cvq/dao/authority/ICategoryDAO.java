@@ -13,8 +13,8 @@ public interface ICategoryDAO extends IGenericDAO {
     /**
      * Return the list of all known categories.
      */
-    List listAll();
-    
+    List<Category> listAll();
+
     /**
      * Get a category by name.
      */

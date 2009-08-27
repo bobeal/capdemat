@@ -38,6 +38,9 @@ import fr.cg95.cvq.payment.PaymentResultBean;
 import fr.cg95.cvq.payment.PaymentResultStatus;
 import fr.cg95.cvq.payment.PaymentServiceBean;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.Critere;
@@ -53,12 +56,15 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
 
     private ListableBeanFactory beanFactory;
 
+    @SuppressWarnings("unchecked")
     public void init() {
         this.homeFolderService = (IHomeFolderService)
             beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
         this.externalService = (IExternalService)
             beanFactory.getBeansOfType(IExternalService.class, false, true).values().iterator().next();
-        Map<String, IRequestService> beans = beanFactory.getBeansOfType(IRequestService.class, false, true);
+        Map<String, IRequestService> beans =
+            (Map<String, IRequestService>)beanFactory.getBeansOfType(
+                IRequestService.class, false, true);
         for (String beanName : beans.keySet()) {
             if (beanName.equals("defaultRequestService")) {
                 this.requestService = beans.get(beanName);
@@ -67,7 +73,7 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         }
     }
     
-    public Map<String, String> getAllBrokers() throws CvqException {
+    public Map<String, String> getAllBrokers() {
         
         Map<IPaymentProviderService, PaymentServiceBean> paymentProviders = 
             SecurityContext.getCurrentConfigurationBean().getPaymentServices();
@@ -81,8 +87,9 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
 
         return brokers;
     }
-	
-    
+
+    @Override
+    @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
     public final Payment createPaymentContainer(PurchaseItem purchaseItem, PaymentMode paymentMode) 
         throws CvqModelException, CvqInvalidBrokerException, CvqException {
 
@@ -109,6 +116,8 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         return payment;
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
     public final void addPurchaseItemToPayment(Payment payment, PurchaseItem purchaseItem)
         throws CvqInvalidBrokerException, CvqModelException, CvqException, 
             CvqObjectNotFoundException {
@@ -130,6 +139,8 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         payment.setAmount(Double.valueOf(newAmount));
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
     public final void removePurchaseItemFromPayment(Payment payment, PurchaseItem purchaseItem) {
 
         double newAmount = payment.getAmount().doubleValue() 
@@ -166,7 +177,9 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
             purchaseItem.setAmount(amount);
         }
     }
-    
+
+    @Override
+    @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
     public final URL initPayment(Payment payment)
         throws CvqException {
     
@@ -185,6 +198,8 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         return url;
     }
 
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.NONE)
     public final PaymentResultStatus commitPayment(final Map<String, String> parameters)
         throws CvqException {
         
@@ -225,7 +240,9 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
         
         return paymentStatus;
     }
-    
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public PaymentResultStatus getStateFromParameters(Map<String, String> parameters) 
         throws CvqException {
 
@@ -259,40 +276,51 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
 
         return null;
     }
-    
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
     public final List<Payment> getByHomeFolder(final HomeFolder homeFolder) {
         return paymentDAO.findByHomeFolder(homeFolder);
     }
 
-    public final Payment getById(final Long id) throws CvqException, CvqObjectNotFoundException {
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public final Payment getById(final Long id)
+        throws CvqObjectNotFoundException {
         return (Payment) paymentDAO.findById(Payment.class, id);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Payment> get(Set<Critere> criteriaSet, final String sort, final String dir,
-            final int recordsReturned, final int startIndex)
-            throws CvqException {
+            final int recordsReturned, final int startIndex) {
 
         if (criteriaSet == null)
             criteriaSet = new HashSet<Critere>();
 
         return paymentDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex);
     }    
-    
-    public Long getCount(Set<Critere> criteriaSet)
-            throws CvqException {
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Long getCount(Set<Critere> criteriaSet) {
 
         if (criteriaSet == null)
             criteriaSet = new HashSet<Critere>();
 
         return paymentDAO.count(criteriaSet);
     }
-    
-    public void delete(Long id) throws CvqException, CvqObjectNotFoundException {
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void delete(Long id) throws CvqObjectNotFoundException {
         Payment payment = (Payment) paymentDAO.findById(Payment.class, id);
         delete(payment);
     }
 
-    public void delete(Payment payment) throws CvqException {
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void delete(Payment payment) {
         payment.setRequester(null);
         paymentDAO.delete(payment);
     }

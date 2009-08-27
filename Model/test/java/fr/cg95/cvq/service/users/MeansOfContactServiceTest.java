@@ -74,7 +74,7 @@ public class MeansOfContactServiceTest extends ServiceTestCase {
         assertEquals(1, fetchMoc.size());
     }
     
-    public void testBusinessError() throws CvqException {
+    public void testBusinessError() {
         // Test default MeansOfContact initialisation 
         MeansOfContact moc = iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
         assertEquals(true, moc.isEnabled());

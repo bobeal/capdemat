@@ -18,20 +18,16 @@ import fr.cg95.cvq.util.Critere;
  */
 public class RecreationCenterDAO extends GenericDAO implements IRecreationCenterDAO {
 
-    public RecreationCenterDAO() {
-        super();
-    }
-
     public RecreationCenter findByName(final String name) {
-        Criteria crit = HibernateUtil.getSession().createCriteria(RecreationCenter.class);
+        Criteria crit = HibernateUtil.getSession()
+            .createCriteria(RecreationCenter.class);
         crit.add(Critere.compose("name", name, Critere.EQUALS));
-
         return (RecreationCenter) crit.uniqueResult();
     }
 
+    @SuppressWarnings("unchecked")
     public List<RecreationCenter> listAll() {
-        return HibernateUtil.getSession()
-            .createQuery("from RecreationCenter as recreationCenter")
-            .list();
+        return (List<RecreationCenter>)HibernateUtil.getSession()
+            .createQuery("from RecreationCenter as recreationCenter").list();
     }
 }

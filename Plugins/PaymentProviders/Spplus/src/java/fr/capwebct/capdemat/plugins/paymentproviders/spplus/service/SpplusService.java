@@ -69,7 +69,7 @@ public class SpplusService implements IPaymentProviderService {
         parameters.append("FR")
             .append("978");
         
-        String formattedTotal = numberFormat.format((double) payment.getAmount().doubleValue()/100);
+        String formattedTotal = numberFormat.format(payment.getAmount().doubleValue()/100);
         urlParameters.append("&montant=").append(formattedTotal);
         parameters.append(formattedTotal);
         

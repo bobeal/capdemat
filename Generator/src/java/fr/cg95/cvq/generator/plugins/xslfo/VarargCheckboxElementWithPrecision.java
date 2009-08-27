@@ -24,6 +24,7 @@ public class VarargCheckboxElementWithPrecision extends VarargCheckboxElement {
         precisions = new HashMap();
     }
 
+    @Override
     public String getDisplayType() {
         return "vararg_checkbox_with_precision";
     }

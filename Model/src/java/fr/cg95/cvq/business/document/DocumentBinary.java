@@ -52,6 +52,7 @@ public class DocumentBinary implements Serializable {
         this.data = data;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

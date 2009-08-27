@@ -36,6 +36,7 @@ public class PaymentServiceTest extends ServiceTestCase {
 
     private IExternalProviderService fakeExternalService;
 
+    @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
         fakeExternalService = (IExternalProviderService) getBean("fakeExternalService");
@@ -50,6 +51,7 @@ public class PaymentServiceTest extends ServiceTestCase {
         lacb.registerExternalService(fakeExternalService, esb);
     }
     
+    @Override
     public void onTearDown() throws Exception {
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         lacb.unregisterExternalService(fakeExternalService);
@@ -117,9 +119,10 @@ public class PaymentServiceTest extends ServiceTestCase {
         
         continueWithNewTransaction();
         
-        List<Payment> payments = iPaymentService.getByHomeFolder(homeFolder);
+        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        Set<Payment> payments = homeFolder.getPayments();
         Assert.assertEquals(1, payments.size());
-        payment = payments.get(0);
+        payment = payments.iterator().next();
         Assert.assertEquals(5, payment.getPurchaseItems().size());
         Assert.assertEquals(payment.getState(), PaymentState.INITIALIZED);
         Assert.assertNotNull(payment.getCvqReference());
@@ -140,7 +143,10 @@ public class PaymentServiceTest extends ServiceTestCase {
         parameters.put("cvqReference", payment.getCvqReference());
         parameters.put("status", "OK");
         parameters.put("capDematFake", "true");
+        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         PaymentResultStatus returnStatus = iPaymentService.commitPayment(parameters);
+        SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
+        SecurityContext.setCurrentEcitizen(cb.getLogin());
         Assert.assertEquals(returnStatus, PaymentResultStatus.OK);
         
         continueWithNewTransaction();
@@ -160,7 +166,9 @@ public class PaymentServiceTest extends ServiceTestCase {
             // that was expected
         }
 
-        Assert.assertEquals(0, iPaymentService.getByHomeFolder(homeFolder).size());
+        Assert.assertEquals(0,
+            iHomeFolderService.getById(cb.getHomeFolderId())
+            .getPayments().size());
 
         commitTransaction();
     }
@@ -183,12 +191,12 @@ public class PaymentServiceTest extends ServiceTestCase {
         parameters.put("cvqReference", payment.getCvqReference());
         parameters.put("status", "OK");
         parameters.put("capDematFake", "true");
+        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         iPaymentService.commitPayment(parameters);
-        
         commitTransaction();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
         Set <Critere> criteria = new HashSet<Critere>();
         

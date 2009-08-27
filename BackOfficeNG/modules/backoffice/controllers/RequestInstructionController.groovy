@@ -1,5 +1,6 @@
 import fr.cg95.cvq.business.authority.Agent
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
+import fr.cg95.cvq.business.external.ExternalServiceTrace
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.request.DataState
 import fr.cg95.cvq.business.request.MeansOfContactEnum
@@ -28,6 +29,7 @@ import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.mail.IMailService
 import grails.converters.JSON
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
@@ -146,10 +148,16 @@ class RequestInstructionController {
             else
                 externalTemplateName = ["/backofficeRequestInstruction/external",
                     externalProviderServiceLabel, "block"].join('/')
-            def lastTrace = externalService.getLastTrace(request.id, externalProviderServiceLabel)
-            if (lastTrace != null) {
+            def criteriaSet = new HashSet<Criteria>(2)
+            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+                String.valueOf(request.id), Critere.EQUALS))
+            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+                externalProviderServiceLabel, Critere.EQUALS))
+            def traces = externalService.getTraces(criteriaSet,
+                ExternalServiceTrace.SEARCH_BY_DATE, "desc")
+            if (!traces.isEmpty()) {
                 lastTraceStatus = CapdematUtils
-                    .adaptCapdematEnum(lastTrace.status, "externalservice.trace.status")
+                    .adaptCapdematEnum(traces.get(0).status, "externalservice.trace.status")
             }
         }
 
@@ -528,9 +536,14 @@ class RequestInstructionController {
     def external = {
         if (request.post) {
             externalService.sendRequest(defaultRequestService.getAndTryToLock(Long.valueOf(params.id)))
+            def criteriaSet = new HashSet<Criteria>(2)
+            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+                params.id, Critere.EQUALS))
+            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+                params.label, Critere.EQUALS))
             def lastTraceStatus = CapdematUtils.adaptCapdematEnum(
-                externalService.getLastTrace(
-                    Long.valueOf(params.id), params.label).status, "externalservice.trace.status")
+                externalService.getTraces(criteriaSet,
+                ExternalServiceTrace.SEARCH_BY_DATE, "desc").get(0).status, "externalservice.trace.status")
             render(template : "/backofficeRequestInstruction/external/" + params.label + "/externalStatus",
                    model : ["externalProviderServiceLabel" : params.label,
                             "lastTraceStatus" : lastTraceStatus])
@@ -539,7 +552,12 @@ class RequestInstructionController {
 
     def externalHistory = {
         def traces = []
-        externalService.getTraces(Long.valueOf(params.id), params.label).each {
+        Set criteriaSet = new HashSet<Critere>(2)
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+            params.id, Critere.EQUALS))
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+            params.label, Critere.EQUALS))
+        externalService.getTraces(criteriaSet, null, null).each {
             traces.add(["date" : it.date,
                         "status" : CapdematUtils.adaptCapdematEnum(it.status, "externalservice.trace.status").i18nKey,
                         "message" : it.message])

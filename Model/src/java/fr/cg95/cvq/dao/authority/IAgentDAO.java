@@ -5,6 +5,7 @@ import java.util.Set;
 
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.util.Critere;
 
 /**
  * @author bor@zenexity.fr
@@ -12,10 +13,10 @@ import fr.cg95.cvq.dao.IGenericDAO;
 public interface IAgentDAO extends IGenericDAO {
 
     /**
-     * Return whether there exists an agent with the given id. 
+     * Return whether there exists an agent with the given id.
      */
     boolean exists(final Long id);
-    
+
     /**
      * Look up an agent by login.
      */
@@ -24,10 +25,10 @@ public interface IAgentDAO extends IGenericDAO {
     /**
      * Look up an agent given a set of search criteria.
      */
-    List search(final Set criteria);
+    List<Agent> search(final Set<Critere> criteria);
 
     /**
      * Return the list of all known agents.
      */
-    List listAll();
+    List<Agent> listAll();
 }

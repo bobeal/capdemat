@@ -37,6 +37,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         LibraryRegistrationRequestDocument object = (LibraryRegistrationRequestDocument) this.modelToXml();
@@ -48,6 +49,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

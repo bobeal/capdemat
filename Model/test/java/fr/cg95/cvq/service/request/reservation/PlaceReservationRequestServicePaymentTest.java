@@ -21,8 +21,7 @@ import fr.cg95.cvq.security.SecurityContext;
 public class PlaceReservationRequestServicePaymentTest extends PlaceReservationRequestServiceTest {
 
     public void testPaymentCommited() throws CvqException,
-        CvqObjectNotFoundException, java.io.FileNotFoundException,
-        java.io.IOException {
+        CvqObjectNotFoundException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
@@ -75,7 +74,10 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         parameters.put("cvqReference", reference);
         parameters.put("status", "OK");
         parameters.put("capDematFake", "true");
+        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         PaymentResultStatus returnStatus = iPaymentService.commitPayment(parameters);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         assertEquals(returnStatus, PaymentResultStatus.OK);
 
         // check that request has been validated and payment reference is correctly set

@@ -89,6 +89,7 @@ abstract class PersistentEnum implements Comparable, Serializable, UserType {
     /**
      * @see java.lang.Object#hashCode()
      */
+    @Override
     public final int hashCode() {
         return hashCode;
     }
@@ -97,6 +98,7 @@ abstract class PersistentEnum implements Comparable, Serializable, UserType {
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public final boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -192,6 +194,7 @@ abstract class PersistentEnum implements Comparable, Serializable, UserType {
      *
      * @return the string representation of this enum.
      */
+    @Override
     public String toString() {
         return name;
     }

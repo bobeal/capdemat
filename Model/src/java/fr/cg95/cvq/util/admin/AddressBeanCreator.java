@@ -13,7 +13,6 @@ import org.hibernate.transform.Transformers;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import fr.cg95.cvq.business.users.Address;
-import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.security.SecurityContext;
@@ -110,7 +109,7 @@ public class AddressBeanCreator {
         return null;
     }
 
-    private static class CustomDAO extends GenericDAO implements IGenericDAO {
+    private static class CustomDAO extends GenericDAO {
         @SuppressWarnings("unchecked")
         public List<BeanDTO> list(String table, String field) {
             return (List<BeanDTO>)HibernateUtil.getSession()

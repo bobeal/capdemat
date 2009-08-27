@@ -13,6 +13,7 @@ public final class YesNoCheckboxElement extends Element {
         super(element);
     }
 
+    @Override
     public String getDisplayType() {
         return "yesno_checkbox";
     }

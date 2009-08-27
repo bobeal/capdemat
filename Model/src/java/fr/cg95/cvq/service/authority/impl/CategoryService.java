@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.authority.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -43,20 +42,21 @@ public class CategoryService implements ICategoryService {
     private IAgentService agentService;
     
     @Override
+    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
     public Category getById(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
+        throws CvqObjectNotFoundException {
         Category category = 
             (Category) categoryDAO.findById(Category.class, id);
         return category;
     }
 
-    private Category getByName(final String name)
-        throws CvqException {
+    private Category getByName(final String name) {
         return categoryDAO.findByName(name);
     }
 
     @Override
-    public List<Category> getAll() throws CvqException {
+    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    public List<Category> getAll() {
         
         if (SecurityContext.isAdminContext())
             return categoryDAO.listAll();
@@ -104,7 +104,7 @@ public class CategoryService implements ICategoryService {
     @Override
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public Long create(final Category category)
-        throws CvqException {
+        throws CvqException, CvqModelException {
 
         if (category == null)
             throw new CvqException("No Category object provided !");
@@ -124,11 +124,8 @@ public class CategoryService implements ICategoryService {
 
     @Override
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
-    public void modify(final Category category)
-        throws CvqException {
-
+    public void modify(final Category category) {
         // FIXME : check the new name does not conflit with an existing one
-        
         if (category != null)
             categoryDAO.update(category);
     }
@@ -136,7 +133,7 @@ public class CategoryService implements ICategoryService {
     @Override
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public void delete(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
+        throws CvqObjectNotFoundException {
 
         logger.debug("delete() gonna delete category object with id : " + id);
 
@@ -153,9 +150,7 @@ public class CategoryService implements ICategoryService {
         for (Agent agent : allAgents) {
             if (agent.getCategoriesRoles() != null) {
                 Set<CategoryRoles> newCategoriesRoles = new HashSet<CategoryRoles>();
-                Iterator agentCategoriesIt = agent.getCategoriesRoles().iterator();
-                while (agentCategoriesIt.hasNext()) {
-                    CategoryRoles categoryRoles = (CategoryRoles) agentCategoriesIt.next();
+                for (CategoryRoles categoryRoles : agent.getCategoriesRoles()) {
                     if (!categoryRoles.getCategory().getId().equals(id)) {
                         newCategoriesRoles.add(categoryRoles);
                     }
@@ -169,7 +164,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
-    public List<Agent> getAuthorizedForCategory(Long categoryId) throws CvqException {
+    public List<Agent> getAuthorizedForCategory(Long categoryId) {
 
         Critere critere = new Critere(Agent.SEARCH_BY_CATEGORY_ID, categoryId,
             Critere.EQUALS);
@@ -181,7 +176,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
-    public boolean hasProfileOnCategory(Agent agent, Long categoryId) throws CvqException {
+    public boolean hasProfileOnCategory(Agent agent, Long categoryId) {
 
         Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
         for (CategoryRoles categoryRole : agentCategoryRoles) {
@@ -194,7 +189,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
-    public boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) throws CvqException {
+    public boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) {
         Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
         for (CategoryRoles categoryRole : agentCategoryRoles) {
             if (categoryRole.getCategory().getId().equals(categoryId)

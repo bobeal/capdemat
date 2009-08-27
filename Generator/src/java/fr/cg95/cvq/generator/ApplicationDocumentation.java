@@ -28,7 +28,7 @@ public class ApplicationDocumentation {
         this.xmlNode = xmlNode;
     }
 
-    public ApplicationDocumentation() {};
+    public ApplicationDocumentation() {}
 
     public boolean hasChildNode(String childNodeName) {
         NodeList nodeList = xmlNode.getChildNodes();
@@ -47,7 +47,7 @@ public class ApplicationDocumentation {
      * @return the children nodes with the given name if found, null if not found
      */
     public Node[] getChildrenNodes(String childNodeName) {
-        ArrayList childrenList = new ArrayList();
+        ArrayList<Node> childrenList = new ArrayList<Node>();
         NodeList nodeList = xmlNode.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node childNode = nodeList.item(i);
@@ -56,13 +56,13 @@ public class ApplicationDocumentation {
         }
 
         if (!childrenList.isEmpty())
-            return (Node[]) childrenList.toArray(new Node[0]);
+            return childrenList.toArray(new Node[childrenList.size()]);
         else
             return null;
     }
 
     public static Node[] getChildrenNodes(Node node, String childNodeName) {
-        ArrayList childrenList = new ArrayList();
+        ArrayList<Node> childrenList = new ArrayList<Node>();
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node childNode = nodeList.item(i);
@@ -71,7 +71,7 @@ public class ApplicationDocumentation {
         }
 
         if (!childrenList.isEmpty())
-            return (Node[]) childrenList.toArray(new Node[0]);
+            return childrenList.toArray(new Node[childrenList.size()]);
         else
             return null;
     }
@@ -81,10 +81,10 @@ public class ApplicationDocumentation {
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node childNode = nodeList.item(i);
-            if (childNode.getNodeType() == childNode.ELEMENT_NODE)
+            if (childNode.getNodeType() == Node.ELEMENT_NODE)
                 childrenList.add(childNode);
         }
-        return (Node[]) childrenList.toArray(new Node[0]);
+        return childrenList.toArray(new Node[childrenList.size()]);
     }
 
     public static String getNodeAttributeValue(Node node, String attribute) {

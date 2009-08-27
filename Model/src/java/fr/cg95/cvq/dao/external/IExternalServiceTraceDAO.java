@@ -1,8 +1,11 @@
 package fr.cg95.cvq.dao.external;
 
+import java.util.List;
 import java.util.Set;
 
+import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.quering.CriteriasDescriptor;
 import fr.cg95.cvq.util.quering.ISelectArgument;
 import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
@@ -14,9 +17,10 @@ import fr.cg95.cvq.util.quering.sort.ISortCriteria;
  * @author Victor Bartel
  */
 public interface IExternalServiceTraceDAO extends IGenericDAO {
-    
-    
-    
+
+    List<ExternalServiceTrace> get(Set<Critere> criteriaSet, String sort,
+        String dir);
+
     /*********************************************************************
      * 
      *                    GENERIC MANIPULATION METHODS

@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -160,7 +159,8 @@ public class ModelRequestObject {
 
             // if it comes from the referential, namespace is provided within the XML schema file
             // else it belongs to the current request's namespace
-            if (namespaceLastParticle.equals(requestNamespaceLastParticle ))
+            if (namespaceLastParticle != null
+                && namespaceLastParticle.equals(requestNamespaceLastParticle ))
                 eltModelProperties.setJavaPackageName(IPluginGenerator.MODEL_BASE_TARGET_NS + ".request."
                                                 + namespaceLastParticle + ".");
             else if (namespaceLastParticle != null)
@@ -251,7 +251,7 @@ public class ModelRequestObject {
      */
     private void generateSampleServiceTestClass() {
 
-        HashMap contextsObjects = new HashMap();
+        HashMap<String, Object> contextsObjects = new HashMap<String, Object>();
         contextsObjects.put("request", this);
 
         String testFileName = requestName + "ServiceTest.java";
@@ -314,14 +314,9 @@ public class ModelRequestObject {
             generateConversionMethod(complexType.getTypeName(),
                     complexType.getElementsModelPropertiesMap(), null, false, false);
             generateId();
-            Set subElements = complexType.getElementsNames();
-            Iterator subElementsIt = subElements.iterator();
-            while (subElementsIt.hasNext()) {
-                String elementName = (String) subElementsIt.next();
-                ElementModelProperties eltModelProperties =
-                    complexType.getElementModelProperties(elementName);
-
-                generateElementField(elementName, eltModelProperties);
+            for (String elementName : complexType.getElementsNames()) {
+                generateElementField(elementName,
+                    complexType.getElementModelProperties(elementName));
             }
 
             generateLocalComplexTypeFooter();
@@ -412,8 +407,10 @@ public class ModelRequestObject {
         currentSb.append("\n\n");
     }
 
-    public void generateConversionMethod(String typeName, HashMap elementsPropertiesMap,
-            HashMap elementsModelInfoMap, boolean inherits, boolean isDocument) {
+    public void generateConversionMethod(String typeName,
+        HashMap<String, ElementModelProperties> elementsPropertiesMap,
+        HashMap<String, ApplicationDocumentation> elementsModelInfoMap,
+        boolean inherits, boolean isDocument) {
 
         String xmlBeansReturnType = null;
         if (isDocument)
@@ -423,6 +420,7 @@ public class ModelRequestObject {
         String xmlBeansDocInstance = StringUtils.uncapitalize(typeName) + "Doc";
         String xmlBeansReturnInstance = StringUtils.uncapitalize(typeName);
 
+        currentSb.append("    @Override\n");
         currentSb.append("    public final String modelToXmlString() {\n\n");
         currentSb.append("        " + xmlBeansReturnType + " object = (" + xmlBeansReturnType + ") this.modelToXml();\n");
         currentSb.append("        XmlOptions opts = new XmlOptions();\n");
@@ -437,6 +435,7 @@ public class ModelRequestObject {
         // start with Model -> XMLBeans conversion              //
         //////////////////////////////////////////////////////////
 
+        currentSb.append("    @Override\n");
         currentSb.append("    public final XmlObject modelToXml() {\n\n");
         currentSb.append("        Calendar calendar = Calendar.getInstance();\n");
         currentSb.append("        Date date = null;\n");
@@ -454,17 +453,14 @@ public class ModelRequestObject {
             currentSb.append("        super.fillCommonXmlInfo(" + xmlBeansReturnInstance + ");\n");
         }
 
-        Set elementsSet = elementsPropertiesMap.keySet();
-        Iterator elementsIt = elementsSet.iterator();
         // keep a list of already declared local complex types variables
         // to ensure unique instanciation
-        Set localComplexTypesSet = new HashSet();
+        Set<String> localComplexTypesSet = new HashSet<String>();
         boolean alreadyDefinedCpt = false;
-        while (elementsIt.hasNext()) {
-            String elementName = (String) elementsIt.next();
-            ElementModelProperties eltProperties =
-                (ElementModelProperties) elementsPropertiesMap.get(elementName);
-
+        for (Map.Entry<String, ElementModelProperties> entry :
+            elementsPropertiesMap.entrySet()) {
+            String elementName = entry.getKey();
+            ElementModelProperties eltProperties = entry.getValue();
             String objectToSetProperty = null;
             // a type (complex or simple) defined inside a local "exploded" complex type
             // as required by XML Beans API, create an instance of the local complex type
@@ -492,7 +488,7 @@ public class ModelRequestObject {
 
                 if (eltProperties.isChoiceElement()) {
                     ApplicationDocumentation appDoc =
-                        (ApplicationDocumentation) elementsModelInfoMap.get(elementName);
+                        elementsModelInfoMap.get(elementName);
                     Node[] choiceNodes = appDoc.getChildrenNodes("choice");
                     Node choiceNode = choiceNodes[0];
                     elementName = ApplicationDocumentation.getNodeAttributeValue(choiceNode, "key");
@@ -618,11 +614,10 @@ public class ModelRequestObject {
         currentSb.append("        " + typeName + " " + modelReturnInstance + " = new " + typeName + "();\n");
         if (inherits)
             currentSb.append("        " + modelReturnInstance + ".fillCommonModelInfo(" + modelReturnInstance + "," + xmlBeansLocalVariable + ");\n");
-        elementsIt = elementsSet.iterator();
-        while (elementsIt.hasNext()) {
-            String elementName = (String) elementsIt.next();
-            ElementModelProperties eltProperties =
-                (ElementModelProperties) elementsPropertiesMap.get(elementName);
+        for (Map.Entry<String, ElementModelProperties> entry :
+            elementsPropertiesMap.entrySet()) {
+            String elementName = entry.getKey();
+            ElementModelProperties eltProperties = entry.getValue();
             String xmlBeansVariableAccessor = xmlBeansLocalVariable;
             if (eltProperties.getComplexContainerElementName() != null)
                 xmlBeansVariableAccessor = xmlBeansLocalVariable + ".get" + eltProperties.getComplexContainerElementName() + "()";
@@ -663,8 +658,8 @@ public class ModelRequestObject {
                     currentSb.append("        }\n");
                 } else if (xmlBeanType.indexOf("XmlBoolean") != -1) {
                     if (eltProperties.isChoiceElement()) {
-                        ApplicationDocumentation appDoc = 
-                            (ApplicationDocumentation) elementsModelInfoMap.get(elementName);
+                        ApplicationDocumentation appDoc =
+                            elementsModelInfoMap.get(elementName);
                         Node[] choiceNodes = appDoc.getChildrenNodes("choice");
                         Node choiceNode = choiceNodes[0];
                         currentSb.append("        " + modelReturnInstance + ".set" + elementName + "(Boolean.valueOf(" + xmlBeansVariableAccessor + ".get" + elementName + "().get" + ApplicationDocumentation.getNodeAttributeValue(choiceNode, "key") + "()));\n");
@@ -1029,12 +1024,15 @@ public class ModelRequestObject {
 
         private String typeName;
         private ElementModelProperties eltModelProperties;
-        private HashMap elementsModelPropertiesMap;
-        private HashMap elementsModelInfoMap;
+        private HashMap<String, ElementModelProperties>
+            elementsModelPropertiesMap;
+        private HashMap<String, ApplicationDocumentation> elementsModelInfoMap;
 
         public ComplexType() {
-            elementsModelPropertiesMap = new HashMap();
-            elementsModelInfoMap = new HashMap();
+            elementsModelPropertiesMap =
+                new HashMap<String, ElementModelProperties>();
+            elementsModelInfoMap =
+                new HashMap<String, ApplicationDocumentation>();
         }
 
         public void setTypeName(String typeName) {
@@ -1053,32 +1051,35 @@ public class ModelRequestObject {
             return this.eltModelProperties;
         }
 
-        public void addElement(String elementName, ElementModelProperties eltModelProperties) {
+        public void addElement(String elementName,
+            ElementModelProperties eltModelProperties) {
             elementsModelPropertiesMap.put(elementName, eltModelProperties);
         }
 
-        public Set getElementsNames() {
+        public Set<String> getElementsNames() {
             return elementsModelPropertiesMap.keySet();
         }
 
         public ElementModelProperties getElementModelProperties(String elementName) {
-            return (ElementModelProperties) elementsModelPropertiesMap.get(elementName);
+            return elementsModelPropertiesMap.get(elementName);
         }
 
-        public HashMap getElementsModelPropertiesMap() {
+        public HashMap<String, ElementModelProperties>
+            getElementsModelPropertiesMap() {
             return elementsModelPropertiesMap;
         }
 
         public void addElementModelInfo(String elementName,
-                                        ApplicationDocumentation appDocumentation) {
+            ApplicationDocumentation appDocumentation) {
             elementsModelInfoMap.put(elementName, appDocumentation);
         }
 
         public ApplicationDocumentation getElementModelInfo(String elementName) {
-            return (ApplicationDocumentation) elementsModelInfoMap.get(elementName);
+            return elementsModelInfoMap.get(elementName);
         }
 
-        public HashMap getElementsModelInfoMap() {
+        public HashMap<String, ApplicationDocumentation>
+            getElementsModelInfoMap() {
             return elementsModelInfoMap;
         }
     }
@@ -1109,7 +1110,7 @@ public class ModelRequestObject {
         return this.requestNamespaceLastParticle;
     }
 
-    public Map getElementsPropertiesMap() {
+    public Map<String, ElementModelProperties> getElementsPropertiesMap() {
         return this.elementsPropertiesMap;
     }
 }

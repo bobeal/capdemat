@@ -505,7 +505,7 @@ public class PlaceReservationService implements IPlaceReservationService,
         File placeFile = 
             localAuthorityRegistry.getLocalAuthorityResourceFile(
                 Type.LOCAL_REFERENTIAL,
-                (String) placeReservationRequestMap.get(requestTypeLabel),
+                placeReservationRequestMap.get(requestTypeLabel),
                 fallbackToDefault);
         
         PlaceReservationDocument placeReservationDocument =
@@ -573,7 +573,7 @@ public class PlaceReservationService implements IPlaceReservationService,
         File referentialFile =
             localAuthorityRegistry.getLocalAuthorityResourceFile(
                 Type.LOCAL_REFERENTIAL,
-                (String) placeReservationRequestMap.get(requestTypeLabel), false);
+                placeReservationRequestMap.get(requestTypeLabel), false);
         try {
             XmlOptions opts = new XmlOptions();
             opts.setSavePrettyPrint();

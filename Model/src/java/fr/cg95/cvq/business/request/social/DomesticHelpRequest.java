@@ -41,6 +41,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         DomesticHelpRequestDocument object = (DomesticHelpRequestDocument) this.modelToXml();
@@ -52,6 +53,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

@@ -25,6 +25,7 @@ public final class AlignmentCertificateRequestService
         return new AlignmentCertificateRequest();
     }
     
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("requesterQuality", new EqualityChecker("Tenant"));

@@ -29,9 +29,10 @@ import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.testtool.HasInnerProperty;
 import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
 public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
@@ -40,11 +41,13 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
     
     private final String EXTERNAL_SERVICE_LABEL = "Dummy External Service";
     
+    @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
         externalService = super.<IExternalService>getApplicationBean("externalService");
     }
     
+    @Override
     public void onTearDown() throws Exception {
         
         externalService.deleteHomeFoldersMappings(EXTERNAL_SERVICE_LABEL);
@@ -55,7 +58,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         ExternalServiceIdentifierMapping esimFromDb = 
             externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, (Long) null);
         assertNull(esimFromDb);        
-        assertEquals(0, externalService.getTraces((String) null, null, null, null, null).size());
+        assertEquals(0, externalService.getTraces(Collections.<Critere>emptySet(), null, null).size());
         
         super.onTearDown();
     }
@@ -214,7 +217,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         // initialize the mock external provider service
         final ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IVoCardRequestService.VO_CARD_REGISTRATION_REQUEST);
+        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         Mockery context = new Mockery();
         final IExternalProviderService mockExternalService = 
@@ -273,7 +276,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         final CreationBean cb = gimmeAnHomeFolder();
         ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IVoCardRequestService.VO_CARD_REGISTRATION_REQUEST);
+        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         IExternalProviderService externalProviderService = new IExternalProviderService() {
             public boolean supportsConsumptions() { return false; }

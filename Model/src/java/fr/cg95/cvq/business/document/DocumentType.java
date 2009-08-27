@@ -115,6 +115,7 @@ public class DocumentType implements Serializable {
         this.usageType = usageType;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

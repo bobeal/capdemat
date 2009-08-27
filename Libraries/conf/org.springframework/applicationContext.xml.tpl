@@ -213,7 +213,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="requestFormDAO" ref="requestFormDAO"/>
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
     <property name="documentTypeService" ref="documentTypeService" />
-    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
   </bean>
 
   <bean id="requestActionService" class="fr.cg95.cvq.service.request.impl.RequestActionService">

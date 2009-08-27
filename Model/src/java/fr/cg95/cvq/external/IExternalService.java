@@ -7,7 +7,6 @@ import java.util.Set;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
-import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
@@ -15,8 +14,10 @@ import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.permission.CvqPermissionException;
+import fr.cg95.cvq.security.annotation.IsHomeFolder;
+import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
 
 public interface IExternalService {
@@ -29,7 +30,7 @@ public interface IExternalService {
     /**
      * Send a new (validated) request to an external service.
      */
-    void sendRequest(final Request request)
+    void sendRequest(@IsRequest final Request request)
         throws CvqException;
 
     /**
@@ -62,8 +63,8 @@ public interface IExternalService {
      * @param dateFrom date down limit for the returned consumptions for this request
      * @param dateTo date up limit for the returned consumptions for this request
      */
-    Map<Date, String> getConsumptionsByRequest(final Request request, final Date dateFrom, 
-            final Date dateTo)
+    Map<Date, String> getConsumptionsByRequest(@IsRequest final Request request,
+        final Date dateFrom, final Date dateTo)
         throws CvqException;
 
     /**
@@ -77,15 +78,16 @@ public interface IExternalService {
      *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_DEPOSIT_ACCOUNTS},
      *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_TICKETING_ACCOUNTS}
      */
-    Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, 
-            Set<String> homeFolderRequestTypes, String type) 
+    Set<ExternalAccountItem> getExternalAccounts(@IsHomeFolder Long homeFolderId,
+        Set<String> homeFolderRequestTypes, String type)
         throws CvqException;
     
     /**
      * Get information about individual's accounts. 
      */
-    Map<Individual, Map<String, String> > getIndividualAccountsInformation(final Long homeFolderId, 
-            Set<String> homeFolderRequestTypes)
+    Map<Individual, Map<String, String> > getIndividualAccountsInformation(
+        @IsHomeFolder final Long homeFolderId,
+        Set<String> homeFolderRequestTypes)
         throws CvqException;
 
     /**
@@ -116,8 +118,7 @@ public interface IExternalService {
      * If a mapping already exists for the given external service label and home folder id,
      * its external id will be replaced by the given one.
      */
-    void addHomeFolderMapping(ExternalServiceIdentifierMapping esim) 
-            throws CvqPermissionException;
+    void addHomeFolderMapping(ExternalServiceIdentifierMapping esim);
     
     /**
      * Add a new mapping for the given identifiers.
@@ -125,8 +126,8 @@ public interface IExternalService {
      * If a mapping already exists for the given external service label and home folder id,
      * its external id will be replaced by the given one.
      */
-    void addHomeFolderMapping(final String externalServiceLabel, final Long homeFolderId,
-            final String externalId) throws CvqPermissionException;
+    void addHomeFolderMapping(final String externalServiceLabel,
+        @IsHomeFolder final Long homeFolderId, final String externalId);
     
     /**
      * Add a new mapping for the given individual identifiers.
@@ -137,50 +138,36 @@ public interface IExternalService {
      * @throws CvqException if no mapping exists for the given external service label 
      *      and home folder id.
      */
-    void addIndividualMapping(final String externalServiceLabel, final Long homeFolderId,
-            final Long individualId, final String externalId) throws CvqException;
+    void addIndividualMapping(final String externalServiceLabel,
+        @IsHomeFolder final Long homeFolderId,
+        @IsIndividual final Long individualId, final String externalId)
+        throws CvqException;
 
-    void deleteHomeFolderMapping(final String externalServiceLabel, final Long homeFolderId) 
-        throws CvqPermissionException;
+    void deleteHomeFolderMapping(final String externalServiceLabel,
+        @IsHomeFolder final Long homeFolderId);
     
-    void deleteHomeFoldersMappings(final String externalServiceLabel) 
-        throws CvqPermissionException;
+    void deleteHomeFoldersMappings(final String externalServiceLabel);
     
-    ExternalServiceIdentifierMapping getIdentifierMapping(final String externalServiceLabel, 
-            final Long homeFolderId);
+    ExternalServiceIdentifierMapping
+        getIdentifierMapping(final String externalServiceLabel,
+            @IsHomeFolder final Long homeFolderId);
 
-    ExternalServiceIdentifierMapping getIdentifierMapping(final String externalServiceLabel, 
+    ExternalServiceIdentifierMapping
+        getIdentifierMapping(final String externalServiceLabel,
             final String externalId);
     
     Set<ExternalServiceIdentifierMapping> getIdentifiersMappings(final String externalServiceLabel);
     
-    Long addTrace(ExternalServiceTrace trace) throws CvqPermissionException;
+    Long addTrace(ExternalServiceTrace trace);
 
-    Set<ExternalServiceTrace> getTraces(Long key, String name, 
-            TraceStatusEnum status, Date dateFrom, Date dateTo);
+    List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet, String sort,
+        String dir);
 
-    Set<ExternalServiceTrace> getTraces(String key, String name,
-            TraceStatusEnum status, Date dateFrom, Date dateTo);
+    int deleteTraces(Long key, String keyOwner);
 
-    Set<ExternalServiceTrace> getTraces(Long key, String subkey, String label);
-
-    Set<ExternalServiceTrace> getTraces(String key, String subkey, String label);
-
-    Set<ExternalServiceTrace> getTraces(Long key, String label);
-
-    Set<ExternalServiceTrace> getTraces(String key, String label);
-
-    Set<ExternalServiceTrace> getTracesByStatus(TraceStatusEnum status);
+    int deleteTraces(String key, String keyOwner);
     
-    Set<Long> getTraceKeysByStatus(Set<Long> ids, Set<String> statuses);
-    
-    int deleteTraces(Long key, String keyOwner) 
-        throws CvqPermissionException, CvqObjectNotFoundException;
-
-    int deleteTraces(String key, String keyOwner)
-        throws CvqPermissionException, CvqObjectNotFoundException;
-    
-    int deleteTraces(String name) throws CvqPermissionException, CvqObjectNotFoundException;
+    int deleteTraces(String name);
     
     /**
      * Get ids of requests that match the given search criteria.
@@ -202,36 +189,22 @@ public interface IExternalService {
      * The mapping for the home folder must exist prior to this action.
      * To be used on external id retrieval from the external service.
      */
-    void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
-            String externalId);
-
-    ExternalServiceTrace getLastTrace(Long key, String label);
-
-    ExternalServiceTrace getLastTrace(String key, String label);
-
-    boolean hasTraceWithStatus(String key, String subkey, String label, TraceStatusEnum status);
-
-    boolean hasTraceWithStatus(Long key, String subkey, String label, TraceStatusEnum status);
-
-    boolean hasTraceWithStatus(String key, String label, TraceStatusEnum status);
-
-    boolean hasTraceWithStatus(Long key, String label, TraceStatusEnum status);
-
-    void create(ExternalServiceTrace trace)
-        throws CvqPermissionException;
+    void setExternalId(String externalServiceLabel,
+        @IsHomeFolder Long homeFolderId, @IsIndividual Long individualId,
+        String externalId);
 
     /**
      * Check the coherence of CapDemat's local referentials and external service's referentials
      * for each external service interested in this request (usually none or one).
      * @return a list of reasons for failed tests.
      */
-    List<String> checkExternalReferential(Request request);
+    List<String> checkExternalReferential(@IsRequest Request request);
 
     /**
      * Asks the external services for informations they know about the request
      * (for example, its state) to display them to the ecitizen
      * @return The map of corresponding i18nKey - value
      */
-    Map<String, Object> loadExternalInformations(Request request)
+    Map<String, Object> loadExternalInformations(@IsRequest Request request)
         throws CvqException;
 }

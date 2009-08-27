@@ -1,7 +1,5 @@
 package fr.cg95.cvq.dao.authority;
 
-import java.util.List;
-
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.dao.IGenericDAO;
 
@@ -14,5 +12,4 @@ public interface ILocalAuthorityDAO extends IGenericDAO {
      * Look up a LocalAuthority by name.
      */
     LocalAuthority findByName(final String name);
-
 }

@@ -38,6 +38,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         SchoolRegistrationRequestDocument object = (SchoolRegistrationRequestDocument) this.modelToXml();
@@ -49,6 +50,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

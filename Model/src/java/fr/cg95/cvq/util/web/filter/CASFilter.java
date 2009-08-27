@@ -438,13 +438,11 @@ public class CASFilter implements Filter {
         }
 
         // Store the authenticated user in the session
-        if (session != null) { // probably unnecessary
-            session.setAttribute(CAS_FILTER_USER, receipt.getUserName());
-            session.setAttribute(CASFilter.CAS_FILTER_RECEIPT, receipt);
-            // don't store extra unnecessary session state
-            session.removeAttribute(
-                CAS_FILTER_GATEWAYED);
-        }
+        session.setAttribute(CAS_FILTER_USER, receipt.getUserName());
+        session.setAttribute(CASFilter.CAS_FILTER_RECEIPT, receipt);
+        // don't store extra unnecessary session state
+        session.removeAttribute(CAS_FILTER_GATEWAYED);
+
         if (log.isTraceEnabled()){
             log.trace("validated ticket to get authenticated receipt [" + receipt 
                     + "], now passing request along filter chain.");
@@ -555,7 +553,7 @@ public class CASFilter implements Filter {
         String casLoginString =
             casLogin
                 + "?service="
-                + getService((HttpServletRequest) request)
+                + getService(request)
                 + ((casRenew)
                     ? "&renew=true"
                     : "")
@@ -565,13 +563,14 @@ public class CASFilter implements Filter {
         if (log.isDebugEnabled()) {
             log.debug("Redirecting browser to [" + casLoginString + ")");
         }
-        ((HttpServletResponse) response).sendRedirect(casLoginString);
+        response.sendRedirect(casLoginString);
 
         if (log.isTraceEnabled()) {
             log.trace("returning from redirectToCAS()");
         }
     }
 
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("[CASFilter:");

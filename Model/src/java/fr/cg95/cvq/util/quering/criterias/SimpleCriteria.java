@@ -34,7 +34,7 @@ public class SimpleCriteria implements ISearchCriteria {
     
     protected String getFieldName(List<IParameter> params) {
         if(name == "" || !this.paramExists(this.name, params))
-            return this.generateParamName(name).replace(".", "_");;
+            return this.generateParamName(name).replace(".", "_");
         return name.replace(".", "_");
     }
     

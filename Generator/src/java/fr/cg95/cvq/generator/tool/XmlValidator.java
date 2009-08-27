@@ -3,8 +3,8 @@ package fr.cg95.cvq.generator.tool;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
+import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
@@ -17,19 +17,16 @@ import org.apache.xmlbeans.XmlOptions;
 public final class XmlValidator {
 
     public static boolean validate(XmlObject object) {
-
-        ArrayList validationErrors = new ArrayList();
+        ArrayList<XmlError> validationErrors = new ArrayList<XmlError>();
         XmlOptions options = new XmlOptions();
         options.setErrorListener(validationErrors);
         boolean isValid = object.validate(options);
         if (!isValid) {
-            Iterator iter = validationErrors.iterator();
-            while (iter.hasNext()) {
-                System.out.println(">> " + iter.next() + "\n");
+            for (XmlError error : validationErrors) {
+                System.out.println(">> " + error + "\n");
             }
             return false;
         }
-
         return true;
     }
 

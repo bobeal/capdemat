@@ -38,6 +38,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         HolidaySecurityRequestDocument object = (HolidaySecurityRequestDocument) this.modelToXml();
@@ -49,6 +50,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

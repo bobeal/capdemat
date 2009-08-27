@@ -35,6 +35,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         TechnicalInterventionRequestDocument object = (TechnicalInterventionRequestDocument) this.modelToXml();
@@ -46,6 +47,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

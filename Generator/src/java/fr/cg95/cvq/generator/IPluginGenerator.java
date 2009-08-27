@@ -2,8 +2,6 @@ package fr.cg95.cvq.generator;
 
 import org.w3c.dom.Node;
 
-import fr.cg95.cvq.generator.common.RequestCommon;
-
 /**
  * The interface that must be implemented by every plugin that
  * wants to be called from the code generator.

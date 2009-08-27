@@ -24,6 +24,7 @@ import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
@@ -52,7 +53,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.IExternalService;
-import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
@@ -124,6 +124,13 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
     private static Map<Long, RequestLock> locks =
         Collections.synchronizedMap(new HashMap<Long, RequestLock>());
+
+    private static final Set<TraceStatusEnum> finalExternalStatuses =
+        new HashSet<TraceStatusEnum>(2);
+    static {
+        finalExternalStatuses.add(TraceStatusEnum.ACCEPTED);
+        finalExternalStatuses.add(TraceStatusEnum.REJECTED);
+    }
 
     public RequestService() {
         super();
@@ -266,8 +273,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void release(final Long requestId)
-        throws CvqPermissionException {
+    public void release(final Long requestId) {
         synchronized (locks) {
             RequestLock lock = getRequestLock(requestId);
             if (lock == null || !lock.getUserId()
@@ -347,8 +353,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             || request.getRequestType().getLabel().equals(HOME_FOLDER_MODIFICATION_REQUEST);
     }
 
-    private void updateLastModificationInformation(Request request, final Date date)
-        throws CvqException {
+    private void updateLastModificationInformation(Request request,
+        final Date date) {
 
         // update request's last modification date
         if (date != null)
@@ -1182,10 +1188,16 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         List<Request> result = new ArrayList<Request>();
         for (String rt : externalService.getRequestTypesForExternalService(externalServiceLabel)) {
             for (Request req : requestDAO.listByStatesAndType(set, rt)) {
-                if (!externalService.hasTraceWithStatus(req.getId(), externalServiceLabel,
-                        TraceStatusEnum.ACCEPTED)
-                    && !externalService.hasTraceWithStatus(req.getId(), externalServiceLabel,
-                            TraceStatusEnum.REJECTED)) {
+                Set<Critere> criteriaSet = new HashSet<Critere>(3);
+                criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+                    String.valueOf(req.getId()), Critere.EQUALS));
+                criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+                    externalServiceLabel, Critere.EQUALS));
+                criteriaSet.add(new Critere(
+                    ExternalServiceTrace.SEARCH_BY_STATUS, finalExternalStatuses,
+                    Critere.IN));
+                if (externalService
+                    .getTraces(criteriaSet, null, null).isEmpty()) {
                     result.add(req);
                 }
             }

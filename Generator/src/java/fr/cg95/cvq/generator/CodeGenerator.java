@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -71,9 +72,6 @@ public final class CodeGenerator {
         javaTypesMap.put("org.apache.xmlbeans.XmlDecimal", "Short");
         javaTypesMap.put("org.apache.xmlbeans.XmlDouble", "Double");
     }
-     
-    public CodeGenerator() {
-    };
 
     public void parseXsdFile(File xsdFile) {
 
@@ -226,7 +224,7 @@ public final class CodeGenerator {
                     }
                     if (xmlCursor.getName().getLocalPart().equals("classname")) {
                         String className = xmlCursor.getTextValue();
-                        Class realClass = null;
+                        Class<?> realClass = null;
                         Object pluginObject = null;
                         try {
                             realClass = Class.forName(className);
@@ -274,7 +272,7 @@ public final class CodeGenerator {
 
     public void shutdownPlugins() {
         for (int i = 0; i < registeredPlugins.size(); i++) {
-            PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
+            PluginDefinition pluginDef = registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
             pluginObj.shutdown();
         }
@@ -394,7 +392,7 @@ public final class CodeGenerator {
     private void startRequest(String requestName, String targetNamespace) {
         commonPlugin.startRequest(requestName, targetNamespace);
         for (int i = 0; i < registeredPlugins.size(); i++) {
-            PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
+            PluginDefinition pluginDef = registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
             pluginObj.startRequest(requestName, targetNamespace);
         }
@@ -403,7 +401,7 @@ public final class CodeGenerator {
     private void endRequest(String requestName) {
         
         for (int i = 0; i < registeredPlugins.size(); i++) {
-            PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
+            PluginDefinition pluginDef = registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
             pluginObj.endRequest(requestName);
         }
@@ -412,7 +410,7 @@ public final class CodeGenerator {
     private void startElement(String elementName, String type) {
         commonPlugin.startElement(elementName, type);
         for (int i = 0; i < registeredPlugins.size(); i++) {
-            PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
+            PluginDefinition pluginDef = registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
             pluginObj.startElement(elementName, type);
         }
@@ -421,7 +419,7 @@ public final class CodeGenerator {
     private void endElement(String elementName) {
         commonPlugin.endElement(elementName);
         for (int i = 0; i < registeredPlugins.size(); i++) {
-            PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
+            PluginDefinition pluginDef = registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
             pluginObj.endElement(elementName);
         }
@@ -430,7 +428,7 @@ public final class CodeGenerator {
     private void startElementProperties(ElementProperties elementProperties) {
 
         for (int i = 0; i < registeredPlugins.size(); i++) {
-            PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
+            PluginDefinition pluginDef = registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
             pluginObj.startElementProperties(elementProperties);
         }
@@ -439,7 +437,7 @@ public final class CodeGenerator {
     private void endElementProperties() {
 
         for (int i = 0; i < registeredPlugins.size(); i++) {
-            PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
+            PluginDefinition pluginDef = registeredPlugins.get(i);
             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
             pluginObj.endElementProperties();
         }
@@ -536,7 +534,7 @@ public final class CodeGenerator {
         }
 
         if (javaTypesMap.get(eltProperties.getXmlBeanType()) != null) {
-            String javaType = (String) javaTypesMap.get(eltProperties.getXmlBeanType());
+            String javaType = javaTypesMap.get(eltProperties.getXmlBeanType());
             eltProperties.setJavaType(javaType);
         }
 
@@ -656,32 +654,24 @@ public final class CodeGenerator {
         endElement(elementName);
     }
 
-    private void processUserInformation(ArrayList userDocumentationList,
-                                        String parent) {
+    private void processUserInformation(
+        ArrayList<UserDocumentation> userDocumentationList, String parent) {
 
         if (userDocumentationList == null || userDocumentationList.size() == 0)
             return;
 
         // for each documentation element in the list, send data to plugins
         // interested in this (parent, source) pair
-        for (int j = 0; j < userDocumentationList.size(); j++) {
-            UserDocumentation userDocumentation =
-                (UserDocumentation) userDocumentationList.get(j);
+        for (UserDocumentation userDocumentation : userDocumentationList) {
 //             logger.debug("processUserInformation() User documentation has source " + userDocumentation.getSourceUri() + " and parent " + parent);
-
-            for (int i = 0; i < registeredPlugins.size(); i++) {
-                PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
-                HashMap documentationSelectors = pluginDef.getDocumentationSelectors();
-                Set docKeys = documentationSelectors.keySet();
-                Iterator docKeysIt = docKeys.iterator();
-                while (docKeysIt.hasNext()) {
-                    String docParent = (String) docKeysIt.next();
-                    String source = (String) documentationSelectors.get(docParent);
+            for (PluginDefinition pluginDef : registeredPlugins) {
+                for (Map.Entry<String, String> entry :
+                    pluginDef.getDocumentationSelectors().entrySet()) {
 //                     logger.debug("processUserInformation() Plugin has source " + source + " and parent " + docParent);
-                    if (parent.equals(docParent) || docParent.equals("*")) {
+                    if (parent.equals(entry.getKey()) || entry.getKey().equals("*")) {
                         if ((userDocumentation.getSourceUri() != null
-                             && userDocumentation.getSourceUri().equals(source))
-                            || source.equals("*")) {
+                             && userDocumentation.getSourceUri().equals(entry.getValue()))
+                            || entry.getValue().equals("*")) {
                             // parent and source match, send event and go to the next
                             // plugin
                             IPluginGenerator pluginObj = pluginDef.getPluginInstance();
@@ -697,34 +687,27 @@ public final class CodeGenerator {
         }
     }
 
-    private void processApplicationInformation(ArrayList applicationDocumentationList,
-                                               String parent) {
+    private void processApplicationInformation(
+        ArrayList<ApplicationDocumentation> applicationDocumentationList,
+        String parent) {
 
         // for each application element in the list, send data to plugins
         // interested in this (parent, node) pair
-        for (int j = 0; j < applicationDocumentationList.size(); j++) {
-            ApplicationDocumentation applicationDocumentation =
-                (ApplicationDocumentation) applicationDocumentationList.get(j);
+        for (ApplicationDocumentation applicationDocumentation :
+            applicationDocumentationList) {
 //             logger.debug("processApplicationInformation() Application documentation has node " + applicationDocumentation.getNodeName() + " and parent " + parent);
 
             if (applicationDocumentation.getNodeName().equals("common"))
                 commonPlugin.onApplicationInformation(applicationDocumentation);
             else
                 commonPlugin.onOtherApplicationInformation(applicationDocumentation);
-                                
-            for (int i = 0; i < registeredPlugins.size(); i++) {
-                PluginDefinition pluginDef = (PluginDefinition) registeredPlugins.get(i);
-                HashMap applicationSelectors = pluginDef.getApplicationSelectors();
-                Set appKeys = applicationSelectors.keySet();
-                Iterator appKeysIt = appKeys.iterator();
-                while (appKeysIt.hasNext()) {
-                    String docParent = (String) appKeysIt.next();
-                    String[] nodeNames = (String[]) applicationSelectors.get(docParent);
-                    if (parent.equals(docParent) || docParent.equals("*")) {
+
+            for (PluginDefinition pluginDef : registeredPlugins) {
+                for (Map.Entry<String, String[]> entry : pluginDef.getApplicationSelectors().entrySet()) {
+                    if (parent.equals(entry.getKey()) || entry.getKey().equals("*")) {
                         boolean foundNode = false;
-                        for (int k = 0; k < nodeNames.length; k++) {
-                            String currentNode = nodeNames[k];
-                            logger.debug("processApplicationInformation() Plugin has node " + currentNode + " and parent " + docParent);
+                        for (String currentNode : entry.getValue()) {
+                            logger.debug("processApplicationInformation() Plugin has node " + currentNode + " and parent " + entry.getKey());
                             if (applicationDocumentation.getNodeName().equals(currentNode)
                                 || currentNode.equals("*")) {
                                 // parent and node name match, send event and go to the next
@@ -776,7 +759,7 @@ public final class CodeGenerator {
             this.pluginInstance = pluginInstance;
         }
 
-        public HashMap getDocumentationSelectors() {
+        public HashMap<String, String> getDocumentationSelectors() {
             return documentationSelectors;
         }
 
@@ -788,7 +771,7 @@ public final class CodeGenerator {
             this.documentationSelectors.put(path, source);
         }
 
-        public HashMap getApplicationSelectors() {
+        public HashMap<String, String[]> getApplicationSelectors() {
             return applicationSelectors;
         }
 
@@ -822,9 +805,9 @@ public final class CodeGenerator {
         }
 
         StringTokenizer tokens = new StringTokenizer(args[1],",");
-        HashMap plugins = new HashMap();
+        Set<String> plugins = new HashSet<String>();
         while (tokens.hasMoreTokens())
-            plugins.put(tokens.nextToken(), true);
+            plugins.add(tokens.nextToken());
         
         File xsdFile = new File(args[2]);
         if (!xsdFile.isFile()) {
@@ -841,7 +824,7 @@ public final class CodeGenerator {
             String elem = pathElements[i];
             if (elem.endsWith("_plugin.xml")) {
                 elem = elem.substring(0, elem.lastIndexOf("_plugin.xml"));
-                if (plugins.get(elem) != null)
+                if (plugins.contains(elem))
                     try {
                         codeGenerator.registerPlugin(new File(xmlDir, pathElements[i]));
                     } catch (PluginInstanciationException pie) {

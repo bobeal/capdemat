@@ -15,6 +15,7 @@ public class VarargCheckboxElement extends Element {
         super(element);
     }
 
+    @Override
     public String getDisplayType() {
         return "vararg_checkbox";
     }

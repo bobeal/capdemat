@@ -24,7 +24,8 @@ public final class ElectoralRollRegistrationRequestService extends RequestServic
     public Request getSkeletonRequest() throws CvqException {
         return new ElectoralRollRegistrationRequest();
     }
-    
+
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("motive",

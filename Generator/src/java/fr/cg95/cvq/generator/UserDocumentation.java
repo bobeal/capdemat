@@ -13,47 +13,47 @@ public class UserDocumentation {
      * we use this temp solution that consists in maintaining an hashmap
      * of (enum value <-> translation) pairs
      */
-    private HashMap xmlTranslationNodes;
+    private HashMap<String, String> xmlTranslationNodes;
 
-    public UserDocumentation(String sourceUri, String lang, 
-			     String text, HashMap xmlTln) {
-	this.sourceUri = sourceUri;
-	this.lang = lang;
-	this.text = text;
-	this.xmlTranslationNodes = xmlTln;
+    public UserDocumentation(String sourceUri, String lang, String text,
+        HashMap<String, String> xmlTln) {
+        this.sourceUri = sourceUri;
+        this.lang = lang;
+        this.text = text;
+        this.xmlTranslationNodes = xmlTln;
     }
 
-    public UserDocumentation() {};
+    public UserDocumentation() {}
 
     public void setSourceUri(String sourceUri) {
-	this.sourceUri = sourceUri;
+        this.sourceUri = sourceUri;
     }
 
     public String getSourceUri() {
-	return this.sourceUri;
+        return sourceUri;
     }
 
     public void setLang(String lang) {
-	this.lang = lang;
+        this.lang = lang;
     }
 
     public String getLang() {
-	return this.lang;
+        return lang;
     }
 
     public void setText(String text) {
-	this.text = text;
+        this.text = text;
     }
 
     public String getText() {
-	return this.text;
+        return text;
     }
 
-    public void setXmlTranslationNodes(HashMap xmlTln) {
-	this.xmlTranslationNodes = xmlTln;
+    public void setXmlTranslationNodes(HashMap<String, String> xmlTln) {
+        this.xmlTranslationNodes = xmlTln;
     }
 
-    public HashMap getXmlTranslationNodes() {
-	return this.xmlTranslationNodes;
+    public HashMap<String, String> getXmlTranslationNodes() {
+        return xmlTranslationNodes;
     }
 }

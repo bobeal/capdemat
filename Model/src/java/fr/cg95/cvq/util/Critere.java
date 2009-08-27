@@ -1,5 +1,6 @@
 package fr.cg95.cvq.util;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.hibernate.criterion.Criterion;
@@ -22,6 +23,7 @@ public class Critere {
     public static final String LT = "<"; /* unused */
     public static final String GTE = ">="; /* only for dates */
     public static final String LTE = "<="; /* only for dates */
+    public static final String IN = "in"; /* value must be an instanceof Collection */
 
     /** Search criteria */
     private String attribut;
@@ -64,9 +66,15 @@ public class Critere {
             return Restrictions.lt(attribute,value);
         else if (LTE.equals(comparator))
             return Restrictions.le(attribute,value);
+        else if (IN.equals(comparator))
+            return Restrictions.in(attribute, (Collection<?>)value);
 
         // default comparator
         return Restrictions.eq(attribute,value);
+    }
+
+    public Criterion compose() {
+        return compose(attribut, value, comparatif);
     }
 
     public String getAttribut() {

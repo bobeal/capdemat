@@ -3,7 +3,9 @@ package fr.cg95.cvq.exporter.service.endpoint;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -32,6 +34,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.xml.common.RequestStateType;
 
@@ -102,9 +105,11 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             int getCountBefore = getResponse.getRequestArray().length;
             Assert.assertEquals(1, getCountBefore);
             
+            Set<Critere> criteriaSet = new HashSet<Critere>();
+            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
+                DateUtils.parseDate("13/07/2007"), Critere.GT));
             int tracesCount = 
-                externalService.getTraces((String)null, null, null, DateUtils.parseDate("13/07/2007"), null)
-                    .size();
+                externalService.getTraces(criteriaSet, null, null).size();
             Assert.assertEquals(1, tracesCount);
             
             /* Create acknowledgement response */
@@ -123,9 +128,8 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             Assert.assertNotNull(ackResponse);
             Assert.assertTrue(ackResponse.getAccomplished());
             
-            int newCount = externalService
-                .getTraces((String)null, null, null, DateUtils.parseDate("13/07/2007"), null)
-                .size();
+            int newCount =
+                externalService.getTraces(criteriaSet, null, null).size();
             
             Assert.assertEquals(2, newCount);
             
@@ -192,9 +196,11 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             
             Assert.assertEquals(1, getCountBefore);
             
+            Set<Critere> criteriaSet = new HashSet<Critere>();
+            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
+                DateUtils.parseDate("13/07/2007"), Critere.GT));
             int tracesCount = 
-                externalService.getTraces((String)null, null, null, DateUtils.parseDate("13/07/2007"), null)
-                    .size();
+                externalService.getTraces(criteriaSet, null, null).size();
             Assert.assertNotSame(0, tracesCount);
             
             /* Create acknowledged traces */
@@ -220,14 +226,15 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             AckRequestsResponse ackResponse = (AckRequestsResponse) endpoint1.invokeInternal(ackRequestDocument);
             Assert.assertNotNull(ackResponse);
 
-            int newCount = externalService
-                .getTraces((String)null, null, null, DateUtils.parseDate("13/07/2007"), null)
-                .size();
+            int newCount =
+                externalService.getTraces(criteriaSet, null, null).size();
             
             Assert.assertEquals(newCount, tracesCount+3);
             
-            ExternalServiceTrace trace = externalService.getTraces((String)null, null, TraceStatusEnum.ERROR, null, null)
-                .iterator().next();
+            criteriaSet = new HashSet<Critere>();
+            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
+                TraceStatusEnum.ERROR, Critere.EQUALS));
+            ExternalServiceTrace trace = externalService.getTraces(criteriaSet, null, null).get(0);
             
             Assert.assertEquals(trace.getKey(), "2347");
             Assert.assertEquals(trace.getKeyOwner(),"capdemat");

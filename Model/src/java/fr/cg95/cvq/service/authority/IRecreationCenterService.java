@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.authority;
 import java.util.List;
 
 import fr.cg95.cvq.business.authority.RecreationCenter;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**
@@ -11,11 +10,9 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
  */
 public interface IRecreationCenterService {
 
-    Long create(final RecreationCenter recreationCenter)
-        throws CvqException;
+    Long create(final RecreationCenter recreationCenter);
 
-    List<RecreationCenter> getAll()
-        throws CvqException;
+    List<RecreationCenter> getAll();
 
     RecreationCenter getById(final Long id)
         throws CvqObjectNotFoundException;

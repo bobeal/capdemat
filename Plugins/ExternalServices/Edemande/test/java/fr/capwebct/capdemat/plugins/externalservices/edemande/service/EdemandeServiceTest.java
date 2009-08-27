@@ -14,6 +14,7 @@ public class EdemandeServiceTest extends StudyGrantRequestServiceTest {
 
     private IExternalService externalService;
 
+    @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
         externalService = getApplicationBean("externalService");

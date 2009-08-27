@@ -108,7 +108,7 @@ public class MeansOfContactTransformer {
     
     /* Test Method ...
      */
-    public void test(String localAuthority, String requestId) throws CvqException {
+    public void test(String localAuthority, String requestId) {
         logger.debug("TEST SINGLE");
         try {
             MeansOfContact mocMail= meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
@@ -133,7 +133,7 @@ public class MeansOfContactTransformer {
     /* Apply Mean of Contact's transformation to a subList.
      * To avoid hibernate memory error
      */
-    public void transformMocSubList() throws CvqException {
+    public void transformMocSubList() {
         
         MeansOfContact mocMail =
             meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);

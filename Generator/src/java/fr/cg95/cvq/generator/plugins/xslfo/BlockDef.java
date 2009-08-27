@@ -1,6 +1,5 @@
 package fr.cg95.cvq.generator.plugins.xslfo;
 
-import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
@@ -18,7 +17,8 @@ public final class BlockDef {
     private String displayCondition;
     private boolean breakAfter;
 
-    private TreeMap blockLineMap = new TreeMap();
+    private TreeMap<Integer, TreeMap<Integer, Element>> blockLineMap =
+        new TreeMap<Integer, TreeMap<Integer, Element>>();
 
     public BlockDef(final Integer id, final String label, final String blockColumnNb,
                     final String displayCondition, final String breakAfter) {
@@ -40,17 +40,15 @@ public final class BlockDef {
                      + " and column " + element.getColumnId()
                      + " of type " + element.getClass().getName() + " in block " + id);
         if (blockLineMap.get(element.getLineId()) == null) {
-            TreeMap lineColumnMap = new TreeMap();
+            TreeMap<Integer, Element> lineColumnMap = new TreeMap<Integer, Element>();
             lineColumnMap.put(element.getColumnId(), element);
             blockLineMap.put(element.getLineId(), lineColumnMap);
         } else {
-            TreeMap lineColumnMap = (TreeMap) blockLineMap.get(element.getLineId());
+            TreeMap<Integer, Element> lineColumnMap = blockLineMap.get(element.getLineId());
 
             // check columns filling
-            Iterator lineColumnMapIt = lineColumnMap.values().iterator();
             int sumOfColumns = 0;
-            while (lineColumnMapIt.hasNext()) {
-                Element currentElement = (Element) lineColumnMapIt.next();
+            for (Element currentElement : lineColumnMap.values()) {
                 sumOfColumns += currentElement.getColumnSpan().intValue();
             }
             if (sumOfColumns + element.getColumnSpan().intValue() > columnNb.intValue())
@@ -60,7 +58,7 @@ public final class BlockDef {
                         + ", only accepts " + columnNb + ")");
 
             // check element is authorized
-            Element currentElement = (Element) lineColumnMap.values().iterator().next();
+            Element currentElement = lineColumnMap.values().iterator().next();
             if (currentElement instanceof SignatureElement
                 || currentElement instanceof ComplexTemplateElement) {
                 throw new RuntimeException("addBlockLine() Cannot add an element in a line "
@@ -77,7 +75,7 @@ public final class BlockDef {
         }
     }
 
-    public TreeMap getBlockLineMap() {
+    public TreeMap<Integer, TreeMap<Integer, Element>> getBlockLineMap() {
         return this.blockLineMap;
     }
 

@@ -1,5 +1,8 @@
 package fr.cg95.cvq.service.request;
 
+import java.util.List;
+import java.util.Set;
+
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.business.request.RequestForm;
@@ -10,10 +13,6 @@ import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 import fr.cg95.cvq.util.Critere;
-
-import java.io.File;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author bor@zenexity.fr

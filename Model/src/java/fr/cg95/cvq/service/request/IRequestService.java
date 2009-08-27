@@ -1,5 +1,13 @@
 package fr.cg95.cvq.service.request;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.xmlbeans.XmlObject;
+import org.w3c.dom.Node;
+
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
@@ -14,20 +22,11 @@ import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.IExternalService;
-import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.util.Critere;
-
-import org.apache.xmlbeans.XmlObject;
-import org.w3c.dom.Node;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * High level service interface to deal with requests.
@@ -229,8 +228,7 @@ public interface IRequestService {
      *
      * @param requestId the ID of the request to release
      */
-    void release(@IsRequest final Long requestId)
-        throws CvqPermissionException;
+    void release(@IsRequest final Long requestId);
 
     /**
      * Clean obsolete request locks

@@ -24,6 +24,9 @@ import fr.cg95.cvq.schema.referential.LocalReferentialDocument.LocalReferential.
 import fr.cg95.cvq.schema.referential.LocalReferentialDocument.LocalReferential.Data.Label;
 import fr.cg95.cvq.schema.referential.LocalReferentialEntryType.Entry;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.ILocalReferentialService;
@@ -31,7 +34,7 @@ import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestTypeLifecycleAware;
 
 public class LocalReferentialService 
-    implements ILocalReferentialService, ILocalAuthorityLifecycleAware, 
+    implements ILocalReferentialService, ILocalAuthorityLifecycleAware,
         IRequestTypeLifecycleAware {
 
     private static Logger logger = Logger.getLogger(LocalReferentialService.class);
@@ -63,6 +66,8 @@ public class LocalReferentialService
     /**
      * ILocalAuthorityLifecycleAware interface
      */
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
     public void addLocalAuthority(final String localAuthorityName) {
 
         logger.debug("adding local authority : " + localAuthorityName);
@@ -74,6 +79,8 @@ public class LocalReferentialService
     /**
      * ILocalAuthorityLifecycleAware interface
      */
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
     public void removeLocalAuthority(final String localAuthorityName) {
 
         logger.debug("removing local authority : " + localAuthorityName);
@@ -89,6 +96,7 @@ public class LocalReferentialService
     /**
      * IRequestTypeLifecycleAware interface
      */
+    @Override
     public void addRequestTypeService(final IRequestService service) {
 
         logger.debug("inspecting request type : " + service.getLabel());
@@ -106,6 +114,7 @@ public class LocalReferentialService
     /**
      * IRequestTypeLifecycleAware interface
      */
+    @Override
     public void removeRequestType(String requestTypeLabel) {
 
         logger.debug("removing request type : " + requestTypeLabel);
@@ -274,8 +283,10 @@ public class LocalReferentialService
             }
             boolean didARefresh = false;
             for (String requestTypeLabel : requestTypeTimestampMap.keySet()) {
-                Long requestTypeTimestamp = (Long) requestTypeTimestampMap.get(requestTypeLabel);
-                String referentialFileName = getReferentialFilename(requestTypeLabel);
+                Long requestTypeTimestamp =
+                    requestTypeTimestampMap.get(requestTypeLabel);
+                String referentialFileName =
+                    getReferentialFilename(requestTypeLabel);
                 File referentialFile =
                     localAuthorityRegistry.getLocalAuthorityResourceFile(
                         Type.LOCAL_REFERENTIAL, referentialFileName, false);
@@ -525,6 +536,11 @@ public class LocalReferentialService
         return data;
     }
 
+    /**
+     * @deprecated only used in unit tests
+     */
+    @Override
+    @Deprecated
     public final Set<LocalReferentialType> getAllLocalReferentialData()
         throws CvqException {
 
@@ -553,6 +569,11 @@ public class LocalReferentialService
         return resultSet;
     }
 
+    /**
+     * @deprecated only used in unit tests
+     */
+    @Override
+    @Deprecated
     public Map<String, Map<String, String>> getAllLocalReferentialDataNames()
         throws CvqException {
 
@@ -590,19 +611,21 @@ public class LocalReferentialService
         return resultMap;
     }
 
+    @Override
+    @Context(type=ContextType.AGENT, privilege=ContextPrivilege.READ)
     public LocalReferentialType getLocalReferentialDataByName(final String dataName)
         throws CvqException {
 
         checkCurrentSiteCache();
         checkForDataName(dataName);
 
-        String requestTypeLabel = (String) localReferentialDataMap.get(dataName);
+        String requestTypeLabel = localReferentialDataMap.get(dataName);
         String currentSiteName = SecurityContext.getCurrentSite().getName().toLowerCase();
         parseLocalReferentialForLocalAuthority(currentSiteName);
         Map<String, LocalReferentialDocument> localAuthorityReferentialDataMap =
             localReferentialFileMap.get(currentSiteName);
         LocalReferentialDocument refDoc =
-            (LocalReferentialDocument) localAuthorityReferentialDataMap.get(requestTypeLabel);
+            localAuthorityReferentialDataMap.get(requestTypeLabel);
         if (refDoc.getLocalReferential() != null
             && refDoc.getLocalReferential().sizeOfDataArray() > 0) {
             Data[] refDataTab = refDoc.getLocalReferential().getDataArray();
@@ -616,6 +639,7 @@ public class LocalReferentialService
         return null;
     }
 
+    @Override
     public Set<LocalReferentialType> getLocalReferentialDataByRequestType(final String requestTypeLabel)
         throws CvqException {
 
@@ -636,7 +660,7 @@ public class LocalReferentialService
 
         Set<LocalReferentialType> resultSet = new LinkedHashSet<LocalReferentialType>();
         LocalReferentialDocument refDoc =
-            (LocalReferentialDocument) localAuthorityReferentialDataMap.get(requestTypeLabel);
+            localAuthorityReferentialDataMap.get(requestTypeLabel);
         if (refDoc.getLocalReferential() != null
             && refDoc.getLocalReferential().sizeOfDataArray() > 0) {
             Data[] refDataTab = refDoc.getLocalReferential().getDataArray();
@@ -651,7 +675,9 @@ public class LocalReferentialService
         return resultSet;
     }
 
-    public boolean isLocalReferentialConfigured(final String requestTypeLabel) 
+    @Override
+    @Context(type=ContextType.AGENT, privilege=ContextPrivilege.MANAGE)
+    public boolean isLocalReferentialConfigured(final String requestTypeLabel)
         throws CvqException {
         
         Set<LocalReferentialType> lrTypes = getLocalReferentialDataByRequestType(requestTypeLabel);
@@ -661,7 +687,9 @@ public class LocalReferentialService
                 isConfigure = false;
         return isConfigure;
     }
-    
+
+    @Override
+    @Context(type=ContextType.AGENT, privilege=ContextPrivilege.MANAGE)
     public void setLocalReferentialData(LocalReferentialType newLrt)
         throws CvqException {
 
@@ -672,7 +700,7 @@ public class LocalReferentialService
                 
             checkForDataName(newLrt.getDataName());
 
-            String requestTypeLabel = (String) localReferentialDataMap.get(newLrt.getDataName());
+            String requestTypeLabel = localReferentialDataMap.get(newLrt.getDataName());
             String currentSiteName = SecurityContext.getCurrentSite().getName().toLowerCase();
             parseLocalReferentialForLocalAuthority(currentSiteName);
             Map<String, LocalReferentialDocument> localAuthorityReferentialDataMap =

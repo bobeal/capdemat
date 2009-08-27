@@ -97,11 +97,13 @@ public class Requirement implements Serializable {
         this.documentType = documentType;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .toString();
     }
 
+    @Override
     public boolean equals(Object other) {
         if (this == other) return true;
         if (!(other instanceof Requirement)) return false;
@@ -116,6 +118,7 @@ public class Requirement implements Serializable {
         return true;
     }
 
+    @Override
     public int hashCode() {
         int result;
         result = getDocumentType().hashCode();

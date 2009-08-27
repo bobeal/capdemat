@@ -22,6 +22,7 @@ public class SpplusController extends AbstractController {
     
     private IPaymentService paymentService;
     
+    @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
 

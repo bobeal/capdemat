@@ -103,6 +103,7 @@ public class RecreationCenter implements Serializable {
         this.active = active;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

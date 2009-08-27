@@ -108,8 +108,8 @@ public interface IDocumentService {
     /**
      * Get documents associated to an home folder.
      */
-    List<Document> getHomeFolderDocuments(@IsHomeFolder final Long homeFolderId, int maxResults)
-        throws CvqException, CvqObjectNotFoundException;
+    List<Document> getHomeFolderDocuments(@IsHomeFolder final Long homeFolderId,
+        int maxResults);
 
     /**
      * Get documents associated to an individual.

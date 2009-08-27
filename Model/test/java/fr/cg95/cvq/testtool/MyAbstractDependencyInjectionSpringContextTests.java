@@ -117,6 +117,7 @@ public abstract class MyAbstractDependencyInjectionSpringContextTests
      * Prepare this test instance, injecting dependencies into its
      * protected fields and its bean properties.
      */
+    @Override
     protected void prepareTestInstance() throws Exception {
         injectDependencies();
     }

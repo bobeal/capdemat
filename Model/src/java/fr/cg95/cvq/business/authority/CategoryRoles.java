@@ -64,11 +64,13 @@ public class CategoryRoles implements Serializable {
         this.category = category;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .toString();
     }
 
+    @Override
     public boolean equals(Object other) {
         if (this == other) return true;
         if (!(other instanceof CategoryRoles)) return false;
@@ -83,6 +85,7 @@ public class CategoryRoles implements Serializable {
         return true;
     }
 
+    @Override
     public int hashCode() {
         int result;
         result = getAgent().hashCode();

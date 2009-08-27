@@ -418,7 +418,7 @@ public class HomeFolderModificationRequestService
         for (Object object : objectsToRemove) {
             logger.debug("updateObjects() Removing " + object);
             if (object instanceof Individual)
-                individuals.remove((Individual)object);
+                individuals.remove(object);
             genericDAO.delete(object);
         }
 

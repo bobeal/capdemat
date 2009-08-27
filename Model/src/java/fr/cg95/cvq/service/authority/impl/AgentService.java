@@ -39,22 +39,18 @@ public final class AgentService implements IAgentService {
 
     @Override
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
-    public Long create(Agent agent) throws CvqException {
-        
+    public Long create(Agent agent)
+        throws CvqException {
         if (agent == null)
             throw new CvqException("No agent object provided");
-            
         Long agentId = agentDAO.create(agent);
-
         logger.debug("Created agent object with id : " + agentId);
-
         return agentId;
     }
 
     @Override
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
-    public void modify(final Agent agent) throws CvqException {
-
+    public void modify(final Agent agent) {
         if (agent != null) {
             agentDAO.update(agent);
         }
@@ -62,9 +58,7 @@ public final class AgentService implements IAgentService {
 
     @Override
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
-    public void delete(final String agentLogin)
-        throws CvqException {
-        
+    public void delete(final String agentLogin) {
         Agent agent = agentDAO.findByLogin(agentLogin);
         if (agent != null)
             agentDAO.delete(agent);
@@ -72,49 +66,42 @@ public final class AgentService implements IAgentService {
 
     @Override
     @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
-    public List<Agent> get(final Set<Critere> criteriaSet)
-        throws CvqException {
-
+    public List<Agent> get(final Set<Critere> criteriaSet) {
         List<Agent> agents = agentDAO.search(criteriaSet);
         return agents;
     }
 
     @Override
     @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
-    public List<Agent> getAll()
-        throws CvqException {
-
+    public List<Agent> getAll() {
         List<Agent> agents = agentDAO.listAll();
         return agents;
     }
 
     @Override
-    public boolean exists(Long id) throws CvqException {
+    public boolean exists(Long id) {
         return agentDAO.exists(id);
     }
 
     @Override
     @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
     public Agent getById(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
-
+        throws CvqObjectNotFoundException {
         if (id.longValue() == -1) {
             return null;
         }
-        
-        Agent agent = (Agent) agentDAO.findById(Agent.class, id);
-        return agent;
+        return (Agent)agentDAO.findById(Agent.class, id);
     }
 
-    // Since this function is used before an agent logs in, we can't do an access control check
+    // Since this function is used before an agent logs in,
+    // we can't do an access control check
     @Override
     public Agent getByLogin(final String login)
-        throws CvqException, CvqObjectNotFoundException {
-
+        throws CvqObjectNotFoundException {
         Agent agent = agentDAO.findByLogin(login);
         if (agent == null)
-            throw new CvqObjectNotFoundException("Agent not found in DB, maybe DB needs to be synchronized with LDAP directory ??");
-
+            throw new CvqObjectNotFoundException(
+                "Agent not found in DB, maybe DB needs to be synchronized with LDAP directory ??");
         return agent;
     }
 
@@ -128,7 +115,7 @@ public final class AgentService implements IAgentService {
             agent = getByLogin(username);
         } catch (CvqObjectNotFoundException confe) {
             agent = new Agent();
-            agent.setActive(true);
+            agent.setActive(Boolean.TRUE);
             agent.setLogin(username);
             Set<SiteRoles> agentSiteRoles = new HashSet<SiteRoles>();
             SiteRoles defaultSiteRole = new SiteRoles();
@@ -217,41 +204,33 @@ public final class AgentService implements IAgentService {
 
     @Override
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
-    public void modifyProfiles(Agent agent, final List<String> newGroups, 
-            final List<String> administratorGroups,
-            final List<String> agentGroups)
-        throws CvqException {
-        
+    public void modifyProfiles(Agent agent, final List<String> newGroups,
+        final List<String> administratorGroups,
+        @SuppressWarnings("unused") final List<String> agentGroups) {
         // check if user became administrator
-        for (int i = 0; i < newGroups.size(); i++) {
-            if (administratorGroups.contains(newGroups.get(i))) {
-                Set<SiteRoles> agentSiteRoles = agent.getSitesRoles();
+        for (String newGroup : newGroups) {
+            if (administratorGroups.contains(newGroup)) {
                 boolean alreadyAdmin = false;
-                for (SiteRoles siteRoles : agentSiteRoles) {
+                for (SiteRoles siteRoles : agent.getSitesRoles()) {
                     if (siteRoles.getProfile().equals(SiteProfile.ADMIN)) {
                         alreadyAdmin = true;
                         break;
                     }
                 }
-
                 if (!alreadyAdmin) {
                     SiteRoles adminSiteRoles = new SiteRoles();
                     adminSiteRoles.setProfile(SiteProfile.ADMIN);
                     adminSiteRoles.setAgent(agent);
                     agent.getSitesRoles().clear();
                     agent.getSitesRoles().add(adminSiteRoles);
-
                     modify(agent);
                 }
-
                 return;
             }
         }
-        
         // check if user is no longer administrator
-        Set<SiteRoles> agentSiteRoles = agent.getSitesRoles();
         boolean wasAdmin = false;
-        for (SiteRoles siteRoles : agentSiteRoles) {
+        for (SiteRoles siteRoles : agent.getSitesRoles()) {
             if (siteRoles.getProfile().equals(SiteProfile.ADMIN)) {
                 wasAdmin = true;
                 break;
@@ -259,8 +238,8 @@ public final class AgentService implements IAgentService {
         }
         if (wasAdmin) {
             boolean isAlwaysAdmin = false;
-            for (int i = 0; i < administratorGroups.size(); i++) {
-                if (newGroups.contains(administratorGroups.get(i))) {
+            for (String administratorGroup : administratorGroups) {
+                if (newGroups.contains(administratorGroup)) {
                     isAlwaysAdmin = true;
                     break;
                 }
@@ -271,12 +250,11 @@ public final class AgentService implements IAgentService {
                 defaultSiteRoles.setAgent(agent);
                 agent.getSitesRoles().clear();
                 agent.getSitesRoles().add(defaultSiteRoles);
-
                 modify(agent);
             }
         }
     }
-    
+
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
     public Hashtable<String, String> getPreferenceByKey(String key) {
@@ -287,17 +265,15 @@ public final class AgentService implements IAgentService {
     
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
-    public void modifyPreference(String key, Hashtable<String,String> preference)
-        throws CvqException {
-        
+    public void modifyPreference(String key,
+        Hashtable<String,String> preference) {
         Agent agent = SecurityContext.getCurrentAgent();
         if (agent.getPreferences() == null)
             agent.setPreferences(new Hashtable<String, Hashtable<String,String>>());
-        
         agent.getPreferences().put(key, preference);
         modify(agent);
     }
-    
+
     public void setCategoryDAO(ICategoryDAO categoryDAO) {
         this.categoryDAO = categoryDAO;
     }
@@ -306,4 +282,3 @@ public final class AgentService implements IAgentService {
         this.agentDAO = agentDAO;
     }
 }
-

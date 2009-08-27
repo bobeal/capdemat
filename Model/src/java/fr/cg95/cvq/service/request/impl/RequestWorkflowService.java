@@ -497,7 +497,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
             dataStateList.add(DataState.VALID);
             dataStateList.add(DataState.INVALID);
         }
-        return (DataState[]) dataStateList.toArray(new DataState[0]);
+        return dataStateList.toArray(new DataState[dataStateList.size()]);
     }
 
 
@@ -541,7 +541,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
             requestStateList.add(RequestState.ARCHIVED);
         }
 
-        return (RequestState[]) requestStateList.toArray(new RequestState[0]);
+        return requestStateList.toArray(new RequestState[requestStateList.size()]);
     }
 
     public Set<RequestState> getStatesBefore(RequestState rs) {
@@ -645,8 +645,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         return result;
     }
 
-    private void updateLastModificationInformation(Request request, final Date date)
-        throws CvqException {
+    private void updateLastModificationInformation(Request request,
+        final Date date) {
 
         // update request's last modification date
         if (date != null)

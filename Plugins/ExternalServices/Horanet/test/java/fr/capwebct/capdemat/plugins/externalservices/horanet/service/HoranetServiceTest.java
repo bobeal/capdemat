@@ -10,13 +10,6 @@ import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
 
-import fr.cg95.cvq.business.authority.School;
-import fr.cg95.cvq.business.users.SectionType;
-import fr.cg95.cvq.business.users.Address;
-import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.RequestState;
@@ -24,6 +17,12 @@ import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.request.school.PerischoolActivityRegistrationRequest;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
+import fr.cg95.cvq.business.users.Address;
+import fr.cg95.cvq.business.users.CreationBean;
+import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.business.users.LocalReferentialData;
+import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItemDetail;
@@ -38,7 +37,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
-import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 /**
@@ -50,8 +48,6 @@ public class HoranetServiceTest extends ServiceTestCase {
 	private ISchoolRegistrationRequestService srrService;
 	private ISchoolCanteenRegistrationRequestService scrrService;
 	private IPerischoolActivityRegistrationRequestService parrService;
-	private IHomeFolderService homeFolderService;
-	
 	private void setServices() throws CvqException{
 		ConfigurableApplicationContext cac;
         try {
@@ -63,7 +59,6 @@ public class HoranetServiceTest extends ServiceTestCase {
     			(ISchoolCanteenRegistrationRequestService) cac.getBean("schoolCanteenRegistrationRequestService");
     		parrService = 
     			(IPerischoolActivityRegistrationRequestService) cac.getBean("perischoolActivityRegistrationRequestService");
-    		homeFolderService = (IHomeFolderService) cac.getBean("homeFolderService");
         } catch (Exception e) {
             throw new CvqException(e.getMessage());
         }
@@ -116,7 +111,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         SchoolRegistrationRequest srrRequest = new SchoolRegistrationRequest();
         srrRequest.setSection(SectionType.FIRST_SECTION);
         srrRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-        srrRequest.setSchool((School) schoolService.getAll().iterator().next());
+        srrRequest.setSchool(schoolService.getAll().get(0));
         srrRequest.setUrgencyPhone("0102030405");
         srrRequest.setCurrentSection(SectionType.FIRST_SECTION);
         srrRequest.setCurrentSchoolAddress("CurrentSchoolAddress");
@@ -145,7 +140,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         SchoolCanteenRegistrationRequest scrrRequest = new SchoolCanteenRegistrationRequest();
         scrrRequest.setSection(SectionType.FIRST_SECTION);
         scrrRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-        scrrRequest.setSchool((School) schoolService.getAll().iterator().next());
+        scrrRequest.setSchool(schoolService.getAll().get(0));
         scrrRequest.setUrgencyPhone("0102030405");
         scrrRequest.setDoctorPhone("0102030405");
         scrrRequest.setDoctorName("DoctorName");

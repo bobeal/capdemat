@@ -254,6 +254,7 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
         this.familyQuotient = familyQuotient;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

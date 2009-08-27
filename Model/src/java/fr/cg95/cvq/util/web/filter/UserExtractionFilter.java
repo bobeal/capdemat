@@ -82,7 +82,7 @@ public class UserExtractionFilter extends GenericFilterBean {
             
             WebApplicationContext wac = 
                 WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
-            List groups = (List) id.get("group");
+            List<String> groups = id.get("group");
             if (groups == null || !SecurityContext.isAuthorizedGroup(groups))
                 throw new ServletException("User " + user
                         + " is not authorized to access this resource");
@@ -116,9 +116,9 @@ public class UserExtractionFilter extends GenericFilterBean {
         log.debug("returning from doFilter()");
     }
 
-    private void updateUserProfiles(WebApplicationContext wac, String username, List groups, 
-                Map<String, String> informations)
-            throws ServletException {
+    private void updateUserProfiles(WebApplicationContext wac, String username,
+        List<String> groups, Map<String, String> informations)
+        throws ServletException {
 
         IAgentService agentService = (IAgentService) wac.getBean("agentService");
 
@@ -131,7 +131,7 @@ public class UserExtractionFilter extends GenericFilterBean {
             } catch (CvqObjectNotFoundException confe) {
                 agent = new Agent();
                 agent.setLogin(username);
-		agent.setActive(true);
+                agent.setActive(true);
                 Set<SiteRoles> agentSiteRoles = new HashSet<SiteRoles>();
                 SiteRoles defaultSiteRole = new SiteRoles();
                 defaultSiteRole.setProfile(SiteProfile.AGENT);

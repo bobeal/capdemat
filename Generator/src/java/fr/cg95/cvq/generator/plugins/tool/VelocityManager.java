@@ -3,8 +3,7 @@ package fr.cg95.cvq.generator.plugins.tool;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
@@ -33,8 +32,8 @@ public class VelocityManager {
      * @param contextsObjects a map of context key/value pairs
      */
     public static void launchGeneration(String templateFile, String fileName,
-                                        String outputDir, String packageName,
-                                        HashMap contextsObjects) {
+        String outputDir, String packageName,
+        HashMap<String, ? extends Object> contextsObjects) {
 
         try {
 
@@ -70,15 +69,10 @@ public class VelocityManager {
                 File javaFile = new File(packageDir, fileName);
 
                 logger.info("launchGeneration() Generating file : " + javaFile.getPath());
-
-                Set contextKeys = contextsObjects.keySet();
-                Iterator contextKeysIt = contextKeys.iterator();
-                while (contextKeysIt.hasNext()) {
-                    String key = (String) contextKeysIt.next();
-                    Object value = contextsObjects.get(key);
-                    context.put(key, value);
+                for (Map.Entry<String, ? extends Object> entry :
+                    contextsObjects.entrySet()) {
+                    context.put(entry.getKey(), entry.getValue());
                 }
-
                 FileWriter javaWriter = new FileWriter(javaFile);
                 template.merge(context, javaWriter);
 

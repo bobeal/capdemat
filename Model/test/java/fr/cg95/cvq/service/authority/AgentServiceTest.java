@@ -109,7 +109,7 @@ public class AgentServiceTest extends ServiceTestCase {
         request = iRequestService.getById(request.getId());
         Set<RequestNote> notes = request.getNotes();
         Assert.assertEquals(notes.size(), 1);
-        RequestNote rn = (RequestNote) notes.iterator().next();
+        RequestNote rn = notes.iterator().next();
         Assert.assertEquals(rn.getUserId(), agent.getId());
 
         // test search by last intervening agent

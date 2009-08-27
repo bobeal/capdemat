@@ -37,6 +37,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         SewerConnectionRequestDocument object = (SewerConnectionRequestDocument) this.modelToXml();
@@ -48,6 +49,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

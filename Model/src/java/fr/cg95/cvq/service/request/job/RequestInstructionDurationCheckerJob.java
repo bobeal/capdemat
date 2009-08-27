@@ -44,8 +44,8 @@ public class RequestInstructionDurationCheckerJob {
     
     private IRequestDAO requestDAO;
     
-    public void launchJob() throws CvqException {
-        localAuthorityRegistry.browseAndCallback(this, 
+    public void launchJob() {
+        localAuthorityRegistry.browseAndCallback(this,
                 "checkLocalAuthRequestsInstructionDuration", null);
     }
 

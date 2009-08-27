@@ -592,6 +592,7 @@ public class DoubleWord
      *
      * @see
      */
+    @Override
     public String toString()
     {
         String  value = "";

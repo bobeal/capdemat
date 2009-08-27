@@ -36,6 +36,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         ElectoralRollRegistrationRequestDocument object = (ElectoralRollRegistrationRequestDocument) this.modelToXml();
@@ -47,6 +48,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

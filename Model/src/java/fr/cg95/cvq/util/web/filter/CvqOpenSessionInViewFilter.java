@@ -18,6 +18,7 @@ import org.springframework.web.filter.GenericFilterBean;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
@@ -38,7 +39,8 @@ import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
  */
 public class CvqOpenSessionInViewFilter extends GenericFilterBean {
 
-	private static Logger logger = Logger.getLogger(CvqOpenSessionInViewFilter.class);
+    private static Logger logger =
+        Logger.getLogger(CvqOpenSessionInViewFilter.class);
 
     private String context;
 
@@ -50,21 +52,21 @@ public class CvqOpenSessionInViewFilter extends GenericFilterBean {
     public CvqOpenSessionInViewFilter() {
         addRequiredProperty("context");
     }
-    
-	public void doFilter(ServletRequest request, ServletResponse response,
-	        FilterChain chain) throws IOException, ServletException {
-		
+
+    public void doFilter(ServletRequest request, ServletResponse response,
+        FilterChain chain)
+        throws IOException, ServletException {
         try {
-            
             request.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=utf-8");
-
-            logger.debug("doFilterInternal() got server name : " + request.getServerName());
-            WebApplicationContext wac = 
-                WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+            logger.debug("doFilterInternal() got server name : "
+                + request.getServerName());
+            WebApplicationContext wac = WebApplicationContextUtils
+                .getRequiredWebApplicationContext(getServletContext());
             ILocalAuthorityRegistry localAuthRegistry = 
                 (ILocalAuthorityRegistry) wac.getBean("localAuthorityRegistry");
-            LocalAuthority la = localAuthRegistry.getLocalAuthorityByServerName(request.getServerName());
+            LocalAuthority la = localAuthRegistry
+                .getLocalAuthorityByServerName(request.getServerName());
             if (la == null)
                 throw new ServletException("No local authority found !");
             LocalAuthorityConfigurationBean lacb =
@@ -73,18 +75,17 @@ public class CvqOpenSessionInViewFilter extends GenericFilterBean {
                 throw new ServletException("No local authority found !");
             SessionFactory sessionFactory = lacb.getSessionFactory();
             HibernateUtil.setSessionFactory(sessionFactory);
-            
             HibernateUtil.beginTransaction();
-            
             txRollback.set(Boolean.FALSE);
-
             try {
                 SecurityContext.setCurrentSite(lacb.getName(), context);
                 SecurityContext.setCurrentLocale(request.getLocale());
-                
                 if (context.equals(SecurityContext.FRONT_OFFICE_CONTEXT)) {
-                    if (((HttpServletRequest) request).getHeader("ecitizenName") != null) {
-                        SecurityContext.setCurrentEcitizen(((HttpServletRequest)request).getHeader("ecitizenName"));
+                    if (((HttpServletRequest) request)
+                        .getHeader("ecitizenName") != null) {
+                        SecurityContext.setCurrentEcitizen(
+                            ((HttpServletRequest)request)
+                            .getHeader("ecitizenName"));
                     }
                 }
             } catch (CvqException ce) {
@@ -92,35 +93,38 @@ public class CvqOpenSessionInViewFilter extends GenericFilterBean {
                 ce.printStackTrace();
                 throw new ServletException();
             }
-
             // set in session to be used by GUIWizard and webapps
-            ((HttpServletRequest) request).getSession().setAttribute("currentSiteName", lacb.getName().toLowerCase());
-
-			chain.doFilter(request, response);
-
-            Boolean doRollback = (Boolean) txRollback.get();
-            logger.debug("doFilter() Tx rollback status : " + doRollback.booleanValue());
+            ((HttpServletRequest) request).getSession()
+                .setAttribute("currentSiteName", lacb.getName().toLowerCase());
+            try {
+                chain.doFilter(request, response);
+            } catch (PermissionException e) {
+                txRollback.set(Boolean.TRUE);
+                throw e;
+            }
+            Boolean doRollback = txRollback.get();
+            logger.debug("doFilter() Tx rollback status : "
+                + doRollback.booleanValue());
             if (doRollback.booleanValue()) {
                 HibernateUtil.rollbackTransaction();
             } else {
                 HibernateUtil.commitTransaction();
             }
-		} finally {
-
+        } finally {
             txRollback.set(null);
-            
-			// No matter what happens, close the Session.
+            // No matter what happens, close the Session.
             HibernateUtil.closeSession();
-
             SecurityContext.resetCurrentSite();
-		}
-	}
+        }
+    }
 
-	public void destroy() {}
+    @Override
+    public void destroy() {}
 
     /**
      * Set the rollback status of the transaction. Called by
-     * {@link fr.cg95.cvq.util.web.struts.CvqExceptionHandler} when an exception is raised during the
+     * {@link fr.cg95.cvq.util.web.struts.CvqExceptionHandler}
+     * when an exception is raised during the
      * processing of a (HTTP) request
      */
     public static void setRollbackTx(boolean rb) {

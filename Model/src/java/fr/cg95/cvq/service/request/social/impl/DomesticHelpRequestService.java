@@ -1,9 +1,5 @@
 package fr.cg95.cvq.service.request.social.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.Request;
@@ -11,7 +7,6 @@ import fr.cg95.cvq.business.request.social.DomesticHelpRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
-import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService;
 
@@ -100,6 +95,7 @@ public class DomesticHelpRequestService extends RequestService implements
         return new DomesticHelpRequest();
     }
     
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("dhrRequestKind", new EqualityChecker("Couple"));

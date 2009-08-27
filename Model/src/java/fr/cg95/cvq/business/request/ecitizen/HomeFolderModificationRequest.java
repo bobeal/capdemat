@@ -28,6 +28,7 @@ public class HomeFolderModificationRequest extends Request implements Serializab
         super();
     }
 
+    @Override
     public String modelToXmlString() {
         HomeFolderModificationRequestDocument object = 
             (HomeFolderModificationRequestDocument) this.modelToXml();
@@ -39,6 +40,7 @@ public class HomeFolderModificationRequest extends Request implements Serializab
         return object.xmlText(opts);
     }
 
+    @Override
     public XmlObject modelToXml() {
         HomeFolderModificationRequestDocument hfmrRequestDoc =
             HomeFolderModificationRequestDocument.Factory.newInstance();
@@ -55,6 +57,7 @@ public class HomeFolderModificationRequest extends Request implements Serializab
         return hfmrRequestDocument.getHomeFolderModificationRequest();
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

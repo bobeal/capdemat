@@ -162,12 +162,14 @@ public class HistoryEntry implements Serializable {
         this.objectId = objectId;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())
             .toString();
     }
 
+    @Override
     public boolean equals(Object other) {
         
 //        logger.debug("equals() got object : " + other);
@@ -229,6 +231,7 @@ public class HistoryEntry implements Serializable {
             return false;
     }
     
+    @Override
     public int hashCode() {
         
         int result = 29 * clazz.hashCode();

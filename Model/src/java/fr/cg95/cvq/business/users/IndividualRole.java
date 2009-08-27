@@ -127,6 +127,7 @@ public class IndividualRole implements Historizable, Serializable {
         return individualName;
     }
 
+    @Override
     public boolean equals(Object other) {
         
         if (this == other)
@@ -163,6 +164,7 @@ public class IndividualRole implements Historizable, Serializable {
         return true;
     }
 
+    @Override
     public int hashCode() {
         if (getRole() == null)
             return super.hashCode();
@@ -171,6 +173,7 @@ public class IndividualRole implements Historizable, Serializable {
     }
     
     
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

@@ -17,19 +17,15 @@ import fr.cg95.cvq.util.Critere;
  */
 public class DocumentTypeDAO extends GenericDAO implements IDocumentTypeDAO {
 
-    public DocumentTypeDAO() {
-        super();
-    }
-
     public DocumentType findByType(final Integer typeId) {
         Criteria crit = HibernateUtil.getSession().createCriteria(DocumentType.class);
         crit.add(Critere.compose("type", typeId, Critere.EQUALS));
         return (DocumentType) crit.uniqueResult();
     }
 
+    @SuppressWarnings("unchecked")
     public List<DocumentType> listAll() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("from DocumentType as documentType");
-        return HibernateUtil.getSession().createQuery(sb.toString()).list();
+        return (List<DocumentType>)HibernateUtil.getSession()
+            .createQuery("from DocumentType as documentType").list();
     }
 }

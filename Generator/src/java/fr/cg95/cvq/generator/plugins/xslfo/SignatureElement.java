@@ -18,6 +18,7 @@ public final class SignatureElement extends Element {
         super(element);
     }
 
+    @Override
     public String getDisplayType() {
         return "signature";
     }

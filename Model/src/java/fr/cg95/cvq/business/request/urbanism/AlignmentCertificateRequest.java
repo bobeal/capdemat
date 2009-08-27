@@ -36,6 +36,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         AlignmentCertificateRequestDocument object = (AlignmentCertificateRequestDocument) this.modelToXml();
@@ -47,6 +48,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

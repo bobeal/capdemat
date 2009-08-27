@@ -153,6 +153,7 @@ public class RequestForm implements Serializable {
         this.xslFoFilename = xslFoFilename;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

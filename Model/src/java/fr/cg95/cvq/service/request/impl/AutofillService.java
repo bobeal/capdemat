@@ -28,8 +28,18 @@ public class AutofillService implements IAutofillService {
     private static IIndividualService individualService;
 
     private enum TriggerType {
-        SUBJECTID { public IAutofillTriggerService getService() { return individualService; } },
-        REQUESTERID { public IAutofillTriggerService getService() { return individualService; } };
+        SUBJECTID {
+            @Override
+            public IAutofillTriggerService getService() {
+                return individualService;
+            }
+        },
+        REQUESTERID {
+            @Override
+            public IAutofillTriggerService getService() {
+                return individualService;
+            }
+        };
         public abstract IAutofillTriggerService getService();
     }
 
@@ -63,8 +73,8 @@ public class AutofillService implements IAutofillService {
                 try {
                     SimpleDateFormat dateFormat = 
                         new SimpleDateFormat("dd/MM/yyyy", SecurityContext.getCurrentLocale());
-                    values.put(listener.getKey(), 
-                            currentObject != null ? dateFormat.format(currentObject) : null);
+                    values.put(listener.getKey(),
+                            dateFormat.format(currentObject));
                 } catch (CvqException e) {
                     logger.error("getValues() unable to get a localized date (no locale in security context)");
                 }

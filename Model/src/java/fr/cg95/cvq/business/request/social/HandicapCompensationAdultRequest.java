@@ -108,6 +108,7 @@ public class HandicapCompensationAdultRequest extends Request implements Seriali
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         HandicapCompensationAdultRequestDocument object = (HandicapCompensationAdultRequestDocument) this.modelToXml();
@@ -119,6 +120,7 @@ public class HandicapCompensationAdultRequest extends Request implements Seriali
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

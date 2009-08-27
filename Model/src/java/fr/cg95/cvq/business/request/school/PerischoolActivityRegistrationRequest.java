@@ -40,6 +40,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         PerischoolActivityRegistrationRequestDocument object = (PerischoolActivityRegistrationRequestDocument) this.modelToXml();
@@ -51,6 +52,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

@@ -1,22 +1,19 @@
 package fr.cg95.cvq.dao.authority.hibernate;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.type.Type;
-
-import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.dao.authority.IAgentDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.util.Critere;
-
 
 /**
  * Implementation of the {@link IAgentDAO} interface.
@@ -31,19 +28,18 @@ public class AgentDAO extends GenericDAO implements IAgentDAO {
         Query query = HibernateUtil.getSession()
             .createQuery("from Agent agent where agent.id = :id ")
             .setLong("id", id.longValue());
-        return query.uniqueResult() == null ? false : true;
+        return query.uniqueResult() != null;
     }
 
     public Agent findByLogin(final String login) {
-
         Query query = HibernateUtil.getSession()
             .createQuery("from Agent agent where agent.login = :login ")
             .setString("login", login);
-        
         return (Agent) query.uniqueResult(); 
     }
-    
-    public List search(final Set criteria) {
+
+    @SuppressWarnings("unchecked")
+    public List<Agent> search(final Set<Critere> criteria) {
 
         if (criteria.isEmpty())
             return listAll();
@@ -51,13 +47,11 @@ public class AgentDAO extends GenericDAO implements IAgentDAO {
         StringBuffer sb = new StringBuffer();
         sb.append("from Agent as agent");
 
-        Iterator critIt = criteria.iterator();
-        List typeList = new ArrayList();
-        List objectList = new ArrayList();
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
 
         // go through all the criteria and create the query
-        while (critIt.hasNext()) {
-            Critere searchCrit = (Critere) critIt.next();
+        for (Critere searchCrit : criteria) {
             if (searchCrit.getAttribut().equals(Agent.SEARCH_BY_CATEGORY_ID)) {
                 sb.append(" join agent.categoriesRoles categoriesRoles where categoriesRoles.category " 
                         + searchCrit.getComparatif() + " ?");
@@ -71,20 +65,17 @@ public class AgentDAO extends GenericDAO implements IAgentDAO {
 
         sb.append(" order by agent.login asc");
 
-        Type[] typeTab = (Type[]) typeList.toArray(new Type[0]);
-        Object[] objectTab = (Object[]) objectList.toArray(new Object[0]);
-        
-        return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list(); 
+        Type[] typeTab = typeList.toArray(new Type[0]);
+        Object[] objectTab = objectList.toArray(new Object[0]);
+
+        return (List<Agent>)HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list();
     }
 
-    public List listAll() {
-
-        StringBuffer sb = new StringBuffer();
-        sb.append("from Agent as agent order by agent.lastName asc");
-
-        return HibernateUtil.getSession().createQuery(sb.toString()).list();
+    @SuppressWarnings("unchecked")
+    public List<Agent> listAll() {
+        return (List<Agent>)HibernateUtil.getSession()
+            .createQuery("from Agent as agent order by agent.lastName asc")
+            .list();
     }
 }

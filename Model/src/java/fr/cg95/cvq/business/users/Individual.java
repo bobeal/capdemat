@@ -170,10 +170,10 @@ public class Individual implements Historizable, Serializable {
     public static IndividualType modelToXml(Individual individual) {
         if (individual instanceof Adult) {
             Adult adult = (Adult) individual;
-            return (IndividualType) Adult.modelToXml(adult);
+            return Adult.modelToXml(adult);
         } else if (individual instanceof Child) {
             Child child = (Child) individual;
-            return (IndividualType) Child.modelToXml(child);
+            return Child.modelToXml(child);
         } else {
             IndividualType individualType = IndividualType.Factory.newInstance();
             individual.fillCommonXmlInfo(individualType);
@@ -503,6 +503,7 @@ public class Individual implements Historizable, Serializable {
         return getLastName() + " " + getFirstName();
     }
     
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("name", getFullName())

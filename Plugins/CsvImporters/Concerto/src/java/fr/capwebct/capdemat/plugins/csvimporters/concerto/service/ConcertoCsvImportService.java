@@ -396,13 +396,13 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
         return null;
     }
     
-    private School getSchool(final String schoolName) throws CvqException {
+    private School getSchool(final String schoolName) {
     
         School school = schoolService.getByName(schoolName);
         if (school == null) {
             logger.info("getSchool() school " + schoolName + " not found, creating it");
             school = new School();
-            school.setActive(true);
+            school.setActive(Boolean.TRUE);
             school.setName(schoolName);
             schoolService.create(school);
         }

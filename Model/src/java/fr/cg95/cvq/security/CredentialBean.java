@@ -1,6 +1,5 @@
 package fr.cg95.cvq.security;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -25,13 +24,6 @@ import fr.cg95.cvq.business.users.IndividualRole;
  * is passed around across all access checks done for a given user.
  * Most of the methods here memorize (cache) their results for speed, and
  * also in order to break some possible loops.
- *
- * In order to speed up the security computations even more, as
- * well as allowing sophisticated use-cases (bypassing privileges,
- * allowing saving then reloading an object to the database without
- * having to enforce extra checks, etc.), the CredentialBean maintains
- * an <strong>ObjectBean cache</strong> that has the same lifetime as
- * the CredentialBean itself (typically, one transaction).
  *
  * @author dom@idealx.com
  */
@@ -123,7 +115,6 @@ public class CredentialBean {
     }
     
     private void resetCaches() {
-		objectBeanCache.clear();
 		siteRoles = null;
 		categoryRoles = null;
 		individualRoles = null;
@@ -281,8 +272,7 @@ public class CredentialBean {
     }
     
     public CategoryProfile getProfileForCategory(Category category) {
-        CategoryRoles[] categoryRoles = getCategoryRoles();
-        for (CategoryRoles cr : categoryRoles) {
+        for (CategoryRoles cr : getCategoryRoles()) {
             if (cr.getCategory().getId().equals(category.getId()))
                 return cr.getProfile();
         }
@@ -329,32 +319,5 @@ public class CredentialBean {
             return false;
         
         return this.individualsIds.contains(individualId);
-    }
-    
-    /* ==================== Grants cache API =========================== */
-
-    private ArrayList<ObjectBean> objectBeanCache = new ArrayList<ObjectBean>();
-
-    /**
-     * Returns a fresh {@link ObjectBean}, passing parameters
-     * <code>object</code> and <code>baseClass</code> to the
-     * constructor of this class, or a not-so-fresh ObjectBean from the cache
-     * (if <code>getObjectBean()</code> was previously called with the
-     * same object and base class).
-     */
-    public ObjectBean getObjectBean(Object object, Class<?> baseClass) {
-
-        for (ObjectBean bean : objectBeanCache) {
-
-            if (object.equals(bean.getObject()) &&
-                baseClass.equals(bean.getBaseClass())) {
-            		logger.debug("getObjectBean() returning cached object bean");
-            		return bean;
-            }
-        }
-
-        ObjectBean bean = new ObjectBean(object, baseClass);
-        objectBeanCache.add(bean);
-        return bean;
     }
 }

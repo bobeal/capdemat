@@ -43,6 +43,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         RemoteSupportRequestDocument object = (RemoteSupportRequestDocument) this.modelToXml();
@@ -54,6 +55,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

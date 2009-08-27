@@ -20,6 +20,7 @@ public class PaymentServiceJobTest extends ServiceTestCase {
 	private IPaymentDAO paymentDAO;
 	private PaymentInitializationDateCheckerJob paymentInitilizationDateCheckerJob;
 	
+    @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
 

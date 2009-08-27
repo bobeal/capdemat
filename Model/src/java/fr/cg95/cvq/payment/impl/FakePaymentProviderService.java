@@ -87,7 +87,7 @@ public final class FakePaymentProviderService implements IPaymentProviderService
         if (!handleParameters(parameters))
             return PaymentResultStatus.UNKNOWN;
         
-        String bankTransactionStatus = (String) parameters.get("status");
+        String bankTransactionStatus = parameters.get("status");
         if (bankTransactionStatus.equals("OK"))
             return PaymentResultStatus.OK;
         else if (bankTransactionStatus.equals("CANCELLED"))

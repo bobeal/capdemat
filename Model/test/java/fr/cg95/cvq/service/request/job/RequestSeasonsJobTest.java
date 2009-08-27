@@ -5,9 +5,6 @@ import java.util.GregorianCalendar;
 import java.util.Set;
 
 import junit.framework.Assert;
-
-import fr.cg95.cvq.business.authority.School;
-import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.Request;
@@ -17,6 +14,7 @@ import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -43,9 +41,8 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
      * Bypass service business rules (like "request.season.registration_started")
      * Add month's offset to registration and effect dates
      */
-    private void daoUpdateSeason(String seasonUuid, int registrationStartOffset, 
-            int registrationEndOffset, int effectStartOffset, int effectEndOffset) 
-        throws CvqException {
+    private void daoUpdateSeason(String seasonUuid, int registrationStartOffset,
+        int registrationEndOffset, int effectStartOffset, int effectEndOffset) {
 
         GenericDAO genericDAO = super.<GenericDAO>getApplicationBean("genericDAO");
 
@@ -113,7 +110,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
         SchoolRegistrationRequest request = new SchoolRegistrationRequest();
         request.setSection(SectionType.BEFORE_FIRST_SECTION);
         request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
-        request.setSchool((School) schoolService.getAll().iterator().next());
+        request.setSchool(schoolService.getAll().iterator().next());
         request.setUrgencyPhone("0101010101");
         request.setCurrentSection(SectionType.BEFORE_FIRST_SECTION);
         request.setCurrentSchoolAddress("CurrentSchoolAddress");

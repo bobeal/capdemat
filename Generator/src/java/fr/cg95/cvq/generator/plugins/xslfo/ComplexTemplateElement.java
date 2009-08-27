@@ -21,14 +21,17 @@ public final class ComplexTemplateElement extends Element {
         super(element);
     }
 
+    @Override
     public String getDisplayType() {
         return "complex_template";
     }
 
+    @Override
     public String getParentElementName() {
         return this.parentElementName;
     }
 
+    @Override
     public void setParentElementName(final String parentElementName) {
         this.parentElementName = parentElementName;
     }

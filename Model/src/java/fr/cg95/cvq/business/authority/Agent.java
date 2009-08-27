@@ -32,10 +32,6 @@ public class Agent implements Serializable {
     private Set<SiteRoles> sitesRoles;
     private Hashtable<String, Hashtable<String, String>> preferences; 
 
-    /** default constructor */
-    public Agent() {
-    }
-
     /**
      * @hibernate.id
      *  generator-class="sequence"
@@ -144,6 +140,7 @@ public class Agent implements Serializable {
         this.preferences = preferences;
     }
     
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("login", getLogin())

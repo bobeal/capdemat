@@ -164,6 +164,7 @@ public class LocalAuthority implements Serializable {
         this.serverNames = serverNames;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

@@ -49,11 +49,13 @@ public class SiteRoles implements Serializable {
         this.profile = profile;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .toString();
     }
 
+    @Override
     public boolean equals(Object other) {
         if (this == other) return true;
         if (!(other instanceof SiteRoles)) return false;
@@ -66,6 +68,7 @@ public class SiteRoles implements Serializable {
         return true;
     }
 
+    @Override
     public int hashCode() {
         int result;
         result = getAgent().hashCode();

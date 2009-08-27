@@ -148,8 +148,8 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
         objectList.add(false);
         typeList.add(Hibernate.BOOLEAN);
 
-        Type[] typeTab = (Type[]) typeList.toArray(new Type[0]);
-        Object[] objectTab = (Object[]) objectList.toArray(new Object[0]);
+        Type[] typeTab = typeList.toArray(new Type[typeList.size()]);
+        Object[] objectTab = objectList.toArray(new Object[objectList.size()]);
 
 
         return HibernateUtil.getSession()

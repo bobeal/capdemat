@@ -83,7 +83,7 @@ public final class ProvisioningService implements IProvisioningService {
 
         setSecurityContext(localAuthorityName);
 
-        List agentGroups = Arrays.asList(groups);
+        List<String> agentGroups = Arrays.asList(groups);
         boolean isAdmin = SecurityContext.isOfAnAdminGroup(agentGroups);
         boolean isContributor = false;
         if (!isAdmin) {
@@ -156,7 +156,7 @@ public final class ProvisioningService implements IProvisioningService {
                 // it seems difficul, isn't it ?
             }
             return;
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }
@@ -165,7 +165,7 @@ public final class ProvisioningService implements IProvisioningService {
         if (newGroups == null || newGroups.length == 0)
             deactivateAgent = true;
         
-        List newGroupsList = Arrays.asList(newGroups);
+        List<String> newGroupsList = Arrays.asList(newGroups);
         if (!SecurityContext.isAuthorizedGroup(newGroupsList))
             deactivateAgent = true;
         
@@ -174,7 +174,7 @@ public final class ProvisioningService implements IProvisioningService {
                 agent.setActive(Boolean.FALSE);
                 agentService.modify(agent);
                 resetSecurityContext(false);
-            } catch (CvqException e) {
+            } catch (RuntimeException e) {
                 resetSecurityContext(true);
                 throw e;
             }
@@ -191,7 +191,7 @@ public final class ProvisioningService implements IProvisioningService {
             agent.setActive(Boolean.TRUE);
             agentService.modify(agent);
             resetSecurityContext(false);
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }
@@ -209,7 +209,7 @@ public final class ProvisioningService implements IProvisioningService {
             logger.info("deleteAgent() Did not find agent : " + agentLogin);
             resetSecurityContext(true);
             return;
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }
@@ -218,7 +218,7 @@ public final class ProvisioningService implements IProvisioningService {
         try {
             agentService.modify(agent);
             resetSecurityContext(false);
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }
@@ -235,7 +235,7 @@ public final class ProvisioningService implements IProvisioningService {
         } catch (CvqObjectNotFoundException confe) {
             resetSecurityContext(true);
             return false;
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }
@@ -273,7 +273,7 @@ public final class ProvisioningService implements IProvisioningService {
             else
                 schoolDAO.create(school);
             resetSecurityContext(false);
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }
@@ -297,7 +297,7 @@ public final class ProvisioningService implements IProvisioningService {
         try {
             schoolDAO.update(school);
             resetSecurityContext(false);
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }
@@ -319,7 +319,7 @@ public final class ProvisioningService implements IProvisioningService {
         try {
             schoolDAO.update(school);
             resetSecurityContext(false);
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }
@@ -354,7 +354,7 @@ public final class ProvisioningService implements IProvisioningService {
             else
                 recreationCenterDAO.create(recreationCenter);
             resetSecurityContext(false);
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }
@@ -379,7 +379,7 @@ public final class ProvisioningService implements IProvisioningService {
         try {
             recreationCenterDAO.update(recreationCenter);
             resetSecurityContext(false);
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }
@@ -402,7 +402,7 @@ public final class ProvisioningService implements IProvisioningService {
         try {
             recreationCenterDAO.update(recreationCenter);
             resetSecurityContext(false);
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             resetSecurityContext(true);
             throw e;
         }

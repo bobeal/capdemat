@@ -11,7 +11,7 @@ import sun.misc.BASE64Encoder;
  */
 public class LdapPasswordGenerator {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         if (args.length < 1)
             return;

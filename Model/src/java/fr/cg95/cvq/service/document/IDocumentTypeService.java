@@ -3,7 +3,7 @@ package fr.cg95.cvq.service.document;
 import java.util.List;
 
 import fr.cg95.cvq.business.document.DocumentType;
-import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 public interface IDocumentTypeService {
 
@@ -44,22 +44,20 @@ public interface IDocumentTypeService {
     Integer IDENTITY_PHOTO_TYPE = new Integer(34);
     Integer REGISTRATION_CERTIFICATE = new Integer(35);
     Integer REVENUE_TAXES_NOTIFICATION_TWO_YEARS_AGO = new Integer(36);
-    
+
     /**
      * Get a document type by type id.
      *
      * @param id the id of the document type, one among the (long) list of static
      *           integer constant defined in this class
      */
-    DocumentType getDocumentTypeByType(final Integer type)
-        throws CvqException;
+    DocumentType getDocumentTypeByType(final Integer type);
 
     DocumentType getDocumentTypeById(final Long id)
-        throws CvqException;
-    
+        throws CvqObjectNotFoundException;
+
     /**
      * Get all known document types.
      */
-    List<DocumentType> getAllDocumentTypes()
-        throws CvqException;
+    List<DocumentType> getAllDocumentTypes();
 }

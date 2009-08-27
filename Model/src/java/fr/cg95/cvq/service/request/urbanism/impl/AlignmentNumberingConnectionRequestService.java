@@ -21,6 +21,7 @@ public class AlignmentNumberingConnectionRequestService extends RequestService i
         return new AlignmentNumberingConnectionRequest();
     }
 
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("isAccountAddress", new EqualityChecker("true"));

@@ -1,16 +1,5 @@
 package fr.cg95.cvq.service.request.social;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import fr.cg95.cvq.business.request.social.DhrAssetKindType;
-import fr.cg95.cvq.business.request.social.DhrAssetTypeType;
-import fr.cg95.cvq.business.request.social.DhrNotRealAsset;
-import fr.cg95.cvq.business.request.social.DhrRealAsset;
 import fr.cg95.cvq.business.request.social.DomesticHelpRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;

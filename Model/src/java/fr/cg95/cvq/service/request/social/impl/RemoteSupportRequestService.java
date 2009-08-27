@@ -1,15 +1,10 @@
 package fr.cg95.cvq.service.request.social.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.RemoteSupportRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
-import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.social.IRemoteSupportRequestService;
 
@@ -41,6 +36,7 @@ public class RemoteSupportRequestService extends RequestService
         return new RemoteSupportRequest();
     }
     
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("requestInformationRequestKind", new EqualityChecker("Couple"));

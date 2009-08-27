@@ -15,6 +15,7 @@ public class SpplusUserCallbackController extends AbstractController {
 
     private static Logger logger = Logger.getLogger(SpplusController.class);
     
+    @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, 
             HttpServletResponse response)
         throws Exception {

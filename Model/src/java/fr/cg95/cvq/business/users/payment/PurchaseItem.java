@@ -79,7 +79,7 @@ public abstract class PurchaseItem implements Serializable {
     }
     
     public float getEuroAmount() {
-        return (float)(amount.floatValue()) / 100;
+        return amount.floatValue() / 100;
     }
 
     /**
@@ -102,6 +102,7 @@ public abstract class PurchaseItem implements Serializable {
         this.supportedBroker = supportedBroker;
     }
 
+    @Override
     public String toString() {
         return getFriendlyLabel() + " / label : " + label + " / amount : " + amount;
     }

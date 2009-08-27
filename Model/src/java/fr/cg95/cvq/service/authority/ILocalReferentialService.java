@@ -10,7 +10,9 @@ public interface ILocalReferentialService {
 
     /**
      * Get a list of all known local referential data.
+     * @deprecated only used in unit tests
      */
+    @Deprecated
     Set<LocalReferentialType> getAllLocalReferentialData()
         throws CvqException;
 
@@ -19,7 +21,9 @@ public interface ILocalReferentialService {
      * corresponding element in the request's XML schema).
      *
      * @return a map of (dataName, {@link Map}(lang, value))
+     * @deprecated only used in unit tests
      */
+    @Deprecated
     Map<String, Map<String, String>> getAllLocalReferentialDataNames()
         throws CvqException;
 

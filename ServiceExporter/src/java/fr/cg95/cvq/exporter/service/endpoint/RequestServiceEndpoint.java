@@ -3,6 +3,7 @@ package fr.cg95.cvq.exporter.service.endpoint;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.springframework.oxm.Marshaller;
@@ -20,7 +21,7 @@ import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.util.helpers.SetHelper;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.quering.BaseOperator;
 import fr.cg95.cvq.util.quering.criterias.CrossJoinCriteria;
 import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
@@ -97,10 +98,21 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
             // ... except if we are invoked with an explicit request id !
             
             if (typedRequest.getId() == 0) {
-                Set<String> statuses = new HashSet<String>();
-                statuses.add(TraceStatusEnum.ACKNOWLEDGED.toString());
-                ids = SetHelper.MakeRelativeComplement(
-                        externalService.getTraceKeysByStatus(ids,statuses), ids);
+                Set<Critere> criteriaSet = new HashSet<Critere>(2);
+                Critere statusCritere =
+                    new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
+                        TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS);
+                for (Iterator<Long> it = ids.iterator(); it.hasNext();) {
+                    Long id = it.next();
+                    criteriaSet.clear();
+                    criteriaSet.add(statusCritere);
+                    criteriaSet.add(
+                        new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+                            String.valueOf(id), Critere.EQUALS));
+                    if (!externalService.getTraces(criteriaSet, null, null).isEmpty()) {
+                        it.remove();
+                    }
+                }
             }
             Set<RequestType> resultArray = new HashSet<RequestType>();
             for (Long id : ids) {

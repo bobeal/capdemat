@@ -41,7 +41,6 @@ import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsRequestDocument;
 import fr.capwebct.modules.payment.schema.inv.InvoiceDetailsRequestDocument.InvoiceDetailsRequest;
 import fr.capwebct.modules.payment.schema.sre.SendRequestRequestDocument;
 import fr.capwebct.modules.payment.schema.sre.SendRequestRequestDocument.SendRequestRequest;
-
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
@@ -55,7 +54,7 @@ import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
-import fr.cg95.cvq.payment.impl.PaymentService;
+import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.xml.common.RequestType;
 
@@ -114,7 +113,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
 
                 resultEaiList.add(eai);
             }
-            resultMap.put(PaymentService.EXTERNAL_DEPOSIT_ACCOUNTS, resultEaiList);
+            resultMap.put(IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS, resultEaiList);
         }
 
         if (family.getInvoices() != null) {
@@ -144,7 +143,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
 
                 resultEaiList.add(eii);
             }
-            resultMap.put(PaymentService.EXTERNAL_INVOICES, resultEaiList);
+            resultMap.put(IPaymentService.EXTERNAL_INVOICES, resultEaiList);
         }
 
         if (family.getContracts() != null) {
@@ -176,7 +175,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
 
                         resultEaiList.add(etci);
                     }
-                    resultMap.put(PaymentService.EXTERNAL_TICKETING_ACCOUNTS, resultEaiList);
+                    resultMap.put(IPaymentService.EXTERNAL_TICKETING_ACCOUNTS, resultEaiList);
                 }
             }
         }

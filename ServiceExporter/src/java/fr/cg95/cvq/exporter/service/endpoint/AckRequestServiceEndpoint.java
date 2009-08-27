@@ -9,7 +9,6 @@ import fr.capwebct.capdemat.AckRequestsRequestDocument.AckRequestsRequest;
 import fr.capwebct.capdemat.AckRequestsResponseDocument.AckRequestsResponse;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalService;
 
 /**
@@ -48,7 +47,7 @@ public class AckRequestServiceEndpoint extends SecuredServiceEndpoint {
                 externalService.addTrace(trace);
                 response.setAccomplished(true);
             }
-        } catch (CvqException e) {
+        } catch (RuntimeException e) {
             response.setAccomplished(false);
         }
         

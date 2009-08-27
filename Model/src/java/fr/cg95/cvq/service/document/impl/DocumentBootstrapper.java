@@ -4,7 +4,6 @@ import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.document.DocumentTypeValidity;
 import fr.cg95.cvq.business.document.DocumentUsageType;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
-import fr.cg95.cvq.exception.CvqException;
 
 /**
  * Simple bootstrapper class for document types : create a set of commonly used
@@ -18,8 +17,7 @@ public class DocumentBootstrapper {
     
     private void checkDocumentType(final String name, final Integer type,
             final DocumentUsageType documentUsageType, final Integer duration,
-            final DocumentTypeValidity documentTypeValidity) 
-        throws CvqException {
+            final DocumentTypeValidity documentTypeValidity) {
         
         if (documentTypeDAO.findByType(type) != null) {
             // document type already exists, nothing to do
@@ -35,8 +33,7 @@ public class DocumentBootstrapper {
         documentTypeDAO.create(documentType);
     }
     
-    public void bootstrapForCurrentLocalAuthority()
-        throws CvqException {
+    public void bootstrapForCurrentLocalAuthority() {
         
         checkDocumentType("Old CNI", 1, DocumentUsageType.REUSABLE, 10, 
                 DocumentTypeValidity.YEAR);

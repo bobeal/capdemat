@@ -17,6 +17,7 @@ public final class SimpleTemplateElement extends Element {
         super(element);
     }
 
+    @Override
     public String getDisplayType() {
         return "simple_template";
     }

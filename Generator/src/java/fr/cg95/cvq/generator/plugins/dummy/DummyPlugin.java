@@ -1,8 +1,6 @@
 package fr.cg95.cvq.generator.plugins.dummy;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
@@ -11,7 +9,6 @@ import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
-import fr.cg95.cvq.generator.common.RequestCommon;
 
 /**
  * A dummy plugin that just prints out data received from the code
@@ -97,14 +94,11 @@ public class DummyPlugin implements IPluginGenerator {
     public void onUserInformation(UserDocumentation userDocumentation) {
         logger.debug(getIndent() + "onUserInformation() " + userDocumentation.getSourceUri() + " / " + userDocumentation.getLang());
         if (userDocumentation.getXmlTranslationNodes() != null) {
-            HashMap xmlTransNodes = userDocumentation.getXmlTranslationNodes();
-            Set xmlKeySet = xmlTransNodes.keySet();
-            Iterator xmlKeySetIt = xmlKeySet.iterator();
-            while (xmlKeySetIt.hasNext()) {
-                String key = (String) xmlKeySetIt.next();
-                String value = (String) xmlTransNodes.get(key);
-                logger.debug(getIndent() + "onUserInformation() Translation from " + key + " is " + value);
-            }
+            for (Map.Entry<String, String> translation :
+                userDocumentation.getXmlTranslationNodes().entrySet())
+                logger.debug(getIndent()
+                    + "onUserInformation() Translation from "
+                    + translation.getKey() + " is " + translation.getValue());
         } else if (userDocumentation.getText() != null) {
                 logger.debug(getIndent() + "onUserInformation() Text : " + userDocumentation.getText());
         }

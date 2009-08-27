@@ -36,7 +36,7 @@ public final class WynidService implements IPaymentProviderService {
             + "_" + System.currentTimeMillis();
         payment.setCvqReference(reference);
         
-        String terminal = (String) payment.getPaymentSpecificData().get("terminal");
+        String terminal = payment.getPaymentSpecificData().get("terminal");
 
         Properties props =
             (Properties) paymentServiceBean.getProperty(WYNID_CAISSES);

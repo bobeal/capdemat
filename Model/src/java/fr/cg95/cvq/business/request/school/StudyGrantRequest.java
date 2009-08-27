@@ -40,6 +40,7 @@ public class StudyGrantRequest extends Request implements Serializable {
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         StudyGrantRequestDocument object = (StudyGrantRequestDocument) this.modelToXml();
@@ -51,6 +52,7 @@ public class StudyGrantRequest extends Request implements Serializable {
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

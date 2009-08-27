@@ -122,9 +122,8 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
     /* Bypass service business rules (like "request.season.registration_started")
      * Add month's offset to registration and effect dates
      */
-    private void daoUpdateSeason(String seasonUuid, int registrationStartOffset, 
-            int registrationEndOffset, int effectStartOffset, int effectEndOffset) 
-        throws CvqException {
+    private void daoUpdateSeason(String seasonUuid, int registrationStartOffset,
+        int registrationEndOffset, int effectStartOffset, int effectEndOffset) {
 
         GenericDAO genericDAO = super.<GenericDAO>getApplicationBean("genericDAO");
 

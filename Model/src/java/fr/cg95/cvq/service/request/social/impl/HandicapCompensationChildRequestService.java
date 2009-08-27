@@ -2,9 +2,6 @@ package fr.cg95.cvq.service.request.social.impl;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
@@ -15,7 +12,6 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.condition.DateChecker;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
-import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.social.IHandicapCompensationChildRequestService;
 import fr.cg95.cvq.util.DateUtils;
@@ -50,6 +46,7 @@ public class HandicapCompensationChildRequestService extends RequestService
         return new HandicapCompensationChildRequest();
     }
     
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("referentTitle", new EqualityChecker("Madam"));

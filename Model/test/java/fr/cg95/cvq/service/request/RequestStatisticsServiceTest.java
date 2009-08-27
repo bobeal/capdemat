@@ -17,6 +17,7 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class RequestStatisticsServiceTest extends ServiceTestCase {
 
+    @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
         
@@ -26,6 +27,7 @@ public class RequestStatisticsServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
     }
     
+    @Override
     public void onTearDown() throws Exception {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);

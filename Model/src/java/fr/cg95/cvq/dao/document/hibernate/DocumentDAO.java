@@ -1,6 +1,8 @@
 package fr.cg95.cvq.dao.document.hibernate;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -22,12 +24,9 @@ import fr.cg95.cvq.util.Critere;
  */
 public class DocumentDAO extends GenericDAO implements IDocumentDAO {
 
-    public DocumentDAO() {
-        super();
-    }
-
-    public List<Document> listProvidedDocuments(final Long docTypeId, final Long homeFolderId,
-            final Long individualId) {
+    @SuppressWarnings("unchecked")
+    public List<Document> listProvidedDocuments(final Long docTypeId,
+        final Long homeFolderId, final Long individualId) {
 
         Criteria crit = HibernateUtil.getSession().createCriteria(Document.class);
         if (docTypeId != null)
@@ -38,85 +37,94 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
         if (individualId != null)
             crit.add(Critere.compose("individualId", individualId, Critere.EQUALS));
 
-        return crit.list();
+        return (List<Document>)crit.list();
     }
 
+    @SuppressWarnings("unchecked")
     public List<Document> listByHomeFolder (final Long homeFolderId, int max) {
         Criteria crit = HibernateUtil.getSession().createCriteria(Document.class);
         crit.add(Critere.compose("homeFolderId", homeFolderId, Critere.EQUALS));
         crit.addOrder(Order.desc("creationDate"));
-        
+
         if (max != -1)
             crit.setMaxResults(max);
 
-        return crit.list();
+        return (List<Document>)crit.list();
     }
 
+    @SuppressWarnings("unchecked")
     public List<Document> listByIndividual(final Long individualId) {
         Criteria crit = HibernateUtil.getSession().createCriteria(Document.class);
         crit.add(Critere.compose("individualId", individualId, Critere.EQUALS));
         crit.addOrder(Order.asc("id"));
-        
-        return crit.list();
+        return (List<Document>)crit.list();
     }
 
+    @SuppressWarnings("unchecked")
     public List<Document> listByState(final DocumentState documentState) {
         Criteria crit = HibernateUtil.getSession().createCriteria(Document.class);
         crit.add(Critere.compose("state", documentState, Critere.EQUALS));
         crit.addOrder(Order.asc("id"));
-
-        return crit.list();
+        return (List<Document>)crit.list();
     }
-    
+
     public Integer searchCount(Hashtable<String,Object> searchParams) {
         Criteria criteria = this.buildSearchCriteria(searchParams);
         criteria.setProjection(Projections.rowCount());
         return ((Integer)criteria.list().get(0)).intValue();
     }
-    
-    public List<Document> search(Hashtable<String,Object> searchParams,int max,int offset) {
+
+    @SuppressWarnings("unchecked")
+    public List<Document> search(Hashtable<String,Object> searchParams,
+        int max,int offset) {
         Criteria criteria = this.buildSearchCriteria(searchParams);
         criteria.addOrder(Order.desc("creationDate"));
 
         if(max > -1) criteria.setMaxResults(max);
         if(offset > -1) criteria.setFirstResult(offset);
-        
-        return criteria.list();
+
+        return (List<Document>)criteria.list();
     }
-    
-    protected Criteria buildSearchCriteria(Hashtable<String,Object> params) {
-        Criteria criteria = HibernateUtil.getSession().createCriteria(Document.class);
+
+    private Criteria buildSearchCriteria(Hashtable<String,Object> params) {
+        Criteria criteria = HibernateUtil.getSession()
+            .createCriteria(Document.class);
         Hashtable<String,Object> specials = new Hashtable<String,Object>();
-        
+
         for(String key : params.keySet()) {
             if(key == "individualId" || key == "homeFolderId")
-                specials.put(key,params.get(key));
+                specials.put(key, params.get(key));
             else
-                criteria.add(this.processParam(key,params.get(key)));
+                criteria.add(this.processParam(key, params.get(key)));
         }
-        
-        if(specials.containsKey("individualId") && specials.containsKey("homeFolderId")) {
+
+        if (specials.containsKey("individualId")
+            && specials.containsKey("homeFolderId")) {
             Criterion crt;
-            if(specials.get("individualId") instanceof Collection)
-                crt = this.processParam("individualId",(Collection)specials.get("individualId"));
+            if (specials.get("individualId") instanceof Collection<?>)
+                crt = this.processParam("individualId",
+                    (Collection<?>)specials.get("individualId"));
             else
-                crt = this.processParam("individualId",specials.get("individualId"));
-            
-            criteria.add(Restrictions.or(crt,this.processParam("homeFolderId",specials.get("homeFolderId"))));
+                crt = this.processParam("individualId",
+                    specials.get("individualId"));
+
+            criteria.add(Restrictions.or(crt, 
+                this.processParam("homeFolderId",specials.get("homeFolderId"))));
         } else if (specials.containsKey("individualId")) {
-            criteria.add(this.processParam("individualId",specials.get("individualId")));
+            criteria.add(this.processParam("individualId",
+                specials.get("individualId")));
         }  else if (specials.containsKey("homeFolderId")) {
-            criteria.add(this.processParam("homeFolderId",specials.get("homeFolderId")));
+            criteria.add(this.processParam("homeFolderId",
+                specials.get("homeFolderId")));
         }
-        
         return criteria;
     }
-    
-    protected <T extends Collection> Criterion processParam(String key,T param) {
-        return Restrictions.in(key,param);
+
+    private <T extends Collection<?>> Criterion processParam(String key, T param) {
+        return Restrictions.in(key, param);
     }
-    
-    protected <T> Criterion processParam(String key, T param) {
-        return Restrictions.eq(key,param);
+
+    private <T> Criterion processParam(String key, T param) {
+        return Restrictions.eq(key, param);
     }
 }

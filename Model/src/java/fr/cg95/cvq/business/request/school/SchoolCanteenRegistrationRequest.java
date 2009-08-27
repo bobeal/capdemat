@@ -39,6 +39,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         SchoolCanteenRegistrationRequestDocument object = (SchoolCanteenRegistrationRequestDocument) this.modelToXml();
@@ -50,6 +51,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

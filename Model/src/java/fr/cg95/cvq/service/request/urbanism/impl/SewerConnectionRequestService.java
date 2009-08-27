@@ -25,6 +25,7 @@ public final class SewerConnectionRequestService
         return new SewerConnectionRequest();
     }
     
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("requesterQuality", new EqualityChecker("Tenant"));

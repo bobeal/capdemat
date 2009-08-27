@@ -177,6 +177,7 @@ public class LocalReferentialData implements Serializable {
         this.parent = parent;
     }
     
+    @Override
     public boolean equals(Object object) {
         if (object == null)
             return false;
@@ -203,6 +204,7 @@ public class LocalReferentialData implements Serializable {
         }
     }
     
+    @Override
     public int hashCode() {
         if (id != null)
             return 42 * id.hashCode();

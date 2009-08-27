@@ -256,6 +256,7 @@ public class Document implements Serializable {
         this.actions = actions;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())

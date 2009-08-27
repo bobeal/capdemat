@@ -6,8 +6,10 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.dao.authority.IRecreationCenterDAO;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.security.annotation.Context;
+import fr.cg95.cvq.security.annotation.ContextPrivilege;
+import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
 
 /**
@@ -17,35 +19,30 @@ import fr.cg95.cvq.service.authority.IRecreationCenterService;
  */
 public final class RecreationCenterService implements IRecreationCenterService {
 
-    static Logger logger = Logger.getLogger(RecreationCenterService.class);
+    private static Logger logger = Logger.getLogger(RecreationCenterService.class);
 
     private IRecreationCenterDAO recreationCenterDAO;
 
-    public RecreationCenterService() {
-        super();
-    }
-
+    @Override
     public RecreationCenter getById(final Long id)
         throws CvqObjectNotFoundException {
-        return (RecreationCenter)recreationCenterDAO.findById(RecreationCenter.class, id);
+        return (RecreationCenter)recreationCenterDAO.findById(
+            RecreationCenter.class, id);
     }
 
-    public List<RecreationCenter> getAll()
-        throws CvqException {
-
+    @Override
+    public List<RecreationCenter> getAll() {
         return recreationCenterDAO.listAll();
     }
 
-    public Long create(final RecreationCenter recreationCenter)
-        throws CvqException {
-
+    @Override
+    @Context(type=ContextType.ADMIN, privilege=ContextPrivilege.WRITE)
+    public Long create(final RecreationCenter recreationCenter) {
         Long recreationCenterId = null;
-
         if (recreationCenter != null)
-                recreationCenterId = recreationCenterDAO.create(recreationCenter);
-
-        logger.debug("Created recreation center object with id : " + recreationCenterId);
-
+            recreationCenterId = recreationCenterDAO.create(recreationCenter);
+        logger.debug("Created recreation center object with id : "
+            + recreationCenterId);
         return recreationCenterId;
     }
 
@@ -53,4 +50,3 @@ public final class RecreationCenterService implements IRecreationCenterService {
         this.recreationCenterDAO = recreationCenterDAO;
     }
 }
-

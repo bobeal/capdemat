@@ -16,7 +16,7 @@ public class ElementI18n {
 
     private String i18nPrefixCode;
     private Map<String,UserDocumentation> i18nUserDoc = new HashMap<String, UserDocumentation>();
-    private List<ElementI18n> elements =  elements = new ArrayList<ElementI18n>();
+    private List<ElementI18n> elements = new ArrayList<ElementI18n>();
     
     public ElementI18n(String name, String requestAcronym) {
         this.i18nPrefixCode = requestAcronym + ".property." + StringUtils.uncapitalize(name);

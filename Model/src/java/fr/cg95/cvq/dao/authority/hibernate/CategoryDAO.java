@@ -16,20 +16,17 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil;
  */
 public class CategoryDAO extends GenericDAO implements ICategoryDAO {
 
-    public List listAll() {
-
-        StringBuffer sb = new StringBuffer();
-        sb.append("from Category as category")
-            .append(" order by category.name asc ");
-
-        return HibernateUtil.getSession().createQuery(sb.toString()).list();
+    @SuppressWarnings("unchecked")
+    public List<Category> listAll() {
+        return (List<Category>)HibernateUtil.getSession()
+            .createQuery("from Category as category order by category.name asc")
+            .list();
     }
 
     public Category findByName(final String name) {
         Query query = HibernateUtil.getSession()
             .createQuery("from Category category where category.name = :name ")
             .setString("name", name);
-    
         return (Category) query.uniqueResult(); 
     }
 }

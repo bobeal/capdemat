@@ -35,6 +35,7 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         MusicSchoolRegistrationRequestDocument object = (MusicSchoolRegistrationRequestDocument) this.modelToXml();
@@ -46,6 +47,7 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

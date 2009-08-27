@@ -71,6 +71,7 @@ public abstract class PersistentStringEnum extends PersistentEnum {
     /**
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
+    @Override
     public int compareTo(Object other) {
         if (other == this) {
             return 0;
@@ -85,6 +86,7 @@ public abstract class PersistentStringEnum extends PersistentEnum {
     /**
      * @see PersistentEnum#getNullableType()
      */
+    @Override
     protected NullableType getNullableType() {
         return Hibernate.STRING;
     }

@@ -42,6 +42,7 @@ public abstract class MyAbstractSingleSpringContextTests extends AbstractSpringC
      * Override <code>onSetUp</code> for custom behavior.
      * @see #onSetUp()
      */
+    @Override
     protected final void setUp() throws Exception {
         synchronized (syncObject) {
             this.applicationContext = getContext(contextKey());
@@ -82,6 +83,7 @@ public abstract class MyAbstractSingleSpringContextTests extends AbstractSpringC
      * Override <code>onTearDown</code> for custom behavior.
      * @see #onTearDown()
      */
+    @Override
     protected final void tearDown() throws Exception {
         onTearDown();
     }
@@ -115,6 +117,7 @@ public abstract class MyAbstractSingleSpringContextTests extends AbstractSpringC
      * that <code>contextKey()</code> returns.
      * @see #getConfigLocations()
      */
+    @Override
     protected ConfigurableApplicationContext loadContext(Object key) throws Exception {
         return loadContextLocations((String[]) key);
     }

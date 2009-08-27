@@ -12,6 +12,7 @@ import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.util.Critere;
 
 
@@ -35,7 +36,7 @@ public interface IPaymentService {
      * 
      * @return a map of (broker, friendly label)
      */
-    Map<String, String> getAllBrokers() throws CvqException;
+    Map<String, String> getAllBrokers();
     
     /**
      * Create a payment container object "based" on the given purchase item.
@@ -85,7 +86,7 @@ public interface IPaymentService {
     /**
      * Get all payments issued by the given home folder.
      */
-    List<Payment> getByHomeFolder(final HomeFolder homeFolder);
+    List<Payment> getByHomeFolder(@IsHomeFolder final HomeFolder homeFolder);
     
     /**
      * Get a constrained list of payments according to a set of criteria and requirements.
@@ -104,21 +105,21 @@ public interface IPaymentService {
     /**
      * Get a count of payments matching the given criteria.
      */
-    Long getCount(Set<Critere> criteriaSet) throws CvqException; 
+    Long getCount(Set<Critere> criteriaSet);
     
     /**
      * Get a payment by id.
      */
-    Payment getById(final Long id) throws CvqException, CvqObjectNotFoundException;
+    Payment getById(final Long id) throws CvqObjectNotFoundException;
     
     /**
      * Delete a payment.
      */
-    void delete(final Long id) throws CvqException, CvqObjectNotFoundException;
+    void delete(final Long id) throws CvqObjectNotFoundException;
 
     /**
      * Delete a payment.
      */
-    void delete(final Payment payment) throws CvqException;
+    void delete(final Payment payment);
     
 }

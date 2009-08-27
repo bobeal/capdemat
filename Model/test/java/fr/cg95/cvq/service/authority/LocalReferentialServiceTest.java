@@ -57,7 +57,7 @@ public class LocalReferentialServiceTest extends ServiceTestCase {
         //    -> add another one
         LocalReferentialEntry backupLre = null;
         if (lrt.getEntries() != null) {
-            backupLre = (LocalReferentialEntry) lrt.getEntries().iterator().next();
+            backupLre = lrt.getEntries().iterator().next();
             lrt.getEntries().remove(backupLre);
         }
         LocalReferentialEntry lre = new LocalReferentialEntry();

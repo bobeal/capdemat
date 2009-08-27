@@ -36,6 +36,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
     }
 
 
+    @Override
     public final String modelToXmlString() {
 
         AlignmentNumberingConnectionRequestDocument object = (AlignmentNumberingConnectionRequestDocument) this.modelToXml();
@@ -47,6 +48,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         return object.xmlText(opts);
     }
 
+    @Override
     public final XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

@@ -135,7 +135,7 @@ public class XslFoPlugin implements IPluginGenerator {
             } else if (depth == 1) {
                 while ( ! currentElementBlockLines.isEmpty()) {
                     element = currentElementBlockLines.peek().getElement();
-                    String blockId = (String) currentElementBlockLines.peek().getBlockId();
+                    String blockId = currentElementBlockLines.peek().getBlockId();
                     xslFoObject.addLineToBlock(new Integer(blockId), element);
                     currentElementBlockLines.pop();
                 }

@@ -9,6 +9,7 @@ import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.service.request.annotation.IsCategory;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -21,23 +22,19 @@ public interface IAgentService {
     Long create(Agent agent)
         throws CvqException;
     
-    void modify(Agent agent)
-        throws CvqException;
+    void modify(Agent agent);
     
-    void delete(final String agentLogin)
-        throws CvqException;
+    void delete(final String agentLogin);
     
-    List<Agent> getAll()
-        throws CvqException;
+    List<Agent> getAll();
     
-    List<Agent> get(final Set<Critere> criteriaSet)
-        throws CvqException;
+    List<Agent> get(final Set<Critere> criteriaSet);
 
     /**
      * Get an agent by id.
      */
     Agent getById(final Long id)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqObjectNotFoundException;
 
     /**
      * Get an agent by login.
@@ -47,18 +44,16 @@ public interface IAgentService {
      * method to get a "real" agent object if needed.
      */
     Agent getByLogin(final String login)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqObjectNotFoundException;
 
     /**
      * Return whether an agent with the given id exists.
      */
-    boolean exists(final Long id)
-        throws CvqException;
+    boolean exists(final Long id);
 
     void modifyProfiles(Agent agent, final List<String> newGroups, 
         final List<String> administratorGroups,
-        final List<String> agentGroups)
-        throws CvqException;
+        final List<String> agentGroups);
     
     void updateUserProfiles(String username, List<String> groups, 
         Map<String, String> informations) throws CvqException;
@@ -66,7 +61,7 @@ public interface IAgentService {
     /**
      * FIXME move to Category service
      */
-    void addCategoryRole(final Long agentId, final Long categoryId,
+    void addCategoryRole(final Long agentId, @IsCategory final Long categoryId,
         final CategoryProfile categoryProfile) throws CvqException;
     
     /**
@@ -74,13 +69,17 @@ public interface IAgentService {
      *
      * FIXME move to Category service
      */
-    public void modifyCategoryRole(final Long agentId, final  Long categoryId, 
-        final CategoryProfile categoryProfile) throws CvqException;
+    public void modifyCategoryRole(final Long agentId,
+        @IsCategory final Long categoryId,
+        final CategoryProfile categoryProfile)
+        throws CvqException;
     
     /**
      * FIXME move to Category service
      */
-    public void removeCategoryRole(final Long agentId, final  Long categoryId) throws CvqException;
+    public void removeCategoryRole(final Long agentId,
+        @IsCategory final Long categoryId)
+        throws CvqException;
     
     /**
      * Retrieve current agent's preferences by key.
@@ -94,6 +93,5 @@ public interface IAgentService {
      * 
      * @param preference cutoff to replace
      */
-    void modifyPreference(String key, Hashtable<String,String> preference) 
-        throws CvqException;
+    void modifyPreference(String key, Hashtable<String,String> preference);
 }

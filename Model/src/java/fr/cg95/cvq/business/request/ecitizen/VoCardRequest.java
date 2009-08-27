@@ -29,6 +29,7 @@ public class VoCardRequest extends Request implements Serializable {
     }
 
 
+    @Override
     public String modelToXmlString() {
 
         VoCardRequestDocument object = (VoCardRequestDocument) this.modelToXml();
@@ -40,6 +41,7 @@ public class VoCardRequest extends Request implements Serializable {
         return object.xmlText(opts);
     }
 
+    @Override
     public XmlObject modelToXml() {
 
         Calendar calendar = Calendar.getInstance();

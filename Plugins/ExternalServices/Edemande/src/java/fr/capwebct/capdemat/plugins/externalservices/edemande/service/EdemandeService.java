@@ -3,19 +3,20 @@ package fr.capwebct.capdemat.plugins.externalservices.edemande.service;
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -60,12 +61,12 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.IExternalService;
-import fr.cg95.cvq.permission.CvqPermissionException;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.AddressType;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument;
@@ -215,12 +216,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         est.setMessage(message);
         est.setName(label);
         est.setStatus(status);
-        try {
-            externalService.create(est);
-        } catch (CvqPermissionException e) {
-            // should never happen
-            e.printStackTrace();
-        }
+        externalService.addTrace(est);
         if (TraceStatusEnum.ERROR.equals(status)) {
             try {
                 requestWorkflowService.updateRequestState(requestId, RequestState.UNCOMPLETE, message);
@@ -626,9 +622,26 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
      * or it has an error trace and no Edemande ID (it was sent and received, but rejected and must be sent as new)
      */
     private boolean mustSendNewRequest(StudyGrantRequest sgr) {
-        return !externalService.hasTraceWithStatus(sgr.getId(), null, label, TraceStatusEnum.SENT)
-            || (externalService.hasTraceWithStatus(sgr.getId(), null, label, TraceStatusEnum.ERROR)
-                && (sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()));
+        Set<Critere> criteriaSet = new HashSet<Critere>(3);
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+            String.valueOf(sgr.getId()), Critere.EQUALS));
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+            label, Critere.EQUALS));
+        criteriaSet.add(new Critere(
+            ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.SENT,
+            Critere.EQUALS));
+        if (externalService.getTraces(criteriaSet, null, null).isEmpty())
+            return true;
+        criteriaSet.clear();
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+            String.valueOf(sgr.getId()), Critere.EQUALS));
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+            label, Critere.EQUALS));
+        criteriaSet.add(new Critere(
+            ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.ERROR,
+            Critere.EQUALS));
+        return (!externalService.getTraces(criteriaSet, null, null).isEmpty()
+            && (sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()));
     }
 
     /**
@@ -638,18 +651,25 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
      * and an ERROR trace not followed by a SENT trace
      */
     private boolean mustResendRequest(StudyGrantRequest sgr) {
-        if (!externalService.hasTraceWithStatus(sgr.getId(), null, label, TraceStatusEnum.ERROR)
+        Set<Critere> criteriaSet = new HashSet<Critere>(3);
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+            String.valueOf(sgr.getId()), Critere.EQUALS));
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+            label, Critere.EQUALS));
+        criteriaSet.add(new Critere(
+            ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.ERROR,
+            Critere.EQUALS));
+        if (externalService.getTraces(criteriaSet, null, null).isEmpty()
             || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()) {
             return false;
         }
-        List<ExternalServiceTrace> traces = new ArrayList<ExternalServiceTrace>(
-            externalService.getTraces(sgr.getId(), label));
-        Collections.sort(traces, new Comparator<ExternalServiceTrace>() {
-            public int compare(ExternalServiceTrace o1, ExternalServiceTrace o2) {
-                return o2.getDate().compareTo(o1.getDate());
-            }
-        });
-        for (ExternalServiceTrace est : traces) {
+        Set<Critere> criteres = new HashSet<Critere>();
+        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+            String.valueOf(sgr.getId()), Critere.EQUALS));
+        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME, label,
+            Critere.EQUALS));
+        for (ExternalServiceTrace est : externalService.getTraces(criteres,
+            ExternalServiceTrace.SEARCH_BY_DATE, "desc")) {
             if (TraceStatusEnum.SENT.equals(est.getStatus())) {
                 return false;
             } else if (TraceStatusEnum.ERROR.equals(est.getStatus())) {
@@ -670,18 +690,28 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
      * or account holder when this individual has no psCodeTiers yet.
      */
     private boolean mustCreateIndividual(StudyGrantRequest sgr, String subkey) {
-        if (!externalService.hasTraceWithStatus(sgr.getId(), subkey, label,
-            TraceStatusEnum.IN_PROGRESS)) {
+        Set<Critere> criteriaSet = new HashSet<Critere>(4);
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+            String.valueOf(sgr.getId()), Critere.EQUALS));
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_SUBKEY,
+            subkey, Critere.EQUALS));
+        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
+            label, Critere.EQUALS));
+        criteriaSet.add(new Critere(
+            ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.IN_PROGRESS,
+            Critere.EQUALS));
+        if (externalService.getTraces(criteriaSet, null, null).isEmpty()) {
             return true;
         }
-        List<ExternalServiceTrace> traces = new ArrayList<ExternalServiceTrace>(
-            externalService.getTraces(sgr.getId(), subkey, label));
-        Collections.sort(traces, new Comparator<ExternalServiceTrace>() {
-            public int compare(ExternalServiceTrace o1, ExternalServiceTrace o2) {
-                return o2.getDate().compareTo(o1.getDate());
-            }
-        });
-        for (ExternalServiceTrace est : traces) {
+        Set<Critere> criteres = new HashSet<Critere>();
+        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+            String.valueOf(sgr.getId()), Critere.EQUALS));
+        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_SUBKEY, subkey,
+            Critere.EQUALS));
+        criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME, label,
+            Critere.EQUALS));
+        for (ExternalServiceTrace est : externalService.getTraces(criteres,
+            ExternalServiceTrace.SEARCH_BY_DATE, "desc")) {
             if (TraceStatusEnum.IN_PROGRESS.equals(est.getStatus())) {
                 return false;
             } else if (TraceStatusEnum.ERROR.equals(est.getStatus())) {

@@ -6,12 +6,16 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
 import org.hibernate.type.Type;
 
+import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.quering.CriteriasDescriptor;
 import fr.cg95.cvq.util.quering.IParameter;
 import fr.cg95.cvq.util.quering.ISelectArgument;
@@ -23,6 +27,21 @@ import fr.cg95.cvq.util.quering.sort.ISortCriteria;
  *
  */
 public final class ExternalServiceTraceDAO extends GenericDAO implements IExternalServiceTraceDAO {
+
+    @SuppressWarnings("unchecked")
+    public List<ExternalServiceTrace> get(Set<Critere> criteriaSet, String sort,
+        String dir) {
+        Criteria criteria = HibernateUtil.getSession().createCriteria(ExternalServiceTrace.class);
+        for (Critere critere : criteriaSet) {
+            criteria.add(critere.compose());
+        }
+        if (sort == null || sort.trim().isEmpty())
+            sort = ExternalServiceTrace.SEARCH_BY_DATE;
+        if ("desc".equals(dir)) criteria.addOrder(Order.desc(sort));
+        else criteria.addOrder(Order.asc(sort));
+        return (List<ExternalServiceTrace>)criteria.list();
+    }
+
     public <T> int delete(Set<ISearchCriteria> searchCriterias, Class<T> clazz) {
         StringBuffer sb = new StringBuffer();
         sb.append(String.format("delete from %2$s as %1$s ",
@@ -59,7 +78,6 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
                 this.prepareExplicitJoins(searchCriterias, clazz),
                 clazz));
         
-        if(searchCriterias == null) searchCriterias = new HashSet<ISearchCriteria>();
         Query query = this.prepareStatement(searchCriterias,sorts,max,offset, sb, clazz);
         query.setFirstResult(0);
         result = new LinkedHashSet<R>(query.list());

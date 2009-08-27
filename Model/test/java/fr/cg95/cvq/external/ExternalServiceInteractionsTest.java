@@ -2,6 +2,7 @@ package fr.cg95.cvq.external;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,9 +26,10 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.testtool.HasInnerProperty;
 import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
@@ -37,11 +39,13 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
     
     private final String EXTERNAL_SERVICE_LABEL = "Dummy External Service";
     
+    @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
         externalService = (IExternalService) getBean("externalService");
     }
     
+    @Override
     public void onTearDown() throws Exception {
         
         externalService.deleteHomeFoldersMappings(EXTERNAL_SERVICE_LABEL);
@@ -55,7 +59,7 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         ExternalServiceIdentifierMapping esimFromDb = 
             externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, (Long) null);
         assertNull(esimFromDb);        
-        assertEquals(0, externalService.getTraces((String) null, null, null, null, null).size());
+        assertEquals(0, externalService.getTraces(Collections.<Critere>emptySet(), null, null).size());
         
         super.onTearDown();
     }
@@ -72,7 +76,7 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         // initialize the mock external provider service
         final ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IVoCardRequestService.VO_CARD_REGISTRATION_REQUEST);
+        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         esb.setSupportAccountsByHomeFolder(true);
         Mockery context = new Mockery();
@@ -124,6 +128,7 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         externalService.getExternalAccounts(homeFolder.getId(), 
                 new HashSet<String>(requestTypes), IPaymentService.EXTERNAL_INVOICES);
         externalService.loadInvoiceDetails(eii);
+        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         externalService.creditHomeFolderAccounts(payment);
         
         context.assertIsSatisfied();

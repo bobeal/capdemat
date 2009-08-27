@@ -15,7 +15,7 @@ public class RequestTypeAdaptorService {
     IRequestServiceRegistry requestServiceRegistry
     ILocalReferentialService localReferentialService
 
-    public Map getDisplayGroups(Boolean loggedContext, HomeFolder homeFolder) {
+    public Map getDisplayGroups(HomeFolder homeFolder) {
         def result = [:]
         
         for(DisplayGroup dg : requestTypeService.getAllDisplayGroups()) {
@@ -23,28 +23,13 @@ public class RequestTypeAdaptorService {
                 result[dg.name] = ['label':dg.label,'requests':[]]
             
             for(RequestType rt : dg.requestTypes) {
-
-            	if (!rt.active)
-            		continue
-            		
-                def messages = [], factor = true
-                IRequestService service = requestServiceRegistry.getRequestService(rt.label);
-                
-                factor = eval(factor && (service.supportUnregisteredCreation() || loggedContext),
-                    'requestType.message.onlyRegisteredUsers',messages)
-                factor = eval(factor && (requestTypeService.isRegistrationOpen(rt.id)),
-                    'requestType.message.registrationClosed',messages)
-                
-                if(homeFolder && service.subjectPolicy != IRequestService.SUBJECT_POLICY_NONE) {
-                    factor = eval(factor && (!service.getAuthorizedSubjects(homeFolder.id)?.isEmpty()),
-                        'requestType.message.noAuthorizedSubjects',messages)
-                }
-                
-                result[dg.name].requests.add([
-                                              'label':rt.label,
-                                              'enabled':factor,
-                                              'message':!messages.isEmpty() ? messages.get(0) : null
-                                          ])
+                if (!rt.active) 
+                    continue
+                def i18nError = requestTypeNotAccessibleMessages(rt, homeFolder)
+                result[dg.name].requests.add(['label': rt.label,
+                                              'enabled': i18nError.isEmpty(),
+                                              'message': !i18nError.isEmpty() ? i18nError.get(0) : null
+                                             ])
             }
             
             result[dg.name].requests = result[dg.name].requests.sort{it -> it.label}
@@ -79,8 +64,19 @@ public class RequestTypeAdaptorService {
         return null
     }
 
-    protected Boolean eval(Boolean exp, String message, List coll) {
-        if(!exp) coll.add(message)
-        return exp
+    public List requestTypeNotAccessibleMessages(RequestType requestType, HomeFolder homeFolder) {
+        def i18nError = []
+        IRequestService service = requestServiceRegistry.getRequestService(requestType.label);
+ 
+        if (!service.supportUnregisteredCreation() && homeFolder == null)
+            i18nError.add('requestType.message.onlyRegisteredUsers')
+        if (!requestTypeService.isRegistrationOpen(requestType.id))
+            i18nError.add('requestType.message.registrationClosed')
+        if (homeFolder != null
+            && service.subjectPolicy != IRequestService.SUBJECT_POLICY_NONE
+            && service.getAuthorizedSubjects(homeFolder.id)?.isEmpty())
+                i18nError.add('requestType.message.noAuthorizedSubjects')
+
+        return i18nError
     }
 }

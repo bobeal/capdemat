@@ -12,6 +12,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
@@ -22,6 +23,7 @@ import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class RequestCreationController {
     
+    IRequestTypeService requestTypeService
     IRequestServiceRegistry requestServiceRegistry
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
@@ -99,7 +101,11 @@ class RequestCreationController {
             requester = new Adult()
             homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE)
         }
-
+        
+        def i18accessErrors = 
+          requestTypeAdaptorService.requestTypeNotAccessibleMessages(requestTypeService.getRequestTypeByLabel(params.label), requester.homeFolder)
+        if (!i18accessErrors.isEmpty())
+            throw new CvqException(params.label + " is not accessible", i18accessErrors.get(0))
 
         def individuals
         if (params.label != 'Home Folder Modification') individuals = new HomeFolderDTO()

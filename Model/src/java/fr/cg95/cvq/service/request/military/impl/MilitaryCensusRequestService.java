@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.military.IMilitaryCensusRequestService;
 
@@ -44,5 +45,10 @@ public class MilitaryCensusRequestService extends RequestService
     @Override
     public Request getSkeletonRequest() throws CvqException {
         return new MilitaryCensusRequest();
+    }
+    
+    protected void initFilledConditions() {
+        super.initFilledConditions();
+        filledConditions.put("prefectPupil", new EqualityChecker("true"));
     }
 }

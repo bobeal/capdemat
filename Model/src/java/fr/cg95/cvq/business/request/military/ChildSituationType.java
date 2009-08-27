@@ -45,7 +45,7 @@ public final class ChildSituationType extends PersistentStringEnum {
 
 
     public static ChildSituationType getDefaultChildSituationType() {
-        return UNKNOWN;
+        return null;
     }
 
 

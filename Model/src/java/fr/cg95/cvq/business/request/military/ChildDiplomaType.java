@@ -55,7 +55,7 @@ public final class ChildDiplomaType extends PersistentStringEnum {
 
 
     public static ChildDiplomaType getDefaultChildDiplomaType() {
-        return UNKNOWN;
+        return null;
     }
 
 

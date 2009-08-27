@@ -160,7 +160,7 @@ public class ElementFo {
             this.htmlClass += "validate-regex";
         else if (widget == null)
             return;
-        else if (widget.equals("select"))
+        else if (widget.equals("select") && mandatory == true)
             this.htmlClass += "validate-not-first";
         else if (widget.equals("radio"))
             this.htmlClass += "validate-one-required";

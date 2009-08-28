@@ -106,7 +106,7 @@ class HomeController {
         }
         if (params.requestTypeLabel == null) {
             return ['isLogin': true, 'error': message(code:error),
-                    'groups': requestTypeAdaptorService.getDisplayGroups(false,null)]
+                    'groups': requestTypeAdaptorService.getDisplayGroups(null)]
         } else {
             flash.loginError = message(code:error)
             redirect(uri:'/frontoffice/requestCreation?label=' + params.requestTypeLabel)
@@ -122,12 +122,16 @@ class HomeController {
     
     def loginAgent = {
         if(session.currentUser) {
-            session.currentEcitizen = params.login
-            SecurityContext.setCurrentEcitizen(params.login)
             session.frontContext = ContextType.AGENT
-            
-            redirect(controller:'frontofficeRequestType')
-            return false            
+            if (params.login) {
+                session.currentEcitizen = params.login
+                SecurityContext.setCurrentEcitizen(params.login)
+                redirect(controller:'frontofficeRequestType')
+                return false
+            } else {
+                redirect(controller:"frontofficeRequestCreation", params:[label:params.requestTypeLabel])
+                return false
+            }
         } else {
             redirect(controller:'frontofficeHome')
             return false

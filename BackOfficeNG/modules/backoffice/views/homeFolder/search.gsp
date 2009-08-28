@@ -76,6 +76,15 @@
         </div>
       </div>
       
+      <div class="nobox taskstate">
+        <h3><g:message code="header.subMenus" /></h3>
+        <div class="body">
+          <a href="${createLink(controller: 'frontofficeHome',action:'loginAgent')}/?requestTypeLabel=VO Card" target="_blank">
+            <g:message code="homeFolder.action.createAccount"/>
+          </a>
+        </div>
+      </div>
+
     </div>
   
   </body>

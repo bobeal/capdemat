@@ -46,7 +46,8 @@ public class MilitaryCensusRequestService extends RequestService
     public Request getSkeletonRequest() throws CvqException {
         return new MilitaryCensusRequest();
     }
-    
+
+    @Override
     protected void initFilledConditions() {
         super.initFilledConditions();
         filledConditions.put("prefectPupil", new EqualityChecker("true"));

@@ -37,6 +37,7 @@ public class Critere {
     private String comparatif;
 
     public Critere() {
+        // empty constructor for Hibernate
     }
 
     public Critere(String attribut, Object value, String comparatif) {

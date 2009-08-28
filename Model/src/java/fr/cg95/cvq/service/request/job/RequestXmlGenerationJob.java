@@ -5,6 +5,10 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
@@ -23,11 +27,17 @@ import fr.cg95.cvq.util.DateUtils;
  * @author vba@zenexity.fr
  *
  */
-public class RequestXmlGenerationJob {
+public class RequestXmlGenerationJob implements BeanFactoryAware {
 
     private IRequestService requestService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IExternalService externalService;
+    private BeanFactory beanFactory;
+
+    public void init() {
+        requestService =
+            (IRequestService)beanFactory.getBean("defaultRequestService");
+    }
 
     public void launchJob() {
         localAuthorityRegistry
@@ -79,15 +89,16 @@ public class RequestXmlGenerationJob {
         else return file.exists();
     }
 
-    public void setRequestService(IRequestService requestService) {
-        this.requestService = requestService;
-    }
-    
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }
 
     public void setExternalService(IExternalService externalService) {
         this.externalService = externalService;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
     }
 }

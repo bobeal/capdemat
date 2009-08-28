@@ -65,7 +65,7 @@
       <xs:complexContent>
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
-            <xs:element name="IsAccountAddress" type="xs:boolean">
+            <xs:element name="IsAccountAddress" type="xs:boolean" default="true">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   L'adresse est la même que celle du compte

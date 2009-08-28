@@ -33,6 +33,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
     public AlignmentNumberingConnectionRequest() {
         super();
         requesterQuality = fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType.OWNER;
+        isAccountAddress = Boolean.valueOf(true);
     }
 
 

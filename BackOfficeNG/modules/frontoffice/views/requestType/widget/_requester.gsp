@@ -36,7 +36,7 @@
 
   <label class="required"><g:message code="homeFolder.adult.property.email" /> * <span><g:message code="homeFolder.adult.property.email.help" /></span></label>
   <input type="text" name="_requester.email" value="${requester?.email}"
-    class="required validate-email" title="<g:message code="homeFolder.adult.property.email.validationError" />" ${hasHomeFolder? 'disabled="disabled"' : ''}/>
+    class="required validate-email" title="<g:message code="homeFolder.adult.property.email.validationError" />" ${(hasHomeFolder && requester?.email) ? 'disabled="disabled"' : ''}/>
 
   <label class="required"><g:message code="homeFolder.adult.property.homePhone" /> * <span><g:message code="homeFolder.adult.property.homePhone.help" /></span></label>
   <input type="text" name="_requester.homePhone" value="${requester?.homePhone}"

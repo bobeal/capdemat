@@ -90,12 +90,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     </property>
   </bean>
   
-  <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService" init-method="init">
+  <bean id="externalService" class="fr.cg95.cvq.external.impl.ExternalService"
+    init-method="init">
     <property name="genericDAO" ref="genericDAO" />
     <property name="externalServiceTraceDAO" ref="externalServiceTraceDAO" />
-    <!-- 
-    <property name="homeFolderService" ref="homeFolderService" />
-    -->
+    <property name="externalServiceMappingDAO" ref="externalServiceMappingDAO" />
   </bean>
 
   <!-- *******************************************************************  -->
@@ -633,5 +632,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="meansOfContactDAO" class="fr.cg95.cvq.dao.request.hibernate.MeansOfContactDAO" parent="genericDAO"/>
 
   <bean id="externalServiceTraceDAO" class="fr.cg95.cvq.dao.external.hibernate.ExternalServiceTraceDAO" parent="genericDAO" />
-  
+
+  <bean id="externalServiceMappingDAO" class="fr.cg95.cvq.dao.external.hibernate.ExternalServiceMappingDAO" parent="genericDAO" />
+
 </beans>

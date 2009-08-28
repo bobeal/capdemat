@@ -1,9 +1,9 @@
 package fr.cg95.cvq.exporter.service.endpoint;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.oxm.Marshaller;
@@ -22,11 +22,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.util.quering.BaseOperator;
-import fr.cg95.cvq.util.quering.criterias.CrossJoinCriteria;
-import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
-import fr.cg95.cvq.util.quering.criterias.InCriteria;
-import fr.cg95.cvq.util.quering.criterias.SimpleCriteria;
+import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.xml.common.RequestType;
 
 public class RequestServiceEndpoint extends SecuredServiceEndpoint {
@@ -47,88 +43,103 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
         Set<String> requestTypesLabels =
             externalService.getRequestTypesForExternalService(SecurityContext.getCurrentExternalService());
         
-        GetRequestsRequest typedRequest = 
-            ((GetRequestsRequestDocument)request).getGetRequestsRequest(); 
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
+        GetRequestsRequest typedRequest =
+            ((GetRequestsRequestDocument)request).getGetRequestsRequest();
+        Set<Critere> criterias = new HashSet<Critere>();
 
         if (typedRequest.getRequestTypeLabel() != null) {
             if (requestTypesLabels.contains(typedRequest.getRequestTypeLabel())) {
-                criterias.add(new SimpleCriteria("requestType.label",BaseOperator.EQUALS,
-                        typedRequest.getRequestTypeLabel()));
+                criterias.add(new Critere("requestType.label",
+                    typedRequest.getRequestTypeLabel(), Critere.EQUALS));
             } else {
                 response.setError(noPermissions);
                 return response;
             }
         } else {
             if (requestTypesLabels != null && !requestTypesLabels.isEmpty()) {
-                criterias.add(new InCriteria("requestType.label",BaseOperator.IN, requestTypesLabels));
+                criterias.add(new Critere("requestType.label",
+                    requestTypesLabels, Critere.IN));
             } else {
                 response.setError(noPermissions);
                 return response;
             }
         }
         
-        SimpleCriteria criteria = new SimpleCriteria();
-        criteria.setName("date");
-        criteria.setOperator(BaseOperator.LTE);
-        criteria.setEntityType(RequestAction.class);
+        Critere criteria = new Critere();
+        criteria.setAttribut("date");
+        criteria.setComparatif(Critere.LTE);
         if (typedRequest.getDateTo() == null) {
-            criteria.setValue(this.addDaysToDate(new Date(), 1));
+            criteria
+                .setValue(DateUtils.getShiftedDate(Calendar.DAY_OF_MONTH, 1));
         } else {
-            criteria.setValue(this.addDaysToDate(typedRequest.getDateTo().getTime(),1));
+            criteria.setValue(
+                DateUtils.getShiftedDate(typedRequest.getDateTo().getTime(),
+                    Calendar.DAY_OF_MONTH, 1));
         }
         criterias.add(criteria);
-        
-        if (typedRequest.getId() != 0) 
-            criterias.add(new SimpleCriteria(Request.class,"id",
-                    BaseOperator.EQUALS,typedRequest.getId()));            
-        if (typedRequest.getDateFrom() != null)
-            criterias.add(new SimpleCriteria(RequestAction.class,"date",
-                    BaseOperator.GTE,typedRequest.getDateFrom().getTime()));
-        if (typedRequest.getState() != null)
-            criterias.add(new SimpleCriteria(RequestAction.class,"resultingState",
-                    BaseOperator.EQUALS,typedRequest.getState().toString()));
-        
-        criterias.add(new CrossJoinCriteria("id",BaseOperator.EQUALS,
-                CrossJoinCriteria.prepareOperand("request", RequestAction.class)));
-        
+        if (typedRequest.getId() != 0)
+            criterias.add(new Critere(Request.SEARCH_BY_REQUEST_ID,
+                typedRequest.getId(), Critere.EQUALS));
         try {
-            Set<Long> ids = externalService.getRequestIds(criterias);
-            // do not send again requests that have already been acknowledged ...
-            // ... except if we are invoked with an explicit request id !
-            
-            if (typedRequest.getId() == 0) {
-                Set<Critere> criteriaSet = new HashSet<Critere>(2);
-                Critere statusCritere =
-                    new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
-                        TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS);
-                for (Iterator<Long> it = ids.iterator(); it.hasNext();) {
-                    Long id = it.next();
-                    criteriaSet.clear();
-                    criteriaSet.add(statusCritere);
-                    criteriaSet.add(
-                        new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
-                            String.valueOf(id), Critere.EQUALS));
-                    if (!externalService.getTraces(criteriaSet, null, null).isEmpty()) {
-                        it.remove();
+            List<Request> requests =
+                defaultRequestService.get(criterias, null, null, 0, 0);
+            for (Iterator<Request> it = requests.iterator(); it.hasNext();) {
+                Request r = it.next();
+                boolean keepIt = true;
+                if (typedRequest.getState() != null) {
+                    keepIt = false;
+                    for (RequestAction action : r.getActions()) {
+                        if (action.getResultingState()
+                            .equals(typedRequest.getState())) {
+                            keepIt = true;
+                            break;
+                        }
                     }
                 }
+                if (typedRequest.getDateFrom() != null) {
+                    keepIt = false;
+                    for (RequestAction action : r.getActions()) {
+                        if (action.getDate()
+                            .after(typedRequest.getDateFrom().getTime())) {
+                            keepIt = true;
+                            break;
+                        }
+                    }
+                }
+                // do not send again requests that have already been acknowledged ...
+                // ... except if we are invoked with an explicit request id !
+                if (typedRequest.getId() == 0) {
+                    keepIt = false;
+                    Set<Critere> criteriaSet = new HashSet<Critere>(2);
+                    criteriaSet.add(new Critere(
+                        ExternalServiceTrace.SEARCH_BY_STATUS,
+                        TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS));
+                    criteriaSet.add(
+                        new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
+                            String.valueOf(r.getId()), Critere.EQUALS));
+                    if (externalService.getTraces(criteriaSet, null, null)
+                        .isEmpty()) {
+                        keepIt = true;
+                    }
+                }
+                if (!keepIt) it.remove();
             }
             Set<RequestType> resultArray = new HashSet<RequestType>();
-            for (Long id : ids) {
+            for (Request r : requests) {
                 RequestType rt = null;
                 
-                if (this.isCached(id)) {
-                    rt = RequestType.Factory.parse(this.localAuthorityRegistry.getRequestXmlResource(id));
+                if (localAuthorityRegistry.getRequestXmlResource(r.getId())
+                    .exists()) {
+                    rt = RequestType.Factory.parse(
+                        localAuthorityRegistry.getRequestXmlResource(r.getId()));
                 } else {
-                    Request r = this.defaultRequestService.getById(id);
                     rt = r.modelToXmlRequest();
                 }
                 resultArray.add(rt);
                 
                 ExternalServiceTrace trace = new ExternalServiceTrace();
                 trace.setKeyOwner("capdemat");
-                trace.setKey(String.valueOf(id));
+                trace.setKey(String.valueOf(r.getId()));
                 trace.setStatus(TraceStatusEnum.SENT);
                 
                 externalService.addTrace(trace);
@@ -142,10 +153,6 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
         return response;
     }
 
-    public boolean isCached(Long id) {
-        return localAuthorityRegistry.getRequestXmlResource(id).exists();
-    }
-    
     public RequestServiceEndpoint(Marshaller marshaller) {
         super(marshaller);
     }
@@ -161,12 +168,4 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
     public void setExternalService(IExternalService externalService) {
         this.externalService = externalService;
     }
-
-    protected Date addDaysToDate(Date date,int amount) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_YEAR, amount);
-        return calendar.getTime();
-    }
-    
 }

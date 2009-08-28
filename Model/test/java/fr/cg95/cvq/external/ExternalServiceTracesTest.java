@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.Assert;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.security.SecurityContext;
@@ -89,65 +88,5 @@ public class ExternalServiceTracesTest extends ServiceTestCase {
                 new Date(), Critere.LTE));
         traces = externalService.getTraces(criteriaSet, null, null);
         assertEquals(1, traces.size());
-
-        /* Test different trace removal methods */
-        trace.setId(null);
-        externalService.addTrace(trace);
-
-        criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
-            DateUtils.parseDate("13/09/2007"), Critere.GT));
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
-            new Date(), Critere.LTE));
-        traces = externalService.getTraces(criteriaSet, null, null);
-        assertNotNull(traces);
-        assertEquals(2, traces.size());
-
-        externalService.deleteTraces("MyName");
-
-        continueWithNewTransaction();
-
-        criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
-                "MyName", Critere.EQUALS));
-        traces = externalService.getTraces(criteriaSet, null, null);
-        assertEquals(0, traces.size());
-
-        externalService.addTrace(trace);
-        externalService.addTrace(trace);
-        externalService.addTrace(trace);
-
-        continueWithNewTransaction();
-
-        criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
-                DateUtils.parseDate("13/09/2007"), Critere.GT));
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
-                new Date(), Critere.LTE));
-        traces = externalService.getTraces(criteriaSet, null, null);
-        assertEquals(1, traces.size());
-
-        int count = externalService.deleteTraces(0L, "");
-        assertEquals(0, count);
-
-        count = externalService.deleteTraces(2345L, "MyOwner");
-        assertEquals(traces.size(), count);
-        criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
-                DateUtils.parseDate("13/09/2007"), Critere.GT));
-        criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
-                new Date(), Critere.LTE));
-        traces = externalService.getTraces(criteriaSet, null, null);
-        assertEquals(0, traces.size());
-
-        if (newId > 0) { 
-            externalService.deleteTraces(2345L,null);
-            criteriaSet = new HashSet<Critere>();
-            criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
-                    "2345", Critere.EQUALS));
-            traces = externalService.getTraces(criteriaSet, null, null);
-
-            Assert.assertEquals(traces.size(),0);            
-        }
     }
 }

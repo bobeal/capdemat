@@ -13,7 +13,7 @@ import org.hamcrest.core.AllOf;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 
-import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
+import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -22,6 +22,7 @@ import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.business.users.payment.PaymentState;
 import fr.cg95.cvq.business.users.payment.PurchaseItem;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
@@ -38,29 +39,32 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
     protected IExternalService externalService;
     
     private final String EXTERNAL_SERVICE_LABEL = "Dummy External Service";
+    private Long homeFolderId;
     
     @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
         externalService = (IExternalService) getBean("externalService");
+        homeFolderId = null;
     }
     
     @Override
     public void onTearDown() throws Exception {
-        
-        externalService.deleteHomeFoldersMappings(EXTERNAL_SERVICE_LABEL);
-        externalService.deleteTraces(EXTERNAL_SERVICE_LABEL);
-
+        if (homeFolderId != null) {
+            HibernateUtil.getSession().delete(
+                externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL,
+                    homeFolderId));
+        }
+        for (ExternalServiceTrace trace :
+            externalService.getTraces(Collections.<Critere>emptySet(),
+                null, null)) {
+            HibernateUtil.getSession().delete(trace);
+        }
         continueWithNewTransaction();
 
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         assertEquals(0, lacb.getExternalServices().size());
 
-        ExternalServiceIdentifierMapping esimFromDb = 
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, (Long) null);
-        assertNull(esimFromDb);        
-        assertEquals(0, externalService.getTraces(Collections.<Critere>emptySet(), null, null).size());
-        
         super.onTearDown();
     }
     
@@ -69,6 +73,7 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
         CreationBean cb = gimmeAnHomeFolder();
+        homeFolderId = cb.getHomeFolderId();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         final HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());

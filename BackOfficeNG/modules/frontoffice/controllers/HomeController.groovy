@@ -19,7 +19,6 @@ import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
-import fr.cg95.cvq.util.quering.sort.SortDirection
 
 class HomeController {
 
@@ -202,8 +201,8 @@ class HomeController {
         critere.value = RequestState.UNCOMPLETE
         criteriaSet.add(critere)
         return [
-            'all' : defaultRequestService.get(criteriaSet, Request.SEARCH_BY_CREATION_DATE,
-                , SortDirection.DESC.value(), -1, 0),
+            'all' : defaultRequestService.get(criteriaSet,
+                Request.SEARCH_BY_CREATION_DATE, "desc", -1, 0),
             'count' : defaultRequestService.getCount(criteriaSet),
             'records' : []
         ]

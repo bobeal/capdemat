@@ -18,7 +18,6 @@ import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
 
 public interface IExternalService {
 
@@ -112,76 +111,14 @@ public interface IExternalService {
      */
     Set<String> getGenerableRequestTypes();
 
-    /**
-     * Add a new mapping for the given object.
-     * 
-     * If a mapping already exists for the given external service label and home folder id,
-     * its external id will be replaced by the given one.
-     */
-    void addHomeFolderMapping(ExternalServiceIdentifierMapping esim);
-    
-    /**
-     * Add a new mapping for the given identifiers.
-     * 
-     * If a mapping already exists for the given external service label and home folder id,
-     * its external id will be replaced by the given one.
-     */
-    void addHomeFolderMapping(final String externalServiceLabel,
-        @IsHomeFolder final Long homeFolderId, final String externalId);
-    
-    /**
-     * Add a new mapping for the given individual identifiers.
-     * 
-     * If a mapping already exists for the given individual id, it will be replaced by the 
-     * new one.
-     * 
-     * @throws CvqException if no mapping exists for the given external service label 
-     *      and home folder id.
-     */
-    void addIndividualMapping(final String externalServiceLabel,
-        @IsHomeFolder final Long homeFolderId,
-        @IsIndividual final Long individualId, final String externalId)
-        throws CvqException;
-
-    void deleteHomeFolderMapping(final String externalServiceLabel,
-        @IsHomeFolder final Long homeFolderId);
-    
-    void deleteHomeFoldersMappings(final String externalServiceLabel);
-    
     ExternalServiceIdentifierMapping
         getIdentifierMapping(final String externalServiceLabel,
             @IsHomeFolder final Long homeFolderId);
 
-    ExternalServiceIdentifierMapping
-        getIdentifierMapping(final String externalServiceLabel,
-            final String externalId);
-    
-    Set<ExternalServiceIdentifierMapping> getIdentifiersMappings(final String externalServiceLabel);
-    
     Long addTrace(ExternalServiceTrace trace);
 
     List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet, String sort,
         String dir);
-
-    int deleteTraces(Long key, String keyOwner);
-
-    int deleteTraces(String key, String keyOwner);
-    
-    int deleteTraces(String name);
-    
-    /**
-     * Get ids of requests that match the given search criteria.
-     * 
-     * TODO GENERIC DAO move to request service after DAOs improvements
-     */
-    Set<Long> getRequestIds(Set<ISearchCriteria> searchCriterias);
-    
-    /**
-     * Get ids of validated requests with the given types within the given previous days.
-     * 
-     * TODO GENERIC DAO move to request service after DAOs improvements
-     */
-    Set<Long> getValidatedRequestIds(Set<String> requestTypesLabels, int numberOfDays);
 
     /**
      * Set the external id of an individual for the given external service.

@@ -1,7 +1,6 @@
 package fr.cg95.cvq.external.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +34,7 @@ import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.business.users.payment.PaymentState;
 import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.external.IExternalServiceMappingDAO;
 import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
@@ -48,13 +48,6 @@ import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.util.DateUtils;
-import fr.cg95.cvq.util.quering.BaseOperator;
-import fr.cg95.cvq.util.quering.ISelectArgument;
-import fr.cg95.cvq.util.quering.SelectField;
-import fr.cg95.cvq.util.quering.criterias.ISearchCriteria;
-import fr.cg95.cvq.util.quering.criterias.InCriteria;
-import fr.cg95.cvq.util.quering.criterias.SimpleCriteria;
 
 public class ExternalService implements IExternalService, BeanFactoryAware {
 
@@ -62,6 +55,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
 
     private IGenericDAO genericDAO;
     private IExternalServiceTraceDAO externalServiceTraceDAO;
+    private IExternalServiceMappingDAO externalServiceMappingDAO;
     private IHomeFolderService homeFolderService;
     private IRequestService requestService;
     
@@ -369,160 +363,10 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     }
 
     @Override
-    public void addHomeFolderMapping(String externalServiceLabel, Long homeFolderId,
-            String externalId) {
-        
-        ExternalServiceIdentifierMapping esim =
-            getIdentifierMapping(externalServiceLabel, homeFolderId);
-        
-        if (esim == null) {
-            esim = new ExternalServiceIdentifierMapping();
-            esim.setExternalServiceLabel(externalServiceLabel);
-            esim.setHomeFolderId(homeFolderId);
-            esim.setExternalCapDematId(UUID.randomUUID().toString());
-        }
-        
-        esim.setExternalId(externalId);
-        
-        genericDAO.create(esim);
-    }
-
-    @Override
-    public void addHomeFolderMapping(ExternalServiceIdentifierMapping esim) {
-
-        ExternalServiceIdentifierMapping esimFromDb =
-            getIdentifierMapping(esim.getExternalServiceLabel(), esim.getHomeFolderId());
-        
-        if (esimFromDb == null) {
-            genericDAO.create(esim);
-            esim.setExternalCapDematId(UUID.randomUUID().toString());
-        } else {
-            esimFromDb.setExternalId(esim.getExternalId());
-            genericDAO.update(esimFromDb);
-        }
-    }
-
-    @Override
-    public void addIndividualMapping(String externalServiceLabel, Long homeFolderId,
-            Long individualId, String externalId) throws CvqException {
-
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new SimpleCriteria("externalServiceLabel", BaseOperator.EQUALS, 
-                externalServiceLabel));
-        criterias.add(new SimpleCriteria("homeFolderId", BaseOperator.EQUALS,
-                homeFolderId));
-        
-        Set<ExternalServiceIdentifierMapping> esimSet =
-            externalServiceTraceDAO.<ExternalServiceIdentifierMapping,ExternalServiceIdentifierMapping>get(criterias, ExternalServiceIdentifierMapping.class);
-        if (esimSet == null || esimSet.isEmpty())
-            throw new CvqException("Mapping not found for external service / home folder : "
-                    + externalServiceLabel + "/" + homeFolderId );
-        else if (esimSet.size() > 1)
-            throw new CvqException("Too many mappings found for external service / home folder : "
-                    + externalServiceLabel + "/" + homeFolderId );
-        
-        ExternalServiceIdentifierMapping esim = esimSet.iterator().next();
-        Set<ExternalServiceIndividualMapping> esimIndividuals = esim.getIndividualsMappings();
-        boolean foundExistingIndividualMapping = false;
-        for (ExternalServiceIndividualMapping esimIndividual : esimIndividuals) {
-            if (esimIndividual.getIndividualId().equals(individualId)) {
-                logger.debug("addIndividualMapping() found an existing mapping for " + individualId);
-                esimIndividual.setExternalId(externalId);
-                foundExistingIndividualMapping = true;
-                break;
-            }
-        }
-        if (!foundExistingIndividualMapping) {
-            ExternalServiceIndividualMapping esimIndividual = 
-                new ExternalServiceIndividualMapping();
-            esimIndividual.setIndividualId(individualId);
-            esimIndividual.setExternalCapDematId(UUID.randomUUID().toString());
-            esimIndividual.setExternalId(externalId);
-            esimIndividuals.add(esimIndividual);
-        }
-        
-        externalServiceTraceDAO.update(esim);
-    }
-
-    @Override
-    public void deleteHomeFolderMapping(String externalServiceLabel,
-        Long homeFolderId) {
-
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new SimpleCriteria("externalServiceLabel", BaseOperator.EQUALS, 
-                externalServiceLabel));
-        criterias.add(new SimpleCriteria("homeFolderId", BaseOperator.EQUALS,
-                homeFolderId));
-        
-        ExternalServiceIdentifierMapping esim =
-            externalServiceTraceDAO.<ExternalServiceIdentifierMapping,ExternalServiceIdentifierMapping>get(criterias, ExternalServiceIdentifierMapping.class).iterator().next();
-        
-        externalServiceTraceDAO.delete(esim);
-    }
-
-    @Override
-    public void deleteHomeFoldersMappings(String externalServiceLabel) {
-
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new SimpleCriteria("externalServiceLabel", BaseOperator.EQUALS, 
-                externalServiceLabel));
-        
-        Set<ExternalServiceIdentifierMapping> esimSet =
-            externalServiceTraceDAO.<ExternalServiceIdentifierMapping,ExternalServiceIdentifierMapping>get(criterias, ExternalServiceIdentifierMapping.class);
-
-        for (ExternalServiceIdentifierMapping esim : esimSet) {
-            externalServiceTraceDAO.delete(esim);
-        }
-    }
-
-    @Override
     public ExternalServiceIdentifierMapping
         getIdentifierMapping(String externalServiceLabel, Long homeFolderId) {
-
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new SimpleCriteria("externalServiceLabel", BaseOperator.EQUALS, 
-                externalServiceLabel));
-        criterias.add(new SimpleCriteria("homeFolderId", BaseOperator.EQUALS,
-                homeFolderId));
-        
-        Set<ExternalServiceIdentifierMapping> esimSet =
-            externalServiceTraceDAO.<ExternalServiceIdentifierMapping,ExternalServiceIdentifierMapping>get(criterias, ExternalServiceIdentifierMapping.class);
-        if (esimSet == null || esimSet.isEmpty())
-            return null;
-        else 
-            return esimSet.iterator().next();
-    }
-
-    @Override
-    public ExternalServiceIdentifierMapping getIdentifierMapping(String externalServiceLabel,
-            String externalId) {
-
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new SimpleCriteria("externalServiceLabel", BaseOperator.EQUALS, 
-                externalServiceLabel));
-        criterias.add(new SimpleCriteria("externalId", BaseOperator.EQUALS, externalId));
-        
-        Set<ExternalServiceIdentifierMapping> esimSet =
-            externalServiceTraceDAO.<ExternalServiceIdentifierMapping,ExternalServiceIdentifierMapping>get(criterias, ExternalServiceIdentifierMapping.class);
-        if (esimSet == null || esimSet.isEmpty())
-            return null;
-        else 
-            return esimSet.iterator().next();
-    }
-
-    @Override
-    public Set<ExternalServiceIdentifierMapping> getIdentifiersMappings(String externalServiceLabel) {
-
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new SimpleCriteria("externalServiceLabel", BaseOperator.EQUALS, 
-                externalServiceLabel));
-        
-        Set<ExternalServiceIdentifierMapping> esimSet =
-            externalServiceTraceDAO.<ExternalServiceIdentifierMapping,ExternalServiceIdentifierMapping>get(criterias, ExternalServiceIdentifierMapping.class);
-        if (esimSet == null || esimSet.isEmpty())
-            return null;
-        else 
-            return esimSet;
+        return externalServiceMappingDAO
+            .getIdentifierMapping(externalServiceLabel, homeFolderId);
     }
 
     /**
@@ -603,57 +447,6 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     public List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet,
         String sort, String dir) {
         return externalServiceTraceDAO.get(criteriaSet, sort, dir);
-    }
-
-    @Override
-    public int deleteTraces(String key, String keyOwner) {
-        
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new SimpleCriteria("key",BaseOperator.EQUALS,key));
-        criterias.add(new SimpleCriteria("keyOwner",BaseOperator.EQUALS,keyOwner));
-        
-        return this.externalServiceTraceDAO.<ExternalServiceTrace>delete(criterias,
-                ExternalServiceTrace.class);
-    }
-
-    @Override
-    public int deleteTraces(Long key, String keyOwner) {
-        return deleteTraces(String.valueOf(key), keyOwner);
-    }
-
-    @Override
-    public int deleteTraces(String name) {
-        
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new SimpleCriteria("name",BaseOperator.EQUALS,name));
-        
-        return this.externalServiceTraceDAO.<ExternalServiceTrace>delete(criterias,
-                ExternalServiceTrace.class);
-    }
-
-    @Override
-    public Set<Long> getRequestIds(Set<ISearchCriteria> searchCriterias) {
-        Set<ISelectArgument> fields = new HashSet<ISelectArgument>();
-        fields.add(new SelectField(Request.class,"id"));
-        
-        return this.externalServiceTraceDAO.<Request,Long> get(fields,searchCriterias,Request.class);
-    }
-
-    @Override
-    public Set<Long> getValidatedRequestIds(Set<String> requestTypesLabels, int numberOfDays) {
-        if (requestTypesLabels == null || requestTypesLabels.isEmpty())
-            return new HashSet<Long>();
-        
-        Date prevDate = DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, numberOfDays);
-        
-        Set<ISelectArgument> fields = new HashSet<ISelectArgument>();
-        fields.add(new SelectField(Request.class,"id"));
-        
-        Set<ISearchCriteria> criterias = new HashSet<ISearchCriteria>();
-        criterias.add(new InCriteria("requestType.label",BaseOperator.IN, requestTypesLabels));
-        criterias.add(new SimpleCriteria("validationDate",BaseOperator.GTE, prevDate));
-            
-        return this.externalServiceTraceDAO.<Request,Long> get(fields,criterias,Request.class);
     }
 
     @Override
@@ -746,5 +539,9 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
 
     public void setRequestService(IRequestService requestService) {
         this.requestService = requestService;
+    }
+
+    public void setExternalServiceMappingDAO(IExternalServiceMappingDAO externalServiceMappingDAO) {
+        this.externalServiceMappingDAO = externalServiceMappingDAO;
     }
 }

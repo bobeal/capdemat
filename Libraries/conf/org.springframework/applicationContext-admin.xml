@@ -210,15 +210,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="requestXmlGenerationJob" 
     class="fr.cg95.cvq.service.request.job.RequestXmlGenerationJob">
-    <property name="externalService">
-      <ref bean="externalService"/>
-    </property>
-    <property name="localAuthorityRegistry">
-      <ref bean="localAuthorityRegistry"/>
-    </property>
-    <property name="requestDAO">
-      <ref bean="requestDAO"/>
-    </property>
+    <property name="externalService" ref="externalService" />
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="requestService" ref="defaultRequestService" />
   </bean>
   
   <bean id="requestXmlGenerationJobInvoker"

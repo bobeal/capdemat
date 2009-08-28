@@ -15,9 +15,9 @@ import org.jmock.Mockery;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
+import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
@@ -25,6 +25,7 @@ import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.users.payment.PurchaseItem;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -38,178 +39,38 @@ import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
 
     private IExternalService externalService;
-    
+
     private final String EXTERNAL_SERVICE_LABEL = "Dummy External Service";
-    
+    private Long homeFolderId;
+
     @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
-        externalService = super.<IExternalService>getApplicationBean("externalService");
+        externalService =
+            super.<IExternalService>getApplicationBean("externalService");
+        homeFolderId = null;
     }
-    
+
     @Override
     public void onTearDown() throws Exception {
-        
-        externalService.deleteHomeFoldersMappings(EXTERNAL_SERVICE_LABEL);
-        externalService.deleteTraces(EXTERNAL_SERVICE_LABEL);
-
+        if (homeFolderId != null) {
+            HibernateUtil.getSession()
+                .delete(externalService.getIdentifierMapping(
+                    EXTERNAL_SERVICE_LABEL, homeFolderId));
+        }
+        for (ExternalServiceTrace trace :
+            externalService.getTraces(Collections.<Critere>emptySet(),
+                null, null)) {
+            HibernateUtil.getSession().delete(trace);
+        }
         continueWithNewTransaction();
-
         ExternalServiceIdentifierMapping esimFromDb = 
             externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, (Long) null);
         assertNull(esimFromDb);        
         assertEquals(0, externalService.getTraces(Collections.<Critere>emptySet(), null, null).size());
-        
         super.onTearDown();
     }
-    
-    public void testAdd() throws CvqException {
-    
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        
-        CreationBean cb = gimmeAnHomeFolder();
 
-        continueWithNewTransaction();
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
-        
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
-
-        // test the creation 
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-
-        ExternalServiceIdentifierMapping esim = new ExternalServiceIdentifierMapping();
-        esim.setExternalServiceLabel(EXTERNAL_SERVICE_LABEL);
-        esim.setExternalId("External Id 1");
-        esim.setHomeFolderId(homeFolder.getId());
-
-        externalService.addHomeFolderMapping(esim);
-        
-        continueWithNewTransaction();
-        
-        ExternalServiceIdentifierMapping esimFromDb =
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
-        assertNotNull(esimFromDb);
-        assertEquals(EXTERNAL_SERVICE_LABEL, esimFromDb.getExternalServiceLabel());
-        assertEquals("External Id 1", esimFromDb.getExternalId());
-        assertEquals(homeFolder.getId(), esimFromDb.getHomeFolderId());
-        
-        // test the business keys checks are correctly done
-        
-        externalService.addHomeFolderMapping(EXTERNAL_SERVICE_LABEL, 
-                homeFolder.getId(), "New External Id 1");
-        
-        continueWithNewTransaction();
-        
-        esimFromDb = 
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
-        assertNotNull(esimFromDb);
-        assertEquals(EXTERNAL_SERVICE_LABEL, esimFromDb.getExternalServiceLabel());
-        assertEquals("New External Id 1", esimFromDb.getExternalId());
-        assertEquals(homeFolder.getId(), esimFromDb.getHomeFolderId());
-        assertNotNull(esimFromDb.getExternalCapDematId());
-        
-        // test the addition of individuals mappings
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        
-        Adult homeFolderResponsible = 
-            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
-        externalService.addIndividualMapping(EXTERNAL_SERVICE_LABEL, 
-                homeFolder.getId(), homeFolderResponsible.getId(), 
-                "External Individual Id 1");
-        
-        continueWithNewTransaction();
-        
-        esimFromDb = 
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
-        assertNotNull(esimFromDb);
-        assertNotNull(esimFromDb.getIndividualsMappings());
-        Set<ExternalServiceIndividualMapping> esimIndividuals = esimFromDb.getIndividualsMappings();
-        assertEquals(1, esimIndividuals.size());
-        ExternalServiceIndividualMapping esimIndividual = esimIndividuals.iterator().next();
-        assertEquals(homeFolderResponsible.getId(), 
-                esimIndividual.getIndividualId());
-        assertEquals("External Individual Id 1", esimIndividual.getExternalId());
-        assertNotNull(esimIndividual.getExternalCapDematId());
-        
-        // test the override of individuals
-        
-        externalService.addIndividualMapping(EXTERNAL_SERVICE_LABEL, 
-                homeFolder.getId(), homeFolderResponsible.getId(), "External Individual Id 2");
-        
-        continueWithNewTransaction();
-        
-        esimFromDb = 
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
-        assertNotNull(esimFromDb);
-        assertNotNull(esimFromDb.getIndividualsMappings());
-        assertEquals(1, esimFromDb.getIndividualsMappings().size());
-    }
-    
-    public void testGet() throws CvqException {
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        
-        CreationBean cb = gimmeAnHomeFolder();
-        continueWithNewTransaction();
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
-
-        // create a mapping and test the retrieval
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-
-        ExternalServiceIdentifierMapping esim = new ExternalServiceIdentifierMapping();
-        esim.setExternalServiceLabel(EXTERNAL_SERVICE_LABEL);
-        esim.setExternalId("External Id 1");
-        esim.setHomeFolderId(homeFolder.getId());
-
-        externalService.addHomeFolderMapping(esim);
-        
-        continueWithNewTransaction();
-        
-        ExternalServiceIdentifierMapping esimFromDb =
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
-        assertNotNull(esimFromDb);
-        Set<ExternalServiceIdentifierMapping> esimSet =
-            externalService.getIdentifiersMappings(EXTERNAL_SERVICE_LABEL);
-        assertNotNull(esimSet);
-        assertEquals(1, esimSet.size());
-        
-        SecurityContext.resetCurrentSite();
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-
-        cb = gimmeAnHomeFolder();
-        continueWithNewTransaction();
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
-        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-
-        esim = new ExternalServiceIdentifierMapping();
-        esim.setExternalServiceLabel(EXTERNAL_SERVICE_LABEL);
-        esim.setExternalId("External Id 2");
-        esim.setHomeFolderId(homeFolder.getId());
-
-        externalService.addHomeFolderMapping(esim);
-        
-        continueWithNewTransaction();
-        
-        esimSet = externalService.getIdentifiersMappings(EXTERNAL_SERVICE_LABEL);
-        assertNotNull(esimSet);
-        assertEquals(2, esimSet.size());
-        
-        esim = 
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, homeFolder.getId());
-        assertNotNull(esim);
-        esim =
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, "External Id 2");
-        assertNotNull(esim);
-    }
-    
     public void testIdentifiersIntroduction() throws CvqException {
                 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -255,8 +116,6 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         esim.setExternalId("External Id 1");
         esim.setHomeFolderId(homeFolder.getId());
 
-        externalService.addHomeFolderMapping(esim);
-        
         continueWithNewTransaction();
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -274,6 +133,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
     public void testSetExternalId() throws CvqException {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         final CreationBean cb = gimmeAnHomeFolder();
+        homeFolderId = cb.getHomeFolderId();
         ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();
         requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);

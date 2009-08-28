@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.job;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,12 +9,12 @@ import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.util.Critere;
-
+import fr.cg95.cvq.util.DateUtils;
 
 /**
  * This job is parametrized to generate and erase traced 
@@ -24,33 +25,37 @@ import fr.cg95.cvq.util.Critere;
  */
 public class RequestXmlGenerationJob {
 
-    private IRequestDAO              requestDAO;
-    private ILocalAuthorityRegistry  localAuthorityRegistry;
+    private IRequestService requestService;
+    private ILocalAuthorityRegistry localAuthorityRegistry;
     private IExternalService externalService;
-    
+
     public void launchJob() {
-        localAuthorityRegistry.browseAndCallback(this, "performGeneration", null);
-        localAuthorityRegistry.browseAndCallback(this, "eraseAcknowledgedRequests", null);
+        localAuthorityRegistry
+            .browseAndCallback(this, "performGeneration", null);
+        localAuthorityRegistry
+            .browseAndCallback(this, "eraseAcknowledgedRequests", null);
     }
-    
+
     public void performGeneration()
         throws CvqException {
-        Set<String> types = externalService.getGenerableRequestTypes();
-        Set<Long> requestIds = externalService.getValidatedRequestIds(types, -2);
         Set<Critere> criteriaSet = new HashSet<Critere>(2);
+        criteriaSet.add(new Critere("requestType.label",
+            externalService.getGenerableRequestTypes(), Critere.IN));
+        criteriaSet.add(new Critere("validationDate",
+            DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -2), Critere.GTE));
         Critere statusCritere =
             new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
                 TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS);
-        for (Long id : requestIds) {
+        for (Request r : requestService.get(criteriaSet, null, null, 0, 0)) {
             criteriaSet.clear();
             criteriaSet.add(statusCritere);
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
-                String.valueOf(id), Critere.EQUALS));
-            if (!xmlFileExists(id)
-                && externalService.getTraces(criteriaSet, null, null).isEmpty()) {
-                Request r = (Request) requestDAO.findById(Request.class, id);
+                String.valueOf(r.getId()), Critere.EQUALS));
+            if (!xmlFileExists(r.getId())
+                && externalService.getTraces(criteriaSet, null, null)
+                    .isEmpty()) {
                 localAuthorityRegistry.saveLocalAuthorityResource(
-                    Type.REQUEST_XML, String.valueOf(id),
+                    Type.REQUEST_XML, String.valueOf(r.getId()),
                     r.modelToXmlString().getBytes());
             }
         }
@@ -74,8 +79,8 @@ public class RequestXmlGenerationJob {
         else return file.exists();
     }
 
-    public void setRequestDAO(IRequestDAO requestDAO) {
-        this.requestDAO = requestDAO;
+    public void setRequestService(IRequestService requestService) {
+        this.requestService = requestService;
     }
     
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {

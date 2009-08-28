@@ -2,6 +2,7 @@ package fr.cg95.cvq.exporter.service.endpoint;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
@@ -80,7 +82,11 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         endpoint2.setLocalAuthorityRegistry(localAuthorityRegistry);
         
         try {
-            externalService.deleteTraces((String)null, "capdemat");
+            for (ExternalServiceTrace trace :
+                externalService.getTraces(Collections.<Critere>emptySet(),
+                    null, null)) {
+                HibernateUtil.getSession().delete(trace);
+            }
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             
@@ -140,7 +146,11 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
-            externalService.deleteTraces((String)null, "capdemat");
+            for (ExternalServiceTrace trace :
+                externalService.getTraces(Collections.<Critere>emptySet(),
+                    null, null)) {
+                HibernateUtil.getSession().delete(trace);
+            }
         }
     }
     
@@ -165,7 +175,11 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         endpoint2.setLocalAuthorityRegistry(localAuthorityRegistry);
         
         try {
-            externalService.deleteTraces((String)null, "capdemat");
+            for (ExternalServiceTrace trace :
+                externalService.getTraces(Collections.<Critere>emptySet(),
+                    null, null)) {
+                HibernateUtil.getSession().delete(trace);
+            }
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             
@@ -245,7 +259,11 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
-            externalService.deleteTraces((String)null, "capdemat");
+            for (ExternalServiceTrace trace :
+                externalService.getTraces(Collections.<Critere>emptySet(),
+                    null, null)) {
+                HibernateUtil.getSession().delete(trace);
+            }
         }
         
     }
@@ -425,7 +443,11 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
-            externalService.deleteTraces((String)null, "capdemat");
+            for (ExternalServiceTrace trace :
+                externalService.getTraces(Collections.<Critere>emptySet(),
+                    null, null)) {
+                HibernateUtil.getSession().delete(trace);
+            }
         }
     }
 }

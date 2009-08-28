@@ -52,7 +52,6 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
     
     @Override
     protected void onTearDown() throws Exception {
-        this.externalService.deleteTraces("MyName");
         this.eraseTestFiles();
         super.onTearDown();
     }

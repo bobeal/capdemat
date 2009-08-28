@@ -68,7 +68,7 @@ public class SecurityService {
             'frontofficeRequestCreation' : /.*/,
             'frontofficeRequestType' : /.*/,
             'frontofficeDocument' : [/details/,/binary/],
-            'frontofficeHome' : /logout/
+            'frontofficeHome' : [/loginAgent/,/logout/]
         ]
         this.permissions[ContextType.UNAUTH_ECITIZEN.value()] = [
             'frontofficeRequestCreation' : /.*/,

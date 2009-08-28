@@ -9,6 +9,6 @@ class RequestTypeController {
     
     def index = {
         def individual = individualService.getByLogin(session.currentEcitizen)
-        return ['groups':requestTypeAdaptorService.getDisplayGroups(individual.homeFolder)]
+        return ['groups':requestTypeAdaptorService.getDisplayGroups(individual?.homeFolder)]
     }
 }

@@ -1,6 +1,7 @@
 package fr.cg95.cvq.exporter.service.endpoint;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -40,7 +41,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
             GetRequestsResponseDocument.Factory.newInstance();
         GetRequestsResponse response = responseDocument.addNewGetRequestsResponse();
         
-        Set<String> requestTypesLabels =
+        Collection<String> requestTypesLabels =
             externalService.getRequestTypesForExternalService(SecurityContext.getCurrentExternalService());
         
         GetRequestsRequest typedRequest =

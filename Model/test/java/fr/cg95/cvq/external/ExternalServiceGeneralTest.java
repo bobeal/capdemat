@@ -1,8 +1,8 @@
 package fr.cg95.cvq.external;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -77,7 +77,7 @@ public class ExternalServiceGeneralTest extends ServiceTestCase {
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         lacb.registerExternalService(fakeExternalService, esb);
 
-        Set<String> requestTypesFromService =
+        Collection<String> requestTypesFromService =
             externalService.getRequestTypesForExternalService(fakeExternalService.getLabel());
         assertNotNull(requestTypesFromService);
         assertEquals(1, requestTypesFromService.size());

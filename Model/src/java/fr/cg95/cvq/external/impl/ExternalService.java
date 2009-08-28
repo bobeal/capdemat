@@ -1,6 +1,7 @@
 package fr.cg95.cvq.external.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -218,13 +219,12 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     public boolean hasMatchingExternalService(String requestLabel) {
         Set<IExternalProviderService> externalProviderServices =
             getExternalServicesByRequestType(requestLabel);
-        if (externalProviderServices != null && !externalProviderServices.isEmpty())
-            return true;
-        else
-            return false;
+        return externalProviderServices != null
+            && !externalProviderServices.isEmpty();
     }
 
     @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
         throws CvqException {
 
@@ -245,6 +245,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     }
 
     @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, 
             Set<String> homeFolderRequestTypes, String type) 
         throws CvqException {
@@ -281,6 +282,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     }
 
     @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId, 
             Set<String> homeFolderRequestTypes)
             throws CvqException {
@@ -318,6 +320,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     }
 
     @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {
         IExternalProviderService externalProviderService = 
             getExternalServiceByLabel(edai.getExternalServiceLabel());
@@ -325,6 +328,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     }
 
     @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
         IExternalProviderService externalProviderService = 
             getExternalServiceByLabel(eii.getExternalServiceLabel());
@@ -332,37 +336,29 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     }
 
     @Override
-    public Set<String> getRequestTypesForExternalService(String externalServiceLabel) {
-        IExternalProviderService externalProviderService = 
-            getExternalServiceByLabel(externalServiceLabel);
-        ExternalServiceBean esb = getBeanForExternalService(externalProviderService);
-
-        if (esb.getRequestTypes() != null)
-            return new HashSet<String>(esb.getRequestTypes());
-        else
-            return null;
+    public Collection<String>
+        getRequestTypesForExternalService(String externalServiceLabel) {
+        return
+            getBeanForExternalService(
+                getExternalServiceByLabel(externalServiceLabel))
+            .getRequestTypes();
     }
 
     @Override
+    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.NONE)
     public Set<String> getGenerableRequestTypes() {
         Set<String> result = new HashSet<String>();
-
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Map<IExternalProviderService, ExternalServiceBean> externalProviderServices = 
-            lacb.getExternalServices();
-        if (externalProviderServices == null || externalProviderServices.isEmpty())
-            return null;
-
-        for (IExternalProviderService service : externalProviderServices.keySet()) {
-            ExternalServiceBean esb = externalProviderServices.get(service);
+        for (ExternalServiceBean esb :
+            SecurityContext.getCurrentConfigurationBean().getExternalServices()
+            .values()) {
             if (esb.getGenerateTracedRequest())
                 result.addAll(esb.getRequestTypes());
         }
-        
         return result;
     }
 
     @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public ExternalServiceIdentifierMapping
         getIdentifierMapping(String externalServiceLabel, Long homeFolderId) {
         return externalServiceMappingDAO
@@ -415,24 +411,19 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
      * Get the list of external services objects for the current local authority
      * interested in events about the given request types.
      */
-    private Set<IExternalProviderService> getExternalServicesByRequestTypes(final Set<String> requestTypesLabels) {
-
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Map<IExternalProviderService, ExternalServiceBean> externalProviderServices = 
-            lacb.getExternalServices();
-        if (externalProviderServices == null || externalProviderServices.isEmpty())
-            return null;
-
-        Set<IExternalProviderService> resultSet = new HashSet<IExternalProviderService>();
-        for (IExternalProviderService service : externalProviderServices.keySet()) {
-            ExternalServiceBean esb = externalProviderServices.get(service);
+    private Set<IExternalProviderService>
+        getExternalServicesByRequestTypes(final Set<String> requestTypesLabels) {
+        Set<IExternalProviderService> resultSet =
+            new HashSet<IExternalProviderService>();
+        for (Map.Entry<IExternalProviderService, ExternalServiceBean> entry :
+            SecurityContext.getCurrentConfigurationBean().getExternalServices()
+            .entrySet()) {
             for (String requestTypeLabel : requestTypesLabels) {
-                if (esb.supportRequestType(requestTypeLabel)) {
-                    resultSet.add(service);
+                if (entry.getValue().supportRequestType(requestTypeLabel)) {
+                    resultSet.add(entry.getKey());
                 }
             }
         }
-
         return resultSet;
     }
 
@@ -444,12 +435,14 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     }
 
     @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet,
         String sort, String dir) {
         return externalServiceTraceDAO.get(criteriaSet, sort, dir);
     }
 
     @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
             String externalId) {
         ExternalServiceIndividualMapping newMapping = new ExternalServiceIndividualMapping();
@@ -488,6 +481,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     }
 
     @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Map<String, Object> loadExternalInformations(Request request)
         throws CvqException {
         Map<String, Object> informations = new TreeMap<String, Object>();

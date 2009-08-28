@@ -390,9 +390,9 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
             if (eai.getSupportedBroker() != null)
                 return eai.getSupportedBroker();
 
-            Set<String> requestTypes = 
-                externalService.getRequestTypesForExternalService(eai.getExternalServiceLabel());
-            for (String requestType : requestTypes) {
+            for (String requestType :
+                externalService.getRequestTypesForExternalService(
+                    eai.getExternalServiceLabel())) {
                 broker = getBrokerFromRequestType(requestType, paymentMode);
                 if (broker != null)
                     break;

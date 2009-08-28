@@ -1182,6 +1182,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         return result;
     }
 
+    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.NONE)
     public List<Request> getSendableRequests(String externalServiceLabel) {
         Set<RequestState> set = new HashSet<RequestState>(1);
         set.add(RequestState.VALIDATED);

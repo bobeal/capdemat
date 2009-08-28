@@ -1,5 +1,6 @@
 package fr.cg95.cvq.external;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +105,7 @@ public interface IExternalService {
     /**
      * Get the list of request types labels associated to the given external service.
      */
-    Set<String> getRequestTypesForExternalService(final String externalServiceLabel);
+    Collection<String> getRequestTypesForExternalService(final String externalServiceLabel);
     
     /**
      * Get the list of request types for which a pre-generation is asked.

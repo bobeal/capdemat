@@ -2,7 +2,7 @@ import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.IAgentService
+import fr.cg95.cvq.security.annotation.ContextType
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean
 import fr.cg95.cvq.dao.hibernate.HibernateUtil
@@ -17,7 +17,10 @@ import javax.servlet.ServletException
 import org.hibernate.SessionFactory
 
 class SessionFilters {
-    
+
+    def securityService
+    def agentService
+
     def filters = {
         
         openSessionInView(controller: '*', action: '*') {
@@ -78,11 +81,10 @@ class SessionFilters {
         
         setupFrontUser(controller: 'frontoffice*', action: '*') {
             before = {
-                def securityService = applicationContext.getBean("securityService")
-                def point = 
-                	securityService.defineAccessPoint(session.frontContext,
-                			controllerName, actionName)
-                
+                def point =
+                    securityService.defineAccessPoint(session.frontContext,
+                        SecurityContext.FRONT_OFFICE_CONTEXT, controllerName,
+                        actionName)
                 try {
                     SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT)
                     
@@ -161,7 +163,6 @@ class SessionFilters {
         	before = {
                 String user = (String) session.getAttribute(CASFilter.CAS_FILTER_USER)
                 if (user != null && user.indexOf(";") != -1) {
-
                     // we are receiving a chain with user and groups information
                     Map<String, ArrayList<String>> id = new HashMap<String, ArrayList<String>>();
                     String[] splitted = user.split(";");
@@ -215,7 +216,6 @@ class SessionFilters {
 
                     try {
                         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT)
-                        IAgentService agentService = applicationContext.getBean("agentService")
                         agentService.updateUserProfiles(user, groups, userInformations)
 
                         SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT)
@@ -242,7 +242,16 @@ class SessionFilters {
                         e.printStackTrace()
     					return false
                     }
-                }        			
+                }
+                def point = securityService.defineAccessPoint(
+                    session.currentCredentialBean.hasSiteAdminRole() ?
+                        ContextType.ADMIN : ContextType.AGENT,
+                    SecurityContext.BACK_OFFICE_CONTEXT,
+                    controllerName, actionName)
+                if (point.controller != controllerName || point.action != actionName) {
+                    redirect(controller: point.controller, action: point.action)
+                    return false
+                }
         	}
         }
     }

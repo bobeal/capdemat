@@ -1,48 +1,113 @@
-import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.security.annotation.ContextType
 
 public class SecurityService {
-	
-	/**
-	 * Define allowed controller/action pairs according to user context 
-	 * (agent, unauthenticated ecitizen, ...).
-	 */ 
-    protected Map permissions
 
     /**
-     * Define default entry point (controller/action) for special
-     * contexts (agent and unauthenticated ecitizen).
+     * Define allowed controller/action pairs according to application
+     * and user context (agent, unauthenticated ecitizen, ...).
      */
-    protected Map defaultPoints = [:]
-    
-	/**
-	 * According to user context, check whether requested controller and action are authorized.
-	 * 
-	 * Return given controller and action if they are authorized, default entry point either.
-	 */
-    public Map defineAccessPoint(ContextType context,String controller,String action) {
-        this.initPermissionsMap()
-        if(!context) context = ContextType.UNAUTH_ECITIZEN
-        
-        def current = [action:action,controller:controller], factor = false
-        def permission = this.permissions[context.value()]
-        
-        if(!(permission instanceof Map) && (controller =~ permission).matches()) { 
+    private permissions = [
+        (ContextType.ADMIN) : [
+            (SecurityContext.BACK_OFFICE_CONTEXT) : [
+                "backofficeAgent" : /.*/,
+                "backofficeCategory" : /.*/,
+                "backofficeLocalAuthority" : /.*/,
+                "backofficeLogin" : /.*/,
+                "backofficePayment" : /.*/
+            ]
+        ],
+        (ContextType.AGENT) : [
+            (SecurityContext.BACK_OFFICE_CONTEXT) : [
+                "backofficeDocumentInstruction" : /.*/,
+                "backofficeHomeFolder" : /.*/,
+                "backofficeLogin" : /.*/,
+                "backofficeRequest" : /.*/,
+                "backofficeRequestInstruction" : /.*/,
+                "backofficeRequestType" : /.*/,
+                "backofficeStatistic" : /.*/
+            ],
+            (SecurityContext.FRONT_OFFICE_CONTEXT) : [
+                "frontofficeRequestCreation" : /.*/,
+                "frontofficeRequestType" : /.*/,
+                "frontofficeDocument" : [/details/,/binary/],
+                "frontofficeHome" : [/loginAgent/,/logout/]
+            ]
+        ],
+        (ContextType.ECITIZEN) : [
+            (SecurityContext.FRONT_OFFICE_CONTEXT) : /.*/
+        ],
+        (ContextType.UNAUTH_ECITIZEN) : [
+            (SecurityContext.FRONT_OFFICE_CONTEXT) : [
+                "frontofficeRequestCreation" : /.*/,
+                "frontofficeHomeFolder" : /resetPassword/,
+                "frontofficeHome" : [/loginAgent/, /login/, /test/],
+                "frontofficeDocument" : [/details/, /binary/]
+            ]
+        ]
+    ]
+
+    /**
+     * Define default entry point (controller/action)
+     * according to application and user context.
+     */
+    private defaultPoints = [
+        (ContextType.ADMIN) :
+            [controller : "backofficeCategory", action : "list"],
+        (ContextType.AGENT) : [
+            (SecurityContext.BACK_OFFICE_CONTEXT) :
+                [controller : "backofficeRequest", action : "taskBoard"],
+            (SecurityContext.FRONT_OFFICE_CONTEXT) :
+                [controller : "frontofficeRequestType", action : "index"]
+        ],
+        (ContextType.ECITIZEN) :
+            [controller : "frontofficeHome", action : "index"],
+        (ContextType.UNAUTH_ECITIZEN) :
+            [controller : "frontofficeHome", action : "login"]
+    ]
+
+    /**
+     * According to application and user context,
+     * check whether requested controller and action are authorized.
+     *
+     * Return given controller and action if they are authorized,
+     * default entry point otherwise.
+     */
+    public Map defineAccessPoint(ContextType contextType,
+        String securityContext, String controller, String action) {
+        if(!contextType) contextType = ContextType.UNAUTH_ECITIZEN
+        if (!securityContext)
+            securityContext = SecurityContext.FRONT_OFFICE_CONTEXT
+        def current = [action : action, controller : controller]
+        def contextPermissions = permissions[contextType][securityContext]
+        if (contextPermissions == null) {
+            return defaultPoints[contextType]
+        }
+        if (!(contextPermissions instanceof Map)
+            && (controller =~ contextPermissions).matches()) {
             return current
-        } else if (permission instanceof Map && permission[controller]) {
-            def list = permission[controller]
-            if(!(list instanceof List)) list = [list]
-            
-            for(String regex : list) factor = (action =~ regex).matches() || factor
-            
-            if(factor) return current
-            else return (Map) defaultPoints[context.value()]
-        } else {
-            return (Map) defaultPoints[context.value()]
+        }
+        def authorized = false
+        if (contextPermissions[controller]) {
+            def controllerPermissions = contextPermissions[controller]
+            if (!(controllerPermissions instanceof List))
+                controllerPermissions = [controllerPermissions]
+            for(String regex : controllerPermissions) {
+                if ((action =~ regex).matches()) {
+                    authorized = true
+                    break
+                }
+            }
+        }
+        if (authorized) return current
+        else {
+            def contextDefaultPoints = defaultPoints[contextType][securityContext]
+            if (contextDefaultPoints == null)
+                return defaultPoints[contextType]
+            return contextDefaultPoints
         }
     }
-    
+
     public void setEcitizenSessionInformation(ecitizenLogin,session) {
         session.currentEcitizen = ecitizenLogin
         session.frontContext = ContextType.ECITIZEN
@@ -51,30 +116,6 @@ public class SecurityService {
         SecurityContext.setCurrentEcitizen(ecitizenLogin)
         
         def adult = SecurityContext.currentEcitizen
-        session.currentEcitizenName = adult.firstName + " " + adult.lastName    	
-    }
-    
-    protected void initPermissionsMap() {
-        if (this.permissions) return
-        
-        this.defaultPoints[ContextType.AGENT.value()] = 
-        	[controller:'frontofficeRequestType',action:'index']
-        this.defaultPoints[ContextType.UNAUTH_ECITIZEN.value()] = 
-        	[controller:'frontofficeHome',action:'login']
-        
-        this.permissions = [:]
-        this.permissions[ContextType.ECITIZEN.value()] = /.*/
-        this.permissions[ContextType.AGENT.value()] = [
-            'frontofficeRequestCreation' : /.*/,
-            'frontofficeRequestType' : /.*/,
-            'frontofficeDocument' : [/details/,/binary/],
-            'frontofficeHome' : [/loginAgent/,/logout/]
-        ]
-        this.permissions[ContextType.UNAUTH_ECITIZEN.value()] = [
-            'frontofficeRequestCreation' : /.*/,
-            'frontofficeHomeFolder' : /resetPassword/,
-            'frontofficeHome' : [/loginAgent/,/login/,/test/],
-            'frontofficeDocument' : [/details/,/binary/]
-        ]
+        session.currentEcitizenName = adult.firstName + " " + adult.lastName
     }
 }

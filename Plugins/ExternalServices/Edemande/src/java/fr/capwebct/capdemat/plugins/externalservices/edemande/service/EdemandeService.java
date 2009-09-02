@@ -380,7 +380,9 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         model.put("accountKey", sgr.getAccountKey());
         model.put("firstRequest", sgr.getSubjectInformations().getSubjectFirstRequest());
         model.put("creationDate", formatDate(sgr.getCreationDate()));
-        model.put("taxHouseholdCityCode", sgr.getTaxHouseholdCityArray(0).getName());
+        model.put("taxHouseholdCityCode",
+            sgr.getTaxHouseholdCityArray().length == 0 ? "" :
+            sgr.getTaxHouseholdCityArray(0).getName());
         model.put("taxHouseholdIncome", sgr.getTaxHouseholdIncome());
         model.put("hasCROUSHelp", sgr.getHasCROUSHelp());
         model.put("hasRegionalCouncilHelp", sgr.getHasRegionalCouncilHelp());
@@ -405,6 +407,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                 formatDate(sgr.getCurrentStudiesInformations().getAbroadInternshipEndDate()));
         model.put("currentSchoolName",
             StringUtils.defaultIfEmpty(sgr.getCurrentSchool().getCurrentSchoolNamePrecision(),
+            sgr.getCurrentSchool().getCurrentSchoolNameArray().length == 0 ? "" :
             sgr.getCurrentSchool().getCurrentSchoolNameArray(0).getName()));
         model.put("currentSchoolPostalCode",
             StringUtils.defaultString(sgr.getCurrentSchool().getCurrentSchoolPostalCode()));

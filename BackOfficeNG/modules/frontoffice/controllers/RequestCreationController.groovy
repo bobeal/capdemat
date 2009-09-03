@@ -101,11 +101,16 @@ class RequestCreationController {
             requester = new Adult()
             homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE)
         }
-        
-        def i18accessErrors = 
-          requestTypeAdaptorService.requestTypeNotAccessibleMessages(requestTypeService.getRequestTypeByLabel(params.label), requester.homeFolder)
-        if (!i18accessErrors.isEmpty())
-            throw new CvqException(params.label + " is not accessible", i18accessErrors.get(0))
+
+        if (cRequest.id == null) {
+            def i18accessErrors =
+                requestTypeAdaptorService.requestTypeNotAccessibleMessages(
+                    requestTypeService.getRequestTypeByLabel(params.label),
+                    requester.homeFolder)
+            if (!i18accessErrors.isEmpty())
+                throw new CvqException(params.label + " is not accessible",
+                i18accessErrors.get(0))
+        }
 
         def individuals
         if (params.label != 'Home Folder Modification') individuals = new HomeFolderDTO()

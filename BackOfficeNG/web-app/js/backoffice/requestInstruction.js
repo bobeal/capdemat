@@ -350,7 +350,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             + '&propertyType=' + ylj.stringify(jsonPropertyType)
             + '&propertyName=' + targetEl.id
             + '&propertyValue=' + propertyValue
-            + '&propertyRegex=' + (yl.isUndefined(targetEl.attributes.regex) ? '' : targetEl.attributes.regex.value),
+            + '&propertyRegex=' + (yl.isUndefined(targetEl.attributes.regex) ? '' : encodeURIComponent(targetEl.attributes.regex.value)),
             null, 
             function(o) {
               yud.addClass(targetEl, 'current-editField');

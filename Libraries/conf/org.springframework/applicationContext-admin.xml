@@ -322,7 +322,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="quartzScheduler"
     class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
     <property name="triggers">
-      <list>
+      <set>
         <ref bean="requestCreationNotificationTrigger" />
         <ref bean="requestInstructionDurationCheckerTrigger" />
         <ref bean="documentValidityCheckerTrigger" />
@@ -334,7 +334,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <ref bean="requestWorkflowNavigatorTrigger" />
         <ref bean="paymentInitializationCheckerTrigger" />
 	    -->
-      </list>
+      </set>
     </property>
   </bean>
 

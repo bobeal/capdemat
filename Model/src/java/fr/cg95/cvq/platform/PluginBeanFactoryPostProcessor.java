@@ -17,7 +17,7 @@
  */
 package fr.cg95.cvq.platform;
 
-import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
@@ -25,6 +25,7 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.BeanReference;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 
@@ -33,7 +34,7 @@ import org.springframework.beans.factory.config.RuntimeBeanReference;
  * <em>extension</em> beans.</p>
  * 
  * <p>Typical spring allows you to directly wire together components.  This
- * post processor will insert a bean definition into a {@link List} based property
+ * post processor will insert a bean definition into a {@link Set} based property
  * of another bean just before object creation.  This combined with springs
  * auto discovery of context files allows you to wire together components without
  * the original component's configuration getting modified.</p>
@@ -41,14 +42,14 @@ import org.springframework.beans.factory.config.RuntimeBeanReference;
  * <h2>Example</h2>
  * Imagine a bean context with the following contents.  It defines a bean named
  * <em>extension.object</em> with a property <em>extProperty</em> that is
- * an empty list.
+ * an empty set.
  * <pre><code>
  * <beans>
  *     <bean id="extension.object" class="some.class">
  *         <property name="extProperty">
- *	           <list>
+ *	           <set>
  *	           <!-- properties typically added via plug-in mechanism -->
- *	           </list>
+ *	           </set>
  *          </property>
  *     </bean>
  * </beans>
@@ -75,8 +76,8 @@ import org.springframework.beans.factory.config.RuntimeBeanReference;
  * as follows:
  * <pre><code>
  *     <bean class="platform.spring.PluginBeanFactoryPostProcessor">
- *	       <property name="extensionBeanName" value="<em>bean with list based property</em>" />
- *		   <property name="propertyName" value="<em>list based property</em>" />
+ *	       <property name="extensionBeanName" value="<em>bean with set based property</em>" />
+ *		   <property name="propertyName" value="<em>set based property</em>" />
  *		   <property name="pluginBeanName" value="<em>bean to plugin</em>" />
  *	   </bean>
  * </code></pre>
@@ -90,7 +91,7 @@ public class PluginBeanFactoryPostProcessor implements BeanFactoryPostProcessor 
 	static Logger logger = Logger.getLogger(PluginBeanFactoryPostProcessor.class);
 	
 	/**
-	 * The bean that is being extended (the bean with a {@link List} based
+	 * The bean that is being extended (the bean with a {@link Set} based
 	 * property.
 	 * @param beanName Spring bean name.
 	 */
@@ -99,7 +100,7 @@ public class PluginBeanFactoryPostProcessor implements BeanFactoryPostProcessor 
 	}
 
 	/**
-	 * The name of the {@link List} property within the
+	 * The name of the {@link Set} property within the
 	 * {@link #setExtensionBeanName(String) extension} bean.
 	 * @param propertyName property name.
 	 */
@@ -108,7 +109,7 @@ public class PluginBeanFactoryPostProcessor implements BeanFactoryPostProcessor 
 	}
 	
 	/**
-	 * The name of the bean to plug-in to the extension bean's list property.
+	 * The name of the bean to plug-in to the extension bean's set property.
 	 * @param pluginName The plugin bean's name.
 	 */
 	public void setPluginBeanName(String pluginName) {
@@ -133,13 +134,13 @@ public class PluginBeanFactoryPostProcessor implements BeanFactoryPostProcessor 
 			throw new IllegalArgumentException("Cannot find property " + propertyName + " in bean " + extensionBeanName);
 		PropertyValue pv = propValues.getPropertyValue(propertyName);
 		Object prop = pv.getValue();
-		if ( !(prop instanceof List))
+		if ( !(prop instanceof Set<?>))
 			throw new IllegalArgumentException("Property " + propertyName +
 					                           " in extension bean " + extensionBeanName +
-					                           " is not an instanceof List."); 
+					                           " is not an instanceof Set.");
 			
-		List l = (List) pv.getValue();
-		
+		Set<BeanReference> l =
+		    (Set<BeanReference>)pv.getValue();
 		l.add(new RuntimeBeanReference(pluginBeanName));
 	}
 }

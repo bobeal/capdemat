@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.exception.CvqModelException;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.HashMap;
  *
  * FIXME - move business code in buisiness layer !
  */
-public class HomeFolderDTO {
+public class HomeFolderDTO implements Serializable {
 
     private List<Adult> adults;
     private List<Child> children;

@@ -27,6 +27,7 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.util.translation.ITranslationService;
 
 /**
  * Implementation of the {@link IDocumentService} service.
@@ -41,7 +42,8 @@ public class DocumentService implements IDocumentService {
     
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
-    
+    private ITranslationService translationService;
+
     public DocumentService() {
         super();
     }
@@ -367,7 +369,11 @@ public class DocumentService implements IDocumentService {
                 throw new CvqException("Could not validate document " + e.toString());
             }
         } else {
-            throw new CvqInvalidTransitionException();
+            throw new CvqInvalidTransitionException(
+                translationService.translate("document.state."
+                    + document.getState().toString().toLowerCase()),
+                translationService.translate("document.state."
+                    + DocumentState.VALIDATED.toString().toLowerCase()));
         }
 
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.VALIDATED, document);
@@ -490,6 +496,10 @@ public class DocumentService implements IDocumentService {
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
+    }
+
+    public void setTranslationService(ITranslationService translationService) {
+        this.translationService = translationService;
     }
 }
 

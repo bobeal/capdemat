@@ -7,18 +7,27 @@ package fr.cg95.cvq.exception;
  */
 public class CvqInvalidTransitionException extends CvqException {
 
-    public CvqInvalidTransitionException(String reason, String key) {
-        super(reason, key);
-        // TODO Auto-generated constructor stub
-    }
-
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Default constructor with default message.
+     * <br />
+     * Usage is discouraged, use
+     * {@link #CvqInvalidTransitionException(String from, String to)}
+     * when possible.
+     */
     public CvqInvalidTransitionException() {
-        super();
+        super("Transition is invalid", "message.invalidTransition");
     }
 
-    public CvqInvalidTransitionException(String reason) {
-        super(reason);
+    /**
+     * Display a parametered error message with both states.
+     * <br />
+     * TODO : Define a State superclass for all *State,
+     * and use it here instead of String ?
+     */
+    public CvqInvalidTransitionException(String from, String to) {
+        super("Transition from " + from + " to " + to + " is invalid",
+            "message.invalidTransition.parametered", new String[]{from, to});
     }
 }

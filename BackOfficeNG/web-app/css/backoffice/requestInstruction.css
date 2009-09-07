@@ -148,6 +148,14 @@
   background-color: #ffffff;
 }
 
+ul.document-list a.removeDocument {
+  float : right;
+  cursor : pointer;
+  height : 16px;
+  width : 16px;
+  background-image: url(../../images/icons/16-unassociate.png);
+}
+
 /* request Information
 -------------------------------------------------------------- */
 #requestInformation { margin-top: 10px; }

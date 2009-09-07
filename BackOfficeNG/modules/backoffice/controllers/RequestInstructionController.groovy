@@ -425,6 +425,17 @@ class RequestInstructionController {
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 
+    def removeDocument = {
+        if (request.getMethod().toLowerCase() == "delete") {
+            defaultRequestService.removeDocument(
+                defaultRequestService
+                    .getAndTryToLock(Long.valueOf(params.requestId)),
+                Long.valueOf(params.documentId))
+            render ([status:"ok",
+                success_msg:message(code:"message.deleteDone")] as JSON)
+        }
+    }
+
     /*  request information  managment
     * --------------------------------------------------------------------- */
 

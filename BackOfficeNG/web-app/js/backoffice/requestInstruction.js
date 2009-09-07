@@ -286,7 +286,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         init();
         zcbr.Instruction.inlineEditEvent = new zct.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
         yue.on('requestData','click',zcbr.Instruction.inlineEditEvent.dispatch,zcbr.Instruction.inlineEditEvent,true);
-        
+        yue.on(yus.query('ul.document-list'),'click',zcbr.Instruction.inlineEditEvent.dispatch,zcbr.Instruction.inlineEditEvent,true);
         switchStatePanel = zca.advise(switchStatePanel,new zca.Advice('beforeSuccess',zcbr.Permission.validateAgent));
         zca.advise(['addListItem','deleteListItem','editField'],
           new zca.Advice('beforeSuccess',zcbr.Permission.validate),zcbr.Instruction);
@@ -404,6 +404,24 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             , null,
             function(o) { zct.html(yud.get('widget-' + idRegex[2]), o.responseText); }
           );
+      },
+      removeDocument : function(e) {
+        var target = yue.getTarget(e);
+        var id = target.id.split('_')[1];
+        new zct.ConfirmationDialog(
+          { head : 'Attention !',
+            body : 'Souhaitez-vous réellement détacher ce document de la demande ? Cette action est irréversible.' },
+          function() {
+            zct.doAjaxDeleteCall("/removeDocument","requestId=" + zcb.requestId
+              + "&documentId=" + id, function(o) {
+              var json = ylj.parse(o.responseText);
+              if (json.status == "ok") {
+                zct.Notifier.processMessage('success', json.success_msg);
+                zcb.document.Instruction.refreshList();
+                zcb.document.Instruction.refreshList(true);
+              }
+            });
+          }).show(e);
       }
     };
     

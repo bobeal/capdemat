@@ -60,6 +60,7 @@
             <g:each var="document" status="i" in="${documentList}">
               <g:if test="${document.id != 0}">
                 <li>
+                  <a class="removeDocument" id="removeDocument_${document.id}" />
                   <a class="documentLink" id="displayDocPanel_${document.id}" 
                     href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}?dtid=${document.documentTypeId}&rid=${request.id}">
                     ${document.name}</a> - ${document.pageNumber} <g:message code="property.pages"/>
@@ -124,6 +125,9 @@
                 href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}?dtid=${document.documentTypeId}&rid=${request.id}">
                 <g:message code="${document.state.i18nKey}" />
               </a>
+              <g:if test="${document?.id}">
+                <a class="removeDocument" id="removeDocument_${document.id}"> </a>
+              </g:if>
               ${document.name}
             </li>
           </g:each>

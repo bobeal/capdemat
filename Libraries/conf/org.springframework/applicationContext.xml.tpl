@@ -314,6 +314,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="documentDAO" ref="documentDAO"/>
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
+    <property name="translationService" ref="translationService"/>
   </bean>
 
   <bean id="documentTypeService" class="fr.cg95.cvq.service.document.impl.DocumentTypeService">

@@ -338,10 +338,9 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     @Override
     public Collection<String>
         getRequestTypesForExternalService(String externalServiceLabel) {
-        return
-            getBeanForExternalService(
-                getExternalServiceByLabel(externalServiceLabel))
-            .getRequestTypes();
+        ExternalServiceBean esb =
+            getBeanForExternalService(getExternalServiceByLabel(externalServiceLabel));
+        return esb == null ? Collections.EMPTY_LIST : esb.getRequestTypes();
     }
 
     @Override

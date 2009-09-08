@@ -580,9 +580,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="csvParserService" 
     class="fr.cg95.cvq.service.importer.impl.CsvParserService">
     <property name="importers">
-      <list>
+      <set>
         <!-- properties added via plug-in mechanism -->
-      </list>
+      </set>
     </property>
   </bean>
 

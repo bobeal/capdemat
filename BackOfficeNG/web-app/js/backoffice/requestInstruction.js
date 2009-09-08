@@ -48,7 +48,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       init : function() {
         zcbr.RequestLock.panel = new yw.Panel(
           'requestLockPanel',
-          { width: '110%',
+          { width: '300px',
             visible: false,
             constraintoviewport: true, draggable: false,
             underlay: 'none', close: false
@@ -63,14 +63,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       processClick : function(e) {
         return yue.getTarget(e).getAttribute("rel");
       },
-      loadRequestLockPanel : function(e) {
-        zct.doAjaxCall("/requestLock/" + zcb.requestId + "?part=panel", null, function(o) {
-          zcbr.RequestLock.refreshRequestLock();
-          zcbr.RequestLock.panel.setBody(o.responseText);
-          zcbr.RequestLock.panel.cfg.setProperty("context",
-            ["requestLockTag", "tr", "br"]);
-          zcbr.RequestLock.panel.show();
-        });
+      switchRequestLockPanel : function(e) {
+        zcbr.RequestLock.refreshRequestLock();
+        if (zcbr.RequestLock.panel.cfg.getProperty('visible')) {
+          zcbr.RequestLock.hideRequestLockPanel();
+        } else {
+          zct.doAjaxCall("/requestLock/" + zcb.requestId + "?part=panel", null, function(o) {
+            zcbr.RequestLock.panel.setBody(o.responseText);
+            zcbr.RequestLock.panel.cfg.setProperty("context",
+              ["requestLockTag", "tr", "br"]);
+            zcbr.RequestLock.panel.show();
+          });
+        }
       },
       refreshRequestLock : function(e) {
         zct.doAjaxCall("/requestLock/" + zcb.requestId + "?part=tag", null, function(o) {

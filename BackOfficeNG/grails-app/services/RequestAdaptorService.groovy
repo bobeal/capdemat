@@ -17,7 +17,9 @@ class RequestAdaptorService {
 
     def instructionService
     def translationService
-    
+    def agentService
+    def individualService
+
     public translateAndSortRequestTypes(onlyManaged = false) {
         def allRequestTypes =
             onlyManaged ? requestTypeService.getManagedRequestTypes() : requestTypeService.getAllRequestTypes()
@@ -138,6 +140,17 @@ class RequestAdaptorService {
                     new DateTime()).minutes
             result.lifetime =
                 SecurityContext.currentSite.requestLockMaxDelay - result.age
+            if (result.lockedByCurrentUser)
+                result.lockerName = translationService.translate("you")
+            else {
+                if (agentService.exists(requestLock.userId)) {
+                    def agent = agentService.getById(requestLock.userId)
+                    result.lockerName = "$agent.firstName $agent.lastName"
+                } else {
+                    result.lockerName =
+                        """${translationService.translate("layout.theMale")} ${translationService.translate("eCitizen")}"""
+                }
+            }
         }
         return result
     }

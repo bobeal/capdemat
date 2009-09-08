@@ -1,6 +1,6 @@
 <g:if test="${locked || lockedByCurrentUser}">
   <p>
-    <g:message code="request.lock.locked.since" args="${[age, lifetime]}" />
+    <g:message code="request.lock.locked.since" args="${[age, lifetime, lockerName]}" />
   </p>
 </g:if>
 <g:else>

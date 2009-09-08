@@ -47,8 +47,8 @@ plugins.externalservices.clever.enabled=false
 plugins.externalservices.horanet.end_point=http://80.118.178.14/WebServiceCG95/CVQ.asmx
 plugins.externalservices.horanet.end_point2=http://80.118.178.14/WebServiceCG95/CVQ2.asmx
 plugins.externalservices.horanet.end_point3=http://80.118.178.14/WS-WebCT/CVQ3.asmx
-plugins.externalservices.horanet.login=cg95
-plugins.externalservices.horanet.password=webservicecg95
+plugins.externalservices.horanet.login=test
+plugins.externalservices.horanet.password=test
 
 # ExternalServices - CapWebCT Payment Module
 plugins.externalservices.capwebctpaymentmodule.webservice_uri=http://localhost:8090/PaymentModule/webservice

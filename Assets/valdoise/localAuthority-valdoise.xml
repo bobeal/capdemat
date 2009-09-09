@@ -33,7 +33,7 @@
                   <key>
                     <value>callbackUrl</value>
                   </key>
-                  <value>/CapDemat/frontoffice/payment/status</value>
+                  <value>/frontoffice/payment/status</value>
                 </entry>
               </map>
             </property>

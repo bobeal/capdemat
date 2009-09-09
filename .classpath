@@ -15,6 +15,8 @@
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Spplus/build/classes" path="Plugins/PaymentProviders/Spplus/src/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Payline/build/classes" path="Plugins/PaymentProviders/Payline/src/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Payline/build/test" path="Plugins/PaymentProviders/Payline/test/java"/>
+	<classpathentry kind="src" output="Plugins/PaymentProviders/PaylineV4/build/classes" path="Plugins/PaymentProviders/PaylineV4/src/java"/>
+	<classpathentry kind="src" output="Plugins/PaymentProviders/PaylineV4/build/test" path="Plugins/PaymentProviders/PaylineV4/test/java"/>
 	<classpathentry kind="src" output="Plugins/CsvImporters/Concerto/build/test" path="Plugins/CsvImporters/Concerto/test/java"/>
 	<classpathentry kind="src" output="Plugins/CsvImporters/Concerto/build/classes" path="Plugins/CsvImporters/Concerto/src/java"/>
 	<classpathentry kind="src" output="Generator/build/classes" path="Generator/src/java"/>
@@ -23,7 +25,7 @@
 	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/src/java"/>
 	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/test/java"/>
 	<classpathentry kind="lib" path="Libraries/com.lowagie/iText.jar"/>
-	<classpathentry kind="lib" path="Libraries/edu.yale/cas/casclient-2.1.1-1.jar" sourcepath="/home/bor/java/cas/cas-client-java-2.1.1/src"/>
+	<classpathentry kind="lib" path="Libraries/edu.yale/cas/casclient-2.1.1-1.jar"/>
 	<classpathentry kind="lib" path="Libraries/jaf/activation.jar"/>
 	<classpathentry kind="lib" path="Libraries/mail/mail.jar"/>
 	<classpathentry kind="lib" path="Libraries/net.sf/saxon/saxon8.jar"/>
@@ -36,14 +38,14 @@
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-digester-1.7.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-fileupload.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-httpclient-2.0.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-httpclient-3.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-lang-2.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-pool.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-validator.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/avalon-framework-cvs-20020806.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/batik.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/fop.jar" sourcepath="/home/bor/java/fop-0.20.5/src"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/fop.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-oro-2.0.8/jakarta-oro-2.0.8.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/jaxen-core.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/jaxen-dom.jar"/>
@@ -101,7 +103,7 @@
 	<classpathentry kind="lib" path="Libraries/groovy/groovy-all-1.5.4.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.joda/joda-time-1.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/opencsv/opencsv-1.8.jar"/>
-	<classpathentry kind="lib" path="Libraries/jsch/jsch-0.1.41.jar" sourcepath="/home/jsb/Bureau/jsch-0.1.41.zip"/>
+	<classpathentry kind="lib" path="Libraries/jsch/jsch-0.1.41.jar"/>
 	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-1.5.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-tiger-1.5.6.jar"/>

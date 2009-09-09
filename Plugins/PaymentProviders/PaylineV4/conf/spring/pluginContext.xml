@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="paylineV4PaymentProvider"
+    class="fr.capwebct.capdemat.plugins.paymentproviders.paylinev4.service.PaylineV4Service">
+    <property name="paylineV4Client" ref="paylineV4Client" />
+    <property name="returnUrl" value="${plugins.paymentproviders.paylinev4.return_url}" />
+    <property name="cancelUrl" value="${plugins.paymentproviders.paylinev4.cancel_url}" />
+    <property name="paymentDAO" ref="paymentDAO" />
+  </bean>
+
+  <bean id="paylineXmlBeanMarshaller"
+    class="org.springframework.oxm.xmlbeans.XmlBeansMarshaller" />
+
+  <bean name="paylineWebPaymentService"
+    class="org.springframework.ws.client.core.WebServiceTemplate">
+    <property name="defaultUri">
+      <value>${plugins.paymentproviders.paylinev4.default_uri}</value>
+    </property>
+    <property name="messageSender" ref="messageSender" />
+    <property name="marshaller" ref="paylineXmlBeanMarshaller" />
+    <property name="unmarshaller" ref="paylineXmlBeanMarshaller" />
+  </bean>
+
+  <bean id="paylineV4Client"
+    class="fr.capwebct.capdemat.plugins.paymentproviders.paylinev4.webservice.client.PaylineV4Client">
+    <property name="paylineWebPaymentService" ref="paylineWebPaymentService" />
+  </bean>
+
+  <bean id="messageSender" class="org.springframework.ws.transport.http.CommonsHttpMessageSender">
+    <constructor-arg ref="httpClient"></constructor-arg>
+    <property name="credentials" ref="credentials"/>
+  </bean>
+
+  <bean id="httpClientParams" class="org.apache.commons.httpclient.params.HttpClientParams">
+    <property name="authenticationPreemptive" value="true"/>
+    <property name="connectionManagerClass"
+      value="org.apache.commons.httpclient.MultiThreadedHttpConnectionManager"/>
+  </bean>
+
+  <bean id="httpClient" class="org.apache.commons.httpclient.HttpClient">
+    <constructor-arg ref="httpClientParams"/>
+  </bean>
+
+  <!-- TODO : externalize in properties files -->
+  <bean id="credentials" class="org.apache.commons.httpclient.UsernamePasswordCredentials">
+    <!-- <constructor-arg value="46805303284230"/>
+    <constructor-arg value="OsvZVDFCA2syFRkpZlxY"/> -->
+    <constructor-arg value="toto"/>
+    <constructor-arg value="toto"/>
+  </bean>
+
+</beans>

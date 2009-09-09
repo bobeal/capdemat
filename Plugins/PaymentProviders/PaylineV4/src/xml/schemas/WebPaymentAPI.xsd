@@ -1,0 +1,124 @@
+<xsd:schema targetNamespace="http://impl.ws.payline.experian.com" 
+	xmlns:impl="http://impl.ws.payline.experian.com" 
+	xmlns:intf="http://impl.ws.payline.experian.com" 
+	xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:apachesoap="http://xml.apache.org/xml-soap" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:tns1="http://obj.ws.payline.experian.com"
+	elementFormDefault="qualified" >
+
+			<xs:import namespace="http://obj.ws.payline.experian.com" schemaLocation="Types.xsd"/>
+			
+			<xs:element name="doWebPaymentRequest">
+				<complexType>
+					<annotation>
+						<xs:documentation>
+							This element is the request for the
+							doWebPayment method
+						</xs:documentation>
+					</annotation>
+					<sequence>
+						<element name="payment" nillable="false" type="tns1:payment"/>
+						<element name="returnURL" nillable="false" type="xsd:string"/>
+						<element name="cancelURL" nillable="false" type="xsd:string"/>
+						<element name="order" nillable="false" type="tns1:order"/>
+						<element name="notificationURL" nillable="true" type="xsd:string"/>
+						<element name="selectedContractList" nillable="true" type="tns1:selectedContractList"/>
+						<element name="privateDataList" nillable="true" type="tns1:privateDataList"/>
+						<element name="languageCode" nillable="true" type="xsd:string"/>
+						<element name="customPaymentPageCode" nillable="true" type="xsd:string"/>
+						<element name="buyer" nillable="true" type="tns1:buyer"/>
+						<element name="securityMode" nillable="true" type="xsd:string"/>
+						<element name="recurring" nillable="true" type="tns1:recurring"/>
+						<element name="customPaymentTemplateURL" nillable="true" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</xs:element>
+			<element name="doWebPaymentResponse">
+				<complexType>
+					<annotation>
+						<xs:documentation>
+							This element is the reponse from the
+							doWebPayment method
+						</xs:documentation>
+					</annotation>
+					<sequence>
+						<element name="result" nillable="false" type="tns1:result"/>
+						<element name="token" nillable="false" type="xsd:string"/>
+						<element name="redirectURL" nillable="false" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="getWebPaymentDetailsRequest">
+				<complexType>
+					<annotation>
+						<documentation>
+							This element is the reponse from the
+							getWebPayment method
+						</documentation>
+					</annotation>
+					<sequence>
+						<element name="token" nillable="false" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="getWebPaymentDetailsResponse">
+				<complexType>
+					<annotation>
+						<documentation>
+							This element is the reponse from the
+							doWebPayment method
+						</documentation>
+					</annotation>
+					<sequence>
+						<element name="result" nillable="false" type="tns1:result"/>
+						<element name="transaction" nillable="false" type="tns1:transaction"/>
+						<element name="payment" nillable="false" type="tns1:payment"/>
+						<element name="authorization" nillable="false" type="tns1:authorization"/>
+						<element name="privateDataList" nillable="true" type="tns1:privateDataList"/>
+						<element name="billingRecordList" nillable="true" type="tns1:billingRecordList"/>
+						<element name="authentication3DSecure" nillable="true" type="tns1:authentication3DSecure"/>
+					</sequence>
+				</complexType>
+			</element>
+
+			<complexType name="payment">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						payment
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="amount" nillable="false" type="xsd:string"/>
+					<element name="currency" nillable="false" type="xsd:string"/>
+					<element name="action" nillable="false" type="xsd:string"/>
+					<element name="mode" nillable="false" type="xsd:string"/>
+					<element name="contractNumber" nillable="false" type="xsd:string"/>
+					<element name="differedActionDate" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+
+			<complexType name="order">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						order
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="ref" nillable="false" type="xsd:string"/>
+					<element name="origin" nillable="true" type="xsd:string"/>
+					<element name="country" nillable="true" type="xsd:string"/>
+					<element name="taxes" nillable="true" type="xsd:string"/>
+					<element name="amount" nillable="false" type="xsd:string"/>
+					<element name="currency" nillable="false" type="xsd:string"/>
+					<element name="date" nillable="false" type="xsd:string"/>
+					<element name="details" nillable="true" type="tns1:details"/>
+				</sequence>
+			</complexType>
+
+</xsd:schema>

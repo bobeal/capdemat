@@ -1,0 +1,7 @@
+<xb:config xmlns:xb="http://xml.apache.org/xmlbeans/2004/02/xbean/config">
+
+  <xb:namespace uri="http://www.cg95.fr/cvq/schema/payment/paylinev4">
+    <xb:package>fr.capwebct.capdemat.plugins.paymentproviders.paylinev4.schemas</xb:package>
+  </xb:namespace>
+
+</xb:config>

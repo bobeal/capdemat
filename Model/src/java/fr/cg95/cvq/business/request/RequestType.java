@@ -32,6 +32,8 @@ public class RequestType implements Serializable {
     private Boolean active;
     /** the category which is in charge of this request type */
     private Category category;
+    /** this group in which request type will be display */
+    private DisplayGroup displayGroup;
 
     /** the set of requirements to fulfill this request type */
     private Set<Requirement> requirements;
@@ -109,6 +111,19 @@ public class RequestType implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    /**
+     * @hibernate.many-to-one
+     *  column="display_group_id"
+     *  class="fr.cg95.cvq.business.request.DisplayGroup"
+     */
+    public DisplayGroup getDisplayGroup() {
+        return displayGroup;
+    }
+
+    public void setDisplayGroup(DisplayGroup displayGroup) {
+        this.displayGroup = displayGroup;
     }
 
     /**

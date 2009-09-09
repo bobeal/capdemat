@@ -363,7 +363,8 @@
 			<batchtest>
 				<fileset dir="${basedir}/${build.test.dir}">
 				  	<!--include name="**/CapdematTestSuite.class"/-->
-					<include name="**/*Test.class"/>
+				  <include name="**/*DisplayGroupServiceTest.class" />
+					<!--include name="**/*Test.class"/-->
 				  	<!-- has to be ported -->
 				  	<exclude name="**/NextGenerationGenericDAOTest.class"/>
 					<!-- requires mail sending infrastructure -->

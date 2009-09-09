@@ -38,6 +38,45 @@
         </entry>
         <entry>
           <key>
+            <ref bean="paylineV4PaymentProvider" />
+          </key>
+          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+            <property name="broker" value="PaylineV4" />
+            <property name="friendlyLabel" value="Service scolaire" />
+            <property name="requestTypes">
+              <list>
+                <value>School Canteen Registration</value>
+                <value>Perischool Activity Registration</value>
+                <value>Recreation Activity Registration</value>
+              </list>
+            </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>merchantID</value>
+                  </key>
+                  <value>46805303284230</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>merchantAccesskey</value>
+                  </key>
+                  <value>OsvZVDFCA2syFRkpZlxY</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>contractNumber</value>
+                  </key>
+                  <value>2319905</value>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+        <!--
+        <entry>
+          <key>
             <ref bean="paylinePaymentProvider" />
           </key>
           <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
@@ -134,6 +173,7 @@
             </property>
           </bean>
         </entry>
+        -->
       </map>
     </property>
     <property name="externalServices">

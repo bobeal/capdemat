@@ -121,7 +121,7 @@
 		</taskdef>
 
 		<xmlbean destfile="${basedir}/${build.archives.dir}/${application.name}-ExternalServicesSchemas-${application.version}.jar" 
-			classpathref="classpath.compile">
+			classpathref="classpath.compile" download="true">
 			<fileset dir="${src.xml.dir}/schemas/external">
 				<include name="*.xsd" />
 			</fileset>

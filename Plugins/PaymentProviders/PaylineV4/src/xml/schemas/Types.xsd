@@ -1,0 +1,366 @@
+<xsd:schema targetNamespace="http://obj.ws.payline.experian.com" 
+	xmlns:tns1="http://obj.ws.payline.experian.com"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+
+			<complexType name="result">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						process
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="code" nillable="false" type="xsd:string"/>
+					<element name="shortMessage" nillable="true" type="xsd:string"/>
+					<element name="longMessage" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="order">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						order
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="ref" nillable="false" type="xsd:string"/>
+					<element name="origin" nillable="true" type="xsd:string"/>
+					<element name="country" nillable="true" type="xsd:string"/>
+					<element name="taxes" nillable="true" type="xsd:string"/>
+					<element name="amount" nillable="false" type="xsd:string"/>
+					<element name="currency" nillable="false" type="xsd:string"/>
+					<element name="date" nillable="false" type="xsd:string"/>
+					<element name="details" nillable="true" type="tns1:details"/>
+				</sequence>
+			</complexType>
+
+			<complexType name="details">
+				<annotation>
+					<documentation>
+						This element contains an array of orderDetail
+					</documentation>
+				</annotation>
+				<sequence>
+					<element maxOccurs="100" minOccurs="0" name="details" type="tns1:orderDetail"/>
+				</sequence>
+			</complexType>
+
+			<complexType name="orderDetail">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						order product
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="ref" nillable="true" type="xsd:string"/>
+					<element name="price" nillable="true" type="xsd:string"/>
+					<element name="quantity" nillable="true" type="xsd:string"/>
+					<element name="comment" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="privateData">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						merchant private data
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="key" nillable="false" type="xsd:string"/>
+					<element name="value" nillable="false" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="transaction">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						transaction
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="id" nillable="false" type="xsd:string"/>
+					<element name="date" nillable="false" type="xsd:string"/>
+					<element name="isDuplicated" nillable="true" type="xsd:string"/>
+					<element name="isPossibleFraud" nillable="false" type="xsd:string"/>
+					<element name="fraudResult" nillable="true" type="xsd:string"/>
+					<element name="explanation" nillable="true" type="xsd:string"/>
+					<element minOccurs="0" name="threeDSecure" nillable="true" type="xsd:string"/>
+					<element name="score" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="payment">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						payment
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="amount" nillable="false" type="xsd:string"/>
+					<element name="currency" nillable="false" type="xsd:string"/>
+					<element name="action" nillable="false" type="xsd:string"/>
+					<element name="mode" nillable="false" type="xsd:string"/>
+					<element name="contractNumber" nillable="false" type="xsd:string"/>
+					<element name="differedActionDate" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="authorization">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						authorization
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="number" nillable="false" type="xsd:string"/>
+					<element name="date" nillable="false" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="card">
+				<annotation>
+					<documentation>
+						This element contains information about the card
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="number" nillable="false" type="xsd:string"/>
+					<element name="type" nillable="false" type="xsd:string"/>
+					<element name="expirationDate" nillable="true" type="xsd:string"/>
+					<element name="cvx" nillable="true" type="xsd:string"/>
+					<element name="ownerBirthdayDate" nillable="true" type="xsd:string"/>
+					<element name="password" nillable="true" type="xsd:string"/>
+					<element name="cardPresent" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="buyer">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						buyer
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="lastName" nillable="true" type="xsd:string"/>
+					<element name="firstName" nillable="true" type="xsd:string"/>
+					<element name="email" nillable="true" type="xsd:string"/>
+					<element name="shippingAdress" nillable="true" type="tns1:address"/>
+					<element name="accountCreateDate" nillable="true" type="xsd:string"/>
+					<element name="accountAverageAmount" nillable="true" type="xsd:string"/>
+					<element name="accountOrderCount" nillable="true" type="xsd:string"/>
+					<element name="walletId" nillable="true" type="xsd:string"/>
+					<element name="ip" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="address">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						address
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="name" nillable="true" type="xsd:string"/>
+					<element name="street1" nillable="true" type="xsd:string"/>
+					<element name="street2" nillable="true" type="xsd:string"/>
+					<element name="cityName" nillable="true" type="xsd:string"/>
+					<element name="zipCode" nillable="true" type="xsd:string"/>
+					<element name="country" nillable="true" type="xsd:string"/>
+					<element name="phone" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="capture">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						capture
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="transactionID" nillable="false" type="xsd:string"/>
+					<element name="payment" nillable="false" type="tns1:payment"/>
+				</sequence>
+			</complexType>
+			<complexType name="refund">
+				<annotation>
+					<documentation>
+						This element contains information about the
+						refund
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="transactionID" nillable="false" type="xsd:string"/>
+					<element name="payment" nillable="false" type="tns1:payment"/>
+				</sequence>
+			</complexType>
+			<complexType name="selectedContractList">
+				<annotation>
+					<documentation>
+						This element contains the list of selected card
+					</documentation>
+				</annotation>
+				<sequence>
+					<element maxOccurs="25" minOccurs="1" name="selectedContract" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="privateDataList">
+				<annotation>
+					<documentation>
+						An array of private data
+					</documentation>
+				</annotation>
+				<sequence>
+					<element maxOccurs="100" minOccurs="0" name="privateData" type="tns1:privateData"/>
+				</sequence>
+			</complexType>
+			<complexType name="captureAuthorizationList">
+				<annotation>
+					<documentation>
+						An array of authorization to capture
+					</documentation>
+				</annotation>
+				<sequence>
+					<element maxOccurs="5000" minOccurs="1" name="capture" type="tns1:capture"/>
+				</sequence>
+			</complexType>
+			<complexType name="refundAuthorizationList">
+				<annotation>
+					<documentation>
+						An array of authorization to refund
+					</documentation>
+				</annotation>
+				<sequence>
+					<element maxOccurs="5000" minOccurs="1" name="refund" type="tns1:refund"/>
+				</sequence>
+			</complexType>
+			<complexType name="resetAuthorizationList">
+				<annotation>
+					<documentation>
+						An array of authorization to reset
+					</documentation>
+				</annotation>
+				<sequence>
+					<element maxOccurs="5000" minOccurs="1" name="transactionID" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="failedListObject">
+				<annotation>
+					<documentation>
+						An array of mass element failed
+					</documentation>
+				</annotation>
+				<sequence>
+					<element maxOccurs="5000" minOccurs="1" name="failedObject" type="tns1:transaction"/>
+				</sequence>
+			</complexType>
+			<complexType name="failedObject">
+				<annotation>
+					<documentation>
+						This element contains failedObject
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="transactionID" nillable="false" type="xsd:string"/>
+					<element name="result" nillable="false" type="tns1:result"/>
+				</sequence>
+			</complexType>
+			<complexType name="recurring">
+				<annotation>
+					<documentation>
+						This element contains element for recurring
+						operation
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="firstAmount" nillable="true" type="xsd:string"/>
+					<element name="amount" nillable="false" type="xsd:string"/>
+					<element name="billingCycle" nillable="false" type="xsd:string"/>
+					<element name="billingLeft" nillable="false" type="xsd:string"/>
+					<element name="billingDay" nillable="true" type="xsd:string"/>
+					<element name="startDate" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="billingRecord">
+				<annotation>
+					<documentation>
+						This element contains element for a billing
+						record
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="date" nillable="false" type="xsd:string"/>
+					<element name="amount" nillable="false" type="xsd:string"/>
+					<element name="status" nillable="false" type="xsd:string"/>
+					<element name="result" nillable="true" type="tns1:result"/>
+					<element name="transaction" nillable="true" type="tns1:transaction"/>
+					<element name="authorization" nillable="true" type="tns1:authorization"/>
+				</sequence>
+			</complexType>
+			<complexType name="billingRecordList">
+				<annotation>
+					<documentation>
+						An array of billing record
+					</documentation>
+				</annotation>
+				<sequence>
+					<element maxOccurs="100" minOccurs="0" name="billingRecord" type="tns1:billingRecord"/>
+				</sequence>
+			</complexType>
+			<complexType name="wallet">
+				<annotation>
+					<documentation>
+						This element contains element for a wallet
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="walletId" nillable="false" type="xsd:string"/>
+					<element name="lastName" nillable="true" type="xsd:string"/>
+					<element name="firstName" nillable="true" type="xsd:string"/>
+					<element name="email" nillable="true" type="xsd:string"/>
+					<element name="shippingAddress" nillable="true" type="tns1:address"/>
+					<element name="card" nillable="false" type="tns1:card"/>
+					<element name="comment" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="walletIdList">
+				<annotation>
+					<documentation>
+						This element contains the list of selected card
+					</documentation>
+				</annotation>
+				<sequence>
+					<element maxOccurs="500" minOccurs="1" name="walletId" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="transactionList">
+				<annotation>
+					<documentation>
+						This element contains the list of selected card
+					</documentation>
+				</annotation>
+				<sequence>
+					<element maxOccurs="5000" minOccurs="0" name="transaction" type="tns1:transaction"/>
+				</sequence>
+			</complexType>
+			<complexType name="authentication3DSecure">
+				<annotation>
+					<documentation>
+						This element contains element for a 3DSecure
+						transaction
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="md" nillable="true" type="xsd:string"/>
+					<element name="pares" nillable="true" type="xsd:string"/>
+					<element name="xid" nillable="true" type="xsd:string"/>
+					<element name="eci" nillable="true" type="xsd:string"/>
+					<element name="cavv" nillable="true" type="xsd:string"/>
+					<element name="cavvAlgorithm" nillable="true" type="xsd:string"/>
+					<element name="vadsResult" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+		</xsd:schema>

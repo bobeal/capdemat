@@ -46,6 +46,13 @@ public class PaymentDAO extends GenericDAO implements IPaymentDAO {
             .uniqueResult(); 
     }
 
+    public Payment findByBankReference(String bankReference) {
+        return (Payment) HibernateUtil.getSession()
+            .createQuery("from Payment as payment where payment.bankReference = :bankReference")
+            .setParameter("bankReference", bankReference)
+            .uniqueResult();
+    }
+
     public List<Payment> search(final Set<Critere> criteria, final String sort, String dir,
             int recordsReturned, int startIndex) {
 

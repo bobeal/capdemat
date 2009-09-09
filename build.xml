@@ -49,6 +49,7 @@
     <ant dir="${plugins.csvimporters.concerto.dir}" target="clean" />
     <ant dir="${plugins.csvimporters.subscriberslist.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.payline.dir}" target="clean" />
+    <ant dir="${plugins.paymentproviders.paylineV4.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.spplus.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.wynid.dir}" target="clean" />
     <ant dir="${plugins.paymentproviders.payboxsystem.dir}" target="clean" />
@@ -147,6 +148,7 @@
     <ant dir="${plugins.csvimporters.concerto.dir}" target="deploy" />
     <ant dir="${plugins.csvimporters.subscriberslist.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.payline.dir}" target="deploy" />
+    <ant dir="${plugins.paymentproviders.paylineV4.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.spplus.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.wynid.dir}" target="deploy" />
     <ant dir="${plugins.paymentproviders.payboxsystem.dir}" target="deploy" />
@@ -166,6 +168,10 @@
 
   <target name="deploy-plugin-payline" depends="init, compile-model">
     <ant dir="${plugins.paymentproviders.payline.dir}" target="deploy" />
+  </target>
+
+  <target name="deploy-plugin-paylineV4" depends="init, compile-model">
+    <ant dir="${plugins.paymentproviders.paylineV4.dir}" target="deploy" />
   </target>
 
   <target name="deploy-plugin-spplus" depends="init, compile-model">

@@ -36,7 +36,6 @@
                 <include name="*.jar" />
                 <exclude name="commons-dbcp-1.1.jar" />
                 <exclude name="commons-pool.jar" />
-                <exclude name="commons-http*.jar" />
             </fileset>
             <fileset dir="${fop.lib.dir}" />
             <fileset dir="${oro.lib.dir}" />

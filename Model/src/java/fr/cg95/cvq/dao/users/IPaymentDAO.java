@@ -23,7 +23,12 @@ public interface IPaymentDAO extends IGenericDAO {
      * Find the payment with the given internal reference.
      */
     Payment findByCvqReference(final String cvqReference);
-    
+
+    /**
+     * Find the payment with the given bank reference.
+     */
+    Payment findByBankReference(final String bankReference);
+
     /**
      * Look up payments given a set of search criteria.
      *

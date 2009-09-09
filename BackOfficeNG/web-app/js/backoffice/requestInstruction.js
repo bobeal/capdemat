@@ -161,6 +161,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               oldTagStateEl.innerHTML = newTagStateEl.innerHTML;
 
               zcb.instructionStatePanel.hide();
+              zcbr.Information.refreshTab("Historique");
             } else {
               zct.Notifier.processMessage('modelError',response.success_msg);
             }
@@ -502,6 +503,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       notify : function(o) {
         var json = ylj.parse(o.responseText);
         zct.Notifier.processMessage('success',json.success_msg,'contactMsg');
+        zcbr.Information.refreshTab("Historique");
       },
       previewRequestForm : function(e) {
         zcbr.Contact.prepareLink()
@@ -702,14 +704,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           });
       },
       refreshTab : function(label) {
-        var activeTab = infoTabView.get("activeTab");
-        if (activeTab.get("label") == label) {
-          var cacheData = activeTab.get("cacheData");
-          activeTab.set("cacheData", false);
-          activeTab.set("contentVisible", false);
-          activeTab.set("contentVisible", true);
-          activeTab.set("cacheData", cacheData);
-        }
+        zct.each(infoTabView.get("tabs"), function() {
+          if (this.get("label") == label) {
+            var cacheData = this.get("cacheData");
+            var contentVisible = this.get("contentVisible");
+            this.set("cacheData", false);
+            this.set("contentVisible", false);
+            this.set("contentVisible", true);
+            this.set("contentVisible", contentVisible);
+            this.set("cacheData", cacheData);
+          }
+        }, null);
       },
       filterNotes : function(e) {
         zcbr.Information.refreshNotes(yud.getAncestorBy(yud.getAncestorBy(yue.getTarget(e))), null);

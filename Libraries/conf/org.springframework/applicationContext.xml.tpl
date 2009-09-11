@@ -212,6 +212,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="documentTypeService" ref="documentTypeService" />
   </bean>
 
+  <bean id="displayGroupService" class="fr.cg95.cvq.service.request.impl.DisplayGroupService">
+    <property name="genericDAO" ref="genericDAO"/>
+    <property name="requestTypeDAO" ref="requestTypeDAO"/>
+  </bean>
+
   <bean id="requestActionService" class="fr.cg95.cvq.service.request.impl.RequestActionService">
     <property name="requestDAO" ref="requestDAO"/>
     <property name="requestActionDAO" ref="requestActionDAO"/>

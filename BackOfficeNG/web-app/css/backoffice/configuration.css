@@ -176,7 +176,7 @@ form.editable-list-form ul li .tag-manager    { color: #aa00ff; }
    TODO - refactor this !
 -------------------------------------------------------------- */
 div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
-
+.second-level-menu li          { padding: .25em 0; }
 .second-level-menu li:hover    { cursor: pointer; }
 .second-level-menu li.selected { font-weight: bold; font-style: italic; }
 
@@ -184,7 +184,6 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
   width: 90%;
   display: block; 
   float: left;
-  padding: .25em 0;
   text-align: left;
 }
 

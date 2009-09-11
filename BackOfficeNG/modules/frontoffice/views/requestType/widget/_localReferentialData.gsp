@@ -13,7 +13,7 @@
       <li>
       <input type="hidden" name="_${javaName}[${flash[javaName+'Index']}].name" value="" />
       <input type="checkbox" name="${javaName}[${flash[javaName+'Index']++}].name" value="${entry.key}" 
-          class="${htmlClass} ${flash[javaName+'Index'] == 1 ? 'validate-localReferentialData' : '' }" title="${message(code: i18nPrefixCode +'.validationError')}"
+          class="${flash[javaName+'Index'] == 1 ? htmlClass : htmlClass.replace('required','') } ${flash[javaName+'Index'] == 1 ? 'validate-localReferentialData' : '' }" title="${message(code: i18nPrefixCode +'.validationError')}"
           ${currentLrDatas?.contains(entry.key) ? 'checked="checked"': ''} />
       <span>${entry.labelsMap.fr}</span>
       </li>

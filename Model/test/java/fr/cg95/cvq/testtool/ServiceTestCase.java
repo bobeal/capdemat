@@ -47,6 +47,7 @@ import fr.cg95.cvq.service.authority.IRecreationCenterService;
 import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.IDisplayGroupService;
 import fr.cg95.cvq.service.request.IMeansOfContactService;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestService;
@@ -111,6 +112,7 @@ public class ServiceTestCase
     protected static IRequestStatisticsService iRequestStatisticsService;
     protected static IVoCardRequestService iVoCardRequestService;
     protected static IMeansOfContactService iMeansOfContactService;
+    protected static IDisplayGroupService iDisplayGroupService;
     
     protected static IPaymentService iPaymentService;
     protected static IPaymentProviderService iFakePaymentProviderService;
@@ -412,6 +414,10 @@ public class ServiceTestCase
 
     public void setHomeFolderModificationRequestService(IHomeFolderModificationRequestService homeFolderModificationRequestService) {
         iHomeFolderModificationRequestService = homeFolderModificationRequestService;
+    }
+
+    public void setDisplayGroupService(IDisplayGroupService displayGroupService) {
+        iDisplayGroupService = displayGroupService;
     }
 
     /**

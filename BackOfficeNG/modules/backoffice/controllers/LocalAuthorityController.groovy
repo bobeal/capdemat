@@ -15,7 +15,13 @@ class LocalAuthorityController {
 
     def defaultAction = "requests"
 
-    def subMenuEntries = ["requests", "aspect", "pdf", "identity"]
+    def subMenuEntries = [
+      'localAuthority.requests', 
+      'localAuthority.aspect',
+      'localAuthority.pdf', 
+      'localAuthority.identity',
+      'displayGroup.list'
+    ]
 
     def beforeInterceptor = { 
         session["currentMenu"] = "localAuthority"

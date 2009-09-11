@@ -20,7 +20,9 @@ class CapdematUtils {
             active: requestType.active,
             label: translationService.translateRequestTypeLabel(requestType.label).encodeAsHTML(),
             categoryId: requestType.category?.id, 
-            categoryName: requestType.category?.name
+            categoryName: requestType.category?.name,
+            displayGroupId: requestType.displayGroup?.id, 
+            displayGroupLabel: requestType.displayGroup?.label
         ]
     }
 

@@ -12,6 +12,7 @@ public class SecurityService {
             (SecurityContext.BACK_OFFICE_CONTEXT) : [
                 "backofficeAgent" : /.*/,
                 "backofficeCategory" : /.*/,
+                "backofficeDisplayGroup" : /.*/,
                 "backofficeLocalAuthority" : /.*/,
                 "backofficeLogin" : /.*/,
                 "backofficePayment" : /.*/

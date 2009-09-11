@@ -161,6 +161,8 @@ function FIC_checkForm(e, el, includeScope) {
 			el.innerHTML = 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge';
 		}
 		YAHOO.util.Event.stopEvent(e);
+	} else {
+	  el.innerHTML = '';
 	}
 	return all_valid;
 } // end FIC_checkForm

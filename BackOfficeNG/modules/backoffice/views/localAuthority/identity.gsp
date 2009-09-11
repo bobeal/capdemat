@@ -47,8 +47,7 @@
       </div>
     </div>
     <div id="narrow" class="yui-b">
-      <menu:subMenu id="secondMenu" i18nPrefix="localAuthority.header"
-        data="${subMenuEntries}" />
+      <menu:subMenu id="secondMenu" i18nPrefix="header" data="${subMenuEntries}" />
     </div>
   </body>
 </html>

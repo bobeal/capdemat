@@ -21,14 +21,19 @@ class MenuTagLib {
     def subMenu = {attrs,body ->
         def items = attrs['data'], id = attrs['id'], blocks = ''
         def i18nPrefix = attrs['i18nPrefix']
+        def itemAction, itemController, itemModule
         
         for(String item : items) {
-            if(item != actionName) {
+            itemAction = item.split('\\.')[1]
+            itemController = item.split('\\.')[0]
+            itemModule = exclude.find { controllerName.contains(it) }
+ 
+            if ((itemAction != actionName) || (itemModule + itemController != controllerName)) {
                 blocks += """
                 <li>
                   <span class="second-level-menu-item">
-                    <a id="display${StringUtils.capitalize(item)}" href="${createLink(action:item)}" target="_self">
-                     ${message(code:i18nPrefix+'.'+item)}
+                    <a id="display${StringUtils.capitalize(item)}" href="${createLink(controller:itemModule+StringUtils.capitalize(itemController), action:itemAction)}" target="_self">
+                     ${message(code:itemController+'.'+i18nPrefix+'.'+itemAction)}
                     </a>
                   </span>
                 </li>
@@ -37,7 +42,7 @@ class MenuTagLib {
                 blocks += """
                 <li>
                   <span class="second-level-menu-item">
-                   ${message(code:i18nPrefix+'.'+item)}
+                   ${message(code:itemController+'.'+i18nPrefix+'.'+itemAction)}
                   </span>
                 </li>
                 """

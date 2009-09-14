@@ -1,22 +1,14 @@
-import fr.cg95.cvq.business.authority.Agent
-import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.external.ExternalServiceTrace
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.request.DataState
-import fr.cg95.cvq.business.request.MeansOfContactEnum
-import fr.cg95.cvq.business.request.Request
-import fr.cg95.cvq.business.request.RequestFormType
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
-import fr.cg95.cvq.business.users.Adult
-import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.external.IExternalService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ICategoryService
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.authority.IRecreationCenterService
 import fr.cg95.cvq.service.authority.ISchoolService
@@ -31,10 +23,10 @@ import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.util.mail.IMailService
-import grails.converters.JSON
-import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
-import org.springframework.web.context.request.RequestContextHolder
 
+import grails.converters.JSON
+
+import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class RequestInstructionController {
@@ -52,7 +44,6 @@ class RequestInstructionController {
     IAgentService agentService
     IRequestServiceRegistry requestServiceRegistry
     IMailService mailService
-    ILocalAuthorityRegistry localAuthorityRegistry
     ICategoryService categoryService
     ILocalReferentialService localReferentialService 
     IRecreationCenterService recreationCenterService
@@ -64,10 +55,7 @@ class RequestInstructionController {
     def documentAdaptorService
     def homeFolderAdaptorService
     def requestAdaptorService
-    def pdfService
     def defaultAction = "edit"
-
-    def messageSource
 
     def beforeInterceptor = {
         session["currentMenu"] = "request"
@@ -516,7 +504,8 @@ class RequestInstructionController {
                 'label':message(code:CapdematUtils.adaptRequestActionLabel(it.label)),
                 'note':it.note,
                 'date':it.date,
-                'resulting_state':resultingState
+                'resulting_state':resultingState,
+                "hasFile" : it.file != null
             ]
             requestActionList.add(requestAction)
         }
@@ -601,212 +590,5 @@ class RequestInstructionController {
             defaultRequestService.release(Long.valueOf(params.id))
             render([status:"ok", success_msg:message(code:"message.deleteDone")] as JSON)
         }
-    }
-
-   /* eCitizen contact managment
-    * --------------------------------------------------------------------- */
-
-    // TODO : rename action
-    def contactInformation = {
-        def request = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
-        // FIXME RDJ - if no requester use homefolder responsible
-        Adult requester
-        if (request.requesterId != null) requester = individualService.getById(request.requesterId)
-        else requester = homeFolderService.getHomeFolderResponsible(request.homeFolderId)
-
-        def requesterMeansOfContacts = []
-        meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
-            requesterMeansOfContacts.add(
-                CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact"))
-        }
-
-        def requestForms = []
-        //requestForms.add(["id":-1,"shortLabel":"...","type":""])
-        requestTypeService.getRequestTypeForms(request.requestType.id,
-            RequestFormType.REQUEST_MAIL_TEMPLATE).each {
-            String data = ''
-            if(it.personalizedData) data = new String(it.personalizedData)
-
-            requestForms.add(
-                [ "id": it.id,
-                  "shortLabel": it.shortLabel,
-                  "type": CapdematUtils.adaptCapdematEnum(it.type, "request.meansOfContact")
-                ]
-            )
-        }
-
-        // this task must maybe be done by a service
-        def defaultContactRecipient
-        if (request.meansOfContact?.type == MeansOfContactEnum.EMAIL)
-            defaultContactRecipient = requester.email
-        else if (request.meansOfContact?.type == MeansOfContactEnum.SMS)
-            defaultContactRecipient = requester.mobilePhone
-
-        requesterMeansOfContacts.each() {
-            it.i18nKey = message(code:it.i18nKey)
-        }
-
-        render( template: "ecitizenContact",
-            model:[
-                   "requesterMeansOfContacts": requesterMeansOfContacts,
-                    "requestForms": requestForms,
-                    "traceLabel" :  IRequestActionService.REQUEST_CONTACT_CITIZEN,
-                    "defaultContactRecipient": defaultContactRecipient,
-                    "requester": requester,
-                    "request": [
-                        "id" : request.id,
-                        "state": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
-                        "requesterMobilePhone": requester.mobilePhone,
-                        "requesterEmail": requester.email,
-                        "meansOfContact": CapdematUtils.adaptCapdematEnum(request.meansOfContact?.type,
-                                                                          "request.meansOfContact")
-                    ]
-                ]
-        )
-    }
-
-    def trace = {
-        requestActionService.addAction(Long.valueOf(params.requestId),
-                params.traceLabel, params.message, null)
-        render([status:"ok", success_msg:message(code:"message.actionTraced")] as JSON)
-    }
-
-    def sendEmail = {
-        def request = defaultRequestService.getAndTryToLock(Long.valueOf(params?.requestId))
-        def form = requestTypeService.getRequestFormById(Long.valueOf(params?.requestForms))
-        
-        String template = this.prepareTemplate(
-            params.requestId,
-            params.requestForms,
-            params.message?.encodeAsXML().replaceAll(/\n/, "<br />"),
-            'pdf'
-        )
-        
-        this.meansOfContactService.notifyRequesterByEmail(
-            request,
-            params.email,
-            message(code:"mail.ecitizenContact.subject"),
-            message(code:"mail.ecitizenContact.body"),
-            pdfService.htmlToPdf(template),
-            "${form.label}.pdf")
-
-        render([status:"ok",success_msg:message(code:"message.emailSent")] as JSON)
-    }
-
-    def sendSms = {
-        render([status:"ok",success_msg:message(code:"message.notImplemented")] as JSON)
-        //render([status:"ok",success_msg:message(code:"message.smsSent")] as JSON)
-    }
-
-    def preview = {
-
-        if (params.type == 'html') {
-        	response.contentType = 'text/html; charset=utf-8'
-        	render this.prepareTemplate(params?.rid,params?.fid,params?.msg?.encodeAsHTML(),params.type)
-        } else if (params.type == 'pdf') {
-            def data = this.prepareTemplate(params.rid,params.fid,params.msg?.encodeAsHTML(),params.type)
-            byte[] b = pdfService.htmlToPdf(data)
-            response.contentType = 'application/pdf'
-            response.setHeader('Content-disposition', 'attachment; filename=letter.pdf')
-            response.contentLength = b.length
-            response.outputStream << b        	
-        }
-    } 
-
-    private prepareTemplate(requestId,formId,message,type) {
-        
-        def requestAttributes = RequestContextHolder.currentRequestAttributes()
-        def form = requestTypeService.getRequestFormById(Long.valueOf(formId))
-        Request request = defaultRequestService.getAndTryToLock(Long.valueOf(requestId))
-
-        // FIXME RDJ - if no requester use homefolder responsible     
-        Adult requester
-        if (request.requesterId != null) requester = individualService.getById(request.requesterId)
-        else requester = homeFolderService.getHomeFolderResponsible(request.homeFolderId)
-
-        def address = requester.getHomeFolder().getAdress()
-        def subjectObject = null
-        if (request.subjectId) {
-            subjectObject = individualService.getById(request.subjectId)
-        }
-        def subject = this.getSubjectDescription(subjectObject)
-        def forms = []
-        forms.add(form)
-    
-        File templateFile = localAuthorityRegistry
-            .getLocalAuthorityResourceFile(Type.MAIL_TEMPLATES,
-                form.getTemplateName(), false)
-        if (templateFile.exists()) {
-
-        	// FIXME BOR : is there a better way to do this ?
-            def logoLink = ''
-            if (type == 'pdf') {
-                File logoFile = 
-                    localAuthorityRegistry.getLocalAuthorityResourceFile("logoPdf", false)
-                logoLink = logoFile.absolutePath
-            }
-
-            def template = groovyPagesTemplateEngine.createTemplate(templateFile);
-            def out = new StringWriter();
-            def originalOut = requestAttributes.getOut()
-            requestAttributes.setOut(out)
-            template.make(['forms':forms,'type':type,'logoLink':logoLink]).writeTo(out);
-            requestAttributes.setOut(originalOut)
-
-            String content = out.toString().replace('#{','${')
-            def model = [
-                'DATE' : java.text.DateFormat.getDateInstance().format(new Date()),
-                'RQ_ID' : request.id,
-                'RQ_TP_LABEL' : request.requestType.label,
-                'RQ_CDATE' : request.creationDate,
-                'RQ_DVAL' : request.validationDate,
-                'RQ_OBSERV' : message,
-                'HF_ID' : requester.homeFolder.id,
-                'RR_FNAME' : requester.firstName,
-                'RR_LNAME' : requester.lastName,
-                'RR_TITLE' : messageSource.getMessage("homeFolder.adult.title.${requester.title.toString().toLowerCase()}",
-                				null, SecurityContext.currentLocale),
-                'RR_LOGIN' : requester.login,
-                'RR_QUESTION' : requester.question,
-                'RR_ANSWER' : requester.answer,
-                'SU_FNAME' : subject?.firstName,
-                'SU_LNAME' : subject?.lastName,
-                'SU_TITLE' : subject.firstName != '' ? messageSource.getMessage("homeFolder.adult.title.${subject?.title.toString().toLowerCase()}",
-        						null, SecurityContext.currentLocale) : '',
-                'HF_ADDRESS_ADI' : address.additionalDeliveryInformation,
-                'HF_ADDRESS_AGI' : address.additionalGeographicalInformation,
-                'HF_ADDRESS_SNAME' : address.streetName,
-                'HF_ADDRESS_SNUM' : address.streetNumber,
-                'HF_ADDRESS_PNS' : address.placeNameOrService,
-                'HF_ADDRESS_ZIP' : address.postalCode,
-                'HF_ADDRESS_TOWN' : address.city,
-                'HF_ADDRESS_CN' : address.countryName
-            ]
-            model.each{k,v ->  if(v == null)model[k]=''}
-    
-            template = groovyPagesTemplateEngine.createTemplate(content,'tmp')
-            out = new StringWriter();
-            originalOut = requestAttributes.getOut()
-            requestAttributes.setOut(out)
-            template.make(model).writeTo(out);
-            requestAttributes.setOut(originalOut)
-            
-            return out.toString()
-        } else {
-            return ""
-        }
-    }
-    
-    private getSubjectDescription(Object sub) {
-        def result = ['firstName':'','lastName':'','title':'']
-        if(!sub) return result
-
-        result.firstName = ((Individual)sub).getFirstName()
-        result.lastName = ((Individual)sub).getLastName()
-
-        if(sub.getClass().getSimpleName() == 'Child')result.title = 'Unknown'
-        else if(sub.getClass().getSimpleName() == 'Adult')result.title = ((Adult)sub).getTitle()
-
-        return result
     }
 }

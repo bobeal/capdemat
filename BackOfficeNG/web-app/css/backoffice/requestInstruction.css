@@ -271,42 +271,6 @@ ul.document-list a.removeDocument {
 #instructionStatePanel ul    { margin: .2em 0 .5em .5em; text-align: left }
 #instructionStatePanel ul li { padding: .1em 0; }
 
-
-/* ecitizen contact panel
- * TODO : merge panel style
--------------------------------------------------------------- */
-
-#ecitizenContactPanel {
-  padding: 0;
-  border: 6px solid #636e80;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em;
-  text-align: left;
-  background: #ffffff;
-}
-
-#ecitizenContactPanel .bd { padding: 1em 2em; background: transparent; border: 0;}
-#ecitizenContactPanel .hd { height: 2.5em; padding: 0; background: #636e80; border: 0; }
-
-#ecitizenContactPanel .bd h1 { 
-  margin: 0 0 1em 0; padding: .5em 0;
-  font-size: 1.8em;
-  font-weight: normal;
-  border-bottom: 1px dashed #000000;
-}
-
-#ecitizenContactPanel .bd h1 span { float: right; font-size: .7em; } 
-
-/* color just for mainbox-yellow !! */
-#ecitizenContactPanel .bd form fieldset               { margin: 1em 0; padding: .2em 0; border-bottom: 1px dashed #FFD053; }
-#ecitizenContactPanel .bd form label                  { width: 25% !important; }
-#ecitizenContactPanel .bd form hr                     { margin: 0; border: 0 !important; }
-#ecitizenContactPanel .bd form .required              { font-size: 1em }
-#ecitizenContactPanel .bd form .error                 { margin: 0 0 0 26%; }
-#ecitizenContactPanel .bd form .form-button           { margin: 0 0 0 26% !important; }
-#ecitizenContactPanel .bd form input[type="button"]   { font-size: 1.4em; }
-#ecitizenContactPanel .bd form input[type="checkbox"] { margin: 6px 0 0 1%; }
-
 .add-link em {
   background:transparent url(../../images/icons/16-add.png) no-repeat scroll right 4px;
   padding-right:21px !important;

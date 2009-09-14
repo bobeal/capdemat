@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.request;
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 
 import java.util.Date;
@@ -27,6 +28,12 @@ public interface IRequestActionService {
      */
     List<RequestAction> getActions(@IsRequest final Long requestId)
         throws CvqException;
+
+    /**
+     * Get a specific action by ID.
+     */
+    RequestAction getAction(final Long id)
+        throws CvqObjectNotFoundException;
 
     /**
      * Get the last workflow action related to the request, or null if it has none.

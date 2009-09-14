@@ -7,6 +7,7 @@ import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -34,6 +35,14 @@ public class RequestActionService implements IRequestActionService {
         throws CvqException {
 
         return requestActionDAO.listByRequest(requestId);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public RequestAction getAction(final Long id)
+        throws CvqObjectNotFoundException {
+        return
+            (RequestAction)requestActionDAO.findById(RequestAction.class, id);
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)

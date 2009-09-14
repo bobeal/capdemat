@@ -20,6 +20,7 @@ public class SecurityService {
         ],
         (ContextType.AGENT) : [
             (SecurityContext.BACK_OFFICE_CONTEXT) : [
+                "backofficeContact" : /.*/,
                 "backofficeDocumentInstruction" : /.*/,
                 "backofficeHomeFolder" : /.*/,
                 "backofficeLogin" : /.*/,

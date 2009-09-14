@@ -3,6 +3,7 @@
     <title><g:message code="request.header.instruction" /></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'contact.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestInstruction.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'documentInstruction.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'condition.js')}"></script>
@@ -10,8 +11,10 @@
       zenexity.capdemat.bong.requestId = '${request.id}';
       zenexity.capdemat.bong.editableStates = ${editableStates} ; 
       zenexity.capdemat.bong.agentCanWrite = '${agentCanWrite}';
+      zenexity.capdemat.bong.contactPanelUrl = "${createLink(controller : 'backofficeContact', action : 'panel')}";
     </script>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'container.css')}" ></link>
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'contact.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'document.css')}" />
     <g:if test="${externalProviderServiceLabel != null}">
@@ -25,12 +28,12 @@
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
-          <div id="ecitizenContact" class="txt-right">
-            <a id="ecitizenContactLink" href="/contactInformation/${request.id}">
+          <div id="contactContainer" class="txt-right">
+            <a id="contactLink">
               <g:message code="request.action.contactEcitizen" />
             </a>
             <!-- ecitizen contact panel [default display = none] -->
-            <div id="ecitizenContactPanel">
+            <div id="contactPanel">
               <div class="hd"></div>
               <div class="bd">
               </div>

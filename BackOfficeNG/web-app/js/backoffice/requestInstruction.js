@@ -122,14 +122,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         });
       zcb.instructionStatePanel.render();
 
-      zcb.ecitizenContactPanel = new yw.Panel(
-        'ecitizenContactPanel',
-        { width: '650px',
-          visible: false,
-          constraintoviewport: false, draggable: true,
-          underlay: 'shadow', close: true
-        });
-      zcb.ecitizenContactPanel.render();
+      /* contact module */
+      zcb.Contact.init(yud.get("contactLink"),
+        yud.get("contactPanel"), zcb.contactPanelUrl);
+      zca.advise(
+        "notify",
+        new zca.Advice("afterReturn",
+          zcbr.Information.refreshHistory),
+        zcb.Contact
+      );
 
     }
 
@@ -433,201 +434,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   }();
   
   YAHOO.util.Event.onDOMReady(zcbr.Instruction.init);
-  
-  /*
-   * ecitizen contact management
-   * ------------------------------------------------------------------------------------------ */
-  
-  zcbr.Contact = function() {
 
-	// TODO : seems to not be used
-    function submitContactForm(formId) {
-      zct.doAjaxFormSubmitCall (formId,null,
-        function(o) {
-          zcb.ecitizenContactPanel.hide();
-        });
-    }
-
-    function getEcitizenContactPanel(targetEl) {
-      // hacks for ie6
-      var action = targetEl.pathname;
-      if (action.indexOf('/') != 0)
-        action = '/' + action;
-
-      zcb.ecitizenContactPanel.show();
-    }
-
-    yue.addListener(
-        'ecitizenContact',
-        'click',
-        function(e) {
-          var targetEl = yue.getTarget(e);
-          if (targetEl.id === 'ecitizenContactLink') {
-            yue.preventDefault(e);
-            getEcitizenContactPanel(targetEl);
-          }
-        });
-    
-    var initContact = function() {
-      var url = ['/contactInformation/',zcb.requestId].join('');
-      zct.doAjaxCall(url,'',function(o){
-        zcb.ecitizenContactPanel.setBody(o.responseText);
-        var select = yud.get('meansOfContact');
-        yue.on(select,'change',zcbr.Contact.showPanels);
-        zcbr.Contact.showPanels(select[select.selectedIndex]);
-        yue.on(yus.query('textarea[name=smsMessage]')[0],'keyup',function(e){
-          zct.limitArea(yue.getTarget(e),130,'smsNotifier');
-        });
-        zcbr.Contact.changeType(yus.query('select.mails option')[0]);
-      });
-    };
-    var toggleState = function(el,state) {
-      var ls = yud.getChildrenBy(el,function(n){
-        var nn = zct.nodeName;
-        return(nn(n,'input')||nn(n,'select')||nn(n,'textarea'));
-      });
-      zct.each(ls,function(i,n){
-        n.disabled = state;
-      });
-    }
-    return {
-      messageBox : undefined,
-      dataTabView: undefined,
-      formEvent: undefined,
-      init: function() {
-        initContact();
-        zcbr.Contact.formEvent = new zct.Event(zcbr.Contact,zcbr.Contact.getHandler);
-        yue.on('contactForm','click',zcbr.Contact.formEvent.dispatch,zcbr.Contact.formEvent,true);
-        yue.on('requestForms','change',zcbr.Contact.changeType);
-      },
-      notify : function(o) {
-        var json = ylj.parse(o.responseText);
-        zct.Notifier.processMessage('success',json.success_msg,'contactMsg');
-        zcbr.Information.refreshTab("Historique");
-      },
-      previewRequestForm : function(e) {
-        zcbr.Contact.prepareLink()
-      },
-      getHandler : function(e) {
-        var target = yue.getTarget(e);
-        return target.id.split('_')[0];
-      },
-      changeType : function(e) {
-        if(!!e) {
-          var target = (zct.nodeName(e,'option'))?e:yue.getTarget(e);
-          var link = yud.get('previewRequestForm');
-          var linkPdf = yud.get('previewRequestFormPdf');
-          if(target.value > -1) {
-            zct.style(link,{display:'inline'});
-            zct.style(linkPdf,{display:'inline'});
-          } else {
-            zct.style(link,{display:'none'});
-            zct.style(linkPdf,{display:'none'});
-          } 
-          zcbr.Contact.prepareLink();
-        } else {
-          zct.style(yud.get('previewError'),{display:'inline'});
-          zct.style(yus.query('fieldset#emailButtons')[0],{display:'none'});
-          zct.style(yus.query('fieldset#defaultButtons')[0],{display:'block'});
-        }
-
-      },
-      getByGroup : function(group) {
-        var result = yud.getElementsByClassName(group,undefined,'contactForm');
-        return zct.grep(result,function(n){return (!n.disabled);})[0];
-      },
-      prepareLink: function() {
-        var link = yud.get('previewRequestForm');
-        var linkPdf = yud.get('previewRequestFormPdf');
-        var url = zenexity.capdemat.baseUrl;
-        var id = zct.val(yud.get('requestForms'));
-        var message = encodeURIComponent(zct.val(zcbr.Contact.messageBox));
-        link.href = [url,'/preview/?type=html&fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
-        linkPdf.href = [url,'/preview/?type=pdf&fid=',id,'&rid=',zcb.requestId,'&msg=',message].join('');
-      },
-      prepareForm : function() {
-        form = yud.get('contactForm');
-        elements = zct.grep(yus.query('*',form),function(n){
-          var nn = zct.nodeName;
-          return((nn(n,'input')||nn(n,'select')||nn(n,'textarea'))&&(!n.disabled));
-        });
-
-        //TODO make this part of script more flexible
-        var message = yus.query('input[name=message]',form,true);
-        var recipient = yus.query('input[name=recipient]',form,true);
-        var meansOfContact = yus.query('input[name=meansOfContact]',form,true);
-
-        zct.each(elements,function(i,n){
-          var el = new yu.Element(n);
-          if(el.hasClass('message')) message.value = zct.val(n);
-          if(el.hasClass('recipient')) recipient.value = zct.val(n);
-          if(el.hasClass('means-of-contact')) meansOfContact.value = zct.val(n);
-        });
-      },
-      discardChanges: function(e) {
-        zcb.ecitizenContactPanel.hide();
-      },
-      showPanels : function(e) {
-        if(!e) return;
-
-        var target = (zct.nodeName(e,'option'))?e:yue.getTarget(e);
-        var value = zct.val(target);
-        var container = yud.getAncestorByTagName(target,'form');
-        var rules = [];
-        zct.each(zcbr.Contact.showRules,function(k,v){
-          var regex = new RegExp(['^',k,'$'].join(''),'i');
-          if(regex.test(value))rules = zct.merge(rules,v);
-        });
-        var fieldsets = yus.query('fieldset',container);
-        zct.each(fieldsets,function(i,el){
-          if(zct.inArray(el.id,rules)>-1){
-            zct.style(el,{display:'block'});
-            toggleState(el,undefined);
-          } else {
-            zct.style(el,{display:'none'});
-            toggleState(el,'disabled');
-          }
-        });
-        zct.each(yus.query('#contactForm input[type=hidden]'),function(i,el){
-          if(/^(message|recipient|meansOfContact)$/i.test(el.name))el.value = "";
-        });
-        zcbr.Contact.messageBox = zcbr.Contact.getByGroup('message');
-      },
-      validate : function(form) {
-        var container = yud.get('contactFormErrors');
-        if(zct.isFunction(FIC_checkForm))
-          return FIC_checkForm(form,container);
-        return true;
-      },
-      showRules : {
-        'Sms' : ['meansOfContactForm','mobilePhoneForm','smsMessageForm','smsButtons'],
-        'OfficePhone':['meansOfContactForm','officePhoneForm','messageForm','defaultButtons'],
-        'MobilePhone':['meansOfContactForm','mobilePhoneForm','messageForm','defaultButtons'],
-        'HomePhone':['meansOfContactForm','homePhoneForm','messageForm','defaultButtons'],
-        'Email':['meansOfContactForm','mailForm','messageForm','mailTemplateForm','emailButtons'],
-        'Mail':['meansOfContactForm','messageForm','mailTemplateForm','defaultButtons'],
-        '.*Office':['meansOfContactForm','messageForm','mailTemplateForm','defaultButtons']
-      }
-    };
-
-  }();
-
-  zct.each(['sendSms','sendEmail','trace'],function(i,name){
-    zcbr.Contact[name] = function(e){
-      zcbr.Contact.prepareForm(e);
-      form = yud.get('contactForm');
-      form.action = [zenexity.capdemat.baseUrl,'/',name].join('');
-      zct.text(yud.get('contactFormErrors'),'');
-      
-      if(zcbr.Contact.validate(form)) {
-        zct.doAjaxFormSubmitCall(form.id,[],zcbr.Contact.notify);
-      }
-    };
-  });
-
-  YAHOO.util.Event.onDOMReady(zcbr.Contact.init);
-  
-  
   /*
    * request Instruction Information
    * ------------------------------------------------------------------------------------------ */
@@ -715,6 +522,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             this.set("cacheData", cacheData);
           }
         }, null);
+      },
+      refreshHistory : function(e) {
+        zcbr.Information.refreshTab("Historique");
       },
       filterNotes : function(e) {
         zcbr.Information.refreshNotes(yud.getAncestorBy(yud.getAncestorBy(yue.getTarget(e))), null);

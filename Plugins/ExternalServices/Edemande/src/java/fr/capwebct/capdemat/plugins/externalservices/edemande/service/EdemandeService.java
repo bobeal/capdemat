@@ -236,29 +236,75 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
      * @return the individual's code in eDemande, an empty string if the individual is not found,
      * or null if there is an error while contacting eDemande.
      */
-    private String searchIndividual(StudyGrantRequest sgr, String lastName, String subkey) {
+    private String searchIndividual(StudyGrantRequest sgr, String firstName,
+        String lastName, Calendar birthDate, String subkey) {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("lastName", StringUtils.upperCase(lastName));
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
         model.put("accountNumber", sgr.getAccountNumber());
         model.put("accountKey", sgr.getAccountKey());
+        String searchResults;
+        int resultsNumber;
         try {
-            return parseData(edemandeClient.rechercherTiers(
-                escapeStrings(model)).getRechercherTiersResponse().getReturn(),
-                "//resultatRechTiers/listeTiers/tiers/codeTiers");
+            searchResults =
+                edemandeClient.rechercherTiers(escapeStrings(model))
+                .getRechercherTiersResponse().getReturn();
+            resultsNumber = parseDatas(searchResults,
+                "//resultatRechTiers/listeTiers/tiers/codeTiers").size();
         } catch (CvqException e) {
             addTrace(sgr.getId(), subkey, TraceStatusEnum.NOT_SENT, e.getMessage());
             return null;
         }
+        if (resultsNumber == 0) {
+            return "";
+        }
+        if (resultsNumber == 1) {
+            try {
+                return parseData(searchResults,
+                    "//resultatRechTiers/listeTiers/tiers/codeTiers");
+            } catch (CvqException e) {
+                addTrace(sgr.getId(), subkey, TraceStatusEnum.NOT_SENT, e.getMessage());
+                return null;
+            }
+        }
+        for (int i = 1; i <= resultsNumber; i++) {
+            try {
+                String code =
+                    parseData(searchResults,
+                        "//resultatRechTiers/listeTiers/tiers[" + i
+                        + "]/codeTiers");
+                String informations =
+                    edemandeClient.initialiserFormulaire(code)
+                    .getInitialiserFormulaireResponse().getReturn();
+                if (parseData(informations,
+                    "/CBdosInitFormulaireBean/moTierInit/msPrenom")
+                    .equals(firstName)
+                    && parseData(informations,
+                        "/CBdosInitFormulaireBean/moTierInit/mdtDateNaissance")
+                        .equals(new SimpleDateFormat("yyyy-MM-dd")
+                        .format(birthDate.getTime()))) {
+                    return code;
+                }
+            } catch (CvqException e) {
+                continue;
+            }
+        }
+        return "";
     }
 
     private String searchSubject(StudyGrantRequest sgr) {
-        return searchIndividual(sgr, sgr.getSubject().getIndividual().getLastName(), SUBJECT_TRACE_SUBKEY);
+        return searchIndividual(sgr,
+            sgr.getSubject().getIndividual().getFirstName(),
+            sgr.getSubject().getIndividual().getLastName(),
+            sgr.getSubjectInformations().getSubjectBirthDate(),
+            SUBJECT_TRACE_SUBKEY);
     }
 
     private String searchAccountHolder(StudyGrantRequest sgr) {
-        return searchIndividual(sgr, sgr.getAccountHolderLastName(), ACCOUNT_HOLDER_TRACE_SUBKEY);
+        return searchIndividual(sgr, sgr.getAccountHolderFirstName(),
+            sgr.getAccountHolderLastName(), sgr.getAccountHolderBirthDate(),
+            ACCOUNT_HOLDER_TRACE_SUBKEY);
     }
 
     private void createSubject(StudyGrantRequest sgr) {
@@ -593,6 +639,33 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         try {
             return new DOMXPath(path)
                 .stringValueOf(
+                    DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                        .parse(new InputSource(new StringReader(returnElement)))
+                        .getDocumentElement());
+        } catch (JaxenException e) {
+            e.printStackTrace();
+            throw new CvqException("Erreur lors de la lecture de la réponse du service externe");
+        } catch (SAXException e) {
+            e.printStackTrace();
+            throw new CvqException("Erreur lors de la lecture de la réponse du service externe");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new CvqException("Erreur lors de la lecture de la réponse du service externe");
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+            throw new CvqException("Erreur lors de la lecture de la réponse du service externe");
+        }
+    }
+
+    /**
+     * Same as {@link #parseData(String, String)}
+     * but selects all matching elements
+     */
+    private List<?> parseDatas(String returnElement, String path)
+        throws CvqException {
+        try {
+            return new DOMXPath(path)
+                .selectNodes(
                     DocumentBuilderFactory.newInstance().newDocumentBuilder()
                         .parse(new InputSource(new StringReader(returnElement)))
                         .getDocumentElement());

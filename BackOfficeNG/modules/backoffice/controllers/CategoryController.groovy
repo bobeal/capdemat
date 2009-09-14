@@ -29,7 +29,14 @@ class CategoryController {
         	requestTypesByCategory[category.id].sort {it.label.toLowerCase()}
         }
 
-        return ['categories':categories, 'requestTypesByCategory':requestTypesByCategory]
+        def orphanRequestTypes = []
+        requestTypeService.getAllRequestTypes().each {
+            if (it.category == null)
+                orphanRequestTypes.add(CapdematUtils.adaptRequestType(translationService,it))
+        }
+
+        return ['categories':categories, 'requestTypesByCategory':requestTypesByCategory,
+                'orphanRequestTypes':orphanRequestTypes]
     }
     
     def edit = {

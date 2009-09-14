@@ -112,21 +112,25 @@ body {
 #narrow .nobox { margin-bottom: 1.5em; }
 #narrow .nobox .body { padding: .5em; }
 #narrow .nobox h3 {
-  margin:0;
-  padding: .5em;
-  font-size: 14px;
-  font-weight: bold;
-  background: #f3f8ff;
+  margin:0; padding: .5em;
+  font-size: 14px; font-weight: bold;
+  text-indent:0;
   border-bottom: 1px solid #c1cfe2;
+  background: #f3f8ff;
 }
 #narrow .nobox p { margin-bottom:0.5em; }
 #narrow .nobox p.block { clear : both; margin-top : 2em; }
 
 /* form */
 #narrow .nobox .body form          { padding: 0; }
-#narrow .nobox .body form select    { width: 100%; }
+#narrow .nobox .body form select   { width: 100%; }
 #narrow .nobox .body form label    { width: 100%; text-align: left; }
 #narrow .nobox .body form li label { width: 85% ; text-align: left; }
+
+/* color */
+#narrow .nobox.yellow h3       { border-color: #FFD053; background: #FFFFAB; }
+#narrow .nobox.yellow .body li { padding: .2em 0; list-style-type: square; list-style-position: inside; }
+
 
 /* global footer
 -------------------------------------------------------------- */

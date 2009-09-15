@@ -15,7 +15,6 @@
       <props>
         <prop key="/spplus_bo_callback.html">spplusController</prop>
         <prop key="/spplus_user_callback.jsp">spplusUserCallbackController</prop>
-        <prop key="/payline_lost_trans.html">paylineController</prop>
         <prop key="/payline_notification.html">paylineV4Controller</prop>
       </props>
     </property>
@@ -27,11 +26,6 @@
   
   <bean id="spplusController"
     class="fr.cg95.cvq.exporter.payment.SpplusController">
-    <property name="paymentService" ref="paymentService"/>
-  </bean>
-  
-  <bean id="paylineController"
-    class="fr.cg95.cvq.exporter.payment.PaylineController">
     <property name="paymentService" ref="paymentService"/>
   </bean>
 

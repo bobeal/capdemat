@@ -13,8 +13,6 @@
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Wynid/build/test" path="Plugins/PaymentProviders/Wynid/test/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Spplus/build/test" path="Plugins/PaymentProviders/Spplus/test/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Spplus/build/classes" path="Plugins/PaymentProviders/Spplus/src/java"/>
-	<classpathentry kind="src" output="Plugins/PaymentProviders/Payline/build/classes" path="Plugins/PaymentProviders/Payline/src/java"/>
-	<classpathentry kind="src" output="Plugins/PaymentProviders/Payline/build/test" path="Plugins/PaymentProviders/Payline/test/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/PaylineV4/build/classes" path="Plugins/PaymentProviders/PaylineV4/src/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/PaylineV4/build/test" path="Plugins/PaymentProviders/PaylineV4/test/java"/>
 	<classpathentry kind="src" output="Plugins/CsvImporters/Concerto/build/test" path="Plugins/CsvImporters/Concerto/test/java"/>

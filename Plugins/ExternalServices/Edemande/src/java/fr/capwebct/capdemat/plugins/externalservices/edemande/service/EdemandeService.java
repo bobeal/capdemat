@@ -279,7 +279,9 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                     .getInitialiserFormulaireResponse().getReturn();
                 if (parseData(informations,
                     "/CBdosInitFormulaireBean/moTierInit/msPrenom")
-                    .equals(firstName)
+                    .equals(WordUtils.capitalizeFully(
+                        sgr.getSubject().getIndividual().getFirstName(),
+                        new char[]{' ', '-'}))
                     && parseData(informations,
                         "/CBdosInitFormulaireBean/moTierInit/mdtDateNaissance")
                         .equals(new SimpleDateFormat("yyyy-MM-dd")

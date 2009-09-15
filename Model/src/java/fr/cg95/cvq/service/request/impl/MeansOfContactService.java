@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.dao.request.IMeansOfContactDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -20,7 +19,6 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IMeansOfContactService;
-import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.sms.ISmsService;
 
@@ -33,8 +31,6 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
 
     static Logger logger = Logger.getLogger(MeansOfContactService.class);
 
-    private IRequestActionService requestActionService;
-    
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     private IMeansOfContactDAO meansOfContactDAO;
     private Boolean performDbUpdates;
@@ -180,19 +176,17 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
         return false;
     }
 
-    public void notifyRequesterByEmail(Request request, String to, String subject,
-            String body, byte[] data, String attachmentName) throws CvqException {
-
-        String fullSubject = "[" + SecurityContext.getCurrentSite().getDisplayTitle() + "] "
+    public void notifyByEmail(String from, String to, String subject,
+        String body, byte[] data, String attachmentName)
+        throws CvqException {
+        String fullSubject =
+            "[" + SecurityContext.getCurrentSite().getDisplayTitle() + "] "
             + subject;
-        String from = request.getRequestType().getCategory().getPrimaryEmail();
         mailService.send(from, to, null, fullSubject, body, data, attachmentName);
-        
-        requestActionService.addAction(request.getId(), 
-                IRequestActionService.REQUEST_CONTACT_CITIZEN, null, data);
     }
 
-    public void notifyRequesterBySms(String to, String body) throws CvqException {
+    public void notifyBySms(String to, String body)
+        throws CvqException {
         if (smsService.isEnabled()) {
             smsService.send(to, body);
         } else {
@@ -222,9 +216,4 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }
-
-    public void setRequestActionService(IRequestActionService requestActionService) {
-        this.requestActionService = requestActionService;
-    }
-
 }

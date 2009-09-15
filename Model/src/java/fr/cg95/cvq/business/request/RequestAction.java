@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-
 /**
  * @hibernate.class
  *  table="request_action"
@@ -15,20 +14,16 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class RequestAction implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
     private Long id;
     private Long agentId;
     private String label;
     private String note;
     private Date date;
     private RequestState resultingState;
+    private String message;
     private byte[] file;
-
-    /** default constructor */
-    public RequestAction() {
-    }
 
     /**
      * @hibernate.id
@@ -70,6 +65,7 @@ public class RequestAction implements Serializable {
     /**
      * @hibernate.property
      *  column="note"
+     *  length="1024"
      */
     public String getNote() {
         return this.note;
@@ -107,6 +103,19 @@ public class RequestAction implements Serializable {
 
     /**
      * @hibernate.property
+     *  column="message"
+     *  length="1024"
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    /**
+     * @hibernate.property
      *  type="binary"
      *  access="field"
      * @hibernate.column
@@ -126,5 +135,4 @@ public class RequestAction implements Serializable {
             .append("id", getId())
             .toString();
     }
-
 }

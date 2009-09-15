@@ -503,6 +503,7 @@ class RequestInstructionController {
                 'agent_name':user,
                 'label':message(code:CapdematUtils.adaptRequestActionLabel(it.label)),
                 'note':it.note,
+                "message" : it.message,
                 'date':it.date,
                 'resulting_state':resultingState,
                 "hasFile" : it.file != null

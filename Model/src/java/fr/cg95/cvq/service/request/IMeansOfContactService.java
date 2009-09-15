@@ -73,10 +73,11 @@ public interface IMeansOfContactService {
     boolean supportAttachment(MeansOfContact moc);
 
     /**
-     * Notify a requester by email.
+     * Notify by email.
      */
-    public void notifyRequesterByEmail(Request request, String to, String subject,
-            String body, byte[] data, String attachmentName) throws CvqException;
+    public void notifyByEmail(String from, String to, String subject,
+        String body, byte[] data, String attachmentName)
+        throws CvqException;
 
     /**
      * Notify by Sms
@@ -85,7 +86,8 @@ public interface IMeansOfContactService {
      *   <li>Throw smsService error code if error in smsService</li>
      * </ul>
      */
-    void notifyRequesterBySms(String to, String body) throws CvqException;
+    void notifyBySms(String to, String body)
+        throws CvqException;
 
     MeansOfContact getById(Long id) throws CvqObjectNotFoundException;
 }

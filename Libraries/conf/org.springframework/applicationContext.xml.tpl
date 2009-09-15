@@ -303,7 +303,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="meansOfContactDAO" ref="meansOfContactDAO" />
     <property name="performDbUpdates" value="@perform_db_updates@" />
     <property name="mailService" ref="mailService" />
-    <property name="requestActionService" ref="requestActionService" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="smsService" ref="fakeSmsService" />
   </bean>

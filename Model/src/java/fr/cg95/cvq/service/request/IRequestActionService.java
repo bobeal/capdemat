@@ -72,8 +72,9 @@ public interface IRequestActionService {
     /**
      * Add an (non-workflow) action trace for the given request.
      */
-    void addAction(@IsRequest final Long requestId, final String label, final String note,
-            final byte[] pdfData) throws CvqException;
+    void addAction(@IsRequest final Long requestId, final String label,
+        final String message, final String note, final byte[] pdfData)
+        throws CvqException;
 
     /**
      * Add a system action trace for the given request.

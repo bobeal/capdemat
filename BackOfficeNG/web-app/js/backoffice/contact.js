@@ -38,6 +38,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
         zct.doAjaxCall(url + "/" + zcb.requestId, null, function(o) {
           panel.setBody(o.responseText);
           zcb.Contact.switchMoC();
+          yud.getElementsBy(
+            function(el) { return /.*Notifier/.test(el.id); },
+            null,
+            container,
+            function(notifier) {
+              var field = yud.get(/(.+)Notifier/.exec(notifier.id)[1]);
+              yue.on(field, "keyup", function(e) {
+                zct.limitArea(yue.getTarget(e), field.getAttribute("maxlength"), notifier.id);
+              });
+              zct.limitArea(field, field.getAttribute("maxlength"), notifier.id);
+            }
+          );
           yue.addListener(link, "click", function(e) {
             yue.preventDefault(e);
             panel.show();

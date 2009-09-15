@@ -230,7 +230,7 @@ class ContactController {
             ]).writeTo(out);
             requestAttributes.setOut(originalOut)
 
-            String content = out.toString().replace("#{","${")
+            String content = out.toString().replace('#{','${')
             def model = [
                 "DATE" :
                     java.text.DateFormat.getDateInstance().format(new Date()),

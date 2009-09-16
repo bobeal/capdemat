@@ -279,7 +279,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                     .getInitialiserFormulaireResponse().getReturn();
                 if (parseData(informations,
                     "/CBdosInitFormulaireBean/moTierInit/msPrenom")
-                    .equals(WordUtils.capitalizeFully(
+                    .equalsIgnoreCase(WordUtils.capitalizeFully(
                         firstName, new char[]{' ', '-'}))
                     && parseData(informations,
                         "/CBdosInitFormulaireBean/moTierInit/mdtDateNaissance")

@@ -280,8 +280,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                 if (parseData(informations,
                     "/CBdosInitFormulaireBean/moTierInit/msPrenom")
                     .equals(WordUtils.capitalizeFully(
-                        sgr.getSubject().getIndividual().getFirstName(),
-                        new char[]{' ', '-'}))
+                        firstName, new char[]{' ', '-'}))
                     && parseData(informations,
                         "/CBdosInitFormulaireBean/moTierInit/mdtDateNaissance")
                         .equals(new SimpleDateFormat("yyyy-MM-dd")

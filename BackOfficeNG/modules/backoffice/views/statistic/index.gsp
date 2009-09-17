@@ -60,14 +60,14 @@
             <label for="startDate"><g:message code="statistics.filter.period" /> :</label>
             <input type="text" id="startDate" name="startDate" size="10" value="${state.startDate}"
                    class="persistent filter" />
-            <a onclick="showCalendar('startDateShow', 0);">
+            <a>
               <img id="startDateShow"
                    src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
             </a>
             <div id="startDateCalContainer" class="yui-cal"></div>
             <input type="text" id="endDate" name="endDate" size="10" value="${state.endDate}"
                    class="persistent filter" />
-            <a onclick="showCalendar('endDateShow', 1);">
+            <a>
               <img id="endDateShow"
                    src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
             </a>

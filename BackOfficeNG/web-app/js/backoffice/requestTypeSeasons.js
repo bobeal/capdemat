@@ -14,7 +14,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   var zcb = zenexity.capdemat.bong;
   var zcbrt = zenexity.capdemat.bong.requesttype;
 
-  var ycc = YAHOO.capdematBo.calendar;
   var yl = YAHOO.lang;
   var yu = YAHOO.util;
   var yud = yu.Dom;
@@ -25,16 +24,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   zcbrt.Seasons = function() {
     var content = {head : 'Attention !', body : 'Confirmez-vous la suppression ?'};
     var createCalendars = function(uuid) {
-      ycc.init(null, null, {id : 'registrationStart_' + uuid, label : 'registrationStart_' + uuid});
-      ycc.init(null, null, {id : 'registrationEnd_' + uuid, label : 'registrationEnd_' + uuid});
-      ycc.init(null, null, {id : 'validationAuthorizationStart_' + uuid, label : 'validationAuthorizationStart_' + uuid});
-      ycc.init(null, null, {id : 'effectStart_' + uuid, label : 'effectStart_' + uuid});
-      ycc.init(null, null, {id : 'effectEnd_' + uuid, label : 'effectEnd_' + uuid});
+      zcb.Calendar("registrationStart_" + uuid);
+      zcb.Calendar("registrationEnd_" + uuid);
+      zcb.Calendar("validationAuthorizationStart_" + uuid);
+      zcb.Calendar("effectStart_" + uuid);
+      zcb.Calendar("effectEnd_" + uuid);
     };
     return {
       clickEv : undefined,
       init : function() {
-        ycc.cal = {};
         zcbrt.Seasons.clickEv = new zct.Event(zcbrt.Seasons,zcbrt.Seasons.processClick);
         yue.on(yud.get('requestTypeSeasons'),'click',zcbrt.Seasons.clickEv.dispatch,zcbrt.Seasons.clickEv,true);
       },

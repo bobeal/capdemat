@@ -5,6 +5,7 @@
   var yus = YAHOO.util.Selector;
   var zct = zenexity.capdemat.tools;
   zct.namespace("zenexity.capdemat.bong.request");
+  var zcb = zenexity.capdemat.bong;
   var zcbr = zenexity.capdemat.bong.request;
 
   zcbr.search = function() {
@@ -52,9 +53,8 @@
   
     var initCalendars = function() {
       if (yud.get('mode').value === 'advanced') {
-        YAHOO.capdematBo.calendar.cal = new Array(2);
-        YAHOO.capdematBo.calendar.init(null, null, {id: 0, label: 'creationDateFrom'});
-        YAHOO.capdematBo.calendar.init(null, null, {id: 1, label: 'creationDateTo'});
+        zcb.Calendar("creationDateFrom");
+        zcb.Calendar("creationDateTo");
       }
     };
   

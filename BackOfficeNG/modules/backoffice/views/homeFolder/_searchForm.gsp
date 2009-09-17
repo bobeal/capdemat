@@ -8,7 +8,7 @@
 
 <div id="search-form">
   <h1><g:message code="homeFolder.header.search" /></h1>
-  <form method="POST" id="searchForm" class="advanced-search" action="${createLink(action:"search")}">
+  <form method="post" id="searchForm" class="advanced-search" action="${createLink(action:"search")}">
     <input type="hidden" id="pageState" name="pageState" value="${pageState}" />
     <input type="hidden" name="currentCount" id="currentCount" value="${count}" />
     <input type="hidden" name="currentOffset" id="currentOffset" value="${offset}" />

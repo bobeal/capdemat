@@ -10,6 +10,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.statistics');
 (function(){
 
   var zct = zenexity.capdemat.tools;
+  var zcb = zenexity.capdemat.bong;
   var zcbs = zenexity.capdemat.bong.statistics;
   
   var yu = YAHOO.util;
@@ -21,9 +22,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.statistics');
   zcbs.Statistics = function() {
 
     var initCalendars = function() {
-      YAHOO.capdematBo.calendar.cal = new Array(2);
-      YAHOO.capdematBo.calendar.init(null, null, {id: 0, label: 'startDate'});
-      YAHOO.capdematBo.calendar.init(null, null, {id: 1, label: 'endDate'});
+      zcb.Calendar("startDate");
+      zcb.Calendar("endDate");
     };
 
     return {

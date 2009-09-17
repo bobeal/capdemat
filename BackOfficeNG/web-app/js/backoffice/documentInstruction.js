@@ -38,12 +38,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
       
       zcbd.Instruction.overlay = new yw.Overlay('documentStateOverlay',{visible:false});
       zcbd.Instruction.overlay.render();
-      
-      zcbd.Instruction.tip = new yw.Overlay('documentCalendarTip',{visible:false});
-      zcbd.Instruction.tip.render();
-      
-      zcbd.Instruction.calendar = new yw.Calendar("cal1","documentCalendar", {title:" ", close:true });
-      zcbd.Instruction.calendar.render();
     };
     var initEvents = function() {
       var clicks = yus.query('#requestDocumentPanel .bd')
@@ -53,7 +47,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
       var event = new zct.Event(zcbd.Instruction,zcbd.Instruction.extractHandler);
       yue.on(clicks,'click',event.dispatch,event,true);
       
-      zcbd.Instruction.calendar.selectEvent.subscribe(zcbd.Instruction.selectCalendar,zcbd.Instruction.calendar,true);
       zcbd.Instruction.panel.hideEvent.subscribe(zcbd.Instruction.cancelDocumentState,zcbd.Instruction.panel,true);
     };
     return {
@@ -62,7 +55,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
        */
       panel : undefined,
       overlay: undefined,
-      tip : undefined,
       /**
        * @description Document tab view
        */
@@ -74,7 +66,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
        */
       docUrl : undefined,
       listUrl : undefined,
-      calendar : undefined,
       responseText : undefined,
       /**
       * @description Don't forget to comment each of your method
@@ -130,13 +121,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
         style.display = val != 'none' ? 'none' : 'block';
         zct.style(panel,style);
       },
-      selectCalendar : function(type,args) {
-        var dates = args[0];
-        var date = dates[0];
-        var year = date[0], month = date[1], day = date[2];
-        
-        yud.get('endValidityDate').value = [day,'/', month,'/',year].join('');
-      },
       doNothing : function(e) {yue.stopEvent(e);},
       confirmDeletePage : function(e) { zcbd.Instruction.confirmDialog.show(e);},
       notify : function(json) {zct.Notifier.processMessage(json.status,json.message,'documentMessage');},
@@ -178,18 +162,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
       },
       cancelDocumentState: function(){
         zcbd.Instruction.overlay.hide();
-        zcbd.Instruction.tip.hide();
       },
       changeDocumentState : function() {
         zct.doAjaxFormSubmitCall('documentStateForm',[],function(o){
           var json = ylj.parse(o.responseText);
           zcbd.Instruction.displayDocPanel(undefined,json);
         });
-      },
-      showStateCalendar : function(e) {
-        zcbd.Instruction.tip.cfg.setProperty('context',[yue.getTarget(e), "tl", "bl"]);
-        zcbd.Instruction.calendar.show();
-        zcbd.Instruction.tip.show();
       },
       toggleStateOverlay: function(e) {
         if(zcbd.Instruction.overlay.cfg.getProperty('visible')) {
@@ -208,6 +186,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
         zct.doAjaxCall(url,[],function(o){
           zcbd.Instruction.overlay.cfg.setProperty('context',[target.id, "tl", "bl"]);
           zcbd.Instruction.overlay.setBody(o.responseText);
+          zcb.Calendar("endValidityDate");
           zcbd.Instruction.overlay.show();
         },true);
       },

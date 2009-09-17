@@ -5,7 +5,7 @@
 
 <div id="search-form">
   <h1><g:message code="request.header.simpleSearch" /></h1>
-  <form method="POST" id="requestForm" class="simple-search" action="<g:createLink action="search" />">
+  <form method="post" id="requestForm" class="simple-search" action="<g:createLink action="search" />">
     <input type="hidden" id="totalRecords" name="totalRecords" value="${totalRecords}" />
     <input type="hidden" id="recordsReturned" name="recordsReturned" value="${recordsReturned}" />
     <input type="hidden" id="recordOffset" name="recordOffset" value="${recordOffset}" />

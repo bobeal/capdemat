@@ -1,4 +1,4 @@
-<form method="POST" id="categoryEditForm_${category.id}" action="<g:createLink action="editCategory" />" class="editable-list-form" >
+<form method="post" id="categoryEditForm_${category.id}" action="<g:createLink action="editCategory" />" class="editable-list-form" >
   <div id="categoryEditForm_${category.id}Errors" class="error"></div>
   
   <ul>

@@ -48,6 +48,13 @@
   <!-- Selector -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/selector',file:'selector-beta-min.js')}"></script>
 
+  <g:if test="${Locale.FRENCH.getLanguage().equals(request.locale.getLanguage())}">
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'date-fr-FR.js')}"></script>
+  </g:if>
+  <g:else>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'date-en-US.js')}"></script>
+  </g:else>
+
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'tools.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'aspect.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'common.js')}"></script>

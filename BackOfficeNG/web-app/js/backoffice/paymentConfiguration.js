@@ -12,20 +12,19 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
 (function(){
 
   var zct = zenexity.capdemat.tools;
+  var zcb = zenexity.capdemat.bong;
   var zcbet = zenexity.capdemat.bong.editor.toolbars;
   var zcbp = zenexity.capdemat.bong.payment;
 
   var yue = YAHOO.util.Event;
   var yud = YAHOO.util.Dom;
   var ylj = YAHOO.lang.JSON;
-  var ycc = YAHOO.capdematBo.calendar;
 
   zcbp.Config = function() {
     return {
       clickEv : undefined,
       editor : undefined,
       init : function() {
-        ycc.cal = new Array(2);
         zcbp.Config.loadBox("displayConfiguration");
         zcbp.Config.loadBox("deactivation");
         zcbp.Config.loadBox("displayedMessage");
@@ -50,8 +49,8 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
             });
             zcbp.Config.editor.render();
           } else if (boxName === "deactivation") {
-            ycc.init(null, null, {id : 'paymentDeactivationStartDate', label : 'paymentDeactivationStartDate'});
-            ycc.init(null, null, {id : 'paymentDeactivationEndDate', label : 'paymentDeactivationEndDate'});
+            zcb.Calendar("paymentDeactivationStartDate");
+            zcb.Calendar("paymentDeactivationEndDate");
           }
         });
       },

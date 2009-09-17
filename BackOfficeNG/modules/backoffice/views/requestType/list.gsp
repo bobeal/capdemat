@@ -46,7 +46,7 @@
       <div class="nobox">
         <h3><g:message code="header.filterBy" /></h3>
         <div class="body">
-          <form method="POST" id="requestTypeListFilters" action="${createLink(action:'list')}">
+          <form method="post" id="requestTypeListFilters" action="${createLink(action:'list')}">
             <input type="hidden" id="filterBy" name="filterBy" value="${filterBy}" />
             <label for="categoryIdFilter"><g:message code="property.category" /> :</label>
             <select id="categoryIdFilter">

@@ -95,7 +95,7 @@
         <g:if test="\${!documentTypes.isEmpty()}">
   <% } %>
        <div id="${step.name}">
-         <form method="POST" ${step.name == 'document' ? 'enctype=\"multipart/form-data\"' : ''} id="stepForm-${step.camelCaseName}" action="<g:createLink action="step" />">
+         <form method="post" ${step.name == 'document' ? 'enctype=\"multipart/form-data\"' : ''} id="stepForm-${step.camelCaseName}" action="<g:createLink action="step" />">
            <input type="hidden" name="returnUrl" value="\${returnUrl}" />
            <h3>
              <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>

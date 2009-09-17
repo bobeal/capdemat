@@ -115,7 +115,7 @@
 
   
        <div id="requester">
-         <form method="POST"  id="stepForm-requester" action="<g:createLink action="step" />">
+         <form method="post"  id="stepForm-requester" action="<g:createLink action="step" />">
            <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.requester.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.requester.i18nKey : 'request.step.state.uncomplete'}" /></span>
@@ -157,7 +157,7 @@
 
   
        <div id="cadastre">
-         <form method="POST"  id="stepForm-cadastre" action="<g:createLink action="step" />">
+         <form method="post"  id="stepForm-cadastre" action="<g:createLink action="step" />">
            <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.cadastre.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.cadastre.i18nKey : 'request.step.state.uncomplete'}" /></span>
@@ -201,7 +201,7 @@
 
   
        <div id="validation">
-         <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
+         <form method="post"  id="stepForm-validation" action="<g:createLink action="step" />">
            <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>

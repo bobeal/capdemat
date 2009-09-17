@@ -7,7 +7,7 @@
   </label>
   <input type="text" id="endValidityDate" name="endValidityDate" size="10" 
     value="${formatDate(formatName:'format.date',date:endValidityDate)}" />
-  <a href="javascript:;" id="showStateCalendar">
+  <a href="javascript:;" id="endValidityDateShow">
     <img alt="" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
   </a>
   <div id="endValidityDateCalContainer" class="yui-cal"> </div>

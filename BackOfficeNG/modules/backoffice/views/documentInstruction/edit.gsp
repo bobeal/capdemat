@@ -99,7 +99,7 @@
           <span><g:message code="document.property.ecitizenNote" /> :</span>
 		      <em>${document.ecitizenNote}</em>
         </p>
-        <form method="POST" id="agentNoteForm" action="<g:createLink action="agentNote" />">
+        <form method="post" id="agentNoteForm" action="<g:createLink action="agentNote" />">
           <div id="agentNoteFormErrors" class="error"></div> 
           
           <label for="agentNote"><g:message code="document.property.agentNote" /> :</label>

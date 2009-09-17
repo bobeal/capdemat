@@ -1,6 +1,6 @@
 <div id="search-form">
   <h1><g:message code="payment.header.search" /></h1>
-  <form method="POST" id="paymentForm" class="advanced-search" action="<g:createLink action="search" />">
+  <form method="post" id="paymentForm" class="advanced-search" action="<g:createLink action="search" />">
     <input type="hidden" id="totalRecords" name="totalRecords" value="${totalRecords}" />
     <input type="hidden" id="recordsReturned" name="recordsReturned" value="${recordsReturned}" />
     <input type="hidden" id="recordOffset" name="recordOffset" value="${recordOffset}" />
@@ -31,13 +31,13 @@
           <g:message code="payment.search.initializationDatePeriod" /> :
         </label>
         <input type="text" id="initDateFrom" name="initDateFrom" value="${params?.initDateFrom}"size="8"/>
-        <a onclick="showCalendar('initDateFromShow', 0);">
+        <a>
           <img id="initDateFromShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
         </a>
         <div id="initDateFromCalContainer" class="yui-cal"></div>
         <span> - </span>
         <input type="text" id="initDateTo" name="initDateTo" value="${params?.initDateTo}"size="8"/> 
-        <a onclick="showCalendar('initDateToShow', 1);">    
+        <a>
           <img id="initDateToShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
         </a>
         <div id="initDateToCalContainer" class="yui-cal"></div>

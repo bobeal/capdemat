@@ -13,7 +13,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
 
   var zct = zenexity.capdemat.tools;
   var zcb = zenexity.capdemat.bong;
-  var zcbet = zenexity.capdemat.bong.editor.toolbars;
   var zcbp = zenexity.capdemat.bong.payment;
 
   var yue = YAHOO.util.Event;
@@ -31,7 +30,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
         zcbp.Config.clickEv = new zct.Event(zcbp.Config,zcbp.Config.processClick);
         yue.on(yud.get("displayConfigurationBox"),'click',zcbp.Config.clickEv.dispatch,zcbp.Config.clickEv,true);
         yue.on(yud.get("deactivationBox"),'click',zcbp.Config.clickEv.dispatch,zcbp.Config.clickEv,true);
-        yue.on(yud.get("displayedMessageBox"),'click',zcbp.Config.clickEv.dispatch,zcbp.Config.clickEv,true);
       },
       processClick : function(e) {
         return yue.getTarget(e).getAttribute("rel");
@@ -40,14 +38,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
         zct.doAjaxCall('/' + boxName, null, function(o){
           yud.get(boxName + "Box").innerHTML = o.responseText;
           if (boxName === "displayedMessage") {
-            var ta = yud.get('editor');
-            zcbp.Config.editor = new YAHOO.widget.SimpleEditor('editor', {
-              focusAtStart: false,
-              toolbar : zcbet.def,
-              width: (zct.width(ta.parentNode)-5)+'px',
-              height : '400px'
-            });
-            zcbp.Config.editor.render();
+            zcb.Editor("displayedMessage");
           } else if (boxName === "deactivation") {
             zcb.Calendar("paymentDeactivationStartDate");
             zcb.Calendar("paymentDeactivationEndDate");
@@ -71,12 +62,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
       saveActivation : function(e) {
         zct.doAjaxFormSubmitCall(yue.getTarget(e).form.id, [], function(o){
           zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
-        });
-      },
-      saveDisplayedMessage : function(e) {
-        zcbp.Config.editor.saveHTML();
-        zct.doAjaxFormSubmitCall('form1',[],function(r){
-          zct.Notifier.processMessage('success',ylj.parse(r.responseText).success_msg);
         });
       }
     }

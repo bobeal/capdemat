@@ -11,7 +11,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
   var zcbrt = zenexity.capdemat.bong.request.templates;
-  var zcbet = zenexity.capdemat.bong.editor.toolbars;
   var zcbrp = zenexity.capdemat.bong.requesttype;
   
   var yl = YAHOO.lang;
@@ -68,7 +67,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         });
       },
       spiritUpWorkTab : function(target) {
-        var eform = yu.Dom.get('editorForm');
+        var eform = yu.Dom.get("templateForm");
         var tform = yu.Dom.getAncestorByTagName(target,'form');
         var params = {
           typeId : zcbrp.currentId,

@@ -10,17 +10,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
 
 (function() {
 
+  var zcb = zenexity.capdemat.bong;
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
   var zcbrt = zenexity.capdemat.bong.request.templates;
-  var zcbet = zenexity.capdemat.bong.editor.toolbars;
 
   var yw = YAHOO.widget;
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
   var yul = YAHOO.lang;
 
-  zcbet.def.buttons.push({
+  zcb.Editor.options.toolbar.buttons.push({
     group: 'textstyle', label: 'Variables',
     buttons: [
       { type: 'select', label: '...', value: 'insertvars', disabled: false,
@@ -46,20 +46,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
   });
 
   zcbrt.Manager = function() {
-    var initEditor = function() {
-      zcbrt.Manager.editor = new YAHOO.widget.SimpleEditor('editor', {
-        focusAtStart: true,
-        toolbar : zcbet.def,
-        width : '600px',
-        height: '300px',
-        markup : 'xhtml'
-      });
-      zcbrt.Manager.editor._docType =
-        '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
-      zcbrt.Manager.editor.render();
-    };
     var initPanel = function() {
-      zcbrt.Manager.panel = new YAHOO.widget.Panel("editPanel", {
+      zcbrt.Manager.panel = new YAHOO.widget.Panel("templatePanel", {
         width:"620px",
         fixedcenter:true,
 			  draggable:false,
@@ -69,17 +57,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       });
 
       zcbrt.Manager.panel.beforeShowEvent.subscribe(function(ev){
-        zct.style('editorBody',{display:'block'});
+        zct.style("templateBody",{display:'block'});
         zcbrt.Manager.panel.center();
       });
       zcbrt.Manager.panel.beforeHideEvent.subscribe(function(ev){
-        zct.style('editorBody',{display:'none'});
+        zct.style("templateBody",{display:'none'});
       });
 
       zcbrt.Manager.panel.render();
     };
     var initButtons = function() {
-      var button = new YAHOO.widget.Button(document.getElementById('submit'));
+      var button = new YAHOO.widget.Button(document.getElementById("templateButton"));
       button.on('click',function(e){
         zcbrt.Manager.save();
       });
@@ -94,12 +82,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       init : function() {
         //initTabs();
         initPanel();
-        initEditor();
+        zcbrt.Manager.editor = zcb.Editor("template");
         initButtons();
 
         zcbrt.Manager.editor.on('afterRender',function(ev){
-          if(zcbet.def.buttons.length > 0) {
-            var button = zcbet.def.buttons[zcbet.def.buttons.length - 1].buttons[0];
+          if(zcb.Editor.toolbar.buttons.length > 0) {
+            var button = zcb.Editor.toolbar.buttons[zcb.Editor.toolbar.buttons.length - 1].buttons[0];
             var select = yus.query('select',button.container)[0];
 
             yue.on(select,'change',function(ev){
@@ -127,10 +115,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         }
 
         if(!!zcbrt.Manager.editEl) {
-          yus.query('#editorForm input[id=element]')[0].value = zcbrt.Manager.editEl.id;
+          yus.query('#templateForm input[id=element]')[0].value = zcbrt.Manager.editEl.id;
           zcbrt.Manager.editor.saveHTML();
 
-          zct.doAjaxFormSubmitCall('editorForm',[],function(o){
+          zct.doAjaxFormSubmitCall("templateForm",[],function(o){
             zcbrt.Manager.editEl.innerHTML = zcbrt.Manager.editor.getEditorHTML();
             var json = YAHOO.lang.JSON.parse(o.responseText);
             zct.Notifier.processMessage('success',json.success_msg);

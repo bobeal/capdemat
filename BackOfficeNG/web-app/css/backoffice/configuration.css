@@ -196,7 +196,7 @@ div.second-level-menu { margin: 3em 0 1em 0; padding: 0 0 0 0.5em; }
 .editor-form {
 }
 
-.editor-form  #submit {
+.editor-form  #templateButton {
   margin-top: 0.5em !important;
   float : right;
 }

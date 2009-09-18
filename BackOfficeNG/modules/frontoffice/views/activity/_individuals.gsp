@@ -26,7 +26,7 @@
             </dl>
           </div>
           <div class="details-panel">
-            <a href="${createLink(action: 'details')}?name=${name}&label=${label}&year=${params.yf}&month=${params.mf}">
+            <a href="${createLink(action: 'details')}?name=${name}&amp;label=${label}&amp;year=${year ? year : currentYear}&amp;month=${month ? month : currentMonth}">
               <g:message code="action.seeDetails"/>
             </a>
           </div>

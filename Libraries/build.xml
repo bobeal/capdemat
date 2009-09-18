@@ -16,7 +16,7 @@
         <include name="CapDemat-Plugin-ExternalServices-CapwebctPaymentModule-4.0.jar" />
         <include name="CapDemat-Plugin-ExternalServices-Edemande-4.0.jar" />
         <include name="CapDemat-Plugin-ExternalServices-Horanet-4.0.jar" />
-        <include name="CapDemat-Plugin-PaymentProviders-Payline-4.0.jar" />
+        <include name="CapDemat-Plugin-PaymentProviders-PaylineV4-4.0.jar" />
         <include name="CapDemat-Plugin-PaymentProviders-Spplus-4.0.jar" />
     </fileset>
 

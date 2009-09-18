@@ -175,8 +175,8 @@ environments {
     }
     production {
         log4j {
-            appender.'stdout.File'="\${BackOfficeNG}/WEB-INF/capdemat.log"
-            appender.'errors.File'="\${BackOfficeNG}/WEB-INF/stacktrace.log"
+            appender.'stdout.File'="\${CapDemat}/WEB-INF/capdemat.log"
+            appender.'errors.File'="\${CapDemat}/WEB-INF/stacktrace.log"
             logger {
                 grails="error"
             }

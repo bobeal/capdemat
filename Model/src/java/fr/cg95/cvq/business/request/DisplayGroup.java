@@ -1,13 +1,12 @@
 package fr.cg95.cvq.business.request;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @hibernate.class
  *  table="display_group"
- *  lazy="false"
+ *  lazy="true"
  *
  * @author Victor Bartel (vba@zenexity.fr)
  */
@@ -62,16 +61,13 @@ public class DisplayGroup implements Serializable {
 
     /**
      * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
+     *  inverse="false"
      * @hibernate.key
      *  column="display_group_id"
      * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.request.RequestType"
      */
     public Set<RequestType> getRequestTypes() {
-        if (requestTypes == null)
-            return new HashSet<RequestType>();
         return requestTypes;
     }
 

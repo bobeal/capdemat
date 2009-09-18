@@ -176,7 +176,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
   <bean id="draftManagementRemoverJobTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
-    <property name="jobDetail" ref="draftManagementNotifierJobInvoker" />
+    <property name="jobDetail" ref="draftManagementRemoverJobInvoker" />
     <property name="cronExpression" value="0 0 4 * * ?" />
   </bean>
   

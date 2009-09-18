@@ -32,7 +32,7 @@
       <map>
         <entry>
           <key>
-            <ref bean="paylinePaymentProvider" />
+            <ref bean="paylineV4PaymentProvider" />
           </key>
           <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
             <property name="broker" value="Régie Payline de la ville de Parmain"></property>
@@ -48,33 +48,21 @@
               <map>
                 <entry>
                   <key>
-                    <value>paylineIp</value>
+                    <value>merchantID</value>
                   </key>
-                  <value>127.0.0.1</value>
+                  <value>16297852179178</value>
                 </entry>
                 <entry>
                   <key>
-                    <value>paylinePort</value>
+                    <value>merchantAccesskey</value>
                   </key>
-                  <value>8502</value>
+                  <value>GePrvnY9OfGq1PIZ2B9U</value>
                 </entry>
                 <entry>
                   <key>
-                    <value>paylineCallbackUrl</value>
+                    <value>contractNumber</value>
                   </key>
-                  <value>/FrontOffice/paymentResult.do</value>
-                </entry>
-                <entry>
-                  <key>
-                    <value>paylineSessionsPath</value>
-                  </key>
-                  <value>/var/plco/parmain/sessions</value>
-                </entry>
-                <entry>
-                  <key>
-                    <value>paylinePersonnalisation</value>
-                  </key>
-                  <value>PARMAIN</value>
+                  <value>2319905</value>
                 </entry>
               </map>
             </property>

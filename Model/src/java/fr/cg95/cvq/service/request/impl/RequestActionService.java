@@ -69,10 +69,11 @@ public class RequestActionService implements IRequestActionService {
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public void addAction(final Long requestId, final String label, final String note,
-            final byte[] pdfData) throws CvqException {
+    public void addAction(final Long requestId, final String label,
+        final String message, final String note, final byte[] pdfData)
+        throws CvqException {
 
-        addActionTrace(label, note, new Date(), null, requestId, pdfData);
+        addActionTrace(label, message, note, new Date(), null, requestId, pdfData);
     }
 
     @Override
@@ -80,12 +81,12 @@ public class RequestActionService implements IRequestActionService {
     public void addSystemAction(final Long requestId, final String label)
         throws CvqException {
 
-        addActionTrace(label, null, new Date(), null, requestId, null);
+        addActionTrace(label, null, null, new Date(), null, requestId, null);
     }
 
     @Override
     public void addCreationAction(Long requestId, Date date, byte[] pdfData) throws CvqException {
-        addActionTrace(CREATION_ACTION, null, date, RequestState.PENDING, requestId, pdfData);
+        addActionTrace(CREATION_ACTION, null, null, date, RequestState.PENDING, requestId, pdfData);
     }
 
     @Override
@@ -94,11 +95,12 @@ public class RequestActionService implements IRequestActionService {
             final RequestState resultingState, final byte[] pdfData)
         throws CvqException {
 
-        addActionTrace(STATE_CHANGE_ACTION, note, date, resultingState, requestId, pdfData);
+        addActionTrace(STATE_CHANGE_ACTION, null, note, date, resultingState, requestId, pdfData);
     }
 
-    private void addActionTrace(final String label, final String note, final Date date,
-            final RequestState resultingState, final Long requestId, final byte[] pdfData)
+    private void addActionTrace(final String label, final String message,
+        final String note, final Date date, final RequestState resultingState,
+        final Long requestId, final byte[] pdfData)
         throws CvqException {
 
         Request request = (Request) requestDAO.findById(Request.class, requestId);
@@ -114,6 +116,7 @@ public class RequestActionService implements IRequestActionService {
         RequestAction requestAction = new RequestAction();
         requestAction.setAgentId(userId);
         requestAction.setLabel(label);
+        requestAction.setMessage(message);
         requestAction.setNote(note);
         requestAction.setDate(date);
         requestAction.setResultingState(resultingState);

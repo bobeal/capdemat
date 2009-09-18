@@ -1,4 +1,4 @@
-<form method="POST" id="agentEditForm_${agent.id}" action="<g:createLink action="editAgent" />" class="editable-list-form" >
+<form method="post" id="agentEditForm_${agent.id}" action="<g:createLink action="editAgent" />" class="editable-list-form" >
   <div id="agentEditForm_${agent.id}Errors" class="error"></div>
   
   <ul>

@@ -72,7 +72,6 @@ class ContactController {
         return [
             "requesterMeansOfContacts": requesterMeansOfContacts,
             "requestForms": requestForms,
-            "traceLabel" :  IRequestActionService.REQUEST_CONTACT_CITIZEN,
             "defaultContactRecipient": defaultContactRecipient,
             "requester": requester,
             "request": [
@@ -126,54 +125,74 @@ class ContactController {
         def notification
         switch (MeansOfContactEnum.forString(params.meansOfContact)) {
             case MeansOfContactEnum.MAIL :
-                notification = trace(requestId, params.label, params.note,
+                requestActionService.addAction(
+                    requestId,
+                    IRequestActionService.REQUEST_CONTACT_CITIZEN,
+                    params.templateMessage, params.note,
                     preparePdf(params.requestId, params.requestFormId,
-                    params.templateMessage))
+                        params.templateMessage))
+                notification = [
+                    status : "ok",
+                    success_msg : message(code : "message.actionTraced")
+                ]
                 break;
             case MeansOfContactEnum.EMAIL :
-                notification = sendEmail(requestId, requestFormId, params.email,
-                    params.templateMessage)
+                def pdf =
+                    preparePdf(requestId, requestFormId, params.templateMessage)
+                requestActionService.addAction(
+                    requestId,
+                    IRequestActionService.REQUEST_CONTACT_CITIZEN,
+                    params.templateMessage, params.note, pdf)
+                meansOfContactService.notifyByEmail(
+                    defaultRequestService.getById(requestId).requestType
+                        .category.primaryEmail,
+                    params.email,
+                    message(code:"mail.ecitizenContact.subject"),
+                    message(code:"mail.ecitizenContact.body"),
+                    pdf,
+                    "${requestTypeService.getRequestFormById(requestFormId).label}.pdf")
+                notification = [
+                    status : "ok",
+                    success_msg : message(code : "message.emailSent")
+                ]
                 break;
             case MeansOfContactEnum.HOME_PHONE :
-                notification = trace(requestId, params.label, params.note, null)
-                break;
             case MeansOfContactEnum.OFFICE_PHONE :
-                notification = trace(requestId, params.label, params.note, null)
-                break;
             case MeansOfContactEnum.MOBILE_PHONE :
-                notification = trace(requestId, params.label, params.note, null)
+                requestActionService.addAction(
+                    requestId,
+                    IRequestActionService.REQUEST_CONTACT_CITIZEN,
+                    null, params.note, null)
+                notification = [
+                    status : "ok",
+                    success_msg : message(code : "message.actionTraced")
+                ]
                 break;
             case MeansOfContactEnum.SMS :
-                notification = sendSms(params.mobilePhone, params.smsMessage)
+                requestActionService.addAction(
+                    requestId,
+                    IRequestActionService.REQUEST_CONTACT_CITIZEN,
+                    params.smsMessage, params.note, null)
+                meansOfContactService.notifyBySms(params.mobilePhone, params.smsMessage)
+                notification = [
+                    status : "ok",
+                    success_msg : message(code : "message.smsSent")
+                ]
                 break;
             case MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE :
-                notification = trace(requestId, params.label, params.note,
+                requestActionService.addAction(
+                    requestId,
+                    IRequestActionService.REQUEST_CONTACT_CITIZEN,
+                    params.templateMessage, params.note,
                     preparePdf(params.requestId, params.requestFormId,
-                    params.templateMessage))
+                        params.templateMessage))
+                notification = [
+                    status : "ok",
+                    success_msg : message(code : "message.actionTraced")
+                ]
                 break;
         }
         render(notification as JSON)
-    }
-
-    private trace(requestId, label, note, data) {
-        requestActionService.addAction(requestId, label, note, data)
-        return [status:"ok", success_msg:message(code:"message.actionTraced")]
-    }
-
-    private sendEmail(requestId, requestFormId, email, templateMessage) {
-        meansOfContactService.notifyRequesterByEmail(
-            defaultRequestService.getAndTryToLock(requestId),
-            email,
-            message(code:"mail.ecitizenContact.subject"),
-            message(code:"mail.ecitizenContact.body"),
-            preparePdf(requestId, requestFormId, templateMessage),
-            "${requestTypeService.getRequestFormById(requestFormId).label}.pdf")
-        return [status : "ok", success_msg : message(code : "message.emailSent")]
-    }
-
-    private sendSms(mobilePhone, smsMessage) {
-        meansOfContactService.notifyRequesterBySms(mobilePhone, smsMessage)
-        return [status : "ok", success_msg : message(code : "message.smsSent")]
     }
 
     private preparePdf(requestId, requestFormId, templateMessage) {
@@ -230,7 +249,7 @@ class ContactController {
             ]).writeTo(out);
             requestAttributes.setOut(originalOut)
 
-            String content = out.toString().replace("#{","${")
+            String content = out.toString().replace('#{','${')
             def model = [
                 "DATE" :
                     java.text.DateFormat.getDateInstance().format(new Date()),

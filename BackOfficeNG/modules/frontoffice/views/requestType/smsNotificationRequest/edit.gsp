@@ -117,7 +117,7 @@
 
   
        <div id="subscription">
-         <form method="POST"  id="stepForm-subscription" action="<g:createLink action="step" />">
+         <form method="post"  id="stepForm-subscription" action="<g:createLink action="step" />">
            <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.subscription.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subscription.i18nKey : 'request.step.state.uncomplete'}" /></span>
@@ -161,7 +161,7 @@
         <g:if test="${!documentTypes.isEmpty()}">
   
        <div id="document">
-         <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
+         <form method="post" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
            <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
@@ -203,7 +203,7 @@
 
   
        <div id="validation">
-         <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
+         <form method="post"  id="stepForm-validation" action="<g:createLink action="step" />">
            <input type="hidden" name="returnUrl" value="${returnUrl}" />
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>

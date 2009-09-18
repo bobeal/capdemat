@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/yui/editor',file:'simpleeditor.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'container.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/yui/editor',file:'simpleeditor-beta.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'defaultToolbar.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'editor.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'templateManager.js')}"></script>
@@ -67,16 +67,17 @@
           </div>
           <div id="requestTypeLocalReferential" style="display:none"></div>
         </div>
-        <form method="post" id="editorForm" action="${createLink(action:'mailTemplate')}" class="editor-form">
-          <div id="editPanel">
-            <div class="hd">Change state</div>
+        <form method="post" id="templateForm" action="${createLink(action:'mailTemplate')}" class="editor-form">
+          <div id="templatePanel">
+            <div class="hd"></div>
             <div class="bd" >
-              <div id="editorBody" style="display:none">
-                  <textarea id="editor" rows="15" name="editor"></textarea>
+              <div id="templateBody" style="display:none">
+                  <textarea id="templateEditor" rows="15" name="editor"></textarea>
                   <input type="hidden" id="element" name="element" value="" />
-                  <input type="hidden" name="requestTypeId" value="" />
+                  <input type="hidden" name="requestTypeId" value="${requestType.id}" />
                   <input type="hidden" name="requestFormId" value="" />
-                  <input type="button" id="submit" name="submit" value="Save" />
+                  <input type="button" id="templateButton" name="submit"
+                    value="<g:message code='action.save' />" />
               </div>
             </div>
           </div>

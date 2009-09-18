@@ -69,10 +69,10 @@
         <p class="field">
           <label for="templateMessage">
             <g:message code="contact.property.message" /> :
+            <span id="templateMessageNotifier"></span>
           </label>
           <textarea id="templateMessage" name="templateMessage"
-            rows="5" cols="40"
-            title="${message(code:'request.contact.error.messageRequired')}"></textarea>
+            rows="5" cols="40" maxlength="1024"></textarea>
         </p>
         <p class="field">
           <label for="requestFormId" class="required">
@@ -99,24 +99,24 @@
         </p>
       </div>
       <p id="smsWidget" class="field">
-        <span id="smsNotifier"></span>
         <label for="smsMessage" class="required">
-          <g:message code="contact.property.message" /> (160)
+          <g:message code="contact.property.message" /> :
+          <span id="smsMessageNotifier"></span>
         </label>
         <textarea id="smsMessage" name="smsMessage" rows="5" cols="40"
-          maxlength="160" class="required message"
-          title="${message(code:'request.contact.error.messageRequired')}"></textarea>
+          maxlength="130" class="required message"></textarea>
       </p>
     </div>
     <p class="field">
-      <label for="note">
+      <label for="contactNote">
         <g:message code="contact.property.note" /> :
+        <span id="contactNoteNotifier"></span>
       </label>
-      <textarea id="note" name="note" rows="5" cols="40" maxlength="255"></textarea>
+      <textarea id="contactNote" name="note"
+        rows="5" cols="40" maxlength="1024"></textarea>
     </p>
     <div>
       <input type="hidden" name="requestId" value="${request.id}" />
-      <input type="hidden" name="label" value="${traceLabel}" />
     </div>
     <p id="validationField" class="field">
       <span id="sendWidget">

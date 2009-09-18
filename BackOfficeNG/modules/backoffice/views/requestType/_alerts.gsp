@@ -1,7 +1,7 @@
 <div id="requestTypeAlertsConfiguration">
   <h2><g:message code="requestType.configuration.alerts" /></h2>
   <div id="requestTypeAlertsMessages"></div>
-  <form class="edit" method="POST" id="requestTypeAlertsForm" action="${createLink(action:'saveAlerts')}">
+  <form class="edit" method="post" id="requestTypeAlertsForm" action="${createLink(action:'saveAlerts')}">
     <div class="error" id="dialogRequestTypeAlertsFormError"></div>
     <label for="instructionMaxDelay">
       <g:message code="requestType.property.instructionMaxDelay" /> :

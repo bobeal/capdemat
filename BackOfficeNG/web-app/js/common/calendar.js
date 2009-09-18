@@ -1,33 +1,56 @@
-function showCalendar(docId, calIndex) {
-	var link1 = document.getElementById(docId);
-	var pos = YAHOO.util.Dom.getXY(link1);
-	YAHOO.capdematBo.calendar.cal[calIndex].oDomContainer.style.display='block';
-	YAHOO.util.Dom.setXY(YAHOO.capdematBo.calendar.cal[calIndex].oDomContainer, 
-										  [pos[0],pos[1]+link1.offsetHeight+1]);
-}
-
-YAHOO.namespace("capdematBo.calendar");
-YAHOO.capdematBo.calendar.init = function(arg1, arg2, arg3) {
-
-	function handleSelect(type,args,obj) {
-		var dates = args[0]; 
-		var date = dates[0];
-		var year = date[0], month = date[1], day = date[2];
-			
-		var txtDate1 = document.getElementById(arg3.label);
-		txtDate1.value = day + "/" + month + "/" + year;
-		this.hide();
-	}
-
-	YAHOO.capdematBo.calendar.cal[arg3.id] = 
-		new YAHOO.widget.Calendar( arg3.label + "Cal", arg3.label + "CalContainer", 
-				{ close:true } );
-	YAHOO.capdematBo.calendar.cal[arg3.id].selectEvent.subscribe(handleSelect, 
-		YAHOO.capdematBo.calendar.cal[arg3.id], true)
-	YAHOO.capdematBo.calendar.cal[arg3.id].render();
-
-	// Listener to show the calendar when the image is clicked
-	YAHOO.util.Event.addListener(arg3.label + "Show", "click", 
-		YAHOO.capdematBo.calendar.cal[arg3.id].show, 
-		YAHOO.capdematBo.calendar.cal[arg3.id], true);
-};
+zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
+(function() {
+  var zcb = zenexity.capdemat.bong;
+  var zct = zenexity.capdemat.tools;
+  var yud = YAHOO.util.Dom;
+  var yue = YAHOO.util.Event;
+  var options = {
+    close : true
+  };
+  zcb.Calendar = function(label) {
+    var field = yud.get(label);
+    var container = yud.get(label + "CalContainer");
+    var trigger = yud.get(label + "Show");
+    var show = function() {
+      update();
+      zct.style(container, { display : "block" });
+      var pos = yud.getXY(trigger);
+      pos[1] += trigger.offsetHeight + 1;
+      yud.setXY(container, pos);
+    };
+    var fill = function(type, args, obj) {
+      var year = args[0][0][0];
+      var month = args[0][0][1];
+      if (month < 10) month = '0' + month;
+      var day = args[0][0][2];
+      if (day < 10) day = '0' + day;
+      var textValue = [day, month, year].join('/');
+      if (Date != null && zct.isFunction(Date.parseExact)) {
+        textValue = Date.parseExact(textValue, "dd/MM/yyyy")
+          .toString(Date.CultureInfo.formatPatterns.shortDate);
+      }
+      zct.val(field, textValue);
+      cal.hide();
+    };
+    var update = function() {
+      var textValue = zct.val(field);
+      if (Date != null && zct.isFunction(Date.parse)) {
+        var date = Date.parse(textValue);
+        if (date) {
+          textValue = date.toString("MM/dd/yyyy");
+          cal.setMonth(parseInt(date.toString("MM"), 10) - 1);
+          cal.setYear(parseInt(date.toString("yyyy"), 10));
+        }
+      }
+      if (textValue && textValue != "") {
+        cal.select(textValue);
+        cal.render();
+      }
+    };
+    var cal = new YAHOO.widget.Calendar(label + "Cal", container, options);
+    cal.selectEvent.subscribe(fill, cal, true);
+    update();
+    cal.render();
+    yue.on(trigger, "click", show);
+  }
+}());

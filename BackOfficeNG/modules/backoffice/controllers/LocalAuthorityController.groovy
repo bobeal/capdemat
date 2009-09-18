@@ -19,6 +19,7 @@ class LocalAuthorityController {
       'localAuthority.requests', 
       'localAuthority.aspect',
       'localAuthority.pdf', 
+      "localAuthority.information",
       'localAuthority.identity',
       'displayGroup.list'
     ]
@@ -85,6 +86,36 @@ class LocalAuthorityController {
             response.contentType = 'text/html; charset=utf-8'
             render (new JSON([status:"success", success_msg:message(code:"message.updateDone")]).toString())
             return false
+        }
+    }
+
+    def information = {
+        if (request.get) {
+            def managedMessages = [
+                LocalAuthorityResource.INFORMATION_MESSAGE_FO
+            ]
+            def messages = []
+            managedMessages.each {
+                def file = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                    it.id, false)
+                if (!file.exists()) {
+                    localAuthorityRegistry.saveLocalAuthorityResource(it.id,
+                        "".bytes)
+                    file = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                        it.id, false)
+                }
+                messages.add(["id" : it.id, "text" : file.text])
+            }
+            render(view : "information", model : [
+                "subMenuEntries" : subMenuEntries, "messages" : messages
+            ])
+        } else if (request.post) {
+            localAuthorityRegistry.saveLocalAuthorityResource(params.id,
+                params.editor.toString().bytes);
+            render([
+                status:"ok",
+                success_msg : message(code : "message.updateDone")
+            ] as JSON)
         }
     }
 

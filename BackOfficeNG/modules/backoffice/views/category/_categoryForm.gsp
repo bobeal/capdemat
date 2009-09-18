@@ -1,7 +1,7 @@
 <h2>
   <g:message code="category.header.generalData" />
 </h2>
-<form method="POST" id="categoryForm" action="${createLink(action:'save')}">
+<form method="post" id="categoryForm" action="${createLink(action:'save')}">
   <div class="error" id="categoryFormErrors"></div>
   
   <label for="name" class="required"><g:message code="category.property.name" /> * :</label>

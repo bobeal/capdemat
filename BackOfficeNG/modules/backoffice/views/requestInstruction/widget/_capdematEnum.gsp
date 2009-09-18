@@ -1,4 +1,4 @@
-<form method="POST" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="editable-list-form" >
+<form method="post" id="${propertyName}_Form" action="<g:createLink action="modify" />" class="editable-list-form" >
   <span id="${propertyName}_FormErrors" class="error"></span> 
   <select id="${propertyName}_Field" name="${propertyName}">
     <g:each var="it" in="${allPropertyValue}">

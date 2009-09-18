@@ -93,7 +93,7 @@
      <div class="yui-content">
 
        <div id="adults">
-         <form method="POST"  id="stepForm-adults" action="<g:createLink action="step" />">
+         <form method="post"  id="stepForm-adults" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.adults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.adults.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -128,7 +128,7 @@
        
        <g:if test="${displayChildrenInAccountCreation}">
        <div id="children">
-         <form method="POST"  id="stepForm-children" action="<g:createLink action="step" />">
+         <form method="post"  id="stepForm-children" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.children.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.children.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -161,7 +161,7 @@
        
        <g:if test="${displayTutorsInAccountCreation && displayChildrenInAccountCreation}">
        <div id="foreignAdults">
-         <form method="POST"  id="stepForm-foreignAdults" action="<g:createLink action="step" />">
+         <form method="post"  id="stepForm-foreignAdults" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.foreignAdults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.foreignAdults.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -195,7 +195,7 @@
        </g:if>
        
        <div id="account">
-         <form method="POST"  id="stepForm-account" action="<g:createLink action="step" />">
+         <form method="post"  id="stepForm-account" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.account.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.account.i18nKey : 'request.step.state.uncomplete'}" /></span>
   
@@ -237,7 +237,7 @@
 
        <g:if test="${!documentTypes.isEmpty()}">
        <div id="document">
-         <form method="POST" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
+         <form method="post" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
 
@@ -271,7 +271,7 @@
 	   </g:if>
 	   
        <div id="validation">
-         <form method="POST"  id="stepForm-validation" action="<g:createLink action="step" />">
+         <form method="post"  id="stepForm-validation" action="<g:createLink action="step" />">
            <h3>
              <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
   

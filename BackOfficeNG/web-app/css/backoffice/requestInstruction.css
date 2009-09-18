@@ -166,6 +166,8 @@ ul.document-list a.removeDocument {
 /* list */
 #requestInformation div div div ul { margin: 10px;}
 #requestInformation div div div li { padding: .7em 0; border-bottom: 1px dashed #C1CFE2; }
+#requestInformation div div div ul ul { margin: 0px;}
+#requestInformation div div div ul ul li { padding: 0; border-bottom: none; }
 
 /* form */
 #requestInformation div div div form { margin: 10px;  padding: 0; }

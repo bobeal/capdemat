@@ -1964,9 +1964,10 @@
         id int8 not null,
         agent_id int8,
         label varchar(255),
-        note varchar(255),
+        note varchar(1024),
         date timestamp,
         resulting_state varchar(16),
+        message varchar(1024),
         file bytea,
         request_id int8,
         primary key (id)

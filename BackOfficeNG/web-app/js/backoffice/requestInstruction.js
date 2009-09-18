@@ -364,8 +364,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               targetEl.innerHTML += o.responseText;
 
               if (yud.hasClass(targetEl, 'validate-date')) {
-                YAHOO.capdematBo.calendar.cal = new Array(1);
-                yue.onDOMReady(YAHOO.capdematBo.calendar.init, {id: 0, label: targetEl.id + '_Field'} );
+                zcb.Calendar(targetEl.id + "_Field");
               }
           });
       },

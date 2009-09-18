@@ -13,7 +13,7 @@
       </label>
       <input type="text" id="paymentDeactivationStartDate" name="paymentDeactivationStartDate" class="validate-date-au"
         value="<g:formatDate formatName="format.date" date="${paymentDeactivationStartDate}" />" />
-      <a class="calendarLink" onclick="showCalendar('paymentDeactivationStartDateShow', 'paymentDeactivationStartDate');">
+      <a class="calendarLink">
         <img id="paymentDeactivationStartDateShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="paymentDeactivationStartDateCalContainer" class="yui-cal yui-calcontainer"></div>
@@ -24,7 +24,7 @@
       </label>
       <input type="text" id="paymentDeactivationEndDate" name="paymentDeactivationEndDate" class="validate-date-au"
         value="<g:formatDate formatName="format.date" date="${paymentDeactivationEndDate}" />" />
-      <a class="calendarLink" onclick="showCalendar('paymentDeactivationEndDateShow', 'paymentDeactivationEndDate');">
+      <a class="calendarLink">
         <img id="paymentDeactivationEndDateShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
       </a>
       <div id="paymentDeactivationEndDateCalContainer" class="yui-cal yui-calcontainer"></div>

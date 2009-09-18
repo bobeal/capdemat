@@ -1,5 +1,5 @@
 import fr.cg95.cvq.authentication.IAuthenticationService
-import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
+import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.business.request.DisplayGroup
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
@@ -53,7 +53,7 @@ class HomeController {
         result.dashBoard = [:]
                             
         File infoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
-            Type.HTML, 'information',false)
+            LocalAuthorityResource.INFORMATION_MESSAGE_FO.id, false)
         
         if(infoFile.exists()) result.commonInfo = infoFile.text
         

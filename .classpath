@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" output="Plugins/ExternalServices/CapwebctPaymentModule/build/classes" path="Plugins/ExternalServices/CapwebctPaymentModule/src/java"/>
+	<classpathentry kind="src" output="Plugins/PaymentProviders/PayBoxSystem/build/classes" path="Plugins/PaymentProviders/PayBoxSystem/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Edemande/build/test" path="Plugins/ExternalServices/Edemande/test/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Edemande/build/classes" path="Plugins/ExternalServices/Edemande/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Clever/build/test" path="Plugins/ExternalServices/Clever/test/java"/>

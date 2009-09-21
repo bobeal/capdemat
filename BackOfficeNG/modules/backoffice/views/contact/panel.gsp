@@ -75,27 +75,29 @@
             rows="5" cols="40" maxlength="1024"></textarea>
         </p>
         <p class="field">
-          <label for="requestFormId" class="required">
-            <g:message code="contact.property.template" /> :
-          </label>
-          <select id="requestFormId" name="requestFormId" class="required">
-            <g:each var="requestForm" in="${requestForms}">
-              <option value="${requestForm.id}">
-                ${requestForm.shortLabel}
-              </option>
-            </g:each>
-          </select>
-        </p>
-        <p class="field">
-          <label for="previewFormat">
-            <g:message code="contact.property.previewFormat" /> :
-          </label>
-          <select id="previewFormat" name="previewFormat">
-            <option value="PDF">PDF</option>
-            <option value="HTML">HTML</option>
-          </select>
-          <input type="button" id="preview_contact"
-            value="${message(code:'contact.action.preview')}" />
+          <span class="block">
+            <label for="requestFormId" class="required">
+              <g:message code="contact.property.template" /> :
+            </label>
+            <select id="requestFormId" name="requestFormId" class="required">
+              <g:each var="requestForm" in="${requestForms}">
+                <option value="${requestForm.id}">
+                  ${requestForm.shortLabel}
+                </option>
+              </g:each>
+            </select>
+          </span>
+          <span class="block">
+            <label for="previewFormat">
+              <g:message code="contact.property.previewFormat" /> :
+            </label>
+            <select id="previewFormat" name="previewFormat">
+              <option value="PDF">PDF</option>
+              <option value="HTML">HTML</option>
+            </select>
+            <input type="button" id="preview_contact"
+              value="${message(code:'contact.action.preview')}" />
+          </span>
         </p>
       </div>
       <p id="smsWidget" class="field">

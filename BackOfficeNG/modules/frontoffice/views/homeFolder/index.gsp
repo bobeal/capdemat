@@ -45,7 +45,7 @@
           </p>
           <p>
             <a href="${createLink(action:'editPassword')}"><g:message code="account.action.editPassword"/></a>
-          <p>
+          </p>
           <p>
             <a href="${createLink(action:'editQuestion')}"><g:message code="account.action.editQuestion"/></a>
           </p>

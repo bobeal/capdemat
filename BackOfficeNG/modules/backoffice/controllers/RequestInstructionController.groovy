@@ -501,7 +501,8 @@ class RequestInstructionController {
             def requestAction = [
                 'id':it.id,
                 'agent_name':user,
-                'label':message(code:CapdematUtils.adaptRequestActionLabel(it.label)),
+                "label" : it.label,
+                "i18nLabel" : message(code : CapdematUtils.adaptRequestActionLabel(it.label)),
                 'note':it.note,
                 "message" : it.message,
                 'date':it.date,

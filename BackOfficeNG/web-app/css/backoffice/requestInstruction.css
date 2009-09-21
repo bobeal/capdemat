@@ -242,6 +242,8 @@ ul.document-list a.removeDocument {
 }
 #requestInformation .homFolderInfo .tag-state { display: inline; float: none; }
 
+#requestInformation ul li a.documentLink { float : right; }
+
 /* request instruction worflow panel
 -------------------------------------------------------------- */
 

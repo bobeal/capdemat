@@ -33,57 +33,6 @@
       <map>
         <entry>
           <key>
-            <ref bean="paylinePaymentProvider" />
-          </key>
-          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
-            <property name="broker" value="Régie Payline de la ville de Franconville" />
-            <property name="friendlyLabel" 
-              value="Service scolaire, péri-scolaire et centre de loisirs" />
-            <property name="requestTypes">
-              <list>
-                <value>School Canteen Registration</value>
-                <value>Perischool Activity Registration</value>
-                <value>Recreation Activity Registration</value>
-              </list>
-            </property>
-            <property name="serviceProperties">
-              <map>
-                <entry>
-                  <key>
-                    <value>paylineIp</value>
-                  </key>
-                  <value>127.0.0.1</value>
-                </entry>
-                <entry>
-                  <key>
-                    <value>paylinePort</value>
-                  </key>
-                  <value>8500</value>
-                </entry>
-                <entry>
-                  <key>
-                    <value>paylineCallbackUrl</value>
-                  </key>
-                  <value>/FrontOffice/paymentResult.do</value>
-                </entry>
-                <entry>
-                  <key>
-                    <value>paylineSessionsPath</value>
-                  </key>
-                  <value>/var/plco/franconville/sessions</value>
-                </entry>
-                <entry>
-                  <key>
-                    <value>paylinePersonnalisation</value>
-                  </key>
-                  <value>FRANCONVILLE</value>
-                </entry>
-              </map>
-            </property>
-          </bean>
-        </entry>
-        <entry>
-          <key>
             <ref bean="wynidPaymentProvider" />
           </key>
           <bean class="fr.cg95.cvq.payment.PaymentServiceBean">

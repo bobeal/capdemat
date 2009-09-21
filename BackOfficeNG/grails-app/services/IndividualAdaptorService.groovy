@@ -9,7 +9,7 @@ class IndividualAdaptorService {
         result.firstName = individual.firstName
         result.lastName = individual.lastName
         if (individual.class.simpleName == "Child") {
-            switch (SexType.forString(individual.sex)) {
+            switch (individual.sex) {
                 case SexType.MALE :
                     result.title = TitleType.MISTER
                     break;

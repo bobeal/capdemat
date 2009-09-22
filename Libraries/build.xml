@@ -85,6 +85,7 @@
             </fileset>
             <fileset dir="${common.lib.dir}">
                 <include name="commons-codec.jar" />
+                <include name="commons-httpclient*.jar" />
             </fileset>
             <fileset dir="${axis.lib.dir}" />
             <fileset dir="${spring.lib.dir}">

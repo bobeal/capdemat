@@ -1,7 +1,7 @@
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.request.MeansOfContactEnum
+import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestFormType
-import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.security.SecurityContext
 
 import grails.converters.JSON
@@ -127,7 +127,7 @@ class ContactController {
             case MeansOfContactEnum.MAIL :
                 requestActionService.addAction(
                     requestId,
-                    IRequestActionService.REQUEST_CONTACT_CITIZEN,
+                    RequestActionType.CONTACT_CITIZEN,
                     params.templateMessage, params.note,
                     preparePdf(params.requestId, params.requestFormId,
                         params.templateMessage))
@@ -141,7 +141,7 @@ class ContactController {
                     preparePdf(requestId, requestFormId, params.templateMessage)
                 requestActionService.addAction(
                     requestId,
-                    IRequestActionService.REQUEST_CONTACT_CITIZEN,
+                    RequestActionType.CONTACT_CITIZEN,
                     params.templateMessage, params.note, pdf)
                 meansOfContactService.notifyByEmail(
                     defaultRequestService.getById(requestId).requestType
@@ -161,7 +161,7 @@ class ContactController {
             case MeansOfContactEnum.MOBILE_PHONE :
                 requestActionService.addAction(
                     requestId,
-                    IRequestActionService.REQUEST_CONTACT_CITIZEN,
+                    RequestActionType.CONTACT_CITIZEN,
                     null, params.note, null)
                 notification = [
                     status : "ok",
@@ -171,7 +171,7 @@ class ContactController {
             case MeansOfContactEnum.SMS :
                 requestActionService.addAction(
                     requestId,
-                    IRequestActionService.REQUEST_CONTACT_CITIZEN,
+                    RequestActionType.CONTACT_CITIZEN,
                     params.smsMessage, params.note, null)
                 meansOfContactService.notifyBySms(params.mobilePhone, params.smsMessage)
                 notification = [
@@ -182,7 +182,7 @@ class ContactController {
             case MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE :
                 requestActionService.addAction(
                     requestId,
-                    IRequestActionService.REQUEST_CONTACT_CITIZEN,
+                    RequestActionType.CONTACT_CITIZEN,
                     params.templateMessage, params.note,
                     preparePdf(params.requestId, params.requestFormId,
                         params.templateMessage))

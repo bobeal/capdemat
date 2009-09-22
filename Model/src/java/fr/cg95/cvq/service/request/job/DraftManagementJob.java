@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request.job;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
@@ -77,7 +78,7 @@ public class DraftManagementJob {
             authority.getDraftLiveDuration() - authority.getDraftNotificationBeforeDelete();
         
         List<Request> requests = requestDAO.listDraftedByNotificationAndDate(
-            IRequestActionService.DRAFT_DELETE_NOTIFICATION,
+            RequestActionType.DRAFT_DELETE_NOTIFICATION,
             DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -limit));
         
         for (Request r : requests) {
@@ -109,7 +110,7 @@ public class DraftManagementJob {
             } finally {
                 if (sent)
                     requestActionService.addSystemAction(r.getId(),
-                        IRequestActionService.DRAFT_DELETE_NOTIFICATION);
+                        RequestActionType.DRAFT_DELETE_NOTIFICATION);
             }
         }
         return counter;

@@ -1963,7 +1963,7 @@
     create table request_action (
         id int8 not null,
         agent_id int8,
-        label varchar(255),
+        type varchar(255),
         note varchar(1024),
         date timestamp,
         resulting_state varchar(16),

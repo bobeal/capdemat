@@ -19,7 +19,7 @@
               <label for="displayTitle">
                 <g:message code="localAuthority.property.displayTitle" /> :
               </label>
-              <input type="text" class="required" size="60" maxlength="100" name="displayTitle" value="${displayTitle}" />
+              <input type="text" class="required" size="50" maxlength="100" name="displayTitle" value="${displayTitle}" />
             </p>
             <p class="field">
               <label for="postalCode">
@@ -31,13 +31,13 @@
               <label for="adminEmail">
                 <g:message code="localAuthority.property.adminEmail" /> :
               </label>
-              <input type="text" class="validate-email" size="60" name="adminEmail" value="${adminEmail}" />
+              <input type="text" class="validate-email" size="50" name="adminEmail" value="${adminEmail}" />
             </p>
             <p class="field">
               <label for="serverNames">
                 <g:message code="localAuthority.property.serverNames" /> :
               </label>
-              <textarea cols="58" rows="5" name="serverNames" class="required">${serverNames}</textarea>
+              <textarea cols="50" rows="5" name="serverNames" class="required">${serverNames}</textarea>
             </p>
             <div class="form-button">
               <input id="save" type="button" value="${message(code:'action.save')}" />

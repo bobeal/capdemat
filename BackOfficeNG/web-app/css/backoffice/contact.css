@@ -33,3 +33,7 @@
   float: right;
   font-size: .7em;
 }
+
+#contactPanel .bd p.field span.block {
+  display : block;
+}

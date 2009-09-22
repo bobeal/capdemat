@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.request.RequestAction;
+import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -48,7 +49,7 @@ public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
             .setParameters(objectTab, typeTab).uniqueResult();
     }
 
-    public boolean hasAction(final Long requestId, final String actionLabel) {
+    public boolean hasAction(final Long requestId, final RequestActionType type) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("from RequestAction as requestAction");
@@ -60,8 +61,8 @@ public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
         objectList.add(requestId);
         typeList.add(Hibernate.LONG);
 
-        sb.append(" and label = ? ");
-        objectList.add(actionLabel);
+        sb.append(" and type = ? ");
+        objectList.add(type.toString());
         typeList.add(Hibernate.STRING);
         
         Type[] typeTab = typeList.toArray(new Type[0]);
@@ -99,7 +100,8 @@ public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
             .setParameters(objectTab, typeTab).list();
     }
     
-    public RequestAction findLastAction(final Long requestId, final String actionLabel) {
+    public RequestAction findLastAction(final Long requestId,
+        final RequestActionType type) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("from RequestAction as requestAction");
@@ -111,8 +113,8 @@ public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
         objectList.add(requestId);
         typeList.add(Hibernate.LONG);
 
-        sb.append(" and label = ? ");
-        objectList.add(actionLabel);
+        sb.append(" and type = ? ");
+        objectList.add(type.toString());
         typeList.add(Hibernate.STRING);
         
         sb.append(" order by date desc");

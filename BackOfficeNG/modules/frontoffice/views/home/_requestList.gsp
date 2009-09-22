@@ -38,7 +38,7 @@
       </g:each>
     </ul>
     <p class="see-all">
-      <a href="${createLink(controller:'frontofficeRequest')}" id="showAllRequests">
+      <a href="${createLink(controller:'frontofficeRequest')}">
         <g:message code="action.seeAll" />
       </a>
     </p>

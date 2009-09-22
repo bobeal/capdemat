@@ -11,7 +11,7 @@
         <form action="${createLink(action:'editQuestion')}" method="post">
 
           <label class="required" for="password"><g:message code="homeFolder.adult.property.password"/> * :</label>
-          <input type="password" name="password" value="" class="required" />
+          <input type="password" id="password" name="password" value="" class="required" />
 
           <label class="required"><g:message code="homeFolder.adult.property.question" /> * :</label>
           <select name="question" class="required validate-not-first">

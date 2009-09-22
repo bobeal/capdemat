@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request.impl;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
+import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
@@ -49,8 +50,8 @@ public class RequestActionService implements IRequestActionService {
     public RequestAction getLastWorkflowAction(@IsRequest final Long requestId)
         throws CvqException {
         
-        return requestActionDAO.findLastAction(requestId, 
-                IRequestActionService.STATE_CHANGE_ACTION);
+        return requestActionDAO.findLastAction(requestId,
+            RequestActionType.STATE_CHANGE);
     }
 
     @Override
@@ -62,31 +63,34 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
-    public boolean hasAction(final Long requestId, final String label)
+    public boolean hasAction(final Long requestId, final RequestActionType type)
         throws CvqException {
-        return requestActionDAO.hasAction(requestId, label);
+        return requestActionDAO.hasAction(requestId, type);
     }
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public void addAction(final Long requestId, final String label,
+    public void addAction(final Long requestId, final RequestActionType type,
         final String message, final String note, final byte[] pdfData)
         throws CvqException {
 
-        addActionTrace(label, message, note, new Date(), null, requestId, pdfData);
+        addActionTrace(type, message, note, new Date(), null, requestId, pdfData);
     }
 
     @Override
     @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.WRITE)
-    public void addSystemAction(final Long requestId, final String label)
+    public void addSystemAction(final Long requestId,
+        final RequestActionType type)
         throws CvqException {
 
-        addActionTrace(label, null, null, new Date(), null, requestId, null);
+        addActionTrace(type, null, null, new Date(), null, requestId, null);
     }
 
     @Override
-    public void addCreationAction(Long requestId, Date date, byte[] pdfData) throws CvqException {
-        addActionTrace(CREATION_ACTION, null, null, date, RequestState.PENDING, requestId, pdfData);
+    public void addCreationAction(Long requestId, Date date, byte[] pdfData)
+        throws CvqException {
+        addActionTrace(RequestActionType.CREATION, null, null, date,
+            RequestState.PENDING, requestId, pdfData);
     }
 
     @Override
@@ -95,10 +99,11 @@ public class RequestActionService implements IRequestActionService {
             final RequestState resultingState, final byte[] pdfData)
         throws CvqException {
 
-        addActionTrace(STATE_CHANGE_ACTION, null, note, date, resultingState, requestId, pdfData);
+        addActionTrace(RequestActionType.STATE_CHANGE, null, note, date,
+            resultingState, requestId, pdfData);
     }
 
-    private void addActionTrace(final String label, final String message,
+    private void addActionTrace(final RequestActionType type, final String message,
         final String note, final Date date, final RequestState resultingState,
         final Long requestId, final byte[] pdfData)
         throws CvqException {
@@ -115,7 +120,7 @@ public class RequestActionService implements IRequestActionService {
 
         RequestAction requestAction = new RequestAction();
         requestAction.setAgentId(userId);
-        requestAction.setLabel(label);
+        requestAction.setType(type);
         requestAction.setMessage(message);
         requestAction.setNote(note);
         requestAction.setDate(date);

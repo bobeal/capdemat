@@ -41,7 +41,7 @@
       
       <div id="narrow" class="yui-b">
         
-        <div id="requestSubject" class="narrow-box">
+        <div class="narrow-box">
           <h3>
            <g:message code="header.display" />
           </h3>

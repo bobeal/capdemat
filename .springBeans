@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[2.1.0.v200808011800]]></pluginVersion>
+	<pluginVersion><![CDATA[2.2.6.200908051215-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 		<configSuffix><![CDATA[tpl]]></configSuffix>
@@ -11,6 +11,9 @@
 		<config>Libraries/conf/org.springframework/applicationContext-admin.xml</config>
 		<config>Libraries/conf/org.springframework/applicationContext-deployment.xml.tpl</config>
 		<config>Libraries/conf/org.springframework/applicationContext.xml.tpl</config>
+		<config>Plugins/PaymentProviders/PayBoxSystem/conf/spring/pluginContext.xml</config>
+		<config>Plugins/PaymentProviders/PaylineV4/conf/spring/pluginContext.xml</config>
+		<config>Plugins/PaymentProviders/Spplus/conf/spring/pluginContext.xml</config>
 	</configs>
 	<configSets>
 		<configSet>
@@ -21,6 +24,9 @@
 				<config>Libraries/conf/org.springframework/applicationContext.xml.tpl</config>
 				<config>Libraries/conf/org.springframework/applicationContext-admin.xml</config>
 				<config>Libraries/conf/org.springframework/applicationContext-deployment.xml.tpl</config>
+				<config>Plugins/PaymentProviders/PayBoxSystem/conf/spring/pluginContext.xml</config>
+				<config>Plugins/PaymentProviders/PaylineV4/conf/spring/pluginContext.xml</config>
+				<config>Plugins/PaymentProviders/Spplus/conf/spring/pluginContext.xml</config>
 			</configs>
 		</configSet>
 	</configSets>

@@ -78,11 +78,12 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
-    public InitialiserFormulaireResponseDocument initialiserFormulaire()
+    public InitialiserFormulaireResponseDocument initialiserFormulaire(String psCodeTiers)
         throws CvqException {
         InitialiserFormulaireDocument initialiserFormulaireDocument = InitialiserFormulaireDocument.Factory.newInstance();
         InitialiserFormulaire initialiserFormulaire = initialiserFormulaireDocument.addNewInitialiserFormulaire();
-        initialiserFormulaire.setPsCodeDemande("0");
+        initialiserFormulaire.setPsCodeTiers(psCodeTiers);
+        initialiserFormulaire.setPsCodeTypeDemande("Mobil_Etudes_Extranet");
         logger.debug("initialiserFormulaire() got payload : " + initialiserFormulaire.xmlText());
         InitialiserFormulaireResponseDocument result;
         try {

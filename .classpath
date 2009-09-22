@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" output="Plugins/ExternalServices/CapwebctPaymentModule/build/classes" path="Plugins/ExternalServices/CapwebctPaymentModule/src/java"/>
+	<classpathentry kind="src" output="Plugins/PaymentProviders/PayBoxSystem/build/classes" path="Plugins/PaymentProviders/PayBoxSystem/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Edemande/build/test" path="Plugins/ExternalServices/Edemande/test/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Edemande/build/classes" path="Plugins/ExternalServices/Edemande/src/java"/>
 	<classpathentry kind="src" output="Plugins/ExternalServices/Clever/build/test" path="Plugins/ExternalServices/Clever/test/java"/>
@@ -13,8 +14,6 @@
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Wynid/build/test" path="Plugins/PaymentProviders/Wynid/test/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Spplus/build/test" path="Plugins/PaymentProviders/Spplus/test/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/Spplus/build/classes" path="Plugins/PaymentProviders/Spplus/src/java"/>
-	<classpathentry kind="src" output="Plugins/PaymentProviders/Payline/build/classes" path="Plugins/PaymentProviders/Payline/src/java"/>
-	<classpathentry kind="src" output="Plugins/PaymentProviders/Payline/build/test" path="Plugins/PaymentProviders/Payline/test/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/PaylineV4/build/classes" path="Plugins/PaymentProviders/PaylineV4/src/java"/>
 	<classpathentry kind="src" output="Plugins/PaymentProviders/PaylineV4/build/test" path="Plugins/PaymentProviders/PaylineV4/test/java"/>
 	<classpathentry kind="src" output="Plugins/CsvImporters/Concerto/build/test" path="Plugins/CsvImporters/Concerto/test/java"/>

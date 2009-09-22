@@ -11,11 +11,12 @@ class ActivityController {
     Adult ecitizen
     
     def afterInterceptor = { result ->
-    
+        result.month = params.month
+        result.year = params.year
     	def calendar = Calendar.instance
     	
-        result.year = calendar.get(Calendar.YEAR)
-        result.month = calendar.get(Calendar.MONTH) + 1
+        result.currentYear = calendar.get(Calendar.YEAR)
+        result.currentMonth = calendar.get(Calendar.MONTH) + 1
         
         result.monthsNames = [:]
     	(1..12).each { it ->
@@ -31,53 +32,45 @@ class ActivityController {
     
     def index = { 
         def result = [:]
-        
-        if(params.yf && params.mf) {
-            def dates = this.buildDate(Integer.valueOf(params.mf),Integer.valueOf(params.yf))
-            result.activities = this.getActivities(dates.from.time,dates.to.time)
-        }
-        else result.activities = this.getActivities()
-        
-        session.activities = result.activities
-        
+        if (params.year && params.month)
+            result.activities = this.getActivities(Integer.valueOf(params.month), Integer.valueOf(params.year), null, null)
+        else result.activities = this.getActivities(null, null, null, null)
         return result
     }
     
     def details = {
         def result = [:]
-            
-        if(!session.activities) {
-            redirect(action:'index')
-            return false
-        }
-            
         result.individual = params.name.decodeURL()
         result.label = params.label.decodeURL()
-        result.datas = session.activities.get(result.individual.toString()).get(result.label.toString())
+        result.datas = getActivities(Integer.valueOf(params.month),
+            Integer.valueOf(params.year), result.individual, result.label)[result.individual][result.label]
 
         return result
     }
 
-    protected Map getActivities() {
-        def dates = this.buildDate(
-            Calendar.instance.get(Calendar.MONTH) + 1,
-            Calendar.instance.get(Calendar.YEAR)
-        )
-        
-        return this.getActivities(dates.from.time,dates.to.time)
-    }
-    
-    protected Map getActivities(Date from, Date to) {
+    private getActivities(month, year, individualName, requestTypeLabel) {
+        def from
+        def to
+        def dates
+        if (month && year)
+            dates = buildDate(month, year)
+        else
+            dates = buildDate(Calendar.instance.get(Calendar.MONTH) + 1,
+                Calendar.instance.get(Calendar.YEAR))
+        from = dates.from.time
+        to = dates.to.time
         def result = [:]
-        
-        for(Request r : defaultRequestService.getByHomeFolderId(ecitizen.homeFolder.id)) {
+        for (Request r :
+            defaultRequestService.getByHomeFolderId(ecitizen.homeFolder.id)) {
             def name = "${r.subjectFirstName} ${r.subjectLastName}"
+            def label = r.requestType.label
+            if (
+                (individualName && name != individualName)
+                || (requestTypeLabel && label != requestTypeLabel)
+            ) continue
             if(!result[name]) result[name] = [:]
-            
             def map = defaultRequestService.getConsumptionsByRequest(r.id,from,to)
             if(map && !map.keySet().isEmpty()) {
-                def label = r.requestType.label
-
                 for(Date date : map.keySet()) { 
                     if(!result[name][label]) result[name][label] = [:]
                     if(!result[name][label]["${map.get(date)}".toString()])
@@ -88,7 +81,6 @@ class ActivityController {
             }
             if(result[name].isEmpty()) result.remove(name.toString())
         }
-        
         return result
     }
     

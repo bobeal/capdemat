@@ -18,7 +18,7 @@ public class RequestAction implements Serializable {
 
     private Long id;
     private Long agentId;
-    private String label;
+    private RequestActionType type;
     private String note;
     private Date date;
     private RequestState resultingState;
@@ -48,18 +48,6 @@ public class RequestAction implements Serializable {
 
     public void setAgentId(Long agentId) {
         this.agentId = agentId;
-    }
-
-    /**
-     * @hibernate.property
-     *  column="label"
-     */
-    public String getLabel() {
-        return this.label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
     }
 
     /**
@@ -134,5 +122,17 @@ public class RequestAction implements Serializable {
         return new ToStringBuilder(this)
             .append("id", getId())
             .toString();
+    }
+
+    /**
+     * @hibernate.property
+     *  column="type"
+     */
+    public RequestActionType getType() {
+        return type;
+    }
+
+    public void setType(RequestActionType type) {
+        this.type = type;
     }
 }

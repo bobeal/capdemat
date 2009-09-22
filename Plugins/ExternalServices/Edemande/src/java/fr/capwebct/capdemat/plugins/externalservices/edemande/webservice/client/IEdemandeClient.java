@@ -20,7 +20,7 @@ public interface IEdemandeClient {
     ChargerTypeDemandeResponseDocument chargerTypeDemande()
         throws CvqException;
 
-    InitialiserFormulaireResponseDocument initialiserFormulaire()
+    InitialiserFormulaireResponseDocument initialiserFormulaire(String psCodeTiers)
         throws CvqException;
 
     EnregistrerValiderFormulaireResponseDocument enregistrerValiderFormulaire(Map<String, Object> model)

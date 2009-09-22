@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -49,7 +50,7 @@ public class RequestCreationNotificationJob {
         }
 
         List<Request> requestsToNotify = 
-            requestDAO.listByNotMatchingActionLabel(IRequestActionService.REQUEST_CREATION_NOTIFICATION);
+            requestDAO.listByNotMatchingActionLabel(RequestActionType.CREATION_NOTIFICATION);
         logger.debug("notifyLocalAuthRequestsCreation() got "
                 + requestsToNotify.size() + " requests to notify");
         Map<Category, List<Request>> requestsByService =
@@ -83,7 +84,7 @@ public class RequestCreationNotificationJob {
                     // email alert successfully sent, update request accordingly
                     for (Request request : requestList) {
                         requestActionService.addSystemAction(request.getId(),
-                                IRequestActionService.REQUEST_CREATION_NOTIFICATION);
+                            RequestActionType.CREATION_NOTIFICATION);
                     }
                 }
             } else {

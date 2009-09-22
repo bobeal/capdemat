@@ -1,6 +1,7 @@
 package fr.cg95.cvq.service.request;
 
 import fr.cg95.cvq.business.request.RequestAction;
+import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -14,14 +15,6 @@ import java.util.List;
  * @author bor@zenexity.fr
  */
 public interface IRequestActionService {
-
-    String DRAFT_DELETE_NOTIFICATION = "DRAFT_DELETE_NOTIFICATION";
-    String REQUEST_CREATION_NOTIFICATION = "REQUEST_CREATION_NOTIFICATION";
-    String REQUEST_ORANGE_ALERT_NOTIFICATION = "REQUEST_ORANGE_ALERT_NOTIFICATION";
-    String REQUEST_RED_ALERT_NOTIFICATION = "REQUEST_RED_ALERT_NOTIFICATION";
-    String CREATION_ACTION = "CREATION_ACTION";
-    String STATE_CHANGE_ACTION = "STATE_CHANGE_ACTION";
-    String REQUEST_CONTACT_CITIZEN = "REQUEST_CONTACT_CITIZEN";
 
     /**
      * Get all actions related to a given request.
@@ -49,9 +42,9 @@ public interface IRequestActionService {
         throws CvqException;
 
     /**
-     * Return whether the given request has an action trace with the given label.
+     * Return whether the given request has an action trace with the given type.
      */
-    boolean hasAction(final Long requestId, final String label)
+    boolean hasAction(final Long requestId, final RequestActionType type)
         throws CvqException;
 
     /**
@@ -72,13 +65,14 @@ public interface IRequestActionService {
     /**
      * Add an (non-workflow) action trace for the given request.
      */
-    void addAction(@IsRequest final Long requestId, final String label,
+    void addAction(@IsRequest final Long requestId, final RequestActionType type,
         final String message, final String note, final byte[] pdfData)
         throws CvqException;
 
     /**
      * Add a system action trace for the given request.
      */
-    void addSystemAction(@IsRequest final Long requestId, final String label)
+    void addSystemAction(@IsRequest final Long requestId,
+        final RequestActionType type)
         throws CvqException;
 }

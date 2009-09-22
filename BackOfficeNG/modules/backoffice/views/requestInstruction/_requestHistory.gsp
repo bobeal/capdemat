@@ -1,32 +1,44 @@
 <ul>
   <g:each var="requestAction" in="${requestActionList}">
     <li>
-      <ul>
-        <li>
-          <strong>${requestAction.i18nLabel}</strong>
-          <g:if test="${requestAction.resulting_state}">
-            (<g:message code="property.newState" /> : <strong><g:message code="${requestAction.resulting_state}"/></strong>)
-          </g:if>
-          - <g:message code="searchResult.actionDate" /> <strong><g:formatDate formatName="format.fullDate" date="${requestAction.date}"/></strong>
-          <g:message code="layout.by" /> <strong>${requestAction.agent_name}</strong>
-          <g:if test="${requestAction.hasFile}">
-            <a class="documentLink" title="<g:message code='${"requestAction.action.download." + requestAction.label}' />"
+      <dl class="actionDetails">
+        <dt class="title">
+          <span class="tag ${requestAction.type.cssClass}">
+            <g:message code="${requestAction.type.i18nKey}" />
+          </span>
+        </dt>
+        <g:if test="${requestAction.resulting_state}">
+          <dd class="title">
+            <span class="tag ${requestAction.resulting_state.cssClass}">
+              <g:message code="${requestAction.resulting_state.i18nKey}" /></span>
+          </dd>
+        </g:if>
+        <dd class="title">
+          <g:message code="searchResult.actionDate" /> :
+          <strong><g:formatDate formatName="format.fullDate" date="${requestAction.date}"/></strong>
+          <g:message code="layout.by" />
+          <strong>${requestAction.agent_name}</strong>
+        </dd>
+        <g:if test="${requestAction.hasFile}">
+          <dt><g:message code="requestAction.property.file" /></dt>
+          <dd>
+            <a title="<g:message code='${"requestAction.action.download." + requestAction.type.enumString}' />"
               href="${createLink(controller : 'backofficeContact', action : 'view', params : ['requestActionId' : requestAction.id])}">
-              <img src="${createLinkTo(dir:'images/icons',file:'pdficon_small.gif')}" />
+              <img
+                alt="<g:message code='${"requestAction.action.download." + requestAction.type.enumString}' />"
+                src="${createLinkTo(dir:'images/icons',file:'pdficon_small.gif')}" />
             </a>
-          </g:if>
-        </li>
+          </dd>
+        </g:if>
         <g:if test="${requestAction.message}">
-          <li>
-            <g:message code="requestAction.property.message" /> : ${requestAction.message}
-          </li>
+          <dt><g:message code="requestAction.property.message" /> :</dt>
+          <dd>${requestAction.message}</dd>
         </g:if>
         <g:if test="${requestAction.note}">
-          <li>
-            <g:message code="requestAction.property.note" /> : ${requestAction.note}
-          </li>
+          <dt><g:message code="requestAction.property.note" /> :</dt>
+          <dd>${requestAction.note}</dd>
         </g:if>
-      </ul>
+      </dl>
     </li>
   </g:each>
 </ul>

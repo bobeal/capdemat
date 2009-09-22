@@ -12,6 +12,7 @@ import org.hibernate.type.Type;
 import org.joda.time.DateTime;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
@@ -528,12 +529,12 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             .list();
     }
 
-    public List<Request> listByNotMatchingActionLabel(final String actionLabel) {
+    public List<Request> listByNotMatchingActionLabel(final RequestActionType type) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("from Request as request ").append("where request.id not in (");
         sb.append("select request.id from Request request join request.actions action ")
-            .append(" where action.label = '").append(actionLabel).append("'");
+            .append(" where action.type = '").append(type.toString()).append("'");
         sb.append(")");
 
         return HibernateUtil.getSession().createQuery(sb.toString()).list();
@@ -589,7 +590,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             .setParameters(objectTab, typeTab).list();
     }
     
-    public List<Request> listDraftedByNotificationAndDate(String actionLabel, Date date) {
+    public List<Request>
+        listDraftedByNotificationAndDate(RequestActionType type, Date date) {
         
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -604,7 +606,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         typeList.add(Hibernate.STRING);
         typeList.add(Hibernate.TIMESTAMP);
         
-        objectList.add(actionLabel);
+        objectList.add(type.toString());
         objectList.add(date);
         
         Type[] typeTab = typeList.toArray(new Type[1]);

@@ -29,20 +29,14 @@ class CapdematUtils {
     public static adaptDocumentTypeName(name) {
         return "documentType."+ StringUtils.firstCase(name.replaceAll(' ',''),"Lower")
     }
-    
-    public static adaptRequestActionLabel(label) {
-    	return composeActionLabelKey("request.actionLabel",label)
-    }
-    
+
+    // TODO : migrate document actions to PersistentStringEnum
     public static adaptDocumentActionLabel(label) {
-    	return composeActionLabelKey("document.actionLabel",label)
+        return "document.actionLabel." + label.toLowerCase().replaceAll('_.', {
+            it.toUpperCase().substring(1)
+        })
     }
 
-    private static composeActionLabelKey(prefix,label) {
-        def transformedLabel = label.toLowerCase().replaceAll('_.',{it.toUpperCase().substring(1)})
-        return "${prefix}.${transformedLabel}"
-    }
-    
     public static requestTypeLabelAsDir(label) {
         def dirName = StringUtils.firstCase(label.replace(' ', ''), 'Lower')
         if (dirName.endsWith('Request'))

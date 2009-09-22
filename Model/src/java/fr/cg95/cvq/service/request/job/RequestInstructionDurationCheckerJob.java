@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -111,7 +112,7 @@ public class RequestInstructionDurationCheckerJob {
                             requestDAO.update(request);
                         }
                         if (!requestActionService.hasAction(request.getId(),
-                                IRequestActionService.REQUEST_RED_ALERT_NOTIFICATION)) {
+                            RequestActionType.RED_ALERT_NOTIFICATION)) {
                             logger.debug("checkLocalAuthRequestsInstructionDuration() "
                                     + "scheduling red alert notification for request"
                                     + request.getId());
@@ -127,7 +128,7 @@ public class RequestInstructionDurationCheckerJob {
                             requestDAO.update(request);
                         }
                         if (!requestActionService.hasAction(request.getId(),
-                                IRequestActionService.REQUEST_ORANGE_ALERT_NOTIFICATION)) {
+                            RequestActionType.ORANGE_ALERT_NOTIFICATION)) {
                             logger.debug("checkLocalAuthRequestsInstructionDuration() "
                                     + "scheduling orange alert notification for request"
                                     + request.getId());
@@ -185,11 +186,11 @@ public class RequestInstructionDurationCheckerJob {
                     // email alert successfully sent, update requests accordingly
                     for (Request request : orangeRequests) {
                         requestActionService.addSystemAction(request.getId(),
-                                IRequestActionService.REQUEST_ORANGE_ALERT_NOTIFICATION);
+                            RequestActionType.ORANGE_ALERT_NOTIFICATION);
                     }
                     for (Request request : redRequests) {
                         requestActionService.addSystemAction(request.getId(),
-                                IRequestActionService.REQUEST_RED_ALERT_NOTIFICATION);
+                            RequestActionType.RED_ALERT_NOTIFICATION);
                     }
                 }
             }

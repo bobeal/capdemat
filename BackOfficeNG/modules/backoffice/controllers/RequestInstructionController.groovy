@@ -1,6 +1,7 @@
 import fr.cg95.cvq.business.external.ExternalServiceTrace
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.request.DataState
+import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.RoleType
@@ -495,14 +496,13 @@ class RequestInstructionController {
         requestActions.each {
             def user = instructionService.getActionPosterDetails(it.agentId)
             def resultingState = null
-            if (it.label.equals(IRequestActionService.STATE_CHANGE_ACTION)) {
-                resultingState = "request.state." + StringUtils.pascalToCamelCase(it.resultingState.toString())
+            if (it.type.equals(RequestActionType.STATE_CHANGE)) {
+                resultingState = CapdematUtils.adaptCapdematEnum(it.resultingState, "request.state")
             }
             def requestAction = [
                 'id':it.id,
                 'agent_name':user,
-                "label" : it.label,
-                "i18nLabel" : message(code : CapdematUtils.adaptRequestActionLabel(it.label)),
+                "type" : CapdematUtils.adaptCapdematEnum(it.type, "requestAction.type"),
                 'note':it.note,
                 "message" : it.message,
                 'date':it.date,

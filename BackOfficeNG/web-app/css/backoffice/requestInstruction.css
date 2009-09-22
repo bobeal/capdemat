@@ -173,7 +173,52 @@ ul.document-list a.removeDocument {
 #requestInformation div div div form { margin: 10px;  padding: 0; }
 #requestInformation div div div form label { display: block; float: none; margin: 0; text-align: left; }
 #requestInformation div div div form input { margin: 0; }
- 
+
+/* definition list (for request actions) */
+#requestInformation dl.actionDetails {
+  padding : 5px;
+  border : 1px solid #cccccc;
+  border-right-color : #aaaaaa;
+  border-bottom-color : #aaaaaa;
+  -moz-border-radius : .5em;
+  -webkit-border-radius : .5em;
+  background-color : #ffffff;
+}
+
+#requestInformation li:hover dl.actionDetails {
+  border-color : black;
+  border-width : 2px;
+}
+
+#requestInformation dl.actionDetails dt {
+  float : left;
+  width : 25%;
+  text-align : right;
+  display : none;
+}
+
+#requestInformation dl.actionDetails dd {
+  border-left : 1px dashed #aaaaaa;
+  margin : 0 0 0 26%;
+  padding : 0 0 .5em .5em;
+  display : none;
+}
+
+#requestInformation dl.actionDetails dd a {
+  background : none;
+}
+
+#requestInformation dl.actionDetails dt.title,
+#requestInformation dl.actionDetails dd.title,
+#requestInformation li:hover dl.actionDetails dt,
+#requestInformation li:hover dl.actionDetails dd {
+  display : inherit;
+}
+
+#requestInformation dl.actionDetails .tag {
+  font-size : 1.1em;
+}
+
 /* definition list (for homeFolder.individual) */
 #requestInformation dl.account {
   margin : 10px 20px 10px 20px ;

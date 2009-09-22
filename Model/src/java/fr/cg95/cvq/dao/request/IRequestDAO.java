@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -85,15 +86,15 @@ public interface IRequestDAO extends IGenericDAO {
             final String requestTypeLabel);
     
     /**
-     * Return the list of requests which do not have the given action label.
+     * Return the list of requests which do not have the given action type.
      */
-    List<Request> listByNotMatchingActionLabel(final String actionLabel);
+    List<Request> listByNotMatchingActionLabel(final RequestActionType type);
 
     /**
      * Retrieve drafted requests created before given date that don't have the 
      * given action trace label yet.
      */
-    List<Request> listDraftedByNotificationAndDate(String actionLabel, Date date);
+    List<Request> listDraftedByNotificationAndDate(RequestActionType type, Date date);
     
     Long getSubjectId (Long requestId);
 

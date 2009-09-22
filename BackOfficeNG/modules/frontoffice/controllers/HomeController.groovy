@@ -2,6 +2,7 @@ import fr.cg95.cvq.authentication.IAuthenticationService
 import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.business.request.DisplayGroup
 import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.users.Adult
@@ -72,7 +73,7 @@ class HomeController {
             requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
         result.dashBoard.drafts.records.each {
             if (requestActionService.hasAction(it.id,
-                IRequestActionService.DRAFT_DELETE_NOTIFICATION)) {
+                RequestActionType.DRAFT_DELETE_NOTIFICATION)) {
                 it.displayDraftWarning = true
                 it.draftExpirationDate = it.creationDate +
                     SecurityContext.currentSite.draftLiveDuration

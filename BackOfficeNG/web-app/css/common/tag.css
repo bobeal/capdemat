@@ -48,6 +48,10 @@ payment : initialized, validated, refused, cancelled
 .tag-internal, .tag-public,
 /* request lock */
 .tag-free, .tag-lockacquired, .tag-locked,
+/* request action types */
+.tag-draftdeletenotification, .tag-creationnotification,
+.tag-orangealertnotification, .tag-redalertnotification, .tag-creation,
+.tag-statechange, .tag-contactcitizen,
 /*  misc */
 .tag-draft { 
   padding: 0 .2em;
@@ -65,6 +69,7 @@ payment : initialized, validated, refused, cancelled
 .tag-pending,
 .tag-initialized,
 .tag-sent,
+.tag-statechange,
 .tag-uncomplete    { background: #ffcc20; border-color:#ffaa20; }
 
 /* green */
@@ -77,6 +82,7 @@ payment : initialized, validated, refused, cancelled
 .tag-acknowledged,
 .tag-accepted,
 .tag-lockacquired,
+.tag-creation,
 .tag-enable        { background: #20cc20; border-color:#20aa20; }
 
 /* red */
@@ -88,26 +94,31 @@ payment : initialized, validated, refused, cancelled
 .tag-error,
 .tag-rejected,
 .tag-locked,
+.tag-redalertnotification,
 .tag-disable       { background: #cc2020; border-color:#aa2020; }
 
 /* negative red */
+.tag-draftdeletenotification,
 .tag-not_provided  { background: #dedede; color: #cc2020; border-color: #aa2020; }
 
 /* blue */
 .tag-clrfather,
 .tag-active,
 .tag-checked,
+.tag-contactcitizen,
 .tag-read_only     { background: #2020cc; border-color:#2020aa; }
 
 /* orange*/
 .tag-homefolderresponsible,
 .tag-read_write,
 .tag-inprogress,
+.tag-orangealertnotification,
 .tag-agent         { background: #ec7000; border-color:#da7000; }
 
 /* violet */
 .tag-required,
 .tag-ecitizen,
+.tag-creationnotification,
 .tag-manager       { background: #aa00ff; border-color:#aa00ff; }
 
 /* pink */

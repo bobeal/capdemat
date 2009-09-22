@@ -217,13 +217,6 @@ class PaymentController {
 
         Set criteriaSet = new HashSet<Critere>();
         Critere critere = new Critere();
-
-        critere.comparatif = Critere.EQUALS;
-        critere.attribut = Payment.SEARCH_BY_HOME_FOLDER_ID;
-        critere.value = this.ecitizen.homeFolder.id
-        criteriaSet.add(critere)        
-
-        critere = new Critere()
         critere.comparatif = Critere.NEQUALS
         critere.attribut = Payment.SEARCH_BY_PAYMENT_STATE
         critere.value = PaymentState.INITIALIZED.toString()
@@ -238,11 +231,6 @@ class PaymentController {
         def result = [:]
         Set criteriaSet = new HashSet<Critere>();
         Critere critere = new Critere();
-        critere.comparatif = Critere.EQUALS;
-        critere.attribut = Payment.SEARCH_BY_HOME_FOLDER_ID;
-        critere.value = this.ecitizen.homeFolder.id
-        criteriaSet.add(critere)
-        critere = new Critere()
         critere.comparatif = Critere.EQUALS
         critere.attribut = Payment.SEARCH_BY_PAYMENT_STATE
         critere.value = PaymentState.INITIALIZED.toString()

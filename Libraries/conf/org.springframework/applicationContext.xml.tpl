@@ -567,6 +567,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="subjectPolicy" value="SUBJECT_POLICY_NONE" />
   </bean>
 
+  <bean id="paymentFilterAspect"
+    class="fr.cg95.cvq.payment.aspect.PaymentFilterAspect" />
+
   <bean id="paymentService" class="fr.cg95.cvq.payment.impl.PaymentService" init-method="init">
     <property name="paymentDAO" ref="paymentDAO" />
     <!-- 

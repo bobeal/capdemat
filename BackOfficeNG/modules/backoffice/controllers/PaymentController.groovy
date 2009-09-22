@@ -26,7 +26,7 @@ class PaymentController {
     }
 
     def afterInterceptor = { model ->
-    	model['subMenuEntries'] = ['search', 'configure']
+        model['subMenuEntries'] = ['payment.search', 'payment.configure']
     }
     
     def configure = {

@@ -25,6 +25,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.lang.StringUtils;
 import org.apache.fop.image.FopImageFactory;
 import org.apache.log4j.Logger;
+import org.apache.tools.ant.util.FileUtils;
 import org.hibernate.SessionFactory;
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;
@@ -37,6 +38,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.util.FileCopyUtils;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
@@ -201,12 +203,24 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    public File getLocalAuthorityResourceFile(String id, LocalAuthorityResource.Version version, 
-            boolean fallbackToDefault)
+    public File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
         return getAssetsFile(resource.getType(),
             resource.getFilename() + version.getExtension(), false);
+    }
+
+    // TODO - Specify default version management rules
+    @Override
+    public File getLocalAuthorityResourceFile(Type type, String filename, Version version)
+        throws CvqException {
+        File file = getAssetsFile(type, filename + version.getExtension(), false);
+        if (!file.exists()) {
+            file = getAssetsFile(type, filename + Version.DEFAULT.getExtension(), false);
+            if (file.exists())
+                copyDefaultLocalAuthorityResource(type, filename);
+        }
+        return file;
     }
 
     private File getAssetsFile(final Type type, final String filename,
@@ -459,6 +473,34 @@ public class LocalAuthorityRegistry
                     + resource.getId() + " from version "
                     + oldVersion + " to "
                     + newVersion);
+    }
+
+    @Override
+    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    public void renameLocalAuthorityResource(Type type, String oldFilename, String newFilename)
+        throws CvqException {
+        if (oldFilename.equals(newFilename))
+            return;
+        File file = getLocalAuthorityResourceFile(type, oldFilename, false);
+        if (!file.exists()) {
+            throw new CvqException("File "+ file.getPath() + " does not exist !");
+        }
+        if (!file.renameTo(new File(file.getParent() + "/" + newFilename + type.getExtension())))
+            throw new CvqException("Can't rename resource type "
+                    + type + " from "
+                    + oldFilename + " to "
+                    + newFilename);
+    }
+
+    public void copyDefaultLocalAuthorityResource(Type type, String filename) throws CvqException {
+        File file = getLocalAuthorityResourceFile(type, filename, Version.DEFAULT);
+        if (!file.exists())
+            throw new CvqException("File "+ file.getPath() + " does not exist !");
+        try {
+            FileCopyUtils.copy(file, new File(file.getParent() + "/" + filename + type.getExtension()));
+        } catch (IOException ioe) {
+            throw new CvqException("Can't copy DEFAULT version of "+ file.getPath());
+        }
     }
 
     @Override

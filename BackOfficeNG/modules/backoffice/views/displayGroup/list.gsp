@@ -54,6 +54,21 @@
     </div>
     <div id="narrow" class="yui-b">
       <menu:subMenu id="secondMenu" i18nPrefix="header" data="${subMenuEntries}" />
+      <g:if test="${orphanRequestTypes.size > 0}">
+        <div class="nobox yellow">
+          <h3><g:message code="category.header.orphanRequestTypes" /></h3>
+          <div class="body">
+            <ul>
+            <g:each in="${orphanRequestTypes}">
+              <li>
+              <g:if test="${it.active}">${it.label}</g:if>
+              <g:else><span class="disabled">${it.label}</span></g:else>
+              </li>
+            </g:each>
+            </ul>
+          </div>
+        </div>
+      </g:if>
     </div>
   </body>
 </html>

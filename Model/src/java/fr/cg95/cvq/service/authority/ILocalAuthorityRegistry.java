@@ -121,8 +121,10 @@ public interface ILocalAuthorityRegistry {
     /**
      * Get the file for this local authority resource id and version in the current local authority assets.
      */
-    File getLocalAuthorityResourceFile(String id, LocalAuthorityResource.Version version, boolean fallbackToDefault)
+    File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
         throws CvqException;
+
+    File getLocalAuthorityResourceFile(Type type, String filename, Version version) throws CvqException;
 
     File getRequestXmlResource(Long id);
     
@@ -178,7 +180,13 @@ public interface ILocalAuthorityRegistry {
      */
     void renameLocalAuthorityResource(String id, Version oldVersion, Version newVersion)
         throws CvqException;
-    
+
+    void renameLocalAuthorityResource(Type type, String oldFilename, String newFilename)
+        throws CvqException;
+
+    void copyDefaultLocalAuthorityResource(Type type, String filename)
+        throws CvqException;
+
     /**
      * Save the data as the current version of this local authority resource in current local authority assets,
      * and backup former current version as old version if it exists.

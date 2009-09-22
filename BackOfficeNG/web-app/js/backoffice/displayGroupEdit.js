@@ -18,7 +18,7 @@
       url += ['/',action,'RequestType/',
               '?displayGroupId=',zcb.DisplayGroupEdit.displayGroupId,
               '&requestTypeId=',requestTypeId].join('');
-              
+
       zct.doAjaxCall(url, null, function(o) {
         var json = ylj.parse(o.responseText);
         if (json.status !== 'success') return false;
@@ -33,7 +33,7 @@
           yud.replaceClass(targetEl, action, "associate");
           targetEl.id = targetEl.id.replace('unassociate','associate');
         }
-        
+
         var spanEl = yus.query("span.displayGroupName", "requestType_" + requestTypeId, true);
         if (!!spanEl && !YAHOO.lang.isArray(spanEl)) liYuiEl.removeChild(spanEl);
       });
@@ -41,11 +41,12 @@
 
     return {
       clickEvent : undefined,
-      
+
       init: function() {
         zcb.DisplayGroupEdit.clickEvent = new zct.Event(zcb.DisplayGroupEdit, zcb.DisplayGroupEdit.getHandler);
         yue.on('displayGroupRequestTypesBox','click', zcb.DisplayGroupEdit.clickEvent.dispatch, zcb.DisplayGroupEdit.clickEvent, true);
         yue.on('displayGroupForm','submit', zcb.DisplayGroupEdit.saveDisplayGroup);
+        yue.on('logoForm','submit', zcb.DisplayGroupEdit.saveLogo);
         yue.on('orderRequestTypeBy','change', zcb.DisplayGroupEdit.sortRequestTypes);
       },
 
@@ -56,7 +57,7 @@
       associate: function(e) { manageRequestType(yue.getTarget(e)); },
 
       unassociate: function(e) { manageRequestType(yue.getTarget(e)); },
-      
+
       displayRequestTypes: function(o) {
         yud.removeClass(yus.query('a.current', "sortRequestTypeForm", true), 'current');
         yud.addClass('viewRequestTypes_' + o.argument[0], "current");
@@ -73,7 +74,7 @@
         if (yue.getTarget(e).value != "")
           zct.doAjaxFormSubmitCall("sortRequestTypeForm", [yud.get("scope").value],zcb.DisplayGroupEdit.displayRequestTypes);
       },
-      
+
       saveDisplayGroup: function(e) {
         yue.preventDefault(e);
         if (!FIC_checkForm(e, yud.get('displayGroupFormErrors')))
@@ -82,15 +83,27 @@
           var json = ylj.parse(o.responseText);
           if (json.status === 'success' && zcb.DisplayGroupEdit.editMode === 'create')
             window.location = zenexity.capdemat.baseUrl + '/edit/' + json.id;
-          else
+          else {
+            yud.get('logoForm').name.value = json.displayGroupName;
             zct.Notifier.processMessage(json.status,json.message,'displayGroupMsg');
+          }
         });
+      },
+
+      saveLogo: function(e) {
+        yue.preventDefault(e);
+        zct.doAjaxFormSubmitCall('logoForm',[],function(o){
+          var json = ylj.parse(o.responseText);
+          yud.get('logoImg').src = [zcb.DisplayGroupEdit.ressourceBaseUrl, yud.get('logoForm').name.value,
+                                    '&rand=', json.rand].join('');
+          zct.Notifier.processMessage(json.status,json.message,'displayGroupMsg');
+        }, true);
       }
-      
+
     };
 
   }();
   
   YAHOO.util.Event.onDOMReady(zcb.DisplayGroupEdit.init);
-  
+
 }());

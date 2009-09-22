@@ -52,11 +52,6 @@ public class RequestTypeService implements IRequestTypeService {
     private IRequestFormDAO requestFormDAO;
 
     @Override
-    public List<DisplayGroup> getAllDisplayGroups() {
-        return this.requestTypeDAO.listAllDisplayGroup();
-    }
-
-    @Override
     public List<RequestType> getAllRequestTypes()
         throws CvqException {
 

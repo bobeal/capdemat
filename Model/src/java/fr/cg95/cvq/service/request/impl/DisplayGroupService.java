@@ -1,6 +1,10 @@
 package fr.cg95.cvq.service.request.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.business.request.RequestType;
@@ -12,15 +16,65 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.request.IDisplayGroupService;
+import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 
 /**
  * @author rdj@zenexity.fr
  */
-public class DisplayGroupService implements IDisplayGroupService {
+public class DisplayGroupService implements IDisplayGroupService, ILocalAuthorityLifecycleAware {
+    static Logger logger = Logger.getLogger(DisplayGroupService.class);
 
     private IGenericDAO genericDAO;
     private IRequestTypeDAO requestTypeDAO;
+    private IRequestServiceRegistry requestServiceRegistry;
+
+    @Context(type=ContextType.SUPER_ADMIN)
+    private void bootstrap() {
+        logger.debug("init display group");
+        if(getAll().size() > 0)
+            return;
+
+        Map<String, DisplayGroup> displayGroups = new HashMap<String, DisplayGroup>();
+        displayGroups.put("school", new DisplayGroup("school","Scolaire"));
+        displayGroups.put("civil", new DisplayGroup("civil","Etat civil"));
+        displayGroups.put("social", new DisplayGroup("social","Social"));
+        displayGroups.put("environment", new DisplayGroup("environment","Environnement"));
+        displayGroups.put("election", new DisplayGroup("election","Election"));
+        displayGroups.put("security", new DisplayGroup("security","Sécurité"));
+        displayGroups.put("leisure", new DisplayGroup("leisure","Loisirs"));
+        displayGroups.put("culture", new DisplayGroup("culture","Culturel"));
+        displayGroups.put("technical", new DisplayGroup("technical","Service technique"));
+        displayGroups.put("urbanism", new DisplayGroup("urbanism","Urbanisme"));
+
+        try {
+            for (DisplayGroup dg : displayGroups.values())
+                create(dg);
+
+            for (RequestType rt : requestTypeDAO.listAll()) {
+                IRequestService service = requestServiceRegistry.getRequestService(rt.getLabel());
+                DisplayGroup dg =  displayGroups.get(service.getDefaultDisplayGroup());
+                if (dg != null)
+                    addRequestType(dg.getId(), rt.getId());
+            }
+        } catch (CvqException cvqe) {
+            logger.equals("Display Group init failed !");
+            cvqe.printStackTrace();
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
+    public void addLocalAuthority(String localAuthorityName) {
+        bootstrap();
+    }
+
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
+    public void removeLocalAuthority(String localAuthorityName) {
+    }
 
     @Override
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
@@ -111,4 +165,13 @@ public class DisplayGroupService implements IDisplayGroupService {
     public void setRequestTypeDAO(IRequestTypeDAO requestTypeDAO) {
         this.requestTypeDAO = requestTypeDAO;
     }
+
+    public IRequestServiceRegistry getRequestServiceRegistry() {
+        return requestServiceRegistry;
+    }
+
+    public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {
+        this.requestServiceRegistry = requestServiceRegistry;
+    }
+
 }

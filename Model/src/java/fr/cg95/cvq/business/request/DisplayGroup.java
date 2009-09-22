@@ -23,6 +23,11 @@ public class DisplayGroup implements Serializable {
     public DisplayGroup() {
     }
     
+    public DisplayGroup(String name, String label) {
+        this.name = name;
+        this.label = label;
+    }
+
     /**
      * @hibernate.id
      *  generator-class="sequence"

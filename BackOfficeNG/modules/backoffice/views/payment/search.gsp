@@ -23,8 +23,7 @@
 
     <!-- filters and sorters -->
     <div id="narrow" class="yui-b">
-      <menu:subMenu id="secondMenu" i18nPrefix="payment.header" 
-        data="${subMenuEntries}" />
+      <menu:subMenu id="secondMenu" i18nPrefix="header" data="${subMenuEntries}" />
       
       <div class="nobox">
         <h3><g:message code="header.sortBy" /></h3>

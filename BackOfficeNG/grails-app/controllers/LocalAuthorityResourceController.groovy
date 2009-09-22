@@ -17,15 +17,23 @@ class LocalAuthorityResourceController {
 
     def resource = {
         def localAuthorityResource = localAuthorityResourceAdaptorService.getLocalAuthorityResources()[params.id]
+        File resource
         if (localAuthorityResource != null) {
-            File resource = localAuthorityRegistry.getLocalAuthorityResourceFile(
+            resource = localAuthorityRegistry.getLocalAuthorityResourceFile(
                 params.id,
                 params.version != null ? LocalAuthorityResource.Version.valueOf(params.version) : LocalAuthorityResource.Version.CURRENT,
                 localAuthorityResource.canFallback)
-            if (resource != null) {
-                renderResponse(resource, localAuthorityResource.contentType)
-            }
+            if (resource != null)
+                renderResponse(resource, localAuthorityResource.type.contentType)
+        } else {
+            resource = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                Type.valueOf(params.type),
+                params.filename,
+                params.version != null ? LocalAuthorityResource.Version.valueOf(params.version) : LocalAuthorityResource.Version.CURRENT)
+            if (resource != null)
+                renderResponse(resource, Type.valueOf(params.type).contentType)
         }
+
     }
 
     def rule = {
@@ -43,6 +51,6 @@ class LocalAuthorityResourceController {
         byte[] data = file.readBytes()
         response.contentType = contentType
         response.contentLength = data.length
-        response.outputStream << data                
+        response.outputStream << data
     }
 }

@@ -42,9 +42,10 @@ form label.required {
 	font-weight: bold;
 }
 
-/* TODO - Verify usefullness */
+/* TODO: Verify usefullness */
 form br { clear: left; }
 
+/* TODO: rename into "no-label-line" for instance */
 form .form-button { margin: 1em 0 0 36.5%; }
 
 form .error { margin: 0 0 0 36.5%; text-align: left;}

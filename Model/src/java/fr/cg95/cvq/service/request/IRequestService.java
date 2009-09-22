@@ -475,6 +475,8 @@ public interface IRequestService {
      */
     boolean isOfRegistrationKind();
 
+    String getDefaultDisplayGroup();
+
     // ////////////////////////////////////////////////////////
     // Methods to be overridden by implementing services
     // ////////////////////////////////////////////////////////

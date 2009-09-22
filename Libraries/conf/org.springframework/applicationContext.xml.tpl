@@ -213,8 +213,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   </bean>
 
   <bean id="displayGroupService" class="fr.cg95.cvq.service.request.impl.DisplayGroupService">
-    <property name="genericDAO" ref="genericDAO"/>
-    <property name="requestTypeDAO" ref="requestTypeDAO"/>
+    <property name="genericDAO" ref="genericDAO" />
+    <property name="requestTypeDAO" ref="requestTypeDAO" />
+    <property name="requestServiceRegistry" ref="requestServiceRegistry" />
   </bean>
 
   <bean id="requestActionService" class="fr.cg95.cvq.service.request.impl.RequestActionService">
@@ -354,6 +355,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="xslFoFilename" value="schoolRegistrationRequest"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="school" />
   </bean>
 
   <bean id="perischoolActivityRegistrationRequestService" 
@@ -364,6 +366,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="xslFoFilename" value="perischoolActivityRegistrationRequest"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="school" />
   </bean>
 
   <bean id="recreationActivityRegistrationRequestService" 
@@ -374,6 +377,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="xslFoFilename" value="recreationActivityRegistrationRequest"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="school" />
   </bean>
 
   <bean id="schoolCanteenRegistrationRequestService" 
@@ -385,6 +389,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="xslFoFilename" value="schoolCanteenRegistrationRequest"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="school" />
   </bean>
 
   <bean id="studyGrantRequestService"
@@ -396,6 +401,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="xslFoFilename" value="studyGrantRequest"/>
+    <property name="defaultDisplayGroup" value="school" />
   </bean>
 
  <bean id="birthDetailsRequestService" 
@@ -404,6 +410,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="supportUnregisteredCreation" value="true" />
     <property name="label" value="Birth Details"/>
     <property name="xslFoFilename" value="birthDetailsRequest"/>
+    <property name="defaultDisplayGroup" value="civil" />
  </bean>
   
   <bean id="marriageDetailsRequestService" 
@@ -412,6 +419,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="supportUnregisteredCreation" value="true" />
     <property name="label" value="Marriage Details" />
     <property name="xslFoFilename" value="marriageDetailsRequest"/>
+    <property name="defaultDisplayGroup" value="civil" />
   </bean>
   
   <bean id="deathDetailsRequestService" 
@@ -420,6 +428,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="supportUnregisteredCreation" value="true" />
     <property name="label" value="Death Details" />
     <property name="xslFoFilename" value="deathDetailsRequest"/>
+    <property name="defaultDisplayGroup" value="civil" />
    </bean>
 
   <bean id="electoralRollRegistrationRequestService" 
@@ -429,6 +438,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="xslFoFilename" value="electoralRollRegistrationRequest"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="election" />
   </bean>
 
   <bean id="alignmentCertificateRequestService" 
@@ -437,6 +447,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="supportUnregisteredCreation" value="true"/>
     <property name="label" value="Alignment Certificate"/>
     <property name="xslFoFilename" value="alignmentCertificateRequest"/>
+    <property name="defaultDisplayGroup" value="urbanism" />
   </bean>
 
   <bean id="alignmentNumberingConnectionRequestService"
@@ -444,6 +455,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     parent="requestService">
     <property name="label" value="Alignment Numbering Connection"/>
     <property name="xslFoFilename" value="alignmentNumberingConnectionRequest"/>
+    <property name="defaultDisplayGroup" value="urbanism" />
   </bean>
 
   <bean id="sewerConnectionRequestService" 
@@ -452,6 +464,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="supportUnregisteredCreation" value="true"/>
     <property name="label" value="Sewer Connection"/>
     <property name="xslFoFilename" value="sewerConnectionRequest"/>
+    <property name="defaultDisplayGroup" value="urbanism" />
   </bean>
 
   <bean id="libraryRegistrationRequestService" 
@@ -462,6 +475,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="xslFoFilename" value="libraryRegistrationRequest"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
     <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="culture" />
   </bean>
 
   <bean id="musicSchoolRegistrationRequestService" 
@@ -472,6 +486,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="xslFoFilename" value="musicSchoolRegistrationRequest"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
     <property name="isOfRegistrationKind" value="true"/>
+    <property name="defaultDisplayGroup" value="leisure" />
   </bean>
 
   <bean id="placeReservationRequestService" 
@@ -483,6 +498,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="externalReferentialFilename" value="external_referential_prr"/>
     <property name="placeReservationService" ref="placeReservationService" />
     <property name="xslFoFilename" value="placeReservationRequest"/>
+    <property name="defaultDisplayGroup" value="culture" />
   </bean>
   
   <bean id="remoteSupportRequestService" 
@@ -491,6 +507,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="label" value="Remote Support"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="xslFoFilename" value="remoteSupportRequest"/>
+    <property name="defaultDisplayGroup" value="social" />
   </bean>
   
   <bean id="domesticHelpRequestService" 
@@ -499,6 +516,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="label" value="Domestic Help"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="xslFoFilename" value="domesticHelpRequest"/>
+    <property name="defaultDisplayGroup" value="social" />
   </bean>
   
   <bean id="handicapCompensationAdultRequestService" 
@@ -507,6 +525,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="label" value="Handicap Compensation Adult"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="xslFoFilename" value="handicapCompensationAdultRequest"/>
+    <property name="defaultDisplayGroup" value="social" />
   </bean>
   
   <bean id="handicapCompensationChildRequestService" 
@@ -515,6 +534,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="label" value="Handicap Compensation Child"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="xslFoFilename" value="handicapCompensationChildRequest"/>
+    <property name="defaultDisplayGroup" value="social" />
   </bean>  
 
   <bean id="militaryCensusRequestService" 
@@ -523,6 +543,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="label" value="Military Census"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="xslFoFilename" value="militaryCensusRequest"/>
+    <property name="defaultDisplayGroup" value="civil" />
   </bean>
   
    <bean id="smsNotificationRequestService" 
@@ -532,6 +553,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="localReferentialFilename" value="local_referential_snr"/>
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="xslFoFilename" value="smsNotificationRequest"/>
+    <property name="defaultDisplayGroup" value="leisure" />
   </bean>
 
   <bean id="bulkyWasteCollectionRequestService" 
@@ -540,6 +562,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="label" value="Bulky Waste Collection"/>
     <property name="localReferentialFilename" value="local_referential_bwcr"/>
     <property name="xslFoFilename" value="bulkyWasteCollectionRequest"/>
+    <property name="defaultDisplayGroup" value="environment" />
   </bean>
 
   <bean id="compostableWasteCollectionRequestService" 
@@ -548,6 +571,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="label" value="Compostable Waste Collection"/>
     <property name="localReferentialFilename" value="local_referential_cwcr"/>
     <property name="xslFoFilename" value="compostableWasteCollectionRequest"/>
+    <property name="defaultDisplayGroup" value="environment" />
   </bean>
 
   <bean id="holidaySecurityRequestService"
@@ -556,6 +580,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="label" value="Holiday Security" />
     <property name="xslFoFilename" value="holidaySecurityRequest" />
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
+    <property name="defaultDisplayGroup" value="security" />
   </bean>
 
   <bean id="technicalInterventionRequestService"
@@ -565,6 +590,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="localReferentialFilename" value="local_referential_tir"/>
     <property name="xslFoFilename" value="technicalInterventionRequest" />
     <property name="subjectPolicy" value="SUBJECT_POLICY_NONE" />
+    <property name="defaultDisplayGroup" value="technical" />
   </bean>
 
   <bean id="paymentService" class="fr.cg95.cvq.payment.impl.PaymentService" init-method="init">

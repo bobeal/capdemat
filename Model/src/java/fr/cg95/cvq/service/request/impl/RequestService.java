@@ -98,6 +98,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     protected String label;
     protected String xslFoFilename;
     protected Boolean isOfRegistrationKind;
+    protected String defaultDisplayGroup;
     protected Map<String,IConditionChecker> filledConditions;
 
     protected IDocumentTypeService documentTypeService;
@@ -1385,7 +1386,15 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         this.isOfRegistrationKind = Boolean.valueOf(isOfRegistrationKind);
     }
 
-	public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
+	public String getDefaultDisplayGroup() {
+        return defaultDisplayGroup;
+    }
+
+    public void setDefaultDisplayGroup(String defaultDisplayGroup) {
+        this.defaultDisplayGroup = defaultDisplayGroup;
+    }
+
+    public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
 		this.localAuthorityRegistry = localAuthorityRegistry;
 	}
 

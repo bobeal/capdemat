@@ -10,6 +10,7 @@
   <script type="text/javascript">
     zenexity.capdemat.bong.DisplayGroupEdit.displayGroupId = '${displayGroup?.id}';
     zenexity.capdemat.bong.DisplayGroupEdit.editMode = '${editMode}';
+    zenexity.capdemat.bong.DisplayGroupEdit.ressourceBaseUrl = '${createLink(controller:'localAuthorityResource', action:'resource',  params:[type:'DISPLAY_GROUP_IMAGE',filename:''])}'
   </script>
   </head>
 
@@ -17,7 +18,7 @@
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
-          <h1>${message(code:'localAuthority.header.configuration')}</h1>
+          <h1>${message(code:'displayGroup.header.configuration')}</h1>
         </div>
 
         <div id="displayGroupData" class="mainbox mainbox-yellow">
@@ -33,6 +34,7 @@
             <input type="text" name="name" class="required" title="${message(code:'displayGroup.message.nameRequired')}" value="${displayGroup?.name}" size="40" />
 
             <p class="form-button">
+              <input type="hidden" name="hasLogo" value="${hasLogo}" />
               <input type="hidden" name="id" value="${displayGroup?.id}" />
               <g:if test="${editMode == 'create'}">
                 <input type="submit" name="submitDisplayGroup" value="${message(code:'action.create')}" />
@@ -46,6 +48,19 @@
         </div>
 
         <g:if test="${editMode != 'create'}">
+          <div class="mainbox mainbox-yellow">
+            <h2>${message(code:'displayGroup.header.logo')}</h2>
+            <form method="post" id="logoForm" class="localResourceUpload" action="${createLink(action : 'logo')}">
+              <p>
+              <img id="logoImg" src="${createLink(controller:'localAuthorityResource', action:'resource',  params:[type:'DISPLAY_GROUP_IMAGE',filename:displayGroup?.name])}" />
+              </p>
+              <input type="hidden" name="name" value="${displayGroup?.name}" />
+              <input type="hidden" name="hasLogo" value="${hasLogo}" />
+              <label for="logo">${message(code:'displayGroup.message.newLogo')} * :</label>
+              <input type="file" name="logo" id="logo" />
+              <input name="save" type="submit" value="${message(code:'action.save')}" />
+            </form>
+          </div>
           <div id="displayGroupRequestTypesBox" class="mainbox mainbox-yellow">
             <h2>${message(code:'displayGroup.header.requests')}</h2>
             <div class="editableListSwithcher">
@@ -54,7 +69,7 @@
                   <option value="label" ${orderRequestTypeBy == 'label' ? 'selected' : ''}>
                     ${message(code:'displayGroup.filter.byLabel')}
                   </option>
-                  <option value="displayGroupName" ${orderRequestTypeBy == 'displayGroupName' ? 'selected' : ''}>
+                  <option value="displayGroupLabel" ${orderRequestTypeBy == 'displayGroupLabel' ? 'selected' : ''}>
                     ${message(code:'displayGroup.filter.byDisplayGroup')}
                   </option>
                 </select>
@@ -90,10 +105,10 @@
               </select>
             </form>
           </g:else>
+          <a href="${createLink(action:'list')}">${message(code:'displayGroup.message.backToList')}</a>
         </div>
       </div>
     </div>
 
   </body>
 </html>
-

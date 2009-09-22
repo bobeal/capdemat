@@ -26,17 +26,6 @@ public class LocalAuthorityResourceAdaptorService {
             localAuthorityResources.helpFo.template = "linkBox"
             localAuthorityResources.legal.template = "linkBox"
             localAuthorityResources.use.template = "linkBox"
-
-            localAuthorityResources.cssFo.contentType = "text/css"
-            localAuthorityResources.logoFo.contentType = "image/png"
-            localAuthorityResources.logoBo.contentType = "image/png"
-            localAuthorityResources.banner.contentType = "image/png"
-            localAuthorityResources.logoPdf.contentType = "image/png"
-            localAuthorityResources.faqFo.contentType = "application/pdf"
-            localAuthorityResources.helpBo.contentType = "application/pdf"
-            localAuthorityResources.helpFo.contentType = "application/pdf"
-            localAuthorityResources.legal.contentType = "application/pdf"
-            localAuthorityResources.use.contentType = "application/pdf"
         }
         return localAuthorityResources
     }

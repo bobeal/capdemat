@@ -28,22 +28,18 @@ class MenuTagLib {
             itemController = item.split('\\.')[0]
             itemModule = exclude.find { controllerName.contains(it) }
  
-            if ((itemAction != actionName) || (itemModule + itemController != controllerName)) {
+            if ((itemAction != actionName) || (itemModule + StringUtils.capitalize(itemController) != controllerName)) {
                 blocks += """
                 <li>
-                  <span class="second-level-menu-item">
                     <a id="display${StringUtils.capitalize(item)}" href="${createLink(controller:itemModule+StringUtils.capitalize(itemController), action:itemAction)}" target="_self">
                      ${message(code:itemController+'.'+i18nPrefix+'.'+itemAction)}
                     </a>
-                  </span>
                 </li>
                 """
             } else {
                 blocks += """
                 <li>
-                  <span class="second-level-menu-item">
-                   ${message(code:itemController+'.'+i18nPrefix+'.'+itemAction)}
-                  </span>
+                   ${message(code:itemController +'.'+ i18nPrefix +'.'+ itemAction)}
                 </li>
                 """
             }

@@ -19,8 +19,6 @@ import fr.cg95.cvq.util.Critere;
  */
 public interface IRequestTypeService {
 
-    List<DisplayGroup> getAllDisplayGroups();
-
     /**
      * Get a list of all existing requests types.
      *

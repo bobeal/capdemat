@@ -6,6 +6,7 @@ import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
+import fr.cg95.cvq.service.request.IDisplayGroupService
 
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
@@ -14,11 +15,12 @@ public class RequestTypeAdaptorService {
     IRequestTypeService requestTypeService
     IRequestServiceRegistry requestServiceRegistry
     ILocalReferentialService localReferentialService
+    IDisplayGroupService displayGroupService
 
     public Map getDisplayGroups(HomeFolder homeFolder) {
         def result = [:]
         
-        for(DisplayGroup dg : requestTypeService.getAllDisplayGroups()) {
+        for(DisplayGroup dg : displayGroupService.getAll()) {
             if(!result.keySet().contains(dg.name))
                 result[dg.name] = ['label':dg.label,'requests':[]]
             

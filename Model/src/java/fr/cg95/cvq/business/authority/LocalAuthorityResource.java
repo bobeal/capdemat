@@ -1,6 +1,8 @@
 package fr.cg95.cvq.business.authority;
 
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Represents a file that can be customized on a local authority basis
@@ -9,8 +11,15 @@ import java.util.Hashtable;
  *
  */
 public class LocalAuthorityResource {
+    private static Map<String,String> internetMediaTypes = new HashMap<String,String>();
+    static {
+        internetMediaTypes.put(".png", "image/png");
+        internetMediaTypes.put(".css", "text/css");
+        internetMediaTypes.put(".pdf", "content/pdf");
+    }
 
     public static enum Version {
+        DEFAULT(".default"),
         CURRENT(""),
         OLD(".old"),
         TEMP(".tmp");
@@ -24,6 +33,7 @@ public class LocalAuthorityResource {
         EXTERNAL_REFERENTIAL("external_referential", ".txt"),
         HTML("html", ".html"),
         IMAGE("img", ".png"),
+        DISPLAY_GROUP_IMAGE("img/display_group", ".png"),
         LOCAL_REFERENTIAL("local_referential", ".xml"),
         MAIL_TEMPLATES("html/templates/mails", ".html"),
         PDF("pdf", ".pdf"),
@@ -38,6 +48,7 @@ public class LocalAuthorityResource {
         }
         public String getFolder() { return folder; }
         public String getExtension() { return extension; }
+        public String getContentType() { return internetMediaTypes.get(extension); }
     }
 
     public static final Hashtable<String, LocalAuthorityResource> localAuthorityResources = new Hashtable<String, LocalAuthorityResource>(10);

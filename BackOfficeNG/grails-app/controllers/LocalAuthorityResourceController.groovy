@@ -29,7 +29,8 @@ class LocalAuthorityResourceController {
             resource = localAuthorityRegistry.getLocalAuthorityResourceFile(
                 Type.valueOf(params.type),
                 params.filename,
-                params.version != null ? LocalAuthorityResource.Version.valueOf(params.version) : LocalAuthorityResource.Version.CURRENT)
+                params.version != null ? LocalAuthorityResource.Version.valueOf(params.version) : LocalAuthorityResource.Version.CURRENT,
+                true)
             if (resource != null && resource.exists())
                 renderResponse(resource, Type.valueOf(params.type).contentType)
         }

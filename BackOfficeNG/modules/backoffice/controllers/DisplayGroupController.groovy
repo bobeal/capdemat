@@ -60,7 +60,7 @@ class DisplayGroupController {
                 'displayGroups':displayGroups,
                 'displayGroup':displayGroup,
                 'hasLogo' : localAuthorityRegistry.getLocalAuthorityResourceFile(
-                    Type.DISPLAY_GROUP_IMAGE, displayGroup.name, Version.CURRENT).exists(),
+                    Type.DISPLAY_GROUP_IMAGE, displayGroup.name, Version.CURRENT, true).exists(),
                 'requestTypes':requestTypes,
                 'orderRequestTypeBy':'label',
                 'scope':'bounded'

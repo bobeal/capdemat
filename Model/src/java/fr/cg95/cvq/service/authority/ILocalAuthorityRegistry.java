@@ -124,7 +124,7 @@ public interface ILocalAuthorityRegistry {
     File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
         throws CvqException;
 
-    File getLocalAuthorityResourceFile(Type type, String filename, Version version) throws CvqException;
+    File getLocalAuthorityResourceFile(Type type, String filename, Version version, boolean fallbackToDefault) throws CvqException;
 
     File getRequestXmlResource(Long id);
     
@@ -182,9 +182,6 @@ public interface ILocalAuthorityRegistry {
         throws CvqException;
 
     void renameLocalAuthorityResource(Type type, String oldFilename, String newFilename)
-        throws CvqException;
-
-    void copyDefaultLocalAuthorityResource(Type type, String filename)
         throws CvqException;
 
     /**

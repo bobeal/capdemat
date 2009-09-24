@@ -37,7 +37,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
-import org.springframework.util.FileCopyUtils;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
@@ -209,17 +208,10 @@ public class LocalAuthorityRegistry
             resource.getFilename() + version.getExtension(), false);
     }
 
-    // TODO - Specify default version management rules
     @Override
-    public File getLocalAuthorityResourceFile(Type type, String filename, Version version)
-        throws CvqException {
-        File file = getAssetsFile(type, filename + version.getExtension(), false);
-        if (!file.exists()) {
-            file = getAssetsFile(type, filename + Version.DEFAULT.getExtension(), false);
-            if (file.exists())
-                copyDefaultLocalAuthorityResource(type, filename);
-        }
-        return file;
+    public File getLocalAuthorityResourceFile(Type type, String filename, Version version,
+            boolean fallbackToDefault) throws CvqException {
+        return getAssetsFile(type, filename + version.getExtension(), fallbackToDefault);
     }
 
     private File getAssetsFile(final Type type, final String filename,
@@ -489,17 +481,6 @@ public class LocalAuthorityRegistry
                     + type + " from "
                     + oldFilename + " to "
                     + newFilename);
-    }
-
-    public void copyDefaultLocalAuthorityResource(Type type, String filename) throws CvqException {
-        File file = getLocalAuthorityResourceFile(type, filename, Version.DEFAULT);
-        if (!file.exists())
-            throw new CvqException("File "+ file.getPath() + " does not exist !");
-        try {
-            FileCopyUtils.copy(file, new File(file.getParent() + "/" + filename + type.getExtension()));
-        } catch (IOException ioe) {
-            throw new CvqException("Can't copy DEFAULT version of "+ file.getPath());
-        }
     }
 
     @Override

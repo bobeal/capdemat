@@ -19,7 +19,6 @@ public class LocalAuthorityResource {
     }
 
     public static enum Version {
-        DEFAULT(".default"),
         CURRENT(""),
         OLD(".old"),
         TEMP(".tmp");

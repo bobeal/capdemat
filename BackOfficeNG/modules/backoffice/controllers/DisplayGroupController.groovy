@@ -14,20 +14,17 @@ class DisplayGroupController {
     IRequestTypeService requestTypeService
     
     def translationService
-    def defaultAction = "list"
+    def defaultAction = 'list'
     
-    def beforeInterceptor = { session["currentMenu"] = "localAuthority" }
+    def beforeInterceptor = { session['currentMenu'] = 'requests' }
     
     def subMenuEntries = [
-      'localAuthority.requests', 
-      'localAuthority.aspect',
-      'localAuthority.pdf', 
-      'localAuthority.identity',
+      'localAuthority.requests',
       'displayGroup.list'
     ]
 
     def list = {
-        def displayGroups = displayGroupService.getAll()
+        def displayGroups = displayGroupService.getAll().sort{it.label}
         
         def requestTypesByDisplayGroup = [:]
         displayGroups.each { dg ->
@@ -35,7 +32,7 @@ class DisplayGroupController {
         	  dg.requestTypes?.each { rt ->
         	      requestTypesByDisplayGroup[dg.id].add(CapdematUtils.adaptRequestType(translationService, rt))
         	  }
-        	  requestTypesByDisplayGroup[dg.id].sort {it.label.toLowerCase()}
+        	  requestTypesByDisplayGroup[dg.id] = requestTypesByDisplayGroup[dg.id].sort {it.label}
         }
         def orphanRequestTypes = []
         requestTypeService.getAllRequestTypes().each {
@@ -49,7 +46,7 @@ class DisplayGroupController {
                 'orphanRequestTypes':orphanRequestTypes
                ]
     }
-    
+
     def edit = {           
         def displayGroup = displayGroupService.getById(Long.valueOf(params.id))
         def displayGroups = displayGroupService.getAll()
@@ -58,7 +55,7 @@ class DisplayGroupController {
             requestTypes.add(CapdematUtils.adaptRequestType(translationService,it))
         }
         requestTypes = requestTypes.sort{ it.label.toLowerCase() }
-        
+
         return ['editMode':'edit', 
                 'displayGroups':displayGroups,
                 'displayGroup':displayGroup,
@@ -69,8 +66,7 @@ class DisplayGroupController {
                 'scope':'bounded'
                ]
     }
-    
-    
+
     def create = {
         render(view:'edit',model:[editMode:"create", displayGroups:displayGroupService.getAll()])
     }
@@ -95,7 +91,7 @@ class DisplayGroupController {
         render ([ 'id': displayGroup.id, 'displayGroupLabel':displayGroup?.label, 'displayGroupName':displayGroup?.name,
                   'status':'success', 'message':message(code:'message.updateDone')] as JSON)
     }
-    
+
     def delete = {
         def displayGroup = displayGroupService.getById(Long.valueOf(params.id))
         displayGroupService.delete(Long.valueOf(params.id))
@@ -132,7 +128,7 @@ class DisplayGroupController {
                 requestTypes.add(CapdematUtils.adaptRequestType(translationService,it))
             }
         }
-        
+
         def orderRequestTypeBy
         if (params.orderRequestTypeBy == null || params.orderRequestTypeBy == "label") {
             requestTypes = requestTypes.sort{ it.label.toLowerCase() }
@@ -141,12 +137,11 @@ class DisplayGroupController {
             requestTypes = requestTypes.sort{ it.displayGroupLabel != null ? it.displayGroupLabel.toLowerCase() : "zzz" }
             orderRequestTypeBy = "displayGroupLabel"
         }
-        
+
         render( template:"requestTypes",
                 model:[ displayGroupId: new Long(params.id), requestTypes: requestTypes, 
                         orderRequestTypeBy: orderRequestTypeBy, scope:params.scope ])
     }
-    
 
     def associateRequestType = {
         def displayGroup = 

@@ -26,7 +26,8 @@ form label {
 
 form label span {
   display: block;
-  font-size: 0.9em;
+  font-size: 0.85em; font-weight: normal;
+  color: #333;
 }
 
 form input, form textarea, form select {

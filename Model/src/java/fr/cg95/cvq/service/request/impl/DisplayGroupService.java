@@ -33,7 +33,7 @@ public class DisplayGroupService implements IDisplayGroupService, ILocalAuthorit
 
     @Context(type=ContextType.SUPER_ADMIN)
     private void bootstrap() {
-        logger.debug("init display group");
+        logger.debug("bootstrap display group");
         if(getAll().size() > 0)
             return;
 
@@ -161,17 +161,11 @@ public class DisplayGroupService implements IDisplayGroupService, ILocalAuthorit
         this.genericDAO = genericDAO;
     }
 
-
     public void setRequestTypeDAO(IRequestTypeDAO requestTypeDAO) {
         this.requestTypeDAO = requestTypeDAO;
-    }
-
-    public IRequestServiceRegistry getRequestServiceRegistry() {
-        return requestServiceRegistry;
     }
 
     public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {
         this.requestServiceRegistry = requestServiceRegistry;
     }
-
 }

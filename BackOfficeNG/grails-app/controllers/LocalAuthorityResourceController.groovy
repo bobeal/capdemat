@@ -30,7 +30,7 @@ class LocalAuthorityResourceController {
                 Type.valueOf(params.type),
                 params.filename,
                 params.version != null ? LocalAuthorityResource.Version.valueOf(params.version) : LocalAuthorityResource.Version.CURRENT)
-            if (resource != null)
+            if (resource != null && resource.exists())
                 renderResponse(resource, Type.valueOf(params.type).contentType)
         }
 

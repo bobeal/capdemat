@@ -28,10 +28,13 @@
             <div class="error" id="displayGroupFormErrors"></div>
 
             <label for="label" class="required">${message(code:'displayGroup.property.label')} * :</label>
-            <input type="text" name="label" class="required" title="${message(code:'displayGroup.message.labelRequired')}" value="${displayGroup?.label}" size="40" />
+            <input type="text" name="label" class="required" title="${message(code:'displayGroup.error.labelRequired')}" value="${displayGroup?.label}" size="40" />
 
-            <label for="name" class="required">${message(code:'displayGroup.property.name')} * :</label>
-            <input type="text" name="name" class="required" title="${message(code:'displayGroup.message.nameRequired')}" value="${displayGroup?.name}" size="40" />
+            <label for="name" class="required validate-alphanum">
+            ${message(code:'displayGroup.property.name')} * :
+            <span>${message(code:'displayGroup.property.name.help')}</span>
+            </label>
+            <input type="text" name="name" class="required" title="${message(code:'displayGroup.error.nameRequired')}" value="${displayGroup?.name}" size="40" />
 
             <p class="form-button">
               <input type="hidden" name="hasLogo" value="${hasLogo}" />
@@ -51,12 +54,13 @@
           <div class="mainbox mainbox-yellow">
             <h2>${message(code:'displayGroup.header.logo')}</h2>
             <form method="post" id="logoForm" class="localResourceUpload" action="${createLink(action : 'logo')}">
+              <p>(${message(code:'displayGroup.message.logoInformation')})</p>
               <p>
               <img id="logoImg" src="${createLink(controller:'localAuthorityResource', action:'resource',  params:[type:'DISPLAY_GROUP_IMAGE',filename:displayGroup?.name])}" />
               </p>
               <input type="hidden" name="name" value="${displayGroup?.name}" />
               <input type="hidden" name="hasLogo" value="${hasLogo}" />
-              <label for="logo">${message(code:'displayGroup.message.newLogo')} * :</label>
+              <label for="logo">${message(code:'displayGroup.message.newLogo')} :</label>
               <input type="file" name="logo" id="logo" />
               <input name="save" type="submit" value="${message(code:'action.save')}" />
             </form>
@@ -105,7 +109,9 @@
               </select>
             </form>
           </g:else>
+          <!--
           <a href="${createLink(action:'list')}">${message(code:'displayGroup.message.backToList')}</a>
+          -->
         </div>
       </div>
     </div>

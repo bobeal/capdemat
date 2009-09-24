@@ -16,12 +16,10 @@ class LocalAuthorityController {
     def defaultAction = "requests"
 
     def subMenuEntries = [
-      'localAuthority.requests', 
       'localAuthority.aspect',
       'localAuthority.pdf', 
       "localAuthority.information",
-      'localAuthority.identity',
-      'displayGroup.list'
+      'localAuthority.identity'
     ]
 
     def beforeInterceptor = { 
@@ -143,8 +141,9 @@ class LocalAuthorityController {
     }
 
     def requests = {
+        session['currentMenu'] = 'requests'
         if (request.get) {
-            return ["subMenuEntries" : subMenuEntries,
+            return ["subMenuEntries" : ['localAuthority.requests', 'displayGroup.list'],
                     "draftLiveDuration" : SecurityContext.getCurrentSite().draftLiveDuration,
                     "draftNotificationBeforeDelete" : SecurityContext.getCurrentSite().draftNotificationBeforeDelete,
                     "requestsCreationNotificationEnabled" : SecurityContext.getCurrentSite().requestsCreationNotificationEnabled,

@@ -9,32 +9,35 @@
 </div>
 <div id="menu">
   <g:if test="${session.currentCredentialBean.hasSiteAgentRole()}">
-    <a id="taskBoardMenuItem" href="<g:createLink controller='backofficeRequest' action='taskBoard' />">
+    <a id="taskBoardMenuItem" href="${createLink(controller:'backofficeRequest',action:'taskBoard')}">
       <g:message code="menu.taskBoard" />
     </a>
-    <a id="requestMenuItem" href="<g:createLink controller='backofficeRequest'/>">
+    <a id="requestMenuItem" href="${createLink(controller:'backofficeRequest')}">
       <g:message code="menu.search" />
     </a>
-    <a id="requestTypeMenuItem" href="<g:createLink controller='backofficeRequestType'/>">
+    <a id="requestTypeMenuItem" href="${createLink(controller:'backofficeRequestType')}">
       <g:message code="menu.requestTypes" />
     </a>
     <g:if test="${session.currentCredentialBean.isACategoryManager()}">
-      <a id="statisticsMenuItem" href="<g:createLink controller='backofficeStatistic'/>">
+      <a id="statisticsMenuItem" href="${createLink(controller:'backofficeStatistic')}">
         <g:message code="menu.statistics" />
       </a>
     </g:if>
   </g:if>
   <g:if test="${session.currentCredentialBean.hasSiteAdminRole()}">
-    <a id="localAuthorityMenuItem" href="<g:createLink controller='backofficeLocalAuthority'/>">
+    <a id="localAuthorityMenuItem" href="${createLink(controller:'backofficeLocalAuthority',action:'aspect')}">
       <g:message code="menu.localAuthority" />
     </a>
-    <a id="categoryMenuItem" href="<g:createLink controller='backofficeCategory'/>">
+     <a id="requestsMenuItem" href="${createLink(controller:'backofficeLocalAuthority')}">
+      <g:message code="menu.requests" />
+    </a>
+    <a id="categoryMenuItem" href="${createLink(controller:'backofficeCategory')}">
       <g:message code="menu.categories" />
     </a>
-    <a id="userMenuItem" href="<g:createLink controller='backofficeAgent'/>">
+    <a id="userMenuItem" href="${createLink(controller:'backofficeAgent')}">
       <g:message code="menu.agents" />
     </a>
-    <a id="paymentMenuItem" href="<g:createLink controller='backofficePayment'/>">
+    <a id="paymentMenuItem" href="${createLink(controller:'backofficePayment')}">
       <g:message code="menu.payments" />
     </a>
   </g:if>

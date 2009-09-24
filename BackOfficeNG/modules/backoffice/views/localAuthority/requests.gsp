@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><g:message code="localAuthority.header.configuration" /></title>
+    <title><g:message code="localAuthority.header.requestsConfiguration" /></title>
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthorityRequests.js')}"></script>
     <meta name="layout" content="main" />
@@ -9,7 +9,7 @@
     <div id="yui-main">
       <div class="yui-b">
         <div class="head">
-          <h1><g:message code="localAuthority.header.configuration" /></h1>
+          <h1><g:message code="localAuthority.header.requestsConfiguration" /></h1>
         </div>
         <div id="draftsBox" class="mainbox mainbox-yellow">
           <h2><g:message code="localAuthority.header.setupDrafts" /></h2>

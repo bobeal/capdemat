@@ -25,7 +25,6 @@ import javax.imageio.ImageIO;
 import org.apache.commons.lang.StringUtils;
 import org.apache.fop.image.FopImageFactory;
 import org.apache.log4j.Logger;
-import org.apache.tools.ant.util.FileUtils;
 import org.hibernate.SessionFactory;
 import org.joda.time.DateMidnight;
 import org.joda.time.Interval;

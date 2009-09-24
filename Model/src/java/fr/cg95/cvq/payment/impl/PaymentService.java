@@ -37,6 +37,7 @@ import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.payment.PaymentResultBean;
 import fr.cg95.cvq.payment.PaymentResultStatus;
 import fr.cg95.cvq.payment.PaymentServiceBean;
+import fr.cg95.cvq.payment.annotation.PaymentFilter;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -291,7 +292,7 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @PaymentFilter
     public List<Payment> get(Set<Critere> criteriaSet, final String sort, final String dir,
             final int recordsReturned, final int startIndex) {
 
@@ -302,7 +303,7 @@ public final class PaymentService implements IPaymentService, BeanFactoryAware {
     }    
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @PaymentFilter
     public Long getCount(Set<Critere> criteriaSet) {
 
         if (criteriaSet == null)

@@ -420,7 +420,8 @@ public class ModelRequestObject {
         String xmlBeansDocInstance = StringUtils.uncapitalize(typeName) + "Doc";
         String xmlBeansReturnInstance = StringUtils.uncapitalize(typeName);
 
-        currentSb.append("    @Override\n");
+        if (isDocument)
+            currentSb.append("    @Override\n");
         currentSb.append("    public final String modelToXmlString() {\n\n");
         currentSb.append("        " + xmlBeansReturnType + " object = (" + xmlBeansReturnType + ") this.modelToXml();\n");
         currentSb.append("        XmlOptions opts = new XmlOptions();\n");
@@ -435,7 +436,8 @@ public class ModelRequestObject {
         // start with Model -> XMLBeans conversion              //
         //////////////////////////////////////////////////////////
 
-        currentSb.append("    @Override\n");
+        if (isDocument)
+            currentSb.append("    @Override\n");
         currentSb.append("    public final XmlObject modelToXml() {\n\n");
         currentSb.append("        Calendar calendar = Calendar.getInstance();\n");
         currentSb.append("        Date date = null;\n");
@@ -454,7 +456,7 @@ public class ModelRequestObject {
         }
 
         // keep a list of already declared local complex types variables
-        // to ensure unique instanciation
+        // to ensure unique instantiation
         Set<String> localComplexTypesSet = new HashSet<String>();
         boolean alreadyDefinedCpt = false;
         for (Map.Entry<String, ElementModelProperties> entry :

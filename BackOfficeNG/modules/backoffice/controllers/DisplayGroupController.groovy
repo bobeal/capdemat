@@ -60,7 +60,7 @@ class DisplayGroupController {
                 'displayGroups':displayGroups,
                 'displayGroup':displayGroup,
                 'hasLogo' : localAuthorityRegistry.getLocalAuthorityResourceFile(
-                    Type.DISPLAY_GROUP_IMAGE, displayGroup.name, Version.CURRENT, true).exists(),
+                    Type.DISPLAY_GROUP_IMAGE, displayGroup.name, Version.CURRENT, true)?.exists(),
                 'requestTypes':requestTypes,
                 'orderRequestTypeBy':'label',
                 'scope':'bounded'
@@ -110,7 +110,8 @@ class DisplayGroupController {
             localAuthorityRegistry.removeLocalAuthorityResource(Type.DISPLAY_GROUP_IMAGE, params.name)
         localAuthorityRegistry.saveLocalAuthorityResource(Type.DISPLAY_GROUP_IMAGE, params.name, file.bytes)
         render (new JSON([ 'rand' : UUID.randomUUID().toString(),
-                           'status':'success', 'message':message(code:'displayGroup.message.logoUpdateDone')]).toString())
+                           'status':'success', 
+                           'message':message(code:'displayGroup.message.logoUpdateDone')]).toString())
     }
 
     /* requestType managment

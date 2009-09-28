@@ -11,12 +11,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
-
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.document.DocumentType;
-import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestSeason;
@@ -43,8 +40,6 @@ import fr.cg95.cvq.util.Critere;
  */
 public class RequestTypeService implements IRequestTypeService {
 
-    private static Logger logger = Logger.getLogger(RequestTypeService.class);
-    
     private IDocumentTypeService documentTypeService;
     private IRequestServiceRegistry requestServiceRegistry;
 

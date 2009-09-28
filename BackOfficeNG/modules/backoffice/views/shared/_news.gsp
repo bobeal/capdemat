@@ -1,5 +1,38 @@
 <h2>Nouvelles</h2>
 
+<p><strong>25 septembre 2009</strong></p>
+<span style="text-decoration:underline;">Front Office</span>
+<ul>
+  <li>Affinage de la terminologie relative aux paiements</li>
+</ul>
+<span style="text-decoration:underline;">Back Office</span>
+<ul>
+  <li>Améliorations fonctionnelles du module de contact des citoyens</li>
+  <li>Améliorations de l'onglet "Historique" dans l'écran d'instruction des demandes  (accès aux PDF, design, ...)</li>
+  <li>Rechargement automatique de l'onglet Historique après ajout d'une trace</li>
+  <li>Présentation des TS non associés dans l'écran de gestion des catégories</li>
+  <li>Configuration du fichier d'information affiché dans la page d'accueil du FO</li>
+</ul>
+<span style="text-decoration:underline;">Front Office & Back Office</span>
+<ul>
+  <li>Configuration des groupes d'affichage FO des TS</li>
+</ul>
+
+<p><strong>7 septembre 2009</strong></p>
+<span style="text-decoration:underline;">Front Office</span>
+<ul>
+  <li>Possibilité de reprendre une demande encore dans l'état En Cours ou Incomplet</li>
+</ul>
+<span style="text-decoration:underline;">Back Office</span>
+<ul>
+  <li>Gestion de l'instruction concurrente d'un TS</li>
+  <li>Possibilité de dé-associer une PJ d'un TS</li>
+</ul>
+<span style="text-decoration:underline;">Front & Back Office</span>
+<ul>
+  <li>Corrections fonctionnelles de quelques TS</li>
+</ul>
+
 <p><strong>02 juin 2009</strong></p>
 <span style="text-decoration:underline;">Front Office</span>
 <ul>

@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.SessionFactory;
-
 import org.apache.log4j.Logger;
+import org.hibernate.SessionFactory;
 
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.external.ExternalServiceBean;
@@ -36,13 +35,23 @@ public final class LocalAuthorityConfigurationBean {
     private Map<IExternalProviderService, ExternalServiceBean> externalProviderServices;
     
     private Map<String, String> ecitizenCreationNotifications;
-    private Map ecitizenValidationNotifications;
-    private Map agentNotifications;
-    private Map paymentNotifications;
+    private Map<String, Map<String, String>> ecitizenValidationNotifications;
+    private Map<String, Map<String, String>> agentNotifications;
+    private Map<String, Map<String, String>> paymentNotifications;
 
     private boolean displayChildrenInAccountCreation = true;
     private boolean displayTutorsInAccountCreation = true;
-    
+
+    public LocalAuthorityConfigurationBean() {
+        paymentServices =
+            new HashMap<IPaymentProviderService, PaymentServiceBean>();
+        externalProviderServices =
+            new HashMap<IExternalProviderService, ExternalServiceBean>();
+        ecitizenCreationNotifications = new HashMap<String, String>();
+        ecitizenValidationNotifications =
+            new HashMap<String, Map<String, String>>();
+    }
+
     /**
      * Get the list of payment services objects for the current local authority.
      */
@@ -75,12 +84,11 @@ public final class LocalAuthorityConfigurationBean {
             final String dataKey) {
         if (ecitizenValidationNotifications == null)
             return null;
-        
-        if (ecitizenValidationNotifications.get(requestTypeLabel) == null)
+        Map<String, String> data =
+            ecitizenValidationNotifications.get(requestTypeLabel);
+        if (data == null)
             return null;
-
-        Map data = (Map) ecitizenValidationNotifications.get(requestTypeLabel);
-        return (String) data.get(dataKey);
+        return data.get(dataKey);
     }
 
     public Map<String, String> getEcitizenCreationNotifications() {
@@ -114,12 +122,10 @@ public final class LocalAuthorityConfigurationBean {
             final String dataKey) {
         if (agentNotifications== null)
             return null;
-        
-        if (agentNotifications.get(agentNotificationKey) == null)
+        Map<String, String> data = agentNotifications.get(agentNotificationKey);
+        if (data == null)
             return null;
-
-        Map data = (Map) agentNotifications.get(agentNotificationKey);
-        return (String) data.get(dataKey);
+        return data.get(dataKey);
     }
     
     /**
@@ -144,12 +150,11 @@ public final class LocalAuthorityConfigurationBean {
             final String dataKey) {
         if (paymentNotifications == null)
             return null;
-        
-        if (paymentNotifications.get(paymentNotificationKey) == null)
+        Map<String, String> data =
+            paymentNotifications.get(paymentNotificationKey);
+        if (data == null)
             return null;
-
-        Map data = (Map) paymentNotifications.get(paymentNotificationKey);
-        return (String) data.get(dataKey);
+        return data.get(dataKey);
     }
 
     public void init() throws CvqConfigurationException {
@@ -281,15 +286,15 @@ public final class LocalAuthorityConfigurationBean {
         externalProviderServices.remove(service);
     }
     
-    public void setEcitizenValidationNotifications(Map ecitizenValidationNotifications) {
+    public void setEcitizenValidationNotifications(Map<String, Map<String, String>> ecitizenValidationNotifications) {
         this.ecitizenValidationNotifications = ecitizenValidationNotifications;
     }
     
-	public void setAgentNotifications(Map agentNotifications) {
+	public void setAgentNotifications(Map<String, Map<String, String>> agentNotifications) {
 		this.agentNotifications = agentNotifications;
 	}
 	
-	public void setPaymentNotifications(Map paymentNotifications) {
+	public void setPaymentNotifications(Map<String, Map<String, String>> paymentNotifications) {
 		this.paymentNotifications = paymentNotifications;
 	}
 

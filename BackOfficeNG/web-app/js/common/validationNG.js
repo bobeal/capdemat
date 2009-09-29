@@ -8,10 +8,10 @@
   var yue = YAHOO.util.Event;
 
   var me = zc.Validation = function() {
-    
+
     var visible = function (el) {
       while (el.nodeName.toLowerCase() != 'body'
-          && el.style.display.toLowerCase() != 'none' 
+          && el.style.display.toLowerCase() != 'none'
           && el.style.visibility.toLowerCase() != 'hidden'
           && !yud.hasClass(el, 'unactive')) {
         el = el.parentNode;
@@ -40,11 +40,11 @@
         filter: function(el) { if (yud.getAncestorByClassName(el, 'validation-scope') === null && visible(el)) return true; return false; }
       }
     };
-    
+
     return {
-      
+
       scope: { IGNORE:'IGNORE', INSIDE:'INSIDE', OUTSIDE:'OUTSIDE'},
-      
+
       rule: function(type, value) {
         this.type = type;
         this[type] = value;
@@ -52,25 +52,34 @@
 
       rules: {},
 
-      putRule: function (key, value) {
-        me.rules[key] = value;
+      putRules: function (rls) {
+        for(name in rls) me.rules[name] = rls[name];
       },
 
-      putRules: function (rls) {
-        for(name in rls)
-          me.putRule(name, rls[name]);
+      complexRule: function(func) {
+        this.func = func;
+        this.fieldsList = [];
+        this.pushFields = function(){ this.fieldsList.push(arguments) };
       },
-      
+
+      complexRules: {},
+
+      putComplexRules: function (rls) {
+        for(name in rls) me.complexRules[name] = rls[name];
+      },
+
       fields: {},
-     
+
       fieldText: function(el) {
-        return {'maxLength': el.maxLength};
+        var props = {'maxLength': el.maxLength};
+        if (!!el.getAttribute('regex')) props.regex = RegExp(el.getAttribute('regex'));
+        return props ;
       },
-      
+
       fieldSelect: function(el) {
         return {'selectedIndex': el.selectedIndex};
       },
-      
+
       // TODO - manage multi-valued field
       fieldCheck: function(el, sameNameField) {
         var props = {
@@ -84,7 +93,7 @@
         }
         return props;
       },
-    
+
       field: function(el, type) {
         this.enhanceErrorEl = el;
         this.valid = true;
@@ -92,13 +101,13 @@
         this.errorMsg = el.title;
         this.required = yud.hasClass(el, 'required');
         this.rule = /validate-([\w-]+)/i.test(el.className) ? /validate-([\w-]+)/i.exec(el.className)[1] : ''
-        
+
         var props = zct.tryToCall(me['field'+zct.capitalize(type)], me, el, me.fields[el.name]);
         if (!!props)
           for(name in props)
             this[name] = props[name];
       },
-      
+
       fetchFields: function(e, scope) {
         me.fields = {};
         yue.preventDefault(e);
@@ -107,7 +116,7 @@
         els = els.concat(yud.getElementsBy(filter, 'input', root),
             yud.getElementsBy(filter, 'textarea', root),
             yud.getElementsBy(filter, 'select', root));
-        
+
         zct.each(els, function(){
           var nodeName = this.nodeName.toLowerCase();
           if (nodeName === 'select')
@@ -120,7 +129,7 @@
             me.fields[this.name] = new me.field(this,'text');
         });
       },
-      
+
       cleanErrors: function(e, errorsEl) {
         me.fetchFields(e, me.scope.IGNORE);
         zct.each(me.fields, function(){
@@ -128,33 +137,52 @@
         });
         zct.html(errorsEl, '');
       },
-      
+
       displayErrors: function(e, errorsEl, errorMsgs) {
-        zct.html(errorsEl, errorMsgs.join('').length > 0 ? errorMsgs.join('<br />') : 'E R R O R S ! ! !');
+        zct.html(errorsEl, errorMsgs.join('').length > 0 ? errorMsgs.join('<br />') : 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');
       },
-      
+
+      checkComplexRules: function() {
+        var valid = true
+        zct.each(me.complexRules, function(){
+          var cRule = this, cValid = true;
+          zct.each(cRule.fieldsList, function(){
+            cValid = cRule.func.apply(me, this);
+            valid = valid && cValid;
+            if (!cValid)
+              for (i=0; i<this.length; i++)
+                if (!yl.isUndefined(me.fields[this[i]]))
+                  yud.addClass(me.fields[this[i]].enhanceErrorEl, 'validation-failed');
+          });
+        });
+        return valid;
+      },
+
       check: function(e, errorsEl, scope) {
         var valid = true, errorMsgs=[];
         me.cleanErrors(e, errorsEl);
         me.fetchFields(e, (!yl.isUndefined(scope) ? scope : me.scope.IGNORE));
+
         zct.each(me.fields, function(){
           var rule = me.rules[this.rule];
           if (this.required && this.value.length === 0) {
             this.valid = false;
           } else if (!yl.isUndefined(rule) && this.value.length > 0) {
             if (rule.type === 'regex') this.valid = this.value.match(rule[rule.type]);
-            if (rule.type === 'func') this.valid = zct.tryToCall(rule[rule.type], me, this);
+            if (rule.type === 'func') this.valid = zct.tryToCall(rule[rule.type], me, this, arguments[0]);
           }
           valid = valid && this.valid;
-          if (!this.valid){
+          if (!this.valid) {
             yud.addClass(this.enhanceErrorEl, 'validation-failed');
             if (this.errorMsg.length > 0) errorMsgs.push(this.errorMsg);
           }
         });
+
+        valid = me.checkComplexRules() && valid;
         if (!valid) me.displayErrors(e, errorsEl, errorMsgs);
         return valid;
       }
-    };   
+    };
 
   }();
   
@@ -171,25 +199,29 @@
     'currency-dollar': new me.rule('regex', /^\$?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/),
     'one-required': new me.rule('func', function(f){ return f.checked; }),
     'not-first': new me.rule('func', function(f){ return f.selectedIndex > 0; }),
-    'not-empty': new me.rule('func', function(f){ return (f.selectedIndex > 0 && f.value.length > 0); }), 
-    'regex': new me.rule('regex',/^$/)
-  });
-
-  /* Capdemat rules
-   * TODO - move that in a spécific module
-   */
-  me.putRules({
+    'not-empty': new me.rule('func', function(f){ return (f.selectedIndex > 0 && f.value.length > 0); }),
+    'regex': new me.rule('func', function(f){ return f.value.match(f.regex); }),
+    /* ex capdemat specific rules */
     'string': new me.rule('func', function(f){ return true; }),
     'token': new me.rule('func', function(f){ return true; }),
-    'positiveInteger': new me.rule('func',function(f){ return (!isNaN(f.value) || !f.value.match(/\D/)); } ), 
-    'long': new me.rule('func',function(f){ return (!isNaN(f.value) || !f.value.match(/\D/)); } ), 
+    'positiveInteger': new me.rule('func',function(f){ return (!isNaN(f.value) || !f.value.match(/\D/)); } ),
+    'long': new me.rule('func',function(f){ return (!isNaN(f.value) || !f.value.match(/\D/)); } ),
     'postalcode': new me.rule('regex', /^[0-9]{5}$/),
     'departmentCode': new me.rule('regex', /^[0-9]{2}$/),
     'phone': new me.rule('regex', /^0[1-9][0-9]{8}$/),
     'city': new me.rule('regex', /^.{0,32}$/),
     'firstName': new me.rule('regex', /^\D{0,38}$/),
-    'lastName': new me.rule('regex', /^\D{0,38}$/),
-    'cfbn': new me.rule('regex', /^[0-9]{7}[A-Z]{0,1}$/)	
+    'lastName': new me.rule('regex', /^\D{0,38}$/)
   });
-  
+
+  me.putComplexRules({
+    'atLeastOne': new me.complexRule(function(){
+      var values = '';
+      for (i=0; i<arguments.length; i++)
+        if (!yl.isUndefined(me.fields[arguments[i]]))
+          values += me.fields[arguments[i]].value;
+      return values.length > 0;
+    })
+  });
+
 }());

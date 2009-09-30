@@ -1983,8 +1983,6 @@
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
         <enum key="Validated" value="Validé" />
-        <enum key="Active" value="Active" />
-        <enum key="Expired" value="Expiré" />
         <enum key="Closed" value="Fermé" />
         <enum key="Archived" value="Archivé" />
         <enum key="Rejected" value="Refusé" />
@@ -1997,8 +1995,6 @@
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="Validated" />
-      <xs:enumeration value="Active" />
-      <xs:enumeration value="Expired" />
       <xs:enumeration value="Closed" />
       <xs:enumeration value="Archived" />
       <xs:enumeration value="Rejected" />

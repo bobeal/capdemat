@@ -14,8 +14,6 @@ public final class RequestState extends PersistentStringEnum {
     public static final RequestState UNCOMPLETE = new RequestState("Uncomplete");
     public static final RequestState VALIDATED = new RequestState("Validated");
     public static final RequestState NOTIFIED = new RequestState("Notified");
-    public static final RequestState ACTIVE = new RequestState("Active");
-    public static final RequestState EXPIRED = new RequestState("Expired");
     public static final RequestState CLOSED = new RequestState("Closed");
     public static final RequestState REJECTED = new RequestState("Rejected");
     public static final RequestState CANCELLED = new RequestState("Cancelled");
@@ -32,10 +30,10 @@ public final class RequestState extends PersistentStringEnum {
      * Should be private but Hibernate requires a public default constructor.
      */
     public RequestState() {}
-  
-    public static final RequestState[] allRequestStates = 
-    
-    { PENDING, COMPLETE, UNCOMPLETE, VALIDATED, NOTIFIED, ACTIVE, EXPIRED, CLOSED, REJECTED, CANCELLED, ARCHIVED };
+
+    public static final RequestState[] allRequestStates = {
+        PENDING, COMPLETE, UNCOMPLETE, VALIDATED, NOTIFIED, CLOSED, REJECTED, CANCELLED, ARCHIVED
+    };
   
     public static RequestState forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
@@ -50,10 +48,6 @@ public final class RequestState extends PersistentStringEnum {
             return VALIDATED;
         else if (enumAsString.equals(NOTIFIED.toString()))
             return NOTIFIED;
-        else if (enumAsString.equals(ACTIVE.toString()))
-            return ACTIVE;
-        else if (enumAsString.equals(EXPIRED.toString()))
-            return EXPIRED;
         else if (enumAsString.equals(CLOSED.toString()))
             return CLOSED;
         else if (enumAsString.equals(REJECTED.toString()))

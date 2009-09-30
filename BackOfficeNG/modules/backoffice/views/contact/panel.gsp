@@ -67,19 +67,22 @@
     <div id="messageField">
       <div id="templateWidget" class="field">
         <p class="field">
-          <label for="templateMessage">
+          <label id="templateMessageLabel" for="templateMessage" class="required">
             <g:message code="contact.property.message" /> :
             <span id="templateMessageNotifier"></span>
           </label>
-          <textarea id="templateMessage" name="templateMessage"
+          <textarea id="templateMessage" name="templateMessage" class="required"
             rows="5" cols="40" maxlength="1024"></textarea>
         </p>
         <p class="field">
           <span class="block">
-            <label for="requestFormId" class="required">
+            <label for="requestFormId">
               <g:message code="contact.property.template" /> :
             </label>
-            <select id="requestFormId" name="requestFormId" class="required">
+            <select id="requestFormId" name="requestFormId">
+              <option value="">
+                <g:message code="contact.message.noTemplate" />
+              </option>
               <g:each var="requestForm" in="${requestForms}">
                 <option value="${requestForm.id}">
                   ${requestForm.shortLabel}
@@ -87,7 +90,7 @@
               </g:each>
             </select>
           </span>
-          <span class="block">
+          <span id="templatePreview" class="block">
             <label for="previewFormat">
               <g:message code="contact.property.previewFormat" /> :
             </label>

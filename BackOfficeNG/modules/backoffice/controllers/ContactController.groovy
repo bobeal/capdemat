@@ -129,16 +129,19 @@ class ContactController {
                     requestId,
                     RequestActionType.CONTACT_CITIZEN,
                     params.templateMessage, params.note,
-                    preparePdf(params.requestId, params.requestFormId,
-                        params.templateMessage))
+                    params.requestFormId ?
+                        preparePdf(params.requestId, params.requestFormId,
+                            params.templateMessage) : null)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.actionTraced")
                 ]
                 break;
             case MeansOfContactEnum.EMAIL :
-                def pdf =
-                    preparePdf(requestId, requestFormId, params.templateMessage)
+                def pdf
+                if (params.requestFormId)
+                    pdf = preparePdf(requestId, requestFormId,
+                        params.templateMessage)
                 requestActionService.addAction(
                     requestId,
                     RequestActionType.CONTACT_CITIZEN,
@@ -148,9 +151,13 @@ class ContactController {
                         .category.primaryEmail,
                     params.email,
                     message(code:"mail.ecitizenContact.subject"),
-                    message(code:"mail.ecitizenContact.body"),
+                    params.requestFormId ?
+                        message(code:"mail.ecitizenContact.body") :
+                        params.templateMessage,
                     pdf,
-                    "${requestTypeService.getRequestFormById(requestFormId).label}.pdf")
+                    params.requestFormId ?
+                        "${requestTypeService.getRequestFormById(requestFormId).label}.pdf"
+                        : null)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.emailSent")
@@ -184,8 +191,9 @@ class ContactController {
                     requestId,
                     RequestActionType.CONTACT_CITIZEN,
                     params.templateMessage, params.note,
-                    preparePdf(params.requestId, params.requestFormId,
-                        params.templateMessage))
+                    params.requestFormId ?
+                        preparePdf(params.requestId, params.requestFormId,
+                            params.templateMessage) : null)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.actionTraced")

@@ -1,6 +1,7 @@
 (function() {
   var zcf = zenexity.capdemat.fong;
   var zct = zenexity.capdemat.tools;
+  var zcv = zenexity.capdemat.Validation;
   var yu = YAHOO.util;
   var yud = yu.Dom;
   var yue = yu.Event;
@@ -35,10 +36,10 @@
       fromYuiEl.appendChild(submitAsHiddenEl);
     };
 
-    var validateAndSubmit = function (e, includeScope) {
+    var validateAndSubmit = function (e, scope) {
       yue.preventDefault(e);
       var targetEl = yue.getTarget(e);
-      if (!FIC_checkForm(e, yud.get(targetEl.form.id + '-error'), includeScope))
+      if (!zcv.check(e, yud.get(targetEl.form.id + '-error'), scope))
         return;
       else {
         // -- hack to know current step
@@ -48,13 +49,16 @@
       }
     };
 
-    var computeIncludeScope = function(form) {
-      if (form.id.split('-')[1] === "account") return false;
+    var computeScope = function(form) {
+      if (form.id.split('-')[1] === "account") return zcv.scope.OUTSIDE;
       var allEmpty = true;
       var subScopes = yud.getElementsByClassName("validation-scope", null, form);
       zct.each(subScopes, function() {
         var inputs = yud.getElementsBy(function(el) {
-          return (zct.inArray(el.nodeName, ["INPUT", "SELECT", "TEXTAREA"]) > -1 && zct.inArray(el.type, ["submit", "hidden"]) == -1);
+          if (zct.inArray(el.nodeName, ["INPUT", "SELECT", "TEXTAREA"]) > -1 && zct.inArray(el.type, ["submit", "hidden"]) == -1)
+            return zcv.scope.INSIDE;
+          else
+            return zcv.scope.OUTSIDE;
         }, null, this);
         zct.each(inputs, function() {
           if (zct.inArray(this.type, ["checkbox", "radio"]) != -1) {
@@ -64,8 +68,8 @@
           }
         });
       });
-      if (!allEmpty) return undefined;
-      return false;
+      if (!allEmpty) return zcv.scope.IGNORE;
+      return zcv.scope.OUTSIDE;
     };
 
     return {
@@ -102,13 +106,13 @@
           else
             return tokens[0];
       },
-      
-      submitStep : function(e) { validateAndSubmit(e, computeIncludeScope(yue.getTarget(e).form)); },
-      
-      submitCollectionAdd : function(e) { validateAndSubmit(e, true); },
-      
-      submitCollectionModify : function(e) { validateAndSubmit(e, true); },
-      
+
+      submitStep : function(e) { validateAndSubmit(e, computeScope(yue.getTarget(e).form)); },
+
+      submitCollectionAdd : function(e) { validateAndSubmit(e, zcv.scope.INSIDE); },
+
+      submitCollectionModify : function(e) { validateAndSubmit(e, zcv.scope.INSIDE); },
+
       submitDraft : function(e) {
         yue.stopEvent(e);
         var hd = zct.getElementsByName('currentTabIndex','input',yud.get('draftForm'))[0];

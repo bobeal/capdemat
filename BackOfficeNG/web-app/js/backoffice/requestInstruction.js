@@ -6,6 +6,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   var zcb = zenexity.capdemat.bong;
   var zca = zenexity.capdemat.aspect;
   var zct = zenexity.capdemat.tools;
+  var zcv = zenexity.capdemat.Validation;
   var yud = YAHOO.util.Dom;
   var yuel = YAHOO.util.Element;
   var yue = YAHOO.util.Event;
@@ -207,7 +208,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       
       if (yud.hasClass(targetEl, 'cancelStateChange')) {zcb.instructionStatePanel.hide();}
       else if (yud.hasClass(targetEl, 'submitStateChange')) {
-        if (FIC_checkForm(e, yud.get('changeStateFormErrors')))
+        if (zcv.check(e, yud.get('changeStateFormErrors')))
           submitChangeStateForm(targetEl, 'changeStateForm');
       }
       else if (/tag-/.test(targetEl.className) && !yud.hasClass(targetEl, 'documentLink')
@@ -373,7 +374,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           var targetEl = zcbr.Instruction.getTarget(e);
           var formEl = yud.getAncestorByTagName(targetEl, 'form');
           
-          if (!FIC_checkForm(e, yud.get(formEl.id + 'Errors')))
+          if (!zcv.check(e, yud.get(formEl.id + 'Errors')))
             return;
           
           zct.doAjaxFormSubmitCall(formEl.id, null, function(o) {

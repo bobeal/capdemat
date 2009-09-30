@@ -435,7 +435,7 @@
    * @namespace zenexity.capdemat.tools
    * @param f {Function*} function object to be called
    * @param c {Object*} context in which function is called
-   * @param params {Array | Object*} parameters to be supplied to function call
+   * @param params {Object*} parameters to be supplied to function call
    * @returns {Object | Undefined} function execution result if this one had place
    * 
    * @author vba@zenexity.fr

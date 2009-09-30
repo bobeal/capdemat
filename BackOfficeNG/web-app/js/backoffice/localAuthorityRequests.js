@@ -10,6 +10,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
 (function(){
 
   var zct = zenexity.capdemat.tools;
+  var zcv = zenexity.capdemat.Validation;
   var zcbl = zenexity.capdemat.bong.localauthority;
 
   var yu = YAHOO.util;
@@ -47,7 +48,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
         var id = splitEvent(e);
         var cont = yud.get(id + "FormErrors");
         cont.innerHTML = "";
-        if (FIC_checkForm(yud.get(id + "Form"), cont)) {
+        if (zcv.check(yud.get(id + "Form"), cont)) {
           zct.doAjaxFormSubmitCall(id + "Form", [], function(o){
             zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
           });

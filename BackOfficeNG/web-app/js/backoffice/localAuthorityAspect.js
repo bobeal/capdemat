@@ -11,6 +11,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
 
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
+  var zcv = zenexity.capdemat.Validation;
   var zcb = zenexity.capdemat.bong;
   var zcbl = zenexity.capdemat.bong.localauthority;
 
@@ -57,7 +58,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
         var fileID = (yue.getTarget(e).id||'_').split('_')[1];
         var cont = yud.get('setupFormErrors_' + fileID);
         cont.innerHTML = "";
-        var validform = FIC_checkForm(yud.get('setupForm_' + fileID), cont);
+        var validform = zcv.check(yud.get('setupForm_' + fileID), cont);
         if (validform) {
           zct.doAjaxFormSubmitCall('setupForm_' + fileID,[],function(o){
             zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);

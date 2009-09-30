@@ -25,6 +25,7 @@
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/tabview', file:'tabview-min.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'tools.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'validation.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'validationRules.js')}"></script>
   <g:if test="${Locale.FRENCH.getLanguage().equals(request.locale.getLanguage())}">
     <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'date-fr-FR.js')}"></script>
   </g:if>

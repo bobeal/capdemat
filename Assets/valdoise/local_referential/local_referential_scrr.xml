@@ -8,7 +8,6 @@
             <entry key="NoPork">
                 <label lang="fr">Sans mouton</label>
                 <message lang="fr"/>
-                <entries supportPriority="false" supportPrecision="false" supportMultiple="false"/>
             </entry>
             <entry key="NoSoy">
                 <label lang="fr">Sans soja</label>

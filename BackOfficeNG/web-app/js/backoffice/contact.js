@@ -2,6 +2,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
 (function() {
   var zcb = zenexity.capdemat.bong;
   var zct = zenexity.capdemat.tools;
+  var zcv = zenexity.capdemat.Validation;
   var yud = YAHOO.util.Dom;
   var yue = YAHOO.util.Event;
   var ylj = YAHOO.lang.JSON;
@@ -94,7 +95,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
         form.target = "_blank";
         form.action = zct.val(yud.get("contactPreviewURL"));
         cont.innerHTML = "";
-        if (FIC_checkForm(form, cont)) {
+        if (zcv.check(form, cont)) {
           form.submit();
         }
         form.target = undefined;
@@ -103,7 +104,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
       send : function() {
         var cont = yud.get("contactFormErrors");
         cont.innerHTML = "";
-        if (FIC_checkForm(yud.get("contactForm"), cont)) {
+        if (zcv.check(yud.get("contactForm"), cont)) {
           zct.doAjaxFormSubmitCall("contactForm", [], zcb.Contact.notify);
         }
       },

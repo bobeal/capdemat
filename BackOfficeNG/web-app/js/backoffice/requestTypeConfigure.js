@@ -11,6 +11,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
 (function() {
   
   var zct = zenexity.capdemat.tools;
+  var zcv = zenexity.capdemat.Validation;
   var zcbrp = zenexity.capdemat.bong.requesttype;
   
   var yue = YAHOO.util.Event;
@@ -41,7 +42,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var form = yud.get('requestTypeAlertsForm');
         var error = yud.get('dialogRequestTypeAlertsFormError');
         
-        if(FIC_checkForm(form,error)) {
+        if(zcv.check(form,error)) {
           zct.each(yus.query('input[type=text]',form),function(i,n){
             n.value = parseInt(n.value);
             if(n.value < 0) n.value = n.value * -1;

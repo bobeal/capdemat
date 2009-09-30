@@ -144,10 +144,5 @@ form.editable-list-form ul li label { width: 66%; }
   background-color:#FCC;
 }
 
-/* for checkboxes and radios */
-.validation-failed-cr { }
-
-/* for selects */
-.validation-failed-sel { }
 
 

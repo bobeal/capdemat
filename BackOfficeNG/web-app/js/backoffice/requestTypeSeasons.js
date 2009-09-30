@@ -11,6 +11,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
 
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
+  var zcv = zenexity.capdemat.Validation;
   var zcb = zenexity.capdemat.bong;
   var zcbrt = zenexity.capdemat.bong.requesttype;
 
@@ -78,7 +79,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var form = yud.get('seasonForm_' + uuid);
         var cont = yud.get('error-container_' + uuid);
         cont.innerHTML = "";
-        var validform = FIC_checkForm(form, cont);
+        var validform = zcv.check(e, cont);
         if (validform) {
           zct.doAjaxFormSubmitCall('seasonForm_' + uuid,[],function(o){
             zcbrt.Seasons.loadSeasons();

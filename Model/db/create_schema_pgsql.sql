@@ -366,6 +366,9 @@
         drop constraint FKEAA6DC2682587E99;
 
     alter table request 
+        drop constraint FK414EF28F85577048;
+
+    alter table request 
         drop constraint FK414EF28FC5FD0068;
 
     alter table request 
@@ -379,6 +382,9 @@
 
     alter table request_note 
         drop constraint FK4DABB7A2848EB249;
+
+    alter table request_season 
+        drop constraint FK998F4693C5FD0068;
 
     alter table request_type 
         drop constraint FK4DAE96EACE4D7137;
@@ -415,9 +421,6 @@
 
     alter table school_registration_request 
         drop constraint FK7BDFE8F420540B7;
-
-    alter table seasons 
-        drop constraint FK7552F1F0C5FD0068;
 
     alter table sewer_connection_request 
         drop constraint FK50B057BB82587E99;
@@ -642,6 +645,8 @@
 
     drop table request_note;
 
+    drop table request_season;
+
     drop table request_type;
 
     drop table requirement;
@@ -655,8 +660,6 @@
     drop table school_canteen_registration_request_food_diet;
 
     drop table school_registration_request;
-
-    drop table seasons;
 
     drop table sewer_connection_request;
 
@@ -1948,7 +1951,7 @@
         requester_last_name varchar(255),
         requester_first_name varchar(255),
         request_type_id int8,
-        season_uuid varchar(255),
+        request_season_id int8,
         orange_alert bool,
         red_alert bool,
         validation_date timestamp,
@@ -2006,6 +2009,18 @@
         note varchar(1024),
         date timestamp,
         request_id int8,
+        primary key (id)
+    );
+
+    create table request_season (
+        id int8 not null,
+        request_type_id int8 not null,
+        effect_end timestamp not null,
+        effect_start timestamp not null,
+        label varchar(255) not null,
+        registration_end timestamp not null,
+        registration_start timestamp not null,
+        validation_authorization_start timestamp,
         primary key (id)
     );
 
@@ -2075,17 +2090,6 @@
         urgency_phone varchar(10),
         section varchar(32),
         primary key (id)
-    );
-
-    create table seasons (
-        request_type_id int8 not null,
-        uuid varchar(255),
-        effect_end timestamp,
-        effect_start timestamp,
-        label varchar(255),
-        registration_end timestamp,
-        registration_start timestamp,
-        validation_authorization_start timestamp
     );
 
     create table sewer_connection_request (
@@ -2816,6 +2820,11 @@
         references request;
 
     alter table request 
+        add constraint FK414EF28F85577048 
+        foreign key (request_season_id) 
+        references request_season;
+
+    alter table request 
         add constraint FK414EF28FC5FD0068 
         foreign key (request_type_id) 
         references request_type;
@@ -2839,6 +2848,11 @@
         add constraint FK4DABB7A2848EB249 
         foreign key (request_id) 
         references request;
+
+    alter table request_season 
+        add constraint FK998F4693C5FD0068 
+        foreign key (request_type_id) 
+        references request_type;
 
     alter table request_type 
         add constraint FK4DAE96EACE4D7137 
@@ -2899,11 +2913,6 @@
         add constraint FK7BDFE8F420540B7 
         foreign key (school_id) 
         references school;
-
-    alter table seasons 
-        add constraint FK7552F1F0C5FD0068 
-        foreign key (request_type_id) 
-        references request_type;
 
     alter table sewer_connection_request 
         add constraint FK50B057BB82587E99 

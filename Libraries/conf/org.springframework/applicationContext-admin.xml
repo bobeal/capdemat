@@ -120,12 +120,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- ***************** Requests Seasons Job Configuration **************  -->
   <!-- *******************************************************************  -->
 
-  <bean id="requestSeasonsJob" 
+  <bean id="requestSeasonsJob" init-method="init"
     class="fr.cg95.cvq.service.request.job.RequestSeasonsJob">
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
     <property name="requestTypeService"><ref bean="requestTypeService"/></property>
     <property name="requestWorkflowService"><ref bean="requestWorkflowService"/></property>
-    <property name="requestDAO"><ref bean="requestDAO"/></property>
   </bean>
 
   <bean id="requestSeasonsJobInvoker"

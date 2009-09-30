@@ -206,6 +206,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   </bean>
 
   <bean id="requestTypeService" class="fr.cg95.cvq.service.request.impl.RequestTypeService">
+    <property name="genericDAO" ref="genericDAO"/>
     <property name="requestTypeDAO" ref="requestTypeDAO"/>
     <property name="requestFormDAO" ref="requestFormDAO"/>
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />

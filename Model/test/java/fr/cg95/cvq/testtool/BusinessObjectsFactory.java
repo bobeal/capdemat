@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.joda.time.DateMidnight;
+
 import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.RecreationCenter;
@@ -169,29 +171,18 @@ public class BusinessObjectsFactory {
     public static RequestSeason gimmeRequestSeason(final String label, 
             final int registrationStartOffset, final int registrationEndOffset, 
             final int effectStartOffset, final int effectEndOffset) {
-
         RequestSeason requestSeason = new RequestSeason();
         requestSeason.setLabel(label);
-        Date now = new Date();
-        Calendar calendar = new GregorianCalendar();
-        
-        calendar.setTime(now);
-        calendar.add(Calendar.MONTH, registrationStartOffset);
-        requestSeason.setRegistrationStart(calendar.getTime());
-
-        calendar.setTime(now);
-        calendar.add(Calendar.MONTH, registrationEndOffset);
-        requestSeason.setRegistrationEnd(calendar.getTime());
-        requestSeason.setValidationAuthorizationStart(calendar.getTime());
-
-        calendar.setTime(now);
-        calendar.add(Calendar.MONTH, effectStartOffset);
-        requestSeason.setEffectStart(calendar.getTime());
-
-        calendar.setTime(now);
-        calendar.add(Calendar.MONTH, effectEndOffset);
-        requestSeason.setEffectEnd(calendar.getTime());
-        
+        requestSeason.setRegistrationStart(
+            new DateMidnight().plusMonths(registrationStartOffset));
+        requestSeason.setRegistrationEnd(
+            new DateMidnight().plusMonths(registrationEndOffset));
+        requestSeason.setValidationAuthorizationStart(
+            requestSeason.getRegistrationEnd());
+        requestSeason.setEffectStart(
+            new DateMidnight().plusMonths(effectStartOffset));
+        requestSeason.setEffectEnd(
+            new DateMidnight().plusMonths(effectEndOffset));
         return requestSeason;
     }
 }

@@ -24,12 +24,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
 
   zcbrt.Seasons = function() {
     var content = {head : 'Attention !', body : 'Confirmez-vous la suppression ?'};
-    var createCalendars = function(uuid) {
-      zcb.Calendar("registrationStart_" + uuid);
-      zcb.Calendar("registrationEnd_" + uuid);
-      zcb.Calendar("validationAuthorizationStart_" + uuid);
-      zcb.Calendar("effectStart_" + uuid);
-      zcb.Calendar("effectEnd_" + uuid);
+    var createCalendars = function(id) {
+      zcb.Calendar("registrationStart_" + id);
+      zcb.Calendar("registrationEnd_" + id);
+      zcb.Calendar("validationAuthorizationStart_" + id);
+      zcb.Calendar("effectStart_" + id);
+      zcb.Calendar("effectEnd_" + id);
     };
     return {
       clickEv : undefined,
@@ -65,23 +65,23 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       * @description Get the edit season form
       */
       editSeason: function(e) {
-        var uuid = (yue.getTarget(e).id||'_').split('_')[1];
-        zct.doAjaxCall('/editSeason?requestTypeId=' + zcbrt.currentId + '&uuid=' + uuid,[],function(o){
-          yud.get('seasonEditionContainer_' + uuid).innerHTML = o.responseText;
-          createCalendars(uuid);
+        var id = (yue.getTarget(e).id||'_').split('_')[1];
+        zct.doAjaxCall('/editSeason?requestTypeId=' + zcbrt.currentId + '&id=' + id,[],function(o){
+          yud.get('seasonEditionContainer_' + id).innerHTML = o.responseText;
+          createCalendars(id);
         });
       },
       /**
       * @description Upload the edit season form
       */
       saveSeason: function(e) {
-        var uuid = (yue.getTarget(e).id||'_').split('_')[1];
-        var form = yud.get('seasonForm_' + uuid);
-        var cont = yud.get('error-container_' + uuid);
+        var id = (yue.getTarget(e).id||'_').split('_')[1];
+        var form = yud.get('seasonForm_' + id);
+        var cont = yud.get('error-container_' + id);
         cont.innerHTML = "";
         var validform = zcv.check(e, cont);
         if (validform) {
-          zct.doAjaxFormSubmitCall('seasonForm_' + uuid,[],function(o){
+          zct.doAjaxFormSubmitCall('seasonForm_' + id,[],function(o){
             zcbrt.Seasons.loadSeasons();
             zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
           });
@@ -91,16 +91,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       * @description Hide the edit season form
       */
       cancelEditSeason : function(e) {
-        var uuid = (yue.getTarget(e).id||'_').split('_')[1];
-        zct.style(yud.get('seasonForm_' + uuid),{'display':'none'});
+        var id = (yue.getTarget(e).id||'_').split('_')[1];
+        zct.style(yud.get('seasonForm_' + id),{'display':'none'});
       },
       /**
       * @description Request season deletion
       */
       deleteSeason : function(e) {
-        var uuid = (yue.getTarget(e).id||'_').split('_')[1];
+        var id = (yue.getTarget(e).id||'_').split('_')[1];
         new zct.ConfirmationDialog(content, function(){
-          zct.doAjaxDeleteCall('/editSeason', 'requestTypeId=' + zcbrt.currentId + '&uuid=' + uuid, function(o){
+          zct.doAjaxDeleteCall('/editSeason', 'requestTypeId=' + zcbrt.currentId + '&id=' + id, function(o){
             zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg);
             zcbrt.Seasons.loadSeasons();
           })

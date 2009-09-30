@@ -2,6 +2,7 @@ package fr.cg95.cvq.business.request;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -61,6 +62,7 @@ public class RequestType implements Serializable {
     private Integer instructionAlertDelay;
 
     public RequestType() {
+        setSeasons(new TreeSet<RequestSeason>());
     }
 
     /**
@@ -164,13 +166,11 @@ public class RequestType implements Serializable {
 
     /**
      * @hibernate.set
-     *  table="seasons"
-     *  lazy="true"
-     *  order-by="effect_start asc"
+     *  inverse="true"
      *  cascade="all"
      * @hibernate.key
      *  column="request_type_id"
-     * @hibernate.composite-element
+     * @hibernate.one-to-many
      *  class="fr.cg95.cvq.business.request.RequestSeason"
      */
     public final Set<RequestSeason> getSeasons() {

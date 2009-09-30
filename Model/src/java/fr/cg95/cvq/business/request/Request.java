@@ -35,6 +35,7 @@ public abstract class Request implements Serializable {
     public static final String SEARCH_BY_REQUEST_TYPE_LABEL = "requestTypeLabel";
     public static final String SEARCH_BY_STATE = "state";    
     public static final String SEARCH_BY_CREATION_DATE = "creationDate";
+    public static final String SEARCH_BY_VALIDATION_DATE = "validationDate";
     public static final String SEARCH_BY_LAST_MODIFICATION_DATE = "lastModificationDate";
     public static final String SEARCH_BY_LAST_INTERVENING_USER_ID = "lastInterveningUserId";
     public static final String SEARCH_BY_QUALITY_TYPE = "qualityType";

@@ -2,6 +2,7 @@
   var zcb = zenexity.capdemat.bong;
   var zcc = zenexity.capdemat.common;
   var zct = zenexity.capdemat.tools;
+  var zcv = zenexity.capdemat.Validation;
   var yud = YAHOO.util.Dom;
   var yu = YAHOO.util;
   var yue = YAHOO.util.Event;
@@ -77,7 +78,7 @@
 
       saveDisplayGroup: function(e) {
         yue.preventDefault(e);
-        if (!FIC_checkForm(e, yud.get('displayGroupFormErrors')))
+        if (!zcv.check(e, yud.get('displayGroupFormErrors')))
           return false;
         zct.doAjaxFormSubmitCall('displayGroupForm',[],function(o){
           var json = ylj.parse(o.responseText);

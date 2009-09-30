@@ -10,6 +10,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
 (function(){
 
   var zct = zenexity.capdemat.tools;
+  var zcv = zenexity.capdemat.Validation;
   var zcbl = zenexity.capdemat.bong.localauthority;
 
   var yud = YAHOO.util.Dom;
@@ -37,7 +38,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
       save : function(e) {
         var cont = yud.get("identityFormErrors");
         cont.innerHTML = "";
-        if (FIC_checkForm(yud.get("identityForm"), cont)) {
+        if (zcv.check(yud.get("identityForm"), cont)) {
           zct.doAjaxFormSubmitCall("identityForm", [], function(o){
             zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
           });

@@ -59,6 +59,7 @@
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'aspect.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'common.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'validation.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'validationRules.js')}"></script>
   
   <script type="text/javascript">
     zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');

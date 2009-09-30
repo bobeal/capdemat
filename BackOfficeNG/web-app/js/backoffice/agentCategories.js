@@ -1,6 +1,7 @@
 (function(){
   var zcb = zenexity.capdemat.bong;
   var zct = zenexity.capdemat.tools;
+  var zcv = zenexity.capdemat.Validation;
   var yud = YAHOO.util.Dom;
   var yu = YAHOO.util;
   var yue = YAHOO.util.Event;
@@ -100,7 +101,7 @@
 	      
 	  submitEditItem : function(e) {
 	    var categoryId = getCategoryId(e);
-	    if (!FIC_checkForm(e, yud.get("categoryEditForm_" + categoryId + "Errors")))
+	    if (!zcv.check(e, yud.get("categoryEditForm_" + categoryId + "Errors")))
 	      return;
 	    zct.doAjaxFormSubmitCall("categoryEditForm_" + categoryId, null, function(o) {
 	        var response = ylj.parse(o.responseText);

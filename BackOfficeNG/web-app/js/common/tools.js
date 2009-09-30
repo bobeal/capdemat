@@ -435,7 +435,7 @@
    * @namespace zenexity.capdemat.tools
    * @param f {Function*} function object to be called
    * @param c {Object*} context in which function is called
-   * @param params {Array | Object*} parameters to be supplied to function call
+   * @param params {Object*} parameters to be supplied to function call
    * @returns {Object | Undefined} function execution result if this one had place
    * 
    * @author vba@zenexity.fr
@@ -501,7 +501,7 @@
    */
   zct.isIn = function(o,list) {
     var result = false;
-    zct.each(list,function(){ result = result || o+''.toUpperCase() == this.toUpperCase(); });
+    zct.each(list,function(){ result = result || (o+'').toUpperCase() == this.toUpperCase();});
     //if(list.constructor != Array || list.length == 0) result = false;
     return result;
   };
@@ -536,7 +536,7 @@
    */
   zct.html = function(node,html) {
     if(!node.nodeType) return undefined;
-    if(!html) {
+    if(YAHOO.lang.isUndefined(html)) {
       return node.innerHTML;
     }else {
       node.innerHTML = "";

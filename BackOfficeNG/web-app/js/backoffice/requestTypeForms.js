@@ -10,6 +10,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
 
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
+  var zcv = zenexity.capdemat.Validation;
   var zcbrt = zenexity.capdemat.bong.request.templates;
   var zcbrp = zenexity.capdemat.bong.requesttype;
   
@@ -138,9 +139,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       validateForm : function(target,form) {
         var container = yus.query('div.error',form,true);
-        if(zct.isFunction(FIC_checkForm)) 
-          return FIC_checkForm(target,container);
-        return true;
+        return zcv.check(target,container);
       },
       deleteForm : function(e) {
         var li = yu.Dom.getAncestorByTagName(zcbrp.Forms.confirmationDialog.showTarget ,'li');

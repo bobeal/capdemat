@@ -56,15 +56,18 @@
         for(name in rls) me.rules[name] = rls[name];
       },
 
-      complexRule: function(func) {
+      complexRule: function(func, errorMsg) {
         this.func = func;
         this.fieldsList = [];
+        this.errorMsg = !yl.isUndefined(errorMsg) ? errorMsg : '';
         this.pushFields = function(){ this.fieldsList.push(arguments) };
-        this.check = function(fields){
-          for (i=0; i<fields.length; i++)
-            if (!yl.isUndefined(me.fields[fields[i]]))
-              return this.func.apply(me, fields);
-          return true;
+        this.check = function(fieldNames){
+          var fields = [];
+          for (i=0; i<fieldNames.length; i++) {
+            if (!yl.isUndefined(me.fields[fieldNames[i]])) fields.push(me.fields[fieldNames[i]]);
+            else return true;
+          }
+          return this.func.apply(me, fields);
         }
       },
 
@@ -149,17 +152,18 @@
         zct.html(errorsEl, errorMsgs.join('').length > 0 ? errorMsgs.join('<br />') : 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');
       },
 
-      checkComplexRules: function() {
+      checkComplexRules: function(errorMsgs) {
         var valid = true
         zct.each(me.complexRules, function(){
-          var cRule = this, cValid = true;
+          var cRule = this
           zct.each(cRule.fieldsList, function(){
             cValid = cRule.check(this);
             valid = valid && cValid;
-            if (!cValid)
+            if (!cValid){
               for (i=0; i<this.length; i++)
-                if (!yl.isUndefined(me.fields[this[i]]))
-                  yud.addClass(me.fields[this[i]].enhanceErrorEl, 'validation-failed');
+                yud.addClass(me.fields[this[i]].enhanceErrorEl, 'validation-failed');
+              if (cRule.errorMsg.length > 0) errorMsgs.push(cRule.errorMsg);
+            }
           });
         });
         return valid;
@@ -185,7 +189,7 @@
           }
         });
 
-        valid = me.checkComplexRules() && valid;
+        valid = me.checkComplexRules(errorMsgs) && valid;
         if (!valid) me.displayErrors(errorsEl, errorMsgs);
         return valid;
       }
@@ -225,8 +229,7 @@
     'atLeastOne': new me.complexRule(function(){
       var values = '';
       for (i=0; i<arguments.length; i++)
-        if (!yl.isUndefined(me.fields[arguments[i]]))
-          values += me.fields[arguments[i]].value;
+          values += arguments[i].value;
       return values.length > 0;
     })
   });

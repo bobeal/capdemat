@@ -15,12 +15,11 @@
   
   zcv.putComplexRules({
     'rib': new zcv.complexRule(function(){
-        // 'Les références bancaires sont invalides'
         // Copy from http://www.codyx.org/snippet_calcul-verification-rib_94.aspx
         if (arguments.length>=3) {
-          var bqe= zcv.fields[arguments[0]].value;
-          var gui= zcv.fields[arguments[1]].value;
-          var cpt= zcv.fields[arguments[2]].value.toUpperCase();
+          var bqe= arguments[0].value;
+          var gui= arguments[1].value;
+          var cpt= arguments[2].value.toUpperCase();
           var tab= "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
           var tab1="123456789123456789234567890123456789".split("");
           while (cpt.match(/\D/) != null)
@@ -36,14 +35,14 @@
           a=a%97;
           a=97-a;
           if (arguments.length>3) {
-              return zcv.fields[arguments[3]].value==a;
+              return arguments[3].value==a;
           } else {
               return a;
           }
       } else {
           return false;
       }
-    })
+    },'Les références bancaires sont invalides')
   });
 
 }());

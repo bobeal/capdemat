@@ -45,6 +45,7 @@
   border-width: 1px 0 0 0;
 }
 
+#requestSeasonLabel { font-size : 1.2em; }
 /* store request.type.label */
 #requestTypeLabel { display: none; }
 

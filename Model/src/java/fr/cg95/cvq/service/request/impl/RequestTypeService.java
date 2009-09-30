@@ -1,24 +1,23 @@
 package fr.cg95.cvq.service.request.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
+import java.util.TreeSet;
 
 import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.document.DocumentType;
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
+import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -45,6 +44,7 @@ public class RequestTypeService implements IRequestTypeService {
 
     private IRequestTypeDAO requestTypeDAO;
     private IRequestFormDAO requestFormDAO;
+    private IGenericDAO genericDAO;
 
     @Override
     public List<RequestType> getAllRequestTypes()
@@ -215,97 +215,76 @@ public class RequestTypeService implements IRequestTypeService {
             throw new CvqModelException("request.season.not_supported");
     }
 
-    private void checkSeasondDatesOverlapping(RequestSeason rs1, RequestSeason rs2)
+    private void checkSeasonValidity(Set<RequestSeason> seasons,
+        RequestSeason seasonContainer)
         throws CvqModelException {
 
-        if (rs1.getRegistrationStart().before(rs2.getRegistrationEnd())
-                && rs1.getRegistrationEnd().after(rs2.getRegistrationEnd())
-                || rs1.getRegistrationEnd().after(rs2.getRegistrationStart())
-                    && rs1.getRegistrationStart().before(rs2.getRegistrationStart()))
-            throw new CvqModelException("request.season.seasons_registration_overlapped");
-
-        if (rs1.getEffectStart().before(rs2.getEffectEnd())
-                && rs1.getEffectEnd().after(rs2.getEffectEnd())
-                || rs1.getEffectEnd().after(rs2.getEffectStart())
-                    && rs1.getEffectStart().before(rs2.getEffectStart()))
-            throw new CvqModelException("request.season.seasons_effect_overlapped");
-    }
-
-    private void checkSeasonValidity (Set<RequestSeason> seasons, RequestSeason requestSeason)
-        throws CvqModelException {
-        // Set now Date at 00h00:00 0000
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(new Date());
-        calendar.set(Calendar.HOUR, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        Date dayNow = calendar.getTime();
-
-        // check validity of seasons data
-        if (requestSeason.getRegistrationStart() == null)
+        // the four dates are mandatory
+        if (seasonContainer.getRegistrationStart() == null)
             throw new CvqModelException("request.season.registration_start_required");
-        if (requestSeason.getRegistrationEnd() == null)
+        if (seasonContainer.getRegistrationEnd() == null)
             throw new CvqModelException("request.season.registration_end_required");
-        if (requestSeason.getEffectStart() == null)
+        if (seasonContainer.getEffectStart() == null)
             throw new CvqModelException("request.season.effect_start_required");
-        if (requestSeason.getEffectEnd() == null)
+        if (seasonContainer.getEffectEnd() == null)
             throw new CvqModelException("request.season.effect_end_required");
 
-        if (requestSeason.getUuid() == null || requestSeason.getUuid().isEmpty())
-            requestSeason.setUuid(UUID.randomUUID().toString());
-
-        // check registrationt start
-        if (requestSeason.getRegistrationStart().before(dayNow))
+        // check registration start
+        if (seasonContainer.getId() == null
+            && seasonContainer.getRegistrationStart().isBeforeNow())
             throw new CvqModelException("request.season.registration_start_before_now");
 
         // check scheduling chronological respect
-        if (!requestSeason.getRegistrationStart().before(requestSeason.getRegistrationEnd()))
+        if (!seasonContainer.getRegistrationStart().isBefore(seasonContainer.getRegistrationEnd()))
             throw new CvqModelException("request.season.registration_start_after_registration_end");
-        if (!requestSeason.getEffectStart().before(requestSeason.getEffectEnd()))
+        if (!seasonContainer.getEffectStart().isBefore(seasonContainer.getEffectEnd()))
             throw new CvqModelException("request.season.effect_start_after_effect_end");
 
         // Registration and effect date overlapping policy
-        if (!requestSeason.getRegistrationStart().before(requestSeason.getEffectStart()))
+        if (!seasonContainer.getRegistrationStart().isBefore(seasonContainer.getEffectStart()))
             throw new CvqModelException("request.season.registration_start_after_effect_start");
-        if (!requestSeason.getRegistrationEnd().before(requestSeason.getEffectEnd()))
+        if (!seasonContainer.getRegistrationEnd().isBefore(seasonContainer.getEffectEnd()))
             throw new CvqModelException("request.season.registration_end_after_effect_end");
 
-        // check season's registration dates do not overlap and season's effect dates to
         for(RequestSeason rs : seasons) {
-            if (!requestSeason.getUuid().equals(rs.getUuid())) {
-                checkSeasondDatesOverlapping(requestSeason, rs);
-
+            if (!rs.getId().equals(seasonContainer.getId())) {
                 // test the label uniqueness
-                if (rs.getLabel().equals(requestSeason.getLabel()))
+                if (rs.getLabel().equals(seasonContainer.getLabel()))
                     throw new CvqModelException("request.season.already_used_label");
             }
             // This rules apply just for modification
             else {
-                if (rs.getEffectEnd().before(dayNow))
+                if (rs.getEffectEnd().isBeforeNow())
                     throw new CvqModelException("request.season.effect_ended");
-                if (rs.getRegistrationStart().before(dayNow)
-                        && ! rs.getRegistrationStart().equals(requestSeason.getRegistrationStart()))
+                if (rs.getRegistrationStart().isBeforeNow()
+                    && !rs.getRegistrationStart().equals(seasonContainer.getRegistrationStart()))
                     throw new CvqModelException("request.season.registration_started");
-
+                if (rs.getRegistrationEnd().isBeforeNow()
+                    && !rs.getRegistrationEnd().equals(seasonContainer.getRegistrationEnd()))
+                    throw new CvqModelException("request.season.registration_ended");
             }
         }
     }
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
-    public void addRequestTypeSeason(final Long requestTypeId, RequestSeason requestSeason)
-            throws CvqException {
+    public void addRequestSeason(final Long requestTypeId, RequestSeason seasonContainer)
+        throws CvqException {
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         checkSeasonSupport(requestType);
 
         Set<RequestSeason> seasons = requestType.getSeasons();
-        if (seasons == null)
-            seasons = new HashSet<RequestSeason>();
 
-        checkSeasonValidity(seasons, requestSeason);
-
+        checkSeasonValidity(seasons, seasonContainer);
+        RequestSeason requestSeason = new RequestSeason();
+        requestSeason.setLabel(seasonContainer.getLabel());
+        requestSeason.setRegistrationStart(seasonContainer.getRegistrationStart());
+        requestSeason.setRegistrationEnd(seasonContainer.getRegistrationEnd());
+        requestSeason
+            .setValidationAuthorizationStart(seasonContainer.getValidationAuthorizationStart());
+        requestSeason.setEffectStart(seasonContainer.getEffectStart());
+        requestSeason.setEffectEnd(seasonContainer.getEffectEnd());
         requestSeason.setRequestType(requestType);
         seasons.add(requestSeason);
 
@@ -314,44 +293,50 @@ public class RequestTypeService implements IRequestTypeService {
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
-    public void modifyRequestTypeSeason(final Long requestTypeId, RequestSeason requestSeason)
+    public void modifyRequestSeason(final Long requestTypeId, RequestSeason seasonContainer)
         throws CvqException {
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         checkSeasonSupport(requestType);
 
         Set<RequestSeason> seasons = requestType.getSeasons();
-        if (seasons == null)
-            throw new CvqModelException("requestType.error.noSeasonFound");
 
-        checkSeasonValidity(seasons, requestSeason);
-
-        Iterator<RequestSeason> it = seasons.iterator();
-        while (it.hasNext()) {
-            RequestSeason rs = it.next();
-            if (rs.getUuid().equals(requestSeason.getUuid())){
-                it.remove();
-            }
-        }
-        seasons.add(requestSeason);
-
-        requestTypeDAO.update(requestType);
+        checkSeasonValidity(seasons, seasonContainer);
+        RequestSeason requestSeason =
+            getRequestSeason(requestTypeId, seasonContainer.getId());
+        requestSeason.setLabel(seasonContainer.getLabel());
+        requestSeason.setRegistrationStart(seasonContainer.getRegistrationStart());
+        requestSeason.setRegistrationEnd(seasonContainer.getRegistrationEnd());
+        requestSeason
+            .setValidationAuthorizationStart(seasonContainer.getValidationAuthorizationStart());
+        requestSeason.setEffectStart(seasonContainer.getEffectStart());
+        requestSeason.setEffectEnd(seasonContainer.getEffectEnd());
+        genericDAO.update(requestSeason);
     }
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
-    public void removeRequestTypeSeason(final Long requestTypeId, final String requestSeasonUuid)
+    public void removeRequestSeason(final Long requestTypeId,
+        final Long requestSeasonId)
         throws CvqException {
-
         RequestType requestType = getRequestTypeById(requestTypeId);
-        checkSeasonSupport(requestType);
 
         Set<RequestSeason> seasons = requestType.getSeasons();
         Iterator<RequestSeason> it = seasons.iterator();
         while(it.hasNext()) {
             RequestSeason rs = it.next();
-            if (rs.getUuid().equals(requestSeasonUuid))
+            if (rs.getId().equals(requestSeasonId)) {
+                Set<Critere> criterias = new HashSet<Critere>(1);
+                criterias.add(new Critere(Request.SEARCH_BY_SEASON_ID,
+                    rs.getId(), Critere.EQUALS));
+                if (requestServiceRegistry.getDefaultRequestService()
+                    .getCount(criterias) > 0) {
+                    throw new CvqModelException("requestSeason.error.cannotDelete");
+                }
                 it.remove();
+                genericDAO.delete(rs);
+                break;
+            }
         }
         requestType.setSeasons(seasons);
 
@@ -359,11 +344,12 @@ public class RequestTypeService implements IRequestTypeService {
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public RequestSeason getRequestTypeSeason(Long requestTypeId, String uuid)
+    public RequestSeason getRequestSeason(Long requestTypeId, Long id)
         throws CvqException {
 
-        for (RequestSeason season : getRequestTypeById(requestTypeId).getSeasons()) {
-            if (season.getUuid().equalsIgnoreCase(uuid)) {
+        for (RequestSeason season :
+            getRequestTypeById(requestTypeId).getSeasons()) {
+            if (season.getId().equals(id)) {
                 return season;
             }
         }
@@ -372,38 +358,28 @@ public class RequestTypeService implements IRequestTypeService {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public Set<RequestSeason> getRequestTypeSeasons(Long requestTypeId)
+    public Set<RequestSeason> getRequestSeasons(Long requestTypeId)
         throws CvqException {
-
-        RequestType requestType = getRequestTypeById(requestTypeId);
-        return requestType.getSeasons();
+        return getRequestTypeById(requestTypeId).getSeasons();
     }
 
     /**
-     * Get the list of seasons whose registrations are currently open.
+     * Get the set of seasons whose registrations are currently open.
      *
-     * @return null if no seasons defined for this request type, an empty list if no
-     *  seasons with opened registrations, the list of seasons with opened registrations
-     *  otherwise.
+     * @return an empty set if no season with opened registrations,
+     *         the set of seasons with opened registrations otherwise.
      */
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public Set<RequestSeason> getOpenSeasons(RequestType requestType) {
-
-        if (requestType.getSeasons() != null && !requestType.getSeasons().isEmpty()) {
-            Date now = new Date();
-            Set<RequestSeason> openSeasons = new HashSet<RequestSeason>();
-            Set<RequestSeason> seasons = requestType.getSeasons();
-            for (RequestSeason requestSeason : seasons) {
-                if (requestSeason.getRegistrationStart().before(now)
-                        && requestSeason.getRegistrationEnd().after(now))
-                    openSeasons.add(requestSeason);
-            }
-
-            return openSeasons;
+    public Set<RequestSeason> getOpenSeasons(RequestType requestType)
+        throws CvqModelException {
+        checkSeasonSupport(requestType);
+        Set<RequestSeason> openSeasons = new TreeSet<RequestSeason>();
+        for (RequestSeason requestSeason : requestType.getSeasons()) {
+            if (requestSeason.getRegistrationStart().isBeforeNow()
+                && requestSeason.getRegistrationEnd().isAfterNow())
+                openSeasons.add(requestSeason);
         }
-
-        return null;
+        return openSeasons;
     }
 
     @Override
@@ -413,11 +389,9 @@ public class RequestTypeService implements IRequestTypeService {
         IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
         if (!service.isOfRegistrationKind())
             return true;
-
-        Set<RequestSeason> openSeasons = getOpenSeasons(requestType);
-        if (openSeasons == null)
+        if (requestType.getSeasons().isEmpty())
             return true;
-        if (openSeasons.isEmpty())
+        if (getOpenSeasons(requestType).isEmpty())
             return false;
         else
             return true;
@@ -536,5 +510,9 @@ public class RequestTypeService implements IRequestTypeService {
 
     public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
+    }
+
+    public void setGenericDAO(IGenericDAO genericDAO) {
+        this.genericDAO = genericDAO;
     }
 }

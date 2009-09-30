@@ -67,14 +67,6 @@ public interface IRequestDAO extends IGenericDAO {
             final RequestState[] excludedStates);
 
     /**
-     * Return the list of requests whose associated home folder has already a registration
-     * for the given season.
-     */
-    List<Request> listByHomeFolderAndSeason(final Long homeFolderId, final String seasonUuid);
-    
-    List<Request> listByStateAndSeason(final RequestState requestState, final String seasonUuid);
-    
-    /**
      * Return the list of all requests who are in one of the given states.
      */
     List<Request> listByStates(final Set<RequestState> states);

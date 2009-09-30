@@ -10,3 +10,53 @@ update request_action set type = 'Creation' where label = 'CREATION_ACTION';
 update request_action set type = 'StateChange' where label = 'STATE_CHANGE_ACTION';
 update request_action set type = 'ContactCitizen' where label = 'REQUEST_CONTACT_CITIZEN';
 alter table request_action drop column label;
+
+alter table request add column request_season_id int8;
+
+create table request_season (
+  id int8 not null,
+  request_type_id int8 not null,
+  effect_end timestamp not null,
+  effect_start timestamp not null,
+  label varchar(255) not null,
+  registration_end timestamp not null,
+  registration_start timestamp not null,
+  validation_authorization_start timestamp,
+  primary key (id)
+);
+
+alter table request
+  add constraint FK414EF28F85577048
+  foreign key (request_season_id)
+  references request_season;
+
+alter table request_season
+  add constraint FK998F4693C5FD0068
+  foreign key (request_type_id)
+  references request_type;
+
+create or replace function migrate_seasons() returns void as $$
+  declare
+    current_uuid varchar(255);
+  begin
+    for current_uuid in select uuid from seasons loop
+      perform nextval('hibernate_sequence');
+      update request set request_season_id = currval('hibernate_sequence') where season_uuid = current_uuid;
+      insert into request_season values (currval('hibernate_sequence'));
+      update request_season set
+        request_type_id = s.request_type_id,
+        registration_start = s.registration_start,
+        registration_end = s.registration_end,
+        effect_start = s.effect_start,
+        effect_end = s.effect_end,
+        validation_authorization_start = s.validation_authorization_start,
+        label = s.label
+      from (select request_type_id, registration_start, registration_end, effect_start, effect_end, validation_authorization_start, label from seasons where seasons.uuid = current_uuid) as s
+      where request_season.id = currval('hibernate_sequence');
+    end loop;
+  end;
+$$ LANGUAGE plpgsql;
+
+select * from migrate_seasons();
+
+drop table seasons;

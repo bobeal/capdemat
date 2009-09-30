@@ -95,7 +95,19 @@ class RequestCreationController {
         }
 
         def cRequest = flash.cRequest ? flash.cRequest : requestService.getSkeletonRequest()
-        
+
+        // allow setting of request season only on creation
+        if (params.requestSeasonId && cRequest.id == null) {
+            cRequest.requestSeason =
+                requestTypeService.getRequestSeason(requestTypeService.getRequestTypeByLabel(params.label).id, Long.valueOf(params.requestSeasonId))
+        }
+        // check we have a request season if and only if the service needs one
+        if ((requestService.isOfRegistrationKind() && cRequest.requestSeason == null)
+            || (!requestService.isOfRegistrationKind() && cRequest.requestSeason != null)) {
+            redirect(uri : "/frontoffice/requestType")
+            return false
+        }
+
         def requester = SecurityContext.currentEcitizen
         if (requester == null) {
             requester = new Adult()
@@ -536,9 +548,13 @@ class RequestCreationController {
         if (SecurityContext.currentEcitizen != null 
         		&& !requestService.subjectPolicy.equals(IRequestService.SUBJECT_POLICY_NONE)) {
             def authorizedSubjects = requestService.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
-            authorizedSubjects.each { subjectId, seasonsSet ->
-                def subject = individualService.getById(subjectId)
-                subjects[subjectId] = subject.lastName + ' ' + subject.firstName
+           authorizedSubjects.each { subjectId, seasonsSet ->
+                if (cRequest.requestSeason != null
+                    && seasonsSet.contains(cRequest.requestSeason)) {
+                    def subject = individualService.getById(subjectId)
+                    subjects[subjectId] =
+                        subject.lastName + ' ' + subject.firstName
+                }
             }
             
             if(cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))

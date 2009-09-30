@@ -104,15 +104,14 @@ public class HomeFolderModificationRequestService
         throws CvqException, CvqObjectNotFoundException {
 
         HomeFolder homeFolder = homeFolderService.getById(homeFolderId);
+        Map<Long, Set<RequestSeason>> result =
+            new HashMap<Long, Set<RequestSeason>>();
         try { 
             checkIsAuthorized(homeFolder);
         } catch (CvqModelException cme) {
-            logger.debug("getAuthorizedSubjects() not authorized, returning null");
-            return null;
+            logger.debug("getAuthorizedSubjects() not authorized, returning empty map");
+            return result;
         }
-        
-        Map<Long, Set<RequestSeason>> result =
-            new HashMap<Long, Set<RequestSeason>>();
         result.put(homeFolder.getId(), new HashSet<RequestSeason>());
         return result;
     }

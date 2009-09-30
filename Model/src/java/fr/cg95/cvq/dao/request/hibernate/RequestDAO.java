@@ -128,6 +128,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     sb.append(" and request.orangeAlert = false")
                     .append(" and request.redAlert = true");
                 }
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SEASON_ID)) {
+                sb.append(" and request.requestSeason.id "
+                        + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
             }
         }
         
@@ -304,6 +309,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                     sb.append(" and request.orangeAlert = false")
                     .append(" and request.redAlert = true");
                 }
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_SEASON_ID)) {
+                sb.append(" and request.requestSeason.id "
+                    + searchCrit.getComparatif() + " ?");
+                objectList.add(searchCrit.getLongValue());
+                typeList.add(Hibernate.LONG);
             }
         }
         
@@ -432,54 +442,6 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 typeList.add(Hibernate.STRING);
             }
         }
-        Type[] typeTab = typeList.toArray(new Type[0]);
-        Object[] objectTab = objectList.toArray(new Object[0]);
-        return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list();
-    }
-
-
-    public List<Request> listByHomeFolderAndSeason(Long homeFolderId, String seasonUuid) {
-
-        List<Type> typeList = new ArrayList<Type>();
-        List<Object> objectList = new ArrayList<Object>();
-
-        StringBuffer sb = new StringBuffer().append("from Request as request");
-
-        sb.append(" where request.homeFolderId = ?");
-        objectList.add(homeFolderId);
-        typeList.add(Hibernate.LONG);
-
-        sb.append(" and request.seasonUuid = ?");
-        objectList.add(seasonUuid);
-        typeList.add(Hibernate.STRING);
-
-        Type[] typeTab = typeList.toArray(new Type[0]);
-        Object[] objectTab = objectList.toArray(new Object[0]);
-        return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list();
-    }
-
-
-    public List<Request> listByStateAndSeason(RequestState requestState, String seasonUuid) {
-        
-        List<Type> typeList = new ArrayList<Type>();
-        List<Object> objectList = new ArrayList<Object>();
-
-        StringBuffer sb = new StringBuffer().append("from Request as request");
-
-        sb.append(" where request.state = ?");
-        objectList.add(requestState.toString());
-        typeList.add(Hibernate.STRING);
-
-        sb.append(" and request.seasonUuid = ?");
-        objectList.add(seasonUuid);
-        typeList.add(Hibernate.STRING);
-
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
         return HibernateUtil.getSession()

@@ -369,15 +369,6 @@ public interface IRequestService {
         throws CvqException;
 
     //////////////////////////////////////////////////////////
-    // General request information related methods
-    //////////////////////////////////////////////////////////
-
-    /**
-     * Return the season associated to the given request, null if none.
-     */
-    RequestSeason getRequestAssociatedSeason(@IsRequest Long requestId) throws CvqException;
-
-    //////////////////////////////////////////////////////////
     // Payment & activities related methods
     //////////////////////////////////////////////////////////
 

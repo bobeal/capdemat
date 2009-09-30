@@ -543,22 +543,6 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         return requestAction != null ? requestAction.getFile() : null;
     }
 
-    @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public RequestSeason getRequestAssociatedSeason(Long requestId) throws CvqException {
-
-        Request request = getById(requestId);
-        RequestType requestType = request.getRequestType();
-
-        if (requestType.getSeasons() != null) {
-            for (RequestSeason requestTypeSeason : requestType.getSeasons()) {
-                if (requestTypeSeason.getUuid().equals(request.getSeasonUuid()))
-                    return requestTypeSeason;
-            }
-        }
-        return null;
-    }
-
     //////////////////////////////////////////////////////////
     // Payment related methods
     //////////////////////////////////////////////////////////
@@ -921,8 +905,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         logger.debug("getAuthorizedSubjects() searching authorized subjects for : "
                 + requestType.getLabel());
 
-        Set<RequestSeason> openSeasons = requestTypeService.getOpenSeasons(requestType);
-        if (openSeasons != null) {
+        if (isOfRegistrationKind() && !requestType.getSeasons().isEmpty()) {
+            Set<RequestSeason> openSeasons = requestTypeService.getOpenSeasons(requestType);
             // no open seasons, no registration is possible
             if (openSeasons.isEmpty())
                 return null;
@@ -933,7 +917,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             // by default, add every subject to all open seasons, restrictions
             // will be made next
             for (Long subjectId : eligibleSubjects)
-                result.put(subjectId, openSeasons);
+                result.put(subjectId, new HashSet<RequestSeason>(openSeasons));
 
             // no restriction on the number of registrations per season
             // just return the whole map
@@ -943,8 +927,17 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             for (RequestSeason season : openSeasons) {
                 // get all requests made for this season by the current home
                 // folder
-                List<Request> seasonRequests = requestDAO.listByHomeFolderAndSeason(homeFolderId,
-                        season.getUuid());
+                Set<Critere> criterias = new HashSet<Critere>(3);
+                criterias.add(new Critere(Request.SEARCH_BY_HOME_FOLDER_ID,
+                    homeFolderId, Critere.EQUALS));
+                criterias.add(new Critere(Request.SEARCH_BY_SEASON_ID,
+                    season.getId(), Critere.EQUALS));
+                List<Boolean> allValues = new ArrayList<Boolean>(3);
+                allValues.add(Boolean.FALSE);
+                allValues.add(Boolean.TRUE);
+                allValues.add(null);
+                criterias.add(new Critere(Request.DRAFT, allValues, Critere.EQUALS));
+                List<Request> seasonRequests = get(criterias, null, null, 0, 0);
                 for (Request request : seasonRequests) {
                     Set<RequestSeason> subjectSeasons = null;
                     if (getSubjectPolicy().equals(SUBJECT_POLICY_NONE))
@@ -1012,13 +1005,6 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
         setAdministrativeInformation(request);
 
-        if (isOfRegistrationKind()) {
-            RequestType requestType = requestTypeService.getRequestTypeByLabel(getLabel());
-            Set<RequestSeason> openSeasons = requestTypeService.getOpenSeasons(requestType);
-            if (openSeasons != null && !openSeasons.isEmpty())  
-                request.setSeasonUuid(openSeasons.iterator().next().getUuid());
-        }
-        
         Long requestId = (requestDAO.saveOrUpdate(request)).getId();
 
         if (homeFolder != null) {

@@ -135,26 +135,31 @@ class RequestTypeController {
     }
 
     def editSeason = {
-        def season
         if (request.get) {
-            season = requestTypeService.getRequestTypeSeason(Long.valueOf(params.requestTypeId), params.uuid)
+            def season
+            if (params.id)
+                season = requestTypeService.getRequestSeason(
+                    Long.valueOf(params.requestTypeId), Long.valueOf(params.id))
             render(template : "editSeason", model : ["season" : season, "requestTypeId" : params.requestTypeId])
             return false
         } else if (request.post) {
-            def codeString
-            season = new RequestSeason()
+            def season = new RequestSeason()
             bind(season)
-            if (params.uuid == null || params.uuid.trim().isEmpty()) {
-                requestTypeService.addRequestTypeSeason(Long.valueOf(params.requestTypeId), season)
+            def codeString
+            if (params.id == null || params.id.trim().isEmpty()) {
+                requestTypeService.addRequestSeason(
+                    Long.valueOf(params.requestTypeId), season)
                 codeString = "message.creationDone"
             } else {
-                requestTypeService.modifyRequestTypeSeason(Long.valueOf(params.requestTypeId), season)
+                requestTypeService.modifyRequestSeason(
+                    Long.valueOf(params.requestTypeId), season)
                 codeString = "message.updateDone"
             }
             render([status:"ok", success_msg:message(code : codeString)] as JSON)
             return false
         } else if (request.getMethod().toLowerCase() == "delete") {
-            requestTypeService.removeRequestTypeSeason(Long.valueOf(params.requestTypeId), params.uuid)
+            requestTypeService.removeRequestSeason(
+                Long.valueOf(params.requestTypeId), Long.valueOf(params.id))
             render([status:"ok", success_msg:message(code:"message.deleteDone")] as JSON)
             return false
         }

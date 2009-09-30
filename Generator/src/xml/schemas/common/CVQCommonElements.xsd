@@ -2127,7 +2127,7 @@
       <xs:element name="DataState" type="cvq:DataStateType" />
       <xs:element name="HomeFolder" type="cvq:HomeFolderType" />
       <xs:element name="MeansOfContact" type="cvq:MeansOfContactType" />
-      
+      <xs:element name="RequestSeason" type="cvq:RequestSeasonType" minOccurs="0"/>
       <xs:element name="Observations" minOccurs="0">
         <xs:simpleType>
           <xs:restriction base="xs:string">
@@ -2137,6 +2137,89 @@
       </xs:element>
       <!-- allow additional information from referential (only) to be added to the request -->
       <xs:element name="AdditionalInformation" type="cvq:AdditionalInformationType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RequestSeasonType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Saison de validité d'une demande
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Saison
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Identifiant de la saison
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Identifiant
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Label" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Libellé de la saison
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Libellé
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RegistrationStart" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de début des inscriptions
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Début des inscriptions
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RegistrationEnd" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de fin des inscriptions
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Fin des inscriptions
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ValidationAuthorizationStart" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de début de validation des inscriptions
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Début de validation des inscriptions
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="EffectStart" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de début de la saison
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Début de la saison
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="EffectEnd" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Date de fin de la saison
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Fin de la saison
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 

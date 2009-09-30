@@ -13,7 +13,7 @@
     </div>
     <!-- end of yui-main -->
     <g:render template="cart"/>
-    <div id="narrow" class="yui-b">
+    <div class="yui-b">
       <div id="requestSubject" class="narrow-box">
         <h3>
           <g:message code="header.display"/>

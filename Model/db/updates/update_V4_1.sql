@@ -60,3 +60,31 @@ $$ LANGUAGE plpgsql;
 select * from migrate_seasons();
 
 drop table seasons;
+
+create or replace function migrate_request_states() returns void as $$
+  declare
+    current_id int8;
+  begin
+    for current_id in select id from request where state = 'Active' loop
+      delete from request_action where request_id = current_id and resulting_state = 'Active';
+      update request set state = 'Notified' where id = current_id;
+    end loop;
+    for current_id in select id from request where state = 'Expired' loop
+      delete from request_action where request_id = current_id and resulting_state in ('Active', 'Expired');
+      update request set state = 'Archived' where id = current_id;
+      insert into request_action values (
+        nextval('hibernate_sequence'),
+        -1,
+        'Suppression des pseudo-états "actif" et "expiré"',
+        now(),
+        null,
+        current_id,
+        'Archived',
+        null,
+        'StateChange'
+      );
+    end loop;
+  end;
+$$ LANGUAGE plpgsql;
+
+select * from migrate_request_states();

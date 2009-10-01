@@ -51,6 +51,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
               zct.limitArea(field, field.getAttribute("maxlength"), notifier.id);
             }
           );
+          yue.addListener(yud.get("requestFormId"), "change", function(e) {
+            yue.preventDefault(e);
+            zct.toggleClass(yud.get("templateMessage"), "required");
+            zct.toggleClass(yud.get("templateMessageLabel"), "required");
+            if (this.selectedIndex == 0) {
+              zct.style(yud.get("templatePreview"), { display : "none" });
+            } else {
+              zct.style(yud.get("templatePreview"), { display : "inherit" });
+            }
+          });
+          zct.style(yud.get("templatePreview"), { display : "none" });
           yue.addListener(link, "click", function(e) {
             yue.preventDefault(e);
             panel.show();

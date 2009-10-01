@@ -8,8 +8,8 @@
 /* request instruction state tag
 -------------------------------------------------------------- */
 
-.taskstate .tag-pending, .taskstate .tag-complete, .taskstate .tag-uncomplete, .taskstate .tag-validated, .taskstate .tag-notified, .taskstate .tag-active,
-.taskstate .tag-expired, .taskstate .tag-closed, .taskstate .tag-rejected, .taskstate .tag-cancelled, .taskstate .tag-archived,
+.taskstate .tag-pending, .taskstate .tag-complete, .taskstate .tag-uncomplete, .taskstate .tag-validated, .taskstate .tag-notified,
+.taskstate .tag-closed, .taskstate .tag-rejected, .taskstate .tag-cancelled, .taskstate .tag-archived,
 .taskstate .tag-checked, .taskstate .tag-refused, .taskstate .tag-outdated,
 .taskstate .tag-valid, .taskstate .tag-invalid,
 .taskstate .tag-sent, .taskstate .tag-inprogress, .taskstate .tag-notsent, .taskstate .tag-acknowledged, .taskstate .tag-error, .taskstate .tag-accepted, .taskstate .tag-rejected,
@@ -19,8 +19,8 @@
 .taskstate .tag-free, .taskstate .tag-lockacquired, .taskstate .tag-locked
 { float: left; margin: 0; font-size: 1.1em; }
 
-.taskstate .tag-pending:hover, .taskstate .tag-complete:hover, .taskstate .tag-uncomplete:hover, .taskstate .tag-validated:hover, .taskstate .tag-notified:hover, .taskstate .tag-active:hover,
-.taskstate .tag-expired:hover, .taskstate .tag-closed:hover, .taskstate .tag-rejected:hover, .taskstate .tag-cancelled:hover, .taskstate .tag-archived:hover,
+.taskstate .tag-pending:hover, .taskstate .tag-complete:hover, .taskstate .tag-uncomplete:hover, .taskstate .tag-validated:hover, .taskstate .tag-notified:hover,
+.taskstate .tag-closed:hover, .taskstate .tag-rejected:hover, .taskstate .tag-cancelled:hover, .taskstate .tag-archived:hover,
 .taskstate .tag-checked:hover, .taskstate .tag-refused:hover, .taskstate .tag-outdated:hover,
 .taskstate .tag-sent:hover, .taskstate .tag-inprogress:hover, .taskstate .tag-notsent:hover, .taskstate .tag-acknowledged:hover, .taskstate .tag-error:hover, .taskstate .tag-accepted:hover, .taskstate .tag-rejected:hover,
 .taskstate .tag-free:hover, .taskstate .tag-lockacquired:hover, .taskstate .tag-locked:hover,

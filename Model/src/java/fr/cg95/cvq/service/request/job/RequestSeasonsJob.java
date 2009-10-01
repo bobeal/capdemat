@@ -20,7 +20,8 @@ import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.util.Critere;
 
 /**
- * A job that do automatic states changes for requests tied to seasons.
+ * A job that automatically archives notified requests which are associated
+ * with a finished season.
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
@@ -60,30 +61,25 @@ public class RequestSeasonsJob implements BeanFactoryAware {
             for (RequestSeason requestSeason : requestSeasons) {
                 logger.debug("checkRequestsSeasons() looking at season " 
                         + requestSeason.getLabel());
-                Set<Critere> criterias = new HashSet<Critere>(2);
-                Critere stateCriteria =
-                    new Critere(Request.SEARCH_BY_STATE, RequestState.NOTIFIED,
-                        Critere.EQUALS);
-                criterias.add(stateCriteria);
-                Critere seasonCriteria =
-                    new Critere(Request.SEARCH_BY_SEASON_ID,
-                        requestSeason.getId(), Critere.EQUALS);
-                criterias.add(seasonCriteria);
-                if (requestSeason.getEffectStart().isBeforeNow()
-                        && requestSeason.getEffectEnd().isAfterNow()) {
+                if (requestSeason.getEffectEnd().isBeforeNow()) {
+                    Set<Critere> criterias = new HashSet<Critere>(2);
+                    Critere stateCriteria =
+                        new Critere(Request.SEARCH_BY_STATE,
+                            RequestState.VALIDATED, Critere.EQUALS);
+                    criterias.add(stateCriteria);
+                    criterias.add(new Critere(Request.SEARCH_BY_SEASON_ID,
+                        requestSeason.getId(), Critere.EQUALS));
                     List<Request> requests = 
                         requestService.get(criterias, null, null, 0, 0);
                     for (Request request : requests) {
                         requestWorkflowService.updateRequestState(request.getId(),
-                            RequestState.ACTIVE, null);
+                            RequestState.NOTIFIED, null);
                     }
-                } else if (requestSeason.getEffectEnd().isBeforeNow()) {
-                    stateCriteria.setValue(RequestState.ACTIVE);
-                    List<Request> requests = 
-                        requestService.get(criterias, null, null, 0, 0);
+                    stateCriteria.setValue(RequestState.NOTIFIED);
+                    requests = requestService.get(criterias, null, null, 0, 0);
                     for (Request request : requests) {
                         requestWorkflowService.updateRequestState(request.getId(),
-                            RequestState.EXPIRED, null);
+                            RequestState.ARCHIVED, null);
                     }
                 }
             }

@@ -561,7 +561,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         StringBuffer sb = new StringBuffer();
         sb.append("from Request as request ").append("where request.id not in (");
         sb.append("select request.id from Request request join request.actions action ")
-            .append(" where action.label = ?").append(")");
+            .append(" where action.type = ?").append(")");
         sb.append(" and request.draft = true");
         sb.append(" and request.creationDate <= ?");
 

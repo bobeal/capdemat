@@ -3,7 +3,7 @@
    <ul>
      <g:each var="record" in="${items}">
        <li>
-         <p>${record.label} <g:message code="message.for" /> ${record.subjectName}</p>
+         <h3>${record.label} <g:message code="message.for" /> ${record.subjectName}</h3>
          <p>
            <g:message code="payment.property.quantity" /> : ${record.quantity}
            <g:if test="${record.unitPrice}">
@@ -23,23 +23,19 @@
      <g:each var="record" in="${items}">
        <li>
          <g:if test="${record.paymentId}">
+           <h3>
+             <g:message code="payment.header.paymentOfMadeBy" 
+               args="${[record.paymentId,(record.value/100)+' €',record.paymentType]}"/>
+           </h3>
            <p>
-             <g:message 
-               code="payment.header.paymentOfMadeBy" 
-               args="${[record.paymentId,(record.value/100)+' €',record.paymentType]}"
-             />
-           </p>
-           <p>
-             <g:message 
-               code="payment.header.madeAtBy"
-               args="${[formatDate(date:record.date,formatName:'format.date'),record.holderName]}"
-             />
+             <g:message code="payment.header.madeAtBy"
+               args="${[formatDate(date:record.date,formatName:'format.date'),record.holderName]}"/>
            </p>
          </g:if>
          <g:else>
-           <p>
+           <h3>
              <g:message code="payment.header.debitOf" args="${[(record.value / 100)+' €']}" />
-           </p>
+           </h3>
          </g:else>
        </li>
      </g:each>

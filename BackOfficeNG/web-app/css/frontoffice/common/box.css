@@ -58,7 +58,7 @@
 .narrow-box .body a:hover { text-decoration: underline; }
 
 .narrow-box .body ul   { margin: 0; padding: 0; }
-.narrow-box .body li   { margin: 0; padding: .5em 0; border-bottom: 1px dashed #7fa646; list-style-type: none;}
+.narrow-box .body li   { margin: 0; padding: .5em 0; border-bottom: 1px dashed #bbb; list-style-type: none;}
 .narrow-box .body li a { display: inline; }
 
 

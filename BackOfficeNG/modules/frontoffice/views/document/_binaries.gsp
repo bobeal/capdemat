@@ -13,5 +13,5 @@
       </a>
     </g:if>
   </div>
-  <img src="${createLink('action':'binary', 'params':[id: doc.id, sessionUuid:sessionUuid ,pn: page])}"/>
+  <img src="${createLink('action':'binary', 'params':[id: doc.id, sessionUuid:sessionUuid ,pn: page]).encodeAsXML()}" alt="${doc.title}" />
 </div> 

@@ -12,8 +12,8 @@
       </div>
     </div>
     <!-- end of yui-main -->
-    <g:render template="cart"/>
     <div class="yui-b">
+      <g:render template="cart"/>
       <div id="requestSubject" class="narrow-box">
         <h3>
           <g:message code="header.display"/>

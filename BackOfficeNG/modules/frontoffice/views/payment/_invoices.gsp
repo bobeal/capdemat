@@ -2,11 +2,11 @@
   <ul>
     <g:each var="record" in="${invoices}">
       <li>
-        <p>
+        <h3>
           <g:message code="payment.header.invoice"/> 
           ${record.label} <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}
           (<g:message code="message.ref"/> ${record.externalItemId})
-        </p>
+        </h3>
         <g:if test="${record.totalValue && record.totalValue != record.amount}">
           <p>
             <g:message code="payment.header.totalValue" /> : ${record.totalValue / 100} €
@@ -25,18 +25,13 @@
             </a>
           </p>
         </g:if>
-        <p>
-          <span style="float:right">
-            <form id="invoceForm_${record.externalItemId}" method="post"
-                  action="${createLink(action:'addToCart')}">
-              <input type="submit" title="${message(code:'payment.action.addToCart')}"
-                ${record.isInCart ?'disabled="disabled"':''}
-                value="${message(code:'payment.action.addToCart')}" />
-              <input type="hidden" name="externalItemId" value="${record.externalItemId}"/>
-              <input type="hidden" name="type" value="${record.type}"/>
-            </form>
-          </span>
-        </p>
+        <form  method="post" action="${createLink(action:'addToCart')}">
+          <input type="submit" title="${message(code:'payment.action.addToCart')}"
+            ${record.isInCart ?'disabled="disabled"':''}
+            value="${message(code:'payment.action.addToCart')}" />
+          <input type="hidden" name="externalItemId" value="${record.externalItemId}"/>
+          <input type="hidden" name="type" value="${record.type}"/>
+        </form>
       </li>
     </g:each>
   </ul>

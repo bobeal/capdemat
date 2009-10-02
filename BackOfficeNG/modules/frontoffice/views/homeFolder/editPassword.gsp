@@ -11,7 +11,7 @@
         <form action="${createLink(action:'editPassword')}" method="post">
 
           <label class="required" for="oldPassword"><g:message code="homeFolder.adult.property.oldPassword"/> * :</label>
-          <input type="password" id="oldPassword" name="oldPassword" value="" minlength="${passwordMinLength}" class="required" />
+          <input type="password" id="oldPassword" name="oldPassword" value="" class="required" />
 
           <label class="required" for="newPassword">
             <g:message code="homeFolder.adult.property.newPassword"/> * :
@@ -19,10 +19,10 @@
               (<g:message code="homeFolder.adult.property.newPassword.legend" args="${[passwordMinLength]}"/>)
             </span>
           </label>
-          <input type="password" id="newPassword" name="newPassword" value="" minlength="${passwordMinLength}" class="required" />
+          <input type="password" id="newPassword" name="newPassword" value="" class="required" />
 
           <label class="required" for="newPasswordConfirmation"><g:message code="homeFolder.adult.property.newPasswordConfirmation"/> * :</label>
-          <input type="password" id="newPasswordConfirmation" name="newPasswordConfirmation" value="" minlength="${passwordMinLength}"  class="required" />
+          <input type="password" id="newPasswordConfirmation" name="newPasswordConfirmation" value="" class="required" />
 
           <p class="submit-form">
             <input type="submit" value="${message(code:'action.save')}" />

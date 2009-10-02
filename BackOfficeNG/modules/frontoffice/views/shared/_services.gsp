@@ -10,7 +10,7 @@
     <g:if test="${!group.value.get('requests').isEmpty()}">
       <div class="group-box">
         <h3>${group.value.get('label')}</h3>
-        <img src="${createLink(controller:'localAuthorityResource', action:'resource',  params:[type:'DISPLAY_GROUP_IMAGE',filename:group.key])}" />
+        <img src="${createLink(controller:'localAuthorityResource', action:'resource',  params:[type:'DISPLAY_GROUP_IMAGE',filename:group.key]).encodeAsXML()}" alt="${message(code:'displayGroup.header.logo')} ${group.value.get('label')}" />
         <ul>
           <g:each var="request" in="${group.value.get('requests')}">
             <li>

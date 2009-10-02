@@ -23,7 +23,7 @@
         <g:message code="header.display" />
       </h3>
       <div class="body">
-        <a class="top-link" href="${createLink(action:'index', params : ['month' : month, 'year' : year])}">
+        <a class="top-link" href="${createLink(action:'index', params : ['month' : month, 'year' : year]).encodeAsXML()}">
           <g:message code="activity.header.mainPanel" />
         </a>
       </div>

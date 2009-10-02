@@ -56,7 +56,7 @@
               </div>
               <div class="yui-u">
                 <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':'VO Card'])}"
-                   style="font-size: 1.7em;" />
+                   style="font-size: 1.7em;">
                   Je souhaite créer mon compte
                 </a>
               </div>

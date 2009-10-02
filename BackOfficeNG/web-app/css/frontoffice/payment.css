@@ -1,25 +1,15 @@
 
-#narrow { clear:right !important; }
+.validation-failed {border:1px dashed #FF3333; background-color:#FFCCCC; }
 
-.validation-failed { /* for textboxes, textareas, passwords */
-  border:1px dashed #FF3333;
-  background-color:#FFCCCC;
-}
+.list-box ul li h3     { font-size: 1.2em; }
+.list-box ul li p      { font-style: italic; color: #666; }
+.list-box ul li form   { margin-top: .25em; text-align: right; }
+.list-box ul li form input[type=text] { border: 1px solid #cdcdcd; }
+.list-box ul li .error { color: red; }
 
-.list-box           { padding-bottom: 1em;}
-.list-box ul li     { overflow: auto !important; }
-.list-box div.error { color: red; font-style: italic; }
-
-div.cart-list-header {
-  font-weight: bold;
-  margin-top: 0.5em;
-  font-size: 1.1em;
-}
-
-.action-list p             { font-weight: bold; margin-bottom: 1em; }
-.action-list .body         { overflow: auto !important; }
-.action-list .button-panel { float:right; }
-
-.total-block      { text-align:right; margin-top:0.5em; }
-.total-block span { font-size: 1.4em; font-weight:bold; }
-.total-block a    { font-weight:normal !important; }
+.narrow-box .body h4       { font-size: 1.1em; font-weight: bold; }
+.narrow-box .body h4.total { font-size: 1.5em; font-weight: bold; text-align:right; }
+.narrow-box .body ul     { margin-bottom: .75em; }
+.narrow-box .body ul li  { padding: .3em 0; font-style: italic; color: #333; }
+.narrow-box .body form   { margin-top: .25em; text-align: right; }
+.narrow-box .body form a { display: inline; }

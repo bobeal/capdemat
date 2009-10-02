@@ -10,7 +10,7 @@
         <h2><g:message code="account.header.enterLogin" /></h2>
         <form action="${createLink(action:'resetPassword')}" method="post">
           <label class="required" for="login"><g:message code="account.property.login" /></label>
-          <input type="text" name="login" class="required" />
+          <input type="text" name="login" id="login" class="required" />
           <input type="hidden" name="comesFromLoginStep" value="true" style="display : none;" />
           <input type="submit" value="${message(code:'action.confirm')}" />
         </form>

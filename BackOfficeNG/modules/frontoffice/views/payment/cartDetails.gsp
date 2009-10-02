@@ -11,21 +11,12 @@
         <ul>
           <g:each in="${items}" var="${record}">
             <li>
-              <p>
-                <span class="payment-form" style="float:right">
-                  <form id="invoceForm_${record.externalItemId}" method="post" action="${createLink(action:'removeCartItem')}">
-                    <input type="submit" value="${message(code:'action.delete')}" />
-                    <input type="hidden" name="externalItemId" value="${record.externalItemId}"/>
-                    <input type="hidden" name="type" value="${record.type}"/>
-                  </form>
-                </span>
-              </p>
               <g:if test="${record.type == 'invoices'}">
-                <p>
+                <h3>
                   <g:message code="payment.header.invoice"/>
                   ${record.label} <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}
                   (<g:message code="message.ref"/> ${record.externalItemId})
-                </p>
+                </h3>
                 <p>
                   <g:message code="payment.header.issueAt"/>
                   <g:formatDate date="${record.issueDate}" formatName="format.date"/> - 
@@ -34,26 +25,31 @@
                 </p>
               </g:if>
               <g:elseif test="${record.type == 'depositAccounts'}">
-                <p>
+                <h3>
                   <g:message code="payment.header.account"/> ${record.label} 
                   (<g:message code="message.ref"/> ${record.externalItemId})
-                </p>
+                </h3>
                 <p>
                   <g:message code="payment.header.depositOf"/>
                   ${record.amount ? record.amount / 100 + ' €':''}
                 </p>
               </g:elseif>
               <g:elseif test="${record.type == 'ticketingContracts'}">
-                <p>
+                <h3>
                   <g:message code="payment.header.account"/> 
                   ${record.label} <g:message code="message.of"/> ${record.subjectName} 
                   (<g:message code="message.ref"/> ${record.externalItemId})
-                </p>
+                </h3>
                 <p>
                   <g:message code="payment.header.purchaseOfTickets" 
-                    args="${[record.quantity,record.unitPrice / 100,record.amount / 100]}" />
+                    args="${[record.quantity,(record.unitPrice/100),(record.amount/100)]}" />
                 </p>
               </g:elseif>
+              <form method="post" action="${createLink(action:'removeCartItem')}">
+                <input type="submit" value="${message(code:'action.delete')}" />
+                <input type="hidden" name="externalItemId" value="${record.externalItemId}"/>
+                <input type="hidden" name="type" value="${record.type}"/>
+              </form>
             </li>
           </g:each>
         </ul>
@@ -61,8 +57,8 @@
     </div>
   </div>
   <!-- end of yui-main -->
-  <g:render template="cart"/>
   <div id="narrow" class="yui-b">
+    <g:render template="cart"/>
     <div class="narrow-box">
       <h3>
         <g:message code="header.display" />

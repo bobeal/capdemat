@@ -31,7 +31,6 @@ class PaymentController {
     Adult ecitizen
     
     def maxRows = 10
-    def errorMessage = ''
     def state = [:]
 
     def beforeInterceptor = {
@@ -39,7 +38,6 @@ class PaymentController {
             render(view : "index", model : ["displayedMessage" : localAuthorityRegistry.getLocalAuthorityResourceFile(
                 Type.HTML, "paymentlackmessage", false)?.getText()])
         }
-        this.errorMessage = message(code:'message.invalidFormat')
         this.ecitizen = SecurityContext.getCurrentEcitizen();
         
         if (params.ps) state = JSON.parse(params.ps)
@@ -55,7 +53,6 @@ class PaymentController {
         if(['index','history'].contains(actionName)) {
             result.state = state
             result.pageState = (new JSON(state)).toString()
-            result.errorMessage = flash.invalid?.message ? flash.invalid.message : this.errorMessage
         }
 
         if(['index','details','cartDetails'].contains(actionName)) { 

@@ -11,6 +11,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
 
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
+  var zcv = zenexity.capdemat.Validation;
   var zcbrp = zenexity.capdemat.bong.requesttype;
   var zca = zenexity.capdemat.aspect; 
     
@@ -106,7 +107,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       saveEntry : function(e) {
         var target = (yue.getTarget(e)||e);
         var entryFormEl = yud.getAncestorByTagName(target, 'form');
-        if (!FIC_checkForm(e, yud.get(entryFormEl.id + "_Errors")))
+        if (!zcv.check(e, yud.get(entryFormEl.id + "_Errors")))
           return;
         zct.doAjaxFormSubmitCall(entryFormEl.id, null, function(o) {
           var response = ylj.parse(o.responseText);

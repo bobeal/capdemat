@@ -11,7 +11,7 @@
 
 -------------------------------------------------------------- */
 /*
-request state: pending, complete, uncomplete, validated, notified, active, expired, closed, rejected, cancelled, archived
+request state: pending, complete, uncomplete, validated, notified, closed, rejected, cancelled, archived
 document state: pending, validated, checked, refused, outdated
 data state: pending, valid, unvalid
 deposit type: pc, terminal, mailed_paper, brought_paper
@@ -26,8 +26,8 @@ payment : initialized, validated, refused, cancelled
 /* deposit origin */
 .tag-agent, .tag-ecitizen,
 /* request, document and data state */
-.tag-pending, .tag-complete, .tag-uncomplete, .tag-validated, .tag-notified, .tag-active,
-.tag-expired, .tag-closed, .tag-rejected, .tag-cancelled, .tag-archived,
+.tag-pending, .tag-complete, .tag-uncomplete, .tag-validated, .tag-notified,
+.tag-closed, .tag-rejected, .tag-cancelled, .tag-archived,
 /* specific data state */
 .tag-valid, .tag-invalid,
 /* specific document state */
@@ -87,7 +87,6 @@ payment : initialized, validated, refused, cancelled
 
 /* red */
 .tag-invalid,
-.tag-expired,
 .tag-rejected,
 .tag-refused,
 .tag-outdated,
@@ -103,7 +102,6 @@ payment : initialized, validated, refused, cancelled
 
 /* blue */
 .tag-clrfather,
-.tag-active,
 .tag-checked,
 .tag-contactcitizen,
 .tag-read_only     { background: #2020cc; border-color:#2020aa; }

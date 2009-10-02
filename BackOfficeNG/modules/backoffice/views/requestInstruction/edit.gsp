@@ -46,6 +46,9 @@
             </g:if>
             ${requestLabel} (${request.id})
           </h1>
+          <g:if test="${request.requestSeason}">
+            <span id="requestSeasonLabel">${request.requestSeason.label}</span>
+          </g:if>
           <span id="requestTypeLabel">${request.requestType.label}</span>
         </div>
 

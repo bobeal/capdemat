@@ -29,7 +29,7 @@
       <g:message code="menu.localAuthority" />
     </a>
      <a id="requestsMenuItem" href="${createLink(controller:'backofficeLocalAuthority')}">
-      <g:message code="menu.requests" />
+      <g:message code="menu.requestsAdmin" />
     </a>
     <a id="categoryMenuItem" href="${createLink(controller:'backofficeCategory')}">
       <g:message code="menu.categories" />

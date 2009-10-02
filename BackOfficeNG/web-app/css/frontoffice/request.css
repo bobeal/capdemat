@@ -268,10 +268,7 @@ h2.request-creation { margin: 0; color: #DB4366;}
 /* javascript validation
 --------------------------------------------------------------*/
 
-.validation-failed,
-.validation-failed-sel,
-.validation-failed-cr { border:1px dashed #FF3333; background-color:#FFCCCC; }
-
+.validation-failed { border:1px dashed #FF3333; background-color:#FFCCCC; }
 .validation-passed    { border:1px solid #66CC66; background-color:#fcfcfc; }
 
 .error { 

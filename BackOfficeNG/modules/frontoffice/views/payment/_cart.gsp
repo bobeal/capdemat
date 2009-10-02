@@ -1,4 +1,4 @@
-<div id="narrow" class="yui-b">
+<div class="yui-b">
   <div class="narrow-box action-list">
     <h3>
       <g:message code="payment.header.cart" />

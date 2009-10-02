@@ -21,7 +21,7 @@
                 <!-- <span> (<g:message code="property.days" />) </span> -->
               </label>
               <input type="text" name="draftLiveDuration" value="${draftLiveDuration}"
-              class="required validate-positiveinteger" />
+              class="required validate-positiveInteger" />
             </p>
             <p class="field">
               <label for="draftNotificationBeforeDelete">
@@ -30,7 +30,7 @@
               </label>
               <input type="text" name="draftNotificationBeforeDelete"
                 value="${draftNotificationBeforeDelete}"
-                class="required validate-positiveinteger" />
+                class="required validate-positiveInteger" />
             </p>
             <div class="form-button">
               <input id="save_drafts" type="button" value="${message(code:'action.save')}" />

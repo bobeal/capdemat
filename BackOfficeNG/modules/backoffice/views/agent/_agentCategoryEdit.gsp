@@ -4,11 +4,9 @@
   <ul>
     <g:each var="profile" in="${profiles}" status="i">
       <li>
-        <span class="${profile.cssClass}"><g:message code="${profile.i18nKey}"/></span>        
+        <span class="${profile.cssClass}">${message(code:profile.i18nKey)}</span>        
         <input name="profileIndex" value="${i}" type="radio"
-            <g:if test="${i == 0}">
-            class="validate-one-required" title="<g:message code="category.error.profileRequired"/>"
-            </g:if> 
+            class="validate-one-required" title="${message(code:'category.error.profileRequired')}"
             ${profile.i18nKey == category?.agentProfile?.i18nKey ? 'checked="checked"' : ''}
         />
       </li>

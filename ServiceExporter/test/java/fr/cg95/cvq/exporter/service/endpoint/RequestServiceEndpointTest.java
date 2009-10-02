@@ -351,7 +351,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         ConfigurableApplicationContext cac;
         
         try {
-            int activeCountBefore = 0;
+            int completeCountBefore = 0;
             cac = getContext(getConfigLocations());
             IRequestService requestService = (IRequestService) cac.getBean("defaultRequestService");
             ILocalAuthorityRegistry localAuthorityRegistry = 
@@ -381,14 +381,14 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             int pendedCountBefore = pendedResponse.getRequestArray().length;
             
             /* Retrieving requests with an another state */
-            GetRequestsRequestDocument activeRequestDocument = GetRequestsRequestDocument.Factory.newInstance();
-            GetRequestsRequest activeRequest = GetRequestsRequest.Factory.newInstance();
-            activeRequest.setDateFrom(pendedRequest.getDateFrom());
-            activeRequest.setState(RequestStateType.Enum.forString(RequestState.ACTIVE.toString()));
+            GetRequestsRequestDocument completeRequestDocument = GetRequestsRequestDocument.Factory.newInstance();
+            GetRequestsRequest completeRequest = GetRequestsRequest.Factory.newInstance();
+            completeRequest.setDateFrom(pendedRequest.getDateFrom());
+            completeRequest.setState(RequestStateType.Enum.forString(RequestState.COMPLETE.toString()));
             
-            activeRequestDocument.setGetRequestsRequest(activeRequest);
-            GetRequestsResponse activeResponse = (GetRequestsResponse) endpoint.invokeInternal(activeRequestDocument);
-            activeCountBefore = activeResponse.getRequestArray().length;
+            completeRequestDocument.setGetRequestsRequest(completeRequest);
+            GetRequestsResponse completeResponse = (GetRequestsResponse) endpoint.invokeInternal(completeRequestDocument);
+            completeCountBefore = completeResponse.getRequestArray().length;
             
             /* Create new request and child entities */
             CreationBean cb = this.gimmeAnHomeFolder();
@@ -396,14 +396,14 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             this.continueWithNewTransaction();
             
             pendedResponse = (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
-            activeResponse = (GetRequestsResponse) endpoint.invokeInternal(activeRequestDocument);
+            completeResponse = (GetRequestsResponse) endpoint.invokeInternal(completeRequestDocument);
             int pendedCountAfter = pendedResponse.getRequestArray().length;
-            int activeCountAfter = activeResponse.getRequestArray().length;
+            int completeCountAfter = completeResponse.getRequestArray().length;
             
             Assert.assertEquals("Pended request counts don't match", 
                     pendedCountBefore + 2, pendedCountAfter);
-            Assert.assertEquals("Active request counts don't match", 
-                    activeCountBefore, activeCountAfter);
+            Assert.assertEquals("Complete request counts don't match",
+                    completeCountBefore, completeCountAfter);
             
             /*
              * Retrieve a request by its id

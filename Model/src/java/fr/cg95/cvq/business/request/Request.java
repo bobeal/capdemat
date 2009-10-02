@@ -10,6 +10,8 @@ import java.util.Set;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.xml.common.RequestSeasonType;
+
 
 /**
  * Represent a request issued by an e-citizen.
@@ -33,6 +35,7 @@ public abstract class Request implements Serializable {
     public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
     public static final String SEARCH_BY_REQUEST_TYPE_ID = "requestTypeId";
     public static final String SEARCH_BY_REQUEST_TYPE_LABEL = "requestTypeLabel";
+    public static final String SEARCH_BY_SEASON_ID = "requestSeason.id";
     public static final String SEARCH_BY_STATE = "state";    
     public static final String SEARCH_BY_CREATION_DATE = "creationDate";
     public static final String SEARCH_BY_LAST_MODIFICATION_DATE = "lastModificationDate";
@@ -61,7 +64,7 @@ public abstract class Request implements Serializable {
     private RequestStep step;
     private RequestType requestType;
     /** for request types that have seasons, keep the season uuid */
-    private String seasonUuid;
+    private RequestSeason requestSeason;
     /** QoS level 1 : instruction delay is expiring soon. */
     private Boolean orangeAlert;
     /** QoS level 2 : instruction delay has expired. */
@@ -126,6 +129,9 @@ public abstract class Request implements Serializable {
         
         if (this.step != null)
             requestType.setStep(fr.cg95.cvq.xml.common.RequestType.Step.Enum.forString(this.step.toString()));
+
+        if (this.requestSeason != null)
+            requestType.setRequestSeason(RequestSeason.modelToXml(this.requestSeason));
     }
 
     public void fillCommonModelInfo(Request request,
@@ -154,6 +160,8 @@ public abstract class Request implements Serializable {
         
         if (requestType.getStep() != null)
             request.setStep(RequestStep.forString(requestType.getStep().toString()));
+        if (requestType.getRequestSeason() != null)
+            request.setRequestSeason(RequestSeason.xmlToModel(requestType.getRequestSeason()));
         // TODO REFACTORING
         /*
         if (requestType.getRequester() != null)
@@ -337,15 +345,16 @@ public abstract class Request implements Serializable {
     }
 
     /**
-     * @hibernate.property
-     *  column="season_uuid"
+     * @hibernate.many-to-one
+     *  class="fr.cg95.cvq.business.request.RequestSeason"
+     *  column="request_season_id"
      */
-    public String getSeasonUuid() {
-        return seasonUuid;
+    public RequestSeason getRequestSeason() {
+        return requestSeason;
     }
 
-    public void setSeasonUuid(String seasonUuid) {
-        this.seasonUuid = seasonUuid;
+    public void setRequestSeason(RequestSeason requestSeason) {
+        this.requestSeason = requestSeason;
     }
 
     /**

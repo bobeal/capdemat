@@ -136,10 +136,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
             validate(request);
         else if (rs.equals(RequestState.NOTIFIED))
             notify(request, motive);
-        else if (rs.equals(RequestState.ACTIVE))
-            activate(request);
-        else if (rs.equals(RequestState.EXPIRED))
-            expire(request);
         else if (rs.equals(RequestState.CLOSED))
             close(request);
         else if (rs.equals(RequestState.ARCHIVED))
@@ -307,42 +303,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
             RequestState.NOTIFIED, null);
     }
 
-    private void activate(final Request request)
-        throws CvqException, CvqInvalidTransitionException {
-
-        // if no state change asked, just return silently
-        if (request.getState().equals(RequestState.ACTIVE))
-            return;
-
-        if (!request.getState().equals(RequestState.NOTIFIED))
-            throw new CvqInvalidTransitionException();
-
-        request.setState(RequestState.ACTIVE);
-        Date date = new Date();
-        updateLastModificationInformation(request, date);
-
-        requestActionService.addWorfklowAction(request.getId(), null, date,
-            RequestState.ACTIVE, null);
-    }
-    
-    private void expire(final Request request)
-        throws CvqException, CvqInvalidTransitionException {
-
-        // if no state change asked, just return silently
-        if (request.getState().equals(RequestState.EXPIRED))
-            return;
-
-        if (!request.getState().equals(RequestState.ACTIVE))
-            throw new CvqInvalidTransitionException();
-
-        request.setState(RequestState.EXPIRED);
-        Date date = new Date();
-        updateLastModificationInformation(request, date);
-
-        requestActionService.addWorfklowAction(request.getId(), null, date,
-            RequestState.EXPIRED, null);
-    }
-    
     private void cancel(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
@@ -531,12 +491,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         } else if (rs.equals(RequestState.NOTIFIED)) {
             requestStateList.add(RequestState.CLOSED);
             requestStateList.add(RequestState.ARCHIVED);
-//            requestStateList.add(RequestState.ACTIVE);
-//        } else if (rs.equals(RequestState.ACTIVE)) {
-//            requestStateList.add(RequestState.EXPIRED);
-//            requestStateList.add(RequestState.CLOSED);
-//        } else if (rs.equals(RequestState.EXPIRED)) {
-//            requestStateList.add(RequestState.ARCHIVED);
         } else if (rs.equals(RequestState.CLOSED)) {
             requestStateList.add(RequestState.ARCHIVED);
         }
@@ -574,8 +528,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
             requestStateSet.addAll(getStatesBefore(RequestState.NOTIFIED));
             requestStateSet.add(RequestState.CLOSED);
             requestStateSet.addAll(getStatesBefore(RequestState.CLOSED));
-//            requestStateSet.add(RequestState.EXPIRED);
-//            requestStateSet.addAll(getStatesBefore(RequestState.EXPIRED));
             requestStateSet.add(RequestState.REJECTED);
             requestStateSet.addAll(getStatesBefore(RequestState.REJECTED));
             requestStateSet.add(RequestState.CANCELLED);
@@ -589,14 +541,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         } else if (rs.equals(RequestState.CLOSED)) {
             requestStateSet.add(RequestState.NOTIFIED);
             requestStateSet.addAll(getStatesBefore(RequestState.NOTIFIED));
-//            requestStateSet.add(RequestState.ACTIVE);
-//            requestStateSet.addAll(getStatesBefore(RequestState.ACTIVE));
-//        } else if (rs.equals(RequestState.ACTIVE)) {
-//            requestStateSet.add(RequestState.NOTIFIED);
-//            requestStateSet.addAll(getStatesBefore(RequestState.NOTIFIED));
-//        } else if (rs.equals(RequestState.EXPIRED)) {
-//            requestStateSet.add(RequestState.ACTIVE);
-//            requestStateSet.addAll(getStatesBefore(RequestState.ACTIVE));
         }
 
         return requestStateSet;

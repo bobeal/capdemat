@@ -3,6 +3,7 @@ zenexity.capdemat.bong.categoryEdit = function() {
   var zcb = zenexity.capdemat.bong;
   var zcc = zenexity.capdemat.common;
   var zct = zenexity.capdemat.tools;
+  var zcv = zenexity.capdemat.Validation;
   var yud = YAHOO.util.Dom;
   var yus = YAHOO.util.Selector;
   var ylj = YAHOO.lang.JSON;
@@ -24,7 +25,7 @@ zenexity.capdemat.bong.categoryEdit = function() {
   function decorateCategoryFormButtons() {
     var submitSaveCategoryButton = new ywb("submitSaveCategory");
     // bind form validation
-    submitSaveCategoryButton.on("click", FIC_checkForm, yud.get('categoryFormErrors'));
+    submitSaveCategoryButton.on("click", zcv.check, yud.get('categoryFormErrors'));
     // bind async form submission
     submitSaveCategoryButton.on("click", onSubmitSaveCategoryClick);
   
@@ -34,7 +35,7 @@ zenexity.capdemat.bong.categoryEdit = function() {
   }
   
   // async submit of category creation form
-  // only called if FIC_checkForm has validated all fields, either event is cancelled
+  // only called if zcv.check has validated all fields, either event is cancelled
   function onSubmitSaveCategoryClick(ev) {
     zct.doAjaxFormSubmitCall('categoryForm',null,
     function(o) {

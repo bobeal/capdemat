@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.document.DocumentType;
-import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 import fr.cg95.cvq.util.Critere;
 
@@ -101,10 +101,6 @@ public interface IRequestTypeService {
      * <dl>
      *   <dt>request.season.not_supported</dt>
      *     <dd>Request Type don't support season management</dd>
-     *   <dt>request.season.seasons_registration_overlapped</dt>
-     *     <dd>Season registration dates overlap an other season registration dates</dd>
-     *   <dt>request.season.seasons_effect_overlapped</dt>
-     *     <dd>Season effect dates overlap an other season effect dates</dd>
      *   <dt>request.season.registration_start_required</dt>
      *     <dd>-</dd>
      *   <dt>request.season.registration_end_required</dt>
@@ -127,7 +123,8 @@ public interface IRequestTypeService {
      *     <dd>-</dd>
      * </dl>
      */
-    void addRequestTypeSeason(@IsRequestType final Long requestTypeId, RequestSeason requestSeason)
+    void addRequestSeason(@IsRequestType final Long requestTypeId,
+        RequestSeason seasonContainer)
         throws CvqException;
 
     /**
@@ -136,7 +133,7 @@ public interface IRequestTypeService {
      * @param requestSeason - Don't forget to set season's uuid. It's use to identify season.
      * @throws CvqException
      * <br><br>
-     * Refer to createRequestTypeSeasons  business error code.
+     * Refer to createRequestSeasons  business error code.
      * <br>
      * Specific business error code:
      * <dl>
@@ -146,21 +143,22 @@ public interface IRequestTypeService {
      *     <dd>Season effect end has been occured (only in modify season context)</dd>
      * </dl>
      */
-    void modifyRequestTypeSeason(@IsRequestType final Long requestTypeId,
-            RequestSeason requestSeason)
+    void modifyRequestSeason(@IsRequestType final Long requestTypeId,
+        RequestSeason seasonContainer)
         throws CvqException;
 
-    void removeRequestTypeSeason(@IsRequestType final Long requestTypeId,
-            final String requestSeasonUuid)
+    void removeRequestSeason(@IsRequestType final Long requestTypeId,
+        final Long requestSeasonId)
         throws CvqException;
 
-    Set<RequestSeason> getRequestTypeSeasons(@IsRequestType Long requestTypeId)
+    Set<RequestSeason> getRequestSeasons(@IsRequestType Long requestTypeId)
         throws CvqException;
 
-    RequestSeason getRequestTypeSeason(@IsRequestType Long requestTypeId, String seasonUUID)
+    RequestSeason getRequestSeason(@IsRequestType Long requestTypeId, Long id)
         throws CvqException;
 
-    Set<RequestSeason> getOpenSeasons(@IsRequestType RequestType requestType);
+    Set<RequestSeason> getOpenSeasons(@IsRequestType RequestType requestType)
+        throws CvqModelException;
 
     //////////////////////////////////////////////////////////
     // RequestForm related Methods

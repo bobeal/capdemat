@@ -19,7 +19,7 @@
       <li>
         <a class="removeDocument" id="removeDocument_${document.id}"> </a>
         <a class="documentLink" id="displayDocPanel_${document.id}" 
-          href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}">
+          href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}?dtid=${document.documentTypeId}&rid=${requestId}">
           ${document.name}</a> - ${document.pageNumber} <g:message code="property.pages"/>
          <g:if test="${document.endValidityDate}">
           (<g:message code="document.property.endValidityDate"/> : 

@@ -21,7 +21,7 @@
             <select name="dhrSpouseTitle" class="required condition-isCoupleRequest-filled condition-isSpouseMadam-trigger  validate-not-first" title="<g:message code="dhr.property.dhrSpouseTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.dhrSpouseTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseTitle" /></option>
+                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.dhrSpouseTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseTitle" /></option>
               </g:each>
             </select>
             
@@ -31,7 +31,7 @@
             <select name="dhrSpouseFamilyStatus" class="required condition-isCoupleRequest-filled  validate-not-first" title="<g:message code="dhr.property.dhrSpouseFamilyStatus.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
-                <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.dhrSpouseFamilyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseFamilyStatus" /></option>
+                <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.dhrSpouseFamilyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseFamilyStatus" /></option>
               </g:each>
             </select>
             
@@ -39,19 +39,19 @@
     
       <label class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseName.label" /> *  <span><g:message code="dhr.property.dhrSpouseName.help" /></span></label>
             <input type="text" name="dhrSpouseName" value="${rqt.dhrSpouseName?.toString()}" 
-                    class="required condition-isCoupleRequest-filled  validate-lastName" title="<g:message code="dhr.property.dhrSpouseName.validationError" />"  maxLength="38"/>
+                    class="required condition-isCoupleRequest-filled  validate-lastName" title="<g:message code="dhr.property.dhrSpouseName.validationError" />"  maxlength="38" />
             
 
     
       <label class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseFirstName.label" /> *  <span><g:message code="dhr.property.dhrSpouseFirstName.help" /></span></label>
             <input type="text" name="dhrSpouseFirstName" value="${rqt.dhrSpouseFirstName?.toString()}" 
-                    class="required condition-isCoupleRequest-filled  validate-firstName" title="<g:message code="dhr.property.dhrSpouseFirstName.validationError" />"  maxLength="38"/>
+                    class="required condition-isCoupleRequest-filled  validate-firstName" title="<g:message code="dhr.property.dhrSpouseFirstName.validationError" />"  maxlength="38" />
             
 
     
       <label class="required condition-isSpouseMadam-filled"><g:message code="dhr.property.dhrSpouseMaidenName.label" /> *  <span><g:message code="dhr.property.dhrSpouseMaidenName.help" /></span></label>
             <input type="text" name="dhrSpouseMaidenName" value="${rqt.dhrSpouseMaidenName?.toString()}" 
-                    class="required condition-isSpouseMadam-filled  validate-lastName" title="<g:message code="dhr.property.dhrSpouseMaidenName.validationError" />"  maxLength="38"/>
+                    class="required condition-isSpouseMadam-filled  validate-lastName" title="<g:message code="dhr.property.dhrSpouseMaidenName.validationError" />"  maxlength="38" />
             
 
     
@@ -63,7 +63,7 @@
     
       <label class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseBirthPlace.label" /> *  <span><g:message code="dhr.property.dhrSpouseBirthPlace.help" /></span></label>
             <input type="text" name="dhrSpouseBirthPlace" value="${rqt.dhrSpouseBirthPlace?.toString()}" 
-                    class="required condition-isCoupleRequest-filled  validate-string" title="<g:message code="dhr.property.dhrSpouseBirthPlace.validationError" />"  />
+                    class="required condition-isCoupleRequest-filled  validate-string" title="<g:message code="dhr.property.dhrSpouseBirthPlace.validationError" />"   />
             
 
     
@@ -71,7 +71,7 @@
             <select name="dhrSpouseNationality" class="required condition-isCoupleRequest-filled condition-isSpouseNonEuropean-trigger  validate-not-first" title="<g:message code="dhr.property.dhrSpouseNationality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
-                <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.dhrSpouseNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" /></option>
+                <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.dhrSpouseNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrSpouseNationality" /></option>
               </g:each>
             </select>
             
@@ -118,7 +118,7 @@
             <select name="dhrSpousePrincipalPensionPlan" class="required condition-isSpouseRetired-filled condition-isSpouseOtherPensionPlan-trigger  validate-not-first" title="<g:message code="dhr.property.dhrSpousePrincipalPensionPlan.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
-                <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == rqt.dhrSpousePrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrSpousePrincipalPensionPlan" /></option>
+                <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == rqt.dhrSpousePrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrSpousePrincipalPensionPlan" /></option>
               </g:each>
             </select>
             
@@ -126,25 +126,25 @@
     
       <label class="required condition-isSpouseOtherPensionPlan-filled"><g:message code="dhr.property.dhrSpousePensionPlanDetail.label" /> *  <span><g:message code="dhr.property.dhrSpousePensionPlanDetail.help" /></span></label>
             <input type="text" name="dhrSpousePensionPlanDetail" value="${rqt.dhrSpousePensionPlanDetail?.toString()}" 
-                    class="required condition-isSpouseOtherPensionPlan-filled  validate-string" title="<g:message code="dhr.property.dhrSpousePensionPlanDetail.validationError" />"  />
+                    class="required condition-isSpouseOtherPensionPlan-filled  validate-string" title="<g:message code="dhr.property.dhrSpousePensionPlanDetail.validationError" />"   />
             
 
     
       <label class="required condition-isSpouseRetired-filled"><g:message code="dhr.property.dhrSpouseComplementaryPensionPlan.label" /> *  <span><g:message code="dhr.property.dhrSpouseComplementaryPensionPlan.help" /></span></label>
             <input type="text" name="dhrSpouseComplementaryPensionPlan" value="${rqt.dhrSpouseComplementaryPensionPlan?.toString()}" 
-                    class="required condition-isSpouseRetired-filled  validate-string" title="<g:message code="dhr.property.dhrSpouseComplementaryPensionPlan.validationError" />"  />
+                    class="required condition-isSpouseRetired-filled  validate-string" title="<g:message code="dhr.property.dhrSpouseComplementaryPensionPlan.validationError" />"   />
             
 
     
       <label class="required condition-isSpouseRetired-unfilled"><g:message code="dhr.property.dhrSpouseProfession.label" /> *  <span><g:message code="dhr.property.dhrSpouseProfession.help" /></span></label>
             <input type="text" name="dhrSpouseProfession" value="${rqt.dhrSpouseProfession?.toString()}" 
-                    class="required condition-isSpouseRetired-unfilled  validate-string" title="<g:message code="dhr.property.dhrSpouseProfession.validationError" />"  />
+                    class="required condition-isSpouseRetired-unfilled  validate-string" title="<g:message code="dhr.property.dhrSpouseProfession.validationError" />"   />
             
 
     
       <label class="required condition-isSpouseRetired-unfilled"><g:message code="dhr.property.dhrSpouseEmployer.label" /> *  <span><g:message code="dhr.property.dhrSpouseEmployer.help" /></span></label>
             <input type="text" name="dhrSpouseEmployer" value="${rqt.dhrSpouseEmployer?.toString()}" 
-                    class="required condition-isSpouseRetired-unfilled  validate-string" title="<g:message code="dhr.property.dhrSpouseEmployer.validationError" />"  />
+                    class="required condition-isSpouseRetired-unfilled  validate-string" title="<g:message code="dhr.property.dhrSpouseEmployer.validationError" />"   />
             
 
     
@@ -177,31 +177,31 @@
     
       <label class=""><g:message code="dhr.property.pensions.label" />   <span><g:message code="dhr.property.pensions.help" /></span></label>
             <input type="text" name="pensions" value="${rqt.pensions?.toString()}" 
-                    class="  validate-positiveInteger" title="<g:message code="dhr.property.pensions.validationError" />"  />
+                    class="  validate-positiveInteger" title="<g:message code="dhr.property.pensions.validationError" />"   />
             
 
     
       <label class=""><g:message code="dhr.property.dhrAllowances.label" />   <span><g:message code="dhr.property.dhrAllowances.help" /></span></label>
             <input type="text" name="dhrAllowances" value="${rqt.dhrAllowances?.toString()}" 
-                    class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrAllowances.validationError" />"  />
+                    class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrAllowances.validationError" />"   />
             
 
     
       <label class=""><g:message code="dhr.property.dhrFurnitureInvestmentIncome.label" />   <span><g:message code="dhr.property.dhrFurnitureInvestmentIncome.help" /></span></label>
             <input type="text" name="dhrFurnitureInvestmentIncome" value="${rqt.dhrFurnitureInvestmentIncome?.toString()}" 
-                    class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrFurnitureInvestmentIncome.validationError" />"  />
+                    class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrFurnitureInvestmentIncome.validationError" />"   />
             
 
     
       <label class=""><g:message code="dhr.property.dhrRealEstateInvestmentIncome.label" />   <span><g:message code="dhr.property.dhrRealEstateInvestmentIncome.help" /></span></label>
             <input type="text" name="dhrRealEstateInvestmentIncome" value="${rqt.dhrRealEstateInvestmentIncome?.toString()}" 
-                    class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrRealEstateInvestmentIncome.validationError" />"  />
+                    class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrRealEstateInvestmentIncome.validationError" />"   />
             
 
     
       <label class=""><g:message code="dhr.property.dhrNetIncome.label" />   <span><g:message code="dhr.property.dhrNetIncome.help" /></span></label>
             <input type="text" name="dhrNetIncome" value="${rqt.dhrNetIncome?.toString()}" 
-                    class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrNetIncome.validationError" />"  />
+                    class="  validate-positiveInteger" title="<g:message code="dhr.property.dhrNetIncome.validationError" />"   />
             
 
     

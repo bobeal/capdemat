@@ -18,7 +18,7 @@
   
     <label class="required"><g:message code="mdr.property.copies.label" /> *  <span><g:message code="mdr.property.copies.help" /></span></label>
             <input type="text" name="copies" value="${rqt.copies?.toString()}" 
-                    class="required  validate-positiveInteger" title="<g:message code="mdr.property.copies.validationError" />"  />
+                    class="required  validate-positiveInteger" title="<g:message code="mdr.property.copies.validationError" />"   />
             
 
   
@@ -32,10 +32,10 @@
 
   
     <label class=""><g:message code="mdr.property.motive.label" />   <span><g:message code="mdr.property.motive.help" /></span></label>
-            <select name="motive" class="  validate-not-first" title="<g:message code="mdr.property.motive.validationError" />">
+            <select name="motive" class="  validate-select" title="<g:message code="mdr.property.motive.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['NotaryAct','FrenchNationalityCertificate','MaritalRegimeChange','FrenchNationalityAcquisitionDeclaration','DivorceSeparation','Passport','Pension','Other']}">
-                <option value="fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType_${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="mdr.property.motive" /></option>
+                <option value="fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType_${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mdr.property.motive" /></option>
               </g:each>
             </select>
             
@@ -47,7 +47,7 @@
             <select name="relationship" class="required condition-isWithRelationship-filled  validate-not-first" title="<g:message code="mdr.property.relationship.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Husband','Wife']}">
-                <option value="fr.cg95.cvq.business.request.civil.MarriageRelationshipType_${it}" ${it == rqt.relationship?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="mdr.property.relationship" /></option>
+                <option value="fr.cg95.cvq.business.request.civil.MarriageRelationshipType_${it}" ${it == rqt.relationship?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mdr.property.relationship" /></option>
               </g:each>
             </select>
             
@@ -60,13 +60,13 @@
     
       <label class="required"><g:message code="mdr.property.fatherLastName.label" /> *  <span><g:message code="mdr.property.fatherLastName.help" /></span></label>
             <input type="text" name="fatherLastName" value="${rqt.fatherLastName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="mdr.property.fatherLastName.validationError" />"  maxLength="38"/>
+                    class="required  validate-lastName" title="<g:message code="mdr.property.fatherLastName.validationError" />"  maxlength="38" />
             
 
     
       <label class="required"><g:message code="mdr.property.fatherFirstNames.label" /> *  <span><g:message code="mdr.property.fatherFirstNames.help" /></span></label>
             <input type="text" name="fatherFirstNames" value="${rqt.fatherFirstNames?.toString()}" 
-                    class="required  validate-string" title="<g:message code="mdr.property.fatherFirstNames.validationError" />"  />
+                    class="required  validate-string" title="<g:message code="mdr.property.fatherFirstNames.validationError" />"   />
             
 
     
@@ -79,13 +79,13 @@
     
       <label class="required"><g:message code="mdr.property.motherMaidenName.label" /> *  <span><g:message code="mdr.property.motherMaidenName.help" /></span></label>
             <input type="text" name="motherMaidenName" value="${rqt.motherMaidenName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="mdr.property.motherMaidenName.validationError" />"  maxLength="38"/>
+                    class="required  validate-lastName" title="<g:message code="mdr.property.motherMaidenName.validationError" />"  maxlength="38" />
             
 
     
       <label class="required"><g:message code="mdr.property.motherFirstNames.label" /> *  <span><g:message code="mdr.property.motherFirstNames.help" /></span></label>
             <input type="text" name="motherFirstNames" value="${rqt.motherFirstNames?.toString()}" 
-                    class="required  validate-string" title="<g:message code="mdr.property.motherFirstNames.validationError" />"  />
+                    class="required  validate-string" title="<g:message code="mdr.property.motherFirstNames.validationError" />"   />
             
 
     

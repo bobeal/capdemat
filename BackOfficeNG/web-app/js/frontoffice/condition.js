@@ -116,11 +116,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         return triggerEl.value || "";
     };
     
-    var getRequestTypeLabel = function () {
-      var inputEl = yud.get('requestTypeInfo');
-      return ylj.parse(yl.trim(inputEl.value.replace(/\n/g,''))).label;
-    };
-    
     var setDisabled = function (controlEl, active) {
       if (zct.nodeName(controlEl, 'div'))
         zct.each(yud.getChildren(controlEl), function() { setDisabled(this, active); });

@@ -14,7 +14,7 @@
   
     <label class=""><g:message code="bwcr.property.otherWaste.label" />   <span><g:message code="bwcr.property.otherWaste.help" /></span></label>
             <input type="text" name="otherWaste" value="${rqt.otherWaste?.toString()}" 
-                    class="  validate-string" title="<g:message code="bwcr.property.otherWaste.validationError" />"  />
+                    class="  validate-string" title="<g:message code="bwcr.property.otherWaste.validationError" />"   />
             
 
   

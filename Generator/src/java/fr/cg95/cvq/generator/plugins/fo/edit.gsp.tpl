@@ -109,14 +109,19 @@
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   <% if (step.name == 'validation') { %>
-             <label for="meansOfContact" class="required">
+             <g:if test="\${meansOfContact.size() > 0}">
+              <label for="meansOfContact" class="required">
                <g:message code="request.meansOfContact.chooseMessage"/> *
-             </label>
-             <select name="meansOfContact" class="required">
+              </label>
+              <select id="meansOfContact" name="meansOfContact" class="required">
                <g:each in="\${meansOfContact}" var="moc">
                  <option value="\${moc.key}" <g:if test="\${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>>\${moc.label}</option>
                </g:each>
-             </select>
+              </select>
+             </g:if>
+             <g:else>
+               <p>\${message(code:'request.meansOfContact.message.notAvailable')}</p>
+             </g:else>
              <div class="summary-box">
     <% requestFo.stepBundles.eachWithIndex { stepBundle, index -> %>
             <g:render template="/frontofficeRequestType/${requestFo.camelCaseName + '/'}${step.name}${index}" />
@@ -124,7 +129,7 @@
             </div>
             <h3><g:message code="request.step.note.label" /></h3>
             <g:message code="request.step.note.desc" />
-            <textarea id="requestNote" name="requestNote" rows="" cols="" maxlength="1024"></textarea>
+            <textarea id="requestNote" name="requestNote" rows="" cols=""></textarea>
             <label><span id="requestNoteLimit"></span></label>
             <h3><g:message code="request.step.${step.name}.label" /></h3>
             <g:if test="\${!hasHomeFolder}">
@@ -143,7 +148,7 @@
            </div>
            <div class="error" id="stepForm-${step.camelCaseName}-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="\${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="\${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="\${uuidString}" />
   <% if (step.name == 'validation') { %>
            <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" class="submit-step" value="\${message(code:'action.send')}" \${!isRequestCreatable ? 'disabled=\"disabled\"': ''}/>
@@ -156,10 +161,10 @@
          </form>
          <div class="navTab">
   <% if (step.index != 0) { %>
-           <a id="prev-tab" href="#${requestFo.steps.get(step.index -1).name}"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-${step.camelCaseName}" class="prev-tab" href="#${requestFo.steps.get(step.index -1).name}"><g:message code="request.step.navigation.previous"/></a>
   <% } %>
   <% if (step.index != requestFo.steps.size() - 1) { %>
-           <a id="next-tab" href="#${requestFo.steps.get(step.index + 1).name}"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-${step.camelCaseName}" class="next-tab" href="#${requestFo.steps.get(step.index + 1).name}"><g:message code="request.step.navigation.next"/></a>
   <% } %>
          </div>
          <g:if test="\${helps.${step.name} != null}">       

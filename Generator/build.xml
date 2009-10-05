@@ -142,11 +142,13 @@
       <plugins>
         <fileset dir="${src.xml.plugins.dir}">
           <include name="fong_plugin.xml" />
+          <!--
           <include name="bo_plugin.xml" />
           <include name="model_plugin.xml" />
           <include name="i18n_plugin.xml" />
           <include name="enumeration_plugin.xml" />
           <include name="xslfo_plugin.xml" />
+          -->
         </fileset>
       </plugins>
     </generator>

@@ -19,7 +19,7 @@
             <select name="subjectTitle" class="required autofill-subjectFilling-listener-Title validate-not-first" title="<g:message code="rsr.property.subjectTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.subjectTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="rsr.property.subjectTitle" /></option>
+                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.subjectTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="rsr.property.subjectTitle" /></option>
               </g:each>
             </select>
             
@@ -111,7 +111,7 @@
 
     
       <label class="required condition-isEmergency-filled"><g:message code="rsr.property.requestInformationEmergencyMotive.label" /> *  <span><g:message code="rsr.property.requestInformationEmergencyMotive.help" /></span></label>
-            <textarea name="requestInformationEmergencyMotive" class="required condition-isEmergency-filled  validate-textarea" title="<g:message code="rsr.property.requestInformationEmergencyMotive.validationError" />" rows="3" maxLength="180">${rqt.requestInformationEmergencyMotive}</textarea>
+            <textarea name="requestInformationEmergencyMotive" class="required condition-isEmergency-filled  validate-textarea" title="<g:message code="rsr.property.requestInformationEmergencyMotive.validationError" />" rows="3" maxlength="180">${rqt.requestInformationEmergencyMotive}</textarea>
             
 
     
@@ -124,13 +124,13 @@
     
       <label class="required"><g:message code="rsr.property.spouseLastName.label" /> *  <span><g:message code="rsr.property.spouseLastName.help" /></span></label>
             <input type="text" name="spouseLastName" value="${rqt.spouseLastName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="rsr.property.spouseLastName.validationError" />"  maxLength="38"/>
+                    class="required  validate-lastName" title="<g:message code="rsr.property.spouseLastName.validationError" />"  maxlength="38" />
             
 
     
       <label class="required"><g:message code="rsr.property.spouseFirstName.label" /> *  <span><g:message code="rsr.property.spouseFirstName.help" /></span></label>
             <input type="text" name="spouseFirstName" value="${rqt.spouseFirstName?.toString()}" 
-                    class="required  validate-firstName" title="<g:message code="rsr.property.spouseFirstName.validationError" />"  maxLength="38"/>
+                    class="required  validate-firstName" title="<g:message code="rsr.property.spouseFirstName.validationError" />"  maxlength="38" />
             
 
     
@@ -138,7 +138,7 @@
             <select name="spouseTitle" class="required  validate-not-first" title="<g:message code="rsr.property.spouseTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.spouseTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="rsr.property.spouseTitle" /></option>
+                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.spouseTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="rsr.property.spouseTitle" /></option>
               </g:each>
             </select>
             

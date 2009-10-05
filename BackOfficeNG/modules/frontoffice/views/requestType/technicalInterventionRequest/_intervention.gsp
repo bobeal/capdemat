@@ -14,7 +14,7 @@
   
     <label class="required condition-otherIntervention-filled"><g:message code="tir.property.otherInterventionLabel.label" /> *  <span><g:message code="tir.property.otherInterventionLabel.help" /></span></label>
             <input type="text" name="otherInterventionLabel" value="${rqt.otherInterventionLabel?.toString()}" 
-                    class="required condition-otherIntervention-filled  validate-string" title="<g:message code="tir.property.otherInterventionLabel.validationError" />"  />
+                    class="required condition-otherIntervention-filled  validate-string" title="<g:message code="tir.property.otherInterventionLabel.validationError" />"   />
             
 
   

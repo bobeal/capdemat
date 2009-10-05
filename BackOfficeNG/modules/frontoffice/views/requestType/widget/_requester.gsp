@@ -4,7 +4,7 @@
   <select name="_requester.title" class="required" title="<g:message code="homeFolder.adult.property.title.validationError" />" ${hasHomeFolder? 'disabled="disabled"' : ''}>
     <option value=""><g:message code="message.select.defaultOption" /></option>
     <g:each in="${['Mister','Madam','Miss','Agency']}">
-      <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == requester?.title?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="homeFolder.adult.title" /></option>
+      <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == requester?.title?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="homeFolder.adult.title" /></option>
     </g:each>
   </select>
 

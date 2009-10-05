@@ -18,7 +18,7 @@
             <select name="subjectNationality" class="required  validate-not-first" title="<g:message code="errr.property.subjectNationality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
-                <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.subjectNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="errr.property.subjectNationality" /></option>
+                <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.subjectNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="errr.property.subjectNationality" /></option>
               </g:each>
             </select>
             
@@ -42,7 +42,7 @@
   
     <label class="required condition-isDirect-unfilled"><g:message code="errr.property.subjectOldCity.label" /> *  <span><g:message code="errr.property.subjectOldCity.help" /></span></label>
             <input type="text" name="subjectOldCity" value="${rqt.subjectOldCity?.toString()}" 
-                    class="required condition-isDirect-unfilled  validate-postalCode" title="<g:message code="errr.property.subjectOldCity.validationError" />"  maxLength="5"/>
+                    class="required condition-isDirect-unfilled  validate-postalCode" title="<g:message code="errr.property.subjectOldCity.validationError" />"  maxlength="5" />
             
 
   

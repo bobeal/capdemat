@@ -8,10 +8,10 @@
       <fieldset class="collection-fieldset-add required">
     
         <g:if test="${editList?.name == 'placeReservation'}">
-          <input type="submit" id="submit-collectionModify-places-placeReservation[${listIndex}]" name="submit-collectionModify-places-placeReservation[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-places-placeReservation" name="submit-collectionModify-places-placeReservation[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-collectionAdd-places-placeReservation[${listIndex}]" name="submit-collectionAdd-places-placeReservation[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-places-placeReservation" name="submit-collectionAdd-places-placeReservation[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.placeReservation}" status="index">

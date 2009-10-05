@@ -27,7 +27,7 @@
     
       <label class=""><g:message code="dhr.property.dhrCurrentDwellingPhone.label" />   <span><g:message code="dhr.property.dhrCurrentDwellingPhone.help" /></span></label>
             <input type="text" name="dhrCurrentDwellingPhone" value="${rqt.dhrCurrentDwellingPhone?.toString()}" 
-                    class="  validate-phone" title="<g:message code="dhr.property.dhrCurrentDwellingPhone.validationError" />"  maxLength="10"/>
+                    class="  validate-phone" title="<g:message code="dhr.property.dhrCurrentDwellingPhone.validationError" />"  maxlength="10" />
             
 
     
@@ -35,7 +35,7 @@
             <select name="dhrCurrentDwellingKind" class="required condition-isCurrentDwellingPlaceOfResidence-trigger  validate-not-first" title="<g:message code="dhr.property.dhrCurrentDwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['placeOfResidence','retirementHome','other']}">
-                <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == rqt.dhrCurrentDwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrCurrentDwellingKind" /></option>
+                <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == rqt.dhrCurrentDwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrCurrentDwellingKind" /></option>
               </g:each>
             </select>
             
@@ -61,13 +61,13 @@
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.label" /> *  <span><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.help" /></span></label>
             <input type="text" name="dhrCurrentDwellingNumberOfRoom" value="${rqt.dhrCurrentDwellingNumberOfRoom?.toString()}" 
-                    class="required condition-isCurrentDwellingPlaceOfResidence-filled  validate-dhrDwellingNumberOfRoom" title="<g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.validationError" />"  />
+                    class="required condition-isCurrentDwellingPlaceOfResidence-filled  validate-dhrDwellingNumberOfRoom" title="<g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.validationError" />"   />
             
 
     
       <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> *  <span><g:message code="dhr.property.dhrCurrentDwellingNetArea.help" /></span></label>
             <input type="text" name="dhrCurrentDwellingNetArea" value="${rqt.dhrCurrentDwellingNetArea?.toString()}" 
-                    class="required condition-isCurrentDwellingPlaceOfResidence-filled  validate-regex" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />" regex="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/" />
+                    class="required condition-isCurrentDwellingPlaceOfResidence-filled  validate-regex" title="<g:message code="dhr.property.dhrCurrentDwellingNetArea.validationError" />" regex="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/"  />
             
 
     
@@ -104,7 +104,7 @@
             <select name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingKind" class="required condition-isPreviousDwellingPlaceOfResidence-trigger  validate-not-first" title="<g:message code="dhr.property.dhrPreviousDwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['placeOfResidence','retirementHome','other']}">
-                <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == editList?.dhrPreviousDwelling?.dhrPreviousDwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingKind" /></option>
+                <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == editList?.dhrPreviousDwelling?.dhrPreviousDwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingKind" /></option>
               </g:each>
             </select>
             
@@ -136,15 +136,15 @@
     
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingComment.help" /></span></label>
             <input type="text" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingComment?.toString()}" 
-                    class="required  validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />"  />
+                    class="required  validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />"   />
             
 
     
         <g:if test="${editList?.name == 'dhrPreviousDwelling'}">
-          <input type="submit" id="submit-collectionModify-dwelling-dhrPreviousDwelling[${listIndex}]" name="submit-collectionModify-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-dwelling-dhrPreviousDwelling" name="submit-collectionModify-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-collectionAdd-dwelling-dhrPreviousDwelling[${listIndex}]" name="submit-collectionAdd-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-dwelling-dhrPreviousDwelling" name="submit-collectionAdd-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.dhrPreviousDwelling}" status="index">

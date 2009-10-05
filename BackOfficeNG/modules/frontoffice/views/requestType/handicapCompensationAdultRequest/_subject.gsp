@@ -19,7 +19,7 @@
             <select name="subjectTitle" class="required condition-isMadam-trigger  validate-not-first" title="<g:message code="hcar.property.subjectTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.subjectTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hcar.property.subjectTitle" /></option>
+                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.subjectTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.subjectTitle" /></option>
               </g:each>
             </select>
             
@@ -27,7 +27,7 @@
     
       <label class="required condition-isMadam-filled"><g:message code="hcar.property.subjectMaidenName.label" /> *  <span><g:message code="hcar.property.subjectMaidenName.help" /></span></label>
             <input type="text" name="subjectMaidenName" value="${rqt.subjectMaidenName?.toString()}" 
-                    class="required condition-isMadam-filled  validate-lastName" title="<g:message code="hcar.property.subjectMaidenName.validationError" />"  maxLength="38"/>
+                    class="required condition-isMadam-filled  validate-lastName" title="<g:message code="hcar.property.subjectMaidenName.validationError" />"  maxlength="38" />
             
 
     
@@ -39,13 +39,13 @@
     
       <label class="required"><g:message code="hcar.property.subjectBirthCity.label" /> *  <span><g:message code="hcar.property.subjectBirthCity.help" /></span></label>
             <input type="text" name="subjectBirthCity" value="${rqt.subjectBirthCity?.toString()}" 
-                    class="required  validate-city" title="<g:message code="hcar.property.subjectBirthCity.validationError" />"  maxLength="32"/>
+                    class="required  validate-city" title="<g:message code="hcar.property.subjectBirthCity.validationError" />"  maxlength="32" />
             
 
     
       <label class="required"><g:message code="hcar.property.subjectBirthCountry.label" /> *  <span><g:message code="hcar.property.subjectBirthCountry.help" /></span></label>
             <input type="text" name="subjectBirthCountry" value="${rqt.subjectBirthCountry?.toString()}" 
-                    class="required  " title="<g:message code="hcar.property.subjectBirthCountry.validationError" />"  maxLength="50"/>
+                    class="required  " title="<g:message code="hcar.property.subjectBirthCountry.validationError" />"  maxlength="50" />
             
 
     
@@ -72,7 +72,7 @@
             <select name="legalAccessKind" class="required condition-isLegalAccessPresence-filled  validate-not-first" title="<g:message code="hcar.property.legalAccessKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['safeguardingJustice','guardianship','curatorship']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarLegalAccessKindType_${it}" ${it == rqt.legalAccessKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hcar.property.legalAccessKind" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HcarLegalAccessKindType_${it}" ${it == rqt.legalAccessKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.legalAccessKind" /></option>
               </g:each>
             </select>
             
@@ -82,7 +82,7 @@
             <select name="legalAccessRepresentativeKind" class="required condition-isLegalAccessPresence-filled condition-isOtherLegalAccessRepresentative-trigger  validate-not-first" title="<g:message code="hcar.property.legalAccessRepresentativeKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['FamilyMember','Agency','Other']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType_${it}" ${it == rqt.legalAccessRepresentativeKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hcar.property.legalAccessRepresentativeKind" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType_${it}" ${it == rqt.legalAccessRepresentativeKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.legalAccessRepresentativeKind" /></option>
               </g:each>
             </select>
             
@@ -90,19 +90,19 @@
     
       <label class="required condition-isOtherLegalAccessRepresentative-filled"><g:message code="hcar.property.legalAccessRepresentativeKindDetail.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeKindDetail.help" /></span></label>
             <input type="text" name="legalAccessRepresentativeKindDetail" value="${rqt.legalAccessRepresentativeKindDetail?.toString()}" 
-                    class="required condition-isOtherLegalAccessRepresentative-filled  " title="<g:message code="hcar.property.legalAccessRepresentativeKindDetail.validationError" />"  maxLength="80"/>
+                    class="required condition-isOtherLegalAccessRepresentative-filled  " title="<g:message code="hcar.property.legalAccessRepresentativeKindDetail.validationError" />"  maxlength="80" />
             
 
     
       <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeName.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeName.help" /></span></label>
             <input type="text" name="legalAccessRepresentativeName" value="${rqt.legalAccessRepresentativeName?.toString()}" 
-                    class="required condition-isLegalAccessPresence-filled  validate-lastName" title="<g:message code="hcar.property.legalAccessRepresentativeName.validationError" />"  maxLength="38"/>
+                    class="required condition-isLegalAccessPresence-filled  validate-lastName" title="<g:message code="hcar.property.legalAccessRepresentativeName.validationError" />"  maxlength="38" />
             
 
     
       <label class="required condition-isLegalAccessPresence-filled"><g:message code="hcar.property.legalAccessRepresentativeFirstName.label" /> *  <span><g:message code="hcar.property.legalAccessRepresentativeFirstName.help" /></span></label>
             <input type="text" name="legalAccessRepresentativeFirstName" value="${rqt.legalAccessRepresentativeFirstName?.toString()}" 
-                    class="required condition-isLegalAccessPresence-filled  validate-firstName" title="<g:message code="hcar.property.legalAccessRepresentativeFirstName.validationError" />"  maxLength="38"/>
+                    class="required condition-isLegalAccessPresence-filled  validate-firstName" title="<g:message code="hcar.property.legalAccessRepresentativeFirstName.validationError" />"  maxlength="38" />
             
 
     
@@ -117,7 +117,7 @@
             <select name="familyStatus" class="required  validate-not-first" title="<g:message code="hcar.property.familyStatus.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
-                <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.familyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hcar.property.familyStatus" /></option>
+                <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.familyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyStatus" /></option>
               </g:each>
             </select>
             
@@ -146,13 +146,13 @@
     
         <label class="required"><g:message code="hcar.property.familyDependentLastName.label" /> *  <span><g:message code="hcar.property.familyDependentLastName.help" /></span></label>
             <input type="text" name="familyDependents[${listIndex}].familyDependentLastName" value="${editList?.familyDependents?.familyDependentLastName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="hcar.property.familyDependentLastName.validationError" />"  maxLength="38"/>
+                    class="required  validate-lastName" title="<g:message code="hcar.property.familyDependentLastName.validationError" />"  maxlength="38" />
             
 
     
         <label class="required"><g:message code="hcar.property.familyDependentFirstName.label" /> *  <span><g:message code="hcar.property.familyDependentFirstName.help" /></span></label>
             <input type="text" name="familyDependents[${listIndex}].familyDependentFirstName" value="${editList?.familyDependents?.familyDependentFirstName?.toString()}" 
-                    class="required  validate-firstName" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />"  maxLength="38"/>
+                    class="required  validate-firstName" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />"  maxlength="38" />
             
 
     
@@ -166,17 +166,17 @@
             <select name="familyDependents[${listIndex}].familyDependentActualSituation" class="required  validate-not-first" title="<g:message code="hcar.property.familyDependentActualSituation.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Schooling','Learning','MedicoSocial']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType_${it}" ${it == editList?.familyDependents?.familyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType_${it}" ${it == editList?.familyDependents?.familyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" /></option>
               </g:each>
             </select>
             
 
     
         <g:if test="${editList?.name == 'familyDependents'}">
-          <input type="submit" id="submit-collectionModify-subject-familyDependents[${listIndex}]" name="submit-collectionModify-subject-familyDependents[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-subject-familyDependents" name="submit-collectionModify-subject-familyDependents[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-collectionAdd-subject-familyDependents[${listIndex}]" name="submit-collectionAdd-subject-familyDependents[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-subject-familyDependents" name="submit-collectionAdd-subject-familyDependents[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.familyDependents}" status="index">

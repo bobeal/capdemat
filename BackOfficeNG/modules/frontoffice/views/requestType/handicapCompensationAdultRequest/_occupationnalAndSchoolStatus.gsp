@@ -19,13 +19,13 @@
     
       <label class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolGrade.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolGrade.help" /></span></label>
             <input type="text" name="studiesHighSchoolGrade" value="${rqt.studiesHighSchoolGrade?.toString()}" 
-                    class="required condition-isHighSchool-filled  " title="<g:message code="hcar.property.studiesHighSchoolGrade.validationError" />"  maxLength="60"/>
+                    class="required condition-isHighSchool-filled  " title="<g:message code="hcar.property.studiesHighSchoolGrade.validationError" />"  maxlength="60" />
             
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolName.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolName.help" /></span></label>
             <input type="text" name="studiesHighSchoolName" value="${rqt.studiesHighSchoolName?.toString()}" 
-                    class="required condition-isHighSchool-filled  " title="<g:message code="hcar.property.studiesHighSchoolName.validationError" />"  maxLength="60"/>
+                    class="required condition-isHighSchool-filled  " title="<g:message code="hcar.property.studiesHighSchoolName.validationError" />"  maxlength="60" />
             
 
     
@@ -63,7 +63,7 @@
     
       <label class="required condition-isAssistanceUnderDisability-filled"><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.label" /> *  <span><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.help" /></span></label>
             <input type="text" name="studiesAssistanceUnderDisabilityDetails" value="${rqt.studiesAssistanceUnderDisabilityDetails?.toString()}" 
-                    class="required condition-isAssistanceUnderDisability-filled  " title="<g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.validationError" />"  maxLength="60"/>
+                    class="required condition-isAssistanceUnderDisability-filled  " title="<g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.validationError" />"  maxlength="60" />
             
 
     
@@ -76,22 +76,22 @@
     
       <label class=""><g:message code="hcar.property.formationStudiesLevel.label" />   <span><g:message code="hcar.property.formationStudiesLevel.help" /></span></label>
             <input type="text" name="formationStudiesLevel" value="${rqt.formationStudiesLevel?.toString()}" 
-                    class="  " title="<g:message code="hcar.property.formationStudiesLevel.validationError" />"  maxLength="30"/>
+                    class="  " title="<g:message code="hcar.property.formationStudiesLevel.validationError" />"  maxlength="30" />
             
 
     
       <label class=""><g:message code="hcar.property.formationDiploma.label" />   <span><g:message code="hcar.property.formationDiploma.help" /></span></label>
-            <textarea name="formationDiploma" class="  validate-textarea" title="<g:message code="hcar.property.formationDiploma.validationError" />" rows="2" maxLength="120">${rqt.formationDiploma}</textarea>
+            <textarea name="formationDiploma" class="  validate-textarea" title="<g:message code="hcar.property.formationDiploma.validationError" />" rows="2" maxlength="120">${rqt.formationDiploma}</textarea>
             
 
     
       <label class=""><g:message code="hcar.property.formationPreviousFormation.label" />   <span><g:message code="hcar.property.formationPreviousFormation.help" /></span></label>
-            <textarea name="formationPreviousFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationPreviousFormation.validationError" />" rows="3" maxLength="180">${rqt.formationPreviousFormation}</textarea>
+            <textarea name="formationPreviousFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationPreviousFormation.validationError" />" rows="3" maxlength="180">${rqt.formationPreviousFormation}</textarea>
             
 
     
       <label class=""><g:message code="hcar.property.formationCurrentFormation.label" />   <span><g:message code="hcar.property.formationCurrentFormation.help" /></span></label>
-            <textarea name="formationCurrentFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationCurrentFormation.validationError" />" rows="2" maxLength="120">${rqt.formationCurrentFormation}</textarea>
+            <textarea name="formationCurrentFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationCurrentFormation.validationError" />" rows="2" maxlength="120">${rqt.formationCurrentFormation}</textarea>
             
 
     
@@ -106,7 +106,7 @@
             <select name="professionalStatusKind" class="required condition-isEmployed-trigger condition-isUnemployed-trigger  validate-not-first" title="<g:message code="hcar.property.professionalStatusKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Employee','Unemployed','Jobless','Student','Retired']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType_${it}" ${it == rqt.professionalStatusKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hcar.property.professionalStatusKind" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType_${it}" ${it == rqt.professionalStatusKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.professionalStatusKind" /></option>
               </g:each>
             </select>
             
@@ -122,7 +122,7 @@
             <select name="professionalStatusEnvironment" class="required condition-isEmployed-filled  validate-not-first" title="<g:message code="hcar.property.professionalStatusEnvironment.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Ordinary','Adapted','Protected']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType_${it}" ${it == rqt.professionalStatusEnvironment?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hcar.property.professionalStatusEnvironment" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType_${it}" ${it == rqt.professionalStatusEnvironment?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.professionalStatusEnvironment" /></option>
               </g:each>
             </select>
             
@@ -130,13 +130,13 @@
     
       <label class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusProfession.label" /> *  <span><g:message code="hcar.property.professionalStatusProfession.help" /></span></label>
             <input type="text" name="professionalStatusProfession" value="${rqt.professionalStatusProfession?.toString()}" 
-                    class="required condition-isEmployed-filled  " title="<g:message code="hcar.property.professionalStatusProfession.validationError" />"  maxLength="60"/>
+                    class="required condition-isEmployed-filled  " title="<g:message code="hcar.property.professionalStatusProfession.validationError" />"  maxlength="60" />
             
 
     
       <label class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusEmployerName.label" /> *  <span><g:message code="hcar.property.professionalStatusEmployerName.help" /></span></label>
             <input type="text" name="professionalStatusEmployerName" value="${rqt.professionalStatusEmployerName?.toString()}" 
-                    class="required condition-isEmployed-filled  validate-lastName" title="<g:message code="hcar.property.professionalStatusEmployerName.validationError" />"  maxLength="38"/>
+                    class="required condition-isEmployed-filled  validate-lastName" title="<g:message code="hcar.property.professionalStatusEmployerName.validationError" />"  maxlength="38" />
             
 
     
@@ -210,7 +210,7 @@
     
       <label class="required condition-isElectiveFunction-filled"><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.label" /> *  <span><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.help" /></span></label>
             <input type="text" name="professionalStatusElectiveFunctionDetails" value="${rqt.professionalStatusElectiveFunctionDetails?.toString()}" 
-                    class="required condition-isElectiveFunction-filled  " title="<g:message code="hcar.property.professionalStatusElectiveFunctionDetails.validationError" />"  maxLength="60"/>
+                    class="required condition-isElectiveFunction-filled  " title="<g:message code="hcar.property.professionalStatusElectiveFunctionDetails.validationError" />"  maxlength="60" />
             
 
     

@@ -23,13 +23,13 @@
     
       <label class="required"><g:message code="hccr.property.subjectBirthCity.label" /> *  <span><g:message code="hccr.property.subjectBirthCity.help" /></span></label>
             <input type="text" name="subjectBirthCity" value="${rqt.subjectBirthCity?.toString()}" 
-                    class="required  validate-city" title="<g:message code="hccr.property.subjectBirthCity.validationError" />"  maxLength="32"/>
+                    class="required  validate-city" title="<g:message code="hccr.property.subjectBirthCity.validationError" />"  maxlength="32" />
             
 
     
       <label class="required"><g:message code="hccr.property.subjectBirthCountry.label" /> *  <span><g:message code="hccr.property.subjectBirthCountry.help" /></span></label>
             <input type="text" name="subjectBirthCountry" value="${rqt.subjectBirthCountry?.toString()}" 
-                    class="required  " title="<g:message code="hccr.property.subjectBirthCountry.validationError" />"  maxLength="50"/>
+                    class="required  " title="<g:message code="hccr.property.subjectBirthCountry.validationError" />"  maxlength="50" />
             
 
     
@@ -37,7 +37,7 @@
             <select name="subjectParentalAuthorityHolder" class="required condition-isLessThan18-filled  validate-not-first" title="<g:message code="hccr.property.subjectParentalAuthorityHolder.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Father','Mother','Other']}">
-                <option value="fr.cg95.cvq.business.request.social.HccrSubjectParentalAuthorityHolderType_${it}" ${it == rqt.subjectParentalAuthorityHolder?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hccr.property.subjectParentalAuthorityHolder" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HccrSubjectParentalAuthorityHolderType_${it}" ${it == rqt.subjectParentalAuthorityHolder?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.subjectParentalAuthorityHolder" /></option>
               </g:each>
             </select>
             
@@ -52,19 +52,19 @@
     
       <label class=""><g:message code="hccr.property.fatherLastName.label" />   <span><g:message code="hccr.property.fatherLastName.help" /></span></label>
             <input type="text" name="fatherLastName" value="${rqt.fatherLastName?.toString()}" 
-                    class="  validate-lastName" title="<g:message code="hccr.property.fatherLastName.validationError" />"  maxLength="38"/>
+                    class="  validate-lastName" title="<g:message code="hccr.property.fatherLastName.validationError" />"  maxlength="38" />
             
 
     
       <label class=""><g:message code="hccr.property.fatherFirstName.label" />   <span><g:message code="hccr.property.fatherFirstName.help" /></span></label>
             <input type="text" name="fatherFirstName" value="${rqt.fatherFirstName?.toString()}" 
-                    class="  validate-firstName" title="<g:message code="hccr.property.fatherFirstName.validationError" />"  maxLength="38"/>
+                    class="  validate-firstName" title="<g:message code="hccr.property.fatherFirstName.validationError" />"  maxlength="38" />
             
 
     
       <label class=""><g:message code="hccr.property.fatherJob.label" />   <span><g:message code="hccr.property.fatherJob.help" /></span></label>
             <input type="text" name="fatherJob" value="${rqt.fatherJob?.toString()}" 
-                    class="  " title="<g:message code="hccr.property.fatherJob.validationError" />"  maxLength="60"/>
+                    class="  " title="<g:message code="hccr.property.fatherJob.validationError" />"  maxlength="60" />
             
 
     
@@ -82,7 +82,7 @@
     
       <label class="condition-isFatherActivityReduction-filled"><g:message code="hccr.property.fatherActivityReductionRatio.label" />   <span><g:message code="hccr.property.fatherActivityReductionRatio.help" /></span></label>
             <input type="text" name="fatherActivityReductionRatio" value="${rqt.fatherActivityReductionRatio?.toString()}" 
-                    class="condition-isFatherActivityReduction-filled  validate-positiveInteger" title="<g:message code="hccr.property.fatherActivityReductionRatio.validationError" />"  />
+                    class="condition-isFatherActivityReduction-filled  validate-positiveInteger" title="<g:message code="hccr.property.fatherActivityReductionRatio.validationError" />"   />
             
 
     
@@ -95,19 +95,19 @@
     
       <label class=""><g:message code="hccr.property.motherLastName.label" />   <span><g:message code="hccr.property.motherLastName.help" /></span></label>
             <input type="text" name="motherLastName" value="${rqt.motherLastName?.toString()}" 
-                    class="  validate-lastName" title="<g:message code="hccr.property.motherLastName.validationError" />"  maxLength="38"/>
+                    class="  validate-lastName" title="<g:message code="hccr.property.motherLastName.validationError" />"  maxlength="38" />
             
 
     
       <label class=""><g:message code="hccr.property.motherFirstName.label" />   <span><g:message code="hccr.property.motherFirstName.help" /></span></label>
             <input type="text" name="motherFirstName" value="${rqt.motherFirstName?.toString()}" 
-                    class="  validate-firstName" title="<g:message code="hccr.property.motherFirstName.validationError" />"  maxLength="38"/>
+                    class="  validate-firstName" title="<g:message code="hccr.property.motherFirstName.validationError" />"  maxlength="38" />
             
 
     
       <label class=""><g:message code="hccr.property.motherJob.label" />   <span><g:message code="hccr.property.motherJob.help" /></span></label>
             <input type="text" name="motherJob" value="${rqt.motherJob?.toString()}" 
-                    class="  " title="<g:message code="hccr.property.motherJob.validationError" />"  maxLength="60"/>
+                    class="  " title="<g:message code="hccr.property.motherJob.validationError" />"  maxlength="60" />
             
 
     
@@ -125,7 +125,7 @@
     
       <label class="condition-isMotherActivityReduction-filled"><g:message code="hccr.property.motherActivityReductionRatio.label" />   <span><g:message code="hccr.property.motherActivityReductionRatio.help" /></span></label>
             <input type="text" name="motherActivityReductionRatio" value="${rqt.motherActivityReductionRatio?.toString()}" 
-                    class="condition-isMotherActivityReduction-filled  validate-positiveInteger" title="<g:message code="hccr.property.motherActivityReductionRatio.validationError" />"  />
+                    class="condition-isMotherActivityReduction-filled  validate-positiveInteger" title="<g:message code="hccr.property.motherActivityReductionRatio.validationError" />"   />
             
 
     
@@ -138,13 +138,13 @@
     
       <label class=""><g:message code="hccr.property.aseReferentLastName.label" />   <span><g:message code="hccr.property.aseReferentLastName.help" /></span></label>
             <input type="text" name="aseReferentLastName" value="${rqt.aseReferentLastName?.toString()}" 
-                    class="  validate-lastName" title="<g:message code="hccr.property.aseReferentLastName.validationError" />"  maxLength="38"/>
+                    class="  validate-lastName" title="<g:message code="hccr.property.aseReferentLastName.validationError" />"  maxlength="38" />
             
 
     
       <label class=""><g:message code="hccr.property.aseReferentDepartment.label" />   <span><g:message code="hccr.property.aseReferentDepartment.help" /></span></label>
             <input type="text" name="aseReferentDepartment" value="${rqt.aseReferentDepartment?.toString()}" 
-                    class="  validate-departmentCode" title="<g:message code="hccr.property.aseReferentDepartment.validationError" />"  maxLength="2"/>
+                    class="  validate-departmentCode" title="<g:message code="hccr.property.aseReferentDepartment.validationError" />"  maxlength="2" />
             
 
     
@@ -157,13 +157,13 @@
     
       <label class="required"><g:message code="hccr.property.referentLastName.label" /> *  <span><g:message code="hccr.property.referentLastName.help" /></span></label>
             <input type="text" name="referentLastName" value="${rqt.referentLastName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="hccr.property.referentLastName.validationError" />"  maxLength="38"/>
+                    class="required  validate-lastName" title="<g:message code="hccr.property.referentLastName.validationError" />"  maxlength="38" />
             
 
     
       <label class="required"><g:message code="hccr.property.referentFirstName.label" /> *  <span><g:message code="hccr.property.referentFirstName.help" /></span></label>
             <input type="text" name="referentFirstName" value="${rqt.referentFirstName?.toString()}" 
-                    class="required  validate-firstName" title="<g:message code="hccr.property.referentFirstName.validationError" />"  maxLength="38"/>
+                    class="required  validate-firstName" title="<g:message code="hccr.property.referentFirstName.validationError" />"  maxlength="38" />
             
 
     
@@ -171,7 +171,7 @@
             <select name="referentTitle" class="required condition-isReferentMadam-trigger  validate-not-first" title="<g:message code="hccr.property.referentTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.referentTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hccr.property.referentTitle" /></option>
+                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.referentTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.referentTitle" /></option>
               </g:each>
             </select>
             
@@ -179,7 +179,7 @@
     
       <label class="required condition-isReferentMadam-filled"><g:message code="hccr.property.referentMaidenName.label" /> *  <span><g:message code="hccr.property.referentMaidenName.help" /></span></label>
             <input type="text" name="referentMaidenName" value="${rqt.referentMaidenName?.toString()}" 
-                    class="required condition-isReferentMadam-filled  validate-lastName" title="<g:message code="hccr.property.referentMaidenName.validationError" />"  maxLength="38"/>
+                    class="required condition-isReferentMadam-filled  validate-lastName" title="<g:message code="hccr.property.referentMaidenName.validationError" />"  maxlength="38" />
             
 
     
@@ -191,13 +191,13 @@
     
       <label class="required"><g:message code="hccr.property.referentBirthCity.label" /> *  <span><g:message code="hccr.property.referentBirthCity.help" /></span></label>
             <input type="text" name="referentBirthCity" value="${rqt.referentBirthCity?.toString()}" 
-                    class="required  validate-city" title="<g:message code="hccr.property.referentBirthCity.validationError" />"  maxLength="32"/>
+                    class="required  validate-city" title="<g:message code="hccr.property.referentBirthCity.validationError" />"  maxlength="32" />
             
 
     
       <label class="required"><g:message code="hccr.property.referentBirthCountry.label" /> *  <span><g:message code="hccr.property.referentBirthCountry.help" /></span></label>
             <input type="text" name="referentBirthCountry" value="${rqt.referentBirthCountry?.toString()}" 
-                    class="required  " title="<g:message code="hccr.property.referentBirthCountry.validationError" />"  maxLength="50"/>
+                    class="required  " title="<g:message code="hccr.property.referentBirthCountry.validationError" />"  maxlength="50" />
             
 
     
@@ -205,7 +205,7 @@
             <select name="referentFamilyStatus" class="required  validate-not-first" title="<g:message code="hccr.property.referentFamilyStatus.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']}">
-                <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.referentFamilyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hccr.property.referentFamilyStatus" /></option>
+                <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == rqt.referentFamilyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.referentFamilyStatus" /></option>
               </g:each>
             </select>
             
@@ -234,13 +234,13 @@
     
         <label class="required"><g:message code="hccr.property.referentFamilyDependentLastName.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentLastName.help" /></span></label>
             <input type="text" name="familyDependents[${listIndex}].referentFamilyDependentLastName" value="${editList?.familyDependents?.referentFamilyDependentLastName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="hccr.property.referentFamilyDependentLastName.validationError" />"  maxLength="38"/>
+                    class="required  validate-lastName" title="<g:message code="hccr.property.referentFamilyDependentLastName.validationError" />"  maxlength="38" />
             
 
     
         <label class="required"><g:message code="hccr.property.referentFamilyDependentFirstName.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentFirstName.help" /></span></label>
             <input type="text" name="familyDependents[${listIndex}].referentFamilyDependentFirstName" value="${editList?.familyDependents?.referentFamilyDependentFirstName?.toString()}" 
-                    class="required  validate-firstName" title="<g:message code="hccr.property.referentFamilyDependentFirstName.validationError" />"  maxLength="38"/>
+                    class="required  validate-firstName" title="<g:message code="hccr.property.referentFamilyDependentFirstName.validationError" />"  maxlength="38" />
             
 
     
@@ -254,17 +254,17 @@
             <select name="familyDependents[${listIndex}].referentFamilyDependentActualSituation" class="required  validate-not-first" title="<g:message code="hccr.property.referentFamilyDependentActualSituation.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Schooling','Learning','MedicoSocial']}">
-                <option value="fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType_${it}" ${it == editList?.familyDependents?.referentFamilyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hccr.property.referentFamilyDependentActualSituation" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType_${it}" ${it == editList?.familyDependents?.referentFamilyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.referentFamilyDependentActualSituation" /></option>
               </g:each>
             </select>
             
 
     
         <g:if test="${editList?.name == 'familyDependents'}">
-          <input type="submit" id="submit-collectionModify-subject-familyDependents[${listIndex}]" name="submit-collectionModify-subject-familyDependents[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-subject-familyDependents" name="submit-collectionModify-subject-familyDependents[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-collectionAdd-subject-familyDependents[${listIndex}]" name="submit-collectionAdd-subject-familyDependents[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-subject-familyDependents" name="submit-collectionAdd-subject-familyDependents[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.familyDependents}" status="index">

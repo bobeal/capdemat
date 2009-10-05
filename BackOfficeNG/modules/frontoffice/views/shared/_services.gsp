@@ -26,8 +26,7 @@
                     </span>
                   </g:if>
                   <g:else>
-                    <a href="${createLink(action : 'seasons',
-                      params:['label':request.label])}">
+                    <a href="${createLink(action : 'seasons', params:['label':request.label])}">
                       <g:translateRequestTypeLabel label="${request.label}"/>
                     </a>
                   </g:else>

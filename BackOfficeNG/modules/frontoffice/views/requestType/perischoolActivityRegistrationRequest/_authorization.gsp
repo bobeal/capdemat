@@ -9,13 +9,13 @@
     
         <label class="required"><g:message code="parr.property.lastName.label" /> *  <span><g:message code="parr.property.lastName.help" /></span></label>
             <input type="text" name="authorizedIndividuals[${listIndex}].lastName" value="${editList?.authorizedIndividuals?.lastName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="parr.property.lastName.validationError" />"  maxLength="38"/>
+                    class="required  validate-lastName" title="<g:message code="parr.property.lastName.validationError" />"  maxlength="38" />
             
 
     
         <label class="required"><g:message code="parr.property.firstName.label" /> *  <span><g:message code="parr.property.firstName.help" /></span></label>
             <input type="text" name="authorizedIndividuals[${listIndex}].firstName" value="${editList?.authorizedIndividuals?.firstName?.toString()}" 
-                    class="required  validate-firstName" title="<g:message code="parr.property.firstName.validationError" />"  maxLength="38"/>
+                    class="required  validate-firstName" title="<g:message code="parr.property.firstName.validationError" />"  maxlength="38" />
             
 
     
@@ -41,21 +41,21 @@
     
         <label class=""><g:message code="parr.property.homePhone.label" />   <span><g:message code="parr.property.homePhone.help" /></span></label>
             <input type="text" name="authorizedIndividuals[${listIndex}].homePhone" value="${editList?.authorizedIndividuals?.homePhone?.toString()}" 
-                    class="  validate-phone" title="<g:message code="parr.property.homePhone.validationError" />"  maxLength="10"/>
+                    class="  validate-phone" title="<g:message code="parr.property.homePhone.validationError" />"  maxlength="10" />
             
 
     
         <label class=""><g:message code="parr.property.officePhone.label" />   <span><g:message code="parr.property.officePhone.help" /></span></label>
             <input type="text" name="authorizedIndividuals[${listIndex}].officePhone" value="${editList?.authorizedIndividuals?.officePhone?.toString()}" 
-                    class="  validate-phone" title="<g:message code="parr.property.officePhone.validationError" />"  maxLength="10"/>
+                    class="  validate-phone" title="<g:message code="parr.property.officePhone.validationError" />"  maxlength="10" />
             
 
     
         <g:if test="${editList?.name == 'authorizedIndividuals'}">
-          <input type="submit" id="submit-collectionModify-authorization-authorizedIndividuals[${listIndex}]" name="submit-collectionModify-authorization-authorizedIndividuals[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-authorization-authorizedIndividuals" name="submit-collectionModify-authorization-authorizedIndividuals[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-collectionAdd-authorization-authorizedIndividuals[${listIndex}]" name="submit-collectionAdd-authorization-authorizedIndividuals[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-authorization-authorizedIndividuals" name="submit-collectionAdd-authorization-authorizedIndividuals[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.authorizedIndividuals}" status="index">

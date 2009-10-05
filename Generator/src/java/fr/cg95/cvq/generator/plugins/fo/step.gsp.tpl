@@ -28,7 +28,7 @@
             <select name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="\${${element.enumValuesAsString}}">
-                <option value="${element.qualifiedType}_\${it}" \${it == ${valuePrefix}.${element.javaFieldName}?.toString() ? 'selected=\"selected\"': ''}><g:capdematEnumToField var="\${it}" i18nKeyPrefix="${element.i18nPrefixCode}" /></option>
+                <option value="${element.qualifiedType}_\${it}" \${it == ${valuePrefix}.${element.javaFieldName}?.toString() ? 'selected=\"selected\"': ''}><g:capdematEnumToText var="\${it}" i18nKeyPrefix="${element.i18nPrefixCode}" /></option>
               </g:each>
             </select>
             """
@@ -53,7 +53,7 @@
             """
          ,'textarea' :
             """
-            <textarea name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.rows} ${element.lengthLimits}>\${${valuePrefix}.${element.javaFieldName}}</textarea>
+            <textarea name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" rows="${element.rows}" cols="" ${element.lengthLimits}>\${${valuePrefix}.${element.javaFieldName}}</textarea>
             """
          ,'localReferentialData':
             """
@@ -70,7 +70,7 @@
          ,'text' :
             """
             <input type="text" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}?.toString()}" 
-                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits}/>
+                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits} />
             """
          ,'subject' :
             """
@@ -174,10 +174,10 @@
         <% displayWidget(subElement, 'editList?.' + element.javaFieldName + '?', element.javaFieldName + '[${listIndex}].' ) %>
     <% } %>
         <g:if test="\${editList?.name == '${element.javaFieldName}'}">
-          <input type="submit" id="submit-collectionModify-${step.name}-${element.javaFieldName}[\${listIndex}]" name="submit-collectionModify-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-${step.name}-${element.javaFieldName}" name="submit-collectionModify-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-collectionAdd-${step.name}-${element.javaFieldName}[\${listIndex}]" name="submit-collectionAdd-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-${step.name}-${element.javaFieldName}" name="submit-collectionAdd-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">

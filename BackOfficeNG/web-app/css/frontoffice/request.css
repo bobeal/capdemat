@@ -127,16 +127,11 @@ h2.request-creation { margin: 0; color: #DB4366;}
 #requestTabView fieldset.collection-fieldset-add legend,
 #requestTabView fieldset.collection-fieldset-edit legend { margin: 0; padding: 0; border: 1px solid #FF812B; }
 
-/* navigation tab link 
-  TODO 
-    - improve integration
-    - change 'id' into 'class' attribute
-*/
+
 #requestTabView .navTab { height: 2em }
-#requestTabView .navTab #next-tab, 
-#requestTabView .navTab #prev-tab { color: #2020AA; }
-#requestTabView .navTab #next-tab { float: right; }
-#requestTabView .navTab #prev-tab { float: left; }
+#requestTabView .navTab a { color: #2020AA; }
+#requestTabView .navTab .next-tab { float: right; }
+#requestTabView .navTab .prev-tab { float: left; }
 
 #requestTabView .nextTab:hover, #requestTabView .prevTab:hover { background: #2020AA; color:#ffffff; }
 

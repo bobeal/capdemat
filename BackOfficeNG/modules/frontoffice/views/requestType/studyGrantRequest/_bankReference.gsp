@@ -20,7 +20,7 @@
             <select name="accountHolderTitle" class="required condition-isSubjectAccountHolder-unfilled  validate-not-first" title="<g:message code="sgr.property.accountHolderTitle.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Mister','Madam','Miss','Agency','Unknown']}">
-                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.accountHolderTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="sgr.property.accountHolderTitle" /></option>
+                <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == rqt.accountHolderTitle?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.accountHolderTitle" /></option>
               </g:each>
             </select>
             
@@ -30,7 +30,7 @@
   
     <label class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderLastName.label" /> *  <span><g:message code="sgr.property.accountHolderLastName.help" /></span></label>
             <input type="text" name="accountHolderLastName" value="${rqt.accountHolderLastName?.toString()}" 
-                    class="required condition-isSubjectAccountHolder-unfilled  validate-lastName" title="<g:message code="sgr.property.accountHolderLastName.validationError" />"  maxLength="38"/>
+                    class="required condition-isSubjectAccountHolder-unfilled  validate-lastName" title="<g:message code="sgr.property.accountHolderLastName.validationError" />"  maxlength="38" />
             
 
   
@@ -38,7 +38,7 @@
   
     <label class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderFirstName.label" /> *  <span><g:message code="sgr.property.accountHolderFirstName.help" /></span></label>
             <input type="text" name="accountHolderFirstName" value="${rqt.accountHolderFirstName?.toString()}" 
-                    class="required condition-isSubjectAccountHolder-unfilled  validate-firstName" title="<g:message code="sgr.property.accountHolderFirstName.validationError" />"  maxLength="38"/>
+                    class="required condition-isSubjectAccountHolder-unfilled  validate-firstName" title="<g:message code="sgr.property.accountHolderFirstName.validationError" />"  maxlength="38" />
             
 
   
@@ -54,7 +54,7 @@
   
     <label class="required"><g:message code="sgr.property.bankCode.label" /> *  <span><g:message code="sgr.property.bankCode.help" /></span></label>
             <input type="text" name="bankCode" value="${rqt.bankCode?.toString()}" 
-                    class="required  validate-regex" title="<g:message code="sgr.property.bankCode.validationError" />" regex="^\d{1,5}$" maxLength="5"/>
+                    class="required  validate-regex" title="<g:message code="sgr.property.bankCode.validationError" />" regex="^\d{1,5}$" maxlength="5" />
             
 
   
@@ -62,7 +62,7 @@
   
     <label class="required"><g:message code="sgr.property.counterCode.label" /> *  <span><g:message code="sgr.property.counterCode.help" /></span></label>
             <input type="text" name="counterCode" value="${rqt.counterCode?.toString()}" 
-                    class="required  validate-regex" title="<g:message code="sgr.property.counterCode.validationError" />" regex="^\d{1,5}$" maxLength="5"/>
+                    class="required  validate-regex" title="<g:message code="sgr.property.counterCode.validationError" />" regex="^\d{1,5}$" maxlength="5" />
             
 
   
@@ -70,7 +70,7 @@
   
     <label class="required"><g:message code="sgr.property.accountNumber.label" /> *  <span><g:message code="sgr.property.accountNumber.help" /></span></label>
             <input type="text" name="accountNumber" value="${rqt.accountNumber?.toString()}" 
-                    class="required  validate-regex" title="<g:message code="sgr.property.accountNumber.validationError" />" regex="^[a-zA-Z0-9]{1,11}$" maxLength="11"/>
+                    class="required  validate-regex" title="<g:message code="sgr.property.accountNumber.validationError" />" regex="^[a-zA-Z0-9]{1,11}$" maxlength="11" />
             
 
   
@@ -78,7 +78,7 @@
   
     <label class="required"><g:message code="sgr.property.accountKey.label" /> *  <span><g:message code="sgr.property.accountKey.help" /></span></label>
             <input type="text" name="accountKey" value="${rqt.accountKey?.toString()}" 
-                    class="required  validate-regex" title="<g:message code="sgr.property.accountKey.validationError" />" regex="^\d{1,2}$" maxLength="2"/>
+                    class="required  validate-regex" title="<g:message code="sgr.property.accountKey.validationError" />" regex="^\d{1,2}$" maxlength="2" />
             
 
   

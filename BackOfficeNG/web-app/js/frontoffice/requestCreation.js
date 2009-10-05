@@ -87,9 +87,7 @@
         yue.on('draftForm','submit',zcf.RequestCreation.submitDraft);
         
         yue.on(yud.get("requestNote"), 'keyup', function(e) {
-          zct.limitArea("requestNote",
-            yud.get("requestNote").getAttribute('maxlength'),
-            "requestNoteLimit");
+          zct.limitArea("requestNote", 1024, "requestNoteLimit");
         });
         zct.limitArea("requestNote",
           yud.get("requestNote").getAttribute('maxlength'), "requestNoteLimit");

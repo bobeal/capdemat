@@ -19,7 +19,7 @@
     
       <label class="required condition-isDisabilityRecognition-filled"><g:message code="hccr.property.benefitsDisabilityRatio.label" /> *  <span><g:message code="hccr.property.benefitsDisabilityRatio.help" /></span></label>
             <input type="text" name="benefitsDisabilityRatio" value="${rqt.benefitsDisabilityRatio?.toString()}" 
-                    class="required condition-isDisabilityRecognition-filled  " title="<g:message code="hccr.property.benefitsDisabilityRatio.validationError" />"  maxLength="3"/>
+                    class="required condition-isDisabilityRecognition-filled  " title="<g:message code="hccr.property.benefitsDisabilityRatio.validationError" />"  maxlength="3" />
             
 
     
@@ -85,7 +85,7 @@
     
       <label class="required condition-isProfessionalOrientation-filled"><g:message code="hccr.property.benefitsProfessionalOrientationDetails.label" /> *  <span><g:message code="hccr.property.benefitsProfessionalOrientationDetails.help" /></span></label>
             <input type="text" name="benefitsProfessionalOrientationDetails" value="${rqt.benefitsProfessionalOrientationDetails?.toString()}" 
-                    class="required condition-isProfessionalOrientation-filled  " title="<g:message code="hccr.property.benefitsProfessionalOrientationDetails.validationError" />"  maxLength="60"/>
+                    class="required condition-isProfessionalOrientation-filled  " title="<g:message code="hccr.property.benefitsProfessionalOrientationDetails.validationError" />"  maxlength="60" />
             
 
     
@@ -139,7 +139,7 @@
     
       <label class="required condition-isEducationOfDisabledChildren-filled"><g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.label" /> *  <span><g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.help" /></span></label>
             <input type="text" name="benefitsEducationOfDisabledChildrenDetails" value="${rqt.benefitsEducationOfDisabledChildrenDetails?.toString()}" 
-                    class="required condition-isEducationOfDisabledChildren-filled  " title="<g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.validationError" />"  maxLength="60"/>
+                    class="required condition-isEducationOfDisabledChildren-filled  " title="<g:message code="hccr.property.benefitsEducationOfDisabledChildrenDetails.validationError" />"  maxlength="60" />
             
 
     
@@ -217,7 +217,7 @@
     
       <label class="required condition-isDisabilityPension-filled"><g:message code="hccr.property.benefitsDisabilityPensionCategory.label" /> *  <span><g:message code="hccr.property.benefitsDisabilityPensionCategory.help" /></span></label>
             <input type="text" name="benefitsDisabilityPensionCategory" value="${rqt.benefitsDisabilityPensionCategory?.toString()}" 
-                    class="required condition-isDisabilityPension-filled  " title="<g:message code="hccr.property.benefitsDisabilityPensionCategory.validationError" />"  maxLength="60"/>
+                    class="required condition-isDisabilityPension-filled  " title="<g:message code="hccr.property.benefitsDisabilityPensionCategory.validationError" />"  maxlength="60" />
             
 
     
@@ -235,7 +235,7 @@
     
       <label class="required condition-isWorkAccidentAnnuity-filled"><g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.label" /> *  <span><g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.help" /></span></label>
             <input type="text" name="benefitsWorkAccidentAnnuityRatio" value="${rqt.benefitsWorkAccidentAnnuityRatio?.toString()}" 
-                    class="required condition-isWorkAccidentAnnuity-filled  " title="<g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.validationError" />"  maxLength="3"/>
+                    class="required condition-isWorkAccidentAnnuity-filled  " title="<g:message code="hccr.property.benefitsWorkAccidentAnnuityRatio.validationError" />"  maxlength="3" />
             
 
     
@@ -301,7 +301,7 @@
     
       <label class="required condition-isSupportedByAnInstitution-filled"><g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.label" /> *  <span><g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.help" /></span></label>
             <input type="text" name="benefitsSupportedByAnInstitutionDetails" value="${rqt.benefitsSupportedByAnInstitutionDetails?.toString()}" 
-                    class="required condition-isSupportedByAnInstitution-filled  " title="<g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.validationError" />"  maxLength="60"/>
+                    class="required condition-isSupportedByAnInstitution-filled  " title="<g:message code="hccr.property.benefitsSupportedByAnInstitutionDetails.validationError" />"  maxlength="60" />
             
 
     
@@ -328,15 +328,15 @@
     
         <label class="required"><g:message code="hccr.property.otherBenefitName.label" /> *  <span><g:message code="hccr.property.otherBenefitName.help" /></span></label>
             <input type="text" name="otherBenefits[${listIndex}].otherBenefitName" value="${editList?.otherBenefits?.otherBenefitName?.toString()}" 
-                    class="required  " title="<g:message code="hccr.property.otherBenefitName.validationError" />"  maxLength="60"/>
+                    class="required  " title="<g:message code="hccr.property.otherBenefitName.validationError" />"  maxlength="60" />
             
 
     
         <g:if test="${editList?.name == 'otherBenefits'}">
-          <input type="submit" id="submit-collectionModify-benefits-otherBenefits[${listIndex}]" name="submit-collectionModify-benefits-otherBenefits[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-benefits-otherBenefits" name="submit-collectionModify-benefits-otherBenefits[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-collectionAdd-benefits-otherBenefits[${listIndex}]" name="submit-collectionAdd-benefits-otherBenefits[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-benefits-otherBenefits" name="submit-collectionAdd-benefits-otherBenefits[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.otherBenefits}" status="index">
@@ -362,27 +362,27 @@
     
         <label class="required"><g:message code="hccr.property.additionalFeeKind.label" /> *  <span><g:message code="hccr.property.additionalFeeKind.help" /></span></label>
             <input type="text" name="additionalFee[${listIndex}].additionalFeeKind" value="${editList?.additionalFee?.additionalFeeKind?.toString()}" 
-                    class="required  " title="<g:message code="hccr.property.additionalFeeKind.validationError" />"  maxLength="30"/>
+                    class="required  " title="<g:message code="hccr.property.additionalFeeKind.validationError" />"  maxlength="30" />
             
 
     
         <label class="required"><g:message code="hccr.property.additionalFeeCost.label" /> *  <span><g:message code="hccr.property.additionalFeeCost.help" /></span></label>
             <input type="text" name="additionalFee[${listIndex}].additionalFeeCost" value="${editList?.additionalFee?.additionalFeeCost?.toString()}" 
-                    class="required  " title="<g:message code="hccr.property.additionalFeeCost.validationError" />"  />
+                    class="required  " title="<g:message code="hccr.property.additionalFeeCost.validationError" />"   />
             
 
     
         <label class="required"><g:message code="hccr.property.additionalFeePeriodicity.label" /> *  <span><g:message code="hccr.property.additionalFeePeriodicity.help" /></span></label>
             <input type="text" name="additionalFee[${listIndex}].additionalFeePeriodicity" value="${editList?.additionalFee?.additionalFeePeriodicity?.toString()}" 
-                    class="required  " title="<g:message code="hccr.property.additionalFeePeriodicity.validationError" />"  maxLength="30"/>
+                    class="required  " title="<g:message code="hccr.property.additionalFeePeriodicity.validationError" />"  maxlength="30" />
             
 
     
         <g:if test="${editList?.name == 'additionalFee'}">
-          <input type="submit" id="submit-collectionModify-benefits-additionalFee[${listIndex}]" name="submit-collectionModify-benefits-additionalFee[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-benefits-additionalFee" name="submit-collectionModify-benefits-additionalFee[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-collectionAdd-benefits-additionalFee[${listIndex}]" name="submit-collectionAdd-benefits-additionalFee[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-benefits-additionalFee" name="submit-collectionAdd-benefits-additionalFee[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.additionalFee}" status="index">

@@ -256,7 +256,7 @@
            </div>
            <div class="error" id="stepForm-subject-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.save')}" />
@@ -265,7 +265,7 @@
          <div class="navTab">
   
   
-           <a id="next-tab" href="#dwelling"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-subject" class="next-tab" href="#dwelling"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.subject != null}">       
@@ -298,7 +298,7 @@
            </div>
            <div class="error" id="stepForm-dwelling-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-dwelling" name="submit-step-dwelling" class="submit-step" value="${message(code:'action.save')}" />
@@ -306,10 +306,10 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#subject"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-dwelling" class="prev-tab" href="#subject"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#socialSecurityAndPaymentAgency"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-dwelling" class="next-tab" href="#socialSecurityAndPaymentAgency"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.dwelling != null}">       
@@ -342,7 +342,7 @@
            </div>
            <div class="error" id="stepForm-socialSecurityAndPaymentAgency-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-socialSecurityAndPaymentAgency" name="submit-step-socialSecurityAndPaymentAgency" class="submit-step" value="${message(code:'action.save')}" />
@@ -350,10 +350,10 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#dwelling"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-socialSecurityAndPaymentAgency" class="prev-tab" href="#dwelling"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#occupationnalAndSchoolStatus"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-socialSecurityAndPaymentAgency" class="next-tab" href="#occupationnalAndSchoolStatus"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.socialSecurityAndPaymentAgency != null}">       
@@ -386,7 +386,7 @@
            </div>
            <div class="error" id="stepForm-occupationnalAndSchoolStatus-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-occupationnalAndSchoolStatus" name="submit-step-occupationnalAndSchoolStatus" class="submit-step" value="${message(code:'action.save')}" />
@@ -394,10 +394,10 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#socialSecurityAndPaymentAgency"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-occupationnalAndSchoolStatus" class="prev-tab" href="#socialSecurityAndPaymentAgency"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#folders"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-occupationnalAndSchoolStatus" class="next-tab" href="#folders"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.occupationnalAndSchoolStatus != null}">       
@@ -430,7 +430,7 @@
            </div>
            <div class="error" id="stepForm-folders-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-folders" name="submit-step-folders" class="submit-step" value="${message(code:'action.save')}" />
@@ -438,10 +438,10 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#occupationnalAndSchoolStatus"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-folders" class="prev-tab" href="#occupationnalAndSchoolStatus"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#benefits"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-folders" class="next-tab" href="#benefits"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.folders != null}">       
@@ -474,7 +474,7 @@
            </div>
            <div class="error" id="stepForm-benefits-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-benefits" name="submit-step-benefits" class="submit-step" value="${message(code:'action.save')}" />
@@ -482,10 +482,10 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#folders"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-benefits" class="prev-tab" href="#folders"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#aid"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-benefits" class="next-tab" href="#aid"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.benefits != null}">       
@@ -518,7 +518,7 @@
            </div>
            <div class="error" id="stepForm-aid-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-aid" name="submit-step-aid" class="submit-step" value="${message(code:'action.save')}" />
@@ -526,10 +526,10 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#benefits"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-aid" class="prev-tab" href="#benefits"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#health"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-aid" class="next-tab" href="#health"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.aid != null}">       
@@ -562,7 +562,7 @@
            </div>
            <div class="error" id="stepForm-health-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-health" name="submit-step-health" class="submit-step" value="${message(code:'action.save')}" />
@@ -570,10 +570,10 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#aid"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-health" class="prev-tab" href="#aid"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#project"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-health" class="next-tab" href="#project"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.health != null}">       
@@ -606,7 +606,7 @@
            </div>
            <div class="error" id="stepForm-project-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-project" name="submit-step-project" class="submit-step" value="${message(code:'action.save')}" />
@@ -614,10 +614,10 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#health"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-project" class="prev-tab" href="#health"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-project" class="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.project != null}">       
@@ -650,16 +650,16 @@
            </div>
            <div class="error" id="stepForm-document-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#project"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-document" class="prev-tab" href="#project"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-document" class="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.document != null}">       
@@ -689,14 +689,19 @@
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
-             <label for="meansOfContact" class="required">
+             <g:if test="${meansOfContact.size() > 0}">
+              <label for="meansOfContact" class="required">
                <g:message code="request.meansOfContact.chooseMessage"/> *
-             </label>
-             <select name="meansOfContact" class="required">
+              </label>
+              <select id="meansOfContact" name="meansOfContact" class="required">
                <g:each in="${meansOfContact}" var="moc">
                  <option value="${moc.key}" <g:if test="${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>>${moc.label}</option>
                </g:each>
-             </select>
+              </select>
+             </g:if>
+             <g:else>
+               <p>${message(code:'request.meansOfContact.message.notAvailable')}</p>
+             </g:else>
              <div class="summary-box">
     
             <g:render template="/frontofficeRequestType/handicapCompensationChildRequest/validation0" />
@@ -706,7 +711,7 @@
             </div>
             <h3><g:message code="request.step.note.label" /></h3>
             <g:message code="request.step.note.desc" />
-            <textarea id="requestNote" name="requestNote" rows="" cols="" maxlength="1024"></textarea>
+            <textarea id="requestNote" name="requestNote" rows="" cols=""></textarea>
             <label><span id="requestNoteLimit"></span></label>
             <h3><g:message code="request.step.validation.label" /></h3>
             <g:if test="${!hasHomeFolder}">
@@ -723,7 +728,7 @@
            </div>
            <div class="error" id="stepForm-validation-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
@@ -734,7 +739,7 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-validation" class="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
   
   
          </div>

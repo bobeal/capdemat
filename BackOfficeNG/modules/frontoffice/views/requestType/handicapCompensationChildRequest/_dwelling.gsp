@@ -9,14 +9,14 @@
             <select name="dwellingKind" class="required condition-isNotPlaceOfResidence-trigger  validate-not-first" title="<g:message code="hccr.property.dwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['PlaceOfResidence','ThirdPartyPlaceOfResidence','Other']}">
-                <option value="fr.cg95.cvq.business.request.social.HccrDwellingKindType_${it}" ${it == rqt.dwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hccr.property.dwellingKind" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HccrDwellingKindType_${it}" ${it == rqt.dwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.dwellingKind" /></option>
               </g:each>
             </select>
             
 
     
       <label class="required condition-isNotPlaceOfResidence-filled"><g:message code="hccr.property.dwellingPrecision.label" /> *  <span><g:message code="hccr.property.dwellingPrecision.help" /></span></label>
-            <textarea name="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled  validate-textarea" title="<g:message code="hccr.property.dwellingPrecision.validationError" />" rows="2" maxLength="120">${rqt.dwellingPrecision}</textarea>
+            <textarea name="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled  validate-textarea" title="<g:message code="hccr.property.dwellingPrecision.validationError" />" rows="2" maxlength="120">${rqt.dwellingPrecision}</textarea>
             
 
     
@@ -36,7 +36,7 @@
             <select name="dwellingReceptionType" class="required condition-isInEstablishmentReception-filled  validate-not-first" title="<g:message code="hccr.property.dwellingReceptionType.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Internship','Clerkship']}">
-                <option value="fr.cg95.cvq.business.request.social.HccrDwellingReceptionKindType_${it}" ${it == rqt.dwellingReceptionType?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="hccr.property.dwellingReceptionType" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HccrDwellingReceptionKindType_${it}" ${it == rqt.dwellingReceptionType?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.dwellingReceptionType" /></option>
               </g:each>
             </select>
             
@@ -44,7 +44,7 @@
     
       <label class="required condition-isInEstablishmentReception-filled"><g:message code="hccr.property.dwellingReceptionNaming.label" /> *  <span><g:message code="hccr.property.dwellingReceptionNaming.help" /></span></label>
             <input type="text" name="dwellingReceptionNaming" value="${rqt.dwellingReceptionNaming?.toString()}" 
-                    class="required condition-isInEstablishmentReception-filled  " title="<g:message code="hccr.property.dwellingReceptionNaming.validationError" />"  maxLength="80"/>
+                    class="required condition-isInEstablishmentReception-filled  " title="<g:message code="hccr.property.dwellingReceptionNaming.validationError" />"  maxlength="80" />
             
 
     
@@ -82,7 +82,7 @@
     
       <label class="required condition-isInSocialReception-filled"><g:message code="hccr.property.dwellingSocialReceptionNaming.label" /> *  <span><g:message code="hccr.property.dwellingSocialReceptionNaming.help" /></span></label>
             <input type="text" name="dwellingSocialReceptionNaming" value="${rqt.dwellingSocialReceptionNaming?.toString()}" 
-                    class="required condition-isInSocialReception-filled  " title="<g:message code="hccr.property.dwellingSocialReceptionNaming.validationError" />"  maxLength="80"/>
+                    class="required condition-isInSocialReception-filled  " title="<g:message code="hccr.property.dwellingSocialReceptionNaming.validationError" />"  maxlength="80" />
             
 
     

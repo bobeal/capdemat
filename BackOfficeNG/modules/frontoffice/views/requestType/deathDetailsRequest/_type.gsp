@@ -18,7 +18,7 @@
   
     <label class="required"><g:message code="ddr.property.copies.label" /> *  <span><g:message code="ddr.property.copies.help" /></span></label>
             <input type="text" name="copies" value="${rqt.copies?.toString()}" 
-                    class="required  validate-positiveInteger" title="<g:message code="ddr.property.copies.validationError" />"  />
+                    class="required  validate-positiveInteger" title="<g:message code="ddr.property.copies.validationError" />"   />
             
 
   
@@ -32,10 +32,10 @@
 
   
     <label class=""><g:message code="ddr.property.motive.label" />   <span><g:message code="ddr.property.motive.help" /></span></label>
-            <select name="motive" class="  validate-not-first" title="<g:message code="ddr.property.motive.validationError" />">
+            <select name="motive" class="  validate-select" title="<g:message code="ddr.property.motive.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['NotaryAct','Marriage','Passport','Pension','Other']}">
-                <option value="fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType_${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="ddr.property.motive" /></option>
+                <option value="fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType_${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="ddr.property.motive" /></option>
               </g:each>
             </select>
             

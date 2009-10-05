@@ -9,13 +9,13 @@
     
         <label class="required"><g:message code="rarr.property.lastName.label" /> *  <span><g:message code="rarr.property.lastName.help" /></span></label>
             <input type="text" name="contactIndividuals[${listIndex}].lastName" value="${editList?.contactIndividuals?.lastName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="rarr.property.lastName.validationError" />"  maxLength="38"/>
+                    class="required  validate-lastName" title="<g:message code="rarr.property.lastName.validationError" />"  maxlength="38" />
             
 
     
         <label class="required"><g:message code="rarr.property.firstName.label" /> *  <span><g:message code="rarr.property.firstName.help" /></span></label>
             <input type="text" name="contactIndividuals[${listIndex}].firstName" value="${editList?.contactIndividuals?.firstName?.toString()}" 
-                    class="required  validate-firstName" title="<g:message code="rarr.property.firstName.validationError" />"  maxLength="38"/>
+                    class="required  validate-firstName" title="<g:message code="rarr.property.firstName.validationError" />"  maxlength="38" />
             
 
     
@@ -41,21 +41,21 @@
     
         <label class=""><g:message code="rarr.property.homePhone.label" />   <span><g:message code="rarr.property.homePhone.help" /></span></label>
             <input type="text" name="contactIndividuals[${listIndex}].homePhone" value="${editList?.contactIndividuals?.homePhone?.toString()}" 
-                    class="  validate-phone" title="<g:message code="rarr.property.homePhone.validationError" />"  maxLength="10"/>
+                    class="  validate-phone" title="<g:message code="rarr.property.homePhone.validationError" />"  maxlength="10" />
             
 
     
         <label class=""><g:message code="rarr.property.officePhone.label" />   <span><g:message code="rarr.property.officePhone.help" /></span></label>
             <input type="text" name="contactIndividuals[${listIndex}].officePhone" value="${editList?.contactIndividuals?.officePhone?.toString()}" 
-                    class="  validate-phone" title="<g:message code="rarr.property.officePhone.validationError" />"  maxLength="10"/>
+                    class="  validate-phone" title="<g:message code="rarr.property.officePhone.validationError" />"  maxlength="10" />
             
 
     
         <g:if test="${editList?.name == 'contactIndividuals'}">
-          <input type="submit" id="submit-collectionModify-contact-contactIndividuals[${listIndex}]" name="submit-collectionModify-contact-contactIndividuals[${listIndex}]" value="${message(code:'action.save')}" />
+          <input type="submit" id="submit-collectionModify-contact-contactIndividuals" name="submit-collectionModify-contact-contactIndividuals[${listIndex}]" value="${message(code:'action.save')}" />
         </g:if>
         <g:else>
-          <input type="submit" id="submit-collectionAdd-contact-contactIndividuals[${listIndex}]" name="submit-collectionAdd-contact-contactIndividuals[${listIndex}]" value="${message(code:'action.add')}" />
+          <input type="submit" id="submit-collectionAdd-contact-contactIndividuals" name="submit-collectionAdd-contact-contactIndividuals[${listIndex}]" value="${message(code:'action.add')}" />
         </g:else>
       </fieldset>
     <g:each var="it" in="${rqt.contactIndividuals}" status="index">

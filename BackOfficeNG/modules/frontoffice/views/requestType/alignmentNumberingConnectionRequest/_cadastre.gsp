@@ -6,7 +6,7 @@
             <select name="requesterQuality" class="required condition-isOwner-trigger  validate-not-first" title="<g:message code="ancr.property.requesterQuality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Owner','Tenant','Cabinet']}">
-                <option value="fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType_${it}" ${it == rqt.requesterQuality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="ancr.property.requesterQuality" /></option>
+                <option value="fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType_${it}" ${it == rqt.requesterQuality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="ancr.property.requesterQuality" /></option>
               </g:each>
             </select>
             
@@ -16,7 +16,7 @@
   
     <label class="required condition-isOwner-unfilled"><g:message code="ancr.property.ownerLastName.label" /> *  <span><g:message code="ancr.property.ownerLastName.help" /></span></label>
             <input type="text" name="ownerLastName" value="${rqt.ownerLastName?.toString()}" 
-                    class="required condition-isOwner-unfilled  validate-lastName" title="<g:message code="ancr.property.ownerLastName.validationError" />"  maxLength="38"/>
+                    class="required condition-isOwner-unfilled  validate-lastName" title="<g:message code="ancr.property.ownerLastName.validationError" />"  maxlength="38" />
             
 
   
@@ -24,7 +24,7 @@
   
     <label class="required condition-isOwner-unfilled"><g:message code="ancr.property.ownerFirstNames.label" /> *  <span><g:message code="ancr.property.ownerFirstNames.help" /></span></label>
             <input type="text" name="ownerFirstNames" value="${rqt.ownerFirstNames?.toString()}" 
-                    class="required condition-isOwner-unfilled  validate-string" title="<g:message code="ancr.property.ownerFirstNames.validationError" />"  />
+                    class="required condition-isOwner-unfilled  validate-string" title="<g:message code="ancr.property.ownerFirstNames.validationError" />"   />
             
 
   
@@ -54,7 +54,7 @@
   
     <label class="required"><g:message code="ancr.property.section.label" /> *  <span><g:message code="ancr.property.section.help" /></span></label>
             <input type="text" name="section" value="${rqt.section?.toString()}" 
-                    class="required  validate-string" title="<g:message code="ancr.property.section.validationError" />"  />
+                    class="required  validate-string" title="<g:message code="ancr.property.section.validationError" />"   />
             
 
   
@@ -62,7 +62,7 @@
   
     <label class="required"><g:message code="ancr.property.number.label" /> *  <span><g:message code="ancr.property.number.help" /></span></label>
             <input type="text" name="number" value="${rqt.number?.toString()}" 
-                    class="required  validate-positiveInteger" title="<g:message code="ancr.property.number.validationError" />"  />
+                    class="required  validate-positiveInteger" title="<g:message code="ancr.property.number.validationError" />"   />
             
 
   
@@ -70,7 +70,7 @@
   
     <label class=""><g:message code="ancr.property.locality.label" />   <span><g:message code="ancr.property.locality.help" /></span></label>
             <input type="text" name="locality" value="${rqt.locality?.toString()}" 
-                    class="  validate-string" title="<g:message code="ancr.property.locality.validationError" />"  />
+                    class="  validate-string" title="<g:message code="ancr.property.locality.validationError" />"   />
             
 
   
@@ -78,7 +78,7 @@
   
     <label class=""><g:message code="ancr.property.transportationRoute.label" />   <span><g:message code="ancr.property.transportationRoute.help" /></span></label>
             <input type="text" name="transportationRoute" value="${rqt.transportationRoute?.toString()}" 
-                    class="  validate-string" title="<g:message code="ancr.property.transportationRoute.validationError" />"  />
+                    class="  validate-string" title="<g:message code="ancr.property.transportationRoute.validationError" />"   />
             
 
   
@@ -100,7 +100,7 @@
   
     <label class=""><g:message code="ancr.property.area.label" />   <span><g:message code="ancr.property.area.help" /></span></label>
             <input type="text" name="area" value="${rqt.area?.toString()}" 
-                    class="  validate-positiveInteger" title="<g:message code="ancr.property.area.validationError" />"  />
+                    class="  validate-positiveInteger" title="<g:message code="ancr.property.area.validationError" />"   />
             
 
   

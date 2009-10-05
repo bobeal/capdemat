@@ -21,13 +21,13 @@
     
       <label class="required"><g:message code="bdr.property.fatherLastName.label" /> *  <span><g:message code="bdr.property.fatherLastName.help" /></span></label>
             <input type="text" name="fatherLastName" value="${rqt.fatherLastName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="bdr.property.fatherLastName.validationError" />"  maxLength="38"/>
+                    class="required  validate-lastName" title="<g:message code="bdr.property.fatherLastName.validationError" />"  maxlength="38" />
             
 
     
       <label class="required"><g:message code="bdr.property.fatherFirstNames.label" /> *  <span><g:message code="bdr.property.fatherFirstNames.help" /></span></label>
             <input type="text" name="fatherFirstNames" value="${rqt.fatherFirstNames?.toString()}" 
-                    class="required  validate-string" title="<g:message code="bdr.property.fatherFirstNames.validationError" />"  />
+                    class="required  validate-string" title="<g:message code="bdr.property.fatherFirstNames.validationError" />"   />
             
 
     
@@ -40,13 +40,13 @@
     
       <label class="required"><g:message code="bdr.property.motherMaidenName.label" /> *  <span><g:message code="bdr.property.motherMaidenName.help" /></span></label>
             <input type="text" name="motherMaidenName" value="${rqt.motherMaidenName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="bdr.property.motherMaidenName.validationError" />"  maxLength="38"/>
+                    class="required  validate-lastName" title="<g:message code="bdr.property.motherMaidenName.validationError" />"  maxlength="38" />
             
 
     
       <label class="required"><g:message code="bdr.property.motherFirstNames.label" /> *  <span><g:message code="bdr.property.motherFirstNames.help" /></span></label>
             <input type="text" name="motherFirstNames" value="${rqt.motherFirstNames?.toString()}" 
-                    class="required  validate-string" title="<g:message code="bdr.property.motherFirstNames.validationError" />"  />
+                    class="required  validate-string" title="<g:message code="bdr.property.motherFirstNames.validationError" />"   />
             
 
     
@@ -56,7 +56,7 @@
   
     <label class="required"><g:message code="bdr.property.copies.label" /> *  <span><g:message code="bdr.property.copies.help" /></span></label>
             <input type="text" name="copies" value="${rqt.copies?.toString()}" 
-                    class="required  validate-positiveInteger" title="<g:message code="bdr.property.copies.validationError" />"  />
+                    class="required  validate-positiveInteger" title="<g:message code="bdr.property.copies.validationError" />"   />
             
 
   
@@ -66,7 +66,7 @@
             <select name="motive" class="required  validate-not-first" title="<g:message code="bdr.property.motive.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['NotaryAct','NationalIdentityCard','FrenchNationalityCertificate','Marriage','Pacs','Passport','Pension','LegalProceedings','Other']}">
-                <option value="fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType_${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="bdr.property.motive" /></option>
+                <option value="fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType_${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="bdr.property.motive" /></option>
               </g:each>
             </select>
             

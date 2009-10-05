@@ -37,19 +37,19 @@
     
       <label class=""><g:message code="sgr.property.subjectPhone.label" />   <span><g:message code="sgr.property.subjectPhone.help" /></span></label>
             <input type="text" name="subjectPhone" value="${rqt.subjectPhone?.toString()}" 
-                    class=" autofill-subjectFilling-listener-HomePhone validate-phone" title="<g:message code="sgr.property.subjectPhone.validationError" />"  maxLength="10"/>
+                    class=" autofill-subjectFilling-listener-HomePhone validate-phone" title="<g:message code="sgr.property.subjectPhone.validationError" />"  maxlength="10" />
             
 
     
       <label class=""><g:message code="sgr.property.subjectMobilePhone.label" />   <span><g:message code="sgr.property.subjectMobilePhone.help" /></span></label>
             <input type="text" name="subjectMobilePhone" value="${rqt.subjectMobilePhone?.toString()}" 
-                    class=" autofill-subjectFilling-listener-MobilePhone validate-phone" title="<g:message code="sgr.property.subjectMobilePhone.validationError" />"  maxLength="10"/>
+                    class=" autofill-subjectFilling-listener-MobilePhone validate-phone" title="<g:message code="sgr.property.subjectMobilePhone.validationError" />"  maxlength="10" />
             
 
     
       <label class=""><g:message code="sgr.property.subjectEmail.label" />   <span><g:message code="sgr.property.subjectEmail.help" /></span></label>
             <input type="text" name="subjectEmail" value="${rqt.subjectEmail?.toString()}" 
-                    class=" autofill-subjectFilling-listener-Email validate-email" title="<g:message code="sgr.property.subjectEmail.validationError" />"  />
+                    class=" autofill-subjectFilling-listener-Email validate-email" title="<g:message code="sgr.property.subjectEmail.validationError" />"   />
             
 
     

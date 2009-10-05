@@ -134,7 +134,7 @@
            </div>
            <div class="error" id="stepForm-registration-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-registration" name="submit-step-registration" class="submit-step" value="${message(code:'action.save')}" />
@@ -143,7 +143,7 @@
          <div class="navTab">
   
   
-           <a id="next-tab" href="#rules"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-registration" class="next-tab" href="#rules"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.registration != null}">       
@@ -176,7 +176,7 @@
            </div>
            <div class="error" id="stepForm-rules-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-rules" name="submit-step-rules" class="submit-step" value="${message(code:'action.save')}" />
@@ -184,10 +184,10 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#registration"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-rules" class="prev-tab" href="#registration"><g:message code="request.step.navigation.previous"/></a>
   
   
-           <a id="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
+           <a id="next-tab-rules" class="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
   
          </div>
          <g:if test="${helps.rules != null}">       
@@ -215,14 +215,19 @@
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
            <div>
   
-             <label for="meansOfContact" class="required">
+             <g:if test="${meansOfContact.size() > 0}">
+              <label for="meansOfContact" class="required">
                <g:message code="request.meansOfContact.chooseMessage"/> *
-             </label>
-             <select name="meansOfContact" class="required">
+              </label>
+              <select id="meansOfContact" name="meansOfContact" class="required">
                <g:each in="${meansOfContact}" var="moc">
                  <option value="${moc.key}" <g:if test="${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>>${moc.label}</option>
                </g:each>
-             </select>
+              </select>
+             </g:if>
+             <g:else>
+               <p>${message(code:'request.meansOfContact.message.notAvailable')}</p>
+             </g:else>
              <div class="summary-box">
     
             <g:render template="/frontofficeRequestType/libraryRegistrationRequest/validation0" />
@@ -230,7 +235,7 @@
             </div>
             <h3><g:message code="request.step.note.label" /></h3>
             <g:message code="request.step.note.desc" />
-            <textarea id="requestNote" name="requestNote" rows="" cols="" maxlength="1024"></textarea>
+            <textarea id="requestNote" name="requestNote" rows="" cols=""></textarea>
             <label><span id="requestNoteLimit"></span></label>
             <h3><g:message code="request.step.validation.label" /></h3>
             <g:if test="${!hasHomeFolder}">
@@ -247,7 +252,7 @@
            </div>
            <div class="error" id="stepForm-validation-error"> </div>
            <!-- Input submit-->
-           <input type="hidden" id="requestTypeInfo" name="requestTypeInfo" value="${requestTypeInfo}" />
+           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
@@ -258,7 +263,7 @@
          </form>
          <div class="navTab">
   
-           <a id="prev-tab" href="#rules"><g:message code="request.step.navigation.previous"/></a>
+           <a id="prev-tab-validation" class="prev-tab" href="#rules"><g:message code="request.step.navigation.previous"/></a>
   
   
          </div>

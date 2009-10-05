@@ -18,7 +18,7 @@
   
     <label class="required condition-isTenant-filled"><g:message code="scr.property.ownerLastName.label" /> *  <span><g:message code="scr.property.ownerLastName.help" /></span></label>
             <input type="text" name="ownerLastName" value="${rqt.ownerLastName?.toString()}" 
-                    class="required condition-isTenant-filled  validate-lastName" title="<g:message code="scr.property.ownerLastName.validationError" />"  maxLength="38"/>
+                    class="required condition-isTenant-filled  validate-lastName" title="<g:message code="scr.property.ownerLastName.validationError" />"  maxlength="38" />
             
 
   
@@ -26,7 +26,7 @@
   
     <label class="required condition-isTenant-filled"><g:message code="scr.property.ownerFirstNames.label" /> *  <span><g:message code="scr.property.ownerFirstNames.help" /></span></label>
             <input type="text" name="ownerFirstNames" value="${rqt.ownerFirstNames?.toString()}" 
-                    class="required condition-isTenant-filled  validate-string" title="<g:message code="scr.property.ownerFirstNames.validationError" />"  />
+                    class="required condition-isTenant-filled  validate-string" title="<g:message code="scr.property.ownerFirstNames.validationError" />"   />
             
 
   
@@ -56,7 +56,7 @@
   
     <label class="required"><g:message code="scr.property.section.label" /> *  <span><g:message code="scr.property.section.help" /></span></label>
             <input type="text" name="section" value="${rqt.section?.toString()}" 
-                    class="required  validate-string" title="<g:message code="scr.property.section.validationError" />"  />
+                    class="required  validate-string" title="<g:message code="scr.property.section.validationError" />"   />
             
 
   
@@ -64,7 +64,7 @@
   
     <label class="required"><g:message code="scr.property.number.label" /> *  <span><g:message code="scr.property.number.help" /></span></label>
             <input type="text" name="number" value="${rqt.number?.toString()}" 
-                    class="required  validate-positiveInteger" title="<g:message code="scr.property.number.validationError" />"  />
+                    class="required  validate-positiveInteger" title="<g:message code="scr.property.number.validationError" />"   />
             
 
   
@@ -72,7 +72,7 @@
   
     <label class=""><g:message code="scr.property.locality.label" />   <span><g:message code="scr.property.locality.help" /></span></label>
             <input type="text" name="locality" value="${rqt.locality?.toString()}" 
-                    class="  validate-string" title="<g:message code="scr.property.locality.validationError" />"  />
+                    class="  validate-string" title="<g:message code="scr.property.locality.validationError" />"   />
             
 
   
@@ -80,7 +80,7 @@
   
     <label class=""><g:message code="scr.property.transportationRoute.label" />   <span><g:message code="scr.property.transportationRoute.help" /></span></label>
             <input type="text" name="transportationRoute" value="${rqt.transportationRoute?.toString()}" 
-                    class="  validate-string" title="<g:message code="scr.property.transportationRoute.validationError" />"  />
+                    class="  validate-string" title="<g:message code="scr.property.transportationRoute.validationError" />"   />
             
 
   

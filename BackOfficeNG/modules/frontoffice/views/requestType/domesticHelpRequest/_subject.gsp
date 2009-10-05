@@ -23,7 +23,7 @@
     
       <label class="required"><g:message code="dhr.property.dhrRequesterBirthPlace.label" /> *  <span><g:message code="dhr.property.dhrRequesterBirthPlace.help" /></span></label>
             <input type="text" name="dhrRequesterBirthPlace" value="${rqt.dhrRequesterBirthPlace?.toString()}" 
-                    class="required  validate-string" title="<g:message code="dhr.property.dhrRequesterBirthPlace.validationError" />"  />
+                    class="required  validate-string" title="<g:message code="dhr.property.dhrRequesterBirthPlace.validationError" />"   />
             
 
     
@@ -31,7 +31,7 @@
             <select name="dhrRequesterNationality" class="required condition-isNonEuropean-trigger  validate-not-first" title="<g:message code="dhr.property.dhrRequesterNationality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
-                <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.dhrRequesterNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" /></option>
+                <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.dhrRequesterNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" /></option>
               </g:each>
             </select>
             
@@ -66,7 +66,7 @@
             <select name="dhrPrincipalPensionPlan" class="required condition-isOtherPensionPlan-trigger  validate-not-first" title="<g:message code="dhr.property.dhrPrincipalPensionPlan.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
-                <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == rqt.dhrPrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrPrincipalPensionPlan" /></option>
+                <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == rqt.dhrPrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrPrincipalPensionPlan" /></option>
               </g:each>
             </select>
             
@@ -74,13 +74,13 @@
     
       <label class="required condition-isOtherPensionPlan-filled"><g:message code="dhr.property.dhrPensionPlanDetail.label" /> *  <span><g:message code="dhr.property.dhrPensionPlanDetail.help" /></span></label>
             <input type="text" name="dhrPensionPlanDetail" value="${rqt.dhrPensionPlanDetail?.toString()}" 
-                    class="required condition-isOtherPensionPlan-filled  validate-string" title="<g:message code="dhr.property.dhrPensionPlanDetail.validationError" />"  />
+                    class="required condition-isOtherPensionPlan-filled  validate-string" title="<g:message code="dhr.property.dhrPensionPlanDetail.validationError" />"   />
             
 
     
       <label class="required"><g:message code="dhr.property.dhrComplementaryPensionPlan.label" /> *  <span><g:message code="dhr.property.dhrComplementaryPensionPlan.help" /></span></label>
             <input type="text" name="dhrComplementaryPensionPlan" value="${rqt.dhrComplementaryPensionPlan?.toString()}" 
-                    class="required  validate-string" title="<g:message code="dhr.property.dhrComplementaryPensionPlan.validationError" />"  />
+                    class="required  validate-string" title="<g:message code="dhr.property.dhrComplementaryPensionPlan.validationError" />"   />
             
 
     
@@ -107,7 +107,7 @@
             <select name="dhrGuardianMeasure" class="required condition-haveGuardian-filled  validate-not-first" title="<g:message code="dhr.property.dhrGuardianMeasure.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['safeguardingJustice','guardianship','curatorship']}">
-                <option value="fr.cg95.cvq.business.request.social.DhrGuardianMeasureType_${it}" ${it == rqt.dhrGuardianMeasure?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="dhr.property.dhrGuardianMeasure" /></option>
+                <option value="fr.cg95.cvq.business.request.social.DhrGuardianMeasureType_${it}" ${it == rqt.dhrGuardianMeasure?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrGuardianMeasure" /></option>
               </g:each>
             </select>
             
@@ -115,7 +115,7 @@
     
       <label class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianName.label" /> *  <span><g:message code="dhr.property.dhrGuardianName.help" /></span></label>
             <input type="text" name="dhrGuardianName" value="${rqt.dhrGuardianName?.toString()}" 
-                    class="required condition-haveGuardian-filled  validate-lastName" title="<g:message code="dhr.property.dhrGuardianName.validationError" />"  maxLength="38"/>
+                    class="required condition-haveGuardian-filled  validate-lastName" title="<g:message code="dhr.property.dhrGuardianName.validationError" />"  maxlength="38" />
             
 
     

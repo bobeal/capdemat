@@ -137,12 +137,14 @@ public class ElementFo {
         this.maxLength = maxLength;
     }
     
+    // FIXME - avoid to generate attributeName="value" in java side
+    // FIXME - minlength is not a HTML 4.01 valid attribute
     public String getLengthLimits() {
         String limits = "";
         if (maxLength != 0)
-            limits += "maxLength=\"" + maxLength + "\""; 
+            limits += "maxlength=\"" + maxLength + "\""; 
         if (minLength != 0)
-            limits += " minLength=\"" + minLength + "\""; 
+            limits += " minlength=\"" + minLength + "\""; 
         return limits;
     }
 
@@ -241,10 +243,9 @@ public class ElementFo {
     }
 
     public String getRows() {
-        String s = "";
-        if (rows > 0)
-            s += "rows=\"" + rows + "\""; 
-        return s;
+        if (rows == 0)
+            return "";
+        return Integer.valueOf(rows).toString();
     }
 
     public void setRows(String rows) {

@@ -56,9 +56,9 @@
       zct.each(subScopes, function() {
         var inputs = yud.getElementsBy(function(el) {
           if (zct.inArray(el.nodeName, ["INPUT", "SELECT", "TEXTAREA"]) > -1 && zct.inArray(el.type, ["submit", "hidden"]) == -1)
-            return zcv.scope.INSIDE;
+            return true;
           else
-            return zcv.scope.OUTSIDE;
+            return false;
         }, null, this);
         zct.each(inputs, function() {
           if (zct.inArray(this.type, ["checkbox", "radio"]) != -1) {

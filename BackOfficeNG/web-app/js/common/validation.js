@@ -68,7 +68,7 @@
             else return true;
           }
           return this.func.apply(me, fields);
-        }
+        };
       },
 
       complexRules: {},

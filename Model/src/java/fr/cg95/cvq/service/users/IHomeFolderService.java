@@ -19,6 +19,7 @@ import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
 
 /**
  * Service related to the management of home folders.
@@ -243,7 +244,8 @@ public interface IHomeFolderService {
      * It is then up to the home folder service to take the correct decisions : either delete
      * the associated, either do nothing.
      */
-    void onRequestDeleted(@IsHomeFolder final Long homeFolderId, final Long requestId)
+    void onRequestDeleted(@IsHomeFolder final Long homeFolderId,
+        @IsRequest final Long requestId)
         throws CvqException;
     
     /**

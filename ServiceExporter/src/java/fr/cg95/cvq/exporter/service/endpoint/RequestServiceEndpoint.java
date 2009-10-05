@@ -50,7 +50,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
 
         if (typedRequest.getRequestTypeLabel() != null) {
             if (requestTypesLabels.contains(typedRequest.getRequestTypeLabel())) {
-                criterias.add(new Critere("requestType.label",
+                criterias.add(new Critere(Request.SEARCH_BY_REQUEST_TYPE_LABEL,
                     typedRequest.getRequestTypeLabel(), Critere.EQUALS));
             } else {
                 response.setError(noPermissions);
@@ -58,7 +58,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
             }
         } else {
             if (requestTypesLabels != null && !requestTypesLabels.isEmpty()) {
-                criterias.add(new Critere("requestType.label",
+                criterias.add(new Critere(Request.SEARCH_BY_REQUEST_TYPE_LABEL,
                     requestTypesLabels, Critere.IN));
             } else {
                 response.setError(noPermissions);

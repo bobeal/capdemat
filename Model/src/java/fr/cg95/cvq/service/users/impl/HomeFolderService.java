@@ -742,7 +742,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public void onRequestDeleted(final Long homeFolderId, final Long requestId)
         throws CvqException {
         HomeFolder homeFolder = getById(homeFolderId);

@@ -49,9 +49,9 @@ public class RequestXmlGenerationJob implements BeanFactoryAware {
     public void performGeneration()
         throws CvqException {
         Set<Critere> criteriaSet = new HashSet<Critere>(2);
-        criteriaSet.add(new Critere("requestType.label",
+        criteriaSet.add(new Critere(Request.SEARCH_BY_REQUEST_TYPE_LABEL,
             externalService.getGenerableRequestTypes(), Critere.IN));
-        criteriaSet.add(new Critere("validationDate",
+        criteriaSet.add(new Critere(Request.SEARCH_BY_VALIDATION_DATE,
             DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -2), Critere.GTE));
         Critere statusCritere =
             new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,

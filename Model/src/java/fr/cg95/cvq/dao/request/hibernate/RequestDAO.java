@@ -104,6 +104,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersValues.add(searchCrit.getDateValue());
                 parametersTypes.add(Hibernate.TIMESTAMP);
 
+            } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_VALIDATION_DATE)) {
+                sb.append(" and request.validationDate " + searchCrit.getComparatif() + " ?");
+                parametersValues.add(searchCrit.getDateValue());
+                parametersTypes.add(Hibernate.TIMESTAMP);
+
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_LAST_MODIFICATION_DATE)) {
                 sb.append(" and request.lastModificationDate " + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getDateValue());

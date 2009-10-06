@@ -18,6 +18,13 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
           if (this.name.indexOf('officePhone') > 0) officePhone = this.	name;
         });
         zcv.complexRules['atLeastOne'].pushFields(homePhone, mobilePhone, officePhone);
+
+        zct.each(yud.getElementsByClassName('validate-phone', 'input', 'stepForm-foreignAdults'), function(){
+          if (this.name.indexOf('homePhone') > 0) homePhone = this.name;
+          if (this.name.indexOf('mobilePhone') > 0) mobilePhone = this.name;
+          if (this.name.indexOf('officePhone') > 0) officePhone = this.	name;
+        });
+        zcv.complexRules['atLeastOne'].pushFields(homePhone, mobilePhone, officePhone);
       }
     };
 

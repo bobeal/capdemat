@@ -86,7 +86,7 @@
           </g:each>
         </select>
         <input type="submit" name="submit-addRole-account-homeFolderTutor_ownerType:foreignAdults" value="${message(code:'action.add')}" />
-        <a id="active-tab" href="#foreignAdults"><g:message code="homeFolder.action.editForeignAdults" /></a>
+        <a id="active-tab-${UUID.randomUUID()}" href="#foreignAdults"><g:message code="homeFolder.action.editForeignAdults" /></a>
       </dd>
     </dl>
   </fieldset>
@@ -129,7 +129,7 @@
           <select name="role-ownerType:adults_individualIndex:${index}_individualType:children" class="validate-not-first">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${individuals?.childRoleTypes}">
-              <option value="${it}"><g:capdematEnumToField var="${it}" i18nKeyPrefix="homeFolder.role" /></option>
+              <option value="${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="homeFolder.role" /></option>
             </g:each>
           </select>
           <select name="owner-ownerType:adults_individualIndex:${index}_individualType:children" class="validate-not-first">
@@ -152,7 +152,7 @@
           <select name="role-ownerType:foreignAdults_individualIndex:${index}_individualType:children" class="validate-not-first">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${individuals?.childRoleTypes}">
-              <option value="${it}"><g:capdematEnumToField var="${it}" i18nKeyPrefix="homeFolder.role" /></option>
+              <option value="${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="homeFolder.role" /></option>
             </g:each>
           </select>
           <select name="owner-ownerType:foreignAdults_individualIndex:${index}_individualType:children" class="validate-not-first">
@@ -162,7 +162,7 @@
             </g:each>
           </select>
           <input type="submit" name="submit-addRole-account-ownerType:foreignAdults_individualIndex:${index}_individualType:children" value="${message(code:'action.add')}" />
-          <a id="active-tab" href="#foreignAdults"><g:message code="homeFolder.action.editForeignAdults" /></a>
+          <a id="active-tab-${UUID.randomUUID()}" href="#foreignAdults"><g:message code="homeFolder.action.editForeignAdults" /></a>
         </dd>
       </dl>
     </fieldset>
@@ -230,7 +230,7 @@
             </g:each>
           </select>
           <input type="submit" name="submit-addRole-account-ownerType:foreignAdults_individualIndex:${index}_individualType:adults" value="${message(code:'action.add')}" />
-          <a id="active-tab" href="#foreignAdults"><g:message code="homeFolder.action.editForeignAdults" /></a>
+          <a id="active-tab-${UUID.randomUUID()}" href="#foreignAdults"><g:message code="homeFolder.action.editForeignAdults" /></a>
         </dd>
       </dl>
     </fieldset>

@@ -9,43 +9,43 @@
         <select name="_individuals.adults[${listIndex}].title" class="required validate-not-first" title="<g:message code="homeFolder.adult.property.title.validationError" />">
           <option value=""><g:message code="message.select.defaultOption" /></option>
           <g:each in="${['Mister','Madam','Miss','Agency']}">
-            <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == editList?.adults?.title?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="homeFolder.adult.title" /></option>
+            <option value="fr.cg95.cvq.business.users.TitleType_${it}" ${it == editList?.adults?.title?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="homeFolder.adult.title" /></option>
           </g:each>
         </select>
 
         <label class="required"><g:message code="homeFolder.individual.property.lastName" /></label>
         <input type="text" name="_individuals.adults[${listIndex}].lastName" value="${editList?.adults?.lastName}"
-          class="required validate-lastName" title="<g:message code="homeFolder.individual.property.lastName.validationError" />">
+          class="required validate-lastName" title="<g:message code="homeFolder.individual.property.lastName.validationError" />" />
 
         <label class="required"><g:message code="homeFolder.individual.property.firstName" /></label>
         <input type="text" name="_individuals.adults[${listIndex}].firstName" value="${editList?.adults?.firstName}"
-          class="required validate-firstName" title="<g:message code="homeFolder.individual.property.firstName.validationError" />">
+          class="required validate-firstName" title="<g:message code="homeFolder.individual.property.firstName.validationError" />" />
         
         <label class="required"><g:message code="homeFolder.adult.property.familyStatus" /></label>
         <select name="_individuals.adults[${listIndex}].familyStatus" class="required validate-not-first" title="<g:message code="homeFolder.adult.property.familyStatus.validationError" />">
           <option value=""><g:message code="message.select.defaultOption" /></option>
           <g:each in="${['Married','Single','Divorced','Widow','CommonLawMarriage','Pacs','Other']}">
-            <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == editList?.adults?.familyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToField var="${it}" i18nKeyPrefix="homeFolder.adult.familyStatus" /></option>
+            <option value="fr.cg95.cvq.business.users.FamilyStatusType_${it}" ${it == editList?.adults?.familyStatus?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="homeFolder.adult.familyStatus" /></option>
           </g:each>
         </select>
         
         <label class="required"><g:message code="homeFolder.adult.property.email" /> <span><g:message code="homeFolder.adult.property.email.help" /></span></label>
         <input type="text" name="_individuals.adults[${listIndex}].email" value="${editList?.adults?.email}"
-          class="required validate-email" title="<g:message code="homeFolder.adult.property.email.validationError" />">
+          class="required validate-email" title="<g:message code="homeFolder.adult.property.email.validationError" />" />
         
         <label class="required"><g:message code="homeFolder.adult.label.phones" /> <span>(<g:message code="homeFolder.adult.label.phones.help" />)</span></label>
         <div class="address-fieldset">
           <label><g:message code="homeFolder.adult.property.homePhone" /></label>
           <input type="text" name="_individuals.adults[${listIndex}].homePhone" value="${editList?.adults?.homePhone}"
-            class="validate-phone" title="<g:message code="homeFolder.adult.property.homePhone.validationError" />">
+            class="validate-phone" title="<g:message code="homeFolder.adult.property.homePhone.validationError" />" />
 
           <label><g:message code="homeFolder.adult.property.mobilePhone" /></label>
           <input type="text" name="_individuals.adults[${listIndex}].mobilePhone" value="${editList?.adults?.mobilePhone}"
-            class="validate-phone" title="<g:message code="homeFolder.adult.property.mobilePhone.validationError" />">
+            class="validate-phone" title="<g:message code="homeFolder.adult.property.mobilePhone.validationError" />" />
 
           <label><g:message code="homeFolder.adult.property.officePhone" /></label>
           <input type="text" name="_individuals.adults[${listIndex}].officePhone" value="${editList?.adults?.officePhone}"
-            class="validate-phone" title="<g:message code="homeFolder.adult.property.officePhone.validationError" />">
+            class="validate-phone" title="<g:message code="homeFolder.adult.property.officePhone.validationError" />" />
         </div>
       </div>
       
@@ -72,11 +72,11 @@
     <input type="hidden" name="individuals" />
     <input type="hidden" name="objectToBind" value="individuals" />
     <g:if test="${editList?.name == 'adults'}">
-      <input type="submit" id="submit-collectionModify-adults-adults[${listIndex}]" name="submit-collectionModify-adults-adults[${listIndex}]" value="${message(code:'action.save')}" />
-      <input type="submit" id="submit-collectionCancel-adults-adults[${listIndex}]" name="submit-collectionCancel-adults-adults[${listIndex}]" value="${message(code:'action.cancel')}" />
+      <input type="submit" id="submit-collectionModify-adults-adults" name="submit-collectionModify-adults-adults[${listIndex}]" value="${message(code:'action.save')}" />
+      <input type="submit" id="submit-collectionCancel-adults-adults" name="submit-collectionCancel-adults-adults[${listIndex}]" value="${message(code:'action.cancel')}" />
     </g:if>
     <g:else>
-      <input type="submit" id="submit-collectionAdd-adults-adults[${listIndex}]" name="submit-collectionAdd-adults-adults[${listIndex}]" value="${message(code:'action.add')}" />
+      <input type="submit" id="submit-collectionAdd-adults-adults" name="submit-collectionAdd-adults-adults[${listIndex}]" value="${message(code:'action.add')}" />
     </g:else>
   </fieldset>
   <div class="error" id="stepForm-adults-error"> </div>

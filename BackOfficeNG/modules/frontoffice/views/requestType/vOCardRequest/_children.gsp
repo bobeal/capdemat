@@ -5,11 +5,11 @@
       <div class="yui-u first">
       <label class="required"><g:message code="homeFolder.individual.property.lastName" /></label>
       <input type="text" name="_individuals.children[${listIndex}].lastName" value="${editList?.children?.lastName}"
-        class="required validate-lastName" title="<g:message code="homeFolder.individual.property.lastName.validationError" />">
+        class="required validate-lastName" title="<g:message code="homeFolder.individual.property.lastName.validationError" />" />
 
       <label class="required"><g:message code="homeFolder.individual.property.firstName" /></label>
       <input type="text" name="_individuals.children[${listIndex}].firstName" value="${editList?.children?.firstName}"
-      class="required validate-firstName" title="<g:message code="homeFolder.individual.property.firstName.validationError" />">
+      class="required validate-firstName" title="<g:message code="homeFolder.individual.property.firstName.validationError" />" />
     </div>
       
     <div class="yui-u">
@@ -18,25 +18,25 @@
         <option value=""><g:message code="message.select.defaultOption" /></option>
         <g:each in="${['Male','Female']}">
           <option value="fr.cg95.cvq.business.users.SexType_${it}" ${it == editList?.children?.sex?.toString() ? 'selected="selected"': ''}>
-              <g:capdematEnumToField var="${it}" i18nKeyPrefix="homeFolder.child.property.sex" />
+              <g:capdematEnumToText var="${it}" i18nKeyPrefix="homeFolder.child.property.sex" />
           </option>
         </g:each>
       </select>
 
       <label class="required"><g:message code="homeFolder.individual.property.birthDate" /> <span><g:message code="homeFolder.individual.property.birthDate.help" /></span></label>
       <input type="text" name="_individuals.children[${listIndex}].birthDate" value="${formatDate(formatName:'format.date',date:editList?.children?.birthDate)}"
-        class="required validate-date" title="<g:message code="homeFolder.individual.property.birthDate.validationError" />">
+        class="required validate-date" title="<g:message code="homeFolder.individual.property.birthDate.validationError" />" />
       </div>
     </div>
     
     <input type="hidden" name="individuals" />
     <input type="hidden" name="objectToBind" value="individuals" />
     <g:if test="${editList?.name == 'children'}">
-      <input type="submit" id="submit-collectionModify-children-children[${listIndex}]" name="submit-collectionModify-children-children[${listIndex}]" value="${message(code:'action.save')}" />
-      <input type="submit" id="submit-collectionCancel-children-children[${listIndex}]" name="submit-collectionCancel-children-children[${listIndex}]" value="${message(code:'action.cancel')}" />
+      <input type="submit" id="submit-collectionModify-children-children" name="submit-collectionModify-children-children[${listIndex}]" value="${message(code:'action.save')}" />
+      <input type="submit" id="submit-collectionCancel-children-children" name="submit-collectionCancel-children-children[${listIndex}]" value="${message(code:'action.cancel')}" />
     </g:if>
     <g:else>
-      <input type="submit" id="submit-collectionAdd-children-children[${listIndex}]" name="submit-collectionAdd-children-children[${listIndex}]" value="${message(code:'action.add')}" />
+      <input type="submit" id="submit-collectionAdd-children-children" name="submit-collectionAdd-children-children[${listIndex}]" value="${message(code:'action.add')}" />
     </g:else>
   </fieldset>
   <div class="error" id="stepForm-children-error"> </div>

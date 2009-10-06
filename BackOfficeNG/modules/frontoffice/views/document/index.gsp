@@ -1,5 +1,6 @@
 <html>
   <head>
+    <title>${message(code:'document.title')}</title>
     <meta name="layout" content="fo_main" />
   </head>
 

@@ -1,5 +1,6 @@
 <html>
   <head>
+    <title>${message(code:'payment.title.cart')}</title>
     <meta name="layout" content="fo_main"/>
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'payment.css')}" />
   </head>

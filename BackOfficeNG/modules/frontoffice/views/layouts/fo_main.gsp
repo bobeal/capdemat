@@ -6,7 +6,7 @@
     <meta name="author" content="Zenexity" />
     <meta name="designer" content="Zenexity" />
     <meta name="copyright" content="CG95" />
-    <title>CapDémat - FrontOffice</title>
+    <title><g:layoutTitle default="Front Office CapDémat" /></title>
     <g:render template="/shared/fo_resources" />
     <g:layoutHead />
   </head>

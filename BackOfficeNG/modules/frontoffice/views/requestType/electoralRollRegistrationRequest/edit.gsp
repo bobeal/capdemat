@@ -1,5 +1,6 @@
 <html>
   <head>
+     <title>${message(code:'errr.description')}</title>
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'requestCreation.js')}"></script>

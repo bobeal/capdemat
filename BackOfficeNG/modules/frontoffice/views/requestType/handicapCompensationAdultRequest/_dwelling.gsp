@@ -16,7 +16,7 @@
 
     
       <label class="required condition-isNotPlaceOfResidence-filled"><g:message code="hcar.property.dwellingPrecision.label" /> *  <span><g:message code="hcar.property.dwellingPrecision.help" /></span></label>
-            <textarea name="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled  validate-textarea" title="<g:message code="hcar.property.dwellingPrecision.validationError" />" rows="2" maxlength="120">${rqt.dwellingPrecision}</textarea>
+            <textarea name="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled  validate-textarea" title="<g:message code="hcar.property.dwellingPrecision.validationError" />" rows="2" cols="" maxlength="120">${rqt.dwellingPrecision}</textarea>
             
 
     

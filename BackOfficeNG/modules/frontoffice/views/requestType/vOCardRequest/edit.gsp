@@ -1,10 +1,11 @@
 <html>
   <head>
+    <title>${message(code:requestTypeLabel == 'VO Card' ? 'vcr.description' : 'homeFolder.title.admin')}</title>
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:customJS.dir,file:'vOCardRequest.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice/requesttype',file:'vOCardRequest.js')}"></script>
   </head>
   <body>
     <g:set var="requestTypeInfo">

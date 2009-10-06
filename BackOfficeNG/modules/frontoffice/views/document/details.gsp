@@ -1,5 +1,6 @@
 <html>
   <head>
+    <title>${message(code:'document.title.details')}</title>
     <meta name="layout" content="fo_main"/>
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'data-detail.css')}" />
   </head>

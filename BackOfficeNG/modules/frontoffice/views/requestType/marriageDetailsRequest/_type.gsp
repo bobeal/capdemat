@@ -25,7 +25,7 @@
 
   
     <label class=""><g:message code="mdr.property.comment.label" />   <span><g:message code="mdr.property.comment.help" /></span></label>
-            <textarea name="comment" class="  validate-textarea" title="<g:message code="mdr.property.comment.validationError" />" rows="3" >${rqt.comment}</textarea>
+            <textarea name="comment" class="  validate-textarea" title="<g:message code="mdr.property.comment.validationError" />" rows="3" cols="" >${rqt.comment}</textarea>
             
 
   

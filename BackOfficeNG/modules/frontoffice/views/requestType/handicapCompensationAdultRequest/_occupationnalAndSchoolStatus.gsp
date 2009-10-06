@@ -81,17 +81,17 @@
 
     
       <label class=""><g:message code="hcar.property.formationDiploma.label" />   <span><g:message code="hcar.property.formationDiploma.help" /></span></label>
-            <textarea name="formationDiploma" class="  validate-textarea" title="<g:message code="hcar.property.formationDiploma.validationError" />" rows="2" maxlength="120">${rqt.formationDiploma}</textarea>
+            <textarea name="formationDiploma" class="  validate-textarea" title="<g:message code="hcar.property.formationDiploma.validationError" />" rows="2" cols="" maxlength="120">${rqt.formationDiploma}</textarea>
             
 
     
       <label class=""><g:message code="hcar.property.formationPreviousFormation.label" />   <span><g:message code="hcar.property.formationPreviousFormation.help" /></span></label>
-            <textarea name="formationPreviousFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationPreviousFormation.validationError" />" rows="3" maxlength="180">${rqt.formationPreviousFormation}</textarea>
+            <textarea name="formationPreviousFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationPreviousFormation.validationError" />" rows="3" cols="" maxlength="180">${rqt.formationPreviousFormation}</textarea>
             
 
     
       <label class=""><g:message code="hcar.property.formationCurrentFormation.label" />   <span><g:message code="hcar.property.formationCurrentFormation.help" /></span></label>
-            <textarea name="formationCurrentFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationCurrentFormation.validationError" />" rows="2" maxlength="120">${rqt.formationCurrentFormation}</textarea>
+            <textarea name="formationCurrentFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationCurrentFormation.validationError" />" rows="2" cols="" maxlength="120">${rqt.formationCurrentFormation}</textarea>
             
 
     

@@ -1,5 +1,6 @@
 <html>
   <head>
+    <title>${message(code:'homeFolder.title')}</title>
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'homefolder.css')}" />
   </head>

@@ -44,7 +44,7 @@
 
     
       <label class=""><g:message code="srr.property.currentSchoolAddress.label" />   <span><g:message code="srr.property.currentSchoolAddress.help" /></span></label>
-            <textarea name="currentSchoolAddress" class="  validate-textarea" title="<g:message code="srr.property.currentSchoolAddress.validationError" />" rows="3" >${rqt.currentSchoolAddress}</textarea>
+            <textarea name="currentSchoolAddress" class="  validate-textarea" title="<g:message code="srr.property.currentSchoolAddress.validationError" />" rows="3" cols="" >${rqt.currentSchoolAddress}</textarea>
             
 
     

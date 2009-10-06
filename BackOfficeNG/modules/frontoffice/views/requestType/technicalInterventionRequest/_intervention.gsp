@@ -43,7 +43,7 @@
 
   
     <label class="required"><g:message code="tir.property.interventionDescription.label" /> *  <span><g:message code="tir.property.interventionDescription.help" /></span></label>
-            <textarea name="interventionDescription" class="required  validate-textarea" title="<g:message code="tir.property.interventionDescription.validationError" />" rows="3" >${rqt.interventionDescription}</textarea>
+            <textarea name="interventionDescription" class="required  validate-textarea" title="<g:message code="tir.property.interventionDescription.validationError" />" rows="3" cols="" >${rqt.interventionDescription}</textarea>
             
 
   

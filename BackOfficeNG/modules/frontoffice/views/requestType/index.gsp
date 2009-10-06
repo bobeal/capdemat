@@ -1,5 +1,6 @@
 <html>
   <head>
+    <title>${message(code:'request.title.services')}</title>
     <meta name="layout" content="fo_main" />
   </head>
   

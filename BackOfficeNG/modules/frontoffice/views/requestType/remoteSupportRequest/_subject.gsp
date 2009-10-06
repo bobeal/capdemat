@@ -111,7 +111,7 @@
 
     
       <label class="required condition-isEmergency-filled"><g:message code="rsr.property.requestInformationEmergencyMotive.label" /> *  <span><g:message code="rsr.property.requestInformationEmergencyMotive.help" /></span></label>
-            <textarea name="requestInformationEmergencyMotive" class="required condition-isEmergency-filled  validate-textarea" title="<g:message code="rsr.property.requestInformationEmergencyMotive.validationError" />" rows="3" maxlength="180">${rqt.requestInformationEmergencyMotive}</textarea>
+            <textarea name="requestInformationEmergencyMotive" class="required condition-isEmergency-filled  validate-textarea" title="<g:message code="rsr.property.requestInformationEmergencyMotive.validationError" />" rows="3" cols="" maxlength="180">${rqt.requestInformationEmergencyMotive}</textarea>
             
 
     

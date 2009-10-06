@@ -99,7 +99,7 @@
 
   
     <label class=""><g:message code="mcr.property.childConvention.label" />   <span><g:message code="mcr.property.childConvention.help" /></span></label>
-            <textarea name="childConvention" class="  validate-textarea" title="<g:message code="mcr.property.childConvention.validationError" />" rows="3" >${rqt.childConvention}</textarea>
+            <textarea name="childConvention" class="  validate-textarea" title="<g:message code="mcr.property.childConvention.validationError" />" rows="3" cols="" >${rqt.childConvention}</textarea>
             
 
   

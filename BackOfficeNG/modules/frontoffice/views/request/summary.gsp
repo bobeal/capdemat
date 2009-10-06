@@ -1,5 +1,6 @@
 <html>
   <head>
+    <title>${message(code:'request.title.summary')}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />

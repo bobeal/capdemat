@@ -96,14 +96,16 @@ class RequestCreationController {
 
         def cRequest = flash.cRequest ? flash.cRequest : requestService.getSkeletonRequest()
 
+        def requestType = requestTypeService.getRequestTypeByLabel(params.label)
         // allow setting of request season only on creation
         if (params.requestSeasonId && cRequest.id == null) {
             cRequest.requestSeason =
-                requestTypeService.getRequestSeason(requestTypeService.getRequestTypeByLabel(params.label).id, Long.valueOf(params.requestSeasonId))
+                requestTypeService.getRequestSeason(requestType.id, Long.valueOf(params.requestSeasonId))
         }
         // check we have a request season if and only if the service needs one
-        if ((requestService.isOfRegistrationKind() && cRequest.requestSeason == null)
-            || (!requestService.isOfRegistrationKind() && cRequest.requestSeason != null)) {
+        if ((requestService.isOfRegistrationKind()
+                && requestTypeService.getOpenSeasons(requestType).size() > 0
+                && cRequest.requestSeason == null)) {
             redirect(uri : "/frontoffice/requestType")
             return false
         }

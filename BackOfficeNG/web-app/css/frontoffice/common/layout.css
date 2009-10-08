@@ -69,7 +69,8 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
 
 /* misc
 --------------------------------------------------------------*/
-.hidden { display: none; }
+.hidden   { display: none !important; }
+.unactive { display: none !important; }
 strong  { font-weight: bold; }
 
 

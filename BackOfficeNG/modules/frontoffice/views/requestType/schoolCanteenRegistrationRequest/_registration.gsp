@@ -2,8 +2,9 @@
 
 
   
-    <label class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
-            <select name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first " title="<g:message code="request.property.subject.validationError" /> ">
+    
+            <label for="subjectId" class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
+            <select id="subjectId" name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first " title="<g:message code="request.property.subject.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${subjects}">
                 <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
@@ -14,8 +15,8 @@
   
 
   
-    <label class="required"><g:message code="scrr.property.urgencyPhone.label" /> *  <span><g:message code="scrr.property.urgencyPhone.help" /></span></label>
-            <input type="text" name="urgencyPhone" value="${rqt.urgencyPhone?.toString()}" 
+    <label for="urgencyPhone" class="required"><g:message code="scrr.property.urgencyPhone.label" /> *  <span><g:message code="scrr.property.urgencyPhone.help" /></span></label>
+            <input type="text" id="urgencyPhone" name="urgencyPhone" value="${rqt.urgencyPhone?.toString()}" 
                     class="required  validate-phone" title="<g:message code="scrr.property.urgencyPhone.validationError" />"  maxlength="10" />
             
 
@@ -46,8 +47,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="foodAllergy" ${it == rqt.foodAllergy ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="foodAllergy_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="foodAllergy" ${it == rqt.foodAllergy ? 'checked="checked"': ''} />
+                <label for="foodAllergy_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -56,16 +57,16 @@
   
 
   
-    <label class=""><g:message code="scrr.property.doctorName.label" />   <span><g:message code="scrr.property.doctorName.help" /></span></label>
-            <input type="text" name="doctorName" value="${rqt.doctorName?.toString()}" 
+    <label for="doctorName" class=""><g:message code="scrr.property.doctorName.label" />   <span><g:message code="scrr.property.doctorName.help" /></span></label>
+            <input type="text" id="doctorName" name="doctorName" value="${rqt.doctorName?.toString()}" 
                     class="  validate-string" title="<g:message code="scrr.property.doctorName.validationError" />"   />
             
 
   
 
   
-    <label class=""><g:message code="scrr.property.doctorPhone.label" />   <span><g:message code="scrr.property.doctorPhone.help" /></span></label>
-            <input type="text" name="doctorPhone" value="${rqt.doctorPhone?.toString()}" 
+    <label for="doctorPhone" class=""><g:message code="scrr.property.doctorPhone.label" />   <span><g:message code="scrr.property.doctorPhone.help" /></span></label>
+            <input type="text" id="doctorPhone" name="doctorPhone" value="${rqt.doctorPhone?.toString()}" 
                     class="  validate-phone" title="<g:message code="scrr.property.doctorPhone.validationError" />"  maxlength="10" />
             
 

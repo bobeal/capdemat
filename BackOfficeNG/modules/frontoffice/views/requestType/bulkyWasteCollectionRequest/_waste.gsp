@@ -12,8 +12,8 @@
   
 
   
-    <label class=""><g:message code="bwcr.property.otherWaste.label" />   <span><g:message code="bwcr.property.otherWaste.help" /></span></label>
-            <input type="text" name="otherWaste" value="${rqt.otherWaste?.toString()}" 
+    <label for="otherWaste" class=""><g:message code="bwcr.property.otherWaste.label" />   <span><g:message code="bwcr.property.otherWaste.help" /></span></label>
+            <input type="text" id="otherWaste" name="otherWaste" value="${rqt.otherWaste?.toString()}" 
                     class="  validate-string" title="<g:message code="bwcr.property.otherWaste.validationError" />"   />
             
 
@@ -22,20 +22,22 @@
   
     <label class=""><g:message code="bwcr.property.collectionAddress.label" />   <span><g:message code="bwcr.property.collectionAddress.help" /></span></label>
             <div class="address-fieldset  ">
-            <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.collectionAddress?.additionalDeliveryInformation}" maxlength="38" name="collectionAddress.additionalDeliveryInformation"/>  
-            <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.collectionAddress?.additionalGeographicalInformation}" maxlength="38" name="collectionAddress.additionalGeographicalInformation"/>
-            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.collectionAddress?.streetNumber}" size="5" maxlength="5" name="collectionAddress.streetNumber"/>
-            <input type="text" class="line2 required" value="${rqt.collectionAddress?.streetName}" maxlength="32" name="collectionAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
-            <label><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.collectionAddress?.placeNameOrService}" maxlength="38" name="collectionAddress.placeNameOrService"/>
-            <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.collectionAddress?.postalCode}" size="5" maxlength="5" name="collectionAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.collectionAddress?.city}" maxlength="32" name="collectionAddress.city" title="<g:message code="address.property.city.validationError" />" />
-            <label><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.collectionAddress?.countryName}" maxlength="38" name="collectionAddress.countryName"/>
+            <label for="collectionAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
+            <input type="text" value="${rqt.collectionAddress?.additionalDeliveryInformation}" maxlength="38" id="collectionAddress.additionalDeliveryInformation" name="collectionAddress.additionalDeliveryInformation" />  
+            <label for="collectionAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
+            <input type="text" value="${rqt.collectionAddress?.additionalGeographicalInformation}" maxlength="38" id="collectionAddress.additionalGeographicalInformation" name="collectionAddress.additionalGeographicalInformation" />
+            <label for="collectionAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
+            <label for="collectionAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
+            <input type="text" class="line1" value="${rqt.collectionAddress?.streetNumber}" size="5" maxlength="5" id="collectionAddress.streetNumber" name="collectionAddress.streetNumber" />
+            <input type="text" class="line2 required" value="${rqt.collectionAddress?.streetName}" maxlength="32" id="collectionAddress.streetName" name="collectionAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <label for="collectionAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
+            <input type="text" value="${rqt.collectionAddress?.placeNameOrService}" maxlength="38" id="collectionAddress.placeNameOrService" name="collectionAddress.placeNameOrService" />
+            <label for="collectionAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
+            <label for="collectionAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
+            <input type="text" class="line1 required" value="${rqt.collectionAddress?.postalCode}" size="5" maxlength="5" id="collectionAddress.postalCode" name="collectionAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required" value="${rqt.collectionAddress?.city}" maxlength="32" id="collectionAddress.city" name="collectionAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <label for="collectionAddress.countryName"><g:message code="address.property.countryName" /></label>
+            <input type="text" value="${rqt.collectionAddress?.countryName}" maxlength="38" id="collectionAddress.countryName" name="collectionAddress.countryName" />
             </div>
             
 

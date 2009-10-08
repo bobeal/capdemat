@@ -47,7 +47,7 @@
                 </p>
               </g:elseif>
               <form method="post" action="${createLink(action:'removeCartItem')}">
-                <input type="submit" value="${message(code:'action.delete')}" />
+                <input type="submit" value="${message(code:'action.delete')}" title="${message(code:'action.delete')}" />
                 <input type="hidden" name="externalItemId" value="${record.externalItemId}"/>
                 <input type="hidden" name="type" value="${record.type}"/>
               </form>

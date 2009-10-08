@@ -520,7 +520,7 @@
     
             </div>
             <h3><g:message code="request.step.note.label" /></h3>
-            <g:message code="request.step.note.desc" />
+            <label for="requestNote"><g:message code="request.step.note.desc" /></label>
             <textarea id="requestNote" name="requestNote" rows="" cols=""></textarea>
             <label><span id="requestNoteLimit"></span></label>
             <h3><g:message code="request.step.validation.label" /></h3>

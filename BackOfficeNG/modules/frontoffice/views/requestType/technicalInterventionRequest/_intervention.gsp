@@ -12,8 +12,8 @@
   
 
   
-    <label class="required condition-otherIntervention-filled"><g:message code="tir.property.otherInterventionLabel.label" /> *  <span><g:message code="tir.property.otherInterventionLabel.help" /></span></label>
-            <input type="text" name="otherInterventionLabel" value="${rqt.otherInterventionLabel?.toString()}" 
+    <label for="otherInterventionLabel" class="required condition-otherIntervention-filled"><g:message code="tir.property.otherInterventionLabel.label" /> *  <span><g:message code="tir.property.otherInterventionLabel.help" /></span></label>
+            <input type="text" id="otherInterventionLabel" name="otherInterventionLabel" value="${rqt.otherInterventionLabel?.toString()}" 
                     class="required condition-otherIntervention-filled  validate-string" title="<g:message code="tir.property.otherInterventionLabel.validationError" />"   />
             
 
@@ -22,28 +22,30 @@
   
     <label class="required"><g:message code="tir.property.interventionPlace.label" /> *  <span><g:message code="tir.property.interventionPlace.help" /></span></label>
             <div class="address-fieldset required ">
-            <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.interventionPlace?.additionalDeliveryInformation}" maxlength="38" name="interventionPlace.additionalDeliveryInformation"/>  
-            <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.interventionPlace?.additionalGeographicalInformation}" maxlength="38" name="interventionPlace.additionalGeographicalInformation"/>
-            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.interventionPlace?.streetNumber}" size="5" maxlength="5" name="interventionPlace.streetNumber"/>
-            <input type="text" class="line2 required" value="${rqt.interventionPlace?.streetName}" maxlength="32" name="interventionPlace.streetName" title="<g:message code="address.property.streetName.validationError" />" />
-            <label><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.interventionPlace?.placeNameOrService}" maxlength="38" name="interventionPlace.placeNameOrService"/>
-            <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.interventionPlace?.postalCode}" size="5" maxlength="5" name="interventionPlace.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.interventionPlace?.city}" maxlength="32" name="interventionPlace.city" title="<g:message code="address.property.city.validationError" />" />
-            <label><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.interventionPlace?.countryName}" maxlength="38" name="interventionPlace.countryName"/>
+            <label for="interventionPlace.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
+            <input type="text" value="${rqt.interventionPlace?.additionalDeliveryInformation}" maxlength="38" id="interventionPlace.additionalDeliveryInformation" name="interventionPlace.additionalDeliveryInformation" />  
+            <label for="interventionPlace.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
+            <input type="text" value="${rqt.interventionPlace?.additionalGeographicalInformation}" maxlength="38" id="interventionPlace.additionalGeographicalInformation" name="interventionPlace.additionalGeographicalInformation" />
+            <label for="interventionPlace.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
+            <label for="interventionPlace.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
+            <input type="text" class="line1" value="${rqt.interventionPlace?.streetNumber}" size="5" maxlength="5" id="interventionPlace.streetNumber" name="interventionPlace.streetNumber" />
+            <input type="text" class="line2 required" value="${rqt.interventionPlace?.streetName}" maxlength="32" id="interventionPlace.streetName" name="interventionPlace.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <label for="interventionPlace.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
+            <input type="text" value="${rqt.interventionPlace?.placeNameOrService}" maxlength="38" id="interventionPlace.placeNameOrService" name="interventionPlace.placeNameOrService" />
+            <label for="interventionPlace.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
+            <label for="interventionPlace.city" class="required"><g:message code="address.property.city" /> *</label><br />
+            <input type="text" class="line1 required" value="${rqt.interventionPlace?.postalCode}" size="5" maxlength="5" id="interventionPlace.postalCode" name="interventionPlace.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required" value="${rqt.interventionPlace?.city}" maxlength="32" id="interventionPlace.city" name="interventionPlace.city" title="<g:message code="address.property.city.validationError" />" />
+            <label for="interventionPlace.countryName"><g:message code="address.property.countryName" /></label>
+            <input type="text" value="${rqt.interventionPlace?.countryName}" maxlength="38" id="interventionPlace.countryName" name="interventionPlace.countryName" />
             </div>
             
 
   
 
   
-    <label class="required"><g:message code="tir.property.interventionDescription.label" /> *  <span><g:message code="tir.property.interventionDescription.help" /></span></label>
-            <textarea name="interventionDescription" class="required  validate-textarea" title="<g:message code="tir.property.interventionDescription.validationError" />" rows="3" cols="" >${rqt.interventionDescription}</textarea>
+    <label for="interventionDescription" class="required"><g:message code="tir.property.interventionDescription.label" /> *  <span><g:message code="tir.property.interventionDescription.help" /></span></label>
+            <textarea id="interventionDescription" name="interventionDescription" class="required  validate-textarea" title="<g:message code="tir.property.interventionDescription.validationError" />" rows="3" cols="" >${rqt.interventionDescription}</textarea>
             
 
   

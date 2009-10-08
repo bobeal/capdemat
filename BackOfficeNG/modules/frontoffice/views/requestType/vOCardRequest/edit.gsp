@@ -3,6 +3,7 @@
     <title>${message(code:requestTypeLabel == 'VO Card' ? 'vcr.description' : 'homeFolder.title.admin')}</title>
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
+    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'account.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice',file:'condition.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice/requesttype',file:'vOCardRequest.js')}"></script>
@@ -297,8 +298,8 @@
              <g:render template="/frontofficeRequestType/vOCardRequest/validation" />
            </div>
             <h3><g:message code="request.step.note.label" /></h3>
-            <g:message code="request.step.note.desc" />
-            <textarea name="requestNote" rows="" cols=""></textarea>
+            <label for="requestNote"><g:message code="request.step.note.desc" /></label>
+            <textarea id="requestNote" name="requestNote" rows="" cols=""></textarea>
 			      <h3><g:message code="request.step.validation.label" /></h3>
             <g:if test="${!hasHomeFolder || homeFolderResponsible.password == null}">
               <g:render template="/frontofficeRequestType/outOfAccountValidation" />

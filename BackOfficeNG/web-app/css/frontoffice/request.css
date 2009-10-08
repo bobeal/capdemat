@@ -6,7 +6,7 @@
 
 /* tmp style
 ---------------------------------------------------------------*/
-h2.request-creation { margin: 0; color: #DB4366;}
+h2.request-creation { margin: 0; color: #DB4366; }
 
 /* creation form
    TODO : rename this class
@@ -76,8 +76,9 @@ h2.request-creation { margin: 0; color: #DB4366;}
 
 /* list
 -------------------------------------------------------------- */
-#requestTabView form ul { width: 80%; margin: .2em 0 .5em 0; }
-#requestTabView form li { padding: .2em 0; list-style-type: none; }
+#requestTabView form ul       { width: 80%; margin: .2em 0 .5em 0; }
+#requestTabView form li       { padding: .2em 0; list-style-type: none; }
+#requestTabView form li label { display: inline; font-size: .95em; }
 
 #requestTabView form ul.yes-no li { display: inline; margin: 0 .5em 0 0; }
 
@@ -102,8 +103,8 @@ h2.request-creation { margin: 0; color: #DB4366;}
   font-size: .9em;
 }
 
-#requestTabView .address-fieldset input[type="text"] { width: 99%; margin: 0; padding: .1em; }
-#requestTabView .address-fieldset label { margin-top: .5em; color: #333; }
+#requestTabView .address-fieldset input[type="text"] { width: 99%; margin: 0 0 .5em; padding: .1em; }
+#requestTabView .address-fieldset label { display: inline; padding-top: .5em; color: #333; }
 #requestTabView .address-fieldset input[type="text"].line1 { display: inline; width: 15%; }
 #requestTabView .address-fieldset input[type="text"].line2 { display: inline; width: 82%; }
 
@@ -148,49 +149,6 @@ h2.request-creation { margin: 0; color: #DB4366;}
   font-size: 1.2em; font-weight: bold;
 }
 
-/* Account creation and modification custom styles
--------------------------------------------------------------- */
-#requestTabView div.account-fieldset                      { margin: 0 0 1em 0; }
-#requestTabView div.account-fieldset input[type="submit"] { margin: 0 0 1em; }
-
-#requestTabView div.account-fieldset input[type="text"],
-#requestTabView div.account-fieldset input[type="password"],
-#requestTabView div.account-fieldset select,
-#requestTabView div.account-fieldset textarea,
-#requestTabView div.account-fieldset .address-fieldset  { width: 90%; }
-#requestTabView div.account-fieldset .address-fieldset input[type="text"].line2 { width: 72%; }
-
-#requestTabView fieldset.account-fieldset-add { padding: 1em 1em 0 1em;  border: 0;  background: #ffd; }
-
-#requestTabView .account-fieldset-add h4                       { margin: 0 0 .5em; font-size: 1.4em; font-weight: normal; }
-#requestTabView .account-fieldset-edit h4                      { margin: 0 0 .5em; font-size: 1.6em; font-weight: normal; }
-#requestTabView .account-fieldset-edit h4 input[type="submit"] { margin: 0; font-size: .6em; }
-
-#requestTabView .account-fieldset-edit dl     { background: #fff; }
-#requestTabView .summary-box dl dt  { width: 50%; }
-#requestTabView .summary-box dl dd  { width: 42%; }
-#requestTabView .summary-box dl input { font-size: .85em; }
-#requestTabView .account-fieldset-edit dl input,  
-#requestTabView .account-fieldset-edit dl select { margin-bottom: 0; }
-
-#requestTabView .account-fieldset-edit dl.role-add       { border-color: #bbb !important; background: transparent !important; }
-#requestTabView .account-fieldset-edit dl.role-add dt    { border-color: #bbb !important; }
-#requestTabView .account-fieldset-edit dl.role-add dd    { padding: .5em; border-color: #bbb !important; }
-#requestTabView .account-fieldset-edit dl.role-add dd a  { display: block; }
-
-#requestTabView .account-fieldset-edit select,
-#requestTabView .account-fieldset-edit input { width: auto; display: inline; }
-#requestTabView .account-fieldset-edit label { width: 100%; }
-
-#requestTabView .account-fieldset-edit .message { display: inline; padding: .2em; font: bold italic .9em sans-serif; color: #20aa20; background: #fff; }
-
-#requestTabView .account-fieldset-edit { 
-  margin-top: 1em; padding: 1em; 
-  border: 1px solid #ccc !important; -moz-border-radius: .5em; 
-  background: #eee;
-}
-
-
 /* validation step
 --------------------------------------------------------------*/
 #requestTabView form div .captcha       { margin : .1em 0 .5em; overflow: auto;}
@@ -200,7 +158,7 @@ h2.request-creation { margin: 0; color: #DB4366;}
 
 /* request notes on summary page
 --------------------------------------------------------------*/
-#requestNotes dl.notes    { overflow: auto; margin : 0.5em; border-bottom: 1px dashed #C1CFE2; }
+#requestNotes dl.notes    { overflow: auto; margin : 1.5em 1em 1em; border-bottom: 1px dashed #C1CFE2; }
 #requestNotes dl.notes dt,
 #requestNotes dl.notes dd { float: left; margin: 0; border-top: 1px dashed #C1CFE2; }
 #requestNotes dl.notes dt { padding-top : 1.5em; }
@@ -211,9 +169,9 @@ h2.request-creation { margin: 0; color: #DB4366;}
 #requestNotes .note {
   margin-top : 0.3em; padding : 0.2em;
   font-size: 1.4em;
-  border: 1px solid #cccccc; border-right: 0; border-bottom: 0;
+  border: 1px solid #ccc; border-right: 0; border-bottom: 0;
   -moz-border-radius: .5em; -webkit-border-radius: .5em;
-  background-color : #EEEEEE;
+  background-color : #eee;
 }
 
 #requestNotes .note .tag-state { font-size : 0.75em; }
@@ -222,55 +180,30 @@ h2.request-creation { margin: 0; color: #DB4366;}
 
 /* exit request creation screen
 --------------------------------------------------------------*/
-.requestExit       { overflow: auto; }
-.requestExit .link { padding: 0.75em; }
+.requestExit          { overflow: auto; }
+.requestExit .link    { padding: 0.75em; }
 .requestExit .link li { margin: 0; padding: .2em .5em; list-style-type: none; }
-.requestExit .info { font-size: 1.5em; }
+.requestExit .info    { font-size: 1.5em; }
 
 /* help
 --------------------------------------------------------------*/
-
-.requestHelp {
-  margin: .2em 0 0 0em;
-  padding: 1em 1.5em;
-  background: #eeeeee ;
-}
-
-#requestTabView .requestHelp h3 {
-  margin: 0 0 .5em 0;
-  font-size: 1.6em;
-  font-weight: normal;
-  border-bottom: 1px solid #C690BB;
-}
+.requestHelp { margin: .2em 0 0; padding: .5em 1.5em 1em; background: #eee; }
 
 /* notices
 --------------------------------------------------------------*/
-#requestTabView .required-fields-notice {
-  text-align: right;
-  margin-top: -0.5em;margin-bottom:0.3em;
-}
-
-/* condition
---------------------------------------------------------------*/
-.unactive { display: none !important; }
+#requestTabView .required-fields-notice { margin-top: -.5em 0 .3em 0; text-align: right; }
 
 /* validation specifics styles
 --------------------------------------------------------------*/
-#requestTabView #useAcceptance {
-    margin: 0em 0em 1em 0em;
-}
+#requestTabView #useAcceptance { margin: 0 0 1em 0; }
 
 /* javascript validation
 --------------------------------------------------------------*/
-
 .validation-failed { border:1px dashed #FF3333; background-color:#FFCCCC; }
-.validation-passed    { border:1px solid #66CC66; background-color:#fcfcfc; }
 
-.error { 
-  color: red; 
-  font-style: italic;
-  text-align: center; 
-  margin: 1em;
-  padding: 1em;
+.error {
+  margin: .5em; padding: .5em;
+  font-style: italic; text-align: center;
+  color: red;
 }
 

@@ -14,8 +14,8 @@
           <label class="required" for="password"><g:message code="homeFolder.adult.property.password"/> * :</label>
           <input type="password" id="password" name="password" value="" class="required" />
 
-          <label class="required"><g:message code="homeFolder.adult.property.question" /> * :</label>
-          <select name="question" class="required validate-not-first">
+          <label for="question" class="required"><g:message code="homeFolder.adult.property.question" /> * :</label>
+          <select id="question" name="question" class="required validate-not-first">
             <option value=""><g:message code="message.select.defaultOption" /></option>
             <g:each in="${['q1','q2','q3','q4']}">
               <option value="<g:message code='homeFolder.adult.question.${it}' />"${message(code:'homeFolder.adult.question.' + it) == question.toString() ? 'selected="selected"': ''}>
@@ -24,8 +24,8 @@
             </g:each>
           </select>
 
-          <label class="required"><g:message code="homeFolder.adult.property.answer" /> * :</label>
-          <input type="text" name="answer" value="${answer}" class="required" />
+          <label for="answer" class="required"><g:message code="homeFolder.adult.property.answer" /> * :</label>
+          <input type="text" id="answer" name="answer" value="${answer}" class="required" />
 
           <p class="submit-form">
             <input type="submit" value="${message(code:'action.save')}" />

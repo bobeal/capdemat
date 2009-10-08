@@ -9,8 +9,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isFamilyAssistance-trigger  validate-one-required boolean" title="" value="${it}" name="isFamilyAssistance" ${it == rqt.isFamilyAssistance ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="isFamilyAssistance_${it ? 'yes' : 'no'}" class="required condition-isFamilyAssistance-trigger  validate-one-required boolean" title="" value="${it}" name="isFamilyAssistance" ${it == rqt.isFamilyAssistance ? 'checked="checked"': ''} />
+                <label for="isFamilyAssistance_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -26,20 +26,20 @@
       <g:set var="listIndex" value="${editList?.name == 'familyAssistanceMembers' ? editList?.index : ( rqt.familyAssistanceMembers ? rqt.familyAssistanceMembers.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required condition-isFamilyAssistance-filled">
     
-        <label class="required"><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberRelationship.help" /></span></label>
-            <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberRelationship" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberRelationship?.toString()}" 
+        <label for="familyAssistanceMembers.${listIndex}.familyAssistanceMemberRelationship" class="required"><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberRelationship.help" /></span></label>
+            <input type="text" id="familyAssistanceMembers.${listIndex}.familyAssistanceMemberRelationship" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberRelationship" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberRelationship?.toString()}" 
                     class="required  " title="<g:message code="hcar.property.familyAssistanceMemberRelationship.validationError" />"  maxlength="60" />
             
 
     
-        <label class="required"><g:message code="hcar.property.familyAssistanceMemberLastName.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberLastName.help" /></span></label>
-            <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberLastName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberLastName?.toString()}" 
+        <label for="familyAssistanceMembers.${listIndex}.familyAssistanceMemberLastName" class="required"><g:message code="hcar.property.familyAssistanceMemberLastName.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberLastName.help" /></span></label>
+            <input type="text" id="familyAssistanceMembers.${listIndex}.familyAssistanceMemberLastName" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberLastName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="hcar.property.familyAssistanceMemberLastName.validationError" />"  maxlength="38" />
             
 
     
-        <label class="required"><g:message code="hcar.property.familyAssistanceMemberFirstName.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberFirstName.help" /></span></label>
-            <input type="text" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberFirstName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberFirstName?.toString()}" 
+        <label for="familyAssistanceMembers.${listIndex}.familyAssistanceMemberFirstName" class="required"><g:message code="hcar.property.familyAssistanceMemberFirstName.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberFirstName.help" /></span></label>
+            <input type="text" id="familyAssistanceMembers.${listIndex}.familyAssistanceMemberFirstName" name="familyAssistanceMembers[${listIndex}].familyAssistanceMemberFirstName" value="${editList?.familyAssistanceMembers?.familyAssistanceMemberFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="hcar.property.familyAssistanceMemberFirstName.validationError" />"  maxlength="38" />
             
 
@@ -80,8 +80,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isHomeIntervenant-trigger  validate-one-required boolean" title="" value="${it}" name="homeInterventionHomeIntervenant" ${it == rqt.homeInterventionHomeIntervenant ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="homeInterventionHomeIntervenant_${it ? 'yes' : 'no'}" class="required condition-isHomeIntervenant-trigger  validate-one-required boolean" title="" value="${it}" name="homeInterventionHomeIntervenant" ${it == rqt.homeInterventionHomeIntervenant ? 'checked="checked"': ''} />
+                <label for="homeInterventionHomeIntervenant_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -97,8 +97,8 @@
       <g:set var="listIndex" value="${editList?.name == 'homeIntervenants' ? editList?.index : ( rqt.homeIntervenants ? rqt.homeIntervenants.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add condition-isHomeIntervenant-filled">
     
-        <label class="required"><g:message code="hcar.property.homeIntervenantKind.label" /> *  <span><g:message code="hcar.property.homeIntervenantKind.help" /></span></label>
-            <select name="homeIntervenants[${listIndex}].homeIntervenantKind" class="required condition-isOtherHomeIntervant-trigger  validate-not-first" title="<g:message code="hcar.property.homeIntervenantKind.validationError" />">
+        <label for="homeIntervenants.${listIndex}.homeIntervenantKind" class="required"><g:message code="hcar.property.homeIntervenantKind.label" /> *  <span><g:message code="hcar.property.homeIntervenantKind.help" /></span></label>
+            <select id="homeIntervenants.${listIndex}.homeIntervenantKind" name="homeIntervenants[${listIndex}].homeIntervenantKind" class="required condition-isOtherHomeIntervant-trigger  validate-not-first" title="<g:message code="hcar.property.homeIntervenantKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Carer','HomeHelp','Other']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarHomeIntervenantKindType_${it}" ${it == editList?.homeIntervenants?.homeIntervenantKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.homeIntervenantKind" /></option>
@@ -107,8 +107,8 @@
             
 
     
-        <label class="required condition-isOtherHomeIntervant-filled"><g:message code="hcar.property.homeIntervenantDetails.label" /> *  <span><g:message code="hcar.property.homeIntervenantDetails.help" /></span></label>
-            <input type="text" name="homeIntervenants[${listIndex}].homeIntervenantDetails" value="${editList?.homeIntervenants?.homeIntervenantDetails?.toString()}" 
+        <label for="homeIntervenants.${listIndex}.homeIntervenantDetails" class="required condition-isOtherHomeIntervant-filled"><g:message code="hcar.property.homeIntervenantDetails.label" /> *  <span><g:message code="hcar.property.homeIntervenantDetails.help" /></span></label>
+            <input type="text" id="homeIntervenants.${listIndex}.homeIntervenantDetails" name="homeIntervenants[${listIndex}].homeIntervenantDetails" value="${editList?.homeIntervenants?.homeIntervenantDetails?.toString()}" 
                     class="required condition-isOtherHomeIntervant-filled  " title="<g:message code="hcar.property.homeIntervenantDetails.validationError" />"  maxlength="60" />
             
 
@@ -152,8 +152,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isCareServices-trigger  validate-one-required boolean" title="" value="${it}" name="careCareServices" ${it == rqt.careCareServices ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="careCareServices_${it ? 'yes' : 'no'}" class="required condition-isCareServices-trigger  validate-one-required boolean" title="" value="${it}" name="careCareServices" ${it == rqt.careCareServices ? 'checked="checked"': ''} />
+                <label for="careCareServices_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -169,8 +169,8 @@
       <g:set var="listIndex" value="${editList?.name == 'careServices' ? editList?.index : ( rqt.careServices ? rqt.careServices.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add required condition-isCareServices-filled">
     
-        <label class="required"><g:message code="hcar.property.careServiceKind.label" /> *  <span><g:message code="hcar.property.careServiceKind.help" /></span></label>
-            <input type="text" name="careServices[${listIndex}].careServiceKind" value="${editList?.careServices?.careServiceKind?.toString()}" 
+        <label for="careServices.${listIndex}.careServiceKind" class="required"><g:message code="hcar.property.careServiceKind.label" /> *  <span><g:message code="hcar.property.careServiceKind.help" /></span></label>
+            <input type="text" id="careServices.${listIndex}.careServiceKind" name="careServices[${listIndex}].careServiceKind" value="${editList?.careServices?.careServiceKind?.toString()}" 
                     class="required  validate-string" title="<g:message code="hcar.property.careServiceKind.validationError" />"   />
             
 
@@ -179,36 +179,38 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isCareServiceEmployer-trigger  validate-one-required boolean" title="" value="${it}" name="careServices[${listIndex}].careServiceCareServiceEmployer" ${it == editList?.careServices?.careServiceCareServiceEmployer ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="careServices.${listIndex}.careServiceCareServiceEmployer_${it ? 'yes' : 'no'}" class="required condition-isCareServiceEmployer-trigger  validate-one-required boolean" title="" value="${it}" name="careServices[${listIndex}].careServiceCareServiceEmployer" ${it == editList?.careServices?.careServiceCareServiceEmployer ? 'checked="checked"': ''} />
+                <label for="careServices.${listIndex}.careServiceCareServiceEmployer_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-        <label class="required condition-isCareServiceEmployer-unfilled"><g:message code="hcar.property.careServiceProviderName.label" /> *  <span><g:message code="hcar.property.careServiceProviderName.help" /></span></label>
-            <input type="text" name="careServices[${listIndex}].careServiceProviderName" value="${editList?.careServices?.careServiceProviderName?.toString()}" 
+        <label for="careServices.${listIndex}.careServiceProviderName" class="required condition-isCareServiceEmployer-unfilled"><g:message code="hcar.property.careServiceProviderName.label" /> *  <span><g:message code="hcar.property.careServiceProviderName.help" /></span></label>
+            <input type="text" id="careServices.${listIndex}.careServiceProviderName" name="careServices[${listIndex}].careServiceProviderName" value="${editList?.careServices?.careServiceProviderName?.toString()}" 
                     class="required condition-isCareServiceEmployer-unfilled  validate-lastName" title="<g:message code="hcar.property.careServiceProviderName.validationError" />"  maxlength="38" />
             
 
     
         <label class="condition-isCareServiceEmployer-unfilled"><g:message code="hcar.property.careServiceProviderAddress.label" />   <span><g:message code="hcar.property.careServiceProviderAddress.help" /></span></label>
             <div class="address-fieldset condition-isCareServiceEmployer-unfilled ">
-            <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.additionalDeliveryInformation}" maxlength="38" name="careServices[${listIndex}].careServiceProviderAddress.additionalDeliveryInformation"/>  
-            <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.additionalGeographicalInformation}" maxlength="38" name="careServices[${listIndex}].careServiceProviderAddress.additionalGeographicalInformation"/>
-            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${editList?.careServices?.careServiceProviderAddress?.streetNumber}" size="5" maxlength="5" name="careServices[${listIndex}].careServiceProviderAddress.streetNumber"/>
-            <input type="text" class="line2 required" value="${editList?.careServices?.careServiceProviderAddress?.streetName}" maxlength="32" name="careServices[${listIndex}].careServiceProviderAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
-            <label><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.placeNameOrService}" maxlength="38" name="careServices[${listIndex}].careServiceProviderAddress.placeNameOrService"/>
-            <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${editList?.careServices?.careServiceProviderAddress?.postalCode}" size="5" maxlength="5" name="careServices[${listIndex}].careServiceProviderAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${editList?.careServices?.careServiceProviderAddress?.city}" maxlength="32" name="careServices[${listIndex}].careServiceProviderAddress.city" title="<g:message code="address.property.city.validationError" />" />
-            <label><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.countryName}" maxlength="38" name="careServices[${listIndex}].careServiceProviderAddress.countryName"/>
+            <label for="careServices.${listIndex}.careServiceProviderAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
+            <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.additionalDeliveryInformation}" maxlength="38" id="careServices.${listIndex}.careServiceProviderAddress.additionalDeliveryInformation" name="careServices[${listIndex}].careServiceProviderAddress.additionalDeliveryInformation" />  
+            <label for="careServices.${listIndex}.careServiceProviderAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
+            <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.additionalGeographicalInformation}" maxlength="38" id="careServices.${listIndex}.careServiceProviderAddress.additionalGeographicalInformation" name="careServices[${listIndex}].careServiceProviderAddress.additionalGeographicalInformation" />
+            <label for="careServices.${listIndex}.careServiceProviderAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
+            <label for="careServices.${listIndex}.careServiceProviderAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
+            <input type="text" class="line1" value="${editList?.careServices?.careServiceProviderAddress?.streetNumber}" size="5" maxlength="5" id="careServices.${listIndex}.careServiceProviderAddress.streetNumber" name="careServices[${listIndex}].careServiceProviderAddress.streetNumber" />
+            <input type="text" class="line2 required" value="${editList?.careServices?.careServiceProviderAddress?.streetName}" maxlength="32" id="careServices.${listIndex}.careServiceProviderAddress.streetName" name="careServices[${listIndex}].careServiceProviderAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <label for="careServices.${listIndex}.careServiceProviderAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
+            <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.placeNameOrService}" maxlength="38" id="careServices.${listIndex}.careServiceProviderAddress.placeNameOrService" name="careServices[${listIndex}].careServiceProviderAddress.placeNameOrService" />
+            <label for="careServices.${listIndex}.careServiceProviderAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
+            <label for="careServices.${listIndex}.careServiceProviderAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
+            <input type="text" class="line1 required" value="${editList?.careServices?.careServiceProviderAddress?.postalCode}" size="5" maxlength="5" id="careServices.${listIndex}.careServiceProviderAddress.postalCode" name="careServices[${listIndex}].careServiceProviderAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required" value="${editList?.careServices?.careServiceProviderAddress?.city}" maxlength="32" id="careServices.${listIndex}.careServiceProviderAddress.city" name="careServices[${listIndex}].careServiceProviderAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <label for="careServices.${listIndex}.careServiceProviderAddress.countryName"><g:message code="address.property.countryName" /></label>
+            <input type="text" value="${editList?.careServices?.careServiceProviderAddress?.countryName}" maxlength="38" id="careServices.${listIndex}.careServiceProviderAddress.countryName" name="careServices[${listIndex}].careServiceProviderAddress.countryName" />
             </div>
             
 
@@ -263,16 +265,16 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isHousing-trigger  validate-one-required boolean" title="" value="${it}" name="facilitiesHousing" ${it == rqt.facilitiesHousing ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="facilitiesHousing_${it ? 'yes' : 'no'}" class="required condition-isHousing-trigger  validate-one-required boolean" title="" value="${it}" name="facilitiesHousing" ${it == rqt.facilitiesHousing ? 'checked="checked"': ''} />
+                <label for="facilitiesHousing_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isHousing-filled"><g:message code="hcar.property.facilitiesHousingDetails.label" /> *  <span><g:message code="hcar.property.facilitiesHousingDetails.help" /></span></label>
-            <input type="text" name="facilitiesHousingDetails" value="${rqt.facilitiesHousingDetails?.toString()}" 
+      <label for="facilitiesHousingDetails" class="required condition-isHousing-filled"><g:message code="hcar.property.facilitiesHousingDetails.label" /> *  <span><g:message code="hcar.property.facilitiesHousingDetails.help" /></span></label>
+            <input type="text" id="facilitiesHousingDetails" name="facilitiesHousingDetails" value="${rqt.facilitiesHousingDetails?.toString()}" 
                     class="required condition-isHousing-filled  " title="<g:message code="hcar.property.facilitiesHousingDetails.validationError" />"  maxlength="60" />
             
 
@@ -281,16 +283,16 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isTechnicalAssistance-trigger  validate-one-required boolean" title="" value="${it}" name="facilitiesTechnicalAssistance" ${it == rqt.facilitiesTechnicalAssistance ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="facilitiesTechnicalAssistance_${it ? 'yes' : 'no'}" class="required condition-isTechnicalAssistance-trigger  validate-one-required boolean" title="" value="${it}" name="facilitiesTechnicalAssistance" ${it == rqt.facilitiesTechnicalAssistance ? 'checked="checked"': ''} />
+                <label for="facilitiesTechnicalAssistance_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isTechnicalAssistance-filled"><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.label" /> *  <span><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.help" /></span></label>
-            <input type="text" name="facilitiesTechnicalAssistanceDetails" value="${rqt.facilitiesTechnicalAssistanceDetails?.toString()}" 
+      <label for="facilitiesTechnicalAssistanceDetails" class="required condition-isTechnicalAssistance-filled"><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.label" /> *  <span><g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.help" /></span></label>
+            <input type="text" id="facilitiesTechnicalAssistanceDetails" name="facilitiesTechnicalAssistanceDetails" value="${rqt.facilitiesTechnicalAssistanceDetails?.toString()}" 
                     class="required condition-isTechnicalAssistance-filled  " title="<g:message code="hcar.property.facilitiesTechnicalAssistanceDetails.validationError" />"  maxlength="60" />
             
 
@@ -299,16 +301,16 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isCustomCar-trigger  validate-one-required boolean" title="" value="${it}" name="facilitiesCustomCar" ${it == rqt.facilitiesCustomCar ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="facilitiesCustomCar_${it ? 'yes' : 'no'}" class="required condition-isCustomCar-trigger  validate-one-required boolean" title="" value="${it}" name="facilitiesCustomCar" ${it == rqt.facilitiesCustomCar ? 'checked="checked"': ''} />
+                <label for="facilitiesCustomCar_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isCustomCar-filled"><g:message code="hcar.property.facilitiesCustomCarDetails.label" /> *  <span><g:message code="hcar.property.facilitiesCustomCarDetails.help" /></span></label>
-            <input type="text" name="facilitiesCustomCarDetails" value="${rqt.facilitiesCustomCarDetails?.toString()}" 
+      <label for="facilitiesCustomCarDetails" class="required condition-isCustomCar-filled"><g:message code="hcar.property.facilitiesCustomCarDetails.label" /> *  <span><g:message code="hcar.property.facilitiesCustomCarDetails.help" /></span></label>
+            <input type="text" id="facilitiesCustomCarDetails" name="facilitiesCustomCarDetails" value="${rqt.facilitiesCustomCarDetails?.toString()}" 
                     class="required condition-isCustomCar-filled  " title="<g:message code="hcar.property.facilitiesCustomCarDetails.validationError" />"  maxlength="60" />
             
 
@@ -317,16 +319,16 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isAnimalAid-trigger  validate-one-required boolean" title="" value="${it}" name="facilitiesAnimalAid" ${it == rqt.facilitiesAnimalAid ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="facilitiesAnimalAid_${it ? 'yes' : 'no'}" class="required condition-isAnimalAid-trigger  validate-one-required boolean" title="" value="${it}" name="facilitiesAnimalAid" ${it == rqt.facilitiesAnimalAid ? 'checked="checked"': ''} />
+                <label for="facilitiesAnimalAid_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isAnimalAid-filled"><g:message code="hcar.property.facilitiesAnimalAidDetails.label" /> *  <span><g:message code="hcar.property.facilitiesAnimalAidDetails.help" /></span></label>
-            <input type="text" name="facilitiesAnimalAidDetails" value="${rqt.facilitiesAnimalAidDetails?.toString()}" 
+      <label for="facilitiesAnimalAidDetails" class="required condition-isAnimalAid-filled"><g:message code="hcar.property.facilitiesAnimalAidDetails.label" /> *  <span><g:message code="hcar.property.facilitiesAnimalAidDetails.help" /></span></label>
+            <input type="text" id="facilitiesAnimalAidDetails" name="facilitiesAnimalAidDetails" value="${rqt.facilitiesAnimalAidDetails?.toString()}" 
                     class="required condition-isAnimalAid-filled  " title="<g:message code="hcar.property.facilitiesAnimalAidDetails.validationError" />"  maxlength="60" />
             
 
@@ -335,16 +337,16 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isSpecializedTransport-trigger  validate-one-required boolean" title="" value="${it}" name="facilitiesSpecializedTransport" ${it == rqt.facilitiesSpecializedTransport ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="facilitiesSpecializedTransport_${it ? 'yes' : 'no'}" class="required condition-isSpecializedTransport-trigger  validate-one-required boolean" title="" value="${it}" name="facilitiesSpecializedTransport" ${it == rqt.facilitiesSpecializedTransport ? 'checked="checked"': ''} />
+                <label for="facilitiesSpecializedTransport_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isSpecializedTransport-filled"><g:message code="hcar.property.facilitiesSpecializedTransportDetails.label" /> *  <span><g:message code="hcar.property.facilitiesSpecializedTransportDetails.help" /></span></label>
-            <input type="text" name="facilitiesSpecializedTransportDetails" value="${rqt.facilitiesSpecializedTransportDetails?.toString()}" 
+      <label for="facilitiesSpecializedTransportDetails" class="required condition-isSpecializedTransport-filled"><g:message code="hcar.property.facilitiesSpecializedTransportDetails.label" /> *  <span><g:message code="hcar.property.facilitiesSpecializedTransportDetails.help" /></span></label>
+            <input type="text" id="facilitiesSpecializedTransportDetails" name="facilitiesSpecializedTransportDetails" value="${rqt.facilitiesSpecializedTransportDetails?.toString()}" 
                     class="required condition-isSpecializedTransport-filled  " title="<g:message code="hcar.property.facilitiesSpecializedTransportDetails.validationError" />"  maxlength="60" />
             
 
@@ -360,8 +362,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isProfessionals-trigger  validate-one-required boolean" title="" value="${it}" name="professionalSupportProfessionals" ${it == rqt.professionalSupportProfessionals ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="professionalSupportProfessionals_${it ? 'yes' : 'no'}" class="required condition-isProfessionals-trigger  validate-one-required boolean" title="" value="${it}" name="professionalSupportProfessionals" ${it == rqt.professionalSupportProfessionals ? 'checked="checked"': ''} />
+                <label for="professionalSupportProfessionals_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -372,8 +374,8 @@
             <ul class="yes-no required condition-isProfessionals-filled">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isProfessionals-filled  validate-one-required boolean" title="" value="${it}" name="professionalSupportDealsWithSameProfessional" ${it == rqt.professionalSupportDealsWithSameProfessional ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="professionalSupportDealsWithSameProfessional_${it ? 'yes' : 'no'}" class="required condition-isProfessionals-filled  validate-one-required boolean" title="" value="${it}" name="professionalSupportDealsWithSameProfessional" ${it == rqt.professionalSupportDealsWithSameProfessional ? 'checked="checked"': ''} />
+                <label for="professionalSupportDealsWithSameProfessional_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -389,34 +391,36 @@
       <g:set var="listIndex" value="${editList?.name == 'professionals' ? editList?.index : ( rqt.professionals ? rqt.professionals.size() : 0 ) }" />
       <fieldset class="collection-fieldset-add condition-isProfessionals-filled">
     
-        <label class="required"><g:message code="hcar.property.professionalLastName.label" /> *  <span><g:message code="hcar.property.professionalLastName.help" /></span></label>
-            <input type="text" name="professionals[${listIndex}].professionalLastName" value="${editList?.professionals?.professionalLastName?.toString()}" 
+        <label for="professionals.${listIndex}.professionalLastName" class="required"><g:message code="hcar.property.professionalLastName.label" /> *  <span><g:message code="hcar.property.professionalLastName.help" /></span></label>
+            <input type="text" id="professionals.${listIndex}.professionalLastName" name="professionals[${listIndex}].professionalLastName" value="${editList?.professionals?.professionalLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="hcar.property.professionalLastName.validationError" />"  maxlength="38" />
             
 
     
-        <label class="required"><g:message code="hcar.property.professionalFirstName.label" /> *  <span><g:message code="hcar.property.professionalFirstName.help" /></span></label>
-            <input type="text" name="professionals[${listIndex}].professionalFirstName" value="${editList?.professionals?.professionalFirstName?.toString()}" 
+        <label for="professionals.${listIndex}.professionalFirstName" class="required"><g:message code="hcar.property.professionalFirstName.label" /> *  <span><g:message code="hcar.property.professionalFirstName.help" /></span></label>
+            <input type="text" id="professionals.${listIndex}.professionalFirstName" name="professionals[${listIndex}].professionalFirstName" value="${editList?.professionals?.professionalFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="hcar.property.professionalFirstName.validationError" />"  maxlength="38" />
             
 
     
         <label class="required"><g:message code="hcar.property.professionalAddress.label" /> *  <span><g:message code="hcar.property.professionalAddress.help" /></span></label>
             <div class="address-fieldset required ">
-            <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${editList?.professionals?.professionalAddress?.additionalDeliveryInformation}" maxlength="38" name="professionals[${listIndex}].professionalAddress.additionalDeliveryInformation"/>  
-            <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${editList?.professionals?.professionalAddress?.additionalGeographicalInformation}" maxlength="38" name="professionals[${listIndex}].professionalAddress.additionalGeographicalInformation"/>
-            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${editList?.professionals?.professionalAddress?.streetNumber}" size="5" maxlength="5" name="professionals[${listIndex}].professionalAddress.streetNumber"/>
-            <input type="text" class="line2 required" value="${editList?.professionals?.professionalAddress?.streetName}" maxlength="32" name="professionals[${listIndex}].professionalAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
-            <label><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${editList?.professionals?.professionalAddress?.placeNameOrService}" maxlength="38" name="professionals[${listIndex}].professionalAddress.placeNameOrService"/>
-            <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${editList?.professionals?.professionalAddress?.postalCode}" size="5" maxlength="5" name="professionals[${listIndex}].professionalAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${editList?.professionals?.professionalAddress?.city}" maxlength="32" name="professionals[${listIndex}].professionalAddress.city" title="<g:message code="address.property.city.validationError" />" />
-            <label><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${editList?.professionals?.professionalAddress?.countryName}" maxlength="38" name="professionals[${listIndex}].professionalAddress.countryName"/>
+            <label for="professionals.${listIndex}.professionalAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
+            <input type="text" value="${editList?.professionals?.professionalAddress?.additionalDeliveryInformation}" maxlength="38" id="professionals.${listIndex}.professionalAddress.additionalDeliveryInformation" name="professionals[${listIndex}].professionalAddress.additionalDeliveryInformation" />  
+            <label for="professionals.${listIndex}.professionalAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
+            <input type="text" value="${editList?.professionals?.professionalAddress?.additionalGeographicalInformation}" maxlength="38" id="professionals.${listIndex}.professionalAddress.additionalGeographicalInformation" name="professionals[${listIndex}].professionalAddress.additionalGeographicalInformation" />
+            <label for="professionals.${listIndex}.professionalAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
+            <label for="professionals.${listIndex}.professionalAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
+            <input type="text" class="line1" value="${editList?.professionals?.professionalAddress?.streetNumber}" size="5" maxlength="5" id="professionals.${listIndex}.professionalAddress.streetNumber" name="professionals[${listIndex}].professionalAddress.streetNumber" />
+            <input type="text" class="line2 required" value="${editList?.professionals?.professionalAddress?.streetName}" maxlength="32" id="professionals.${listIndex}.professionalAddress.streetName" name="professionals[${listIndex}].professionalAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <label for="professionals.${listIndex}.professionalAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
+            <input type="text" value="${editList?.professionals?.professionalAddress?.placeNameOrService}" maxlength="38" id="professionals.${listIndex}.professionalAddress.placeNameOrService" name="professionals[${listIndex}].professionalAddress.placeNameOrService" />
+            <label for="professionals.${listIndex}.professionalAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
+            <label for="professionals.${listIndex}.professionalAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
+            <input type="text" class="line1 required" value="${editList?.professionals?.professionalAddress?.postalCode}" size="5" maxlength="5" id="professionals.${listIndex}.professionalAddress.postalCode" name="professionals[${listIndex}].professionalAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required" value="${editList?.professionals?.professionalAddress?.city}" maxlength="32" id="professionals.${listIndex}.professionalAddress.city" name="professionals[${listIndex}].professionalAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <label for="professionals.${listIndex}.professionalAddress.countryName"><g:message code="address.property.countryName" /></label>
+            <input type="text" value="${editList?.professionals?.professionalAddress?.countryName}" maxlength="38" id="professionals.${listIndex}.professionalAddress.countryName" name="professionals[${listIndex}].professionalAddress.countryName" />
             </div>
             
 
@@ -468,36 +472,38 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isSocialServiceSupport-trigger  validate-one-required boolean" title="" value="${it}" name="professionalSupportSocialServiceSupport" ${it == rqt.professionalSupportSocialServiceSupport ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="professionalSupportSocialServiceSupport_${it ? 'yes' : 'no'}" class="required condition-isSocialServiceSupport-trigger  validate-one-required boolean" title="" value="${it}" name="professionalSupportSocialServiceSupport" ${it == rqt.professionalSupportSocialServiceSupport ? 'checked="checked"': ''} />
+                <label for="professionalSupportSocialServiceSupport_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceName.label" /> *  <span><g:message code="hcar.property.professionalSupportSocialServiceName.help" /></span></label>
-            <input type="text" name="professionalSupportSocialServiceName" value="${rqt.professionalSupportSocialServiceName?.toString()}" 
+      <label for="professionalSupportSocialServiceName" class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceName.label" /> *  <span><g:message code="hcar.property.professionalSupportSocialServiceName.help" /></span></label>
+            <input type="text" id="professionalSupportSocialServiceName" name="professionalSupportSocialServiceName" value="${rqt.professionalSupportSocialServiceName?.toString()}" 
                     class="required condition-isSocialServiceSupport-filled  " title="<g:message code="hcar.property.professionalSupportSocialServiceName.validationError" />"  maxlength="60" />
             
 
     
       <label class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceAddress.label" /> *  <span><g:message code="hcar.property.professionalSupportSocialServiceAddress.help" /></span></label>
             <div class="address-fieldset required condition-isSocialServiceSupport-filled ">
-            <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.additionalDeliveryInformation}" maxlength="38" name="professionalSupportSocialServiceAddress.additionalDeliveryInformation"/>  
-            <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.additionalGeographicalInformation}" maxlength="38" name="professionalSupportSocialServiceAddress.additionalGeographicalInformation"/>
-            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.professionalSupportSocialServiceAddress?.streetNumber}" size="5" maxlength="5" name="professionalSupportSocialServiceAddress.streetNumber"/>
-            <input type="text" class="line2 required" value="${rqt.professionalSupportSocialServiceAddress?.streetName}" maxlength="32" name="professionalSupportSocialServiceAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
-            <label><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.placeNameOrService}" maxlength="38" name="professionalSupportSocialServiceAddress.placeNameOrService"/>
-            <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.professionalSupportSocialServiceAddress?.postalCode}" size="5" maxlength="5" name="professionalSupportSocialServiceAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.professionalSupportSocialServiceAddress?.city}" maxlength="32" name="professionalSupportSocialServiceAddress.city" title="<g:message code="address.property.city.validationError" />" />
-            <label><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.countryName}" maxlength="38" name="professionalSupportSocialServiceAddress.countryName"/>
+            <label for="professionalSupportSocialServiceAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
+            <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.additionalDeliveryInformation}" maxlength="38" id="professionalSupportSocialServiceAddress.additionalDeliveryInformation" name="professionalSupportSocialServiceAddress.additionalDeliveryInformation" />  
+            <label for="professionalSupportSocialServiceAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
+            <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.additionalGeographicalInformation}" maxlength="38" id="professionalSupportSocialServiceAddress.additionalGeographicalInformation" name="professionalSupportSocialServiceAddress.additionalGeographicalInformation" />
+            <label for="professionalSupportSocialServiceAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
+            <label for="professionalSupportSocialServiceAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
+            <input type="text" class="line1" value="${rqt.professionalSupportSocialServiceAddress?.streetNumber}" size="5" maxlength="5" id="professionalSupportSocialServiceAddress.streetNumber" name="professionalSupportSocialServiceAddress.streetNumber" />
+            <input type="text" class="line2 required" value="${rqt.professionalSupportSocialServiceAddress?.streetName}" maxlength="32" id="professionalSupportSocialServiceAddress.streetName" name="professionalSupportSocialServiceAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <label for="professionalSupportSocialServiceAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
+            <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.placeNameOrService}" maxlength="38" id="professionalSupportSocialServiceAddress.placeNameOrService" name="professionalSupportSocialServiceAddress.placeNameOrService" />
+            <label for="professionalSupportSocialServiceAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
+            <label for="professionalSupportSocialServiceAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
+            <input type="text" class="line1 required" value="${rqt.professionalSupportSocialServiceAddress?.postalCode}" size="5" maxlength="5" id="professionalSupportSocialServiceAddress.postalCode" name="professionalSupportSocialServiceAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required" value="${rqt.professionalSupportSocialServiceAddress?.city}" maxlength="32" id="professionalSupportSocialServiceAddress.city" name="professionalSupportSocialServiceAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <label for="professionalSupportSocialServiceAddress.countryName"><g:message code="address.property.countryName" /></label>
+            <input type="text" value="${rqt.professionalSupportSocialServiceAddress?.countryName}" maxlength="38" id="professionalSupportSocialServiceAddress.countryName" name="professionalSupportSocialServiceAddress.countryName" />
             </div>
             
 

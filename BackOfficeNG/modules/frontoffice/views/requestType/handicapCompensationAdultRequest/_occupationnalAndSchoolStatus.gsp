@@ -9,42 +9,44 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isHighSchool-trigger  validate-one-required boolean" title="" value="${it}" name="studiesHighSchool" ${it == rqt.studiesHighSchool ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="studiesHighSchool_${it ? 'yes' : 'no'}" class="required condition-isHighSchool-trigger  validate-one-required boolean" title="" value="${it}" name="studiesHighSchool" ${it == rqt.studiesHighSchool ? 'checked="checked"': ''} />
+                <label for="studiesHighSchool_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolGrade.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolGrade.help" /></span></label>
-            <input type="text" name="studiesHighSchoolGrade" value="${rqt.studiesHighSchoolGrade?.toString()}" 
+      <label for="studiesHighSchoolGrade" class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolGrade.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolGrade.help" /></span></label>
+            <input type="text" id="studiesHighSchoolGrade" name="studiesHighSchoolGrade" value="${rqt.studiesHighSchoolGrade?.toString()}" 
                     class="required condition-isHighSchool-filled  " title="<g:message code="hcar.property.studiesHighSchoolGrade.validationError" />"  maxlength="60" />
             
 
     
-      <label class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolName.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolName.help" /></span></label>
-            <input type="text" name="studiesHighSchoolName" value="${rqt.studiesHighSchoolName?.toString()}" 
+      <label for="studiesHighSchoolName" class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolName.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolName.help" /></span></label>
+            <input type="text" id="studiesHighSchoolName" name="studiesHighSchoolName" value="${rqt.studiesHighSchoolName?.toString()}" 
                     class="required condition-isHighSchool-filled  " title="<g:message code="hcar.property.studiesHighSchoolName.validationError" />"  maxlength="60" />
             
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolAddress.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolAddress.help" /></span></label>
             <div class="address-fieldset required condition-isHighSchool-filled ">
-            <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.studiesHighSchoolAddress?.additionalDeliveryInformation}" maxlength="38" name="studiesHighSchoolAddress.additionalDeliveryInformation"/>  
-            <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.studiesHighSchoolAddress?.additionalGeographicalInformation}" maxlength="38" name="studiesHighSchoolAddress.additionalGeographicalInformation"/>
-            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.studiesHighSchoolAddress?.streetNumber}" size="5" maxlength="5" name="studiesHighSchoolAddress.streetNumber"/>
-            <input type="text" class="line2 required" value="${rqt.studiesHighSchoolAddress?.streetName}" maxlength="32" name="studiesHighSchoolAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
-            <label><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.studiesHighSchoolAddress?.placeNameOrService}" maxlength="38" name="studiesHighSchoolAddress.placeNameOrService"/>
-            <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.studiesHighSchoolAddress?.postalCode}" size="5" maxlength="5" name="studiesHighSchoolAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.studiesHighSchoolAddress?.city}" maxlength="32" name="studiesHighSchoolAddress.city" title="<g:message code="address.property.city.validationError" />" />
-            <label><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.studiesHighSchoolAddress?.countryName}" maxlength="38" name="studiesHighSchoolAddress.countryName"/>
+            <label for="studiesHighSchoolAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
+            <input type="text" value="${rqt.studiesHighSchoolAddress?.additionalDeliveryInformation}" maxlength="38" id="studiesHighSchoolAddress.additionalDeliveryInformation" name="studiesHighSchoolAddress.additionalDeliveryInformation" />  
+            <label for="studiesHighSchoolAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
+            <input type="text" value="${rqt.studiesHighSchoolAddress?.additionalGeographicalInformation}" maxlength="38" id="studiesHighSchoolAddress.additionalGeographicalInformation" name="studiesHighSchoolAddress.additionalGeographicalInformation" />
+            <label for="studiesHighSchoolAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
+            <label for="studiesHighSchoolAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
+            <input type="text" class="line1" value="${rqt.studiesHighSchoolAddress?.streetNumber}" size="5" maxlength="5" id="studiesHighSchoolAddress.streetNumber" name="studiesHighSchoolAddress.streetNumber" />
+            <input type="text" class="line2 required" value="${rqt.studiesHighSchoolAddress?.streetName}" maxlength="32" id="studiesHighSchoolAddress.streetName" name="studiesHighSchoolAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <label for="studiesHighSchoolAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
+            <input type="text" value="${rqt.studiesHighSchoolAddress?.placeNameOrService}" maxlength="38" id="studiesHighSchoolAddress.placeNameOrService" name="studiesHighSchoolAddress.placeNameOrService" />
+            <label for="studiesHighSchoolAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
+            <label for="studiesHighSchoolAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
+            <input type="text" class="line1 required" value="${rqt.studiesHighSchoolAddress?.postalCode}" size="5" maxlength="5" id="studiesHighSchoolAddress.postalCode" name="studiesHighSchoolAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required" value="${rqt.studiesHighSchoolAddress?.city}" maxlength="32" id="studiesHighSchoolAddress.city" name="studiesHighSchoolAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <label for="studiesHighSchoolAddress.countryName"><g:message code="address.property.countryName" /></label>
+            <input type="text" value="${rqt.studiesHighSchoolAddress?.countryName}" maxlength="38" id="studiesHighSchoolAddress.countryName" name="studiesHighSchoolAddress.countryName" />
             </div>
             
 
@@ -53,16 +55,16 @@
             <ul class="yes-no required condition-isHighSchool-filled">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isHighSchool-filled condition-isAssistanceUnderDisability-trigger  validate-one-required boolean" title="" value="${it}" name="studiesAssistanceUnderDisability" ${it == rqt.studiesAssistanceUnderDisability ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="studiesAssistanceUnderDisability_${it ? 'yes' : 'no'}" class="required condition-isHighSchool-filled condition-isAssistanceUnderDisability-trigger  validate-one-required boolean" title="" value="${it}" name="studiesAssistanceUnderDisability" ${it == rqt.studiesAssistanceUnderDisability ? 'checked="checked"': ''} />
+                <label for="studiesAssistanceUnderDisability_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isAssistanceUnderDisability-filled"><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.label" /> *  <span><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.help" /></span></label>
-            <input type="text" name="studiesAssistanceUnderDisabilityDetails" value="${rqt.studiesAssistanceUnderDisabilityDetails?.toString()}" 
+      <label for="studiesAssistanceUnderDisabilityDetails" class="required condition-isAssistanceUnderDisability-filled"><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.label" /> *  <span><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.help" /></span></label>
+            <input type="text" id="studiesAssistanceUnderDisabilityDetails" name="studiesAssistanceUnderDisabilityDetails" value="${rqt.studiesAssistanceUnderDisabilityDetails?.toString()}" 
                     class="required condition-isAssistanceUnderDisability-filled  " title="<g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.validationError" />"  maxlength="60" />
             
 
@@ -74,24 +76,24 @@
     <fieldset class="required">
     <legend><g:message code="hcar.property.formation.label" /></legend>
     
-      <label class=""><g:message code="hcar.property.formationStudiesLevel.label" />   <span><g:message code="hcar.property.formationStudiesLevel.help" /></span></label>
-            <input type="text" name="formationStudiesLevel" value="${rqt.formationStudiesLevel?.toString()}" 
+      <label for="formationStudiesLevel" class=""><g:message code="hcar.property.formationStudiesLevel.label" />   <span><g:message code="hcar.property.formationStudiesLevel.help" /></span></label>
+            <input type="text" id="formationStudiesLevel" name="formationStudiesLevel" value="${rqt.formationStudiesLevel?.toString()}" 
                     class="  " title="<g:message code="hcar.property.formationStudiesLevel.validationError" />"  maxlength="30" />
             
 
     
-      <label class=""><g:message code="hcar.property.formationDiploma.label" />   <span><g:message code="hcar.property.formationDiploma.help" /></span></label>
-            <textarea name="formationDiploma" class="  validate-textarea" title="<g:message code="hcar.property.formationDiploma.validationError" />" rows="2" cols="" maxlength="120">${rqt.formationDiploma}</textarea>
+      <label for="formationDiploma" class=""><g:message code="hcar.property.formationDiploma.label" />   <span><g:message code="hcar.property.formationDiploma.help" /></span></label>
+            <textarea id="formationDiploma" name="formationDiploma" class="  validate-textarea" title="<g:message code="hcar.property.formationDiploma.validationError" />" rows="2" cols="" maxlength="120">${rqt.formationDiploma}</textarea>
             
 
     
-      <label class=""><g:message code="hcar.property.formationPreviousFormation.label" />   <span><g:message code="hcar.property.formationPreviousFormation.help" /></span></label>
-            <textarea name="formationPreviousFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationPreviousFormation.validationError" />" rows="3" cols="" maxlength="180">${rqt.formationPreviousFormation}</textarea>
+      <label for="formationPreviousFormation" class=""><g:message code="hcar.property.formationPreviousFormation.label" />   <span><g:message code="hcar.property.formationPreviousFormation.help" /></span></label>
+            <textarea id="formationPreviousFormation" name="formationPreviousFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationPreviousFormation.validationError" />" rows="3" cols="" maxlength="180">${rqt.formationPreviousFormation}</textarea>
             
 
     
-      <label class=""><g:message code="hcar.property.formationCurrentFormation.label" />   <span><g:message code="hcar.property.formationCurrentFormation.help" /></span></label>
-            <textarea name="formationCurrentFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationCurrentFormation.validationError" />" rows="2" cols="" maxlength="120">${rqt.formationCurrentFormation}</textarea>
+      <label for="formationCurrentFormation" class=""><g:message code="hcar.property.formationCurrentFormation.label" />   <span><g:message code="hcar.property.formationCurrentFormation.help" /></span></label>
+            <textarea id="formationCurrentFormation" name="formationCurrentFormation" class="  validate-textarea" title="<g:message code="hcar.property.formationCurrentFormation.validationError" />" rows="2" cols="" maxlength="120">${rqt.formationCurrentFormation}</textarea>
             
 
     
@@ -102,8 +104,8 @@
     <fieldset class="required">
     <legend><g:message code="hcar.property.professionalStatus.label" /></legend>
     
-      <label class="required"><g:message code="hcar.property.professionalStatusKind.label" /> *  <span><g:message code="hcar.property.professionalStatusKind.help" /></span></label>
-            <select name="professionalStatusKind" class="required condition-isEmployed-trigger condition-isUnemployed-trigger  validate-not-first" title="<g:message code="hcar.property.professionalStatusKind.validationError" />">
+      <label for="professionalStatusKind" class="required"><g:message code="hcar.property.professionalStatusKind.label" /> *  <span><g:message code="hcar.property.professionalStatusKind.help" /></span></label>
+            <select id="professionalStatusKind" name="professionalStatusKind" class="required condition-isEmployed-trigger condition-isUnemployed-trigger  validate-not-first" title="<g:message code="hcar.property.professionalStatusKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Employee','Unemployed','Jobless','Student','Retired']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType_${it}" ${it == rqt.professionalStatusKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.professionalStatusKind" /></option>
@@ -112,14 +114,14 @@
             
 
     
-      <label class="required"><g:message code="hcar.property.professionalStatusDate.label" /> *  <span><g:message code="hcar.property.professionalStatusDate.help" /></span></label>
-            <input type="text" name="professionalStatusDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusDate)}" 
+      <label for="professionalStatusDate" class="required"><g:message code="hcar.property.professionalStatusDate.label" /> *  <span><g:message code="hcar.property.professionalStatusDate.help" /></span></label>
+            <input type="text" id="professionalStatusDate" name="professionalStatusDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusDate)}" 
                    class="required  validate-date" title="<g:message code="hcar.property.professionalStatusDate.validationError" />" />
             
 
     
-      <label class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusEnvironment.label" /> *  <span><g:message code="hcar.property.professionalStatusEnvironment.help" /></span></label>
-            <select name="professionalStatusEnvironment" class="required condition-isEmployed-filled  validate-not-first" title="<g:message code="hcar.property.professionalStatusEnvironment.validationError" />">
+      <label for="professionalStatusEnvironment" class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusEnvironment.label" /> *  <span><g:message code="hcar.property.professionalStatusEnvironment.help" /></span></label>
+            <select id="professionalStatusEnvironment" name="professionalStatusEnvironment" class="required condition-isEmployed-filled  validate-not-first" title="<g:message code="hcar.property.professionalStatusEnvironment.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Ordinary','Adapted','Protected']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType_${it}" ${it == rqt.professionalStatusEnvironment?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.professionalStatusEnvironment" /></option>
@@ -128,34 +130,36 @@
             
 
     
-      <label class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusProfession.label" /> *  <span><g:message code="hcar.property.professionalStatusProfession.help" /></span></label>
-            <input type="text" name="professionalStatusProfession" value="${rqt.professionalStatusProfession?.toString()}" 
+      <label for="professionalStatusProfession" class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusProfession.label" /> *  <span><g:message code="hcar.property.professionalStatusProfession.help" /></span></label>
+            <input type="text" id="professionalStatusProfession" name="professionalStatusProfession" value="${rqt.professionalStatusProfession?.toString()}" 
                     class="required condition-isEmployed-filled  " title="<g:message code="hcar.property.professionalStatusProfession.validationError" />"  maxlength="60" />
             
 
     
-      <label class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusEmployerName.label" /> *  <span><g:message code="hcar.property.professionalStatusEmployerName.help" /></span></label>
-            <input type="text" name="professionalStatusEmployerName" value="${rqt.professionalStatusEmployerName?.toString()}" 
+      <label for="professionalStatusEmployerName" class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusEmployerName.label" /> *  <span><g:message code="hcar.property.professionalStatusEmployerName.help" /></span></label>
+            <input type="text" id="professionalStatusEmployerName" name="professionalStatusEmployerName" value="${rqt.professionalStatusEmployerName?.toString()}" 
                     class="required condition-isEmployed-filled  validate-lastName" title="<g:message code="hcar.property.professionalStatusEmployerName.validationError" />"  maxlength="38" />
             
 
     
       <label class="condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusAddress.label" />   <span><g:message code="hcar.property.professionalStatusAddress.help" /></span></label>
             <div class="address-fieldset condition-isEmployed-filled ">
-            <label><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.professionalStatusAddress?.additionalDeliveryInformation}" maxlength="38" name="professionalStatusAddress.additionalDeliveryInformation"/>  
-            <label><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.professionalStatusAddress?.additionalGeographicalInformation}" maxlength="38" name="professionalStatusAddress.additionalGeographicalInformation"/>
-            <label><g:message code="address.property.streetNumber" /> - <strong><g:message code="address.property.streetName" /> *</strong></label>
-            <input type="text" class="line1" value="${rqt.professionalStatusAddress?.streetNumber}" size="5" maxlength="5" name="professionalStatusAddress.streetNumber"/>
-            <input type="text" class="line2 required" value="${rqt.professionalStatusAddress?.streetName}" maxlength="32" name="professionalStatusAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
-            <label><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.professionalStatusAddress?.placeNameOrService}" maxlength="38" name="professionalStatusAddress.placeNameOrService"/>
-            <label class="required"><g:message code="address.property.postalCode" /> * - <g:message code="address.property.city" /> *</label>
-            <input type="text" class="line1 required" value="${rqt.professionalStatusAddress?.postalCode}" size="5" maxlength="5" name="professionalStatusAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.professionalStatusAddress?.city}" maxlength="32" name="professionalStatusAddress.city" title="<g:message code="address.property.city.validationError" />" />
-            <label><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.professionalStatusAddress?.countryName}" maxlength="38" name="professionalStatusAddress.countryName"/>
+            <label for="professionalStatusAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
+            <input type="text" value="${rqt.professionalStatusAddress?.additionalDeliveryInformation}" maxlength="38" id="professionalStatusAddress.additionalDeliveryInformation" name="professionalStatusAddress.additionalDeliveryInformation" />  
+            <label for="professionalStatusAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
+            <input type="text" value="${rqt.professionalStatusAddress?.additionalGeographicalInformation}" maxlength="38" id="professionalStatusAddress.additionalGeographicalInformation" name="professionalStatusAddress.additionalGeographicalInformation" />
+            <label for="professionalStatusAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
+            <label for="professionalStatusAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
+            <input type="text" class="line1" value="${rqt.professionalStatusAddress?.streetNumber}" size="5" maxlength="5" id="professionalStatusAddress.streetNumber" name="professionalStatusAddress.streetNumber" />
+            <input type="text" class="line2 required" value="${rqt.professionalStatusAddress?.streetName}" maxlength="32" id="professionalStatusAddress.streetName" name="professionalStatusAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <label for="professionalStatusAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
+            <input type="text" value="${rqt.professionalStatusAddress?.placeNameOrService}" maxlength="38" id="professionalStatusAddress.placeNameOrService" name="professionalStatusAddress.placeNameOrService" />
+            <label for="professionalStatusAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
+            <label for="professionalStatusAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
+            <input type="text" class="line1 required" value="${rqt.professionalStatusAddress?.postalCode}" size="5" maxlength="5" id="professionalStatusAddress.postalCode" name="professionalStatusAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required" value="${rqt.professionalStatusAddress?.city}" maxlength="32" id="professionalStatusAddress.city" name="professionalStatusAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <label for="professionalStatusAddress.countryName"><g:message code="address.property.countryName" /></label>
+            <input type="text" value="${rqt.professionalStatusAddress?.countryName}" maxlength="38" id="professionalStatusAddress.countryName" name="professionalStatusAddress.countryName" />
             </div>
             
 
@@ -164,16 +168,16 @@
             <ul class="yes-no required condition-isUnemployed-filled">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isUnemployed-filled condition-isRegisteredAsUnemployed-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusRegisterAsUnemployed" ${it == rqt.professionalStatusRegisterAsUnemployed ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="professionalStatusRegisterAsUnemployed_${it ? 'yes' : 'no'}" class="required condition-isUnemployed-filled condition-isRegisteredAsUnemployed-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusRegisterAsUnemployed" ${it == rqt.professionalStatusRegisterAsUnemployed ? 'checked="checked"': ''} />
+                <label for="professionalStatusRegisterAsUnemployed_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isRegisteredAsUnemployed-filled"><g:message code="hcar.property.professionalStatusRegisterAsUnemployedDate.label" /> *  <span><g:message code="hcar.property.professionalStatusRegisterAsUnemployedDate.help" /></span></label>
-            <input type="text" name="professionalStatusRegisterAsUnemployedDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusRegisterAsUnemployedDate)}" 
+      <label for="professionalStatusRegisterAsUnemployedDate" class="required condition-isRegisteredAsUnemployed-filled"><g:message code="hcar.property.professionalStatusRegisterAsUnemployedDate.label" /> *  <span><g:message code="hcar.property.professionalStatusRegisterAsUnemployedDate.help" /></span></label>
+            <input type="text" id="professionalStatusRegisterAsUnemployedDate" name="professionalStatusRegisterAsUnemployedDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusRegisterAsUnemployedDate)}" 
                    class="required condition-isRegisteredAsUnemployed-filled  validate-date" title="<g:message code="hcar.property.professionalStatusRegisterAsUnemployedDate.validationError" />" />
             
 
@@ -182,16 +186,16 @@
             <ul class="yes-no required condition-isUnemployed-filled">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isUnemployed-filled condition-isIndemnified-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusIndemnified" ${it == rqt.professionalStatusIndemnified ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="professionalStatusIndemnified_${it ? 'yes' : 'no'}" class="required condition-isUnemployed-filled condition-isIndemnified-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusIndemnified" ${it == rqt.professionalStatusIndemnified ? 'checked="checked"': ''} />
+                <label for="professionalStatusIndemnified_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isIndemnified-filled"><g:message code="hcar.property.professionalStatusIndemnifiedDate.label" /> *  <span><g:message code="hcar.property.professionalStatusIndemnifiedDate.help" /></span></label>
-            <input type="text" name="professionalStatusIndemnifiedDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusIndemnifiedDate)}" 
+      <label for="professionalStatusIndemnifiedDate" class="required condition-isIndemnified-filled"><g:message code="hcar.property.professionalStatusIndemnifiedDate.label" /> *  <span><g:message code="hcar.property.professionalStatusIndemnifiedDate.help" /></span></label>
+            <input type="text" id="professionalStatusIndemnifiedDate" name="professionalStatusIndemnifiedDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusIndemnifiedDate)}" 
                    class="required condition-isIndemnified-filled  validate-date" title="<g:message code="hcar.property.professionalStatusIndemnifiedDate.validationError" />" />
             
 
@@ -200,16 +204,16 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required condition-isElectiveFunction-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusElectiveFunction" ${it == rqt.professionalStatusElectiveFunction ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="professionalStatusElectiveFunction_${it ? 'yes' : 'no'}" class="required condition-isElectiveFunction-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusElectiveFunction" ${it == rqt.professionalStatusElectiveFunction ? 'checked="checked"': ''} />
+                <label for="professionalStatusElectiveFunction_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
             
 
     
-      <label class="required condition-isElectiveFunction-filled"><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.label" /> *  <span><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.help" /></span></label>
-            <input type="text" name="professionalStatusElectiveFunctionDetails" value="${rqt.professionalStatusElectiveFunctionDetails?.toString()}" 
+      <label for="professionalStatusElectiveFunctionDetails" class="required condition-isElectiveFunction-filled"><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.label" /> *  <span><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.help" /></span></label>
+            <input type="text" id="professionalStatusElectiveFunctionDetails" name="professionalStatusElectiveFunctionDetails" value="${rqt.professionalStatusElectiveFunctionDetails?.toString()}" 
                     class="required condition-isElectiveFunction-filled  " title="<g:message code="hcar.property.professionalStatusElectiveFunctionDetails.validationError" />"  maxlength="60" />
             
 

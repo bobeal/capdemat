@@ -11,7 +11,7 @@
         <h2><g:message code="account.header.answerQuestion" /></h2>
         <form action="${createLink(action:'resetPassword')}" method="post">
           <label class="required" for="answer">${question}</label>
-          <input type="text" name="answer" class="required" />
+          <input type="text" id="answer" name="answer" class="required" />
           <input type="hidden" name="login" value="${login}" style="display : none;" />
           <input type="submit" value="${message(code:'action.confirm')}" />
         </form>

@@ -6,8 +6,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="hasCROUSHelp" ${it == rqt.hasCROUSHelp ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="hasCROUSHelp_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="hasCROUSHelp" ${it == rqt.hasCROUSHelp ? 'checked="checked"': ''} />
+                <label for="hasCROUSHelp_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -20,8 +20,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="hasRegionalCouncilHelp" ${it == rqt.hasRegionalCouncilHelp ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="hasRegionalCouncilHelp_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="hasRegionalCouncilHelp" ${it == rqt.hasRegionalCouncilHelp ? 'checked="checked"': ''} />
+                <label for="hasRegionalCouncilHelp_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -34,8 +34,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="hasEuropeHelp" ${it == rqt.hasEuropeHelp ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="hasEuropeHelp_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="hasEuropeHelp" ${it == rqt.hasEuropeHelp ? 'checked="checked"': ''} />
+                <label for="hasEuropeHelp_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -48,8 +48,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="hasOtherHelp" ${it == rqt.hasOtherHelp ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="hasOtherHelp_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="hasOtherHelp" ${it == rqt.hasOtherHelp ? 'checked="checked"': ''} />
+                <label for="hasOtherHelp_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>

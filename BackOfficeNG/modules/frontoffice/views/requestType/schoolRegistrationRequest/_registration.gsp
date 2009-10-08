@@ -2,8 +2,9 @@
 
 
   
-    <label class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
-            <select name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first " title="<g:message code="request.property.subject.validationError" /> ">
+    
+            <label for="subjectId" class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
+            <select id="subjectId" name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first " title="<g:message code="request.property.subject.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${subjects}">
                 <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
@@ -14,8 +15,8 @@
   
 
   
-    <label class="required"><g:message code="srr.property.section.label" /> *  <span><g:message code="srr.property.section.help" /></span></label>
-            <select name="section" class="required  validate-not-first" title="<g:message code="srr.property.section.validationError" />">
+    <label for="section" class="required"><g:message code="srr.property.section.label" /> *  <span><g:message code="srr.property.section.help" /></span></label>
+            <select id="section" name="section" class="required  validate-not-first" title="<g:message code="srr.property.section.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown']}">
                 <option value="fr.cg95.cvq.business.users.SectionType_${it}" ${it == rqt.section?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="srr.property.section" /></option>
@@ -26,8 +27,8 @@
   
 
   
-    <label class="required"><g:message code="srr.property.urgencyPhone.label" /> *  <span><g:message code="srr.property.urgencyPhone.help" /></span></label>
-            <input type="text" name="urgencyPhone" value="${rqt.urgencyPhone?.toString()}" 
+    <label for="urgencyPhone" class="required"><g:message code="srr.property.urgencyPhone.label" /> *  <span><g:message code="srr.property.urgencyPhone.help" /></span></label>
+            <input type="text" id="urgencyPhone" name="urgencyPhone" value="${rqt.urgencyPhone?.toString()}" 
                     class="required  validate-phone" title="<g:message code="srr.property.urgencyPhone.validationError" />"  maxlength="10" />
             
 
@@ -37,19 +38,19 @@
     <fieldset class="required">
     <legend><g:message code="srr.property.currentSchool.label" /></legend>
     
-      <label class=""><g:message code="srr.property.currentSchoolName.label" />   <span><g:message code="srr.property.currentSchoolName.help" /></span></label>
-            <input type="text" name="currentSchoolName" value="${rqt.currentSchoolName?.toString()}" 
+      <label for="currentSchoolName" class=""><g:message code="srr.property.currentSchoolName.label" />   <span><g:message code="srr.property.currentSchoolName.help" /></span></label>
+            <input type="text" id="currentSchoolName" name="currentSchoolName" value="${rqt.currentSchoolName?.toString()}" 
                     class="  validate-string" title="<g:message code="srr.property.currentSchoolName.validationError" />"   />
             
 
     
-      <label class=""><g:message code="srr.property.currentSchoolAddress.label" />   <span><g:message code="srr.property.currentSchoolAddress.help" /></span></label>
-            <textarea name="currentSchoolAddress" class="  validate-textarea" title="<g:message code="srr.property.currentSchoolAddress.validationError" />" rows="3" cols="" >${rqt.currentSchoolAddress}</textarea>
+      <label for="currentSchoolAddress" class=""><g:message code="srr.property.currentSchoolAddress.label" />   <span><g:message code="srr.property.currentSchoolAddress.help" /></span></label>
+            <textarea id="currentSchoolAddress" name="currentSchoolAddress" class="  validate-textarea" title="<g:message code="srr.property.currentSchoolAddress.validationError" />" rows="3" cols="" >${rqt.currentSchoolAddress}</textarea>
             
 
     
-      <label class=""><g:message code="srr.property.currentSection.label" />   <span><g:message code="srr.property.currentSection.help" /></span></label>
-            <select name="currentSection" class="  validate-select" title="<g:message code="srr.property.currentSection.validationError" />">
+      <label for="currentSection" class=""><g:message code="srr.property.currentSection.label" />   <span><g:message code="srr.property.currentSection.help" /></span></label>
+            <select id="currentSection" name="currentSection" class="  validate-select" title="<g:message code="srr.property.currentSection.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown']}">
                 <option value="fr.cg95.cvq.business.users.SectionType_${it}" ${it == rqt.currentSection?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="srr.property.currentSection" /></option>

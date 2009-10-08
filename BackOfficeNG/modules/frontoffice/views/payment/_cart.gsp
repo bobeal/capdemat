@@ -36,7 +36,7 @@
         <g:if test="${session.payment && actionName != 'cartDetails'}">
           <a href="${createLink(action:'cartDetails')}"><g:message code="payment.header.cartDetails"/></a>
         </g:if>
-        <input type="submit" value="${message(code:'action.pay')}" />
+        <input type="submit" value="${message(code:'action.pay')}" title="${message(code:'action.pay')}" />
         <input type="hidden" name="callbackUrl" value="${paymentUrl}" />
       </form>
     </g:if>

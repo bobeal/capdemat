@@ -6,8 +6,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="japdExemption" ${it == rqt.japdExemption ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="japdExemption_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="japdExemption" ${it == rqt.japdExemption ? 'checked="checked"': ''} />
+                <label for="japdExemption_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -20,8 +20,8 @@
             <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="  validate-one-required boolean" title="" value="${it}" name="highlyInfirm" ${it == rqt.highlyInfirm ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="highlyInfirm_${it ? 'yes' : 'no'}" class="  validate-one-required boolean" title="" value="${it}" name="highlyInfirm" ${it == rqt.highlyInfirm ? 'checked="checked"': ''} />
+                <label for="highlyInfirm_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -34,8 +34,8 @@
             <ul class="yes-no ">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="  validate-one-required boolean" title="" value="${it}" name="affectionOrDisease" ${it == rqt.affectionOrDisease ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="affectionOrDisease_${it ? 'yes' : 'no'}" class="  validate-one-required boolean" title="" value="${it}" name="affectionOrDisease" ${it == rqt.affectionOrDisease ? 'checked="checked"': ''} />
+                <label for="affectionOrDisease_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>

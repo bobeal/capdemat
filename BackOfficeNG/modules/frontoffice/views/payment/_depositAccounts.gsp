@@ -25,8 +25,9 @@
           <p class="error">
             ${invalid?.id == record.externalItemId && invalid.type == record.type ? message(code:'message.invalidFormat') : ''}
           </p>
-          <g:message code="payment.property.amount"/> :
+          <label for="${record.type}_${record.externalItemId}"><g:message code="payment.property.amount"/>:</label>
           <input type="text" name="amount" size="4"
+            id="${record.type}_${record.externalItemId}"
             value="${invalid?.id == record.externalItemId && invalid.type == record.type ? invalid.value : ''}"
             class="required validate-money
             ${invalid?.id == record.externalItemId && invalid.type == record.type ? 'validation-failed' : ''}" 

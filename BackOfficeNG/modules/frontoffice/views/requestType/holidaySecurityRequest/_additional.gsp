@@ -6,8 +6,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="alarm" ${it == rqt.alarm ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="alarm_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="alarm" ${it == rqt.alarm ? 'checked="checked"': ''} />
+                <label for="alarm_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>
@@ -20,8 +20,8 @@
             <ul class="yes-no required">
               <g:each in="${[true,false]}">
               <li>
-                <input type="radio" class="required  validate-one-required boolean" title="" value="${it}" name="light" ${it == rqt.light ? 'checked="checked"': ''} />
-                <g:message code="message.${it ? 'yes' : 'no'}" />
+                <input type="radio" id="light_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="light" ${it == rqt.light ? 'checked="checked"': ''} />
+                <label for="light_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
               </li>
               </g:each>
             </ul>

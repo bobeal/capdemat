@@ -32,7 +32,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
           container,
           { width: "650px",
             visible: false,
-            constraintoviewport: false, draggable: true,
+            constraintoviewport: true, draggable: true,
             underlay: "shadow", close: true
           });
         panel.render();

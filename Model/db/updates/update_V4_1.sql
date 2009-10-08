@@ -15,20 +15,15 @@ alter table request add column request_season_id int8;
 
 create table request_season (
   id int8 not null,
-  request_type_id int8 not null,
-  effect_end timestamp not null,
-  effect_start timestamp not null,
-  label varchar(255) not null,
-  registration_end timestamp not null,
-  registration_start timestamp not null,
+  request_type_id int8,
+  effect_end timestamp,
+  effect_start timestamp,
+  label varchar(255),
+  registration_end timestamp,
+  registration_start timestamp,
   validation_authorization_start timestamp,
   primary key (id)
 );
-
-alter table request
-  add constraint FK414EF28F85577048
-  foreign key (request_season_id)
-  references request_season;
 
 alter table request_season
   add constraint FK998F4693C5FD0068
@@ -59,6 +54,18 @@ $$ LANGUAGE plpgsql;
 
 select * from migrate_seasons();
 
+alter table request
+  add constraint FK414EF28F85577048
+  foreign key (request_season_id)
+  references request_season;
+
+alter table request_season alter column request_type_id set not null;
+alter table request_season alter column effect_end set not null;
+alter table request_season alter column effect_start set not null;
+alter table request_season alter column label set not null;
+alter table request_season alter column registration_end set not null;
+alter table request_season alter column registration_start set not null;
+
 drop table seasons;
 
 create or replace function migrate_request_states() returns void as $$
@@ -88,3 +95,6 @@ create or replace function migrate_request_states() returns void as $$
 $$ LANGUAGE plpgsql;
 
 select * from migrate_request_states();
+
+drop function migrate_request_states();
+drop function migrate_seasons()

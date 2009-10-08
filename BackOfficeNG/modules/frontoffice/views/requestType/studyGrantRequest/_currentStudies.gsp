@@ -71,11 +71,11 @@
     <fieldset class="">
     <legend><g:message code="sgr.property.currentStudiesInformations.label" /></legend>
     
-      <label for="currentStudies" class="required"><g:message code="sgr.property.currentStudies.label" /> *  <span><g:message code="sgr.property.currentStudies.help" /></span></label>
-            <select id="currentStudies" name="currentStudies" class="required condition-isInOtherStudies-trigger  validate-not-first" title="<g:message code="sgr.property.currentStudies.validationError" />">
+      <label for="currentStudiesDiploma" class="required"><g:message code="sgr.property.currentStudiesDiploma.label" /> *  <span><g:message code="sgr.property.currentStudiesDiploma.help" /></span></label>
+            <select id="currentStudiesDiploma" name="currentStudiesDiploma" class="required condition-isInOtherStudies-trigger  validate-not-first" title="<g:message code="sgr.property.currentStudiesDiploma.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['licence','licencePro','master','bts','dut','otherStudies']}">
-                <option value="fr.cg95.cvq.business.request.school.CurrentStudiesType_${it}" ${it == rqt.currentStudies?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.currentStudies" /></option>
+                <option value="fr.cg95.cvq.business.request.school.CurrentStudiesType_${it}" ${it == rqt.currentStudiesDiploma?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.currentStudiesDiploma" /></option>
               </g:each>
             </select>
             

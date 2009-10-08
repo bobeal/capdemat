@@ -239,7 +239,7 @@
               <h3><g:message code="sgr.property.currentStudiesInformations.label" /></h3>
               <dl class="">
                 
-                  <dt class="required condition-isInOtherStudies-trigger"><g:message code="sgr.property.currentStudies.label" /> * : </dt><dd id="currentStudies" class="action-editField validate-capdematEnum required-true i18n-sgr.property.currentStudies javatype-fr.cg95.cvq.business.request.school.CurrentStudiesType" ><g:capdematEnumToField var="${request?.currentStudies}" i18nKeyPrefix="sgr.property.currentStudies" /></dd>
+                  <dt class="required condition-isInOtherStudies-trigger"><g:message code="sgr.property.currentStudiesDiploma.label" /> * : </dt><dd id="currentStudiesDiploma" class="action-editField validate-capdematEnum required-true i18n-sgr.property.currentStudiesDiploma javatype-fr.cg95.cvq.business.request.school.CurrentStudiesType" ><g:capdematEnumToField var="${request?.currentStudiesDiploma}" i18nKeyPrefix="sgr.property.currentStudiesDiploma" /></dd>
                 
                   <dt class="required condition-isInOtherStudies-filled"><g:message code="sgr.property.otherStudiesLabel.label" /> * : </dt><dd id="otherStudiesLabel" class="action-editField validate-string required-true i18n-sgr.property.otherStudiesLabel" ><span>${request?.otherStudiesLabel}</span></dd>
                 

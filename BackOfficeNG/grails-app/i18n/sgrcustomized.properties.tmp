@@ -97,8 +97,8 @@ sgr.property.alevels.validationError =
 sgr.property.currentStudiesInformations.help =
 sgr.property.currentStudiesInformations.validationError =
 
-sgr.property.currentStudies.help =
-sgr.property.currentStudies.validationError =
+sgr.property.currentStudiesDiploma.help =
+sgr.property.currentStudiesDiploma.validationError =
 
 sgr.property.otherStudiesLabel.help =
 sgr.property.otherStudiesLabel.validationError =

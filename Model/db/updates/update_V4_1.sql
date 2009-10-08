@@ -98,3 +98,6 @@ select * from migrate_request_states();
 
 drop function migrate_request_states();
 drop function migrate_seasons()
+
+-- Study Grant Request RGAA refactoring
+alter table study_grant_request rename current_studies to current_studies_diploma;

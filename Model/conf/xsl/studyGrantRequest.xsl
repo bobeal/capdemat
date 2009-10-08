@@ -751,7 +751,7 @@
               <xsl:variable name="mod_column" select="'3'"/>
               <xsl:variable name="enum_tokens">
                 <xsl:call-template name="split-string">
-                        <xsl:with-param name="string" select="./sgr:CurrentStudies/text()"/>
+                        <xsl:with-param name="string" select="./sgr:CurrentStudiesDiploma/text()"/>
                       </xsl:call-template>
               </xsl:variable>
                     <fo:table-column column-width="100pt" />

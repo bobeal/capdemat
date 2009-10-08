@@ -194,10 +194,10 @@
       <h4><g:message code="sgr.property.currentStudiesInformations.label" /></h4>
       <dl>
         
-          <dt><g:message code="sgr.property.currentStudies.label" /></dt>
+          <dt><g:message code="sgr.property.currentStudiesDiploma.label" /></dt>
           <dd>
-            <g:if test="${rqt.currentStudies}">
-              <g:capdematEnumToField var="${rqt.currentStudies}" i18nKeyPrefix="sgr.property.currentStudies" />
+            <g:if test="${rqt.currentStudiesDiploma}">
+              <g:capdematEnumToField var="${rqt.currentStudiesDiploma}" i18nKeyPrefix="sgr.property.currentStudiesDiploma" />
             </g:if>
           </dd>
           

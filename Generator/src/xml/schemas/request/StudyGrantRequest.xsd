@@ -1184,7 +1184,7 @@
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="CurrentStudies" type="sgr:CurrentStudiesType">
+      <xs:element name="CurrentStudiesDiploma" type="sgr:CurrentStudiesType">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Diplôme préparé

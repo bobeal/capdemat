@@ -1,0 +1,43 @@
+/*--------------------------------------------------------------
+
+    Account creation and modification custom styles
+    
+    dependencies: request.css, common/box.css
+
+---------------------------------------------------------------*/
+
+#requestTabView .account { margin: 0 0 1em 0; }
+#requestTabView .account input[type="submit"] { margin: 0 0 1em; }
+#requestTabView .account input[type="text"],
+#requestTabView .account input[type="password"],
+#requestTabView .account select,
+#requestTabView .account textarea,
+#requestTabView .account .address-fieldset  { width: 90%; }
+#requestTabView .account .address-fieldset input[type="text"].line2 { width: 72%; }
+
+#requestTabView .individual.add    { padding: 1em 1em 0 1em;  border: 0;  background: #ffd; }
+#requestTabView .individual.add h4 { margin: 0 0 .5em; font-size: 1.4em; font-weight: normal; }
+
+#requestTabView .individual.edit { 
+  margin-top: 1em; padding: 1em; 
+  border: 1px solid #ccc !important; -moz-border-radius: .5em; 
+  background: #eee;
+}
+
+#requestTabView .individual.edit h4                      { margin: 0 0 .5em; font-size: 1.6em; font-weight: normal; }
+#requestTabView .individual.edit h4 input[type="submit"] { margin: 0; font-size: .6em; }
+
+#requestTabView .individual.edit dl        { background: #fff; }
+#requestTabView .individual.edit dl input,  
+#requestTabView .individual.edit dl select { margin-bottom: 0; }
+
+#requestTabView .individual.edit dl.role-add      { border-color: #bbb !important; background: transparent !important; }
+#requestTabView .individual.edit dl.role-add dt   { border-color: #bbb !important; }
+#requestTabView .individual.edit dl.role-add dd   { padding: .5em; border-color: #bbb !important; }
+
+#requestTabView .individual.edit select,
+#requestTabView .individual.edit input { width: auto; display: inline; }
+#requestTabView .individual.edit label { width: 100%; }
+
+#requestTabView .individual.edit .message { display: inline; padding: .2em; font: bold italic .9em sans-serif; color: #20aa20; background: #fff; }
+

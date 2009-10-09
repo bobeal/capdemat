@@ -89,7 +89,7 @@ class HomeController {
         def error = '', result = null
         if(request.post) {
             try { result = authenticationService.authenticate(params.login,params.password) } 
-            catch (CvqUnknownUserException e) {error='account.error.unknownUser'}
+            catch (CvqUnknownUserException e) {error='account.error.authenticationFailed'}
             catch (CvqAuthenticationFailedException e) {error='account.error.authenticationFailed'}
             catch (CvqDisabledAccountException e) {error='account.error.disabledAccount'}
             

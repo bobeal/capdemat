@@ -192,7 +192,8 @@ public class LocalAuthorityRegistry
         }
         return resource;
     }
-
+    
+    // FIXME - remove fallbackToDefault from signature (fallbackPolicy is manage by resource)
     @Override
     public File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
         throws CvqException {
@@ -200,12 +201,13 @@ public class LocalAuthorityRegistry
             LocalAuthorityResource.Version.CURRENT, fallbackToDefault);
     }
 
+    // FIXME - remove fallbackToDefault from signature (fallbackPolicy is manage by resource)
     @Override
     public File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
         return getAssetsFile(resource.getType(),
-            resource.getFilename() + version.getExtension(), false);
+            resource.getFilename() + version.getExtension(), resource.canFallback());
     }
 
     @Override

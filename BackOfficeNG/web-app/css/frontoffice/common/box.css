@@ -94,11 +94,13 @@
 /* main box
 --------------------------------------------------------------*/
 
-.main-box         { margin: 0 0 1em 0; background: #fff; border-top: 2px solid #e6648d; }
+.main-box         { margin: 0 0 1em 0; padding: 0 0 .5em; background: #fff; border-top: 2px solid #e6648d; }
 .main-box h2      { margin: .1em .5em; color: #e6648d; border-bottom: 1px dashed #e6648d; }
+.main-box h3      { margin: .5em .5em .2em; font-size: 1.5em; }
 .main-box p       { padding: .1em 1em; }
 .main-box a       { color: #095ba6; }
 .main-box a:hover { color: #ffffff; background: #e6648d; }
+.main-box ul      { margin: .5em }
 
 
 /* user feedback  box

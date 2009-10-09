@@ -37,10 +37,6 @@
       myPaginator.render();
     };
   
-    var initButton = function() {
-      var submitSearchPaymentButton = new YAHOO.widget.Button("submitSearchPayment", {type:"submit"});
-    };
-  
     var initCalendars = function() {
       if (yud.get('mode').value === 'advanced') {
         zcb.Calendar("initDateFrom");
@@ -61,7 +57,6 @@
       
     return {
       init: function() {
-        initButton();
         initCalendars();
         yue.on(yus.query('input[type*=radio]'), 'click', 
           function(e) {

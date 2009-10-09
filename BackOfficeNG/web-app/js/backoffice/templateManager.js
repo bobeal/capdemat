@@ -67,10 +67,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       zcbrt.Manager.panel.render();
     };
     var initButtons = function() {
-      var button = new YAHOO.widget.Button(document.getElementById("templateButton"));
-      button.on('click',function(e){
-        zcbrt.Manager.save();
-      });
+      yue.on("templateButton", "click", zcbrt.Manager.save);
     };
     return {
       //wrapper : undefined,
@@ -107,7 +104,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
           zcbrt.Manager.panel.show();
         }
       },
-      save : function() {
+      save : function(e) {
+        yue.stopEvent(e);
         var editorValue = zcbrt.Manager.editor.getEditorHTML();
         if(yul.trim(zct.stripTags(editorValue)).length == 0) {
           zct.Notifier.processMessage('unexpectedError',"Editor value can't be empty !");

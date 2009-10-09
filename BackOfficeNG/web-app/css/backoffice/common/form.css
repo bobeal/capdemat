@@ -83,9 +83,9 @@ form.advanced-search input,
 form.advanced-search select { margin: 0; }
 
 form.advanced-search .form-button {
-  display: block;
   margin: 20px 0 0 0;
-  font-size:1.1em; 
+  font-size:1.1em;
+  text-align : center;
 }
 
 

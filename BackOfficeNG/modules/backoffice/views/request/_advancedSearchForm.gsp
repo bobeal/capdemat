@@ -43,11 +43,9 @@
         </a>
         <div id="creationDateToCalContainer" class="yui-cal"></div>
       </div>
-
-      <div style="clear:both;">&nbsp;</div>
-      <input type="button" id="submitSearchRequest" name="submitSearchRequest"
-        class="form-button" value="<g:message code="action.search" />"/>
-
+    </div>
+    <div class="form-button">
+      <input type="submit" value="<g:message code="action.search" />"/>
     </div>
   </form>
 </div>

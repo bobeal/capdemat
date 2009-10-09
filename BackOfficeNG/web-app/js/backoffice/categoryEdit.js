@@ -5,9 +5,9 @@ zenexity.capdemat.bong.categoryEdit = function() {
   var zct = zenexity.capdemat.tools;
   var zcv = zenexity.capdemat.Validation;
   var yud = YAHOO.util.Dom;
+  var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
   var ylj = YAHOO.lang.JSON;
-  var ywb = YAHOO.widget.Button;
   
   var editMode;
   var categoryId;
@@ -23,35 +23,30 @@ zenexity.capdemat.bong.categoryEdit = function() {
   }
   
   function decorateCategoryFormButtons() {
-    var submitSaveCategoryButton = new ywb("submitSaveCategory");
-    // bind form validation
-    submitSaveCategoryButton.on("click", zcv.check, yud.get('categoryFormErrors'));
     // bind async form submission
-    submitSaveCategoryButton.on("click", onSubmitSaveCategoryClick);
-  
-    if (editMode === 'create') {
-      var cancelCreateCategory = new ywb("cancelCreateCategory");
-    } 
+    yue.on("submitSaveCategory", "click", onSubmitSaveCategoryClick);
   }
   
   // async submit of category creation form
   // only called if zcv.check has validated all fields, either event is cancelled
   function onSubmitSaveCategoryClick(ev) {
-    zct.doAjaxFormSubmitCall('categoryForm',null,
-    function(o) {
-      var response = ylj.parse(o.responseText);
-      if (response.status === "ok") {
-        if (editMode === "create")
-          window.location = zenexity.capdemat.baseUrl + "/edit/" + response.id ;
-        else {
-          // Is message useful
-          zct.Notifier.processMessage('success',response.success_msg);
-          resetCategoryDataDiv();
+    if (zcv.check(ev, yud.get('categoryFormErrors'))) {
+      zct.doAjaxFormSubmitCall('categoryForm',null,
+      function(o) {
+        var response = ylj.parse(o.responseText);
+        if (response.status === "ok") {
+          if (editMode === "create")
+            window.location = zenexity.capdemat.baseUrl + "/edit/" + response.id ;
+          else {
+            // Is message useful
+            zct.Notifier.processMessage('success',response.success_msg);
+            resetCategoryDataDiv();
+          }
+        } else {
+          zct.Notifier.processMessage('modelError',response.success_msg);
         }
-      } else {
-        zct.Notifier.processMessage('modelError',response.success_msg);
-      }
-    });
+      });
+    }
   }
   
   // Create our custom event and listeners to handle category selection

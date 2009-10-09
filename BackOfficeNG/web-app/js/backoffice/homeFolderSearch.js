@@ -43,7 +43,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
       
       zcbh.Search.paginator.render();
       
-      new YAHOO.widget.Button('submitSearch',{type:'submit'});
       yue.on('searchForm','submit',zcbh.Search.doSearch);
     };
 

@@ -31,11 +31,9 @@
         <label for="firstName"><g:message code="property.individualFirstName" /> :</label>
         <input type="text" name="firstName" class="persistent" size="40" value="${state?.firstName}" />
       </div>
-
-      <div style="clear:both;">&nbsp;</div>
-      <input type="button" id="submitSearch" name="submitSearch"
-        class="form-button" value="${message(code:"action.search")}"/>
     </div>
-
+    <div class="form-button">
+      <input type="submit" value="${message(code:"action.search")}" />
+    </div>
   </form>
 </div>

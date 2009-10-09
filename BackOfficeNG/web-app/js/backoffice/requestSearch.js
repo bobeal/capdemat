@@ -47,10 +47,6 @@
       myPaginator.render();
     };
   
-    var initButton = function() {
-      var submitSearchRequestButton = new YAHOO.widget.Button("submitSearchRequest", {type:"submit"});
-    };
-  
     var initCalendars = function() {
       if (yud.get('mode').value === 'advanced') {
         zcb.Calendar("creationDateFrom");
@@ -85,7 +81,6 @@
         zct.doAjaxCall(url, null,
           function(o) {
             yud.get('head').innerHTML = o.responseText;
-            initButton();
             initCalendars();
             //initSwitcher();
           }
@@ -94,7 +89,6 @@
     
     return {
       init: function() {
-        initButton();
         initCalendars();
         //initSwitcher();
         displayPaginator();

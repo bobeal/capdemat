@@ -12,11 +12,11 @@
 	  
 	var displayCategories =  function(o) {
 	  if (o.argument[0] === "All") {
-	    yud.addClass("viewAllCategoriesLink", "current");
-	    yud.removeClass("viewAgentCategoriesLink", "current");
+	    yud.addClass("viewCategories_All", "current");
+	    yud.removeClass("viewCategories_Agent", "current");
 	  } else {
-	    yud.removeClass("viewAllCategoriesLink", "current");
-	    yud.addClass("viewAgentCategoriesLink", "current");
+	    yud.removeClass("viewCategories_All", "current");
+	    yud.addClass("viewCategories_Agent", "current");
 	  }
 	  yud.get("agentCategories").innerHTML = o.responseText;
 	}
@@ -63,7 +63,7 @@
 	      
 	  init: function() {
 	    zcb.agentCategory.clickEvent = new zct.Event(zcb.agentCategory, zcb.agentCategory.getHandler);
-	    yue.on('agentCategories','click', zcb.agentCategory.clickEvent.dispatch,
+	    yue.on(['sortCategoryForm', 'agentCategories'],'click', zcb.agentCategory.clickEvent.dispatch,
 	        zcb.agentCategory.clickEvent, true);
 	  },
 	      
@@ -129,7 +129,8 @@
 	    cancelCategoryEditForm(getCategoryId(e));
 	  },
 	      
-	  viewCategories : function(scope) {
+	  viewCategories : function(e) {
+	    var scope = (yue.getTarget(e).id||'_').split('_')[1];
 	    zct.doAjaxCall(
 	        "/categories/?id=" + zcb.agentId + "&scope=" + scope,
 	        [scope], displayCategories);

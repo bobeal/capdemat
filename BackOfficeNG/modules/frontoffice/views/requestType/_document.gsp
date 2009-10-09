@@ -11,7 +11,7 @@
              name="submit-documentModifyPage-document-documentTypeId:${documentType.id}_id:${document.id}_dataPageNumber:${data.pageNumber}" />
       <input type="submit" value="${message(code:'action.delete')}"
              name="submit-documentDeletePage-document-documentTypeId:${documentType.id}_id:${document.id}_dataPageNumber:${data.pageNumber}" />
-      <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&sessionUuid=${uuidString}&pn=${data.pageNumber}" target="blank"><g:message code="document.header.preview"/></a>
+      <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&sessionUuid=${uuidString}&pn=${data.pageNumber}" target="blank" title="${message(code:'document.message.preview.longdesc')}"><g:message code="document.message.preview"/></a>
     </g:each>
 
     <label><g:message code="document.header.newPage"/></label>
@@ -45,14 +45,14 @@
         </dt>
         <dd>
           <g:if test="${document.isNew}">
-            <span class="tag-state tag-active"><g:message code="document.header.new"/></span>
+            <span class="tag-state tag-new"><g:message code="document.header.new"/></span>
             <input type="submit" name="submit-documentEdit-document-documentTypeId:${documentType.key}_id:${document.id}" value="${message(code:'action.modify')}" />
             <input type="submit" name="submit-documentDelete-document-id:${document.id}"value="${message(code:'action.delete')}" />
-            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&sessionUuid=${uuidString}" target="blank"><g:message code="document.header.preview"/></a>
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&sessionUuid=${uuidString}" target="blank" title="${message(code:'document.message.preview.longdesc')}"><g:message code="document.message.preview"/></a>
           </g:if>
           <g:else>
             <input type="submit" name="submit-documentUnassociate-document-id:${document.id}"value="${message(code:'action.detach')}" />
-            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank"><g:message code="document.header.preview"/></a>
+            <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank" title="${message(code:'document.message.preview.longdesc')}"><g:message code="document.message.preview"/></a>
           </g:else>
         </dd>
         </g:each>
@@ -76,7 +76,7 @@
           </g:if>
         </dt>
         <dd><input type="submit" name="submit-documentAssociate-document-id:${document.id}" value="${message(code:'action.attach')}" />
-        <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank"><g:message code="document.header.preview"/></a></dd>
+        <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank" title="${message(code:'document.message.preview.longdesc')}"><g:message code="document.message.preview"/></a></dd>
         </g:each>
       </dl>
       </g:if>

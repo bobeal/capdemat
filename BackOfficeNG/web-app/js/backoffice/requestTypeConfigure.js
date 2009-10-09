@@ -34,6 +34,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         yue.on(yud.get('secondMenu'),'click',zcbrp.Conf.dispatchEvent);
         yue.on(yud.get('mainPanel'),'click',zcbrp.Conf.event.dispatch,zcbrp.Conf.event,true);
         yue.on(yud.get('requestState'),'click',zcbrp.Conf.displayStateForm,zcbrp.Conf,true);
+        yue.on("requestTypeId", "change", zcbrp.Conf.changeRequestType);
       },
       prepareSimpleClick : function(e) {
         return (yue.getTarget(e).id||'').split('_')[0];
@@ -96,6 +97,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       },
       displayLocalReferential : function(e) {
         zcbrp.LocalReferential.init();
+      },
+      changeRequestType : function() {
+        yud.get("requestTypeId").form.submit();
       }
     }
   }();

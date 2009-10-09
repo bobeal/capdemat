@@ -141,7 +141,6 @@
       },
 
       cleanErrors: function(e, errorsEl) {
-        me.fetchFields(e, me.scope.IGNORE);
         zct.each(me.fields, function(){
           yud.removeClass(this.enhanceErrorEl, 'validation-failed');
         });

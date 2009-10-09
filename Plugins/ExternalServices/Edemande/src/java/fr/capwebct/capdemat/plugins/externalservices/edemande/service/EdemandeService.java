@@ -442,7 +442,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         model.put("currentStudiesType",
             StringUtils.defaultIfEmpty(sgr.getCurrentStudiesInformations().getOtherStudiesLabel(),
             translationService.translate("sgr.property.currentStudies."
-            + sgr.getCurrentStudiesInformations().getCurrentStudies().toString(), Locale.FRANCE)));
+            + sgr.getCurrentStudiesInformations().getCurrentStudiesDiploma().toString(), Locale.FRANCE)));
         model.put("currentStudiesLevel",
             translationService.translate("sgr.property.currentStudiesLevel."
             + sgr.getCurrentStudiesInformations().getCurrentStudiesLevel().toString(), Locale.FRANCE));

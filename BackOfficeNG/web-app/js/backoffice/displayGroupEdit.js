@@ -49,6 +49,11 @@
         yue.on('displayGroupForm','submit', zcb.DisplayGroupEdit.saveDisplayGroup);
         yue.on('logoForm','submit', zcb.DisplayGroupEdit.saveLogo);
         yue.on('orderRequestTypeBy','change', zcb.DisplayGroupEdit.sortRequestTypes);
+        yue.on("changeDisplayGroup", "change", zcb.DisplayGroupEdit.changeDisplayGroup);
+      },
+
+      changeDisplayGroup : function() {
+        yud.get("changeDisplayGroup").form.submit();
       },
 
       getHandler: function(e) { 

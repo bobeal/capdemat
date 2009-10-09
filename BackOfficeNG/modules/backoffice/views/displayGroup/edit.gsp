@@ -102,7 +102,7 @@
           </g:if>
           <g:else>
             <form action="<g:createLink action="edit" />">
-              <select name="id" onchange="submit();">
+              <select id="changeDisplayGroup" name="id">
                 <g:each in="${displayGroups}">
                   <option value="${it.id}" ${it.id == displayGroup?.id ? 'selected' : ''}>${it.label}</option>
                 </g:each>

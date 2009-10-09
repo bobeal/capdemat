@@ -73,7 +73,7 @@
           </g:if>
           <g:if test="${agents.size > 0}">
             <form action="<g:createLink action="edit" />">
-              <select name="agentId" id="agentId" onchange="submit();">
+              <select name="agentId" id="agentId">
                 <option value=""></option>
                 <g:each in="${agents}" var="agent">
                   <option value="${agent.id}" ${agent.id == Long.valueOf(params.id) ? 'selected' : ''}>

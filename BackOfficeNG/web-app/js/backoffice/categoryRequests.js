@@ -11,11 +11,11 @@
   
     var displayRequestTypes = function(o) {
       if (o.argument[0] === "All") {
-        yud.addClass("viewAllRequestTypesLink", "current");
-        yud.removeClass("viewCategoryRequestTypesLink", "current");
+        yud.addClass("viewRequestTypes_All", "current");
+        yud.removeClass("viewRequestTypes_Category", "current");
       } else {
-        yud.removeClass("viewAllRequestTypesLink", "current");
-        yud.addClass("viewCategoryRequestTypesLink", "current");
+        yud.removeClass("viewRequestTypes_All", "current");
+        yud.addClass("viewRequestTypes_Category", "current");
       }
       yud.get("categoryRequestTypes").innerHTML = o.responseText;
     }
@@ -57,7 +57,7 @@
       
       init: function() {
           zcb.categoryRequestType.clickEvent = new zct.Event(zcb.categoryRequestType, zcb.categoryRequestType.getHandler);
-          yue.on('categoryRequestTypes','click', zcb.categoryRequestType.clickEvent.dispatch,
+          yue.on('categoryRequestTypesBox','click', zcb.categoryRequestType.clickEvent.dispatch,
               zcb.categoryRequestType.clickEvent, true);
       },
       
@@ -73,7 +73,8 @@
           manageRequestType(yue.getTarget(e));
       },
       
-      viewRequestTypes : function(scope) {
+      viewRequestTypes : function(e) {
+          var scope = (yue.getTarget(e).id||'_').split('_')[1];
           yud.get("scope").value = scope;
           zct.doAjaxFormSubmitCall ("sortRequestTypeForm", [scope], displayRequestTypes);
       },

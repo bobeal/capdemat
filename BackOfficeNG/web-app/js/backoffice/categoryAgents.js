@@ -12,11 +12,11 @@
   
     var displayAgents =  function(o) {
       if (o.argument[0] === "All") {
-        yud.addClass("viewAllAgentsLink", "current");
-        yud.removeClass("viewCategoryAgentsLink", "current");
+        yud.addClass("viewAgents_All", "current");
+        yud.removeClass("viewAgents_Category", "current");
       } else {
-        yud.removeClass("viewAllAgentsLink", "current");
-        yud.addClass("viewCategoryAgentsLink", "current");
+        yud.removeClass("viewAgents_All", "current");
+        yud.addClass("viewAgents_Category", "current");
       }
       yud.get("categoryAgents").innerHTML = o.responseText;
     }
@@ -61,7 +61,7 @@
       
       init: function() {
           zcb.categoryAgent.clickEvent = new zct.Event(zcb.categoryAgent, zcb.categoryAgent.getHandler);
-          yue.on('categoryAgents','click', zcb.categoryAgent.clickEvent.dispatch,
+          yue.on('categoryAgentsBox','click', zcb.categoryAgent.clickEvent.dispatch,
               zcb.categoryAgent.clickEvent, true);
       },
       
@@ -127,7 +127,8 @@
           cancelAgentEditForm(getAgentId(e));
       },
 
-      viewAgents : function(scope) {
+      viewAgents : function(e) {
+        var scope = (yue.getTarget(e).id||'_').split('_')[1];
           zct.doAjaxCall("/agents/?id=" + zcb.categoryId + "&scope=" + scope, [scope], displayAgents);
       }
     };

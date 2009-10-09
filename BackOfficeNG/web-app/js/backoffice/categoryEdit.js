@@ -88,7 +88,11 @@ zenexity.capdemat.bong.categoryEdit = function() {
         yud.get('categoryAgents').innerHTML = o.responseText;
         });
   }
-  
+
+  function changeCategory() {
+    yud.get("categoryId").form.submit();
+  }
+
   return { 
     init : function() {
         editMode = zcb.editMode;
@@ -97,6 +101,7 @@ zenexity.capdemat.bong.categoryEdit = function() {
           // TODO : is the first argument used ?
           zcb.categorySelectedEvent.fire();
         })();
+        yue.on("categoryId", "change", changeCategory);
       } 
   };
 

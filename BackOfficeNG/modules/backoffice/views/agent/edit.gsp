@@ -49,12 +49,10 @@
             <form id="sortCategoryForm" method="post" action="<g:createLink action="categories" />" />
               <input type="hidden" name="id" value="${agent?.id}" />
 
-              <a id="viewAgentCategoriesLink" class="current"
-                onclick="zenexity.capdemat.bong.agentCategory.viewCategories('Agent');">
+              <a class="viewCategories current" id="viewCategories_Agent">
                 <g:message code="filter.viewBounded" />
               </a> / 
-              <a id="viewAllCategoriesLink" 
-                onclick="zenexity.capdemat.bong.agentCategory.viewCategories('All');">
+              <a  class="viewCategories" id="viewCategories_All">
                 <g:message code="filter.viewAll" />
               </a>
             </form>

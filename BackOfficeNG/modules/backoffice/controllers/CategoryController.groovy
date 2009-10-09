@@ -72,6 +72,7 @@ class CategoryController {
     }
     
     def delete = {
+        if (request.method.toLowerCase() != "delete") return false
         categoryService.delete(Long.valueOf(params.id))
         render ([status:"ok", id:params.id, success_msg:message(code:"category.message.confirmDelete")] as JSON)
     }

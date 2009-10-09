@@ -52,6 +52,8 @@ payment : initialized, validated, refused, cancelled
 .tag-draftdeletenotification, .tag-creationnotification,
 .tag-orangealertnotification, .tag-redalertnotification, .tag-creation,
 .tag-statechange, .tag-contactcitizen,
+/* document (request creation) */
+.tag-new,
 /*  misc */
 .tag-draft { 
   padding: 0 .2em;
@@ -101,6 +103,7 @@ payment : initialized, validated, refused, cancelled
 .tag-not_provided  { background: #dedede; color: #cc2020; border-color: #aa2020; }
 
 /* blue */
+.tag-new,
 .tag-clrfather,
 .tag-checked,
 .tag-contactcitizen,

@@ -19,7 +19,7 @@
        <div class="top">
         <g:if test="${session.currentEcitizen}">
           <strong>${session.currentEcitizenName} &nbsp;</strong>
-          <a href="${createLink(controller:'frontofficeHome',action:'logout')}" class="menu"><g:message code="action.logout" /></a>
+          <a href="${createLink(controller:'frontofficeHome',action:'logout')}" class="menu" accesskey="9"><g:message code="action.logout" /></a>
         </g:if>
         <g:elseif test="${isLogin}">
           <form action="${createLink(controller:'frontofficeHome',action:'login')}" method="post">
@@ -36,8 +36,8 @@
             </a>
           </form>
         </g:elseif>
-        <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'helpFo')}" class="menu" target="blank">Aide</a>
-        <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'faqFo')}" class="menu" target="blank">FAQ</a>
+        <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'helpFo')}" class="menu" target="blank" accesskey="7"><g:message code="menu.help" /></a>
+        <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'faqFo')}" class="menu" target="blank" accesskey="8"><g:message code="menu.faq" /></a>
        </div>
        <h1>
          <img src="${createLink(controller : 'localAuthorityResource', action : 'resource', id : 'logoFo')}"
@@ -84,8 +84,11 @@
             alt="Projet cofinancé par l’Union Européenne (FEDER)"
             style="float:left; margin: 0 0 1em;" />
      </a>
+     <g:if test="${!isLogin}">
+     <a href="${createLink(controller:'frontofficeHome',action:'accessibilityPolicy')}">${message(code:'home.header.accessibilityPolicy')}</a> | 
+     </g:if>
      <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'legal')}"
-        target="blank">Mentions légales</a>
+        target="blank">${message(code:'message.legalInformation')}</a>
    </div>
    
    <!-- hack to avoid seeing zct.notifier div -->

@@ -138,7 +138,15 @@ class HomeController {
             return false
         }
     }
-    
+
+    def accessibilityPolicy = {
+        File file = localAuthorityRegistry.getLocalAuthorityResourceFile(
+            LocalAuthorityResource.ACCESSIBILITY_POLICY_FO.id, true)
+        def accessibilityPolicy = ''
+        if (file.exists()) accessibilityPolicy = file.text
+        return ['accessibilityPolicy':accessibilityPolicy]
+    }
+
     def protected preparePayments(payments) {
         payments.all.each {
             payments.records.add([

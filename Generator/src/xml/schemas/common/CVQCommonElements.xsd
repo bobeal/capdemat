@@ -1848,7 +1848,6 @@
           <xs:element name="Answer" type="xs:string" minOccurs="0" />
           <xs:element name="Password" type="xs:string" minOccurs="0" />
         </xs:sequence>
-        <xs:attribute name="isHomeFolderResponsible" type="xs:boolean" default="false" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

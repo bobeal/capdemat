@@ -25,12 +25,15 @@
           <ul class="overviewConfigurationList" id="categoriesList">
             <g:each in="${categories}" var="category">
             <li id="category-${category.id}">
+              <input type="hidden" id="categoryMessage_${category.id}"
+                value="${message(code:'category.message.askConfirmDelete',args:[category.name])}" />
               <h3>
                 <a href="${createLink(action:'edit',id:category.id)}">${category.name}</a>
                 <span>- ${category.primaryEmail}</span>
-                <span onclick="zenexity.capdemat.bong.categoryList.askCategoryDeleteConfirmation('${category.id}','${category.name}', '${message(code:'category.message.askConfirmDelete',args:[category.name])}');">
-                  <img src="${createLinkTo(dir:'images/icons',file:'16-delete.png')}" 
-                      alt="<g:message code="request.action.removeCategory" />">
+                <span>
+                  <img id="delete_${category.id}"
+                    src="${createLinkTo(dir:'images/icons',file:'16-delete.png')}"
+                    alt="<g:message code="request.action.removeCategory" />">
                 </span>
               </h3>
               <div>

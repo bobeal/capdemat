@@ -1,5 +1,21 @@
 <h2>Nouvelles</h2>
 
+<p><strong>10 octobre 2009</strong></p>
+<span style="text-decoration:underline;">Front Office</span>
+<ul>
+  <li>Mise en conformité RGAA</li>
+</ul>
+<span style="text-decoration:underline;">Front Office & Back Office</span>
+<ul>
+  <li>Support des saisons concurrentes</li>
+  <li>Découplage total du Javascript et du XHTML</li>
+  <li>Refonte du module de validation Javascript (extensibilité et découplage)</li>
+</ul>
+<span style="text-decoration:underline;">Modèle</span>
+<ul>
+  <li>Suppression des états Actif et Expiré</li>
+</ul>
+
 <p><strong>25 septembre 2009</strong></p>
 <span style="text-decoration:underline;">Front Office</span>
 <ul>

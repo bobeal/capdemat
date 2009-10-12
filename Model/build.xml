@@ -213,6 +213,7 @@
 				<include name="conf/img/**" />
 				<include name="conf/xsl/**" />
 				<include name="conf/spring/**" />
+				<include name="conf/html/**" />
 				<include name="conf/log4j/**" />
 				<include name="utils/admin/**" />
 			</fileset>

@@ -1,10 +1,12 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
@@ -85,9 +87,21 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersTypes.add(Hibernate.LONG);
 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_TYPE_LABEL)) {
-                sb.append(" and request.requestType.label " + searchCrit.getComparatif() + " ?");
-                parametersValues.add(searchCrit.getValue());
-                parametersTypes.add(Hibernate.STRING);
+                if (Critere.IN.equals(searchCrit.getComparatif())) {
+                    Collection<String> requestTypes =
+                        (Collection<String>)searchCrit.getValue();
+                    String[] values = new String[requestTypes.size()];
+                    int i = 0;
+                    for (String requestType : requestTypes) {
+                        values[i++] = "'" + requestType + "'";
+                    }
+                    sb.append(" and request.requestType.label in (")
+                        .append(StringUtils.join(values, ", ")).append(')');
+                } else {
+                    sb.append(" and request.requestType.label " + searchCrit.getComparatif() + " ?");
+                    parametersValues.add(searchCrit.getValue());
+                    parametersTypes.add(Hibernate.STRING);
+                }
 
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_STATE)) {
                 sb.append(" and request.state " + searchCrit.getComparatif() + " ?");

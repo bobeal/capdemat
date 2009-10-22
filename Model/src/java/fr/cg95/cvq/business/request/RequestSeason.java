@@ -154,7 +154,9 @@ public class RequestSeason implements Serializable, Comparable<RequestSeason> {
 
     @Override
     public int compareTo(RequestSeason o) {
-        return getEffectStart().compareTo(o.getEffectStart());
+        int dateComparison = getEffectStart().compareTo(o.getEffectStart());
+        return
+            dateComparison != 0 ? dateComparison : getId().compareTo(o.getId());
     }
 
     @Override

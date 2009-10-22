@@ -7,7 +7,7 @@
         <g:each var="requestType" in="${group.value.get('requests')}">
           <li>
             <g:if test="${requestType.enabled}">
-              <a href="${createLink(controller:'frontofficeRequestType', action : 'start', id : requestType.label)}">
+              <a href="${requestType.url}">
                 <g:translateRequestTypeLabel label="${requestType.label}"/>
               </a>
               <g:if test="${requestType.seasons?.size() == 1}">

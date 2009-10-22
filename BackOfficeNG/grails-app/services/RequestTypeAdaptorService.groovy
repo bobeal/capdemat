@@ -45,32 +45,52 @@ public class RequestTypeAdaptorService {
     ILocalReferentialService localReferentialService
     IDisplayGroupService displayGroupService
     ILocalAuthorityRegistry localAuthorityRegistry
+    def translationService
 
-    public Map getDisplayGroups(HomeFolder homeFolder) {
+    public Map getDisplayGroups(HomeFolder homeFolder, boolean export = false) {
         def result = [:]
-        
         for(DisplayGroup dg : displayGroupService.getAll()) {
-            if(!result.keySet().contains(dg.name))
-                result[dg.name] = ['label':dg.label,'requests':[]]
-            
-            for(RequestType rt : dg.requestTypes) {
-                if (!rt.active) 
-                    continue
-                def i18nError = null
-                try {
-                    requestWorkflowService.checkRequestTypePolicy(rt, homeFolder)
-                } catch (CvqException e) {
-                    i18nError = e.i18nKey
-                }
-                result[dg.name].requests.add(['label': rt.label,
-                                              'id': rt.id,
-                                              'countDraft': countDraft(rt.label),
-                                              'seasons' : requestServiceRegistry.getRequestService(rt.label).isOfRegistrationKind() ? requestTypeService.getOpenSeasons(rt) : [],
-                                              'enabled': i18nError == null,
-                                              'message': i18nError
-                                             ])
+            if (!result.keySet().contains(dg.name)) {
+                result[dg.name] = [
+                    "label" : dg.label,
+                    "logoUrl" : UrlUtils.toFullUrl("localAuthorityResource", "resource", 
+                        [type : "DISPLAY_GROUP_IMAGE", filename : dg.name]),
+                    "requests" : []
+                ]
             }
-            
+            for(RequestType rt : dg.requestTypes) {
+                if (!rt.active)
+                    continue
+                if (export && requestTypeService.isOfRegistrationKind(rt.id) && requestTypeService.getRequestSeasons(rt.id).isEmpty())
+                    continue
+                def request = [
+                    "label" : export ? translationService
+                        .translateRequestTypeLabel(rt.label) : rt.label,
+                    "seasons" :
+                        requestTypeService.isOfRegistrationKind(rt.id) ?
+                            requestTypeService.getRequestSeasons(rt.id)
+                                .collect { ["id" : it.id, "label" : it.label,
+                                            "registrationStart" : it.registrationStart.toDate(), "registrationEnd" : it.registrationEnd.toDate(),
+                                            "requestStart" : it.effectStart.toDate(), "requestEnd" : it.effectEnd.toDate()
+                                            ]
+                                 } : [],
+                    "url" : UrlUtils.toFullUrl("frontofficeRequestType", "start", ["id" : rt.label])
+                ]
+                if (!export) {
+                    def i18nError = null
+                    try {
+                        requestWorkflowService.checkRequestTypePolicy(rt, homeFolder)
+                    } catch (CvqException e) {
+                        i18nError = e.i18nKey
+                    }
+                    request.id = rt.id
+                    request.countDraft = countDraft(rt.label)
+                    request.seasons = requestServiceRegistry.getRequestService(rt.label).isOfRegistrationKind() ? requestTypeService.getOpenSeasons(rt) : []
+                    request.enabled = i18nError == null
+                    request.message = i18nError
+                }
+                result[dg.name].requests.add(request)
+            }
             result[dg.name].requests = result[dg.name].requests.sort{it -> it.label}
         }
 

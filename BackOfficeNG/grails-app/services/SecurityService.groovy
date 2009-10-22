@@ -57,7 +57,7 @@ public class SecurityService {
         ],
         (ContextType.UNAUTH_ECITIZEN) : [
             (SecurityContext.FRONT_OFFICE_CONTEXT) : [
-                "frontofficeRequestType" : [/login/, /start/],
+                "frontofficeRequestType" : [/login/, /start/, /export/],
                 "frontofficeHomeFolder" : [/create/, /resetPassword/],
                 "frontofficeHome" : [/loginAgent/, /login/, /accessibilityPolicy/, /browsers/, /test/],
                 "frontofficeDocument" : [/details/, /binary/, /preview/],

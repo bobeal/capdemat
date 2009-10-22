@@ -10,6 +10,9 @@ import fr.cg95.cvq.service.users.IUserSearchService
 import fr.cg95.cvq.util.Critere
 import java.util.regex.Pattern
 
+import grails.converters.JSON
+import grails.converters.XML
+
 class FrontofficeRequestTypeController {
 
     IUserSearchService userSearchService
@@ -102,5 +105,18 @@ class FrontofficeRequestTypeController {
     def login = {
         return ["temporary" : requestServiceRegistry.getRequestService(params.requestTypeLabel)
             .supportUnregisteredCreation()]
+    }
+
+    def export = {
+        def result =
+            requestTypeAdaptorService.getDisplayGroups(null, true)
+        withFormat {
+            json {
+                render result as JSON
+            }
+            xml {
+                render(text : result as XML, contentType : "text/xml", encoding : "UTF-8")
+            }
+        }
     }
 }

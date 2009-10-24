@@ -217,6 +217,10 @@
     <copy file="${deploy.properties_dir}/${deploy.properties_file}"
           tofile="BackOfficeNG/grails-app/conf/CapDemat-config.properties"
           overwrite="true" />
+  	<!-- Hack coz Grails need two launches before seeing the previous one -->
+    <copy file="${deploy.properties_dir}/${deploy.properties_file}"
+          tofile="BackOfficeNG/CapDemat-config.properties"
+          overwrite="true" />
     <copy file="${libraries.springconf.dir}/applicationContext.xml"
           todir="BackOfficeNG/grails-app/conf/spring"
           overwrite="true">

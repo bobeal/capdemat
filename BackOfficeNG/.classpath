@@ -86,7 +86,7 @@
 	<classpathentry kind="lib" path="lib/c3p0-0.9.1-pre10.jar"/>
 	<classpathentry kind="lib" path="plugins/jcaptcha-1.0/lib/jcaptcha-all-1.0-RC6.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/edu.yale/cas/casclient-2.1.1-1.jar" sourcepath="/home/bor/java/cas/cas-client-java-2.1.1/src"/>
-	<classpathentry kind="lib" path="lib/CapDemat-ExternalServicesSchemas-4.0.jar"/>
-	<classpathentry kind="lib" path="lib/CapDemat-Model-4.0.jar"/>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-Model-4.1.jar"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>

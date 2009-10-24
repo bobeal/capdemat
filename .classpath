@@ -84,8 +84,6 @@
 	<classpathentry kind="lib" path="Libraries/org.hibernate/hibernate3.jar"/>
 	<classpathentry kind="lib" path="Model/lib/cobertura/asm-tree-2.2.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/cleversms/cleversms-ws-client-axis-1.0.0.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.0.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.0.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-2.5.5.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-webmvc-2.5.5.jar"/>
 	<classpathentry kind="lib" path="Model/lib/jsmtpd/jsmtpd-core-2.0-SNAPSHOT.jar"/>
@@ -111,5 +109,7 @@
 	<classpathentry kind="lib" path="Libraries/org.apache/ant/ant.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-1.5.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-tiger-1.5.6.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -13,8 +13,12 @@
 		<exec executable="${grails}" failonerror="true">
 			<arg value="clean"/>
 		</exec>
-                <delete file="${app.name}-${application.version}-${application.revision}.war" />
-                <delete file="*.log" />
+        <delete file="${app.name}-${application.version}-${application.revision}.war" />
+        <delete>
+           	<fileset dir=".">
+           		<include name="*.log" />
+           	</fileset>
+        </delete>
     </target>
 
 	<!-- ================================= 

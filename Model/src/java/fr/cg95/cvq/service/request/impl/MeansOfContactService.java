@@ -99,7 +99,7 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
     public void disableMeansOfContact(MeansOfContact meansOfContact)
         throws CvqModelException {
         if (!canDisableMeansOfContact(meansOfContact))
-            throw new CvqModelException("unique_meansofcontact_enabled");
+            throw new CvqModelException("request.meansOfContact.message.mustHaveOneEnabled");
         meansOfContact.setEnabled(false);
         meansOfContactDAO.update(meansOfContact);
     }

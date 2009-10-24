@@ -1,11 +1,15 @@
 class HomeController {
 
+	def securityService
+
 	def defaultAction = 'home'
 
     def home = {
-       if (session.currentCredentialBean.hasSiteAgentRole())
-           redirect(controller:'backofficeRequest',action:'taskBoard')
-       else if (session.currentCredentialBean.hasSiteAdminRole())
-           redirect(controller:'backofficeLocalAuthority')
+       def point = securityService.defineAccessPoint(
+               session.currentCredentialBean.hasSiteAdminRole() ?
+                   ContextType.ADMIN : ContextType.AGENT,
+               SecurityContext.BACK_OFFICE_CONTEXT,
+               null, null)
+       redirect(controller: point.controller, action: point.action)
     }
 }

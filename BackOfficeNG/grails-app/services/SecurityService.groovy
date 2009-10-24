@@ -55,7 +55,7 @@ public class SecurityService {
      */
     private defaultPoints = [
         (ContextType.ADMIN) :
-            [controller : "backofficeCategory", action : "list"],
+            [controller : "backofficeLocalAuthority", action : "aspect"],
         (ContextType.AGENT) : [
             (SecurityContext.BACK_OFFICE_CONTEXT) :
                 [controller : "backofficeRequest", action : "taskBoard"],

@@ -2,40 +2,25 @@ import fr.cg95.cvq.business.authority.LocalAuthority
 import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
-import fr.cg95.cvq.service.request.IMeansOfContactService
-import fr.cg95.cvq.business.request.MeansOfContact
 import grails.converters.JSON
 
 class LocalAuthorityController {
     
     ILocalAuthorityRegistry localAuthorityRegistry
-    IMeansOfContactService meansOfContactService
 
     def localAuthorityResourceAdaptorService
 
-    def defaultAction = "requests"
+    def defaultAction = 'aspect'
 
     def subMenuEntries = [
       'localAuthority.aspect',
       'localAuthority.pdf', 
-      "localAuthority.information",
+      'localAuthority.information',
       'localAuthority.identity'
     ]
 
     def beforeInterceptor = { 
-        session["currentMenu"] = "localAuthority"
-    }
-
-    def moCs = {
-        if (request.get) {
-            render(template : "meansOfContact", 
-                model : ["moCs" : meansOfContactService.availableMeansOfContact])
-        } else if (request.post) {
-            def moc = meansOfContactService.getById(Long.valueOf(params.id))
-            if(params.enabled == 'true') meansOfContactService.disableMeansOfContact(moc)
-            else if (params.enabled == 'false') meansOfContactService.enableMeansOfContact(moc)
-            render ([status:"success", message:message(code:"message.updateDone")] as JSON)
-        }
+        session['currentMenu'] = 'localAuthority'
     }
 
     def aspect = {
@@ -135,26 +120,6 @@ class LocalAuthorityController {
                 }
             }
             localAuthorityRegistry.setLocalAuthorityServerNames(serverNames)
-            render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
-            return false
-        }
-    }
-
-    def requests = {
-        session['currentMenu'] = 'requests'
-        if (request.get) {
-            return ["subMenuEntries" : ['localAuthority.requests', 'displayGroup.list'],
-                    "draftLiveDuration" : SecurityContext.getCurrentSite().draftLiveDuration,
-                    "draftNotificationBeforeDelete" : SecurityContext.getCurrentSite().draftNotificationBeforeDelete,
-                    "requestsCreationNotificationEnabled" : SecurityContext.getCurrentSite().requestsCreationNotificationEnabled,
-                    "documentDigitalizationEnabled" : SecurityContext.getCurrentSite().documentDigitalizationEnabled,
-                    "instructionAlertsEnabled" : SecurityContext.getCurrentSite().instructionAlertsEnabled,
-                    "instructionAlertsDetailed" : SecurityContext.getCurrentSite().instructionAlertsDetailed,
-                    "instructionDefaultMaxDelay" : SecurityContext.getCurrentSite().instructionDefaultMaxDelay,
-                    "instructionDefaultAlertDelay" : SecurityContext.getCurrentSite().instructionDefaultAlertDelay,
-                    "requestLockMaxDelay" : SecurityContext.currentSite.requestLockMaxDelay]
-        } else if (request.post) {
-            bind(SecurityContext.getCurrentSite())
             render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
             return false
         }

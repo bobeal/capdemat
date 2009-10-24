@@ -25,10 +25,10 @@
     </g:if>
   </g:if>
   <g:if test="${session.currentCredentialBean.hasSiteAdminRole()}">
-    <a id="localAuthorityMenuItem" href="${createLink(controller:'backofficeLocalAuthority',action:'aspect')}">
+    <a id="localAuthorityMenuItem" href="${createLink(controller:'backofficeLocalAuthority')}">
       <g:message code="menu.localAuthority" />
     </a>
-     <a id="requestsMenuItem" href="${createLink(controller:'backofficeLocalAuthority')}">
+     <a id="requestAdminMenuItem" href="${createLink(controller:'backofficeRequestAdmin')}">
       <g:message code="menu.requestsAdmin" />
     </a>
     <a id="categoryMenuItem" href="${createLink(controller:'backofficeCategory')}">

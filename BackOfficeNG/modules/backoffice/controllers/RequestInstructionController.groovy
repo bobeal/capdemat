@@ -137,7 +137,7 @@ class RequestInstructionController {
             else
                 externalTemplateName = ["/backofficeRequestInstruction/external",
                     externalProviderServiceLabel, "block"].join('/')
-            def criteriaSet = new HashSet<Criteria>(2)
+            def criteriaSet = new HashSet<Critere>(2)
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
                 String.valueOf(request.id), Critere.EQUALS))
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
@@ -538,7 +538,7 @@ class RequestInstructionController {
     def external = {
         if (request.post) {
             externalService.sendRequest(defaultRequestService.getAndTryToLock(Long.valueOf(params.id)))
-            def criteriaSet = new HashSet<Criteria>(2)
+            def criteriaSet = new HashSet<Critere>(2)
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
                 params.id, Critere.EQUALS))
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,

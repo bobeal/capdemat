@@ -109,7 +109,8 @@
 	<classpathentry kind="lib" path="Libraries/org.apache/ant/ant.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-1.5.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-oxm-tiger-1.5.6.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.1.jar" sourcepath="Model/src/java"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -88,5 +88,6 @@
 	<classpathentry kind="lib" path="/CapDemat/Libraries/edu.yale/cas/casclient-2.1.1-1.jar" sourcepath="/home/bor/java/cas/cas-client-java-2.1.1/src"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-Model-4.1.jar"/>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.1.jar"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>

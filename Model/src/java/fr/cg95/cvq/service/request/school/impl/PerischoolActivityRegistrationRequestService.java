@@ -29,7 +29,7 @@ public final class PerischoolActivityRegistrationRequestService
         // ensure school information has been filled
         if (parr.getSchool() == null) {
             logger.error("validate() registration has not been associated to a school !");
-            throw new CvqModelException("request.perischool_activity_registration.school_required");
+            throw new CvqModelException("parr.property.school.validationError");
         }
     }
 

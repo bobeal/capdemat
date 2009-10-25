@@ -46,7 +46,7 @@ public final class SchoolCanteenRegistrationRequestService
         // ensure school information has been filled
         if (scrr.getSchool() == null) {
             logger.error("validate() registration has not been associated to a school !");
-            throw new CvqModelException("request.school_canteen_registration.school_required");
+            throw new CvqModelException("scrr.property.school.validationError");
         }
     }
 

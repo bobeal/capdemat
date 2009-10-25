@@ -23,9 +23,9 @@ public final class SchoolRegistrationRequestService
         // check school association has been done before validating request
         SchoolRegistrationRequest srr = (SchoolRegistrationRequest) request;
         if (srr.getSchool() == null)
-            throw new CvqModelException("School registration is not associated to a school");
+            throw new CvqModelException("srr.property.school.validationError");
         if (srr.getSection().equals(SectionType.UNKNOWN))
-            throw new CvqModelException("School registration is not associated to a school section");
+            throw new CvqModelException("srr.property.section.validationError");
     }
 
     @Override

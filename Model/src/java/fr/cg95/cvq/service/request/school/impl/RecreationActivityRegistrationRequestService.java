@@ -22,8 +22,7 @@ public final class RecreationActivityRegistrationRequestService extends RequestS
         // check recreation center association has been done before validating request
         RecreationActivityRegistrationRequest rarr = (RecreationActivityRegistrationRequest) request;
         if (rarr.getRecreationCenter() == null)
-            throw new CvqModelException("Recreation activity registration is not associated " 
-                    + "to a recreation center");
+            throw new CvqModelException("rarr.property.recreationCenter.validationError");
     }
 
     @Override

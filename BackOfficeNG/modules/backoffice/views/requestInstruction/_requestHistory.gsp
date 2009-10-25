@@ -16,8 +16,10 @@
         <dd class="title">
           <g:message code="searchResult.actionDate" /> :
           <strong><g:formatDate formatName="format.fullDate" date="${requestAction.date}"/></strong>
-          <g:message code="layout.by" />
-          <strong>${requestAction.agent_name}</strong>
+          <g:if test="${requestAction.agent_name}">
+            <g:message code="layout.by" />
+            <strong>${requestAction.agent_name}</strong>
+          </g:if>
         </dd>
         <g:if test="${requestAction.hasFile}">
           <dt><g:message code="requestAction.property.file" /></dt>

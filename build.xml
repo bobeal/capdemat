@@ -55,6 +55,7 @@
     <ant dir="${plugins.externalservices.horanet.dir}" target="clean" />
     <ant dir="${plugins.externalservices.clever.dir}" target="clean" />
     <ant dir="${plugins.externalservices.cpm.dir}" target="clean" />
+    <ant dir="${plugins.externalservices.edemande.dir}" target="clean" />
   </target>
 
   <!-- ================================================================================= -->

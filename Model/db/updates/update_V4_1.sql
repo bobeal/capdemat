@@ -102,4 +102,6 @@ drop function migrate_seasons();
 -- Study Grant Request RGAA refactoring
 alter table study_grant_request rename current_studies to current_studies_diploma;
 
+update request_form set xsl_fo_filename = substring(xsl_fo_filename from 1 for position('.xsl' in xsl_fo_filename) - 1);
+
 alter table request_action alter column request_id set not null;

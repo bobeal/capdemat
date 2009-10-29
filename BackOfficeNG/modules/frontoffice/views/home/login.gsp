@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>${message(code:'home.title')}</title>
+    <title>${message(code:'home.portal.title',args:[session.currentSiteDisplayTitle])}</title>
     <meta name="layout" content="fo_main" />
    <!-- TODO : extract styles for form styles -->
     <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />

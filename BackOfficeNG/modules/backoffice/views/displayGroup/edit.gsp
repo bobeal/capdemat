@@ -94,6 +94,7 @@
     </div>
 
     <div id="narrow" class="yui-b">
+      <menu:subMenu id="secondMenu" i18nPrefix="header" data="${subMenuEntries}" />
       <div class="nobox">
         <h3>${message(code:'displayGroup.header.switchDisplayGroup')}</h3>
         <div class="body">

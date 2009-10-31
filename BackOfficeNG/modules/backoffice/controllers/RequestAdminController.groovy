@@ -11,7 +11,8 @@ class RequestAdminController {
     def defaultAction = 'requests'
         
     def subMenuEntries = [
-        'requestAdmin.requests' 
+        'requestAdmin.requests',
+        'displayGroup.list'
     ]
 
     def beforeInterceptor = { 

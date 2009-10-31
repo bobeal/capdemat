@@ -16,11 +16,11 @@ class DisplayGroupController {
     def translationService
     def defaultAction = 'list'
     
-    def beforeInterceptor = { session['currentMenu'] = 'requests' }
+    def beforeInterceptor = { session['currentMenu'] = 'requestAdmin' }
     
     def subMenuEntries = [
-      'localAuthority.requests',
-      'displayGroup.list'
+        'requestAdmin.requests',
+        'displayGroup.list'
     ]
 
     def list = {
@@ -56,7 +56,8 @@ class DisplayGroupController {
         }
         requestTypes = requestTypes.sort{ it.label.toLowerCase() }
 
-        return ['editMode':'edit', 
+        return ['subMenuEntries':subMenuEntries,
+                'editMode':'edit', 
                 'displayGroups':displayGroups,
                 'displayGroup':displayGroup,
                 'hasLogo' : localAuthorityRegistry.getLocalAuthorityResourceFile(
@@ -68,7 +69,8 @@ class DisplayGroupController {
     }
 
     def create = {
-        render(view:'edit',model:[editMode:"create", displayGroups:displayGroupService.getAll()])
+        render(view:'edit',model:['subMenuEntries':subMenuEntries, 
+                                  editMode:"create", displayGroups:displayGroupService.getAll()])
     }
 
     def save = {

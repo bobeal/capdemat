@@ -27,16 +27,6 @@
                 <value>Perischool Activity Registration</value>
               </list>
             </property>
-            <property name="serviceProperties">
-              <map>
-                <entry>
-                  <key>
-                    <value>callbackUrl</value>
-                  </key>
-                  <value>/frontoffice/payment/status</value>
-                </entry>
-              </map>
-            </property>
           </bean>
         </entry>
       </map>

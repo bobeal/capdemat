@@ -36,6 +36,6 @@
 </g:if>
 <g:else>
   <div class="information-box">
-  	<g:message code="payment.message.noPayments" />
+  	<g:message code="${noPaymentsMsg}" />
   </div>
 </g:else>

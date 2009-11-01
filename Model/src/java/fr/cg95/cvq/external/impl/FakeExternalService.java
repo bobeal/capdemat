@@ -207,9 +207,7 @@ public class FakeExternalService implements IExternalProviderService {
                     billPaymentDate = 
                         simpleDateFormat.parse(nodeAttrs.getNamedItem("bill-date-payment").getNodeValue());
                 String billPayed = node.getAttributes().getNamedItem("bill-payed").getNodeValue();
-                Boolean isPayed = Boolean.FALSE;
-                if (billPayed.equals("1"))
-                    isPayed = true;
+                Boolean isPayed = billPayed.equals("1") ? true : false;
                     
                 ExternalInvoiceItem eii = 
                     new ExternalInvoiceItem(billLabel, Double.valueOf(billAmount),

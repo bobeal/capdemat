@@ -23,7 +23,8 @@ mail.sender_port=25
 agent.administrator_group=CVQ_ADMINISTRATORS
 agent.contributor_group=CVQ_CONTRIBUTORS
 
-fake_payment.url=https://localhost/service/fakePayment
+fake_payment.url=/service/fakePayment
+fake_payment.callbackUrl=/frontoffice/payment/status
 
 translationService.cacheSeconds = 0
 

@@ -16,6 +16,7 @@ import fr.cg95.cvq.payment.PaymentServiceBean;
 public final class FakePaymentProviderService implements IPaymentProviderService {
 
     private String paymentUrl;
+    private String callbackUrl;
     
     public void checkConfiguration(PaymentServiceBean paymentServiceBean)
             throws CvqConfigurationException {
@@ -36,13 +37,12 @@ public final class FakePaymentProviderService implements IPaymentProviderService
             if(port == null) port = "80";
             if(scheme == null) scheme = "https";
             
-            String callbackUrl = scheme + "://" + domainName + ":" + port +
-                ((String) paymentServiceBean.getProperty("callbackUrl"));
+            String baseSiteUrl = scheme + "://" + domainName + ":" + port;
 
-            StringBuffer urlBuffer = new StringBuffer().append(paymentUrl)
+            StringBuffer urlBuffer = new StringBuffer().append(baseSiteUrl).append(paymentUrl)
                 .append("?cvqReference=").append(cvqReference)
                 .append("&amount=").append(payment.getEuroAmount())
-                .append("&callbackUrl=").append(callbackUrl)
+                .append("&callbackUrl=").append(baseSiteUrl).append(callbackUrl)
                 .append("&capDematFake=true");
             
             String email = payment.getRequester().getEmail();
@@ -77,10 +77,6 @@ public final class FakePaymentProviderService implements IPaymentProviderService
             return false;
     }
 
-    public final void setPaymentUrl(String paymentUrl) {
-        this.paymentUrl = paymentUrl;
-    }
-
     public PaymentResultStatus getStateFromParameters(Map<String, String> parameters, 
             PaymentServiceBean paymentServiceBean) throws CvqException {
         
@@ -96,5 +92,13 @@ public final class FakePaymentProviderService implements IPaymentProviderService
             return PaymentResultStatus.REFUSED;
         
         return PaymentResultStatus.UNKNOWN;
+    }
+
+    public final void setPaymentUrl(String paymentUrl) {
+        this.paymentUrl = paymentUrl;
+    }
+
+    public final void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
     }
 }

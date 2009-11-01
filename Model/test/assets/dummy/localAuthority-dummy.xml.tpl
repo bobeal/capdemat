@@ -21,18 +21,8 @@
             <property name="requestTypes">
               <list>
                 <value>Place Reservation</value>
-                <value>VO Card Request</value>
+                <value>VO Card</value>
               </list>
-            </property>
-            <property name="serviceProperties">
-              <map>
-                <entry>
-                  <key>
-                    <value>callbackUrl</value>
-                  </key>
-                  <value>https://cartevaloise.dummy.fr/FrontOffice/paymentResult.do</value>
-                </entry>
-              </map>
             </property>
           </bean>
         </entry>

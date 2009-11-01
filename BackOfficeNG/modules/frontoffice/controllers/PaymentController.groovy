@@ -86,6 +86,10 @@ class PaymentController {
     
     def status = {
         session.payment = null
+        if (params.capDematFake == "true") {
+            SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
+            paymentService.commitPayment(params);
+        }
     }
     
     def addToCart = {

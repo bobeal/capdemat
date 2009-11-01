@@ -119,6 +119,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="fakePaymentProviderService" 
     class="fr.cg95.cvq.payment.impl.FakePaymentProviderService">
     <property name="paymentUrl" value="${fake_payment.url}" />  
+    <property name="callbackUrl" value="${fake_payment.callbackUrl}" />  
   </bean>
 
   <bean id="fakeExternalService" class="fr.cg95.cvq.external.impl.FakeExternalService">

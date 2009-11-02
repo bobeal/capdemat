@@ -83,8 +83,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         initButtons();
 
         zcbrt.Manager.editor.on('afterRender',function(ev){
-          if(zcb.Editor.toolbar.buttons.length > 0) {
-            var button = zcb.Editor.toolbar.buttons[zcb.Editor.toolbar.buttons.length - 1].buttons[0];
+          if(zcb.Editor.options.toolbar.buttons.length > 0) {
+            var button = zcb.Editor.options.toolbar.buttons[zcb.Editor.options.toolbar.buttons.length - 1].buttons[0];
             var select = yus.query('select',button.container)[0];
 
             yue.on(select,'change',function(ev){

@@ -140,7 +140,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-intervention" name="submit-step-intervention" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-intervention" name="submit-step-intervention" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">

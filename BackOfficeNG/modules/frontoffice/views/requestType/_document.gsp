@@ -89,5 +89,5 @@
     </div>
   </fieldset>
   </g:each>
-  <input type="submit" id="submit-step-document" name="submit-step-document" class="submit-step" value="${message(code:'action.save')}" />
+  <input type="submit" id="submit-step-document" name="submit-step-document" class="submit-step" value="${message(code:'action.validate')}" />
 </g:else>

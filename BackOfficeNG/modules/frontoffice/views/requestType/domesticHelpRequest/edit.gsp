@@ -209,7 +209,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -249,7 +249,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-familyReferent" name="submit-step-familyReferent" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-familyReferent" name="submit-step-familyReferent" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -291,7 +291,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-spouse" name="submit-step-spouse" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-spouse" name="submit-step-spouse" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -335,7 +335,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-dwelling" name="submit-step-dwelling" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-dwelling" name="submit-step-dwelling" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -379,7 +379,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-resources" name="submit-step-resources" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-resources" name="submit-step-resources" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -421,7 +421,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-taxes" name="submit-step-taxes" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-taxes" name="submit-step-taxes" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">

@@ -215,7 +215,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -257,7 +257,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-taxHousehold" name="submit-step-taxHousehold" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-taxHousehold" name="submit-step-taxHousehold" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -301,7 +301,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-otherHelps" name="submit-step-otherHelps" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-otherHelps" name="submit-step-otherHelps" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -345,7 +345,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-currentStudies" name="submit-step-currentStudies" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-currentStudies" name="submit-step-currentStudies" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -389,7 +389,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-calculationElements" name="submit-step-calculationElements" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-calculationElements" name="submit-step-calculationElements" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -433,7 +433,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-bankReference" name="submit-step-bankReference" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-bankReference" name="submit-step-bankReference" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">

@@ -181,7 +181,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-registration" name="submit-step-registration" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-registration" name="submit-step-registration" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -221,7 +221,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-contact" name="submit-step-contact" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-contact" name="submit-step-contact" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -263,7 +263,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-authorization" name="submit-step-authorization" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-authorization" name="submit-step-authorization" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -307,7 +307,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-rules" name="submit-step-rules" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-rules" name="submit-step-rules" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">

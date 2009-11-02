@@ -138,7 +138,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-requester" name="submit-step-requester" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-requester" name="submit-step-requester" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -180,7 +180,7 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-cadastre" name="submit-step-cadastre" class="submit-step" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-cadastre" name="submit-step-cadastre" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">

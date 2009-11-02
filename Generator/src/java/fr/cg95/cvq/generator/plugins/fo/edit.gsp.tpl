@@ -157,7 +157,7 @@
              <div><strong><g:message code="request.step.validation.requiredSteps"/></strong></div>
            </g:if>
   <% } else if (step.name != 'document') { %>
-           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" class="submit-step" value="\${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" class="submit-step" value="\${message(code:'action.validate')}" />
   <% } %>
          </form>
          <div class="navTab">

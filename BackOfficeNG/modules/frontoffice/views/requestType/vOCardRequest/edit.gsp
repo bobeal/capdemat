@@ -113,7 +113,7 @@
            <!-- Input submit-->
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           <input type="submit" id="submit-step-adults" class="submit-step" name="submit-step-adults" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-adults" class="submit-step" name="submit-step-adults" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -144,7 +144,7 @@
            <!-- Input submit-->
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           <input type="submit" id="submit-step-children" class="submit-step" name="submit-step-children" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-children" class="submit-step" name="submit-step-children" value="${message(code:'action.validate')}" />
          
          </form>
          <div class="navTab">
@@ -179,7 +179,7 @@
            <!-- Input submit-->
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           <input type="submit" id="submit-step-foreignAdults" class="submit-step" name="submit-step-foreignAdults" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-foreignAdults" class="submit-step" name="submit-step-foreignAdults" value="${message(code:'action.validate')}" />
   
          </form>
          <div class="navTab">
@@ -220,7 +220,7 @@
            <!-- Input submit-->
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
-           <input type="submit" id="submit-step-account" class="submit-step" name="submit-step-account" value="${message(code:'action.save')}" />
+           <input type="submit" id="submit-step-account" class="submit-step" name="submit-step-account" value="${message(code:'action.validate')}" />
          </form>
          <div class="navTab">
     	    <a id="prev-tab-account" class="prev-tab" href="#children"><g:message code="request.step.navigation.previous"/></a>

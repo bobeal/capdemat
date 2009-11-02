@@ -35,7 +35,7 @@
     function updateAgentProfile(agentId, action) {
       var currentLiEl = new yu.Element("agent_" + agentId);
        
-      var profileSpanEls = yus.query("li[id|=agent] > span[class|=tag]", "agent_" + agentId);
+      var profileSpanEls = yus.query("> span[class^=tag]", "agent_" + agentId);
       if  (profileSpanEls.length > 0)
         currentLiEl.removeChild(profileSpanEls[0]);
       

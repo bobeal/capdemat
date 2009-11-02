@@ -28,7 +28,7 @@
 	function updateCategoryAgentProfile(categoryId, action) {
 	  var currentLiEl = new yu.Element("category_" + categoryId);
 	  
-	  var profileSpanEls = yus.query("li[id|=category] > span[class|=tag]", "category_" + categoryId);
+	  var profileSpanEls = yus.query("> span[class^=tag]", "category_" + categoryId);
 	  if  (profileSpanEls.length > 0) {
 	    currentLiEl.removeChild(profileSpanEls[0]);
 	  }

@@ -4,8 +4,9 @@
     <meta name="layout" content="main" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/yui/editor',file:'simpleeditor.css')}" />
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'simpleeditor.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'container.css')}" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/yui/editor',file:'simpleeditor-beta.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir:'js/yui/editor',file:'simpleeditor-min.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'editor.js')}"></script>
     <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
     

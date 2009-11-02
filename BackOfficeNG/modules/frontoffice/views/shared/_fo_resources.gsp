@@ -1,7 +1,6 @@
   <link rel="shortcut icon" href="${createLinkTo(dir:'images',file:'favicon.ico')}" />
   <!-- yui -->    
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/yui/reset-fonts-grids', file:'reset-fonts-grids.css')}" />
-  <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/yui/button',file:'button.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/yui/tabview', file:'tabview.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/backoffice/yui/container',file:'container.css')}" />
   <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common/yui-skin', file:'tabview.css')}" />
@@ -17,11 +16,10 @@
   <!-- Dependency for tools / FIXME : should not be required for FO -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/container',file:'container-min.js')}"></script>
   <!-- Selector -->
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/selector',file:'selector-beta-min.js')}"></script>
+  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/selector',file:'selector-min.js')}"></script>
   <!-- Json -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/json',file:'json-min.js')}"></script> 
   <!-- Directly used scripts -->
-  <script type="text/javascript" src="${createLinkTo(dir:'js/yui/button',file:'button-min.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/tabview', file:'tabview-min.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'tools.js')}"></script>
   <script type="text/javascript" src="${createLinkTo(dir:'js/common', file:'validation.js')}"></script>

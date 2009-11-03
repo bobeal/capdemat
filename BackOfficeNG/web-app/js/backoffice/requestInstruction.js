@@ -416,7 +416,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         var id = target.id.split('_')[1];
         new zct.ConfirmationDialog(
           { head : 'Attention !',
-            body : 'Souhaitez-vous réellement détacher ce document de la demande ? Cette action est irréversible.' },
+            body : 'Souhaitez-vous réellement supprimer ce document associé à la demande ?' },
           function() {
             zct.doAjaxDeleteCall("/removeDocument","requestId=" + zcb.requestId
               + "&documentId=" + id, function(o) {

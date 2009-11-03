@@ -47,7 +47,14 @@
   
           <a href="#adults"><em>
           <span class="tag-state ${stepStates!= null ? stepStates.adults.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.adults.i18nKey : 'request.step.state.uncomplete'}" /></span>
-          <strong><g:message code="vcr.step.adults.label" /> * </strong>
+          <strong>
+            <g:if test="${displayChildrenInAccountCreation}">
+              <g:message code="vcr.step.adults.label" /> *
+            </g:if>
+            <g:else>
+              <g:message code="vcr.step.members.label" /> *
+            </g:else>
+          </strong>
           </em></a>
         </li>
 

@@ -8,6 +8,7 @@ import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
 
@@ -57,6 +58,12 @@ public final class SchoolCanteenRegistrationRequestService
 
     @Override
     public Request getSkeletonRequest() throws CvqException {
-        return new SchoolCanteenRegistrationRequest();
+        SchoolCanteenRegistrationRequest request =
+            new SchoolCanteenRegistrationRequest();
+        request.setUrgencyPhone(
+            homeFolderService.getHomeFolderResponsible(
+                SecurityContext.getCurrentEcitizen().getHomeFolder().getId())
+                .getOfficePhone());
+        return request;
     }
 }

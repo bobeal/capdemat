@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.PerischoolActivityRegistrationRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
 
@@ -46,6 +47,12 @@ public final class PerischoolActivityRegistrationRequestService
 
     @Override
     public Request getSkeletonRequest() throws CvqException {
-        return new PerischoolActivityRegistrationRequest();
+        PerischoolActivityRegistrationRequest request =
+            new PerischoolActivityRegistrationRequest();
+        request.setUrgencyPhone(
+            homeFolderService.getHomeFolderResponsible(
+                SecurityContext.getCurrentEcitizen().getHomeFolder().getId())
+                .getOfficePhone());
+        return request;
     }
 }

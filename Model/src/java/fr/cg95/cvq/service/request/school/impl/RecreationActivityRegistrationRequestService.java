@@ -4,6 +4,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.RecreationActivityRegistrationRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.school.IRecreationActivityRegistrationRequestService;
 
@@ -36,7 +37,13 @@ public final class RecreationActivityRegistrationRequestService extends RequestS
     }
 
     @Override
-	public Request getSkeletonRequest() throws CvqException {
-        return new RecreationActivityRegistrationRequest();
+    public Request getSkeletonRequest() throws CvqException {
+        RecreationActivityRegistrationRequest request =
+            new RecreationActivityRegistrationRequest();
+        request.setUrgencyPhone(
+            homeFolderService.getHomeFolderResponsible(
+                SecurityContext.getCurrentEcitizen().getHomeFolder().getId())
+                .getOfficePhone());
+        return request;
     }
 }

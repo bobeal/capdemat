@@ -36,15 +36,15 @@
         
         <label class="required"><g:message code="homeFolder.adult.label.phones" /> <span>(<g:message code="homeFolder.adult.label.phones.help" />)</span></label>
         <div class="address-fieldset">
-          <label for="_individuals.foreignAdults.${listIndex}.homePhone"><g:message code="homeFolder.adult.property.homePhone" /></label>
+          <label for="_individuals.foreignAdults.${listIndex}.homePhone"><g:message code="homeFolder.adult.property.homePhone" /> <span><g:message code="homeFolder.adult.property.homePhone.help" /></label>
           <input type="text" id="_individuals.foreignAdults.${listIndex}.homePhone" name="_individuals.foreignAdults[${listIndex}].homePhone" value="${editList?.foreignAdults?.homePhone}"
             class="validate-phone" title="<g:message code="homeFolder.adult.property.homePhone.validationError" />" />
 
-          <label for="_individuals.foreignAdults.${listIndex}.mobilePhone"><g:message code="homeFolder.adult.property.mobilePhone" /></label>
+          <label for="_individuals.foreignAdults.${listIndex}.mobilePhone"><g:message code="homeFolder.adult.property.mobilePhone" /> <span><g:message code="homeFolder.adult.property.mobilePhone.help" /></label>
           <input type="text" id="_individuals.foreignAdults.${listIndex}.mobilePhone" name="_individuals.foreignAdults[${listIndex}].mobilePhone" value="${editList?.foreignAdults?.mobilePhone}"
             class="validate-phone" title="<g:message code="homeFolder.adult.property.mobilePhone.validationError" />" />
 
-          <label for="_individuals.foreignAdults.${listIndex}.officePhone"><g:message code="homeFolder.adult.property.officePhone" /></label>
+          <label for="_individuals.foreignAdults.${listIndex}.officePhone"><g:message code="homeFolder.adult.property.officePhone" /> <span><g:message code="homeFolder.adult.property.officePhone.help" /></label>
           <input type="text" id="_individuals.foreignAdults.${listIndex}.officePhone" name="_individuals.foreignAdults[${listIndex}].officePhone" value="${editList?.foreignAdults?.officePhone}"
             class="validate-phone" title="<g:message code="homeFolder.adult.property.officePhone.validationError" />" />
         </div>

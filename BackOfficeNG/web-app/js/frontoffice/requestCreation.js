@@ -5,6 +5,7 @@
   var yu = YAHOO.util;
   var yud = yu.Dom;
   var yue = yu.Event;
+  var yus = yu.Selector;
   var yw = YAHOO.widget;
   
   zcf.RequestCreation = function() {
@@ -83,7 +84,7 @@
         yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);
         
         yue.on('requestTabView','change',zcf.RequestCreation.formatField);
-        
+        yue.on(yus.query("#requestTabView .validate-phone"), "keyup", zcf.RequestCreation.formatPhone);
         yue.on('draftForm','submit',zcf.RequestCreation.submitDraft);
         
         yue.on(yud.get("requestNote"), 'keyup', function(e) {
@@ -128,7 +129,12 @@
           else if (fieldType[1] === 'city') targetEl.value = targetEl.value.toUpperCase();
           else if (fieldType[1] === 'firstName') targetEl.value = zct.capitalize(targetEl.value);
           else if (fieldType[1] === 'date') targetEl.value = Date.parse(targetEl.value) !== null ? Date.parse(targetEl.value).toString(Date.CultureInfo.formatPatterns.shortDate) : targetEl.value;
+          else if (fieldType[1] === 'phone') zcf.RequestCreation.formatPhone(e);
         }
+      },
+      formatPhone : function(e) {
+        var targetEl = yue.getTarget(e);
+        targetEl.value = targetEl.value.replace(/[^\d]/g, "");
       },
       
       prevTab : function(e) {

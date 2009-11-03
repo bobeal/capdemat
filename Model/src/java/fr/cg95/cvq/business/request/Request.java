@@ -3,14 +3,12 @@ package fr.cg95.cvq.business.request;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.xmlbeans.XmlObject;
-
-import fr.cg95.cvq.xml.common.RequestSeasonType;
 
 
 /**
@@ -88,7 +86,7 @@ public abstract class Request implements Serializable {
 
     public Request() {
         this.draft = false;
-        this.stepStates = new HashMap<String, Map<String, String>>();
+        this.stepStates = new LinkedHashMap<String, Map<String, String>>();
     }
 
     public abstract String modelToXmlString() ;

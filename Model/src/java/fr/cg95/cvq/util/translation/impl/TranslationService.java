@@ -46,17 +46,22 @@ public class TranslationService implements ITranslationService {
         }
     }
 
+    public String generateInitialism(String label) {
+        StringBuffer initialism = new StringBuffer();
+        for (String word : StringUtils.split(WordUtils.uncapitalize(label), null)) {
+            initialism.append(word.charAt(0));
+        }
+        return initialism.append('r').toString();
+    }
+
     public String translateRequestTypeLabel(String label) {
         return translateRequestTypeLabel(label, null);
     }
 
     public String translateRequestTypeLabel(String label, Locale locale) {
-        StringBuffer polygramm = new StringBuffer();
-        for (String word : StringUtils.split(WordUtils.uncapitalize(label), null)) {
-            polygramm.append(word.charAt(0));
-        }
-        String translation = translate(polygramm.append("r.label").toString(), locale);
-        return !translation.equals(polygramm.toString()) ? translation : label;
+        String key = generateInitialism(label) + ".label";
+        String translation = translate(key, locale);
+        return !translation.equals(key) ? translation : label;
     }
 
     public void setMessageSource(MessageSource messageSource) {

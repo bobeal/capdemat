@@ -258,10 +258,24 @@
            <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
-           <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${!isRequestCreatable ? 'disabled="disabled"': ''}/>
-           <g:if test="${!isRequestCreatable}">
-             <div><strong><g:message code="request.step.validation.requiredSteps"/></strong></div>
+           <g:if test="${missingSteps == null}">
+             <div><strong><g:message code="request.step.validation.allRequiredSteps"/></strong></div>
            </g:if>
+           <g:elseif test="${missingSteps.size() > 0}">
+             <div>
+               <strong><g:message code="request.step.validation.requiredSteps"/></strong>
+               <ul>
+                 <g:each var="missingStep" in="${missingSteps}">
+                   <li>
+                     <a id="active-tab-${missingStep}" href="#${missingStep}">
+                       <g:message code="snr.step.${missingStep}.label" />
+                     </a>
+                   </li>
+                 </g:each>
+               </ul>
+             </div>
+           </g:elseif>
+           <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
   
          </form>
          <div class="navTab">

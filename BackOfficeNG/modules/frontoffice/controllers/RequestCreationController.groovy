@@ -167,7 +167,7 @@ class RequestCreationController {
             'currentStep': 'firstStep',
             'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
             'uuidString': uuidString,
-            'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
+            'missingSteps': missingSteps(cRequest.stepStates),
             'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
             'isDocumentEditMode': false,
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
@@ -447,6 +447,14 @@ class RequestCreationController {
                     parameters.requesterLogin = objectToBind.homeFolderResponsible.login
                     redirect(action:'exit', params:parameters)
                     return
+                } else {
+                    flash.confirmationMessage = message(
+                        code : "request.step.message.validated",
+                        args : [message(code :
+                            translationService
+                                .generateInitialism(requestTypeInfo.label)
+                                + ".step." + currentStep + ".label")]
+                    )
                 }
             }
             session[uuidString].cRequest = cRequest
@@ -477,7 +485,7 @@ class RequestCreationController {
                      'stepStates': cRequest.stepStates,
                      'uuidString': uuidString,
                      'editList': editList,
-                     'isRequestCreatable': isRequestCreatable(cRequest.stepStates),
+                     'missingSteps': missingSteps(cRequest.stepStates),
                      'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
                      'isDocumentEditMode': isDocumentEditMode,
                      'documentType': documentType,
@@ -574,15 +582,14 @@ class RequestCreationController {
         return result.sort {it.label}
     }
      
-    // TODO - refactor. Maybe move to Request class ...
-    def isRequestCreatable(stepStates) {
+    // FIXME : when first entering the request creation process, stepStates is empty
+    // so return null and add a generic message in view
+    def missingSteps(stepStates) {
         if (stepStates == null || stepStates.size() == 0)
-            return false;
-        def steps = stepStates.findAll {
-            it.value.required && it.value.state != 'complete'
-        }
-        if (steps.size() == 0) return true;
-        else return false;
+            return null
+        return stepStates.collect { stepState ->
+            stepState.value.required && stepState.value.state != 'complete' ? stepState.key : null
+        }.findAll { stepName -> stepName != null }
     }
     
     def bindObject(object, params) {

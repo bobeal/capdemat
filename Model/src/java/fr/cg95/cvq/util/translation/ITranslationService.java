@@ -16,6 +16,8 @@ public interface ITranslationService {
 
     String translate(String code, Object[] args, Locale locale);
 
+    String generateInitialism(String label);
+
     String translateRequestTypeLabel(String label);
 
     String translateRequestTypeLabel(String label, Locale locale);

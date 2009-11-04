@@ -6,7 +6,7 @@
 <ul id="seasons" class="editableList">
   <g:each in="${seasons}" var="season">
     <li id="season_${season.id}">
-      <a id="deleteSeason_${season.id}" class="unassociate"><span>deleteItem</span></a>
+      <a id="deleteSeason_${season.id}" class="deleteItem"><span>deleteItem</span></a>
       <a id="editSeason_${season.id}" class="editItem"><span>editItem</span></a>
       <span class="name">${season.label} (<g:formatDate formatName='format.date' date='${season.effectStart.toDate()}'/> - <g:formatDate formatName='format.date' date='${season.effectEnd.toDate()}'/>)</span>
       <div id="seasonEditionContainer_${season.id}"></div>

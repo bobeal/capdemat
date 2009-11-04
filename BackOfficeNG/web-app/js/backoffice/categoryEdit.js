@@ -39,7 +39,7 @@ zenexity.capdemat.bong.categoryEdit = function() {
             window.location = zenexity.capdemat.baseUrl + "/edit/" + response.id ;
           else {
             // Is message useful
-            zct.Notifier.processMessage('success',response.success_msg);
+            zct.Notifier.processMessage('success',response.success_msg, null, ev);
             resetCategoryDataDiv();
           }
         } else {

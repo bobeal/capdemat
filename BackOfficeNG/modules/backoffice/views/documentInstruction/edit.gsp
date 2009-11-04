@@ -21,7 +21,7 @@
       </span>
     </g:if>
   </h1>
-  <div id="documentMessage" style="display: none;"> </div>
+  <div id="documentMessage" class="invisible"></div>
   <!-- datas bloc-->
   <div id="requestDocumentData" class="yellow-yui-tabview">
   
@@ -93,7 +93,7 @@
       <!-- Page 2 -->
       <div id="page2">
         <h2><g:message code="document.header.information" /></h2>
-        <div id="documentInformationtMsg" style="display:none"></div>
+        <div id="documentInformationtMsg" class="invisible"></div>
         
         <p class="static-data">
           <span><g:message code="document.property.ecitizenNote" /> :</span>

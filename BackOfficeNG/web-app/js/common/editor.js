@@ -29,11 +29,11 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong");
   zcb.Editor = function(label, options) {
     if (!options) options = zcb.Editor.options;
     var editorId = label + "Editor";
-    var save = function() {
+    var save = function(e) {
       editor.saveHTML();
       zct.doAjaxFormSubmitCall(label + "Form", [], function(r) {
         zct.Notifier.processMessage("success",
-          ylj.parse(r.responseText).success_msg);
+          ylj.parse(r.responseText).success_msg, null, e);
       });
     };
     options.width = (zct.width(yud.get(editorId).parentNode) - 5) + "px";

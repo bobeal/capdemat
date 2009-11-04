@@ -83,7 +83,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         if (validform) {
           zct.doAjaxFormSubmitCall('seasonForm_' + id,[],function(o){
             zcbrt.Seasons.loadSeasons();
-            zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
+            zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg, null, e);
           });
         }
       },
@@ -101,7 +101,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         var id = (yue.getTarget(e).id||'_').split('_')[1];
         new zct.ConfirmationDialog(content, function(){
           zct.doAjaxDeleteCall('/editSeason', 'requestTypeId=' + zcbrt.currentId + '&id=' + id, function(o){
-            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg);
+            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
             zcbrt.Seasons.loadSeasons();
           })
         }).show(e);

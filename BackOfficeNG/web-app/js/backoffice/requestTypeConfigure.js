@@ -50,7 +50,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           });
           zct.doAjaxFormSubmitCall(form.id,[],function(o){
             var json = ylj.parse(o.responseText);
-            zct.Notifier.processMessage('success',json.success_msg);
+            zct.Notifier.processMessage('success',json.success_msg, null, e);
           });
         }
       },

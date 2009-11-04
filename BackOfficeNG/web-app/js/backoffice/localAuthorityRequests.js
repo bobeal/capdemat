@@ -50,13 +50,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
         cont.innerHTML = "";
         if (zcv.check(yud.get(id + "Form"), cont)) {
           zct.doAjaxFormSubmitCall(id + "Form", [], function(o){
-            zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
+            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
           });
         }
       },
       saveMoC : function(e) {
         zct.doAjaxFormSubmitCall(splitEvent(e) + "Form", [], function(o){
-          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
+          zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
           zcbl.Requests.loadMoCs();
         });
       }

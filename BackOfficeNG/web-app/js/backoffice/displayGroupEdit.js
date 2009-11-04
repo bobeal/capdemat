@@ -91,7 +91,7 @@
             window.location = zenexity.capdemat.baseUrl + '/edit/' + json.id;
           else {
             yud.get('logoForm').name.value = json.displayGroupName;
-            zct.Notifier.processMessage(json.status,json.message,'displayGroupMsg');
+            zct.Notifier.processMessage(json.status, json.message, null, e);
           }
         });
       },
@@ -102,7 +102,7 @@
           var json = ylj.parse(o.responseText);
           yud.get('logoImg').src = [zcb.DisplayGroupEdit.ressourceBaseUrl, yud.get('logoForm').name.value,
                                     '&rand=', json.rand].join('');
-          zct.Notifier.processMessage(json.status,json.message,'displayGroupMsg');
+          zct.Notifier.processMessage(json.status, json.message, null, e);
         }, true);
       }
 

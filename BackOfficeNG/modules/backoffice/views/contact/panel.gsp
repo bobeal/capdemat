@@ -5,7 +5,6 @@
   <span><g:message code="request.property.state" /> :&nbsp;</span>
   <g:message code="contact.header.contactEcitizen" />
 </h1>
-<div id="contactMsg" style="display:none"></div>
 <div class="mainbox mainbox-yellow">
   <h2><g:message code="contact.header.writeMessage" /></h2>
   <form method="post" id="contactForm" action="${createLink(action:'contact')}">

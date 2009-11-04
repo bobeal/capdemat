@@ -168,8 +168,8 @@ strong { font-weight: bold !important; }
 .error-top,
 .success-top {
   width: 300px;
-  display: inline; position:absolute;
-  left: 30%; top: 2em; z-index: 10;
+  position : absolute;
+  z-index : 100;
   padding: .2em;
   text-align: center;
   font-weight:bold;
@@ -184,3 +184,8 @@ strong { font-weight: bold !important; }
 
 .error { color: red; text-align: center; }
 
+/* center static message containers */
+.static-top {
+  left: 30%;
+  top: 2em;
+}

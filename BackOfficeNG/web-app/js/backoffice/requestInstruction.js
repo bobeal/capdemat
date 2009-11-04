@@ -502,7 +502,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           zct.doAjaxFormSubmitCall(formEl.id, null, function(o) {
               var json = ylj.parse(o.responseText);
               if (json.status === 'ok') {
-                zcbr.Information.refreshNotes(yud.getAncestorBy(formEl), json.success_msg);
+                zcbr.Information.refreshNotes(yud.getAncestorBy(formEl), json.success_msg, null, e);
               }
               else {
                 //

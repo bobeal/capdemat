@@ -56,12 +56,12 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
       },
       saveDisplayConfiguration : function(e) {
         zct.doAjaxFormSubmitCall(yue.getTarget(e).form.id, [], function(o){
-          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
+          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg, null, e);
         });
       },
       saveActivation : function(e) {
         zct.doAjaxFormSubmitCall(yue.getTarget(e).form.id, [], function(o){
-          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg);
+          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg, null, e);
         });
       }
     }

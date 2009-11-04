@@ -32,9 +32,9 @@
   </dl>
 </g:else>
 <form method="post" id="requestNoteForm" action="${createLink(action:'requestNote')}">
-  <div id="noteMsg" style="display:none"></div>
   <label for="note"><g:message code="request.note.addLabel" /><span id="noteLimit"></span></label>
   <input type="text" id="note" name="note" size="60" maxlength="1024" />
+  <div id="noteMsg" class="invisible"></div>
   <select name="requestNoteType" id="requestNoteType">
     <g:each var="requestNoteType" in="${requestNoteTypes}">
       <option value="${requestNoteType.enumString}">

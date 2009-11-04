@@ -112,16 +112,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
         form.target = undefined;
         form.action = postURL;
       },
-      send : function() {
+      send : function(e) {
         var cont = yud.get("contactFormErrors");
         cont.innerHTML = "";
         if (zcv.check(yud.get("contactForm"), cont)) {
-          zct.doAjaxFormSubmitCall("contactForm", [], zcb.Contact.notify);
+          zct.doAjaxFormSubmitCall("contactForm", e, zcb.Contact.notify);
         }
       },
       notify : function(o) {
         zct.Notifier.processMessage("success",
-          ylj.parse(o.responseText).success_msg, "contactMsg");
+          ylj.parse(o.responseText).success_msg, null, o.argument);
       }
     };
   }();

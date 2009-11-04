@@ -787,8 +787,14 @@
   zct.Notifier = function() {
     return {
       confirmationDialog : undefined,
-      getMessageZone : function(cn) {
-        return cn || "errorMessages";
+      getMessageZone : function(cn, event) {
+        if (cn) return cn;
+        if (event) {
+          var el = document.createElement("div");
+          yud.addClass(el, "invisible");
+          return document.body.appendChild(el);
+        }
+        return "errorMessages";
       },
       /**
        * @description Initializes notifier
@@ -812,21 +818,36 @@
        * @param type {String} message type
        * @param message {String} message body
        * @param cn {HTMLElement} message container
-       * 
+       * @param event the event which triggered the message;
+       *        used to determine the message container
+       *        for success and warning messages if no container is supplied
        * @author vba@zenexity.fr
        **/
-      processMessage : function(type,message,cn) {
+      processMessage : function(type,message,cn,event) {
         var method = ['display',zct.capitalize(type)].join('');
-        zct.tryToCall(zct.Notifier[method],zct.Notifier,message,cn);
+        zct.tryToCall(zct.Notifier[method],zct.Notifier,message,cn,event);
       },
-      animateMessage : function(message,cn,color) {
-        var el = new yu.Element(yud.get(zct.Notifier.getMessageZone(cn)));
+      animateMessage : function(message,cn,color,event) {
+        var el = new yu.Element(yud.get(zct.Notifier.getMessageZone(cn, event)));
         el.replaceClass('invisible','success-top');
-        zct.style(el.get('element'),{'background-color':color||'#20aa20',display:'block'});
+        zct.style(el.get('element'),{'background-color':color||'#20aa20'});
         zct.text(el.get('element'),message);
+        if (!cn && event) {
+          var target = yue.getTarget(event);
+          var box = yud.getAncestorByClassName(target, "mainbox");
+          var relative = box ? box : target;
+          var pos = yud.getXY(relative);
+          pos[0] -= el.get("element").offsetWidth/2 - relative.offsetWidth/2;
+          if (!box) pos[1] -= el.get("element").offsetHeight;
+          yud.setXY(el, pos);
+        } else {
+          el.addClass("static-top");
+        }
         zct.fadeIn(el.get('element'),0.01,function(e,n){
           zct.fadeNone(el.get('element'),3,function(e,n){
-            zct.fadeOut(el.get('element'),3);
+            zct.fadeOut(el.get('element'),3,function(e,n){
+              if (!cn && event) el.get("parentNode").removeChild(el.get("element"));
+            });
           });
         });
       },
@@ -838,8 +859,8 @@
        * 
        * @author vba@zenexity.fr
        **/
-      displaySuccess : function(message,cn) { zct.Notifier.animateMessage(message,cn);},
-      displayWarning : function(message,cn) { zct.Notifier.animateMessage(message,cn,'orange');},
+      displaySuccess : function(message,cn,event) { zct.Notifier.animateMessage(message,cn, undefined,event);},
+      displayWarning : function(message,cn,event) { zct.Notifier.animateMessage(message,cn,'orange',event);},
       /**
        * @description Displays unexpected error message, injected dynamically.
        * @method displayUnexpectedError

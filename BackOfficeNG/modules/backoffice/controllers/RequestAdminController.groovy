@@ -27,7 +27,7 @@ class RequestAdminController {
             def moc = meansOfContactService.getById(Long.valueOf(params.id))
             if(params.enabled == 'true') meansOfContactService.disableMeansOfContact(moc)
             else if (params.enabled == 'false') meansOfContactService.enableMeansOfContact(moc)
-            render ([status:"success", message:message(code:"message.updateDone")] as JSON)
+            render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
         }
     }
 

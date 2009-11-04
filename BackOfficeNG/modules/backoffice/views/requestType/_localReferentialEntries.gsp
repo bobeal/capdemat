@@ -3,7 +3,7 @@
   <li class="" id="entry_${entry.key}">
     <strong>${entry.labelsMap.fr}</strong>
     <a class="editItem" id="editEntry_${entry.key}"><span>${message(code:'action.remove')}</span></a>
-    <a class="unassociate" id="confirmRemoveEntry_${entry.key}"><span>${message(code:'action.modify')}</span></a>
+    <a class="deleteItem" id="confirmRemoveEntry_${entry.key}"><span>${message(code:'action.modify')}</span></a>
     <g:if test="${isMultiple}">
       <a class="createSubItem" id="addSubEntry_${entry.key}"><span>${message(code:'action.create')}</span></a>
     </g:if>

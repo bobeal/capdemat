@@ -154,7 +154,12 @@ ul.document-list a.removeDocument {
   cursor : pointer;
   height : 16px;
   width : 16px;
-  background-image: url(../../images/icons/16-unassociate.png);
+  background-image: url(../../images/icons/16-delete.png);
+}
+
+ul.document-list a.removeDocument:hover,
+#requestDocument a.removeDocument:hover {
+  background-color : inherit;
 }
 
 /* request Information

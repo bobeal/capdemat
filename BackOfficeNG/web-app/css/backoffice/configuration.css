@@ -62,6 +62,7 @@
 .editableTree li a.associate       { background-image: url(../../images/icons/16-associate.png); }
 .editableTree li a.unassociate     { background-image: url(../../images/icons/16-unassociate.png); }
 .editableTree li a.editItem        { background-image: url(../../images/icons/16-edit.png); }
+.editableTree li a.deleteItem      { background-image: url(../../images/icons/16-delete.png); }
 .editableTree li a.createSubItem   { background-image: url(../../images/icons/16-add.png); }
 .editableTree li a.currentEditItem { cursor: default; }
 .editableTree li a:hover           { background-color: transparent;}
@@ -100,6 +101,7 @@ p.field a.calendarLink { float : none; }
 .editableList li a.activate       { background-image: url(../../images/icons/16-unactive.png); }
 .editableList li a.unactivate     { background-image: url(../../images/icons/16-active.png); }
 .editableList li a.editItem        { background-image: url(../../images/icons/16-edit.png); }
+.editableList li a.deleteItem      { background-image: url(../../images/icons/16-delete.png); }
 .editableList li a.createSubItem   { background-image: url(../../images/icons/16-add.png); }
 .editableList li a.currentEditItem { cursor: default; }
 .editableList li a:hover           { background-color: transparent;}

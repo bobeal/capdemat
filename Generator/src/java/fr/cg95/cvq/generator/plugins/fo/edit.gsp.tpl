@@ -39,6 +39,14 @@
       	</g:if>
       </div>
     </g:if>
+    <g:if test="\${flash.errorMessage}">
+      <div class="error-box">
+        <p>\${flash.errorMessage}</p>
+        <g:if test="\${flash.errorMessageNotice}">
+          <strong>\${flash.errorMessageNotice}</strong>
+        </g:if>
+      </div>
+    </g:if>
     
     <g:render template="/frontofficeRequestType/cancelPanel" />
     <g:if test="\${session.currentEcitizen && !isEdition}">

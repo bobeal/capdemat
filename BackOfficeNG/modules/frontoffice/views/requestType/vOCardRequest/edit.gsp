@@ -20,6 +20,22 @@
       <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
       <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
     </form>
+    <g:if test="${flash.confirmationMessage}">
+      <div class="information-box">
+        <p>${flash.confirmationMessage}</p>
+        <g:if test="${flash.confirmationMessageNotice}">
+          <strong>${flash.confirmationMessageNotice}</strong>
+        </g:if>
+      </div>
+    </g:if>
+    <g:if test="${flash.errorMessage}">
+      <div class="error-box">
+        <p>${flash.errorMessage}</p>
+        <g:if test="${flash.errorMessageNotice}">
+          <strong>${flash.errorMessageNotice}</strong>
+        </g:if>
+      </div>
+    </g:if>
 	<g:render template="/frontofficeRequestType/cancelPanel" />
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
     
@@ -36,9 +52,6 @@
         <g:message code="message.none" />
       </g:else>
     </p>
-    <g:if test="${flash.confirmationMessage}">
-      <p class="message-confirmation">${flash.confirmationMessage}</p>
-    </g:if>
 
 
     <div id="requestTabView" class="yui-navset">

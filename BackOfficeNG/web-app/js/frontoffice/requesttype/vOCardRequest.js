@@ -1,7 +1,8 @@
 zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
 
 (function() {
-  var zcfr = zenexity.capdemat.fong.requesttype;
+  var zcf = zenexity.capdemat.fong
+  var zcfr = zcf.requesttype;
   var zcv = zenexity.capdemat.Validation;
   var zct = zenexity.capdemat.tools;
   var yue = YAHOO.util.Event;
@@ -25,6 +26,10 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
           if (this.name.indexOf('officePhone') > 0) officePhone = this.	name;
         });
         zcv.complexRules['atLeastOne'].pushFields(homePhone, mobilePhone, officePhone);
+
+        zcf.RequestCreation.computeScope = function(form) {
+          return zcv.scope.OUTSIDE;
+        };
       }
     };
 

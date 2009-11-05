@@ -36,7 +36,8 @@
         <label class="required"><g:message code="homeFolder.adult.label.phones" /> <span>(<g:message code="homeFolder.adult.label.phones.help" />)</span></label>
         <div class="address-fieldset">
           <label for="_individuals.adults.${listIndex}.homePhone"><g:message code="homeFolder.adult.property.homePhone" /> <span><g:message code="homeFolder.adult.property.homePhone.help" /></span></label>
-          <input type="text" id="_individuals.adults.${listIndex}.homePhone" name="_individuals.adults[${listIndex}].homePhone" value="${editList?.adults?.homePhone}"
+          <input type="text" id="_individuals.adults.${listIndex}.homePhone" name="_individuals.adults[${listIndex}].homePhone"
+            value="${editList?.adults ? editList.adults.homePhone : individuals?.adults ? individuals.adults.get(0).homePhone : ''}"
             class="validate-phone" title="<g:message code="homeFolder.adult.property.homePhone.validationError" />" />
 
           <label for="_individuals.adults.${listIndex}.mobilePhone"><g:message code="homeFolder.adult.property.mobilePhone" /> <span><g:message code="homeFolder.adult.property.mobilePhone.help" /></span></label>
@@ -53,21 +54,29 @@
         <label class="required"><g:message code="homeFolder.individual.property.address" /></label>
         <div class="address-fieldset required">
           <label for="_individuals.adults.${listIndex}.adress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-          <input type="text" value="${editList?.adults?.adress?.additionalDeliveryInformation}" maxlength="38" id="_individuals.adults.${listIndex}.adress.additionalDeliveryInformation" name="_individuals.adults[${listIndex}].adress.additionalDeliveryInformation" />  
+          <input type="text" maxlength="38" id="_individuals.adults.${listIndex}.adress.additionalDeliveryInformation" name="_individuals.adults[${listIndex}].adress.additionalDeliveryInformation"
+            value="${editList?.adults ? editList?.adults.adress?.additionalDeliveryInformation : individuals?.adults ? individuals.adults.get(0).adress?.additionalDeliveryInformation : ''}" />
           <label for="_individuals.adults.${listIndex}.adress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-          <input type="text" value="${editList?.adults?.adress?.additionalGeographicalInformation}" maxlength="38" id="_individuals.adults.${listIndex}.adress.additionalGeographicalInformation" name="_individuals.adults[${listIndex}].adress.additionalGeographicalInformation" />
+          <input type="text" maxlength="38" id="_individuals.adults.${listIndex}.adress.additionalGeographicalInformation" name="_individuals.adults[${listIndex}].adress.additionalGeographicalInformation"
+            value="${editList?.adults ? editList?.adults.adress?.additionalGeographicalInformation : individuals?.adults ? individuals.adults.get(0).adress?.additionalGeographicalInformation : ''}" />
           <label for="_individuals.adults.${listIndex}.adress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
           <label for="_individuals.adults.${listIndex}.adress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-          <input type="text" class="line1" value="${editList?.adults?.adress?.streetNumber}" size="5" maxlength="5" id="_individuals.adults.${listIndex}.adress.streetNumber" name="_individuals.adults[${listIndex}].adress.streetNumber" />
-          <input type="text" class="line2 required" value="${editList?.adults?.adress?.streetName}" maxlength="32" id="_individuals.adults.${listIndex}.adress.streetName" name="_individuals.adults[${listIndex}].adress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+          <input type="text" class="line1" size="5" maxlength="5" id="_individuals.adults.${listIndex}.adress.streetNumber" name="_individuals.adults[${listIndex}].adress.streetNumber"
+            value="${editList?.adults ? editList?.adults.adress?.streetNumber : individuals?.adults ? individuals.adults.get(0).adress?.streetNumber : ''}" />
+          <input type="text" class="line2 required" maxlength="32" id="_individuals.adults.${listIndex}.adress.streetName" name="_individuals.adults[${listIndex}].adress.streetName" title="<g:message code="address.property.streetName.validationError" />"
+            value="${editList?.adults ? editList?.adults.adress?.streetName : individuals?.adults ? individuals.adults.get(0).adress?.streetName : ''}" />
           <label for="_individuals.adults.${listIndex}.adress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-          <input type="text" value="${editList?.adults?.adress?.placeNameOrService}" maxlength="38" id="_individuals.adults.${listIndex}.adress.placeNameOrService" name="_individuals.adults[${listIndex}].adress.placeNameOrService" />
+          <input type="text" maxlength="38" id="_individuals.adults.${listIndex}.adress.placeNameOrService" name="_individuals.adults[${listIndex}].adress.placeNameOrService"
+            value="${editList?.adults ? editList?.adults.adress?.placeNameOrService : individuals?.adults ? individuals.adults.get(0).adress?.placeNameOrService : ''}" />
           <label for="_individuals.adults.${listIndex}.adress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
           <label for="_individuals.adults.${listIndex}.adress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-          <input type="text" class="line1 required" value="${editList?.adults?.adress?.postalCode}" size="5" maxlength="5" id="_individuals.adults.${listIndex}.adress.postalCode" name="_individuals.adults[${listIndex}].adress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-          <input type="text" class="line2 required" value="${editList?.adults?.adress?.city}" maxlength="32" id="_individuals.adults.${listIndex}.adress.city" name="_individuals.adults[${listIndex}].adress.city" title="<g:message code="address.property.city.validationError" />" />
+          <input type="text" class="line1 required" size="5" maxlength="5" id="_individuals.adults.${listIndex}.adress.postalCode" name="_individuals.adults[${listIndex}].adress.postalCode" title="<g:message code="address.property.postalCode.validationError" />"
+            value="${editList?.adults ? editList?.adults.adress?.postalCode : individuals?.adults ? individuals.adults.get(0).adress?.postalCode : ''}" />
+          <input type="text" class="line2 required" maxlength="32" id="_individuals.adults.${listIndex}.adress.city" name="_individuals.adults[${listIndex}].adress.city" title="<g:message code="address.property.city.validationError" />"
+            value="${editList?.adults ? editList?.adults.adress?.city : individuals?.adults ? individuals.adults.get(0).adress?.city : ''}" />
           <label for="_individuals.adults.${listIndex}.adress.countryName"><g:message code="address.property.countryName" /></label>
-          <input type="text" value="${editList?.adults?.adress?.countryName}" maxlength="38" id="_individuals.adults.${listIndex}.adress.countryName" name="_individuals.adults[${listIndex}].adress.countryName" />
+          <input type="text" maxlength="38" id="_individuals.adults.${listIndex}.adress.countryName" name="_individuals.adults[${listIndex}].adress.countryName"
+            value="${editList?.adults ? editList?.adults.adress?.countryName : individuals?.adults ? individuals.adults.get(0).adress?.countryName : ''}" />
         </div>
       </div>
     </div>

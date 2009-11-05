@@ -375,9 +375,12 @@ class RequestCreationController {
             }
             // standard save action
             else {
-                if (params.objectToBind != null)
+                if (params.objectToBind != null
+                    && (submitAction[1] != "step"
+                        || !['VO Card','Home Folder Modification']
+                            .contains(requestTypeInfo.label))) {
                     bindObject(objectToBind[params.objectToBind], params)
-                
+                }
                 DataBindingUtils.initBind(cRequest, params)
                 bind(cRequest)
                 // clean empty collections elements

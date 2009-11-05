@@ -50,29 +50,6 @@
       }
     };
 
-    var computeScope = function(form) {
-      if (form.id.split('-')[1] === "account") return zcv.scope.OUTSIDE;
-      var allEmpty = true;
-      var subScopes = yud.getElementsByClassName("validation-scope", null, form);
-      zct.each(subScopes, function() {
-        var inputs = yud.getElementsBy(function(el) {
-          if (zct.inArray(el.nodeName, ["INPUT", "SELECT", "TEXTAREA"]) > -1 && zct.inArray(el.type, ["submit", "hidden"]) == -1)
-            return true;
-          else
-            return false;
-        }, null, this);
-        zct.each(inputs, function() {
-          if (zct.inArray(this.type, ["checkbox", "radio"]) != -1) {
-            allEmpty = allEmpty && !this.checked;
-          } else {
-            allEmpty = allEmpty && (zct.val(this) === "");
-          }
-        });
-      });
-      if (!allEmpty) return zcv.scope.IGNORE;
-      return zcv.scope.OUTSIDE;
-    };
-
     return {
       clickEvent : undefined,
       requestFormTabView : undefined,
@@ -105,7 +82,30 @@
             return tokens[0];
       },
 
-      submitStep : function(e) { validateAndSubmit(e, computeScope(yue.getTarget(e).form)); },
+      computeScope : function(form) {
+        if (form.id.split('-')[1] === "account") return zcv.scope.OUTSIDE;
+        var allEmpty = true;
+        var subScopes = yud.getElementsByClassName("validation-scope", null, form);
+        zct.each(subScopes, function() {
+          var inputs = yud.getElementsBy(function(el) {
+            if (zct.inArray(el.nodeName, ["INPUT", "SELECT", "TEXTAREA"]) > -1 && zct.inArray(el.type, ["submit", "hidden"]) == -1)
+              return true;
+            else
+              return false;
+          }, null, this);
+          zct.each(inputs, function() {
+            if (zct.inArray(this.type, ["checkbox", "radio"]) != -1) {
+              allEmpty = allEmpty && !this.checked;
+            } else {
+              allEmpty = allEmpty && (zct.val(this) === "");
+            }
+          });
+        });
+        if (!allEmpty) return zcv.scope.IGNORE;
+        return zcv.scope.OUTSIDE;
+      },
+
+      submitStep : function(e) { validateAndSubmit(e, zcf.RequestCreation.computeScope(yue.getTarget(e).form)); },
 
       submitCollectionAdd : function(e) { validateAndSubmit(e, zcv.scope.INSIDE); },
 

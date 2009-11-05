@@ -321,7 +321,9 @@ class RequestCreationController {
                     listWrapper[listFieldToken[0]].remove(Integer.valueOf(listFieldToken[1]))
                 
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
-                requestAdaptorService.stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
+                if (['VO Card','Home Folder Modification'].contains(requestTypeInfo.label)) {
+                    requestAdaptorService.stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
+                }
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {

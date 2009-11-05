@@ -482,10 +482,14 @@ class RequestCreationController {
                 } else {
                     flash.confirmationMessage = message(
                         code : "request.step.message.validated",
-                        args : [message(code :
-                            translationService
-                                .generateInitialism(requestTypeInfo.label)
-                                + ".step." + currentStep + ".label")]
+                        args : [
+                            message(code :
+                                currentStep == "document" ?
+                                    "request.step.document.label" :
+                                translationService
+                                    .generateInitialism(requestTypeInfo.label)
+                                    + ".step." + currentStep + ".label")
+                        ]
                     )
                 }
             }

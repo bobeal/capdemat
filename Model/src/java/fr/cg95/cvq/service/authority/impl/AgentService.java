@@ -84,7 +84,6 @@ public final class AgentService implements IAgentService {
     }
 
     @Override
-    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
     public Agent getById(final Long id)
         throws CvqObjectNotFoundException {
         if (id.longValue() == -1) {

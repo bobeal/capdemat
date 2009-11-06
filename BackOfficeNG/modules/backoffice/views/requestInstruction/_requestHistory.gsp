@@ -22,7 +22,7 @@
           </g:if>
         </dd>
         <g:if test="${requestAction.hasFile}">
-          <dt><g:message code="requestAction.property.file" /></dt>
+          <dt><g:message code="${requestAction.fileName}" /></dt>
           <dd>
             <a title="<g:message code='${"requestAction.action.download." + requestAction.type.enumString}' />"
               href="${createLink(controller : 'backofficeContact', action : 'view', params : ['requestActionId' : requestAction.id])}">

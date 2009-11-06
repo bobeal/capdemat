@@ -507,7 +507,11 @@ class RequestInstructionController {
                 "message" : it.message,
                 'date':it.date,
                 'resulting_state':resultingState,
-                "hasFile" : it.file != null
+                "hasFile" : it.file != null,
+                "fileName" :
+                    [RequestActionType.CREATION, RequestActionType.STATE_CHANGE]
+                        .contains(it.type) ?
+                        "requestAction.property.requestCertificate" : "requestAction.property.file"
             ]
             requestActionList.add(requestAction)
         }

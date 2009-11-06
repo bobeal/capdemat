@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
+import fr.cg95.cvq.service.request.annotation.IsRequestAction;
 
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,7 @@ public interface IRequestActionService {
     /**
      * Get a specific action by ID.
      */
-    RequestAction getAction(final Long id)
+    RequestAction getAction(@IsRequestAction final Long id)
         throws CvqObjectNotFoundException;
 
     /**

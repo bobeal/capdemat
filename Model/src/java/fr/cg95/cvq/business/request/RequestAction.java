@@ -17,6 +17,7 @@ public class RequestAction implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    private Request request;
     private Long agentId;
     private RequestActionType type;
     private String note;
@@ -134,5 +135,18 @@ public class RequestAction implements Serializable {
 
     public void setType(RequestActionType type) {
         this.type = type;
+    }
+
+    /**
+     * @hibernate.many-to-one
+     *  column="request_id"
+     *  class="fr.cg95.cvq.business.request.Request"
+     */
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
     }
 }

@@ -376,6 +376,7 @@ public abstract class Request implements Serializable {
 
     /**
      * @hibernate.set
+     *  inverse="true"
      *  lazy="true"
      *  cascade="all"
      *  order-by="id asc"

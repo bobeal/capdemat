@@ -145,7 +145,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
   <!-- ******************** GENERIC REQUEST SERVICE **********************  -->
   
-  <bean id="requestContextCheckAspect" 
+  <bean id="requestContextCheckAspect" init-method="init"
     class="fr.cg95.cvq.service.request.aspect.RequestContextCheckAspect">
     <property name="requestDAO" ref="requestDAO" />  
     <property name="requestTypeDAO" ref="requestTypeDAO" />

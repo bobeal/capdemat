@@ -172,6 +172,7 @@ h2.request-creation { margin: 0; color: #DB4366; }
   border: 1px solid #ccc; border-right: 0; border-bottom: 0;
   -moz-border-radius: .5em; -webkit-border-radius: .5em;
   background-color : #eee;
+  overflow : auto;
 }
 
 #requestNotes .note .tag-state { font-size : 0.75em; }

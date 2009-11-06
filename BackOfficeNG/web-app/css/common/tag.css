@@ -24,7 +24,7 @@ payment : initialized, validated, refused, cancelled
 /* deposit type */
 .tag-pc, .tag-terminal, .tag-mailed_paper, .tag-brought_paper,
 /* deposit origin */
-.tag-agent, .tag-ecitizen,
+.tag-agent, .tag-eCitizen,
 /* request, document and data state */
 .tag-pending, .tag-complete, .tag-uncomplete, .tag-validated, .tag-notified,
 .tag-closed, .tag-rejected, .tag-cancelled, .tag-archived,
@@ -118,7 +118,7 @@ payment : initialized, validated, refused, cancelled
 
 /* violet */
 .tag-required,
-.tag-ecitizen,
+.tag-eCitizen,
 .tag-creationnotification,
 .tag-manager       { background: #aa00ff; border-color:#aa00ff; }
 

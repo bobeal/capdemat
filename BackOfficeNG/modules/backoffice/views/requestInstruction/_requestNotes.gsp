@@ -14,7 +14,7 @@
   <dl class="notes">
     <g:each var="requestNote" in="${requestNoteList}">
       <dt>
-        <span class="tag-${requestNote.nature}">${requestNote.nature}</span>
+        <span class="tag-${requestNote.nature}"><g:message code="${requestNote.nature}" /></span>
         ${requestNote.user_name}
       </dt>
       <dd>

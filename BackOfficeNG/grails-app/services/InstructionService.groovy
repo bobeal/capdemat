@@ -24,7 +24,7 @@ class InstructionService {
             if (!poster) {
                 try {
                     poster = this.individualService.getById(Long.valueOf(posterId))
-                    nature = "ecitizen"
+                    nature = "eCitizen"
                 } catch (CvqObjectNotFoundException) {}
             }
             if (poster) displayName = "${poster.firstName} ${poster.lastName}"

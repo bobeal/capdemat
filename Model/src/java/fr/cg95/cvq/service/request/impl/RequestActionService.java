@@ -126,6 +126,7 @@ public class RequestActionService implements IRequestActionService {
         requestAction.setDate(date);
         requestAction.setResultingState(resultingState);
         requestAction.setFile(pdfData);
+        requestAction.setRequest(request);
 
         if (request.getActions() == null) {
             Set<RequestAction> actionsSet = new HashSet<RequestAction>();

@@ -62,6 +62,10 @@ body {
   float: right;
 }
 
+#userInfo a {
+  color: #C8DDFF;
+}
+
 /* global body
 -------------------------------------------------------------- */
 #bd {

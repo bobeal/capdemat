@@ -1,6 +1,6 @@
 <h1><a class="logo">CapDémat</a></h1>
 <div id="userInfo">
-  ${session.currentUser} 
+  <span style="font-weight:bold;">${session.currentUser}</span> 
   - <a href="${createLink(controller:'backofficeLogin',action:'logout')}">
       <g:message code="action.logout" />
     </a>

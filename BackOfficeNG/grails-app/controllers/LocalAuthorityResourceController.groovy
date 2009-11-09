@@ -1,7 +1,6 @@
 import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
-import fr.cg95.cvq.service.request.IRequestTypeService
 
 /**
  * Used to access local authorities specific resources, eg images.
@@ -9,7 +8,6 @@ import fr.cg95.cvq.service.request.IRequestTypeService
 class LocalAuthorityResourceController {
 	
     ILocalAuthorityRegistry localAuthorityRegistry
-    IRequestTypeService requestTypeService
 
     def localAuthorityResourceAdaptorService
 
@@ -38,7 +36,6 @@ class LocalAuthorityResourceController {
     }
 
     def rule = {
-        def requestType = requestTypeService.getRequestTypeByLabel(params.requestTypeLabel)
         File pdfFile =
             localAuthorityRegistry.getLocalAuthorityResourceFile(Type.PDF,
                 CapdematUtils.requestTypeLabelAsDir(params.requestTypeLabel)

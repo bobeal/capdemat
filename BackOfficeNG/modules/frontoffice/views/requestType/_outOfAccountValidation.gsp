@@ -6,7 +6,7 @@
       <li>
         <input type="radio" class="required validate-boolean condition-activeHomeFolder-trigger" title="" value="${it}" 
                id="_homeFolderResponsible.activeHomeFolder" name="_homeFolderResponsible.activeHomeFolder" ${flash.activeHomeFolder == null ? (!it ? 'checked="checked"' : '') : (flash.activeHomeFolder == it ? 'checked="checked"' : '') } />
-        <label for="_homeFolderResponsible.activeHomeFolder_\${it ? 'yes' : 'no'}"><g:message code="message.\${it ? 'yes' : 'no'}" /></label>
+        <label for="_homeFolderResponsible.activeHomeFolder_${it ? 'yes' : 'no'}"><g:message code="message.${it ? 'yes' : 'no'}" /></label>
       </li>
       </g:each>
     </ul>

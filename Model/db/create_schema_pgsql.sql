@@ -1972,7 +1972,7 @@
         message varchar(1024),
         file bytea,
         type varchar(255),
-        request_id int8,
+        request_id int8 not null,
         primary key (id)
     );
 

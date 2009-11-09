@@ -140,6 +140,7 @@ public class RequestAction implements Serializable {
     /**
      * @hibernate.many-to-one
      *  column="request_id"
+     *  not-null="true"
      *  class="fr.cg95.cvq.business.request.Request"
      */
     public Request getRequest() {

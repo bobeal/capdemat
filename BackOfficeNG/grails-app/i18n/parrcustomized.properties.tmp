@@ -16,60 +16,84 @@ parr.step.rules.desc =
 parr.property.perischoolActivity.help =
 parr.property.perischoolActivity.validationError =
 
+
 parr.property.urgencyPhone.help =
 parr.property.urgencyPhone.validationError =
+
 
 parr.property.school.help =
 parr.property.school.validationError =
 
+
 parr.property.section.help =
 parr.property.section.validationError =
+
 
 parr.property.contactIndividuals.help =
 parr.property.contactIndividuals.validationError =
 
+parr.property.contactIndividuals.elementAdditionSuccess =
+
+
 parr.property.lastName.help =
 parr.property.lastName.validationError =
+
 
 parr.property.firstName.help =
 parr.property.firstName.validationError =
 
+
 parr.property.address.help =
 parr.property.address.validationError =
+
 
 parr.property.homePhone.help =
 parr.property.homePhone.validationError =
 
+
 parr.property.officePhone.help =
 parr.property.officePhone.validationError =
+
 
 parr.property.authorizedIndividuals.help =
 parr.property.authorizedIndividuals.validationError =
 
+parr.property.authorizedIndividuals.elementAdditionSuccess =
+
+
 parr.property.lastName.help =
 parr.property.lastName.validationError =
+
 
 parr.property.firstName.help =
 parr.property.firstName.validationError =
 
+
 parr.property.address.help =
 parr.property.address.validationError =
+
 
 parr.property.homePhone.help =
 parr.property.homePhone.validationError =
 
+
 parr.property.officePhone.help =
 parr.property.officePhone.validationError =
+
 
 parr.property.rulesAndRegulationsAcceptance.help =
 parr.property.rulesAndRegulationsAcceptance.validationError =
 
+
 parr.property.classTripPermission.help =
 parr.property.classTripPermission.validationError =
+
 
 parr.property.childPhotoExploitationPermission.help =
 parr.property.childPhotoExploitationPermission.validationError =
 
+
 parr.property.hospitalizationPermission.help =
 parr.property.hospitalizationPermission.validationError =
+
 

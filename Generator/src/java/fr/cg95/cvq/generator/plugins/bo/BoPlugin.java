@@ -21,7 +21,7 @@ import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.RequestCommon;
 import fr.cg95.cvq.generator.common.Step;
-import fr.cg95.cvq.generator.plugins.bo.ElementBo.ElementTypeClass;
+import fr.cg95.cvq.generator.ElementTypeClass;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
@@ -147,16 +147,16 @@ public class BoPlugin implements IPluginGenerator {
             elementBo.setModelNamespace(IPluginGenerator.MODEL_BASE_TARGET_NS + ".users");
         
         if (elementProp.isSimpleType() || elementProp.getXmlSchemaType().equals("AddressType"))
-            elementBo.setTypeClass(ElementBo.ElementTypeClass.SIMPLE);
+            elementBo.setTypeClass(ElementTypeClass.SIMPLE);
         else if (elementProp.isComplexType())
-            elementBo.setTypeClass(ElementBo.ElementTypeClass.COMPLEX);
+            elementBo.setTypeClass(ElementTypeClass.COMPLEX);
         
         if (elementProp.getMaxOccurs() == null
                 || elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
-            elementBo.setTypeClass(ElementBo.ElementTypeClass.COLLECTION);
+            elementBo.setTypeClass(ElementTypeClass.COLLECTION);
         // TODO - refactor typClass managment
         if (complexTypesAsSimple.contains(elementProp.getXmlSchemaType()))
-            elementBo.setTypeClass(ElementBo.ElementTypeClass.SIMPLE);
+            elementBo.setTypeClass(ElementTypeClass.SIMPLE);
         
         if (elementProp.getMinOccurs().compareTo(BigInteger.valueOf(0)) == 0)
             elementBo.setMandatory(false);

@@ -7,9 +7,12 @@ cwcr.step.waste.desc =
 cwcr.property.compostableWasteType.help =
 cwcr.property.compostableWasteType.validationError =
 
+
 cwcr.property.otherWaste.help =
 cwcr.property.otherWaste.validationError =
 
+
 cwcr.property.collectionAddress.help =
 cwcr.property.collectionAddress.validationError =
+
 

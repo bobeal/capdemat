@@ -7,9 +7,12 @@ bwcr.step.waste.desc =
 bwcr.property.bulkyWasteType.help =
 bwcr.property.bulkyWasteType.validationError =
 
+
 bwcr.property.otherWaste.help =
 bwcr.property.otherWaste.validationError =
 
+
 bwcr.property.collectionAddress.help =
 bwcr.property.collectionAddress.validationError =
+
 

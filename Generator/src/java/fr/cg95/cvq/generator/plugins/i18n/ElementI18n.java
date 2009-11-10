@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.UserDocumentation;
 
 /**
@@ -15,6 +16,7 @@ import fr.cg95.cvq.generator.UserDocumentation;
 public class ElementI18n {
 
     private String i18nPrefixCode;
+    private ElementTypeClass typeClass;
     private Map<String,UserDocumentation> i18nUserDoc = new HashMap<String, UserDocumentation>();
     private List<ElementI18n> elements = new ArrayList<ElementI18n>();
     
@@ -49,5 +51,13 @@ public class ElementI18n {
     
     public String getI18nPrefixCode() {
         return i18nPrefixCode;
+    }
+
+    public String getTypeClass() {
+        return typeClass.toString();
+    }
+
+    public void setTypeClass(ElementTypeClass typeClass) {
+        this.typeClass = typeClass;
     }
 }

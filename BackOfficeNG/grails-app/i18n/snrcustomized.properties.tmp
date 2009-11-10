@@ -7,9 +7,12 @@ snr.step.subscription.desc =
 snr.property.mobilePhone.help =
 snr.property.mobilePhone.validationError =
 
+
 snr.property.subscription.help =
 snr.property.subscription.validationError =
 
+
 snr.property.interests.help =
 snr.property.interests.validationError =
+
 

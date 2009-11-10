@@ -3,6 +3,7 @@ package fr.cg95.cvq.generator.plugins.i18n;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.w3c.dom.Node;
 
 import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
+import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import groovy.text.SimpleTemplateEngine;
@@ -111,6 +113,18 @@ public class I18nPlugin implements IPluginGenerator {
 
     public void startElementProperties(ElementProperties elementProp) {
         logger.debug("startElementProperties()");
+        // FIXME copy-pasted from FoPlugin; should be factorized
+        ElementI18n elementI18n = elementI18nStack.peek(depth);
+        if (elementProp.isSimpleType() || elementProp.getXmlSchemaType().equals("AddressType"))
+            elementI18n.setTypeClass(ElementTypeClass.SIMPLE);
+        else if (elementProp.isComplexType())
+            elementI18n.setTypeClass(ElementTypeClass.COMPLEX);
+        if (elementProp.getMaxOccurs() == null
+            || elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
+            elementI18n.setTypeClass(ElementTypeClass.COLLECTION);
+        // TODO - refactor typClass managment
+        if (elementProp.getXmlSchemaType() != null &&  elementProp.getXmlSchemaType().equals("LocalReferentialDataType"))
+            elementI18n.setTypeClass(ElementTypeClass.SIMPLE);
     }
     
     public void endElementProperties() {

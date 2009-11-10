@@ -22,135 +22,180 @@ sgr.step.bankReference.desc =
 sgr.property.subjectInformations.help =
 sgr.property.subjectInformations.validationError =
 
+
 sgr.property.subjectAddress.help =
 sgr.property.subjectAddress.validationError =
+
 
 sgr.property.subjectPhone.help =
 sgr.property.subjectPhone.validationError =
 
+
 sgr.property.subjectMobilePhone.help =
 sgr.property.subjectMobilePhone.validationError =
+
 
 sgr.property.subjectEmail.help =
 sgr.property.subjectEmail.validationError =
 
+
 sgr.property.subjectBirthDate.help =
 sgr.property.subjectBirthDate.validationError =
+
 
 sgr.property.subjectFirstRequest.help =
 sgr.property.subjectFirstRequest.validationError =
 
+
 sgr.property.taxHouseholdLastName.help =
 sgr.property.taxHouseholdLastName.validationError =
+
 
 sgr.property.taxHouseholdFirstName.help =
 sgr.property.taxHouseholdFirstName.validationError =
 
+
 sgr.property.taxHouseholdCity.help =
 sgr.property.taxHouseholdCity.validationError =
+
 
 sgr.property.taxHouseholdCityPrecision.help =
 sgr.property.taxHouseholdCityPrecision.validationError =
 
+
 sgr.property.taxHouseholdIncome.help =
 sgr.property.taxHouseholdIncome.validationError =
+
 
 sgr.property.hasCROUSHelp.help =
 sgr.property.hasCROUSHelp.validationError =
 
+
 sgr.property.hasRegionalCouncilHelp.help =
 sgr.property.hasRegionalCouncilHelp.validationError =
+
 
 sgr.property.hasEuropeHelp.help =
 sgr.property.hasEuropeHelp.validationError =
 
+
 sgr.property.hasOtherHelp.help =
 sgr.property.hasOtherHelp.validationError =
+
 
 sgr.property.currentSchool.help =
 sgr.property.currentSchool.validationError =
 
+
 sgr.property.currentSchoolName.help =
 sgr.property.currentSchoolName.validationError =
+
 
 sgr.property.currentSchoolNamePrecision.help =
 sgr.property.currentSchoolNamePrecision.validationError =
 
+
 sgr.property.currentSchoolPostalCode.help =
 sgr.property.currentSchoolPostalCode.validationError =
+
 
 sgr.property.currentSchoolCity.help =
 sgr.property.currentSchoolCity.validationError =
 
+
 sgr.property.currentSchoolCountry.help =
 sgr.property.currentSchoolCountry.validationError =
+
 
 sgr.property.aLevelsInformations.help =
 sgr.property.aLevelsInformations.validationError =
 
+
 sgr.property.alevelsDate.help =
 sgr.property.alevelsDate.validationError =
+
 
 sgr.property.alevels.help =
 sgr.property.alevels.validationError =
 
+
 sgr.property.currentStudiesInformations.help =
 sgr.property.currentStudiesInformations.validationError =
+
 
 sgr.property.currentStudiesDiploma.help =
 sgr.property.currentStudiesDiploma.validationError =
 
+
 sgr.property.otherStudiesLabel.help =
 sgr.property.otherStudiesLabel.validationError =
+
 
 sgr.property.currentStudiesLevel.help =
 sgr.property.currentStudiesLevel.validationError =
 
+
 sgr.property.sandwichCourses.help =
 sgr.property.sandwichCourses.validationError =
+
 
 sgr.property.abroadInternship.help =
 sgr.property.abroadInternship.validationError =
 
+
 sgr.property.abroadInternshipStartDate.help =
 sgr.property.abroadInternshipStartDate.validationError =
+
 
 sgr.property.abroadInternshipEndDate.help =
 sgr.property.abroadInternshipEndDate.validationError =
 
+
 sgr.property.abroadInternshipSchoolName.help =
 sgr.property.abroadInternshipSchoolName.validationError =
+
 
 sgr.property.abroadInternshipSchoolCountry.help =
 sgr.property.abroadInternshipSchoolCountry.validationError =
 
+
 sgr.property.distance.help =
 sgr.property.distance.validationError =
+
 
 sgr.property.isSubjectAccountHolder.help =
 sgr.property.isSubjectAccountHolder.validationError =
 
+
 sgr.property.accountHolderTitle.help =
 sgr.property.accountHolderTitle.validationError =
+
 
 sgr.property.accountHolderLastName.help =
 sgr.property.accountHolderLastName.validationError =
 
+
 sgr.property.accountHolderFirstName.help =
 sgr.property.accountHolderFirstName.validationError =
+
 
 sgr.property.accountHolderBirthDate.help =
 sgr.property.accountHolderBirthDate.validationError =
 
+
 sgr.property.bankCode.help =
 sgr.property.bankCode.validationError =
+
 
 sgr.property.counterCode.help =
 sgr.property.counterCode.validationError =
 
+
 sgr.property.accountNumber.help =
 sgr.property.accountNumber.validationError =
 
+
 sgr.property.accountKey.help =
 sgr.property.accountKey.validationError =
+
 

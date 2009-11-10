@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.Step;
 
@@ -12,9 +13,7 @@ import fr.cg95.cvq.generator.common.Step;
  * @author rdj@zenexity.fr
  */
 public class ElementBo {
-    
-    public enum ElementTypeClass { SIMPLE, COMPLEX, COLLECTION; }
-    
+
     private String label;
     private String name;
     private String javaFieldName;

@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Widget;
 
@@ -138,12 +139,12 @@ public class RequestFo {
             wElement.setDisplay(true);
             wElement.setWidget(w.getName());
             wElement.setAutofill(w.getAutofill());
-            wElement.setTypeClass(ElementFo.ElementTypeClass.SIMPLE);
+            wElement.setTypeClass(ElementTypeClass.SIMPLE);
             if (w.getInto() == null)
                 elements.add(0, wElement);
             else {
                 ElementFo firstElement = elements.get(0);
-                if (!firstElement.getTypeClass().equals(ElementFo.ElementTypeClass.COMPLEX.toString()))
+                if (!firstElement.getTypeClass().equals(ElementTypeClass.COMPLEX.toString()))
                     throw new RuntimeException("addwidgetAsElement() - Widget {"+ w.getName() +"} " +
                             "[into] attribute do not reference the first complex element of step {"+ step.getName() +"}");
                 if (!firstElement.getName().equals(w.getInto()))

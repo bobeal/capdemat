@@ -7,12 +7,16 @@ tir.step.intervention.desc =
 tir.property.interventionType.help =
 tir.property.interventionType.validationError =
 
+
 tir.property.otherInterventionLabel.help =
 tir.property.otherInterventionLabel.validationError =
+
 
 tir.property.interventionPlace.help =
 tir.property.interventionPlace.validationError =
 
+
 tir.property.interventionDescription.help =
 tir.property.interventionDescription.validationError =
+
 

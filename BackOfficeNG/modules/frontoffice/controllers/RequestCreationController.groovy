@@ -480,17 +480,26 @@ class RequestCreationController {
                     redirect(action:'exit', params:parameters)
                     return
                 } else {
-                    flash.confirmationMessage = message(
-                        code : "request.step.message.validated",
-                        args : [
-                            message(code :
-                                currentStep == "document" ?
-                                    "request.step.document.label" :
-                                translationService
-                                    .generateInitialism(requestTypeInfo.label)
-                                    + ".step." + currentStep + ".label")
-                        ]
-                    )
+                    if (submitAction[1] == "step") {
+                        flash.confirmationMessage = message(
+                            code : "request.step.message.validated",
+                            args : [
+                                message(code :
+                                    currentStep == "document" ?
+                                        "request.step.document.label" :
+                                    translationService
+                                        .generateInitialism(requestTypeInfo.label)
+                                        + ".step." + currentStep + ".label")
+                            ]
+                        )
+                    } else if (submitAction[1] == "collectionAdd") {
+                        flash.confirmationMessage = message(
+                            code : translationService
+                                .generateInitialism(requestTypeInfo.label)
+                                + ".property."
+                                + submitAction[3].tokenize('[]')[0]
+                                + ".elementAdditionSuccess")
+                    }
                 }
             }
             session[uuidString].cRequest = cRequest

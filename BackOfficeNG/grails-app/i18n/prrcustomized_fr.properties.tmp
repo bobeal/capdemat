@@ -13,12 +13,18 @@ prr.step.places.desc =
 prr.property.isSubscriber.help =
 prr.property.isSubscriber.validationError =
 
+
 prr.property.subscriberNumber.help =
 prr.property.subscriberNumber.validationError =
+
 
 prr.property.placeReservation.help =
 prr.property.placeReservation.validationError =
 
+prr.property.placeReservation.elementAdditionSuccess =
+
+
 prr.property.paymentReference.help =
 prr.property.paymentReference.validationError =
+
 

@@ -10,9 +10,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Widget;
-import fr.cg95.cvq.generator.plugins.bo.ElementBo.ElementTypeClass;
 
 /**
  * @author rdj@zenexity.fr
@@ -150,12 +150,12 @@ public class RequestBo {
             ElementBo wElement = new ElementBo(w.getName(), "request");
             wElement.setDisplay(true);
             wElement.setWidget(w.getName());
-            wElement.setTypeClass(ElementBo.ElementTypeClass.SIMPLE);
+            wElement.setTypeClass(ElementTypeClass.SIMPLE);
             if (w.getInto() == null)
                 elements.add(0, wElement);
             else {
                 ElementBo firstElement = elements.get(0);
-                if (!firstElement.getTypeClass().equals(ElementBo.ElementTypeClass.COMPLEX.toString()))
+                if (!firstElement.getTypeClass().equals(ElementTypeClass.COMPLEX.toString()))
                     throw new RuntimeException("addwidgetAsElement() - Widget {"+ w.getName() +"} " +
                             "[into] attribute can not reference {"+ w.getInto() +"}." +
                             " It isn't the first element of step {"+ step.getName() +"}");

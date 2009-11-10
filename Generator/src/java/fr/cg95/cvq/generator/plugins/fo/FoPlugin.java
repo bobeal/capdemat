@@ -15,6 +15,7 @@ import org.w3c.dom.Node;
 
 import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
+import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.RequestCommon;
@@ -143,17 +144,17 @@ public class FoPlugin implements IPluginGenerator {
             elementFo.setModelNamespace(IPluginGenerator.MODEL_BASE_TARGET_NS + ".users");
         
         if (elementProp.isSimpleType() || elementProp.getXmlSchemaType().equals("AddressType"))
-            elementFo.setTypeClass(ElementFo.ElementTypeClass.SIMPLE);
+            elementFo.setTypeClass(ElementTypeClass.SIMPLE);
         else if (elementProp.isComplexType())
-            elementFo.setTypeClass(ElementFo.ElementTypeClass.COMPLEX);
+            elementFo.setTypeClass(ElementTypeClass.COMPLEX);
         
         if (elementProp.getMaxOccurs() == null 
                 || elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
-            elementFo.setTypeClass(ElementFo.ElementTypeClass.COLLECTION);
+            elementFo.setTypeClass(ElementTypeClass.COLLECTION);
         
         // TODO - refactor typClass managment
         if (elementProp.getXmlSchemaType() != null &&  elementProp.getXmlSchemaType().equals("LocalReferentialDataType"))
-            elementFo.setTypeClass(ElementFo.ElementTypeClass.SIMPLE);
+            elementFo.setTypeClass(ElementTypeClass.SIMPLE);
         
         if (elementProp.getMinOccurs().compareTo(BigInteger.valueOf(0)) == 0)
             elementFo.setMandatory(false);

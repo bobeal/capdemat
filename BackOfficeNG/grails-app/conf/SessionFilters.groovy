@@ -23,7 +23,45 @@ class SessionFilters {
 
     def filters = {
         
-        openSessionInView(controller: '*', action: '*') {
+        // filter used for local authority resources (images, css, pdf, ...)
+        // that do not need a BD connection
+        openSiteContextOnly(controller:'localAuthorityResource', action:'*') {
+            before = {
+                try {
+                    ILocalAuthorityRegistry localAuthorityRegistry =
+                            applicationContext.getBean("localAuthorityRegistry")
+                    LocalAuthority la = localAuthorityRegistry.getLocalAuthorityByServerName(request.serverName)
+                    if (la == null) {
+                        log.error "No local authority found for domain : ${request.serverName}"
+                        response.setStatus(500)
+                        render "No local authority found for domain : ${request.serverName}"
+                        return false
+                    }
+                    LocalAuthorityConfigurationBean lacb =
+                            localAuthorityRegistry.getLocalAuthorityBeanByName(la.name)
+                    if (lacb == null) {
+                        log.error "No LACB found for local authority : ${la.name}"
+                        response.setStatus(500)
+                        render "No LACB found for local authority : ${la.name}"
+                        return false
+                    }
+                    
+                    SecurityContext.setCurrentSite(la, SecurityContext.BACK_OFFICE_CONTEXT)
+                    
+                } catch (Throwable t) {
+                    log.error "Unexpected error while setting local authority context : ${t.message}"
+                    response.setStatus(500)
+                    render "Unexpected error while setting local authority context : ${t.message}"
+                    t.printStackTrace()
+                    return false
+                }
+            }
+            after = {
+                SecurityContext.resetCurrentSite();
+            }
+        }
+        
+        openSessionInView(controller: '(frontoffice*|backoffice*|service*|system*)', action: '*') {
             before = {
                 try {
                     ILocalAuthorityRegistry localAuthorityRegistry =
@@ -48,8 +86,7 @@ class SessionFilters {
 
                     HibernateUtil.beginTransaction()
 
-                    SecurityContext.setCurrentSite(la.name,
-                        SecurityContext.BACK_OFFICE_CONTEXT)
+                    SecurityContext.setCurrentSite(la, SecurityContext.BACK_OFFICE_CONTEXT)
                     SecurityContext.setCurrentLocale(request.getLocale())
 
                     session.setAttribute("currentSiteName", la.name.toLowerCase())

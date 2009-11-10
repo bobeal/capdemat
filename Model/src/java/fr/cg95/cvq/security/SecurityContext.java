@@ -308,6 +308,11 @@ public class SecurityContext {
 			return credentialBean.getSite();
     }
 
+    public static void setCurrentSite(LocalAuthority localAuthority, String context) {
+        CredentialBean credentialBean = new CredentialBean(localAuthority, context);
+        currentContextThreadLocal.set(credentialBean);        
+    }
+    
     /**
      * Set the current local authority. To be called by a sort of multi-site listener.
      *
@@ -325,8 +330,8 @@ public class SecurityContext {
             logger.error("setCurrentSite() local authority " + localAuthorityName + " not found in DB");
             throw new CvqObjectNotFoundException("local authority " + localAuthorityName + " not found in DB");
         }
-        CredentialBean credentialBean = new CredentialBean(localAuthority, context);
-        currentContextThreadLocal.set(credentialBean);
+        
+        setCurrentSite(localAuthority, context);
     }
 
     /**

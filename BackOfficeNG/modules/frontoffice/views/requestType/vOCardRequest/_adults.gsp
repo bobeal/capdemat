@@ -42,7 +42,7 @@
 
           <label for="_individuals.adults.${listIndex}.mobilePhone"><g:message code="homeFolder.adult.property.mobilePhone" /> <span><g:message code="homeFolder.adult.property.mobilePhone.help" /></span></label>
           <input type="text" id="_individuals.adults.${listIndex}.mobilePhone" name="_individuals.adults[${listIndex}].mobilePhone" value="${editList?.adults?.mobilePhone}"
-            class="validate-phone" title="<g:message code="homeFolder.adult.property.mobilePhone.validationError" />" />
+            class="validate-mobilePhone" title="<g:message code="homeFolder.adult.property.mobilePhone.validationError" />" />
 
           <label for="_individuals.adults.${listIndex}.officePhone"><g:message code="homeFolder.adult.property.officePhone" /> <span><g:message code="homeFolder.adult.property.officePhone.help" /></span></label>
           <input type="text" id="_individuals.adults.${listIndex}.officePhone" name="_individuals.adults[${listIndex}].officePhone" value="${editList?.adults?.officePhone}"

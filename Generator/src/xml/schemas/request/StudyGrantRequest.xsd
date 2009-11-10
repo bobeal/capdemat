@@ -967,7 +967,7 @@
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
-      <xs:element name="SubjectMobilePhone" type="cvq:PhoneType" minOccurs="0">
+      <xs:element name="SubjectMobilePhone" type="cvq:MobilePhoneType" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
             Téléphone mobile

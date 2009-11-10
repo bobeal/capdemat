@@ -46,7 +46,7 @@
     
       <label for="subjectMobilePhone" class=""><g:message code="sgr.property.subjectMobilePhone.label" />   <span><g:message code="sgr.property.subjectMobilePhone.help" /></span></label>
             <input type="text" id="subjectMobilePhone" name="subjectMobilePhone" value="${rqt.subjectMobilePhone?.toString()}" 
-                    class=" autofill-subjectFilling-listener-MobilePhone validate-phone" title="<g:message code="sgr.property.subjectMobilePhone.validationError" />"  maxlength="10" />
+                    class=" autofill-subjectFilling-listener-MobilePhone validate-mobilePhone" title="<g:message code="sgr.property.subjectMobilePhone.validationError" />"  maxlength="10" />
             
 
     

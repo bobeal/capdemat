@@ -32,7 +32,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="snr.property.mobilePhone.label" />  : </dt><dd id="mobilePhone" class="action-editField validate-phone i18n-snr.property.mobilePhone maxLength-10" ><span>${request?.mobilePhone}</span></dd>
+                <dt class=""><g:message code="snr.property.mobilePhone.label" />  : </dt><dd id="mobilePhone" class="action-editField validate-mobilePhone i18n-snr.property.mobilePhone maxLength-10" ><span>${request?.mobilePhone}</span></dd>
               </dl>
               
             

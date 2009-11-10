@@ -54,7 +54,7 @@
                 
                   <dt class=""><g:message code="sgr.property.subjectPhone.label" />  : </dt><dd id="subjectPhone" class="action-editField validate-phone i18n-sgr.property.subjectPhone maxLength-10" ><span>${request?.subjectPhone}</span></dd>
                 
-                  <dt class=""><g:message code="sgr.property.subjectMobilePhone.label" />  : </dt><dd id="subjectMobilePhone" class="action-editField validate-phone i18n-sgr.property.subjectMobilePhone maxLength-10" ><span>${request?.subjectMobilePhone}</span></dd>
+                  <dt class=""><g:message code="sgr.property.subjectMobilePhone.label" />  : </dt><dd id="subjectMobilePhone" class="action-editField validate-mobilePhone i18n-sgr.property.subjectMobilePhone maxLength-10" ><span>${request?.subjectMobilePhone}</span></dd>
                 
                   <dt class=""><g:message code="sgr.property.subjectEmail.label" />  : </dt><dd id="subjectEmail" class="action-editField validate-email i18n-sgr.property.subjectEmail" ><span>${request?.subjectEmail}</span></dd>
                 

@@ -1397,6 +1397,21 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="MobilePhoneType">
+    <xs:annotation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+        Numéro de Téléphone mobile (Syntaxe: 10 chiffres)
+      </xs:documentation>
+      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+        Téléphone mobile
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="10" />
+      <xs:pattern value="^0[67][0-9]{8}" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="CfbnType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -1830,7 +1845,7 @@
               </xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="MobilePhone" type="cvq:PhoneType" minOccurs="0">
+          <xs:element name="MobilePhone" type="cvq:MobilePhoneType" minOccurs="0">
             <xs:annotation>
               <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                 Téléphone portable de l'adulte

@@ -60,7 +60,7 @@
       <xs:complexContent>
         <xs:extension base="cvq:RequestType">
           <xs:sequence>
-            <xs:element name="MobilePhone" type="cvq:PhoneType" minOccurs="0">
+            <xs:element name="MobilePhone" type="cvq:MobilePhoneType" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Téléphone portable

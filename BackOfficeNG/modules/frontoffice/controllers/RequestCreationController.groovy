@@ -404,8 +404,11 @@ class RequestCreationController {
             }
             // standard save action
             else {
+                // remove databinding when saving a step of account creation/modification
+                // to disable transparent adult/child addition
+                // but allow it on validation step for question/answer etc.
                 if (params.objectToBind != null
-                    && (submitAction[1] != "step"
+                    && (submitAction[1] != "step" || currentStep == "validation"
                         || !['VO Card','Home Folder Modification']
                             .contains(requestTypeInfo.label))) {
                     bindObject(objectToBind[params.objectToBind], params)
@@ -433,11 +436,10 @@ class RequestCreationController {
                 }
                 
                 if (currentStep == 'validation') {
-                    checkCaptcha(params)
                     // bind the selected means of contact into request
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
-        
+                    checkCaptcha(params)
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
                     def parameters = [:]
                     if (cRequest.id && !cRequest.draft) {
@@ -513,7 +515,6 @@ class RequestCreationController {
                     message(code:ExceptionUtils.getModelI18nKey(ce),
                     		args:ExceptionUtils.getModelI18nArgs(ce)))
         }
-
         render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",
                 model:
                     ['isRequestCreation': true,
@@ -536,7 +537,8 @@ class RequestCreationController {
                      'documentType': documentType,
                      'document': document,
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-                     'isEdition' : cRequest.id != null && !cRequest.draft
+                     'isEdition' : cRequest.id != null && !cRequest.draft,
+                     'requestNote' : params.requestNote
                     ].plus(fillCommonRequestModel(requestTypeInfo.label)))
     }  
     

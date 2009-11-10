@@ -30,13 +30,16 @@
     <select id="_homeFolderResponsible.question" name="_homeFolderResponsible.question" class="required validate-not-first" title="${message(code:'homeFolder.adult.property.question.validationError')}">
       <option value="">${message(code:'message.select.defaultOption')}</option>
       <g:each in="${['q1','q2','q3','q4']}">
-        <option value="${message(code:'homeFolder.adult.question.' + it)}">
+        <option value="${message(code:'homeFolder.adult.question.' + it)}"
+          <g:if test="${message(code:'homeFolder.adult.question.' + it).equals(homeFolderResponsible.question)}"> selected="selected"</g:if>>
           ${message(code:'homeFolder.adult.question.' + it)}
         </option>
       </g:each>
     </select>
     <label for="_homeFolderResponsible.answer" class="required ">${message(code:'homeFolder.adult.property.answer')} *</label>
-    <input type="text" id="_homeFolderResponsible.answer" name="_homeFolderResponsible.answer" class="required" title="${message(code:'homeFolder.adult.property.answer.validationError')}" />
+    <input type="text" id="_homeFolderResponsible.answer" name="_homeFolderResponsible.answer"
+      class="required" title="${message(code:'homeFolder.adult.property.answer.validationError')}"
+      value="${homeFolderResponsible.answer}" />
   </fieldset>
 
   <label for="captchaText" class="required">${message(code:'request.step.validation.label.typeTextInImage')}*</label>

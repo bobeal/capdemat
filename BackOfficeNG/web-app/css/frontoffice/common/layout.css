@@ -13,10 +13,10 @@ html { background: #fff; }
 
 /* header
 --------------------------------------------------------------*/
-#hd    { margin: 0 0 .5em; overflow: auto; }
-#hd h1 { margin: .3em 0; }
+#hd    { margin: 0 0 .5em; }
+#hd h1 { margin: 1em 0; clear: both; }
 
-#hd .top { min-height: 1.8em; text-align: right; overflow: auto; }
+#hd .top { min-height: 1.8em; text-align: right; }
 
 #hd .top a.menu       { padding: .5em 1em; -moz-border-radius: 0 0 .5em .5em; text-decoration: none; color: #ffffff; background: #9eca27; }
 #hd .top a.menu:hover { background: #e6648d; }

@@ -126,6 +126,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="categoryDAO" ref="categoryDAO"/>
     <property name="requestTypeDAO" ref="requestTypeDAO"/>
     <property name="agentService" ref="agentService" />
+    <property name="requestServiceRegistry" ref="requestServiceRegistry" />
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
   </bean>
 
   <bean id="requestService" class="fr.cg95.cvq.service.request.impl.RequestService"

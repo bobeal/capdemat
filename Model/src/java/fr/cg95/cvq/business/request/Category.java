@@ -42,6 +42,7 @@ public class Category implements Serializable {
     public Category(String name, String primaryEmail) {
         this.name = name;
         this.primaryEmail = primaryEmail;
+        this.requestTypes = new HashSet<RequestType>();
     }
 
     /**

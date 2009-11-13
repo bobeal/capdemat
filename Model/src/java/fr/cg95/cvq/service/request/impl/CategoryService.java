@@ -1,8 +1,10 @@
 package fr.cg95.cvq.service.request.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -21,19 +23,25 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.IAgentService;
+import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.ICategoryService;
+import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 
 /**
  * Implementation of the {@link ICategoryService category service}.
  *
  * @author bor@zenexity.fr
  */
-public class CategoryService implements ICategoryService {
+public class CategoryService implements ICategoryService, ILocalAuthorityLifecycleAware {
 
     static Logger logger = Logger.getLogger(CategoryService.class);
 
     private ICategoryDAO categoryDAO;
     private IRequestTypeDAO requestTypeDAO;
+    private IRequestServiceRegistry requestServiceRegistry;
+    private ILocalAuthorityRegistry localAuthorityRegistry;
 
     private IAgentService agentService;
     
@@ -301,5 +309,63 @@ public class CategoryService implements ICategoryService {
 
     public void setAgentService(IAgentService agentService) {
         this.agentService = agentService;
+    }
+
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
+    public void addLocalAuthority(String localAuthorityName) {
+        bootstrap(localAuthorityRegistry.getLocalAuthorityByName(localAuthorityName).getAdminEmail());
+    }
+
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
+    public void removeLocalAuthority(String localAuthorityName) {
+        // do not remove categories on local authority unloading
+    }
+
+    @Context(type=ContextType.SUPER_ADMIN)
+    private void bootstrap(String adminEmail) {
+        logger.debug("bootstraping categories");
+        if (getAll().size() > 0) {
+            logger.debug("some categories already exist, returning");
+            return;
+        }
+        // reuse existing defaultDisplayGroup label
+        Map<String, Category> categories = new HashMap<String, Category>();
+        categories.put("civil", new Category("État civil", adminEmail));
+        categories.put("urbanism", new Category("Urbanisme", adminEmail));
+        categories.put("accounts", new Category("Gestion des comptes", adminEmail));
+        categories.put("school", new Category("Scolaire", adminEmail));
+        categories.put("environment", new Category("Environnement", adminEmail));
+        categories.put("social", new Category("Social", adminEmail));
+        categories.put("leisure", new Category("Loisirs", adminEmail));
+        categories.put("technical", new Category("Service technique", adminEmail));
+        categories.put("security", new Category("Sécurité", adminEmail));
+        try {
+            for (Category c : categories.values())
+                create(c);
+            // those display groups are merged in the same category
+            categories.put("election", categories.get("civil"));
+            categories.put("culture", categories.get("leisure"));
+            for (RequestType rt : requestTypeDAO.listAll()) {
+                IRequestService service = requestServiceRegistry.getRequestService(rt.getLabel());
+                Category c =  categories.get(service.getDefaultDisplayGroup());
+                if (c != null)
+                    addRequestType(c.getId(), rt.getId());
+                else
+                    addRequestType(categories.get("accounts").getId(), rt.getId());
+            }
+        } catch (CvqException cvqe) {
+            logger.equals("Display Group init failed !");
+            cvqe.printStackTrace();
+        }
+    }
+
+    public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {
+        this.requestServiceRegistry = requestServiceRegistry;
+    }
+
+    public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
+        this.localAuthorityRegistry = localAuthorityRegistry;
     }
 }

@@ -439,7 +439,12 @@ public class StudyGrantRequest extends Request implements Serializable {
 
     private String bankCode;
 
-    public final void setBankCode(final String bankCode) {
+    public final void setBankCode(String bankCode) {
+        if (bankCode != null) {
+            while (bankCode.length() < 5) {
+                bankCode = '0' + bankCode;
+            }
+        }
         this.bankCode = bankCode;
     }
 
@@ -470,7 +475,12 @@ public class StudyGrantRequest extends Request implements Serializable {
 
     private String counterCode;
 
-    public final void setCounterCode(final String counterCode) {
+    public final void setCounterCode(String counterCode) {
+        if (counterCode != null) {
+            while (counterCode.length() < 5) {
+                counterCode = '0' + counterCode;
+            }
+        }
         this.counterCode = counterCode;
     }
 
@@ -690,7 +700,12 @@ public class StudyGrantRequest extends Request implements Serializable {
 
     private String accountNumber;
 
-    public final void setAccountNumber(final String accountNumber) {
+    public final void setAccountNumber(String accountNumber) {
+        if (accountNumber != null) {
+            while (accountNumber.length() < 11) {
+                accountNumber = '0' + accountNumber;
+            }
+        }
         this.accountNumber = accountNumber;
     }
 
@@ -797,7 +812,12 @@ public class StudyGrantRequest extends Request implements Serializable {
 
     private String accountKey;
 
-    public final void setAccountKey(final String accountKey) {
+    public final void setAccountKey(String accountKey) {
+        if (accountKey != null) {
+            while (accountKey.length() < 2) {
+                accountKey = '0' + accountKey;
+            }
+        }
         this.accountKey = accountKey;
     }
 

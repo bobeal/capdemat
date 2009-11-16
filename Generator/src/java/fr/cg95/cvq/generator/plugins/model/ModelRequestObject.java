@@ -179,6 +179,24 @@ public class ModelRequestObject {
             else
                 eltModelProperties.setTiedToRequest(true);
         }
+        if (appDocumentation != null && appDocumentation.hasChildNode("padding")) {
+            if (!"String".equals(eltModelProperties.getJavaType())) {
+                throw new RuntimeException(
+                    "<padding /> only allowed for String, tried to apply it to "
+                        + eltModelProperties.getJavaType());
+            }
+            Node[] paddings = appDocumentation.getChildrenNodes("padding");
+            if (paddings.length > 1) {
+                throw new RuntimeException(
+                    "only one <padding /> allowed for String field "
+                        + elementName);
+            }
+            Node padding = paddings[0];
+            eltModelProperties.setPadding(new Padding(
+                ApplicationDocumentation.getNodeAttributeValue(padding, "length"),
+                ApplicationDocumentation.getNodeAttributeValue(padding, "pad")
+            ));
+        }
     }
     
     /**
@@ -783,10 +801,21 @@ public class ModelRequestObject {
         currentSb.append("\n\n");
 
         // generate setter
-        currentSb.append("    public final void set" + elementName + "(final ");
+        currentSb.append("    public final void set" + elementName + "(");
+        Padding padding = eltModelProperties.getPadding();
+        if (padding == null) {
+            currentSb.append("final ");
+        }
         if (appendJavaPackageName)
             currentSb.append(eltModelProperties.getJavaPackageName());
         currentSb.append(type + " " + javaFieldName + ") {\n");
+        if (padding != null) {
+            currentSb.append("        if (" + javaFieldName + " != null) {\n");
+            currentSb.append("            while (" + javaFieldName + ".length() < " + padding.getLength() + ") {\n");
+            currentSb.append("                " + javaFieldName + " = '" + padding.getPad() + "' + " + javaFieldName + ";\n");
+            currentSb.append("            }\n");
+            currentSb.append("        }\n");
+        }
         currentSb.append("        this." + javaFieldName + " = " + javaFieldName + ";\n");
         currentSb.append("    }\n");
         currentSb.append("\n\n");

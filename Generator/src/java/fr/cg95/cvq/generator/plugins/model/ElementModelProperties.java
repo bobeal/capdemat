@@ -37,6 +37,11 @@ public class ElementModelProperties extends ElementProperties {
      */
     private String complexContainerElementName;
 
+    /**
+     * Allow padding of String elements
+     */
+    private Padding padding;
+
     public ElementModelProperties() {
     }
 
@@ -125,5 +130,13 @@ public class ElementModelProperties extends ElementProperties {
 
     public String getComplexContainerElementTypeName() {
         return this.complexContainerElementTypeName;
+    }
+
+    public Padding getPadding() {
+        return padding;
+    }
+
+    public void setPadding(Padding padding) {
+        this.padding = padding;
     }
 }

@@ -644,6 +644,9 @@
                   </xslfo>
                   <fo />
                   <bo column="1" />
+                  <model>
+                    <padding length="5" pad="0" />
+                  </model>
                 </xs:appinfo>
               </xs:annotation>
               <xs:simpleType>
@@ -678,6 +681,9 @@
                   </xslfo>
                   <fo />
                   <bo column="1" />
+                  <model>
+                    <padding length="5" pad="0" />
+                  </model>
                 </xs:appinfo>
               </xs:annotation>
               <xs:simpleType>
@@ -712,6 +718,9 @@
                   </xslfo>
                   <fo />
                   <bo column="1" />
+                  <model>
+                    <padding length="11" pad="0" />
+                  </model>
                 </xs:appinfo>
               </xs:annotation>
               <xs:simpleType>
@@ -746,6 +755,9 @@
                   </xslfo>
                   <fo />
                   <bo column="1" />
+                  <model>
+                    <padding length="2" pad="0" />
+                  </model>
                 </xs:appinfo>
               </xs:annotation>
               <xs:simpleType>

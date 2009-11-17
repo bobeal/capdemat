@@ -695,7 +695,7 @@
   
   
   /**
-   * @description Post a form to the server
+   * @description Submit a form to the server
    * @method doAjaxFormSubmitCall
    * @namespace zenexity.capdemat.tools
    * @param formId {String} HTML form identifier
@@ -714,7 +714,8 @@
     if (zct.isFunction(callback)) handlers[!!upload?'upload':'success'] = callback;
     if (args) handlers.argument = args;
     var url = formElement.get('action');
-    YAHOO.util.Connect.asyncRequest('POST', url, handlers, null);
+    var method = formElement.get('method')||'post';
+    YAHOO.util.Connect.asyncRequest(method, url, handlers, null);
   };
   
   /**

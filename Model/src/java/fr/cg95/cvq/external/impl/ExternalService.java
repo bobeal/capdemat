@@ -364,6 +364,14 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             .getIdentifierMapping(externalServiceLabel, homeFolderId);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public List<ExternalServiceIdentifierMapping>
+        getIdentifierMappings(Long homeFolderId) {
+        return externalServiceMappingDAO
+            .getIdentifierMappings(homeFolderId);
+    }
+
     /**
      * Get the configuration bean associated to the given external provider service.
      */

@@ -23,6 +23,7 @@ class HomeFolderController {
     def instructionService
     def translationService
     def requestAdaptorService
+    def externalService
 
     def defaultAction = 'search'
     def defaultMax = 15
@@ -66,9 +67,46 @@ class HomeFolderController {
             result.responsibles.put(child.id, homeFolderService.getBySubjectRoles(child.id,
                 [RoleType.CLR_FATHER,RoleType.CLR_MOTHER,RoleType.CLR_TUTOR] as RoleType[]))
         
+        result.identifierMappings =
+            externalService.getIdentifierMappings(homeFolder.id).collect { [
+                "externalServiceLabel" : it.externalServiceLabel,
+                "homeFolderId" : it.homeFolderId,
+                "externalId" : it.externalId,
+                "individualMappings" : it.individualsMappings.collect { [
+                    "individual" : individualService.getById(it.individualId),
+                    "externalId" : it.externalId
+                ] }
+            ] }
         return result
     }
-    
+
+    def mapping = {
+        def mapping =
+            externalService.getIdentifierMapping(params.externalServiceLabel,
+                Long.valueOf(params.homeFolderId))
+        def id = mapping.externalId
+        if (params.individualId) {
+            mapping.individualsMappings.each {
+                if (params.individualId.equals(it.individualId.toString())) {
+                    mapping = it
+                    return
+                }
+            }
+        }
+        if (request.get) {
+            def model = [
+                "externalServiceLabel" : params.externalServiceLabel,
+                "homeFolderId" : params.homeFolderId,
+                "individualId" : params.individualId,
+                "id" : mapping.externalId
+            ]
+            render(template : "mapping", model : model)
+        } else if (request.post) {
+            mapping.externalId = params.id
+            render ([status:"ok", success_msg:message(code:"message.updateDone"), "id" : params.id] as JSON)
+        }
+    }
+
     def requests = {
         def result = [requests:[]]
         def homeFolderRequests = defaultRequestService.getByHomeFolderId(Long.valueOf(params.id));

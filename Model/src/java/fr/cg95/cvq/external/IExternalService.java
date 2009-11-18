@@ -116,6 +116,9 @@ public interface IExternalService {
         getIdentifierMapping(final String externalServiceLabel,
             @IsHomeFolder final Long homeFolderId);
 
+    List<ExternalServiceIdentifierMapping>
+        getIdentifierMappings(@IsHomeFolder Long homeFolderId);
+
     Long addTrace(ExternalServiceTrace trace);
 
     List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet, String sort,

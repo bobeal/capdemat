@@ -1,5 +1,7 @@
 package fr.cg95.cvq.dao.external.hibernate;
 
+import java.util.List;
+
 import org.hibernate.criterion.Restrictions;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
@@ -20,5 +22,14 @@ public class ExternalServiceMappingDAO
             .createCriteria(ExternalServiceIdentifierMapping.class)
             .add(Restrictions.eq("externalServiceLabel", externalServiceLabel))
             .add(Restrictions.eq("homeFolderId", homeFolderId)).uniqueResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ExternalServiceIdentifierMapping>
+        getIdentifierMappings(Long homeFolderId) {
+        return HibernateUtil.getSession()
+            .createCriteria(ExternalServiceIdentifierMapping.class)
+            .add(Restrictions.eq("homeFolderId", homeFolderId)).list();
     }
 }

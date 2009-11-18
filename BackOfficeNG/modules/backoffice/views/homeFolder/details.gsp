@@ -22,7 +22,10 @@
             <ul class="yui-nav">
               <li class="selected"><a href="#page1"><em><g:message code="homeFolder.property.adults" /></em></a></li>
               <g:if test="${children && children.size() > 0}">
-                <li><a href="#page1"><em><g:message code="homeFolder.property.children" /></em></a></li>
+                <li><a href="#page2"><em><g:message code="homeFolder.property.children" /></em></a></li>
+              </g:if>
+              <g:if test="${identifierMappings && identifierMappings.size() > 0}">
+                <li><a href="#page3"><em><g:message code="homeFolder.property.externalServiceMappings" /></em></a></li>
               </g:if>
             </ul>
             <div class="yui-content">
@@ -36,6 +39,12 @@
                 <div id="page2">
                   <h2><g:message code="property.form" /><span> - <g:message code="homeFolder.property.children" /></span></h2>
                   <g:render template="detailsChildren" />
+                </div>
+              </g:if>
+              <g:if test="${identifierMappings && identifierMappings.size() > 0}">
+                <div id="page3">
+                  <h2><span><g:message code="homeFolder.property.externalServiceMappings" /></span></h2>
+                  <g:render template="detailsMappings" />
                 </div>
               </g:if>
             </div>

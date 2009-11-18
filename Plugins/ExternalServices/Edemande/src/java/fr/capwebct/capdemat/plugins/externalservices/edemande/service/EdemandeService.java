@@ -89,6 +89,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     private static final String ACCOUNT_HOLDER_TRACE_SUBKEY = "accountHolder";
     private DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     private List<String> documentTypesToSend = Collections.emptyList();
+    private int fileMaxSize = 4*1024*1024;
 
     public void init() {
         this.homeFolderService = (IHomeFolderService)beanFactory.getBean("homeFolderService");
@@ -480,6 +481,9 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
                     if (documentTypeToSend.equals(document.getDocumentType().getType().toString())) {
                         int i = 1;
                         for (DocumentBinary documentBinary : document.getDatas()) {
+                            if (documentBinary.getData().length > fileMaxSize) {
+                                continue;
+                            }
                             Map<String, String> doc = new HashMap<String, String>();
                             documents.add(doc);
                             String filename = org.springframework.util.StringUtils.arrayToDelimitedString(
@@ -854,6 +858,11 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
             (List<String>)externalServiceBean.getProperty("documentTypesToSend");
         if (documentTypesToSend != null) {
             this.documentTypesToSend = documentTypesToSend;
+        }
+        try {
+            fileMaxSize = Integer.parseInt((String)externalServiceBean.getProperty("fileMaxSize"));
+        } catch (NumberFormatException e) {
+            // nothing to do
         }
     }
 

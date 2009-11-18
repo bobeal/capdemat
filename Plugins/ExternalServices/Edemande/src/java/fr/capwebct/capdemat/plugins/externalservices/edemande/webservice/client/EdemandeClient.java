@@ -297,7 +297,7 @@ public class EdemandeClient implements IEdemandeClient {
         VerifierRIB verifierRIB = verifierRIBDocument.addNewVerifierRIB();
         verifierRIB.setPsBanque(bankCode);
         verifierRIB.setPsAgence(counterCode);
-        verifierRIB.setPsCompte(accountNumber);
+        verifierRIB.setPsCompte(accountNumber.toUpperCase());
         verifierRIB.setPsCle(accountKey);
         logger.debug("verifierRIB() got payload : " + verifierRIB.xmlText());
         VerifierRIBResponseDocument result;

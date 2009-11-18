@@ -242,7 +242,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         model.put("lastName", StringUtils.upperCase(lastName));
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
-        model.put("accountNumber", sgr.getAccountNumber());
+        model.put("accountNumber", sgr.getAccountNumber().toUpperCase());
         model.put("accountKey", sgr.getAccountKey());
         String searchResults;
         int resultsNumber;
@@ -342,7 +342,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         model.put("birthDate", formatDate(sgr.getSubjectInformations().getSubjectBirthDate()));
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
-        model.put("accountNumber", sgr.getAccountNumber());
+        model.put("accountNumber", sgr.getAccountNumber().toUpperCase());
         model.put("accountKey", sgr.getAccountKey());
         try {
             model.put("email",
@@ -377,7 +377,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         model.put("birthDate", formatDate(sgr.getAccountHolderBirthDate()));
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
-        model.put("accountNumber", sgr.getAccountNumber());
+        model.put("accountNumber", sgr.getAccountNumber().toUpperCase());
         model.put("accountKey", sgr.getAccountKey());
         try {
             //FIXME placeholder
@@ -423,7 +423,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         }
         model.put("bankCode", sgr.getBankCode());
         model.put("counterCode", sgr.getCounterCode());
-        model.put("accountNumber", sgr.getAccountNumber());
+        model.put("accountNumber", sgr.getAccountNumber().toUpperCase());
         model.put("accountKey", sgr.getAccountKey());
         model.put("firstRequest", sgr.getSubjectInformations().getSubjectFirstRequest());
         model.put("creationDate", formatDate(sgr.getCreationDate()));

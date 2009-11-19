@@ -27,25 +27,19 @@ public final class TraceStatusEnum extends PersistentStringEnum {
 
     public TraceStatusEnum() {}
 
+    public static final TraceStatusEnum[] allTraceStatuses = {
+        IN_PROGRESS,
+        NOT_SENT,
+        SENT,
+        ACKNOWLEDGED,
+        ACCEPTED,
+        REJECTED,
+        ERROR
+    };
+
     public static TraceStatusEnum forString(final String enumAsString) {
-        if (enumAsString == null || enumAsString.equals(""))
-            return SENT;
-
-        if (enumAsString.equals(SENT.toString()))
-            return SENT;
-        else if (enumAsString.equals(IN_PROGRESS.toString()))
-            return IN_PROGRESS;
-        else if (enumAsString.equals(NOT_SENT.toString()))
-            return NOT_SENT;
-        else if (enumAsString.equals(ACKNOWLEDGED.toString()))
-            return ACKNOWLEDGED;
-        else if (enumAsString.equals(ERROR.toString()))
-            return ERROR;
-        else if (enumAsString.equals(ACCEPTED.toString()))
-            return ACCEPTED;
-        else if (enumAsString.equals(REJECTED.toString()))
-            return REJECTED;
-
-        return SENT;
+        for (TraceStatusEnum t : allTraceStatuses)
+            if (t.name.equals(enumAsString)) return t;
+        return null;
     }
 }

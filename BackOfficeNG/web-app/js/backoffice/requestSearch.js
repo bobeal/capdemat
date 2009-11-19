@@ -48,10 +48,8 @@
     };
   
     var initCalendars = function() {
-      if (yud.get('mode').value === 'advanced') {
-        zcb.Calendar("creationDateFrom");
-        zcb.Calendar("creationDateTo");
-      }
+      zcb.Calendar("creationDateFrom");
+      zcb.Calendar("creationDateTo");
     };
 
     var sortSearchRequest = function(sortType) {

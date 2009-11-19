@@ -13,7 +13,6 @@
     <input type="hidden" id="recordOffset" name="recordOffset" value="${recordOffset}" />
     <input type="hidden" id="sortBy" name="sortBy" value="${sortBy}" />
     <input type="hidden" id="filterBy" name="filterBy" value="${filterBy}" />
-    <input type="hidden" id="mode" name="mode" value="advanced" />
 
     <div class="yui-g">
       <div class="yui-u first">

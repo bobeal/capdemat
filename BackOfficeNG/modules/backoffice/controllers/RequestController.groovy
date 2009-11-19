@@ -41,33 +41,11 @@ class RequestController {
 
     /**
      * Called when first entering the search screen
-     *
-     * TODO : remove modes management since simple search has been given up
      */
     def initSearch = {
         render(view:'search', 
-            model:['mode':'simple', 'inSearch':false, 'sortBy':defaultSortBy,
+            model:['inSearch':false, 'sortBy':defaultSortBy,
                    'filters':[:]].plus(initSearchReferential()))
-    }
-    
-    /**
-     * Called asynchronously when switching from simple to advanced search mode and vice versa
-     *
-     * TODO : remove modes management since simple search has been given up
-     */
-    def loadSearchForm = {
-        def model = ['totalRecords':params.totalRecords,
-                     'recordOffset':params.recordOffset,
-                     'recordsReturned':params.recordsReturned,
-                     'sortBy':params.sortBy,
-                     'filterBy':params.filterBy].plus(initSearchReferential())
-        if (params.formType == 'simple') {
-            model['mode'] = 'simple'
-            render(template:'simpleSearchForm', model:model)
-        } else {
-            model['mode'] = 'advanced'
-            render(template:'advancedSearchForm', model:model)
-        }
     }
 
     /**
@@ -140,7 +118,6 @@ class RequestController {
                    'totalRecords':defaultRequestService.getCount(criteria),
                    'filters':parsedFilters.filters,
                    'filterBy':parsedFilters.filterBy,
-                   'mode':params.mode,
                    'recordOffset':recordOffset,
                    'sortBy':sortBy,
                    'dir':sortDir,

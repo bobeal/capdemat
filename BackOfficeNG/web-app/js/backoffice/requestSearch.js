@@ -53,18 +53,7 @@
         zcb.Calendar("creationDateTo");
       }
     };
-  
-//    var initSwitcher = function() {
-//        yue.addListener("requestSearchSwitcher", "click", 
-//          function(e) {
-//            var targetEl = yue.getTarget(e);
-//            if (targetEl.tagName === "A") {
-//              switchSearchForm(targetEl.className);
-//            }
-//          }
-//        );        
-//    };
-    
+
     var sortSearchRequest = function(sortType) {
       yud.get('sortBy').value = sortType;
       yud.get('requestForm').submit();
@@ -75,18 +64,7 @@
         '@', filterType, '=', yud.get(filterType).value].join('');
       yud.get('requestForm').submit();
     };
-      
-    var switchSearchForm = function(formType) {
-        var url = ['/loadSearchForm?formType=', formType, '&', zcc.collectSearchFormValues('requestForm')].join('');
-        zct.doAjaxCall(url, null,
-          function(o) {
-            yud.get('head').innerHTML = o.responseText;
-            initCalendars();
-            //initSwitcher();
-          }
-        );
-    };
-    
+
     return {
       init: function() {
         initCalendars();

@@ -714,7 +714,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         criteriaSet.add(new Critere(
             ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.SENT,
             Critere.EQUALS));
-        if (externalService.getTraces(criteriaSet, null, null).isEmpty())
+        if (externalService.getTracesCount(criteriaSet) == 0)
             return true;
         criteriaSet.clear();
         criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
@@ -724,7 +724,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         criteriaSet.add(new Critere(
             ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.ERROR,
             Critere.EQUALS));
-        return (!externalService.getTraces(criteriaSet, null, null).isEmpty()
+        return (externalService.getTracesCount(criteriaSet) != 0
             && (sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()));
     }
 
@@ -743,7 +743,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         criteriaSet.add(new Critere(
             ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.ERROR,
             Critere.EQUALS));
-        if (externalService.getTraces(criteriaSet, null, null).isEmpty()
+        if (externalService.getTracesCount(criteriaSet) == 0
             || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()) {
             return false;
         }
@@ -753,7 +753,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME, label,
             Critere.EQUALS));
         for (ExternalServiceTrace est : externalService.getTraces(criteres,
-            ExternalServiceTrace.SEARCH_BY_DATE, "desc")) {
+            ExternalServiceTrace.SEARCH_BY_DATE, "desc", 0, 0)) {
             if (TraceStatusEnum.SENT.equals(est.getStatus())) {
                 return false;
             } else if (TraceStatusEnum.ERROR.equals(est.getStatus())) {
@@ -784,7 +784,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         criteriaSet.add(new Critere(
             ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.IN_PROGRESS,
             Critere.EQUALS));
-        if (externalService.getTraces(criteriaSet, null, null).isEmpty()) {
+        if (externalService.getTracesCount(criteriaSet) == 0) {
             return true;
         }
         Set<Critere> criteres = new HashSet<Critere>();
@@ -795,7 +795,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME, label,
             Critere.EQUALS));
         for (ExternalServiceTrace est : externalService.getTraces(criteres,
-            ExternalServiceTrace.SEARCH_BY_DATE, "desc")) {
+            ExternalServiceTrace.SEARCH_BY_DATE, "desc", 0, 0)) {
             if (TraceStatusEnum.IN_PROGRESS.equals(est.getStatus())) {
                 return false;
             } else if (TraceStatusEnum.ERROR.equals(est.getStatus())) {

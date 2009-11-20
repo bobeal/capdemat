@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
@@ -20,7 +21,7 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
 
     @SuppressWarnings("unchecked")
     public List<ExternalServiceTrace> get(Set<Critere> criteriaSet, String sort,
-        String dir) {
+        String dir, int count, int offset) {
         Criteria criteria = HibernateUtil.getSession().createCriteria(ExternalServiceTrace.class);
         for (Critere critere : criteriaSet) {
             criteria.add(critere.compose());
@@ -29,6 +30,18 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
             sort = ExternalServiceTrace.SEARCH_BY_DATE;
         if ("desc".equals(dir)) criteria.addOrder(Order.desc(sort));
         else criteria.addOrder(Order.asc(sort));
+        if (count > 0)
+            criteria.setMaxResults(count);
+        criteria.setFirstResult(offset);
         return (List<ExternalServiceTrace>)criteria.list();
+    }
+
+    public Long getCount(Set<Critere> criteriaSet) {
+        Criteria criteria = HibernateUtil.getSession().createCriteria(ExternalServiceTrace.class);
+        for (Critere critere : criteriaSet) {
+            criteria.add(critere.compose());
+        }
+        criteria.setProjection(Projections.rowCount());
+        return new Long((Integer)criteria.list().get(0));
     }
 }

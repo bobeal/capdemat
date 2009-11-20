@@ -118,8 +118,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
                     criteriaSet.add(
                         new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
                             String.valueOf(r.getId()), Critere.EQUALS));
-                    if (externalService.getTraces(criteriaSet, null, null)
-                        .isEmpty()) {
+                    if (externalService.getTracesCount(criteriaSet) == 0) {
                         keepIt = true;
                     }
                 }

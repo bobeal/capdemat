@@ -444,8 +444,14 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet,
-        String sort, String dir) {
-        return externalServiceTraceDAO.get(criteriaSet, sort, dir);
+        String sort, String dir, int count, int offset) {
+        return externalServiceTraceDAO.get(criteriaSet, sort, dir, count, offset);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Long getTracesCount(Set<Critere> criteriaSet) {
+        return externalServiceTraceDAO.getCount(criteriaSet);
     }
 
     @Override

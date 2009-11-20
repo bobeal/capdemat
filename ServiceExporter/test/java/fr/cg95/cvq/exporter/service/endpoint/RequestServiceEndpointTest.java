@@ -84,7 +84,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         try {
             for (ExternalServiceTrace trace :
                 externalService.getTraces(Collections.<Critere>emptySet(),
-                    null, null)) {
+                    null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
             Calendar calendar = Calendar.getInstance();
@@ -114,9 +114,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             Set<Critere> criteriaSet = new HashSet<Critere>();
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
                 DateUtils.parseDate("13/07/2007"), Critere.GT));
-            int tracesCount = 
-                externalService.getTraces(criteriaSet, null, null).size();
-            Assert.assertEquals(1, tracesCount);
+            Assert.assertEquals(1, externalService.getTracesCount(criteriaSet).longValue());
             
             /* Create acknowledgement response */
             AckRequestType[] types = new AckRequestType[1];
@@ -134,10 +132,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             Assert.assertNotNull(ackResponse);
             Assert.assertTrue(ackResponse.getAccomplished());
             
-            int newCount =
-                externalService.getTraces(criteriaSet, null, null).size();
-            
-            Assert.assertEquals(2, newCount);
+            Assert.assertEquals(2, externalService.getTracesCount(criteriaSet).longValue());
             
             getResponse = (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
             Assert.assertEquals(0, getResponse.getRequestArray().length);
@@ -148,7 +143,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         } finally {
             for (ExternalServiceTrace trace :
                 externalService.getTraces(Collections.<Critere>emptySet(),
-                    null, null)) {
+                    null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
         }
@@ -177,7 +172,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         try {
             for (ExternalServiceTrace trace :
                 externalService.getTraces(Collections.<Critere>emptySet(),
-                    null, null)) {
+                    null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
             Calendar calendar = Calendar.getInstance();
@@ -214,7 +209,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
                 DateUtils.parseDate("13/07/2007"), Critere.GT));
             int tracesCount = 
-                externalService.getTraces(criteriaSet, null, null).size();
+                externalService.getTraces(criteriaSet, null, null, 0, 0).size();
             Assert.assertNotSame(0, tracesCount);
             
             /* Create acknowledged traces */
@@ -240,15 +235,14 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             AckRequestsResponse ackResponse = (AckRequestsResponse) endpoint1.invokeInternal(ackRequestDocument);
             Assert.assertNotNull(ackResponse);
 
-            int newCount =
-                externalService.getTraces(criteriaSet, null, null).size();
-            
-            Assert.assertEquals(newCount, tracesCount+3);
+            Assert.assertEquals(
+                externalService.getTracesCount(criteriaSet).longValue(),
+                tracesCount+3);
             
             criteriaSet = new HashSet<Critere>();
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
                 TraceStatusEnum.ERROR, Critere.EQUALS));
-            ExternalServiceTrace trace = externalService.getTraces(criteriaSet, null, null).get(0);
+            ExternalServiceTrace trace = externalService.getTraces(criteriaSet, null, null, 1, 0).get(0);
             
             Assert.assertEquals(trace.getKey(), "2347");
             Assert.assertEquals(trace.getKeyOwner(),"capdemat");
@@ -261,7 +255,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         } finally {
             for (ExternalServiceTrace trace :
                 externalService.getTraces(Collections.<Critere>emptySet(),
-                    null, null)) {
+                    null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
         }
@@ -445,7 +439,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         } finally {
             for (ExternalServiceTrace trace :
                 externalService.getTraces(Collections.<Critere>emptySet(),
-                    null, null)) {
+                    null, null, 0, 0)) {
                 HibernateUtil.getSession().delete(trace);
             }
         }

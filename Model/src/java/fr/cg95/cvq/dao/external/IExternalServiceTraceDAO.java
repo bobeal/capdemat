@@ -13,5 +13,7 @@ import fr.cg95.cvq.util.Critere;
 public interface IExternalServiceTraceDAO extends IGenericDAO {
 
     List<ExternalServiceTrace> get(Set<Critere> criteriaSet, String sort,
-        String dir);
+        String dir, int count, int offset);
+
+    Long getCount(Set<Critere> criteriaSet);
 }

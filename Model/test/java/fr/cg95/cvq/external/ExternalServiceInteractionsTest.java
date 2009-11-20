@@ -57,7 +57,7 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         }
         for (ExternalServiceTrace trace :
             externalService.getTraces(Collections.<Critere>emptySet(),
-                null, null)) {
+                null, null, 0, 0)) {
             HibernateUtil.getSession().delete(trace);
         }
         continueWithNewTransaction();

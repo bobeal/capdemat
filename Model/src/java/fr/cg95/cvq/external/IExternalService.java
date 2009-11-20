@@ -122,7 +122,9 @@ public interface IExternalService {
     Long addTrace(ExternalServiceTrace trace);
 
     List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet, String sort,
-        String dir);
+        String dir, int count, int offset);
+
+    Long getTracesCount(Set<Critere> criteriaSet);
 
     /**
      * Set the external id of an individual for the given external service.

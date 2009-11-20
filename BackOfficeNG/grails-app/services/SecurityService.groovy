@@ -23,6 +23,7 @@ public class SecurityService {
             (SecurityContext.BACK_OFFICE_CONTEXT) : [
                 "backofficeContact" : /.*/,
                 "backofficeDocumentInstruction" : /.*/,
+                "backofficeExternal" : /.*/,
                 "backofficeHomeFolder" : /.*/,
                 "backofficeLogin" : /.*/,
                 "backofficeRequest" : /.*/,

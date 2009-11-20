@@ -1185,7 +1185,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
                     ExternalServiceTrace.SEARCH_BY_STATUS, finalExternalStatuses,
                     Critere.IN));
                 if (externalService
-                    .getTraces(criteriaSet, null, null).isEmpty()) {
+                    .getTracesCount(criteriaSet) == 0) {
                     result.add(req);
                 }
             }

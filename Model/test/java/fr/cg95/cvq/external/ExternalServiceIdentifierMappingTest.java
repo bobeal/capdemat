@@ -60,14 +60,14 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         }
         for (ExternalServiceTrace trace :
             externalService.getTraces(Collections.<Critere>emptySet(),
-                null, null)) {
+                null, null, 0, 0)) {
             HibernateUtil.getSession().delete(trace);
         }
         continueWithNewTransaction();
         ExternalServiceIdentifierMapping esimFromDb = 
             externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, (Long) null);
         assertNull(esimFromDb);        
-        assertEquals(0, externalService.getTraces(Collections.<Critere>emptySet(), null, null).size());
+        assertEquals(0, externalService.getTracesCount(Collections.<Critere>emptySet()).longValue());
         super.onTearDown();
     }
 

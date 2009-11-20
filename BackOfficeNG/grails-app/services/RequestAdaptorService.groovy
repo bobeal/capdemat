@@ -154,4 +154,23 @@ class RequestAdaptorService {
         }
         return result
     }
+
+    public prepareTraces(traces) {
+        if (!traces) traces = []
+        return traces.collect { prepareTrace(it) }
+    }
+
+    public prepareTrace(trace) {
+        if (!trace) return null
+        return [
+            "key" : trace.key,
+            "date" : trace.date,
+            "status" : trace.status,
+            "message" : trace.message,
+            "externalServiceLabel" : trace.name,
+            "request" :
+                prepareRecordForSummaryView(
+                    defaultRequestService.getById(Long.valueOf(trace.key)))
+        ]
+    }
 }

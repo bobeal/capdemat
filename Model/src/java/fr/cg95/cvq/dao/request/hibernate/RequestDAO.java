@@ -43,10 +43,21 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         // go through all the criteria and create the query
         for (Critere searchCrit : criteria) {
             if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_ID)) {
-                sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
-                parametersValues.add(searchCrit.getLongValue());
-                parametersTypes.add(Hibernate.LONG);
-                
+                if (Critere.IN.equals(searchCrit.getComparatif())) {
+                    Collection<Long> requestIds =
+                        (Collection<Long>)searchCrit.getValue();
+                    String[] values = new String[requestIds.size()];
+                    int i = 0;
+                    for (Long requestId : requestIds) {
+                        values[i++] = requestId.toString();
+                    }
+                    sb.append(" and request.id in (")
+                        .append(StringUtils.join(values, ", ")).append(')');
+                } else {
+                    sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
+                    parametersValues.add(searchCrit.getLongValue());
+                    parametersTypes.add(Hibernate.LONG);
+                }
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_HOME_FOLDER_ID)) {
                 sb.append(" and request.homeFolderId " + searchCrit.getComparatif() + " ?");
                 parametersValues.add(searchCrit.getLongValue());
@@ -215,10 +226,21 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         // go through all the criteria and create the query
         for (Critere searchCrit : criteria) {
             if (searchCrit.getAttribut().equals(Request.SEARCH_BY_REQUEST_ID)) {
-                sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
-                objectList.add(searchCrit.getLongValue());
-                typeList.add(Hibernate.LONG);
-                
+                if (Critere.IN.equals(searchCrit.getComparatif())) {
+                    Collection<Long> requestIds =
+                        (Collection<Long>)searchCrit.getValue();
+                    String[] values = new String[requestIds.size()];
+                    int i = 0;
+                    for (Long requestId : requestIds) {
+                        values[i++] = requestId.toString();
+                    }
+                    sb.append(" and request.id in (")
+                        .append(StringUtils.join(values, ", ")).append(')');
+                } else {
+                    sb.append(" and request.id " + searchCrit.getComparatif() + " ?");
+                    objectList.add(searchCrit.getLongValue());
+                    typeList.add(Hibernate.LONG);
+                }
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_HOME_FOLDER_ID)) {
                 sb.append(" and request.homeFolderId " + searchCrit.getComparatif() + " ?");
                 objectList.add(searchCrit.getLongValue());

@@ -62,15 +62,11 @@
         
         yue.on('requestTabView','change',zcf.RequestCreation.formatField);
         yue.on(yus.query("#requestTabView .validate-phone"), "keyup", zcf.RequestCreation.formatPhone);
-        yue.on('draftForm','submit',zcf.RequestCreation.submitDraft);
         
         yue.on(yud.get("requestNote"), 'keyup', function(e) {
           zct.limitArea("requestNote", 1024, "requestNoteLimit");
         });
         zct.limitArea("requestNote", 1024, "requestNoteLimit");
-
-        var index = zct.getElementsByName('currentTabIndex','input',yud.get('draftForm'))[0].value;
-        if (!!index) zcf.RequestCreation.requestFormTabView.set('activeIndex',index);
       },
       
       getHandler : function(e) {
@@ -111,13 +107,6 @@
 
       submitCollectionModify : function(e) { validateAndSubmit(e, zcv.scope.INSIDE); },
 
-      submitDraft : function(e) {
-        yue.stopEvent(e);
-        var hd = zct.getElementsByName('currentTabIndex','input',yud.get('draftForm'))[0];
-        hd.value = zcf.RequestCreation.requestFormTabView.get('activeIndex');
-        yud.get('draftForm').submit();
-      },
-      
       formatField : function(e) {
         var targetEl = yue.getTarget(e);
         if (!zct.nodeName(targetEl,'input') || targetEl.type != 'text')

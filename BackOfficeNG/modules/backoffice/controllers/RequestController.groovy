@@ -55,6 +55,8 @@ class RequestController {
        
         // deal with search criteria
         Set<Critere> criteria = new HashSet<Critere>()
+        criteria.add(new Critere(Request.SEARCH_BY_STATE, RequestState.DRAFT,
+            Critere.NEQUALS))
         params.each { key,value ->
             if (supportedKeys.contains(key) && value != "") {
                 Critere critere = new Critere()

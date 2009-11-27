@@ -391,8 +391,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         fos.write(generatedCertificate);
         // END DEBUG
 
-        List<RequestAction> actionsSet = iRequestActionService.getActions(dcvoFromDb.getId());
-        assertEquals(actionsSet.size(), 5);
+        assertEquals(dcvoFromDb.getActions().size(), 5);
 
         // close current session and re-open a new one
         continueWithNewTransaction();

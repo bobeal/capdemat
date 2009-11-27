@@ -13,7 +13,7 @@
         <span>
           <g:message code="requestAction.action.download.Creation" /> :
           <a title="<g:message code='requestAction.property.requestCertificate' />"
-            href="${createLink(action : 'download', id : requestActionId)}">
+            href="${createLink(action : 'download', id : rqt.id)}">
             <img
               alt="<g:message code='requestAction.action.download.Creation' />"
               src="${createLinkTo(dir:'images/icons',file:'pdficon_small.gif')}" />

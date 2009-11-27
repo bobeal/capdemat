@@ -7,9 +7,11 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestAction;
+import fr.cg95.cvq.util.Critere;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -18,34 +20,24 @@ import java.util.List;
 public interface IRequestActionService {
 
     /**
-     * Get all actions related to a given request.
-     */
-    List<RequestAction> getActions(@IsRequest final Long requestId)
-        throws CvqException;
-
-    /**
      * Get a specific action by ID.
      */
     RequestAction getAction(@IsRequestAction final Long id)
         throws CvqObjectNotFoundException;
 
     /**
-     * Get the last workflow action related to the request, or null if it has none.
+     * Get actions by criteria
      */
-    RequestAction getLastWorkflowAction(@IsRequest final Long requestId)
-        throws CvqException;
-
-    /**
-     * Get action related to given request and resulting state.
-     */
-    RequestAction getActionByResultingState(@IsRequest final Long requestId,
-            final RequestState requestState)
-        throws CvqException;
+    List<RequestAction> get(@IsRequest Set<Critere> criteriaSet,
+        String sort, String dir, int recordsReturned, int startIndex);
 
     /**
      * Return whether the given request has an action trace with the given type.
      */
     boolean hasAction(final Long requestId, final RequestActionType type)
+        throws CvqException;
+
+    void addDraftCreationAction(@IsRequest Long requestId, Date date)
         throws CvqException;
 
     /**

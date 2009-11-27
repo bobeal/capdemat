@@ -84,7 +84,7 @@ public class MeansOfContactServiceTest extends ServiceTestCase {
             iMeansOfContactService.disableMeansOfContact(moc);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
-            assertEquals("unique_meansofcontact_enabled", cme.getMessage());
+            assertEquals("request.meansOfContact.message.mustHaveOneEnabled", cme.getMessage());
         }        
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.civil.BirthDetailsRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
@@ -83,9 +84,9 @@ public class DraftManagementJobTest extends ServiceTestCase {
         Set<Critere> criterias = new HashSet<Critere>();
         
         Critere criteria = new Critere();
-        criteria.setAttribut(Request.DRAFT);
+        criteria.setAttribut(Request.SEARCH_BY_STATE);
         criteria.setComparatif(Critere.EQUALS);
-        criteria.setValue(true);
+        criteria.setValue(RequestState.DRAFT);
         criterias.add(criteria);
 
         return this.requestService.get(criterias,null,null,0,0);
@@ -100,7 +101,8 @@ public class DraftManagementJobTest extends ServiceTestCase {
             Request request = new BirthDetailsRequest();
             request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
             request.setHomeFolderId(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
-            Long id = this.requestService.processDraft(request);
+            request.setState(RequestState.DRAFT);
+            Long id = this.requestService.create(request);
             request = this.requestService.getById(id);
             request.setCreationDate(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,i*(-1)));
             

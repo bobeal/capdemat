@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.request.job;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestActionType;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
@@ -147,9 +148,9 @@ public class DraftManagementJob {
         criterias.add(criteria);
         
         criteria = new Critere();
-        criteria.setAttribut(Request.DRAFT);
+        criteria.setAttribut(Request.SEARCH_BY_STATE);
         criteria.setComparatif(Critere.EQUALS);
-        criteria.setValue(true);
+        criteria.setValue(RequestState.DRAFT);
         criterias.add(criteria);
         
         return criterias;

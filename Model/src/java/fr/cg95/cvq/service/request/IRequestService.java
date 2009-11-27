@@ -71,16 +71,6 @@ public interface IRequestService {
     //////////////////////////////////////////////////////////
 
     /**
-     * Create or update a draft of the given request.
-     */
-    Long processDraft(@IsRequest Request request) throws CvqException;
-    
-    /**
-     * Finalize a request previously saved as a draft.
-     */
-    void finalizeDraft(@IsRequest Request request, List<Document> documents) throws CvqException;
-    
-    /**
      * Create a new request from given data.
      * 
      * It is meant to be used <strong>only</strong> by requests who require an home folder, 
@@ -366,6 +356,12 @@ public interface IRequestService {
      * Get the generated certificate for the given request at the given step.
      */
     byte[] getCertificate(@IsRequest final Long requestId, final RequestState requestState)
+        throws CvqException;
+
+    /**
+     * Get the most recent certificate for the given request.
+     */
+    byte[] getCertificate(@IsRequest final Long requestId)
         throws CvqException;
 
     //////////////////////////////////////////////////////////

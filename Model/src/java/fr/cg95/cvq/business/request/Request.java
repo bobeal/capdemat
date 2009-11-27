@@ -47,7 +47,6 @@ public abstract class Request implements Serializable {
     public static final String QUALITY_TYPE_OK = "qualityTypeOk";
     public static final String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
     public static final String QUALITY_TYPE_RED = "qualityTypeRed";
-    public static final String DRAFT = "draft";
 
     
     /** identifier field */
@@ -76,7 +75,6 @@ public abstract class Request implements Serializable {
     private Long subjectId;
     private String subjectLastName;
     private String subjectFirstName;
-    private Boolean draft;
     
     private Set<RequestDocument> documents;
     private Set<RequestAction> actions;
@@ -85,7 +83,6 @@ public abstract class Request implements Serializable {
     private Map<String,Map<String,String>> stepStates;
 
     public Request() {
-        this.draft = false;
         this.stepStates = new LinkedHashMap<String, Map<String, String>>();
     }
 
@@ -493,19 +490,6 @@ public abstract class Request implements Serializable {
         this.subjectFirstName = subjectFirstName;
     }
 
-    /**
-     * @hibernate.property
-     *  column="draft"
-     *  not-null="true"
-     */
-    public Boolean getDraft() {
-        return draft;
-    }
-
-    public void setDraft(Boolean draft) {
-        this.draft = draft;
-    }
-    
     /**
      * @hibernate.property
      *  column="step_states"

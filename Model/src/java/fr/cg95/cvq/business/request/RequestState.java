@@ -9,6 +9,7 @@ public final class RequestState extends PersistentStringEnum {
 
     private static final long serialVersionUID = 1L;
 
+    public static final RequestState DRAFT = new RequestState("Draft");
     public static final RequestState PENDING = new RequestState("Pending");
     public static final RequestState COMPLETE = new RequestState("Complete");
     public static final RequestState UNCOMPLETE = new RequestState("Uncomplete");
@@ -32,31 +33,14 @@ public final class RequestState extends PersistentStringEnum {
     public RequestState() {}
 
     public static final RequestState[] allRequestStates = {
-        PENDING, COMPLETE, UNCOMPLETE, VALIDATED, NOTIFIED, CLOSED, REJECTED, CANCELLED, ARCHIVED
+        DRAFT, PENDING, COMPLETE, UNCOMPLETE, VALIDATED, NOTIFIED, CLOSED, REJECTED, CANCELLED, ARCHIVED
     };
   
     public static RequestState forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
             return PENDING;
-        if (enumAsString.equals(PENDING.toString()))
-            return PENDING;
-        else if (enumAsString.equals(COMPLETE.toString()))
-            return COMPLETE;
-        else if (enumAsString.equals(UNCOMPLETE.toString()))
-            return UNCOMPLETE;
-        else if (enumAsString.equals(VALIDATED.toString()))
-            return VALIDATED;
-        else if (enumAsString.equals(NOTIFIED.toString()))
-            return NOTIFIED;
-        else if (enumAsString.equals(CLOSED.toString()))
-            return CLOSED;
-        else if (enumAsString.equals(REJECTED.toString()))
-            return REJECTED;
-        else if (enumAsString.equals(CANCELLED.toString()))
-            return CANCELLED;
-        else if (enumAsString.equals(ARCHIVED.toString()))
-            return ARCHIVED;
-
+        for (RequestState rs : allRequestStates)
+            if (rs.toString().equals(enumAsString)) return rs;
         return PENDING;
     }
 

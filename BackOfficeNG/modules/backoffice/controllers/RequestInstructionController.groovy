@@ -1,6 +1,7 @@
 import fr.cg95.cvq.business.external.ExternalServiceTrace
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.request.DataState
+import fr.cg95.cvq.business.request.RequestAction
 import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
@@ -150,8 +151,15 @@ class RequestInstructionController {
             }
         }
 
-        def lastAction = requestActionService.getLastWorkflowAction(request.id)
-        def lastActionNote = lastAction != null ? lastAction.note : ""
+        def criteriaSet = new HashSet<Critere>(2)
+        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_REQUEST_ID,
+            request.id, Critere.EQUALS))
+        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_TYPE,
+            RequestActionType.STATE_CHANGE, Critere.EQUALS))
+        def actions = requestActionService.get(criteriaSet,
+            RequestAction.SEARCH_BY_DATE, "desc", 1, 0)
+        def lastActionNote = !actions.isEmpty() ? actions.get(0).note : ""
+
         return ([
             "request": request,
             "requestTypeLabel": request.requestType.label,
@@ -491,7 +499,13 @@ class RequestInstructionController {
     }
 
     def requestActions = {
-        def requestActions = requestActionService.getActions(Long.valueOf(params.id))
+        def criteriaSet = new HashSet<Critere>(2)
+        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_REQUEST_ID,
+            Long.valueOf(params.id), Critere.EQUALS))
+        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_RESULTING_STATE,
+            RequestState.DRAFT, Critere.NEQUALS))
+        def requestActions = requestActionService.get(criteriaSet,
+            RequestAction.SEARCH_BY_DATE, "asc", 0, 0)
         def requestActionList = []
         requestActions.each {
             def user = instructionService.getActionPosterDetails(it.agentId)

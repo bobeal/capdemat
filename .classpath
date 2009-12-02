@@ -23,7 +23,6 @@
 	<classpathentry kind="src" output="Model/build/test" path="Model/test/java"/>
 	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/src/java"/>
 	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/test/java"/>
-	<classpathentry kind="lib" path="Libraries/com.lowagie/iText.jar"/>
 	<classpathentry kind="lib" path="Libraries/edu.yale/cas/casclient-2.1.1-1.jar"/>
 	<classpathentry kind="lib" path="Libraries/jaf/activation.jar"/>
 	<classpathentry kind="lib" path="Libraries/mail/mail.jar"/>
@@ -112,5 +111,7 @@
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.1.jar" sourcepath="Model/src/java"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lowagie/core-renderer.jar"/>
+	<classpathentry kind="lib" path="Libraries/com.lowagie/iText-2.0.8.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

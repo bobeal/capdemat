@@ -65,9 +65,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
 
       zcbrt.Manager.panel.render();
     };
-    var initButtons = function() {
-      yue.on("templateButton", "click", zcbrt.Manager.save);
-    };
     return {
       //wrapper : undefined,
       name : undefined,
@@ -78,8 +75,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       init : function() {
         //initTabs();
         initPanel();
-        zcbrt.Manager.editor = zcb.Editor("template");
-        initButtons();
+        zcb.Editor.save = zcbrt.Manager.save;
+        zcbrt.Manager.editor = zcb.Editor.init("template");
 
         zcbrt.Manager.editor.on('afterRender',function(ev){
           if(zcb.Editor.options.toolbar.buttons.length > 0) {

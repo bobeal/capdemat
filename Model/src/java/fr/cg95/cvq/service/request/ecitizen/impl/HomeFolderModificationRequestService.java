@@ -264,10 +264,8 @@ public class HomeFolderModificationRequestService
 
         // TODO REFACTORING : branch into common treatments
         logger.debug("modify() Gonna generate a pdf of the request");
-        XmlObject xmlRequest = fillRequestXml(hfmr);
         byte[] pdfData =
-            certificateService.generateRequestCertificate(xmlRequest.getDomNode(),
-                    hfmr.getRequestType());
+            certificateService.generate(hfmr);
         requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData);
 
         super.notifyRequestCreation(hfmr, pdfData);

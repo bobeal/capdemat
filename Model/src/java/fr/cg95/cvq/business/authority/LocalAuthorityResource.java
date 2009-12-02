@@ -31,6 +31,7 @@ public class LocalAuthorityResource {
         CSS("css", ".css"),
         EXTERNAL_REFERENTIAL("external_referential", ".txt"),
         HTML("html", ".html"),
+        CERTIFICATE_TEMPLATE("html/certificate_template", ".html"),
         IMAGE("img", ".png"),
         DISPLAY_GROUP_IMAGE("img/display_group", ".png"),
         LOCAL_REFERENTIAL("local_referential", ".xml"),

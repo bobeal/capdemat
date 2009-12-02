@@ -221,17 +221,13 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         IRequestService requestService = requestServiceRegistry.getRequestService(request.getId());
         requestService.onRequestValidated(request);
 
-        XmlObject xmlRequest = requestService.fillRequestXml(request);
-        validateXmlData(xmlRequest);
-
         List<String> externalCheckErrors = externalService.checkExternalReferential(request);
         if (!externalCheckErrors.isEmpty()) {
             throw new CvqException(StringUtils.join(externalCheckErrors.iterator(), '\n'));
         }
 
         logger.debug("validate() Gonna generate a pdf of the request");
-        byte[] pdfData = certificateService.generateRequestCertificate(xmlRequest.getDomNode(),
-                request.getRequestType());
+        byte[] pdfData = certificateService.generate(request);
 
         validate(request, pdfData);
 

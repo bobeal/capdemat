@@ -49,15 +49,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="fakeSmsService" class="fr.cg95.cvq.util.sms.impl.FakeSmsService" />
   
   <bean id="certificateService" class="fr.cg95.cvq.service.users.impl.CertificateService">
-    <property name="localAuthorityRegistry">
-      <ref bean="localAuthorityRegistry"/>
-    </property>
-    <property name="localizationService" ref="localizationService" />
-    <property name="requestFormDAO" ref="requestFormDAO" />
-    <!-- must be put somewhere on the using application's classpath -->
-    <property name="fopConfig">
-      <value>fop-config.xml</value>
-    </property>
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
+    <property name="translationService" ref="translationService"/>
+    <property name="individualService" ref="individualService"/>
+    <property name="localReferentialService" ref="localReferentialService"/>
   </bean>
 
   <bean id="localizationService" 

@@ -1,42 +1,34 @@
 package fr.cg95.cvq.service.users.impl;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.commons.lang.StringUtils;
-import org.apache.fop.apps.Driver;
-import org.apache.fop.apps.FOPException;
-import org.apache.fop.configuration.Configuration;
-import org.apache.fop.messaging.MessageHandler;
 import org.apache.log4j.Logger;
-import org.springframework.core.io.ClassPathResource;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
+import org.codehaus.groovy.control.CompilationFailedException;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import com.lowagie.text.DocumentException;
+
+import fr.cg95.cvq.business.authority.LocalReferentialType;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
-import fr.cg95.cvq.business.request.RequestForm;
-import fr.cg95.cvq.business.request.RequestFormType;
-import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.authority.ILocalReferentialService;
 import fr.cg95.cvq.service.users.ICertificateService;
-import fr.cg95.cvq.util.localization.ILocalizationService;
+import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.util.translation.ITranslationService;
+import groovy.text.SimpleTemplateEngine;
+import groovy.text.Template;
 
 /**
  * @author bor@zenexity.fr
@@ -47,228 +39,88 @@ public class CertificateService implements ICertificateService {
 
     private static Logger logger = Logger.getLogger(CertificateService.class);
 
-    private String fopConfig;
-
     protected ILocalAuthorityRegistry localAuthorityRegistry;
-    protected ILocalizationService localizationService;
+    protected ITranslationService translationService;
+    protected IIndividualService individualService;
+    protected ILocalReferentialService localReferentialService;
+
     protected IRequestFormDAO requestFormDAO;
-    
-    public byte[] generateRequestCertificate(Node node, File xslFoFile)
-        throws CvqException {
-
-        if (xslFoFile == null) {
-            logger.warn("generateRequestCertificate() No XSL-FO file provided, returning");
+     
+    public byte[] generate(Request request) throws CvqException {
+        String htmlFilename = 
+            StringUtils.uncapitalize(request.getRequestType().getLabel().replace(" ", "")) + "Request";
+        File htmlTemplate =
+            localAuthorityRegistry.getReferentialResource(Type.CERTIFICATE_TEMPLATE, htmlFilename);
+        if (htmlTemplate == null || !htmlTemplate.exists()) {
+            logger.warn("generate() certificate template file denoted by name "
+                    + htmlFilename + ".html does not exist on filesystem");
             return null;
         }
-
-        return convertXmlSource2PDF(new DOMSource(node), xslFoFile);
-    }
-
-    public byte[] generateRequestCertificate(Node node, String xslFoFileName)
-        throws CvqException {
-
-        if (xslFoFileName == null) {
-            logger.warn("generateRequestCertificate() No XSL-FO filename provided, returning");
-            return null;
-        }
-
-        File xslFoFile =
-            localAuthorityRegistry.getReferentialResource(Type.XSL, xslFoFileName);
-        if (xslFoFile == null || !xslFoFile.exists()) {
-            logger.warn("generateRequestCertificate() XSL-FO file denoted by name " + xslFoFileName 
-                    + " does not exist on filesystem");
-            return null;
-        }
-
-        return convertXmlSource2PDF(new DOMSource(node), xslFoFile);
-    }
-
-    public byte[] generateRequestCertificate(Node node, RequestType requestType)
-        throws CvqException {
-
-        RequestForm requestForm = 
-            requestFormDAO.findByTypeAndRequest(RequestFormType.REQUEST_CERTIFICAT,
-                    requestType.getLabel());
-        if (requestForm == null) {
-            logger.warn("generateRequestCertificate() No XSL files of type " + 
-                    RequestFormType.REQUEST_CERTIFICAT + " found for request type " + 
-                    requestType.getLabel() + ", returning");
-            return null;
-        }
-        String xslFoFilename = requestForm.getXslFoFilename();
-
-        File requestXslFoFile =
-            localAuthorityRegistry.getReferentialResource(Type.XSL, xslFoFilename);
-        if (requestXslFoFile == null || !requestXslFoFile.exists()) {
-            logger.warn("generateRequestCertificate() XSL-FO file denoted by name " + xslFoFilename 
-                    + " does not exist on filesystem");
-            return null;
-        }
-
-        return convertXmlSource2PDF(new DOMSource(node), requestXslFoFile);
-    }
-
-    public byte[] generatePdf(Node node, Long requestFormIId) throws CvqException {
-        
-        RequestForm requestForm = 
-            (RequestForm) requestFormDAO.findById(RequestForm.class, requestFormIId);
-        
-        File xslFoFile =
-            localAuthorityRegistry.getReferentialResource(Type.XSL,
-                requestForm.getXslFoFilename());
-        if (xslFoFile == null || !xslFoFile.exists()) {
-            logger.warn("generatePdf() XSL-FO file denoted by name " + xslFoFile 
-                    + " does not exist on filesystem");
-            return null;
-        }
-        
-        return convertXmlSource2PDF(new DOMSource(node), xslFoFile);
-    }
-    
-    /**
-     * Converts a XML source to a PDF file using Saxon and FOP.
-     * 
-     * Shamelessly copied and adapted from examples within the FOP distribution.
-     *
-     * @param config the FOP config file
-     * @param xmlSource the XML input source for XSLT transformation
-     * @param xslFoFile the stylesheet file
-     *
-     * @throws CvqException
-     */
-    private byte[] convertXmlSource2PDF(Source xmlSource, File xslFoFile)
-        throws CvqException {
-
-        // First, transform XML to FO
-        /////////////////////////////
-
+        Adult requester = null;
+        if (request.getRequesterId() != null)
+            requester = individualService.getAdultById(request.getRequesterId());
+        Individual subject = null;
+        if (request.getSubjectId() != null)
+            subject = individualService.getById(request.getSubjectId());
         try {
-            byte[] foData = null;
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            try {
-                // setup XSLT
-                TransformerFactory factory = TransformerFactory.newInstance();
-                Transformer transformer = factory.newTransformer(new StreamSource(xslFoFile));
-
-                transformer.setParameter("localAuthorityName",
-                        localAuthorityRegistry.getAssetsBase()
-                        + SecurityContext.getCurrentConfigurationBean().getName().toLowerCase());
-                transformer.setParameter("friendlyLocalAuthorityName",
-                        SecurityContext.getCurrentSite().getDisplayTitle());
-                transformer.setParameter("localizationService", localizationService);
-                
-                File logoFile = new File(StringUtils.removeEnd(
-                    localAuthorityRegistry.getLocalAuthorityResourceFile("logoPdf", false).getPath(), "png").concat("jpg"));
-                if (!logoFile.exists()) {
-                    localAuthorityRegistry.generateJPEGLogo();
-                }
-                transformer.setParameter("logoSource", logoFile.getPath());
-
-                //Resulting SAX events (the generated FO) must be piped through to FOP
-                Result res = new StreamResult(out);
-
-                //Start XSLT transformation and FOP processing
-                transformer.transform(xmlSource, res);
-
-                foData = out.toByteArray();
-            } finally {
-                out.close();
-            }
-
-            // Then, transform FO to PDF
-            ////////////////////////////
-
-            //Construct driver
-            Driver driver = new Driver();
-
-            //Setup config
-//            Options options = null;
-//            if (config != null)
-//                options = new Options(config);
-
-            // Set the base dir to the xsl-fo file directory to be able to satisfy image references
-            Configuration.put("baseDir", xslFoFile.getParent());
-
-            //Setup logger
-            org.apache.avalon.framework.logger.Logger logger =
-                new ConsoleLogger(ConsoleLogger.LEVEL_ERROR);
-            MessageHandler.setScreenLogger(logger);
-            driver.setLogger(logger);
-
-            //Setup Renderer (output format)
-            driver.setRenderer(Driver.RENDER_PDF);
-
-            out = new ByteArrayOutputStream();
-            try {
-                driver.setOutputStream(out);
-
-                //Setup input
-                InputStream in = new ByteArrayInputStream(foData);
-                try {
-                    driver.setInputSource(new InputSource(in));
-
-                    //Process FO
-                    driver.run();
-                } finally {
-                    in.close();
-                }
-            } finally {
-                out.close();
-            }
-
-            return out.toByteArray();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            logger.error("convertXmlSource2PDF() IO exception generating PDF");
-            throw new CvqException("Unable to generate PDF");
+            SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
+            Template template = templateEngine.createTemplate(htmlTemplate);
+            Map<String, Object> bindings = new HashMap<String, Object>();
+            bindings.put("rqt", request);
+            bindings.put("requester", requester);
+            bindings.put("subject", subject);
+            bindings.put("lrTypes", getLocalReferentialTypes(request.getRequestType().getLabel()));
+            bindings.put("i18n", translationService);
+            File htmlCertificateFile = File.createTempFile(htmlFilename, ".html");
+            template.make(bindings).writeTo(new FileWriter(htmlCertificateFile));
+            
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ITextRenderer renderer = new ITextRenderer();
+            renderer.setDocument(htmlCertificateFile);
+            renderer.layout();
+            renderer.createPDF(baos);
+            return baos.toByteArray();
+        } catch (CompilationFailedException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
         }
-        catch (FOPException foe) {
-            foe.printStackTrace();
-            logger.error("convertXmlSource2PDF() FOP exception while generating PDF");
-            throw new CvqException("Unable to generate PDF");
-        } catch (TransformerException te) {
-            te.printStackTrace();
-            logger.error("convertXmlSource2PDF() Transformer exception while generating PDF");
-            throw new CvqException("Error while generating PDF");
-        }
+        return null;
     }
-
-    private File gimmeFopConfigFile(String fopConfig) {
-
-        if (fopConfig != null) {
-            File config = null;
-            try {
-                ClassPathResource cpr = new ClassPathResource(fopConfig);
-                config = cpr.getFile();
-            } catch (FileNotFoundException fnfe) {
-                // we can do our job without one
-                logger.warn("gimmeFopConfigFile() File " + fopConfig + " not found on classpath");
-                return null;
-            } catch (IOException ioe) {
-                // we can do our job without one
-                logger.warn("gimmeFopConfigFile() IO error while loading file " + fopConfig);
-                return null;
-            }
-
-            return config;
-        } else {
-            return null;
-        }
+    
+    // FIXME - feature duplicated in CertificateService
+    // TODO - mutualize
+    private Map<String,LocalReferentialType> getLocalReferentialTypes(String requestTypeLabel) {
+        Map<String,LocalReferentialType> result = new HashMap<String,LocalReferentialType>();
+        try {
+            for(LocalReferentialType lrt : 
+                localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel))
+                result.put(StringUtils.uncapitalize(lrt.getDataName()), lrt);
+        } catch (CvqException ce) { /* No localReferentialData found ! */ }
+        return result;
     }
-
+    
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }
 
-    public void setLocalizationService(ILocalizationService localizationService) {
-        this.localizationService = localizationService;
+    public void setTranslationService(ITranslationService translationService) {
+        this.translationService = translationService;
     }
 
-    public void setRequestFormDAO(IRequestFormDAO requestFormDAO) {
-        this.requestFormDAO = requestFormDAO;
+    public void setIndividualService(IIndividualService individualService) {
+        this.individualService = individualService;
     }
 
-    public void setFopConfig(String fopConfig) {
-        this.fopConfig = fopConfig;
+    public void setLocalReferentialService(ILocalReferentialService localReferentialService) {
+        this.localReferentialService = localReferentialService;
     }
+    
+
 }

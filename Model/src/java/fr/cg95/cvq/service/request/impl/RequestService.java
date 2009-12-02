@@ -993,12 +993,13 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             // TODO DECOUPLING
             logger.debug("create() Gonna generate a pdf of the request");
             XmlObject xmlRequest = fillRequestXml(request);
-            byte[] pdfData =
-                certificateService.generateRequestCertificate(xmlRequest.getDomNode(),
-                        request.getRequestType());
-            
+//            byte[] pdfData =
+//                certificateService.generateRequestCertificate(xmlRequest.getDomNode(),
+//                        request.getRequestType());
+
+            byte[] pdfData = certificateService.generate(request);
             requestActionService.addCreationAction(requestId, new Date(), pdfData);
-    
+
             // TODO DECOUPLING
             notifyRequestCreation(request, pdfData);
         } else if (!requestActionService.hasAction(requestId, RequestActionType.CREATION)) {

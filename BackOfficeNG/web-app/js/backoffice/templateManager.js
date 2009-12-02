@@ -49,8 +49,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
     var initPanel = function() {
       zcbrt.Manager.panel = new YAHOO.widget.Panel("templatePanel", {
         width:"620px",
-        fixedcenter:true,
-			  draggable:false,
+        fixedcenter : "contained",
         modal: true,
         underlay: 'none',
 			  visible:false

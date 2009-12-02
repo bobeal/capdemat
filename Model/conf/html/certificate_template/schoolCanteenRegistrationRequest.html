@@ -1,0 +1,150 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def lrHtml = ''
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrTypes[javaName].entriesSupportMultiple) { 
+      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      lrEntries.each { entry -> 
+      if (entry.entries) { 
+        lrHtml += "<li>"
+        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
+        lrHtml += "</li>"
+      } else {
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span></li>"
+      } 
+    } 
+    lrHtml += "</ul>"
+    } else { 
+      lrEntries.each { entry -> 
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+      } 
+    }
+    println lrHtml
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${i18n.translate('scrr.label')}</title>
+  <link href="certificate.css" type="text/css" rel="stylesheet" media="print" />
+</head>
+<body>
+  <img src="mairie2424.png" alt="mairie2424" />
+  <h1>${i18n.translate('scrr.label')}</h1>
+
+  
+  <h2>${i18n.translate('scrr.step.registration.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('request.property.subject.label')}</p>
+           <div class="response">${subject?.fullName}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('scrr.property.urgencyPhone.label')}</p><div class="response">${rqt.urgencyPhone?.toString()}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('scrr.property.section.label')}</p>
+          <div class="response choice">
+            <% ['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown'].each { %>
+              <span ${it == rqt.section.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('scrr.property.section.' + StringUtils.uncapitalize(it))}
+              </span> / 
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('scrr.property.foodDiet.label')}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'foodDiet', lrTypes.foodDiet.entries, 0) %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('scrr.property.canteenAttendingDays.label')}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'canteenAttendingDays', lrTypes.canteenAttendingDays.entries, 0) %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('scrr.property.foodAllergy.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.foodAllergy ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${it ? ' / ' : ''}
+              </span>
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('scrr.property.doctorName.label')}</p><div class="response">${rqt.doctorName?.toString()}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('scrr.property.doctorPhone.label')}</p><div class="response">${rqt.doctorPhone?.toString()}</div>
+
+    
+  
+
+  
+  <h2>${i18n.translate('scrr.step.rules.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('scrr.property.hospitalizationPermission.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.hospitalizationPermission ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${it ? ' / ' : ''}
+              </span>
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('scrr.property.rulesAndRegulationsAcceptance.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.rulesAndRegulationsAcceptance ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+                ${it ? ' / ' : ''}
+              </span>
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  
+</body>
+</html>
+

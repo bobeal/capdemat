@@ -33,29 +33,6 @@
             <step index="3" ref="validation" />
           </steps>
         </common>
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Enfant*" column="2" />
-            <block id="1" label="Régime alimentaire*" />
-            <block id="2" label="Présence de l'enfant*" />
-            <!--<block id="3" label="Frères et soeurs scolarisés*"/>-->
-            <block id="4" label="Allergie - Médecin traitant" column="2" />
-            <block id="5" label="Responsables légaux" />
-            <block id="6" label="Moyen de contact" />
-            <block id="7" label="Autorisation d'hospitalisation" />
-            <block id="8" label="Règlement intérieur" />
-          </blocks-def>
-          <element blockId="6" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-          <element blockId="0" line="1" column="0" columnSpan="2" link="Subject">
-            <complexTemplate />
-          </element>
-          <element blockId="5" line="0" column="0" link="Subject">
-            <complexTemplate selectXPath="cvq:LegalResponsible" />
-          </element>
-        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -73,11 +50,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="2" column="0" columnSpan="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -93,11 +66,6 @@
                     <step name="registration" />
                   </common>
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="0" line="0" column="0">
-                      <string selectXPath="cvq:Name" />
-                    </element>
-                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -109,11 +77,7 @@
                     <step name="registration" />
                   </common>
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="0" line="0" column="1">
-                      <string referential="true" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -132,11 +96,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="0" column="0" usePrefixLabel="false">
-                      <localReferential />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -157,11 +117,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="2" line="0" column="0" usePrefixLabel="false">
-                      <localReferential />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -176,14 +132,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="4" line="0" column="0" columnSpan="2"
-                      prefixLabel="Votre enfant présente-t-il une allergie alimentaire ?"
-                      footNotice="Si oui, un certificat médical est obligatoire et il est
-		              impératif de contacter le service Restaurants Scolaires.">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -198,11 +147,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="4" line="1" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -217,11 +162,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="4" line="1" column="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -236,16 +177,8 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="7" line="0" column="0">
-                      <signature>
-                        <acceptMessage index="0">En inscrivant mon enfant (ci-dessus d&#233;sign&#233;) en Restaurant Scolaire, j'autorise les responsables &#224;  prendre toutes les mesures pour le faire soigner, hospitaliser, op&#233;rer si n&#233;cessaire.</acceptMessage>
-			            <acceptMessage index="1">JE CERTIFIE que tous les renseignements port&#233;s sur la pr&#233;sente fiche sont exacts, je m'engage &#224;  signaler sans retard tous les changements qui interviendraient.</acceptMessage>
-			            <rejectMessage index="0">Vous n'avez pas accept&#233; l'autorisation d'hospitalisation</rejectMessage>
-		              </signature>
-		            </element>
-		          </xslfo>
-		        </xs:appinfo>
+                  <pdf />
+		            </xs:appinfo>
 	          </xs:annotation>
 	        </xs:element>
 	        <xs:element name="RulesAndRegulationsAcceptance" type="cvq:AcceptanceType" default="false">
@@ -259,14 +192,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="8" line="0" column="0">
-                      <signature>
-                        <acceptMessage index="0">J'ai pris parfaite connaissance du r&#232;glement int&#233;rieur de la restauration scolaire qui accompagne cette fiche.</acceptMessage>
-                        <rejectMessage index="0">Vous n'avez pas accept&#233; le r&#233;glement int&#233;rieur</rejectMessage>
-                      </signature>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

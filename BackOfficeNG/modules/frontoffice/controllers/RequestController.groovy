@@ -18,6 +18,7 @@ class RequestController {
     def documentAdaptorService
     def requestTypeAdaptorService
     def requestActionService
+    def pdfService
 
     IIndividualService individualService
     IRequestServiceRegistry requestServiceRegistry
@@ -91,6 +92,18 @@ class RequestController {
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
                 'individuals':individuals
         ]
+    }
+    
+    def testPdf = {
+        def requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
+        def cRequest = defaultRequestService.getById(Long.parseLong(params.id))
+        
+        def data = pdfService.requestToPdf(cRequest)
+        response.contentType = "application/pdf"
+        response.setHeader("Content-disposition", "attachment; filename=request.pdf")
+        response.contentLength = data.length
+        response.outputStream << data
+        response.outputStream.flush()
     }
 
     def download = {

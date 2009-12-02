@@ -18,6 +18,7 @@
               alt="<g:message code='requestAction.action.download.Creation' />"
               src="${createLinkTo(dir:'images/icons',file:'pdficon_small.gif')}" />
           </a>
+          <a href="${createLink(action : 'testPdf', id : rqt.id)}">test pdf</a>
         </span>
       </h2>
       <div class="body">

@@ -46,6 +46,8 @@ public class RequestTypeAdaptorService {
 		return tempMap
     }
 
+    // FIXME - feature duplicated in CertificateService
+    // TODO - mutualize
     public Map getLocalReferentialTypes(requestTypeLabel) {
         def result = [:]
         try {

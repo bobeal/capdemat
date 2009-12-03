@@ -3,7 +3,7 @@
     <g:each var="record" in="${depositAccounts}">
       <li>
         <h3>
-          <g:message code="payment.header.account"/> ${record.label} 
+          <g:message code="payment.header.account"/> "${record.label}" 
           (<g:message code="message.ref"/> ${record.externalItemId})
         </h3>
         <p>
@@ -12,7 +12,7 @@
           <g:if test="${record.amount < 0}">
             <span style="color:red;">${record.amount / 100 + ' €'}</span>
           </g:if>
-          <g:else>${record.amount ? record.amount / 100 + ' €':''}</g:else>
+          <g:else>${record.amount / 100 + ' €'}</g:else>
         </p>
         <g:if test="${record.hasDetails}">
           <p>

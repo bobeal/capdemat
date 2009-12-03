@@ -142,6 +142,8 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                 est.setName(externalServiceLabel);
             }
             try {
+                logger.debug("sendRequest() routing request to external service " 
+                        + externalServiceLabel);
                 String externalId = 
                     externalProviderService.sendRequest(requestService.fillRequestXml(request));
                 if (externalId != null && !externalId.equals("")) {

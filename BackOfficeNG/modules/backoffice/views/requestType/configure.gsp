@@ -74,7 +74,6 @@
             <div class="bd" >
               <div id="templateBody" style="display:none">
                   <textarea id="templateEditor" rows="15" name="editor"></textarea>
-                  <input type="hidden" id="element" name="element" value="" />
                   <input type="hidden" name="requestTypeId" value="${requestType.id}" />
                   <input type="hidden" name="requestFormId" value="" />
                   <input type="button" id="templateButton" name="submit"

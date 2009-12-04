@@ -82,23 +82,44 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong");
           ]
         }
       },
-      init : function(label, options) {
+      init : function(label, options, notificationContainer) {
         if (!options) options = zcb.Editor.options;
         var editorId = label + "Editor";
         options.width = (zct.width(yud.get(editorId).parentNode) - 5) + "px";
         var editor = new YAHOO.widget.SimpleEditor(editorId, options);
         editor._docType =
           '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
-        yue.on(yud.get(label + "Button"), "click", zcb.Editor.save, label, editor);
+        yue.on(
+          yud.get(label + "Button"),
+          "click",
+          zcb.Editor.save,
+          {
+            "editor" : editor,
+            "label" : label,
+            "notificationContainer" : notificationContainer
+          }
+        );
         editor.render();
         return editor;
       },
-      save : function(e, label) {
-        this.saveHTML();
-        zct.doAjaxFormSubmitCall(label + "Form", [], function(r) {
-          zct.Notifier.processMessage("success",
-            ylj.parse(r.responseText).success_msg, null, e);
-        });
+      save : function(e, args) {
+        args.editor.saveHTML();
+        zct.doAjaxFormSubmitCall(
+          args.label + "Form",
+          {
+            "event" : e,
+            "notificationContainer" : args.notificationContainer
+          },
+          zcb.Editor.notify
+        );
+      },
+      notify : function(o) {
+        zct.Notifier.processMessage(
+          "success",
+          ylj.parse(o.responseText).success_msg,
+          o.argument.notificationContainer,
+          o.argument.event
+        );
       }
     };
   }();

@@ -93,7 +93,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           var newTab = new YAHOO.widget.Tab({
             label: label,
             active: true,
-            content: ['<div id="workArea_Tab1" class="editable-work-area">',content,close,'</div>'].join('')
+            content: ['<div id="workArea_Tab1Notifier"></div><div id="workArea_Tab1" class="editable-work-area">',content,close,'</div>'].join('')
           });
           
           zcbrt.Manager.tabView.addTab(newTab);

@@ -1,0 +1,42 @@
+/*--------------------------------------------------------------
+
+    Certificate style
+    
+---------------------------------------------------------------*/
+
+body {
+  margin: 0; padding: 0;
+  font-family: arial,helvetica,clean,sans-serif;
+  font-size: .8em;
+  font-style:normal;
+  font-variant:normal;
+  font-weight:normal;
+}
+
+h1,h2,h3,h4 { font-weight: normal; }
+h1 { font-size: 2.2em; text-align: center; }
+h2 { font-size: 1.8em; color: #DB4366; border-bottom: 1px solid #DB4366; }
+h3 { font-size: 1.5em; color: #444; }
+h4 { font-size: 1.3em; }
+
+#hd p   { width: 50%; float: right; font-size: 1.6em; text-align: right; }
+#hd img { margin: 0; }
+
+div.complex { margin: 0 2em 1em; }
+
+p.label { margin: .5em 0 .1em; }
+
+div.response {
+  min-height: 1em; padding: .2em;
+  font-size: 1.15em; font-style: italic; 
+  background: #E8FFA9;
+  border: 1px solid #D0FC57;
+}
+
+div.response.choice span     { font-size: .75em; color: #777; }
+div.response.choice .checked { font-size: 1em; color: #000; }
+
+div.response p  { margin: 0; }
+div.response ul { margin: 0; padding: 0; list-style-type: none; }
+div.response li { padding-right: .5em; display: inline; }
+

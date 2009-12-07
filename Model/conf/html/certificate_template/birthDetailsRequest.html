@@ -16,7 +16,7 @@
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span></li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>,</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -37,7 +37,10 @@
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
-  <img src="file://${logoPath}" alt="mairie2424" />
+  <div id="hd">
+    <p>${localAuthority.displayTitle}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
   <h1>${i18n.translate('bdr.label')}</h1>
 
   
@@ -60,12 +63,12 @@
           <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
           <div class="response">
             <% if (requester?.adress) { %>
-              <p>${requester?.adress?.additionalDeliveryInformation}</p>
-              <p>${requester?.adress?.additionalGeographicalInformation}</p>
-              <p>${requester?.adress?.streetNumber} ${requester?.adress?.streetName}</p>
-              <p>${requester?.adress?.placeNameOrService}</p>
-              <p>${requester?.adress?.postalCode} ${requester?.adress?.city}</p>
-              <p>${requester?.adress?.countryName}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.streetNumber)} ${StringUtils.defaultString(requester?.adress?.streetName)}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.postalCode)} ${StringUtils.defaultString(requester?.adress?.city)}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.countryName)}</p>
             <% } %>
           </div>
           <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
@@ -92,39 +95,39 @@
     
   
     
-      <p class="label">${i18n.translate('bdr.property.requesterQualityPrecision.label')}</p><div class="response">${rqt.requesterQualityPrecision?.toString()}</div>
+      <p class="label">${i18n.translate('bdr.property.requesterQualityPrecision.label')}</p><div class="response">${StringUtils.defaultString(rqt.requesterQualityPrecision?.toString())}</div>
 
     
   
     
-      <p class="label">${i18n.translate('bdr.property.birthLastName.label')}</p><div class="response">${rqt.birthLastName?.toString()}</div>
+      <p class="label">${i18n.translate('bdr.property.birthLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.birthLastName?.toString())}</div>
 
     
   
     
-      <p class="label">${i18n.translate('bdr.property.birthMarriageName.label')}</p><div class="response">${rqt.birthMarriageName?.toString()}</div>
+      <p class="label">${i18n.translate('bdr.property.birthMarriageName.label')}</p><div class="response">${StringUtils.defaultString(rqt.birthMarriageName?.toString())}</div>
 
     
   
     
-      <p class="label">${i18n.translate('bdr.property.birthFirstNames.label')}</p><div class="response">${rqt.birthFirstNames?.toString()}</div>
+      <p class="label">${i18n.translate('bdr.property.birthFirstNames.label')}</p><div class="response">${StringUtils.defaultString(rqt.birthFirstNames?.toString())}</div>
 
     
   
     
       <p class="label">${i18n.translate('bdr.property.birthDate.label')}</p>
-          <div class="response">${rqt.birthDate}</div>
+          <div class="response">${String.format('%td/%<tm/%<tY',rqt.birthDate)}</div>
           
 
     
   
     
-      <p class="label">${i18n.translate('bdr.property.birthCity.label')}</p><div class="response">${rqt.birthCity?.toString()}</div>
+      <p class="label">${i18n.translate('bdr.property.birthCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.birthCity?.toString())}</div>
 
     
   
     
-      <p class="label">${i18n.translate('bdr.property.birthPostalCode.label')}</p><div class="response">${rqt.birthPostalCode?.toString()}</div>
+      <p class="label">${i18n.translate('bdr.property.birthPostalCode.label')}</p><div class="response">${StringUtils.defaultString(rqt.birthPostalCode?.toString())}</div>
 
     
   
@@ -138,7 +141,7 @@
             <% ['FullCopy','ExtractWithRelationship','ExtractWithoutRelationship','MultilingualExtract'].each { %>
               <span ${it == rqt.format.toString() ? 'class="checked"': ''}>
                 ${i18n.translate('bdr.property.format.' + StringUtils.uncapitalize(it))}
-              </span> / 
+              </span>, 
             <% } %>
           </div>
           
@@ -149,10 +152,10 @@
       <h3>${i18n.translate('bdr.property.fatherInformation.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('bdr.property.fatherLastName.label')}</p><div class="response">${rqt.fatherLastName?.toString()}</div>
+          <p class="label">${i18n.translate('bdr.property.fatherLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.fatherLastName?.toString())}</div>
 
         
-          <p class="label">${i18n.translate('bdr.property.fatherFirstNames.label')}</p><div class="response">${rqt.fatherFirstNames?.toString()}</div>
+          <p class="label">${i18n.translate('bdr.property.fatherFirstNames.label')}</p><div class="response">${StringUtils.defaultString(rqt.fatherFirstNames?.toString())}</div>
 
         
       </div>
@@ -162,17 +165,17 @@
       <h3>${i18n.translate('bdr.property.motherInformation.label')}</h3>
       <div class="complex">
         
-          <p class="label">${i18n.translate('bdr.property.motherMaidenName.label')}</p><div class="response">${rqt.motherMaidenName?.toString()}</div>
+          <p class="label">${i18n.translate('bdr.property.motherMaidenName.label')}</p><div class="response">${StringUtils.defaultString(rqt.motherMaidenName?.toString())}</div>
 
         
-          <p class="label">${i18n.translate('bdr.property.motherFirstNames.label')}</p><div class="response">${rqt.motherFirstNames?.toString()}</div>
+          <p class="label">${i18n.translate('bdr.property.motherFirstNames.label')}</p><div class="response">${StringUtils.defaultString(rqt.motherFirstNames?.toString())}</div>
 
         
       </div>
     
   
     
-      <p class="label">${i18n.translate('bdr.property.copies.label')}</p><div class="response">${rqt.copies?.toString()}</div>
+      <p class="label">${i18n.translate('bdr.property.copies.label')}</p><div class="response">${StringUtils.defaultString(rqt.copies?.toString())}</div>
 
     
   
@@ -182,7 +185,7 @@
             <% ['NotaryAct','NationalIdentityCard','FrenchNationalityCertificate','Marriage','Pacs','Passport','Pension','LegalProceedings','Other'].each { %>
               <span ${it == rqt.motive.toString() ? 'class="checked"': ''}>
                 ${i18n.translate('bdr.property.motive.' + StringUtils.uncapitalize(it))}
-              </span> / 
+              </span>, 
             <% } %>
           </div>
           
@@ -190,7 +193,7 @@
     
   
     
-      <p class="label">${i18n.translate('bdr.property.comment.label')}</p><div class="response">${rqt.comment?.toString()}</div>
+      <p class="label">${i18n.translate('bdr.property.comment.label')}</p><div class="response">${StringUtils.defaultString(rqt.comment?.toString())}</div>
 
     
   

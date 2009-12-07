@@ -16,7 +16,7 @@
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span></li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>,</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -37,7 +37,10 @@
   <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
-  <img src="file://${logoPath}" alt="mairie2424" />
+  <div id="hd">
+    <p>${localAuthority.displayTitle}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
   <h1>${i18n.translate('scrr.label')}</h1>
 
   
@@ -51,7 +54,7 @@
     
   
     
-      <p class="label">${i18n.translate('scrr.property.urgencyPhone.label')}</p><div class="response">${rqt.urgencyPhone?.toString()}</div>
+      <p class="label">${i18n.translate('scrr.property.urgencyPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.urgencyPhone?.toString())}</div>
 
     
   
@@ -61,7 +64,7 @@
             <% ['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown'].each { %>
               <span ${it == rqt.section.toString() ? 'class="checked"': ''}>
                 ${i18n.translate('scrr.property.section.' + StringUtils.uncapitalize(it))}
-              </span> / 
+              </span>, 
             <% } %>
           </div>
           
@@ -101,12 +104,12 @@
     
   
     
-      <p class="label">${i18n.translate('scrr.property.doctorName.label')}</p><div class="response">${rqt.doctorName?.toString()}</div>
+      <p class="label">${i18n.translate('scrr.property.doctorName.label')}</p><div class="response">${StringUtils.defaultString(rqt.doctorName?.toString())}</div>
 
     
   
     
-      <p class="label">${i18n.translate('scrr.property.doctorPhone.label')}</p><div class="response">${rqt.doctorPhone?.toString()}</div>
+      <p class="label">${i18n.translate('scrr.property.doctorPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.doctorPhone?.toString())}</div>
 
     
   

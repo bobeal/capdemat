@@ -31,7 +31,7 @@
             ${toGT(element.enumValuesAsString + '.each {')}
               <span \${it == ${wrapper}.${element.javaFieldName}.toString() ? 'class="checked"': ''}>
                 \${i18n.translate('${element.i18nPrefixCode}.' + StringUtils.uncapitalize(it))}
-              </span> / 
+              </span>, 
             ${toGT('}')}
           </div>
           """
@@ -39,12 +39,12 @@
           """
           <div class="response">
             ${toGT("if(${wrapper}.${element.javaFieldName}) {")}
-              <p>\${${wrapper}.${element.javaFieldName}?.additionalDeliveryInformation}</p>
-              <p>\${${wrapper}.${element.javaFieldName}?.additionalGeographicalInformation}</p>
-              <p>\${${wrapper}.${element.javaFieldName}?.streetNumber} \${${wrapper}.${element.javaFieldName}?.streetName}</p>
-              <p>\${${wrapper}.${element.javaFieldName}?.placeNameOrService}</p>
-              <p>\${${wrapper}.${element.javaFieldName}?.postalCode} \${${wrapper}.${element.javaFieldName}?.city}</p>
-              <p>\${${wrapper}.${element.javaFieldName}?.countryName}</p>
+              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.additionalDeliveryInformation)}</p>
+              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.additionalGeographicalInformation)}</p>
+              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.streetNumber)} \${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.streetName)}</p>
+              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.placeNameOrService)}</p>
+              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.postalCode)} \${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.city)}</p>
+              <p>\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.countryName)}</p>
             ${toGT('}')}
           </div>
           """
@@ -56,10 +56,10 @@
           """
       ,'date' :
           """
-          <div class="response">\${${wrapper}.${element.javaFieldName}}</div>
+          <div class="response">\${String.format('%td/%<tm/%<tY',${wrapper}.${element.javaFieldName})}</div>
           """
       ,'text' :
-          """<div class="response">\${${wrapper}.${element.javaFieldName}?.toString()}</div>"""
+          """<div class="response">\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.toString())}</div>"""
       ,'subject' :
           """
            <div class="response">\${subject?.fullName}</div>
@@ -81,12 +81,12 @@
           <p class="label">\${i18n.translate('homeFolder.individual.property.address')}</p>
           <div class="response">
             ${toGT('if (requester?.adress) {')}
-              <p>\${requester?.adress?.additionalDeliveryInformation}</p>
-              <p>\${requester?.adress?.additionalGeographicalInformation}</p>
-              <p>\${requester?.adress?.streetNumber} \${requester?.adress?.streetName}</p>
-              <p>\${requester?.adress?.placeNameOrService}</p>
-              <p>\${requester?.adress?.postalCode} \${requester?.adress?.city}</p>
-              <p>\${requester?.adress?.countryName}</p>
+              <p>\${StringUtils.defaultString(requester?.adress?.additionalDeliveryInformation)}</p>
+              <p>\${StringUtils.defaultString(requester?.adress?.additionalGeographicalInformation)}</p>
+              <p>\${StringUtils.defaultString(requester?.adress?.streetNumber)} \${StringUtils.defaultString(requester?.adress?.streetName)}</p>
+              <p>\${StringUtils.defaultString(requester?.adress?.placeNameOrService)}</p>
+              <p>\${StringUtils.defaultString(requester?.adress?.postalCode)} \${StringUtils.defaultString(requester?.adress?.city)}</p>
+              <p>\${StringUtils.defaultString(requester?.adress?.countryName)}</p>
             ${toGT('}')}
           </div>
           <p class="label">\${i18n.translate('homeFolder.adult.property.email')}</p>
@@ -131,7 +131,7 @@ ${beginGT()}
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : ''}>\${entry.labelsMap.fr}</span></li>"
+         lrHtml += "<li><span \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : ''}>\${entry.labelsMap.fr}</span>,</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -151,7 +151,10 @@ ${endGT()}
   <link href="file://\${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
-  <img src="file://\${logoPath}" alt="mairie2424" />
+  <div id="hd">
+    <p>\${localAuthority.displayTitle}</p>
+    <img src="file://\${logoPath}" alt="mairie2424" />
+  </div>
   <h1>\${i18n.translate('${requestPdf.acronym}.label')}</h1>
 <% requestPdf.steps.each { step -> %>
   <% if (['validation','document'].contains(step.name)) return; %>

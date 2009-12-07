@@ -23,6 +23,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.ILocalReferentialService;
 import fr.cg95.cvq.service.users.ICertificateService;
@@ -73,6 +74,7 @@ public class CertificateService implements ICertificateService {
             SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
             Template template = templateEngine.createTemplate(htmlTemplate);
             Map<String, Object> bindings = new HashMap<String, Object>();
+            bindings.put("localAuthority", SecurityContext.getCurrentSite());
             bindings.put("rqt", request);
             bindings.put("requester", requester);
             bindings.put("subject", subject);

@@ -105,7 +105,7 @@
 	
 	<target name="compile-sources" depends="init">
 		<mkdir dir="${basedir}/${build.classes.dir}" />
-		<javac optimize="on" debug="on" deprecation="on" encoding="ISO-8859-1" 
+		<javac optimize="on" debug="on" deprecation="on" encoding="UTF8"
 			verbose="off" srcdir="${basedir}/${src.java.dir}" includes="**/*.java" 
 			destdir="${basedir}/${build.classes.dir}">
 			<classpath refid="classpath.compile" />

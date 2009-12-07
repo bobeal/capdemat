@@ -1,15 +1,43 @@
 
 
-<% import org.apache.commons.lang.StringUtils %>
+<%
+
+  import org.apache.commons.lang.StringUtils
+  
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def lrHtml = ''
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrTypes[javaName].entriesSupportMultiple) { 
+      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      lrEntries.each { entry -> 
+      if (entry.entries) { 
+        lrHtml += "<li>"
+        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
+        lrHtml += "</li>"
+      } else {
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span></li>"
+      } 
+    } 
+    lrHtml += "</ul>"
+    } else { 
+      lrEntries.each { entry -> 
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+      } 
+    }
+    println lrHtml
+  }
+
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <title>${i18n.translate('bdr.label')}</title>
-  <link href="certificate.css" type="text/css" rel="stylesheet" media="print" />
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
-  <img src="mairie2424.png" alt="mairie2424" />
+  <img src="file://${logoPath}" alt="mairie2424" />
   <h1>${i18n.translate('bdr.label')}</h1>
 
   
@@ -32,8 +60,8 @@
           <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
           <div class="response">
             <% if (requester?.adress) { %>
-              <p><%"${requester?.adress?.additionalDeliveryInformation}"%></p>
-              <p><%"${requester?.adress?.additionalGeographicalInformation}"%></p>
+              <p>${requester?.adress?.additionalDeliveryInformation}</p>
+              <p>${requester?.adress?.additionalGeographicalInformation}</p>
               <p>${requester?.adress?.streetNumber} ${requester?.adress?.streetName}</p>
               <p>${requester?.adress?.placeNameOrService}</p>
               <p>${requester?.adress?.postalCode} ${requester?.adress?.city}</p>
@@ -54,7 +82,7 @@
   
     
       <p class="label">${i18n.translate('bdr.property.requesterQuality.label')}</p>
-          <div class="response pick">
+          <div class="response">
             <% if(rqt.requesterQuality) { %>
               ${i18n.translate('bdr.property.requesterQuality.' + StringUtils.uncapitalize(rqt.requesterQuality.toString()))}
             <% } %>

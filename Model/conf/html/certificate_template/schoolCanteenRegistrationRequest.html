@@ -34,10 +34,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <title>${i18n.translate('scrr.label')}</title>
-  <link href="certificate.css" type="text/css" rel="stylesheet" media="print" />
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
-  <img src="mairie2424.png" alt="mairie2424" />
+  <img src="file://${logoPath}" alt="mairie2424" />
   <h1>${i18n.translate('scrr.label')}</h1>
 
   
@@ -92,8 +92,8 @@
             <% [true,false].each { %>
               <span ${it == rqt.foodAllergy ? 'class="checked"': ''}>
                 ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
-                ${it ? ' / ' : ''}
               </span>
+              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -120,8 +120,8 @@
             <% [true,false].each { %>
               <span ${it == rqt.hospitalizationPermission ? 'class="checked"': ''}>
                 ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
-                ${it ? ' / ' : ''}
               </span>
+              ${it ? ' / ' : ''}
             <% } %>
           </div>
           
@@ -134,8 +134,8 @@
             <% [true,false].each { %>
               <span ${it == rqt.rulesAndRegulationsAcceptance ? 'class="checked"': ''}>
                 ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
-                ${it ? ' / ' : ''}
               </span>
+              ${it ? ' / ' : ''}
             <% } %>
           </div>
           

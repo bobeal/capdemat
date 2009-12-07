@@ -148,10 +148,10 @@ ${endGT()}
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <title>\${i18n.translate('${requestPdf.acronym}.label')}</title>
-  <link href="certificate.css" type="text/css" rel="stylesheet" media="print" />
+  <link href="file://\${cssPath}" type="text/css" rel="stylesheet" media="print" />
 </head>
 <body>
-  <img src="mairie2424.png" alt="mairie2424" />
+  <img src="file://\${logoPath}" alt="mairie2424" />
   <h1>\${i18n.translate('${requestPdf.acronym}.label')}</h1>
 <% requestPdf.steps.each { step -> %>
   <% if (['validation','document'].contains(step.name)) return; %>

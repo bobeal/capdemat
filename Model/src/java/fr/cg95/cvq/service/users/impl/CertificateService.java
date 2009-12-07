@@ -15,6 +15,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.lowagie.text.DocumentException;
 
+import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.authority.LocalReferentialType;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.request.Request;
@@ -56,6 +57,12 @@ public class CertificateService implements ICertificateService {
                     + htmlFilename + ".html does not exist on filesystem");
             return null;
         }
+        File logoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                LocalAuthorityResource.LOGO_PDF.getId(), false);
+        
+        File cssFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                LocalAuthorityResource.Type.CSS,"certificate", true);
+        
         Adult requester = null;
         if (request.getRequesterId() != null)
             requester = individualService.getAdultById(request.getRequesterId());
@@ -70,6 +77,8 @@ public class CertificateService implements ICertificateService {
             bindings.put("requester", requester);
             bindings.put("subject", subject);
             bindings.put("lrTypes", getLocalReferentialTypes(request.getRequestType().getLabel()));
+            bindings.put("cssPath", cssFile.getAbsolutePath());
+            bindings.put("logoPath", logoFile.getAbsolutePath());
             bindings.put("i18n", translationService);
             File htmlCertificateFile = File.createTempFile(htmlFilename, ".html");
             template.make(bindings).writeTo(new FileWriter(htmlCertificateFile));

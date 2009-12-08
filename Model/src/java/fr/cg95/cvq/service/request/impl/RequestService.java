@@ -29,7 +29,6 @@ import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
-import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestNote;
@@ -537,24 +536,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public byte[] getCertificate(final Long id, final RequestState requestState)
         throws CvqException {
-        Set<Critere> criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_REQUEST_ID,
-            id, Critere.EQUALS));
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_RESULTING_STATE,
-            requestState, Critere.EQUALS));
-        List<RequestAction> action =
-            requestActionService.get(criteriaSet, RequestAction.SEARCH_BY_DATE,
-                "desc", 1, 0);
-        return !action.isEmpty() ? action.get(0).getFile() : null;
-    }
 
-    @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public byte[] getCertificate(final Long requestId)
-        throws CvqException {
-        byte[] data = getCertificate(requestId, RequestState.VALIDATED);
-        return data != null ? data :
-            getCertificate(requestId, RequestState.PENDING);
+        RequestAction requestAction =
+            requestActionService.getActionByResultingState(id, requestState);
+
+        return requestAction != null ? requestAction.getFile() : null;
     }
 
     //////////////////////////////////////////////////////////
@@ -621,6 +607,40 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     // Workflow related methods
     //////////////////////////////////////////////////////////
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public Long processDraft(Request request) throws CvqException {
+        request.setDraft(true);
+        if (request.getId() == null) {
+            return createDraft(request);
+        } else {
+            modifyDraft(request);
+            return request.getId();
+        }
+    }
+    
+    private Long createDraft(Request request) throws CvqException {
+        performBusinessChecks(request, SecurityContext.getCurrentEcitizen(), null);
+        return finalizeAndPersist(request);
+    }
+    
+    private void modifyDraft(Request request) throws CvqException {
+        if (isSubjectChanged(request)) {
+            createDraft(request);
+        } else {
+            createOrSynchronizeHomeFolder(request, null);
+            finalizeAndPersist(request);
+        }
+    }
+    
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void finalizeDraft(Request request, List<Document> documents) throws CvqException {
+        request.setDraft(false);
+        modifyDraft(request);
+        addDocuments(request, documents);
+    }
+    
     protected boolean isSubjectChanged(Request request) {
         Long subjectId = requestDAO.getSubjectId(request.getId());
         if(subjectId == null) {
@@ -724,7 +744,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         
         HomeFolder homeFolder = createOrSynchronizeHomeFolder(request, requester);
         
-        if (!RequestState.DRAFT.equals(request.getState()))
+        if (!request.getDraft() || request.getDraft() == null)
             checkSubjectPolicy(request.getSubjectId(), request.getHomeFolderId(),
                     getSubjectPolicy());
         
@@ -912,6 +932,11 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
                     homeFolderId, Critere.EQUALS));
                 criterias.add(new Critere(Request.SEARCH_BY_SEASON_ID,
                     season.getId(), Critere.EQUALS));
+                List<Boolean> allValues = new ArrayList<Boolean>(3);
+                allValues.add(Boolean.FALSE);
+                allValues.add(Boolean.TRUE);
+                allValues.add(null);
+                criterias.add(new Critere(Request.DRAFT, allValues, Critere.EQUALS));
                 List<Request> seasonRequests = get(criterias, null, null, 0, 0);
                 for (Request request : seasonRequests) {
                     Set<RequestSeason> subjectSeasons = null;
@@ -966,8 +991,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         
         RequestType requestType = requestTypeService.getRequestTypeByLabel(getLabel());
         request.setRequestType(requestType);
-        if (!RequestState.DRAFT.equals(request.getState()))
-            request.setState(RequestState.PENDING);
+        request.setState(RequestState.PENDING);
         request.setDataState(DataState.PENDING);
         request.setStep(RequestStep.INSTRUCTION);
         request.setCreationDate(new Date());
@@ -989,7 +1013,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             homeFolderService.modify(homeFolder);
         }
         
-        if (!RequestState.DRAFT.equals(request.getState())) {
+        if(!request.getDraft() || request.getDraft() == null) {
             // TODO DECOUPLING
             logger.debug("create() Gonna generate a pdf of the request");
             XmlObject xmlRequest = fillRequestXml(request);
@@ -1001,8 +1025,6 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     
             // TODO DECOUPLING
             notifyRequestCreation(request, pdfData);
-        } else if (!requestActionService.hasAction(requestId, RequestActionType.CREATION)) {
-            requestActionService.addDraftCreationAction(requestId, new Date());
         }
 
         return requestId;

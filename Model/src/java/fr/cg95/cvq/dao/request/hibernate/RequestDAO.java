@@ -136,6 +136,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             } else if (searchCrit.getAttribut().equals("belongsToCategory")) {
                 sb.append(" and request.requestType.category.id in ( "
                         + searchCrit.getValue() + ")");
+            } else if(searchCrit.getAttribut().equals(Request.DRAFT)) {
+                sb.append(prepareDraftQuery(parametersValues,parametersTypes,searchCrit));
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_QUALITY_TYPE)) {
                  
                 if (searchCrit.getValue().equals(Request.QUALITY_TYPE_ORANGE)) {
@@ -152,6 +154,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 parametersTypes.add(Hibernate.LONG);
             }
         }
+        
+        this.processDraft(sb,criteria);
         
         if (sort != null) {
             if (sort.equals(Request.SEARCH_BY_REQUEST_ID))
@@ -312,6 +316,9 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             } else if (searchCrit.getAttribut().equals("belongsToCategory")) {
                 sb.append(" and request.requestType.category.id in ( "
                         + searchCrit.getValue() + ")");
+            } 
+            else if(searchCrit.getAttribut().equals(Request.DRAFT)) {
+                sb.append(prepareDraftQuery(objectList,typeList,searchCrit));
             } else if (searchCrit.getAttribut().equals(Request.SEARCH_BY_QUALITY_TYPE)) {
                  
                 if (searchCrit.getValue().equals(Request.QUALITY_TYPE_ORANGE)) {
@@ -329,6 +336,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             }
         }
         
+        this.processDraft(sb,criteria);
         sbSelect.append(sb);
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
@@ -420,9 +428,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         typeList.add(Hibernate.LONG);
 
         //FIXME jsb : use only one method that builds queries
-        sb.append(" and request.state != ?");
-        objectList.add(RequestState.DRAFT.toString());
-        typeList.add(Hibernate.STRING);
+        sb.append(" and (request.draft = false or request.draft is null) ");
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
@@ -575,15 +581,13 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         sb.append("from Request as request ").append("where request.id not in (");
         sb.append("select request.id from Request request join request.actions action ")
             .append(" where action.type = ?").append(")");
-        sb.append(" and request.state = ?");
+        sb.append(" and request.draft = true");
         sb.append(" and request.creationDate <= ?");
 
-        typeList.add(Hibernate.STRING);
         typeList.add(Hibernate.STRING);
         typeList.add(Hibernate.TIMESTAMP);
         
         objectList.add(type.toString());
-        objectList.add(RequestState.DRAFT.toString());
         objectList.add(date);
         
         Type[] typeTab = typeList.toArray(new Type[1]);
@@ -594,7 +598,38 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         
         return result;
     }
-
+    
+    protected StringBuffer processDraft(StringBuffer sb, Set<Critere> criterias) {
+        if(!this.existsCriteriaName(Request.DRAFT,criterias)) {
+            sb.append(" and (request.draft = false or request.draft is null) ");
+        }
+        return sb;
+    }
+    
+    protected String prepareDraftQuery(List<Object> values,List<Type> types,Critere crit) {
+        String result = "";
+        if(crit.getValue() instanceof List) {
+            for(Object o : (List) crit.getValue()) {
+                if(o != null) {
+                    result += " request.draft "+ crit.getComparatif() + " ? or ";
+                    values.add(o);
+                    types.add(Hibernate.BOOLEAN);
+                }
+                else result += " request.draft is null or";
+            }
+            if(result.contains("or")) { 
+                result = result.substring(0, result.length()-2);
+                result = String.format(" and ( %1$s )",result);
+            }
+        } else {
+            result = " and request.draft " + crit.getComparatif() + " ?";
+            values.add(crit.getValue());
+            types.add(Hibernate.BOOLEAN);
+        }
+        return result;
+    }
+    
+    
     protected boolean existsCriteriaName(String name, Set<Critere> criterias) {
         for(Critere c : criterias) {
             if(c.getAttribut().equals(name)) return true;

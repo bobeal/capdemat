@@ -1,19 +1,33 @@
 package fr.cg95.cvq.dao.request;
 
 import java.util.List;
-import java.util.Set;
 
 import fr.cg95.cvq.business.request.RequestAction;
+import fr.cg95.cvq.business.request.RequestActionType;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.IGenericDAO;
-import fr.cg95.cvq.util.Critere;
 
 /**
- * @author jsb@zenexity.fr
+ * @author bor@zenexity.fr
  */
 public interface IRequestActionDAO extends IGenericDAO {
 
-    List<RequestAction> get(Set<Critere> criteriaSet, String sort,
-        String dir, int recordsReturned, int startIndex);
+    /**
+     * Look up a request action by request id and associated resulting state.
+     */
+    RequestAction findByRequestIdAndResultingState(final Long requestId,
+        final RequestState requestState);
 
-    Long getCount(Set<Critere> criteriaSet);
+    boolean hasAction(final Long requestId, final RequestActionType type);
+
+    /**
+     * Get the last action for the given action type and request.
+     */
+    RequestAction findLastAction(final Long requestId,
+        final RequestActionType type);
+
+    /**
+     * Return the list of actions related to a given request.
+     */
+    List<RequestAction> listByRequest(final Long requestId);
 }

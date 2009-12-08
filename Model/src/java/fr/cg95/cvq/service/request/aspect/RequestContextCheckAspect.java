@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.aspect;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Collection;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -39,7 +38,6 @@ import fr.cg95.cvq.service.request.annotation.IsCategory;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestAction;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
-import fr.cg95.cvq.util.Critere;
 
 @Aspect
 public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
@@ -124,26 +122,6 @@ public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
                         }
                     } else if (argument instanceof Request) {
                         request = (Request) argument;
-                    } else if (argument instanceof Collection<?>) {
-                        try {
-                            for (Critere criteria : ((Collection<Critere>)argument)) {
-                                if (RequestAction.SEARCH_BY_REQUEST_ID
-                                    .equals(criteria.getAttribut())
-                                    && Critere.EQUALS.equals(criteria.getComparatif())) {
-                                    try {
-                                        request = (Request) requestDAO
-                                            .findById(Request.class,
-                                            (Long) criteria.getLongValue());
-                                    } catch (CvqObjectNotFoundException confe) {
-                                        throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                                            joinPoint.getSignature().getName(), context.type(),
-                                            context.privilege(), "unknown resource type : " + argument);
-                                    }
-                                }
-                            }
-                        } catch (ClassCastException e) {
-                            logger.warn("argument was a Collection but not a Collection of Critere ?");
-                        }
                     }
                     if (SecurityContext.isBackOfficeContext()) {
                         if (request.getRequestType() != null 

@@ -2,7 +2,7 @@
     <g:each var="record" in="${requests.records}">
       <li>
         <p>
-          <g:if test="${record.state.toString().equals('Draft')}">
+          <g:if test="${record.draft}">
             <span class="tag-draft tag-state">
               <g:message code="request.property.draft"/>
             </span>
@@ -12,7 +12,7 @@
           </g:else>
           <g:if test="${record.isEditable}">
             <span class="tag-state">
-              <a href="${module.createLink(module:'frontoffice',action:'edit',controller:'RequestCreation',id:record.id)}">
+              <a href="${module.createLink(module:'frontoffice',action:'draft',controller:'RequestCreation',id:record.id)}">
                 <g:message code="action.modify"/>
               </a>
             </span>

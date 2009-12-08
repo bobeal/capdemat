@@ -3,7 +3,6 @@ import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestNoteType
-import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
@@ -46,9 +45,42 @@ class RequestCreationController {
     def beforeInterceptor = {
         documentAdaptorService.setServletContext(servletContext)
     }
-
+    
+    def draft = {
+        
+        def requestService = null
+        
+        flash.fromDraft = true
+        def targetAction
+        def newParams = [:]
+        if (request.post) {
+            requestService = requestServiceRegistry.getRequestService(params.requestTypeLabel)
+            def cRequest = session[params.uuidString].cRequest
+            cRequest.homeFolderId = SecurityContext.getCurrentEcitizen().getHomeFolder().getId()
+            requestService.processDraft(cRequest)
+            flash.cRequest = cRequest
+            flash.confirmationMessage = message(code:'request.message.savedAsDraft')
+            flash.confirmationMessageNotice = message(code:'request.message.savedAsDraftNotice')
+            targetAction = 'step'
+            newParams.uuidString = params.uuidString
+            newParams.requestTypeInfo = params.requestTypeInfo
+            if (!params.currentTabIndex) params.currentTabIndex = 0
+            newParams.('submit-draft-' + JSON.parse(params.requestTypeInfo).steps.get(Integer.valueOf(params.currentTabIndex)).tokenize('-')[0]) = params.'submit-draft'
+        } else if (request.get) {
+            requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
+            def cRequest = requestService.getAndLock(Long.parseLong(params.id))
+            if (cRequest.stepStates == null)
+               cRequest.stepStates = [:]
+            flash.cRequest = cRequest
+            targetAction = 'edit'
+            newParams.label = requestService.label
+        }
+        redirect(controller : controllerName, action : targetAction, params : newParams)
+        return false
+    }
+    
     def edit = {
-        if (params.label == null && params.id == null) {
+        if (params.label == null) {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
@@ -56,26 +88,15 @@ class RequestCreationController {
         if (SecurityContext.currentEcitizen == null)
             flash.isOutOfAccountRequest = true
 
-        def requestService
-        if (params.id)
-            requestService = requestServiceRegistry.getRequestService(Long.valueOf(params.id))
-        else
-            requestService = requestServiceRegistry.getRequestService(params.label)
+        def requestService = requestServiceRegistry.getRequestService(params.label)
         if (requestService == null) {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
 
-        def cRequest =
-            params.id ? requestService.getAndLock(Long.valueOf(params.id)) :
-                requestService.getSkeletonRequest()
+        def cRequest = flash.cRequest ? flash.cRequest : requestService.getSkeletonRequest()
 
-        def requestType
-        if (cRequest.requestType)
-            requestType = cRequest.requestType
-        else
-            requestType = requestTypeService.getRequestTypeByLabel(params.label)
-
+        def requestType = requestTypeService.getRequestTypeByLabel(params.label)
         // allow setting of request season only on creation
         if (params.requestSeasonId && cRequest.id == null) {
             cRequest.requestSeason =
@@ -98,20 +119,20 @@ class RequestCreationController {
         if (cRequest.id == null) {
             def i18accessErrors =
                 requestTypeAdaptorService.requestTypeNotAccessibleMessages(
-                    requestTypeService.getRequestTypeByLabel(requestType.label),
+                    requestTypeService.getRequestTypeByLabel(params.label),
                     requester.homeFolder)
             if (!i18accessErrors.isEmpty())
-                throw new CvqException(requestType.label + " is not accessible",
+                throw new CvqException(params.label + " is not accessible",
                 i18accessErrors.get(0))
         }
 
         def individuals
-        if (requestType.label != 'Home Folder Modification') individuals = new HomeFolderDTO()
+        if (params.label != 'Home Folder Modification') individuals = new HomeFolderDTO()
         else individuals = new HomeFolderDTO(requester.homeFolder, getAllRoleOwners(requester.homeFolder))
 
         def newDocuments = [] as Set
 
-        if (requestType.label == 'Home Folder Modification') {
+        if (params.label == 'Home Folder Modification') {
             ["adults-required", "children", "foreignAdults", "account-required", "document", "validation"].each {
                 def nameToken = it.tokenize('-')
                 def value = ['required': nameToken.size() == 2]
@@ -132,7 +153,7 @@ class RequestCreationController {
         session[uuidString].documentCounter = 0
         session[uuidString].draftVisible = false
 
-        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestType.label)}/edit"
+        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(params.label)}/edit"
         render(view: viewPath, model: [
             'isRequestCreation': true,
             'rqt': cRequest,
@@ -150,8 +171,8 @@ class RequestCreationController {
             'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
             'isDocumentEditMode': false,
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-            'isEdition' : cRequest.id != null && !RequestState.DRAFT.equals(cRequest.state)
-        ].plus(fillCommonRequestModel(requestType.label)))
+            'isEdition' : cRequest.id != null && !cRequest.draft
+        ].plus(fillCommonRequestModel(params.label)))
     }
     
     def step = {
@@ -379,11 +400,7 @@ class RequestCreationController {
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'draft') {
-                cRequest.homeFolderId = SecurityContext.getCurrentEcitizen().getHomeFolder().getId()
-                cRequest.state = RequestState.DRAFT
-                requestService.create(cRequest)
-                flash.confirmationMessage = message(code:'request.message.savedAsDraft')
-                flash.confirmationMessageNotice = message(code:'request.message.savedAsDraftNotice')
+                // do nothing as the draft has already been saved
             }
             // standard save action
             else {
@@ -425,7 +442,7 @@ class RequestCreationController {
                     checkCaptcha(params)
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
                     def parameters = [:]
-                    if (cRequest.id && !RequestState.DRAFT.equals(cRequest.state)) {
+                    if (cRequest.id && !cRequest.draft) {
                         requestService.rewindWorkflow(cRequest, docs)
                         parameters.isEdition = true
                     } else if (requestTypeInfo.label == 'Home Folder Modification') {
@@ -441,12 +458,12 @@ class RequestCreationController {
                         		objectToBind.homeFolderResponsible.adress, docs)
                         securityService.setEcitizenSessionInformation(objectToBind.homeFolderResponsible.login, 
                         		session)
-                    } else {
-                        cRequest.state = RequestState.PENDING
-                        if (SecurityContext.currentEcitizen == null)
-                            requestService.create(cRequest, objectToBind.requester, null, docs)
-                        else
-                            requestService.create(cRequest, docs)
+                    } else if (SecurityContext.currentEcitizen == null) { 
+                        requestService.create(cRequest, objectToBind.requester, null, docs)
+                    } else if (!cRequest.draft) { 
+                        requestService.create(cRequest, docs)
+                    } else { 
+                        requestService.finalizeDraft(cRequest, docs)
                     }
                     
                     if (params.requestNote && !params.requestNote.trim().isEmpty()) {
@@ -520,7 +537,7 @@ class RequestCreationController {
                      'documentType': documentType,
                      'document': document,
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-                     'isEdition' : cRequest.id != null && !RequestState.DRAFT.equals(cRequest.state),
+                     'isEdition' : cRequest.id != null && !cRequest.draft,
                      'requestNote' : params.requestNote
                     ].plus(fillCommonRequestModel(requestTypeInfo.label)))
     }  

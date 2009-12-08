@@ -74,10 +74,6 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
                 .append(" and request.redAlert = true");
         }
 
-        sb.append(" and request.state != ?");
-        objectList.add(RequestState.DRAFT.toString());
-        typeList.add(Hibernate.STRING);
-
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
 
@@ -135,10 +131,6 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
             sb.append(" and request.orangeAlert = false")
                 .append(" and request.redAlert = true");
         }
-
-        sb.append(" and request.state != ?");
-        objectList.add(RequestState.DRAFT.toString());
-        typeList.add(Hibernate.STRING);
 
         sb.append(" group by request.requestType.id");
 
@@ -247,10 +239,6 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
             sb.append(")");
         }
 
-        sb.append(" and request.state != ?");
-        objectList.add(RequestState.DRAFT.toString());
-        typeList.add(Hibernate.STRING);
-
         sb.append(" group by request.requestType.id");
         
         Type[] typeTab = typeList.toArray(new Type[0]);
@@ -295,10 +283,6 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
             sb.deleteCharAt(sb.length() - 1);
             sb.append(")");
         }
-
-        sb.append(" and request.state != ?");
-        objectList.add(RequestState.DRAFT.toString());
-        typeList.add(Hibernate.STRING);
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);

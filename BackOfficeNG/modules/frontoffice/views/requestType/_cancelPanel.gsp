@@ -16,6 +16,6 @@
     <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
     <input type="hidden" name="uuidString" value="${uuidString}" />
     <input type="submit" name="submit-cancelRequest-${currentStep}" 
-           value="${rqt.state.toString().equals("Draft") ? message(code:'action.quit') : message(code:'action.cancel')}" />
+           value="${rqt.draft ? message(code:'action.quit') : message(code:'action.cancel')}" />
   </form>
 </g:else>

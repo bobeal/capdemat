@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.leisure.music.MusicSchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
@@ -69,16 +68,16 @@ public class RequestDraftTest extends ServiceTestCase {
             draft1.setSubjectId(adult1.getId());
             draft1.setSubjectLastName(adult1.getLastName());
             draft1.setSubjectFirstName(adult1.getFirstName());
-            this.requestService.create(draft1);
+            this.requestService.processDraft(draft1);
             
             Request draft2 = drafts.get(1);
             draft2.setSubjectId(adult1.getId());
-            this.requestService.create(draft2);
+            this.requestService.processDraft(draft2);
             
             this.requestService.delete(draft1.getId());
             this.continueWithNewTransaction();
-            draft2.setState(RequestState.PENDING);
-            this.requestService.create(draft2, Collections.<Document>emptyList());
+            this.requestService.processDraft(draft2);
+            this.requestService.finalizeDraft(draft2, Collections.<Document>emptyList());
             
             try {
                 this.getDraftById(draft2.getId());
@@ -92,9 +91,9 @@ public class RequestDraftTest extends ServiceTestCase {
         Set<Critere> criterias = new HashSet<Critere>();
         
         Critere criteria = new Critere();
-        criteria.setAttribut(Request.SEARCH_BY_STATE);
+        criteria.setAttribut(Request.DRAFT);
         criteria.setComparatif(Critere.EQUALS);
-        criteria.setValue(RequestState.DRAFT);
+        criteria.setValue(true);
         criterias.add(criteria);
 
         return this.requestDAO.search(criterias,null,null,0,0);
@@ -104,9 +103,9 @@ public class RequestDraftTest extends ServiceTestCase {
         Set<Critere> criterias = new HashSet<Critere>();
         
         Critere criteria = new Critere();
-        criteria.setAttribut(Request.SEARCH_BY_STATE);
+        criteria.setAttribut(Request.DRAFT);
         criteria.setComparatif(Critere.EQUALS);
-        criteria.setValue(RequestState.DRAFT);
+        criteria.setValue(true);
         criterias.add(criteria);
         
         criteria = new Critere();
@@ -132,8 +131,7 @@ public class RequestDraftTest extends ServiceTestCase {
             Request request = new MusicSchoolRegistrationRequest();
             request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
             request.setSubjectId(indivs.get(i).getId());
-            request.setState(RequestState.DRAFT);
-            Long id = this.requestService.create(request);
+            Long id = this.requestService.processDraft(request);
             request = this.requestService.getById(id);
             request.setCreationDate(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,i*(-1)));
             

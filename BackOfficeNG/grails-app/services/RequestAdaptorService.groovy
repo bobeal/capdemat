@@ -42,6 +42,7 @@ class RequestAdaptorService {
 
     public prepareRecord(request) {
         return ['id':request.id,
+                'draft':request.draft,
                 'requestTypeLabel':request.requestType.label,
                 'label':translationService
                     .translateRequestTypeLabel(request.requestType.label).encodeAsHTML(),
@@ -54,8 +55,7 @@ class RequestAdaptorService {
                 'lastModificationDate':request.lastModificationDate,
                 'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId),
                 /* FIXME : use IRequestWorkflowService.isEditable when circular dependencies are resolved */
-                'isEditable' : (RequestState.DRAFT.equals(request.state)
-                        || RequestState.PENDING.equals(request.state)
+                'isEditable' : (RequestState.PENDING.equals(request.state) 
                         || RequestState.UNCOMPLETE.equals(request.state)) 
                         && !IRequestService.VO_CARD_REGISTRATION_REQUEST.equals(request.requestType.label)
                         && !IRequestService.HOME_FOLDER_MODIFICATION_REQUEST.equals(request.requestType.label)

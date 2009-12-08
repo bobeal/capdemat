@@ -79,6 +79,11 @@ class RequestController {
         def requester = request.requesterId != null ? individualService.getById(request.requesterId) : null
         def subjects = [:]
         subjects[request.subjectId] = "${request.subjectLastName} ${request.subjectFirstName}"
+        def requestAction =
+            requestActionService.getActionByResultingState(request.id,
+                RequestState.VALIDATED)
+        if (!requestAction || !requestAction.file)
+            requestAction = requestActionService.getActions(request.id).get(0)
         return ['rqt': request,
                 'requestTypeLabel':requestTypeLabel,
                 'requester':requester,
@@ -89,7 +94,8 @@ class RequestController {
                 'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(request.requestType.label),
                 'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, null, [] as Set),
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
-                'individuals':individuals
+                'individuals':individuals,
+                "requestActionId" : requestAction.id
         ]
     }
 
@@ -98,7 +104,7 @@ class RequestController {
         response.contentType = "application/pdf"
         response.setHeader("Content-disposition",
             "attachment; filename=request.pdf")
-        def data = defaultRequestService.getCertificate(Long.valueOf(params.id))
+        def data = requestActionService.getAction(Long.valueOf(params.id)).file
         response.contentLength = data.length
         response.outputStream << data
         response.outputStream.flush()
@@ -108,9 +114,9 @@ class RequestController {
         Set criteriaSet = new HashSet<Critere>()
         Critere critere = new Critere()
         
-        critere.comparatif = Critere.NEQUALS
-        critere.attribut = Request.SEARCH_BY_STATE
-        critere.value = RequestState.DRAFT
+        critere.comparatif = Critere.EQUALS
+        critere.attribut = Request.DRAFT
+        critere.value = false
         criteriaSet.add(critere)
         
         critere = new Critere()

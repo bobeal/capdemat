@@ -16,12 +16,6 @@ public class RequestAction implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String SEARCH_BY_REQUEST_ID = "request.id";
-    public static final String SEARCH_BY_AGENT_ID = "agent_id";
-    public static final String SEARCH_BY_TYPE = "type";
-    public static final String SEARCH_BY_DATE = "date";
-    public static final String SEARCH_BY_RESULTING_STATE = "resultingState";
-
     private Long id;
     private Request request;
     private Long agentId;

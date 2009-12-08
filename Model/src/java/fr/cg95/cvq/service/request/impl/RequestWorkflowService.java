@@ -123,6 +123,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
         Request request = (Request) requestDAO.findById(Request.class, id);
+
         if (rs.equals(RequestState.COMPLETE))
             complete(request);
         else if (rs.equals(RequestState.UNCOMPLETE))
@@ -464,9 +465,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
 
         List<RequestState> requestStateList = new ArrayList<RequestState>();
 
-        if (rs.equals(RequestState.DRAFT)) {
-            requestStateList.add(RequestState.PENDING);
-        } else if (rs.equals(RequestState.PENDING)) {
+        if (rs.equals(RequestState.PENDING)) {
             requestStateList.add(RequestState.COMPLETE);
             requestStateList.add(RequestState.UNCOMPLETE);
             requestStateList.add(RequestState.REJECTED);
@@ -503,10 +502,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
 
         Set<RequestState> requestStateSet = new HashSet<RequestState>();
 
-        if (rs.equals(RequestState.DRAFT)) {
-            // no state available before draft
-        } else if (rs.equals(RequestState.PENDING)) {
-            requestStateSet.add(RequestState.DRAFT);
+        if (rs.equals(RequestState.PENDING)) {
+            // no state available before pending
         } else if (rs.equals(RequestState.COMPLETE)) {
             requestStateSet.add(RequestState.PENDING);
             requestStateSet.add(RequestState.UNCOMPLETE);
@@ -575,8 +572,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
     public boolean isEditable(final Long requestId) throws CvqObjectNotFoundException {
         Request request = (Request) requestDAO.findById(Request.class, requestId);
         String requestTypeLabel = request.getRequestType().getLabel();
-        if ((RequestState.DRAFT.equals(request.getState())
-                || RequestState.PENDING.equals(request.getState())
+        if ((RequestState.PENDING.equals(request.getState()) 
                 || RequestState.UNCOMPLETE.equals(request.getState())) 
                 && !IRequestService.VO_CARD_REGISTRATION_REQUEST.equals(requestTypeLabel)
                 && !IRequestService.HOME_FOLDER_MODIFICATION_REQUEST.equals(requestTypeLabel))

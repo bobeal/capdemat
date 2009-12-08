@@ -187,11 +187,13 @@ class HomeController {
         critere.attribut = Request.SEARCH_BY_HOME_FOLDER_ID;
         critere.value = currentEcitizen.homeFolder.id
         criteriaSet.add(critere)
-        critere = new Critere()
-        critere.comparatif = draft ? Critere.EQUALS : Critere.NEQUALS
-        critere.attribut = Request.SEARCH_BY_STATE
-        critere.value = RequestState.DRAFT
-        criteriaSet.add(critere)
+        
+        if(draft) {
+            critere.comparatif = Critere.EQUALS;
+            critere.attribut = Request.DRAFT;
+            critere.value = true
+            criteriaSet.add(critere)
+        }
         
         return [
             'all' : defaultRequestService.get(criteriaSet, 'creationDate', 'desc', 

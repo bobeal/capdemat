@@ -1,10 +1,5 @@
 package fr.cg95.cvq.service.request.impl;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestActionType;
@@ -19,7 +14,12 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.request.IRequestActionService;
-import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -32,28 +32,40 @@ public class RequestActionService implements IRequestActionService {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public List<RequestAction> getActions(final Long requestId)
+        throws CvqException {
+
+        return requestActionDAO.listByRequest(requestId);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public RequestAction getAction(final Long id)
         throws CvqObjectNotFoundException {
         return
             (RequestAction)requestActionDAO.findById(RequestAction.class, id);
     }
 
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public RequestAction getLastWorkflowAction(@IsRequest final Long requestId)
+        throws CvqException {
+        
+        return requestActionDAO.findLastAction(requestId,
+            RequestActionType.STATE_CHANGE);
+    }
+
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<RequestAction> get(Set<Critere> criteriaSet, String sort,
-        String dir, int count, int offset) {
-        return requestActionDAO.get(criteriaSet, sort, dir, count, offset);
+    public RequestAction getActionByResultingState(final Long requestId,
+        final RequestState requestState) throws CvqException {
+        
+        return requestActionDAO.findByRequestIdAndResultingState(requestId, requestState);
     }
 
     @Override
     public boolean hasAction(final Long requestId, final RequestActionType type)
         throws CvqException {
-        Set<Critere> criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_REQUEST_ID,
-            requestId, Critere.EQUALS));
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_TYPE,
-            type, Critere.EQUALS));
-        return requestActionDAO.getCount(criteriaSet) > 0;
+        return requestActionDAO.hasAction(requestId, type);
     }
 
     @Override
@@ -72,14 +84,6 @@ public class RequestActionService implements IRequestActionService {
         throws CvqException {
 
         addActionTrace(type, null, null, new Date(), null, requestId, null);
-    }
-
-    @Override
-    @Context(type=ContextType.ECITIZEN, privilege=ContextPrivilege.WRITE)
-    public void addDraftCreationAction(Long requestId, Date date)
-        throws CvqException {
-        addActionTrace(RequestActionType.CREATION, null, null, date,
-            RequestState.DRAFT, requestId, null);
     }
 
     @Override

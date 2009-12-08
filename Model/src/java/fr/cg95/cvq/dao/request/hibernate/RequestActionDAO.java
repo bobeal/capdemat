@@ -1,51 +1,130 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
+import org.hibernate.Hibernate;
+import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.request.RequestAction;
+import fr.cg95.cvq.business.request.RequestActionType;
+import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
-import fr.cg95.cvq.util.Critere;
 
 /**
  * Implementation of the {@link IRequestActionDAO} interface.
  * 
- * @author jsb@zenexity.fr
+ * @author bor@zenexity.fr
  */
 public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<RequestAction> get(Set<Critere> criteriaSet, String sort,
-        String dir, int count, int offset) {
-        Criteria criteria = HibernateUtil.getSession().createCriteria(RequestAction.class);
-        for (Critere critere : criteriaSet) {
-            criteria.add(critere.compose());
-        }
-        if (sort == null || sort.trim().isEmpty())
-            sort = RequestAction.SEARCH_BY_DATE;
-        if ("desc".equals(dir))
-            criteria.addOrder(Order.desc(sort));
-        else
-            criteria.addOrder(Order.asc(sort));
-        if (count > 0)
-            criteria.setFetchSize(count);
-        criteria.setFirstResult(offset);
-        return (List<RequestAction>)criteria.list();
+    /**
+     * TODO : it can happen that a request has two entries for a given resulting
+     * state
+     */
+    public RequestAction findByRequestIdAndResultingState(final Long requestId,
+            final RequestState requestState) {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("from RequestAction as requestAction");
+
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+
+        sb.append(" where request_id = ? ");
+        objectList.add(requestId);
+        typeList.add(Hibernate.LONG);
+
+        sb.append(" and resultingState = ? ");
+        objectList.add(requestState.toString());
+        typeList.add(Hibernate.STRING);
+        
+        Type[] typeTab = typeList.toArray(new Type[0]);
+        Object[] objectTab = objectList.toArray(new Object[0]);
+
+        return (RequestAction) HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).uniqueResult();
     }
 
-    public Long getCount(Set<Critere> criteriaSet) {
-        Criteria criteria = HibernateUtil.getSession().createCriteria(RequestAction.class);
-        for (Critere critere : criteriaSet) {
-            criteria.add(critere.compose());
-        }
-        criteria.setProjection(Projections.rowCount());
-        return ((Integer)criteria.list().get(0)).longValue();
+    public boolean hasAction(final Long requestId, final RequestActionType type) {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("from RequestAction as requestAction");
+
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+
+        sb.append(" where request_id = ? ");
+        objectList.add(requestId);
+        typeList.add(Hibernate.LONG);
+
+        sb.append(" and type = ? ");
+        objectList.add(type.toString());
+        typeList.add(Hibernate.STRING);
+        
+        Type[] typeTab = typeList.toArray(new Type[0]);
+        Object[] objectTab = objectList.toArray(new Object[0]);
+
+        List resultList = HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list();
+
+        if (resultList == null || resultList.size() == 0)
+            return false;
+        else
+            return true;
+    }
+
+    public List<RequestAction> listByRequest(final Long requestId) {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("from RequestAction as requestAction");
+
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+
+        sb.append(" where request_id = ? ");
+        objectList.add(requestId);
+        typeList.add(Hibernate.LONG);
+
+        sb.append(" order by date asc");
+        
+        Type[] typeTab = typeList.toArray(new Type[0]);
+        Object[] objectTab = objectList.toArray(new Object[0]);
+
+        return HibernateUtil.getSession()
+            .createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list();
+    }
+    
+    public RequestAction findLastAction(final Long requestId,
+        final RequestActionType type) {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("from RequestAction as requestAction");
+
+        List<Type> typeList = new ArrayList<Type>();
+        List<Object> objectList = new ArrayList<Object>();
+
+        sb.append(" where request_id = ? ");
+        objectList.add(requestId);
+        typeList.add(Hibernate.LONG);
+
+        sb.append(" and type = ? ");
+        objectList.add(type.toString());
+        typeList.add(Hibernate.STRING);
+        
+        sb.append(" order by date desc");
+        
+        Type[] typeTab = typeList.toArray(new Type[0]);
+        Object[] objectTab = objectList.toArray(new Object[0]);
+
+        List<RequestAction> matchingActions = (List<RequestAction>)HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list();
+        if (!matchingActions.isEmpty()) return matchingActions.get(0);
+        return null;
     }
 }

@@ -301,18 +301,19 @@ public class HoranetService implements IExternalProviderService {
             call.setSOAPActionURI(SOAP_ACTION_URI);
 
             call.addParameter(new QName(HORANET_CVQ2_NS, "ZipCode"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "ActivityID"), Constants.XSD_STRING, ParameterMode.IN);
+//            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
+//            call.addParameter(new QName(HORANET_CVQ2_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
+            call.addParameter(new QName(HORANET_CVQ2_NS, "ProcID"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "start_search"), Constants.XSD_DATE, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "end_search"), Constants.XSD_DATE, ParameterMode.IN);
 
             logger.debug("getConsumptionsByRequest() Proc ID : " + request.getId().toString());
 
+//          request.getSubjectId(),
+//          request.getHomeFolderId(),
+
             call.invoke(new Object[] {
                             getPostalCodeFromRequest(request),
-                            request.getSubjectId(),
-                            request.getHomeFolderId(),
                             request.getId().toString(),
                             dateFrom,
                             dateTo
@@ -343,24 +344,40 @@ public class HoranetService implements IExternalProviderService {
                 results.put(eventDate, labelNode.getNodeValue());
             }
         } catch (ServiceException se) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + se.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), se);
+//            throw new CvqRemoteException("Failed to connect to Horanet service : " 
+//                    + se.getMessage());
         } catch (RemoteException re) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + re.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), re);
+//            throw new CvqRemoteException("Failed to connect to Horanet service : " 
+//                    + re.getMessage());
         } catch (SAXException saxe) {
-            throw new CvqException("Failed to parse received data : " + saxe.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), saxe);
+//            throw new CvqException("Failed to parse received data : " + saxe.getMessage());
         } catch (IOException ioe) {
-            throw new CvqRemoteException("Failed to read received data : " + ioe.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), ioe);
+//            throw new CvqRemoteException("Failed to read received data : " + ioe.getMessage());
         } catch (SOAPException soape) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + soape.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), soape);
+//            throw new CvqRemoteException("Failed to connect to Horanet service : " 
+//                    + soape.getMessage());
         } catch (JaxenException jaxe) {
-            throw new CvqException("Failed to parse received data : " + jaxe.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), jaxe);
+//            throw new CvqException("Failed to parse received data : " + jaxe.getMessage());
         } catch (ParseException pe) {
-            throw new CvqException("Failed to parse received data : " + pe.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), pe);
+//            throw new CvqException("Failed to parse received data : " + pe.getMessage());
         } catch (ParserConfigurationException pce) {
-            throw new CvqException("Failed to parse received data : " + pce.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), pce);
+//            throw new CvqException("Failed to parse received data : " + pce.getMessage());
         }
 
         return results;

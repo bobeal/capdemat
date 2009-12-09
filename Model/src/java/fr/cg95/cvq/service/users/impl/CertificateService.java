@@ -32,11 +32,6 @@ import fr.cg95.cvq.util.translation.ITranslationService;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
-/**
- * @author bor@zenexity.fr
- *
- * @todo implement a cache mecanism
- */
 public class CertificateService implements ICertificateService {
 
     private static Logger logger = Logger.getLogger(CertificateService.class);
@@ -90,6 +85,7 @@ public class CertificateService implements ICertificateService {
             renderer.setDocument(htmlCertificateFile);
             renderer.layout();
             renderer.createPDF(baos);
+            htmlCertificateFile.delete();
             return baos.toByteArray();
         } catch (CompilationFailedException e) {
             logger.error(e.getStackTrace());
@@ -137,6 +133,5 @@ public class CertificateService implements ICertificateService {
     public void setLocalReferentialService(ILocalReferentialService localReferentialService) {
         this.localReferentialService = localReferentialService;
     }
-    
 
 }

@@ -31,15 +31,15 @@
     <property name="urls">
       <map>
         <entry key="loadInvoiceDetails"
-          value="${plugins.externalservices.capwebctpaymentmodule.webservice_uri}" />
+          value="${plugins.externalservices.capwebctpaymentmodule.load_invoice_details_uri}" />
         <entry key="loadAccountDetails"
-          value="${plugins.externalservices.capwebctpaymentmodule.webservice_uri}" />
+          value="${plugins.externalservices.capwebctpaymentmodule.load_account_details_uri}" />
         <entry key="getFamilyAccounts"
-          value="${plugins.externalservices.capwebctpaymentmodule.webservice_uri}" />
+          value="${plugins.externalservices.capwebctpaymentmodule.get_family_accounts_uri}" />
         <entry key="creditAccount"
-          value="${plugins.externalservices.capwebctpaymentmodule.webservice_uri}" />
+          value="${plugins.externalservices.capwebctpaymentmodule.credit_account_uri}" />
         <entry key="sendRequest"
-          value="${plugins.externalservices.capwebctpaymentmodule.webservice_uri}" />
+          value="${plugins.externalservices.capwebctpaymentmodule.send_request_uri}" />
       </map>
     </property>
   </bean>

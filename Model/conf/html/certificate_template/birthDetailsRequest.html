@@ -9,14 +9,14 @@
     def currentLrDatas = rqt[javaName].collect{it.name}
     if (lrTypes[javaName].entriesSupportMultiple) { 
       lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
-      lrEntries.each { entry -> 
+      lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
         lrHtml += "<em>${entry.labelsMap.fr} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>,</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -138,10 +138,10 @@
     
       <p class="label">${i18n.translate('bdr.property.format.label')}</p>
           <div class="response choice">
-            <% ['FullCopy','ExtractWithRelationship','ExtractWithoutRelationship','MultilingualExtract'].each { %>
+            <% ['FullCopy','ExtractWithRelationship','ExtractWithoutRelationship','MultilingualExtract'].eachWithIndex {it, i -> %>
               <span ${it == rqt.format.toString() ? 'class="checked"': ''}>
                 ${i18n.translate('bdr.property.format.' + StringUtils.uncapitalize(it))}
-              </span>, 
+              </span>${i + 1 < ['FullCopy','ExtractWithRelationship','ExtractWithoutRelationship','MultilingualExtract']?.size() ? ', ' : ''}
             <% } %>
           </div>
           
@@ -182,10 +182,10 @@
     
       <p class="label">${i18n.translate('bdr.property.motive.label')}</p>
           <div class="response choice">
-            <% ['NotaryAct','NationalIdentityCard','FrenchNationalityCertificate','Marriage','Pacs','Passport','Pension','LegalProceedings','Other'].each { %>
+            <% ['NotaryAct','NationalIdentityCard','FrenchNationalityCertificate','Marriage','Pacs','Passport','Pension','LegalProceedings','Other'].eachWithIndex {it, i -> %>
               <span ${it == rqt.motive.toString() ? 'class="checked"': ''}>
                 ${i18n.translate('bdr.property.motive.' + StringUtils.uncapitalize(it))}
-              </span>, 
+              </span>${i + 1 < ['NotaryAct','NationalIdentityCard','FrenchNationalityCertificate','Marriage','Pacs','Passport','Pension','LegalProceedings','Other']?.size() ? ', ' : ''}
             <% } %>
           </div>
           
@@ -200,6 +200,14 @@
 
   
   
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+  <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+    <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+      ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+    </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+  <% } %>
+  </div>
 </body>
 </html>
 

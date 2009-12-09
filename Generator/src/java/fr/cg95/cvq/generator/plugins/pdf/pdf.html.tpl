@@ -28,10 +28,10 @@
       ,'choice' :
           """
           <div class="response choice">
-            ${toGT(element.enumValuesAsString + '.each {')}
+            ${toGT(element.enumValuesAsString + '.eachWithIndex {it, i ->')}
               <span \${it == ${wrapper}.${element.javaFieldName}.toString() ? 'class="checked"': ''}>
                 \${i18n.translate('${element.i18nPrefixCode}.' + StringUtils.uncapitalize(it))}
-              </span>, 
+              </span>\${i + 1 < ${element.enumValuesAsString}?.size() ? ', ' : ''}
             ${toGT('}')}
           </div>
           """
@@ -124,14 +124,14 @@ ${beginGT()}
     def currentLrDatas = rqt[javaName].collect{it.name}
     if (lrTypes[javaName].entriesSupportMultiple) { 
       lrHtml += "<ul \${depth==0 ? 'class=\"dataTree\"' : ''}>"
-      lrEntries.each { entry -> 
+      lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
         lrHtml += "<em>\${entry.labelsMap.fr} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : ''}>\${entry.labelsMap.fr}</span>,</li>"
+         lrHtml += "<li><span \${currentLrDatas?.contains(entry.key) ? 'class=\"checked\"' : ''}>\${entry.labelsMap.fr}</span>\${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -181,6 +181,14 @@ ${endGT()}
     <% } %>
   <% } %>
 <% } %>
+  <h2>\${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+  ${toGT('rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i ->')}
+    <span \${it == rqt.meansOfContact.type ? 'class=\"checked\"': ''}>
+      \${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+    </span>\${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+  ${toGT('}')}
+  </div>
 </body>
 </html>
 

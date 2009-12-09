@@ -9,14 +9,14 @@
     def currentLrDatas = rqt[javaName].collect{it.name}
     if (lrTypes[javaName].entriesSupportMultiple) { 
       lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
-      lrEntries.each { entry -> 
+      lrEntries.eachWithIndex { entry, i -> 
       if (entry.entries) { 
         lrHtml += "<li>"
         lrHtml += "<em>${entry.labelsMap.fr} :</em>"
         lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
         lrHtml += "</li>"
       } else {
-         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>,</li>"
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
       } 
     } 
     lrHtml += "</ul>"
@@ -61,10 +61,10 @@
     
       <p class="label">${i18n.translate('scrr.property.section.label')}</p>
           <div class="response choice">
-            <% ['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown'].each { %>
+            <% ['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown'].eachWithIndex {it, i -> %>
               <span ${it == rqt.section.toString() ? 'class="checked"': ''}>
                 ${i18n.translate('scrr.property.section.' + StringUtils.uncapitalize(it))}
-              </span>, 
+              </span>${i + 1 < ['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown']?.size() ? ', ' : ''}
             <% } %>
           </div>
           
@@ -148,6 +148,14 @@
 
   
   
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+  <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+    <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+      ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+    </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+  <% } %>
+  </div>
 </body>
 </html>
 

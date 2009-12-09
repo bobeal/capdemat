@@ -92,16 +92,21 @@ public class CertificateService implements ICertificateService {
             renderer.createPDF(baos);
             return baos.toByteArray();
         } catch (CompilationFailedException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
+            throw new CvqException("generate(): Can't generate PDF request certificate");
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
+            throw new CvqException("generate(): Can't generate PDF request certificate");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
+            throw new CvqException("generate(): Can't generate PDF request certificate");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (DocumentException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
+            throw new CvqException("generate(): Can't generate PDF request certificate");
         }
+        logger.warn("generate() PDF request certificate hasn't been generate");
         return null;
     }
     

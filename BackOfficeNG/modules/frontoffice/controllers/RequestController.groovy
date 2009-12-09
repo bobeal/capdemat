@@ -41,6 +41,7 @@ class RequestController {
         requests = filterRequests(state,params)
         requests = requestAdaptorService.prepareRecords(requests)
         requests.records.each {
+            it.externalInformations = externalService.loadExternalInformations(defaultRequestService.getById(it.id))
             it.lastAgentNote = requestAdaptorService.prepareNote(
                 defaultRequestService.getLastAgentNote(it.id, null))
         }

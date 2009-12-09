@@ -41,6 +41,13 @@
             </g:if>
           </g:if> 
         </p>
+        <g:if test="${record.externalInformations}">
+          <p>
+            <g:each status="i" var="externalInformation" in="${record.externalInformations}">
+              <g:message code="${externalInformation.key}" /> : ${externalInformation.value + (i == record.externalInformations.size() - 1 ? "" : " - ")}
+            </g:each>
+          </p>
+        </g:if>
         <g:if test="${record.lastAgentNote}">
           <p>
             <g:message code="request.property.lastAgentNote" />

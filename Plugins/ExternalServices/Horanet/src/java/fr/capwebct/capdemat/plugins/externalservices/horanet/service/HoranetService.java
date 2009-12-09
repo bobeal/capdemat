@@ -72,6 +72,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.xml.common.RequestType;
+import fr.cg95.cvq.xml.common.SchoolType;
 
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
@@ -81,7 +82,8 @@ public class HoranetService implements IExternalProviderService {
     private static Logger logger = Logger.getLogger(HoranetService.class);
 
     private static final String BADGE_NUMBER_MANAGED_BY_HN = "badgeNumberManagedByHN";
-    
+
+    // TODO : factorize if confirmed that same namespace for all
     private static final String HORANET_CVQ_NS = "http://www.horanet.com/CVQ/";
     private static final String HORANET_CVQ2_NS = "http://www.horanet.com/CVQ2/";
     private static final String HORANET_CVQ3_NS = "http://www.horanet.com/CVQ3/";
@@ -144,17 +146,21 @@ public class HoranetService implements IExternalProviderService {
             call.addParameter(new QName(HORANET_CVQ2_NS, "ProcClass"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "ProcID"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildCard"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "School"), Constants.XSD_STRING, ParameterMode.IN);
+            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
+//            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildCard"), Constants.XSD_STRING, ParameterMode.IN);
             call.setReturnType(XMLType.AXIS_VOID);
             call.addAttachmentPart(dhSource);
 
             logger.debug("sendRequest() calling HoraNet");
 
+//            RequestType testRequest = (RequestType) requestXml;
+            
             RequestType request = null;
             try {
-                request = (RequestType)requestXml.getClass().getMethod("get" + requestXml.getClass().getName().substring(0, requestXml.getClass().getName().lastIndexOf("Document"))).invoke(requestXml);
+                String classSimpleName = requestXml.getClass().getSimpleName();
+                String methodNameToInvoke = "get" + classSimpleName.substring(0, classSimpleName.lastIndexOf("Document"));
+                request = (RequestType) requestXml.getClass().getMethod(methodNameToInvoke).invoke(requestXml, null);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
                 return null;
@@ -169,7 +175,7 @@ public class HoranetService implements IExternalProviderService {
             String schoolName = "";
             try {
                 Method getSchoolMethod = request.getClass().getMethod("getSchool");
-                School school = (School) getSchoolMethod.invoke(request);
+                SchoolType school = (SchoolType) getSchoolMethod.invoke(request);
                 if (school != null)
                     schoolName = school.getName();
             } catch (Exception e) {
@@ -177,12 +183,12 @@ public class HoranetService implements IExternalProviderService {
                 // that's not a problem
                 logger.debug("sendRequest() no school property for request " + request);
             }
-                        
+
 //            logger.debug("sendRequest() preparing to send : " + request.modelToXmlString());
 
             // extract child information iff request's subject is of type child
             String childId = "";
-            String childBadgeNumber = "";
+//            String childBadgeNumber = "";
             Long subjectId = null;
             if (request.getSubject() != null && request.getSubject().getIndividual() != null) {
                 subjectId = request.getSubject().getIndividual().getId();
@@ -190,8 +196,8 @@ public class HoranetService implements IExternalProviderService {
             Child subject = individualService.getChildById(subjectId);
             if (subject != null) {
                 childId = subject.getId().toString();
-                childBadgeNumber = 
-                    (subject.getBadgeNumber() == null ? "" : subject.getBadgeNumber());
+//                childBadgeNumber = 
+//                    (subject.getBadgeNumber() == null ? "" : subject.getBadgeNumber());
             }
             call.invoke(new Object[] {
                     SecurityContext.getCurrentSite().getPostalCode(),
@@ -199,9 +205,9 @@ public class HoranetService implements IExternalProviderService {
                     request.getRequestTypeLabel(),
                     Long.toString(request.getId()),
                     request.getHomeFolder() != null ? Long.toString(request.getHomeFolder().getId()) : "",
-                    childId,
-                    childBadgeNumber,
-                    schoolName
+                    schoolName,
+                    childId
+//                    childBadgeNumber,
             });
 
         } catch (ServiceException se) {
@@ -295,11 +301,16 @@ public class HoranetService implements IExternalProviderService {
             call.setSOAPActionURI(SOAP_ACTION_URI);
 
             call.addParameter(new QName(HORANET_CVQ2_NS, "ZipCode"), Constants.XSD_STRING, ParameterMode.IN);
+//            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
+//            call.addParameter(new QName(HORANET_CVQ2_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "ProcID"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "start_search"), Constants.XSD_DATE, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "end_search"), Constants.XSD_DATE, ParameterMode.IN);
 
             logger.debug("getConsumptionsByRequest() Proc ID : " + request.getId().toString());
+
+//          request.getSubjectId(),
+//          request.getHomeFolderId(),
 
             call.invoke(new Object[] {
                             getPostalCodeFromRequest(request),
@@ -333,24 +344,40 @@ public class HoranetService implements IExternalProviderService {
                 results.put(eventDate, labelNode.getNodeValue());
             }
         } catch (ServiceException se) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + se.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), se);
+//            throw new CvqRemoteException("Failed to connect to Horanet service : " 
+//                    + se.getMessage());
         } catch (RemoteException re) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + re.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), re);
+//            throw new CvqRemoteException("Failed to connect to Horanet service : " 
+//                    + re.getMessage());
         } catch (SAXException saxe) {
-            throw new CvqException("Failed to parse received data : " + saxe.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), saxe);
+//            throw new CvqException("Failed to parse received data : " + saxe.getMessage());
         } catch (IOException ioe) {
-            throw new CvqRemoteException("Failed to read received data : " + ioe.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), ioe);
+//            throw new CvqRemoteException("Failed to read received data : " + ioe.getMessage());
         } catch (SOAPException soape) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + soape.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), soape);
+//            throw new CvqRemoteException("Failed to connect to Horanet service : " 
+//                    + soape.getMessage());
         } catch (JaxenException jaxe) {
-            throw new CvqException("Failed to parse received data : " + jaxe.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), jaxe);
+//            throw new CvqException("Failed to parse received data : " + jaxe.getMessage());
         } catch (ParseException pe) {
-            throw new CvqException("Failed to parse received data : " + pe.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), pe);
+//            throw new CvqException("Failed to parse received data : " + pe.getMessage());
         } catch (ParserConfigurationException pce) {
-            throw new CvqException("Failed to parse received data : " + pce.getMessage());
+            logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
+                    + request.getId(), pce);
+//            throw new CvqException("Failed to parse received data : " + pce.getMessage());
         }
 
         return results;
@@ -437,7 +464,7 @@ public class HoranetService implements IExternalProviderService {
                 String label = node.getAttributes().getNamedItem("account-label").getNodeValue();
 
                 ExternalDepositAccountItem edai = 
-                    new ExternalDepositAccountItem(label, null, 
+                    new ExternalDepositAccountItem(label, Double.parseDouble(accountValue), 
                             getLabel(), accountId, accountDate, Double.parseDouble(accountValue),
                             null);
                 depositAccounts.add(edai);
@@ -473,7 +500,7 @@ public class HoranetService implements IExternalProviderService {
 
                 ExternalInvoiceItem eii = 
                     new ExternalInvoiceItem(label, Double.valueOf(billAmount),
-                            null, getLabel(), billId, billIssueDate,
+                            Double.valueOf(billAmount), getLabel(), billId, billIssueDate,
                             billExpirationDate, billPaymentDate, isPayed, null);
                 bills.add(eii);
             }

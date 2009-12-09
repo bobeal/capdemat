@@ -10,6 +10,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
 
 (function() {
 
+  var zca = zenexity.capdemat.aspect;
   var zcb = zenexity.capdemat.bong;
   var zct = zenexity.capdemat.tools;
   var zcc = zenexity.capdemat.common;
@@ -49,8 +50,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
     var initPanel = function() {
       zcbrt.Manager.panel = new YAHOO.widget.Panel("templatePanel", {
         width:"620px",
-        fixedcenter:true,
-			  draggable:false,
+        fixedcenter : "contained",
         modal: true,
         underlay: 'none',
 			  visible:false
@@ -66,12 +66,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
 
       zcbrt.Manager.panel.render();
     };
-    var initButtons = function() {
-      yue.on("templateButton", "click", zcbrt.Manager.save);
-    };
     return {
-      //wrapper : undefined,
-      name : undefined,
       editor : undefined,
       panel : undefined,
       editEl: undefined,
@@ -79,8 +74,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
       init : function() {
         //initTabs();
         initPanel();
-        zcbrt.Manager.editor = zcb.Editor("template");
-        initButtons();
+        zca.advise("save", new zca.Advice("before", zcbrt.Manager.validate), zcb.Editor);
+        zca.advise("notify", new zca.Advice("before", zcbrt.Manager.update), zcb.Editor);
+        zcbrt.Manager.editor = zcb.Editor.init("template", null, "workArea_Tab1Notifier");
 
         zcbrt.Manager.editor.on('afterRender',function(ev){
           if(zcb.Editor.options.toolbar.buttons.length > 0) {
@@ -104,25 +100,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
           zcbrt.Manager.panel.show();
         }
       },
-      save : function(e) {
-        yue.stopEvent(e);
-        var editorValue = zcbrt.Manager.editor.getEditorHTML();
-        if(yul.trim(zct.stripTags(editorValue)).length == 0) {
-          zct.Notifier.processMessage('unexpectedError',"Editor value can't be empty !");
-          return;
+      validate : function(e) {
+        zcbrt.Manager.editor.saveHTML();
+        if (yul.trim(zct.stripTags(zcbrt.Manager.editor.getEditorHTML())).length == 0) {
+          zct.Notifier.processMessage("unexpectedError","Editor value can't be empty !");
+          yue.stopEvent(e);
         }
-
-        if(!!zcbrt.Manager.editEl) {
-          yus.query('#templateForm input[id=element]')[0].value = zcbrt.Manager.editEl.id;
-          zcbrt.Manager.editor.saveHTML();
-
-          zct.doAjaxFormSubmitCall("templateForm",[],function(o){
-            zcbrt.Manager.editEl.innerHTML = zcbrt.Manager.editor.getEditorHTML();
-            var json = YAHOO.lang.JSON.parse(o.responseText);
-            zct.Notifier.processMessage('success',json.success_msg);
-            return false;
-          });
-        }
+      },
+      update : function(e) {
+        zcbrt.Manager.editEl.innerHTML = zcbrt.Manager.editor.getEditorHTML();
         zcbrt.Manager.panel.hide();
       },
       emptyHref : function() {

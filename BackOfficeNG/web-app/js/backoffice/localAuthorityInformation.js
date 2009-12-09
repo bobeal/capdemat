@@ -12,7 +12,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
           null,
           yud.get("yui-main"),
           function(box) {
-            zcb.Editor(/(.*)Box/.exec(box.id)[1]);
+            zcb.Editor.init(/(.*)Box/.exec(box.id)[1]);
           }
         );
       }

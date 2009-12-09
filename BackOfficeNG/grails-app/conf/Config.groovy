@@ -57,6 +57,7 @@ log4j {
             hibernate="off"
         }
         fr.cg95="debug"
+		fr.capwebct="debug"
     }
     additivity.StackTrace=false
 }

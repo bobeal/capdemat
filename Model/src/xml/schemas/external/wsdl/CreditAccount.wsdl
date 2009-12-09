@@ -98,19 +98,19 @@
             </xs:attribute>
             <xs:attribute name="payment-ack" type="xs:string">
                <xs:annotation>
-                  <xs:documentation xml:lang="fr">RÃ©fÃ©rence bancaire du paiement</xs:documentation>
+                  <xs:documentation xml:lang="fr">Référence bancaire du paiement</xs:documentation>
                   <xs:documentation xml:lang="en">Bank reference of the payment</xs:documentation>
                </xs:annotation>
             </xs:attribute>
             <xs:attribute name="cvq-ack" type="xs:string">
                <xs:annotation>
-                  <xs:documentation xml:lang="fr">RÃ©fÃ©rence CapDÃ©mat du paiement</xs:documentation>
+                  <xs:documentation xml:lang="fr">Référence CapDémat du paiement</xs:documentation>
                   <xs:documentation xml:lang="en">CapDemat's reference of the payment</xs:documentation>
                </xs:annotation>
             </xs:attribute>
             <xs:attribute name="payment-broker" type="xs:string">
                <xs:annotation>
-                  <xs:documentation xml:lang="fr">RÃ©gie associÃ©e au paiement</xs:documentation>
+                  <xs:documentation xml:lang="fr">Régie associée au paiement</xs:documentation>
                   <xs:documentation xml:lang="en">Payment's broker</xs:documentation>
                </xs:annotation>
             </xs:attribute>
@@ -119,7 +119,7 @@
          <xs:complexType name="familyType">
             <xs:attribute name="id" type="xs:long">
                <xs:annotation>
-                  <xs:documentation xml:lang="fr">Identifiant CapDÃ©mat du foyer</xs:documentation>
+                  <xs:documentation xml:lang="fr">Identifiant CapDémat du foyer</xs:documentation>
                   <xs:documentation xml:lang="en">CapDemat identifier for the home folder</xs:documentation>
                </xs:annotation>
             </xs:attribute>
@@ -137,7 +137,7 @@
             </xs:attribute>
             <xs:attribute name="zip" type="xs:string">
                <xs:annotation>
-                  <xs:documentation xml:lang="fr">Code postal de la collectivitÃ© d'inscription du foyer</xs:documentation>
+                  <xs:documentation xml:lang="fr">Code postal de la collectivité d'inscription du foyer</xs:documentation>
                   <xs:documentation xml:lang="en">Postal code of the home folder's local authority</xs:documentation>
                </xs:annotation>
             </xs:attribute>

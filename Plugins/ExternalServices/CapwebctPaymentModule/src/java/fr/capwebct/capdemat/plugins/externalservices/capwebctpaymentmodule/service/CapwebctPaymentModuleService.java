@@ -6,9 +6,9 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -105,6 +105,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
                 eai.setOldValue(new Double(accountType.getAccountValue()));
                 Calendar oldValueDate = accountType.getAccountDate();
                 eai.setOldValueDate(oldValueDate.getTime());
+                eai.setAmount(new Double(accountType.getAccountValue()));
 
                 eai.addExternalServiceSpecificData(EXTERNAL_FAMILY_ACCOUNT_ID_KEY,
                         accountType.getExternalFamilyAccountId());
@@ -187,6 +188,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
                 || edai.getExternalServiceSpecificDataByKey(EXTERNAL_APPLICATION_ID_KEY) == null
                 || edai.getExternalServiceSpecificDataByKey(EXTERNAL_FAMILY_ACCOUNT_ID_KEY) == null) {
             edai = null;
+            logger.debug("loadDepositAccountDetails() Received un-handled deposit account, returning");
             return;
         }
         
@@ -200,6 +202,14 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         accountDetailsRequest.setExternalFamilyAccountId(
                 edai.getExternalServiceSpecificDataByKey(EXTERNAL_FAMILY_ACCOUNT_ID_KEY));
 
+        // FIXME : hard-coded 3 months range
+        Date dateTo = new Date();
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(dateTo);
+        accountDetailsRequest.setEndSearch(calendar);
+        calendar.add(Calendar.MONTH, -3);
+        accountDetailsRequest.setStartSearch(calendar);
+        
         // Calls webservice
         AccountDetailsDocument accountDetailsDocument = (AccountDetailsDocument) 
             capwebctPaymentModuleClient.loadAccountDetails(accountDetailsRequestDocument);
@@ -217,6 +227,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
             edaiDetail.setValue(accountDetailType.getValue());
             if (edai.getAccountDetails() == null)
                 edai.setAccountDetails(new HashSet<ExternalDepositAccountItemDetail>());
+
             edai.addAccountDetail(edaiDetail);
         }
     }
@@ -256,12 +267,14 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
             eiiDetail.setValue(invoiceDetailType.getValue());
             if (eii.getInvoiceDetails() == null)
                 eii.setInvoiceDetails(new HashSet<ExternalInvoiceItemDetail>());
+
             eii.getInvoiceDetails().add(eiiDetail);
         }
     }
 
-    public void creditHomeFolderAccounts(Collection purchaseItems, String cvqReference,
-            String bankReference, Long homeFolderId, String externalHomeFolderId, String externalId, Date validationDate) throws CvqException {
+    public void creditHomeFolderAccounts(Collection<PurchaseItem> purchaseItems, String cvqReference,
+            String bankReference, Long homeFolderId, String externalHomeFolderId, String externalId, 
+            Date validationDate) throws CvqException {
         
         BankTransactionDocument bankTransactionDocument = 
             BankTransactionDocument.Factory.newInstance();
@@ -274,8 +287,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         Calendar calendar = Calendar.getInstance();
         int totalAmount = 0;
         String broker = null;
-        for (Iterator iter = purchaseItems.iterator(); iter.hasNext();) {
-            PurchaseItem purchaseItem = (PurchaseItem) iter.next();
+        for (PurchaseItem purchaseItem : purchaseItems) {
             // purchase items in a payment transaction can not belong to more than one broker
             // so take the first we meet
             if (broker == null)
@@ -293,8 +305,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         List<AccountUpdateType> accountUpdateTypes = new ArrayList<AccountUpdateType>();
         List<ContractUpdateType> contractUpdateTypes = new ArrayList<ContractUpdateType>();
         List<InvoiceUpdateType> invoiceUpdateTypes = new ArrayList<InvoiceUpdateType>();
-        for (Iterator iter = purchaseItems.iterator(); iter.hasNext();) {
-            PurchaseItem purchaseItem = (PurchaseItem) iter.next();
+        for (PurchaseItem purchaseItem : purchaseItems) {
 
             if (purchaseItem instanceof ExternalDepositAccountItem) {
                 ExternalDepositAccountItem edai = (ExternalDepositAccountItem) purchaseItem;

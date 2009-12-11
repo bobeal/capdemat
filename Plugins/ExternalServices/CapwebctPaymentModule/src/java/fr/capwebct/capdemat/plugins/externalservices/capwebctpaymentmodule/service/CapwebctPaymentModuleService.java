@@ -299,6 +299,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         paymentType.setCvqAck(cvqReference);
         paymentType.setPaymentAck(bankReference);
         paymentType.setPaymentAmount(totalAmount);
+        paymentType.setPaymentType("CB");
         calendar.setTime(validationDate);
         paymentType.setPaymentDate(calendar);
 

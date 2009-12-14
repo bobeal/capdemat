@@ -74,7 +74,7 @@
             <value>Place Reservation</value>
           </key>
           <map>
-            <entry key="mailData" value="PlaceReservationMailConfirmation" />
+            <entry key="mailData" value="PlaceReservationMailConfirmation.txt" />
             <entry key="attachPdf" value="true" />
           </map>
         </entry>

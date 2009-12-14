@@ -1,0 +1,114 @@
+/**
+	#header="#e29056"
+	#background-color="#fffabc"
+	#button="#f7b700"
+*/
+div.static-button {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.disabled-button {
+	background-color: #e0debe;
+	color: #f7b700;
+}
+
+div.enabled-button {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.enabled-button:hover {
+	background-color: #f7b700;
+	color: #fffabc;
+}
+
+div.name-button {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.label-field select {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.label-field div.radio {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.label-field div.radio:hover {
+	background-color: #f7b700;
+	color: #fffabc;
+}
+
+div.label-field div.check {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.label-field div.check:hover {
+	background-color: #f7b700;
+	color: #fffabc;
+}
+
+div.label-field div.mediumbox {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.label-field div.mediumbox:hover {
+	background-color: #f7b700;
+	color: #fffabc;
+}
+
+div.label-field div.radiolist div.mediumbox {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.label-field div.radiolist div.mediumbox:hover {
+	background-color: #f7b700;
+	color: #fffabc;
+}
+
+div.label-field div.longbox {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.label-field div.longbox:hover {
+	background-color: #f7b700;
+	color: #fffabc;
+}
+
+div.label-field div.xxlbox {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.label-field div.xxlbox:hover {
+	background-color: #f7b700;
+	color: #fffabc;
+}
+
+div.label-field div.xxxlbox {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.label-field div.xxxlbox:hover {
+	background-color: #f7b700;
+	color: #fffabc;
+}
+
+div.label-field div.check_long {
+	background-color: #fffabc;
+	color: #f7b700;
+}
+
+div.label-field div.check_long:hover {
+	background-color: #f7b700;
+	color: #fffabc;
+}

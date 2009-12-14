@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>All</request>
     <data name="MeansOfContact">
@@ -6,22 +6,22 @@
         <label lang="fr">Moyen de contact</label>
         <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
             <entry key="Phone">
-                <label lang="fr">TÃ©lÃ©phone</label>
+                <label lang="fr">Téléphone</label>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <entries supportPriority="true" supportPrecision="false" supportQuota="false" supportMultiple="true">
                     <entry key="HomePhone">
-                        <label lang="fr">TÃ©lÃ©phone domicile</label>
+                        <label lang="fr">Téléphone domicile</label>
                         <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                         <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                     <entry key="MobilePhone">
-                        <label lang="fr">TÃ©lÃ©phone mobile</label>
+                        <label lang="fr">Téléphone mobile</label>
                         <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                         <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                     <entry key="OfficePhone">
-                        <label lang="fr">TÃ©lÃ©phone bureau</label>
+                        <label lang="fr">Téléphone bureau</label>
                         <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                         <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
@@ -33,12 +33,12 @@
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <entries supportPriority="true" supportPrecision="false" supportQuota="false" supportMultiple="true">
                     <entry key="SimpleMail">
-                        <label lang="fr">Lettre Ã©conomique</label>
+                        <label lang="fr">Lettre économique</label>
                         <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                         <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                     <entry key="ExpressMail">
-                        <label lang="fr">Lettre recommandÃ©e</label>
+                        <label lang="fr">Lettre recommandée</label>
                         <message lang="fr">Merci de joindre un timbre dans ce cas</message>
                         <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                         <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>

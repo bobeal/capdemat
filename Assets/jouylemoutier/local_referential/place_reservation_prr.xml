@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!--edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by DSI DSI (CONSEIL GENERAL DU VAL D'OISE)-->
 <PlaceReservation xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>PlaceReservationRequest</request>
     <data name="PlaceReservation">
-        <label lang="fr">Places rÃ©servÃ©es</label>
+        <label lang="fr">Places réservées</label>
         <entry key="Louise">
             <label lang="fr">Ce qu'il en reste</label>
             <quota>50</quota>
@@ -21,11 +21,11 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>9.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
             </ticketSelection>
         </entry>
@@ -43,23 +43,23 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>16.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>19.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="Pres">
-            <label lang="fr">PrÃ©sentation</label>
+            <label lang="fr">Présentation</label>
             <quota>0</quota>
             <eventDate>2006-09-22T19:00:00.000+02:00</eventDate>
             <remainingPlaces>0</remainingPlaces>
@@ -80,20 +80,20 @@
                 <price>20.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>10.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>14.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>16.5</price>
             </ticketSelection>
         </entry>
         <entry key="Quartet">
-            <label lang="fr">L'amitiÃ© est plus forte que le printemps de la vie</label>
+            <label lang="fr">L'amitié est plus forte que le printemps de la vie</label>
             <quota>50</quota>
             <eventDate>2007-01-26T21:00:00.000+01:00</eventDate>
             <remainingPlaces>48</remainingPlaces>
@@ -109,11 +109,11 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>12.5</price>
             </ticketSelection>
         </entry>
@@ -134,11 +134,11 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
             </ticketSelection>
         </entry>
@@ -156,17 +156,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -188,11 +188,11 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
             </ticketSelection>
         </entry>
@@ -209,15 +209,15 @@
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.5</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
             </ticketSelection>
         </entry>
@@ -234,26 +234,26 @@
                 <price>20.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
             </ticketSelection>
         </entry>
         <entry key="Meli02">
-            <label lang="fr">MÃ©li-MÃ©lo II</label>
+            <label lang="fr">Méli-Mélo II</label>
             <quota>7</quota>
             <eventDate>2006-10-04T21:00:00.000+02:00</eventDate>
             <remainingPlaces>4</remainingPlaces>
             <reservationStartDate>2006-09-04+02:00</reservationStartDate>
             <reservationEndDate>2006-10-03+02:00</reservationEndDate>
-            <message>SÃ©ance confirmÃ©e!</message>
+            <message>Séance confirmée!</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>16.0</price>
@@ -263,16 +263,16 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
             </ticketSelection>
         </entry>
         <entry key="Toutlemonde03">
-            <label lang="fr">Tout le monde sait Ã§a</label>
+            <label lang="fr">Tout le monde sait ça</label>
             <quota>50</quota>
             <eventDate>2006-12-06T15:30:00.000+01:00</eventDate>
             <remainingPlaces>50</remainingPlaces>
@@ -288,11 +288,11 @@
                 <price>4.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>7.0</price>
             </ticketSelection>
         </entry>
@@ -309,15 +309,15 @@
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.5</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
             </ticketSelection>
         </entry>
@@ -334,15 +334,15 @@
                 <price>15.5</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>12.5</price>
             </ticketSelection>
         </entry>
@@ -363,11 +363,11 @@
                 <price>9.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>14.0</price>
             </ticketSelection>
         </entry>
@@ -384,15 +384,15 @@
                 <price>16.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>12.0</price>
             </ticketSelection>
         </entry>
@@ -413,16 +413,16 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
             </ticketSelection>
         </entry>
         <entry key="Chemins">
-            <label lang="fr">Les ch'mins d'CoutÃ©</label>
+            <label lang="fr">Les ch'mins d'Couté</label>
             <quota>50</quota>
             <eventDate>2007-04-27T21:00:00.000+02:00</eventDate>
             <remainingPlaces>47</remainingPlaces>
@@ -434,15 +434,15 @@
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.5</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
             </ticketSelection>
         </entry>
@@ -460,17 +460,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -489,17 +489,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>16.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>19.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -518,17 +518,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>6.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.5</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -546,15 +546,15 @@
                 <price>11.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
             </ticketSelection>
         </entry>
@@ -572,17 +572,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>12.5</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -604,11 +604,11 @@
                 <price>13.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>15.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>24.0</price>
             </ticketSelection>
         </entry>
@@ -629,16 +629,16 @@
                 <price>5.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>7.0</price>
             </ticketSelection>
         </entry>
         <entry key="Meli01">
-            <label lang="fr">MÃ©li-MÃ©lo II</label>
+            <label lang="fr">Méli-Mélo II</label>
             <quota>5</quota>
             <eventDate>2006-10-03T21:00:00.000+02:00</eventDate>
             <remainingPlaces>5</remainingPlaces>
@@ -654,11 +654,11 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
             </ticketSelection>
         </entry>
@@ -675,15 +675,15 @@
                 <price>15.5</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>12.5</price>
             </ticketSelection>
         </entry>
@@ -700,15 +700,15 @@
                 <price>11.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>7.5</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>7.5</price>
             </ticketSelection>
         </entry>
@@ -729,16 +729,16 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>9.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
             </ticketSelection>
         </entry>
         <entry key="Nymph">
-            <label lang="fr">NymphÃ©as</label>
+            <label lang="fr">Nymphéas</label>
             <quota>50</quota>
             <eventDate>2006-12-10T17:00:00.000+01:00</eventDate>
             <remainingPlaces>50</remainingPlaces>
@@ -754,11 +754,11 @@
                 <price>10.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>16.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>19.0</price>
             </ticketSelection>
         </entry>
@@ -776,27 +776,27 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="vol">
             <label lang="fr">Vol de nuit</label>
-            <quota>50</quota>
+            <quota>23</quota>
             <eventDate>2007-10-06T21:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
-            <reservationStartDate>2007-08-28+02:00</reservationStartDate>
+            <remainingPlaces>9</remainingPlaces>
+            <reservationStartDate>2007-08-24+02:00</reservationStartDate>
             <reservationEndDate>2007-10-05+02:00</reservationEndDate>
             <message/>
             <ticketSelection key="FULL">
@@ -804,163 +804,183 @@
                 <price>16.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>11.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>12.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>11.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
-            </ticketSelection>
         </entry>
-        <entry key="pres">
-            <label lang="fr">PrÃ©sentation de la saison 2007-2008</label>
-            <quota>50</quota>
-            <eventDate>2007-09-21T21:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+        <entry key="pres2007">
+            <label lang="fr">Présentation de la saison 2007-2008</label>
+            <quota>0</quota>
+            <eventDate>2007-09-21T19:00:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2007-08-01+02:00</reservationStartDate>
             <reservationEndDate>2007-09-20+02:00</reservationEndDate>
-            <message>EntrÃ©e gratuite rÃ©servation a l'accueil du thÃ©atre</message>
+            <message>Venez retirer vos places au guichet!</message>
         </entry>
         <entry key="joie">
             <label lang="fr">Que ma joie demeure</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2007-10-11T21:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2007-08-28+02:00</reservationStartDate>
             <reservationEndDate>2007-10-10+02:00</reservationEndDate>
-            <message/>
+            <message>COMPLET</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>20.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>13.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>15.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>13.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="benjamin">
             <label lang="fr">Benjamin Biolay</label>
             <quota>50</quota>
             <eventDate>2007-10-12T21:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>43</remainingPlaces>
             <reservationStartDate>2007-08-28+02:00</reservationStartDate>
             <reservationEndDate>2007-10-11+02:00</reservationEndDate>
-            <message/>
+            <message>au théâtre Simone Signoret à Conflans / placement libre</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans</label>
                 <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>13.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>13.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>13.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="rike">
-            <label lang="fr">RikÃ©</label>
+            <label lang="fr">Riké</label>
             <quota>50</quota>
             <eventDate>2007-10-19T21:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>42</remainingPlaces>
             <reservationStartDate>2007-08-28+02:00</reservationStartDate>
             <reservationEndDate>2007-10-18+02:00</reservationEndDate>
-            <message/>
+            <message>CONCERT ASSIS!!/ Festival Voix Publics</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans</label>
                 <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>11.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>11.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>11.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
-            </ticketSelection>
         </entry>
         <entry key="sax">
-            <label lang="fr">Les Sax's prÃ©sentent Roxanne</label>
-            <quota>50</quota>
+            <label lang="fr">Les Sax's présentent Roxanne</label>
+            <quota>28</quota>
             <eventDate>2007-10-27T21:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>26</remainingPlaces>
             <reservationStartDate>2007-08-28+02:00</reservationStartDate>
             <reservationEndDate>2007-10-26+02:00</reservationEndDate>
             <message/>
@@ -970,153 +990,173 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans</label>
                 <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>9.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>9.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>10.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
-                <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>9.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="proust">
-            <label lang="fr">DÃ©livrez Proust</label>
-            <quota>50</quota>
+            <label lang="fr">Délivrez Proust</label>
+            <quota>30</quota>
             <eventDate>2007-11-09T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>25</remainingPlaces>
             <reservationStartDate>2007-09-09+02:00</reservationStartDate>
             <reservationEndDate>2007-11-08+01:00</reservationEndDate>
-            <message/>
+            <message>dans le cadre du Festival Théâtral du Val d'Oise</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans</label>
                 <price>6.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>7.5</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>7.5</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>7.5</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>7.5</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>7.5</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="herman">
             <label lang="fr">Michel Portal et Yaron Herman Trio</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2007-11-23T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2007-09-23+02:00</reservationStartDate>
             <reservationEndDate>2007-11-22+01:00</reservationEndDate>
-            <message/>
+            <message>dans la cadre du Festival Jazz au Fil de l'Oise</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>18.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans</label>
                 <price>15.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>15.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>15.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>15.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="enfants">
             <label lang="fr">Voix d'enfants...</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2007-11-30T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2007-09-30+02:00</reservationStartDate>
-            <reservationEndDate>2007-11-29+01:00</reservationEndDate>
-            <message/>
+            <reservationEndDate>2007-11-27+01:00</reservationEndDate>
+            <message>en collaboration avec le Conservatoire à Rayonnement Régional de Cergy-Pontoise</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>8.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
-                <price>8.0</price>
-                <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="circus">
             <label lang="fr">Circus Klezmer</label>
-            <quota>50</quota>
+            <quota>38</quota>
             <eventDate>2007-12-01T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>36</remainingPlaces>
             <reservationStartDate>2007-10-01+02:00</reservationStartDate>
             <reservationEndDate>2007-11-30+01:00</reservationEndDate>
             <message/>
@@ -1126,75 +1166,85 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>9.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>9.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>10.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>9.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="lara">
             <label lang="fr">Catherine Lara</label>
-            <quota>50</quota>
+            <quota>20</quota>
             <eventDate>2007-12-07T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>5</remainingPlaces>
             <reservationStartDate>2007-10-07+02:00</reservationStartDate>
             <reservationEndDate>2007-12-06+01:00</reservationEndDate>
-            <message/>
+            <message>il reste des places au 01 34 43 38 00</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>29.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>21.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>21.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>22.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>24.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>21.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="peep">
             <label lang="fr">Peep show dans les Alpes</label>
-            <quota>0</quota>
+            <quota>50</quota>
             <eventDate>2007-12-11T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>0</remainingPlaces>
+            <remainingPlaces>48</remainingPlaces>
             <reservationStartDate>2007-10-11+02:00</reservationStartDate>
             <reservationEndDate>2007-12-10+01:00</reservationEndDate>
             <message/>
@@ -1204,36 +1254,41 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>12.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
                 <price>11.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="mir">
             <label lang="fr">Mir, Mir</label>
             <quota>50</quota>
             <eventDate>2008-01-25T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>48</remainingPlaces>
             <reservationStartDate>2007-11-25+01:00</reservationStartDate>
             <reservationEndDate>2008-01-24+01:00</reservationEndDate>
             <message/>
@@ -1243,29 +1298,34 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>9.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>9.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>10.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>9.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="beat">
@@ -1282,36 +1342,41 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
                 <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>8.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>8.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="alma">
             <label lang="fr">Quatuor Alma</label>
             <quota>50</quota>
             <eventDate>2008-02-05T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>46</remainingPlaces>
             <reservationStartDate>2007-12-05+01:00</reservationStartDate>
             <reservationEndDate>2008-02-04+01:00</reservationEndDate>
             <message/>
@@ -1321,36 +1386,41 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>9.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>10.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
                 <price>9.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
         </entry>
         <entry key="love">
-            <label lang="fr">Love suprÃªme...</label>
+            <label lang="fr">Love suprême...</label>
             <quota>50</quota>
             <eventDate>2008-02-15T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>48</remainingPlaces>
             <reservationStartDate>2007-12-15+01:00</reservationStartDate>
             <reservationEndDate>2008-02-14+01:00</reservationEndDate>
             <message/>
@@ -1360,29 +1430,34 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>14.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>15.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>16.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
                 <price>14.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="gynt1">
@@ -1399,29 +1474,34 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="gynt2">
@@ -1438,29 +1518,34 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="gynt3">
@@ -1477,33 +1562,38 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
         </entry>
         <entry key="acrostiches">
-            <label lang="fr">Les acrostiches Ã  contretemps</label>
+            <label lang="fr">Les acrostiches à contretemps</label>
             <quota>50</quota>
             <eventDate>2008-03-28T21:00:00.000+01:00</eventDate>
             <remainingPlaces>50</remainingPlaces>
@@ -1516,29 +1606,34 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>11.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>12.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>11.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="barbe1">
@@ -1555,29 +1650,34 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>9.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>9.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>10.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>9.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="remix">
@@ -1594,75 +1694,85 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
                 <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>6.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>6.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>6.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
-            </ticketSelection>
         </entry>
         <entry key="marechal">
-            <label lang="fr">Denis MarÃ©chal</label>
-            <quota>50</quota>
+            <label lang="fr">Denis Maréchal</label>
+            <quota>0</quota>
             <eventDate>2008-04-11T21:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-02-11+01:00</reservationStartDate>
-            <reservationEndDate>2008-04-13+02:00</reservationEndDate>
-            <message/>
+            <reservationEndDate>2008-04-10+02:00</reservationEndDate>
+            <message>places encore disponibles au guichet! 01.34.43.38.00</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>16.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>11.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>12.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>11.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="jardin1">
             <label lang="fr">Jardin d'enfants</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2008-04-30T10:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-03-01+01:00</reservationStartDate>
             <reservationEndDate>2008-04-29+02:00</reservationEndDate>
             <message/>
@@ -1672,36 +1782,41 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>4.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>4.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>4.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="jardin2">
             <label lang="fr">Jardin d'enfants</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2008-04-30T16:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-03-01+01:00</reservationStartDate>
             <reservationEndDate>2008-04-29+02:00</reservationEndDate>
             <message/>
@@ -1711,36 +1826,41 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>4.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>4.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>4.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="jardin3">
             <label lang="fr">Jardin d'enfants</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2008-05-03T16:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-03-03+01:00</reservationStartDate>
             <reservationEndDate>2008-05-02+02:00</reservationEndDate>
             <message/>
@@ -1750,36 +1870,41 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>4.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>4.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>4.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="jardin4">
             <label lang="fr">Jardin d'enfants</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2008-05-04T16:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-03-04+01:00</reservationStartDate>
             <reservationEndDate>2008-05-03+02:00</reservationEndDate>
             <message/>
@@ -1789,36 +1914,41 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>4.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>4.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>4.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="jardin5">
             <label lang="fr">Jardin d'enfants</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2008-05-07T10:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-03-07+01:00</reservationStartDate>
             <reservationEndDate>2008-05-06+02:00</reservationEndDate>
             <message/>
@@ -1828,36 +1958,41 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>4.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>4.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>4.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="jardin6">
             <label lang="fr">Jardin d'enfants</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2008-05-07T11:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-03-07+01:00</reservationStartDate>
             <reservationEndDate>2008-05-06+02:00</reservationEndDate>
             <message/>
@@ -1867,36 +2002,41 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
                 <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="RMI">
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>4.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>4.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="jardin7">
             <label lang="fr">Jardin d'enfants</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2008-05-07T16:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-03-07+01:00</reservationStartDate>
             <reservationEndDate>2008-05-06+02:00</reservationEndDate>
             <message/>
@@ -1906,36 +2046,41 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>4.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>4.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
-            </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>4.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="jardin8">
             <label lang="fr">Jardin d'enfants</label>
-            <quota>50</quota>
+            <quota>0</quota>
             <eventDate>2008-05-10T16:00:00.000+02:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-03-10+01:00</reservationStartDate>
             <reservationEndDate>2008-05-09+02:00</reservationEndDate>
             <message/>
@@ -1945,66 +2090,76 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
                 <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein abonnÃ©</label>
+            <ticketSelection key="RMI">
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>4.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
-                <price>4.0</price>
-                <isSubscriberPrice>true</isSubscriberPrice>
-            </ticketSelection>
         </entry>
         <entry key="apotres">
-            <label lang="fr">Les nouveaux apÃ´tres</label>
-            <quota>50</quota>
-            <eventDate>2008-05-16T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <label lang="fr">Les nouveaux apôtres</label>
+            <quota>0</quota>
+            <eventDate>2008-05-16T22:00:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-03-16+01:00</reservationStartDate>
-            <reservationEndDate>2008-05-15+01:00</reservationEndDate>
-            <message/>
+            <reservationEndDate>2008-05-15+02:00</reservationEndDate>
+            <message>spectacle annulé</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
-                <price>8.0</price>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
-                <label lang="fr">Tarif plein</label>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
                 <price>8.0</price>
-                <isSubscriberPrice>false</isSubscriberPrice>
+                <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit</label>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
+                <price>8.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2012,49 +2167,371 @@
         <entry key="olli">
             <label lang="fr">Olli and the Bollywood Orchestra</label>
             <quota>50</quota>
-            <eventDate>2008-05-23T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
+            <eventDate>2008-05-23T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>46</remainingPlaces>
             <reservationStartDate>2008-03-23+01:00</reservationStartDate>
-            <reservationEndDate>2008-05-22+01:00</reservationEndDate>
+            <reservationEndDate>2008-05-22+02:00</reservationEndDate>
             <message/>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
-                <price>10.0</price>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 15 ans et conventionnés</label>
+                <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
                 <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>8.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
+                <price>8.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="jeux">
+            <label lang="fr">Jeux de mots laids pour gens bêtes</label>
+            <quota>30</quota>
+            <eventDate>2008-05-30T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>28</remainingPlaces>
+            <reservationStartDate>2008-03-30+01:00</reservationStartDate>
+            <reservationEndDate>2008-05-29+02:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
+                <price>16.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 15 ans et conventionnés</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit</label>
+            <ticketSelection key="Pass">
+                <label lang="fr">Passe culture (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="RMI">
+                <label lang="fr">Tarif RMI (justificatif obligatoire lors du retrait)</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="ReducedPriceSubscriber">
+                <label lang="fr">Tarif réduit abonné</label>
+                <price>11.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="FullPriceSubscriber">
+                <label lang="fr">Tarif plein abonné</label>
+                <price>12.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="PRE">
+            <label lang="fr">Présentation de saison</label>
+            <quota>0</quota>
+            <eventDate>2008-09-26T19:00:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2008-08-26+02:00</reservationStartDate>
+            <reservationEndDate>2008-09-25+02:00</reservationEndDate>
+            <message>Sur réservation au 01.34.43.38.00</message>
+        </entry>
+        <entry key="SOMB1">
+            <label lang="fr">SOMBRERO</label>
+            <quota>5</quota>
+            <eventDate>2008-10-02T19:30:00.000+02:00</eventDate>
+            <remainingPlaces>5</remainingPlaces>
+            <reservationStartDate>2008-08-25+02:00</reservationStartDate>
+            <reservationEndDate>2008-09-30+02:00</reservationEndDate>
+            <message>Au théâtre des Louvrais</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif Plein</label>
+                <price>30.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>20.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>30.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="SOMB3">
+            <label lang="fr">SOMBRERO 3</label>
+            <quota>5</quota>
+            <eventDate>2008-10-03T20:30:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2008-08-25+02:00</reservationStartDate>
+            <reservationEndDate>2008-09-30+02:00</reservationEndDate>
+            <message>au théâtre des Louvrais</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>30.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>20.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>20.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="SOMB4">
+            <label lang="fr">SOMBRERO 4</label>
+            <quota>5</quota>
+            <eventDate>2008-10-04T20:30:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2008-08-25+02:00</reservationStartDate>
+            <reservationEndDate>2008-09-30+02:00</reservationEndDate>
+            <message>Au théâtre des Louvrais</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>30.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>20.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>20.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="DIALOGUES">
+            <label lang="fr">DIALOGUES</label>
+            <quota>10</quota>
+            <eventDate>2008-10-05T16:30:00.000+02:00</eventDate>
+            <remainingPlaces>8</remainingPlaces>
+            <reservationStartDate>2008-08-25+02:00</reservationStartDate>
+            <reservationEndDate>2008-10-03+02:00</reservationEndDate>
+            <message>En partenariat avec le Festival Baroque</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>24.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>21.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="FEMMES">
+            <label lang="fr">LES FEMMES SAVANTES</label>
+            <quota>10</quota>
+            <eventDate>2008-10-09T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>6</remainingPlaces>
+            <reservationStartDate>2008-08-25+02:00</reservationStartDate>
+            <reservationEndDate>2008-10-07+02:00</reservationEndDate>
+            <message>En partenariat avec le Festival Baroque de Pontoise</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>24.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>21.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="JAM">
+            <label lang="fr">JAMAIT</label>
+            <quota>30</quota>
+            <eventDate>2008-10-17T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>26</remainingPlaces>
+            <reservationStartDate>2008-08-25+02:00</reservationStartDate>
+            <reservationEndDate>2008-10-15+02:00</reservationEndDate>
+            <message>Au théâtre Simone Signoret à Conflans Sainte Honorine</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>20.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>15.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>20.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="ANIS">
+            <label lang="fr">ANIS</label>
+            <quota>0</quota>
+            <eventDate>2008-10-18T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2008-08-25+02:00</reservationStartDate>
+            <reservationEndDate>2008-10-08+02:00</reservationEndDate>
+            <message>Festival Voix Publics</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif Plein</label>
+                <price>15.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>15.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>15.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="SPLEEN">
+            <label lang="fr">SPLEEN</label>
+            <quota>30</quota>
+            <eventDate>2008-10-24T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>28</remainingPlaces>
+            <reservationStartDate>2008-08-25+02:00</reservationStartDate>
+            <reservationEndDate>2008-10-22+02:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
-        <entry key="jeux">
-            <label lang="fr">Jeux de mots laids pour gens bÃªtes</label>
-            <quota>50</quota>
-            <eventDate>2008-05-30T21:00:00.000+01:00</eventDate>
-            <remainingPlaces>50</remainingPlaces>
-            <reservationStartDate>2008-05-30+01:00</reservationStartDate>
-            <reservationEndDate>2008-05-29+01:00</reservationEndDate>
+        <entry key="ZIG_ZAG">
+            <label lang="fr">ZIG ZAG</label>
+            <quota>5</quota>
+            <eventDate>2008-11-15T11:00:00.000+01:00</eventDate>
+            <remainingPlaces>3</remainingPlaces>
+            <reservationStartDate>2008-09-15+02:00</reservationStartDate>
+            <reservationEndDate>2008-11-13+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>4.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>7.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="ITALIENNE">
+            <label lang="fr">LE JOUR DE L'ITALIENNE</label>
+            <quota>0</quota>
+            <eventDate>2008-11-25T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2008-09-25+02:00</reservationStartDate>
+            <reservationEndDate>2008-11-23+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>22.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif Réduit</label>
+                <price>18.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="JAFO">
+            <label lang="fr">CARATINI JAZZ ENSEMBLE</label>
+            <quota>10</quota>
+            <eventDate>2008-11-28T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>6</remainingPlaces>
+            <reservationStartDate>2008-09-28+02:00</reservationStartDate>
+            <reservationEndDate>2008-11-26+01:00</reservationEndDate>
+            <message>En partenariat avec Jazz au fil de l'Oise</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>18.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>15.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>15.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="HISTOIRES">
+            <label lang="fr">HISTOIRES DE RESONANCES</label>
+            <quota>30</quota>
+            <eventDate>2008-12-16T20:30:00.000+01:00</eventDate>
+            <remainingPlaces>30</remainingPlaces>
+            <reservationStartDate>2008-10-16+02:00</reservationStartDate>
+            <reservationEndDate>2008-11-14+01:00</reservationEndDate>
             <message/>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
@@ -2062,28 +2539,598 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif rÃ©duit</label>
+                <label lang="fr">Tarif réduit</label>
+                <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="TAILLEUR">
+            <label lang="fr">L'HISTOIRE DU PETIT TAILLEUR</label>
+            <quota>10</quota>
+            <eventDate>2009-01-14T15:00:00.000+01:00</eventDate>
+            <remainingPlaces>10</remainingPlaces>
+            <reservationStartDate>2008-11-14+01:00</reservationStartDate>
+            <reservationEndDate>2009-01-12+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="FLUTE">
+            <label lang="fr">LA FLUTE ENCHANTEE</label>
+            <quota>0</quota>
+            <eventDate>2009-01-30T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2008-11-30+01:00</reservationStartDate>
+            <reservationEndDate>2009-01-28+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>22.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>18.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="EX_VOTO">
+            <label lang="fr">EX VOTO</label>
+            <quota>30</quota>
+            <eventDate>2009-01-24T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>30</remainingPlaces>
+            <reservationStartDate>2008-11-24+01:00</reservationStartDate>
+            <reservationEndDate>2009-01-22+01:00</reservationEndDate>
+            <message/>
+        </entry>
+        <entry key="TRINIDAD">
+            <label lang="fr">TRINIDAD</label>
+            <quota>20</quota>
+            <eventDate>2009-03-06T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>10</remainingPlaces>
+            <reservationStartDate>2009-01-06+01:00</reservationStartDate>
+            <reservationEndDate>2009-03-04+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
-                <price>8.0</price>
+                <label lang="fr">- de 16 ans</label>
+                <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="RMI">
-                <label lang="fr">Tarif RMI</label>
-                <price>5.0</price>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="FULLABO">
+        </entry>
+        <entry key="BABEL">
+            <label lang="fr">BABEL FRANCE</label>
+            <quota>10</quota>
+            <eventDate>2009-03-15T16:00:00.000+01:00</eventDate>
+            <remainingPlaces>10</remainingPlaces>
+            <reservationStartDate>2009-01-15+01:00</reservationStartDate>
+            <reservationEndDate>2009-03-13+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>12.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
-            <ticketSelection key="REDUCTIONABO">
-                <label lang="fr">Tarif rÃ©duit</label>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>4.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="RENCONTRES">
+            <label lang="fr">RENCONTRES INTERNATIONALES DE COMPOSITION</label>
+            <quota>5</quota>
+            <eventDate>2009-03-22T17:00:00.000+01:00</eventDate>
+            <remainingPlaces>5</remainingPlaces>
+            <reservationStartDate>2009-01-22+01:00</reservationStartDate>
+            <reservationEndDate>2009-03-20+01:00</reservationEndDate>
+            <message>En partenariat avec le CRR</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
                 <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="ASCENSEUR">
+            <label lang="fr">LE PIED DANS L'ASCENSEUR</label>
+            <quota>30</quota>
+            <eventDate>2009-03-28T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>21</remainingPlaces>
+            <reservationStartDate>2009-01-28+01:00</reservationStartDate>
+            <reservationEndDate>2009-03-26+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="COUSINS">
+            <label lang="fr">LES COUSINS</label>
+            <quota>0</quota>
+            <eventDate>2009-04-03T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2009-02-03+01:00</reservationStartDate>
+            <reservationEndDate>2009-04-01+02:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Plein tarif</label>
+                <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>7.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="RAIN">
+            <label lang="fr">RAIN CIRQUE ELOIZE</label>
+            <quota>0</quota>
+            <eventDate>2009-04-10T20:30:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2009-02-10+01:00</reservationStartDate>
+            <reservationEndDate>2009-02-08+01:00</reservationEndDate>
+            <message>complet</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>24.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>18.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="RAIN_2">
+            <label lang="fr">RAIN CIRQUE ELOIZE</label>
+            <quota>0</quota>
+            <eventDate>2009-04-11T20:30:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2009-02-11+01:00</reservationStartDate>
+            <reservationEndDate>2009-04-08+02:00</reservationEndDate>
+            <message>complet</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>24.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>18.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="BABA">
+            <label lang="fr">BABA</label>
+            <quota>0</quota>
+            <eventDate>2009-04-29T10:30:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2009-03-01+01:00</reservationStartDate>
+            <reservationEndDate>2009-04-27+02:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>12.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="NEIGE">
+            <label lang="fr">NEIGE</label>
+            <quota>30</quota>
+            <eventDate>2009-05-07T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>28</remainingPlaces>
+            <reservationStartDate>2009-03-07+01:00</reservationStartDate>
+            <reservationEndDate>2009-05-05+02:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>7.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="HANSEL">
+            <label lang="fr">HANSEL ET GRETEL</label>
+            <quota>30</quota>
+            <eventDate>2009-05-20T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>30</remainingPlaces>
+            <reservationStartDate>2009-03-20+01:00</reservationStartDate>
+            <reservationEndDate>2009-05-18+02:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>7.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="POULES">
+            <label lang="fr">LES POULES AURONT DES DENTS</label>
+            <quota>30</quota>
+            <eventDate>2009-05-29T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>30</remainingPlaces>
+            <reservationStartDate>2009-03-29+01:00</reservationStartDate>
+            <reservationEndDate>2009-05-27+02:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif plein</label>
+                <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="FEMMES_SAVANTES">
+            <label lang="fr">FEMMES SAVANTES</label>
+            <quota>0</quota>
+            <eventDate>2008-10-10T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2008-09-01+02:00</reservationStartDate>
+            <reservationEndDate>2008-10-08+02:00</reservationEndDate>
+            <message>En partenariat avec le Festival Baroque</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">Tarif Plein</label>
+                <price>24.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">- de 16 ans</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">Tarif réduit</label>
+                <price>21.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="2009HUMORIBUS">
+            <label lang="fr">DE HUMANIS HUMORIBUS</label>
+            <quota>30</quota>
+            <eventDate>2009-10-11T16:30:00.000+02:00</eventDate>
+            <remainingPlaces>26</remainingPlaces>
+            <reservationStartDate>2009-09-18+02:00</reservationStartDate>
+            <reservationEndDate>2009-10-10+02:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="TJ">
+                <label lang="fr">Jeune -16 ans</label>
+                <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TP">
+                <label lang="fr">Tarif Plein</label>
+                <price>20.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TR">
+                <label lang="fr">Tarif réduit</label>
+                <price>17.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="2009ALDEBERT">
+            <label lang="fr">ALDEBERT</label>
+            <quota>0</quota>
+            <eventDate>2009-10-16T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2009-09-18+02:00</reservationStartDate>
+            <reservationEndDate>2009-10-15+02:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="TJ">
+                <label lang="fr">Jeune -16 ans</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TP">
+                <label lang="fr">Tarif Plein</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TR">
+                <label lang="fr">Tarif réduit</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="2009SOPHIE">
+            <label lang="fr">LA GRANDE SOPHIE</label>
+            <quota>0</quota>
+            <eventDate>2009-10-22T21:00:00.000+02:00</eventDate>
+            <remainingPlaces>0</remainingPlaces>
+            <reservationStartDate>2009-09-18+02:00</reservationStartDate>
+            <reservationEndDate>2009-10-21+02:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="TJ">
+                <label lang="fr">Jeune -16 ans</label>
+                <price>15.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TP">
+                <label lang="fr">Tarif Plein</label>
+                <price>20.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TR">
+                <label lang="fr">Tarif réduit</label>
+                <price>20.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="2009PETER">
+            <label lang="fr">PETER VON POEHL</label>
+            <quota>50</quota>
+            <eventDate>2009-10-30T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>33</remainingPlaces>
+            <reservationStartDate>2009-09-18+02:00</reservationStartDate>
+            <reservationEndDate>2009-10-29+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="TJ">
+                <label lang="fr">Jeune -16 ans</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TP">
+                <label lang="fr">Tarif Plein</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TR">
+                <label lang="fr">Tarif réduit</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="2009MODESTES">
+            <label lang="fr">MODESTES PROPOSITIONS...</label>
+            <quota>50</quota>
+            <eventDate>2009-11-06T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>45</remainingPlaces>
+            <reservationStartDate>2009-09-18+02:00</reservationStartDate>
+            <reservationEndDate>2009-11-05+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="TJ">
+                <label lang="fr">Jeune -16 ans</label>
+                <price>7.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TP">
+                <label lang="fr">Tarif Plein</label>
+                <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TR">
+                <label lang="fr">Tarif réduit</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="2009CHEMISES">
+            <label lang="fr">CHEMISE PROPRE ET SOULIERS VERNIS</label>
+            <quota>50</quota>
+            <eventDate>2009-11-10T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>50</remainingPlaces>
+            <reservationStartDate>2009-09-18+02:00</reservationStartDate>
+            <reservationEndDate>2009-11-09+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="TJ">
+                <label lang="fr">Jeune -16 ans</label>
+                <price>6.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TP">
+                <label lang="fr">Tarif Plein</label>
+                <price>13.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TR">
+                <label lang="fr">Tarif réduit</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="2009HERVE">
+            <label lang="fr">HERVE SELLIN TENTET</label>
+            <quota>50</quota>
+            <eventDate>2009-11-27T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>50</remainingPlaces>
+            <reservationStartDate>2009-11-18+01:00</reservationStartDate>
+            <reservationEndDate>2009-11-26+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="TJ">
+                <label lang="fr">Jeune -16 ans</label>
+                <price>15.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TP">
+                <label lang="fr">Tarif Plein</label>
+                <price>18.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TR">
+                <label lang="fr">Tarif réduit</label>
+                <price>15.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="2009SAISONS1">
+            <label lang="fr">LES SAISONS - HAYDN</label>
+            <quota>20</quota>
+            <eventDate>2009-12-05T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>20</remainingPlaces>
+            <reservationStartDate>2009-09-18+02:00</reservationStartDate>
+            <reservationEndDate>2009-12-04+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="AP">
+                <label lang="fr">Abo Tarif Plein</label>
+                <price>8.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TJ">
+                <label lang="fr">Jeune -16 ans</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TP">
+                <label lang="fr">Tarif Plein</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TR">
+                <label lang="fr">Tarif réduit</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="2009SAISONS2">
+            <label lang="fr">LES SAISONS / HAYDN</label>
+            <quota>20</quota>
+            <eventDate>2009-12-06T16:00:00.000+01:00</eventDate>
+            <remainingPlaces>20</remainingPlaces>
+            <reservationStartDate>2009-09-18+02:00</reservationStartDate>
+            <reservationEndDate>2009-12-04+01:00</reservationEndDate>
+            <message/>
+            <ticketSelection key="AP">
+                <label lang="fr">Abo Tarif Plein</label>
+                <price>8.0</price>
+                <isSubscriberPrice>true</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TJ">
+                <label lang="fr">Jeune -16 ans</label>
+                <price>5.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TP">
+                <label lang="fr">Tarif Plein</label>
+                <price>11.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="TR">
+                <label lang="fr">Tarif réduit</label>
+                <price>8.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+        </entry>
+        <entry key="2009winston">
+            <label lang="fr">Winston McAnuff</label>
+            <quota>50</quota>
+            <eventDate>2009-12-19T21:00:00.000+01:00</eventDate>
+            <remainingPlaces>50</remainingPlaces>
+            <reservationStartDate>2009-10-19+02:00</reservationStartDate>
+            <reservationEndDate>2009-12-18+01:00</reservationEndDate>
+            <message>festival Afrik'system - 1ère escale: Jamaïque</message>
+            <ticketSelection key="FULL">
+                <label lang="fr">tarif plein</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="CHILDREN">
+                <label lang="fr">Jeune - 16 ans</label>
+                <price>10.0</price>
+                <isSubscriberPrice>false</isSubscriberPrice>
+            </ticketSelection>
+            <ticketSelection key="REDUCTION">
+                <label lang="fr">tarif reduit</label>
+                <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>

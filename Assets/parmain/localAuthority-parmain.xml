@@ -30,6 +30,58 @@
     </property>
     <property name="paymentServices">
       <map>
+        <!-- 
+        <entry>
+          <key>
+            <ref bean="paylinePaymentProvider" />
+          </key>
+          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+            <property name="broker" value="Régie Payline de la ville de Parmain"></property>
+            <property name="friendlyLabel" value="Service scolaire" />
+            <property name="requestTypes">
+              <list>
+                <value>School Canteen Registration</value>
+                <value>Perischool Activity Registration</value>
+                <value>Recreation Activity Registration</value>
+              </list>
+            </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>paylineIp</value>
+                  </key>
+                  <value>127.0.0.1</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylinePort</value>
+                  </key>
+                  <value>8502</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylineCallbackUrl</value>
+                  </key>
+                  <value>/FrontOffice/paymentResult.do</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylineSessionsPath</value>
+                  </key>
+                  <value>/var/plco/parmain/sessions</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>paylinePersonnalisation</value>
+                  </key>
+                  <value>PARMAIN</value>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+        -->
         <entry>
           <key>
             <ref bean="paylineV4PaymentProvider" />
@@ -145,7 +197,7 @@
           <map>
             <entry key="mailSendTo" value="cartevaloise@valdoise.fr"/>
             <entry key="mailSubject" value="[CapDémat] Alerte Paiement"/>
-            <entry key="mailData" value="NotCommitedPaymentsAlert"/>
+            <entry key="mailData" value="NotCommitedPaymentsAlert.txt"/>
           </map>
         </entry>
       </map>
@@ -156,7 +208,7 @@
           <key><value>CommitPaymentConfirmation</value></key>
           <map>
             <entry key="mailSubject" value="[CapDémat] Confirmation de paiement"/>
-            <entry key="mailData" value="CommitPaymentNotification"/>
+            <entry key="mailData" value="CommitPaymentNotification.txt"/>
           </map>
         </entry>
       </map>
@@ -192,4 +244,3 @@
   </bean>
 
 </beans>
-

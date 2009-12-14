@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>SchoolCanteenRegistrationRequest</request>
+    <data name="FoodDiet">
+        <label lang="fr">Régime alimentaire</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Sans_porc">
+                <label lang="fr">Sans porc</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Aucun_Regime">
+                <label lang="fr">Aucun régime</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+    <data name="CanteenAttendingDays">
+        <label lang="fr">Jours de présence</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Lundi">
+                <label lang="fr">Lundi</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Mardi">
+                <label lang="fr">Mardi</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Mercredi">
+                <label lang="fr">Mercredi</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Jeudi">
+                <label lang="fr">Jeudi</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="Vendredi">
+                <label lang="fr">Vendredi</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

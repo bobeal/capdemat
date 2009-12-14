@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:fo="http://www.w3.org/1999/XSL/Format"
+	xmlns:cert="http://www.cg95.fr/cvq/certificate"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<xsl:template match="/">
+		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<fo:layout-master-set>
+				<fo:simple-page-master page-width="21.0cm"
+					page-height="29.7cm" master-name="Section1-rest"
+					margin-top="0.0cm" margin-bottom="2.0cm"
+					margin-left="0.8cm"
+					margin-right="0.8cm">
+					<fo:region-before extent="0cm" />
+					<fo:region-after extent="0cm" />
+					<fo:region-body margin-top="0.0cm"
+						margin-bottom="0cm" />
+				</fo:simple-page-master>
+				<fo:page-sequence-master master-name="Section1-ps">
+					<fo:repeatable-page-master-reference
+						master-reference="Section1-rest" />
+				</fo:page-sequence-master>
+			</fo:layout-master-set>
+			<fo:page-sequence master-reference="Section1-ps">
+				<fo:static-content flow-name="xsl-region-before" />
+				<fo:static-content flow-name="xsl-region-after" />
+				<fo:flow flow-name="xsl-region-body">
+					<fo:block-container position="absolute" top="1cm" left="0cm" height="4.0cm" width="100%">
+						<fo:block
+							font-size="14.0pt" font-family="serif" color="black"
+							text-align="center">
+							R E P U B L I Q U E &#160;&#160; F R A N C A I SE
+						</fo:block>
+						<fo:block font-size="12.0pt" font-family="serif"
+							text-align="center" space-before.optimum="0.2cm">
+							V A L - D ' O I S E
+						</fo:block>
+						<fo:block-container position="absolute" left="4.3cm" top="0.8cm" height="0.5cm" width="11.4cm"
+						border-bottom="0.5pt solid" />
+						<fo:block
+							font-size="12.0pt" font-family="serif" font-weight="bold" color="black"
+							text-align="center" space-before.optimum="0.4cm">
+							MAIRIE DE LUZARCHES
+						</fo:block>
+						<fo:block
+							font-size="9.0pt" font-family="serif" font-style="italic" color="black"
+							text-align="center">
+							Chef-lieu de canton
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="28.7cm" left="0cm" height="1.5cm" width="100%">
+						<fo:block 
+							font-size="9.0pt" font-family="serif" font-style="italic" color="black"
+							text-align="center">
+							Place de la mairie 95270 Luzarches - Téléphone : 01 30 29 54 54 - Télécopie : 01 30 29 54 52 - www.luzarches.net
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="4.7cm" left="1.7cm" height="3.0cm" width="8cm">
+						<fo:block text-indent="0.5cm" font-size="10.0pt" font-family="serif" font-style="italic"
+							space-after.optimum="0.5cm">
+							Le Maire
+						</fo:block>
+						<fo:block font-size="10.0pt" font-family="serif" font-style="italic">
+							Affaire suivie par 
+							<xsl:for-each select="//cert:agent">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+						<fo:block font-size="10.0pt" font-family="serif" font-style="italic">
+							Tél : 01 30 29 54 54 
+						</fo:block>
+						<fo:block font-size="10.0pt" font-family="serif" font-style="italic">
+							Fax : 01 30 29 54 52 
+						</fo:block>
+						<fo:block font-size="10.0pt" font-family="serif" font-style="italic">
+							<xsl:for-each select="//cert:courriel_agent">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="8cm" left="11.0cm" height="1.0cm" width="7cm">
+						<fo:block font-size="12.0pt" font-family="serif">
+							Luzarches, le
+							<xsl:for-each select="//cert:date">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="10cm" left="2.2cm" height="2.0cm" width="8cm">
+						<fo:block font-size="12.0pt" font-family="serif">
+							Objet : 
+							<xsl:for-each select="//cert:type_demande">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="12.0cm" left="2.2cm" height="12.0cm" width="15.0cm">
+						<fo:block space-after.optimum="12.0pt"
+							text-align="justify" font-size="12.0pt"	font-family="serif">
+							<xsl:for-each select="//cert:civilite">
+								<xsl:apply-templates />
+							</xsl:for-each>,
+						</fo:block>
+						<fo:block text-align="justify" font-size="12.0pt" font-family="serif" space-after.optimum="12.0pt">
+							Votre demande
+							<xsl:for-each select="//cert:type_demande">
+								<xsl:apply-templates />
+							</xsl:for-each>
+							du
+							<xsl:for-each select="//cert:date_demande">
+								<xsl:apply-templates />
+							</xsl:for-each>
+							est validée .
+						</fo:block>
+						<xsl:for-each select="//cert:observations">
+							<fo:block text-align="justify" font-size="12.0pt" font-family="serif">
+								<xsl:apply-templates />
+							</fo:block>
+						</xsl:for-each>
+						<fo:block text-align="justify" font-size="12.0pt" font-family="serif">
+							Je vous prie d'agréer, 
+							<xsl:for-each select="//cert:civilite">
+								<xsl:apply-templates />
+							</xsl:for-each>
+							, l’expression
+							de ma considération distinguée.
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="16.5cm" left="9cm" height="3.0cm" width="7cm">
+						<fo:block font-size="12.0pt" font-family="serif" font-weight="bold" text-align="center">
+							Patrick DECOLIN
+						</fo:block>
+						<fo:block font-size="10.0pt" font-family="serif" font-style="italic" text-align="center">
+							Conseiller général 
+						</fo:block>
+					</fo:block-container>
+
+					<fo:block-container position="absolute" top="24.5cm" left="2.2cm" height="4.0cm" width="8cm">
+						<fo:block font-size="11.0pt" font-family="serif">
+							<xsl:for-each select="//cert:civilite">
+								<xsl:apply-templates />
+							</xsl:for-each>
+							&#160;
+							<xsl:for-each select="//cert:nom">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+						<xsl:for-each select="//cert:adresse">
+							<fo:block font-size="11.0pt" font-family="serif">
+								<xsl:apply-templates />
+							</fo:block>
+						</xsl:for-each>
+						<fo:block font-size="11.0pt" font-family="serif">
+							<xsl:for-each select="//cert:codepostal">
+								<xsl:apply-templates />
+							</xsl:for-each>
+							&#160;
+							<xsl:for-each select="//cert:ville">
+								<xsl:apply-templates />
+							</xsl:for-each>
+						</fo:block>
+					</fo:block-container>
+
+				</fo:flow>
+			</fo:page-sequence>
+		</fo:root>
+	</xsl:template>
+</xsl:stylesheet>

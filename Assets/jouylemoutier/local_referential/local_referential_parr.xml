@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
   <request>PerischoolActivityRegistrationRequest</request>
   <data name="PerischoolActivity">
-    <label lang="fr">ActivitÃ©s pÃ©ri-scolaires</label>
+    <label lang="fr">Activités péri-scolaires</label>
     <label lang="en">Perischool Activity</label>
     <entries supportMultiple="true" supportQuota="false" supportPriority="false"
       supportPrecision="false">

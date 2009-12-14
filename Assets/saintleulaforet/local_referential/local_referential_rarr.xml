@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>RecreationActivityRegistrationRequest</request>
+    <data name="RecreationActivity">
+        <label lang="fr">Activités de l'enfant au centre</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="mercredi_9_septembre_2009">
+                <label lang="fr">Mercredi 9 septembre 2009</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

@@ -1,20 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
-  <request>PerischoolActivityRegistrationRequest</request>
-  <data name="PerischoolActivity">
-    <label lang="fr">ActivitÃ©s pÃ©ri-scolaires</label>
-    <label lang="en">Perischool Activity</label>
-    <entries supportMultiple="true" supportQuota="false" supportPriority="false"
-      supportPrecision="false">
-      <entry key="EveningNursery">
-	<label lang="fr">Garderie du soir</label>
-      </entry>
-      <entry key="MorningNursery">
-	<label lang="fr">Garderie du matin</label>
-      </entry>
-      <entry key="MorningAndEveningNursery">
-	<label lang="fr">Garderie soir et matin</label>
-      </entry>
-    </entries>
-  </data>
+    <request>PerischoolActivityRegistrationRequest</request>
+    <data name="PerischoolActivity">
+        <label lang="fr">Activités périscolaires</label>
+        <label lang="en">Perischool Activity</label>
+        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+            <entry key="EveningNursery">
+                <label lang="fr">Garderie du soir</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="MorningNursery">
+                <label lang="fr">Garderie du matin</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="MorningAndEveningNursery">
+                <label lang="fr">Garderie soir et matin</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="PERISCOLAIREMATIN">
+                <label lang="fr">Accueil périscolaire du matin</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="PERISCOLAIRESOIR">
+                <label lang="fr">Accueil périscolaire du soir</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="ETUDESDIRIGEES">
+                <label lang="fr">Etudes dirigées</label>
+                <message lang="fr"/>
+                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+        </entries>
+    </data>
 </LocalReferential>

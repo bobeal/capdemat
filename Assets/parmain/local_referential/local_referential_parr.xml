@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>PerischoolActivityRegistrationRequest</request>
     <data name="PerischoolActivity">
-        <label lang="fr">ActivitÃ©s pÃ©ri-scolaires</label>
+        <label lang="fr">Activités péri-scolaires</label>
         <label lang="en">Perischool Activity</label>
         <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
             <entry key="PreSchoolReception">
@@ -16,12 +16,12 @@
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="AfterStudyReception">
-                <label lang="fr">Accueil aprÃ¨s Ã©tude</label>
+                <label lang="fr">Accueil après étude</label>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="DayReception">
-                <label lang="fr">Forfait inscription Ã©tude</label>
+                <label lang="fr">Forfait inscription étude</label>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>

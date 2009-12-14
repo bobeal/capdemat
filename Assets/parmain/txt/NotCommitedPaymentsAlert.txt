@@ -1,13 +1,13 @@
 Bonjour,
 
-Les paiements suivants sont initialisÃ©s depuis plus de 3 heures sans rÃ©ponse du service associÃ©:
+Les paiements suivants sont initialisés depuis plus de 3 heures sans réponse du service associé:
 
 <loop>
 --------------------------------------------------
 INFO PAIEMENT
 --------------------------------------------------
-RÃ©gie : ${broker}
-RÃ©fÃ©rence CapDÃ©mat : ${cvqReference}
+Régie : ${broker}
+Référence CapDémat : ${cvqReference}
 Mode de paiement : ${paymentMode}
 Date d'intitialisation : ${initializationDate}
 --------------------------------------------------
@@ -15,5 +15,5 @@ Date d'intitialisation : ${initializationDate}
 
 Cordialement,
 
-CapDÃ©mat.
+CapDémat.
 

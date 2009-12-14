@@ -1,40 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>RecreationActivityRegistrationRequest</request>
     <data name="RecreationActivity">
-        <label lang="fr">Activit√©s de l'enfant au centre</label>
-        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
-            <entry key="DayFromSeven">
-                <label lang="fr">Journ√©e d√©s 7h00</label>
-                <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
-                    <entry key="DayFromHalfPastEight">
-                        <label lang="fr">Journ√©e d√©s 8h30</label>
-                        <message lang="fr"/>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                    </entry>
-                </entries>
-            </entry>
-            <entry key="DayFromHalfPastEight">
-                <label lang="fr">Journ√©e d√©s 8h30</label>
-                <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-            </entry>
+        <label lang="fr">ActivitÈs de l'enfant au centre</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
             <entry key="HalfDayWithoutMeat">
-                <label lang="fr">1/2 journ√©e sans repas</label>
+                <label lang="fr">1/2 journÈe sans repas</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="HalfDayWithMeat">
-                <label lang="fr">1/2 journ√©e avec repas</label>
+                <label lang="fr">1/2 journÈe avec repas</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="Day">
+                <label lang="fr">JournÈe</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="DayPAI">
+                <label lang="fr">JournÈe PAI (allergie)</label>
+                <message lang="fr"/>
             </entry>
         </entries>
     </data>

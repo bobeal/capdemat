@@ -135,7 +135,6 @@ body
 /* color description : light grey */
 .insert_list li.text_row label,
 .insert_list li.phone_row label,
-.insert_list li.number_row label,
 .insert_list li.password_row label,
 .insert_list li.date_row label,
 .insert_list li.town_row label,
@@ -185,7 +184,6 @@ body
 .insert_list li.text_row textarea,
 .insert_list li.textarea_row textarea,
 .insert_list li.phone_row input,
-.insert_list li.number_row input,
 .insert_list li.password_row input,
 .insert_list li.date_row input,
 .insert_list li.town_row input,
@@ -238,7 +236,6 @@ body
 /* color description : light grey */
 .confirm_list li.text_row .label,
 .confirm_list li.phone_row .label,
-.confirm_list li.number_row .label,
 .confirm_list li.password_row .label,
 .confirm_list li.date_row .label,
 .confirm_list li.town_row .label
@@ -356,97 +353,4 @@ body
 .ticket_table_body .selected_button .submit a
 {
   color: #f00;
-}
-
-
-/* COLORS.CSS Music School */
-
-.dropdown_list .close .element_link,
-.dropdown_list .sublist .close .element_link
-{
-  background-color: #fff;
-  color: #6e6e6e;
-}
-
-.dropdown_list .open .element_link
-{
-  background-color: #309ccb;
-  color: #fff;
-}
-
-.dropdown_list .sublist .open .element_link
-{
-  background-color: #eee;
-  color: #6e6e6e;
-}
-
-.dropdown_list .close .element_link .custom_color,
-.dropdown_list .sublist .close .element_link .custom_color
-{
-  background-color: #309ccb;
-}
-
-.dropdown_list .open .element_link .custom_color,
-.dropdown_list .sublist .open .element_link .custom_color
-{
-  background-color: #309ccb;
-}
-
-.dropdown_list .element_form_row
-{
-  border-color: #c0c0c0;
-}
-
-.dropdown_list .element_form_row .label
-{
-  color: #000;
-}
-
-.dropdown_list .element .element_th
-{
-  background-color: #eee;
-  color: #6e6e6e;
-}
-
-.table_type101,
-.table_type101 .td
-{
-  border-color: #c0c0c0;
-  color: #6e6e6e;
-}
-
-.table_type101 .td .input_text
-{
-  border-color: #aaa;
-  color: #309ccb;
-}
-
-.list_resum .table_type101 .td .input_text
-{
-  color: #6e6e6e;
-}
-
-.list_resum .element_form_row .label
-{
-  color: #309ccb;
-}
-
-#context .context_block .context_activity_ok
-{
-  color: #6e6e6e;
-}
-
-#context .context_block .context_activity_ok .custom_color
-{
-  background-color: #309ccb;
-}
-
-#context .context_block .context_activity_ok strong
-{
-  color: #309ccb;
-} 
-
-.actions_list .validation_process a
-{
-  color: #6e6e6e;
 }

@@ -1,0 +1,34 @@
+h2 {
+	color: #3c4faa;
+}
+h3 {
+	color: #3c4faa;
+}
+
+#welcome {
+	color: #3c4faa;
+}
+
+#header {
+	background-color: #e8f0ff;
+}
+#personnal {
+	background-color: #e1ebff;
+}
+#public {
+	background-color: #d2e1ff;
+}
+
+div.button {
+    color: #4d61c1;
+}
+
+div.label-button div.button:hover {
+    background-color: #4d61c1;
+    color: #d2e1ff;
+}
+
+div.label-left-button div.button:hover {
+    background-color: #4d61c1;
+    color: #d2e1ff;
+}

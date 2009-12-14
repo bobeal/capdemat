@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
   <request>MusicSchoolRegistrationRequest</request>
   <data name="Activity">
-    <label lang="fr">ActivitÃ©s</label>
+    <label lang="fr">Activités</label>
     <label lang="en">Activities</label>
   </data>
 </LocalReferential>

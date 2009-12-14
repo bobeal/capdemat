@@ -1,0 +1,126 @@
+/**
+ * header="#1e2855"
+ * background-color="#89b1d9"
+ * button="#273166"
+ * streamer="#c4d8ec"
+ * detail="#a7c5e3"
+*/
+div.static-button {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.disabled-button {
+	background-color: #8791c0;
+	color: #273166;
+}
+
+div.enabled-button {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.enabled-button:hover {
+	background-color: #273166;
+	color: #89b1d9;
+}
+
+div.name-button {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.name-button:hover {
+	background-color: #273166;
+	color: #89b1d9;
+}
+
+div.label-field select {
+	background: #89b1d9;
+	color: #273166;
+}
+
+div.label-field div.radio {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.label-field div.radio:hover {
+	background-color: #273166;
+	color: #89b1d9;
+}
+
+div.label-field div.check {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.label-field div.check:hover {
+	background-color: #273166;
+	color: #89b1d9;
+}
+
+div.label-field div.mediumbox {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.label-field div.mediumbox:hover {
+	background-color: #273166;
+	color: #89b1d9;
+}
+
+div.label-field div.radiolist div.mediumbox {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.label-field div.radiolist div.mediumbox:hover {
+	background-color: #273166;
+	color: #89b1d9;
+}
+
+div.label-field div.longbox {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.label-field div.longbox:hover {
+	background-color: #273166;
+	color: #89b1d9;
+}
+
+div.label-field div.xxlbox {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.label-field div.xxlbox:hover {
+	background-color: #273166;
+	color: #89b1d9;
+}
+
+div.label-field div.xxxlbox {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.label-field div.xxxlbox:hover {
+	background-color: #273166;
+	color: #89b1d9;
+}
+
+div.label-field div.check_long {
+	background-color: #89b1d9;
+	color: #273166;
+}
+
+div.label-field div.check_long:hover {
+	background-color: #273166;
+	color: #89b1d9;
+}
+
+div.reservation div.detail {
+	background-color: #a7c5e3;
+}
+

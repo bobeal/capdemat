@@ -6,31 +6,13 @@
   <bean id="configurationBean_franconville"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="franconville"/>
-    <property name="postalCode" value="95130"/>
-    <property name="displayTitle" value="Franconville"/>
-    <property name="urls">
-      <list>
-        <value>cartevaloise.ville-franconville.fr</value>
-        <value>vosdemarches.ville-franconville.fr</value>
-      </list>
-    </property>
-    <property name="foAccountTabs">
-      <list>
-        <value>welcome</value>
-        <value>individuals</value>
-        <value>requests</value>
-        <value>documents</value>
-        <value>services</value>
-        <value>checklist</value>
-        <value>caddy</value>
-      </list>
-    </property>
-    <property name="documentDigitalizationEnabled" value="false" />
+    <property name="defaultServerName" value="vosdemarches.ville-franconville.fr"/>
     <property name="sessionFactory">
       <ref bean="sessionFactory_franconville" />
     </property>
     <property name="paymentServices">
       <map>
+        <!--
         <entry>
           <key>
             <ref bean="paylinePaymentProvider" />
@@ -77,6 +59,45 @@
                     <value>paylinePersonnalisation</value>
                   </key>
                   <value>FRANCONVILLE</value>
+                </entry>
+              </map>
+            </property>
+          </bean>
+        </entry>
+        -->
+        <entry>
+          <key>
+            <ref bean="paylineV4PaymentProvider" />
+          </key>
+          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+            <property name="broker" value="Régie Payline de la ville de Parmain"></property>
+            <property name="friendlyLabel" value="Service scolaire" />
+            <property name="requestTypes">
+              <list>
+                <value>School Canteen Registration</value>
+                <value>Perischool Activity Registration</value>
+                <value>Recreation Activity Registration</value>
+              </list>
+            </property>
+            <property name="serviceProperties">
+              <map>
+                <entry>
+                  <key>
+                    <value>merchantID</value>
+                  </key>
+                  <value>16297852179178</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>merchantAccesskey</value>
+                  </key>
+                  <value>GePrvnY9OfGq1PIZ2B9U</value>
+                </entry>
+                <entry>
+                  <key>
+                    <value>contractNumber</value>
+                  </key>
+                  <value>2319905</value>
                 </entry>
               </map>
             </property>
@@ -196,10 +217,10 @@
       <value>jdbc:postgresql://localhost:5432/cartevaloise_franconville</value>
     </property>
     <property name="user">
-      <value>cvq95</value>
+      <value>capdemat</value>
     </property>
     <property name="password">
-      <value>cvq95pass</value>
+      <value>capdematpass</value>
     </property>
     <property name="acquireIncrement" value="3" />
     <property name="initialPoolSize" value="3" />

@@ -6,24 +6,7 @@
   <bean id="configurationBean_jouylemoutier"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="jouylemoutier"/>
-    <property name="postalCode" value="95280"/>
-    <property name="displayTitle" value="Jouy-le-Moutier"/>
-    <property name="urls">
-      <list>
-        <value>vosdemarches.jouylemoutier.fr</value>
-      </list>
-    </property>
-    <property name="foAccountTabs">
-      <list>
-        <value>welcome</value>
-        <value>individuals</value>
-        <value>requests</value>
-        <value>documents</value>
-        <value>services</value>
-        <value>checklist</value>
-        <value>caddy</value>
-      </list>
-    </property>
+    <property name="defaultServerName" value="vosdemarches.jouylemoutier.fr"/>
     <property name="sessionFactory">
       <ref bean="sessionFactory_jouylemoutier" />
     </property>
@@ -98,10 +81,10 @@
       <value>jdbc:postgresql://localhost:5432/cartevaloise_jouylemoutier</value>
     </property>
     <property name="user">
-      <value>cvq95</value>
+      <value>capdemat</value>
     </property>
     <property name="password">
-      <value>cvq95pass</value>
+      <value>capdematpass</value>
     </property>
     <property name="acquireIncrement" value="3" />
     <property name="initialPoolSize" value="3" />

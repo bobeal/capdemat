@@ -6,25 +6,7 @@
   <bean id="configurationBean_parmain"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="parmain" />
-    <property name="postalCode" value="95620"/>
-    <property name="displayTitle" value="Parmain" />
-    <property name="urls">
-      <list>
-        <value>cartevaloise.ville-parmain.fr</value>
-        <value>vosdemarches.ville-parmain.fr</value>
-      </list>
-    </property>
-    <property name="foAccountTabs">
-      <list>
-        <value>welcome</value>
-        <value>individuals</value>
-        <value>requests</value>
-        <value>documents</value>
-        <value>services</value>
-        <value>checklist</value>
-        <value>caddy</value>
-      </list>
-    </property>
+    <property name="defaultServerName" value="vosdemarches.ville-parmain.fr"/>
     <property name="sessionFactory">
       <ref bean="sessionFactory_parmain" />
     </property>
@@ -231,10 +213,10 @@
       <value>jdbc:postgresql://localhost:5432/cartevaloise_parmain</value>
     </property>
     <property name="user">
-      <value>cvq95</value>
+      <value>capdemat</value>
     </property>
     <property name="password">
-      <value>cvq95pass</value>
+      <value>capdematpass</value>
     </property>
     <property name="acquireIncrement" value="3" />
     <property name="initialPoolSize" value="3" />

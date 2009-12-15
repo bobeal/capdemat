@@ -6,35 +6,7 @@
   <bean id="configurationBean_vetheuil"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="vetheuil"/>
-    <property name="postalCode" value="952510"/>
-    <property name="displayTitle" value="Vétheuil"/>
-    <property name="urls">
-      <list>
-        <value>vosdemarches.mairie-vetheuil.fr</value>
-      </list>
-    </property>
-    <property name="foAccountTabs">
-      <list>
-        <value>welcome</value>
-        <value>individuals</value>
-        <value>requests</value>
-        <value>documents</value>
-        <value>services</value>
-        <value>checklist</value>
-        <value>caddy</value>
-      </list>
-    </property>
-    <property name="instructionAlertsEnabled" value="false" />
-    <property name="instructionAlertsDetailed" value="true" />
-    <property name="instructionDefaultMaxDelay" value="10" />
-    <property name="instructionDefaultAlertDelay" value="3" />
-    <property name="instructionDoneStates">
-      <list>
-        <value>Rejected</value>
-        <value>Cancelled</value>
-        <value>Notified</value>
-      </list>
-    </property>
+    <property name="defaultServerName" value="vosdemarches.mairie-vetheuil.fr" />
     <property name="sessionFactory">
       <ref bean="sessionFactory_vetheuil" />
     </property>
@@ -69,10 +41,10 @@
       <value>jdbc:postgresql://localhost:5432/capdemat_vetheuil</value>
     </property>
     <property name="user">
-      <value>cvq95</value>
+      <value>capdemat</value>
     </property>
     <property name="password">
-      <value>cvq95pass</value>
+      <value>capdematpass</value>
     </property>
     <property name="acquireIncrement" value="3" />
     <property name="initialPoolSize" value="3" />

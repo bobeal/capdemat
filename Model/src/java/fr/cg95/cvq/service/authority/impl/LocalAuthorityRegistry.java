@@ -618,7 +618,13 @@ public class LocalAuthorityRegistry
         if (localAuthority.getServerNames() == null 
                 || localAuthority.getServerNames().isEmpty()) {
             localAuthority.setServerNames(new TreeSet<String>());
-            String serverName = "vosdemarches.ville-" + lacb.getName() + ".fr";
+            String serverName = null;
+            if (lacb.getDefaultServerName() != null)
+                serverName = lacb.getDefaultServerName();
+            else
+                serverName = "vosdemarches.ville-" + lacb.getName() + ".fr";
+            logger.debug("instantiateLocalAuthority() initializing with server name " 
+                    + serverName);
             localAuthority.getServerNames().add(serverName);
             registerLocalAuthorityServerName(serverName);
         } else {

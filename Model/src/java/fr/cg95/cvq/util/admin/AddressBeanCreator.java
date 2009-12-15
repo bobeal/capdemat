@@ -90,12 +90,16 @@ public class AddressBeanCreator {
             address.setStreetNumber(tempStreetNumber);
             if (otherFieldsMatcher.group(1) != null) {
                 address.setStreetName(otherFieldsMatcher.group(1).trim());
+                if (address.getStreetName().length() > 114)
+                    return null;
             }
             if (otherFieldsMatcher.group(3) != null) {
                 address.setPostalCode(otherFieldsMatcher.group(3).trim());
             }
             if (otherFieldsMatcher.group(4) != null) {
                 address.setCity(otherFieldsMatcher.group(4).trim());
+                if (address.getCity().length() > 32)
+                    return null;
             }
             return address;
         }

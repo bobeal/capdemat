@@ -2,22 +2,22 @@
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>RecreationActivityRegistrationRequest</request>
     <data name="RecreationActivity">
-        <label lang="fr">Activités de l'enfant au centre</label>
+        <label lang="fr">ActivitÃ©s de l'enfant au centre</label>
         <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
             <entry key="HalfDayWithoutMeat">
-                <label lang="fr">1/2 journée sans repas</label>
+                <label lang="fr">1/2 journÃ©e sans repas</label>
                 <message lang="fr"/>
             </entry>
             <entry key="HalfDayWithMeat">
-                <label lang="fr">1/2 journée avec repas</label>
+                <label lang="fr">1/2 journÃ©e avec repas</label>
                 <message lang="fr"/>
             </entry>
             <entry key="Day">
-                <label lang="fr">Journée</label>
+                <label lang="fr">JournÃ©e</label>
                 <message lang="fr"/>
             </entry>
             <entry key="DayPAI">
-                <label lang="fr">Journée PAI (allergie)</label>
+                <label lang="fr">JournÃ©e PAI (allergie)</label>
                 <message lang="fr"/>
             </entry>
         </entries>

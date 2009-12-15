@@ -7,17 +7,17 @@
     <entries supportMultiple="true" supportQuota="false" supportPriority="true"
       supportPrecision="false">
       <entry key="Phone">
-	<label lang="fr">Téléphone</label>
+	<label lang="fr">TÃ©lÃ©phone</label>
 	<entries supportMultiple="true" supportQuota="false" supportPriority="true"
 	  supportPrecision="false">
 	  <entry key="HomePhone">
-	    <label lang="fr">Téléphone domicile</label>
+	    <label lang="fr">TÃ©lÃ©phone domicile</label>
 	  </entry>
 	  <entry key="MobilePhone">
-	    <label lang="fr">Téléphone mobile</label>
+	    <label lang="fr">TÃ©lÃ©phone mobile</label>
 	  </entry>
 	  <entry key="OfficePhone">
-	    <label lang="fr">Téléphone bureau</label>
+	    <label lang="fr">TÃ©lÃ©phone bureau</label>
 	  </entry>
 	</entries>
       </entry>
@@ -26,10 +26,10 @@
 	<entries supportMultiple="true" supportQuota="false" supportPriority="true"
 	  supportPrecision="false">
 	  <entry key="SimpleMail">
-	    <label lang="fr">Lettre économique</label>
+	    <label lang="fr">Lettre Ã©conomique</label>
 	  </entry>
 	  <entry key="ExpressMail">
-	    <label lang="fr">Lettre recommandée</label>
+	    <label lang="fr">Lettre recommandÃ©e</label>
 	    <message lang="fr">Merci de joindre un timbre dans ce cas</message>
 	  </entry>
 	</entries>
@@ -42,7 +42,7 @@
       </entry>
       <entry key="SMS">
 	<label lang="fr">SMS</label>
-	<message lang="fr">Seulement si l'opérateur est France Telecom</message>
+	<message lang="fr">Seulement si l'opÃ©rateur est France Telecom</message>
       </entry>
     </entries>
   </data>

@@ -2,7 +2,7 @@
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
   <request>MusicSchoolRegistrationRequest</request>
   <data name="Activity">
-    <label lang="fr">Activités</label>
+    <label lang="fr">ActivitÃ©s</label>
     <label lang="en">Activities</label>
     <entries supportMultiple="true" supportQuota="false" supportPriority="true"
       supportPrecision="true">
@@ -39,7 +39,7 @@
 	  </entry>
 	  <entry key="Gothique">
 	    <label lang="fr">Gothique</label>
-	    <message lang="fr">Tenue noire exigée</message>
+	    <message lang="fr">Tenue noire exigÃ©e</message>
 	  </entry>
 	</entries>
       </entry>

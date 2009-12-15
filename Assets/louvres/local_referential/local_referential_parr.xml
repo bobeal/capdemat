@@ -2,7 +2,7 @@
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>PerischoolActivityRegistrationRequest</request>
     <data name="PerischoolActivity">
-        <label lang="fr">Activités périscolaires</label>
+        <label lang="fr">ActivitÃ©s pÃ©riscolaires</label>
         <label lang="en">Perischool Activity</label>
         <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
             <entry key="EveningNursery">
@@ -24,19 +24,19 @@
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="PERISCOLAIREMATIN">
-                <label lang="fr">Accueil périscolaire du matin</label>
+                <label lang="fr">Accueil pÃ©riscolaire du matin</label>
                 <message lang="fr"/>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="PERISCOLAIRESOIR">
-                <label lang="fr">Accueil périscolaire du soir</label>
+                <label lang="fr">Accueil pÃ©riscolaire du soir</label>
                 <message lang="fr"/>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="ETUDESDIRIGEES">
-                <label lang="fr">Etudes dirigées</label>
+                <label lang="fr">Etudes dirigÃ©es</label>
                 <message lang="fr"/>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>

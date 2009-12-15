@@ -3,7 +3,7 @@
 <PlaceReservation xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>PlaceReservationRequest</request>
     <data name="PlaceReservation">
-        <label lang="fr">Places réservées</label>
+        <label lang="fr">Places rÃ©servÃ©es</label>
         <entry key="Louise">
             <label lang="fr">Ce qu'il en reste</label>
             <quota>50</quota>
@@ -25,7 +25,7 @@
                 <price>9.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
             </ticketSelection>
         </entry>
@@ -43,7 +43,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -53,13 +53,13 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>19.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="Pres">
-            <label lang="fr">Présentation</label>
+            <label lang="fr">PrÃ©sentation</label>
             <quota>0</quota>
             <eventDate>2006-09-22T19:00:00.000+02:00</eventDate>
             <remainingPlaces>0</remainingPlaces>
@@ -80,7 +80,7 @@
                 <price>20.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>10.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
@@ -88,12 +88,12 @@
                 <price>14.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>16.5</price>
             </ticketSelection>
         </entry>
         <entry key="Quartet">
-            <label lang="fr">L'amitié est plus forte que le printemps de la vie</label>
+            <label lang="fr">L'amitiÃ© est plus forte que le printemps de la vie</label>
             <quota>50</quota>
             <eventDate>2007-01-26T21:00:00.000+01:00</eventDate>
             <remainingPlaces>48</remainingPlaces>
@@ -113,7 +113,7 @@
                 <price>11.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>12.5</price>
             </ticketSelection>
         </entry>
@@ -138,7 +138,7 @@
                 <price>10.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
             </ticketSelection>
         </entry>
@@ -156,7 +156,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -166,7 +166,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -192,7 +192,7 @@
                 <price>13.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
             </ticketSelection>
         </entry>
@@ -209,7 +209,7 @@
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
@@ -217,7 +217,7 @@
                 <price>8.5</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
             </ticketSelection>
         </entry>
@@ -234,7 +234,7 @@
                 <price>20.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
@@ -242,18 +242,18 @@
                 <price>13.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
             </ticketSelection>
         </entry>
         <entry key="Meli02">
-            <label lang="fr">Méli-Mélo II</label>
+            <label lang="fr">MÃ©li-MÃ©lo II</label>
             <quota>7</quota>
             <eventDate>2006-10-04T21:00:00.000+02:00</eventDate>
             <remainingPlaces>4</remainingPlaces>
             <reservationStartDate>2006-09-04+02:00</reservationStartDate>
             <reservationEndDate>2006-10-03+02:00</reservationEndDate>
-            <message>Séance confirmée!</message>
+            <message>SÃ©ance confirmÃ©e!</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>16.0</price>
@@ -267,12 +267,12 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
             </ticketSelection>
         </entry>
         <entry key="Toutlemonde03">
-            <label lang="fr">Tout le monde sait ça</label>
+            <label lang="fr">Tout le monde sait Ã§a</label>
             <quota>50</quota>
             <eventDate>2006-12-06T15:30:00.000+01:00</eventDate>
             <remainingPlaces>50</remainingPlaces>
@@ -292,7 +292,7 @@
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>7.0</price>
             </ticketSelection>
         </entry>
@@ -309,7 +309,7 @@
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
@@ -317,7 +317,7 @@
                 <price>8.5</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
             </ticketSelection>
         </entry>
@@ -334,7 +334,7 @@
                 <price>15.5</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
@@ -342,7 +342,7 @@
                 <price>11.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>12.5</price>
             </ticketSelection>
         </entry>
@@ -367,7 +367,7 @@
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>14.0</price>
             </ticketSelection>
         </entry>
@@ -384,7 +384,7 @@
                 <price>16.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
@@ -392,7 +392,7 @@
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>12.0</price>
             </ticketSelection>
         </entry>
@@ -417,12 +417,12 @@
                 <price>13.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
             </ticketSelection>
         </entry>
         <entry key="Chemins">
-            <label lang="fr">Les ch'mins d'Couté</label>
+            <label lang="fr">Les ch'mins d'CoutÃ©</label>
             <quota>50</quota>
             <eventDate>2007-04-27T21:00:00.000+02:00</eventDate>
             <remainingPlaces>47</remainingPlaces>
@@ -434,7 +434,7 @@
                 <price>12.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
@@ -442,7 +442,7 @@
                 <price>8.5</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
             </ticketSelection>
         </entry>
@@ -460,7 +460,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -470,7 +470,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -489,7 +489,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -499,7 +499,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>19.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -518,7 +518,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>6.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -528,7 +528,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -546,7 +546,7 @@
                 <price>11.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
@@ -554,7 +554,7 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
             </ticketSelection>
         </entry>
@@ -572,7 +572,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -582,7 +582,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>12.5</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -608,7 +608,7 @@
                 <price>15.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>24.0</price>
             </ticketSelection>
         </entry>
@@ -633,12 +633,12 @@
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>7.0</price>
             </ticketSelection>
         </entry>
         <entry key="Meli01">
-            <label lang="fr">Méli-Mélo II</label>
+            <label lang="fr">MÃ©li-MÃ©lo II</label>
             <quota>5</quota>
             <eventDate>2006-10-03T21:00:00.000+02:00</eventDate>
             <remainingPlaces>5</remainingPlaces>
@@ -658,7 +658,7 @@
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
             </ticketSelection>
         </entry>
@@ -675,7 +675,7 @@
                 <price>15.5</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
@@ -683,7 +683,7 @@
                 <price>11.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>12.5</price>
             </ticketSelection>
         </entry>
@@ -700,7 +700,7 @@
                 <price>11.0</price>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>6.0</price>
             </ticketSelection>
             <ticketSelection key="RMI">
@@ -708,7 +708,7 @@
                 <price>7.5</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>7.5</price>
             </ticketSelection>
         </entry>
@@ -733,12 +733,12 @@
                 <price>9.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
             </ticketSelection>
         </entry>
         <entry key="Nymph">
-            <label lang="fr">Nymphéas</label>
+            <label lang="fr">NymphÃ©as</label>
             <quota>50</quota>
             <eventDate>2006-12-10T17:00:00.000+01:00</eventDate>
             <remainingPlaces>50</remainingPlaces>
@@ -758,7 +758,7 @@
                 <price>16.0</price>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>19.0</price>
             </ticketSelection>
         </entry>
@@ -776,7 +776,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -786,7 +786,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -820,23 +820,23 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>11.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>12.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="pres2007">
-            <label lang="fr">Présentation de la saison 2007-2008</label>
+            <label lang="fr">PrÃ©sentation de la saison 2007-2008</label>
             <quota>0</quota>
             <eventDate>2007-09-21T19:00:00.000+02:00</eventDate>
             <remainingPlaces>0</remainingPlaces>
@@ -873,17 +873,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>13.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>15.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>17.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -895,7 +895,7 @@
             <remainingPlaces>43</remainingPlaces>
             <reservationStartDate>2007-08-28+02:00</reservationStartDate>
             <reservationEndDate>2007-10-11+02:00</reservationEndDate>
-            <message>au théâtre Simone Signoret à Conflans / placement libre</message>
+            <message>au thÃ©Ã¢tre Simone Signoret Ã  Conflans / placement libre</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>15.0</price>
@@ -917,23 +917,23 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>13.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>13.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="rike">
-            <label lang="fr">Riké</label>
+            <label lang="fr">RikÃ©</label>
             <quota>50</quota>
             <eventDate>2007-10-19T21:00:00.000+02:00</eventDate>
             <remainingPlaces>42</remainingPlaces>
@@ -961,23 +961,23 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>11.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>11.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="sax">
-            <label lang="fr">Les Sax's présentent Roxanne</label>
+            <label lang="fr">Les Sax's prÃ©sentent Roxanne</label>
             <quota>28</quota>
             <eventDate>2007-10-27T21:00:00.000+02:00</eventDate>
             <remainingPlaces>26</remainingPlaces>
@@ -1005,29 +1005,29 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>9.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>10.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="proust">
-            <label lang="fr">Délivrez Proust</label>
+            <label lang="fr">DÃ©livrez Proust</label>
             <quota>30</quota>
             <eventDate>2007-11-09T21:00:00.000+01:00</eventDate>
             <remainingPlaces>25</remainingPlaces>
             <reservationStartDate>2007-09-09+02:00</reservationStartDate>
             <reservationEndDate>2007-11-08+01:00</reservationEndDate>
-            <message>dans le cadre du Festival Théâtral du Val d'Oise</message>
+            <message>dans le cadre du Festival ThÃ©Ã¢tral du Val d'Oise</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>11.0</price>
@@ -1049,17 +1049,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>7.5</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>7.5</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>7.5</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1093,17 +1093,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>15.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>15.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1115,14 +1115,14 @@
             <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2007-09-30+02:00</reservationStartDate>
             <reservationEndDate>2007-11-27+01:00</reservationEndDate>
-            <message>en collaboration avec le Conservatoire à Rayonnement Régional de Cergy-Pontoise</message>
+            <message>en collaboration avec le Conservatoire Ã  Rayonnement RÃ©gional de Cergy-Pontoise</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1137,17 +1137,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
@@ -1166,7 +1166,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1181,17 +1181,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>9.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>10.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1210,7 +1210,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1225,17 +1225,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>21.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>22.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>24.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1254,7 +1254,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1264,17 +1264,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>12.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>11.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
@@ -1298,7 +1298,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1313,17 +1313,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>9.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>10.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1342,7 +1342,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1357,17 +1357,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1386,7 +1386,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1396,17 +1396,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>10.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>9.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
@@ -1417,7 +1417,7 @@
             </ticketSelection>
         </entry>
         <entry key="love">
-            <label lang="fr">Love suprême...</label>
+            <label lang="fr">Love suprÃªme...</label>
             <quota>50</quota>
             <eventDate>2008-02-15T21:00:00.000+01:00</eventDate>
             <remainingPlaces>48</remainingPlaces>
@@ -1430,7 +1430,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1440,17 +1440,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>15.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>16.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>14.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
@@ -1474,7 +1474,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1484,17 +1484,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
@@ -1518,7 +1518,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1528,17 +1528,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
@@ -1562,7 +1562,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1572,17 +1572,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
@@ -1593,7 +1593,7 @@
             </ticketSelection>
         </entry>
         <entry key="acrostiches">
-            <label lang="fr">Les acrostiches à contretemps</label>
+            <label lang="fr">Les acrostiches Ã  contretemps</label>
             <quota>50</quota>
             <eventDate>2008-03-28T21:00:00.000+01:00</eventDate>
             <remainingPlaces>50</remainingPlaces>
@@ -1606,7 +1606,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1621,17 +1621,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>11.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>12.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1650,7 +1650,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1665,17 +1665,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>9.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>10.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1694,7 +1694,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1709,23 +1709,23 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>6.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="marechal">
-            <label lang="fr">Denis Maréchal</label>
+            <label lang="fr">Denis MarÃ©chal</label>
             <quota>0</quota>
             <eventDate>2008-04-11T21:00:00.000+02:00</eventDate>
             <remainingPlaces>0</remainingPlaces>
@@ -1738,7 +1738,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1753,17 +1753,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>11.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>12.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1782,7 +1782,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1797,17 +1797,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1826,7 +1826,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1841,17 +1841,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1870,7 +1870,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1885,17 +1885,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1914,7 +1914,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1929,17 +1929,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1958,7 +1958,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -1973,17 +1973,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2002,7 +2002,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2017,17 +2017,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2046,7 +2046,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2061,17 +2061,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2090,7 +2090,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2105,36 +2105,36 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>4.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>4.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="apotres">
-            <label lang="fr">Les nouveaux apôtres</label>
+            <label lang="fr">Les nouveaux apÃ´tres</label>
             <quota>0</quota>
             <eventDate>2008-05-16T22:00:00.000+02:00</eventDate>
             <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-03-16+01:00</reservationStartDate>
             <reservationEndDate>2008-05-15+02:00</reservationEndDate>
-            <message>spectacle annulé</message>
+            <message>spectacle annulÃ©</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2149,17 +2149,17 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2178,7 +2178,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>5.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2193,23 +2193,23 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>8.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="jeux">
-            <label lang="fr">Jeux de mots laids pour gens bêtes</label>
+            <label lang="fr">Jeux de mots laids pour gens bÃªtes</label>
             <quota>30</quota>
             <eventDate>2008-05-30T21:00:00.000+02:00</eventDate>
             <remainingPlaces>28</remainingPlaces>
@@ -2222,7 +2222,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="CHILDREN">
-                <label lang="fr">- de 15 ans et conventionnés</label>
+                <label lang="fr">- de 15 ans et conventionnÃ©s</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2237,29 +2237,29 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="ReducedPriceSubscriber">
-                <label lang="fr">Tarif réduit abonné</label>
+                <label lang="fr">Tarif rÃ©duit abonnÃ©</label>
                 <price>11.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit (justificatif obligatoire lors du retrait)</label>
+                <label lang="fr">Tarif rÃ©duit (justificatif obligatoire lors du retrait)</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="FullPriceSubscriber">
-                <label lang="fr">Tarif plein abonné</label>
+                <label lang="fr">Tarif plein abonnÃ©</label>
                 <price>12.0</price>
                 <isSubscriberPrice>true</isSubscriberPrice>
             </ticketSelection>
         </entry>
         <entry key="PRE">
-            <label lang="fr">Présentation de saison</label>
+            <label lang="fr">PrÃ©sentation de saison</label>
             <quota>0</quota>
             <eventDate>2008-09-26T19:00:00.000+02:00</eventDate>
             <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-08-26+02:00</reservationStartDate>
             <reservationEndDate>2008-09-25+02:00</reservationEndDate>
-            <message>Sur réservation au 01.34.43.38.00</message>
+            <message>Sur rÃ©servation au 01.34.43.38.00</message>
         </entry>
         <entry key="SOMB1">
             <label lang="fr">SOMBRERO</label>
@@ -2268,7 +2268,7 @@
             <remainingPlaces>5</remainingPlaces>
             <reservationStartDate>2008-08-25+02:00</reservationStartDate>
             <reservationEndDate>2008-09-30+02:00</reservationEndDate>
-            <message>Au théâtre des Louvrais</message>
+            <message>Au thÃ©Ã¢tre des Louvrais</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif Plein</label>
                 <price>30.0</price>
@@ -2280,7 +2280,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>30.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2292,7 +2292,7 @@
             <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-08-25+02:00</reservationStartDate>
             <reservationEndDate>2008-09-30+02:00</reservationEndDate>
-            <message>au théâtre des Louvrais</message>
+            <message>au thÃ©Ã¢tre des Louvrais</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>30.0</price>
@@ -2304,7 +2304,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>20.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2316,7 +2316,7 @@
             <remainingPlaces>0</remainingPlaces>
             <reservationStartDate>2008-08-25+02:00</reservationStartDate>
             <reservationEndDate>2008-09-30+02:00</reservationEndDate>
-            <message>Au théâtre des Louvrais</message>
+            <message>Au thÃ©Ã¢tre des Louvrais</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>30.0</price>
@@ -2328,7 +2328,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>20.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2352,7 +2352,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>21.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2376,7 +2376,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>21.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2388,7 +2388,7 @@
             <remainingPlaces>26</remainingPlaces>
             <reservationStartDate>2008-08-25+02:00</reservationStartDate>
             <reservationEndDate>2008-10-15+02:00</reservationEndDate>
-            <message>Au théâtre Simone Signoret à Conflans Sainte Honorine</message>
+            <message>Au thÃ©Ã¢tre Simone Signoret Ã  Conflans Sainte Honorine</message>
             <ticketSelection key="FULL">
                 <label lang="fr">Tarif plein</label>
                 <price>20.0</price>
@@ -2400,7 +2400,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>20.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2424,7 +2424,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2448,7 +2448,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2472,7 +2472,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>7.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2496,7 +2496,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif Réduit</label>
+                <label lang="fr">Tarif RÃ©duit</label>
                 <price>18.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2520,7 +2520,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2539,7 +2539,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>13.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2563,7 +2563,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2587,7 +2587,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>18.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2620,7 +2620,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2644,7 +2644,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2668,7 +2668,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2692,7 +2692,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2716,7 +2716,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2740,7 +2740,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>18.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2764,7 +2764,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>18.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2783,7 +2783,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2807,7 +2807,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2831,7 +2831,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2855,7 +2855,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2879,7 +2879,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="REDUCTION">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>21.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2903,7 +2903,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="TR">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>17.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2927,7 +2927,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="TR">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2951,7 +2951,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="TR">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>20.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2975,7 +2975,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="TR">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>10.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -2999,7 +2999,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="TR">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>11.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -3023,7 +3023,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="TR">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -3047,7 +3047,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="TR">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>15.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -3076,7 +3076,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="TR">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -3105,7 +3105,7 @@
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
             <ticketSelection key="TR">
-                <label lang="fr">Tarif réduit</label>
+                <label lang="fr">Tarif rÃ©duit</label>
                 <price>8.0</price>
                 <isSubscriberPrice>false</isSubscriberPrice>
             </ticketSelection>
@@ -3117,7 +3117,7 @@
             <remainingPlaces>50</remainingPlaces>
             <reservationStartDate>2009-10-19+02:00</reservationStartDate>
             <reservationEndDate>2009-12-18+01:00</reservationEndDate>
-            <message>festival Afrik'system - 1ère escale: Jamaïque</message>
+            <message>festival Afrik'system - 1Ã¨re escale: JamaÃ¯que</message>
             <ticketSelection key="FULL">
                 <label lang="fr">tarif plein</label>
                 <price>10.0</price>

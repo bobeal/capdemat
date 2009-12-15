@@ -2,30 +2,30 @@
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
   <request>PerischoolActivityRegistrationRequest</request>
   <data name="PerischoolActivity">
-    <label lang="fr">Activités péri-scolaires</label>
+    <label lang="fr">ActivitÃ©s pÃ©ri-scolaires</label>
     <label lang="en">Perischool Activity</label>
     <entries supportMultiple="true" supportQuota="false" supportPriority="false"
       supportPrecision="false">
       <entry key="PreSchoolReception">
-	<label lang="fr">Accueil Pré-scolaire</label>
+	<label lang="fr">Accueil PrÃ©-scolaire</label>
       </entry>
       <entry key="AfterSchoolReception">
 	<label lang="fr">Accueil Post-scolaire</label>
       </entry>
       <entry key="PreAndAfterSchoolReception">
-	<label lang="fr">Accueil Pré et Post-scolaire</label>
+	<label lang="fr">Accueil PrÃ© et Post-scolaire</label>
       </entry>
       <entry key="MorningAndAfterStudyReception">
-	<label lang="fr">Accueil Matin et Après Etude</label>
+	<label lang="fr">Accueil Matin et AprÃ¨s Etude</label>
       </entry>
       <entry key="AfterStudyReception">
-	<label lang="fr">Accueil Après Etude</label>
+	<label lang="fr">Accueil AprÃ¨s Etude</label>
       </entry>
       <entry key="DayReception">
-	<label lang="fr">Accueil Journée</label>
+	<label lang="fr">Accueil JournÃ©e</label>
       </entry>
       <entry key="HalfDayReception">
-	<label lang="fr">Accueil Demi-journée</label>
+	<label lang="fr">Accueil Demi-journÃ©e</label>
       </entry>
     </entries>
   </data>

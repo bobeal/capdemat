@@ -3,7 +3,7 @@
 <PlaceReservation xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>PlaceReservationRequest</request>
     <data name="PlaceReservation">
-        <label lang="fr">Places réservées</label>
+        <label lang="fr">Places rÃ©servÃ©es</label>
         <entry key="01">
             <label lang="fr">Teatr Licedei</label>
             <quota>200</quota>

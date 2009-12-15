@@ -2,7 +2,7 @@
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>MusicSchoolRegistrationRequest</request>
     <data name="Activity">
-        <label lang="fr">Activités</label>
+        <label lang="fr">ActivitÃ©s</label>
         <label lang="en">Activities</label>
         <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
             <entry key="Instrument">
@@ -17,15 +17,15 @@
                         </precision>
                     </entry>
                     <entry key="atelier-decouverte">
-                        <label lang="fr">Atelier découverte instrumentale</label>
+                        <label lang="fr">Atelier dÃ©couverte instrumentale</label>
                         <message lang="fr"/>
                     </entry>
                     <entry key="flute-traversiere">
-                        <label lang="fr">Flute traversière</label>
+                        <label lang="fr">Flute traversiÃ¨re</label>
                         <message lang="fr"/>
                     </entry>
                     <entry key="initiation-flute-bec">
-                        <label lang="fr">Initiation flute à bec</label>
+                        <label lang="fr">Initiation flute Ã  bec</label>
                         <message lang="fr"/>
                     </entry>
                     <entry key="clarinette">
@@ -49,7 +49,7 @@
                         <message lang="fr"/>
                     </entry>
                     <entry key="accordeon">
-                        <label lang="fr">Accordéon</label>
+                        <label lang="fr">AccordÃ©on</label>
                         <message lang="fr"/>
                     </entry>
                     <entry key="guitare">
@@ -57,7 +57,7 @@
                         <message lang="fr"/>
                     </entry>
                     <entry key="guitare-electrique">
-                        <label lang="fr">Guitare électrique</label>
+                        <label lang="fr">Guitare Ã©lectrique</label>
                         <message lang="fr"/>
                     </entry>
                     <entry key="basse">
@@ -131,7 +131,7 @@
                         <message lang="fr"/>
                         <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
                             <entry key="atelier-decouverte">
-                                <label lang="fr">Atelier découverte</label>
+                                <label lang="fr">Atelier dÃ©couverte</label>
                                 <message lang="fr"/>
                             </entry>
                         </entries>
@@ -152,7 +152,7 @@
                     </entry>
                     <entry key="chorale-adulte">
                         <label lang="fr">Chorale adultes</label>
-                        <message lang="fr">Elèves de plus de 18 ans</message>
+                        <message lang="fr">ElÃ¨ves de plus de 18 ans</message>
                     </entry>
                     <entry key="ensemble-guitares">
                         <label lang="fr">Ensemble de guitares</label>
@@ -168,10 +168,10 @@
                     </entry>
                     <entry key="chorale-6-8">
                         <label lang="fr">Chorale</label>
-                        <message lang="fr">Groupe constitué selon le niveau</message>
+                        <message lang="fr">Groupe constituÃ© selon le niveau</message>
                     </entry>
                     <entry key="comedie-musicale">
-                        <label lang="fr">Atelier de chorale comédie musicale</label>
+                        <label lang="fr">Atelier de chorale comÃ©die musicale</label>
                         <message lang="fr"/>
                     </entry>
                     <entry key="orchestre-classique">
@@ -179,7 +179,7 @@
                         <message lang="fr">niveau 2e/3e cycle</message>
                     </entry>
                     <entry key="comedie_musicale">
-                        <label lang="fr">Comédie musicale</label>
+                        <label lang="fr">ComÃ©die musicale</label>
                         <message lang="fr"/>
                     </entry>
                     <entry key="ensemble_clarinettes">

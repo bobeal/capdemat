@@ -2,10 +2,10 @@
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>PerischoolActivityRegistrationRequest</request>
     <data name="PerischoolActivity">
-        <label lang="fr">Activités périscolaires</label>
+        <label lang="fr">ActivitÃ©s pÃ©riscolaires</label>
         <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
             <entry key="accueil_prescolaire">
-                <label lang="fr">Accueil préscolaire (matin)</label>
+                <label lang="fr">Accueil prÃ©scolaire (matin)</label>
                 <message lang="fr"/>
                 <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
                     <entry key="lundi">

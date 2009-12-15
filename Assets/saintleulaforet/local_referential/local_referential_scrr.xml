@@ -2,20 +2,20 @@
 <LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>SchoolCanteenRegistrationRequest</request>
     <data name="FoodDiet">
-        <label lang="fr">Régime alimentaire</label>
+        <label lang="fr">RÃ©gime alimentaire</label>
         <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
             <entry key="Sans_porc">
                 <label lang="fr">Sans porc</label>
                 <message lang="fr"/>
             </entry>
             <entry key="Aucun_Regime">
-                <label lang="fr">Aucun régime</label>
+                <label lang="fr">Aucun rÃ©gime</label>
                 <message lang="fr"/>
             </entry>
         </entries>
     </data>
     <data name="CanteenAttendingDays">
-        <label lang="fr">Jours de présence</label>
+        <label lang="fr">Jours de prÃ©sence</label>
         <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
             <entry key="Lundi">
                 <label lang="fr">Lundi</label>

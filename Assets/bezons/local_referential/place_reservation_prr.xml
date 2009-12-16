@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by DSI DSI (CONSEIL GENERAL DU VAL D'OISE)-->
 <PlaceReservation xmlns="http://www.cg95.fr/cvq/schema/referential">
     <request>PlaceReservationRequest</request>

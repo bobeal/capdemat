@@ -3,12 +3,12 @@
     <request>RecreationActivityRegistrationRequest</request>
     <data name="RecreationActivity">
         <label lang="fr">Activités de l'enfant au centre</label>
-        <entries supportPriority="true" supportPrecision="false" supportQuota="false" supportMultiple="true">
+        <entries supportPriority="true" supportPrecision="false" supportMultiple="true">
             <entry key="ANewEntry">
                 <label lang="fr">Une nouvelle entrée</label>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <entries supportPriority="false" supportPrecision="true" supportQuota="true" supportMultiple="false">
+                <entries supportPriority="false" supportPrecision="true" supportMultiple="false">
                     <entry key="ANewSubEntry">
                         <label lang="fr">Une sous entrée de la nouvelle entrée</label>
                         <message lang="fr">Le référentiel parle au référentiel</message>

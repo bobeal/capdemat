@@ -4,7 +4,7 @@
     <data name="FoodDiet">
         <label lang="fr">Régime alimentaire</label>
         <label lang="en">Food Diet</label>
-        <entries supportMultiple="true" supportQuota="false" supportPriority="false" supportPrecision="false">
+        <entries supportMultiple="true" supportPriority="false" supportPrecision="false">
             <entry key="NoPork">
                 <label lang="fr">Sans porc</label>
             </entry>
@@ -12,7 +12,7 @@
     </data>
     <data name="CanteenAttendingDays">
         <label lang="fr">Jours de présence</label>
-        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
             <entry key="Monday">
                 <label lang="fr">Lundi</label>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>

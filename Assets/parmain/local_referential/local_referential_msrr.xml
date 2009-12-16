@@ -4,11 +4,11 @@
   <data name="Activity">
     <label lang="fr">Activités</label>
     <label lang="en">Activities</label>
-    <entries supportMultiple="true" supportQuota="false" supportPriority="true"
+    <entries supportMultiple="true" supportPriority="true"
       supportPrecision="true">
       <entry key="Instrument">
 	<label lang="fr">Instrument</label>
-	<entries supportMultiple="true" supportQuota="false" supportPriority="true"
+	<entries supportMultiple="true" supportPriority="true"
 	  supportPrecision="false">
 	  <entry key="Guitar">
 	    <label lang="fr">Guitare</label>
@@ -32,7 +32,7 @@
       </entry>
       <entry key="Chant">
 	<label lang="fr">Chant</label>
-	<entries supportMultiple="true" supportQuota="false" supportPriority="true"
+	<entries supportMultiple="true" supportPriority="true"
 	  supportPrecision="false">
 	  <entry key="Gospel">
 	    <label lang="fr">Gospel</label>

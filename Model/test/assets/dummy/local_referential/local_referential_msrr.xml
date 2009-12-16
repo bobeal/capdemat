@@ -4,12 +4,12 @@
     <data name="Activity">
         <label lang="fr">Activités</label>
         <label lang="en">Activities</label>
-        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="true">
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
             <entry key="Dance">
                 <label lang="fr">Danse</label>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <entries supportPriority="false" supportPrecision="true" supportQuota="false" supportMultiple="false">
+                <entries supportPriority="false" supportPrecision="true" supportMultiple="false">
                     <entry key="Clasic">
                         <label lang="fr">Classique</label>
                         <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
@@ -31,12 +31,12 @@
                 <label lang="fr">Musique</label>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
                     <entry key="Instrument">
                         <label lang="fr">Instrument</label>
                         <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                         <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <entries supportPriority="true" supportPrecision="true" supportQuota="false" supportMultiple="false">
+                        <entries supportPriority="true" supportPrecision="true" supportMultiple="false">
                             <entry key="Gitar">
                                 <label lang="fr">Guitare</label>
                                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
@@ -58,7 +58,7 @@
                         <label lang="fr">Activité d'ensemble</label>
                         <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                         <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <entries supportPriority="true" supportPrecision="false" supportQuota="false" supportMultiple="false">
+                        <entries supportPriority="true" supportPrecision="false" supportMultiple="false">
                             <entry key="Saloon">
                                 <label lang="fr">Musique de chambre</label>
                                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
@@ -92,7 +92,7 @@
                 <label lang="fr">Initiation et orientation</label>
                 <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
                     <entry key="init1">
                         <label lang="fr">Eveil 1</label>
                         <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>

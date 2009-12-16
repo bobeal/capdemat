@@ -57,8 +57,31 @@
             <value>Place Reservation</value>
           </key>
           <map>
-            <entry key="mailData" value="PlaceReservationMailConfirmation.txt" />
+            <entry key="mailData" value="PlaceReservationMailConfirmation" />
             <entry key="attachPdf" value="true" />
+          </map>
+        </entry>
+      </map>
+    </property>
+    <property name="agentNotifications">
+      <map>
+        <entry>
+          <key><value>NotCommitPaymentAlert</value></key>
+          <map>
+            <entry key="mailSendTo" value="accueilannexe@jouylemoutier.fr"/>
+            <entry key="mailSubject" value="[CapDémat] Alerte Paiement"/>
+            <entry key="mailData" value="NotCommitedPaymentsAlert"/>
+          </map>
+        </entry>
+      </map>
+    </property>
+    <property name="paymentNotifications">
+      <map>
+        <entry>
+          <key><value>CommitPaymentConfirmation</value></key>
+          <map>
+            <entry key="mailSubject" value="[CapDémat] Confirmation de paiement"/>
+            <entry key="mailData" value="CommitPaymentNotification"/>
           </map>
         </entry>
       </map>
@@ -86,6 +109,7 @@
     <property name="password">
       <value>capdematpass</value>
     </property>
+    <property name="dataSourceName" value="jouylemoutier" />
     <property name="acquireIncrement" value="3" />
     <property name="initialPoolSize" value="3" />
     <property name="minPoolSize" value="3" />

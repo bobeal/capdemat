@@ -6,8 +6,6 @@
         <entries supportPriority="true" supportPrecision="false" supportMultiple="true">
             <entry key="ANewEntry">
                 <label lang="fr">Une nouvelle entrée</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                 <entries supportPriority="false" supportPrecision="true" supportMultiple="false">
                     <entry key="ANewSubEntry">
                         <label lang="fr">Une sous entrée de la nouvelle entrée</label>
@@ -15,8 +13,6 @@
                         <precision key="Précision">
                             <label lang="fr">Précise moi ça, fiston</label>
                         </precision>
-                        <numberOfPlaces>20</numberOfPlaces>
-                        <remainingPlaces>19</remainingPlaces>
                     </entry>
                 </entries>
             </entry>

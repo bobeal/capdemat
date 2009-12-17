@@ -8,20 +8,14 @@
             <entry key="NoSoy">
                 <label lang="fr">Sans soja</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="NoSalt">
                 <label lang="fr">Sans sel</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="PAI">
                 <label lang="fr">Protocole d'accueil individualisé</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
         </entries>
     </data>
@@ -31,26 +25,18 @@
             <entry key="Monday">
                 <label lang="fr">Lundi</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="Tuesday">
                 <label lang="fr">Mardi</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="Thursday">
                 <label lang="fr">Jeudi</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="Friday">
                 <label lang="fr">Vendredi</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
         </entries>
     </data>

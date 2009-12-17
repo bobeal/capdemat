@@ -15,28 +15,18 @@
         <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
             <entry key="Monday">
                 <label lang="fr">Lundi</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="Tuesday">
                 <label lang="fr">Mardi</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="Wednesday">
                 <label lang="fr">Mercredi</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="Thursday">
                 <label lang="fr">Jeudi</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="Friday">
                 <label lang="fr">Vendredi</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
         </entries>
     </data>

@@ -8,38 +8,26 @@
             <entry key="EveningNursery">
                 <label lang="fr">Garderie du soir</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="MorningNursery">
                 <label lang="fr">Garderie du matin</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="MorningAndEveningNursery">
                 <label lang="fr">Garderie soir et matin</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="PERISCOLAIREMATIN">
                 <label lang="fr">Accueil périscolaire du matin</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="PERISCOLAIRESOIR">
                 <label lang="fr">Accueil périscolaire du soir</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="ETUDESDIRIGEES">
                 <label lang="fr">Etudes dirigées</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
         </entries>
     </data>

@@ -12,7 +12,7 @@
     </data>
     <data name="CanteenAttendingDays">
         <label lang="fr">Jours de présence</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
             <entry key="Monday">
                 <label lang="fr">Lundi</label>
             </entry>

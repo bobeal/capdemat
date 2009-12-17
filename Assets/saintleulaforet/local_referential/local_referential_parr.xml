@@ -3,11 +3,11 @@
     <request>PerischoolActivityRegistrationRequest</request>
     <data name="PerischoolActivity">
         <label lang="fr">Activités périscolaires</label>
-        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
             <entry key="accueil_prescolaire">
                 <label lang="fr">Accueil préscolaire (matin)</label>
                 <message lang="fr"/>
-                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+                <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
                     <entry key="lundi">
                         <label lang="fr">Lundi</label>
                         <message lang="fr"/>
@@ -29,7 +29,7 @@
             <entry key="accueil_postscolaire">
                 <label lang="fr">Accueil postscolaire (soir)</label>
                 <message lang="fr"/>
-                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+                <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
                     <entry key="vendredi">
                         <label lang="fr">Vendredi</label>
                         <message lang="fr"/>

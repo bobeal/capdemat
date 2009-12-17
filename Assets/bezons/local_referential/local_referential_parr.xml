@@ -16,7 +16,6 @@
             <entry key="MorningAndEveningNursery">
                 <label lang="fr">Garderie soir et matin</label>
                 <message lang="fr"/>
-                <entries supportPriority="false" supportPrecision="false" supportMultiple="false"/>
             </entry>
             <entry key="sportcenter">
                 <label lang="fr">Centre d'initiation sportive</label>

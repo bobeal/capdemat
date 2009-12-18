@@ -242,7 +242,7 @@ class ContactController {
 
             // FIXME BOR : is there a better way to do this ?
             def logoLink = ""
-            if (type == "pdf") {
+            if (type == "PDF") {
                 File logoFile =
                     localAuthorityRegistry.getLocalAuthorityResourceFile("logoPdf", false)
                 logoLink = logoFile.absolutePath

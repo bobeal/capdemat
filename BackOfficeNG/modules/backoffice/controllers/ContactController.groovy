@@ -263,6 +263,7 @@ class ContactController {
                     java.text.DateFormat.getDateInstance().format(new Date()),
                 "RQ_ID" : request.id,
                 "RQ_TP_LABEL" : request.requestType.label,
+                "RQ_CAT" : request.requestType.category.name,
                 "RQ_CDATE" : request.creationDate,
                 "RQ_DVAL" : request.validationDate,
                 "RQ_OBSERV" : message,

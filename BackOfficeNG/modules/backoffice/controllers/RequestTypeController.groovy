@@ -290,27 +290,26 @@ class RequestTypeController {
     }
     
     def loadMailTemplate = {
-        def fileName = params.file
-        def formId = Long.valueOf(params.formId)
-        def typeId = Long.valueOf(params.typeId)
-        def requestAttributes = RequestContextHolder.currentRequestAttributes()
-        
+        def fileName = params.file        
         File templateFile = localAuthorityRegistry
             .getLocalAuthorityResourceFile(Type.MAIL_TEMPLATES, fileName, false)
-        response.contentType = 'text/html; charset=utf-8'
         
         if(templateFile.exists()) {
+            response.contentType = 'text/html; charset=utf-8'
+			
             def forms = [];
+            forms.add(requestTypeService.getRequestFormById(Long.valueOf(params.formId)))
+
             def content = templateFile.text
-            forms.add(requestTypeService.getRequestFormById(formId))
-            
             def template = groovyPagesTemplateEngine.createTemplate(content,'page1');
+
+            def requestAttributes = RequestContextHolder.currentRequestAttributes()
             def out = new StringWriter();
             def originalOut = requestAttributes.getOut()
             requestAttributes.setOut(out)
             template.make(['name':fileName,'forms':forms]).writeTo(out);
             requestAttributes.setOut(originalOut)
-            
+
             render out.toString()
         } else { 
             render message(code:'message.templateDoesNotExist')

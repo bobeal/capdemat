@@ -58,6 +58,12 @@ public class TranslationService implements ITranslationService {
         return translateRequestTypeLabel(label, null);
     }
 
+    public String translateRequestTypeDescription(String label) {
+        String key = generateInitialism(label) + ".description";
+        String translation = translate(key, null, null);
+        return !translation.equals(key) ? translation : label;
+    }
+
     public String translateRequestTypeLabel(String label, Locale locale) {
         String key = generateInitialism(label) + ".label";
         String translation = translate(key, locale);

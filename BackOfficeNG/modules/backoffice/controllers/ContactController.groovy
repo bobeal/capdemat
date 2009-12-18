@@ -23,7 +23,8 @@ class ContactController {
     def pdfService
     def requestActionService
     def requestTypeService
-
+	def translationService
+	
     // directly taken from RequestInstructionController
     // TODO request decoupling
     def panel = {
@@ -259,13 +260,12 @@ class ContactController {
 
             String content = out.toString().replace('#{','${')
             def model = [
-                "DATE" :
-                    java.text.DateFormat.getDateInstance().format(new Date()),
+                "DATE" : DateUtils.dateToFullString(new Date()),
                 "RQ_ID" : request.id,
-                "RQ_TP_LABEL" : request.requestType.label,
+                "RQ_TP_LABEL" : translationService.translateRequestTypeDescription(request.requestType.label).toLowerCase().encodeAsHTML(),
                 "RQ_CAT" : request.requestType.category.name,
-                "RQ_CDATE" : request.creationDate,
-                "RQ_DVAL" : request.validationDate,
+                "RQ_CDATE" : DateUtils.dateToFullString(request.creationDate),
+                "RQ_DVAL" : request.validationDate ? DateUtils.dateToFullString(request.validationDate) : '',
                 "RQ_OBSERV" : message,
                 "HF_ID" : requester.homeFolder.id,
                 "RR_FNAME" : requester.firstName,
@@ -279,9 +279,9 @@ class ContactController {
                 "RR_ANSWER" : requester.answer,
                 "SU_FNAME" : subject?.firstName,
                 "SU_LNAME" : subject?.lastName,
-                "SU_TITLE" : subject.firstName == "" ? "" :
+                "SU_TITLE" : subject?.firstName == "" ? "" :
                     messageSource.getMessage("homeFolder.adult.title.${subject?.title.toString().toLowerCase()}",
-                    null, SecurityContext.currentLocale),
+                        null, SecurityContext.currentLocale),
                 "HF_ADDRESS_ADI" : address.additionalDeliveryInformation,
                 "HF_ADDRESS_AGI" : address.additionalGeographicalInformation,
                 "HF_ADDRESS_SNAME" : address.streetName,

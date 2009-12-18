@@ -639,6 +639,16 @@ public class LocalAuthorityRegistry
             if (!resourceDir.exists())
                 resourceDir.mkdir();
         }
+        
+        try {
+            File logoFile = new File(StringUtils.removeEnd(
+                    getLocalAuthorityResourceFile("logoPdf", false).getPath(), "png").concat("jpg"));
+            if (!logoFile.exists()) {
+                generateJPEGLogo();
+            }
+        } catch (CvqException e) {
+            logger.error("registerLocalAuthorities() unable to generate JPEG logo");
+        }
     }
 
     @Override

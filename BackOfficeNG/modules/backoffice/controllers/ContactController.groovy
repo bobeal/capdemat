@@ -262,7 +262,9 @@ class ContactController {
             def model = [
                 "DATE" : DateUtils.dateToFullString(new Date()),
                 "RQ_ID" : request.id,
-                "RQ_TP_LABEL" : translationService.translateRequestTypeDescription(request.requestType.label).toLowerCase().encodeAsHTML(),
+                "RQ_TP_LABEL" : type == "HTML" ? 
+                    translationService.translateRequestTypeDescription(request.requestType.label).toLowerCase().encodeAsHTML() :
+                    translationService.translateRequestTypeDescription(request.requestType.label).toLowerCase(),
                 "RQ_CAT" : request.requestType.category.name,
                 "RQ_CDATE" : DateUtils.dateToFullString(request.creationDate),
                 "RQ_DVAL" : request.validationDate ? DateUtils.dateToFullString(request.validationDate) : '',

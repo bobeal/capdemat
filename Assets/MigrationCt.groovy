@@ -39,6 +39,9 @@ cssFoFileWriter.flush()
 // remove obsolete attributes from others
 // TODO : enghien has none of them
 
+/* xsl directory */
+"mkdir -p html/templates/mails".execute()
+"cp ../../../template-assets/template/html/templates/mails/general.html.tpl html/templates/mails/general.html".execute()
 
 
 

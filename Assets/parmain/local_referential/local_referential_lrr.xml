@@ -3,7 +3,7 @@
   <request>LibraryRegistrationRequest</request>
   <data name="Subscription">
     <label lang="fr">Formule d'abonnement</label>
-    <entries supportMultiple="true" supportPriority="false"
+    <entries supportMultiple="false" supportPriority="false"
       supportPrecision="false">
       <entry key="Individual">
 	<label lang="fr">Abonnement individuel</label>

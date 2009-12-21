@@ -212,9 +212,9 @@ public interface ILocalAuthorityRegistry {
         throws CvqException;
 
     /**
-     * Hack to regenerate the JPEG version of the logo for PDF files
+     * Generate all JPEG images for PDF
      */
-    void generateJPEGLogo();
+    void generateJPEGFiles();
 
     List<String> getLocalAuthorityResourceFileNames(Type type) throws CvqException;
     List<String> getLocalAuthorityResourceFileNames(Type type, String pattern) throws CvqException;

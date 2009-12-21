@@ -1,3 +1,4 @@
+import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.request.RequestActionType
@@ -244,10 +245,26 @@ class ContactController {
 
             // FIXME BOR : is there a better way to do this ?
             def logoLink = ""
+            def footerLink = ""
             if (type == "PDF") {
-                File logoFile =
-                    localAuthorityRegistry.getLocalAuthorityResourceFile("logoPdf", false)
-                logoLink = logoFile.absolutePath
+                try {
+                    logoLink =
+                        localAuthorityRegistry.getLocalAuthorityResourceFile(
+                            LocalAuthorityResource.LOGO_PDF.id, false)
+                            .absolutePath
+                } catch (Exception e) {
+                    log.error("Exception while looking for JPEG logo : "
+                        + e.getMessage())
+                }
+                try {
+                    footerLink =
+                        localAuthorityRegistry.getLocalAuthorityResourceFile(
+                            LocalAuthorityResource.FOOTER_PDF.getId(), false)
+                            .absolutePath
+                } catch (Exception e) {
+                    log.error("Exception while looking for JPEG footer : "
+                        + e.getMessage())
+                }
             }
 
             def template = groovyPagesTemplateEngine.createTemplate(templateFile);
@@ -255,7 +272,8 @@ class ContactController {
             def originalOut = requestAttributes.getOut()
             requestAttributes.setOut(out)
             template.make([
-                "forms" : forms, "type" : type, "logoLink" : logoLink
+                "forms" : forms, "type" : type, "logoLink" : logoLink,
+                "footerLink" : footerLink
             ]).writeTo(out);
             requestAttributes.setOut(originalOut)
 

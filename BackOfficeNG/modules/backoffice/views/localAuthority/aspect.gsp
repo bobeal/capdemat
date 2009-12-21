@@ -16,6 +16,7 @@
         <div id="logoFoBox" class="mainbox mainbox-yellow"></div>
         <div id="logoBoBox" class="mainbox mainbox-yellow"></div>
         <div id="logoPdfBox" class="mainbox mainbox-yellow"></div>
+        <div id="footerPdfBox" class="mainbox mainbox-yellow"></div>
       </div>
     </div>
     <div id="narrow" class="yui-b">

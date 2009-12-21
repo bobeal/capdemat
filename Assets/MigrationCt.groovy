@@ -21,7 +21,7 @@ cssFoFileWriter.flush()
 "git mv html/information.html html/informationFo.html".execute()
 
 /* img directory */
-["img/banner.jpg":"img/logoFo.png","img/logoBO.jpg":"img/logoBo.png","xsl/xsllogo.jpg":"img/logoPdf.png"].each { k,v ->
+["img/banner.jpg":"img/logoFo.png","img/logoBO.jpg":"img/logoBo.png","xsl/xsllogo.jpg":"img/logoPdf.png","xsl/xslfooter.jpg":"img/footerPdf.png"].each { k,v ->
     System.err.println("reading " + k)
 	try {
         File input = new File(k);

@@ -1,0 +1,137 @@
+/* --------------------------------------------------------
+ * 
+ *        Franconville - Style Sheet
+ *
+ *        blue: #95B5FE
+ *        gray: #eee
+ *
+ * ----------------------------------------------------- */
+
+/* global layout
+ * ----------------------------------------------------- */
+ 
+html { background: #fff; }
+#bd  { background-color: #eee; }
+h2   { color: #fff; }
+
+
+/* menus
+ * ----------------------------------------------------- */
+ 
+#menu a, #menu a span                 { background-color: #95B5FE; }
+#menu a:hover, #menu a:hover span     { color: #fff; background-color: #eee; }
+#menu a.current, #menu a.current span { color: #fff; background-color: #eee; }
+#menu a.disable ,#menu a.disable span { background-color: #eee !important; }
+
+#hd .top a.menu       { color: #fff; background-color: #95B5FE; }
+#hd .top a.menu:hover { background-color: #eee; }
+
+/* boxes
+ * ----------------------------------------------------- */
+
+.list-box               { border-color: #95B5FE; }
+.list-box h2            { color: #95B5FE; border-color: #95B5FE; }
+.list-box p.paginator a, 
+.list-box p.see-all a   { color: #95B5FE; }
+.list-box p.see-all a:hover, 
+.list-box p.paginator a:hover,
+.list-box p.paginator span.currentStep { color: #ffffff; background: #95B5FE; }
+
+.group-box         { border-color: #95B5FE; }
+.group-box h3      { color: #95B5FE; border-color: #95B5FE; }
+.group-box a:hover { color: #fff; background: #95B5FE; }
+
+.summary-box.created { border-color: #95B5FE; }   
+.summary-box h2      { color: #95B5FE; border-color: #95B5FE; }
+.summary-box h3      { border-bottom-color:  #95B5FE !important; }
+.summary-box dl    { border-bottom-color: #95B5FE !important; }
+.summary-box dl dt,
+.summary-box dl dd { border-top-color: #95B5FE !important; }
+
+.main-box    { border-color: #95B5FE; }   
+.main-box h2 { color: #95B5FE; border-color: #95B5FE; }
+.main-box a:hover { color: #ffffff !important; background: #95B5FE !important; }
+
+.narrow-box h3           { color: #fff; background: #95B5FE; }
+.narrow-box .body        { background: #FFFFFF; }
+.narrow-box .body select { border-top-color: #95B5FE; }
+
+
+/* forms
+ * ----------------------------------------------------- */
+
+form input[type="text"],
+form input[type="password"],
+form select,
+form textarea { border-top-color: #95B5FE !important; }
+
+
+/* home folder screen specific styles
+ * ----------------------------------------------------- */
+
+.individual .yui-u     { border-color: #95B5FE !important; }
+.individual .yui-u h2  { color: #95B5FE !important; border-color: #95B5FE !important; }
+.individual dl         { border-color:#95B5FE !important ; }
+.individual dl a:hover { color: #ffffff !important; background: #95B5FE !important; }
+
+.data-detail h3     { color: #95B5FE !important; }
+.data-detail .yui-g { border-color: #95B5FE !important; }
+.data-detail dl     { border-bottom-color: #95B5FE !important; }
+.data-detail dl dt  { border-top-color: #95B5FE !important; }
+.data-detail dl dd  { border-top-color: #95B5FE !important; }
+
+
+/* request creation
+ * ----------------------------------------------------- */
+
+h2.request-creation { color: #fff !important; }
+
+.yui-skin-fong .yui-navset .yui-nav a,
+.yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
+  color: #fff  !important; 
+  background: #95B5FE !important;
+  border: 0 !important;
+}
+
+.yui-skin-fong .yui-navset .yui-nav a:hover,
+.yui-skin-fong .yui-navset .yui-nav .selected a,
+.yui-skin-fong .yui-navset .yui-nav .selected a:focus {
+  color: #000  !important;
+  background: #fff !important; 
+  border-color: #fff !important;
+}
+
+#requestTabView .requestHelp h3 { border-bottom-color: #95B5FE !important; }
+
+#requestTabView h3                    { border-bottom-color:  #95B5FE !important; }
+#requestTabView legend                { color: #95B5FE !important; }
+#requestTabView fieldset              { border-left-color: #95B5FE !important; }
+#requestTabView .address-fieldset     { border-color: #95B5FE !important; }
+#requestTabView form ul.dataTree      { border-color: #95B5FE !important; }
+#requestTabView form div .captcha img { border-color: #95B5FE !important; }
+
+#requestTabView form div input[type="text"], #requestTabView form div input[type="password"],
+#requestTabView form div select, 
+#requestTabView form div textarea {
+  border-top-color: #95B5FE !important;
+}
+
+#requestTabView .nextTab, #requestTabView .prevTab { color: #95B5FE !important; }
+#requestTabView .nextTab:hover, #requestTabView .prevTab:hover { 
+  color: #fff !important; background: #95B5FE !important; 
+}
+
+#requestTabView div.collection-fieldset h4 { color: #95B5FE !important; }
+#requestTabView fieldset.collection-fieldset-add         { border-color: #95B5FE !important; }
+#requestTabView fieldset.collection-fieldset-edit        { border-bottom-color: #95B5FE !important; }
+#requestTabView fieldset.collection-fieldset-add legend,
+#requestTabView fieldset.collection-fieldset-edit legend { border-color: #95B5FE !important; }
+
+
+/* activities specific styles
+ * ----------------------------------------------------- */
+ 
+table.activity-calendar,
+table.activity-calendar th,
+table.activity-calendar td { border-color: #95B5FE !important; }
+

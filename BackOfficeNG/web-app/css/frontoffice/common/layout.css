@@ -22,7 +22,7 @@ html { background: #fff; }
 #hd .top a.menu:hover { background: #e6648d; }
 
 #hd .top form              { float: left; padding: .4em; -moz-border-radius-bottomleft: .5em; -moz-border-radius-bottomright: .5em; background: #ffffcc; } 
-#hd .top form input.text   { border: 1px solid #ffaa00; }
+#hd .top form input.text   { border: 1px solid; }
 #hd .top form input.button { font-size: .85em; }
 #hd .top form a            { color: #095BA6; background: transparent; }
 #hd .top form a:hover      { color: #fff; text-decoration: none; background: #095BA6; }

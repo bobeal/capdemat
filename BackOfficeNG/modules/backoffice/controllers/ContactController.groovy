@@ -24,6 +24,7 @@ class ContactController {
     def requestActionService
     def requestTypeService
 	def translationService
+	def instructionService
 	
     // directly taken from RequestInstructionController
     // TODO request decoupling
@@ -261,6 +262,7 @@ class ContactController {
             String content = out.toString().replace('#{','${')
             def model = [
                 "DATE" : DateUtils.dateToFullString(new Date()),
+                "LAST_AGENT_NAME" : instructionService.getActionPosterDetails(request.lastInterveningUserId),
                 "RQ_ID" : request.id,
                 "RQ_TP_LABEL" : type == "HTML" ? 
                     translationService.translateRequestTypeDescription(request.requestType.label).toLowerCase().encodeAsHTML() :

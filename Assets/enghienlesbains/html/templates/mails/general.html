@@ -2,24 +2,26 @@
 <html>
   <head>
     <style type="text/css">
-      @page { size: A4 portrait; margin: 2cm;}
+      @page { size: A4 portrait; margin: 1cm 1cm 0cm 1cm;}
       body { margin: 0; padding: 0; width:100%; font-size:11pt; font-family:serif;}
       div, p { margin-top: 0; margin-bottom:0; }
-      .address-ct, .date-place, .address-hf { margin-bottom:2em; margin-left:10cm; }
+      img.logo-header { margin-top:0.25cm; margin-left:0.25cm; height:2.63cm; width:10.19cm; }
+      .address-ct, .date-place, .address-hf { margin-bottom:2em; margin-left:11cm; }
       .administrative-info { margin-bottom:2em; }
       .salutation { margin-bottom:2em; text-align:center; font-size:12pt; }
-      .editable-zone { font-size:12pt; }
-      .valediction { font-size:12pt; margin-top: 1em;}
-      .closing { margin-top:3cm; margin-left:8cm; font-size:12pt; }
+      .editable-zone { font-size:12pt; text-align:justify;}
+      .valediction { font-size:12pt; margin-top: 1em; text-align:justify;}
+      .closing { margin-top:3cm; margin-left:6.5cm; font-size:12pt; }
+      img.logo-footer { position:absolute; top: 26.5cm; height:2cm; width:16cm; margin-left:1.5cm;}
     </style>
   </head>
   <body class="body">
     <div>
       <g:if test="${type == 'HTML'}">
-        <img class="logo" src="${createLink(controller:'localAuthorityResource',action:'resource',id:'logoPdf')}" />
+        <img class="logo logo-header" src="${createLink(controller:'localAuthorityResource',action:'resource',id:'logoPdf')}" />
       </g:if>
       <g:if test="${type == 'PDF'}">
-        <img class="logo" src="${logoLink}" />
+        <img class="logo logo-header" src="${logoLink}" />
       </g:if>
     </div>
     <div class="date-place">
@@ -52,10 +54,10 @@
     </div>
     <div>
       <g:if test="${type == 'HTML'}">
-        <img src="${createLink(controller:'localAuthorityResource',action:'resource',id:'footerPdf')}" />
+        <img class="logo logo-footer" src="${createLink(controller:'localAuthorityResource',action:'resource',id:'footerPdf')}" />
       </g:if>
       <g:if test="${type == 'PDF'}">
-        <img src="${footerLink}" />
+        <img class="logo logo-footer" src="${footerLink}" />
       </g:if>
     </div>
   </body>

@@ -95,10 +95,11 @@ class ContactController {
         if (params.previewFormat == "HTML") {
             response.contentType = "text/html; charset=utf-8"
             render prepareTemplate(params.requestId, params.requestFormId,
-                params.templateMessage?.encodeAsHTML(), params.previewFormat)
+                params.templateMessage?.encodeAsHTML(), params.meansOfContact,
+                params.previewFormat)
         } else if (params.previewFormat == "PDF") {
             def b = preparePdf(params.requestId, params.requestFormId,
-                params.templateMessage)
+                params.templateMessage, params.meansOfContact)
             response.contentType = "application/pdf"
             response.setHeader("Content-disposition",
                 "attachment; filename=letter.pdf")
@@ -134,7 +135,7 @@ class ContactController {
                     params.templateMessage, params.note,
                     params.requestFormId ?
                         preparePdf(params.requestId, params.requestFormId,
-                            params.templateMessage) : null)
+                            params.templateMessage, params.meansOfContact) : null)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.actionTraced")
@@ -144,7 +145,7 @@ class ContactController {
                 def pdf
                 if (params.requestFormId)
                     pdf = preparePdf(requestId, requestFormId,
-                        params.templateMessage)
+                        params.templateMessage, params.meansOfContact)
                 requestActionService.addAction(
                     requestId,
                     RequestActionType.CONTACT_CITIZEN,
@@ -196,7 +197,7 @@ class ContactController {
                     params.templateMessage, params.note,
                     params.requestFormId ?
                         preparePdf(params.requestId, params.requestFormId,
-                            params.templateMessage) : null)
+                            params.templateMessage, params.meansOfContact) : null)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.actionTraced")
@@ -206,14 +207,14 @@ class ContactController {
         render(notification as JSON)
     }
 
-    private preparePdf(requestId, requestFormId, templateMessage) {
+    private preparePdf(requestId, requestFormId, templateMessage, meansOfContact) {
         return pdfService.htmlToPdf(prepareTemplate(requestId, requestFormId,
-            templateMessage?.encodeAsXML().replaceAll(/\n/, "<br />"), "PDF"))
+            templateMessage?.encodeAsXML().replaceAll(/\n/, "<br />"), meansOfContact, "PDF"))
     }
 
     // directly taken from RequestInstructionController
     // TODO request decoupling
-    private prepareTemplate(requestId,formId,message,type) {
+    private prepareTemplate(requestId,formId,observations,meansOfContact,type) {
 
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         def form = requestTypeService.getRequestFormById(Long.valueOf(formId))
@@ -281,6 +282,7 @@ class ContactController {
             def model = [
                 "DATE" : DateUtils.dateToFullString(new Date()),
                 "LAST_AGENT_NAME" : instructionService.getActionPosterDetails(request.lastInterveningUserId),
+                "MOC" : message(code : "request.meansOfContact." + StringUtils.pascalToCamelCase(meansOfContact)),
                 "RQ_ID" : request.id,
                 "RQ_TP_LABEL" : type == "HTML" ? 
                     translationService.translateRequestTypeDescription(request.requestType.label).toLowerCase().encodeAsHTML() :
@@ -288,7 +290,7 @@ class ContactController {
                 "RQ_CAT" : request.requestType.category.name,
                 "RQ_CDATE" : DateUtils.dateToFullString(request.creationDate),
                 "RQ_DVAL" : request.validationDate ? DateUtils.dateToFullString(request.validationDate) : '',
-                "RQ_OBSERV" : message,
+                "RQ_OBSERV" : observations,
                 "HF_ID" : requester.homeFolder.id,
                 "RR_FNAME" : requester.firstName,
                 "RR_LNAME" : requester.lastName,

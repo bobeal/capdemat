@@ -50,18 +50,22 @@
         <p>#{HF_ADDRESS_CN}</p>
       </div>
       <div class="administrative-info">
-        <p>Numéro de dossier : #{RQ_ID}</p>
-        <p>Numéro de compte : #{HF_ID} </p>
+        <p><strong>N/Réf</strong>. : #{RQ_CAT}</p>
+        <p><strong>V/Réf</strong>. : Dossier n° #{RQ_ID}</p>
+        <p><strong>Objet</strong> : Attestation de #{RQ_TP_LABEL}</p>
+        <p><strong>Envoi</strong> : #{MOC}</p>
       </div>
       <div class="salutation">
         #{RR_TITLE},
       </div>
       <g:editableZone id="Lab2" class="editable-zone">
-        <p>Nous avons bien reçu votre demande #{RQ_ID}. Merci de passer chercher votre attestation au guichet.</p>
+        <p>Madame, Monsieur,</p>
+        <p>Votre demande #{RQ_TP_LABEL} du #{RQ_CDATE} est validée.</p>
+        <p>#{RQ_OBSERV}</p>
       </g:editableZone>
       <div class="valediction">
-      <p>Vous en souhaitant bonne réception,</p>
-      <p>Veuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées.</p>
+        <p>Vous en souhaitant bonne réception,</p>
+        <p>Veuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées.</p>
       </div>
       <div class="closing">
         <p>#{RQ_CAT}</p>

@@ -50,17 +50,22 @@
         <p>#{HF_ADDRESS_CN}</p>
       </div>
       <div class="administrative-info">
-        <p>Numéro de dossier : #{RQ_ID}</p>
-        <p>Numéro de compte : #{HF_ID} </p>
+        <p><strong>N/Réf</strong>. : #{RQ_CAT}</p>
+        <p><strong>V/Réf</strong>. : Dossier n° #{RQ_ID}</p>
+        <p><strong>Objet</strong> :  Demande d'information</p>
+        <p><strong>Envoi</strong> : #{MOC}</p>
       </div>
       <div class="salutation">
         #{RR_TITLE},
       </div>
       <g:editableZone id="Lab2" class="editable-zone">
-        <p>Nous avons bien reçu votre demande #{RQ_ID}. Merci de passer chercher votre attestation au guichet.</p>
+        <p>Madame, Monsieur,</p>
+        <p>Nous avons bien reçu votre demande #{RQ_TP_LABEL} du #{RQ_CDATE}</p>
+        <p>Afin de compléter votre dossier, pourriez vous nous faire parvenir les éléments suivants :</p>
+        <p>#{RQ_OBSERV}</p>
       </g:editableZone>
       <div class="valediction">
-      <p>Vous en souhaitant bonne réception,</p>
+      <p>Vous en remerciant,</p>
       <p>Veuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées.</p>
       </div>
       <div class="closing">

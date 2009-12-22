@@ -79,7 +79,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         zct.doAjaxCall(url,[],function(o){
           var content = o.responseText
             .replace(/\n/g,'\uffff')
-            .replace(/.*<body>(.*)<\/body>.*/gi,'$1')
+            //.replace(/.*<body[^>]*>(.*)<\/body>.*/gi,'$1') // We know it's bad to load header content in DOM
             .replace(/\uffff/g,'\n');
           
           var close = [

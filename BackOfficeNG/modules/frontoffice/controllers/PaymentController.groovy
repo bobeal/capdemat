@@ -161,7 +161,7 @@ class PaymentController {
     
     def details = {
         def result = [items:[],cart:[]]
-        def list = params?.type == 'invoice' ? session.invoices : session.depositAccounts
+        def list = params.type == 'invoice' ? session.invoices : session.depositAccounts
         def item = list.find {it.externalItemId == params.externalItemId}
         if(!item) {
             redirect(controller:'frontofficePayment')
@@ -172,7 +172,7 @@ class PaymentController {
             for(ExternalInvoiceItemDetail detail : item.invoiceDetails) {
                 def entry = [:]
                 entry.label = detail.label
-                entry.subjectName = detail.subjectName+' '+detail.subjectSurname
+                entry.subjectName = detail.subjectName + ' ' + detail.subjectSurname
                 entry.unitPrice = detail.unitPrice
                 entry.quantity = detail.quantity
                 entry.value = detail.value
@@ -182,13 +182,15 @@ class PaymentController {
             for(ExternalDepositAccountItemDetail detail : item.accountDetails) {
                 def entry = [:]
                 entry.date = detail.date
-                entry.holderName = detail.holderName+' '+detail.holderSurname
+                entry.holderName = detail.holderName + ' ' + detail.holderSurname
                 entry.value = detail.value
                 entry.paymentType = detail.paymentType
                 entry.paymentId = detail.paymentId
                 entry.bankReference = detail.bankReference
                 result.items.add(entry)
             }
+		
+            result.items = result.items.sort({ it.date}).reverse()
         }
         
         return result

@@ -39,11 +39,9 @@
         <p>Saint-Leu-la-Forêt, le #{DATE}</p>
       </div>
       <div class="administrative-info">
-        <p><strong>Direction de l'urbanisme et de l'aménagement</strong></p>
+        <p><strong>Direction des services à la population</strong></p>
         <p><strong>Téléservice : #{RQ_TP_LABEL}</strong></p>
         <p>Numéro de la demande : #{RQ_ID}</p>
-        <p>Courriel : <a href="mailto:droitdessols@saint-leu-la-foret.fr?subject=#{RQ_TP_LABEL} - #{RQ_ID}">droitdessols@saint-leu-la-foret.fr</a></p>
-        <p>Dossier suivi par #{LAST_AGENT_NAME}</p>
       </div>
       <div class="salutation">
         #{RR_TITLE},
@@ -51,12 +49,8 @@
       <g:editableZone id="Lab2" class="editable-zone">
         <p>Nous avons bien reçu votre demande #{RQ_ID}. Merci de passer chercher votre attestation au guichet.</p>
       </g:editableZone>
-      <div class="valediction">
-        <p>Je vous prie d’agréer, #{RR_TITLE}, l'expression de ma considération distinguée.</p>
-      </div>
       <div class="closing">
-        <p>La directrice de l'urbanisme et de l'aménagement</p>
-        <p>Gisèle Houy</p>
+        <p>L'Officier de l'Etat civil</p>
       </div>
       <div>
         <g:if test="${type == 'HTML'}">

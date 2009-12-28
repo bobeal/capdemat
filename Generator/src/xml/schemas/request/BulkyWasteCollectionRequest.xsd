@@ -32,21 +32,7 @@
             <step index="1" ref="document" />
             <step index="2" ref="validation" />
           </steps>
-        </common>  
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Demandeur*" />
-            <block id="1" label="Type d'encombrants" column="2" />
-            <block id="2" label="Moyen de contact*" />
-          </blocks-def>
-          <element blockId="0" line="0" column="0" link="Requester">
-            <complexTemplate />
-          </element>
-          <element blockId="2" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-        </xslfo>
+        </common>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -76,11 +62,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="0" column="0">
-                      <localReferential />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -105,11 +87,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="1" column="0" columnSpan="2">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -134,12 +112,7 @@
 	              </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="3" column="0" columnSpan="2"
-                      prefixLabel="Adresse de collecte (si différente de l'adresse du compte)">
-                      <complexTemplate />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

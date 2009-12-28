@@ -43,26 +43,6 @@
             <step index="6" ref="validation" />
           </steps>
         </common>
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Personne à inscrire*" column="2" />
-            <block id="1" label="Dates d'absence" />
-            <block id="2" label="Téléphone d'alerte" />
-            <block id="3" label="Personne à contacter" />
-            <block id="4" label="Informations complémentaire" />
-            <block id="5" label="Souscription réglement" />
-            <block id="6" label="Moyen de contact*" />
-            <block id="7" label="Informations sur l'inscription (à remplir par l'administration)"
-              column="2" />
-          </blocks-def>
-          <element blockId="6" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-          <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
-            <complexTemplate />
-          </element>
-        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -89,11 +69,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="0" column="0">
-                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -117,11 +93,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="1" column="0">
-                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -146,18 +118,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="5" line="0" column="0">
-                      <signature>
-                        <acceptMessage index="0">
-                          J'ai pris parfaite connaissance du règlement du service sécurité vacances qui accompagne cette fiche.
-                        </acceptMessage>
-                        <rejectMessage index="0">
-                          Vous n'avez pas accept" le règlement.
-                        </rejectMessage>
-                      </signature>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -182,11 +143,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="2" line="0" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -210,11 +167,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="3" line="0" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -238,11 +191,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="3" line="1" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -267,11 +216,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="3" line="2" column="0">
-                      <complexTemplate/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -295,11 +240,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="3" line="5" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -323,11 +264,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="4" line="0" column="0">
-                      <yesnoCheckbox/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -351,11 +288,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="4" line="1" column="0">
-                      <yesnoCheckbox/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

@@ -1,0 +1,172 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def lrHtml = ''
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrTypes[javaName].entriesSupportMultiple) { 
+      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      lrEntries.eachWithIndex { entry, i -> 
+      if (entry.entries) { 
+        lrHtml += "<li>"
+        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
+        lrHtml += "</li>"
+      } else {
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+      } 
+    } 
+    lrHtml += "</ul>"
+    } else { 
+      lrEntries.each { entry -> 
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+      } 
+    }
+    println lrHtml
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${i18n.translate('scr.label')}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+</head>
+<body>
+  <div id="hd">
+    <p>${localAuthority.displayTitle}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
+  <h1>${i18n.translate('scr.label')}</h1>
+
+  
+  <h2>${i18n.translate('scr.step.requester.label')}</h2>
+  
+    
+      
+          <p class="label">
+            ${i18n.translate('homeFolder.adult.property.title')}
+            ${i18n.translate('homeFolder.individual.property.firstName')}
+            ${i18n.translate('homeFolder.individual.property.lastName')}
+          </p>
+          <div class="response">
+            <% if(requester?.title) { %>
+              ${i18n.translate('homeFolder.adult.title.' + StringUtils.uncapitalize(requester?.title.toString()))}
+            <% } %>
+            ${requester?.firstName}
+            ${requester?.lastName}
+          </div>
+          <p class="label">${i18n.translate('homeFolder.individual.property.address')}</p>
+          <div class="response">
+            <% if (requester?.adress) { %>
+              <p>${StringUtils.defaultString(requester?.adress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.streetNumber)} ${StringUtils.defaultString(requester?.adress?.streetName)}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.postalCode)} ${StringUtils.defaultString(requester?.adress?.city)}</p>
+              <p>${StringUtils.defaultString(requester?.adress?.countryName)}</p>
+            <% } %>
+          </div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
+          <div class="response">${requester?.email}</div>
+          <p class="label">${i18n.translate('homeFolder.adult.property.homePhone')}</p>
+          <div class="response">${requester?.homePhone}</div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('scr.step.cadastre.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('scr.property.requesterQuality.label')}</p>
+          <div class="response choice">
+            <% ['Owner','Tenant'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.requesterQuality.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('scr.property.requesterQuality.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['Owner','Tenant']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('scr.property.ownerLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.ownerLastName?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('scr.property.ownerFirstNames.label')}</p><div class="response">${StringUtils.defaultString(rqt.ownerFirstNames?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('scr.property.ownerAddress.label')}</p>
+          <div class="response">
+            <% if(rqt.ownerAddress) { %>
+              <p>${StringUtils.defaultString(rqt.ownerAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.ownerAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.ownerAddress?.streetNumber)} ${StringUtils.defaultString(rqt.ownerAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(rqt.ownerAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(rqt.ownerAddress?.postalCode)} ${StringUtils.defaultString(rqt.ownerAddress?.city)}</p>
+              <p>${StringUtils.defaultString(rqt.ownerAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('scr.property.section.label')}</p><div class="response">${StringUtils.defaultString(rqt.section?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('scr.property.number.label')}</p><div class="response">${StringUtils.defaultString(rqt.number?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('scr.property.locality.label')}</p><div class="response">${StringUtils.defaultString(rqt.locality?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('scr.property.transportationRoute.label')}</p><div class="response">${StringUtils.defaultString(rqt.transportationRoute?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('scr.property.moreThanTwoYears.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.moreThanTwoYears ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+  <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+    <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+      ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+    </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+  <% } %>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,684 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def lrHtml = ''
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrTypes[javaName].entriesSupportMultiple) { 
+      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      lrEntries.eachWithIndex { entry, i -> 
+      if (entry.entries) { 
+        lrHtml += "<li>"
+        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
+        lrHtml += "</li>"
+      } else {
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+      } 
+    } 
+    lrHtml += "</ul>"
+    } else { 
+      lrEntries.each { entry -> 
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+      } 
+    }
+    println lrHtml
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${i18n.translate('dhr.label')}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+</head>
+<body>
+  <div id="hd">
+    <p>${localAuthority.displayTitle}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
+  <h1>${i18n.translate('dhr.label')}</h1>
+
+  
+  <h2>${i18n.translate('dhr.step.subject.label')}</h2>
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrRequester.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('request.property.subject.label')}</p>
+           <div class="response">${subject?.fullName}</div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrRequesterBirthDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',rqt.dhrRequesterBirthDate)}</div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrRequesterBirthPlace.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrRequesterBirthPlace?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrRequesterNationality.label')}</p>
+          <div class="response choice">
+            <% ['French','EuropeanUnion','OutsideEuropeanUnion'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.dhrRequesterNationality.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrRequesterNationality.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['French','EuropeanUnion','OutsideEuropeanUnion']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrRequesterFranceArrivalDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',rqt.dhrRequesterFranceArrivalDate)}</div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrRequesterIsFrenchResident.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.dhrRequesterIsFrenchResident ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrRequesterPensionPlan.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('dhr.property.dhrPrincipalPensionPlan.label')}</p>
+          <div class="response choice">
+            <% ['CNAV','MSA','CRAM','MGEN','SNCF','Other'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.dhrPrincipalPensionPlan.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrPrincipalPensionPlan.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['CNAV','MSA','CRAM','MGEN','SNCF','Other']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrPensionPlanDetail.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrPensionPlanDetail?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrComplementaryPensionPlan.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrComplementaryPensionPlan?.toString())}</div>
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrRequesterGuardian.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('dhr.property.dhrRequesterHaveGuardian.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.dhrRequesterHaveGuardian ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrGuardianMeasure.label')}</p>
+          <div class="response choice">
+            <% ['safeguardingJustice','guardianship','curatorship'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.dhrGuardianMeasure.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrGuardianMeasure.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['safeguardingJustice','guardianship','curatorship']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrGuardianName.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrGuardianName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrGuardianAddress.label')}</p>
+          <div class="response">
+            <% if(rqt.dhrGuardianAddress) { %>
+              <p>${StringUtils.defaultString(rqt.dhrGuardianAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrGuardianAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrGuardianAddress?.streetNumber)} ${StringUtils.defaultString(rqt.dhrGuardianAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrGuardianAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrGuardianAddress?.postalCode)} ${StringUtils.defaultString(rqt.dhrGuardianAddress?.city)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrGuardianAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+
+  
+  <h2>${i18n.translate('dhr.step.familyReferent.label')}</h2>
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrFamilyReferent.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('dhr.property.dhrHaveFamilyReferent.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.dhrHaveFamilyReferent ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrReferentName.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrReferentName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrReferentFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrReferentFirstName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrReferentAddress.label')}</p>
+          <div class="response">
+            <% if(rqt.dhrReferentAddress) { %>
+              <p>${StringUtils.defaultString(rqt.dhrReferentAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrReferentAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrReferentAddress?.streetNumber)} ${StringUtils.defaultString(rqt.dhrReferentAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrReferentAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrReferentAddress?.postalCode)} ${StringUtils.defaultString(rqt.dhrReferentAddress?.city)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrReferentAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+
+  
+  <h2>${i18n.translate('dhr.step.spouse.label')}</h2>
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrSpouse.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('dhr.property.dhrRequestKind.label')}</p>
+          <div class="response choice">
+            <% ['Individual','Couple'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.dhrRequestKind.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrRequestKind.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['Individual','Couple']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseTitle.label')}</p>
+          <div class="response choice">
+            <% ['Mister','Madam','Miss','Agency','Unknown'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.dhrSpouseTitle.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrSpouseTitle.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['Mister','Madam','Miss','Agency','Unknown']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseFamilyStatus.label')}</p>
+          <div class="response choice">
+            <% ['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.dhrSpouseFamilyStatus.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrSpouseFamilyStatus.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseName.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrSpouseName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrSpouseFirstName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseMaidenName.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrSpouseMaidenName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseBirthDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',rqt.dhrSpouseBirthDate)}</div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseBirthPlace.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrSpouseBirthPlace?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseNationality.label')}</p>
+          <div class="response choice">
+            <% ['French','EuropeanUnion','OutsideEuropeanUnion'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.dhrSpouseNationality.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrSpouseNationality.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['French','EuropeanUnion','OutsideEuropeanUnion']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseFranceArrivalDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',rqt.dhrSpouseFranceArrivalDate)}</div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseIsFrenchResident.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.dhrSpouseIsFrenchResident ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrSpouseStatus.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('dhr.property.dhrIsSpouseRetired.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.dhrIsSpouseRetired ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpousePrincipalPensionPlan.label')}</p>
+          <div class="response choice">
+            <% ['CNAV','MSA','CRAM','MGEN','SNCF','Other'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.dhrSpousePrincipalPensionPlan.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrSpousePrincipalPensionPlan.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['CNAV','MSA','CRAM','MGEN','SNCF','Other']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpousePensionPlanDetail.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrSpousePensionPlanDetail?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseComplementaryPensionPlan.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrSpouseComplementaryPensionPlan?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseProfession.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrSpouseProfession?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseEmployer.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrSpouseEmployer?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrSpouseAddress.label')}</p>
+          <div class="response">
+            <% if(rqt.dhrSpouseAddress) { %>
+              <p>${StringUtils.defaultString(rqt.dhrSpouseAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrSpouseAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrSpouseAddress?.streetNumber)} ${StringUtils.defaultString(rqt.dhrSpouseAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrSpouseAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrSpouseAddress?.postalCode)} ${StringUtils.defaultString(rqt.dhrSpouseAddress?.city)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrSpouseAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrSpouseIncomes.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('dhr.property.pensions.label')}</p><div class="response">${StringUtils.defaultString(rqt.pensions?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrAllowances.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrAllowances?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrFurnitureInvestmentIncome.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrFurnitureInvestmentIncome?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrRealEstateInvestmentIncome.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrRealEstateInvestmentIncome?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrNetIncome.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrNetIncome?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrIncomesAnnualTotal.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrIncomesAnnualTotal?.toString())}</div>
+
+        
+      </div>
+    
+  
+
+  
+  <h2>${i18n.translate('dhr.step.dwelling.label')}</h2>
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrCurrentDwelling.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('dhr.property.dhrCurrentDwellingAddress.label')}</p>
+          <div class="response">
+            <% if(rqt.dhrCurrentDwellingAddress) { %>
+              <p>${StringUtils.defaultString(rqt.dhrCurrentDwellingAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrCurrentDwellingAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrCurrentDwellingAddress?.streetNumber)} ${StringUtils.defaultString(rqt.dhrCurrentDwellingAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrCurrentDwellingAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrCurrentDwellingAddress?.postalCode)} ${StringUtils.defaultString(rqt.dhrCurrentDwellingAddress?.city)}</p>
+              <p>${StringUtils.defaultString(rqt.dhrCurrentDwellingAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrCurrentDwellingPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrCurrentDwellingPhone?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrCurrentDwellingKind.label')}</p>
+          <div class="response choice">
+            <% ['placeOfResidence','retirementHome','other'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.dhrCurrentDwellingKind.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrCurrentDwellingKind.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['placeOfResidence','retirementHome','other']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrCurrentDwellingArrivalDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',rqt.dhrCurrentDwellingArrivalDate)}</div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrCurrentDwellingStatus.label')}</p>
+          <div class="response choice">
+            <% ['owner','tenant'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.dhrCurrentDwellingStatus.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrCurrentDwellingStatus.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['owner','tenant']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrCurrentDwellingNumberOfRoom.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrCurrentDwellingNumberOfRoom?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrCurrentDwellingNetArea.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrCurrentDwellingNetArea?.toString())}</div>
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrPreviousDwelling.label')}</h3>
+      <div class="complex">
+      <% rqt.dhrPreviousDwelling.each { collectionIt -> %>
+      
+        <p class="label">${i18n.translate('dhr.property.dhrPreviousDwellingAddress.label')}</p>
+          <div class="response">
+            <% if(collectionIt.dhrPreviousDwellingAddress) { %>
+              <p>${StringUtils.defaultString(collectionIt.dhrPreviousDwellingAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrPreviousDwellingAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrPreviousDwellingAddress?.streetNumber)} ${StringUtils.defaultString(collectionIt.dhrPreviousDwellingAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrPreviousDwellingAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrPreviousDwellingAddress?.postalCode)} ${StringUtils.defaultString(collectionIt.dhrPreviousDwellingAddress?.city)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrPreviousDwellingAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrPreviousDwellingKind.label')}</p>
+          <div class="response choice">
+            <% ['placeOfResidence','retirementHome','other'].eachWithIndex {it, i -> %>
+              <span ${it == collectionIt.dhrPreviousDwellingKind.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrPreviousDwellingKind.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['placeOfResidence','retirementHome','other']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrPreviousDwellingStatus.label')}</p>
+          <div class="response choice">
+            <% ['owner','tenant'].eachWithIndex {it, i -> %>
+              <span ${it == collectionIt.dhrPreviousDwellingStatus.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrPreviousDwellingStatus.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['owner','tenant']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrPreviousDwellingArrivalDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',collectionIt.dhrPreviousDwellingArrivalDate)}</div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrPreviousDwellingDepartureDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',collectionIt.dhrPreviousDwellingDepartureDate)}</div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrPreviousDwellingComment.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.dhrPreviousDwellingComment?.toString())}</div>
+
+      
+      <% } %>
+      </div>    
+    
+  
+
+  
+  <h2>${i18n.translate('dhr.step.resources.label')}</h2>
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrRequesterIncomes.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('dhr.property.pensions.label')}</p><div class="response">${StringUtils.defaultString(rqt.pensions?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrAllowances.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrAllowances?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrFurnitureInvestmentIncome.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrFurnitureInvestmentIncome?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrRealEstateInvestmentIncome.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrRealEstateInvestmentIncome?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrNetIncome.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrNetIncome?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.dhrIncomesAnnualTotal.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrIncomesAnnualTotal?.toString())}</div>
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrRealAsset.label')}</h3>
+      <div class="complex">
+      <% rqt.dhrRealAsset.each { collectionIt -> %>
+      
+        <p class="label">${i18n.translate('dhr.property.dhrRealAssetAddress.label')}</p>
+          <div class="response">
+            <% if(collectionIt.dhrRealAssetAddress) { %>
+              <p>${StringUtils.defaultString(collectionIt.dhrRealAssetAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrRealAssetAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrRealAssetAddress?.streetNumber)} ${StringUtils.defaultString(collectionIt.dhrRealAssetAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrRealAssetAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrRealAssetAddress?.postalCode)} ${StringUtils.defaultString(collectionIt.dhrRealAssetAddress?.city)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrRealAssetAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrRealAssetValue.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.dhrRealAssetValue?.toString())}</div>
+
+      
+        <p class="label">${i18n.translate('dhr.property.realAssetNetFloorArea.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.realAssetNetFloorArea?.toString())}</div>
+
+      
+      <% } %>
+      </div>    
+    
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrNotRealAsset.label')}</h3>
+      <div class="complex">
+      <% rqt.dhrNotRealAsset.each { collectionIt -> %>
+      
+        <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetType.label')}</p>
+          <div class="response choice">
+            <% ['Share','Gift','Sale'].eachWithIndex {it, i -> %>
+              <span ${it == collectionIt.dhrNotRealAssetType.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrNotRealAssetType.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['Share','Gift','Sale']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetKind.label')}</p>
+          <div class="response choice">
+            <% ['RealEstate','Other'].eachWithIndex {it, i -> %>
+              <span ${it == collectionIt.dhrNotRealAssetKind.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('dhr.property.dhrNotRealAssetKind.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['RealEstate','Other']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetAddress.label')}</p>
+          <div class="response">
+            <% if(collectionIt.dhrNotRealAssetAddress) { %>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetAddress?.streetNumber)} ${StringUtils.defaultString(collectionIt.dhrNotRealAssetAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetAddress?.postalCode)} ${StringUtils.defaultString(collectionIt.dhrNotRealAssetAddress?.city)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetBeneficiaryName.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.dhrNotRealAssetBeneficiaryName?.toString())}</div>
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetBeneficiaryFirstName.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.dhrNotRealAssetBeneficiaryFirstName?.toString())}</div>
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetBeneficiaryAddress.label')}</p>
+          <div class="response">
+            <% if(collectionIt.dhrNotRealAssetBeneficiaryAddress) { %>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetBeneficiaryAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetBeneficiaryAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetBeneficiaryAddress?.streetNumber)} ${StringUtils.defaultString(collectionIt.dhrNotRealAssetBeneficiaryAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetBeneficiaryAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetBeneficiaryAddress?.postalCode)} ${StringUtils.defaultString(collectionIt.dhrNotRealAssetBeneficiaryAddress?.city)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetBeneficiaryAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetValue.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.dhrNotRealAssetValue?.toString())}</div>
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',collectionIt.dhrNotRealAssetDate)}</div>
+          
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetNotaryName.label')}</p><div class="response">${StringUtils.defaultString(collectionIt.dhrNotRealAssetNotaryName?.toString())}</div>
+
+      
+        <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetNotaryAddress.label')}</p>
+          <div class="response">
+            <% if(collectionIt.dhrNotRealAssetNotaryAddress) { %>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetNotaryAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetNotaryAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetNotaryAddress?.streetNumber)} ${StringUtils.defaultString(collectionIt.dhrNotRealAssetNotaryAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetNotaryAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetNotaryAddress?.postalCode)} ${StringUtils.defaultString(collectionIt.dhrNotRealAssetNotaryAddress?.city)}</p>
+              <p>${StringUtils.defaultString(collectionIt.dhrNotRealAssetNotaryAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+      
+      <% } %>
+      </div>    
+    
+  
+
+  
+  <h2>${i18n.translate('dhr.step.taxes.label')}</h2>
+  
+    
+      <h3>${i18n.translate('dhr.property.dhrTaxesAmount.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('dhr.property.dhrIncomeTax.label')}</p><div class="response">${StringUtils.defaultString(rqt.dhrIncomeTax?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.localRate.label')}</p><div class="response">${StringUtils.defaultString(rqt.localRate?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.propertyTaxes.label')}</p><div class="response">${StringUtils.defaultString(rqt.propertyTaxes?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('dhr.property.professionalTaxes.label')}</p><div class="response">${StringUtils.defaultString(rqt.professionalTaxes?.toString())}</div>
+
+        
+      </div>
+    
+  
+
+  
+  
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+  <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+    <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+      ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+    </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+  <% } %>
+  </div>
+</body>
+</html>
+

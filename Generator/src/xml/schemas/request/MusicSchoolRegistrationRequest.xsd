@@ -38,26 +38,6 @@
             <step index="3" ref="validation" />
           </steps>
         </common>
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Renseignements concernant le demandeur" column="2" />
-            <block id="1" label="Responsable légal (si différent du demandeur)" column="2" />
-            <block id="2" label="Personne du foyer à inscrire" column="2" />
-            <block id="3" label="Activités" />
-            <block id="4" label="Moyen de contact*" />
-            <block id="5" label="Règlementation" />
-          </blocks-def>
-          <element blockId="0" line="0" column="0" link="Requester">
-            <complexTemplate />
-          </element>
-          <element blockId="4" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-          <element blockId="2" line="1" column="0" columnSpan="2" link="Subject">
-            <complexTemplate />
-          </element>
-        </xslfo>
       </xs:appinfo>
     </xs:annotation>
 
@@ -84,11 +64,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="3" line="0" column="0" usePrefixLabel="false">
-                      <localReferential />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -107,20 +83,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="5" line="0" column="0">
-                      <message>
-                        <acceptMessage index="0">
-                          J'ai pris connaissance du règlement intérieur de
-                          l'école de musique et des conditions de prêts des instruments et
-                          m'engage à les respecter.
-                        </acceptMessage>
-                        <rejectMessage index="0">
-                          Vous n'avez pas accepté le règlement intérieur
-                        </rejectMessage>
-                      </message>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

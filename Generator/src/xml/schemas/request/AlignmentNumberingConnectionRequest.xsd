@@ -44,21 +44,6 @@
             <step index="2" ref="validation" />
           </steps>
         </common>
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Demandeur*" column="1" />
-            <block id="1" label="Identit&#x00E9; du propri&#x00E9;taire" column="2"
-              displayCondition="//ancr:RequesterQuality/text() != 'Owner'" />
-            <block id="2" label="Situation cadastrale de l'immeuble*" column="2" />
-            <block id="3" label="Moyen de contact*" />
-          </blocks-def>
-          <element blockId="0" line="0" column="0" link="Requester">
-            <complexTemplate />
-          </element>
-          <element blockId="3" line="0" column="0" link="MeansOfContact" prefixLabel="Comment souhaitez-vous &#x00EA;tre inform&#x00E9; ?">
-            <complexTemplate />
-          </element>
-        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -79,11 +64,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="0" line="2" column="0">
-                        <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -111,11 +92,7 @@
                   <model namespace="users" isTiedToRequest="true" />
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="0" line="3" column="0" prefixLabel="Adresse de l'immeuble">
-                        <complexTemplate/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -130,11 +107,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="1" column="0">
-                      <varargCheckbox displayModulo="3" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -155,11 +128,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="0" column="0" columnSpan="2">
-                      <string valueWeight="3"/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -180,11 +149,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="1" column="0" columnSpan="2">
-                      <string valueWeight="3"/>
-                    </element>
-                  </xslfo>
+                 <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -206,11 +171,7 @@
                   <model namespace="users" isTiedToRequest="true" />
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="2" column="0" columnSpan="2">
-                      <complexTemplate/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -228,11 +189,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="2" line="0" column="0">
-                      <string/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -250,11 +207,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="2" line="1" column="0">
-                      <string/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -272,11 +225,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="2" line="2" column="0">
-                      <string/>
-                    </element>
-                  </xslfo>
+                 <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -294,11 +243,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="2" line="0" column="1">
-                      <string/>
-                    </element>
-                  </xslfo>
+                 <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -316,11 +261,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="2" line="3" column="0">
-                      <yesnoCheckbox/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -338,11 +279,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="2" line="4" column="0">
-                      <string/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -360,11 +297,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="2" line="5" column="0">
-                      <yesnoCheckbox/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -382,11 +315,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="2" line="6" column="0">
-                      <yesnoCheckbox/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -404,11 +333,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="2" line="7" column="0">
-                      <yesnoCheckbox/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

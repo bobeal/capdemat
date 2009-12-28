@@ -58,28 +58,6 @@
             <step index="7" ref="validation" />
           </steps>
         </common>
-        <xslfo>
-          <blocks-def>
-            <block id="0" column="2" label="État civil de l'étudiant" />
-            <block id="1" column="2" label="Foyer fiscal de référence" />
-            <block id="2" column="2" label="Autres aides obtenues" />
-            <block id="3" column="2" label="Établissement scolaire d'inscription" />
-            <block id="4" column="2" label="Précisions sur le diplôme préparé" 
-            	displayCondition="//sgr:CurrentStudies/text() = 'otherStudies'" />
-            <block id="5" column="2" label="Renseignements sur le stage à l'étranger" 
-            	displayCondition="//sgr:AbroadInternship" />
-            <block id="6" column="2" label="Éléments de calcul de la bourse" />
-            <block id="7" column="2" label="Références bancaires de l'étudiant" />
-            <block id="8" label="Moyen de contact*" />
-          </blocks-def>
-          <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
-            <complexTemplate />
-          </element>
-          <element blockId="8" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -92,11 +70,7 @@
                   <common>
                     <step name="subject" />
                   </common>
-                  <xslfo>
-                    <element blockId="0" line="1" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -121,11 +95,7 @@
                   <common>
                     <step name="taxHousehold" />
                   </common>
-                  <xslfo>
-                    <element blockId="1" line="0" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                 <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -150,11 +120,7 @@
                   <common>
                     <step name="taxHousehold" />
                   </common>
-                  <xslfo>
-                    <element blockId="1" line="0" column="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -182,11 +148,7 @@
                       <condition name="isTaxHouseholdCityOther" type="trigger" />
                     </conditions>
                   </common>
-                  <xslfo>
-                    <element blockId="1" line="1" column="0">
-                      <localReferential />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -214,11 +176,7 @@
                       <condition name="isTaxHouseholdCityOther" type="filled" required="true" />
                     </conditions>
                   </common>
-                  <xslfo>
-                    <element blockId="1" line="2" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -244,11 +202,7 @@
                     <step name="taxHousehold" />
                     <validation jsregexp="^\d+(?:\.\d{1,2})?$" />
                   </common>
-                  <xslfo>
-                    <element blockId="1" line="3" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -272,11 +226,7 @@
                   <common>
                     <step name="otherHelps" />
                   </common>
-                  <xslfo>
-                    <element blockId="2" line="0" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -300,11 +250,7 @@
                   <common>
                     <step name="otherHelps" />
                   </common>
-                  <xslfo>
-                    <element blockId="2" line="1" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                 <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -328,11 +274,7 @@
                   <common>
                     <step name="otherHelps" />
                   </common>
-                  <xslfo>
-                    <element blockId="2" line="2" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="2" />
                 </xs:appinfo>
@@ -356,11 +298,7 @@
                   <common>
                     <step name="otherHelps" />
                   </common>
-                  <xslfo>
-                    <element blockId="2" line="3" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="2" />
                 </xs:appinfo>
@@ -372,11 +310,7 @@
                   <common>
                     <step name="currentStudies" />
                   </common>
-                  <xslfo>
-                    <element blockId="3" line="0" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -388,11 +322,7 @@
                   <common>
                     <step name="currentStudies" />
                   </common>
-                  <xslfo>
-                    <element blockId="3" line="5" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -404,11 +334,7 @@
                   <common>
                     <step name="currentStudies" />
                   </common>
-                  <xslfo>
-                    <element blockId="3" line="7" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="2" />
                 </xs:appinfo>
@@ -432,11 +358,7 @@
                   <common>
                     <step name="calculationElements" />
                   </common>
-                  <xslfo>
-                    <element blockId="6" line="0" column="0">
-                      <varargCheckbox displayModulo="2"/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -463,11 +385,7 @@
                       <condition name="isSubjectAccountHolder" type="trigger" />
                     </conditions>
                   </common>
-                  <xslfo>
-                    <element blockId="7" line="0" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -495,11 +413,7 @@
                       <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
                     </conditions>
                   </common>
-                  <xslfo>
-                    <element blockId="7" line="1" column="0">
-                      <varargCheckbox displayModulo="2"/>
-                    </element>
-                  </xslfo>
+                 <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -527,11 +441,7 @@
                       <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
                     </conditions>
                   </common>
-                  <xslfo>
-                    <element blockId="7" line="2" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                 <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -559,11 +469,7 @@
                       <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
                     </conditions>
                   </common>
-                  <xslfo>
-                    <element blockId="7" line="2" column="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -590,11 +496,7 @@
                       <condition name="isSubjectAccountHolder" type="unfilled" required="true" />
                     </conditions>
                   </common>
-                  <xslfo>
-                    <element blockId="7" line="3" column="0">
-                      <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-                    </element>
-                  </xslfo>
+                 <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -637,11 +539,7 @@
                     <step name="bankReference" />
                     <validation jsregexp="^\d{1,5}$" />
                   </common>
-                  <xslfo>
-                    <element blockId="7" line="4" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -671,11 +569,7 @@
                     <step name="bankReference" />
                     <validation jsregexp="^\d{1,5}$" />
                   </common>
-                  <xslfo>
-                    <element blockId="7" line="4" column="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -705,11 +599,7 @@
                     <step name="bankReference" />
                     <validation jsregexp="^[a-zA-Z0-9]{1,11}$" />
                   </common>
-                  <xslfo>
-                    <element blockId="7" line="5" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -739,11 +629,7 @@
                     <step name="bankReference" />
                     <validation jsregexp="^\d{1,2}$" />
                   </common>
-                  <xslfo>
-                    <element blockId="7" line="5" column="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
@@ -927,11 +813,7 @@
               <step name="subject" />
               <autofill name="subjectFilling" type="listener" field="Adress" />
             </common>
-            <xslfo>
-              <element blockId="0" line="1" column="0">
-                <complexTemplate />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -957,11 +839,7 @@
               <step name="subject" />
               <autofill name="subjectFilling" type="listener" field="HomePhone" />
             </common>
-            <xslfo>
-              <element blockId="0" line="1" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -987,11 +865,7 @@
               <step name="subject" />
               <autofill name="subjectFilling" type="listener" field="MobilePhone" />
             </common>
-            <xslfo>
-              <element blockId="0" line="1" column="1">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1017,11 +891,7 @@
               <step name="subject" />
               <autofill name="subjectFilling" type="listener" field="Email" />
             </common>
-            <xslfo>
-              <element blockId="0" line="2" column="0">
-                <string />
-              </element>
-            </xslfo>
+           <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1046,11 +916,7 @@
               <step name="subject" />
               <autofill name="subjectFilling" type="listener" field="BirthDate" />
             </common>
-            <xslfo>
-              <element blockId="0" line="3" column="0">
-                <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1074,11 +940,7 @@
             <common>
               <step name="subject" />
             </common>
-            <xslfo>
-              <element blockId="0" line="4" column="0">
-                <yesnoCheckbox />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1122,11 +984,7 @@
               <step name="currentStudies" />
               <validation jsregexp="^\d{2,4}$" />
             </common>
-            <xslfo>
-              <element blockId="3" line="5" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1155,11 +1013,7 @@
             <common>
               <step name="currentStudies" />
             </common>
-            <xslfo>
-              <element blockId="3" line="6" column="0">
-                <varargCheckbox displayModulo="3"/>
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1205,11 +1059,7 @@
                 <condition name="isInOtherStudies" type="trigger" />
               </conditions>
             </common>
-            <xslfo>
-              <element blockId="3" line="7" column="0">
-                <varargCheckbox displayModulo="3"/>
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1236,11 +1086,7 @@
                 <condition name="isInOtherStudies" type="filled" required="true" />
               </conditions>
             </common>
-            <xslfo>
-              <element blockId="4" line="0" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="2" />
           </xs:appinfo>
@@ -1264,11 +1110,7 @@
             <common>
               <step name="currentStudies" />
             </common>
-            <xslfo>
-              <element blockId="3" line="8" column="0">
-                <varargCheckbox displayModulo="3"/>
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1292,11 +1134,7 @@
             <common>
               <step name="currentStudies" />
             </common>
-            <xslfo>
-              <element blockId="3" line="9" column="0">
-                <yesnoCheckbox />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="2" />
           </xs:appinfo>
@@ -1323,11 +1161,7 @@
                 <condition name="makesAbroadInternship" type="trigger" />
               </conditions>
             </common>
-            <xslfo>
-              <element blockId="3" line="10" column="0">
-                <yesnoCheckbox />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="2" />
           </xs:appinfo>
@@ -1354,11 +1188,7 @@
                 <condition name="makesAbroadInternship" type="filled" required="true" />
               </conditions>
             </common>
-            <xslfo>
-              <element blockId="5" line="0" column="0">
-                <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="2" />
           </xs:appinfo>
@@ -1385,11 +1215,7 @@
                 <condition name="makesAbroadInternship" type="filled" required="true" />
               </conditions>
             </common>
-            <xslfo>
-              <element blockId="5" line="0" column="1">
-                <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="2" />
           </xs:appinfo>
@@ -1416,11 +1242,7 @@
                 <condition name="makesAbroadInternship" type="filled" required="true" />
               </conditions>
             </common>
-            <xslfo>
-              <element blockId="5" line="1" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="2" />
           </xs:appinfo>
@@ -1448,11 +1270,7 @@
                 <condition name="makesAbroadInternship" type="filled" required="true" />
               </conditions>
             </common>
-            <xslfo>
-              <element blockId="5" line="1" column="1">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="2" />
           </xs:appinfo>
@@ -1499,11 +1317,7 @@
                 <condition name="isCurrentSchoolNameOther" type="trigger" />
               </conditions>
             </common>
-            <xslfo>
-              <element blockId="3" line="0" column="0">
-                <localReferential />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1530,11 +1344,7 @@
                 <condition name="isCurrentSchoolNameOther" type="filled" required="true" />
               </conditions>
             </common>
-            <xslfo>
-              <element blockId="3" line="1" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1559,11 +1369,7 @@
             <common>
               <step name="currentStudies" />
             </common>
-            <xslfo>
-              <element blockId="3" line="2" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1588,11 +1394,7 @@
             <common>
               <step name="currentStudies" />
             </common>
-            <xslfo>
-              <element blockId="3" line="3" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>
@@ -1617,11 +1419,7 @@
             <common>
               <step name="currentStudies" />
             </common>
-            <xslfo>
-              <element blockId="3" line="4" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
             <fo />
             <bo column="1" />
           </xs:appinfo>

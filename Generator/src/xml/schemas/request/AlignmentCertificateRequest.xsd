@@ -42,22 +42,6 @@
             <step index="3" ref="validation" />
           </steps>
         </common>
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Demandeur*" column="2" />
-            <block id="1" label="Identité du propriétaire" column="2"
-              displayCondition="//acr:RequesterQuality/text() = 'Tenant'" />
-            <block id="2" label="Situation cadastrale du terrain*" column="2" />
-            <block id="3" label="Moyen de contact*" />
-          </blocks-def>
-          <element blockId="0" line="0" column="0" link="Requester">
-            <complexTemplate />
-          </element>
-          <element blockId="3" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -77,11 +61,7 @@
                     <radio />
                   </fo>
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="1" column="0">
-                      <varargCheckbox displayModulo="2" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -103,11 +83,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="0" column="0" columnSpan="2">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -129,11 +105,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="1" column="0" columnSpan="2">
-                      <string valueWeight="3" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -156,11 +128,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="2" column="0" columnSpan="2">
-                      <complexTemplate />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -179,11 +147,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="2" line="0" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -202,11 +166,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="2" line="1" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -225,11 +185,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="2" line="2" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -248,11 +204,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="2" line="0" column="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

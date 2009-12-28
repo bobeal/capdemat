@@ -37,21 +37,6 @@
             <step index="2" ref="validation" />
           </steps>
         </common>
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Type d'intervention technique" />
-            <block id="1" label="Précisez" />
-            <block id="2" label="Lieu de l'intervention" />
-            <block id="3" label="Description de la demande d'intervention" />
-            <block id="4" label="Moyen de contact*" />
-            <block id="5" label="Informations sur l'inscription (à remplir par l'administration)"
-              column="2" />
-          </blocks-def>
-          <element blockId="4" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-        </xslfo>
       </xs:appinfo>
     </xs:annotation>
 
@@ -84,11 +69,6 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="0" column="0">
-                      <localReferential />
-                    </element>
-                  </xslfo>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -115,11 +95,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="0" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -144,11 +120,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="2" line="1" column="0">
-                      <complexTemplate />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -176,11 +148,7 @@
                   <bo column="1" >
                     <textarea rows="3" />
                   </bo>
-                  <xslfo>
-                    <element blockId="3" line="0" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

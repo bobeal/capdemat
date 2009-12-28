@@ -40,26 +40,6 @@
             <step index="5" ref="validation" />
           </steps>
         </common>
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Enfant*" column="2" />
-            <block id="1" label="Activités au centre" />
-            <block id="2" label="Moyen de contact*" />
-            <block id="3" label="Personnes à contacter" />
-            <block id="4" label="Personnes autorisées" column="2" />
-            <block id="5" label="Autorisation de participation aux sorties" />
-            <block id="6" label="Autorisation d'hospitalisation" />
-            <block id="7" label="Règlement intérieur" />
-            <block id="8" label="Autorisation d'exploitation de la photo de l'enfant" />
-          </blocks-def>
-          <element blockId="2" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-          <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
-            <complexTemplate />
-          </element>
-        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -82,11 +62,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="0" column="0" usePrefixLabel="false">
-                      <localReferential />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -104,11 +80,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="2" column="0" columnSpan="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -129,12 +101,7 @@
                     <step name="registration" />
                   </common>
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="0" line="1" column="0" columnSpan="2"
-                      prefixLabel="Inscription dans le centre de loisirs">
-                      <string selectXPath="cvq:Name" valueWeight="3"/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -153,11 +120,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="3" line="0" column="0" columnSpan="2">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -176,11 +139,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="4" line="0" column="0" columnSpan="2">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -199,19 +158,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="7" line="0" column="0">
-                      <signature>
-                        <acceptMessage index="0">
-                          J'ai pris parfaite connaissance du règlement intérieur de la restauration
-                          scolaire qui accompagne cette fiche.
-                        </acceptMessage>
-                        <rejectMessage index="0">
-                          Vous n'avez pas accepté le règlement intérieur
-                        </rejectMessage>
-                      </signature>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -229,18 +176,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="5" line="0" column="0">
-                      <signature>
-                        <acceptMessage index="0">
-                          J'autorise la participation de mon enfant aux sorties organisées
-                        </acceptMessage>
-                        <rejectMessage index="0">
-                          Vous n'avez pas autorisé votre enfant à participer aux sorties organisées
-                        </rejectMessage>
-                      </signature>
-                    </element>
-                  </xslfo>
+                 <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -260,19 +196,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="8" line="0" column="0">
-                      <signature>
-                        <acceptMessage index="0">
-                          J'autorise l'exposition et la diffusion des photographies de mon enfant.
-                        </acceptMessage>
-                        <rejectMessage index="0">
-                          Vous n'avez pas autorisé l'exposition et la diffusion des photographies de
-                          votre enfant.
-                        </rejectMessage>
-                      </signature>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -291,25 +215,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="6" line="0" column="0">
-                      <signature>
-                        <acceptMessage index="0">
-                          En inscrivant mon enfant (ci-dessus désigné) aux activités péri-scolaires,
-                          j'autorise les responsables à prendre toutes les mesures pour le faire
-                          soigner, hospitaliser, opérer si nécessaire.
-                        </acceptMessage>
-                        <acceptMessage index="1">
-                          JE CERTIFIE que tous les renseignements portés sur la présente fiche sont
-                          exacts, je m'engage à signaler sans retard tous les changements qui
-                          interviendraient.
-                        </acceptMessage>
-                        <rejectMessage index="0">
-                          Vous n'avez pas accepté l'autorisation d'hospitalisation
-                        </rejectMessage>
-                      </signature>
-                    </element>
-                  </xslfo>
+                 <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -335,11 +241,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="0" column="0">
-                <string valueWeight="3" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -357,11 +259,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="1" column="0">
-                <string valueWeight="3" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -380,11 +278,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="2" column="0">
-                <complexTemplate />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -402,11 +296,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="3" column="0">
-                <string valueWeight="3" />
-              </element>
-            </xslfo>
+           <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -424,11 +314,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="4" column="0">
-                <string valueWeight="3" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -451,11 +337,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="4" line="0" column="0">
-                <string valueWeight="3" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -473,11 +355,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="4" line="1" column="0">
-                <string valueWeight="3" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -496,11 +374,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="4" line="2" column="0">
-                <complexTemplate />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -518,11 +392,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="4" line="3" column="0">
-                <string valueWeight="3" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -540,11 +410,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="4" line="4" column="0">
-                <string valueWeight="3" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

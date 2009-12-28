@@ -48,7 +48,7 @@
             <step index="3" ref="validation" />
           </steps>
         </common>
-      </xs:appinfo>
+          </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent>
@@ -71,7 +71,8 @@
                     <label />
                   </fo>
                   <bo column="1" />
-                </xs:appinfo>
+                  <pdf />
+          </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
@@ -91,7 +92,8 @@
                     <label />
                   </fo>
                   <bo column="1" />
-                </xs:appinfo>
+                  <pdf />
+          </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
@@ -114,7 +116,8 @@
                     <label />
                   </fo>
                   <bo column="2" />
-                </xs:appinfo>
+                  <pdf />
+          </xs:appinfo>
               </xs:annotation>
             </xs:element>
             
@@ -137,7 +140,8 @@
                     <radio />
                   </fo>
                   <bo column="1" />
-                </xs:appinfo>
+                  <pdf />
+          </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
@@ -160,7 +164,8 @@
                     <label />
                   </fo>
                   <bo column="1" />
-                </xs:appinfo>
+                  <pdf />
+          </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
@@ -183,7 +188,8 @@
                     <label />
                   </fo>
                   <bo column="2" />
-                </xs:appinfo>
+                  <pdf />
+          </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
@@ -203,7 +209,8 @@
                     <label />
                   </fo>
                   <bo column="2" />
-                </xs:appinfo>
+                  <pdf />
+          </xs:appinfo>
               </xs:annotation>
             </xs:element>
 
@@ -243,6 +250,7 @@
               <radio />
             </fo>
             <bo column="1" />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -264,6 +272,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -289,6 +298,7 @@
             <bo>
               <textarea rows="3" />
             </bo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
         <xs:simpleType>
@@ -347,6 +357,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -366,6 +377,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -386,6 +398,7 @@
               <radio />
             </fo>
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -404,6 +417,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -422,6 +436,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -441,6 +456,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -495,6 +511,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -514,6 +531,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -533,6 +551,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -551,6 +570,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -570,6 +590,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -622,6 +643,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -641,6 +663,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -660,6 +683,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -693,6 +717,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -712,6 +737,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -731,6 +757,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -766,6 +793,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -785,6 +813,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -804,6 +833,7 @@
             </common>
             <fo />
             <bo />
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

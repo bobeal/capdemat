@@ -37,21 +37,7 @@
 	        <step index="2" ref="document" />
 	        <step index="3" ref="validation" />
 	      </steps>
-	    </common>  
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Enfant*" column="2" />
-            <block id="1" label="Moyen de contact*" />
-            <block id="2" label="Règlement intérieur" />
-          </blocks-def>
-          <element blockId="1" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-          <element blockId="0" line="3" column="0" columnSpan="2" link="Subject">
-            <complexTemplate />
-          </element>
-        </xslfo>
+	    </common>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -75,11 +61,7 @@
                     <step name="registration" />
                   </common>
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="2" column="0" prefixLabel="Inscription dans l'école">
-                      <string selectXPath="cvq:Name" />
-                    </element>
-                  </xslfo>
+                 <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -98,11 +80,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="2" column="1">
-                      <string referential="true" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -120,11 +98,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="4" column="0" columnSpan="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -142,11 +116,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="0" line="0" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>    	  
+                 <pdf />	  
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -165,19 +135,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="2" line="0" column="0">
-                      <signature>
-                        <acceptMessage index="0">
-                          J'ai pris parfaite connaissance du règlement intérieur de
-                          l'école qui accompagne cette fiche.
-                        </acceptMessage>
-                        <rejectMessage index="0">
-                          Vous n'avez pas accepté le réglement intérieur
-                        </rejectMessage>
-                      </signature>
-                    </element>
-                  </xslfo>
+                 <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -214,11 +172,7 @@
            </common>
            <fo />
            <bo column="2" />
-           <xslfo>
-             <element blockId="0" line="0" column="0">
-               <string />
-             </element>
-           </xslfo>
+           <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -241,11 +195,7 @@
               <textarea rows="3" />
             </fo>
             <bo column="2" />
-            <xslfo>
-              <element blockId="0" line="1" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -268,11 +218,7 @@
             </common>
             <fo />
             <bo column="2" />
-            <xslfo>
-              <element blockId="0" line="0" column="1">
-                <string referential="true" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

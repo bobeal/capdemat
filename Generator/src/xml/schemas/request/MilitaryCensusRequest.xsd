@@ -46,25 +46,6 @@
             <step index="5" ref="validation" />
           </steps>
         </common>
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Enfant" column="2" />
-            <block id="1" label="Nationalité" column="2" />
-            <block id="2" label="Père" column="2" />
-            <block id="3" label="Mère" column="2"  breakAfter="true" />
-            <block id="4" label="Situation Familiale" column="2" />
-            <block id="5" label="Situation Professionnelle" column="2" />
-            <block id="6" label="Exemption" column="2" />
-            <block id="7" label="Moyen de contact*" />
-          </blocks-def>
-          <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
-            <complexTemplate />
-          </element>
-          <element blockId="7" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -90,11 +71,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="1" column="0">
-                      <varargCheckbox displayModulo="6" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -117,11 +94,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="1" column="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -144,11 +117,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="2" column="0">
-                      <string referential="true"/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -175,11 +144,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="2" column="1">
-                      <string referential="true"/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -204,11 +169,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="3" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -230,11 +191,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="3" column="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -260,11 +217,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="0" column="0">
-                      <string referential="true"/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -290,11 +243,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="0" column="1">
-                      <string referential="true"/>
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -323,11 +272,7 @@
                   <bo column="1">
                     <textarea rows="3" />
                   </bo>
-                  <xslfo>
-                    <element blockId="1" line="1" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -346,11 +291,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="2" line="0" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                 <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -369,11 +310,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="3" line="0" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -392,11 +329,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="4" line="0" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -415,11 +348,7 @@
                   </common>
                   <fo />
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="5" line="0" column="0">
-                      <localComplexElement />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -444,11 +373,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="6" line="0" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -473,11 +398,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="6" line="1" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                 <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -502,11 +423,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="6" line="2" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -607,11 +524,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="2" line="0" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -636,11 +549,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="2" line="0" column="1">
-                <string />
-              </element>
-            </xslfo>
+           <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -664,11 +573,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="2" line="1" column="0">
-                <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-              </element>
-            </xslfo>
+           <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -692,11 +597,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="2" line="1" column="1">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
            </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -721,11 +622,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="2" line="2" column="0">
-                <string referential="true"/>
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -750,11 +647,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="2" line="2" column="1">
-                <string referential="true"/>
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -779,11 +672,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="2" line="3" column="0">
-                <string referential="true"/>
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -812,11 +701,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="0" column="0">
-                <string />
-              </element>
-            </xslfo>
+           <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -840,11 +725,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="0" column="1">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -868,11 +749,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="1" column="0">
-                <simpleTemplate templateName="cvq:DisplayDate" templateParam="DateToDisplay" />
-              </element>
-            </xslfo>
+           <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -896,11 +773,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="1" column="1">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -925,11 +798,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="2" column="0">
-                <string referential="true" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -954,11 +823,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="2" column="1">
-                <string referential="true"/>
-              </element>
-            </xslfo>
+           <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -983,11 +848,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="3" line="3" column="0">
-                <string referential="true"/>
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1016,11 +877,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="4" line="0" column="0">
-                <string restrictToChar="true"/>
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1045,14 +902,7 @@
             </common>
             <fo />
             <bo />       
-            <xslfo>
-              <element blockId="4" line="1" column="0">
-                <!--
-                <varargCheckbox displayModulo="4" />
-                -->
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1076,11 +926,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="4" line="2" column="0">
-                <string restrictToChar="true" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1104,11 +950,7 @@
             </common>
             <fo />
             <bo />
-           <xslfo>
-              <element blockId="4" line="3" column="0">
-                <string />
-              </element>
-            </xslfo>
+           <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1129,11 +971,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="4" line="4" column="0">
-                <yesnoCheckbox />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1154,11 +992,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="4" line="5" column="0">
-                <yesnoCheckbox />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1180,11 +1014,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="4" line="6" column="0">
-                <string referential="true" />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1213,11 +1043,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="5" line="0" column="0">
-                <string referential="true"/>
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1242,11 +1068,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="5" line="0" column="1">
-                <string referential="true" />
-              </element>
-            </xslfo>
+           <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1271,11 +1093,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="5" line="1" column="0">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>
@@ -1300,11 +1118,7 @@
             </common>
             <fo />
             <bo />
-            <xslfo>
-              <element blockId="5" line="1" column="1">
-                <string />
-              </element>
-            </xslfo>
+            <pdf />
           </xs:appinfo>
         </xs:annotation>
       </xs:element>

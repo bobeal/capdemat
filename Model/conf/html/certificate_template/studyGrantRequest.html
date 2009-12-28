@@ -1,0 +1,431 @@
+
+
+<%
+
+  import org.apache.commons.lang.StringUtils
+  
+  def localReferentialWidget(rqt, javaName, lrEntries, depth) {
+    def lrHtml = ''
+    def currentLrDatas = rqt[javaName].collect{it.name}
+    if (lrTypes[javaName].entriesSupportMultiple) { 
+      lrHtml += "<ul ${depth==0 ? 'class="dataTree"' : ''}>"
+      lrEntries.eachWithIndex { entry, i -> 
+      if (entry.entries) { 
+        lrHtml += "<li>"
+        lrHtml += "<em>${entry.labelsMap.fr} :</em>"
+        lrHtml += localReferentialWidget(rqt, javaName, entry.entries,++depth)
+        lrHtml += "</li>"
+      } else {
+         lrHtml += "<li><span ${currentLrDatas?.contains(entry.key) ? 'class="checked"' : ''}>${entry.labelsMap.fr}</span>${i + 1 < lrEntries.size() ? ',' : ''}</li>"
+      } 
+    } 
+    lrHtml += "</ul>"
+    } else { 
+      lrEntries.each { entry -> 
+        lrHtml += "${currentLrDatas?.contains(entry.key) ? entry.labelsMap.fr: ''}"
+      } 
+    }
+    println lrHtml
+  }
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>${i18n.translate('sgr.label')}</title>
+  <link href="file://${cssPath}" type="text/css" rel="stylesheet" media="print" />
+</head>
+<body>
+  <div id="hd">
+    <p>${localAuthority.displayTitle}</p>
+    <img src="file://${logoPath}" alt="mairie2424" />
+  </div>
+  <h1>${i18n.translate('sgr.label')}</h1>
+
+  
+  <h2>${i18n.translate('sgr.step.subject.label')}</h2>
+  
+    
+      <h3>${i18n.translate('sgr.property.subjectInformations.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('request.property.subject.label')}</p>
+           <div class="response">${subject?.fullName}</div>
+          
+
+        
+          <p class="label">${i18n.translate('sgr.property.subjectAddress.label')}</p>
+          <div class="response">
+            <% if(rqt.subjectAddress) { %>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.additionalDeliveryInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.additionalGeographicalInformation)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.streetNumber)} ${StringUtils.defaultString(rqt.subjectAddress?.streetName)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.placeNameOrService)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.postalCode)} ${StringUtils.defaultString(rqt.subjectAddress?.city)}</p>
+              <p>${StringUtils.defaultString(rqt.subjectAddress?.countryName)}</p>
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('sgr.property.subjectPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectPhone?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('sgr.property.subjectMobilePhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectMobilePhone?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('sgr.property.subjectEmail.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectEmail?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('sgr.property.subjectBirthDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',rqt.subjectBirthDate)}</div>
+          
+
+        
+          <p class="label">${i18n.translate('sgr.property.subjectFirstRequest.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.subjectFirstRequest ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+
+  
+  <h2>${i18n.translate('sgr.step.taxHousehold.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('sgr.property.taxHouseholdLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.taxHouseholdLastName?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.taxHouseholdFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.taxHouseholdFirstName?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.taxHouseholdCity.label')}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'taxHouseholdCity', lrTypes.taxHouseholdCity.entries, 0) %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.taxHouseholdCityPrecision.label')}</p><div class="response">${StringUtils.defaultString(rqt.taxHouseholdCityPrecision?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.taxHouseholdIncome.label')}</p><div class="response">${StringUtils.defaultString(rqt.taxHouseholdIncome?.toString())}</div>
+
+    
+  
+
+  
+  <h2>${i18n.translate('sgr.step.otherHelps.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('sgr.property.hasCROUSHelp.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.hasCROUSHelp ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.hasRegionalCouncilHelp.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.hasRegionalCouncilHelp ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.hasEuropeHelp.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.hasEuropeHelp ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.hasOtherHelp.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.hasOtherHelp ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('sgr.step.currentStudies.label')}</h2>
+  
+    
+      <h3>${i18n.translate('sgr.property.currentSchool.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('sgr.property.currentSchoolName.label')}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'currentSchoolName', lrTypes.currentSchoolName.entries, 0) %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('sgr.property.currentSchoolNamePrecision.label')}</p><div class="response">${StringUtils.defaultString(rqt.currentSchoolNamePrecision?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('sgr.property.currentSchoolPostalCode.label')}</p><div class="response">${StringUtils.defaultString(rqt.currentSchoolPostalCode?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('sgr.property.currentSchoolCity.label')}</p><div class="response">${StringUtils.defaultString(rqt.currentSchoolCity?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('sgr.property.currentSchoolCountry.label')}</p>
+          <div class="response choice">
+            <% ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.currentSchoolCountry.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('sgr.property.currentSchoolCountry.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('sgr.property.aLevelsInformations.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('sgr.property.alevelsDate.label')}</p><div class="response">${StringUtils.defaultString(rqt.alevelsDate?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('sgr.property.alevels.label')}</p>
+          <div class="response choice">
+            <% ['es','l','s','stg','sti','stl','st2s','stav','tmd','h','p'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.alevels.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('sgr.property.alevels.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['es','l','s','stg','sti','stl','st2s','stav','tmd','h','p']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+    
+      <h3>${i18n.translate('sgr.property.currentStudiesInformations.label')}</h3>
+      <div class="complex">
+        
+          <p class="label">${i18n.translate('sgr.property.currentStudiesDiploma.label')}</p>
+          <div class="response choice">
+            <% ['licence','licencePro','master','bts','dut','otherStudies'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.currentStudiesDiploma.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('sgr.property.currentStudiesDiploma.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['licence','licencePro','master','bts','dut','otherStudies']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('sgr.property.otherStudiesLabel.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherStudiesLabel?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('sgr.property.currentStudiesLevel.label')}</p>
+          <div class="response choice">
+            <% ['firstYear','secondYear','thirdYear'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.currentStudiesLevel.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('sgr.property.currentStudiesLevel.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['firstYear','secondYear','thirdYear']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('sgr.property.sandwichCourses.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.sandwichCourses ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('sgr.property.abroadInternship.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.abroadInternship ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+          <p class="label">${i18n.translate('sgr.property.abroadInternshipStartDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',rqt.abroadInternshipStartDate)}</div>
+          
+
+        
+          <p class="label">${i18n.translate('sgr.property.abroadInternshipEndDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',rqt.abroadInternshipEndDate)}</div>
+          
+
+        
+          <p class="label">${i18n.translate('sgr.property.abroadInternshipSchoolName.label')}</p><div class="response">${StringUtils.defaultString(rqt.abroadInternshipSchoolName?.toString())}</div>
+
+        
+          <p class="label">${i18n.translate('sgr.property.abroadInternshipSchoolCountry.label')}</p>
+          <div class="response choice">
+            <% ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.abroadInternshipSchoolCountry.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('sgr.property.abroadInternshipSchoolCountry.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+        
+      </div>
+    
+  
+
+  
+  <h2>${i18n.translate('sgr.step.calculationElements.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('sgr.property.distance.label')}</p>
+          <div class="response choice">
+            <% ['lessThan30kms','between30and250kms','moreThan250kmsAndAbroad'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.distance.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('sgr.property.distance.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['lessThan30kms','between30and250kms','moreThan250kmsAndAbroad']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('sgr.step.bankReference.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('sgr.property.isSubjectAccountHolder.label')}</p>
+          <div class="response choice">
+            <% [true,false].each { %>
+              <span ${it == rqt.isSubjectAccountHolder ? 'class="checked"': ''}>
+                ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
+              </span>
+              ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.accountHolderTitle.label')}</p>
+          <div class="response choice">
+            <% ['Mister','Madam','Miss','Agency','Unknown'].eachWithIndex {it, i -> %>
+              <span ${it == rqt.accountHolderTitle.toString() ? 'class="checked"': ''}>
+                ${i18n.translate('sgr.property.accountHolderTitle.' + StringUtils.uncapitalize(it))}
+              </span>${i + 1 < ['Mister','Madam','Miss','Agency','Unknown']?.size() ? ', ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.accountHolderLastName.label')}</p><div class="response">${StringUtils.defaultString(rqt.accountHolderLastName?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.accountHolderFirstName.label')}</p><div class="response">${StringUtils.defaultString(rqt.accountHolderFirstName?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.accountHolderBirthDate.label')}</p>
+          <div class="response">${String.format('%td/%<tm/%<tY',rqt.accountHolderBirthDate)}</div>
+          
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.bankCode.label')}</p><div class="response">${StringUtils.defaultString(rqt.bankCode?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.counterCode.label')}</p><div class="response">${StringUtils.defaultString(rqt.counterCode?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.accountNumber.label')}</p><div class="response">${StringUtils.defaultString(rqt.accountNumber?.toString())}</div>
+
+    
+  
+    
+      <p class="label">${i18n.translate('sgr.property.accountKey.label')}</p><div class="response">${StringUtils.defaultString(rqt.accountKey?.toString())}</div>
+
+    
+  
+
+  
+  
+  <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
+  <div class="response choice">
+  <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+    <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+      ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+    </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+  <% } %>
+  </div>
+</body>
+</html>
+

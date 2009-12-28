@@ -163,12 +163,12 @@ ${endGT()}
     <% if (element.typeClass == "COLLECTION") { %>
       <h3>\${i18n.translate('${element.i18nPrefixCode}.label')}</h3>
       <div class="complex">
-      ${toGT('\${rqt.${element.javaFieldName}}.each { it ->')}
+      ${toGT('rqt.'+ element.javaFieldName +'.each { collectionIt ->')}
       <% element.elements.each { subElement -> %>
-        <% displayWidget(subElement, "it") %>
+        <% displayWidget(subElement, "collectionIt") %>
       <% } %>
-      </div>
-    ${toGT('}')}
+      ${toGT('}')}
+      </div>    
     <% } else if (element.typeClass == "COMPLEX") { %>
       <h3>\${i18n.translate('${element.i18nPrefixCode}.label')}</h3>
       <div class="complex">

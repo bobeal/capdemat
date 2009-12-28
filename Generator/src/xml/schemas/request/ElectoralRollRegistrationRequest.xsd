@@ -39,24 +39,7 @@
             <step index="1" ref="document" />
 	          <step index="2" ref="validation" />
 	        </steps>
-	      </common>  
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Personne à inscrire*" column="2" />
-            <block id="1" label="Raison de la demande*" />
-            <block id="2" label="Adresse en dehors de la ville*" displayCondition="//errr:Motive/text() = 'DirectCityContribution'" />
-            <block id="3" label="Moyen de contact*" />
-            <block id="4" label="Informations sur l'inscription (à remplir par l'administration)"
-              column="2" />
-          </blocks-def>
-          <element blockId="3" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-          <element blockId="0" line="0" column="0" columnSpan="2" link="Subject">
-            <complexTemplate />
-          </element>
-        </xslfo>
+	      </common>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -78,11 +61,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="1" column="0">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -105,11 +84,7 @@
                     <radio />
                   </fo>
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="0" column="0" usePrefixLabel="false">
-                      <varargCheckbox displayModulo="2" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -130,12 +105,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="2" column="0"
-                      displayCondition="//errr:Motive/text() = 'NewCityResident'">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -158,11 +128,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="2" line="0" column="0">
-                      <complexTemplate />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -179,11 +145,7 @@
                     <step name="registration" />
                   </common>
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="4" line="0" column="0">
-                      <string restrictToChar="true" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -200,11 +162,7 @@
                     <step name="registration" />
                   </common>
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="4" line="1" column="0">
-                      <string restrictToChar="true" />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -221,11 +179,7 @@
                     <step name="registration" />
                   </common>
                   <bo column="2" />
-                  <xslfo>
-                    <element blockId="4" line="0" column="1">
-                      <string />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

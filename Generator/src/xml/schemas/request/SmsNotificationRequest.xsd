@@ -39,21 +39,6 @@
             <step index="2" ref="validation" />
           </steps>
         </common>
-        <xslfo>
-          <blocks-def>
-            <block id="0" label="Inscription / Désinscription*" />
-            <block id="1" label="Sujet*" />
-            <block id="2" label="Centres d'intérêt" />
-            <block id="3" label="Moyen de contact*" />
-          </blocks-def>
-          <element blockId="1" line="0" column="0" link="Subject">
-            <complexTemplate />
-          </element>
-          <element blockId="3" line="0" column="0" link="MeansOfContact"
-            prefixLabel="Comment souhaitez-vous être informé ?">
-            <complexTemplate />
-          </element>
-        </xslfo>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -81,11 +66,7 @@
                   </common>                
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="1" line="2" column="0">
-                      <string />
-                    </element>
-                  </xslfo>                              
+                  <pdf />                         
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>          
@@ -109,11 +90,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="0" column="0">
-                      <yesnoCheckbox />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -138,11 +115,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
-                  <xslfo>
-                    <element blockId="2" line="1" column="0">
-                      <localReferential />
-                    </element>
-                  </xslfo>
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

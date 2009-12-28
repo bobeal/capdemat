@@ -3,7 +3,7 @@
  *        Parmain - Style Sheet
  *
  *        blue: #5BB5CD
- *        gray: #eee
+ *        gray: #dfdfdf
  *
  * ----------------------------------------------------- */
 
@@ -11,7 +11,7 @@
  * ----------------------------------------------------- */
  
 html { background: #fff; }
-#bd  { background-color: #eee; }
+#bd  { background-color: #dfdfdf; }
 h2   { color: #fff; }
 
 
@@ -19,12 +19,12 @@ h2   { color: #fff; }
  * ----------------------------------------------------- */
  
 #menu a, #menu a span                 { background-color: #5BB5CD; }
-#menu a:hover, #menu a:hover span     { color: #fff; background-color: #eee; }
-#menu a.current, #menu a.current span { color: #fff; background-color: #eee; }
-#menu a.disable ,#menu a.disable span { background-color: #eee !important; }
+#menu a:hover, #menu a:hover span     { color: #5BB5CD; background-color: #dfdfdf; }
+#menu a.current, #menu a.current span { color: #5BB5CD; background-color: #dfdfdf; }
+#menu a.disable ,#menu a.disable span { background-color: #dfdfdf !important; }
 
 #hd .top a.menu       { color: #fff; background-color: #5BB5CD; }
-#hd .top a.menu:hover { background-color: #eee; }
+#hd .top a.menu:hover { color: #5BB5CD; background-color: #dfdfdf; }
 
 /* boxes
  * ----------------------------------------------------- */
@@ -84,7 +84,7 @@ form textarea { border-top-color: #5BB5CD !important; }
 /* request creation
  * ----------------------------------------------------- */
 
-h2.request-creation { color: #fff !important; }
+h2.request-creation { color: #5BB5CD !important; }
 
 .yui-skin-fong .yui-navset .yui-nav a,
 .yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {

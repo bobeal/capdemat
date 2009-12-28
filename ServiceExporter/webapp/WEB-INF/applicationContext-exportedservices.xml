@@ -26,10 +26,5 @@
     <property name="authorizeAlreadyCreated" value="true">
     </property>
   </bean>
-
-  <bean id="localizationWebService" class="fr.cg95.cvq.exporter.service.localization.impl.LocalizationService">
-	<property name="localizationService">
-	  <ref bean="localizationService"/>
-	</property>
-  </bean>
+  
 </beans>

@@ -32,11 +32,11 @@ alter table request_season
 
 create or replace function migrate_seasons() returns void as $$
   declare
-    current_uuid varchar(255);
+    current_record record;
   begin
-    for current_uuid in select uuid from seasons loop
+    for current_record in select uuid from seasons loop
       perform nextval('hibernate_sequence');
-      update request set request_season_id = currval('hibernate_sequence') where season_uuid = current_uuid;
+      update request set request_season_id = currval('hibernate_sequence') where season_uuid = current_record.uuid;
       insert into request_season values (currval('hibernate_sequence'));
       update request_season set
         request_type_id = s.request_type_id,
@@ -46,7 +46,7 @@ create or replace function migrate_seasons() returns void as $$
         effect_end = s.effect_end,
         validation_authorization_start = s.validation_authorization_start,
         label = s.label
-      from (select request_type_id, registration_start, registration_end, effect_start, effect_end, validation_authorization_start, label from seasons where seasons.uuid = current_uuid) as s
+      from (select request_type_id, registration_start, registration_end, effect_start, effect_end, validation_authorization_start, label from seasons where seasons.uuid = current_record.uuid) as s
       where request_season.id = currval('hibernate_sequence');
     end loop;
   end;
@@ -70,22 +70,22 @@ drop table seasons;
 
 create or replace function migrate_request_states() returns void as $$
   declare
-    current_id int8;
+    current_record record;
   begin
-    for current_id in select id from request where state = 'Active' loop
-      delete from request_action where request_id = current_id and resulting_state = 'Active';
-      update request set state = 'Notified' where id = current_id;
+    for current_record in select id from request where state = 'Active' loop
+      delete from request_action where request_id = current_record.id and resulting_state = 'Active';
+      update request set state = 'Notified' where id = current_record.id;
     end loop;
-    for current_id in select id from request where state = 'Expired' loop
-      delete from request_action where request_id = current_id and resulting_state in ('Active', 'Expired');
-      update request set state = 'Archived' where id = current_id;
+    for current_record in select id from request where state = 'Expired' loop
+      delete from request_action where request_id = current_record.id and resulting_state in ('Active', 'Expired');
+      update request set state = 'Archived' where id = current_record.id;
       insert into request_action values (
         nextval('hibernate_sequence'),
         -1,
         'Suppression des pseudo-états "actif" et "expiré"',
         now(),
         null,
-        current_id,
+        current_record.id,
         'Archived',
         null,
         'StateChange'

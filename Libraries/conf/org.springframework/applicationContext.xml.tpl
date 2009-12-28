@@ -55,10 +55,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="localReferentialService" ref="localReferentialService"/>
   </bean>
 
-  <bean id="localizationService" 
-    class="fr.cg95.cvq.util.localization.impl.LocalizationService"
-  	init-method="init"/>
-
   <!-- history interceptor that logs all changes made on home folders -->
   <bean id="historyInterceptor" class="fr.cg95.cvq.dao.hibernate.HistoryInterceptor">
   </bean>

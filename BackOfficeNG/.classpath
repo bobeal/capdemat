@@ -83,7 +83,6 @@
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-test-1.0.2.jar"/>
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-web-1.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/core-renderer.jar"/>
-	<classpathentry kind="lib" path="lib/c3p0-0.9.1-pre10.jar"/>
 	<classpathentry kind="lib" path="plugins/jcaptcha-1.0/lib/jcaptcha-all-1.0-RC6.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/edu.yale/cas/casclient-2.1.1-1.jar" sourcepath="/home/bor/java/cas/cas-client-java-2.1.1/src"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
@@ -95,5 +94,6 @@
 			<attribute name="javadoc_location" value="http://xmlbeans.apache.org/docs/2.0.0/reference/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/org.hibernate/c3p0-0.9.1-pre10.jar"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>

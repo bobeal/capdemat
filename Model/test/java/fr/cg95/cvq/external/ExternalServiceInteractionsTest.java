@@ -1,7 +1,6 @@
 package fr.cg95.cvq.external;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentState;
 import fr.cg95.cvq.business.payment.PurchaseItem;
-import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -27,64 +25,31 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.payment.IPaymentService;
-import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.request.RequestTestCase;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.testtool.HasInnerProperty;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
-/**
- * FIXME : dependency on request test case has to be fixed
- */
-public class ExternalServiceInteractionsTest extends RequestTestCase {
-
-    protected IExternalService externalService;
-    
+public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
+   
     private final String EXTERNAL_SERVICE_LABEL = "Dummy External Service";
-    private Long homeFolderId;
-    
-    @Override
-    public void onSetUp() throws Exception {
-        super.onSetUp();
-        externalService = (IExternalService) getBean("externalService");
-        homeFolderId = null;
-    }
-    
-    @Override
-    public void onTearDown() throws Exception {
-        if (homeFolderId != null) {
-            HibernateUtil.getSession().delete(
-                externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL,
-                    homeFolderId));
-        }
-        for (ExternalServiceTrace trace :
-            externalService.getTraces(Collections.<Critere>emptySet(),
-                null, null)) {
-            HibernateUtil.getSession().delete(trace);
-        }
-        continueWithNewTransaction();
-
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        assertEquals(0, lacb.getExternalServices().size());
-
-        super.onTearDown();
-    }
     
     public void testInteractions() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
-        CreationBean cb = gimmeAnHomeFolderWithRequest();
-        homeFolderId = cb.getHomeFolderId();
+        CreationBean cb = gimmeAnHomeFolder();
+        
         continueWithNewTransaction();
+        
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         final HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         
         // initialize the mock external provider service
         final ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
+        requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         esb.setSupportAccountsByHomeFolder(true);
         Mockery context = new Mockery();
@@ -106,7 +71,6 @@ public class ExternalServiceInteractionsTest extends RequestTestCase {
         // set up the mock expectations
         context.checking(new Expectations() {{
             oneOf(mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)));
-            oneOf(mockExternalService).checkExternalReferential(with(any(VoCardRequestDocument.class)));
             allowing(mockExternalService).getLabel();will(returnValue(EXTERNAL_SERVICE_LABEL));
             oneOf(mockExternalService).handlesTraces();
             oneOf(mockExternalService)
@@ -118,9 +82,6 @@ public class ExternalServiceInteractionsTest extends RequestTestCase {
                     with(any(String.class)), with(any(String.class)));
             will(returnValue(new HashMap<String, List<ExternalAccountItem>>()));
             oneOf(mockExternalService).loadInvoiceDetails(eii);
-            oneOf(mockExternalService).creditHomeFolderAccounts(with(any(Collection.class)), with(any(String.class)), 
-                    with(any(String.class)), with(any(Long.class)), with(any(String.class)), with(any(String.class)), 
-                    with(any(Date.class)));
         }});
         
         // register the mock external provider service with the LACB
@@ -129,59 +90,34 @@ public class ExternalServiceInteractionsTest extends RequestTestCase {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        
-        iRequestWorkflowService.updateRequestState(cb.getRequestId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(cb.getRequestId(), RequestState.VALIDATED, null);
 
-        externalService.getExternalAccounts(homeFolder.getId(), 
-                new HashSet<String>(requestTypes), IPaymentService.EXTERNAL_INVOICES);
+        Set<IExternalProviderService> externalProviderServices = 
+            new HashSet<IExternalProviderService>();
+        externalProviderServices.add(mockExternalService);
+        VoCardRequestDocument vocrDocument = VoCardRequestDocument.Factory.newInstance();
+        RequestType requestType = vocrDocument.addNewVoCardRequest();
+        requestType.setHomeFolder(homeFolder.modelToXml());
+        externalService.sendRequest(vocrDocument, externalProviderServices);
+
+        continueWithNewTransaction();
+
+        externalService.getExternalAccounts(homeFolder.getId(), IPaymentService.EXTERNAL_INVOICES);
         externalService.loadInvoiceDetails(eii);
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-        externalService.creditHomeFolderAccounts(payment);
         
         context.assertIsSatisfied();
         
         lacb.unregisterExternalService(mockExternalService);
-    }
-    
-    public void testNoInteractions() throws CvqException {
         
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        
-        CreationBean cb = gimmeAnHomeFolderWithRequest();
-        continueWithNewTransaction();
-        SecurityContext.setCurrentEcitizen(cb.getLogin());
-        
-        // initialize the mock external provider service
-        final ExternalServiceBean esb = new ExternalServiceBean();
-        List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add("School Registration");
-        esb.setRequestTypes(requestTypes);
-        esb.setSupportAccountsByHomeFolder(true);
-        Mockery context = new Mockery();
-        final IExternalProviderService mockExternalService = 
-            context.mock(IExternalProviderService.class);
-        
-        // set up the mock expectations
-        context.checking(new Expectations() {{
-            oneOf (mockExternalService).checkConfiguration(with(any(ExternalServiceBean.class)));
-            allowing(mockExternalService).getLabel();will(returnValue(EXTERNAL_SERVICE_LABEL));
-            never(mockExternalService).handlesTraces();
-            never(mockExternalService).sendRequest(with(any(RequestType.class)));
-            never(mockExternalService).handlesTraces();
-        }});
-        
-        // register the mock external provider service with the LACB
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        lacb.registerExternalService(mockExternalService, esb);
+        HibernateUtil.getSession().delete(
+                externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL,
+                        cb.getHomeFolderId()));
 
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        
-        externalService.sendRequest(iRequestService.getById(cb.getRequestId()));
-        
-        context.assertIsSatisfied();
-        
-        lacb.unregisterExternalService(mockExternalService);
+        for (ExternalServiceTrace trace :
+            externalService.getTraces(Collections.<Critere>emptySet(),
+                    null, null)) {
+            HibernateUtil.getSession().delete(trace);
+        }
+        continueWithNewTransaction();
     }
 }

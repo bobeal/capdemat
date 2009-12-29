@@ -20,7 +20,7 @@ public class PaymentServiceJobTest extends PaymentTestCase {
 	private PaymentInitializationDateCheckerJob paymentInitilizationDateCheckerJob;
 	
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         super.onSetUp();
 
         paymentDAO = super.<IPaymentDAO>getApplicationBean("paymentDAO");

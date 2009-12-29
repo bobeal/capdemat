@@ -16,6 +16,13 @@ public final class SewerConnectionRequestService
     extends RequestService implements ISewerConnectionRequestService {
 
     @Override
+    public void init() {
+        super.init();
+
+        conditions.put("requesterQuality", new EqualityChecker("Tenant"));
+    }
+
+    @Override
     public boolean accept(Request request) {
         return request instanceof SewerConnectionRequest;
     }
@@ -23,11 +30,5 @@ public final class SewerConnectionRequestService
     @Override
     public Request getSkeletonRequest() throws CvqException {
         return new SewerConnectionRequest();
-    }
-    
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("requesterQuality", new EqualityChecker("Tenant"));
     }
 }

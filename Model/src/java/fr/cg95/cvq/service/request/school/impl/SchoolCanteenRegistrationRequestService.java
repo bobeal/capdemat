@@ -23,10 +23,8 @@ public final class SchoolCanteenRegistrationRequestService
     private static Logger logger = Logger.getLogger(SchoolCanteenRegistrationRequestService.class);
 
     @Override
-    public Long create(final Request request)
+    public void onRequestCreated(final Request request)
         throws CvqException, CvqObjectNotFoundException {
-
-        performBusinessChecks(request);
 
         SchoolCanteenRegistrationRequest scrr = (SchoolCanteenRegistrationRequest) request;
         School school = scrr.getSchool();
@@ -34,8 +32,6 @@ public final class SchoolCanteenRegistrationRequestService
             School syncSchool = (School) genericDAO.findById(School.class, school.getId());
             scrr.setSchool(syncSchool);
         }
-        
-        return finalizeAndPersist(scrr);
     }
 
     @Override
@@ -60,10 +56,8 @@ public final class SchoolCanteenRegistrationRequestService
     public Request getSkeletonRequest() throws CvqException {
         SchoolCanteenRegistrationRequest request =
             new SchoolCanteenRegistrationRequest();
-        request.setUrgencyPhone(
-            homeFolderService.getHomeFolderResponsible(
-                SecurityContext.getCurrentEcitizen().getHomeFolder().getId())
-                .getOfficePhone());
+        if (SecurityContext.getCurrentEcitizen() != null)
+            request.setUrgencyPhone(SecurityContext.getCurrentEcitizen().getOfficePhone());
         return request;
     }
 }

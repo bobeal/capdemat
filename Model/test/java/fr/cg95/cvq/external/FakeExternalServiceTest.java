@@ -18,23 +18,10 @@ import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.payment.IPaymentService;
-import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 
-public class FakeExternalServiceTest extends ServiceTestCase {
+public class FakeExternalServiceTest extends ExternalServiceTestCase {
 
-    private IExternalService externalService;
-    private IExternalProviderService fakeExternalService;
-
-    @Override
-    public void onSetUp() throws Exception {
-        super.onSetUp();
-        externalService = (IExternalService) getBean("externalService");
-        fakeExternalService = (IExternalProviderService) getBean("fakeExternalService");
-    }
-    
     public void testContracts() throws CvqException {
 
         // create a vo card request (to create home folder and associates)
@@ -54,14 +41,7 @@ public class FakeExternalServiceTest extends ServiceTestCase {
         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
         Long homeFolderId = homeFolder.getId();
 
-        // register the mock external provider service with the LACB
-        ExternalServiceBean esb = new ExternalServiceBean();
-        List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
-        esb.setRequestTypes(requestTypes);
-        esb.setSupportAccountsByHomeFolder(true);
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        lacb.registerExternalService(fakeExternalService, esb);
+        registerFakeExternalService();
 
         // retrieve all external accounts directly from fake external service
         Map<String, List<ExternalAccountItem>> completeAccount = 
@@ -141,5 +121,7 @@ public class FakeExternalServiceTest extends ServiceTestCase {
                     fail("did not find Lolita !");
             }
         }
+        
+        unregisterFakeExternalService();
     }
 }

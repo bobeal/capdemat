@@ -15,6 +15,14 @@ import fr.cg95.cvq.service.request.urbanism.IAlignmentCertificateRequestService;
 public final class AlignmentCertificateRequestService
     extends RequestService implements IAlignmentCertificateRequestService {
 
+    
+    @Override
+    public void init() {
+        super.init();
+
+        conditions.put("requesterQuality", new EqualityChecker("Tenant"));
+    }
+
     @Override
     public boolean accept(Request request) {
         return request instanceof AlignmentCertificateRequest;
@@ -23,11 +31,5 @@ public final class AlignmentCertificateRequestService
     @Override
     public Request getSkeletonRequest() throws CvqException {
         return new AlignmentCertificateRequest();
-    }
-    
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("requesterQuality", new EqualityChecker("Tenant"));
     }
 }

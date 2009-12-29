@@ -29,16 +29,16 @@ public class PaylineV4ServiceTest extends PaymentTestCase {
             new InternalInvoiceItem("PaylineV4 Invoice 1", Double.valueOf("300"),
                     "key", "keyOwner", "PaylineV4", Integer.valueOf(1), 
                     Double.valueOf(2));
-        Payment payment = iPaymentService.createPaymentContainer(invoice1, PaymentMode.INTERNET);
+        Payment payment = paymentService.createPaymentContainer(invoice1, PaymentMode.INTERNET);
         InternalInvoiceItem invoice2 =
             new InternalInvoiceItem("PaylineV4 Invoice 2", Double.valueOf("600"),
                     "key", "keyOwner", "PaylineV4", Integer.valueOf(1), 
                     Double.valueOf(2));
-        iPaymentService.addPurchaseItemToPayment(payment, invoice2);
+        paymentService.addPurchaseItemToPayment(payment, invoice2);
 
         payment.addPaymentSpecificData("domainName", "localhost");
 
-        URL url = iPaymentService.initPayment(payment);
+        URL url = paymentService.initPayment(payment);
         Assert.assertNotNull(url);
 
         continueWithNewTransaction();
@@ -47,7 +47,7 @@ public class PaylineV4ServiceTest extends PaymentTestCase {
         criterias.add(new Critere(Payment.SEARCH_BY_HOME_FOLDER_ID,
             cb.getHomeFolderId(), Critere.EQUALS));
         List<Payment> payments =
-            iPaymentService.get(criterias, null, null, 0, 0);
+            paymentService.get(criterias, null, null, 0, 0);
         assertEquals(1, payments.size());
         Payment finalPayment = payments.get(0);
         assertNotNull(finalPayment.getBankReference());

@@ -1,10 +1,12 @@
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
-import fr.cg95.cvq.external.IExternalService
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.request.IRequestService
-import fr.cg95.cvq.service.request.IRequestServiceRegistry
+import fr.cg95.cvq.service.request.IRequestActionService
+import fr.cg95.cvq.service.request.IRequestExternalService
+import fr.cg95.cvq.service.request.IRequestNoteService
+import fr.cg95.cvq.service.request.IRequestSearchService
+import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
@@ -17,13 +19,14 @@ class RequestController {
     def translationService
     def documentAdaptorService
     def requestTypeAdaptorService
-    def requestActionService
     def pdfService
 
     IIndividualService individualService
-    IRequestServiceRegistry requestServiceRegistry
-    IRequestService defaultRequestService
-    IExternalService externalService
+    IRequestExternalService requestExternalService
+    IRequestNoteService requestNoteService
+    IRequestActionService requestActionService
+    IRequestWorkflowService requestWorkflowService
+    IRequestSearchService requestSearchService
     IHomeFolderService homeFolderService
     
     def defaultAction = 'index'
@@ -43,7 +46,7 @@ class RequestController {
         requests = requestAdaptorService.prepareRecords(requests)
         requests.records.each {
             it.lastAgentNote = requestAdaptorService.prepareNote(
-                defaultRequestService.getLastAgentNote(it.id, null))
+                requestNoteService.getLastAgentNote(it.id, null))
         }
         
         return ([
@@ -58,17 +61,16 @@ class RequestController {
 
     def deleteDraft = {
         if (request.post) {
-            defaultRequestService.delete(Long.valueOf(params.id))
+            requestWorkflowService.delete(Long.valueOf(params.id))
             redirect(controller:'frontofficeHome')
         } else {
-            def rqt = defaultRequestService.getById(Long.valueOf(params.id))
+            def rqt = requestSearchService.getById(Long.valueOf(params.id))
             return ['rqt':requestAdaptorService.prepareRecord(rqt)]
         }
     }
 
     def summary = {
-        def requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
-        def rqt = defaultRequestService.getById(Long.parseLong(params.id))
+        def rqt = requestSearchService.getById(Long.parseLong(params.id))
         def individuals = [:]
         if (rqt.requestType.label == 'VO Card' || rqt.requestType.label == 'Home Folder Modification') {
         	def homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
@@ -85,18 +87,17 @@ class RequestController {
                 'requester':requester,
                 'subjects': subjects,
                 'requestNotes' : requestAdaptorService.prepareNotes(
-                    defaultRequestService.getNotes(Long.parseLong(params.id), null)),
-                'externalInformations' : externalService.loadExternalInformations(rqt),
+                    requestNoteService.getNotes(Long.parseLong(params.id), null)),
+                'externalInformations' : requestExternalService.loadExternalInformations(rqt),
                 'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),
-                'documentTypes': documentAdaptorService.getDocumentTypes(requestService, rqt, null, [] as Set),
+                'documentTypes': documentAdaptorService.getDocumentTypes(rqt, null, [] as Set),
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label),
                 'individuals':individuals
         ]
     }
     
     def testPdf = {
-        def requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
-        def cRequest = defaultRequestService.getById(Long.parseLong(params.id))
+        def cRequest = requestSearchService.getById(Long.parseLong(params.id))
         
         def data = pdfService.requestToPdf(cRequest)
         response.contentType = "application/pdf"
@@ -111,7 +112,7 @@ class RequestController {
         response.contentType = "application/pdf"
         response.setHeader("Content-disposition",
             "attachment; filename=request.pdf")
-        def data = defaultRequestService.getCertificate(Long.valueOf(params.id))
+        def data = requestSearchService.getCertificate(Long.valueOf(params.id))
         response.contentLength = data.length
         response.outputStream << data
         response.outputStream.flush()
@@ -158,9 +159,9 @@ class RequestController {
         def offset = params.offset ? Integer.valueOf(params.offset) : 0
         
         return [
-            'all' : defaultRequestService.get(criteriaSet, Request.SEARCH_BY_CREATION_DATE,
+            'all' : requestSearchService.get(criteriaSet, Request.SEARCH_BY_CREATION_DATE,
                 'desc', max, offset),
-            'count' : defaultRequestService.getCount(criteriaSet),
+            'count' : requestSearchService.getCount(criteriaSet),
             'records' : []
         ]
     }

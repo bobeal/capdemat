@@ -42,7 +42,6 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
@@ -289,7 +288,7 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
     /** ***** Not Implemented methods ****** */
     /** *********************************** */
 
-    public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
+    public Map<Date, String> getConsumptions(Long key, Date dateFrom, Date dateTo)
             throws CvqException {
         return null;
     }

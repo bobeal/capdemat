@@ -14,11 +14,10 @@
   </bean>
 
   <bean id="edemandeCommunicationJob"
-    class="fr.capwebct.capdemat.plugins.externalservices.edemande.job.EdemandeCommunicationJob"
-    init-method="init">
+    class="fr.capwebct.capdemat.plugins.externalservices.edemande.job.EdemandeCommunicationJob">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="edemandeService" ref="edemandeExternalService" />
-    <property name="externalService" ref="externalService" />
+    <property name="requestExternalService" ref="requestExternalService" />
   </bean>
 
   <bean id="edemandeCommunicationJobInvoker"

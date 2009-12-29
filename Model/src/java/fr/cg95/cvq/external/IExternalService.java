@@ -1,22 +1,20 @@
 package fr.cg95.cvq.external;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.xmlbeans.XmlObject;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.payment.Payment;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
-import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.util.Critere;
 
 public interface IExternalService {
@@ -27,43 +25,25 @@ public interface IExternalService {
     boolean authenticate(final String externalServiceLabel, final String password);
     
     /**
+     * Check the coherence of CapDemat's local referentials and external service's referentials
+     * for each external service interested in this request (usually none or one).
+     * @return a list of reasons for failed tests.
+     */
+    List<String> checkExternalReferential(XmlObject request, 
+        Set<IExternalProviderService> externalProviderServices);
+
+    /**
      * Send a new (validated) request to an external service.
      */
-    void sendRequest(@IsRequest final Request request)
+    void sendRequest(XmlObject xmlObject, Set<IExternalProviderService> externalProviderServices) 
         throws CvqException;
 
     /**
-     * Dispatch a payment's information and data to the appropriate external services.
+     * Asks the external services for informations they know about the request
+     * (for example, its state) to display them to the ecitizen
+     * @return The map of corresponding i18nKey - value
      */
-    void creditHomeFolderAccounts(final Payment payment)
-        throws CvqException;
-
-    /**
-     * Get the list of external services objects for the current local authority
-     * interested in events about the given request types.
-     */
-    Set<IExternalProviderService> getExternalServicesByRequestType(final String requestTypeLabel);
-
-    /**
-     * Get the first external service object of getExternalServicesByRequestType(),
-     * since there is usually only one external service interested in a particular request type
-     */
-    IExternalProviderService getExternalServiceByRequestType(final String requestTypeLabel);
-
-    /**
-     * Return whether given request type has at least an associated external service.
-     */
-    boolean hasMatchingExternalService(final String requestLabel);
-
-    /**
-     * Get consumptions for a specific request.
-     *
-     * @param request the request we want associated consumptions of
-     * @param dateFrom date down limit for the returned consumptions for this request
-     * @param dateTo date up limit for the returned consumptions for this request
-     */
-    Map<Date, String> getConsumptionsByRequest(@IsRequest final Request request,
-        final Date dateFrom, final Date dateTo)
+    Map<String, Object> loadExternalInformations(XmlObject xmlObject)
         throws CvqException;
 
     /**
@@ -81,21 +61,6 @@ public interface IExternalService {
         throws CvqException;
 
     /**
-     * Get external accounts information and state for the given home folder. Designed
-     * to be called by an ecitizen from the Front Office.
-     * 
-     * @param homeFolderRequestTypes the request types for whom the given home folder
-     *              has at least a request
-     * @param type the "account type" for which we want information (one of
-     *        {@link fr.cg95.cvq.service.payment.IPaymentService#EXTERNAL_INVOICES}, 
-     *        {@link fr.cg95.cvq.service.payment.IPaymentService#EXTERNAL_DEPOSIT_ACCOUNTS},
-     *        {@link fr.cg95.cvq.service.payment.IPaymentService#EXTERNAL_TICKETING_ACCOUNTS}
-     */
-    Set<ExternalAccountItem> getExternalAccounts(@IsHomeFolder Long homeFolderId,
-        Set<String> homeFolderRequestTypes, String type)
-        throws CvqException;
-    
-    /**
      * Load details of operations performed on given deposit account. Details
      * are directly loaded into the provided object.
      */
@@ -110,23 +75,23 @@ public interface IExternalService {
         throws CvqException;
     
     /**
-     * Get the list of request types labels associated to the given external service.
+     * Get consumptions for a specific request.
+     *
+     * @param request the key used to retrieve consumptions (eg request id)
+     * @param dateFrom date down limit for the returned consumptions for this request
+     * @param dateTo date up limit for the returned consumptions for this request
      */
-    Collection<String> getRequestTypesForExternalService(final String externalServiceLabel);
-    
-    /**
-     * Get the list of request types for which a pre-generation is asked.
-     */
-    Set<String> getGenerableRequestTypes();
-
-    ExternalServiceIdentifierMapping
-        getIdentifierMapping(final String externalServiceLabel,
-            @IsHomeFolder final Long homeFolderId);
+    Map<Date, String> getConsumptions(final Long key, final Date dateFrom, final Date dateTo,
+            Set<IExternalProviderService> externalProviderServices)
+        throws CvqException;
 
     Long addTrace(ExternalServiceTrace trace);
 
     List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet, String sort,
         String dir);
+
+    ExternalServiceIdentifierMapping getIdentifierMapping(final String externalServiceLabel,
+            @IsHomeFolder final Long homeFolderId);
 
     /**
      * Set the external id of an individual for the given external service.
@@ -139,17 +104,12 @@ public interface IExternalService {
         String externalId);
 
     /**
-     * Check the coherence of CapDemat's local referentials and external service's referentials
-     * for each external service interested in this request (usually none or one).
-     * @return a list of reasons for failed tests.
+     * Delete mappings for the given external service and home folder (included individual mappings).
      */
-    List<String> checkExternalReferential(@IsRequest Request request);
+    void deleteIdentifierMappings(final String externalServiceLabel,
+            @IsHomeFolder final Long homeFolderId);
+    
+    IExternalProviderService getExternalServiceByLabel(final String externalServiceLabel);
 
-    /**
-     * Asks the external services for informations they know about the request
-     * (for example, its state) to display them to the ecitizen
-     * @return The map of corresponding i18nKey - value
-     */
-    Map<String, Object> loadExternalInformations(@IsRequest Request request)
-        throws CvqException;
+    ExternalServiceBean getBeanForExternalService(IExternalProviderService externalProviderService);
 }

@@ -19,6 +19,17 @@ import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
  */
 public class StudyGrantRequestService extends RequestService implements IStudyGrantRequestService {
     
+    @Override
+    public void init() {
+        super.init();
+
+        conditions.put("abroadInternship", new EqualityChecker("true"));
+        conditions.put("currentStudies", new EqualityListChecker(Arrays.asList("otherStudies")));
+        conditions.put("taxHouseholdCity", new EqualityChecker("573"));
+        conditions.put("currentSchoolName", new EqualityChecker("autre"));
+        conditions.put("isSubjectAccountHolder", new EqualityChecker("true"));
+    }
+
     public boolean accept(Request request) {
         return request instanceof StudyGrantRequest;
     }
@@ -30,7 +41,7 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
     @Override
     public void onRequestValidated(Request request) throws CvqException {
         StudyGrantRequest sgr = (StudyGrantRequest) request;
-        Individual subject = individualService.getById(sgr.getSubjectId());
+        Individual subject = (Individual) genericDAO.findById(Individual.class, sgr.getSubjectId());
         subject.setBirthDate(sgr.getSubjectBirthDate());
         if (subject instanceof Adult) {
             Adult adult = (Adult) subject;
@@ -42,30 +53,19 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
                 adult.setHomePhone(sgr.getSubjectPhone());
             adult.setEmail(sgr.getSubjectEmail());
         }
-        individualService.modify(subject);
     }
     
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("abroadInternship", new EqualityChecker("true"));
-        filledConditions.put("currentStudies", new EqualityListChecker(Arrays.asList("otherStudies")));
-        filledConditions.put("taxHouseholdCity", new EqualityChecker("573"));
-        filledConditions.put("currentSchoolName", new EqualityChecker("autre"));
-        filledConditions.put("isSubjectAccountHolder", new EqualityChecker("true"));
-    }
-
     public void setEdemandeId(Long requestId, String edemandeId)
         throws CvqException {
-        StudyGrantRequest request = (StudyGrantRequest)getById(requestId);
+        StudyGrantRequest request = 
+            (StudyGrantRequest) genericDAO.findById(Request.class, requestId);
         request.setEdemandeId(edemandeId);
-        modify(request);
     }
 
     public void setAccountHolderEdemandeId(@IsRequest final Long requestId, final String accountHolderEdemandeId)
         throws CvqException {
-        StudyGrantRequest request = (StudyGrantRequest)getById(requestId);
+        StudyGrantRequest request = 
+            (StudyGrantRequest) genericDAO.findById(Request.class, requestId);
         request.setAccountHolderEdemandeId(accountHolderEdemandeId);
-        modify(request);
     }
 }

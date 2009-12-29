@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.request.social.impl;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.RemoteSupportRequest;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.social.IRemoteSupportRequestService;
@@ -16,16 +15,18 @@ import fr.cg95.cvq.service.request.social.IRemoteSupportRequestService;
  */
 public class RemoteSupportRequestService extends RequestService 
     implements IRemoteSupportRequestService {
+
     
     @Override
-    public Long create(final Request request) throws CvqException, CvqObjectNotFoundException {
+    public void init() {
 
-        RemoteSupportRequest rsr = (RemoteSupportRequest) request;
-        performBusinessChecks(rsr);
+        super.init();
 
-        return finalizeAndPersist(rsr);
+        conditions.put("requestInformationRequestKind", new EqualityChecker("Couple"));
+        conditions.put("requestInformationEmergency", new EqualityChecker("true"));
+        conditions.put("contactKind", new EqualityChecker("Other"));
     }
-    
+
     @Override
     public boolean accept(Request request) {
         return request instanceof RemoteSupportRequest;
@@ -35,13 +36,4 @@ public class RemoteSupportRequestService extends RequestService
     public Request getSkeletonRequest() throws CvqException {
         return new RemoteSupportRequest();
     }
-    
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("requestInformationRequestKind", new EqualityChecker("Couple"));
-        filledConditions.put("requestInformationEmergency", new EqualityChecker("true"));
-        filledConditions.put("contactKind", new EqualityChecker("Other"));
-    }
-    
 }

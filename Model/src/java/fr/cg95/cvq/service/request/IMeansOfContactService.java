@@ -49,23 +49,28 @@ public interface IMeansOfContactService {
     List<MeansOfContact> getCurrentEcitizenEnabledMeansOfContact();
 
     /**
-     * Enalbe a Means of Contact for a local authority
+     * Enable a Means of Contact for a local authority
      */
     void enableMeansOfContact(MeansOfContact meansOfContact);
 
     /**
-     * Disable a Means of Contact for a local authority
-     * @throws CvqModelException
-     * <br><br>
+     * Disable a Means of Contact for a local authority.
+     * 
      * Expected business error code is :
      * <dl>
      *   <dt>request.meansOfContact.message.mustHaveOneEnabled</dt>
-     *     <dd>MeansOfContact can't be disabled. It is the unique enabled</dd>
+     *   <dd>MeansOfContact can't be disabled. It is the unique enabled</dd>
      * <dl>
      */
     void disableMeansOfContact(MeansOfContact meansOfContact)
         throws CvqModelException;
 
+    /**
+     * @see #disableMeansOfContact(MeansOfContact)
+     */
+    void disableMeansOfContact(Long mocId)
+        throws CvqModelException, CvqObjectNotFoundException;
+    
     /**
      * Test if the given MeansOfContact supports attachment
      */

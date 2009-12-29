@@ -51,7 +51,7 @@ public class PaymentServiceTest extends PaymentTestCase {
 
     private Payment gimmePayment() throws CvqException {
         
-        Map<String, String> brokers = iPaymentService.getAllBrokers();
+        Map<String, String> brokers = paymentService.getAllBrokers();
         Assert.assertNotNull(brokers);
         Assert.assertFalse(brokers.isEmpty());
         String broker = null;
@@ -65,22 +65,50 @@ public class PaymentServiceTest extends PaymentTestCase {
             new InternalInvoiceItem("IRI 1", Double.valueOf("154"),
                     "key", "keyOwner", broker, 2, Double.valueOf("77"));
         Payment payment = 
-            iPaymentService.createPaymentContainer(internalRequestItem1, PaymentMode.INTERNET);
+            paymentService.createPaymentContainer(internalRequestItem1, PaymentMode.INTERNET);
         
         InternalInvoiceItem internalRequestItem2 =
             new InternalInvoiceItem("IRI 2", Double.valueOf("140"),
                     "key", "keyOwner", broker, 2, Double.valueOf("70"));
-        iPaymentService.addPurchaseItemToPayment(payment, internalRequestItem2);
+        paymentService.addPurchaseItemToPayment(payment, internalRequestItem2);
 
         ExternalAccountItem eai = 
             new ExternalDepositAccountItem("eai", Double.valueOf("30"), fakeExternalService.getLabel(), 
                     "Deposit Account Label", new Date(), Double.valueOf("70"), broker);
         eai.addExternalServiceSpecificData("externalFamilyAccountId", "EFA-ID");
         eai.addExternalServiceSpecificData("externalApplicationLabel", "Cantine");
-        iPaymentService.addPurchaseItemToPayment(payment, eai);
+        paymentService.addPurchaseItemToPayment(payment, eai);
         
         return payment;
     }    
+    
+    public void testPaymentCreate() throws CvqException {
+        
+        CreationBean cb = gimmeAnHomeFolder();
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+        SecurityContext.setCurrentEcitizen(cb.getLogin());
+
+        Payment payment = gimmePayment();
+        
+        paymentService.initPayment(payment);
+        
+        continueWithNewTransaction();
+        
+        List<Payment> payments = paymentService.getByHomeFolder(cb.getHomeFolderId());
+        assertNotNull(payments);
+        assertEquals(1, payments.size());
+        
+        payment = payments.get(0);
+        
+        assertEquals(homeFolderResponsible.getId(), payment.getRequesterId());
+        assertEquals(homeFolderResponsible.getFirstName(), payment.getRequesterFirstName());
+        assertEquals(homeFolderResponsible.getLastName(), payment.getRequesterLastName());
+        assertEquals(PaymentMode.INTERNET, payment.getPaymentMode());
+        assertEquals(PaymentState.INITIALIZED, payment.getState());
+
+        paymentService.delete(payment.getId());
+    }
     
     public void testPaymentSuccessFlow() throws CvqException {
 
@@ -92,14 +120,14 @@ public class PaymentServiceTest extends PaymentTestCase {
         
         Payment payment = gimmePayment();
 
-        URL url = iPaymentService.initPayment(payment);
+        URL url = paymentService.initPayment(payment);
         Assert.assertNotNull(url);
         
         continueWithNewTransaction();
         
-        List<Payment> payments = iPaymentService.getByHomeFolder(cb.getHomeFolderId());
+        List<Payment> payments = paymentService.getByHomeFolder(cb.getHomeFolderId());
         Assert.assertEquals(1, payments.size());
-        payment = payments.iterator().next();
+        payment = payments.get(0);
         Assert.assertEquals(3, payment.getPurchaseItems().size());
         Assert.assertEquals(payment.getState(), PaymentState.INITIALIZED);
         Assert.assertNotNull(payment.getCvqReference());
@@ -125,55 +153,60 @@ public class PaymentServiceTest extends PaymentTestCase {
         parameters.put("status", "OK");
         parameters.put("capDematFake", "true");
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-        PaymentResultStatus returnStatus = iPaymentService.commitPayment(parameters);
+        PaymentResultStatus returnStatus = paymentService.commitPayment(parameters);
         SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         Assert.assertEquals(returnStatus, PaymentResultStatus.OK);
         
         continueWithNewTransaction();
         
-        payment = iPaymentService.getById(payment.getId());
+        payment = paymentService.getById(payment.getId());
         Assert.assertEquals(3, payment.getPurchaseItems().size());
         Assert.assertEquals(payment.getState(), PaymentState.VALIDATED);
 
-        iPaymentService.delete(payment.getId());
+        paymentService.delete(payment.getId());
         
         continueWithNewTransaction();
         
         try {
-            iPaymentService.getById(payment.getId());
+            paymentService.getById(payment.getId());
             fail("should have thrown an exception");
         } catch (CvqObjectNotFoundException confe) {
             // that was expected
         }
 
-        Assert.assertEquals(0, iPaymentService.getByHomeFolder(cb.getHomeFolderId()).size());
-
-        commitTransaction();
+        Assert.assertEquals(0, paymentService.getByHomeFolder(cb.getHomeFolderId()).size());
     }
 
-    public void testPaymentsSearch() throws CvqException {
-
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+    public void testPaymentSearch() throws CvqException {
 
         CreationBean cb = gimmeAnHomeFolder();
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
         Payment payment = gimmePayment();
         
-        URL url = iPaymentService.initPayment(payment);
-        Assert.assertNotNull(url);
+        paymentService.initPayment(payment);
 
+        continueWithNewTransaction();
+        
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("cvqReference", payment.getCvqReference());
         parameters.put("status", "OK");
         parameters.put("capDematFake", "true");
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-        iPaymentService.commitPayment(parameters);
-        commitTransaction();
+        paymentService.commitPayment(parameters);
+        
+        continueWithNewTransaction();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        
+        List<Payment> payments = paymentService.get(null, null, null, -1, 0);
+        assertEquals(1, payments.size());
+        
+        payment = payments.get(0);
         
         Set <Critere> criteria = new HashSet<Critere>();
         
@@ -196,18 +229,6 @@ public class PaymentServiceTest extends PaymentTestCase {
         criteria.add(crit);
        
         crit = new Critere();
-        crit.setAttribut(Payment.SEARCH_BY_INITIALIZATION_DATE);
-        crit.setComparatif(Critere.GTE);
-        crit.setValue(payment.getInitializationDate());
-        criteria.add(crit);
-        
-        crit = new Critere();
-        crit.setAttribut(Payment.SEARCH_BY_INITIALIZATION_DATE);
-        crit.setComparatif(Critere.LTE);
-        crit.setValue(payment.getInitializationDate());
-        criteria.add(crit);
-        
-        crit = new Critere();
         crit.setAttribut(Payment.SEARCH_BY_PAYMENT_STATE);
         crit.setComparatif(Critere.EQUALS);
         crit.setValue(payment.getState().toString());
@@ -225,14 +246,10 @@ public class PaymentServiceTest extends PaymentTestCase {
         crit.setValue(payment.getPaymentMode().toString());
         criteria.add(crit);
         
-        List<Payment> payments = iPaymentService.get(criteria, null, null, -1, 0);
+        payments = paymentService.get(criteria, null, null, -1, 0);
 
         Assert.assertEquals(1, payments.size());
         
-        continueWithNewTransaction();
-
-        iPaymentService.delete(payment.getId());
-        
-        commitTransaction();
+        paymentService.delete(payment.getId());
     }
 }

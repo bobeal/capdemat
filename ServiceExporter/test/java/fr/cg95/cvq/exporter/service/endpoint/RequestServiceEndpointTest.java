@@ -34,7 +34,7 @@ import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
@@ -54,7 +54,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         ExternalServiceBean esb = new ExternalServiceBean();
         esb.setGenerateTracedRequest(true);
         List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
+        requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         fakeExternalService = (IExternalProviderService) getBean("fakeExternalService");
@@ -71,15 +71,13 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         AckRequestServiceEndpoint endpoint1 = 
             new AckRequestServiceEndpoint(new XmlBeansMarshaller());
         RequestServiceEndpoint endpoint2 = new RequestServiceEndpoint(new XmlBeansMarshaller());
-        IRequestService defaultRequestService = 
-            (IRequestService) context.getBean("defaultRequestService");
         IExternalService externalService = 
             (IExternalService) context.getBean("externalService");
         ILocalAuthorityRegistry localAuthorityRegistry = 
             (ILocalAuthorityRegistry) context.getBean("localAuthorityRegistry");
         endpoint1.setExternalService(externalService);
         endpoint2.setExternalService(externalService);
-        endpoint2.setDefaultRequestService(defaultRequestService);
+        endpoint2.setRequestSearchService(requestSearchService);
         endpoint2.setLocalAuthorityRegistry(localAuthorityRegistry);
         
         try {
@@ -173,15 +171,13 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         AckRequestServiceEndpoint endpoint1 = 
             new AckRequestServiceEndpoint(new XmlBeansMarshaller());
         RequestServiceEndpoint endpoint2 = new RequestServiceEndpoint(new XmlBeansMarshaller());
-        IRequestService defaultRequestService = 
-            (IRequestService) context.getBean("defaultRequestService");
         IExternalService externalService = 
             (IExternalService) context.getBean("externalService");
         ILocalAuthorityRegistry localAuthorityRegistry = 
             (ILocalAuthorityRegistry) context.getBean("localAuthorityRegistry");
         endpoint1.setExternalService(externalService);
         endpoint2.setExternalService(externalService);
-        endpoint2.setDefaultRequestService(defaultRequestService);
+        endpoint2.setRequestSearchService(requestSearchService);
         endpoint2.setLocalAuthorityRegistry(localAuthorityRegistry);
         
         try {
@@ -214,7 +210,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             
             Assert.assertEquals(1, getCountBefore);
             
-            getRequest.setRequestTypeLabel(IRequestService.VO_CARD_REGISTRATION_REQUEST);
+            getRequest.setRequestTypeLabel(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
             requestDocument.setGetRequestsRequest(getRequest);
 
             getResponse = (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
@@ -296,14 +292,13 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             
             ConfigurableApplicationContext cac;
             cac = getContext(getConfigLocations());
-            IRequestService requestService = (IRequestService) cac.getBean("defaultRequestService");
             ILocalAuthorityRegistry localAuthorityRegistry = 
                 (ILocalAuthorityRegistry) cac.getBean("localAuthorityRegistry");
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
             
             XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
             RequestServiceEndpoint endpoint = new RequestServiceEndpoint(xmlBeansMarshaller);
-            endpoint.setDefaultRequestService(requestService);
+            endpoint.setRequestSearchService(requestSearchService);
             endpoint.setExternalService(externalService);
             endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
             GetRequestsRequestDocument pendedRequestDocument = 
@@ -335,13 +330,12 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             
             ConfigurableApplicationContext cac;
             cac = getContext(getConfigLocations());
-            IRequestService requestService = (IRequestService) cac.getBean("defaultRequestService");
             ILocalAuthorityRegistry localAuthorityRegistry = 
                 (ILocalAuthorityRegistry) cac.getBean("localAuthorityRegistry");
             
             XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
             RequestServiceEndpoint endpoint = new RequestServiceEndpoint(xmlBeansMarshaller);
-            endpoint.setDefaultRequestService(requestService);
+            endpoint.setRequestSearchService(requestSearchService);
             endpoint.setExternalService(externalService);
             endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
             
@@ -373,7 +367,6 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         try {
             int completeCountBefore = 0;
             cac = getContext(getConfigLocations());
-            IRequestService requestService = (IRequestService) cac.getBean("defaultRequestService");
             ILocalAuthorityRegistry localAuthorityRegistry = 
                 (ILocalAuthorityRegistry) cac.getBean("localAuthorityRegistry");
             
@@ -382,7 +375,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             /* Initialize internal variables */
             RequestServiceEndpoint endpoint = new RequestServiceEndpoint(xmlBeansMarshaller);
             AckRequestServiceEndpoint endpoint2 = new AckRequestServiceEndpoint(new XmlBeansMarshaller());
-            endpoint.setDefaultRequestService(requestService);
+            endpoint.setRequestSearchService(requestSearchService);
             endpoint.setExternalService(externalService);
             endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
             endpoint2.setExternalService(externalService);

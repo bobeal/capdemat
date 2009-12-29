@@ -10,18 +10,6 @@
     <property name="requestWorkflowService">
       <ref bean="requestWorkflowService" />
     </property>
-    <property name="voCardRequestService">
-      <ref bean="voCardRequestService" />
-    </property>
-    <property name="schoolCanteenRegistrationRequestService">
-      <ref bean="schoolCanteenRegistrationRequestService" />
-    </property>
-    <property name="schoolRegistrationRequestService">
-      <ref bean="schoolRegistrationRequestService" />
-    </property>
-    <property name="perischoolActivityRegistrationRequestService">
-      <ref bean="perischoolActivityRegistrationRequestService" />
-    </property>
     <property name="homeFolderService">
       <ref bean="homeFolderService" />
     </property>

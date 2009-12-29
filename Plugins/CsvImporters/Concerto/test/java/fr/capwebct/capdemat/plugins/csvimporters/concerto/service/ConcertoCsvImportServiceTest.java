@@ -22,9 +22,9 @@ import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.importer.ICsvParserService;
-import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.service.request.RequestTestCase;
 
-public class ConcertoCsvImportServiceTest extends ServiceTestCase {
+public class ConcertoCsvImportServiceTest extends RequestTestCase {
 
     private ByteArrayOutputStream loadData(String path) throws CvqException {
 
@@ -128,7 +128,7 @@ public class ConcertoCsvImportServiceTest extends ServiceTestCase {
                 fail("Found a child with an unexpected first name");
             }
 
-            List<Request> childRequests = iRequestService.getBySubjectId(child.getId());
+            List<Request> childRequests = requestSearchService.getBySubjectId(child.getId());
             Assert.assertEquals(2, childRequests.size());
             for (Request request : childRequests) {
                 if (request instanceof SchoolRegistrationRequest) {

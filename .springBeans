@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[2.2.6.200908051215-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[2.3.0.200912170948-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 		<configSuffix><![CDATA[tpl]]></configSuffix>
@@ -14,11 +14,12 @@
 		<config>Plugins/PaymentProviders/PayBoxSystem/conf/spring/pluginContext.xml</config>
 		<config>Plugins/PaymentProviders/PaylineV4/conf/spring/pluginContext.xml</config>
 		<config>Plugins/PaymentProviders/Spplus/conf/spring/pluginContext.xml</config>
+		<config>Libraries/conf/org.springframework/applicationContext-serviceexporter.xml.tpl</config>
 	</configs>
 	<configSets>
 		<configSet>
 			<name><![CDATA[CapDemat]]></name>
-			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<allowBeanDefinitionOverriding>false</allowBeanDefinitionOverriding>
 			<incomplete>false</incomplete>
 			<configs>
 				<config>Libraries/conf/org.springframework/applicationContext.xml.tpl</config>
@@ -27,6 +28,7 @@
 				<config>Plugins/PaymentProviders/PayBoxSystem/conf/spring/pluginContext.xml</config>
 				<config>Plugins/PaymentProviders/PaylineV4/conf/spring/pluginContext.xml</config>
 				<config>Plugins/PaymentProviders/Spplus/conf/spring/pluginContext.xml</config>
+				<config>Libraries/conf/org.springframework/applicationContext-serviceexporter.xml.tpl</config>
 			</configs>
 		</configSet>
 	</configSets>

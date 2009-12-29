@@ -29,14 +29,14 @@ public class SpplusServiceTest extends PaymentTestCase {
             new InternalInvoiceItem("Spplus Invoice 1", Double.valueOf("300"),
                     "key", "keyOwner", "Spplus", Integer.valueOf(1), 
                     Double.valueOf(2));
-        Payment payment = iPaymentService.createPaymentContainer(invoice1, PaymentMode.INTERNET);
+        Payment payment = paymentService.createPaymentContainer(invoice1, PaymentMode.INTERNET);
         InternalInvoiceItem invoice2 =
             new InternalInvoiceItem("Spplus Invoice 2", Double.valueOf("600"),
                     "key", "keyOwner", "Spplus", Integer.valueOf(1), 
                     Double.valueOf(2));
-        iPaymentService.addPurchaseItemToPayment(payment, invoice2);
+        paymentService.addPurchaseItemToPayment(payment, invoice2);
 
-        URL url = iPaymentService.initPayment(payment);
+        URL url = paymentService.initPayment(payment);
         Assert.assertNotNull(url);
 
         Map<String, String> parameters = new HashMap<String, String>();
@@ -44,7 +44,7 @@ public class SpplusServiceTest extends PaymentTestCase {
         parameters.put("bankReference", "BANK-1234567890");
         parameters.put("refsfp", "BANK-1234567890");
         parameters.put("etat", "10");
-        PaymentResultStatus returnStatus = iPaymentService.commitPayment(parameters);
+        PaymentResultStatus returnStatus = paymentService.commitPayment(parameters);
         Assert.assertEquals(PaymentResultStatus.OK, returnStatus);
    }
 }

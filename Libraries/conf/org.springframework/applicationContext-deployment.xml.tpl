@@ -125,8 +125,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="fakeExternalService" class="fr.cg95.cvq.external.impl.FakeExternalService">
     <property name="label" value="Fake External Service" />
     <property name="authorizingRequestLabel" value="VO Card" />
-    <property name="requestServiceRegistry">
-      <ref bean="requestServiceRegistry" />
+    <property name="requestSearchService">
+      <ref bean="requestSearchService" />
     </property>
     <property name="homeFolderService">
       <ref bean="homeFolderService" />

@@ -13,6 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Address;
@@ -50,7 +51,6 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
     private List<Child> children;
     private HomeFolder homeFolder;
     private HomeFolderModificationRequest hfmr;
-    private Long hfmrId;
     private String proposedLogin;
 
     private Child newChild;
@@ -72,6 +72,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
     @Override
     protected void onTearDown() throws Exception {
 
+        continueWithNewTransaction();
+        
         try {
             // check entries have been deleted from history table
             Set<HistoryEntry> remainingEntries =
@@ -84,7 +86,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iHomeFolderModificationRequestService.delete(hfmrId);
+        requestWorkflowService.delete(hfmr.getId());
 
         Iterator<Long> it = foreignOwnersIds.iterator();
         while (it.hasNext()) {
@@ -96,8 +98,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         super.onTearDown();
     }
 
-    private Long createModificationRequest()
-        throws CvqException {
+    private void createModificationRequest() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
@@ -110,21 +111,17 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         // be an agent to perform request state changes
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iRequestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
         homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
-        assertNotNull(homeFolder);
-        Long homeFolderId = homeFolder.getId();
-        assertNotNull(homeFolderId);
 
         // create the home folder modification request
         hfmr = new HomeFolderModificationRequest();
-        iHomeFolderModificationRequestService.create(hfmr, homeFolderId);
 
         // prepare objects for modifications
         adress = homeFolder.getAdress();
@@ -137,14 +134,12 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
             else
                 adults.add((Adult) individual);
         }
-
-        return hfmr.getId();
     }
 
     public void testMultiHibernateTransaction()
         throws CvqException {
 
-        hfmrId = createModificationRequest();
+        createModificationRequest();
 
         continueWithNewTransaction();
 
@@ -165,8 +160,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
                 RoleType.HOME_FOLDER_RESPONSIBLE);
         continueWithNewTransaction();
 
-        iHomeFolderModificationRequestService.modify(hfmr, copyAdults, copyChildren, foreignOwners, 
-                adress, null);
+        requestWorkflowService.createAccountModificationRequest(hfmr, copyAdults, copyChildren, 
+                foreignOwners, adress, null);
         Assert.assertEquals(copyAdults.size() + copyChildren.size(), 
                 homeFolder.getIndividuals().size());
 
@@ -175,8 +170,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
 
@@ -187,7 +182,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
     private void prepareSimpleModifications()
         throws CvqException {
 
-        hfmrId = createModificationRequest();
+        createModificationRequest();
 
         // start modifications ...
 
@@ -213,7 +208,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         adress.setPostalCode("75013");
         adress.setCity("Paris Ville Lumière");
         
-        iHomeFolderModificationRequestService.modify(hfmr, newAdults, children, adress);
+        requestWorkflowService.createAccountModificationRequest(hfmr, newAdults, children, 
+                null, adress, null);
     }
 
     public void testSimpleModificationsValidated()
@@ -232,7 +228,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         
         // now retrieve and display them
         HomeFolderModificationRequest hfmrFromDb =
-            (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
+            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
         homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75013");
@@ -252,14 +248,14 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
 
         // check modifications are still there
         hfmrFromDb =
-            (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
+            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
         homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75013");
@@ -278,12 +274,12 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
         
         HomeFolderModificationRequest hfmrFromDb =
-            (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
+            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
         homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75012");
@@ -300,7 +296,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
     private void prepareChildAdultAddWithClr()
         throws CvqException {
 
-        hfmrId = createModificationRequest();
+        createModificationRequest();
 
         newAdult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "adult", "new", 
                 null, FamilyStatusType.SINGLE);
@@ -316,7 +312,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         iHomeFolderService.addIndividualRole(newAdult, newChild, RoleType.CLR_TUTOR);
         children.add(newChild);
 
-        iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
+        requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
+                null, adress, null);
     }
 
     public void testChildAdultAddWithClrValidated()
@@ -330,8 +327,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
         
@@ -371,7 +368,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
 
@@ -390,7 +387,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
     private void prepareChildrenAddRemove()
         throws CvqException {
 
-        hfmrId = createModificationRequest();
+        createModificationRequest();
 
         children.remove(child2);
 
@@ -405,7 +402,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
                 newChild, RoleType.CLR_TUTOR);
         children.add(newChild);
 
-        iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
+        requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
+                null, adress, null);
     }
 
     public void testChildrenAddRemoveValidated()
@@ -444,8 +442,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
 
@@ -480,7 +478,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
         
@@ -490,7 +488,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         // check modifications have been effectively cancelled
         HomeFolderModificationRequest hfmrFromDb =
-            (HomeFolderModificationRequest) iHomeFolderModificationRequestService.getById(hfmrId);
+            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
         homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
         children = iHomeFolderService.getChildren(homeFolder.getId());
         assertEquals(2, children.size());
@@ -510,7 +508,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
     private void prepareSimpleAdultsAddRemove()
         throws CvqException {
 
-        hfmrId = createModificationRequest();
+        createModificationRequest();
 
         // remove an adult and add a new one
 
@@ -524,7 +522,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         adults.add(newAdult);
 
-        iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
+        requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
+                null, adress, null);
     }
 
     public void testSimpleAdultsAddRemoveValidated()
@@ -545,8 +544,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
         
@@ -584,7 +583,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
         // check removed adult has been restored
@@ -598,7 +597,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
     private void prepareHomeFolderResponsibleChange()
         throws CvqException {
 
-        hfmrId = createModificationRequest();
+        createModificationRequest();
 
         Adult responsibleToRemove = 
             iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
@@ -612,7 +611,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         iHomeFolderService.removeHomeFolderRole(responsibleToRemove, 
                 homeFolder.getId(), RoleType.HOME_FOLDER_RESPONSIBLE);
 
-        iHomeFolderModificationRequestService.modify(hfmr, adults, children, adress);
+        requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
+                null, adress, null);
     }
 
     public void testHomeFolderResponsibleChangeValidated()
@@ -626,8 +626,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
 
@@ -651,7 +651,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
         
@@ -688,8 +688,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
 
@@ -724,24 +724,25 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         srr.setSubjectId(child1.getId());
         srr.setRequesterId(SecurityContext.getCurrentUserId());
 
-        Long srrId =
-            iSchoolRegistrationRequestService.create(srr);
+        Long srrId = requestWorkflowService.create(srr);
 
         continueWithNewTransaction();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(srrId, RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(srrId, RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(srrId, RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(srrId, RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
+        RequestType requestType = 
+            requestTypeService.getRequestTypeByLabel(iSchoolRegistrationRequestService.getLabel());
         Set<Long> authorizedSchoolRegistrations =
-            iSchoolRegistrationRequestService.getAuthorizedSubjects(homeFolderId).keySet();
+            requestWorkflowService.getAuthorizedSubjects(requestType, homeFolderId).keySet();
         assertEquals(1, authorizedSchoolRegistrations.size());
 
         // create the home folder modification request
@@ -749,7 +750,6 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         homeFolderResponsible = 
             iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
         HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
-        hfmrId = iHomeFolderModificationRequestService.create(hfmr, homeFolder.getId());
 
         List<Adult> adultSet = new ArrayList<Adult>();
         adultSet.add(homeFolderResponsible);
@@ -761,20 +761,19 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         Address newAdress =
             BusinessObjectsFactory.gimmeAdress("1","Rue du centre", "Drancy", "93700");
 
-        iHomeFolderModificationRequestService.modify(hfmr, adultSet, childSet, newAdress);
+        requestWorkflowService.createAccountModificationRequest(hfmr, adultSet, childSet, 
+                null, newAdress, null);
 
         continueWithNewTransaction();
 
         authorizedSchoolRegistrations =
-            iSchoolRegistrationRequestService.getAuthorizedSubjects(homeFolderId).keySet();
+            requestWorkflowService.getAuthorizedSubjects(requestType, homeFolderId).keySet();
         assertEquals(1, authorizedSchoolRegistrations.size());
 
         // that's ok, cancel the home folder modification request
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iSchoolRegistrationRequestService.delete(srrId);
-
-        continueWithNewTransaction();
+        requestWorkflowService.delete(srrId);
     }
 }

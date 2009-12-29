@@ -1,9 +1,9 @@
 package fr.cg95.cvq.service.request;
 
+import java.util.Collection;
 import java.util.List;
 
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**
@@ -13,6 +13,11 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
  */
 public interface IRequestServiceRegistry {
 
+    /**
+     * Get all registered request services.
+     */
+    Collection<IRequestService> getAllRequestServices();
+    
     /**
      * Get the service responsible for the management of the given request.
      */
@@ -30,8 +35,6 @@ public interface IRequestServiceRegistry {
      */
     IRequestService getRequestService(String requestLabel);
     
-    IRequestService getDefaultRequestService();
-
     /**
      * Get a list of request services supporting creation by un-registered
      * users.
@@ -45,7 +48,7 @@ public interface IRequestServiceRegistry {
     List<IRequestService> getServicesSupportingSeasons();
     
     /**
-     * Registration method for request services.
+     * Register a new request service.
      */
-    void registerService(IRequestService service, String label) throws CvqConfigurationException;
+    void registerService(IRequestService requestService);
 }

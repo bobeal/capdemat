@@ -56,6 +56,17 @@ class RequestCreationController {
         if (SecurityContext.currentEcitizen == null)
             flash.isOutOfAccountRequest = true
 
+        def cRequest
+        if (params.id)
+            cRequest = requestLockService.getAndLock(Long.valueOf(params.id))
+        else
+            cRequest = requestWorkflowService.getSkeletonRequest(params.label)
+        if (cRequest == null) {
+            redirect(uri: '/frontoffice/requestType')
+            return false
+        }
+
+        /*
         def requestService
         if (params.id)
             requestService = requestServiceRegistry.getRequestService(Long.valueOf(params.id))
@@ -69,6 +80,7 @@ class RequestCreationController {
         def cRequest =
             params.id ? requestService.getAndLock(Long.valueOf(params.id)) :
                 requestService.getSkeletonRequest()
+        */
 
         def requestType
         if (cRequest.requestType)
@@ -82,7 +94,7 @@ class RequestCreationController {
                 requestTypeService.getRequestSeason(requestType.id, Long.valueOf(params.requestSeasonId))
         }
         // check we have a request season if and only if the service needs one
-        if ((requestService.isOfRegistrationKind()
+        if ((requestTypeService.isOfRegistrationKind()
                 && requestTypeService.getOpenSeasons(requestType).size() > 0
                 && cRequest.requestSeason == null)) {
             redirect(uri : "/frontoffice/requestType")
@@ -147,7 +159,7 @@ class RequestCreationController {
             'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
             'uuidString': uuidString,
             'missingSteps': missingSteps(cRequest.stepStates),
-            'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
+            'documentTypes': documentAdaptorService.getDocumentTypes(cRequest, uuidString, newDocuments),
             'isDocumentEditMode': false,
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
             'isEdition' : cRequest.id != null && !RequestState.DRAFT.equals(cRequest.state)
@@ -429,7 +441,6 @@ class RequestCreationController {
                         requestService.rewindWorkflow(cRequest, docs)
                         parameters.isEdition = true
                     } else if (requestTypeInfo.label == 'Home Folder Modification') {
-                        requestService.create(cRequest, objectToBind.requester.homeFolder.id)
                         requestService.modify(cRequest, objectToBind.individuals.adults, 
                         		objectToBind.individuals.children, 
                         		objectToBind.individuals.foreignAdults, 
@@ -444,7 +455,7 @@ class RequestCreationController {
                     } else {
                         cRequest.state = RequestState.PENDING
                         if (SecurityContext.currentEcitizen == null)
-                            requestService.create(cRequest, objectToBind.requester, null, docs)
+                            requestService.create(cRequest, objectToBind.requester, docs)
                         else
                             requestService.create(cRequest, docs)
                     }
@@ -515,7 +526,7 @@ class RequestCreationController {
                      'uuidString': uuidString,
                      'editList': editList,
                      'missingSteps': missingSteps(cRequest.stepStates),
-                     'documentTypes': documentAdaptorService.getDocumentTypes(requestService, cRequest, uuidString, newDocuments),
+                     'documentTypes': documentAdaptorService.getDocumentTypes(cRequest, uuidString, newDocuments),
                      'isDocumentEditMode': isDocumentEditMode,
                      'documentType': documentType,
                      'document': document,
@@ -587,8 +598,8 @@ class RequestCreationController {
         def subjects = [:]
         if (SecurityContext.currentEcitizen != null 
         		&& !requestService.subjectPolicy.equals(IRequestService.SUBJECT_POLICY_NONE)) {
-            def authorizedSubjects = requestService.getAuthorizedSubjects(SecurityContext.currentEcitizen.homeFolder.id)
-           authorizedSubjects.each { subjectId, seasonsSet ->
+            def authorizedSubjects = requestWorkflowService.getAuthorizedSubjects(cRequest.requetType.label)
+            authorizedSubjects.each { subjectId, seasonsSet ->
                 if (cRequest.requestSeason == null
                     || seasonsSet.contains(cRequest.requestSeason)) {
                     def subject = individualService.getById(subjectId)

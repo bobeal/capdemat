@@ -20,7 +20,6 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.util.Critere;
 
@@ -38,21 +37,21 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
-        List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = requestTypeService.getAllRequestTypes();
         assertTrue(requestTypesSet.size() >= 2);
         
         // the first request type found
         RequestType rt = requestTypesSet.get(0);
         int initialRequirementsSize = rt.getRequirements().size();
-        List<DocumentType> allDocumentTypes = iDocumentTypeService.getAllDocumentTypes();
+        List<DocumentType> allDocumentTypes = documentTypeService.getAllDocumentTypes();
         
         // add a new requirement
-        iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(0).getId());
-        iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(1).getId());
-        iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(2).getId());
+        requestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(0).getId());
+        requestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(1).getId());
+        requestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(2).getId());
         
         continueWithNewTransaction();
-        rt = iRequestTypeService.getRequestTypeById(rt.getId());
+        rt = requestTypeService.getRequestTypeById(rt.getId());
         assertEquals(initialRequirementsSize + 3, rt.getRequirements().size());
 
         // test requirement properties consistency
@@ -69,9 +68,9 @@ public class RequestServiceTest extends RequestTestCase {
         assertNotNull(req2.getRequestType());
 
         // remove requirement 
-        iRequestTypeService.removeRequestTypeRequirement(rt.getId(), allDocumentTypes.get(2).getId());
+        requestTypeService.removeRequestTypeRequirement(rt.getId(), allDocumentTypes.get(2).getId());
         continueWithNewTransaction();
-        rt = iRequestTypeService.getRequestTypeById(rt.getId());
+        rt = requestTypeService.getRequestTypeById(rt.getId());
         assertEquals(initialRequirementsSize + 2, rt.getRequirements().size());
 
         continueWithNewTransaction();
@@ -85,11 +84,11 @@ public class RequestServiceTest extends RequestTestCase {
             rt.setActive(Boolean.valueOf(true));
         }
 
-        iRequestTypeService.modifyRequestType(rt);
+        requestTypeService.modifyRequestType(rt);
 
         continueWithNewTransaction();
 
-        rt = iRequestTypeService.getRequestTypeById(rt.getId());
+        rt = requestTypeService.getRequestTypeById(rt.getId());
         if (shouldBeActive)
             Assert.assertTrue(rt.getActive().booleanValue());
         else
@@ -99,16 +98,16 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         // requestType by category
-        Category category = iCategoryService.getAll().get(0);
+        Category category = categoryService.getAll().get(0);
         Set<Critere> criteriaSet = new HashSet<Critere>();
         Critere categoryCriteria = new Critere();
         categoryCriteria.setAttribut(RequestType.SEARCH_BY_CATEGORY_ID);
         categoryCriteria.setValue(category.getId());
         criteriaSet.add(categoryCriteria);
-        iRequestTypeService.getRequestTypes(criteriaSet);
-        int requestTypeNumber = iRequestTypeService.getAllRequestTypes().size();
+        requestTypeService.getRequestTypes(criteriaSet);
+        int requestTypeNumber = requestTypeService.getAllRequestTypes().size();
         int requestTypeInCategory = 
-            iRequestTypeService.getRequestTypes(criteriaSet).size();
+            requestTypeService.getRequestTypes(criteriaSet).size();
         Assert.assertEquals(requestTypeNumber, requestTypeInCategory);
 
         SecurityContext.resetCurrentSite();
@@ -122,9 +121,9 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Request request = iRequestService.getById(requestId);
+        Request request = requestSearchService.getById(requestId);
         Node requestCloneNode =
-            iRequestService.getRequestClone(null, request.getHomeFolderId(),
+            requestWorkflowService.getRequestClone(null, request.getHomeFolderId(),
             		request.getRequestType().getLabel());
         assertNotNull(requestCloneNode);
         
@@ -138,7 +137,7 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Request request = iRequestService.getById(cb.getRequestId());
+        Request request = requestSearchService.getById(cb.getRequestId());
         Long requesterId = request.getRequesterId();
         Adult requester = iIndividualService.getAdultById(requesterId);
         
@@ -186,7 +185,7 @@ public class RequestServiceTest extends RequestTestCase {
         crit.setValue(request.getRequestType().getLabel());
         critSet.add(crit);
 
-        List<Request> fetchRequest = iRequestService.get(critSet, null, null, -1, 0);
+        List<Request> fetchRequest = requestSearchService.get(critSet, null, null, -1, 0);
         assertEquals(1, fetchRequest.size());
 
         SecurityContext.resetCurrentSite();
@@ -200,7 +199,7 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Request request = iRequestService.getById(requestId);
+        Request request = requestSearchService.getById(requestId);
         RequestType requestType = request.getRequestType();
 
         RequestForm requestForm = new RequestForm();
@@ -209,28 +208,33 @@ public class RequestServiceTest extends RequestTestCase {
         requestForm.setTemplateName("template");
         requestForm.setType(RequestFormType.REQUEST_MAIL_TEMPLATE);
         requestForm.setPersonalizedData("MyData".getBytes());
-        Long id = iRequestTypeService.modifyRequestTypeForm(requestType.getId(), requestForm);
+        Long id = requestTypeService.modifyRequestTypeForm(requestType.getId(), requestForm);
 
-        List<RequestForm> forms = iRequestTypeService.getRequestTypeForms(
+        continueWithNewTransaction();
+        
+        List<RequestForm> forms = requestTypeService.getRequestTypeForms(
                 requestType.getId(), RequestFormType.REQUEST_MAIL_TEMPLATE);
         Assert.assertEquals(1, forms.size());
 
-        RequestForm tmpForm = iRequestTypeService.getRequestFormById(id);
+        RequestForm tmpForm = requestTypeService.getRequestFormById(id);
         Assert.assertEquals(tmpForm.getLabel(),requestForm.getLabel());
         Assert.assertEquals(tmpForm.getShortLabel(),requestForm.getShortLabel());
         Assert.assertEquals(tmpForm.getTemplateName(),requestForm.getTemplateName());
         Assert.assertEquals(tmpForm.getType(),requestForm.getType());
-        Assert.assertEquals(tmpForm.getPersonalizedData(),requestForm.getPersonalizedData());
+        Assert.assertEquals("MyData", new String(tmpForm.getPersonalizedData()));
 
         tmpForm.setLabel("new label");
         tmpForm.setShortLabel("new short label");
         tmpForm.setPersonalizedData("new data".getBytes());
         tmpForm.setTemplateName("tmp");
 
-        Long sameId = iRequestTypeService.modifyRequestTypeForm(requestType.getId(), tmpForm);
+        Long sameId = requestTypeService.modifyRequestTypeForm(requestType.getId(), tmpForm);
+        
+        continueWithNewTransaction();
+        
         Assert.assertEquals(sameId,id);
 
-        tmpForm = iRequestTypeService.getRequestFormById(sameId);
+        tmpForm = requestTypeService.getRequestFormById(sameId);
         Assert.assertEquals(tmpForm.getLabel(),"new label");
         Assert.assertEquals(tmpForm.getShortLabel(),"new short label");
         Assert.assertEquals(tmpForm.getTemplateName(),"tmp");
@@ -243,86 +247,17 @@ public class RequestServiceTest extends RequestTestCase {
             f.setShortLabel("new short label");
             f.setPersonalizedData("new data".getBytes());
             f.setTemplateName("tmp");
-            iRequestTypeService.modifyRequestTypeForm(requestType.getId(), f);
+            requestTypeService.modifyRequestTypeForm(requestType.getId(), f);
             fail("RequestForm data can't be duplicated");
         } catch (CvqModelException cvqme) {
             Assert.assertEquals("requestForm.message.labelAlreadyUsed", cvqme.getI18nKey());
         } finally {
-            iRequestTypeService.removeRequestTypeForm(requestType.getId(), tmpForm.getId());
-            forms = iRequestTypeService.getRequestTypeForms(requestType.getId(),
+            requestTypeService.removeRequestTypeForm(requestType.getId(), tmpForm.getId());
+            continueWithNewTransaction();
+            forms = requestTypeService.getRequestTypeForms(requestType.getId(),
                 RequestFormType.REQUEST_MAIL_TEMPLATE);
             Assert.assertEquals(0, forms.size());
         }
     }
 
-    public void testRequestLocks() throws CvqException {
-        // create a home folder request
-        CreationBean creationBean = gimmeAnHomeFolderWithRequest();
-        continueWithNewTransaction();
-        Long requestId = creationBean.getRequestId();
-        Request request;
-        // try to lock it with agent method in FO
-        try {
-            iRequestService.getAndTryToLock(requestId);
-            fail("should have been forbidden");
-        } catch (PermissionException e) {
-            // OK
-        } catch (Exception e) {
-            fail("should have thrown a PermissionException");
-        }
-        // lock it with ecitizen method
-        request = iRequestService.getAndLock(requestId);
-        assertEquals(requestId, request.getId());
-        assertTrue(iRequestService.isLockedByCurrentUser(requestId));
-        assertFalse(iRequestService.isLocked(requestId));
-        // try to lock it in BO
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        request = iRequestService.getAndTryToLock(requestId);
-        // check it couldn't be locked
-        assertEquals(requestId, request.getId());
-        assertFalse(iRequestService.isLockedByCurrentUser(requestId));
-        assertTrue(iRequestService.isLocked(requestId));
-        // go back in FO and release request
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(creationBean.getLogin());
-        iRequestService.release(requestId);
-        // check it was correctly released
-        assertFalse(iRequestService.isLockedByCurrentUser(requestId));
-        assertFalse(iRequestService.isLocked(requestId));
-        // go lock it in BO
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        // try to lock it with ecitizen method in BO
-        try {
-            iRequestService.getAndLock(requestId);
-            fail("should have been forbidden");
-        } catch (PermissionException e) {
-            // OK
-        } catch (Exception e) {
-            fail("should have thrown a PermissionException");
-        }
-        // lock it with correct method
-        request = iRequestService.getAndTryToLock(requestId);
-        assertEquals(requestId, request.getId());
-        assertTrue(iRequestService.isLockedByCurrentUser(requestId));
-        assertFalse(iRequestService.isLocked(requestId));
-        // go back in FO and try to lock it
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(creationBean.getLogin());
-        try {
-            iRequestService.getAndLock(requestId);
-            fail("should have been forbidden");
-        } catch (CvqException e) {
-            // OK
-        }  catch (Exception e) {
-            fail("should have thrown a CvqException");
-        }
-        // go back in BO and release it
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iRequestService.release(requestId);
-        assertFalse(iRequestService.isLockedByCurrentUser(requestId));
-        assertFalse(iRequestService.isLocked(requestId));
-    }
 }

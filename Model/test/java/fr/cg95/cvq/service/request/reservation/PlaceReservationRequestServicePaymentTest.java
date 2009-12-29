@@ -52,9 +52,9 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         PlaceReservationRequest request = fillMeARequest();
         request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId());
 
-        Long requestId = iPlaceReservationRequestService.create(request);
+        Long requestId = requestWorkflowService.create(request);
         PlaceReservationRequest requestFromDb = 
-            (PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
+            (PlaceReservationRequest) requestSearchService.getById(requestId);
         
         // simulate a payment on this request
         /////////////////////////////////////
@@ -94,7 +94,7 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
 
         // check that request has been validated and payment reference is correctly set
         requestFromDb = 
-            (PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
+            (PlaceReservationRequest) requestSearchService.getById(requestId);
         assertEquals(requestFromDb.getState(), RequestState.VALIDATED);
         assertNotNull(requestFromDb.getPaymentReference());
 
@@ -102,7 +102,7 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         assertNotNull(bills);
         assertEquals(bills.size(), 1);
 
-        iPlaceReservationRequestService.delete(requestId);
+        requestWorkflowService.delete(requestId);
         
         commitTransaction();
     }

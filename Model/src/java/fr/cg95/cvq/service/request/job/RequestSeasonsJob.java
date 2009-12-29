@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
@@ -14,7 +12,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.util.Critere;
@@ -25,20 +23,14 @@ import fr.cg95.cvq.util.Critere;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class RequestSeasonsJob implements BeanFactoryAware {
+public class RequestSeasonsJob {
 
     private static Logger logger = Logger.getLogger(RequestSeasonsJob.class);
     
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IRequestWorkflowService requestWorkflowService;
     private IRequestTypeService requestTypeService;
-    private IRequestService requestService;
-    private BeanFactory beanFactory;
-
-    public void init() {
-        this.requestService =
-            (IRequestService)beanFactory.getBean("defaultRequestService");
-    }
+    private IRequestSearchService requestSearchService;
 
     public void launchJob() {
         localAuthorityRegistry.browseAndCallback(this, "checkRequestsSeasons", null);
@@ -70,13 +62,15 @@ public class RequestSeasonsJob implements BeanFactoryAware {
                     criterias.add(new Critere(Request.SEARCH_BY_SEASON_ID,
                         requestSeason.getId(), Critere.EQUALS));
                     List<Request> requests = 
-                        requestService.get(criterias, null, null, 0, 0);
+                        requestSearchService.get(criterias, null, null, 0, 0);
                     for (Request request : requests) {
                         requestWorkflowService.updateRequestState(request.getId(),
                             RequestState.NOTIFIED, null);
+                        requestWorkflowService.updateRequestState(request.getId(),
+                                RequestState.ARCHIVED, null);
                     }
                     stateCriteria.setValue(RequestState.NOTIFIED);
-                    requests = requestService.get(criterias, null, null, 0, 0);
+                    requests = requestSearchService.get(criterias, null, null, 0, 0);
                     for (Request request : requests) {
                         requestWorkflowService.updateRequestState(request.getId(),
                             RequestState.ARCHIVED, null);
@@ -90,8 +84,8 @@ public class RequestSeasonsJob implements BeanFactoryAware {
         this.localAuthorityRegistry = localAuthorityRegistry;
     }
 
-    public void setRequestService(IRequestService requestService) {
-        this.requestService = requestService;
+    public void setRequestSearchService(IRequestSearchService requestSearchService) {
+        this.requestSearchService = requestSearchService;
     }
 
     public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
@@ -100,10 +94,5 @@ public class RequestSeasonsJob implements BeanFactoryAware {
 
     public void setRequestTypeService(IRequestTypeService requestTypeService) {
         this.requestTypeService = requestTypeService;
-    }
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
     }
 }

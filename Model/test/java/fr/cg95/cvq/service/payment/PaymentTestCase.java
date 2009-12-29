@@ -1,23 +1,19 @@
 package fr.cg95.cvq.service.payment;
 
-import org.springframework.context.ConfigurableApplicationContext;
-
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class PaymentTestCase extends ServiceTestCase {
 
-    protected static IPaymentService iPaymentService;
-    protected static IPaymentProviderService iFakePaymentProviderService;
+    protected IPaymentService paymentService;
+    protected IPaymentProviderService fakePaymentProviderService;
 
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         super.onSetUp();
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        iFakePaymentProviderService = 
-            (IPaymentProviderService) cac.getBean("fakePaymentProviderService");
+        fakePaymentProviderService = (IPaymentProviderService) getBean("fakePaymentProviderService");
     }
     
     public void setPaymentService(IPaymentService paymentService) {
-        iPaymentService = paymentService;
+        this.paymentService = paymentService;
     }
 }

@@ -32,10 +32,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.importer.ICsvImportProviderService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
-import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
-import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
-import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
-import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.mail.IMailService;
 
@@ -51,10 +47,6 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
     private byte[] xmlMappingData;
     private byte[] formatterConfigurationData;
     
-    private IVoCardRequestService voCardRequestService;
-    private ISchoolRegistrationRequestService schoolRegistrationRequestService;
-    private ISchoolCanteenRegistrationRequestService schoolCanteenRegistrationRequestService;
-    private IPerischoolActivityRegistrationRequestService perischoolActivityRegistrationRequestService;
     private IHomeFolderService homeFolderService;
     private IAuthenticationService authenticationService;
     private IMailService mailService;
@@ -257,7 +249,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
 
                 // create an home folder through account creation request
                 VoCardRequest voCardRequest = new VoCardRequest();
-                voCardRequestService.create(voCardRequest, cdto.getAdults(), 
+                requestWorkflowService.createAccountCreationRequest(voCardRequest, cdto.getAdults(), 
                         cdto.getChildren(), null, cdto.getAddress(), null);
                 HomeFolder homeFolder = homeFolderService.getById(voCardRequest.getHomeFolderId());
 
@@ -272,7 +264,7 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 
                 // create school registrations
                 for (SchoolRegistrationRequest srr : cdto.getChildrenSchoolRegistrations()) {
-                    schoolRegistrationRequestService.create(srr);
+                    requestWorkflowService.create(srr);
                     requestWorkflowService.updateRequestState(srr.getId(),
                         RequestState.COMPLETE, null);
                     requestWorkflowService.updateRequestState(srr.getId(),
@@ -282,14 +274,14 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
                 
                 // create school canteen registrations
                 for (SchoolCanteenRegistrationRequest scrr : cdto.getChildrenSchoolCanteenRegistrations()) {
-                    schoolCanteenRegistrationRequestService.create(scrr);
+                    requestWorkflowService.create(scrr);
                     logger.debug("importData() created school canteen registration request : " 
                             + scrr.getId());
                 }
                 
                 // create perischool activity registrations
                 for (PerischoolActivityRegistrationRequest parr : cdto.getChildrenPerischoolActivityRegistrations()) {
-                    perischoolActivityRegistrationRequestService.create(parr);
+                    requestWorkflowService.create(parr);
                     logger.debug("importData() created perischool activity registration request : " 
                             + parr.getId());
                 }
@@ -503,26 +495,12 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
         this.label = label;
     }
 
-    public final void setVoCardRequestService(IVoCardRequestService voCardRequestService) {
-        this.voCardRequestService = voCardRequestService;
-    }
-
     public final void setHomeFolderService(IHomeFolderService homeFolderService) {
         this.homeFolderService = homeFolderService;
     }
 
     public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
         this.requestWorkflowService = requestWorkflowService;
-    }
-
-    public final void setSchoolCanteenRegistrationRequestService(
-            ISchoolCanteenRegistrationRequestService schoolCanteenRegistrationRequestService) {
-        this.schoolCanteenRegistrationRequestService = schoolCanteenRegistrationRequestService;
-    }
-
-    public final void setSchoolRegistrationRequestService(
-            ISchoolRegistrationRequestService schoolRegistrationRequestService) {
-        this.schoolRegistrationRequestService = schoolRegistrationRequestService;
     }
 
     public final void setAuthenticationService(IAuthenticationService authenticationService) {
@@ -543,10 +521,5 @@ public final class ConcertoCsvImportService implements ICsvImportProviderService
 
     public void setSchoolService(ISchoolService schoolService) {
         this.schoolService = schoolService;
-    }
-
-    public void setPerischoolActivityRegistrationRequestService(
-            IPerischoolActivityRegistrationRequestService perischoolActivityRegistrationRequestService) {
-        this.perischoolActivityRegistrationRequestService = perischoolActivityRegistrationRequestService;
     }
 }

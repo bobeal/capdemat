@@ -666,6 +666,8 @@ public class LocalAuthorityRegistry
                     localAuthority.getServerNames().add(lacb.getDefaultServerName());
                 localAuthorityDAO.create(localAuthority);
 
+                HibernateUtil.getSession().flush();
+                
                 // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
                 SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
             } catch (Exception e) {

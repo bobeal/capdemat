@@ -1,12 +1,20 @@
 package fr.cg95.cvq.service.request.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.Category;
@@ -19,16 +27,22 @@ import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
+import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.ICategoryService;
+import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
+import fr.cg95.cvq.service.request.IRequestTypeLifecycleAware;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.util.Critere;
@@ -37,15 +51,137 @@ import fr.cg95.cvq.util.Critere;
  *
  * @author bor@zenexity.fr
  */
-public class RequestTypeService implements IRequestTypeService {
+public class RequestTypeService implements IRequestTypeService, ILocalAuthorityLifecycleAware,
+    BeanFactoryAware {
 
+    private static Logger logger = Logger.getLogger(RequestTypeService.class);
+    
     private IDocumentTypeService documentTypeService;
+    private ILocalAuthorityRegistry localAuthorityRegistry;
+    
     private IRequestServiceRegistry requestServiceRegistry;
+    private IRequestSearchService requestSearchService;
     private ICategoryService categoryService;
 
     private IRequestTypeDAO requestTypeDAO;
     private IRequestFormDAO requestFormDAO;
     private IGenericDAO genericDAO;
+
+    private Boolean performDbUpdates;
+    
+    /** a list of all services interested in request types lifecycle */
+    protected Collection<IRequestTypeLifecycleAware> allListenerServices;
+
+    private ListableBeanFactory beanFactory;
+
+    @SuppressWarnings("unchecked")
+    public void init() throws CvqConfigurationException {
+        Map<String, IRequestTypeLifecycleAware> services = 
+            (Map<String, IRequestTypeLifecycleAware>)
+            beanFactory.getBeansOfType(IRequestTypeLifecycleAware.class,
+                true, true);
+        if (services != null && !services.isEmpty()) {
+            allListenerServices = services.values();
+        }
+        
+        Map<String, IRequestService> servicesMap = (Map<String, IRequestService>) 
+            beanFactory.getBeansOfType(IRequestService.class, true, true); 
+        if (servicesMap != null && !servicesMap.isEmpty()) {
+            for (IRequestService requestService : servicesMap.values()) {
+                registerService(requestService);
+            }
+        }
+    }
+
+    private void registerService(IRequestService service)
+        throws CvqConfigurationException {
+
+        final String label = service.getLabel();
+        logger.debug("registerService() registering service " + service + " with label " + label);
+        if (label == null || service == null)
+            throw new CvqConfigurationException("null label or service for registering service");
+
+        requestServiceRegistry.registerService(service);
+        
+        // add this new request type to all known local authorities
+        if (performDbUpdates) {
+            Object[] args = new Object[] { label };
+            localAuthorityRegistry.browseAndCallback(this, "initRequestData", args);
+        }
+
+        // notify listener services of the new request type
+        if (allListenerServices != null) {
+            for (IRequestTypeLifecycleAware tempService : allListenerServices) {
+                tempService.addRequestTypeService(service);
+            }
+        }
+    }
+
+    @Context(type=ContextType.SUPER_ADMIN)
+    public void initRequestData(String serviceLabel) {
+        
+        if (serviceLabel == null || serviceLabel.trim().length() == 0) {
+            logger.info("initRequestData() ignoring empty service label");
+            return;
+        }
+        
+        logger.debug("initRequestData() initializing " + serviceLabel 
+                + " for local authority " 
+                + SecurityContext.getCurrentSite().getName());
+        
+        RequestType requestType = requestTypeDAO.findByLabel(serviceLabel);
+        if (requestType != null) {
+            logger.debug("initRequestData() request type " + serviceLabel + " already registered");
+            return;
+        } 
+
+        IRequestService service = requestServiceRegistry.getRequestService(serviceLabel);
+
+        RequestForm requestForm = 
+            requestFormDAO.findByTypeAndRequest(RequestFormType.REQUEST_CERTIFICAT, serviceLabel);
+        if (requestForm == null) {
+            requestForm = new RequestForm();
+            requestForm.setType(RequestFormType.REQUEST_CERTIFICAT);
+            requestForm.setXslFoFilename(service.getXslFoFilename());
+            requestFormDAO.create(requestForm);
+        }
+        
+        requestType = new RequestType();
+        requestType.setLabel(serviceLabel);
+        requestType.setActive(Boolean.FALSE);
+        requestType.setAuthorizeMultipleRegistrationsPerSeason(Boolean.FALSE);
+        Set<RequestForm> formsSet = new HashSet<RequestForm>();
+        formsSet.add(requestForm);
+        requestType.setForms(formsSet);
+        requestTypeDAO.create(requestType);
+        
+        if (requestForm.getRequestTypes() == null) {
+            Set<RequestType> requestTypesSet = new HashSet<RequestType>();
+            requestTypesSet.add(requestType);
+            requestForm.setRequestTypes(requestTypesSet);
+        } else {
+            requestForm.getRequestTypes().add(requestType);
+        }
+        requestFormDAO.update(requestForm);
+    }
+    
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
+    public void addLocalAuthority(String localAuthorityName) {
+        if (performDbUpdates) {
+            for (IRequestService requestService : requestServiceRegistry.getAllRequestServices()) {
+                logger.debug("addLocalAuthority() registering service " + requestService.getLabel() 
+                        + " for local authority " + localAuthorityName);
+                initRequestData(requestService.getLabel());
+            }
+        }
+    }
+
+    @Override
+    @Context(type=ContextType.SUPER_ADMIN)
+    public void removeLocalAuthority(String localAuthorityName) {
+        // nothing to do
+    }
 
     @Override
     public List<RequestType> getAllRequestTypes()
@@ -118,6 +254,15 @@ public class RequestTypeService implements IRequestTypeService {
         throws CvqException {
 
         return requestTypeDAO.findByLabel(requestLabel);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public boolean isAccountRequest(final Long requestId) 
+        throws CvqException, CvqObjectNotFoundException {
+        Request request = (Request) genericDAO.findById(Request.class, requestId);
+        return request.getRequestType().getLabel().equals(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST)
+            || request.getRequestType().getLabel().equals(IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST);
     }
 
     @Override
@@ -327,8 +472,7 @@ public class RequestTypeService implements IRequestTypeService {
                 Set<Critere> criterias = new HashSet<Critere>(1);
                 criterias.add(new Critere(Request.SEARCH_BY_SEASON_ID,
                     rs.getId(), Critere.EQUALS));
-                if (requestServiceRegistry.getDefaultRequestService()
-                    .getCount(criterias) > 0) {
+                if (requestSearchService.getCount(criterias) > 0) {
                     throw new CvqModelException("requestSeason.error.cannotDelete");
                 }
                 it.remove();
@@ -503,6 +647,10 @@ public class RequestTypeService implements IRequestTypeService {
         this.requestServiceRegistry = requestServiceRegistry;
     }
 
+    public void setRequestSearchService(IRequestSearchService requestSearchService) {
+        this.requestSearchService = requestSearchService;
+    }
+
     public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }
@@ -513,5 +661,21 @@ public class RequestTypeService implements IRequestTypeService {
 
     public void setGenericDAO(IGenericDAO genericDAO) {
         this.genericDAO = genericDAO;
+    }
+
+    public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
+        this.localAuthorityRegistry = localAuthorityRegistry;
+    }
+
+    public void setPerformDbUpdates(Boolean performDbUpdates) {
+        if (performDbUpdates != null)
+            this.performDbUpdates = performDbUpdates;
+        else
+            this.performDbUpdates = Boolean.FALSE;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) beanFactory;
     }
 }

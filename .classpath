@@ -26,7 +26,6 @@
 	<classpathentry kind="lib" path="Libraries/edu.yale/cas/casclient-2.1.1-1.jar"/>
 	<classpathentry kind="lib" path="Libraries/jaf/activation.jar"/>
 	<classpathentry kind="lib" path="Libraries/mail/mail.jar"/>
-	<classpathentry kind="lib" path="Libraries/net.sf/saxon/saxon8.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/axis.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/commons-discovery-0.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/axis-1.2.1/jaxrpc.jar"/>

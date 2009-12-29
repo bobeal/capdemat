@@ -2,6 +2,7 @@ package fr.cg95.cvq.service.users.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
@@ -23,6 +25,8 @@ import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.UsersEvent.EVENT_TYPE;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.hibernate.HistoryInterceptor;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
 import fr.cg95.cvq.dao.users.IHomeFolderDAO;
@@ -60,6 +64,8 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     protected IMailService mailService;
 
     private ApplicationContext applicationContext;
+
+    private HistoryInterceptor historyInterceptor;
     
     @Override
     @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
@@ -104,6 +110,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         homeFolder.setIndividuals(allIndividuals);
         homeFolderDAO.update(homeFolder);
         
+        logger.debug("create() successfully created home folder " + homeFolder.getId());
         return homeFolder;
     }
 
@@ -121,6 +128,166 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             homeFolderDAO.update(homeFolder);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    public void modify(final Long homeFolderId, final HomeFolderModificationRequest hfmr,
+            final List<Adult> newAdults, List<Child> newChildren, Address adress)
+        throws CvqException {
+
+        // Merge new homeFolder object if reuired
+        for (int i = 0; i < newAdults.size(); i++) {
+            if (newAdults.get(i).getId() != null) {
+                Adult mergeAdult = (Adult)HibernateUtil.getSession().merge(newAdults.get(i));
+                newAdults.set(i, mergeAdult);
+            }
+        }
+        // to prevent NPE if we have a null children list
+        if (newChildren == null) 
+            newChildren = Collections.<Child>emptyList();
+        for (int i = 0; i < newChildren.size(); i++) {
+            if (newChildren.get(i).getId() != null) {
+                Child mergeChild = (Child)HibernateUtil.getSession().merge(newChildren.get(i));
+                newChildren.set(i, mergeChild);
+            }
+        }
+        if (adress.getId() != null)
+            adress = (Address)HibernateUtil.getSession().merge(adress);
+        
+        historyInterceptor.setCurrentRequest(hfmr);
+        historyInterceptor.setCurrentUser(SecurityContext.getCurrentUserLogin());
+        historyInterceptor.setCurrentSession(HibernateUtil.getSession());
+        
+        HomeFolder oldHomeFolder = getById(homeFolderId);
+        
+        // TODO REFACTORING
+        // home folder will have to be validated again
+        oldHomeFolder.setState(ActorState.PENDING);
+
+        // take a snapshot of the "old" home folder
+        // (ie as it was before issuing this modification request)
+        
+        List<Child> oldChildren = new ArrayList<Child>();
+        List<Adult> oldAdults = new ArrayList<Adult>();
+        for (Individual tempInd : oldHomeFolder.getIndividuals()) {
+            if (tempInd instanceof Adult) {
+                oldAdults.add((Adult) tempInd);
+            } else {
+                oldChildren.add((Child) tempInd);
+            }
+        }
+
+        // first, deal with modifications related to children
+        for (Child child : oldChildren) {
+            logger.debug("modify() looking at old child : " + child);
+            if (!containsIndividual(newChildren, child)) {
+                logger.debug("modify() child removed from home folder : " + child);
+                // just unlink from its home folder, don't remove it yet from DB
+                // because request can be refused
+                // if the request is validated, the child will be removed then
+                child.setHomeFolder(null);
+                
+                // TODO INDEXED LISTS TO TEST MORE
+                oldHomeFolder.getIndividuals().remove(child);
+
+                individualService.modify(child);
+            }
+        }
+        for (Child newChild : newChildren) {
+            logger.debug("modify() looking at new child : " + newChild);
+            if (!containsIndividual(oldChildren, newChild)) {
+                logger.debug("modify() child added to home folder : " + newChild);
+
+                individualService.create(newChild, oldHomeFolder, adress, false);
+                oldChildren.add(newChild);
+            }
+        }
+
+        // then, deal with modifications related to home folder adults
+        boolean loggedInUserChange = false;
+        for (Adult adult : oldAdults) {
+            logger.debug("modify() looking at old adult : " + adult);
+            if (!containsIndividual(newAdults, adult)) {
+                logger.debug("modify() adult removed from home folder : " + adult);
+
+                // check if adult was the currently logged in user
+                // if so, prepare for a hot swap
+                if (SecurityContext.getCurrentEcitizen().getLogin().equals(adult.getLogin())) {
+                    logger.info("modify() currently logged in user is going to be removed from its home folder !");
+                    loggedInUserChange = true;
+                }
+
+                // just unlink from its home folder, don't remove it yet from DB
+                // because request can be refused
+                // if the request is validated, the adult will be removed then
+                adult.setHomeFolder(null);
+
+                // TODO INDEXED LISTS TO TEST MORE
+                oldHomeFolder.getIndividuals().remove(adult);
+
+                individualService.modify(adult);
+            } else {
+                if (!adult.getLogin().startsWith(adult.getFirstName().toLowerCase() + "." 
+                        + adult.getLastName().toLowerCase())) {
+                    logger.debug("modify() adult changed of first or last name");
+                    logger.debug("modify() adult login : " + adult.getLogin());
+                    logger.debug("modify() adult names : " + adult.getFirstName() + " " + adult.getLastName());
+                }
+            }
+        }
+
+        for (Adult adult : newAdults) {
+            logger.debug("modify() looking at new adult : " + adult);
+
+            // new passwords generation handling
+            //     -> a new adult which is home folder responsible
+            //     -> an home folder responsible change inside home folder
+            if (adult.getPassword() != null && !adult.getPassword().startsWith("{SHA}")) {
+                adult.setPassword(individualService.encryptPassword(adult.getPassword()));
+            }
+
+            if (!containsIndividual(oldAdults, adult)) {
+                logger.debug("modify() adult added to home folder : " + adult);
+                individualService.create(adult, oldHomeFolder, adult.getAdress(), true);
+            }
+
+            // currently logged in user has been removed from the home folder
+            // set the new home folder responsible as the new logged in user
+            if (loggedInUserChange) {
+
+                for (IndividualRole individualRole : adult.getIndividualRoles()) {
+                    if (individualRole.getRole().equals(RoleType.HOME_FOLDER_RESPONSIBLE)) {
+                        logger.debug("modify() Got the new logged in user with login : "
+                                + adult.getLogin());
+                        // and set it as the request's requester, to pass security checks
+                        hfmr.setRequesterId(adult.getId());
+                        SecurityContext.setCurrentEcitizen(adult);
+                    }
+                }
+            }
+        }
+        
+        checkAndFinalizeRoles(homeFolderId, newAdults, newChildren);
+
+        // inform history interceptor that it could stop intercepting after the next postFlush()
+        historyInterceptor.releaseInterceptor();
+    }
+
+    private boolean containsIndividual(final List<? extends Individual> setToSearchIn, 
+            final Individual individualToLookFor) {
+    
+        if (setToSearchIn == null || setToSearchIn.isEmpty())
+            return false;
+        
+        for (Individual individual : setToSearchIn) {
+            if (individual.getId() == null)
+                continue;
+            if (individual.getId().equals(individualToLookFor.getId()))
+                return true;
+        }
+        
+        return false;
+    }
+    
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
     public final void delete(final Long id)
@@ -775,6 +942,10 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     public void setGenericDAO(IGenericDAO genericDAO) {
 		this.genericDAO = genericDAO;
 	}
+
+    public void setHistoryInterceptor(HistoryInterceptor historyInterceptor) {
+        this.historyInterceptor = historyInterceptor;
+    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

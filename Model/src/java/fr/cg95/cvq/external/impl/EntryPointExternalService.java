@@ -13,7 +13,6 @@ import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
@@ -43,7 +42,7 @@ public class EntryPointExternalService implements IExternalProviderService {
         return null;
     }
     
-    public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
+    public Map<Date, String> getConsumptions(Long key, Date dateFrom, Date dateTo)
             throws CvqException {
         return null;
     }

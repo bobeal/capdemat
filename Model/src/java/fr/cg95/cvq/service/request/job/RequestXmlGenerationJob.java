@@ -6,9 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
@@ -17,7 +14,8 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestExternalService;
+import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 
@@ -28,19 +26,14 @@ import fr.cg95.cvq.util.DateUtils;
  * @author vba@zenexity.fr
  *
  */
-public class RequestXmlGenerationJob implements BeanFactoryAware {
+public class RequestXmlGenerationJob {
 
     private static Logger logger = Logger.getLogger(RequestXmlGenerationJob.class);
-
-    private IRequestService requestService;
+    
+    private IRequestSearchService requestSearchService;
+    private IRequestExternalService requestExternalService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IExternalService externalService;
-    private BeanFactory beanFactory;
-
-    public void init() {
-        requestService =
-            (IRequestService)beanFactory.getBean("defaultRequestService");
-    }
 
     public void launchJob() {
         localAuthorityRegistry
@@ -49,22 +42,23 @@ public class RequestXmlGenerationJob implements BeanFactoryAware {
             .browseAndCallback(this, "eraseAcknowledgedRequests", null);
     }
 
-    public void performGeneration()
-        throws CvqException {
-        Set<String> requestTypes = externalService.getGenerableRequestTypes();
+    public void performGeneration() throws CvqException {
+        
+        Set<String> requestTypes = requestExternalService.getGenerableRequestTypes();
         if (requestTypes.isEmpty()) {
             logger.warn("no request types to handle, returning");
             return;
         }
+
         Set<Critere> criteriaSet = new HashSet<Critere>(2);
         criteriaSet.add(new Critere(Request.SEARCH_BY_REQUEST_TYPE_LABEL,
-            requestTypes, Critere.IN));
+            requestExternalService.getGenerableRequestTypes(), Critere.IN));
         criteriaSet.add(new Critere(Request.SEARCH_BY_VALIDATION_DATE,
             DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -2), Critere.GTE));
         Critere statusCritere =
             new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
                 TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS);
-        for (Request r : requestService.get(criteriaSet, null, null, 0, 0)) {
+        for (Request r : requestSearchService.get(criteriaSet, null, null, 0, 0)) {
             criteriaSet.clear();
             criteriaSet.add(statusCritere);
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
@@ -105,8 +99,11 @@ public class RequestXmlGenerationJob implements BeanFactoryAware {
         this.externalService = externalService;
     }
 
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
+    public void setRequestExternalService(IRequestExternalService requestExternalService) {
+        this.requestExternalService = requestExternalService;
+    }
+
+    public void setRequestSearchService(IRequestSearchService requestSearchService) {
+        this.requestSearchService = requestSearchService;
     }
 }

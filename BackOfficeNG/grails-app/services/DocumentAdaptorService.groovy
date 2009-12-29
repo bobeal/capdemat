@@ -2,7 +2,7 @@ import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentType
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestDocumentService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
@@ -21,18 +21,19 @@ public class DocumentAdaptorService {
     def requestAdaptorService
     
     IRequestTypeService requestTypeService
+    IRequestDocumentService requestDocumentService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
     
     def servletContext
     
-    def getDocumentTypes(IRequestService requestService, Request cRequest, String sessionUuid, Set newDocuments) {
-        def requestType = requestTypeService.getRequestTypeByLabel(requestService.getLabel())
+    def getDocumentTypes(Request cRequest, String sessionUuid, Set newDocuments) {
+        def requestType = requestTypeService.getRequestTypeByLabel(cRequest.requestType.label)
         def documentTypes = requestTypeService.getAllowedDocuments(requestType.getId())
         def result = [:]
         def documentTypeList = []
-        documentTypes.each {             
-            def providedAssociatedDocs = getProvidedAssociatedDocuments(requestService, cRequest, it)
+        documentTypes.each {
+            def providedAssociatedDocs = getProvidedAssociatedDocuments(cRequest, it)
             def newAssociatedDocs = getNewAssociatedDocuments(sessionUuid, newDocuments, it) 
             def docType = ['id':it.id,
                            'name':messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),
@@ -50,9 +51,9 @@ public class DocumentAdaptorService {
         return result
     }
     
-    private List getProvidedAssociatedDocuments(IRequestService requestService, Request cRequest, DocumentType docType) {
+    private List getProvidedAssociatedDocuments(Request cRequest, DocumentType docType) {
         // TODO : add a docType parameter to service's method
-        def requestDocuments = requestService.getAssociatedDocuments(cRequest)
+        def requestDocuments = requestDocumentService.getAssociatedDocuments(cRequest)
         def documents = requestDocuments.collect{ documentService.getById(it.documentId) }
         def docTypeDocuments = documents.findAll{ it.documentType.id == docType.id }
         def result = []
@@ -84,8 +85,8 @@ public class DocumentAdaptorService {
         } else return []
     }
     
-    def hasAssociatedDocuments(IRequestService requestService, Request cRequest, String sessionUuid, Set newDocuments) {
-        def providedAssociatedDocuments = requestService.getAssociatedDocuments(cRequest)
+    def hasAssociatedDocuments(Request cRequest, String sessionUuid, Set newDocuments) {
+        def providedAssociatedDocuments = requestDocumentService.getAssociatedDocuments(cRequest)
         if (providedAssociatedDocuments == null) providedAssociatedDocuments = [] 
         def newAssociatedDocuments = deserializeDocuments(newDocuments, sessionUuid)
         return ((newAssociatedDocuments + providedAssociatedDocuments).size() > 0)

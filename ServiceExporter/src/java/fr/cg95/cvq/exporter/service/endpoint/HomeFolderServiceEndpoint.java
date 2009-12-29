@@ -18,13 +18,13 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
 public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoint {
 
     private IHomeFolderService homeFolderService;
-    private IRequestService defaultRequestService;
+    private IRequestSearchService requestSearchService;
     
     public HomeFolderServiceEndpoint(Marshaller marshaller) {
         super(marshaller);
@@ -40,7 +40,7 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
         Set<HomeFolder> homeFolders = homeFolderService.getAll(true, true);
         for (HomeFolder homeFolder : homeFolders) {
             List<Request> voCardRequests =
-                defaultRequestService.getByHomeFolderIdAndRequestLabel(homeFolder.getId(),
+                requestSearchService.getByHomeFolderIdAndRequestLabel(homeFolder.getId(),
                     "VO Card Request");
             if (voCardRequests == null || voCardRequests.isEmpty()) {
 //               logger.debug("invokeInternal() ignoring home folder " + homeFolder.getId()
@@ -75,7 +75,7 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
         this.homeFolderService = homeFolderService;
     }
 
-    public void setDefaultRequestService(IRequestService defaultRequestService) {
-        this.defaultRequestService = defaultRequestService;
+    public void setRequestSearchService(IRequestSearchService requestSearchService) {
+        this.requestSearchService = requestSearchService;
     }
 }

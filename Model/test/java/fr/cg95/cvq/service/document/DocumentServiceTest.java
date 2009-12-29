@@ -17,19 +17,13 @@ import fr.cg95.cvq.business.document.DepositType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentType;
-import fr.cg95.cvq.business.users.Address;
-import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.RoleType;
-import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentService;
-import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 /**
  * The tests for the {@link IDocumentService document service}.
@@ -82,7 +76,8 @@ public class DocumentServiceTest extends DocumentTestCase {
         docBin.setData(data);
         iDocumentService.addPage(docId, docBin);
 
-
+        continueWithNewTransaction();
+        
         // check the document and its two binary have been successfully added ...
         // ... to the home folder
         List<Document> documentsList = iDocumentService.getHomeFolderDocuments(cb.getHomeFolderId(), -1);
@@ -182,6 +177,8 @@ public class DocumentServiceTest extends DocumentTestCase {
 
         // delete a document
         iDocumentService.delete(docId3);
+        
+        continueWithNewTransaction();
 
         // test modifications on a document
         Document docToModify = iDocumentService.getById(docId4);
@@ -196,7 +193,6 @@ public class DocumentServiceTest extends DocumentTestCase {
         docToModify = iDocumentService.getById(docId4);
         Assert.assertNotNull("Argh, where my f****** document has gone ??!");
         Assert.assertEquals(doc.getAgentNote(), "Quelle belle PJ");
-        logger.debug("Doc end validity date : " + doc.getEndValidityDate());
 
         // hmm ? just a test :-)
         try {
@@ -233,7 +229,7 @@ public class DocumentServiceTest extends DocumentTestCase {
     public void testCreate() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        CreationBean cb = gimmeAnHomeFolderWithRequest();
+        CreationBean cb = gimmeAnHomeFolder();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         
         continueWithNewTransaction();
@@ -278,23 +274,17 @@ public class DocumentServiceTest extends DocumentTestCase {
 
     public void testHomeFolderDeleteEvent() throws CvqException {
         
+        CreationBean cb = gimmeMinimalHomeFolder();
+        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        
-        Adult adult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", "firstName", 
-                new Address(), FamilyStatusType.SINGLE);
-        iHomeFolderService.addHomeFolderRole(adult, RoleType.HOME_FOLDER_RESPONSIBLE);
-        HomeFolder homeFolder = iHomeFolderService.create(adult);
-        
-        SecurityContext.setCurrentEcitizen(adult.getLogin());
-        
-        continueWithNewTransaction();
-        
+        SecurityContext.setCurrentEcitizen(cb.getLogin());
+
         DocumentType documentType =
             iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
         Document document = new Document();
         document.setDocumentType(documentType);
-        document.setHomeFolderId(homeFolder.getId());
+        document.setHomeFolderId(cb.getHomeFolderId());
         iDocumentService.create(document);
    
         continueWithNewTransaction();
@@ -302,40 +292,30 @@ public class DocumentServiceTest extends DocumentTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        iHomeFolderService.delete(homeFolder.getId());
+        iHomeFolderService.delete(cb.getHomeFolderId());
+        homeFolderIds.remove(cb.getHomeFolderId());
         
         continueWithNewTransaction();
         
         List<Document> documents = 
-            iDocumentService.getHomeFolderDocuments(homeFolder.getId(), -1);
+            iDocumentService.getHomeFolderDocuments(cb.getHomeFolderId(), -1);
         assertTrue(documents.isEmpty());
     }
 
     public void testIndividualDeleteEvent() throws CvqException {
+
+        CreationBean cb = gimmeAnHomeFolder();
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        
-        Adult adult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", "firstName", 
-                new Address(), FamilyStatusType.SINGLE);
-        iHomeFolderService.addHomeFolderRole(adult, RoleType.HOME_FOLDER_RESPONSIBLE);
-        Adult adult2 = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", "firstName", 
-                new Address(), FamilyStatusType.SINGLE);
-        List<Adult> adults = new ArrayList<Adult>();
-        adults.add(adult);
-        adults.add(adult2);
-        HomeFolder homeFolder = iHomeFolderService.create(adults, null, new Address());
-        
-        SecurityContext.setCurrentEcitizen(adult.getLogin());
-        
-        continueWithNewTransaction();
-        
+        SecurityContext.setCurrentEcitizen(cb.getLogin());
+
         DocumentType documentType =
             iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
         Document document = new Document();
         document.setDocumentType(documentType);
-        document.setHomeFolderId(homeFolder.getId());
-        document.setIndividualId(adult2.getId());
+        document.setHomeFolderId(cb.getHomeFolderId());
+        document.setIndividualId(homeFolderWoman.getId());
         iDocumentService.create(document);
    
         continueWithNewTransaction();
@@ -343,14 +323,12 @@ public class DocumentServiceTest extends DocumentTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        iHomeFolderService.deleteIndividual(homeFolder.getId(), adult2.getId());
+        iHomeFolderService.deleteIndividual(cb.getHomeFolderId(), homeFolderWoman.getId());
         
         continueWithNewTransaction();
         
         List<Document> documents = 
-            iDocumentService.getIndividualDocuments(adult2.getId());
+            iDocumentService.getIndividualDocuments(homeFolderWoman.getId());
         assertTrue(documents.isEmpty());
-        
-        iHomeFolderService.delete(homeFolder.getId());
     }
 }

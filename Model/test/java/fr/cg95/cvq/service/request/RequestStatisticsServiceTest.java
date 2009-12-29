@@ -49,7 +49,7 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
 
         Map<RequestState, Long> stateStats =
             iRequestStatisticsService.getStateStats(startDate.getTime(), endDate.getTime(),
-                iRequestTypeService.getRequestTypeByLabel(IRequestService.VO_CARD_REGISTRATION_REQUEST).getId(),
+                requestTypeService.getRequestTypeByLabel(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST).getId(),
                 null);
         Long initialCancelledNb = stateStats.get(RequestState.CANCELLED);
         Long initialCompleteNb = stateStats.get(RequestState.COMPLETE);
@@ -58,13 +58,13 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         CreationBean cb = gimmeAnHomeFolderWithRequest();
-        Request request = iRequestService.getById(cb.getRequestId());
+        Request request = requestSearchService.getById(cb.getRequestId());
 
         Long requestTypeId = request.getRequestType().getId();
         Long categoryId = request.getRequestType().getCategory().getId();
 
-        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.CANCELLED, null);
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.CANCELLED, null);
 
         continueWithNewTransaction();
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);

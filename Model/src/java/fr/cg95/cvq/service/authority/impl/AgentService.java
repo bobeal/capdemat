@@ -13,6 +13,7 @@ import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.dao.authority.IAgentDAO;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
@@ -37,6 +38,8 @@ public final class AgentService implements IAgentService {
         
         if (agent == null)
             throw new CvqException("No agent object provided");
+        if (agentDAO.findByLogin(agent.getLogin()) != null)
+            throw new CvqModelException("");
         Long agentId = agentDAO.create(agent);
         logger.debug("Created agent object with id : " + agentId);
         return agentId;

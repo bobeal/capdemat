@@ -1,14 +1,10 @@
 package fr.cg95.cvq.external;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlObject;
 import org.hamcrest.core.AllOf;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -16,22 +12,15 @@ import org.jmock.Mockery;
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
-import fr.cg95.cvq.business.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
-import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.request.RequestTestCase;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.testtool.HasInnerProperty;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
@@ -39,28 +28,17 @@ import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 /**
  * FIXME : dependency on request test case has to be fixed
  */
-public class ExternalServiceIdentifierMappingTest extends RequestTestCase {
-
-    private IExternalService externalService;
+public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCase {
 
     private final String EXTERNAL_SERVICE_LABEL = "Dummy External Service";
-    private Long homeFolderId;
 
     @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
-        externalService =
-            super.<IExternalService>getApplicationBean("externalService");
-        homeFolderId = null;
     }
 
     @Override
     public void onTearDown() throws Exception {
-        if (homeFolderId != null) {
-            HibernateUtil.getSession()
-                .delete(externalService.getIdentifierMapping(
-                    EXTERNAL_SERVICE_LABEL, homeFolderId));
-        }
         for (ExternalServiceTrace trace :
             externalService.getTraces(Collections.<Critere>emptySet(),
                 null, null)) {
@@ -81,7 +59,7 @@ public class ExternalServiceIdentifierMappingTest extends RequestTestCase {
         // initialize the mock external provider service
         final ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
+        requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         Mockery context = new Mockery();
         final IExternalProviderService mockExternalService = 
@@ -124,72 +102,41 @@ public class ExternalServiceIdentifierMappingTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        Request request = iRequestService.getById(cb.getRequestId());
-        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
+        Request request = requestSearchService.getById(cb.getRequestId());
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
+        continueWithNewTransaction();
+        
         context.assertIsSatisfied();
         
         lacb.unregisterExternalService(mockExternalService);
+        externalService.deleteIdentifierMappings(EXTERNAL_SERVICE_LABEL, cb.getHomeFolderId());
     }
 
     public void testSetExternalId() throws CvqException {
+
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         final CreationBean cb = gimmeAnHomeFolderWithRequest();
-        homeFolderId = cb.getHomeFolderId();
-        ExternalServiceBean esb = new ExternalServiceBean();
-        List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
-        esb.setRequestTypes(requestTypes);
-        IExternalProviderService externalProviderService = new IExternalProviderService() {
-            public boolean supportsConsumptions() { return false; }
-            public String sendRequest(XmlObject requestXml) throws CvqException {
-                externalService.setExternalId(
-                    getLabel(), cb.getHomeFolderId(),
-                    iHomeFolderService.getHomeFolderResponsible(cb.getHomeFolderId()).getId(), "external ID");
-                return null;
-            }
-            public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {}
-            public Map<String, Object> loadExternalInformations(XmlObject requestXml) throws CvqException {
-                return Collections.emptyMap();
-            }
-            public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {}
-            public String helloWorld() throws CvqException { return ""; }
-            public boolean handlesTraces() { return true; }
-            public String getLabel() { return EXTERNAL_SERVICE_LABEL; }
-            public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId,
-                String externalHomeFolderId, String externalId) throws CvqException {
-                return Collections.emptyMap();
-            }
-            public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
-                throws CvqException {
-                return Collections.emptyMap();
-            }
-            public Map<String, List<ExternalAccountItem>> getAccountsByHomeFolder(Long homeFolderId,
-                String externalHomeFolderId, String externalId) throws CvqException {
-                return Collections.emptyMap();
-            }
-            public void creditHomeFolderAccounts(Collection<PurchaseItem> purchaseItems,
-                String cvqReference, String bankReference, Long homeFolderId,
-                String externalHomeFolderId, String externalId, Date validationDate)
-                throws CvqException {}
-            public List<String> checkExternalReferential(XmlObject requestXml) {
-                return Collections.emptyList();
-            }
-            public void checkConfiguration(ExternalServiceBean externalServiceBean)
-                throws CvqConfigurationException {}
-        };
-        SecurityContext.getCurrentConfigurationBean().registerExternalService(externalProviderService, esb);
+        registerFakeExternalService();
+        
         continueWithNewTransaction();
+        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        Request request = iRequestService.getById(cb.getRequestId());
-        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
-        SecurityContext.getCurrentConfigurationBean().unregisterExternalService(externalProviderService);
+        Request request = requestSearchService.getById(cb.getRequestId());
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
+
         continueWithNewTransaction();
+        
+        externalService.setExternalId(fakeExternalService.getLabel(), cb.getHomeFolderId(), 
+                homeFolderResponsible.getId(), "external ID");
+        
+        continueWithNewTransaction();
+        
         ExternalServiceIdentifierMapping esimFromDb =
-            externalService.getIdentifierMapping(EXTERNAL_SERVICE_LABEL, cb.getHomeFolderId());
+            externalService.getIdentifierMapping(fakeExternalService.getLabel(), cb.getHomeFolderId());
         assertNotNull(esimFromDb);
         assertNotNull(esimFromDb.getIndividualsMappings());
         Set<ExternalServiceIndividualMapping> esimIndividuals = esimFromDb.getIndividualsMappings();
@@ -201,5 +148,8 @@ public class ExternalServiceIdentifierMappingTest extends RequestTestCase {
         }
         assertNotNull(esimIndividual);
         assertEquals("external ID", esimIndividual.getExternalId());
+        
+        unregisterFakeExternalService();
+        externalService.deleteIdentifierMappings(fakeExternalService.getLabel(), cb.getHomeFolderId());
     }
 }

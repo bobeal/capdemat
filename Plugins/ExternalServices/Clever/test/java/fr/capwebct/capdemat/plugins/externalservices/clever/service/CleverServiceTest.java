@@ -3,37 +3,35 @@ package fr.capwebct.capdemat.plugins.externalservices.clever.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.ConfigurableApplicationContext;
-
 import fr.cg95.cvq.business.request.LocalReferentialData;
 import fr.cg95.cvq.business.request.leisure.SmsNotificationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.service.request.IRequestExportService;
+import fr.cg95.cvq.service.request.RequestTestCase;
 
 /**
  * Unit/integration test for Clever external service.
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class CleverServiceTest extends ServiceTestCase {
+public class CleverServiceTest extends RequestTestCase {
 
-    private IExternalProviderService externalProviderService;
+    protected IExternalProviderService externalProviderService;
+    protected IRequestExportService requestExportService;
 
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        externalProviderService = (IExternalProviderService) cac.getBean("cleverExternalService");
     }
 
     protected SmsNotificationRequest gimmeRequest() throws CvqException {
 
         SecurityContext.setCurrentAgent(this.agentNameWithCategoriesRoles);
         SmsNotificationRequest request = new SmsNotificationRequest();
-        request.setRequestType(iRequestTypeService.getRequestTypeByLabel("Sms Notification"));
+        request.setRequestType(requestTypeService.getRequestTypeByLabel("Sms Notification"));
         CreationBean creationBean = gimmeAnHomeFolder();
         request.setSubjectId(iHomeFolderService.getHomeFolderResponsible(creationBean.getHomeFolderId()).getId());
         request.setHomeFolderId(creationBean.getHomeFolderId());
@@ -54,19 +52,28 @@ public class CleverServiceTest extends ServiceTestCase {
         SmsNotificationRequest snr = gimmeRequest();
         
         // Create Clever SMS Contact
-        String sendRequestResult = externalProviderService.sendRequest(iRequestService.fillRequestXml(snr));
+        String sendRequestResult = 
+            externalProviderService.sendRequest(requestExportService.fillRequestXml(snr));
         assertNotNull(sendRequestResult);
         
         // Update Clever SMS Contact
         snr.setCleverSmsContactId(sendRequestResult);
-        String sendRequestResult2 = externalProviderService.sendRequest(iRequestService.fillRequestXml(snr));
-        assertNotNull(sendRequestResult2);
+        sendRequestResult = 
+            externalProviderService.sendRequest(requestExportService.fillRequestXml(snr));
+        assertNotNull(sendRequestResult);
         
         // Remove Clever SMS Contact
         snr.setSubscription(false);
-        String sendRequestResult3 = externalProviderService.sendRequest(iRequestService.fillRequestXml(snr));
-        assertNull(sendRequestResult3);
-        
+        sendRequestResult = 
+            externalProviderService.sendRequest(requestExportService.fillRequestXml(snr));
+        assertNull(sendRequestResult);
     }
 
+    public void setExternalProviderService(IExternalProviderService externalProviderService) {
+        this.externalProviderService = externalProviderService;
+    }
+
+    public void setRequestExportService(IRequestExportService requestExportService) {
+        this.requestExportService = requestExportService;
+    }
 }

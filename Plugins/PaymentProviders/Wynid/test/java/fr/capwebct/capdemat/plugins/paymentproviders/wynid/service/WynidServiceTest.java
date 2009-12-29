@@ -29,15 +29,15 @@ public class WynidServiceTest extends PaymentTestCase {
             new InternalInvoiceItem("Wynid Invoice 1", Double.valueOf("300"),
                     "key", "keyOwner", "Wynid", Integer.valueOf(1), 
                     Double.valueOf(2));
-        Payment payment = iPaymentService.createPaymentContainer(invoice1, PaymentMode.CARD);
+        Payment payment = paymentService.createPaymentContainer(invoice1, PaymentMode.CARD);
         InternalInvoiceItem invoice2 =
             new InternalInvoiceItem("Wynid Invoice 2", Double.valueOf("600"),
                     "key", "keyOwner", "Wynid", Integer.valueOf(1), 
                     Double.valueOf(2));
-        iPaymentService.addPurchaseItemToPayment(payment, invoice2);
+        paymentService.addPurchaseItemToPayment(payment, invoice2);
         payment.addPaymentSpecificData("terminal", "Dummy-borne1");
         
-        URL url = iPaymentService.initPayment(payment);
+        URL url = paymentService.initPayment(payment);
         String urlString = url.toString();
         System.err.println("urlString : " + urlString);
         int beginIndex = urlString.indexOf("transaction=");
@@ -49,7 +49,7 @@ public class WynidServiceTest extends PaymentTestCase {
 
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("wynidid", payment.getCvqReference() + "/ACCEPTED");
-        PaymentResultStatus returnStatus = iPaymentService.commitPayment(parameters);
+        PaymentResultStatus returnStatus = paymentService.commitPayment(parameters);
         Assert.assertEquals(PaymentResultStatus.OK, returnStatus);
     }
 }

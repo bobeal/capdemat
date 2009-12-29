@@ -5,14 +5,14 @@
         <label lang="fr">Activités péri-scolaires</label>
         <label lang="en">Perischool Activity</label>
         <entries supportPriority="true" supportPrecision="false" supportMultiple="true">
-            <entry key="MorningAndEveningNursery">
-                <label lang="fr">Garderie soir et matin</label>
-            </entry>
             <entry key="EveningNursery">
                 <label lang="fr">Garderie du soir</label>
             </entry>
             <entry key="MorningNursery">
                 <label lang="fr">Garderie du matin</label>
+            </entry>
+            <entry key="MorningAndEveningNursery">
+                <label lang="fr">Garderie soir et matin</label>
             </entry>
         </entries>
     </data>

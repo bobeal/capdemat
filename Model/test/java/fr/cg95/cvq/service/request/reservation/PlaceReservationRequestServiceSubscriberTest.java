@@ -104,9 +104,9 @@ public class PlaceReservationRequestServiceSubscriberTest
             }
         }
         
-        Long requestId = iPlaceReservationRequestService.create(request);
+        Long requestId = requestWorkflowService.create(request);
         PlaceReservationRequest requestFromDb = 
-            (PlaceReservationRequest) iPlaceReservationRequestService.getById(requestId);
+            (PlaceReservationRequest) requestSearchService.getById(requestId);
         completeValidateAndDelete(requestFromDb);
 
         commitTransaction();

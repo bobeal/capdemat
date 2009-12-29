@@ -1,6 +1,7 @@
 package fr.cg95.cvq.dao.hibernate;
 
 import org.apache.log4j.Logger;
+import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -35,6 +36,8 @@ public class HibernateUtil {
     }
 
     public static void setSessionFactory(SessionFactory sessionFactory) {
+        // FIXME : this a hack added to handle session closing problem
+        // TODO : identify the real cause and fix it properly
         rollbackTransaction();
         closeSession();
         threadSessionFactory.set(sessionFactory);
@@ -75,6 +78,7 @@ public class HibernateUtil {
         if (tx == null) {
             logger.debug("Starting new database transaction in this thread.");
             tx = getSession().beginTransaction();
+            getSession().setFlushMode(FlushMode.COMMIT);
             threadTransaction.set(tx);
         }
     }

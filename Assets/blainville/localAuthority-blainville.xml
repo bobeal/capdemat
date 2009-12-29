@@ -18,7 +18,7 @@
           <key>
             <ref bean="fakePaymentProviderService" />
           </key>
-          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+          <bean class="fr.cg95.cvq.service.payment.PaymentServiceBean">
             <property name="broker" value="Régie démo de Blainville"></property>
             <property name="friendlyLabel" value="Services autres que restauration scolaire"></property>
             <property name="requestTypes">

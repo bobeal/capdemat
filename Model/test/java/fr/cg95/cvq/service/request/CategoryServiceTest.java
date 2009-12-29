@@ -19,49 +19,52 @@ public class CategoryServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        int nbOfCategories = iCategoryService.getAll().size();
+        int nbOfCategories = categoryService.getAll().size();
 
         Category category = new Category("Environnement", "category@blop.fr");
         category.addEmail("category@dummy.fr");
         category.addEmail("blop@valdoise.fr");
 
         try {
-            iCategoryService.create(category);
+            categoryService.create(category);
             fail("should have thrown an exception");
         } catch (PermissionException pe) {
             // that was expected
         }
         
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        Long newCategoryId = iCategoryService.create(category);
+        Long newCategoryId = categoryService.create(category);
 
-        assertEquals(nbOfCategories + 1, iCategoryService.getAll().size());
-        Category newCategory = iCategoryService.getById(newCategoryId);
+        continueWithNewTransaction();
+        
+        assertEquals(nbOfCategories + 1, categoryService.getAll().size());
+        Category newCategory = categoryService.getById(newCategoryId);
         assertEquals("Environnement", newCategory.getName());
         assertEquals("category@blop.fr", newCategory.getPrimaryEmail());
         assertEquals(2, newCategory.getEmails().size());
 
         newCategory.removeEmail("blop@valdoise.fr");
-        iCategoryService.modify(newCategory);
+        categoryService.modify(newCategory);
 
         continueWithNewTransaction();
 
-        newCategory = iCategoryService.getById(newCategoryId);
+        newCategory = categoryService.getById(newCategoryId);
         assertEquals(1, newCategory.getEmails().size());
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         try {
-            iCategoryService.delete(category.getId());
+            categoryService.delete(category.getId());
             fail("should have thrown an exception");
         } catch (PermissionException pe) {
             // that was expected
         }
         
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        iCategoryService.delete(category.getId());
+        categoryService.delete(category.getId());
 
         continueWithNewTransaction();
-        assertEquals(nbOfCategories, iCategoryService.getAll().size());
+        
+        assertEquals(nbOfCategories, categoryService.getAll().size());
     }
     
     public void testListAllFiltering() throws CvqException {
@@ -70,17 +73,17 @@ public class CategoryServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         
         Category category = new Category("Environnement", null);
-        iCategoryService.create(category);
+        categoryService.create(category);
         
         continueWithNewTransaction();
         
-        assertEquals(2, iCategoryService.getAll().size());
+        assertEquals(2, categoryService.getAll().size());
         
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        assertEquals(1, iCategoryService.getAll().size());
+        assertEquals(1, categoryService.getAll().size());
         
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        iCategoryService.delete(category.getId());
+        categoryService.delete(category.getId());
     }
 
     public void testAgentAssociation() throws CvqException {
@@ -89,15 +92,17 @@ public class CategoryServiceTest extends RequestTestCase {
 
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         Category category = new Category("Environnement", "category@blop.fr");
-        Long associatedCategoryId = iCategoryService.create(category);
+        Long associatedCategoryId = categoryService.create(category);
 
+        continueWithNewTransaction();
+        
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         Long associatedAgentId = SecurityContext.getCurrentAgent().getId();
-        int agentAssociatedCategories = iCategoryService.getAssociated().size();
+        int agentAssociatedCategories = categoryService.getAssociated().size();
 
         try {
-            iCategoryService.addCategoryRole(associatedAgentId, associatedCategoryId,
+            categoryService.addCategoryRole(associatedAgentId, associatedCategoryId,
                 CategoryProfile.READ_WRITE);
             fail("should have thrown an exception");
         } catch (PermissionException pe) {
@@ -106,7 +111,7 @@ public class CategoryServiceTest extends RequestTestCase {
 
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         try {
-            iCategoryService.addCategoryRole(associatedAgentId, associatedCategoryId,
+            categoryService.addCategoryRole(associatedAgentId, associatedCategoryId,
                 CategoryProfile.READ_WRITE);
         } catch (PermissionException pe) {
             fail("should not have thrown an exception");
@@ -115,34 +120,34 @@ public class CategoryServiceTest extends RequestTestCase {
         continueWithNewTransaction();
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        assertEquals(agentAssociatedCategories + 1, iCategoryService.getAssociated().size());
+        assertEquals(agentAssociatedCategories + 1, categoryService.getAssociated().size());
 
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        iCategoryService.removeCategoryRole(associatedAgentId, associatedCategoryId);
-        iCategoryService.delete(associatedCategoryId);
+        categoryService.removeCategoryRole(associatedAgentId, associatedCategoryId);
+        categoryService.delete(associatedCategoryId);
 
         continueWithNewTransaction();
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        assertEquals(agentAssociatedCategories, iCategoryService.getAssociated().size());
-}
+        assertEquals(agentAssociatedCategories, categoryService.getAssociated().size());
+    }
 
     public void testRequestTypeAssociation() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = requestTypeService.getAllRequestTypes();
         int requestTypesNb = requestTypesSet.size();
 
-        List<Category> categoriesList = iCategoryService.getAll();
+        List<Category> categoriesList = categoryService.getAll();
         assertEquals(1, categoriesList.size());
         Category category1 = categoriesList.get(0);
 
         // create a category to make some tests with
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         Category category2 = new Category("Une autre catégorie", "category@blop.fr");
-        Long newCategoryId = iCategoryService.create(category2);
+        Long newCategoryId = categoryService.create(category2);
 
         continueWithNewTransaction();
 
@@ -151,13 +156,13 @@ public class CategoryServiceTest extends RequestTestCase {
         RequestType requestTypeToAdd = null;
         for (RequestType rt : requestTypesSet) {
             // add VO Card Request to the new category
-            if (rt.getLabel().equals(IRequestService.VO_CARD_REGISTRATION_REQUEST)) {
+            if (rt.getLabel().equals(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST)) {
                 requestTypeToAdd = rt;
                 break;
             }
         }
         try {
-            iCategoryService.addRequestType(newCategoryId, requestTypeToAdd.getId());
+            categoryService.addRequestType(newCategoryId, requestTypeToAdd.getId());
             fail("should have thrown an exception");
         } catch (PermissionException pe) {
             // ok
@@ -165,7 +170,7 @@ public class CategoryServiceTest extends RequestTestCase {
 
         // now, be an authorized admin and do the modification
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        iCategoryService.addRequestType(newCategoryId, requestTypeToAdd.getId());
+        categoryService.addRequestType(newCategoryId, requestTypeToAdd.getId());
 
         continueWithNewTransaction();
 
@@ -173,9 +178,9 @@ public class CategoryServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         // check associations have been correctly saved
-        category1 = iCategoryService.getById(category1.getId());
+        category1 = categoryService.getById(category1.getId());
         assertEquals(requestTypesNb - 1, category1.getRequestTypes().size());
-        category2 = iCategoryService.getById(category2.getId());
+        category2 = categoryService.getById(category2.getId());
         assertEquals(1, category2.getRequestTypes().size());
         
         continueWithNewTransaction();
@@ -190,7 +195,7 @@ public class CategoryServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         
         try {
-            iRequestService.getById(voCardRequestId);
+            requestSearchService.getById(voCardRequestId);
             fail("should have thrown a permission exception");
         } catch (PermissionException pe) {
             // ok, that was expeceted
@@ -202,28 +207,28 @@ public class CategoryServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
 
         Agent categoryAgent = iAgentService.getByLogin(agentNameWithCategoriesRoles);
-        iCategoryService.addCategoryRole(categoryAgent.getId(), category2.getId(),
+        categoryService.addCategoryRole(categoryAgent.getId(), category2.getId(),
             CategoryProfile.READ_ONLY);
         
         continueWithNewTransaction();
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iRequestService.getById(voCardRequestId);
+        requestSearchService.getById(voCardRequestId);
         
         continueWithNewTransaction();
 
         // rebind the original category with the account creation request
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        iCategoryService.addRequestType(category1.getId(), requestTypeToAdd.getId());
+        categoryService.addRequestType(category1.getId(), requestTypeToAdd.getId());
 
         continueWithNewTransaction();
 
         // delete the created category
-        iCategoryService.delete(category2.getId());
+        categoryService.delete(category2.getId());
         
         continueWithNewTransaction();
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        Assert.assertEquals(1, iCategoryService.getAll().size());
+        Assert.assertEquals(1, categoryService.getAll().size());
     }
 }

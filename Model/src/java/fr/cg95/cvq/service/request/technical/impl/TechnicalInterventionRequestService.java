@@ -13,6 +13,15 @@ import fr.cg95.cvq.service.request.technical.ITechnicalInterventionRequestServic
 public class TechnicalInterventionRequestService extends RequestService 
     implements ITechnicalInterventionRequestService {
 
+    
+    @Override
+    public void init() {
+        super.init();
+        
+        conditions.put("interventionType", 
+                new EqualityListChecker(Arrays.asList("other", "Other", "Autre", "autre")));
+    }
+
     @Override
     public boolean accept(Request request) {
         return request instanceof TechnicalInterventionRequest;
@@ -25,12 +34,5 @@ public class TechnicalInterventionRequestService extends RequestService
             request.setInterventionPlace(SecurityContext.getCurrentEcitizen().getHomeFolder().getAdress().clone());
         }
         return request;
-    }
-
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("interventionType", 
-                new EqualityListChecker(Arrays.asList("other", "Other", "Autre", "autre")));
     }
 }

@@ -34,9 +34,6 @@ import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
-import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
-import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
@@ -44,21 +41,12 @@ import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 public class HoranetServiceTest extends RequestTestCase {
 
 	private IExternalProviderService externalProviderService;
-	private ISchoolRegistrationRequestService srrService;
-	private ISchoolCanteenRegistrationRequestService scrrService;
-	private IPerischoolActivityRegistrationRequestService parrService;
 	
 	private void setServices() throws CvqException{
 		ConfigurableApplicationContext cac;
         try {
             cac = getContext(getConfigLocations());
     		externalProviderService = (IExternalProviderService) cac.getBean("horanetExternalService");
-            srrService =
-            	(ISchoolRegistrationRequestService) cac.getBean("schoolRegistrationRequestService");
-    		scrrService = 
-    			(ISchoolCanteenRegistrationRequestService) cac.getBean("schoolCanteenRegistrationRequestService");
-    		parrService = 
-    			(IPerischoolActivityRegistrationRequestService) cac.getBean("perischoolActivityRegistrationRequestService");
         } catch (Exception e) {
             throw new CvqException(e.getMessage());
         }
@@ -93,8 +81,8 @@ public class HoranetServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(requestId, RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(requestId, RequestState.VALIDATED, null);
 
         continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -120,14 +108,14 @@ public class HoranetServiceTest extends RequestTestCase {
         srrRequest.setSubjectLastName(child1.getLastName());
         MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
         srrRequest.setMeansOfContact(meansOfContact);
-        srrService.create(srrRequest);
+        requestWorkflowService.create(srrRequest);
      
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
 		SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(srrRequest.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(srrRequest.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(srrRequest.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(srrRequest.getId(), RequestState.VALIDATED, null);
 
         // create and validate a school canteen registration request and check 
         // that data is correctly sent
@@ -154,14 +142,14 @@ public class HoranetServiceTest extends RequestTestCase {
         List<LocalReferentialData> foodDiets = new ArrayList<LocalReferentialData>();
         foodDiets.add(foodDietLrd);
         scrrRequest.setFoodDiet(foodDiets);
-        scrrService.create(scrrRequest);
+        requestWorkflowService.create(scrrRequest);
         
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
 		SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(scrrRequest.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(scrrRequest.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(scrrRequest.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(scrrRequest.getId(), RequestState.VALIDATED, null);
 
         // create and validate a perischool activity registration request and check 
         // that data is correctly sent
@@ -185,14 +173,14 @@ public class HoranetServiceTest extends RequestTestCase {
         List<LocalReferentialData> activities = new ArrayList<LocalReferentialData>();
         activities.add(activityLrd);
         parrRequest.setPerischoolActivity(activities);
-        parrService.create(parrRequest);
+        requestWorkflowService.create(parrRequest);
 
 		continueWithNewTransaction();
 		SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
 		SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(parrRequest.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(parrRequest.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(parrRequest.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(parrRequest.getId(), RequestState.VALIDATED, null);
 
 		continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -293,7 +281,7 @@ public class HoranetServiceTest extends RequestTestCase {
         calendar.add(Calendar.MONTH, -3);
         Date dateFrom = calendar.getTime();
         Map<Date, String> consumptions = 
-        	externalProviderService.getConsumptionsByRequest(scrrRequest, dateFrom, dateTo);
+        	externalProviderService.getConsumptions(scrrRequest.getId(), dateFrom, dateTo);
         for (Date date : consumptions.keySet()) {
         	logger.debug("on date " + date + ", got consumption : " + consumptions.get(date));
         }
@@ -302,18 +290,17 @@ public class HoranetServiceTest extends RequestTestCase {
         /////////////////////////////////////////////
 
         HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
-        iHomeFolderModificationRequestService.create(hfmr, homeFolder.getId());
         Address address = homeFolder.getAdress();
         address.setStreetName("Ma nouvelle adresse");
-        iHomeFolderModificationRequestService.modify(hfmr, 
+        requestWorkflowService.createAccountModificationRequest(hfmr, 
                 iHomeFolderService.getAdults(homeFolder.getId()), 
-                iHomeFolderService.getChildren(homeFolder.getId()), address);
+                iHomeFolderService.getChildren(homeFolder.getId()), null, address, null);
         
         continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(hfmr.getId(), RequestState.VALIDATED, null);
 	}
 }

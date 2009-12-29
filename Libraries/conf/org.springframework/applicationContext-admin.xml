@@ -120,11 +120,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- ***************** Requests Seasons Job Configuration **************  -->
   <!-- *******************************************************************  -->
 
-  <bean id="requestSeasonsJob" init-method="init"
-    class="fr.cg95.cvq.service.request.job.RequestSeasonsJob">
+  <bean id="requestSeasonsJob" class="fr.cg95.cvq.service.request.job.RequestSeasonsJob">
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
     <property name="requestTypeService"><ref bean="requestTypeService"/></property>
     <property name="requestWorkflowService"><ref bean="requestWorkflowService"/></property>
+    <property name="requestSearchService" ref="requestSearchService" />
   </bean>
 
   <bean id="requestSeasonsJobInvoker"
@@ -208,10 +208,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- *******************************************************************  -->
 
   <bean id="requestXmlGenerationJob" 
-    class="fr.cg95.cvq.service.request.job.RequestXmlGenerationJob"
-    init-method="init">
+    class="fr.cg95.cvq.service.request.job.RequestXmlGenerationJob">
     <property name="externalService" ref="externalService" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="requestExternalService" ref="requestExternalService" />
+    <property name="requestSearchService" ref="requestSearchService" />
   </bean>
   
   <bean id="requestXmlGenerationJobInvoker"
@@ -296,9 +297,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- ******** Obsolete RequestLocks cleaning job configuration *********  -->
   <!-- *******************************************************************  -->
 
-  <bean id="requestLocksCleaningJob" init-method="init"
-    class="fr.cg95.cvq.service.request.job.RequestLocksCleaningJob">
+  <bean id="requestLocksCleaningJob" class="fr.cg95.cvq.service.request.job.RequestLocksCleaningJob">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
+    <property name="requestLockService" ref="requestLockService" />
    </bean>
 
   <bean id="requestLocksCleaningInvoker"

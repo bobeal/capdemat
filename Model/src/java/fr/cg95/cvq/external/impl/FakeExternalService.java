@@ -40,7 +40,6 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -51,8 +50,7 @@ import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.payment.IPaymentService;
-import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.request.IRequestServiceRegistry;
+import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
 /**
@@ -68,7 +66,7 @@ public class FakeExternalService implements IExternalProviderService {
 
     private static Logger logger = Logger.getLogger(FakeExternalService.class);
 
-    private IRequestServiceRegistry requestServiceRegistry;
+    private IRequestSearchService requestSearchService;
     private IHomeFolderService homeFolderService;
     
     private String label;
@@ -106,15 +104,12 @@ public class FakeExternalService implements IExternalProviderService {
 //        }
     }
 
-    public final Map<Date, String> getConsumptionsByRequest(final Request request, 
+    public final Map<Date, String> getConsumptions(final Long key, 
             final Date dateFrom, final Date dateTo) throws CvqException {
 
-        logger.debug("getConsumptionsByRequest() request " + request.getId());
+        logger.debug("getConsumptionsByRequest() request " + key);
         logger.debug("getConsumptionsByRequest() from " + dateFrom);
         logger.debug("getConsumptionsByRequest() to " + dateTo);
-
-        if (request instanceof SchoolCanteenRegistrationRequest)
-            return null;
 
         try {
             Map<Date, String> results = new LinkedHashMap<Date, String>();
@@ -177,10 +172,8 @@ public class FakeExternalService implements IExternalProviderService {
             new HashMap<Individual, Map<String, String> >();
 
         try {
-            IRequestService requestService = 
-                requestServiceRegistry.getDefaultRequestService();
             List<Request> requests = 
-                requestService.getByHomeFolderIdAndRequestLabel(homeFolderId,
+                requestSearchService.getByHomeFolderIdAndRequestLabel(homeFolderId,
                         authorizingRequestLabel);
             if (requests == null || requests.size() == 0)
                 return null;
@@ -386,10 +379,6 @@ public class FakeExternalService implements IExternalProviderService {
         this.authorizingRequestLabel = authorizingRequestLabel;
     }
 
-    public final void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {
-        this.requestServiceRegistry = requestServiceRegistry;
-    }
-
     public final void setDepositAccountDetailsFile(String depositAccountDetailsFile) {
         this.depositAccountDetailsFile = depositAccountDetailsFile;
     }
@@ -400,6 +389,10 @@ public class FakeExternalService implements IExternalProviderService {
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
         this.homeFolderService = homeFolderService;
+    }
+
+    public void setRequestSearchService(IRequestSearchService requestSearchService) {
+        this.requestSearchService = requestSearchService;
     }
 
     public boolean supportsConsumptions() {

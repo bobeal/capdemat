@@ -1,10 +1,15 @@
 package fr.cg95.cvq.service.request.impl;
 
+import java.util.Map;
+
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestEvent;
 import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
+import fr.cg95.cvq.business.request.RequestEvent.COMP_DATA;
+import fr.cg95.cvq.business.request.RequestEvent.EVENT_TYPE;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -18,12 +23,15 @@ import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 
 /**
  *
  * @author bor@zenexity.fr
  */
-public class RequestNotificationService implements IRequestNotificationService {
+public class RequestNotificationService implements IRequestNotificationService,
+    ApplicationListener {
 
     private static Logger logger = Logger.getLogger(RequestNotificationService.class);
 
@@ -34,6 +42,44 @@ public class RequestNotificationService implements IRequestNotificationService {
     private ITranslationService translationService;
 
     private IRequestDAO requestDAO;
+
+    public void notifyRequestCreation(Request request, byte[] pdfData)
+        throws CvqException {
+
+        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+        Adult requester = (Adult) individualService.getById(request.getRequesterId());
+        if (requester.getEmail() != null && !requester.getEmail().equals("")) {
+            Map<String, String> ecitizenCreationNotifications =
+                lacb.getEcitizenCreationNotifications();
+            if (ecitizenCreationNotifications == null) {
+                logger.warn("notifyRequestCreation() ecitizen creation notifications not configured !");
+                return;
+            }
+            String mailData = ecitizenCreationNotifications.get("mailData");
+            Boolean attachPdf =
+                Boolean.valueOf(ecitizenCreationNotifications.get("attachPdf"));
+            String mailDataBody =
+                localAuthorityRegistry.getBufferedLocalAuthorityResource(
+                        Type.TXT, mailData, false);
+
+            if (mailDataBody == null) {
+                logger.warn("notifyRequestCreation() no mail data for ecitizen request creation notification");
+            } else {
+                mailDataBody = mailDataBody.replaceAll("__ecitizenLogin__", requester.getLogin());
+                StringBuffer mailSubject = new StringBuffer();
+                mailSubject.append("[").append(SecurityContext.getCurrentSite().getDisplayTitle()).append("] ")
+                .append(ecitizenCreationNotifications.get("mailSubject"));
+
+                if (attachPdf) {
+                    mailService.send(null, requester.getEmail(), null,
+                            mailSubject.toString(), mailDataBody, pdfData, "Recu_Demande.pdf");
+                } else {
+                    mailService.send(null, requester.getEmail(), null,
+                            mailSubject.toString(), mailDataBody);
+                }
+            }
+        }
+    }
 
     public void notifyRequestValidation(Long requestId, final byte[] pdfData)
         throws CvqException {
@@ -121,5 +167,32 @@ public class RequestNotificationService implements IRequestNotificationService {
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationEvent applicationEvent) {
+        if (applicationEvent instanceof RequestEvent) {
+            RequestEvent requestEvent = (RequestEvent) applicationEvent;
+            logger.debug("onApplicationEvent() got a request event of type "
+                    + requestEvent.getEvent());
+            try {
+                if (requestEvent.getEvent().equals(EVENT_TYPE.REQUEST_CREATED)) {
+                    Object pdfData = requestEvent.getComplementaryData(COMP_DATA.PDF_FILE);
+                    notifyRequestCreation(requestEvent.getRequest(), 
+                            pdfData != null ? ((String) pdfData).getBytes() : null);
+                } else if (requestEvent.getEvent().equals(EVENT_TYPE.REQUEST_VALIDATED)) {
+                    Object pdfData = requestEvent.getComplementaryData(COMP_DATA.PDF_FILE);
+                    notifyRequestValidation(requestEvent.getRequest().getId(), 
+                            pdfData != null ? ((String) pdfData).getBytes() : null);
+                } else if (requestEvent.getEvent().equals(EVENT_TYPE.NOTE_ADDED)) {
+                    notifyAgentNote(requestEvent.getRequest().getId(), 
+                            ((RequestNote) requestEvent.getComplementaryData(COMP_DATA.REQUEST_NOTE)));
+                }
+            } catch (CvqException e) {
+                // FIXME we have nothing to handle this
+                logger.error("onApplicationEvent() got an error while notifying request creation");
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -18,8 +18,6 @@ import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
-import fr.cg95.cvq.business.request.RequestNote;
-import fr.cg95.cvq.business.request.RequestNoteType;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.ActorState;
@@ -33,9 +31,6 @@ import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
-import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqInvalidTransitionException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.RequestTestCase;
@@ -49,13 +44,8 @@ import fr.cg95.cvq.util.Critere;
  */
 public class VoCardRequestServiceTest extends RequestTestCase {
 
-    public void testAll()
-        throws CvqException, CvqInvalidTransitionException,
-               CvqObjectNotFoundException, CvqAuthenticationFailedException,
-               java.io.IOException, java.io.FileNotFoundException {
+    public void testAll() throws Exception {
 
-        startTransaction();
-        
         /////////////////////////////////////////////
         // Create the VO Card request in DB        //
         /////////////////////////////////////////////
@@ -151,10 +141,12 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         iHomeFolderService.addIndividualRole(mother, child2, RoleType.CLR_MOTHER);
         iHomeFolderService.addIndividualRole(tutorNotInHomeFolder, child2, RoleType.CLR_TUTOR);
 
-        iVoCardRequestService.create(dcvo, adultSet, childSet, null, address, null);
+        requestWorkflowService.createAccountCreationRequest(dcvo, adultSet, childSet, 
+                null, address, null);
 
         homeFolderVoCardRequestIds.put(dcvo.getHomeFolderId(), dcvo.getId()); 
-
+        homeFolderIds.add(dcvo.getHomeFolderId());
+        
         // close current session and re-open a new one
         continueWithNewTransaction();
         
@@ -173,7 +165,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         //////////////////////////////////////////////////
 
         Long requestId = dcvo.getId();
-        VoCardRequest dcvoFromDb = (VoCardRequest) iVoCardRequestService.getById(requestId);
+        VoCardRequest dcvoFromDb = (VoCardRequest) requestSearchService.getById(requestId);
         assertEquals(dcvoFromDb.getState(), RequestState.PENDING);
         assertNotNull(dcvoFromDb.getRequesterId());
         assertEquals(homeFolderResponsible.getId(), dcvoFromDb.getRequesterId());
@@ -182,7 +174,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         assertNull(dcvoFromDb.getSubjectId());
         assertNull(dcvoFromDb.getSubjectLastName());
         
-        assertNotNull(iVoCardRequestService.getCertificate(dcvoFromDb.getId(), RequestState.PENDING));
+        assertNotNull(requestSearchService.getCertificate(dcvoFromDb.getId(), RequestState.PENDING));
         assertEquals(1, dcvoFromDb.getActions().size());
         
         Adult homeFolderResponsibleFromDb = 
@@ -206,64 +198,6 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         HomeFolder homeFolderOtherWay = iHomeFolderService.getById(dcvo.getHomeFolderId());
         assertNotNull(homeFolderOtherWay.getId());
         assertEquals(homeFolder.getId(), homeFolderOtherWay.getId());
-        
-        //////////////////////////////////////////////////
-        // Perform some searches                        //
-        //////////////////////////////////////////////////
-
-        // close current session and re-open a new one
-        continueWithNewTransaction();
-        
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        Critere crit = new Critere();
-        crit.setAttribut(Request.SEARCH_BY_REQUESTER_LASTNAME);
-        crit.setComparatif(Critere.EQUALS);
-        crit.setValue(homeFolderResponsibleFromDb.getLastName());
-        Set<Critere> criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(crit);
-        Critere crit2 = new Critere();
-        crit2.setAttribut(Request.SEARCH_BY_CREATION_DATE);
-        crit2.setComparatif(Critere.LT);
-        crit2.setValue(new Date());
-        criteriaSet.add(crit2);
-        Critere crit3 = new Critere();
-        crit3.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
-        crit3.setComparatif(Critere.EQUALS);
-        crit3.setValue(homeFolder.getId());
-        criteriaSet.add(crit3);
-        List<Request> carteVoList = iVoCardRequestService.get(criteriaSet, null, null, -1, 0);
-        assertEquals(carteVoList.size(),1);
-
-        crit = new Critere();
-        crit.setAttribut(Request.SEARCH_BY_REQUESTER_LASTNAME);
-        crit.setComparatif(Critere.EQUALS);
-        crit.setValue("connaispascegarsla!");
-        criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(crit);
-        carteVoList = iVoCardRequestService.get(criteriaSet, null, null, -1, 0);
-        assertEquals(carteVoList.size(),0);
-
-        crit = new Critere();
-        crit.setAttribut(Request.SEARCH_BY_REQUEST_ID);
-        crit.setComparatif(Critere.EQUALS);
-        crit.setValue(requestId);
-        criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(crit);
-        carteVoList = iVoCardRequestService.get(criteriaSet, null, null, -1, 0);
-        assertEquals(carteVoList.size(), 1);
-
-        crit = new Critere();
-        crit.setAttribut(Request.SEARCH_BY_HOME_FOLDER_ID);
-        crit.setComparatif(Critere.NEQUALS);
-        crit.setValue(String.valueOf(homeFolder.getId()));
-        criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(crit);
-        carteVoList = iVoCardRequestService.get(criteriaSet, null, null, -1, 0);
-        for (Request req : carteVoList) {
-            assertFalse(req.getId() == homeFolder.getId());
-        }
 
         /////////////////////////////////////////////
         // Add the necessary pieces                //
@@ -283,10 +217,10 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         doc.setIndividualId(homeFolderResponsible.getId());
         doc.setHomeFolderId(homeFolder.getId());
         DocumentType documentType = 
-            iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
+            documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
         doc.setDocumentType(documentType);
-        Long documentId = iDocumentService.create(doc);
-        iVoCardRequestService.addDocument(requestId, documentId);
+        Long documentId = documentService.create(doc);
+        requestDocumentService.addDocument(requestId, documentId);
 
         // add binary data
         DocumentBinary docBin = new DocumentBinary();
@@ -295,10 +229,12 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         FileInputStream fis = new FileInputStream(file);
         fis.read(data);
         docBin.setData(data);
-        iDocumentService.addPage(documentId, docBin);
+        documentService.addPage(documentId, docBin);
 
+        continueWithNewTransaction();
+        
         // retrieve the associated document
-        Set<RequestDocument> docSetFromDb = iVoCardRequestService.getAssociatedDocuments(requestId);
+        Set<RequestDocument> docSetFromDb = requestDocumentService.getAssociatedDocuments(requestId);
         assertEquals(1, docSetFromDb.size());
         RequestDocument docFromDb = docSetFromDb.iterator().next();
         assertEquals(documentId, docFromDb.getDocumentId());
@@ -316,13 +252,13 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         assertNotNull("Retrieved home folder responsible is null !", respHomeFolderRetr);
         List<Individual> individuSetRetr = homeFolder.getIndividuals();
         assertEquals(individuSetRetr.size(),5);
-        List<Request> folderRequests = iRequestService.getByRequesterId(homeFolderResponsible.getId());
+        List<Request> folderRequests = requestSearchService.getByRequesterId(homeFolderResponsible.getId());
         assertEquals(1, folderRequests.size());
         VoCardRequest dcvoRetr = (VoCardRequest) folderRequests.get(0);
         assertNotNull("Retrieved cartevaloise request is null !", dcvoRetr);
 
         // test attachment of the documents
-        List<Document> homeFolderDocuments = iDocumentService.getHomeFolderDocuments(homeFolder.getId(), -1);
+        List<Document> homeFolderDocuments = documentService.getHomeFolderDocuments(homeFolder.getId(), -1);
         assertEquals(1, homeFolderDocuments.size());
         Document homeFolderDoc = homeFolderDocuments.get(0);
         assertEquals("Mon livret de famille", homeFolderDoc.getEcitizenNote());
@@ -338,50 +274,39 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.COMPLETE, null);
-        RequestState[] rs = iRequestWorkflowService.getPossibleTransitions(RequestState.COMPLETE);
+        requestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.COMPLETE, null);
+        
+        continueWithNewTransaction();
+        
+        RequestState[] rs = requestWorkflowService.getPossibleTransitions(RequestState.COMPLETE);
         assertEquals(rs.length, 3);
 
-        crit = new Critere();
+        Set<Critere> criteriaSet = new HashSet<Critere>();
+        Critere crit = new Critere();
         crit.setAttribut(Request.SEARCH_BY_LAST_INTERVENING_USER_ID);
         crit.setComparatif(Critere.EQUALS);
         crit.setValue(SecurityContext.getCurrentAgent().getId());
         criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
-        carteVoList = iRequestService.get(criteriaSet, null, null, -1, 0);
+        List<Request> carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0);
         assertTrue(carteVoList.size() > 0);
 
         // close current session and re-open a new one
         continueWithNewTransaction();
         
-        // become back an ecitizen to test permission exception
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        SecurityContext.setCurrentEcitizen(homeFolderResponsible.getLogin());
-
-        String noteMsg = "Une petite note par le citoyen";
-        iVoCardRequestService.addNote(dcvoFromDb.getId(), RequestNoteType.PUBLIC, noteMsg);
-
-        // close current session and re-open a new one
+        requestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.VALIDATED, null);
         continueWithNewTransaction();
-        
-        // be an agent and add the note
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        noteMsg = "Une petite note par l'agent";
-        iVoCardRequestService.addNote(dcvoFromDb.getId(), RequestNoteType.PUBLIC, noteMsg);
-
-        iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.VALIDATED, null);
-        iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.NOTIFIED,
+        requestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.NOTIFIED,
             "Close me baby");
-        iRequestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.CLOSED, null);
+        continueWithNewTransaction();
+        requestWorkflowService.updateRequestState(dcvoFromDb.getId(), RequestState.CLOSED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();
         
         // test certificate generation
         byte[] generatedCertificate = 
-            iRequestService.getCertificate(dcvoFromDb.getId(), RequestState.VALIDATED);
+            requestSearchService.getCertificate(dcvoFromDb.getId(), RequestState.VALIDATED);
         if (generatedCertificate == null)
             fail("No certificate found");
 
@@ -398,13 +323,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(homeFolderResponsible.getLogin());
 
-        Request yaRequest = iVoCardRequestService.getById(dcvoFromDb.getId());
-
-        assertEquals(yaRequest.getActions().size(), 5);
-        // test addition and modification of the note
-        Set<RequestNote> notes = yaRequest.getNotes();
-        assertNotNull(notes);
-        assertEquals(2, notes.size());
+        Request yaRequest = requestSearchService.getById(dcvoFromDb.getId());
 
         /////////////////////////////////////////////////////////
         // Change user's password                              //
@@ -414,6 +333,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
             iIndividualService.getAdultById(yaRequest.getRequesterId());
         String generatedPassword = iAuthenticationService.generatePassword();
         iIndividualService.modifyPassword(homeFolderResponsible, "totopwd", generatedPassword);
+        continueWithNewTransaction();
         try {
             iAuthenticationService.authenticate(homeFolderResponsible.getLogin(), generatedPassword);
         } catch (CvqAuthenticationFailedException cafe) {

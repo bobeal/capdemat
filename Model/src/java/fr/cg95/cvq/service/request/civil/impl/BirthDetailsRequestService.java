@@ -20,6 +20,15 @@ public final class BirthDetailsRequestService
     extends RequestService implements IBirthDetailsRequestService {
     
     @Override
+    public void init() {
+        super.init();
+
+        conditions.put("requesterQuality", new EqualityChecker("Other"));
+        conditions.put("format",
+            new EqualityListChecker(Arrays.asList("FullCopy", "ExtractWithRelationship")));        
+    }
+
+    @Override
     public boolean accept(Request request) {
         return request instanceof BirthDetailsRequest;
     }
@@ -36,13 +45,5 @@ public final class BirthDetailsRequestService
             request.setBirthPostalCode(localAuthority.getPostalCode().substring(0,2));
         }
         return request;
-    }
-
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("requesterQuality", new EqualityChecker("Other"));
-        filledConditions.put("format",
-            new EqualityListChecker(Arrays.asList("FullCopy", "ExtractWithRelationship")));
     }
 }

@@ -1,5 +1,6 @@
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.business.document.DocumentState
+import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Individual
 import fr.cg95.cvq.security.SecurityContext
@@ -8,7 +9,6 @@ import fr.cg95.cvq.service.document.IDocumentTypeService
 
 import java.util.Hashtable
 import grails.converters.JSON
-import fr.cg95.cvq.business.document.DocumentBinary
 
 class DocumentController {
     

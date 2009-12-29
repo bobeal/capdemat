@@ -14,11 +14,17 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
  */
 public class LocalAuthorityRegistryTest extends ServiceTestCase {
 
+    private LocalAuthority la;
+    
+    @Override
+    public void onSetUp() throws CvqException {
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        la = SecurityContext.getCurrentSite();
+        assertEquals(la.getServerNames().size(), 1);        
+    }
+    
     public void testGetLocalAuthorityByServerName()
         throws CvqException {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        LocalAuthority la = SecurityContext.getCurrentSite();
-        assertEquals(la.getServerNames().size(), 1);
 
         String oldServerName = la.getServerNames().first();
         TreeSet<String> serverNames = new TreeSet<String>();
@@ -35,9 +41,6 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
 
     public void testAddLocalAuthorityServerName()
         throws CvqException {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        LocalAuthority la = SecurityContext.getCurrentSite();
-        assertEquals(la.getServerNames().size(), 1);
 
         iLocalAuthorityRegistry.addLocalAuthorityServerName("sn2");
         continueWithNewTransaction();
@@ -48,9 +51,6 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
 
     public void testRegisterLocalAuthorityServerName()
         throws CvqException {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        LocalAuthority la = SecurityContext.getCurrentSite();
-        assertEquals(la.getServerNames().size(), 1);
 
         iLocalAuthorityRegistry.registerLocalAuthorityServerName("sn3");
         continueWithNewTransaction();
@@ -61,9 +61,6 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
 
     public void testRemoveLocalAuthorityServerName()
         throws CvqException {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        LocalAuthority la = SecurityContext.getCurrentSite();
-        assertEquals(la.getServerNames().size(), 1);
 
         String oldServerName = la.getServerNames().first();
         iLocalAuthorityRegistry.removeLocalAuthorityServerName(oldServerName);
@@ -75,9 +72,6 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
 
     public void testUnregisterLocalAuthorityServerName()
         throws CvqException {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        LocalAuthority la = SecurityContext.getCurrentSite();
-        assertEquals(la.getServerNames().size(), 1);
 
         iLocalAuthorityRegistry.unregisterLocalAuthorityServerName(la.getServerNames().first());
         continueWithNewTransaction();
@@ -86,29 +80,8 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
         iLocalAuthorityRegistry.registerLocalAuthorityServerName(la.getServerNames().first());
     }
 
-//    public void testIsAvailableLocalAuthorityServerName()
-//        throws CvqException{
-//        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-//        LocalAuthority la = SecurityContext.getCurrentSite();
-//        assertEquals(la.getServerNames().size(), 1);
-//
-//        String serverName = la.getServerNames().first();
-//        assertTrue(iLocalAuthorityRegistry.isAvailableLocalAuthorityServerName(serverName));
-//        assertTrue(iLocalAuthorityRegistry.isAvailableLocalAuthorityServerName(serverName + "inexistent"));
-//        SecurityContext.setCurrentSite("gloubi", SecurityContext.BACK_OFFICE_CONTEXT);
-//        iLocalAuthorityRegistry.registerLocalAuthorityServerName(serverName + "existent");
-//        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-//        continueWithNewTransaction();
-//        assertFalse(iLocalAuthorityRegistry.isAvailableLocalAuthorityServerName(serverName + "existent"));
-//        SecurityContext.setCurrentSite("gloubi", SecurityContext.BACK_OFFICE_CONTEXT);
-//        iLocalAuthorityRegistry.unregisterLocalAuthorityServerName(serverName + "existent");
-//    }
-
     public void testSetLocalAuthorityServerNames()
         throws CvqException{
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        LocalAuthority la = SecurityContext.getCurrentSite();
-        assertEquals(la.getServerNames().size(), 1);
 
         String oldServerName = la.getServerNames().first();
         TreeSet<String> newServerNames = new TreeSet<String>();

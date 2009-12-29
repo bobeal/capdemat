@@ -12,10 +12,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.groovy.control.CompilationFailedException;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.ListableBeanFactory;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.lowagie.text.DocumentException;
@@ -26,8 +22,6 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.dao.request.IRequestFormDAO;
-import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
@@ -39,7 +33,7 @@ import fr.cg95.cvq.util.translation.ITranslationService;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
-public class CertificateService implements ICertificateService, BeanFactoryAware {
+public class CertificateService implements ICertificateService {
 
     private static Logger logger = Logger.getLogger(CertificateService.class);
 
@@ -48,15 +42,6 @@ public class CertificateService implements ICertificateService, BeanFactoryAware
     protected IIndividualService individualService;
     protected IHomeFolderService homeFolderService;
     protected ILocalReferentialService localReferentialService;
-
-    protected IRequestFormDAO requestFormDAO;
-
-    private ListableBeanFactory beanFactory;
-
-    public void init() throws CvqConfigurationException {
-        homeFolderService = (IHomeFolderService)
-            beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
-    }
 
     public byte[] generate(Request request) throws CvqException {
         String htmlFilename = 
@@ -151,12 +136,12 @@ public class CertificateService implements ICertificateService, BeanFactoryAware
         this.individualService = individualService;
     }
 
+    public void setHomeFolderService(IHomeFolderService homeFolderService) {
+        this.homeFolderService = homeFolderService;
+    }
+
     public void setLocalReferentialService(ILocalReferentialService localReferentialService) {
         this.localReferentialService = localReferentialService;
-    }
-    
-    public void setBeanFactory(BeanFactory arg0) throws BeansException {
-        this.beanFactory = (ListableBeanFactory) arg0;
     }
 
 }

@@ -41,8 +41,7 @@ public interface IExternalProviderService {
      *
      * @return a map of (date, label) pairs
      */
-    Map<Date, String> getConsumptionsByRequest(final Request request, final Date dateFrom, 
-            final Date dateTo)
+    Map<Date, String> getConsumptions(final Long key, final Date dateFrom, final Date dateTo)
         throws CvqException;
 
     /**

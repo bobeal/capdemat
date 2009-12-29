@@ -1,11 +1,7 @@
 package fr.cg95.cvq.service.request.job;
 
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestLockService;
 
 /**
  * Remove obsolete request locks from memory and db
@@ -13,32 +9,24 @@ import fr.cg95.cvq.service.request.IRequestService;
  * @author jsb@zenexity.fr
  *
  */
-public class RequestLocksCleaningJob implements BeanFactoryAware {
+public class RequestLocksCleaningJob {
 
     private ILocalAuthorityRegistry localAuthorityRegistry;
-    private IRequestService requestService;
-    private BeanFactory beanFactory;
-
-    public void init() {
-        requestService =
-            (IRequestService)beanFactory.getBean("defaultRequestService");
-    }
+    private IRequestLockService requestLockService;
 
     public void launchJob() {
         localAuthorityRegistry.browseAndCallback(this, "cleanRequestLocks", null);
     }
 
     public void cleanRequestLocks() {
-        requestService.cleanRequestLocks();
-    }
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory)
-        throws BeansException {
-        this.beanFactory = beanFactory;
+        requestLockService.cleanRequestLocks();
     }
 
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
         this.localAuthorityRegistry = localAuthorityRegistry;
+    }
+
+    public void setRequestLockService(IRequestLockService requestLockService) {
+        this.requestLockService = requestLockService;
     }
 }

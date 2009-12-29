@@ -11,11 +11,11 @@ import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqDisabledAccountException
 import fr.cg95.cvq.exception.CvqUnknownUserException
-import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.security.annotation.ContextType
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
+import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.users.IHomeFolderService

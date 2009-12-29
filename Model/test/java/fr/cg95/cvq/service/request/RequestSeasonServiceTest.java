@@ -4,41 +4,36 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
-import fr.cg95.cvq.service.request.school.SchoolRegistrationRequestFeeder;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 public class RequestSeasonServiceTest extends RequestTestCase {
     
     private Long requestTypeId;
-    private ISchoolRegistrationRequestService schoolRegistrationRequestService;
     
     @Override
     protected void onSetUp() throws Exception {
         
         super.onSetUp();
         
-        schoolRegistrationRequestService = 
-            super.<ISchoolRegistrationRequestService>getApplicationBean("schoolRegistrationRequestService");
-        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
         // find the first request type with registrations/seasons notions
-        List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
+        List<RequestType> requestTypesSet = requestTypeService.getAllRequestTypes();
         for (RequestType tempRequestType : requestTypesSet) {
             IRequestService service = 
                 iRequestServiceRegistry.getRequestService(tempRequestType.getLabel());
-            if (service.isOfRegistrationKind()) {
+            if (service.isOfRegistrationKind() 
+                    && service.getSubjectPolicy().equals(IRequestWorkflowService.SUBJECT_POLICY_CHILD)) {
                 requestTypeId = tempRequestType.getId();
                 break;
             }
@@ -57,16 +52,16 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         Set<Long> ids = new HashSet<Long>();
         for (RequestSeason rs :
-            iRequestTypeService.getRequestSeasons(requestTypeId)) {
+            requestTypeService.getRequestSeasons(requestTypeId)) {
             ids.add(rs.getId());
         }
         for (Long id : ids) {
-            iRequestTypeService.removeRequestSeason(requestTypeId, id);
+            requestTypeService.removeRequestSeason(requestTypeId, id);
         }
         continueWithNewTransaction();
         
         // test all seasons have been succesfully removed
-        assertEquals(0, iRequestTypeService.getRequestSeasons(requestTypeId).size());
+        assertEquals(0, requestTypeService.getRequestSeasons(requestTypeId).size());
         
         super.onTearDown();
     }
@@ -76,14 +71,14 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         // Create
         RequestSeason season1 =
             BusinessObjectsFactory.gimmeRequestSeason("saison 1234", 1, 2, 3, 4);
-        iRequestTypeService.addRequestSeason(requestTypeId, season1);
+        requestTypeService.addRequestSeason(requestTypeId, season1);
         continueWithNewTransaction();
         RequestSeason season2 = BusinessObjectsFactory.gimmeRequestSeason("saison 5678", 5, 6, 7, 8);
-        iRequestTypeService.addRequestSeason(requestTypeId, season2);
+        requestTypeService.addRequestSeason(requestTypeId, season2);
 
         continueWithNewTransaction();
         
-        Set<RequestSeason> seasons = iRequestTypeService.getRequestSeasons(requestTypeId);
+        Set<RequestSeason> seasons = requestTypeService.getRequestSeasons(requestTypeId);
         assertEquals(2, seasons.size());
         // refresh seasons from DB
         for (RequestSeason s : seasons) {
@@ -93,27 +88,27 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         }
         
         // Get
-        RequestSeason season3 = iRequestTypeService.getRequestSeason(requestTypeId, season1.getId());
+        RequestSeason season3 = requestTypeService.getRequestSeason(requestTypeId, season1.getId());
         continueWithNewTransaction();
         assertEquals(season3.getLabel(), season1.getLabel());
 
         // Modify
-        season1 = iRequestTypeService.getRequestSeason(requestTypeId, season1.getId());
+        season1 = requestTypeService.getRequestSeason(requestTypeId, season1.getId());
         updateSeason(season1, "saison 6789", 6, 7, 8, 9);
   
-        iRequestTypeService.modifyRequestSeason(requestTypeId, season1);
+        requestTypeService.modifyRequestSeason(requestTypeId, season1);
 
         continueWithNewTransaction();
 
-        assertEquals(2, iRequestTypeService.getRequestSeasons(requestTypeId).size());
+        assertEquals(2, requestTypeService.getRequestSeasons(requestTypeId).size());
         
         // Remove
-        iRequestTypeService.removeRequestSeason(requestTypeId, season2.getId());
+        requestTypeService.removeRequestSeason(requestTypeId, season2.getId());
 
         continueWithNewTransaction();
 
         Set<RequestSeason> requestTypeSeasons =
-            iRequestTypeService.getRequestSeasons(requestTypeId);
+            requestTypeService.getRequestSeasons(requestTypeId);
         assertEquals(1, requestTypeSeasons.size());
         assertFalse(requestTypeSeasons.contains(season2));
     }
@@ -147,7 +142,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
     
     private void checkCreateSeasonError(RequestSeason season, String errorMessage) throws CvqException {
         try {
-            iRequestTypeService.addRequestSeason(requestTypeId, season);
+            requestTypeService.addRequestSeason(requestTypeId, season);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
             assertEquals(errorMessage, cme.getMessage());
@@ -156,7 +151,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
     
     private void checkModifySeasonError(RequestSeason season, String errorMessage) throws CvqException {
         try {
-            iRequestTypeService.modifyRequestSeason(requestTypeId, season);
+            requestTypeService.modifyRequestSeason(requestTypeId, season);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
             assertEquals(errorMessage, cme.getMessage());
@@ -167,11 +162,11 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         // Create
         RequestSeason season =
             BusinessObjectsFactory.gimmeRequestSeason("saison 1235", 1, 2, 3, 5);
-        iRequestTypeService.addRequestSeason(requestTypeId, season);
+        requestTypeService.addRequestSeason(requestTypeId, season);
         continueWithNewTransaction();
         // refresh season from db
         Set<RequestSeason> seasons =
-            iRequestTypeService.getRequestSeasons(requestTypeId);
+            requestTypeService.getRequestSeasons(requestTypeId);
         assertEquals(1, seasons.size());
         season = seasons.iterator().next();
 
@@ -225,7 +220,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         continueWithNewTransaction();
         daoUpdateSeason(season, season.getLabel(), -2 , 0, 0, 0); // season=[-1, 2, 3, 5]
         continueWithNewTransaction();
-        season = iRequestTypeService.getRequestSeason(requestTypeId, season.getId());
+        season = requestTypeService.getRequestSeason(requestTypeId, season.getId());
         continueWithNewTransaction();
         badSeason = BusinessObjectsFactory.gimmeRequestSeason(season.getLabel(), 0, 2, 3, 5);
         badSeason.setId(season.getId());
@@ -236,7 +231,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         // request.season.effect_ended
         daoUpdateSeason(season, season.getLabel(), -5 , -6, -6, -6); // season=[-6, -4, -3, -1]
         continueWithNewTransaction();
-        season = iRequestTypeService.getRequestSeason(requestTypeId, season.getId());
+        season = requestTypeService.getRequestSeason(requestTypeId, season.getId());
         continueWithNewTransaction();
         badSeason = BusinessObjectsFactory.gimmeRequestSeason(season.getLabel(), -7, -4, -3, -1);
         badSeason.setId(season.getId());
@@ -248,17 +243,13 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
-        requestTypeId =
-            iRequestTypeService.getRequestTypeByLabel(schoolRegistrationRequestService.getLabel()).getId();
-        
         /* Create a season */
         RequestSeason season = BusinessObjectsFactory.gimmeRequestSeason("Saison 1235", 1, 2, 3, 5);
-        iRequestTypeService.addRequestSeason(requestTypeId, season);
+        requestTypeService.addRequestSeason(requestTypeId, season);
         
         continueWithNewTransaction();
         // refresh season from db
-        Set<RequestSeason> seasons =
-            iRequestTypeService.getRequestSeasons(requestTypeId);
+        Set<RequestSeason> seasons = requestTypeService.getRequestSeasons(requestTypeId);
         assertEquals(1, seasons.size());
         season = seasons.iterator().next();
         
@@ -283,14 +274,16 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
         assertNotNull(homeFolderId);
-
-        SchoolRegistrationRequest request = new SchoolRegistrationRequest();
+        
+        RequestType requestType = requestTypeService.getRequestTypeById(requestTypeId);
+        IRequestService requestService = 
+            iRequestServiceRegistry.getRequestService(requestType.getLabel());
+        Request request = requestService.getSkeletonRequest();
         request.setRequestSeason(season);
         request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
-        SchoolRegistrationRequestFeeder.setSubject(request, 
-                schoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
+        request.setSubjectId(child1.getId());
 
-        Long requestId = schoolRegistrationRequestService.create(request);
+        Long requestId = requestWorkflowService.create(request);
 
         continueWithNewTransaction();
         
@@ -298,11 +291,12 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         /* Test season associated to the school registration request */
-        assertEquals(season, iRequestService.getById(requestId).getRequestSeason());
+        assertEquals(season, requestSearchService.getById(requestId).getRequestSeason());
         
-        assertNull(iRequestService.getById(voCardRequestId).getRequestSeason());
+        assertNull(requestSearchService.getById(voCardRequestId).getRequestSeason());
         
-        iRequestService.delete(requestId);
-        iRequestTypeService.removeRequestSeason(requestTypeId, season.getId());
+        requestWorkflowService.delete(requestId);
+        continueWithNewTransaction();
+        requestTypeService.removeRequestSeason(requestTypeId, season.getId());
     }
 }

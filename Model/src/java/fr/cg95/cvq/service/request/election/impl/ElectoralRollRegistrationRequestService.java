@@ -15,6 +15,15 @@ import fr.cg95.cvq.service.request.impl.RequestService;
 public final class ElectoralRollRegistrationRequestService extends RequestService 
     implements IElectoralRollRegistrationRequestService {
 
+    
+    @Override
+    public void init() {
+        super.init();
+
+        conditions.put("motive",
+                new EqualityChecker("DirectCityContribution"));
+    }
+
     @Override
     public boolean accept(Request request) {
         return request instanceof ElectoralRollRegistrationRequest;
@@ -23,12 +32,5 @@ public final class ElectoralRollRegistrationRequestService extends RequestServic
     @Override
     public Request getSkeletonRequest() throws CvqException {
         return new ElectoralRollRegistrationRequest();
-    }
-
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("motive",
-                new EqualityChecker("DirectCityContribution"));
     }
 }

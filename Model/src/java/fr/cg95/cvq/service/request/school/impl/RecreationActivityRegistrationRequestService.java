@@ -27,11 +27,6 @@ public final class RecreationActivityRegistrationRequestService extends RequestS
     }
 
     @Override
-	public String getConsumptionsField() throws CvqException {
-		return "RecreationActivity";
-	}
-
-    @Override
     public boolean accept(final Request request) {
         return request instanceof RecreationActivityRegistrationRequest;
     }
@@ -40,10 +35,8 @@ public final class RecreationActivityRegistrationRequestService extends RequestS
     public Request getSkeletonRequest() throws CvqException {
         RecreationActivityRegistrationRequest request =
             new RecreationActivityRegistrationRequest();
-        request.setUrgencyPhone(
-            homeFolderService.getHomeFolderResponsible(
-                SecurityContext.getCurrentEcitizen().getHomeFolder().getId())
-                .getOfficePhone());
+        if (SecurityContext.getCurrentEcitizen() != null)
+            request.setUrgencyPhone(SecurityContext.getCurrentEcitizen().getOfficePhone());
         return request;
     }
 }

@@ -68,6 +68,8 @@ public class DisplayGroupServiceTest extends RequestTestCase {
 
         displayGroup2.setName("dg2");
         iDisplayGroupService.create(displayGroup2);
+        continueWithNewTransaction();
+        
         assertEquals(2, iDisplayGroupService.getAll().size());
 
         continueWithNewTransaction();
@@ -104,7 +106,7 @@ public class DisplayGroupServiceTest extends RequestTestCase {
         RequestType voRt = null;
         RequestType hfmRt = null;
 
-        for (RequestType rt : iRequestTypeService.getAllRequestTypes()) {
+        for (RequestType rt : requestTypeService.getAllRequestTypes()) {
             if ("Home Folder Modification".equals(rt.getLabel()))
                 hfmRt = rt;
             if ("VO Card".equals(rt.getLabel()))

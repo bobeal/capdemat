@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.xmlbeans.XmlObject;
+
 import fr.capwebct.modules.payment.schema.fam.AccountType;
 import fr.capwebct.modules.payment.schema.fam.ContractType;
 import fr.capwebct.modules.payment.schema.fam.FamilyDocument;
@@ -17,6 +19,7 @@ import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
 import fr.cg95.cvq.service.payment.IPaymentService;
+import fr.cg95.cvq.xml.common.RequestType;
 
 public class ExternalServiceUtils {
 
@@ -119,5 +122,21 @@ public class ExternalServiceUtils {
             }
         }
         return resultMap;
+    }
+    
+    public static RequestType getRequestTypeFromXmlObject(XmlObject xmlObject) {
+        String classSimpleName = xmlObject.getClass().getSimpleName();
+        String methodNameToInvoke = 
+            "get" + classSimpleName.substring(0, classSimpleName.lastIndexOf("Document"));
+        RequestType requestType = null;
+        try {
+            requestType = (RequestType) 
+                xmlObject.getClass().getMethod(methodNameToInvoke).invoke(xmlObject);
+        } catch (Exception e) {
+            // unlikely to happen but ...
+            e.printStackTrace();
+        }
+        
+        return requestType;
     }
 }

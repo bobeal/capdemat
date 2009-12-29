@@ -13,18 +13,21 @@ import fr.cg95.cvq.service.request.urbanism.IAlignmentNumberingConnectionRequest
 public class AlignmentNumberingConnectionRequestService extends RequestService implements
         IAlignmentNumberingConnectionRequestService {
 
+    @Override
+    public void init() {
+        super.init();
+
+        conditions.put("isAccountAddress", new EqualityChecker("true"));
+        conditions.put("requesterQuality", new EqualityChecker("Owner"));
+    }
+
+    @Override
     public boolean accept(Request request) {
         return request instanceof AlignmentNumberingConnectionRequest;
     }
 
+    @Override
     public Request getSkeletonRequest() throws CvqException {
         return new AlignmentNumberingConnectionRequest();
-    }
-
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("isAccountAddress", new EqualityChecker("true"));
-        filledConditions.put("requesterQuality", new EqualityChecker("Owner"));
     }
 }

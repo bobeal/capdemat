@@ -1,10 +1,5 @@
 package fr.cg95.cvq.service.request.reservation.impl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,19 +8,13 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.request.PlaceReservationData;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.TicketTypeSelection;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
-import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IPlaceReservationService;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -43,29 +32,22 @@ public final class PlaceReservationRequestService
 
     private IPlaceReservationService placeReservationService;
     
+    
     @Override
-    public Long create(Request request, Adult requester, Individual subject) 
+    public void init() {
+        super.init();
+
+        conditions.put("isSubscriber", new EqualityChecker("true"));
+    }
+
+    @Override
+    public void onRequestCreated(Request request)
         throws CvqException, CvqObjectNotFoundException {
 
-        HomeFolder homeFolder = performBusinessChecks(request, requester, subject);
-
         PlaceReservationRequest prr = (PlaceReservationRequest) request;
         performSpecificChecks(prr);
-        
-        return finalizeAndPersist(prr, homeFolder);
     }
 
-    @Override
-    public Long create(Request request) throws CvqException {
-
-        performBusinessChecks(request, null, null);
-
-        PlaceReservationRequest prr = (PlaceReservationRequest) request;
-        performSpecificChecks(prr);
-        
-        return finalizeAndPersist(prr);
-    }
-    
     private void performSpecificChecks(PlaceReservationRequest prr) 
         throws CvqException {
         
@@ -112,40 +94,40 @@ public final class PlaceReservationRequestService
 
     private String getSubscriberLine(final String subscriberNumber) {
 
-        if (subscriberNumber == null || subscriberNumber.equals(""))
-            return null;
-        
-        String filename = getExternalReferentialFilename();
-        File file = localAuthorityRegistry.getLocalAuthorityResourceFile(
-            Type.EXTERNAL_REFERENTIAL, filename, false);
-        if (!file.exists()) {
-            return null;
-        }
-
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader(file));
-            String line = null;
-            while (true) {
-                line = reader.readLine();
-                if (line == null) {
-                    logger.debug("getSubscriberLine() reached the end of subscribers file");
-                    return null;
-                }
-                String currentSubscriberNumber = line.trim().substring(0, line.indexOf(','));
-                if (currentSubscriberNumber.equals(subscriberNumber.trim())) {
-                    logger.debug("getSubscriberLine() found a matching subscriber number");
-                    return line;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            // impossible since checked just before
-        } catch (IOException ioe) {
-            logger.error("getSubscriberLine() error while reading contents of subscribers file");
-            return null;
-        }
-
-        logger.debug("getSubscriberLine() did not find subscriber number : " + subscriberNumber);
+//        if (subscriberNumber == null || subscriberNumber.equals(""))
+//            return null;
+//        
+//        String filename = getExternalReferentialFilename();
+//        File file = localAuthorityRegistry.getLocalAuthorityResourceFile(
+//            Type.EXTERNAL_REFERENTIAL, filename, false);
+//        if (!file.exists()) {
+//            return null;
+//        }
+//
+//        BufferedReader reader;
+//        try {
+//            reader = new BufferedReader(new FileReader(file));
+//            String line = null;
+//            while (true) {
+//                line = reader.readLine();
+//                if (line == null) {
+//                    logger.debug("getSubscriberLine() reached the end of subscribers file");
+//                    return null;
+//                }
+//                String currentSubscriberNumber = line.trim().substring(0, line.indexOf(','));
+//                if (currentSubscriberNumber.equals(subscriberNumber.trim())) {
+//                    logger.debug("getSubscriberLine() found a matching subscriber number");
+//                    return line;
+//                }
+//            }
+//        } catch (FileNotFoundException e) {
+//            // impossible since checked just before
+//        } catch (IOException ioe) {
+//            logger.error("getSubscriberLine() error while reading contents of subscribers file");
+//            return null;
+//        }
+//
+//        logger.debug("getSubscriberLine() did not find subscriber number : " + subscriberNumber);
         return null;
     }
     
@@ -216,7 +198,7 @@ public final class PlaceReservationRequestService
     }
 
     @Override
-    public void onPaymentValidated(Request request, String paymentReference)
+    public boolean onPaymentValidated(Request request, String paymentReference)
         throws CvqException {
         
         logger.debug("onPaymentValidated() got payment ack for request " + request.getId());
@@ -225,43 +207,30 @@ public final class PlaceReservationRequestService
         PlaceReservationRequest placeReservationRequest = 
             (PlaceReservationRequest) request;
         placeReservationRequest.setPaymentReference(paymentReference);
-        if (placeReservationRequest.getState().equals(RequestState.PENDING))
-            requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
-        // TODO use a standard request action
-        requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED,
-            "request.message.paymentValidated");
+        
+        return true;
     }
     
     @Override
-    public void onPaymentCancelled(Request request)
+    public boolean onPaymentCancelled(Request request)
         throws CvqException {
         
         logger.debug("onPaymentCancelled() got payment refusal for request " + request.getId());
-        if (!(request instanceof PlaceReservationRequest)) {
-            logger.warn("onPaymentCancelled() received an un-managed request type");
-            return;
-        }
 
         cancelReservations((PlaceReservationRequest) request);
-        // TODO use a standard request action
-        requestWorkflowService.updateRequestState(request.getId(), RequestState.CANCELLED,
-            "request.message.paymentCancelled");
+        
+        return true;
     }
     
     @Override
-    public void onPaymentRefused(Request request)
+    public boolean onPaymentRefused(Request request)
         throws CvqException {
 
         logger.debug("onPaymentRefused() got payment refusal for request " + request.getId());
-        if (!(request instanceof PlaceReservationRequest)) {
-            logger.warn("onPaymentRefused() received an un-managed request type");
-            return;
-        }
         
         cancelReservations((PlaceReservationRequest) request);
-        // TODO use a standard request action
-        requestWorkflowService.updateRequestState(request.getId(), RequestState.CANCELLED,
-            "request.message.paymentRefused");
+        
+        return true;
     }
 
     private void cancelReservations(PlaceReservationRequest placeReservationRequest) 
@@ -301,11 +270,5 @@ public final class PlaceReservationRequestService
 
     public void setPlaceReservationService(IPlaceReservationService placeReservationService) {
         this.placeReservationService = placeReservationService;
-    }
-    
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("isSubscriber", new EqualityChecker("true"));
     }
 }

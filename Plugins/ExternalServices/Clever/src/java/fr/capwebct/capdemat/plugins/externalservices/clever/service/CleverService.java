@@ -25,7 +25,6 @@ import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.request.LocalReferentialEntry;
 import fr.cg95.cvq.business.request.LocalReferentialType;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
@@ -158,7 +157,7 @@ public class CleverService implements IExternalProviderService {
         return null;
     }
 
-    public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
+    public Map<Date, String> getConsumptions(Long key, Date dateFrom, Date dateTo)
             throws CvqException {
         logger.info("getConsumptionsByRequest() no action associated");
         return null;

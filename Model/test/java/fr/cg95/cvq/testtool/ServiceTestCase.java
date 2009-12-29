@@ -2,25 +2,21 @@ package fr.cg95.cvq.testtool;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.request.Category;
-import fr.cg95.cvq.business.request.CategoryProfile;
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
-import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -35,7 +31,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
-import fr.cg95.cvq.service.request.ICategoryService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
 import fr.cg95.cvq.service.authority.ISchoolService;
@@ -44,11 +39,8 @@ import fr.cg95.cvq.service.request.IDisplayGroupService;
 import fr.cg95.cvq.service.request.IMeansOfContactService;
 import fr.cg95.cvq.service.request.IPlaceReservationService;
 import fr.cg95.cvq.service.request.IRequestActionService;
-import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
-import fr.cg95.cvq.service.request.IRequestTypeService;
-import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.service.users.ICertificateService;
@@ -58,13 +50,13 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.mail.IMailService;
 
 public class ServiceTestCase
-    extends MyAbstractDependencyInjectionSpringContextTests {
+    extends AbstractDependencyInjectionSpringContextTests {
 
     protected static Logger logger = Logger.getLogger(ServiceTestCase.class);
 
     // some tests data that can (have to) be used inside tests
     public String localAuthorityName = "dummy";
-    public String agentNameWithCategoriesRoles = "demo";
+    public String agentNameWithCategoriesRoles = "agent";
     public String agentNameWithManageRoles = "manager";
     public String agentNameWithSiteRoles = "admin";
 
@@ -76,9 +68,7 @@ public class ServiceTestCase
     protected Adult homeFolderWoman;
     protected Adult homeFolderUncle;
     protected Address address;
-    protected Long voCardRequestId;
     protected List<Long> homeFolderIds = new ArrayList<Long>();
-    protected Map<Long, Long> homeFolderVoCardRequestIds = new HashMap<Long, Long>();
 
     // users related services
     protected static IIndividualService iIndividualService;
@@ -87,7 +77,6 @@ public class ServiceTestCase
     protected static ICertificateService iCertificateService;
 
     // authority related services
-    protected static ICategoryService iCategoryService;
     protected static ISchoolService schoolService;
     protected static IRecreationCenterService recreationCenterService;
     protected static IAgentService iAgentService;
@@ -97,10 +86,7 @@ public class ServiceTestCase
 
     // requests related services
     protected static IRequestServiceRegistry iRequestServiceRegistry;
-    protected static IRequestService iRequestService;
     protected static IRequestActionService iRequestActionService;
-    protected static IRequestTypeService iRequestTypeService;
-    protected static IRequestWorkflowService iRequestWorkflowService;
     protected static IHomeFolderModificationRequestService iHomeFolderModificationRequestService;
     protected static IRequestStatisticsService iRequestStatisticsService;
     protected static IVoCardRequestService iVoCardRequestService;
@@ -111,7 +97,7 @@ public class ServiceTestCase
     
     private static SessionFactory sessionFactory;
     
-    private static Boolean isInitialized = Boolean.FALSE;
+    protected static Boolean isInitialized = Boolean.FALSE;
 
     @Override
     protected String[] getConfigLocations() {
@@ -132,7 +118,6 @@ public class ServiceTestCase
                 // as beans are autowired by type with spring test framework,
                 // we have to set some manually because there is more than one bean
                 // with their respective type
-                iRequestService = (IRequestService) cac.getBean("defaultRequestService");
 
                 iIndividualService = (IIndividualService) cac.getBean("individualService");
                 
@@ -169,23 +154,12 @@ public class ServiceTestCase
                 admin.setSitesRoles(siteRolesSet);
                 genericDAO.create(admin);
 
+                continueWithNewTransaction();
+                
                 SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
                 
-                Category category = new Category();
-                category.setName("General");
-                List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
-                for (RequestType requestType : requestTypesSet) {
-                    requestType.setCategory(category);
-                    genericDAO.update(requestType);
-                }
-                category.setRequestTypes(new HashSet<RequestType>(requestTypesSet));
-                genericDAO.create(category);
-                                
-                bootstrapAgent(agentNameWithCategoriesRoles, SiteProfile.AGENT, category,
-                    CategoryProfile.READ_WRITE);
-                
-                bootstrapAgent(agentNameWithManageRoles, SiteProfile.AGENT, category,
-                    CategoryProfile.MANAGER);
+                bootstrapAgent(agentNameWithCategoriesRoles, SiteProfile.AGENT);
+                bootstrapAgent(agentNameWithManageRoles, SiteProfile.AGENT);
                 
                 School school = new School();
                 school.setActive(Boolean.TRUE);
@@ -206,8 +180,7 @@ public class ServiceTestCase
         startTransaction();
     }
 
-    private void bootstrapAgent(String agentName, SiteProfile siteProfile, Category category,
-        CategoryProfile categoryProfile) throws CvqException {
+    private void bootstrapAgent(String agentName, SiteProfile siteProfile) throws CvqException {
 
         Agent agent = new Agent();
         agent.setActive(Boolean.TRUE);
@@ -218,9 +191,6 @@ public class ServiceTestCase
         siteRolesSet.add(siteRoles);
         agent.setSitesRoles(siteRolesSet);
         iAgentService.create(agent);
-
-        if (category != null)
-            iCategoryService.addCategoryRole(agent.getId(), category.getId(), categoryProfile);
     }
 
     protected void startTransaction() throws CvqException {
@@ -263,18 +233,6 @@ public class ServiceTestCase
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             // to force re-association of agent within current session
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-            // only delete for those who asked us for an home folder with request
-            // at the beginning of their tests
-            for (Long homeFolderId : homeFolderVoCardRequestIds.keySet()) {
-                iRequestService.delete(homeFolderVoCardRequestIds.get(homeFolderId));
-                iHomeFolderService.delete(homeFolderId);
-                try {
-                    iHomeFolderService.getById(homeFolderId);
-                    fail("should have thrown an exception");
-                } catch (CvqObjectNotFoundException confe) {
-                    // ok, that was expected
-                }
-            }
 
             for (Long homeFolderId : homeFolderIds) {
                 iHomeFolderService.delete(homeFolderId);
@@ -286,9 +244,7 @@ public class ServiceTestCase
                 }
             }
 
-            voCardRequestId = null;
             homeFolderIds.clear();
-            homeFolderVoCardRequestIds.clear();
 
             continueWithNewTransaction();
 
@@ -297,7 +253,6 @@ public class ServiceTestCase
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
             // ensure all requests have been deleted after each test
-            assertEquals(0, iRequestService.get(new HashSet<Critere>(), null, null, -1, 0).size());
             assertEquals(0, iIndividualService.get(new HashSet<Critere>(), null, true).size());
 
             rollbackTransaction();
@@ -342,10 +297,6 @@ public class ServiceTestCase
         recreationCenterService = iRecreationCenterService;
     }
     
-    public void setCategoryService(ICategoryService categoryService) {
-        iCategoryService = categoryService;
-    }
-
     public void setAgentService(IAgentService agentService) {
         iAgentService = agentService;
     }
@@ -373,15 +324,6 @@ public class ServiceTestCase
     public void setRequestActionService(IRequestActionService requestActionService) {
         iRequestActionService = requestActionService;
     }
-
-    public void setRequestTypeService(IRequestTypeService requestTypeService) {
-        iRequestTypeService = requestTypeService;
-    }
-
-    public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
-        iRequestWorkflowService = requestWorkflowService;
-    }
-
 
     public void setVoCardRequestService(IVoCardRequestService voCardRequestService) {
         iVoCardRequestService = voCardRequestService;
@@ -413,6 +355,38 @@ public class ServiceTestCase
         return new File(System.getProperty("test.data.dir"), path);
     }
 
+    public CreationBean gimmeMinimalHomeFolder() throws CvqException {
+        
+        // keep current context to reset it after home folder creation
+        String currentContext = SecurityContext.getCurrentContext();
+        Agent currentAgent = SecurityContext.getCurrentAgent();
+        
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+
+        address = BusinessObjectsFactory.gimmeAdress("12","Rue d'Aligre", "Paris", "75012");
+        homeFolderResponsible = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
+                "firstName", address, FamilyStatusType.SINGLE);
+        homeFolderResponsible.setAdress(address);
+        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
+        
+        HomeFolder homeFolder = iHomeFolderService.create(homeFolderResponsible);
+
+        CreationBean cb = new CreationBean();
+        cb.setHomeFolderId(homeFolder.getId());
+        cb.setLogin(homeFolderResponsible.getLogin());
+
+        homeFolderIds.add(homeFolder.getId());
+        
+        if (currentContext != null)
+            SecurityContext.setCurrentContext(currentContext);
+        if (currentAgent != null)
+            SecurityContext.setCurrentAgent(currentAgent);
+        
+        continueWithNewTransaction();
+        
+        return cb;
+    }
+    
     public CreationBean gimmeAnHomeFolder() throws CvqException {
 
         // keep current context to reset it after home folder creation
@@ -444,6 +418,8 @@ public class ServiceTestCase
             SecurityContext.setCurrentContext(currentContext);
         if (currentAgent != null)
             SecurityContext.setCurrentAgent(currentAgent);
+        
+        continueWithNewTransaction();
         
         return cb;
     }    

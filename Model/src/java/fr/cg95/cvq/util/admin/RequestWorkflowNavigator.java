@@ -19,7 +19,7 @@ import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.util.Critere;
 
@@ -36,8 +36,9 @@ public class RequestWorkflowNavigator {
         Logger.getLogger(RequestWorkflowNavigator.class);
 
     private static ILocalAuthorityRegistry localAuthorityRegistry;
-    private static IRequestService requestService;
+    private static IRequestSearchService requestSearchService;
     private static IRequestWorkflowService requestWorkflowService;
+    
     private static String defaultMotive =
         "Automatic state change by RequestWorkflowNavigator";
     private static List<Request> requests;
@@ -73,8 +74,8 @@ public class RequestWorkflowNavigator {
             SpringApplicationContextLoader.loadContext(args[0]);
         localAuthorityRegistry =
             (LocalAuthorityRegistry)cpxa.getBean("localAuthorityRegistry");
-        requestService =
-            (IRequestService)cpxa.getBean("defaultRequestService");
+        requestSearchService =
+            (IRequestSearchService)cpxa.getBean("requestSearchService");
         requestWorkflowService =
             (IRequestWorkflowService)cpxa.getBean("requestWorkflowService");
         if (!requestWorkflowService.getStatesBefore(targetState)
@@ -165,7 +166,7 @@ public class RequestWorkflowNavigator {
             requestTypeLabel, Critere.EQUALS));
         requests = Collections.emptyList();
         try {
-            requests = requestService.get(criteres, null, null, 0, 0);
+            requests = requestSearchService.get(criteres, null, null, 0, 0);
         } catch (CvqException e) {
             e.printStackTrace();
             System.out.println("Couldn't get the list of requests, aborting.");

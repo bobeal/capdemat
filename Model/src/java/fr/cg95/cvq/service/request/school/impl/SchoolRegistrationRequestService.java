@@ -38,10 +38,8 @@ public final class SchoolRegistrationRequestService
     public Request getSkeletonRequest() throws CvqException {
         SchoolRegistrationRequest request =
             new SchoolRegistrationRequest();
-        request.setUrgencyPhone(
-            homeFolderService.getHomeFolderResponsible(
-                SecurityContext.getCurrentEcitizen().getHomeFolder().getId())
-                .getOfficePhone());
+        if (SecurityContext.getCurrentEcitizen() != null)
+            request.setUrgencyPhone(SecurityContext.getCurrentEcitizen().getOfficePhone());
         return request;
     }
 }

@@ -13,7 +13,7 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestWorkflowService;
 
 public final class TestUtils {
 
@@ -26,21 +26,21 @@ public final class TestUtils {
             List<Individual> individuals = homeFolder.getIndividuals();
             for (Individual individual : individuals) {
                 if (individual instanceof Adult && 
-                        (subjectPolicy.equals(IRequestService.SUBJECT_POLICY_ADULT)
-                                || subjectPolicy.equals(IRequestService.SUBJECT_POLICY_INDIVIDUAL))) {
+                        (subjectPolicy.equals(IRequestWorkflowService.SUBJECT_POLICY_ADULT)
+                                || subjectPolicy.equals(IRequestWorkflowService.SUBJECT_POLICY_INDIVIDUAL))) {
                     request.setSubjectId(individual.getId());
                     break;
                 } else if (individual instanceof Child 
-                        && subjectPolicy.equals(IRequestService.SUBJECT_POLICY_CHILD)) {
+                        && subjectPolicy.equals(IRequestWorkflowService.SUBJECT_POLICY_CHILD)) {
                     request.setSubjectId(individual.getId());
                     break;
                 }
             }
         } else {
-            if (subjectPolicy.equals(IRequestService.SUBJECT_POLICY_ADULT)
-                                || subjectPolicy.equals(IRequestService.SUBJECT_POLICY_INDIVIDUAL)) {
+            if (subjectPolicy.equals(IRequestWorkflowService.SUBJECT_POLICY_ADULT)
+                                || subjectPolicy.equals(IRequestWorkflowService.SUBJECT_POLICY_INDIVIDUAL)) {
                 request.setSubjectId(request.getRequesterId());
-            } else if (subjectPolicy.equals(IRequestService.SUBJECT_POLICY_CHILD)) {
+            } else if (subjectPolicy.equals(IRequestWorkflowService.SUBJECT_POLICY_CHILD)) {
                 Child child = BusinessObjectsFactory.gimmeChild("LASTNAME", "Firstname");
                 request.setSubjectId(child.getId());
             }

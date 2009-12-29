@@ -6,7 +6,6 @@
   <bean id="configurationBean_dummy"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="dummy" />
-    <!--<property name="documentDigitalizationEnabled"><value>true</value></property>-->
     <property name="sessionFactory">
       <ref bean="sessionFactory_dummy" />
     </property>
@@ -26,64 +25,6 @@
             </property>
           </bean>
         </entry>
-        <!--
-        <entry>
-          <key>
-            <ref bean="wynidPaymentProvider" />
-          </key>
-          <bean class="fr.cg95.cvq.service.payment.PaymentServiceBean">
-            <property name="broker" value="Wynid"></property>
-            <property name="serviceProperties">
-              <map>
-                <entry>
-                  <key>
-                    <value>wynidBaseUrl</value>
-                  </key>
-                  <value>https://cartevaloise.dummy.fr/FrontOffice/pay.do?transition=payment</value>
-                </entry>
-                <entry>
-                  <key>
-                    <value>wynidCaisses</value>
-                  </key>
-                  <props>
-                    <prop key="Dummy-borne1">5</prop>
-                  </props>
-                </entry>
-              </map>
-            </property>
-          </bean>
-        </entry>
-        <entry>
-          <key>
-            <ref bean="spplusPaymentProvider" />
-          </key>
-          <bean class="fr.cg95.cvq.service.payment.PaymentServiceBean">
-            <property name="broker" value="Spplus"></property>
-            <property name="serviceProperties">
-              <map>
-                <entry>
-                  <key>
-                    <value>spplusMerchkey</value>
-                  </key>
-                  <value>aa 33 37 c2 6a 58 da cc bc 3c 09 7e aa 07 e2 a5 da 7f df 6d 13 23 4c 0c</value>
-                </entry>
-                <entry>
-                  <key>
-                    <value>spplusSiret</value>
-                  </key>
-                  <value>00000000000095-99</value>
-                </entry>
-                <entry>
-                  <key>
-                    <value>spplusUserCallbackUrl</value>
-                  </key>
-                  <value>https://cartevaloise.dummy.fr/FrontOffice/placePaymentResult.do</value>
-                </entry>
-              </map>
-            </property>
-          </bean>
-        </entry>
-        -->
       </map>
     </property>
     <property name="externalServices">
@@ -163,13 +104,13 @@
       <value>org.postgresql.Driver</value>
     </property>
     <property name="jdbcUrl">
-      <value>jdbc:postgresql://localhost:5432/cartevaloise_dummy</value>
+      <value>jdbc:postgresql://localhost:5432/capdemat_dummy</value>
     </property>
     <property name="user">
-      <value>cvq95</value>
+      <value>capdemat</value>
     </property>
     <property name="password">
-      <value>cvq95pass</value>
+      <value>capdematpass</value>
     </property>
     <property name="acquireIncrement" value="3" />
     <property name="initialPoolSize" value="3" />
@@ -185,7 +126,7 @@
       <value>org.hsqldb.jdbcDriver</value>
     </property>
     <property name="jdbcUrl">
-      <value>jdbc:hsqldb:file:/tmp/cartevaloise_dummy;shutdown=true</value>
+      <value>jdbc:hsqldb:file:/tmp/capdemat_dummy;shutdown=true</value>
     </property>
     <property name="user">
       <value>sa</value>

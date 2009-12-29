@@ -23,6 +23,18 @@ public class ExternalServiceIdentifierMapping implements Serializable {
     
     private Set<ExternalServiceIndividualMapping> individualsMappings;
 
+    
+    public ExternalServiceIdentifierMapping() {
+    }
+
+    public ExternalServiceIdentifierMapping(String externalServiceLabel, Long homeFolderId,
+            String externalCapDematId, String externalId) {
+        this.externalServiceLabel = externalServiceLabel;
+        this.homeFolderId = homeFolderId;
+        this.externalCapDematId = externalCapDematId;
+        this.externalId = externalId;
+    }
+
     /**
      * @hibernate.id
      *  generator-class="sequence"
@@ -88,6 +100,7 @@ public class ExternalServiceIdentifierMapping implements Serializable {
      * @hibernate.set
      *  lazy="true"
      *  table="external_service_individual_mapping"
+     *  cascade="all"
      * @hibernate.key
      *  column="mapping_id"
      * @hibernate.composite-element

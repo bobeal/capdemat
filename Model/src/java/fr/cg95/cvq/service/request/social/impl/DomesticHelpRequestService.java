@@ -20,23 +20,38 @@ public class DomesticHelpRequestService extends RequestService implements
 
     static Logger logger = Logger.getLogger(DomesticHelpRequestService.class);
 
+    
     @Override
-    public Long create(final Request request) throws CvqException,
-            CvqObjectNotFoundException {
+    public void init() {
 
-        DomesticHelpRequest dhr = (DomesticHelpRequest) request;
-        performBusinessChecks(dhr);
+        super.init();
 
-        processTotals(dhr);
-
-        return finalizeAndPersist(dhr);
+        conditions.put("dhrRequestKind", new EqualityChecker("Couple"));
+        conditions.put("dhrHaveFamilyReferent", new EqualityChecker("true"));
+        conditions.put("dhrRequesterNationality", new EqualityChecker("OutsideEuropeanUnion"));
+        conditions.put("dhrPrincipalPensionPlan", new EqualityChecker("Other"));
+        conditions.put("dhrRequesterHaveGuardian", new EqualityChecker("true"));
+        conditions.put("dhrSpouseTitle", new EqualityChecker("Madam"));
+        conditions.put("dhrSpouseNationality", new EqualityChecker("OutsideEuropeanUnion"));
+        conditions.put("dhrIsSpouseRetired", new EqualityChecker("true"));
+        conditions.put("dhrSpousePrincipalPensionPlan", new EqualityChecker("Other"));
+        conditions.put("dhrCurrentDwellingKind", new EqualityChecker("placeOfResidence"));
+        conditions.put("dhrPreviousDwelling[0].dhrPreviousDwellingKind", new EqualityChecker("placeOfResidence"));
+        conditions.put("dhrNotRealAsset[0].dhrNotRealAssetKind", new EqualityChecker("RealEstate"));
     }
 
     @Override
-    public void modify(Request request) throws CvqException {
+    public void onRequestCreated(final Request request) throws CvqException,
+            CvqObjectNotFoundException {
+
+        DomesticHelpRequest dhr = (DomesticHelpRequest) request;
+        processTotals(dhr);
+    }
+
+    @Override
+    public void onRequestModified(Request request) throws CvqException {
 
         processTotals((DomesticHelpRequest) request);
-        super.modify(request);
     }
 
     private void processTotals(DomesticHelpRequest dhr) {
@@ -93,22 +108,5 @@ public class DomesticHelpRequestService extends RequestService implements
     @Override
     public Request getSkeletonRequest() throws CvqException {
         return new DomesticHelpRequest();
-    }
-    
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("dhrRequestKind", new EqualityChecker("Couple"));
-        filledConditions.put("dhrHaveFamilyReferent", new EqualityChecker("true"));
-        filledConditions.put("dhrRequesterNationality", new EqualityChecker("OutsideEuropeanUnion"));
-        filledConditions.put("dhrPrincipalPensionPlan", new EqualityChecker("Other"));
-        filledConditions.put("dhrRequesterHaveGuardian", new EqualityChecker("true"));
-        filledConditions.put("dhrSpouseTitle", new EqualityChecker("Madam"));
-        filledConditions.put("dhrSpouseNationality", new EqualityChecker("OutsideEuropeanUnion"));
-        filledConditions.put("dhrIsSpouseRetired", new EqualityChecker("true"));
-        filledConditions.put("dhrSpousePrincipalPensionPlan", new EqualityChecker("Other"));
-        filledConditions.put("dhrCurrentDwellingKind", new EqualityChecker("placeOfResidence"));
-        filledConditions.put("dhrPreviousDwelling[0].dhrPreviousDwellingKind", new EqualityChecker("placeOfResidence"));
-        filledConditions.put("dhrNotRealAsset[0].dhrNotRealAssetKind", new EqualityChecker("RealEstate"));
     }
 }

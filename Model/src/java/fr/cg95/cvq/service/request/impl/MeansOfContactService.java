@@ -96,6 +96,12 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
         return true;
     }
 
+    public void disableMeansOfContact(Long mocId)
+        throws CvqModelException, CvqObjectNotFoundException {
+        MeansOfContact moc = getById(mocId);
+        disableMeansOfContact(moc);
+    }
+    
     public void disableMeansOfContact(MeansOfContact meansOfContact)
         throws CvqModelException {
         if (!canDisableMeansOfContact(meansOfContact))

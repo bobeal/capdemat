@@ -49,7 +49,6 @@ import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.SexType;
@@ -62,6 +61,7 @@ import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.IRequestDocumentService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
@@ -77,6 +77,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     private IEdemandeClient edemandeClient;
     private IExternalService externalService;
     private IStudyGrantRequestService requestService;
+    private IRequestDocumentService requestDocumentService;
     private IDocumentService documentService;
     private IRequestWorkflowService requestWorkflowService;
     private ITranslationService translationService;
@@ -473,7 +474,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         List<Map<String, String>> documents = new ArrayList<Map<String, String>>();
         model.put("documents", documents);
         try {
-            for (RequestDocument requestDoc : requestService.getAssociatedDocuments(sgr.getId())) {
+            for (RequestDocument requestDoc : requestDocumentService.getAssociatedDocuments(sgr.getId())) {
                 Document document = documentService.getById(requestDoc.getDocumentId());
                 for (String documentTypeToSend : documentTypesToSend) {
                     if (documentTypeToSend.equals(document.getDocumentType().getType().toString())) {
@@ -870,7 +871,7 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     }
 
     @Override
-    public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
+    public Map<Date, String> getConsumptions(Long key, Date dateFrom, Date dateTo)
             throws CvqException {
         return null;
     }
@@ -907,6 +908,10 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
 
     public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
         this.requestWorkflowService = requestWorkflowService;
+    }
+
+    public void setRequestDocumentService(IRequestDocumentService requestDocumentService) {
+        this.requestDocumentService = requestDocumentService;
     }
 
     public void setTranslationService(ITranslationService translationService) {

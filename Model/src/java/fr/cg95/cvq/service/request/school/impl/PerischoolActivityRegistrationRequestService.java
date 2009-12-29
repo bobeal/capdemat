@@ -40,19 +40,11 @@ public final class PerischoolActivityRegistrationRequestService
     }
 
     @Override
-    public String getConsumptionsField()
-        throws CvqException {
-        return "PerischoolActivity";
-    }
-
-    @Override
     public Request getSkeletonRequest() throws CvqException {
         PerischoolActivityRegistrationRequest request =
             new PerischoolActivityRegistrationRequest();
-        request.setUrgencyPhone(
-            homeFolderService.getHomeFolderResponsible(
-                SecurityContext.getCurrentEcitizen().getHomeFolder().getId())
-                .getOfficePhone());
+        if (SecurityContext.getCurrentEcitizen() != null)
+            request.setUrgencyPhone(SecurityContext.getCurrentEcitizen().getOfficePhone());
         return request;
     }
 }

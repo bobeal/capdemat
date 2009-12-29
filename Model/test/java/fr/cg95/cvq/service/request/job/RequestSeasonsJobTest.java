@@ -1,6 +1,5 @@
 package fr.cg95.cvq.service.request.job;
 
-import junit.framework.Assert;
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.Request;
@@ -17,24 +16,11 @@ import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 public class RequestSeasonsJobTest extends RequestTestCase {
  
-    private RequestSeasonsJob requestSeasonsJob;
-    private ISchoolRegistrationRequestService schoolRegistrationRequestService;
-    private RequestType requestType;
-    
-    @Override
-    protected void onSetUp() throws Exception {
-        super.onSetUp();
-        requestSeasonsJob =
-            super.<RequestSeasonsJob>getApplicationBean("requestSeasonsJob");
-        schoolRegistrationRequestService =
-            super.<ISchoolRegistrationRequestService>
-                getApplicationBean("schoolRegistrationRequestService");
-    }
+    protected RequestSeasonsJob requestSeasonsJob;
     
     /**
      * Bypass service business rules
@@ -62,21 +48,18 @@ public class RequestSeasonsJobTest extends RequestTestCase {
     }
 
     public void testJob() throws CvqException {
-        SecurityContext.setCurrentSite(localAuthorityName,
-            SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
-        requestType = 
-            iRequestTypeService.getRequestTypeByLabel(
-                schoolRegistrationRequestService.getLabel());
+        RequestType requestType = 
+            requestTypeService.getRequestTypeByLabel("School Registration");
+        assertNotNull(requestType);
         
         /* Create a season */
-        RequestSeason season = BusinessObjectsFactory
-            .gimmeRequestSeason("Saison 1235", 1, 2, 3, 5);
-        iRequestTypeService.addRequestSeason(requestType.getId(), season);
+        RequestSeason season = BusinessObjectsFactory.gimmeRequestSeason("Saison 1235", 1, 2, 3, 5);
+        requestTypeService.addRequestSeason(requestType.getId(), season);
         continueWithNewTransaction();
-        season = iRequestTypeService.getRequestSeasons(requestType.getId())
-            .iterator().next();
+        season = requestTypeService.getRequestSeasons(requestType.getId()).iterator().next();
         /* Make season registration start */
         daoUpdateSeason(season, -2, 0, 0, 0); // season =[-1, 2, 3, 5];
 
@@ -96,16 +79,12 @@ public class RequestSeasonsJobTest extends RequestTestCase {
         // get the home folder id
         HomeFolder homeFolder =
             iHomeFolderService.getById(cb.getHomeFolderId());
-        Assert.assertNotNull(homeFolder);
-        Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
 
         Long requestIds[] = new Long[2];
         int i = 0;
         for (Individual individual : homeFolder.getIndividuals()) {
             if (individual instanceof Child) {
-                SchoolRegistrationRequest request =
-                    new SchoolRegistrationRequest();
+                SchoolRegistrationRequest request = new SchoolRegistrationRequest();
                 request.setRequestSeason(season);
                 request.setSection(SectionType.BEFORE_FIRST_SECTION);
                 request.setRulesAndRegulationsAcceptance(Boolean.valueOf(true));
@@ -123,7 +102,7 @@ public class RequestSeasonsJobTest extends RequestTestCase {
                         .getMeansOfContactByType(MeansOfContactEnum.EMAIL);
                 request.setMeansOfContact(meansOfContact);
                 requestIds[i++] =
-                    schoolRegistrationRequestService.create(request);
+                    requestWorkflowService.create(request);
             }
         }
 
@@ -134,54 +113,65 @@ public class RequestSeasonsJobTest extends RequestTestCase {
             SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        iRequestWorkflowService.updateRequestState(requestIds[0],
+        requestWorkflowService.updateRequestState(requestIds[0],
             RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(requestIds[0],
+        requestWorkflowService.updateRequestState(requestIds[0],
             RequestState.VALIDATED, null);
-        iRequestWorkflowService.updateRequestState(requestIds[1],
+        requestWorkflowService.updateRequestState(requestIds[1],
             RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(requestIds[1],
+        requestWorkflowService.updateRequestState(requestIds[1],
             RequestState.VALIDATED, null);
-        iRequestWorkflowService.updateRequestState(requestIds[1],
+        requestWorkflowService.updateRequestState(requestIds[1],
             RequestState.NOTIFIED, "Bon pour inscription");
 
+        continueWithNewTransaction();
+        
         /* Must not change requestState (season's effect isn't started) */
         requestSeasonsJob.launchJob();
-        SecurityContext.setCurrentSite(localAuthorityName,
-            SecurityContext.BACK_OFFICE_CONTEXT);
+        
+        startTransaction();
+        
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Request requestFromDb = iRequestService.getById(requestIds[0]);
-        Assert.assertEquals(requestFromDb.getState(), RequestState.VALIDATED);
-        requestFromDb = iRequestService.getById(requestIds[1]);
-        Assert.assertEquals(requestFromDb.getState(), RequestState.NOTIFIED);
-        
+        Request requestFromDb = requestSearchService.getById(requestIds[0]);
+        assertEquals(RequestState.VALIDATED, requestFromDb.getState());
+        requestFromDb = requestSearchService.getById(requestIds[1]);
+        assertEquals(RequestState.NOTIFIED, requestFromDb.getState());
+
         continueWithNewTransaction();
-        SecurityContext.setCurrentSite(localAuthorityName,
-            SecurityContext.BACK_OFFICE_CONTEXT);
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
 
         /* Make season effect end */
         daoUpdateSeason(season, -5, -6, -6, -6); // season =[-6, -4, -3, -1];
+        
+        continueWithNewTransaction();
         
         /* Must archive all the requests */
         requestSeasonsJob.launchJob();
         
         // the job clauses the current transaction, so re-open a new one
         startTransaction();
-        SecurityContext.setCurrentSite(localAuthorityName,
-            SecurityContext.BACK_OFFICE_CONTEXT);
+        
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        requestFromDb = iRequestService.getById(requestIds[0]);
-        Assert.assertEquals(requestFromDb.getState(), RequestState.ARCHIVED);
-        iRequestService.delete(requestIds[0]);
-        requestFromDb = iRequestService.getById(requestIds[1]);
-        Assert.assertEquals(requestFromDb.getState(), RequestState.ARCHIVED);
-        iRequestService.delete(requestIds[1]);
+        requestFromDb = requestSearchService.getById(requestIds[0]);
+        assertEquals(RequestState.ARCHIVED, requestFromDb.getState());
+        requestWorkflowService.delete(requestIds[0]);
+        requestFromDb = requestSearchService.getById(requestIds[1]);
+        assertEquals(RequestState.ARCHIVED, requestFromDb.getState());
+        requestWorkflowService.delete(requestIds[1]);
 
+        continueWithNewTransaction();
+        
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
-        iRequestTypeService
-            .removeRequestSeason(requestType.getId(), season.getId());
+        requestTypeService.removeRequestSeason(requestType.getId(), season.getId());
+    }
+
+    public void setRequestSeasonsJob(RequestSeasonsJob requestSeasonsJob) {
+        this.requestSeasonsJob = requestSeasonsJob;
     }
 }

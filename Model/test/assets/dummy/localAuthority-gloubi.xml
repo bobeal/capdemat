@@ -168,13 +168,13 @@
       <value>org.postgresql.Driver</value>
     </property>
     <property name="jdbcUrl">
-      <value>jdbc:postgresql://localhost:5432/cartevaloise_dummy</value>
+      <value>jdbc:postgresql://localhost:5432/capdemat_dummy</value>
     </property>
     <property name="user">
-      <value>cvq95</value>
+      <value>capdemat</value>
     </property>
     <property name="password">
-      <value>cvq95pass</value>
+      <value>capdematpass</value>
     </property>
     <property name="acquireIncrement" value="3" />
     <property name="initialPoolSize" value="3" />

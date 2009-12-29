@@ -25,6 +25,17 @@ public class ExternalServiceIndividualMapping implements Serializable {
      */
     private String externalId = "";
 
+    
+    public ExternalServiceIndividualMapping() {
+    }
+
+    public ExternalServiceIndividualMapping(Long individualId, String externalCapDematId,
+            String externalId) {
+        this.externalCapDematId = externalCapDematId;
+        this.individualId = individualId;
+        this.externalId = externalId;
+    }
+    
     /**
      * @hibernate.property
      *  column="individual_id"

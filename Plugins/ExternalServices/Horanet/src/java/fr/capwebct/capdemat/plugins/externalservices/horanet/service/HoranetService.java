@@ -107,10 +107,6 @@ public class HoranetService implements IExternalProviderService {
     public void init() {
     }
     
-    private String getPostalCodeFromRequest(final Request request) {
-        return SecurityContext.getCurrentSite().getPostalCode();
-    }
-
     /**
      * @fixme use it instead all those ifs and casts !
      */
@@ -290,7 +286,7 @@ public class HoranetService implements IExternalProviderService {
         }
     }
 
-    public final Map<Date, String> getConsumptionsByRequest(final Request request,
+    public final Map<Date, String> getConsumptions(Long key,
             final Date dateFrom, final Date dateTo)
         throws CvqException {
 
@@ -316,14 +312,14 @@ public class HoranetService implements IExternalProviderService {
             call.addParameter(new QName(HORANET_CVQ2_NS, "start_search"), Constants.XSD_DATE, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "end_search"), Constants.XSD_DATE, ParameterMode.IN);
 
-            logger.debug("getConsumptionsByRequest() Proc ID : " + request.getId().toString());
+            logger.debug("getConsumptionsByRequest() Proc ID : " + key.toString());
 
 //          request.getSubjectId(),
 //          request.getHomeFolderId(),
 
             call.invoke(new Object[] {
-                            getPostalCodeFromRequest(request),
-                            request.getId().toString(),
+                            SecurityContext.getCurrentSite().getPostalCode(),
+                            key.toString(),
                             dateFrom,
                             dateTo
                         });
@@ -354,38 +350,38 @@ public class HoranetService implements IExternalProviderService {
             }
         } catch (ServiceException se) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
-                    + request.getId(), se);
+                    + key, se);
 //            throw new CvqRemoteException("Failed to connect to Horanet service : " 
 //                    + se.getMessage());
         } catch (RemoteException re) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
-                    + request.getId(), re);
+                    + key, re);
 //            throw new CvqRemoteException("Failed to connect to Horanet service : " 
 //                    + re.getMessage());
         } catch (SAXException saxe) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
-                    + request.getId(), saxe);
+                    + key, saxe);
 //            throw new CvqException("Failed to parse received data : " + saxe.getMessage());
         } catch (IOException ioe) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
-                    + request.getId(), ioe);
+                    + key, ioe);
 //            throw new CvqRemoteException("Failed to read received data : " + ioe.getMessage());
         } catch (SOAPException soape) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
-                    + request.getId(), soape);
+                    + key, soape);
 //            throw new CvqRemoteException("Failed to connect to Horanet service : " 
 //                    + soape.getMessage());
         } catch (JaxenException jaxe) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
-                    + request.getId(), jaxe);
+                    + key, jaxe);
 //            throw new CvqException("Failed to parse received data : " + jaxe.getMessage());
         } catch (ParseException pe) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
-                    + request.getId(), pe);
+                    + key, pe);
 //            throw new CvqException("Failed to parse received data : " + pe.getMessage());
         } catch (ParserConfigurationException pce) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
-                    + request.getId(), pce);
+                    + key, pce);
 //            throw new CvqException("Failed to parse received data : " + pce.getMessage());
         }
 

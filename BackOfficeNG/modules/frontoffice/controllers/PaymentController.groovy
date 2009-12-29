@@ -24,7 +24,7 @@ import grails.converters.JSON
 
 class PaymentController {
 
-	IExternalService externalService
+    IExternalService externalService
     IIndividualService individualService
     IPaymentService paymentService
     ILocalAuthorityRegistry localAuthorityRegistry

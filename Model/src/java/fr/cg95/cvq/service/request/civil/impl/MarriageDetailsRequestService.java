@@ -19,6 +19,16 @@ import fr.cg95.cvq.service.request.impl.RequestService;
 public final class MarriageDetailsRequestService extends RequestService 
     implements IMarriageDetailsRequestService {
     
+    
+    @Override
+    public void init() {
+        super.init();
+
+        conditions.put("requesterQuality", new EqualityChecker("Other"));
+        conditions.put("format",
+            new EqualityListChecker(Arrays.asList("FullCopy", "ExtractWithRelationship")));
+    }
+
     @Override
     public boolean accept(Request request) {
         return request instanceof MarriageDetailsRequest;
@@ -33,13 +43,5 @@ public final class MarriageDetailsRequestService extends RequestService
             request.setMarriagePostalCode(SecurityContext.getCurrentSite().getPostalCode().substring(0,2));
         }
         return request;
-    }
-    
-    @Override
-    protected void initFilledConditions() {
-        super.initFilledConditions();
-        filledConditions.put("requesterQuality", new EqualityChecker("Other"));
-        filledConditions.put("format",
-            new EqualityListChecker(Arrays.asList("FullCopy", "ExtractWithRelationship")));
     }
 }

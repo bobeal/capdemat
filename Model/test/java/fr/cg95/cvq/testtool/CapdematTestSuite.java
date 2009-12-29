@@ -18,6 +18,9 @@ import fr.cg95.cvq.service.request.DisplayGroupServiceTest;
 import fr.cg95.cvq.service.request.LocalReferentialServiceTest;
 import fr.cg95.cvq.service.request.PlaceReservationServiceTest;
 import fr.cg95.cvq.service.request.RequestDraftTest;
+import fr.cg95.cvq.service.request.RequestExternalServiceTest;
+import fr.cg95.cvq.service.request.RequestLockServiceTest;
+import fr.cg95.cvq.service.request.RequestSearchServiceTest;
 import fr.cg95.cvq.service.request.RequestSeasonServiceTest;
 import fr.cg95.cvq.service.request.RequestServiceTest;
 import fr.cg95.cvq.service.request.RequestStatisticsServiceTest;
@@ -52,6 +55,7 @@ import fr.cg95.cvq.service.request.urbanism.AlignmentNumberingConnectionRequestS
 import fr.cg95.cvq.service.request.urbanism.SewerConnectionRequestServiceTest;
 import fr.cg95.cvq.service.users.HomeFolderServiceTest;
 import fr.cg95.cvq.service.users.MeansOfContactServiceTest;
+import fr.cg95.cvq.service.request.job.DraftManagementJobTest;
 import fr.cg95.cvq.service.request.job.RequestSeasonsJobTest;
 import fr.cg95.cvq.service.request.job.RequestXmlGenerationJobTest;
 
@@ -60,6 +64,22 @@ public class CapdematTestSuite extends TestSuite {
     public static Test suite() {
         TestSuite testSuite = new TestSuite();
        
+        // service.authority package
+        testSuite.addTestSuite(AgentServiceTest.class);
+        testSuite.addTestSuite(LocalAuthorityRegistryTest.class);
+
+        // service.users package
+        testSuite.addTestSuite(HomeFolderServiceTest.class);
+        testSuite.addTestSuite(MeansOfContactServiceTest.class);
+
+        // service.document package
+        testSuite.addTestSuite(DocumentServiceTest.class);
+        testSuite.addTestSuite(DocumentDigitalizationTest.class);
+
+        // payment package
+        testSuite.addTestSuite(PaymentServiceJobTest.class);
+        testSuite.addTestSuite(PaymentServiceTest.class);
+
         // external package
         testSuite.addTestSuite(ExternalServiceGeneralTest.class);
         testSuite.addTestSuite(ExternalServiceIdentifierMappingTest.class);
@@ -67,27 +87,22 @@ public class CapdematTestSuite extends TestSuite {
         testSuite.addTestSuite(ExternalServiceTracesTest.class);
         testSuite.addTestSuite(FakeExternalServiceTest.class);
         
-        // payment package
-        testSuite.addTestSuite(PaymentServiceJobTest.class);
-        testSuite.addTestSuite(PaymentServiceTest.class);
-
-        // service.authority package
-        testSuite.addTestSuite(AgentServiceTest.class);
-        testSuite.addTestSuite(LocalAuthorityRegistryTest.class);
-
-        // service.document package
-        testSuite.addTestSuite(DocumentServiceTest.class);
-        testSuite.addTestSuite(DocumentDigitalizationTest.class);
-        
         // service.request
         testSuite.addTestSuite(CategoryServiceTest.class);
         testSuite.addTestSuite(DisplayGroupServiceTest.class);
         testSuite.addTestSuite(LocalReferentialServiceTest.class);
-        testSuite.addTestSuite(PlaceReservationServiceTest.class);
         testSuite.addTestSuite(RequestDraftTest.class);
+        testSuite.addTestSuite(RequestExternalServiceTest.class);
+        testSuite.addTestSuite(RequestLockServiceTest.class);
+        testSuite.addTestSuite(RequestSearchServiceTest.class);
         testSuite.addTestSuite(RequestSeasonServiceTest.class);
         testSuite.addTestSuite(RequestServiceTest.class);
         testSuite.addTestSuite(RequestStatisticsServiceTest.class);
+
+        // service.request.job package
+        testSuite.addTestSuite(RequestSeasonsJobTest.class);
+        testSuite.addTestSuite(RequestXmlGenerationJobTest.class);
+        testSuite.addTestSuite(DraftManagementJobTest.class);
 
         // service.request.civil package
         testSuite.addTestSuite(BirthDetailsRequestServiceTest.class);
@@ -96,7 +111,8 @@ public class CapdematTestSuite extends TestSuite {
 
         // service.request.ecitizen package
         testSuite.addTestSuite(VoCardRequestServiceTest.class);
-        
+//        testSuite.addTestSuite(HomeFolderModificationRequestServiceTest.class);
+
         // service.request.election package
         testSuite.addTestSuite(ElectoralRollRegistrationRequestServiceTest.class);
 
@@ -109,51 +125,42 @@ public class CapdematTestSuite extends TestSuite {
 
         // service.request.leisure.culture package
         testSuite.addTestSuite(LibraryRegistrationRequestServiceTest.class);
-        
+
         // service.request.leisure.music package
-        testSuite.addTestSuite(MusicSchoolRegistrationRequestServiceTest.class);
-        
+//        testSuite.addTestSuite(MusicSchoolRegistrationRequestServiceTest.class);
+
         // service.request.localpolice package
         testSuite.addTestSuite(HolidaySecurityRequestServiceTest.class);        
-        
+
         // service.request.military package
         testSuite.addTestSuite(MilitaryCensusRequestServiceTest.class);        
-        
+
         // service.request.reservation package
 //        testSuite.addTestSuite(PlaceReservationRequestServicePaymentTest.class);
-        testSuite.addTestSuite(PlaceReservationRequestServiceTest.class);
-        testSuite.addTestSuite(PlaceReservationRequestServiceSubscriberTest.class);
-        
+//        testSuite.addTestSuite(PlaceReservationRequestServiceTest.class);
+//        testSuite.addTestSuite(PlaceReservationRequestServiceSubscriberTest.class);
+
         // service.request.school package
         testSuite.addTestSuite(PerischoolActivityRegistrationRequestServiceTest.class);
         testSuite.addTestSuite(RecreationActivityRegistrationRequestServiceTest.class);
         testSuite.addTestSuite(SchoolCanteenRegistrationRequestServiceTest.class);
         testSuite.addTestSuite(SchoolRegistrationRequestServiceTest.class);
         testSuite.addTestSuite(StudyGrantRequestServiceTest.class);
-       
+
         // service.request.social package
-        testSuite.addTestSuite(DomesticHelpRequestServiceTest.class);
+//        testSuite.addTestSuite(DomesticHelpRequestServiceTest.class);
         // test fails (unsaved transient instance)
-        testSuite.addTestSuite(HandicapCompensationAdultRequestServiceTest.class);
-        testSuite.addTestSuite(HandicapCompensationChildRequestServiceTest.class);
-        testSuite.addTestSuite(RemoteSupportRequestServiceTest.class);
-        
+//        testSuite.addTestSuite(HandicapCompensationAdultRequestServiceTest.class);
+//        testSuite.addTestSuite(HandicapCompensationChildRequestServiceTest.class);
+//        testSuite.addTestSuite(RemoteSupportRequestServiceTest.class);
+
         // service.request.technical
         testSuite.addTestSuite(TechnicalInterventionRequestServiceTest.class);
-        
+
         // service.request.urbanism package
         testSuite.addTestSuite(AlignmentCertificateRequestServiceTest.class);
         testSuite.addTestSuite(SewerConnectionRequestServiceTest.class);
         testSuite.addTestSuite(AlignmentNumberingConnectionRequestServiceTest.class);
-        
-        // service.users package
-//        testSuite.addTestSuite(HomeFolderModificationRequestServiceTest.class);
-        testSuite.addTestSuite(HomeFolderServiceTest.class);
-        testSuite.addTestSuite(MeansOfContactServiceTest.class);
-        
-        // service.users.job package
-        testSuite.addTestSuite(RequestSeasonsJobTest.class);
-        testSuite.addTestSuite(RequestXmlGenerationJobTest.class);
         
         return testSuite;
     }

@@ -75,11 +75,11 @@ public class SewerConnectionRequestServiceTest extends RequestTestCase {
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
         doc.setIndividualId(request.getRequesterId());
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
-        Long documentId = iDocumentService.create(doc);
-        iSewerConnectionRequestService.addDocument(request.getId(), documentId);
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(documentTypeService.IDENTITY_RECEIPT_TYPE));
+        Long documentId = documentService.create(doc);
+        requestDocumentService.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =
-            iSewerConnectionRequestService.getAssociatedDocuments(request.getId());
+            requestDocumentService.getAssociatedDocuments(request.getId());
         assertEquals(documentsSet.size(), 1);
 
         // FIXME : test list of pending / in-progress registrations
@@ -89,7 +89,7 @@ public class SewerConnectionRequestServiceTest extends RequestTestCase {
         testCrit.setValue(request.getHomeFolderId());
         Set<Critere> testCritSet = new HashSet<Critere>();
         testCritSet.add(testCrit);
-        List<Request> allRequests = iRequestService.get(testCritSet, null, null, -1, 0);
+        List<Request> allRequests = requestSearchService.get(testCritSet, null, null, -1, 0);
         assertNotNull(allRequests);
 
         // close current session and re-open a new one
@@ -98,13 +98,13 @@ public class SewerConnectionRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName,
                                         SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
+        requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
         // close current session and re-open a new one
         continueWithNewTransaction();
         
-        byte[] generatedCertificate = iRequestService.getCertificate(request.getId(),
+        byte[] generatedCertificate = requestSearchService.getCertificate(request.getId(),
                                                                      RequestState.PENDING);
 
         if (generatedCertificate == null)
@@ -113,7 +113,7 @@ public class SewerConnectionRequestServiceTest extends RequestTestCase {
         //     Write tele-service xml data file
         File xmlFile = File.createTempFile("tmp" + request.getId(), ".xml");
         FileOutputStream xmlFos = new FileOutputStream(xmlFile);
-        xmlFos.write(iRequestService.getById(request.getId()).modelToXmlString().getBytes());
+        xmlFos.write(requestSearchService.getById(request.getId()).modelToXmlString().getBytes());
 
         File file = File.createTempFile("tmp" + request.getId(), ".pdf");
         FileOutputStream fos = new FileOutputStream(file);
@@ -123,7 +123,7 @@ public class SewerConnectionRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
         
         // delete request
-        iSewerConnectionRequestService.delete(request.getId());
+        requestWorkflowService.delete(request.getId());
     }
 
     public void testWithHomeFolderPojo()
@@ -153,10 +153,10 @@ public class SewerConnectionRequestServiceTest extends RequestTestCase {
              iSewerConnectionRequestService.getSubjectPolicy(), null, homeFolder);
          
          Long requestId =
-              iSewerConnectionRequestService.create(request);
+              requestWorkflowService.create(request);
 
          SewerConnectionRequest requestFromDb =
-        	 	(SewerConnectionRequest) iSewerConnectionRequestService.getById(requestId);
+        	 	(SewerConnectionRequest) requestSearchService.getById(requestId);
          assertEquals(requestId, requestFromDb.getId());
          assertNotNull(requestFromDb.getRequesterId());
          assertNotNull(requestFromDb.getRequesterLastName());
@@ -197,7 +197,7 @@ public class SewerConnectionRequestServiceTest extends RequestTestCase {
             iSewerConnectionRequestService.getSubjectPolicy(), requester, null);
 
         Long requestId =
-             iSewerConnectionRequestService.create(request, requester, requester);
+             requestWorkflowService.create(request, requester);
         
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -206,7 +206,7 @@ public class SewerConnectionRequestServiceTest extends RequestTestCase {
         /////////////////////////////////
 
         SewerConnectionRequest requestFromDb =
-            (SewerConnectionRequest) iSewerConnectionRequestService.getById(requestId);
+            (SewerConnectionRequest) requestSearchService.getById(requestId);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
         assertNotNull(requestFromDb.getRequesterLastName());

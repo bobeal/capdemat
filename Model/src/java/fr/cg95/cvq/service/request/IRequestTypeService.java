@@ -11,6 +11,8 @@ import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestType;
 import fr.cg95.cvq.util.Critere;
 
@@ -18,6 +20,19 @@ import fr.cg95.cvq.util.Critere;
  * @author bor@zenexity.fr
  */
 public interface IRequestTypeService {
+
+    /**
+     * Label used to identify account creation requests.
+     * 
+     * TODO : rename to ACCOUNT_CREATION_REQUEST
+     */
+    String VO_CARD_REGISTRATION_REQUEST = "VO Card";
+    /**
+     * Label used to identify account modification requests.
+     * 
+     * TODO : rename to ACCOUNT_MODIFICATION_REQUEST
+     */    
+    String HOME_FOLDER_MODIFICATION_REQUEST = "Home Folder Modification";
 
     /**
      * Get a list of all existing requests types.
@@ -55,6 +70,12 @@ public interface IRequestTypeService {
     RequestType getRequestTypeByLabel(final String requestLabel)
         throws CvqException;
 
+    /**
+     * Return whether the given request is an account related request (creation or modification).
+     */
+    boolean isAccountRequest(@IsRequest final Long requestId) 
+        throws CvqException, CvqObjectNotFoundException;
+    
     /**
      * Modify a request type properties.
      */

@@ -13,7 +13,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.civil.IBirthDetailsRequestService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 
@@ -24,59 +23,81 @@ import fr.cg95.cvq.util.DateUtils;
  */
 public class DraftManagementJobTest extends RequestTestCase {
     
-    private IBirthDetailsRequestService requestService;
-    private DraftManagementJob draftManagementJob;
+    protected DraftManagementJob draftManagementJob;
     
     @Override
-    protected void onSetUp() throws Exception {
-        super.onSetUp();
-        this.requestService = this.getApplicationBean("birthDetailsRequestService");
-        this.draftManagementJob = this.getApplicationBean("draftManagementJob");
+    protected void onTearDown() throws Exception {
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(this.agentNameWithManageRoles);
+
+        List<Request> requests = this.getDrafts();
+        try {
+            for (Request r : requests) 
+                requestWorkflowService.delete(r.getId());
+        } catch(CvqObjectNotFoundException e) {
+            e.printStackTrace();
+//            for(Request r : requests) this.requestDAO.delete(r);
+        }
+        
+        super.onTearDown();
     }
-    
+
     public void testRequestDraftRemoval() throws CvqException {
+
         this.createDrafts(4);
+
         SecurityContext.getCurrentSite().setDraftLiveDuration(4);
         SecurityContext.getCurrentSite().setDraftNotificationBeforeDelete(2);
-        this.continueWithNewTransaction();
+        continueWithNewTransaction();
         
         int before = this.getDrafts().size();
-        this.draftManagementJob.deleteExpiredDrafts();
+        draftManagementJob.deleteExpiredDrafts();
+        
+        continueWithNewTransaction();
+        
         int after = this.getDrafts().size();
         assertEquals(before-1,after);
         
         SecurityContext.getCurrentSite().setDraftLiveDuration(3);
-        this.continueWithNewTransaction();
+        continueWithNewTransaction();
         
-        this.draftManagementJob.deleteExpiredDrafts();
+        draftManagementJob.deleteExpiredDrafts();
+        
+        continueWithNewTransaction();
         assertEquals(after-1,this.getDrafts().size());
         
         SecurityContext.getCurrentSite().setDraftLiveDuration(1);
-        this.continueWithNewTransaction();
+        continueWithNewTransaction();
         
-        this.draftManagementJob.deleteExpiredDrafts();
+        draftManagementJob.deleteExpiredDrafts();
+        
+        continueWithNewTransaction();
         assertEquals(0,this.getDrafts().size());
     }
     
     public void testDraftMailSending() throws CvqException {
+        
         this.createDrafts(8);
-        SecurityContext.getCurrentSite().setDraftLiveDuration(4);
-        SecurityContext.getCurrentSite().setDraftNotificationBeforeDelete(2);
-        this.continueWithNewTransaction();
         
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         SecurityContext.getCurrentSite().setDraftLiveDuration(9);
         SecurityContext.getCurrentSite().setDraftNotificationBeforeDelete(4);
-        this.continueWithNewTransaction();
+        continueWithNewTransaction();
         
-        int mailsCount = this.draftManagementJob.sendNotifications();
+        int mailsCount = draftManagementJob.sendNotifications();
+        
+        continueWithNewTransaction();
         assertEquals(4, mailsCount);
-        mailsCount = this.draftManagementJob.sendNotifications();
-        assertEquals(0, mailsCount);
-        SecurityContext.getCurrentSite().setDraftNotificationBeforeDelete(5);
-        this.continueWithNewTransaction();
         
-        mailsCount = this.draftManagementJob.sendNotifications();
+        mailsCount = draftManagementJob.sendNotifications();
+        assertEquals(0, mailsCount);
+        
+        SecurityContext.getCurrentSite().setDraftNotificationBeforeDelete(5);
+        continueWithNewTransaction();
+        
+        mailsCount = draftManagementJob.sendNotifications();
+        
+        continueWithNewTransaction();
         assertEquals(1, mailsCount);
     }
 
@@ -89,7 +110,7 @@ public class DraftManagementJobTest extends RequestTestCase {
         criteria.setValue(RequestState.DRAFT);
         criterias.add(criteria);
 
-        return this.requestService.get(criterias,null,null,0,0);
+        return requestSearchService.get(criterias,null,null,0,0);
     }
     
     void createDrafts(int step) throws CvqException {
@@ -102,30 +123,19 @@ public class DraftManagementJobTest extends RequestTestCase {
             request.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
             request.setHomeFolderId(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
             request.setState(RequestState.DRAFT);
-            Long id = this.requestService.create(request);
-            request = this.requestService.getById(id);
+            Long id = requestWorkflowService.create(request);
+            request = requestSearchService.getById(id);
             request.setCreationDate(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,i*(-1)));
             
             SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(this.agentNameWithManageRoles);
-            this.requestService.modify(request);
+            requestWorkflowService.modify(request);
         }
+        
+        continueWithNewTransaction();
     }
     
-    @Override
-    protected void onTearDown() throws Exception {
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(this.agentNameWithManageRoles);
-        List<Request> requests = this.getDrafts();
-        
-        try {
-            for (Request r : requests) 
-                this.requestService.delete(r.getId());
-        } catch(CvqObjectNotFoundException e) {
-            e.printStackTrace();
-//            for(Request r : requests) this.requestDAO.delete(r);
-        }
-        
-        super.onTearDown();
+    public void setDraftManagementJob(DraftManagementJob draftManagementJob) {
+        this.draftManagementJob = draftManagementJob;
     }
 }

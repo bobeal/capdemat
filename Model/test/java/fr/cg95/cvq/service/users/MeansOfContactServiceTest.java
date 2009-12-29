@@ -39,6 +39,9 @@ public class MeansOfContactServiceTest extends ServiceTestCase {
         iMeansOfContactService.enableMeansOfContact(mocMail);
         iMeansOfContactService.enableMeansOfContact(mocEmail);
         iMeansOfContactService.enableMeansOfContact(mocSms);
+        
+        continueWithNewTransaction();
+        
         fetchMoc = iMeansOfContactService.getEnabledMeansOfContact();
         assertEquals(3, fetchMoc.size());
 
@@ -63,13 +66,19 @@ public class MeansOfContactServiceTest extends ServiceTestCase {
         MeansOfContact mocLAO = iMeansOfContactService.getMeansOfContactByType(
                 MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE);
         iMeansOfContactService.enableMeansOfContact(mocLAO);
+        
+        continueWithNewTransaction();
+        
         fetchMoc = iMeansOfContactService.getCurrentEcitizenEnabledMeansOfContact();
         assertEquals(4, fetchMoc.size());
         
         // Disable (keep 1 enabled)
-        iMeansOfContactService.disableMeansOfContact(mocMail);
-        iMeansOfContactService.disableMeansOfContact(mocSms);
-        iMeansOfContactService.disableMeansOfContact(mocLAO);
+        iMeansOfContactService.disableMeansOfContact(mocMail.getId());
+        iMeansOfContactService.disableMeansOfContact(mocSms.getId());
+        iMeansOfContactService.disableMeansOfContact(mocLAO.getId());
+        
+        continueWithNewTransaction();
+        
         fetchMoc = iMeansOfContactService.getEnabledMeansOfContact();
         assertEquals(1, fetchMoc.size());
     }

@@ -18,7 +18,7 @@ import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.RequestTestCase;
 
 public class RequestXmlGenerationJobTest extends RequestTestCase {
@@ -44,7 +44,7 @@ public class RequestXmlGenerationJobTest extends RequestTestCase {
         ExternalServiceBean esb = new ExternalServiceBean();
         esb.setGenerateTracedRequest(true);
         List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
+        requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         lacb.registerExternalService(fakeExternalService, esb);
@@ -61,7 +61,7 @@ public class RequestXmlGenerationJobTest extends RequestTestCase {
         // register the mock external provider service with the LACB
         ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();
-        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
+        requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         esb.setSupportAccountsByHomeFolder(true);
         esb.setGenerateTracedRequest(true);
@@ -116,9 +116,14 @@ public class RequestXmlGenerationJobTest extends RequestTestCase {
         trace.setStatus(TraceStatusEnum.ACKNOWLEDGED);
         this.externalService.addTrace(trace);
 
+        continueWithNewTransaction();
+        
         this.generationJob.eraseAcknowledgedRequests();
+        
+        continueWithNewTransaction();
+        
+        file = iLocalAuthorityRegistry.getRequestXmlResource(creationBean.getRequestId());
         assertFalse(file.exists());
-            
     }
     
     protected String getXmlOutputFolder() {
@@ -137,9 +142,9 @@ public class RequestXmlGenerationJobTest extends RequestTestCase {
     protected void validateRequest() throws CvqInvalidTransitionException, CvqException {
         SecurityContext.setCurrentSite(localAuthorityName,SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        iRequestWorkflowService.updateRequestState(creationBean.getRequestId(),
+        requestWorkflowService.updateRequestState(creationBean.getRequestId(),
             RequestState.COMPLETE, null);
-        iRequestWorkflowService.updateRequestState(creationBean.getRequestId(),
+        requestWorkflowService.updateRequestState(creationBean.getRequestId(),
             RequestState.VALIDATED, null);
         this.continueWithNewTransaction();
     }

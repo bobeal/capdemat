@@ -10,6 +10,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+
 import org.springframework.core.Ordered;
 
 import fr.cg95.cvq.business.request.Category;
@@ -46,8 +47,8 @@ public class RequestContextCheckAspect implements Ordered {
     
     private IRequestDAO requestDAO;
     private IRequestTypeDAO requestTypeDAO;
-    private ICategoryDAO categoryDAO;
     private IRequestActionDAO requestActionDAO;
+    private ICategoryDAO categoryDAO;
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.request..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
@@ -95,7 +96,7 @@ public class RequestContextCheckAspect implements Ordered {
                         if (argument instanceof Long) {
                             try {
                                 requestAction = 
-                                    (RequestAction) requestActionDAO.findById(RequestAction.class,(Long)argument);
+                                    (RequestAction) requestActionDAO.findById(RequestAction.class, (Long)argument);
                             } catch (CvqObjectNotFoundException e) {
                                 throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                                     joinPoint.getSignature().getName(), context.type(),
@@ -287,11 +288,11 @@ public class RequestContextCheckAspect implements Ordered {
         this.requestTypeDAO = requestTypeDAO;
     }
 
-    public void setCategoryDAO(ICategoryDAO categoryDAO) {
-        this.categoryDAO = categoryDAO;
-    }
-    
     public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
         this.requestActionDAO = requestActionDAO;
+    }
+
+    public void setCategoryDAO(ICategoryDAO categoryDAO) {
+        this.categoryDAO = categoryDAO;
     }
 }

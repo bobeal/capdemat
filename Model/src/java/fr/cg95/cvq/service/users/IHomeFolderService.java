@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.users;
 import java.util.List;
 import java.util.Set;
 
+import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
@@ -52,7 +53,11 @@ public interface IHomeFolderService {
 
     void modify(@IsHomeFolder final HomeFolder homeFolder)
         throws CvqException;
-
+    
+    void modify(@IsHomeFolder final Long homeFolderId, final HomeFolderModificationRequest hfmr,
+            final List<Adult> newAdults, List<Child> newChildren, Address adress)
+        throws CvqException;
+    
     void delete(@IsHomeFolder final Long id)
     	throws CvqException, CvqObjectNotFoundException;
 

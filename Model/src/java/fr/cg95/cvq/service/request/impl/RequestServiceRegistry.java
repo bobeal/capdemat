@@ -193,10 +193,6 @@ public class RequestServiceRegistry
         requestType.setLabel(serviceLabel);
         requestType.setActive(Boolean.FALSE);
         requestType.setAuthorizeMultipleRegistrationsPerSeason(Boolean.FALSE);
-        if (service.isOfRegistrationKind())
-            requestType.setHasAutomaticActivation(Boolean.TRUE);
-        else 
-            requestType.setHasAutomaticActivation(Boolean.FALSE);
         Set<RequestForm> formsSet = new HashSet<RequestForm>();
         formsSet.add(requestForm);
         requestType.setForms(formsSet);

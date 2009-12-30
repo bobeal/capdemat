@@ -47,15 +47,7 @@ public class RequestType implements Serializable {
      * only applicable to request types that have seasons defined. 
      */
     private Boolean authorizeMultipleRegistrationsPerSeason;
-    /**
-     * whether this request type automatically switches to "Active" state when notified. 
-     * only applicable to request types of registration kind
-     * 
-     * @see IRequestService#isOfRegistrationKind()
-     * @see RequestState
-     */
-    private Boolean hasAutomaticActivation;
-    
+
     /** the maximum delay (in days) to deal with a request's instruction */
     private Integer instructionMaxDelay;
     /** the number of days before the maximum delay timeout where we send an alert email */
@@ -217,18 +209,6 @@ public class RequestType implements Serializable {
 	public void setInstructionMaxDelay(Integer instructionMaxDelay) {
 		this.instructionMaxDelay = instructionMaxDelay;
 	}
-
-    /**
-     * @hibernate.property
-     *  column="has_automatic_activation"
-     */
-    public Boolean getHasAutomaticActivation() {
-        return hasAutomaticActivation;
-    }
-
-    public void setHasAutomaticActivation(Boolean hasAutomaticActivation) {
-        this.hasAutomaticActivation = hasAutomaticActivation;
-    }
 
     @Override
     public String toString() {

@@ -26,6 +26,7 @@ class ContactController {
     def requestTypeService
 	def translationService
 	def instructionService
+	def homeFolderService
 	
     // directly taken from RequestInstructionController
     // TODO request decoupling

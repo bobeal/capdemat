@@ -56,7 +56,7 @@
 
         
           <p class="label">${i18n.translate('dhr.property.dhrRequesterBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.dhrRequesterBirthDate)}</div>
+          <div class="response">${rqt.dhrRequesterBirthDate ? String.format('%td/%<tm/%<tY',rqt.dhrRequesterBirthDate) : ''}</div>
           
 
         
@@ -73,7 +73,7 @@
 
         
           <p class="label">${i18n.translate('dhr.property.dhrRequesterFranceArrivalDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.dhrRequesterFranceArrivalDate)}</div>
+          <div class="response">${rqt.dhrRequesterFranceArrivalDate ? String.format('%td/%<tm/%<tY',rqt.dhrRequesterFranceArrivalDate) : ''}</div>
           
 
         
@@ -247,7 +247,7 @@
 
         
           <p class="label">${i18n.translate('dhr.property.dhrSpouseBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.dhrSpouseBirthDate)}</div>
+          <div class="response">${rqt.dhrSpouseBirthDate ? String.format('%td/%<tm/%<tY',rqt.dhrSpouseBirthDate) : ''}</div>
           
 
         
@@ -264,7 +264,7 @@
 
         
           <p class="label">${i18n.translate('dhr.property.dhrSpouseFranceArrivalDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.dhrSpouseFranceArrivalDate)}</div>
+          <div class="response">${rqt.dhrSpouseFranceArrivalDate ? String.format('%td/%<tm/%<tY',rqt.dhrSpouseFranceArrivalDate) : ''}</div>
           
 
         
@@ -397,7 +397,7 @@
 
         
           <p class="label">${i18n.translate('dhr.property.dhrCurrentDwellingArrivalDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.dhrCurrentDwellingArrivalDate)}</div>
+          <div class="response">${rqt.dhrCurrentDwellingArrivalDate ? String.format('%td/%<tm/%<tY',rqt.dhrCurrentDwellingArrivalDate) : ''}</div>
           
 
         
@@ -457,12 +457,12 @@
 
       
         <p class="label">${i18n.translate('dhr.property.dhrPreviousDwellingArrivalDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',collectionIt.dhrPreviousDwellingArrivalDate)}</div>
+          <div class="response">${collectionIt.dhrPreviousDwellingArrivalDate ? String.format('%td/%<tm/%<tY',collectionIt.dhrPreviousDwellingArrivalDate) : ''}</div>
           
 
       
         <p class="label">${i18n.translate('dhr.property.dhrPreviousDwellingDepartureDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',collectionIt.dhrPreviousDwellingDepartureDate)}</div>
+          <div class="response">${collectionIt.dhrPreviousDwellingDepartureDate ? String.format('%td/%<tm/%<tY',collectionIt.dhrPreviousDwellingDepartureDate) : ''}</div>
           
 
       
@@ -592,7 +592,7 @@
 
       
         <p class="label">${i18n.translate('dhr.property.dhrNotRealAssetDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',collectionIt.dhrNotRealAssetDate)}</div>
+          <div class="response">${collectionIt.dhrNotRealAssetDate ? String.format('%td/%<tm/%<tY',collectionIt.dhrNotRealAssetDate) : ''}</div>
           
 
       

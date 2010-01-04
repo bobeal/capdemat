@@ -56,7 +56,7 @@
 
         
           <p class="label">${i18n.translate('hccr.property.subjectBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.subjectBirthDate)}</div>
+          <div class="response">${rqt.subjectBirthDate ? String.format('%td/%<tm/%<tY',rqt.subjectBirthDate) : ''}</div>
           
 
         
@@ -176,7 +176,7 @@
 
         
           <p class="label">${i18n.translate('hccr.property.referentBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.referentBirthDate)}</div>
+          <div class="response">${rqt.referentBirthDate ? String.format('%td/%<tm/%<tY',rqt.referentBirthDate) : ''}</div>
           
 
         
@@ -222,7 +222,7 @@
 
       
         <p class="label">${i18n.translate('hccr.property.referentFamilyDependentBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',collectionIt.referentFamilyDependentBirthDate)}</div>
+          <div class="response">${collectionIt.referentFamilyDependentBirthDate ? String.format('%td/%<tm/%<tY',collectionIt.referentFamilyDependentBirthDate) : ''}</div>
           
 
       
@@ -648,7 +648,7 @@
 
         
           <p class="label">${i18n.translate('hccr.property.professionalStatusDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.professionalStatusDate)}</div>
+          <div class="response">${rqt.professionalStatusDate ? String.format('%td/%<tm/%<tY',rqt.professionalStatusDate) : ''}</div>
           
 
         
@@ -694,7 +694,7 @@
 
         
           <p class="label">${i18n.translate('hccr.property.professionalStatusRegisterAsUnemployedDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.professionalStatusRegisterAsUnemployedDate)}</div>
+          <div class="response">${rqt.professionalStatusRegisterAsUnemployedDate ? String.format('%td/%<tm/%<tY',rqt.professionalStatusRegisterAsUnemployedDate) : ''}</div>
           
 
         
@@ -711,7 +711,7 @@
 
         
           <p class="label">${i18n.translate('hccr.property.professionalStatusIndemnifiedDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.professionalStatusIndemnifiedDate)}</div>
+          <div class="response">${rqt.professionalStatusIndemnifiedDate ? String.format('%td/%<tm/%<tY',rqt.professionalStatusIndemnifiedDate) : ''}</div>
           
 
         

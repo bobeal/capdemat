@@ -65,7 +65,7 @@
 
         
           <p class="label">${i18n.translate('rsr.property.subjectBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.subjectBirthDate)}</div>
+          <div class="response">${rqt.subjectBirthDate ? String.format('%td/%<tm/%<tY',rqt.subjectBirthDate) : ''}</div>
           
 
         
@@ -168,7 +168,7 @@
 
         
           <p class="label">${i18n.translate('rsr.property.spouseBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.spouseBirthDate)}</div>
+          <div class="response">${rqt.spouseBirthDate ? String.format('%td/%<tm/%<tY',rqt.spouseBirthDate) : ''}</div>
           
 
         

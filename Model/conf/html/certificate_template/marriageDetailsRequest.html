@@ -130,7 +130,7 @@
       <div class="complex">
         
           <p class="label">${i18n.translate('mdr.property.marriageDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.marriageDate)}</div>
+          <div class="response">${rqt.marriageDate ? String.format('%td/%<tm/%<tY',rqt.marriageDate) : ''}</div>
           
 
         

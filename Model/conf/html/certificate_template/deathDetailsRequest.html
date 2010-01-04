@@ -95,7 +95,7 @@
   
     
       <p class="label">${i18n.translate('ddr.property.deathDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.deathDate)}</div>
+          <div class="response">${rqt.deathDate ? String.format('%td/%<tm/%<tY',rqt.deathDate) : ''}</div>
           
 
     

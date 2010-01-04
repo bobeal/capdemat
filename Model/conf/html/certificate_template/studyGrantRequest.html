@@ -79,7 +79,7 @@
 
         
           <p class="label">${i18n.translate('sgr.property.subjectBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.subjectBirthDate)}</div>
+          <div class="response">${rqt.subjectBirthDate ? String.format('%td/%<tm/%<tY',rqt.subjectBirthDate) : ''}</div>
           
 
         
@@ -296,12 +296,12 @@
 
         
           <p class="label">${i18n.translate('sgr.property.abroadInternshipStartDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.abroadInternshipStartDate)}</div>
+          <div class="response">${rqt.abroadInternshipStartDate ? String.format('%td/%<tm/%<tY',rqt.abroadInternshipStartDate) : ''}</div>
           
 
         
           <p class="label">${i18n.translate('sgr.property.abroadInternshipEndDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.abroadInternshipEndDate)}</div>
+          <div class="response">${rqt.abroadInternshipEndDate ? String.format('%td/%<tm/%<tY',rqt.abroadInternshipEndDate) : ''}</div>
           
 
         
@@ -376,7 +376,7 @@
   
     
       <p class="label">${i18n.translate('sgr.property.accountHolderBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.accountHolderBirthDate)}</div>
+          <div class="response">${rqt.accountHolderBirthDate ? String.format('%td/%<tm/%<tY',rqt.accountHolderBirthDate) : ''}</div>
           
 
     

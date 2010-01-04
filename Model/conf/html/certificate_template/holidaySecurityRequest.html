@@ -55,14 +55,14 @@
   
     
       <p class="label">${i18n.translate('hsr.property.absenceStartDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.absenceStartDate)}</div>
+          <div class="response">${rqt.absenceStartDate ? String.format('%td/%<tm/%<tY',rqt.absenceStartDate) : ''}</div>
           
 
     
   
     
       <p class="label">${i18n.translate('hsr.property.absenceEndDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.absenceEndDate)}</div>
+          <div class="response">${rqt.absenceEndDate ? String.format('%td/%<tm/%<tY',rqt.absenceEndDate) : ''}</div>
           
 
     

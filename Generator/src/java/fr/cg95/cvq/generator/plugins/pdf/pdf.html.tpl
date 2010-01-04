@@ -56,7 +56,7 @@
           """
       ,'date' :
           """
-          <div class="response">\${String.format('%td/%<tm/%<tY',${wrapper}.${element.javaFieldName})}</div>
+          <div class="response">\${${wrapper}.${element.javaFieldName} ? String.format('%td/%<tm/%<tY',${wrapper}.${element.javaFieldName}) : ''}</div>
           """
       ,'text' :
           """<div class="response">\${StringUtils.defaultString(${wrapper}.${element.javaFieldName}?.toString())}</div>"""

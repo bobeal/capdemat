@@ -116,7 +116,7 @@
   
     
       <p class="label">${i18n.translate('bdr.property.birthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.birthDate)}</div>
+          <div class="response">${rqt.birthDate ? String.format('%td/%<tm/%<tY',rqt.birthDate) : ''}</div>
           
 
     

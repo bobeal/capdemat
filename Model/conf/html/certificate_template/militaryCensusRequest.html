@@ -143,7 +143,7 @@
 
         
           <p class="label">${i18n.translate('mcr.property.fatherBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.fatherBirthDate)}</div>
+          <div class="response">${rqt.fatherBirthDate ? String.format('%td/%<tm/%<tY',rqt.fatherBirthDate) : ''}</div>
           
 
         
@@ -191,7 +191,7 @@
 
         
           <p class="label">${i18n.translate('mcr.property.motherBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.motherBirthDate)}</div>
+          <div class="response">${rqt.motherBirthDate ? String.format('%td/%<tm/%<tY',rqt.motherBirthDate) : ''}</div>
           
 
         

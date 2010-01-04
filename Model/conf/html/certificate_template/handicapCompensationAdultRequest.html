@@ -68,7 +68,7 @@
 
         
           <p class="label">${i18n.translate('hcar.property.subjectBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.subjectBirthDate)}</div>
+          <div class="response">${rqt.subjectBirthDate ? String.format('%td/%<tm/%<tY',rqt.subjectBirthDate) : ''}</div>
           
 
         
@@ -167,7 +167,7 @@
 
       
         <p class="label">${i18n.translate('hcar.property.familyDependentBirthDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',collectionIt.familyDependentBirthDate)}</div>
+          <div class="response">${collectionIt.familyDependentBirthDate ? String.format('%td/%<tm/%<tY',collectionIt.familyDependentBirthDate) : ''}</div>
           
 
       
@@ -441,7 +441,7 @@
 
         
           <p class="label">${i18n.translate('hcar.property.professionalStatusDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.professionalStatusDate)}</div>
+          <div class="response">${rqt.professionalStatusDate ? String.format('%td/%<tm/%<tY',rqt.professionalStatusDate) : ''}</div>
           
 
         
@@ -487,7 +487,7 @@
 
         
           <p class="label">${i18n.translate('hcar.property.professionalStatusRegisterAsUnemployedDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.professionalStatusRegisterAsUnemployedDate)}</div>
+          <div class="response">${rqt.professionalStatusRegisterAsUnemployedDate ? String.format('%td/%<tm/%<tY',rqt.professionalStatusRegisterAsUnemployedDate) : ''}</div>
           
 
         
@@ -504,7 +504,7 @@
 
         
           <p class="label">${i18n.translate('hcar.property.professionalStatusIndemnifiedDate.label')}</p>
-          <div class="response">${String.format('%td/%<tm/%<tY',rqt.professionalStatusIndemnifiedDate)}</div>
+          <div class="response">${rqt.professionalStatusIndemnifiedDate ? String.format('%td/%<tm/%<tY',rqt.professionalStatusIndemnifiedDate) : ''}</div>
           
 
         

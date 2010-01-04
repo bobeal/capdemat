@@ -183,11 +183,15 @@ ${endGT()}
 <% } %>
   <h2>\${i18n.translate('contact.property.meansOfContact')}</h2>
   <div class="response choice">
-  ${toGT('rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i ->')}
-    <span \${it == rqt.meansOfContact.type ? 'class=\"checked\"': ''}>
-      \${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
-    </span>\${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
-  ${toGT('}')}
+    ${toGT('if (rqt.meansOfContact) {')}
+      ${toGT('rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i ->')}
+        <span \${it == rqt.meansOfContact.type ? 'class=\"checked\"': ''}>
+          \${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+        </span>\${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+      ${toGT('}')}
+    ${toGT('} else {')}
+      <span class="checked">\${i18n.translate('request.meansOfContact.none')}</span>
+    ${toGT('}')}
   </div>
 </body>
 </html>

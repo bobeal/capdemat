@@ -81,11 +81,15 @@
   
   <h2>${i18n.translate('contact.property.meansOfContact')}</h2>
   <div class="response choice">
-  <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
-    <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
-      ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
-    </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
-  <% } %>
+    <% if (rqt.meansOfContact) { %>
+      <% rqt.meansOfContact.type.allMeansOfContactEnums.eachWithIndex {it, i -> %>
+        <span ${it == rqt.meansOfContact.type ? 'class="checked"': ''}>
+          ${i18n.translate('request.meansOfContact.' + StringUtils.uncapitalize(it.toString()))}
+        </span>${i + 1 < rqt.meansOfContact.type.allMeansOfContactEnums.length ? ', ' : ''}
+      <% } %>
+    <% } else { %>
+      <span class="checked">${i18n.translate('request.meansOfContact.none')}</span>
+    <% } %>
   </div>
 </body>
 </html>

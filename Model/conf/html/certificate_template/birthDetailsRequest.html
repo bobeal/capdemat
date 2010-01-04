@@ -137,11 +137,9 @@
   
     
       <p class="label">${i18n.translate('bdr.property.format.label')}</p>
-          <div class="response choice">
-            <% ['FullCopy','ExtractWithRelationship','ExtractWithoutRelationship','MultilingualExtract'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.format.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('bdr.property.format.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['FullCopy','ExtractWithRelationship','ExtractWithoutRelationship','MultilingualExtract']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.format) { %>
+              ${i18n.translate('bdr.property.format.' + StringUtils.uncapitalize(rqt.format.toString()))}
             <% } %>
           </div>
           
@@ -181,11 +179,9 @@
   
     
       <p class="label">${i18n.translate('bdr.property.motive.label')}</p>
-          <div class="response choice">
-            <% ['NotaryAct','NationalIdentityCard','FrenchNationalityCertificate','Marriage','Pacs','Passport','Pension','LegalProceedings','Other'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.motive.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('bdr.property.motive.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['NotaryAct','NationalIdentityCard','FrenchNationalityCertificate','Marriage','Pacs','Passport','Pension','LegalProceedings','Other']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.motive) { %>
+              ${i18n.translate('bdr.property.motive.' + StringUtils.uncapitalize(rqt.motive.toString()))}
             <% } %>
           </div>
           

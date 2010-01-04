@@ -55,11 +55,9 @@
   
     
       <p class="label">${i18n.translate('errr.property.subjectNationality.label')}</p>
-          <div class="response choice">
-            <% ['French','EuropeanUnion','OutsideEuropeanUnion'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.subjectNationality.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('errr.property.subjectNationality.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['French','EuropeanUnion','OutsideEuropeanUnion']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.subjectNationality) { %>
+              ${i18n.translate('errr.property.subjectNationality.' + StringUtils.uncapitalize(rqt.subjectNationality.toString()))}
             <% } %>
           </div>
           
@@ -68,11 +66,9 @@
   
     
       <p class="label">${i18n.translate('errr.property.motive.label')}</p>
-          <div class="response choice">
-            <% ['NewCityResident','DirectCityContribution','CivilServantObligatoryResident','FutureAuthorizedCitizen'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.motive.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('errr.property.motive.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['NewCityResident','DirectCityContribution','CivilServantObligatoryResident','FutureAuthorizedCitizen']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.motive) { %>
+              ${i18n.translate('errr.property.motive.' + StringUtils.uncapitalize(rqt.motive.toString()))}
             <% } %>
           </div>
           

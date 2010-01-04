@@ -115,11 +115,9 @@
   
     
       <p class="label">${i18n.translate('ancr.property.requesterQuality.label')}</p>
-          <div class="response choice">
-            <% ['Owner','Tenant','Cabinet'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.requesterQuality.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('ancr.property.requesterQuality.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Owner','Tenant','Cabinet']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.requesterQuality) { %>
+              ${i18n.translate('ancr.property.requesterQuality.' + StringUtils.uncapitalize(rqt.requesterQuality.toString()))}
             <% } %>
           </div>
           

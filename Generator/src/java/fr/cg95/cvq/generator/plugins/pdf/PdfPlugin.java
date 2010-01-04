@@ -119,7 +119,7 @@ public class PdfPlugin implements IPluginGenerator {
             elementPdf.setMandatory(false);
         
         if (elementProp.getEnumValues() != null) {
-            elementPdf.setWidget("choice");
+            elementPdf.setWidget("pick");
             elementPdf.setEnumValues(elementProp.getEnumValues());
         }
         else
@@ -148,8 +148,8 @@ public class PdfPlugin implements IPluginGenerator {
                 elementPdf.setAfter(ApplicationDocumentation.getNodeAttributeValue(node, "after"));
                 elementPdf.setModifier(ApplicationDocumentation.getNodeAttributeValue(node, "modifier"));
                 
-                if (appDoc.hasChildNode("pick"))
-                    elementPdf.setWidget("pick");
+                if (appDoc.hasChildNode("choice"))
+                    elementPdf.setWidget("choice");
             }
         }
     }

@@ -76,11 +76,9 @@
   
     
       <p class="label">${i18n.translate('parr.property.section.label')}</p>
-          <div class="response choice">
-            <% ['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.section.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('parr.property.section.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.section) { %>
+              ${i18n.translate('parr.property.section.' + StringUtils.uncapitalize(rqt.section.toString()))}
             <% } %>
           </div>
           

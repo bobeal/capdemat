@@ -55,11 +55,9 @@
   
     
       <p class="label">${i18n.translate('mcr.property.childTitle.label')}</p>
-          <div class="response choice">
-            <% ['Mister','Madam','Miss','Agency','Unknown'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.childTitle.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.childTitle.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Mister','Madam','Miss','Agency','Unknown']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.childTitle) { %>
+              ${i18n.translate('mcr.property.childTitle.' + StringUtils.uncapitalize(rqt.childTitle.toString()))}
             <% } %>
           </div>
           
@@ -73,11 +71,9 @@
   
     
       <p class="label">${i18n.translate('mcr.property.childBirthCountry.label')}</p>
-          <div class="response choice">
-            <% ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.childBirthCountry.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.childBirthCountry.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.childBirthCountry) { %>
+              ${i18n.translate('mcr.property.childBirthCountry.' + StringUtils.uncapitalize(rqt.childBirthCountry.toString()))}
             <% } %>
           </div>
           
@@ -86,11 +82,9 @@
   
     
       <p class="label">${i18n.translate('mcr.property.childResidenceCountry.label')}</p>
-          <div class="response choice">
-            <% ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.childResidenceCountry.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.childResidenceCountry.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.childResidenceCountry) { %>
+              ${i18n.translate('mcr.property.childResidenceCountry.' + StringUtils.uncapitalize(rqt.childResidenceCountry.toString()))}
             <% } %>
           </div>
           
@@ -109,11 +103,9 @@
   
     
       <p class="label">${i18n.translate('mcr.property.childCountry.label')}</p>
-          <div class="response choice">
-            <% ['None','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bs','bh','bd','bb','be','bz','bj','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gu','gt','gn','gq','gw','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','ci','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.childCountry.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.childCountry.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['None','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bs','bh','bd','bb','be','bz','bj','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gu','gt','gn','gq','gw','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','ci','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.childCountry) { %>
+              ${i18n.translate('mcr.property.childCountry.' + StringUtils.uncapitalize(rqt.childCountry.toString()))}
             <% } %>
           </div>
           
@@ -122,11 +114,9 @@
   
     
       <p class="label">${i18n.translate('mcr.property.childOtherCountry.label')}</p>
-          <div class="response choice">
-            <% ['None','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bs','bh','bd','bb','be','bz','bj','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gu','gt','gn','gq','gw','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','ci','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.childOtherCountry.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.childOtherCountry.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['None','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bs','bh','bd','bb','be','bz','bj','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gu','gt','gn','gq','gw','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','ci','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.childOtherCountry) { %>
+              ${i18n.translate('mcr.property.childOtherCountry.' + StringUtils.uncapitalize(rqt.childOtherCountry.toString()))}
             <% } %>
           </div>
           
@@ -161,33 +151,27 @@
 
         
           <p class="label">${i18n.translate('mcr.property.fatherBirthDepartment.label')}</p>
-          <div class="response choice">
-            <% ['None','DEP_01','DEP_02','DEP_03','DEP_04','DEP_05','DEP_06','DEP_07','DEP_08','DEP_09','DEP_10','DEP_11','DEP_12','DEP_13','DEP_14','DEP_15','DEP_16','DEP_17','DEP_18','DEP_19','DEP_2A','DEP_2B','DEP_21','DEP_22','DEP_23','DEP_24','DEP_25','DEP_26','DEP_27','DEP_28','DEP_29','DEP_30','DEP_31','DEP_32','DEP_33','DEP_34','DEP_35','DEP_36','DEP_37','DEP_38','DEP_39','DEP_40','DEP_41','DEP_42','DEP_43','DEP_44','DEP_45','DEP_46','DEP_47','DEP_48','DEP_49','DEP_50','DEP_51','DEP_52','DEP_53','DEP_54','DEP_55','DEP_56','DEP_57','DEP_58','DEP_59','DEP_60','DEP_61','DEP_62','DEP_63','DEP_64','DEP_65','DEP_66','DEP_67','DEP_68','DEP_69','DEP_70','DEP_71','DEP_72','DEP_73','DEP_74','DEP_75','DEP_76','DEP_77','DEP_78','DEP_79','DEP_80','DEP_81','DEP_82','DEP_83','DEP_84','DEP_85','DEP_86','DEP_87','DEP_88','DEP_89','DEP_90','DEP_91','DEP_92','DEP_93','DEP_94','DEP_95','DEP_971','DEP_972','DEP_973','DEP_974'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.fatherBirthDepartment.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.fatherBirthDepartment.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['None','DEP_01','DEP_02','DEP_03','DEP_04','DEP_05','DEP_06','DEP_07','DEP_08','DEP_09','DEP_10','DEP_11','DEP_12','DEP_13','DEP_14','DEP_15','DEP_16','DEP_17','DEP_18','DEP_19','DEP_2A','DEP_2B','DEP_21','DEP_22','DEP_23','DEP_24','DEP_25','DEP_26','DEP_27','DEP_28','DEP_29','DEP_30','DEP_31','DEP_32','DEP_33','DEP_34','DEP_35','DEP_36','DEP_37','DEP_38','DEP_39','DEP_40','DEP_41','DEP_42','DEP_43','DEP_44','DEP_45','DEP_46','DEP_47','DEP_48','DEP_49','DEP_50','DEP_51','DEP_52','DEP_53','DEP_54','DEP_55','DEP_56','DEP_57','DEP_58','DEP_59','DEP_60','DEP_61','DEP_62','DEP_63','DEP_64','DEP_65','DEP_66','DEP_67','DEP_68','DEP_69','DEP_70','DEP_71','DEP_72','DEP_73','DEP_74','DEP_75','DEP_76','DEP_77','DEP_78','DEP_79','DEP_80','DEP_81','DEP_82','DEP_83','DEP_84','DEP_85','DEP_86','DEP_87','DEP_88','DEP_89','DEP_90','DEP_91','DEP_92','DEP_93','DEP_94','DEP_95','DEP_971','DEP_972','DEP_973','DEP_974']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.fatherBirthDepartment) { %>
+              ${i18n.translate('mcr.property.fatherBirthDepartment.' + StringUtils.uncapitalize(rqt.fatherBirthDepartment.toString()))}
             <% } %>
           </div>
           
 
         
           <p class="label">${i18n.translate('mcr.property.fatherBirthCountry.label')}</p>
-          <div class="response choice">
-            <% ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.fatherBirthCountry.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.fatherBirthCountry.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.fatherBirthCountry) { %>
+              ${i18n.translate('mcr.property.fatherBirthCountry.' + StringUtils.uncapitalize(rqt.fatherBirthCountry.toString()))}
             <% } %>
           </div>
           
 
         
           <p class="label">${i18n.translate('mcr.property.fatherNationality.label')}</p>
-          <div class="response choice">
-            <% ['None','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bs','bh','bd','bb','be','bz','bj','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gu','gt','gn','gq','gw','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','ci','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.fatherNationality.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.fatherNationality.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['None','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bs','bh','bd','bb','be','bz','bj','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gu','gt','gn','gq','gw','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','ci','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.fatherNationality) { %>
+              ${i18n.translate('mcr.property.fatherNationality.' + StringUtils.uncapitalize(rqt.fatherNationality.toString()))}
             <% } %>
           </div>
           
@@ -215,33 +199,27 @@
 
         
           <p class="label">${i18n.translate('mcr.property.motherBirthDepartment.label')}</p>
-          <div class="response choice">
-            <% ['None','DEP_01','DEP_02','DEP_03','DEP_04','DEP_05','DEP_06','DEP_07','DEP_08','DEP_09','DEP_10','DEP_11','DEP_12','DEP_13','DEP_14','DEP_15','DEP_16','DEP_17','DEP_18','DEP_19','DEP_2A','DEP_2B','DEP_21','DEP_22','DEP_23','DEP_24','DEP_25','DEP_26','DEP_27','DEP_28','DEP_29','DEP_30','DEP_31','DEP_32','DEP_33','DEP_34','DEP_35','DEP_36','DEP_37','DEP_38','DEP_39','DEP_40','DEP_41','DEP_42','DEP_43','DEP_44','DEP_45','DEP_46','DEP_47','DEP_48','DEP_49','DEP_50','DEP_51','DEP_52','DEP_53','DEP_54','DEP_55','DEP_56','DEP_57','DEP_58','DEP_59','DEP_60','DEP_61','DEP_62','DEP_63','DEP_64','DEP_65','DEP_66','DEP_67','DEP_68','DEP_69','DEP_70','DEP_71','DEP_72','DEP_73','DEP_74','DEP_75','DEP_76','DEP_77','DEP_78','DEP_79','DEP_80','DEP_81','DEP_82','DEP_83','DEP_84','DEP_85','DEP_86','DEP_87','DEP_88','DEP_89','DEP_90','DEP_91','DEP_92','DEP_93','DEP_94','DEP_95','DEP_971','DEP_972','DEP_973','DEP_974'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.motherBirthDepartment.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.motherBirthDepartment.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['None','DEP_01','DEP_02','DEP_03','DEP_04','DEP_05','DEP_06','DEP_07','DEP_08','DEP_09','DEP_10','DEP_11','DEP_12','DEP_13','DEP_14','DEP_15','DEP_16','DEP_17','DEP_18','DEP_19','DEP_2A','DEP_2B','DEP_21','DEP_22','DEP_23','DEP_24','DEP_25','DEP_26','DEP_27','DEP_28','DEP_29','DEP_30','DEP_31','DEP_32','DEP_33','DEP_34','DEP_35','DEP_36','DEP_37','DEP_38','DEP_39','DEP_40','DEP_41','DEP_42','DEP_43','DEP_44','DEP_45','DEP_46','DEP_47','DEP_48','DEP_49','DEP_50','DEP_51','DEP_52','DEP_53','DEP_54','DEP_55','DEP_56','DEP_57','DEP_58','DEP_59','DEP_60','DEP_61','DEP_62','DEP_63','DEP_64','DEP_65','DEP_66','DEP_67','DEP_68','DEP_69','DEP_70','DEP_71','DEP_72','DEP_73','DEP_74','DEP_75','DEP_76','DEP_77','DEP_78','DEP_79','DEP_80','DEP_81','DEP_82','DEP_83','DEP_84','DEP_85','DEP_86','DEP_87','DEP_88','DEP_89','DEP_90','DEP_91','DEP_92','DEP_93','DEP_94','DEP_95','DEP_971','DEP_972','DEP_973','DEP_974']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.motherBirthDepartment) { %>
+              ${i18n.translate('mcr.property.motherBirthDepartment.' + StringUtils.uncapitalize(rqt.motherBirthDepartment.toString()))}
             <% } %>
           </div>
           
 
         
           <p class="label">${i18n.translate('mcr.property.motherBirthCountry.label')}</p>
-          <div class="response choice">
-            <% ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.motherBirthCountry.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.motherBirthCountry.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.motherBirthCountry) { %>
+              ${i18n.translate('mcr.property.motherBirthCountry.' + StringUtils.uncapitalize(rqt.motherBirthCountry.toString()))}
             <% } %>
           </div>
           
 
         
           <p class="label">${i18n.translate('mcr.property.motherNationality.label')}</p>
-          <div class="response choice">
-            <% ['None','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bs','bh','bd','bb','be','bz','bj','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gu','gt','gn','gq','gw','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','ci','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.motherNationality.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.motherNationality.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['None','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bs','bh','bd','bb','be','bz','bj','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gu','gt','gn','gq','gw','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','ci','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.motherNationality) { %>
+              ${i18n.translate('mcr.property.motherNationality.' + StringUtils.uncapitalize(rqt.motherNationality.toString()))}
             <% } %>
           </div>
           
@@ -262,11 +240,9 @@
 
         
           <p class="label">${i18n.translate('mcr.property.childStatus.label')}</p>
-          <div class="response choice">
-            <% ['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.childStatus.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.childStatus.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.childStatus) { %>
+              ${i18n.translate('mcr.property.childStatus.' + StringUtils.uncapitalize(rqt.childStatus.toString()))}
             <% } %>
           </div>
           
@@ -303,11 +279,9 @@
 
         
           <p class="label">${i18n.translate('mcr.property.prefectPupilDepartment.label')}</p>
-          <div class="response choice">
-            <% ['None','DEP_01','DEP_02','DEP_03','DEP_04','DEP_05','DEP_06','DEP_07','DEP_08','DEP_09','DEP_10','DEP_11','DEP_12','DEP_13','DEP_14','DEP_15','DEP_16','DEP_17','DEP_18','DEP_19','DEP_2A','DEP_2B','DEP_21','DEP_22','DEP_23','DEP_24','DEP_25','DEP_26','DEP_27','DEP_28','DEP_29','DEP_30','DEP_31','DEP_32','DEP_33','DEP_34','DEP_35','DEP_36','DEP_37','DEP_38','DEP_39','DEP_40','DEP_41','DEP_42','DEP_43','DEP_44','DEP_45','DEP_46','DEP_47','DEP_48','DEP_49','DEP_50','DEP_51','DEP_52','DEP_53','DEP_54','DEP_55','DEP_56','DEP_57','DEP_58','DEP_59','DEP_60','DEP_61','DEP_62','DEP_63','DEP_64','DEP_65','DEP_66','DEP_67','DEP_68','DEP_69','DEP_70','DEP_71','DEP_72','DEP_73','DEP_74','DEP_75','DEP_76','DEP_77','DEP_78','DEP_79','DEP_80','DEP_81','DEP_82','DEP_83','DEP_84','DEP_85','DEP_86','DEP_87','DEP_88','DEP_89','DEP_90','DEP_91','DEP_92','DEP_93','DEP_94','DEP_95','DEP_971','DEP_972','DEP_973','DEP_974'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.prefectPupilDepartment.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.prefectPupilDepartment.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['None','DEP_01','DEP_02','DEP_03','DEP_04','DEP_05','DEP_06','DEP_07','DEP_08','DEP_09','DEP_10','DEP_11','DEP_12','DEP_13','DEP_14','DEP_15','DEP_16','DEP_17','DEP_18','DEP_19','DEP_2A','DEP_2B','DEP_21','DEP_22','DEP_23','DEP_24','DEP_25','DEP_26','DEP_27','DEP_28','DEP_29','DEP_30','DEP_31','DEP_32','DEP_33','DEP_34','DEP_35','DEP_36','DEP_37','DEP_38','DEP_39','DEP_40','DEP_41','DEP_42','DEP_43','DEP_44','DEP_45','DEP_46','DEP_47','DEP_48','DEP_49','DEP_50','DEP_51','DEP_52','DEP_53','DEP_54','DEP_55','DEP_56','DEP_57','DEP_58','DEP_59','DEP_60','DEP_61','DEP_62','DEP_63','DEP_64','DEP_65','DEP_66','DEP_67','DEP_68','DEP_69','DEP_70','DEP_71','DEP_72','DEP_73','DEP_74','DEP_75','DEP_76','DEP_77','DEP_78','DEP_79','DEP_80','DEP_81','DEP_82','DEP_83','DEP_84','DEP_85','DEP_86','DEP_87','DEP_88','DEP_89','DEP_90','DEP_91','DEP_92','DEP_93','DEP_94','DEP_95','DEP_971','DEP_972','DEP_973','DEP_974']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.prefectPupilDepartment) { %>
+              ${i18n.translate('mcr.property.prefectPupilDepartment.' + StringUtils.uncapitalize(rqt.prefectPupilDepartment.toString()))}
             <% } %>
           </div>
           
@@ -321,22 +295,18 @@
       <div class="complex">
         
           <p class="label">${i18n.translate('mcr.property.childSituation.label')}</p>
-          <div class="response choice">
-            <% ['College','Highschool','Student','Employee','Apprentice','Other','Unknown'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.childSituation.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.childSituation.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['College','Highschool','Student','Employee','Apprentice','Other','Unknown']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.childSituation) { %>
+              ${i18n.translate('mcr.property.childSituation.' + StringUtils.uncapitalize(rqt.childSituation.toString()))}
             <% } %>
           </div>
           
 
         
           <p class="label">${i18n.translate('mcr.property.childDiploma.label')}</p>
-          <div class="response choice">
-            <% ['BAC','BEP','BEPC','Brevet','CFG','CAP','DAEU','DEA','DEUG','Licence','Maitrise','Unknown'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.childDiploma.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('mcr.property.childDiploma.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['BAC','BEP','BEPC','Brevet','CFG','CAP','DAEU','DEA','DEUG','Licence','Maitrise','Unknown']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.childDiploma) { %>
+              ${i18n.translate('mcr.property.childDiploma.' + StringUtils.uncapitalize(rqt.childDiploma.toString()))}
             <% } %>
           </div>
           

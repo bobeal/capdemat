@@ -56,11 +56,9 @@
 
         
           <p class="label">${i18n.translate('hcar.property.subjectTitle.label')}</p>
-          <div class="response choice">
-            <% ['Mister','Madam','Miss','Agency','Unknown'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.subjectTitle.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.subjectTitle.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Mister','Madam','Miss','Agency','Unknown']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.subjectTitle) { %>
+              ${i18n.translate('hcar.property.subjectTitle.' + StringUtils.uncapitalize(rqt.subjectTitle.toString()))}
             <% } %>
           </div>
           
@@ -100,22 +98,18 @@
 
         
           <p class="label">${i18n.translate('hcar.property.legalAccessKind.label')}</p>
-          <div class="response choice">
-            <% ['safeguardingJustice','guardianship','curatorship'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.legalAccessKind.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.legalAccessKind.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['safeguardingJustice','guardianship','curatorship']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.legalAccessKind) { %>
+              ${i18n.translate('hcar.property.legalAccessKind.' + StringUtils.uncapitalize(rqt.legalAccessKind.toString()))}
             <% } %>
           </div>
           
 
         
           <p class="label">${i18n.translate('hcar.property.legalAccessRepresentativeKind.label')}</p>
-          <div class="response choice">
-            <% ['FamilyMember','Agency','Other'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.legalAccessRepresentativeKind.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.legalAccessRepresentativeKind.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['FamilyMember','Agency','Other']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.legalAccessRepresentativeKind) { %>
+              ${i18n.translate('hcar.property.legalAccessRepresentativeKind.' + StringUtils.uncapitalize(rqt.legalAccessRepresentativeKind.toString()))}
             <% } %>
           </div>
           
@@ -138,11 +132,9 @@
       <div class="complex">
         
           <p class="label">${i18n.translate('hcar.property.familyStatus.label')}</p>
-          <div class="response choice">
-            <% ['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.familyStatus.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.familyStatus.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Married','Single','Divorced','Widow','CommonLawMarriage','PACS','Other']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.familyStatus) { %>
+              ${i18n.translate('hcar.property.familyStatus.' + StringUtils.uncapitalize(rqt.familyStatus.toString()))}
             <% } %>
           </div>
           
@@ -180,11 +172,9 @@
 
       
         <p class="label">${i18n.translate('hcar.property.familyDependentActualSituation.label')}</p>
-          <div class="response choice">
-            <% ['Schooling','Learning','MedicoSocial'].eachWithIndex {it, i -> %>
-              <span ${it == collectionIt.familyDependentActualSituation.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.familyDependentActualSituation.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Schooling','Learning','MedicoSocial']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(collectionIt.familyDependentActualSituation) { %>
+              ${i18n.translate('hcar.property.familyDependentActualSituation.' + StringUtils.uncapitalize(collectionIt.familyDependentActualSituation.toString()))}
             <% } %>
           </div>
           
@@ -203,11 +193,9 @@
       <div class="complex">
         
           <p class="label">${i18n.translate('hcar.property.dwellingKind.label')}</p>
-          <div class="response choice">
-            <% ['PlaceOfResidence','ThirdPartyPlaceOfResidence','Other'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.dwellingKind.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.dwellingKind.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['PlaceOfResidence','ThirdPartyPlaceOfResidence','Other']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.dwellingKind) { %>
+              ${i18n.translate('hcar.property.dwellingKind.' + StringUtils.uncapitalize(rqt.dwellingKind.toString()))}
             <% } %>
           </div>
           
@@ -229,11 +217,9 @@
 
         
           <p class="label">${i18n.translate('hcar.property.dwellingReceptionType.label')}</p>
-          <div class="response choice">
-            <% ['Internship','Clerkship'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.dwellingReceptionType.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.dwellingReceptionType.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Internship','Clerkship']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.dwellingReceptionType) { %>
+              ${i18n.translate('hcar.property.dwellingReceptionType.' + StringUtils.uncapitalize(rqt.dwellingReceptionType.toString()))}
             <% } %>
           </div>
           
@@ -297,11 +283,9 @@
       <div class="complex">
         
           <p class="label">${i18n.translate('hcar.property.socialSecurityMemberShipKind.label')}</p>
-          <div class="response choice">
-            <% ['Insured','Claimant','NoMemberShip'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.socialSecurityMemberShipKind.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.socialSecurityMemberShipKind.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Insured','Claimant','NoMemberShip']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.socialSecurityMemberShipKind) { %>
+              ${i18n.translate('hcar.property.socialSecurityMemberShipKind.' + StringUtils.uncapitalize(rqt.socialSecurityMemberShipKind.toString()))}
             <% } %>
           </div>
           
@@ -335,11 +319,9 @@
       <div class="complex">
         
           <p class="label">${i18n.translate('hcar.property.paymentAgencyBeneficiary.label')}</p>
-          <div class="response choice">
-            <% ['CAF','MSA','Other','NoMemberShip'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.paymentAgencyBeneficiary.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.paymentAgencyBeneficiary.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['CAF','MSA','Other','NoMemberShip']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.paymentAgencyBeneficiary) { %>
+              ${i18n.translate('hcar.property.paymentAgencyBeneficiary.' + StringUtils.uncapitalize(rqt.paymentAgencyBeneficiary.toString()))}
             <% } %>
           </div>
           
@@ -450,11 +432,9 @@
       <div class="complex">
         
           <p class="label">${i18n.translate('hcar.property.professionalStatusKind.label')}</p>
-          <div class="response choice">
-            <% ['Employee','Unemployed','Jobless','Student','Retired'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.professionalStatusKind.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.professionalStatusKind.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Employee','Unemployed','Jobless','Student','Retired']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.professionalStatusKind) { %>
+              ${i18n.translate('hcar.property.professionalStatusKind.' + StringUtils.uncapitalize(rqt.professionalStatusKind.toString()))}
             <% } %>
           </div>
           
@@ -466,11 +446,9 @@
 
         
           <p class="label">${i18n.translate('hcar.property.professionalStatusEnvironment.label')}</p>
-          <div class="response choice">
-            <% ['Ordinary','Adapted','Protected'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.professionalStatusEnvironment.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.professionalStatusEnvironment.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Ordinary','Adapted','Protected']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.professionalStatusEnvironment) { %>
+              ${i18n.translate('hcar.property.professionalStatusEnvironment.' + StringUtils.uncapitalize(rqt.professionalStatusEnvironment.toString()))}
             <% } %>
           </div>
           
@@ -1044,11 +1022,9 @@
       <% rqt.homeIntervenants.each { collectionIt -> %>
       
         <p class="label">${i18n.translate('hcar.property.homeIntervenantKind.label')}</p>
-          <div class="response choice">
-            <% ['Carer','HomeHelp','Other'].eachWithIndex {it, i -> %>
-              <span ${it == collectionIt.homeIntervenantKind.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('hcar.property.homeIntervenantKind.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['Carer','HomeHelp','Other']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(collectionIt.homeIntervenantKind) { %>
+              ${i18n.translate('hcar.property.homeIntervenantKind.' + StringUtils.uncapitalize(collectionIt.homeIntervenantKind.toString()))}
             <% } %>
           </div>
           

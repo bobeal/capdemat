@@ -116,11 +116,9 @@
   
     
       <p class="label">${i18n.translate('ddr.property.format.label')}</p>
-          <div class="response choice">
-            <% ['FullCopy','MultilingualExtract'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.format.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('ddr.property.format.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['FullCopy','MultilingualExtract']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.format) { %>
+              ${i18n.translate('ddr.property.format.' + StringUtils.uncapitalize(rqt.format.toString()))}
             <% } %>
           </div>
           
@@ -139,11 +137,9 @@
   
     
       <p class="label">${i18n.translate('ddr.property.motive.label')}</p>
-          <div class="response choice">
-            <% ['NotaryAct','Marriage','Passport','Pension','Other'].eachWithIndex {it, i -> %>
-              <span ${it == rqt.motive.toString() ? 'class="checked"': ''}>
-                ${i18n.translate('ddr.property.motive.' + StringUtils.uncapitalize(it))}
-              </span>${i + 1 < ['NotaryAct','Marriage','Passport','Pension','Other']?.size() ? ', ' : ''}
+          <div class="response">
+            <% if(rqt.motive) { %>
+              ${i18n.translate('ddr.property.motive.' + StringUtils.uncapitalize(rqt.motive.toString()))}
             <% } %>
           </div>
           

@@ -182,7 +182,7 @@ class RequestController {
     }
     
     def initSearchReferential() {
-        return ['allStates':RequestState.allRequestStates,
+        return ['allStates':RequestState.allRequestStates.findAll { it != RequestState.DRAFT },
                 'allAgents':agentService.getAll(),
                 'allCategories':categoryService.getAll(),
                 'allRequestTypes':requestAdaptorService.translateAndSortRequestTypes()]

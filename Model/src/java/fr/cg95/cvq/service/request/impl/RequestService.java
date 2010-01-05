@@ -151,6 +151,8 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
             beanFactory.getBeansOfType(IExternalService.class, false, false).values().iterator().next();
         this.requestWorkflowService = (IRequestWorkflowService)
             beanFactory.getBeansOfType(IRequestWorkflowService.class, false, false).values().iterator().next();
+        this.certificateService = (ICertificateService)
+            beanFactory.getBeansOfType(ICertificateService.class, false, false).values().iterator().next();
         
         initFilledConditions();
     }
@@ -1282,10 +1284,6 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
     
     public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
-    }
-
-    public void setCertificateService(ICertificateService certificateService) {
-        this.certificateService = certificateService;
     }
 
     public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {

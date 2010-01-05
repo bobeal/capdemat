@@ -75,6 +75,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
             beanFactory.getBeansOfType(IExternalService.class, false, false).values().iterator().next();
         this.homeFolderService = (IHomeFolderService)
             beanFactory.getBeansOfType(IHomeFolderService.class, false, false).values().iterator().next();
+        this.certificateService = (ICertificateService)
+            beanFactory.getBeansOfType(ICertificateService.class, false, false).values().iterator().next();
     }
 
     @Override
@@ -608,16 +610,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         this.requestDAO = requestDAO;
     }
 
-    public void setCertificateService(ICertificateService certificateService) {
-        this.certificateService = certificateService;
-    }
-
     public void setDocumentService(IDocumentService documentService) {
         this.documentService = documentService;
-    }
-
-    public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
     }
 
     public void setRequestActionService(IRequestActionService requestActionService) {

@@ -48,7 +48,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
   <bean id="fakeSmsService" class="fr.cg95.cvq.util.sms.impl.FakeSmsService" />
   
-  <bean id="certificateService" class="fr.cg95.cvq.service.users.impl.CertificateService">
+  <bean id="certificateService" class="fr.cg95.cvq.service.users.impl.CertificateService"
+      init-method="init">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
     <property name="individualService" ref="individualService"/>
@@ -158,7 +159,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="individualService" ref="individualService" />
     <property name="documentTypeService" ref="documentTypeService" />
     <property name="documentService" ref="documentService" />
-    <property name="certificateService" ref="certificateService" />
     <property name="mailService" ref="mailService" />
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
     <property name="requestTypeService" ref="requestTypeService" />
@@ -185,7 +185,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="requestActionService" ref="requestActionService" />
     <property name="requestNotificationService" ref="requestNotificationService" />
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
-    <property name="certificateService" ref="certificateService" />
     <property name="documentService" ref="documentService" />
     <!--
     <property name="homeFolderService" ref="homeFolderService" />

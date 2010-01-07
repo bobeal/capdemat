@@ -250,6 +250,10 @@ class RequestInstructionController {
             model['lrType'] = lrTypes[params.propertyName]
             model['lrDatas'] = rqt[params.propertyName].collect { it.name }
             flash[params.propertyName + 'Index'] = 0
+            model["htmlClass"] =
+                (model["lrType"].entriesSupportMultiple ? "validate-localReferentialData " :
+                    (model["required"] != "" ? "validate-not-first " : "")) +
+                model["required"]
         }
         else if (propertyType == "school") {
             model.schools = schoolService.getAll()

@@ -15,7 +15,7 @@ public class LocalAuthorityResource {
     static {
         internetMediaTypes.put(".png", "image/png");
         internetMediaTypes.put(".css", "text/css");
-        internetMediaTypes.put(".pdf", "content/pdf");
+        internetMediaTypes.put(".pdf", "application/pdf");
     }
 
     public static enum Version {

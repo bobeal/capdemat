@@ -1,11 +1,13 @@
 package fr.cg95.cvq.dao.external.hibernate;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.type.Type;
 
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
@@ -19,29 +21,105 @@ import fr.cg95.cvq.util.Critere;
  */
 public final class ExternalServiceTraceDAO extends GenericDAO implements IExternalServiceTraceDAO {
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<ExternalServiceTrace> get(Set<Critere> criteriaSet, String sort,
-        String dir, int count, int offset) {
-        Criteria criteria = HibernateUtil.getSession().createCriteria(ExternalServiceTrace.class);
-        for (Critere critere : criteriaSet) {
-            criteria.add(critere.compose());
+        String dir, int count, int offset, boolean lastOnly) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("select * from external_service_traces");
+        if (lastOnly) {
+            sb.append(" where id in (select id from external_service_traces as a group by id, key having id = ( select id from external_service_traces as b where b.key=a.key order by date desc, id desc limit 1))");
+        } else {
+            sb.append(" where 1 = 1 ");
         }
-        if (sort == null || sort.trim().isEmpty())
-            sort = ExternalServiceTrace.SEARCH_BY_DATE;
-        if ("desc".equals(dir)) criteria.addOrder(Order.desc(sort));
-        else criteria.addOrder(Order.asc(sort));
+        List<Object> parametersValues = new ArrayList<Object>();
+        List<Type> parametersTypes = new ArrayList<Type>();
+        for (Critere searchCrit : criteriaSet) {
+            sb.append(" and ").append(searchCrit.getAttribut()).append(searchCrit.getSqlComparatif()).append(" ?");
+            if (ExternalServiceTrace.SEARCH_BY_DATE.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getDateValue());
+                parametersTypes.add(Hibernate.TIMESTAMP);
+            } else if (ExternalServiceTrace.SEARCH_BY_ID.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
+            } else if (ExternalServiceTrace.SEARCH_BY_KEY.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (ExternalServiceTrace.SEARCH_BY_KEY_OWNER.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (ExternalServiceTrace.SEARCH_BY_MESSAGE.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (ExternalServiceTrace.SEARCH_BY_NAME.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (ExternalServiceTrace.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getValue().toString());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (ExternalServiceTrace.SEARCH_BY_SUBKEY.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            }
+        }
+        sb.append(" order by ");
+        if (sort != null) {
+            sb.append(sort);
+        } else {
+            sb.append(ExternalServiceTrace.SEARCH_BY_DATE);
+        }
+        if (dir != null && dir.equals("desc"))
+            sb.append(" desc");
+        else sb.append(" asc");
+        Query query = HibernateUtil.getSession().createSQLQuery(sb.toString()).addEntity(ExternalServiceTrace.class);
+        query.setParameters(parametersValues.toArray(), parametersTypes.toArray(new Type[0]));
         if (count > 0)
-            criteria.setMaxResults(count);
-        criteria.setFirstResult(offset);
-        return (List<ExternalServiceTrace>)criteria.list();
+            query.setMaxResults(count);
+        query.setFirstResult(offset);
+        return (List<ExternalServiceTrace>)query.list();
     }
 
-    public Long getCount(Set<Critere> criteriaSet) {
-        Criteria criteria = HibernateUtil.getSession().createCriteria(ExternalServiceTrace.class);
-        for (Critere critere : criteriaSet) {
-            criteria.add(critere.compose());
+    @Override
+    public Long getCount(Set<Critere> criteriaSet, boolean lastOnly) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("select count(*) from external_service_traces");
+        if (lastOnly) {
+            sb.append(" where id in (select id from external_service_traces as a group by id, key having id = ( select id from external_service_traces as b where b.key=a.key order by date desc, id desc limit 1))");
+        } else {
+            sb.append(" where 1 = 1 ");
         }
-        criteria.setProjection(Projections.rowCount());
-        return new Long((Integer)criteria.list().get(0));
+        List<Object> parametersValues = new ArrayList<Object>();
+        List<Type> parametersTypes = new ArrayList<Type>();
+        for (Critere searchCrit : criteriaSet) {
+            sb.append(" and ").append(searchCrit.getAttribut()).append(searchCrit.getSqlComparatif()).append(" ?");
+            if (ExternalServiceTrace.SEARCH_BY_DATE.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getDateValue());
+                parametersTypes.add(Hibernate.TIMESTAMP);
+            } else if (ExternalServiceTrace.SEARCH_BY_ID.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getLongValue());
+                parametersTypes.add(Hibernate.LONG);
+            } else if (ExternalServiceTrace.SEARCH_BY_KEY.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (ExternalServiceTrace.SEARCH_BY_KEY_OWNER.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (ExternalServiceTrace.SEARCH_BY_MESSAGE.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (ExternalServiceTrace.SEARCH_BY_NAME.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (ExternalServiceTrace.SEARCH_BY_STATUS.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getValue().toString());
+                parametersTypes.add(Hibernate.STRING);
+            } else if (ExternalServiceTrace.SEARCH_BY_SUBKEY.equals(searchCrit.getAttribut())) {
+                parametersValues.add(searchCrit.getSqlStringValue());
+                parametersTypes.add(Hibernate.STRING);
+            }
+        }
+        Query query = HibernateUtil.getSession().createSQLQuery(sb.toString());
+        query.setParameters(parametersValues.toArray(), parametersTypes.toArray(new Type[0]));
+        return ((BigInteger)query.uniqueResult()).longValue();
     }
 }

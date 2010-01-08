@@ -126,6 +126,11 @@ public interface IExternalService {
 
     Long getTracesCount(Set<Critere> criteriaSet);
 
+    List<ExternalServiceTrace> getLastTraces(Set<Critere> criteriaSet, String sort,
+            String dir, int count, int offset);
+
+    Long getLastTracesCount(Set<Critere> criteriaSet);
+
     /**
      * Set the external id of an individual for the given external service.
      * 

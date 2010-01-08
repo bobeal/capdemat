@@ -445,13 +445,26 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet,
         String sort, String dir, int count, int offset) {
-        return externalServiceTraceDAO.get(criteriaSet, sort, dir, count, offset);
+        return externalServiceTraceDAO.get(criteriaSet, sort, dir, count, offset, false);
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Long getTracesCount(Set<Critere> criteriaSet) {
-        return externalServiceTraceDAO.getCount(criteriaSet);
+        return externalServiceTraceDAO.getCount(criteriaSet, false);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public List<ExternalServiceTrace> getLastTraces(Set<Critere> criteriaSet,
+        String sort, String dir, int count, int offset) {
+        return externalServiceTraceDAO.get(criteriaSet, sort, dir, count, offset, true);
+    }
+
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Long getLastTracesCount(Set<Critere> criteriaSet) {
+        return externalServiceTraceDAO.getCount(criteriaSet, true);
     }
 
     @Override

@@ -18,6 +18,8 @@
       <div class="yui-u first">
         <label for="key"><g:message code="externalServiceTrace.property.key" /> :</label>
         <input type="text" id="key" name="key" size="40" value="${key}" />
+        <label for="lastOnly"><g:message code="externalServiceTrace.search.message.lastOnly" /> :</label>
+        <input type="checkbox" id="lastOnly" name="lastOnly" <g:if test="${lastOnly}">checked="checked" </g:if>/>
       </div>
       <div class="yui-u">
         <label for="dateFrom"><g:message code="externalServiceTrace.search.message.dateFrom" /> :</label>

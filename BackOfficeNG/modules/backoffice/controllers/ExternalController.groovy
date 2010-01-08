@@ -17,6 +17,7 @@ class ExternalController {
             return [
                 "inSearch" : false,
                 "sortBy" : defaultSortBy,
+                "lastOnly" : true,
                 "filters" : [:]
             ].plus(initSearchReferential())
         } else if (request.post) {
@@ -46,21 +47,23 @@ class ExternalController {
             } catch (NumberFormatException e) {
                 offset = 0
             }
-            /*def traces = externalService
-                .getTraces(criteria, sortBy, "desc", count,offset)
-            traces.each {
-                it.request =
-                    requestAdaptorService.prepareRecordForSummaryView(
-                        defaultRequestService.getById(Long.valueOf(it.key)))
-            }*/
+            def traces
+            def totalRecords
+            if (params.lastOnly) {
+                traces = externalService.getLastTraces(criteria, sortBy, "desc", count, offset)
+                totalRecords = externalService.getLastTracesCount(criteria)
+            } else {
+                traces = externalService.getTraces(criteria, sortBy, "desc", count, offset)
+                totalRecords = externalService.getTracesCount(criteria)
+            }
+            traces = requestAdaptorService.prepareTraces(traces)
             return [
                 "key" : params.key,
                 "dateFrom" : params.dateFrom,
                 "dateTo" : params.dateTo,
-                "traces" :
-                    requestAdaptorService.prepareTraces(
-                        externalService.getTraces(criteria, sortBy, "desc", count,offset)),
-                "totalRecords" : externalService.getTracesCount(criteria),
+                "traces" : traces,
+                "totalRecords" : totalRecords,
+                "lastOnly" : params.lastOnly,
                 "filters":parsedFilters.filters,
                 "filterBy":parsedFilters.filterBy,
                 "offset" : offset,

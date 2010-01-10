@@ -20,6 +20,7 @@ class SessionFilters {
 
     def securityService
     def agentService
+    def requestTypeService
 
     def filters = {
         
@@ -115,7 +116,17 @@ class SessionFilters {
                 SecurityContext.resetCurrentSite();
             }
         }
-        
+
+        enableAccountCreation(controller: 'frontoffice*', action: '*') {
+            before = {
+                if (requestTypeService.getRequestTypeByLabel(IRequestService.VO_CARD_REGISTRATION_REQUEST).active) {
+                    session.setAttribute("accountCreationEnabled", true)
+                } else {
+                    session.setAttribute("accountCreationEnabled", null)
+                }
+            }
+        }
+
         setupFrontUser(controller: 'frontoffice*', action: '*') {
             before = {
                 def point =

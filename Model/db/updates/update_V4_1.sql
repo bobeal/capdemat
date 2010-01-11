@@ -107,3 +107,5 @@ alter table request_action alter column request_id set not null;
 update request_form set xsl_fo_filename = substring(xsl_fo_filename from 1 for position('.xsl' in xsl_fo_filename) - 1) where type = 'Request Certificate' and position('.xsl' in xsl_fo_filename) > 0;
 
 alter table request_type drop column has_automatic_activation;
+
+DELETE FROM agent_category_roles where profile = 'None';

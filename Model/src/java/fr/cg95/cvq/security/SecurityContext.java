@@ -127,12 +127,16 @@ public class SecurityContext {
         logger.debug("setCurrentAgent() agent = " + agent);
 
 		CredentialBean credentialBean = currentContextThreadLocal.get();
-		if (credentialBean == null)
+		if (credentialBean == null) {
+		    logger.error("setCurrentAgent() can set agent if current site is not set !");
 			throw new CvqException("setCurrentSite() has to be called before setCurrentAgent()");
-
-        if (!credentialBean.isBoContext())
+		}
+		
+        if (!credentialBean.isBoContext()) {
+            logger.error("setCurrentAgent() agent can only be set in Back Office context !");
             throw new CvqException("Agent can only be set in Back Office context");
-
+        }
+        
         credentialBean.setAgent(agent);
     }
 
@@ -143,8 +147,10 @@ public class SecurityContext {
         throws CvqException, CvqObjectNotFoundException {
 
         Agent agent = agentService.getByLogin(agentLogin);
-        if (agent == null)
+        if (agent == null) {
+            logger.error("setCurrentAgent() agent " + agentLogin + " not found in DB");
             throw new CvqObjectNotFoundException("Agent not found !");
+        }
         setCurrentAgent(agent);
     }
 

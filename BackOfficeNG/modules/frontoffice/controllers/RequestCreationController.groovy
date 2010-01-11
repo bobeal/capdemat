@@ -327,9 +327,9 @@ class RequestCreationController {
                 isDocumentEditMode = true
             }
             else if (submitAction[1] == 'documentModifyPage') {
-                if (params."documentData-0".size == 0)
-                    flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
                 def docParam = targetAsMap(submitAction[3])
+                if (params["documentData-" + docParam.dataPageNumber].size == 0)
+                    flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
                 document = documentAdaptorService.modifyDocumentPage(docParam, request, uuidString)
                 documentType = documentAdaptorService.getDocumentType(document.documentType.id)
                 isDocumentEditMode = true

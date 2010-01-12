@@ -45,7 +45,6 @@ public class LocalReferentialType {
 
     private boolean entriesSupportPriority;
     private boolean entriesSupportPrecision;
-    private boolean entriesSupportQuota;
     private boolean entriesSupportMultiple;
 
     public final String getDataName() {
@@ -117,12 +116,6 @@ public class LocalReferentialType {
     }
     public final void setEntriesSupportPriority(boolean entriesSupportPriority) {
         this.entriesSupportPriority = entriesSupportPriority;
-    }
-    public final boolean getEntriesSupportQuota() {
-        return entriesSupportQuota;
-    }
-    public final void setEntriesSupportQuota(boolean entriesSupportQuota) {
-        this.entriesSupportQuota = entriesSupportQuota;
     }
 
     public final boolean getEntriesSupportMultiple() {

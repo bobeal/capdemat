@@ -15,7 +15,7 @@
                  attributeFormDefault="unqualified">
 
          <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-                    schemaLocation="http://capdemat.capwebct.fr/browser/tags/CVQ_4_0/Generator/src/xml/schemas/common/CVQCommonElements.xsd"/>
+                    schemaLocation="http://capdemat.capwebct.fr/browser/trunk/Generator/src/xml/schemas/common/CVQCommonElements.xsd"/>
 
          <xs:element name="SendRequestRequest">
             <xs:complexType>

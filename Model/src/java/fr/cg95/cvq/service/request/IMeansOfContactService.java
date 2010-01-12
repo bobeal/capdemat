@@ -59,7 +59,7 @@ public interface IMeansOfContactService {
      * <br><br>
      * Expected business error code is :
      * <dl>
-     *   <dt>unique_meansofcontact_enabled</dt>
+     *   <dt>request.meansOfContact.message.mustHaveOneEnabled</dt>
      *     <dd>MeansOfContact can't be disabled. It is the unique enabled</dd>
      * <dl>
      */

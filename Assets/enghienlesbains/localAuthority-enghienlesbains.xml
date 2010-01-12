@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="configurationBean_enghienlesbains"
+    class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
+    <property name="name" value="enghienlesbains"/>
+   <property name="defaultServerName" value="vosdemarches.enghien95.fr"/>
+    <property name="sessionFactory">
+      <ref bean="sessionFactory_enghienlesbains" />
+    </property>
+    <property name="ecitizenValidationNotifications">
+      <map>
+        <entry>
+          <key>
+            <value>Place Reservation</value>
+          </key>
+          <map>
+            <entry key="mailData" value="PlaceReservationMailConfirmation.txt" />
+            <entry key="attachPdf" value="true" />
+          </map>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="sessionFactory_enghienlesbains"
+    class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+    parent="abstractSessionFactory">
+    <property name="dataSource">
+      <ref bean="pgDataSource_enghienlesbains" />
+    </property>
+  </bean>
+
+  <bean id="pgDataSource_enghienlesbains" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass">
+      <value>org.postgresql.Driver</value>
+    </property>
+    <property name="jdbcUrl">
+      <value>jdbc:postgresql://localhost:5432/capdemat_enghienlesbains</value>
+    </property>
+    <property name="user">
+      <value>capdemat</value>
+    </property>
+    <property name="password">
+      <value>capdematpass</value>
+    </property>
+    <property name="acquireIncrement" value="3" />
+    <property name="initialPoolSize" value="3" />
+    <property name="minPoolSize" value="3" />
+    <property name="maxPoolSize" value="12" />
+    <property name="maxStatements" value="0"/>
+  </bean>
+
+</beans>

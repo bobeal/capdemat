@@ -16,10 +16,10 @@
   </head>
   <body class="body">
     <div>
-      <g:if test="${type == 'html'}">
+      <g:if test="${type == 'HTML'}">
         <img class="logo" src="${createLink(controller:'localAuthorityResource',action:'resource',id:'logoPdf')}" />
       </g:if>
-      <g:if test="${type == 'pdf'}">
+      <g:if test="${type == 'PDF'}">
         <img class="logo" src="${logoLink}" />
       </g:if>
     </div>
@@ -59,6 +59,14 @@
     <div class="closing">
       <p>Cordialement,</p>
       <p>Le Président du Conseil Général du Val d'Oise.</p>
+    </div>
+    <div>
+      <g:if test="${type == 'HTML'}">
+        <img src="${createLink(controller:'localAuthorityResource',action:'resource',id:'footerPdf')}" />
+      </g:if>
+      <g:if test="${type == 'PDF'}">
+        <img src="${footerLink}" />
+      </g:if>
     </div>
   </body>
 </html>

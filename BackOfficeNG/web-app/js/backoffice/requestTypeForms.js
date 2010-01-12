@@ -79,7 +79,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         zct.doAjaxCall(url,[],function(o){
           var content = o.responseText
             .replace(/\n/g,'\uffff')
-            .replace(/.*<body>(.*)<\/body>.*/gi,'$1')
+            //.replace(/.*<body[^>]*>(.*)<\/body>.*/gi,'$1') // We know it's bad to load header content in DOM
             .replace(/\uffff/g,'\n');
           
           var close = [
@@ -93,7 +93,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
           var newTab = new YAHOO.widget.Tab({
             label: label,
             active: true,
-            content: ['<div id="workArea_Tab1" class="editable-work-area">',content,close,'</div>'].join('')
+            content: ['<div id="workArea_Tab1Notifier"></div><div id="workArea_Tab1" class="editable-work-area">',content,close,'</div>'].join('')
           });
           
           zcbrt.Manager.tabView.addTab(newTab);

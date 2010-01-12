@@ -62,7 +62,6 @@ public final class TestUtils {
 
             logger.debug("Entries support priority : " + lrt.getEntriesSupportPriority());
             logger.debug("Entries support precision : " + lrt.getEntriesSupportPrecision());
-            logger.debug("Entries support quota : " + lrt.getEntriesSupportQuota());
             logger.debug("Entries support multiple : " + lrt.getEntriesSupportMultiple());
 
             if (lrt.getEntries() != null) {

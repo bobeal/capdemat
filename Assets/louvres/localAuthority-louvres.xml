@@ -6,25 +6,7 @@
   <bean id="configurationBean_louvres"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="louvres"/>
-    <property name="postalCode" value="95380"/>
-    <property name="displayTitle" value="Louvres"/>
-    <property name="urls">
-      <list>
-        <value>cartevaloise.ville-louvres.fr</value>
-        <value>vosdemarches.ville-louvres.fr</value>
-      </list>
-    </property>
-    <property name="foAccountTabs">
-      <list>
-        <value>welcome</value>
-        <value>individuals</value>
-        <value>requests</value>
-        <value>documents</value>
-        <value>services</value>
-        <value>checklist</value>
-        <value>caddy</value>
-      </list>
-    </property>
+    <property name="defaultServerName" value="vosdemarches.ville-louvres.fr"/>
     <property name="sessionFactory">
       <ref bean="sessionFactory_louvres" />
     </property>
@@ -61,6 +43,29 @@
         </entry>
       </map>
     </property>
+    <property name="agentNotifications">
+      <map>
+        <entry>
+          <key><value>NotCommitPaymentAlert</value></key>
+          <map>
+            <entry key="mailSendTo" value="admin@ville-louvres.fr"/>
+            <entry key="mailSubject" value="[CapDémat] Alerte Paiement"/>
+            <entry key="mailData" value="NotCommitedPaymentsAlert"/>
+          </map>
+        </entry>
+      </map>
+    </property>
+    <property name="paymentNotifications">
+      <map>
+        <entry>
+          <key><value>CommitPaymentConfirmation</value></key>
+          <map>
+            <entry key="mailSubject" value="[CapDémat] Confirmation de paiement"/>
+            <entry key="mailData" value="CommitPaymentNotification"/>
+          </map>
+        </entry>
+      </map>
+    </property>
   </bean>
 
   <bean id="sessionFactory_louvres"
@@ -79,11 +84,12 @@
       <value>jdbc:postgresql://localhost:5432/cartevaloise_louvres</value>
     </property>
     <property name="user">
-      <value>cvq95</value>
+      <value>capdemat</value>
     </property>
     <property name="password">
-      <value>cvq95pass</value>
+      <value>capdematpass</value>
     </property>
+    <property name="dataSourceName" value="louvres" />
     <property name="acquireIncrement" value="3" />
     <property name="initialPoolSize" value="3" />
     <property name="minPoolSize" value="3" />

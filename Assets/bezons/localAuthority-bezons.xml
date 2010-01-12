@@ -4,28 +4,33 @@
 <beans>
 
   <bean id="configurationBean_bezons"
-    class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean"
-    init-method="init">
+    class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="bezons"/>
-    <property name="postalCode" value="95870"/>
-    <property name="displayTitle" value="Bezons"/>
-    <property name="urls">
-      <list>
-        <value>vosdemarches.ville-bezons.fr</value>
-      </list>
-    </property>
-    <property name="foAccountTabs">
-      <list>
-        <value>welcome</value>
-        <value>individuals</value>
-        <value>requests</value>
-        <value>documents</value>
-        <value>services</value>
-        <value>checklist</value>
-        <value>caddy</value>
-      </list>
-    </property>
+    <property name="defaultServerName" value="vosdemarches.ville-bezons.fr"/>
     <property name="sessionFactory"><ref bean="sessionFactory_bezons"/></property>
+    <property name="agentNotifications">
+      <map>
+        <entry>
+          <key><value>NotCommitPaymentAlert</value></key>
+          <map>
+            <entry key="mailSendTo" value="admin@ville-bezons.fr"/>
+            <entry key="mailSubject" value="[CapDémat] Alerte Paiement"/>
+            <entry key="mailData" value="NotCommitedPaymentsAlert"/>
+          </map>
+        </entry>
+      </map>
+    </property>
+    <property name="paymentNotifications">
+      <map>
+        <entry>
+          <key><value>CommitPaymentConfirmation</value></key>
+          <map>
+            <entry key="mailSubject" value="[CapDémat] Confirmation de paiement"/>
+            <entry key="mailData" value="CommitPaymentNotification"/>
+          </map>
+        </entry>
+      </map>
+    </property>
   </bean>
 
   <bean id="sessionFactory_bezons" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" 
@@ -42,8 +47,9 @@
     <property name="jdbcUrl">
       <value>jdbc:postgresql://localhost:5432/cartevaloise_bezons</value>
     </property>
-    <property name="user"><value>cvq95</value></property>
-    <property name="password"><value>cvq95pass</value></property>
+    <property name="user"><value>capdemat</value></property>
+    <property name="password"><value>capdematpass</value></property>
+    <property name="dataSourceName" value="bezons" />
 	<property name="acquireIncrement" value="3"/>
 	<property name="initialPoolSize" value="3"/>
 	<property name="minPoolSize" value="3"/>

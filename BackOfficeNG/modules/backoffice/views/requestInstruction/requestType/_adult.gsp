@@ -122,15 +122,15 @@
         <span>${adult.cfbn}</span>
       </dd>
       <dt><g:message code="homeFolder.adult.property.login" /> : </dt> 
-      <dd id="individuals[${index}].login" class="action-editField validate-string required-true i18n-homeFolder.adult.property.login">
+      <dd id="individuals[${index}].login">
         <span>${adult.login}</span>
       </dd>
       <dt><g:message code="homeFolder.adult.property.question" /> : </dt> 
-      <dd id="individuals[${index}].question" class="action-editField validate-string required-true i18n-homeFolder.adult.property.question">
+      <dd id="individuals[${index}].question">
         <span>${adult.question}</span>
       </dd>
       <dt><g:message code="homeFolder.adult.property.answer" /> : </dt> 
-      <dd id="individuals[${index}].answer" class="action-editField validate-string required-true i18n-homeFolder.adult.property.answer">
+      <dd id="individuals[${index}].answer">
         <span>${adult.answer}</span>
       </dd>
      </dl>

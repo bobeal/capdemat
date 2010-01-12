@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>RecreationActivityRegistrationRequest</request>
+    <data name="RecreationActivity">
+        <label lang="fr">Activités de l'enfant au centre</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="NoActivity">
+                <label lang="fr">Pas de choix possible</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

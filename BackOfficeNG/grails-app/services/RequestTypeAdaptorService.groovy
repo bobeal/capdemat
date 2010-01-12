@@ -71,6 +71,8 @@ public class RequestTypeAdaptorService {
         def i18nError = []
         IRequestService service = requestServiceRegistry.getRequestService(requestType.label);
  
+        if (!requestType.active)
+            i18nError.add('requestType.message.inactive')
         if (!service.supportUnregisteredCreation() && homeFolder == null)
             i18nError.add('requestType.message.onlyRegisteredUsers')
         if (!requestTypeService.isRegistrationOpen(requestType.id))

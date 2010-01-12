@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="configurationBean_vetheuil"
+    class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
+    <property name="name" value="vetheuil"/>
+    <property name="defaultServerName" value="vosdemarches.mairie-vetheuil.fr" />
+    <property name="sessionFactory">
+      <ref bean="sessionFactory_vetheuil" />
+    </property>
+    <property name="ecitizenValidationNotifications">
+      <map>
+        <entry>
+          <key>
+            <value>Place Reservation</value>
+          </key>
+          <map>
+            <entry key="mailData" value="PlaceReservationMailConfirmation" />
+            <entry key="attachPdf" value="true" />
+          </map>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="sessionFactory_vetheuil"
+    class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+    parent="abstractSessionFactory">
+    <property name="dataSource">
+      <ref bean="pgDataSource_vetheuil" />
+    </property>
+  </bean>
+
+  <bean id="pgDataSource_vetheuil" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass">
+      <value>org.postgresql.Driver</value>
+    </property>
+    <property name="jdbcUrl">
+      <value>jdbc:postgresql://localhost:5432/capdemat_vetheuil</value>
+    </property>
+    <property name="user">
+      <value>capdemat</value>
+    </property>
+    <property name="password">
+      <value>capdematpass</value>
+    </property>
+    <property name="acquireIncrement" value="3" />
+    <property name="initialPoolSize" value="3" />
+    <property name="minPoolSize" value="3" />
+    <property name="maxPoolSize" value="12" />
+    <property name="maxStatements" value="0"/>
+  </bean>
+
+</beans>

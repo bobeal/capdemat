@@ -18,6 +18,7 @@
         <include name="CapDemat-Plugin-ExternalServices-Horanet-*.jar" />
         <include name="CapDemat-Plugin-PaymentProviders-PaylineV4-*.jar" />
         <include name="CapDemat-Plugin-PaymentProviders-Spplus-*.jar" />
+	<include name="CapDemat-Plugin-PaymentProviders-Wynid-*.jar" />
     </fileset>
 
     <!-- still used for ServiceExporter webapp -->
@@ -58,10 +59,12 @@
     </target>
 
     <target name="bong-runtime-libs" depends="init">
-        <copy todir="${bong.dir}/lib" flatten="true">
+        <copy todir="${bong.dir}/lib" flatten="true" overwrite="true">
             <fileset refid="capdemat-core-libs" />
             <fileset refid="capdemat-plugins" />
+        	<!--
             <fileset dir="${jaf.lib.dir}" />
+            -->
             <fileset dir="${aspectj.lib.dir}">
                 <include name="aspectjweaver-*.jar" />
             </fileset>

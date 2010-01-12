@@ -110,8 +110,8 @@
   cursor: pointer;
 }
 #requestData a span   { display: none; }
-#requestData a.addListItem    { background-image: url(../../images/icons/16-associate.png); }
-#requestData a.deleteListItem { background-image: url(../../images/icons/16-unassociate.png); }
+#requestData a.addListItem    { background-image: url(../../images/icons/16-add.png); }
+#requestData a.deleteListItem { background-image: url(../../images/icons/16-delete.png); }
 #requestData a:hover  { background-color: transparent; }
 
 #requestData .listItemSkeleton { display: none; }

@@ -1,0 +1,17 @@
+Bonjour,
+
+Votre paiement a bien été enregistré
+
+--------------------------------------------------
+INFO PAIEMENT
+--------------------------------------------------
+Régie : ${broker}
+Référence CapDémat : ${cvqReference}
+Mode de paiement : ${paymentMode}
+Date de validation : ${commitDate}
+--------------------------------------------------
+
+Cordialement,
+
+
+Capdémat.

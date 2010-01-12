@@ -3,38 +3,22 @@
     <request>RecreationActivityRegistrationRequest</request>
     <data name="RecreationActivity">
         <label lang="fr">Activités de l'enfant au centre</label>
-        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
-            <entry key="DayFromSeven">
-                <label lang="fr">Journée dés 7h00</label>
-                <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
-                    <entry key="DayFromHalfPastEight">
-                        <label lang="fr">Journée dés 8h30</label>
-                        <message lang="fr"/>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                    </entry>
-                </entries>
-            </entry>
-            <entry key="DayFromHalfPastEight">
-                <label lang="fr">Journée dés 8h30</label>
-                <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-            </entry>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
             <entry key="HalfDayWithoutMeat">
                 <label lang="fr">1/2 journée sans repas</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="HalfDayWithMeat">
                 <label lang="fr">1/2 journée avec repas</label>
                 <message lang="fr"/>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </entry>
+            <entry key="Day">
+                <label lang="fr">Journée</label>
+                <message lang="fr"/>
+            </entry>
+            <entry key="DayPAI">
+                <label lang="fr">Journée PAI (allergie)</label>
+                <message lang="fr"/>
             </entry>
         </entries>
     </data>

@@ -4,7 +4,7 @@
       <li>
         <h3>
           <g:message code="payment.header.account"/> 
-          ${record.label} <g:message code="message.of"/> ${record.subjectName} 
+          "${record.label}" <g:message code="message.of"/> ${record.subjectName} 
           (<g:message code="message.ref"/> ${record.externalItemId})
         </h3>
         <p>

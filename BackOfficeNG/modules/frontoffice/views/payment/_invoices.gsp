@@ -4,7 +4,7 @@
       <li>
         <h3>
           <g:message code="payment.header.invoice"/> 
-          ${record.label} <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}
+          "${record.label}" <g:message code="message.of"/> ${record.amount ? record.amount / 100 + ' €':''}
           (<g:message code="message.ref"/> ${record.externalItemId})
         </h3>
         <g:if test="${record.totalValue && record.totalValue != record.amount}">

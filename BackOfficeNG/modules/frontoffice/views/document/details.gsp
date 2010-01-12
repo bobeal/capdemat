@@ -37,7 +37,7 @@
             <dd>${doc.ecitizenNote}</dd>
 
             <dt><g:message code="document.property.agentNote"/> :</dt>
-            <dd>${doc.agentNone}</dd>
+            <dd>${doc.agentNote}</dd>
 
             <dt><g:message code="document.property.depositType"/> :</dt>
             <dd>

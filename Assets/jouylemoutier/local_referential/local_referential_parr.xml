@@ -4,7 +4,7 @@
   <data name="PerischoolActivity">
     <label lang="fr">Activités péri-scolaires</label>
     <label lang="en">Perischool Activity</label>
-    <entries supportMultiple="true" supportQuota="false" supportPriority="false"
+    <entries supportMultiple="false" supportPriority="false"
       supportPrecision="false">
       <entry key="EveningNursery">
 	<label lang="fr">Garderie du soir</label>

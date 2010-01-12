@@ -2033,7 +2033,6 @@
         authorize_multiple_registrations_per_season bool,
         instruction_alert_delay int4,
         instruction_max_delay int4,
-        has_automatic_activation bool,
         primary key (id)
     );
 

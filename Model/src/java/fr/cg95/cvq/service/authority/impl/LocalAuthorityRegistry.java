@@ -427,8 +427,9 @@ public class LocalAuthorityRegistry
             renameLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP, LocalAuthorityResource.Version.OLD);
         }
         // JSB : hack for PDF generation
-        if (LocalAuthorityResource.LOGO_PDF.getId().equals(id)) {
-            generateJPEGLogo();
+        if (LocalAuthorityResource.LOGO_PDF.getId().equals(id)
+            || LocalAuthorityResource.FOOTER_PDF.getId().equals(id)) {
+            generateJPEG(id);
         }
     }
 
@@ -440,15 +441,17 @@ public class LocalAuthorityRegistry
         renameLocalAuthorityResource(id, LocalAuthorityResource.Version.CURRENT, LocalAuthorityResource.Version.OLD);
         renameLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP, LocalAuthorityResource.Version.CURRENT);
         // JSB : hack for PDF generation
-        if (LocalAuthorityResource.LOGO_PDF.getId().equals(id)) {
-            generateJPEGLogo();
+        if (LocalAuthorityResource.LOGO_PDF.getId().equals(id)
+            || LocalAuthorityResource.FOOTER_PDF.getId().equals(id)) {
+            generateJPEG(id);
         }
     }
 
     @Override
     public boolean hasLocalAuthorityResource(String id, Version version)
         throws CvqException {
-        return getLocalAuthorityResourceFile(id, version, false).exists();
+        File resource = getLocalAuthorityResourceFile(id, version, false);
+        return (resource != null && resource.exists());
     }
 
     @Override
@@ -510,12 +513,39 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    public void generateJPEGLogo() {
+    public void generateJPEGFiles() {
+        String[] ids = {
+            LocalAuthorityResource.LOGO_PDF.getId(),
+            LocalAuthorityResource.FOOTER_PDF.getId()
+        };
+        for (String id : ids) {
+            try {
+                File png = getLocalAuthorityResourceFile(id, false);
+                if (png.exists()) {
+                    File jpeg = new File(StringUtils.removeEnd(png.getPath(), "png").concat("jpg"));
+                    if (!jpeg.exists()) {
+                        generateJPEG(id);
+                    }
+                }
+            } catch (CvqException e) {
+                logger.error("registerLocalAuthorities() unable to generate JPEG for " + id);
+            }
+        }
+    }
+
+    /**
+     * Hack to regenerate the JPEG version of a LocalAuthorityResource image for PDF files
+     */
+    private void generateJPEG(String id) {
         File png;
         try {
-            png = getLocalAuthorityResourceFile(LocalAuthorityResource.LOGO_PDF.getId(), false);
+            png = getLocalAuthorityResourceFile(id, false);
         } catch (CvqException e) {
-            logger.warn("generateJPEGLogo() could not get PNG logo");
+            logger.warn("generateJPEG() could not get PNG file for " + id);
+            return;
+        }
+        if (png == null || !png.exists()) {
+            logger.warn("generateJPEG() PNG file doesn't exist for " + id);
             return;
         }
         File jpeg = new File(StringUtils.removeEnd(png.getPath(), "png").concat("jpg"));
@@ -535,7 +565,7 @@ public class LocalAuthorityRegistry
             }
             ImageIO.write(image, "jpg", jpeg);
         } catch (IOException e) {
-            logger.warn("generateJPEGLogo() failed to generate JPEG logo");
+            logger.warn("generateJPEG() failed to generate JPEG file for " + id);
         }
         FopImageFactory.resetCache();
     }
@@ -618,7 +648,13 @@ public class LocalAuthorityRegistry
         if (localAuthority.getServerNames() == null 
                 || localAuthority.getServerNames().isEmpty()) {
             localAuthority.setServerNames(new TreeSet<String>());
-            String serverName = "vosdemarches.ville-" + lacb.getName() + ".fr";
+            String serverName = null;
+            if (lacb.getDefaultServerName() != null)
+                serverName = lacb.getDefaultServerName();
+            else
+                serverName = "vosdemarches.ville-" + lacb.getName() + ".fr";
+            logger.debug("instantiateLocalAuthority() initializing with server name " 
+                    + serverName);
             localAuthority.getServerNames().add(serverName);
             registerLocalAuthorityServerName(serverName);
         } else {
@@ -633,6 +669,8 @@ public class LocalAuthorityRegistry
             if (!resourceDir.exists())
                 resourceDir.mkdir();
         }
+        
+        generateJPEGFiles();
     }
 
     @Override

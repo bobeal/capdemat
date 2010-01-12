@@ -27,6 +27,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
+import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
@@ -157,12 +158,15 @@ public class CertificateService implements ICertificateService {
                         SecurityContext.getCurrentSite().getDisplayTitle());
                 transformer.setParameter("localizationService", localizationService);
                 
-                File logoFile = new File(StringUtils.removeEnd(
-                    localAuthorityRegistry.getLocalAuthorityResourceFile("logoPdf", false).getPath(), "png").concat("jpg"));
-                if (!logoFile.exists()) {
-                    localAuthorityRegistry.generateJPEGLogo();
+                localAuthorityRegistry.generateJPEGFiles();
+                try {
+                    File logoFile = new File(StringUtils.removeEnd(
+                        localAuthorityRegistry.getLocalAuthorityResourceFile(LocalAuthorityResource.LOGO_PDF.getId(), false).getPath(), "png").concat("jpg"));
+                    transformer.setParameter("logoSource", logoFile.getPath());
+                } catch (Exception e) {
+                    logger.warn("Exception while looking for JPEG logo : "
+                        + e.getMessage());
                 }
-                transformer.setParameter("logoSource", logoFile.getPath());
 
                 //Resulting SAX events (the generated FO) must be piped through to FOP
                 Result res = new StreamResult(out);

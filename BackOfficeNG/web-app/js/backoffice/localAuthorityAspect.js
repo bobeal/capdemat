@@ -33,11 +33,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
         yue.on(yud.get('logoFoBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
         yue.on(yud.get('logoBoBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
         yue.on(yud.get('logoPdfBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
+        yue.on(yud.get('footerPdfBox'),'click',zcbl.Aspect.clickEv.dispatch,zcbl.Aspect.clickEv,true);
         zcbl.Aspect.loadBox("cssFo");
         zcbl.Aspect.loadBox("banner");
         zcbl.Aspect.loadBox("logoFo");
         zcbl.Aspect.loadBox("logoBo");
         zcbl.Aspect.loadBox("logoPdf");
+        zcbl.Aspect.loadBox("footerPdf");
       },
       /**
       * @description The name of the method to call is the first part of the clicked item's ID, except for new season creation

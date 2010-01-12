@@ -38,7 +38,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
         zct.doAjaxCall('/' + boxName, null, function(o){
           yud.get(boxName + "Box").innerHTML = o.responseText;
           if (boxName === "displayedMessage") {
-            zcb.Editor("displayedMessage");
+            zcb.Editor.init("displayedMessage");
           } else if (boxName === "deactivation") {
             zcb.Calendar("paymentDeactivationStartDate");
             zcb.Calendar("paymentDeactivationEndDate");

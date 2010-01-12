@@ -4,26 +4,18 @@
     <data name="PerischoolActivity">
         <label lang="fr">Activités péri-scolaires</label>
         <label lang="en">Perischool Activity</label>
-        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
             <entry key="PreSchoolReception">
                 <label lang="fr">Accueil matin</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="AfterSchoolReception">
                 <label lang="fr">Accueil soir</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="AfterStudyReception">
                 <label lang="fr">Accueil après étude</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
             <entry key="DayReception">
                 <label lang="fr">Forfait inscription étude</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
             </entry>
         </entries>
     </data>

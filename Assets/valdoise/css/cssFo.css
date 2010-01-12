@@ -3,7 +3,6 @@
  *        Valdoise - Style Sheet
  *
  *        orange: #ff812b
- *        green:  #7FA646
  *        gray:   #b6aca5
  *
  * ----------------------------------------------------- */
@@ -24,8 +23,8 @@ h2   { color: #fff; }
 #menu a.current, #menu a.current span { color: #fff; background-color: #b6aca5; }
 #menu a.disable ,#menu a.disable span { background-color: #b6aca5 !important; }
 
-#hd .top a.menu       { color: #fff; background-color: #b6aca5; }
-#hd .top a.menu:hover { background-color: #ff812b; }
+#hd .top a.menu       { color: #fff; background-color: #ff812b; }
+#hd .top a.menu:hover { background-color: #b6aca5; }
 
 /* boxes
  * ----------------------------------------------------- */
@@ -33,7 +32,7 @@ h2   { color: #fff; }
 .list-box               { border-color: #ff812b; }
 .list-box h2            { color: #ff812b; border-color: #ff812b; }
 .list-box p.paginator a, 
-.list-box p.see-all a   { color: #095ba6; }
+.list-box p.see-all a   { color: #ff812b; }
 .list-box p.see-all a:hover, 
 .list-box p.paginator a:hover,
 .list-box p.paginator span.currentStep { color: #ffffff; background: #ff812b; }
@@ -122,7 +121,6 @@ h2.request-creation { color: #fff !important; }
   color: #fff !important; background: #ff812b !important; 
 }
 
-#requestTabView div.collection-fieldset    { background: #ffd; }
 #requestTabView div.collection-fieldset h4 { color: #ff812b !important; }
 #requestTabView fieldset.collection-fieldset-add         { border-color: #ff812b !important; }
 #requestTabView fieldset.collection-fieldset-edit        { border-bottom-color: #ff812b !important; }

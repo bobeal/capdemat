@@ -1,0 +1,90 @@
+<g:requestForms forms="${forms}" />
+<html>
+  <head>
+    <style type="text/css">
+      @page { size: A4 portrait; margin: 1cm 1cm 0cm 1cm;}
+      .mail-template { margin: 0; padding: 0; width:100%; font-size:11pt; font-family:serif;}
+      .mail-template div,
+      .mail-template p { margin-top: 0; margin-bottom:0; }
+      .mail-template img.logo-header { margin-top:0.25cm; margin-left:0.25cm; }
+      .mail-template .address-ct, 
+      .mail-template .date-place,
+      .mail-template .address-hf { margin-bottom:2em; margin-left:11cm; }
+      .mail-template .administrative-info { margin-bottom:2em; }
+      .mail-template .salutation { margin-bottom:2em; text-align:center; font-size:12pt; }
+      .mail-template .editable-zone { font-size:12pt; text-align:justify;}
+      .mail-template .valediction { font-size:12pt; margin-top: 1em; text-align:justify;}
+      .mail-template .closing { margin-top:3cm; margin-left:6.5cm; font-size:12pt; }
+      .mail-template img.logo-footer { position:absolute; top: 26.5cm; }
+    </style>
+  </head>
+  <body>
+    <div class="mail-template">
+      <div>
+        <g:if test="${type == 'HTML'}">
+          <img class="logo logo-header" src="${createLink(controller:'localAuthorityResource',action:'resource',id:'logoPdf')}" />
+        </g:if>
+        <g:if test="${type == 'PDF'}">
+          <img class="logo logo-header" src="${logoLink}" />
+        </g:if>
+      </div>
+      <div class="address-ct">
+        <p>Hôtel de ville</p>
+        <p>B.P. 30 122</p>
+        <p>95875 Bezons cedex</p>
+        <p><strong>TEL.</strong> 01 34 26 50 00</p>
+        <p><strong>FAX.</strong> 01 30 76 06 60</p>
+        <p>Toute correspondance doit être adressée à M. le maire</p>
+        <p>Mairie de Bezons</p>
+        <p>#{RQ_CAT}</p>
+        <p>Affaire suivi par #{LAST_AGENT_NAME}</p>
+        <p>Rue de la Mairie</p>
+        <p>85870 Bezons</p>
+        <p>Tél : </p>
+        <p>Fax : </p>
+        <p>Courriel : </p>
+      </div>
+      <div class="date-place">
+        <p>Bezons, le #{DATE}</p>
+      </div>
+      <div class="address-hf">
+        <p>#{RR_TITLE} #{RR_LNAME}</p>
+        <p>#{HF_ADDRESS_ADI}</p>
+        <p>#{HF_ADDRESS_AGI}</p>
+        <p>#{HF_ADDRESS_SNUM} #{HF_ADDRESS_SNAME}</p>
+        <p>#{HF_ADDRESS_PNS}</p>
+        <p>#{HF_ADDRESS_ZIP} #{HF_ADDRESS_TOWN}</p>
+        <p>#{HF_ADDRESS_CN}</p>
+      </div>
+      <div class="administrative-info">
+        <p>Objet : votre demande de carte CVQ</p>
+        <p>Réf. : #{RQ_CAT}</p>
+        <p>V/Réf. : dossier n°#{RQ_ID}</p>
+        <p>PJ : </p>
+      </div>
+      <div class="salutation">
+        #{RR_TITLE},
+      </div>
+      <g:editableZone id="Lab2" class="editable-zone">
+        <p>Vous avez choisi de  créé un compte personnel sur le site de la ville de Bezons et nous vous remercions de votre confiance. Vous pourrez désormais accéder aux services en ligne en vous connectant directement sur le portail des démarches en ligne de votre collectivité.</p>
+        <p>Conformément à la loi « Informatique et Libertés » du 06/01/1978, vous disposez d'un droit d'accès, de rectification et de suppression pour toutes les informations vous concernant. Vous pouvez exercer ce droit directement sur votre espace personnel ou en écrivant directement à la Mairie.</p>
+        <p>#{RQ_OBSERV}</p>
+      </g:editableZone>
+      <div class="valediction">
+          <p>Nous restons à votre disposition pour tout information complémentaire qui vous serait utile.</p>
+          <p>#{RQ_CAT}</p>
+      </div>
+      <div class="closing">
+        <p>www.ville-bezons.fr</p>
+      </div>
+      <div>
+        <g:if test="${type == 'HTML'}">
+          <img class="logo logo-footer" src="${createLink(controller:'localAuthorityResource',action:'resource',id:'footerPdf')}" />
+        </g:if>
+        <g:if test="${type == 'PDF'}">
+          <img class="logo logo-footer" src="${footerLink}" />
+        </g:if>
+      </div>
+    </div>
+  </body>
+</html>

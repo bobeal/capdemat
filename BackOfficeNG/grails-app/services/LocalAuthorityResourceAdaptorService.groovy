@@ -21,6 +21,7 @@ public class LocalAuthorityResourceAdaptorService {
             localAuthorityResources.logoBo.template = "imageBox"
             localAuthorityResources.banner.template = "imageBox"
             localAuthorityResources.logoPdf.template = "imageBox"
+            localAuthorityResources.footerPdf.template = "imageBox"
             localAuthorityResources.faqFo.template = "linkBox"
             localAuthorityResources.helpBo.template = "linkBox"
             localAuthorityResources.helpFo.template = "linkBox"

@@ -1,3 +1,12 @@
+<%
+    String.metaClass.truncate = { length ->
+        if (delegate == null)
+            return ""
+        if (delegate.length() > length)
+            return delegate[0..(length - 1)]
+        return delegate
+    }
+%>
 <gestionCompte>
   <compteExtranet>
     <msNom></msNom>
@@ -17,7 +26,7 @@
     <mbActivationSeuil>true</mbActivationSeuil>
     <mvAdresses>
       <CTierAdresseVO>
-        <msVoie>${address.streetNumber} ${address.streetName}</msVoie>
+        <msVoie><% out << "${address.streetNumber} ${address.streetName}".truncate(32) %></msVoie>
         <msComplement>${address.additionalDeliveryInformation}</msComplement>
         <miBoitePostale/>
         <msCodePostal>${address.postalCode}</msCodePostal>

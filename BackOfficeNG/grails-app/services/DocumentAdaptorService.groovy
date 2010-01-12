@@ -26,6 +26,9 @@ public class DocumentAdaptorService {
     
     def servletContext
     
+    def MAX_SIZE_MO = 4
+    def MAX_SIZE = MAX_SIZE_MO * 1024 * 1024
+
     def getDocumentTypes(IRequestService requestService, Request cRequest, String sessionUuid, Set newDocuments) {
         def requestType = requestTypeService.getRequestTypeByLabel(requestService.getLabel())
         def documentTypes = requestTypeService.getAllowedDocuments(requestType.getId())
@@ -139,12 +142,11 @@ public class DocumentAdaptorService {
     def addDocumentPage(docParam, doc, request, sessionUuid) {
         if (docParam.id != null)
             doc = deserializeDocument(docParam.id, sessionUuid)
-        
-        if (request.getFile('documentData-0').bytes.length == 0)
-        	return getDocument(doc.id, sessionUuid)
-        	
+        def file = request.getFile('documentData-0')
+        if (file.size == 0 || file.size > MAX_SIZE)
+            return getDocument(doc.id, sessionUuid)
         def newDocBinary = new DocumentBinary()
-        newDocBinary.data = request.getFile('documentData-0').bytes
+        newDocBinary.data = file.bytes
         doc.datas.add(newDocBinary)
         doc.ecitizenNote = request.getParameter("ecitizenNote")
         serializeDocument(doc, sessionUuid)
@@ -153,12 +155,14 @@ public class DocumentAdaptorService {
     
     def modifyDocumentPage(docParam, request, sessionUuid) {
         def doc = deserializeDocument(docParam.id, sessionUuid)
-    	if (request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes.length == 0)
-    		return adaptDocument(doc)
-        def newDocBinary = doc.datas.get(Integer.parseInt(docParam.dataPageNumber))
+        def dataPageNumber = Integer.valueOf(docParam.dataPageNumber)
+        def file = request.getFile('documentData-' + (dataPageNumber + 1))
+        if (file.size == 0 || file.size > MAX_SIZE)
+            return adaptDocument(doc)
+        def newDocBinary = doc.datas.get(dataPageNumber)
         
-        newDocBinary.data = request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1)).bytes
-        doc.datas[Integer.parseInt(docParam.dataPageNumber)] = newDocBinary
+        newDocBinary.data = file.bytes
+        doc.datas[dataPageNumber] = newDocBinary
         doc.ecitizenNote = request.getParameter("ecitizenNote")
         
         serializeDocument(doc, sessionUuid)

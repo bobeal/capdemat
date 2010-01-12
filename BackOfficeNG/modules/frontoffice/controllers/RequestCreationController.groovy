@@ -245,7 +245,7 @@ class RequestCreationController {
                 def docParam = targetAsMap(submitAction[3]), doc = null
                 
                 if (docParam.id != null) {
-                    if (request.getFile('documentData-0').bytes.size() == 0
+                    if (request.getFile('documentData-0').size == 0
                         && request.getFile('documentData-1') == null) {
                         // FIXME documentDelete duplication
                         newDocuments -= docParam.id
@@ -260,29 +260,50 @@ class RequestCreationController {
                         def index = 0
                         // synchronize all existing binary datas
                         for (DocumentBinary page: (doc?.datas ? doc.datas : [])) {
-                            if (request.getFile('documentData-' + (index + 1)).bytes.size() > 0) {
-                                def modifyParam = targetAsMap("id:${doc.id}_dataPageNumber:${index}")
-                                documentAdaptorService.modifyDocumentPage(modifyParam, request, uuidString)
+                            def file = request.getFile('documentData-' + (index + 1))
+                            if (file.size > 0) {
+                                if (file.size > documentAdaptorService.MAX_SIZE)
+                                    flash.errorMessage =
+                                        message(code : "document.message.error.fileTooLarge",
+                                            args : [documentAdaptorService.MAX_SIZE_MO])
+                                else {
+                                    def modifyParam = targetAsMap("id:${doc.id}_dataPageNumber:${index}")
+                                    documentAdaptorService.modifyDocumentPage(modifyParam, request, uuidString)
+                                }
                             }
                         }
                         // eventually add last and new page
-                        if (request.getFile('documentData-0').bytes.size() > 0) {
-                            def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc.id}")
-                            documentAdaptorService.addDocumentPage(addParam, doc, request, uuidString)
+                        def file = request.getFile('documentData-0')
+                        if (file.size > 0) {
+                            if (file.size > documentAdaptorService.MAX_SIZE)
+                                flash.errorMessage =
+                                    message(code : "document.message.error.fileTooLarge",
+                                        args : [documentAdaptorService.MAX_SIZE_MO])
+                            else {
+                                def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc.id}")
+                                documentAdaptorService.addDocumentPage(addParam, doc, request, uuidString)
+                            }
                         }
                     }
-                } else if (request.getFile('documentData-0').bytes.size() > 0) {
-                    def addParam = 
-                    	targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
-                    doc = makeDocument(docParam, uuidString)
-                    doc = documentAdaptorService.addDocumentPage(addParam, doc, request, uuidString)
+                } else if (request.getFile('documentData-0').size > 0) {
+                    if (request.getFile('documentData-0').size > documentAdaptorService.MAX_SIZE) {
+                        flash.errorMessage = message(code : "document.message.error.fileTooLarge",
+                            args : [documentAdaptorService.MAX_SIZE_MO])
+                    } else {
+                        def addParam =
+                            targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
+                        doc = makeDocument(docParam, uuidString)
+                        doc = documentAdaptorService.addDocumentPage(addParam, doc, request, uuidString)
+                    }
                 }
                 if (doc) {
                     newDocuments += doc.id
                     isDocumentEditMode = false
                     requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
                 } else {
-                    flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
+                    if (request.getFile('documentData-0').size == 0
+                        && request.getFile('documentData-1') == null)
+                        flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
                     isDocumentEditMode = true
                     documentType = documentAdaptorService.getDocumentType(Long.valueOf(docParam.documentTypeId))
                 }
@@ -307,7 +328,7 @@ class RequestCreationController {
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentCancel') {
-                if (request.getFile('documentData-0').bytes.size() == 0
+                if (request.getFile('documentData-0').size == 0
                     && request.getFile('documentData-1') == null) {
                     def docParam = targetAsMap(submitAction[3])
                     // FIXME documentDelete duplication
@@ -318,8 +339,12 @@ class RequestCreationController {
                 isDocumentEditMode = false
             }
             else if (submitAction[1] == 'documentAddPage') {
-                if (params."documentData-0".size == 0)
+                def file = request.getFile("documentData-0")
+                if (file.size == 0)
                     flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
+                else if (file.size > documentAdaptorService.MAX_SIZE)
+                    flash.errorMessage = message(code : "document.message.error.fileTooLarge",
+                        args : [documentAdaptorService.MAX_SIZE_MO])
                 def docParam = targetAsMap(submitAction[3])
                 def doc = makeDocument(docParam, uuidString)
                 document = documentAdaptorService.addDocumentPage(docParam, doc, request, uuidString)
@@ -328,8 +353,13 @@ class RequestCreationController {
             }
             else if (submitAction[1] == 'documentModifyPage') {
                 def docParam = targetAsMap(submitAction[3])
-                if (params["documentData-" + docParam.dataPageNumber].size == 0)
+                def file =
+                    request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1))
+                if (file.size == 0)
                     flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
+                else if (file.size > documentAdaptorService.MAX_SIZE)
+                    flash.errorMessage = message(code : "document.message.error.fileTooLarge",
+                        args : [documentAdaptorService.MAX_SIZE_MO])
                 document = documentAdaptorService.modifyDocumentPage(docParam, request, uuidString)
                 documentType = documentAdaptorService.getDocumentType(document.documentType.id)
                 isDocumentEditMode = true

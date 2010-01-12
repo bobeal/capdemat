@@ -640,6 +640,9 @@ public class LocalAuthorityRegistry
                 if (lacb.getDefaultServerName() != null)
                     localAuthority.getServerNames().add(lacb.getDefaultServerName());
                 localAuthorityDAO.create(localAuthority);
+
+                // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
+                SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
             } catch (Exception e) {
                 throw new CvqConfigurationException("unable to create local authority " 
                         + localAuthorityName + " (" + e.getMessage() + ")");

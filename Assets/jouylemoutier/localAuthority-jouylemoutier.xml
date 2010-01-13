@@ -111,10 +111,11 @@
     </property>
     <property name="dataSourceName" value="jouylemoutier" />
     <property name="acquireIncrement" value="3" />
-    <property name="initialPoolSize" value="3" />
-    <property name="minPoolSize" value="3" />
-    <property name="maxPoolSize" value="12" />
+    <property name="initialPoolSize" value="0" />
+    <property name="minPoolSize" value="0" />
+    <property name="maxPoolSize" value="24" />
     <property name="maxStatements" value="0"/>
+    <property name="maxIdleTime" value="300" />
   </bean>
 
 </beans>

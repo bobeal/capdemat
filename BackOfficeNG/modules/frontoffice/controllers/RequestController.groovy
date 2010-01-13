@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.request.Request
+import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.external.IExternalService
@@ -82,8 +83,11 @@ class RequestController {
         def requestAction =
             requestActionService.getActionByResultingState(request.id,
                 RequestState.VALIDATED)
-        if (!requestAction || !requestAction.file)
-            requestAction = requestActionService.getActions(request.id).get(0)
+        if (!requestAction || !requestAction.file) {
+            requestAction = requestActionService.getActions(request.id).reverse().find {
+                return ([RequestActionType.STATE_CHANGE, RequestActionType.CREATION].contains(it.type) && it.file)
+            }
+        }
         return ['rqt': request,
                 'requestTypeLabel':requestTypeLabel,
                 'requester':requester,
@@ -95,7 +99,7 @@ class RequestController {
                 'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, null, [] as Set),
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
                 'individuals':individuals,
-                "requestActionId" : requestAction.id
+                "requestActionId" : requestAction != null ? requestAction.id : null
         ]
     }
 

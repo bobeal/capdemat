@@ -3,7 +3,6 @@ package fr.cg95.cvq.generator.plugins.bo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,6 +10,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.ElementTypeClass;
+import fr.cg95.cvq.generator.common.CommonStep;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Widget;
 
@@ -48,10 +48,10 @@ public class RequestBo {
     }
     
     public void setSteps(List<Step> steps) {
-        this.steps = new ArrayList<Step>(steps);
-        for (Iterator<Step> it = this.steps.iterator(); it.hasNext();) {
-            if (it.next().getName() == null)
-                it.remove();
+        this.steps = new ArrayList<Step>();
+        for (Step step : steps) {
+            if (!(step instanceof CommonStep))
+                this.steps.add(step);
         }
     }
     

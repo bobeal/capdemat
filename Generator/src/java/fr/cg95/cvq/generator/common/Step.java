@@ -8,102 +8,55 @@ import org.apache.commons.lang.StringUtils;
 /**
  * @author rdj@zenexity.fr
  */
-public class Step {
+public abstract class Step {
 
     private int index;
-    private String name;
-    private String ref;
-    private boolean required = true;
-    
     private List<Condition> conditions = new ArrayList<Condition>();
     private List<Widget> widgets = new ArrayList<Widget>();
-    
-    public Step (String index, String name, String ref, String requiredString) {
-        try { 
+
+    protected Step (String index) {
+        try {
             this.index = Integer.valueOf(index).intValue();
         } catch (NumberFormatException nfe) {
             throw new RuntimeException("Step() - Step index {"+ index +"} is not an integer");
         }
-        
-        if (name != null && (name.equals("validation") || name.equals("document")))
-            throw new RuntimeException("Step() - Step name can't be one of {document, validation}");
-        this.name = name;
-        
-        if (ref != null && (!ref.equals("validation") && !ref.equals("document")))
-            throw new RuntimeException("Step() - Step ref {"+ ref +"} must be one of {document, validation}");
-        this.ref = ref;
-        
-        if (requiredString != null)
-            this.required = new Boolean(requiredString).booleanValue();
-        if (this.ref != null && (this.ref.equals("validation") || this.ref.equals("document")))
-            this.required = false;
     }
-    
-    public Step (int index, String name) {
-        this.index = index;
-        this.name = name;
-    }
-    
+
     public int getIndex() {
         return index;
     }
-    
-    public void setIndex(int index) {
-        this.index = index;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
+
+    public abstract String getName();
+
     public String getCamelCaseName() {
-        return StringUtils.uncapitalize(name);
-    }
-    
-    public String getRef() {
-        return ref;
-    }
-    
-    public void setRef(String ref) {
-        this.ref = ref;
-    }
-    
-    public boolean isRequired() {
-        return required;
+        return StringUtils.uncapitalize(getName());
     }
 
-    public void setRequired(boolean required) {
-        this.required = required;
-    }
+    public abstract boolean isRequired();
 
     public List<Condition> getConditions() {
         return conditions;
     }
-    
+
     public void addCondition(Condition condition) {
         for (Condition c : conditions)
             if (c.getName().equals(condition.getName()))
                 throw new RuntimeException("addCondition() - Condition {"+ condition.getName() +"} " 
-                        + "is already associated with Step {"+ name +"}");
-        
+                        + "is already associated with Step {"+ getName() +"}");
         conditions.add(condition);
     }
 
     public List<Widget> getWidgets() {
         return widgets;
     }
-    
+
     public void addWidget(Widget widget) {
         if (index != 0)
             throw new RuntimeException("addWidget - Widget can only be added in step with index 0");
         for (Widget w : widgets)
             if (w.getName().equals(widget.getName()))
                 throw new RuntimeException("addWidget() - Widget {"+ widget.getName() +"} " 
-                        + "is already associated with Step {"+ name +"}");
+                        + "is already associated with Step {"+ getName() +"}");
         widgets.add(widget);
     }
 }

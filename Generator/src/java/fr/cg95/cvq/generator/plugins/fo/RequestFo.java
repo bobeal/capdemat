@@ -58,9 +58,6 @@ public class RequestFo {
 
     public void setSteps(List<Step> steps) {
         this.steps = new ArrayList<Step>(steps);
-        for (Step step : this.steps)
-            if (step.getName() == null && step.getRef() != null)
-                step.setName(step.getRef());
     }
     
     public List<ElementFo> getElements() {

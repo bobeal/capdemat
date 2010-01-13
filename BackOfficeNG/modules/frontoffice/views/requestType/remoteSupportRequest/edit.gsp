@@ -1,3 +1,4 @@
+
 <html>
   <head>
      <title>${message(code:'rsr.description')}</title>
@@ -13,7 +14,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "subject-required",  "contact-required",  "document",  "validation"  ]
+        ,"steps": [  "subject-required",  "contact-required",  "document",  "validation-required"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />

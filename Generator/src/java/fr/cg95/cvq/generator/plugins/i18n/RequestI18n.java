@@ -2,12 +2,12 @@ package fr.cg95.cvq.generator.plugins.i18n;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.cg95.cvq.generator.common.CommonStep;
 import fr.cg95.cvq.generator.common.Step;
 
 /**
@@ -28,11 +28,10 @@ public class RequestI18n {
         return steps;
     }
     public void setSteps(List<Step> steps) {
-        this.steps = new ArrayList<Step>(steps);
-        
-        for (Iterator<Step> it = this.steps.iterator(); it.hasNext();) {
-            if (it.next().getName() == null)
-                it.remove();
+        this.steps = new ArrayList<Step>();
+        for (Step step : steps) {
+            if (!(step instanceof CommonStep))
+               this.steps.add(step);
         }
     }
     

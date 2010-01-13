@@ -10,6 +10,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.ElementTypeClass;
+import fr.cg95.cvq.generator.common.CommonStep;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Widget;
 
@@ -57,10 +58,11 @@ public class RequestPdf {
     }
 
     public void setSteps(List<Step> steps) {
-        this.steps = new ArrayList<Step>(steps);
-        for (Step step : this.steps)
-            if (step.getName() == null && step.getRef() != null)
-                step.setName(step.getRef());
+        this.steps = new ArrayList<Step>();
+        for (Step step : steps) {
+            if (!(step instanceof CommonStep))
+                this.steps.add(step);
+        }
     }
     
     public List<ElementPdf> getElements() {

@@ -1,3 +1,4 @@
+
 <html>
   <head>
      <title>${message(code:'ancr.description')}</title>
@@ -13,7 +14,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "requester-required",  "cadastre-required",  "validation"  ]
+        ,"steps": [  "requester-required",  "cadastre-required",  "validation-required"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />

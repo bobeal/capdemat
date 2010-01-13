@@ -1,3 +1,12 @@
+<%
+    fr.cg95.cvq.generator.common.CommonStep.metaClass.i18nPrefix = {
+        return "request"
+    }
+
+    fr.cg95.cvq.generator.common.CustomStep.metaClass.i18nPrefix = {
+        return requestFo.acronym
+    }
+%>
 <html>
   <head>
      <title>\${message(code:'${requestFo.acronym}.description')}</title>
@@ -83,12 +92,12 @@
   <% } %>
           <a href="#${step.name}"><em>
           <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
-    <% if (step.name == 'validation' || step.required) { %>
+    <% if (step.required) { %>
           <strong>
-            <g:message code="${['validation'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" /> *
+            <g:message code="${step.i18nPrefix()}.step.${step.name}.label" /> *
           </strong>
     <% } else {%>
-          <g:message code="${['document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
+          <g:message code="${step.i18nPrefix()}.step.${step.name}.label" />
     <% } %>        
           </em></a>
         </li>    
@@ -108,11 +117,11 @@
            <input type="hidden" name="returnUrl" value="\${returnUrl}" />
            <h3>
              <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
-  <% if (step.name == 'validation' || step.required) { %>
+  <% if (step.required) { %>
              <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
   <% } %>
-             <g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.label" />
-             <span><g:message code="${['validation','document'].contains(step.name) ? 'request' : requestFo.acronym}.step.${step.name}.desc" /></span>
+             <g:message code="${step.i18nPrefix()}.step.${step.name}.label" />
+             <span><g:message code="${step.i18nPrefix()}.step.${step.name}.desc" /></span>
              <span class="error">\${stepStates?.${step.name}?.errorMsg}</span>
            </h3>
            <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>

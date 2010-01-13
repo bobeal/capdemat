@@ -1,3 +1,4 @@
+
 <html>
   <head>
      <title>${message(code:'cwcr.description')}</title>
@@ -13,7 +14,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "waste-required",  "document",  "validation"  ]
+        ,"steps": [  "waste-required",  "document",  "validation-required"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />

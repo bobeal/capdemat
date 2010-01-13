@@ -18,6 +18,7 @@ import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
+import fr.cg95.cvq.generator.common.CommonStep;
 import fr.cg95.cvq.generator.common.RequestCommon;
 import fr.cg95.cvq.generator.common.Step;
 import groovy.text.SimpleTemplateEngine;
@@ -99,7 +100,7 @@ public class FoPlugin implements IPluginGenerator {
             bindingMap = new HashMap<String, Object>();
             bindingMap.put("acronym", requestFo.getAcronym());
             for (Step step : requestFo.getSteps()) {
-                if (!step.getName().equals(step.getRef())) {
+                if (!(step instanceof CommonStep)) {
                     bindingMap.put("step", step);
                     bindingMap.put("elementList", requestFo.getElementsByStep(step));
                     template.make(bindingMap).writeTo(new FileWriter(output + "_" + step.getName() + ".gsp"));

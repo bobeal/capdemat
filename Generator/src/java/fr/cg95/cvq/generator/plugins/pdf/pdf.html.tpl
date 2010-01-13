@@ -157,7 +157,6 @@ ${endGT()}
   </div>
   <h1>\${i18n.translate('${requestPdf.acronym}.label')}</h1>
 <% requestPdf.steps.each { step -> %>
-  <% if (['validation','document'].contains(step.name)) return; %>
   <h2>\${i18n.translate('${requestPdf.acronym}.step.${step.name}.label')}</h2>
   <% requestPdf.getElementsByStep(step).each { element -> %>
     <% if (element.typeClass == "COLLECTION") { %>

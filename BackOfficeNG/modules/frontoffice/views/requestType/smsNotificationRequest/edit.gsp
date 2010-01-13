@@ -1,3 +1,4 @@
+
 <html>
   <head>
      <title>${message(code:'snr.description')}</title>
@@ -13,7 +14,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "subscription-required",  "document",  "validation"  ]
+        ,"steps": [  "subscription-required",  "document",  "validation-required"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />

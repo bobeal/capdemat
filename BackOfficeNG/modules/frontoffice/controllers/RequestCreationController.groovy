@@ -619,7 +619,7 @@ class RequestCreationController {
             return null
         return stepStates.collect { stepState ->
             stepState.value.required && stepState.value.state != 'complete' ? stepState.key : null
-        }.findAll { stepName -> stepName != null }
+        }.findAll { stepName -> stepName != null && stepName != "validation" }
     }
     
     def bindObject(object, params) {

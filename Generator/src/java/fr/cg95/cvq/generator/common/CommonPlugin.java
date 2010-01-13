@@ -41,11 +41,18 @@ public class CommonPlugin implements IPluginGenerator {
             if (appDoc.hasChildNode("steps")) {
                 for (Node node : 
                     ApplicationDocumentation.getChildrenNodes(appDoc.getChildrenNodes("steps")[0], "step")) {
-                    step = new Step(
-                             ApplicationDocumentation.getNodeAttributeValue(node, "index")
-                            ,ApplicationDocumentation.getNodeAttributeValue(node, "name")
-                            ,ApplicationDocumentation.getNodeAttributeValue(node, "ref")
-                            ,ApplicationDocumentation.getNodeAttributeValue(node, "required"));
+                    if (ApplicationDocumentation.getNodeAttributeValue(node, "ref") != null) {
+                        step = new CommonStep(
+                            ApplicationDocumentation.getNodeAttributeValue(node, "index"),
+                            ApplicationDocumentation.getNodeAttributeValue(node, "ref")
+                        );
+                    } else {
+                        step = new CustomStep(
+                            ApplicationDocumentation.getNodeAttributeValue(node, "index"),
+                            ApplicationDocumentation.getNodeAttributeValue(node, "name"),
+                            ApplicationDocumentation.getNodeAttributeValue(node, "required")
+                        );
+                    }
                     
                     requestCommon.addStep(step);
                     
@@ -80,10 +87,13 @@ public class CommonPlugin implements IPluginGenerator {
             appDoc.setRequestCommon(requestCommon);
         }
         else {
-            if (appDoc.hasChildNode("step"))
-                requestCommon.setCurrentElementStep(
-                        new Step(-1, ApplicationDocumentation.getNodeAttributeValue(
-                                appDoc.getChildrenNodes("step")[0], "name")));
+            if (appDoc.hasChildNode("step")) {
+                Node step = appDoc.getChildrenNodes("step")[0];
+                String stepName = ApplicationDocumentation.getNodeAttributeValue(step, "ref");
+                if (stepName == null)
+                    stepName = ApplicationDocumentation.getNodeAttributeValue(step, "name");
+                requestCommon.setCurrentElementStep(stepName);
+            }
 
             if (appDoc.hasChildNode("conditions"))
                 for (Node node : 

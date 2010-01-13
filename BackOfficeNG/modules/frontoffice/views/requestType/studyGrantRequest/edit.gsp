@@ -1,3 +1,4 @@
+
 <html>
   <head>
      <title>${message(code:'sgr.description')}</title>
@@ -13,7 +14,7 @@
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"
-        ,"steps": [  "subject-required",  "taxHousehold-required",  "otherHelps-required",  "currentStudies-required",  "calculationElements-required",  "bankReference-required",  "document",  "validation"  ]
+        ,"steps": [  "subject-required",  "taxHousehold-required",  "otherHelps-required",  "currentStudies-required",  "calculationElements-required",  "bankReference-required",  "document",  "validation-required"  ]
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />

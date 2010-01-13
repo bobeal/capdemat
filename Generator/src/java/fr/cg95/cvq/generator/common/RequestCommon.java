@@ -29,11 +29,6 @@ public class RequestCommon {
         if (steps == null)
             steps = new ArrayList<Step>();
         
-        if (step.getRef() != null && step.getName() != null)
-            throw new RuntimeException("AddStep() - " +
-                    "Step can not define both name={"+ step.getName() +"}" +
-                    " and ref={"+ step.getRef() + "}");
-        
         int i = 0;
         for (Step s : steps) {
             i++;
@@ -89,20 +84,14 @@ public class RequestCommon {
     }
     
     /* Current Elemeent managment */
-    public void setCurrentElementStep (Step step) {
+    public void setCurrentElementStep (String name) {
         if (currentElementCommon == null)
             currentElementCommon = new ElementCommon();
         
-        boolean isStepDefined = false;
-        for (Step s : steps) {
-            if (s.getName() != null && s.getName().equals(step.getName())) {
-                isStepDefined = true;
-                break;
-            }
-        }
-        if (! isStepDefined)
+        Step step = getStepByName(name);
+        if (step == null)
             throw new RuntimeException("setCurrentElementStep() - " +
-                    "Step {"+ step.getName() +"} do not exists");
+                    "Step {"+ name +"} do not exists");
         
         currentElementCommon.setStep(step);
     }
@@ -110,7 +99,7 @@ public class RequestCommon {
     private Step getStepByName(String name) {
         for (Step s : steps)
             if (s.getName().equals(name))
-                return s;   
+                return s;
         return null;
     }
 

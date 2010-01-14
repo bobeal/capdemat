@@ -38,6 +38,7 @@ import org.apache.axis.client.Service;
 import org.apache.axis.encoding.XMLType;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
@@ -132,7 +133,10 @@ public class HoranetService implements IExternalProviderService {
             call = (Call) service.createCall();
             call.setOperationName(new QName(HORANET_CVQ2_NS, "AddRegistration"));
 
-            ByteArrayDataSource bds = new ByteArrayDataSource(requestXml.xmlText(), "text/xml");
+            XmlOptions xmlOptions = new XmlOptions();
+            xmlOptions.setCharacterEncoding("UTF-8");
+            
+            ByteArrayDataSource bds = new ByteArrayDataSource(requestXml.xmlText(xmlOptions), "text/xml");
             DataHandler dhSource = new DataHandler(bds);
 
             call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
@@ -184,7 +188,8 @@ public class HoranetService implements IExternalProviderService {
                 logger.debug("sendRequest() no school property for request " + request);
             }
 
-//            logger.debug("sendRequest() preparing to send : " + request.modelToXmlString());
+//            logger.debug("sendRequest() preparing to send (without encoding) : " + requestXml.xmlText());
+//            logger.debug("sendRequest() preparing to send (with encoding) : " + requestXml.xmlText(xmlOptions));
 
             // extract child information iff request's subject is of type child
             String childId = "";

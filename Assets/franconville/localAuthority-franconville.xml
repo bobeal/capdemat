@@ -214,7 +214,7 @@
       <value>org.postgresql.Driver</value>
     </property>
     <property name="jdbcUrl">
-      <value>jdbc:postgresql://localhost:5432/cartevaloise_franconville</value>
+      <value>jdbc:postgresql://localhost:5432/capdemat_franconville</value>
     </property>
     <property name="user">
       <value>capdemat</value>

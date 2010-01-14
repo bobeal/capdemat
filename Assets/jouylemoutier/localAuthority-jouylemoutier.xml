@@ -101,7 +101,7 @@
       <value>org.postgresql.Driver</value>
     </property>
     <property name="jdbcUrl">
-      <value>jdbc:postgresql://localhost:5432/cartevaloise_jouylemoutier</value>
+      <value>jdbc:postgresql://localhost:5432/capdemat_jouylemoutier</value>
     </property>
     <property name="user">
       <value>capdemat</value>
@@ -109,7 +109,6 @@
     <property name="password">
       <value>capdematpass</value>
     </property>
-    <property name="dataSourceName" value="jouylemoutier" />
     <property name="acquireIncrement" value="3" />
     <property name="initialPoolSize" value="0" />
     <property name="minPoolSize" value="0" />

@@ -71,6 +71,12 @@
           <!-- column start -->
           <div class="yui-u">
             
+              
+              <dl>
+                <dt class="required"><g:message code="sgr.property.edemandeId.label" /> * : </dt><dd id="edemandeId" class="action-editField validate-string required-true i18n-sgr.property.edemandeId" ><span>${request?.edemandeId}</span></dd>
+              </dl>
+              
+            
           </div>
           <!-- column end -->
           
@@ -367,6 +373,12 @@
           
           <!-- column start -->
           <div class="yui-u">
+            
+              
+              <dl>
+                <dt class="required"><g:message code="sgr.property.accountHolderEdemandeId.label" /> * : </dt><dd id="accountHolderEdemandeId" class="action-editField validate-string required-true i18n-sgr.property.accountHolderEdemandeId" ><span>${request?.accountHolderEdemandeId}</span></dd>
+              </dl>
+              
             
           </div>
           <!-- column end -->

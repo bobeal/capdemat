@@ -615,6 +615,10 @@
                   Edemande account holder ID
                 </xs:documentation>
                 <xs:appinfo>
+                  <common>
+                    <step name="bankReference" />
+                  </common>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -781,6 +785,10 @@
                   Edemande request ID
                 </xs:documentation>
                 <xs:appinfo>
+                  <common>
+                    <step name="subject" />
+                  </common>
+                  <bo column="2" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

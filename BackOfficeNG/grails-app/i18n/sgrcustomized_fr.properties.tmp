@@ -183,6 +183,10 @@ sgr.property.accountHolderBirthDate.help =
 sgr.property.accountHolderBirthDate.validationError =
 
 
+sgr.property.accountHolderEdemandeId.help =
+sgr.property.accountHolderEdemandeId.validationError =
+
+
 sgr.property.bankCode.help =
 sgr.property.bankCode.validationError =
 
@@ -197,5 +201,9 @@ sgr.property.accountNumber.validationError =
 
 sgr.property.accountKey.help =
 sgr.property.accountKey.validationError =
+
+
+sgr.property.edemandeId.help =
+sgr.property.edemandeId.validationError =
 
 

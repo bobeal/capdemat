@@ -88,6 +88,15 @@ public interface ILocalAuthorityRegistry {
         final boolean fallbackToDefault);
 
     /**
+     * Same as {@link #getLocalAuthorityResourceFile(Type, String, boolean)} but for the given
+     * local authority.
+     * 
+     * FIXME It is still necessary for the local referential service (but is should not)
+     */
+    File getLocalAuthorityResourceFileForLocalAuthority(final String localAuthorityName,
+            final Type type, final String filename, final boolean fallbackToDefault);
+
+    /**
      * Same as {@link #getLocalAuthorityResource(Type, String, boolean)} but
      * with file content returned in a string.
      */
@@ -119,7 +128,7 @@ public interface ILocalAuthorityRegistry {
         throws CvqException;
 
     /**
-     * Get the file for this local authority resource id and version in the current local authority assets.
+     * Get the file for this resource id and version in the current local authority assets.
      */
     File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
         throws CvqException;

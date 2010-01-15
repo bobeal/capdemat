@@ -254,6 +254,23 @@ public class LocalAuthorityRegistry
     }
 
     @Override
+    public File getLocalAuthorityResourceFileForLocalAuthority(final String localAuthorityName,
+            final Type type, final String filename, final boolean fallbackToDefault) {
+        StringBuffer filePath = new StringBuffer().append(assetsBase)
+            .append(localAuthorityName.toLowerCase())
+            .append("/").append(type.getFolder()).append("/").append(filename)
+            .append(type.getExtension());
+        logger.debug("getAssetsFile() searching file : " + filePath.toString());
+        File resourceFile = new File(filePath.toString());
+        if (!resourceFile.exists() && fallbackToDefault) {
+            logger.warn("getAssetsFile() did not find " + filePath.toString()
+                    + ", trying default");
+            return getReferentialResource(type, filename);
+        }
+        return resourceFile;
+    }
+    
+    @Override
     public File getRequestXmlResource(Long id) {
         return new File(getRequestXmlPath(id));
     }

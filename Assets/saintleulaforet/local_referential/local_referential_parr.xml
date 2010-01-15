@@ -30,7 +30,7 @@
                 <label lang="fr">Accueil postscolaire (soir)</label>
                 <message lang="fr"/>
                 <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
-                    <entry key="vendredi">
+                    <entry key="accueil_postscolaire_vendredi">
                         <label lang="fr">Vendredi</label>
                         <message lang="fr"/>
                     </entry>

@@ -233,18 +233,20 @@ public class LocalReferentialService
 
             Date now = new Date();
             File localReferentialFile =
-                localAuthorityRegistry.getLocalAuthorityResourceFile(
+                localAuthorityRegistry.getLocalAuthorityResourceFileForLocalAuthority(localAuthorityName, 
                     Type.LOCAL_REFERENTIAL, localReferentialFilename, true);
             LocalReferentialDocument refDoc = null;
             try {
                 refDoc = parse(localReferentialFile);
             } catch (CvqException e) {
-                logger.error("Error while parsing local referential file for request type : " 
+                logger.error("addLocalReferentialForLocalAuthority() error while parsing local referential for : " 
                         + requestTypeLabel);
                 return;
             }
 
             if (localReferentialFileMap.get(localAuthorityName) == null) {
+                logger.debug("addLocalReferentialForLocalAuthority() initializing map for "
+                        + localAuthorityName);
                 Map<String, LocalReferentialDocument> requestTypeFileMap = 
                     new LinkedHashMap<String, LocalReferentialDocument>();
                 requestTypeFileMap.put(requestTypeLabel, refDoc);

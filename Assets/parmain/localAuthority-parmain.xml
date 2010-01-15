@@ -210,7 +210,7 @@
       <value>org.postgresql.Driver</value>
     </property>
     <property name="jdbcUrl">
-      <value>jdbc:postgresql://localhost:5432/cartevaloise_parmain</value>
+      <value>jdbc:postgresql://localhost:5432/capdemat_parmain</value>
     </property>
     <property name="user">
       <value>capdemat</value>
@@ -219,10 +219,11 @@
       <value>capdematpass</value>
     </property>
     <property name="acquireIncrement" value="3" />
-    <property name="initialPoolSize" value="3" />
-    <property name="minPoolSize" value="3" />
-    <property name="maxPoolSize" value="12" />
+    <property name="initialPoolSize" value="0" />
+    <property name="minPoolSize" value="0" />
+    <property name="maxPoolSize" value="24" />
     <property name="maxStatements" value="0"/>
+    <property name="maxIdleTime" value="300" />
   </bean>
 
 </beans>

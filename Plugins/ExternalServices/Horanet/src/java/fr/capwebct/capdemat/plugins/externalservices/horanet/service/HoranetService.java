@@ -38,6 +38,7 @@ import org.apache.axis.client.Service;
 import org.apache.axis.encoding.XMLType;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
@@ -126,28 +127,36 @@ public class HoranetService implements IExternalProviderService {
         throws CvqException {
 
         try {
-            String SOAP_ACTION_URI = HORANET_CVQ2_NS + "AddRegistration";
+//            String SOAP_ACTION_URI = HORANET_CVQ2_NS + "AddRegistration";
+            String SOAP_ACTION_URI = HORANET_CVQ_NS + "AddCanteenRegistrationWithoutCSN";
             service = new Service();
 
             call = (Call) service.createCall();
-            call.setOperationName(new QName(HORANET_CVQ2_NS, "AddRegistration"));
+//            call.setOperationName(new QName(HORANET_CVQ2_NS, "AddRegistration"));
+            call.setOperationName(new QName(HORANET_CVQ_NS, "AddCanteenRegistrationWithoutCSN"));
 
-            ByteArrayDataSource bds = new ByteArrayDataSource(requestXml.xmlText(), "text/xml");
+            XmlOptions xmlOptions = new XmlOptions();
+            xmlOptions.setCharacterEncoding("UTF-8");
+            
+            ByteArrayDataSource bds = new ByteArrayDataSource(requestXml.xmlText(xmlOptions), "text/xml");
             DataHandler dhSource = new DataHandler(bds);
 
             call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
             call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
             call.setProperty(Call.ATTACHMENT_ENCAPSULATION_FORMAT, Call.ATTACHMENT_ENCAPSULATION_FORMAT_DIME);
-            call.setTargetEndpointAddress(endPoint2.toString());
+//            call.setTargetEndpointAddress(endPoint2.toString());
+            call.setTargetEndpointAddress(endPoint.toString());
             call.setSOAPActionURI(SOAP_ACTION_URI);
-
-            call.addParameter(new QName(HORANET_CVQ2_NS, "ZipCode"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "ActivityID"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "ProcClass"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "ProcID"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "School"), Constants.XSD_STRING, ParameterMode.IN);
-            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
+            logger.debug("sendRequest() sending to endpoint " + endPoint.toString());
+            logger.debug("sendRequest() sending on action " + SOAP_ACTION_URI);
+            
+            call.addParameter(new QName(HORANET_CVQ_NS, "ZipCode"), Constants.XSD_STRING, ParameterMode.IN);
+            call.addParameter(new QName(HORANET_CVQ_NS, "ActivityID"), Constants.XSD_STRING, ParameterMode.IN);
+            call.addParameter(new QName(HORANET_CVQ_NS, "ProcClass"), Constants.XSD_STRING, ParameterMode.IN);
+            call.addParameter(new QName(HORANET_CVQ_NS, "ProcID"), Constants.XSD_STRING, ParameterMode.IN);
+            call.addParameter(new QName(HORANET_CVQ_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
+            call.addParameter(new QName(HORANET_CVQ_NS, "School"), Constants.XSD_STRING, ParameterMode.IN);
+            call.addParameter(new QName(HORANET_CVQ_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
 //            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildCard"), Constants.XSD_STRING, ParameterMode.IN);
             call.setReturnType(XMLType.AXIS_VOID);
             call.addAttachmentPart(dhSource);
@@ -184,7 +193,8 @@ public class HoranetService implements IExternalProviderService {
                 logger.debug("sendRequest() no school property for request " + request);
             }
 
-//            logger.debug("sendRequest() preparing to send : " + request.modelToXmlString());
+//            logger.debug("sendRequest() preparing to send (without encoding) : " + requestXml.xmlText());
+//            logger.debug("sendRequest() preparing to send (with encoding) : " + requestXml.xmlText(xmlOptions));
 
             // extract child information iff request's subject is of type child
             String childId = "";
@@ -210,6 +220,8 @@ public class HoranetService implements IExternalProviderService {
 //                    childBadgeNumber,
             });
 
+            logger.debug("sendRequest() request has been sent to Horanet");
+            
         } catch (ServiceException se) {
             throw new CvqRemoteException("Failed to connect to Horanet service : " 
                     + se.getMessage());

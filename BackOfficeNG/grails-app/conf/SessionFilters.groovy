@@ -289,6 +289,8 @@ class SessionFilters {
                     	response.setStatus(500)
                     	render "Unexpected error while setting agent in security context"
                         e.printStackTrace()
+						HibernateUtil.rollbackTransaction()
+						SecurityContext.resetCurrentSite()
     					return false
                     }
                 }

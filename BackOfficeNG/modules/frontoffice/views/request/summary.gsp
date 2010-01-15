@@ -23,15 +23,17 @@
       <h2>
         <g:message code="request.header.summary"
           args="${[requestTypeLabel,rqt.id.toString()]}" />
-        <span>
-          <g:message code="requestAction.action.download.Creation" /> :
-          <a title="<g:message code='requestAction.property.requestCertificate' />"
-            href="${createLink(action : 'download', id : requestActionId)}">
-            <img
-              alt="<g:message code='requestAction.action.download.Creation' />"
-              src="${createLinkTo(dir:'images/icons',file:'pdficon_small.gif')}" />
-          </a>
-        </span>
+        <g:if test="${requestActionId}">
+          <span>
+            <g:message code="requestAction.action.download.Creation" /> :
+            <a title="<g:message code='requestAction.property.requestCertificate' />"
+              href="${createLink(action : 'download', id : requestActionId)}">
+              <img
+                alt="<g:message code='requestAction.action.download.Creation' />"
+                src="${createLinkTo(dir:'images/icons',file:'pdficon_small.gif')}" />
+            </a>
+          </span>
+        </g:if>
       </h2>
       <div class="body">
         <g:render template="/frontofficeRequestType/${validationTemplateDirectory}/summary"

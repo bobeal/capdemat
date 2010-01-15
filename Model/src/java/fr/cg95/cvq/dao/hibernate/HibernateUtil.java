@@ -35,6 +35,8 @@ public class HibernateUtil {
     }
 
     public static void setSessionFactory(SessionFactory sessionFactory) {
+        rollbackTransaction();
+        closeSession();
         threadSessionFactory.set(sessionFactory);
     }
 

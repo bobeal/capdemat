@@ -146,11 +146,15 @@ public class SecurityContext {
     public static void setCurrentAgent(String agentLogin)
         throws CvqException, CvqObjectNotFoundException {
 
-        Agent agent = agentService.getByLogin(agentLogin);
-        if (agent == null) {
-            logger.error("setCurrentAgent() agent " + agentLogin + " not found in DB");
-            throw new CvqObjectNotFoundException("Agent not found !");
+        Agent agent = null;
+        try {
+            agent = agentService.getByLogin(agentLogin);
+        } catch (Exception e) {
+            logger.error("setCurrentAgent() error while retrieving agent " + agentLogin);
+            e.printStackTrace();
+            throw new CvqException("Error while retrieving agent " + agentLogin);
         }
+
         setCurrentAgent(agent);
     }
 
@@ -315,8 +319,10 @@ public class SecurityContext {
     }
 
     public static void setCurrentSite(LocalAuthority localAuthority, String context) {
+        logger.debug("setCurrentSite() site = " + localAuthority.getName() + ", context = " + context);
+
         CredentialBean credentialBean = new CredentialBean(localAuthority, context);
-        currentContextThreadLocal.set(credentialBean);        
+        currentContextThreadLocal.set(credentialBean);
     }
     
     /**
@@ -327,8 +333,6 @@ public class SecurityContext {
      */
     public static void setCurrentSite(String localAuthorityName, String context)
         throws CvqObjectNotFoundException {
-
-        logger.debug("setCurrentSite() site = " + localAuthorityName + ", context = " + context);
 
         LocalAuthority localAuthority = 
             localAuthorityRegistry.getLocalAuthorityByName(localAuthorityName);

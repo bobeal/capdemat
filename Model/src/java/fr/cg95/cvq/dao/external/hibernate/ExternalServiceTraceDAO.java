@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.type.Type;
@@ -28,7 +29,18 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         StringBuffer sb = new StringBuffer();
         sb.append("select * from external_service_traces");
         if (lastOnly) {
-            sb.append(" where id in (select id from external_service_traces as a group by id, key having id = ( select id from external_service_traces as b where b.key=a.key order by date desc, id desc limit 1))");
+            List<String> keys = HibernateUtil.getSession().createQuery("select distinct key from ExternalServiceTrace").list();
+            List<String> ids = new ArrayList<String>(keys.size());
+            Query query;
+            for (String key : keys) {
+                query = HibernateUtil.getSession().createQuery("select id from ExternalServiceTrace where key = :key order by date desc");
+                query.setString("key", key);
+                query.setMaxResults(1);
+                ids.add(((Long)query.uniqueResult()).toString());
+            }
+            sb.append(" where id in (");
+            sb.append(StringUtils.join(ids.toArray(), ", "));
+            sb.append(')');
         } else {
             sb.append(" where 1 = 1 ");
         }
@@ -84,7 +96,18 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         StringBuffer sb = new StringBuffer();
         sb.append("select count(*) from external_service_traces");
         if (lastOnly) {
-            sb.append(" where id in (select id from external_service_traces as a group by id, key having id = ( select id from external_service_traces as b where b.key=a.key order by date desc, id desc limit 1))");
+            List<String> keys = HibernateUtil.getSession().createQuery("select distinct key from ExternalServiceTrace").list();
+            List<String> ids = new ArrayList<String>(keys.size());
+            Query query;
+            for (String key : keys) {
+                query = HibernateUtil.getSession().createQuery("select id from ExternalServiceTrace where key = :key order by date desc");
+                query.setString("key", key);
+                query.setMaxResults(1);
+                ids.add(((Long)query.uniqueResult()).toString());
+            }
+            sb.append(" where id in (");
+            sb.append(StringUtils.join(ids.toArray(), ", "));
+            sb.append(')');
         } else {
             sb.append(" where 1 = 1 ");
         }

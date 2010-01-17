@@ -12,7 +12,9 @@ update request_form set
     where id in (2758, 2759, 2760, 2761, 2762, 2763, 2764, 2765, 2772);
 
 update request_form set
-    template_name = 'Dossier déja traité',
+    template_name = 'Dossier déjà traité',
+    label = 'Dossier déjà traité',
+    short_label = 'Dossier déjà traité',
     personalized_data = '<p>Nous avons bien re\303\247u votre demande #{RQ_TP_LABEL} du #{RQ_CDATE}.</p>\012    <p>Cette demande ne peut \303\252tre valid\303\251e, car une autre a \303\251t\303\251 pr\303\251c\303\251demment enregistr\303\251e par nos services.</p>'
     where id in (2766, 2767, 2768, 2769, 2770, 2773);
 

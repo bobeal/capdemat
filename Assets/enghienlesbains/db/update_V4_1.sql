@@ -5,7 +5,7 @@ update local_authority set postal_code = '95880', display_title = 'Enghien-les-B
 update request_form set xsl_fo_filename = null, template_name = 'general', personalized_data = '' where type = 'Request Mail Template';
 
 -- BDR - Attestation
-update request_form set personalized_data = '<p>Nous faisons suite \\303\\240 votre #{RQ_TP_LABEL} du #{RQ_CDATE} pour vous informer qu''elle a \\303\\251t\\303\\251 valid\\303\\251e.<br /></p><p>Vous recevrez prochainement l\\342\\200\\231acte par courrier \\303\\240 l\\342\\200\\231adresse indiqu\\303\\251e dans votre demande.</p><p>Nous vous rappelons qu''un seul acte est n\\303\\251cessaire pour \\303\\251tablir une pi\\303\\250ce d''identit\\303\\251 (passeport, carte d''identit\\303\\251, etc.).</p>'
+update request_form set personalized_data = '<p>Nous faisons suite \\303\\240 votre #{RQ_TP_LABEL} du #{RQ_CDATE} pour vous informer qu''elle a \\303\\251t\\303\\251 valid\\303\\251e.<br /></p><p>Vous recevrez prochainement l\\342\\200\\231acte par courrier \\303\\240 l\\342\\200\\231adresse indiqu\\303\\251e dans votre demande.</p><p>Nous vous rappelons qu''un seul acte est n\\303\\251cessaire pour \\303\\251tablir une pi\\303\\250ce d''identit\\303\\251 (passeport, carte d''identit\\303\\251, etc.).</p><br />Nous vous prions d\\342\\200\\231agr\\303\\251er, #{RR_TITLE}, nos salutations les plus distingu\\303\\251es.<br />'
     where id = 116;
 
 -- BDR - Demande d'info
@@ -17,7 +17,7 @@ update request_form set personalized_data = '<p>Nous faisons suite \\303\\240 vo
     where id = 117;
 
 -- DDR - Attestation
-update request_form set personalized_data = '<p>Nous faisons suite \\303\\240 votre #{RQ_TP_LABEL} du #{RQ_CDATE} pour vous informer qu''elle a \\303\\251t\\303\\251 valid\\303\\251e.<br /><br /></p><p>Vous recevrez prochainement l\\342\\200\\231acte par courrier \\303\\240 l\\342\\200\\231adresse indiqu\\303\\251e dans votre demande.</p>'
+update request_form set personalized_data = '<p>Nous faisons suite \\303\\240 votre #{RQ_TP_LABEL} du #{RQ_CDATE} pour vous informer qu''elle a \\303\\251t\\303\\251 valid\\303\\251e.<br /><br /></p><p>Vous recevrez prochainement l\\342\\200\\231acte par courrier \\303\\240 l\\342\\200\\231adresse indiqu\\303\\251e dans votre demande.</p><br />Nous vous prions d\\342\\200\\231agr\\303\\251er, #{RR_TITLE}, nos salutations les plus distingu\\303\\251es.<br />'
     where id = 105;
     
 -- DDR - Demande d'info
@@ -29,7 +29,7 @@ update request_form set personalized_data = '<p>Nous faisons suite \\303\\240 vo
     where id = 106;
 
 -- MDR - Attestation
-update request_form set personalized_data = '<p>Nous faisons suite \\303\\240 votre #{RQ_TP_LABEL} du #{RQ_CDATE} pour vous informer qu''elle a \\303\\251t\\303\\251 valid\\303\\251e.<br /><br /></p><p>Vous recevrez prochainement l\\342\\200\\231acte par courrier \\303\\240 l\\342\\200\\231adresse indiqu\\303\\251e dans votre demande.</p>'
+update request_form set personalized_data = '<p>Nous faisons suite \\303\\240 votre #{RQ_TP_LABEL} du #{RQ_CDATE} pour vous informer qu''elle a \\303\\251t\\303\\251 valid\\303\\251e.<br /><br /></p><p>Vous recevrez prochainement l\\342\\200\\231acte par courrier \\303\\240 l\\342\\200\\231adresse indiqu\\303\\251e dans votre demande.</p><br />Nous vous prions d\\342\\200\\231agr\\303\\251er, #{RR_TITLE}, nos salutations les plus distingu\\303\\251es.<br />'
     where id = 108;
 
 -- MDR - Demande d'info

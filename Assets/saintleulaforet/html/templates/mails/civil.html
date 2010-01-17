@@ -2,18 +2,18 @@
 <html>
   <head>
     <style type="text/css">
-      @page { size: A4 portrait; margin: 1cm 1cm 0cm 1cm;}
+      @page { size: A4 portrait; margin: 0cm 1cm 0cm 1cm;}
       .mail-template { margin: 0; padding: 0; width:100%; font-size:11pt; font-family:serif;}
       .mail-template div, .mail-template p { margin-top: 0; margin-bottom:0; }
-      .mail-template img.logo-header { height:3.86cm; width:6.03cm; margin-top:0.25cm; margin-left:0.25cm;}
+      .mail-template img.logo-header { height:3.86cm; width:6.03cm; }
       .mail-template .date-place, .mail-template .address-hf { margin-left:10cm; }
       .mail-template .address-hf { margin-top:0.25cm; }
       .mail-template .date-place { margin-top:1.1cm; }
-      .mail-template .administrative-info { margin-bottom:2em; margin-top:2em;}
-      .mail-template .salutation { margin-bottom:2em; margin-left: 3.12cm; font-size:12pt; }
-      .mail-template .editable-zone { font-size:12pt; text-align:justify;}
+      .mail-template .administrative-info { margin-bottom:3cm; margin-top:2em;}
+      .mail-template .salutation { margin-bottom:1em; margin-left: 1cm; font-size:12pt; }
+      .mail-template .editable-zone { margin-left: 1cm; font-size:12pt; text-align:justify;}
       .mail-template .valediction { margin-top: 1em; font-size:12pt; text-align:justify;}
-      .mail-template .closing { margin-top:3cm; margin-left:7.5cm; font-size:12pt; }
+      .mail-template .closing { margin-top:2.5cm; margin-left:6.5cm; font-size:12pt; }
       .mail-template img.logo-footer { position:absolute; top: 26.5cm; height:2cm; width:16cm; margin-left:1.5cm;}
     </style>
   </head>
@@ -28,7 +28,7 @@
         </g:if>
       </div>
       <div class="address-hf">
-        <p>#{RR_TITLE} #{RR_LNAME}</p>
+        <p>#{RR_TITLE} #{RR_FNAME} #{RR_LNAME}</p>
         <p>#{HF_ADDRESS_ADI}</p>
         <p>#{HF_ADDRESS_AGI}</p>
         <p>#{HF_ADDRESS_SNUM} #{HF_ADDRESS_SNAME}</p>
@@ -39,8 +39,8 @@
         <p>Saint-Leu-la-Forêt, le #{DATE}</p>
       </div>
       <div class="administrative-info">
-        <p><strong>Direction des services à la population</strong></p>
-        <p><strong>Téléservice : #{RQ_TP_LABEL}</strong></p>
+        <p style="margin-bottom:1em;"><strong>Direction des services à la population</strong></p>
+        <p><strong>Téléservice :</strong> #{RQ_TP_LABEL}</p>
         <p>Numéro de la demande : #{RQ_ID}</p>
       </div>
       <div class="salutation">

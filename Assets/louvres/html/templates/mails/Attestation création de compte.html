@@ -2,26 +2,28 @@
 <html>
   <head>
     <style type="text/css">
-      @page { size: A4 portrait; margin: 1cm 1cm 0cm 1cm;}
+      @page { size: A4 portrait; margin: 2cm 1cm 0cm 1cm;}
       .mail-template { margin: 0; padding: 0; width:100%; font-size:11pt; font-family:serif;}
       .mail-template div,
       .mail-template p { margin-top: 0; margin-bottom:0; }
-      .mail-template img.logo-header { margin-top:0.25cm; margin-left:0.25cm; }
+      .mail-template img.logo-header { margin-top:0.5cm; margin-left:3cm; }
       .mail-template .address-ct, 
       .mail-template .date-place,
-      .mail-template .address-hf { margin-bottom:2em; margin-left:11cm; }
-      .mail-template .administrative-info { margin-bottom:2em; }
-      .mail-template .salutation { margin-bottom:2em; text-align:center; font-size:12pt; }
-      .mail-template .editable-zone { font-size:12pt; text-align:justify;}
-      .mail-template .valediction { font-size:12pt; margin-top: 1em; text-align:justify;}
-      .mail-template .closing { margin-top:3cm; margin-left:6.5cm; font-size:12pt; }
+      .mail-template .address-hf { margin-bottom:2em; margin-left:12cm; }
+      .mail-template .address-ct { margin-bottom:4em; font-weight:bold; text-align: center; margin-top : -3.25cm; margin-right : 1cm;}
+      .mail-template .administrative-info { margin-bottom:2em; margin-left : 2cm;}
+      .mail-template .salutation { margin-bottom:1em; margin-left : 3cm; font-size:11pt; }
+      .mail-template .editable-zone { font-size:11pt; margin-left : 3cm; text-align:justify; }
+      .mail-template .editable-zone p { margin-top : 1em; }
+      .mail-template .valediction { font-size:11pt;  margin-left : 3cm; text-align:justify; margin-top : 0.5em; }
+      .mail-template .closing { margin-top:3cm; margin-left:10cm; font-size:12pt; text-align: center; }
       .mail-template img.logo-footer { position:absolute; top: 26.5cm; }
     </style>
   </head>
   <body>
     <div class="mail-template">
-      <div>
-        DÉPARTEMENT DU VAL D'OISE
+      <div style="margin-left:1cm;">
+        <strong>DÉPARTEMENT DU VAL D'OISE</strong>
       </div>
       <div>
         <g:if test="${type == 'HTML'}">
@@ -53,7 +55,6 @@
         <p><strong>N/Réf</strong>. : #{RQ_CAT}</p>
         <p><strong>V/Réf</strong>. : demande n°#{RQ_ID}</p>
         <p><strong>Objet</strong> : Demande de création de compte foyer</p>
-        <p><strong>Envoi</strong> : #{MOC}</p>
       </div>
       <div class="salutation">
         #{RR_TITLE},
@@ -63,7 +64,6 @@
         <p>Nous vous confirmons avoir validé votre demande n°#{RQ_ID} et, vous pouvez, de ce fait, vous connecter à nouveau pour vos démarches.</p>
       </g:editableZone>
       <div class="valediction">
-        <p>Vous en souhaitant bonne réception,</p>
         <p>Veuillez agréer, #{RR_TITLE}, l’expression de nos salutations distinguées.</p>
       </div>
       <div class="closing">

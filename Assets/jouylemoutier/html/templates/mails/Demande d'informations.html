@@ -6,15 +6,17 @@
       .mail-template { margin: 0; padding: 0; width:100%; font-size:11pt; font-family:serif;}
       .mail-template div,
       .mail-template p { margin-top: 0; margin-bottom:0; }
-      .mail-template img.logo-header { margin-top:0.25cm; margin-left:0.25cm; }
-      .mail-template .address-ct, 
-      .mail-template .date-place,
-      .mail-template .address-hf { margin-bottom:2em; margin-left:11cm; }
-      .mail-template .administrative-info { margin-bottom:2em; }
-      .mail-template .salutation { margin-bottom:2em; text-align:center; font-size:12pt; }
-      .mail-template .editable-zone { font-size:12pt; text-align:justify;}
+      .mail-template img.logo-header { margin-top:0.25cm; margin-left:2cm; }
+      .mail-template .date-place { margin-bottom:2em; margin-right : 3cm; text-align:right;}
+      .mail-template .address-hf { margin-bottom:2em; margin-left:11cm; margin-top : 1.5cm; }
+      .mail-template .administrative-info { margin-bottom:2em; margin-left:1cm; }
+      .mail-template .salutation { margin-bottom:2em; font-size:12pt; }
+      .mail-template .editable-zone { font-size:12pt; text-align:justify; line-height : 2em; }
+      .mail-template .salutation,
+      .mail-template .editable-zone,
+      .mail-template .valediction { margin-left : 1.5cm; }
       .mail-template .valediction { font-size:12pt; margin-top: 1em; text-align:justify;}
-      .mail-template .closing { margin-top:3cm; margin-left:6.5cm; font-size:12pt; }
+      .mail-template .closing { margin-top:1cm; margin-bottom:2cm; margin-right:6cm; font-size:11pt; text-align : right;}
       .mail-template img.logo-footer { position:absolute; top: 26.5cm; }
     </style>
   </head>
@@ -33,7 +35,7 @@
         <p><strong>Affaire suivie par Mme GUGLIELMI Sharon</strong></p>
         <p>Téléphone : 01 34 43 94 24</p>
         <p>Fax : O1 34 43 53 33</p>
-        <p>Email : sharon.guglielmi@jouylemoutier.fr</p>
+        <p style="font-style: italic;">Email : sharon.guglielmi@jouylemoutier.fr</p>
       </div>
       <div class="date-place">
         <p>JOUY-LE-MOUTIER, le #{DATE}</p>
@@ -65,6 +67,8 @@
       </div>
       <div class="closing">
         <p><strong>Le Maire</strong></p>
+      </div>
+      <div class="closing">
         <p><strong>Gilbert MARSAC</strong></p>
       </div>
       <div>

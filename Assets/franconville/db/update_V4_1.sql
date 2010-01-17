@@ -1,7 +1,8 @@
-update local_authority set postal_code = '95130', display_title = 'Franconvilles', 
+update local_authority set postal_code = '95130', display_title = 'Franconville', 
     instruction_alerts_enabled = 'false', instruction_alerts_detailed = 'false',
-    instruction_default_max_delay = 10, instruction_default_alert_delay = 3;
-    
+    instruction_default_max_delay = 10, instruction_default_alert_delay = 3,
+    document_digitalization_enabled = 'false';
+
 update request_form set xsl_fo_filename = null, personalized_data = null where type = 'Request Mail Template';
 
 -- vcr - Attestation / Demande d'info / Dossier déjà traité

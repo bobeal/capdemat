@@ -7,6 +7,7 @@
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="vetheuil"/>
     <property name="defaultServerName" value="vosdemarches.mairie-vetheuil.fr" />
+    <property name="displayTutorsInAccountCreation" value="false" />
     <property name="sessionFactory">
       <ref bean="sessionFactory_vetheuil" />
     </property>

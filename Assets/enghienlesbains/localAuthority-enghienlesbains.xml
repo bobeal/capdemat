@@ -6,7 +6,8 @@
   <bean id="configurationBean_enghienlesbains"
     class="fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean" init-method="init">
     <property name="name" value="enghienlesbains"/>
-   <property name="defaultServerName" value="vosdemarches.enghien95.fr"/>
+    <property name="defaultServerName" value="vosdemarches.enghien95.fr"/>
+    <property name="displayTutorsInAccountCreation" value="false" />
     <property name="sessionFactory">
       <ref bean="sessionFactory_enghienlesbains" />
     </property>

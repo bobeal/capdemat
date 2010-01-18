@@ -1,12 +1,14 @@
 
 
 
+
 <!-- step start -->
 <div id="page5">
   <h2><g:message code="property.form" />
     <span><g:message code="hcar.step.benefits.label" /></span>
   </h2>
   <div class="yui-g">
+    
     
     <!-- column start -->
     <div class="yui-u first">
@@ -108,6 +110,7 @@
     <span><g:message code="hcar.step.aid.label" /></span>
   </h2>
   <div class="yui-g">
+    
     
     <!-- column start -->
     <div class="yui-u first">
@@ -234,6 +237,7 @@
     <span><g:message code="hcar.step.health.label" /></span>
   </h2>
   <div class="yui-g">
+    
     
     <!-- column start -->
     <div class="yui-u first">

@@ -1,12 +1,14 @@
 
 
 
+
 <!-- step start -->
 <div id="page8">
   <h2><g:message code="property.form" />
     <span><g:message code="hcar.step.project.label" /></span>
   </h2>
   <div class="yui-g">
+    
     
     <!-- column start -->
     <div class="yui-u first">

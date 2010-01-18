@@ -50,7 +50,8 @@ public class RequestBo {
     public void setSteps(List<Step> steps) {
         this.steps = new ArrayList<Step>();
         for (Step step : steps) {
-            if (!(step instanceof CommonStep))
+            if (!(step instanceof CommonStep)
+                || CommonStep.Ref.administration.name().equals(step.getName()))
                 this.steps.add(step);
         }
     }

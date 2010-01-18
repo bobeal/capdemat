@@ -1,22 +1,27 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="rarr.step.registration.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page1"><em><g:message code="rarr.step.contact.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page2"><em><g:message code="rarr.step.authorization.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page3"><em><g:message code="rarr.step.rules.label" /></em></a>
+    </li>
+  
+    <li class="administration ">
+      <a href="#page6"><em><g:message code="request.step.administration.label" /></em></a>
     </li>
   
   </ul>
@@ -30,6 +35,7 @@
           <span><g:message code="rarr.step.registration.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -65,12 +71,6 @@
           <!-- column start -->
           <div class="yui-u">
             
-              
-              <dl>
-                <dt class=""><g:message code="rarr.property.recreationCenter.label" />  : </dt><dd id="recreationCenter" class="action-editField validate-recreationCenter i18n-rarr.property.recreationCenter" ><span class="value-${request?.recreationCenter?.id}">${request?.recreationCenter?.name}</span></dd>
-              </dl>
-              
-            
           </div>
           <!-- column end -->
           
@@ -85,6 +85,7 @@
           <span><g:message code="rarr.step.contact.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -116,6 +117,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -146,6 +148,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -170,6 +173,41 @@
               
               <dl>
                 <dt class="required"><g:message code="rarr.property.hospitalizationPermission.label" /> * : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance required-true i18n-rarr.property.hospitalizationPermission" ><span class="value-${request?.hospitalizationPermission}"><g:message code="message.${request?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- data step  end -->
+      </div>
+      <!-- step end -->
+      
+      <!-- step start -->
+      <div id="page6">
+        <h2><g:message code="property.form" />
+          <span><g:message code="request.step.administration.label" /></span>
+        </h2>
+        <div class="yui-g">
+          
+            <div class="administration information-message">
+              <g:message code="request.step.administration.desc" />
+            </div>
+          
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class=""><g:message code="rarr.property.recreationCenter.label" />  : </dt><dd id="recreationCenter" class="action-editField validate-recreationCenter i18n-rarr.property.recreationCenter" ><span class="value-${request?.recreationCenter?.id}">${request?.recreationCenter?.name}</span></dd>
               </dl>
               
             

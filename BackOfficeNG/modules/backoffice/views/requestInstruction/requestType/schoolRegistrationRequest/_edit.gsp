@@ -1,14 +1,19 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="srr.step.registration.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page1"><em><g:message code="srr.step.rules.label" /></em></a>
+    </li>
+  
+    <li class="administration ">
+      <a href="#page4"><em><g:message code="request.step.administration.label" /></em></a>
     </li>
   
   </ul>
@@ -23,6 +28,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -31,12 +37,6 @@
                 <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
               <dd><span>${request?.subjectFirstName} ${request?.subjectLastName}</span></dd>
           
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class=""><g:message code="srr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-srr.property.school" ><span class="value-${request?.school?.id}">${request?.school?.name}</span></dd>
               </dl>
               
             
@@ -86,12 +86,48 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
               
               <dl>
                 <dt class="required"><g:message code="srr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-srr.property.rulesAndRegulationsAcceptance" ><span class="value-${request?.rulesAndRegulationsAcceptance}"><g:message code="message.${request?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- data step  end -->
+      </div>
+      <!-- step end -->
+      
+      <!-- step start -->
+      <div id="page4">
+        <h2><g:message code="property.form" />
+          <span><g:message code="request.step.administration.label" /></span>
+        </h2>
+        <div class="yui-g">
+          
+            <div class="administration information-message">
+              <g:message code="request.step.administration.desc" />
+            </div>
+          
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class=""><g:message code="srr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-srr.property.school" ><span class="value-${request?.school?.id}">${request?.school?.name}</span></dd>
               </dl>
               
             

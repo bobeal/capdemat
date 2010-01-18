@@ -8,7 +8,8 @@ public class CommonStep extends Step {
 
     public enum Ref {
         document(false),
-        validation(true);
+        validation(true),
+        administration(false);
         private boolean required;
         private Ref(boolean required) { this.required = required; }
         public boolean isRequired() { return required; }

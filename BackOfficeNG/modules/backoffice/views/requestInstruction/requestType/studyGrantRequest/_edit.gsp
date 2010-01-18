@@ -1,30 +1,35 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="sgr.step.subject.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page1"><em><g:message code="sgr.step.taxHousehold.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page2"><em><g:message code="sgr.step.otherHelps.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page3"><em><g:message code="sgr.step.currentStudies.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page4"><em><g:message code="sgr.step.calculationElements.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page5"><em><g:message code="sgr.step.bankReference.label" /></em></a>
+    </li>
+  
+    <li class="administration ">
+      <a href="#page8"><em><g:message code="request.step.administration.label" /></em></a>
     </li>
   
   </ul>
@@ -38,6 +43,7 @@
           <span><g:message code="sgr.step.subject.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -85,6 +91,7 @@
           <span><g:message code="sgr.step.taxHousehold.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -145,6 +152,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -192,6 +200,7 @@
           <span><g:message code="sgr.step.currentStudies.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -275,6 +284,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -304,6 +314,7 @@
           <span><g:message code="sgr.step.bankReference.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -359,6 +370,47 @@
               
               <dl>
                 <dt class="required"><g:message code="sgr.property.accountKey.label" /> * : </dt><dd id="accountKey" class="action-editField validate-regex required-true i18n-sgr.property.accountKey maxLength-2" regex="^\d{1,2}$"><span>${request?.accountKey}</span></dd>
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- data step  end -->
+      </div>
+      <!-- step end -->
+      
+      <!-- step start -->
+      <div id="page8">
+        <h2><g:message code="property.form" />
+          <span><g:message code="request.step.administration.label" /></span>
+        </h2>
+        <div class="yui-g">
+          
+            <div class="administration information-message">
+              <g:message code="request.step.administration.desc" />
+            </div>
+          
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class="required"><g:message code="sgr.property.accountHolderEdemandeId.label" /> * : </dt><dd id="accountHolderEdemandeId" class="action-editField validate-string required-true i18n-sgr.property.accountHolderEdemandeId" ><span>${request?.accountHolderEdemandeId}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required"><g:message code="sgr.property.edemandeId.label" /> * : </dt><dd id="edemandeId" class="action-editField validate-string required-true i18n-sgr.property.edemandeId" ><span>${request?.edemandeId}</span></dd>
               </dl>
               
             

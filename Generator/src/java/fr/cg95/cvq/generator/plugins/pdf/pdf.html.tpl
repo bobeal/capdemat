@@ -2,7 +2,15 @@
   def beginGT() { return ['<','%','\n'].join() }
   def endGT() { return ['\n','%','>'].join() }
   def toGT(s) { return ['<','%',' '].join() + s + [' ', '%','>'].join() }
-  
+
+  fr.cg95.cvq.generator.common.CommonStep.metaClass.i18nPrefix = {
+    return "request"
+  }
+
+  fr.cg95.cvq.generator.common.CustomStep.metaClass.i18nPrefix = {
+    return requestPdf.acronym
+  }
+
   def displayWidget(element, wrapper) {
      
     def widgets = [
@@ -157,7 +165,8 @@ ${endGT()}
   </div>
   <h1>\${i18n.translate('${requestPdf.acronym}.label')}</h1>
 <% requestPdf.steps.each { step -> %>
-  <h2>\${i18n.translate('${requestPdf.acronym}.step.${step.name}.label')}</h2>
+  <% if (requestPdf.getElementsByStep(step).isEmpty()) return %>
+  <h2>\${i18n.translate('${step.i18nPrefix()}.step.${step.name}.label')}</h2>
   <% requestPdf.getElementsByStep(step).each { element -> %>
     <% if (element.typeClass == "COLLECTION") { %>
       <h3>\${i18n.translate('${element.i18nPrefixCode}.label')}</h3>

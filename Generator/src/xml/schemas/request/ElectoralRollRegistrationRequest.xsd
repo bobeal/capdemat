@@ -38,6 +38,7 @@
             </step>
             <step index="1" ref="document" />
 	          <step index="2" ref="validation" />
+            <step index="3" ref="administration" />
 	        </steps>
 	      </common>
       </xs:appinfo>
@@ -142,9 +143,9 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="registration" />
+                    <step ref="administration" />
                   </common>
-                  <bo column="2" />
+                  <bo column="1" />
                   <pdf />
                 </xs:appinfo>
               </xs:annotation>
@@ -159,7 +160,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="registration" />
+                    <step ref="administration" />
                   </common>
                   <bo column="2" />
                   <pdf />
@@ -176,7 +177,7 @@
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
-                    <step name="registration" />
+                    <step ref="administration" />
                   </common>
                   <bo column="2" />
                   <pdf />

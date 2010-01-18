@@ -1,14 +1,19 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="scrr.step.registration.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page1"><em><g:message code="scrr.step.rules.label" /></em></a>
+    </li>
+  
+    <li class="administration ">
+      <a href="#page4"><em><g:message code="request.step.administration.label" /></em></a>
     </li>
   
   </ul>
@@ -22,6 +27,7 @@
           <span><g:message code="scrr.step.registration.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -86,18 +92,6 @@
           <!-- column start -->
           <div class="yui-u">
             
-              
-              <dl>
-                <dt class=""><g:message code="scrr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-scrr.property.school" ><span class="value-${request?.school?.id}">${request?.school?.name}</span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="scrr.property.section.label" /> * : </dt><dd id="section" class="action-editField validate-capdematEnum required-true i18n-scrr.property.section javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${request?.section}" i18nKeyPrefix="scrr.property.section" /></dd>
-              </dl>
-              
-            
           </div>
           <!-- column end -->
           
@@ -113,6 +107,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -125,6 +120,47 @@
               
               <dl>
                 <dt class="required"><g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-scrr.property.rulesAndRegulationsAcceptance" ><span class="value-${request?.rulesAndRegulationsAcceptance}"><g:message code="message.${request?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- data step  end -->
+      </div>
+      <!-- step end -->
+      
+      <!-- step start -->
+      <div id="page4">
+        <h2><g:message code="property.form" />
+          <span><g:message code="request.step.administration.label" /></span>
+        </h2>
+        <div class="yui-g">
+          
+            <div class="administration information-message">
+              <g:message code="request.step.administration.desc" />
+            </div>
+          
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class=""><g:message code="scrr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-scrr.property.school" ><span class="value-${request?.school?.id}">${request?.school?.name}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required"><g:message code="scrr.property.section.label" /> * : </dt><dd id="section" class="action-editField validate-capdematEnum required-true i18n-scrr.property.section javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${request?.section}" i18nKeyPrefix="scrr.property.section" /></dd>
               </dl>
               
             

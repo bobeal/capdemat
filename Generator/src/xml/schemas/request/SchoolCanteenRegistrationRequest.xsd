@@ -31,6 +31,7 @@
             <step index="1" name="rules" />
             <step index="2" ref="document" />
             <step index="3" ref="validation" />
+            <step index="4" ref="administration" />
           </steps>
         </common>
       </xs:appinfo>
@@ -63,9 +64,9 @@
                 <xs:appinfo>
                   <model namespace="authority" />
                   <common>
-                    <step name="registration" />
+                    <step ref="administration" />
                   </common>
-                  <bo column="2" />
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -74,9 +75,9 @@
                 <xs:appinfo>
                   <model namespace="users" />
                   <common>
-                    <step name="registration" />
+                    <step ref="administration" />
                   </common>
-                  <bo column="2" />
+                  <bo column="1" />
                   <pdf />
                 </xs:appinfo>
               </xs:annotation>

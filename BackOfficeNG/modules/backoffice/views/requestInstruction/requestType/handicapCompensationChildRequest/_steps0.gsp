@@ -1,12 +1,14 @@
 
 
 
+
 <!-- step start -->
 <div id="page0">
   <h2><g:message code="property.form" />
     <span><g:message code="hccr.step.subject.label" /></span>
   </h2>
   <div class="yui-g">
+    
     
     <!-- column start -->
     <div class="yui-u first">
@@ -127,6 +129,7 @@
   </h2>
   <div class="yui-g">
     
+    
     <!-- column start -->
     <div class="yui-u first">
       
@@ -175,6 +178,7 @@
     <span><g:message code="hccr.step.socialSecurityAndPaymentAgency.label" /></span>
   </h2>
   <div class="yui-g">
+    
     
     <!-- column start -->
     <div class="yui-u first">
@@ -229,6 +233,7 @@
     <span><g:message code="hccr.step.occupationnalAndSchoolStatus.label" /></span>
   </h2>
   <div class="yui-g">
+    
     
     <!-- column start -->
     <div class="yui-u first">

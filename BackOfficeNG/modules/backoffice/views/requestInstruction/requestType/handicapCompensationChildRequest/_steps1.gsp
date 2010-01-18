@@ -1,12 +1,14 @@
 
 
 
+
 <!-- step start -->
 <div id="page4">
   <h2><g:message code="property.form" />
     <span><g:message code="hccr.step.folders.label" /></span>
   </h2>
   <div class="yui-g">
+    
     
     <!-- column start -->
     <div class="yui-u first">
@@ -64,6 +66,7 @@
     <span><g:message code="hccr.step.benefits.label" /></span>
   </h2>
   <div class="yui-g">
+    
     
     <!-- column start -->
     <div class="yui-u first">
@@ -165,6 +168,7 @@
     <span><g:message code="hccr.step.aid.label" /></span>
   </h2>
   <div class="yui-g">
+    
     
     <!-- column start -->
     <div class="yui-u first">

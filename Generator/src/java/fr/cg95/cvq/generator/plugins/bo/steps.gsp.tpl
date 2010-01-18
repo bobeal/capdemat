@@ -1,4 +1,13 @@
 <%
+    fr.cg95.cvq.generator.common.CommonStep.metaClass.i18nPrefix = {
+        return "request"
+    }
+
+    fr.cg95.cvq.generator.common.CustomStep.metaClass.i18nPrefix = {
+        return requestBo.acronym
+    }
+%>
+<%
   def displayWidget(element, wrapper) {
     def widgets = [
       'date' : 
@@ -58,9 +67,14 @@
 <!-- step start -->
 <div id="page${step.index}">
   <h2><g:message code="property.form" />
-    <span><g:message code="${requestBo.acronym}.step.${step.name}.label" /></span>
+    <span><g:message code="${step.i18nPrefix()}.step.${step.name}.label" /></span>
   </h2>
   <div class="yui-g">
+    <% if (step.name == "administration") { %>
+      <div class="administration information-message">
+        <g:message code="request.step.administration.desc" />
+      </div>
+    <% } %>
     <% for (column in [1,2]) { %>
     <!-- column start -->
     <div class="yui-u${column == 1 ? ' first' : ''}">

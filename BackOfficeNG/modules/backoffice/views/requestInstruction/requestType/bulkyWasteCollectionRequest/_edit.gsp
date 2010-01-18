@@ -1,9 +1,10 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="bwcr.step.waste.label" /></em></a>
     </li>
   
@@ -18,6 +19,7 @@
           <span><g:message code="bwcr.step.waste.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">

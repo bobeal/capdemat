@@ -1,17 +1,18 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="prr.step.requester.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page1"><em><g:message code="prr.step.subscriber.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page2"><em><g:message code="prr.step.places.label" /></em></a>
     </li>
   
@@ -26,6 +27,7 @@
           <span><g:message code="prr.step.requester.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -56,6 +58,7 @@
           <span><g:message code="prr.step.subscriber.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -92,6 +95,7 @@
           <span><g:message code="prr.step.places.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">

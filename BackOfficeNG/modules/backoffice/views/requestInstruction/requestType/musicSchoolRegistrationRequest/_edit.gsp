@@ -1,13 +1,14 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="msrr.step.registration.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page1"><em><g:message code="msrr.step.rules.label" /></em></a>
     </li>
   
@@ -22,6 +23,7 @@
           <span><g:message code="msrr.step.registration.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -65,6 +67,7 @@
           <span><g:message code="msrr.step.rules.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">

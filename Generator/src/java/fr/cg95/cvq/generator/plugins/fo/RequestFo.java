@@ -10,6 +10,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.ElementTypeClass;
+import fr.cg95.cvq.generator.common.CommonStep;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Widget;
 
@@ -57,7 +58,11 @@ public class RequestFo {
     }
 
     public void setSteps(List<Step> steps) {
-        this.steps = new ArrayList<Step>(steps);
+        this.steps = new ArrayList<Step>();
+        for (Step step : steps) {
+            if (!CommonStep.Ref.administration.name().equals(step.getName()))
+               this.steps.add(step);
+        }
     }
     
     public List<ElementFo> getElements() {

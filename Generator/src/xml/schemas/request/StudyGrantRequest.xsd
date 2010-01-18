@@ -56,6 +56,7 @@
             </step>
             <step index="6" ref="document" />
             <step index="7" ref="validation" />
+            <step index="8" ref="administration" />
           </steps>
         </common>
       </xs:appinfo>
@@ -517,6 +518,10 @@
                   Edemande account holder ID
                 </xs:documentation>
                 <xs:appinfo>
+                  <common>
+                    <step ref="administration" />
+                  </common>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -655,6 +660,10 @@
                   Edemande request ID
                 </xs:documentation>
                 <xs:appinfo>
+                  <common>
+                    <step ref="administration" />
+                  </common>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

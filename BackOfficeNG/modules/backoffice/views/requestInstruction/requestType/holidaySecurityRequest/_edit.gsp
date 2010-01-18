@@ -1,25 +1,26 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="hsr.step.registration.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page1"><em><g:message code="hsr.step.rules.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page2"><em><g:message code="hsr.step.contactphone.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page3"><em><g:message code="hsr.step.contact.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page4"><em><g:message code="hsr.step.additional.label" /></em></a>
     </li>
   
@@ -34,6 +35,7 @@
           <span><g:message code="hsr.step.registration.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -79,6 +81,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -109,6 +112,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -138,6 +142,7 @@
           <span><g:message code="hsr.step.contact.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -186,6 +191,7 @@
           <span><g:message code="hsr.step.additional.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">

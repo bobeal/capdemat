@@ -1,21 +1,22 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="mcr.step.census.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page1"><em><g:message code="mcr.step.parentage.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page2"><em><g:message code="mcr.step.situation.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page3"><em><g:message code="mcr.step.exemption.label" /></em></a>
     </li>
   
@@ -30,6 +31,7 @@
           <span><g:message code="mcr.step.census.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -117,6 +119,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -183,6 +186,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -242,6 +246,7 @@
           <span><g:message code="mcr.step.exemption.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">

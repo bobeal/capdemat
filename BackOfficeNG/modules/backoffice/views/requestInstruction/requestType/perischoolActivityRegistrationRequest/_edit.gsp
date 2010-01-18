@@ -1,22 +1,27 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="parr.step.registration.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page1"><em><g:message code="parr.step.contact.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page2"><em><g:message code="parr.step.authorization.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page3"><em><g:message code="parr.step.rules.label" /></em></a>
+    </li>
+  
+    <li class="administration ">
+      <a href="#page6"><em><g:message code="request.step.administration.label" /></em></a>
     </li>
   
   </ul>
@@ -30,6 +35,7 @@
           <span><g:message code="parr.step.registration.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -59,18 +65,6 @@
               </dl>
               
             
-              
-              <dl>
-                <dt class=""><g:message code="parr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-parr.property.school" ><span class="value-${request?.school?.id}">${request?.school?.name}</span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="parr.property.section.label" /> * : </dt><dd id="section" class="action-editField validate-capdematEnum required-true i18n-parr.property.section javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${request?.section}" i18nKeyPrefix="parr.property.section" /></dd>
-              </dl>
-              
-            
           </div>
           <!-- column end -->
           
@@ -91,6 +85,7 @@
           <span><g:message code="parr.step.contact.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -122,6 +117,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -152,6 +148,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -176,6 +173,47 @@
               
               <dl>
                 <dt class="required"><g:message code="parr.property.hospitalizationPermission.label" /> * : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance required-true i18n-parr.property.hospitalizationPermission" ><span class="value-${request?.hospitalizationPermission}"><g:message code="message.${request?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- data step  end -->
+      </div>
+      <!-- step end -->
+      
+      <!-- step start -->
+      <div id="page6">
+        <h2><g:message code="property.form" />
+          <span><g:message code="request.step.administration.label" /></span>
+        </h2>
+        <div class="yui-g">
+          
+            <div class="administration information-message">
+              <g:message code="request.step.administration.desc" />
+            </div>
+          
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class=""><g:message code="parr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-parr.property.school" ><span class="value-${request?.school?.id}">${request?.school?.name}</span></dd>
+              </dl>
+              
+            
+              
+              <dl>
+                <dt class="required"><g:message code="parr.property.section.label" /> * : </dt><dd id="section" class="action-editField validate-capdematEnum required-true i18n-parr.property.section javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${request?.section}" i18nKeyPrefix="parr.property.section" /></dd>
               </dl>
               
             

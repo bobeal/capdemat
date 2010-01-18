@@ -1,29 +1,30 @@
 
 
+
 <div id="requestData" class="yellow-yui-tabview">
   <ul class="yui-nav">
   
-    <li class="selected">
+    <li class="selected ">
       <a href="#page0"><em><g:message code="dhr.step.subject.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page1"><em><g:message code="dhr.step.familyReferent.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page2"><em><g:message code="dhr.step.spouse.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page3"><em><g:message code="dhr.step.dwelling.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page4"><em><g:message code="dhr.step.resources.label" /></em></a>
     </li>
   
-    <li>
+    <li class="">
       <a href="#page5"><em><g:message code="dhr.step.taxes.label" /></em></a>
     </li>
   
@@ -38,6 +39,7 @@
           <span><g:message code="dhr.step.subject.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -112,6 +114,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -150,6 +153,7 @@
           <span><g:message code="dhr.step.spouse.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -244,6 +248,7 @@
         </h2>
         <div class="yui-g">
           
+          
           <!-- column start -->
           <div class="yui-u first">
             
@@ -294,6 +299,7 @@
           <span><g:message code="dhr.step.resources.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">
@@ -349,6 +355,7 @@
           <span><g:message code="dhr.step.taxes.label" /></span>
         </h2>
         <div class="yui-g">
+          
           
           <!-- column start -->
           <div class="yui-u first">

@@ -43,6 +43,7 @@
   </div>
   <h1>${i18n.translate('scrr.label')}</h1>
 
+  
   <h2>${i18n.translate('scrr.step.registration.label')}</h2>
   
     
@@ -54,17 +55,6 @@
   
     
       <p class="label">${i18n.translate('scrr.property.urgencyPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.urgencyPhone?.toString())}</div>
-
-    
-  
-    
-      <p class="label">${i18n.translate('scrr.property.section.label')}</p>
-          <div class="response">
-            <% if(rqt.section) { %>
-              ${i18n.translate('scrr.property.section.' + StringUtils.uncapitalize(rqt.section.toString()))}
-            <% } %>
-          </div>
-          
 
     
   
@@ -111,6 +101,7 @@
     
   
 
+  
   <h2>${i18n.translate('scrr.step.rules.label')}</h2>
   
     
@@ -135,6 +126,21 @@
                 ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
               </span>
               ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('request.step.administration.label')}</h2>
+  
+    
+      <p class="label">${i18n.translate('scrr.property.section.label')}</p>
+          <div class="response">
+            <% if(rqt.section) { %>
+              ${i18n.translate('scrr.property.section.' + StringUtils.uncapitalize(rqt.section.toString()))}
             <% } %>
           </div>
           

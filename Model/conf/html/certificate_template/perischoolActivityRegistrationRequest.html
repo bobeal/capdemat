@@ -43,6 +43,7 @@
   </div>
   <h1>${i18n.translate('parr.label')}</h1>
 
+  
   <h2>${i18n.translate('parr.step.registration.label')}</h2>
   
     
@@ -66,25 +67,8 @@
 
     
   
-    
-      <h3>${i18n.translate('parr.property.school.label')}</h3>
-      <div class="complex">
-        
-      </div>
-    
-  
-    
-      <p class="label">${i18n.translate('parr.property.section.label')}</p>
-          <div class="response">
-            <% if(rqt.section) { %>
-              ${i18n.translate('parr.property.section.' + StringUtils.uncapitalize(rqt.section.toString()))}
-            <% } %>
-          </div>
-          
 
-    
   
-
   <h2>${i18n.translate('parr.step.contact.label')}</h2>
   
     
@@ -123,6 +107,7 @@
     
   
 
+  
   <h2>${i18n.translate('parr.step.authorization.label')}</h2>
   
     
@@ -161,6 +146,7 @@
     
   
 
+  
   <h2>${i18n.translate('parr.step.rules.label')}</h2>
   
     
@@ -213,6 +199,28 @@
                 ${i18n.translate('message.' + (it ? 'yes' : 'no'))}
               </span>
               ${it ? ' / ' : ''}
+            <% } %>
+          </div>
+          
+
+    
+  
+
+  
+  <h2>${i18n.translate('request.step.administration.label')}</h2>
+  
+    
+      <h3>${i18n.translate('parr.property.school.label')}</h3>
+      <div class="complex">
+        
+      </div>
+    
+  
+    
+      <p class="label">${i18n.translate('parr.property.section.label')}</p>
+          <div class="response">
+            <% if(rqt.section) { %>
+              ${i18n.translate('parr.property.section.' + StringUtils.uncapitalize(rqt.section.toString()))}
             <% } %>
           </div>
           

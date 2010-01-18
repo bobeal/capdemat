@@ -18,7 +18,6 @@
         <include name="CapDemat-Plugin-ExternalServices-Horanet-*.jar" />
         <include name="CapDemat-Plugin-PaymentProviders-PaylineV4-*.jar" />
         <include name="CapDemat-Plugin-PaymentProviders-Spplus-*.jar" />
-	<include name="CapDemat-Plugin-PaymentProviders-Wynid-*.jar" />
     </fileset>
 
     <!-- still used for ServiceExporter webapp -->

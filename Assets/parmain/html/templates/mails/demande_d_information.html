@@ -9,64 +9,69 @@
       .mail-template img.logo-header { margin-top:0.25cm; margin-left:0.25cm; }
       .mail-template .address-ct, 
       .mail-template .date-place,
-      .mail-template .address-hf { margin-bottom:2em; margin-left:11cm; }
-      .mail-template .administrative-info { margin-bottom:2em; }
-      .mail-template .salutation { margin-bottom:2em; text-align:center; font-size:12pt; }
-      .mail-template .editable-zone { font-size:12pt; text-align:justify;}
-      .mail-template .valediction { font-size:12pt; margin-top: 1em; text-align:justify;}
-      .mail-template .closing { margin-top:3cm; margin-left:6.5cm; font-size:12pt; }
+      .mail-template .address-hf { margin-bottom:2em; }
+      .mail-template .date-place { margin-top: 5em; }
+      .mail-template .address-ct { text-align: center; font-weight: bold; }
+      .mail-template .administrative-info { margin-bottom:2em; clear: both;}
+      .mail-template .salutation { margin: 0 1cm 2em; font-size:12pt; }
+      .mail-template .editable-zone { margin: 0 1cm; font-size:12pt; text-align:justify;}
+      .mail-template .valediction { font-size:12pt; margin: 1em 1cm 0; text-align:justify;}
+      .mail-template .closing { margin-top:3cm; margin-left:70%; font-size:12pt; }
       .mail-template img.logo-footer { position:absolute; top: 26.5cm; }
     </style>
   </head>
   <body>
     <div class="mail-template">
       <div>
-        <g:if test="${type == 'HTML'}">
-          <img class="logo logo-header" src="${createLink(controller:'localAuthorityResource',action:'resource',id:'logoPdf')}" />
-        </g:if>
-        <g:if test="${type == 'PDF'}">
-          <img class="logo logo-header" src="${logoLink}" />
-        </g:if>
-      </div>
-      <div class="address-ct">
-        <p>DÉPARTEMENT DU VAL D'OISE</p>
-        <p>ARRONDISSEMENT DE PONTOISE</p>
-        <p>CANTON DE L'ISLE-ADAM</p>
-        <p>MAIRIE DE	PARMAIN</p>
-        <p>Place Georges Clémenceau</p>
-        <p>95620 Parmain</p>
-        <p>Tél. 01 34 08 95 95</p>
-      </div>
-      <div class="date-place">
-        <p>Parmain, le #{DATE}</p>
-      </div>
-      <div class="address-hf">
-        <p>#{RR_TITLE} #{RR_LNAME}</p>
-        <p>#{HF_ADDRESS_ADI}</p>
-        <p>#{HF_ADDRESS_AGI}</p>
-        <p>#{HF_ADDRESS_SNUM} #{HF_ADDRESS_SNAME}</p>
-        <p>#{HF_ADDRESS_PNS}</p>
-        <p>#{HF_ADDRESS_ZIP} #{HF_ADDRESS_TOWN}</p>
-        <p>#{HF_ADDRESS_CN}</p>
+        <div style="width: 40%; float: left; text-align: center; font-style: italic;">
+          <p><strong>DÉPARTEMENT DU VAL D'OISE</strong></p>
+          <p><strong>ARRONDISSEMENT DE PONTOISE</strong></p>
+          <p><strong>CANTON DE L'ISLE-ADAM</strong></p>
+          <g:if test="${type == 'HTML'}">
+            <img class="logo logo-header" src="${createLink(controller:'localAuthorityResource',action:'resource',id:'logoPdf')}" />
+          </g:if>
+          <g:if test="${type == 'PDF'}">
+            <img class="logo logo-header" src="${logoLink}" />
+          </g:if>
+        </div>
+        <div style="width: 30%; float: right;">
+          <div class="address-ct">
+            <p>MAIRIE DE	PARMAIN</p>
+            <p>Place Georges Clémenceau</p>
+            <p>95620 Parmain</p>
+            <p><em>TEL. 01 34 08 95 95</em></p>
+          </div>
+          <div class="date-place">
+            <p>Parmain, le #{DATE}</p>
+          </div>
+          <div class="address-hf">
+            <p>#{RR_TITLE} #{RR_LNAME}</p>
+            <p>#{HF_ADDRESS_ADI}</p>
+            <p>#{HF_ADDRESS_AGI}</p>
+            <p>#{HF_ADDRESS_SNUM} #{HF_ADDRESS_SNAME}</p>
+            <p>#{HF_ADDRESS_PNS}</p>
+            <p>#{HF_ADDRESS_ZIP} #{HF_ADDRESS_TOWN}</p>
+            <p>#{HF_ADDRESS_CN}</p>
+          </div>
+        </div>
       </div>
       <div class="administrative-info">
         <p><strong>N/Réf</strong>. : #{RQ_CAT}</p>
         <p><strong>V/Réf</strong>. : Dossier n° #{RQ_ID}</p>
-        <p><strong>Objet</strong> :  Demande d'information</p>
+        <p><strong>Objet</strong> :  Dossier déja traité</p>
         <p><strong>Envoi</strong> : #{MOC}</p>
       </div>
       <div class="salutation">
         #{RR_TITLE},
       </div>
       <g:editableZone id="Lab2" class="editable-zone">
-        <p>Madame, Monsieur,</p>
         <p>Nous avons bien reçu votre demande #{RQ_TP_LABEL} du #{RQ_CDATE}</p>
         <p>Afin de compléter votre dossier, pourriez vous nous faire parvenir les éléments suivants :</p>
         <p>#{RQ_OBSERV}</p>
       </g:editableZone>
       <div class="valediction">
       <p>Vous en remerciant,</p>
-      <p>Veuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées.</p>
+      <p>Veuillez agréer, #{RR_TITLE}, l’expression de mes salutations distinguées.</p>
       </div>
       <div class="closing">
         <p>#{RQ_CAT}</p>

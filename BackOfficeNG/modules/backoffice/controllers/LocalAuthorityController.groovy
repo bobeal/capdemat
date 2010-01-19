@@ -79,13 +79,11 @@ class LocalAuthorityController {
             ]
             def messages = []
             managedMessages.each {
-                def file = localAuthorityRegistry.getLocalAuthorityResourceFile(
-                    it.id, false)
+                def file = localAuthorityRegistry.getLocalAuthorityResourceFile(it.id)
                 if (!file.exists()) {
                     localAuthorityRegistry.saveLocalAuthorityResource(it.id,
                         "".bytes)
-                    file = localAuthorityRegistry.getLocalAuthorityResourceFile(
-                        it.id, false)
+                    file = localAuthorityRegistry.getLocalAuthorityResourceFile(it.id)
                 }
                 messages.add(["id" : it.id, "text" : file.text])
             }

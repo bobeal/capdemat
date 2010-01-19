@@ -192,22 +192,31 @@ public class LocalAuthorityRegistry
         }
         return resource;
     }
-    
-    // FIXME - remove fallbackToDefault from signature (fallbackPolicy is manage by resource)
+
     @Override
-    public File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
+    public File getLocalAuthorityResourceFile(String id)
+        throws CvqException {
+        return getLocalAuthorityResourceFile(id, getLocalAuthorityResource(id).canFallback());
+    }
+
+    @Override
+    public File getLocalAuthorityResourceFile(String id, Version version)
+        throws CvqException {
+        return getLocalAuthorityResourceFile(id, version,
+            getLocalAuthorityResource(id).canFallback());
+    }
+
+    private File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
         throws CvqException {
         return getLocalAuthorityResourceFile(id,
             LocalAuthorityResource.Version.CURRENT, fallbackToDefault);
     }
 
-    // FIXME - remove fallbackToDefault from signature (fallbackPolicy is manage by resource)
-    @Override
-    public File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
+    private File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
         return getAssetsFile(resource.getType(),
-            resource.getFilename() + version.getExtension(), resource.canFallback());
+            resource.getFilename() + version.getExtension(), fallbackToDefault);
     }
 
     @Override
@@ -291,9 +300,9 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    public String getBufferedLocalAuthorityResource(String id, boolean fallbackToDefault)
+    public String getBufferedLocalAuthorityResource(String id)
         throws CvqException {
-        return getFileContent(getLocalAuthorityResourceFile(id, fallbackToDefault));
+        return getFileContent(getLocalAuthorityResourceFile(id));
     }
 
     @Override

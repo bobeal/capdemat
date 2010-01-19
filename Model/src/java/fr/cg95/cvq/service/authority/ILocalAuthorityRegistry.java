@@ -104,10 +104,11 @@ public interface ILocalAuthorityRegistry {
         final String filename, final boolean fallbackToDefault);
 
     /**
-     * Same as {@link #getLocalAuthorityResourceFile(String, boolean)} but
+     * Same as {@link #getLocalAuthorityResourceFile(String)} but
      * with file content returned in a string.
      */
-    String getBufferedLocalAuthorityResource(String id, boolean fallbackToDefault)
+    // FIXME unused
+    String getBufferedLocalAuthorityResource(String id)
         throws CvqException;
 
     /**
@@ -121,16 +122,16 @@ public interface ILocalAuthorityRegistry {
     List<String> getLocalAuthorityRules(String requestTypeLabel);
 
     /**
-     * Same as {@link #getLocalAuthorityResourceFile(String, LocalAuthorityResource.Version, boolean)}
+     * Same as {@link #getLocalAuthorityResourceFile(String, LocalAuthorityResource.Version)}
      * for current version.
      */
-    File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
+    File getLocalAuthorityResourceFile(String id)
         throws CvqException;
 
     /**
      * Get the file for this resource id and version in the current local authority assets.
      */
-    File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
+    File getLocalAuthorityResourceFile(String id, Version version)
         throws CvqException;
 
     File getLocalAuthorityResourceFile(Type type, String filename, Version version, boolean fallbackToDefault) throws CvqException;

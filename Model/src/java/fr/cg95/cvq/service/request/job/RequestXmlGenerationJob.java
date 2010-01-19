@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -29,6 +30,8 @@ import fr.cg95.cvq.util.DateUtils;
  */
 public class RequestXmlGenerationJob implements BeanFactoryAware {
 
+    private static Logger logger = Logger.getLogger(RequestXmlGenerationJob.class);
+
     private IRequestService requestService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IExternalService externalService;
@@ -48,9 +51,14 @@ public class RequestXmlGenerationJob implements BeanFactoryAware {
 
     public void performGeneration()
         throws CvqException {
+        Set<String> requestTypes = externalService.getGenerableRequestTypes();
+        if (requestTypes.isEmpty()) {
+            logger.warn("no request types to handle, returning");
+            return;
+        }
         Set<Critere> criteriaSet = new HashSet<Critere>(2);
         criteriaSet.add(new Critere(Request.SEARCH_BY_REQUEST_TYPE_LABEL,
-            externalService.getGenerableRequestTypes(), Critere.IN));
+            requestTypes, Critere.IN));
         criteriaSet.add(new Critere(Request.SEARCH_BY_VALIDATION_DATE,
             DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -2), Critere.GTE));
         Critere statusCritere =

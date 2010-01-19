@@ -2,7 +2,7 @@ package fr.cg95.cvq.util;
 
 import java.security.MessageDigest;
 
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Standalone class used to generate a LDAP SHA password.
@@ -25,7 +25,7 @@ public class LdapPasswordGenerator {
             byte hash[]=md.digest();     //hash of new password
 
             if(hash.length > 0) {
-                System.err.println("{SHA}"+ new BASE64Encoder().encode(hash));
+                System.err.println("{SHA}"+ new String(Base64.encodeBase64(hash), "8859_1"));
             } else if(hash.length <= 0) {    //no password was entered
                 System.err.println("No password to hash");
             }

@@ -1,7 +1,6 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -192,19 +191,9 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
             sb.append(" )");
         }
 
-        try {
-            ResultSet result = HibernateUtil.getSession().connection()
-                .createStatement().executeQuery(sb.toString());
-            if (result.next()) {
-                return new Long(result.getInt(1));
-            } else {
-                return new Long(0);
-            }
-        } catch (SQLException e) {
-            e.getMessage();
-            e.printStackTrace();
-            return new Long(0);
-        }
+        return
+            ((BigInteger)HibernateUtil.getSession().createSQLQuery(sb.toString()).uniqueResult())
+                .longValue();
     }
 
     private String parseDate(Date date) {

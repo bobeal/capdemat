@@ -4,9 +4,9 @@ import java.security.MessageDigest;
 import java.util.Random;
 import java.util.Vector;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
-import sun.misc.BASE64Encoder;
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
@@ -58,7 +58,7 @@ public class AuthenticationService implements IAuthenticationService {
                 return "";
             }
 
-            String encryptedPwd = "{SHA}" + new BASE64Encoder().encode(hash);
+            String encryptedPwd = "{SHA}" + new String(Base64.encodeBase64(hash), "8859_1");
             logger.debug("encryptPassword() generated password : " + encryptedPwd);
             return encryptedPwd;
         } catch(Exception e) {

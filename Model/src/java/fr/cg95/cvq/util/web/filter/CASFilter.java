@@ -5,6 +5,7 @@
 package fr.cg95.cvq.util.web.filter;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -515,7 +516,6 @@ public class CASFilter implements Filter {
         throws ServletException {
 
         log.trace("entering getService()");
-        String serviceString;
 
         // ensure we have a server name or service name
         if (casServerNames == null && casServiceUrl == null)
@@ -524,12 +524,16 @@ public class CASFilter implements Filter {
                     + "parameters: edu.yale.its.tp.cas.client.filter.serviceUrl or "
                     + "edu.yale.its.tp.cas.client.filter.serverName");
 
-        // use the given string if it's provided
+        // use our best guess at the service as default value ...
+        String serviceString = Util.getService(request, casServerNames);
+        // ... and use the given string if it's provided
         if (casServiceUrl != null)
-            serviceString = URLEncoder.encode(casServiceUrl);
-        else
-            // otherwise, return our best guess at the service
-            serviceString = Util.getService(request, casServerNames);
+            try {
+                serviceString = URLEncoder.encode(casServiceUrl, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                // which Java implementation wouldn't support UTF-8 ?!
+            }
+
         if (log.isTraceEnabled()) {
             log.trace(
                 "returning from getService() with service ["

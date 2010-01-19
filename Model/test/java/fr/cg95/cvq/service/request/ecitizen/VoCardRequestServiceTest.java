@@ -391,8 +391,6 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         fos.write(generatedCertificate);
         // END DEBUG
 
-        assertEquals(dcvoFromDb.getActions().size(), 5);
-
         // close current session and re-open a new one
         continueWithNewTransaction();
         
@@ -402,6 +400,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
 
         Request yaRequest = iVoCardRequestService.getById(dcvoFromDb.getId());
 
+        assertEquals(yaRequest.getActions().size(), 5);
         // test addition and modification of the note
         Set<RequestNote> notes = yaRequest.getNotes();
         assertNotNull(notes);

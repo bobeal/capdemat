@@ -58,6 +58,16 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
     
     public void testXmlDataGeneration() throws Exception {
 
+        // register the mock external provider service with the LACB
+        ExternalServiceBean esb = new ExternalServiceBean();
+        List<String> requestTypes = new ArrayList<String>();
+        requestTypes.add(IRequestService.VO_CARD_REGISTRATION_REQUEST);
+        esb.setRequestTypes(requestTypes);
+        esb.setSupportAccountsByHomeFolder(true);
+        esb.setGenerateTracedRequest(true);
+        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
+        lacb.registerExternalService(fakeExternalService, esb);
+
         Long id1, id2, id3;
         this.createDummyEntities();
         this.validateRequest();

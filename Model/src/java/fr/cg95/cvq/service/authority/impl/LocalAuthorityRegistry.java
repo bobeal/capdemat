@@ -300,12 +300,6 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    public String getBufferedLocalAuthorityResource(String id)
-        throws CvqException {
-        return getFileContent(getLocalAuthorityResourceFile(id));
-    }
-
-    @Override
     public Map<String,String> getBufferedCurrentLocalAuthorityRequestHelpMap(
         final String requestLabel) {
         

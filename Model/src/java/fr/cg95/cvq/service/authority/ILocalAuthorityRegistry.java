@@ -104,14 +104,6 @@ public interface ILocalAuthorityRegistry {
         final String filename, final boolean fallbackToDefault);
 
     /**
-     * Same as {@link #getLocalAuthorityResourceFile(String)} but
-     * with file content returned in a string.
-     */
-    // FIXME unused
-    String getBufferedLocalAuthorityResource(String id)
-        throws CvqException;
-
-    /**
      * Get the helps data for the given request type as a Map<v=stepName,k=helpDataAsString>.
      */
     Map<String,String> getBufferedCurrentLocalAuthorityRequestHelpMap(final String requestLabel);

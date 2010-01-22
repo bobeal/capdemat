@@ -3,8 +3,8 @@
   <head>
     <title>${message(code:'displayGroup.header.list')}</title>
     <meta name="layout" content="main" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" 
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'displayGroupList.js')}"></script>
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'configuration.css')}" />
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'displayGroupList.js')}"></script>
   </head>
 
   <body>
@@ -28,7 +28,7 @@
               <h3>
                 <a href="${createLink(action:'edit',id:displayGroup.id)}">${displayGroup.label}</a>
                 <img id="confirmDelete_${displayGroup.id}" 
-                     src="${createLinkTo(dir:'images/icons',file:'16-delete.png')}" 
+                     src="${resource(dir:'images/icons',file:'16-delete.png')}"
                      alt="${message(code:'displayGroup.message.confirmDelete',args:[displayGroup?.label])}" />
               </h3>
               <div>

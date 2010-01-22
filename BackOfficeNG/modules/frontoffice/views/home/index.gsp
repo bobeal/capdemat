@@ -3,7 +3,7 @@
     <title>${message(code:'home.title')}</title>
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css"
-          href="${createLinkTo(dir:'css/frontoffice', file:'dashboard.css')}" />
+          href="${resource(dir:'css/frontoffice', file:'dashboard.css')}" />
   </head>
   
   <body>

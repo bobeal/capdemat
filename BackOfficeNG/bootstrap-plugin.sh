@@ -1,4 +1,4 @@
-grails install-plugin google-chart 0.4.8
+grails install-plugin google-chart
 #grails install-plugin extended-data-binding
 
 grails install-plugin plugins/grails-capdemat-casclient-0.1.zip

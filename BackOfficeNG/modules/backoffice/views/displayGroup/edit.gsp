@@ -5,8 +5,8 @@
     ${message(code:'displayGroup.header.' + (editMode == 'edit' ? 'generalData' : 'creation'))}         
   </title>
   <meta name="layout" content="main" />
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" >
-  <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'displayGroupEdit.js')}"></script>
+  <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'configuration.css')}" />
+  <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'displayGroupEdit.js')}"></script>
   <script type="text/javascript">
     zenexity.capdemat.bong.DisplayGroupEdit.displayGroupId = '${displayGroup?.id}';
     zenexity.capdemat.bong.DisplayGroupEdit.editMode = '${editMode}';

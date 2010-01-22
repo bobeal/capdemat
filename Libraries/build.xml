@@ -70,6 +70,9 @@
             <fileset dir="${fop.lib.dir}" />
             <fileset dir="${hibernate.lib.dir}">
                 <include name="c3p0-*.jar" />
+                <include name="antlr-*.jar" />
+                <include name="dom4j-*.jar" />
+                <include name="hibernate*.jar" />
             </fileset>
             <fileset dir="${csvobjects.lib.dir}" />
             <fileset dir="${xmlbean.lib.dir}" />
@@ -92,6 +95,9 @@
             <fileset dir="${axis.lib.dir}" />
             <fileset dir="${spring.lib.dir}">
                 <include name="jdom*.jar" />
+            </fileset>
+            <fileset dir="${jaxen.lib.dir}">
+                <include name="jaxen-*.jar" />
             </fileset>
         </copy>
     </target>

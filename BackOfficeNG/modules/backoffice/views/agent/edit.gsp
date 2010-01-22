@@ -5,9 +5,9 @@
     <g:message code="agent.header.configuration" args="${[agent.lastName, agent.firstName]}" />           
   </title>
   <meta name="layout" content="main" />
-  <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" >
-  <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'agentEdit.js')}"></script>
-  <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'agentCategories.js')}"></script>
+  <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'configuration.css')}" >
+  <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'agentEdit.js')}"></script>
+  <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'agentCategories.js')}"></script>
   <script type="text/javascript">
     zenexity.capdemat.bong.agentId = '${agent?.id}';
   </script>

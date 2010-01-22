@@ -4,9 +4,9 @@
   <head>
     <title><g:message code="statistics.header.${currentStatisticType}" /></title>
     <meta name="layout" content="main" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'statistics.css')}" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'statistics.js')}"></script>
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'statistics.css')}" />
+    <script type="text/javascript" src="${resource(dir:'js/common',file:'calendar.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'statistics.js')}"></script>
   </head>
 
   <body>
@@ -62,14 +62,14 @@
                    class="persistent filter" />
             <a>
               <img id="startDateShow"
-                   src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
+                   src="${resource(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
             </a>
             <div id="startDateCalContainer" class="yui-cal"></div>
             <input type="text" id="endDate" name="endDate" size="10" value="${state.endDate}"
                    class="persistent filter" />
             <a>
               <img id="endDateShow"
-                   src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
+                   src="${resource(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
             </a>
             <div id="endDateCalContainer" class="yui-cal"></div>
 

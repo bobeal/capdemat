@@ -23,7 +23,7 @@
               </a>
               <g:if test="${record.displayDraftWarning}">
                 <p class="draft-warning">
-                  <img src="${createLinkTo(dir:'images/icons',file:'24-warning.png')}" />
+                  <img src="${resource(dir:'images/icons',file:'24-warning.png')}" />
                   <span>
                     <g:message code="request.message.draftExpirationWarning"
                                args="${[formatDate(date:record.draftExpirationDate,

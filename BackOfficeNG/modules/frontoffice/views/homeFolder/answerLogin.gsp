@@ -2,7 +2,7 @@
   <head>
     <title>${message(code:'homeFolder.title.admin')}</title>
     <meta name="layout" content="fo_main" />
-    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'form.css')}" />
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'form.css')}" />
   </head>
   <body>
     <g:if test="${flash.errorMessage}"><div class="error-box"><p>${flash.errorMessage}</p></div></g:if>

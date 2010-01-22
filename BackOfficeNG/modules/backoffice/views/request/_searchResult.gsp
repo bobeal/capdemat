@@ -37,20 +37,20 @@
   <p class="third-line">
     <g:message code="request.property.withAccount"/> : 
     <g:if test="${record.permanent}">
-      <img src="${createLinkTo(dir:'images/icons',file:'12-check-green.png')}"/>
+      <img src="${resource(dir:'images/icons',file:'12-check-green.png')}"/>
     </g:if>
     <g:else>
-      <img src="${createLinkTo(dir:'images/icons',file:'HorsFoyerListe.gif')}"/>
+      <img src="${resource(dir:'images/icons',file:'HorsFoyerListe.gif')}"/>
     </g:else>
     - <g:message code="request.property.qualityOfService"/> :
     <g:if test="${record.quality == 'red'}">
-      <img src="${createLinkTo(dir:'images/icons',file:'10-circle-red.png')}"/>
+      <img src="${resource(dir:'images/icons',file:'10-circle-red.png')}"/>
     </g:if>
     <g:elseif test="${record.quality == 'orange'}">
-      <img src="${createLinkTo(dir:'images/icons',file:'10-circle-orange.png')}"/>
+      <img src="${resource(dir:'images/icons',file:'10-circle-orange.png')}"/>
     </g:elseif>
     <g:else>
-      <img src="${createLinkTo(dir:'images/icons',file:'10-circle-green.png')}"/>
+      <img src="${resource(dir:'images/icons',file:'10-circle-green.png')}"/>
     </g:else>
   </p>
   

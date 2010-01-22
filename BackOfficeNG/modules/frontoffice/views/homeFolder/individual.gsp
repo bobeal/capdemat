@@ -2,7 +2,7 @@
   <head>
     <title>${message(code:'homeFolder.title.individual')}</title>
     <meta name="layout" content="fo_main" />
-    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'data-detail.css')}" />
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'data-detail.css')}" />
   </head>
   
   <body>

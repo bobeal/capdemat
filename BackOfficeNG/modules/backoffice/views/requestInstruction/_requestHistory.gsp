@@ -28,7 +28,7 @@
               href="${createLink(controller : 'backofficeContact', action : 'view', params : ['requestActionId' : requestAction.id])}">
               <img
                 alt="<g:message code='${"requestAction.action.download." + requestAction.type.enumString}' />"
-                src="${createLinkTo(dir:'images/icons',file:'pdficon_small.gif')}" />
+                src="${resource(dir:'images/icons',file:'pdficon_small.gif')}" />
             </a>
           </dd>
         </g:if>

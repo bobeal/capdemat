@@ -29,7 +29,7 @@
 
 		<mkdir dir="${plugin-base}/conf/spring" />
 		<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" 
-			classpath="../Libraries/groovy/groovy-all-1.5.4.jar" />
+			classpath="../Libraries/groovy/groovy-all-1.6.7.jar" />
 
 		<groovy>
 			def propertyName

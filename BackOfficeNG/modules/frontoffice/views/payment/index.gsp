@@ -2,8 +2,8 @@
   <head>
     <title>${message(code:'payment.title')}</title>
     <meta name="layout" content="fo_main"/>
-    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'payment.css')}" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/frontoffice', file:'payment.js')}"></script>
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'payment.css')}" />
+    <script type="text/javascript" src="${resource(dir:'js/frontoffice', file:'payment.js')}"></script>
   </head>
   <body>
     <div id="yui-main">

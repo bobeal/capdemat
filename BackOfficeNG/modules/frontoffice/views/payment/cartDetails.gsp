@@ -2,7 +2,7 @@
   <head>
     <title>${message(code:'payment.title.cart')}</title>
     <meta name="layout" content="fo_main"/>
-    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'payment.css')}" />
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'payment.css')}" />
   </head>
   <body>
   <div id="yui-main">

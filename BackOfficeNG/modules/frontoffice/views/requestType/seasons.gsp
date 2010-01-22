@@ -2,8 +2,8 @@
   <head>
     <title>${message(code:'request.title.services')}</title>
     <meta name="layout" content="fo_main" />
-    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice/common', file:'data-detail.css')}" />
-    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'requestSeasons.css')}" />
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'data-detail.css')}" />
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'requestSeasons.css')}" />
   </head>
   <body>
     <div id="yui-main">

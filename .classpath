@@ -89,7 +89,6 @@
 	<classpathentry kind="lib" path="Libraries/com.sun/saaj-impl.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.aspectj/aspectjrt-1.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/javax.servlet/servlet-api.jar"/>
-	<classpathentry kind="lib" path="Libraries/groovy/groovy-all-1.5.4.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.joda/joda-time-1.6.jar"/>
 	<classpathentry kind="lib" path="Libraries/opencsv/opencsv-1.8.jar"/>
 	<classpathentry kind="lib" path="Libraries/jsch/jsch-0.1.41.jar"/>
@@ -112,5 +111,6 @@
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.web.servlet-3.0.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-security-1.5.8.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.sun/xws-security.jar"/>
+	<classpathentry kind="lib" path="Libraries/groovy/groovy-all-1.6.7.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

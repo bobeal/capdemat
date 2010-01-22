@@ -3,7 +3,7 @@
     <title>${message(code:'request.title.summary')}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="fo_main" />
-    <link rel="stylesheet" type="text/css" href="${createLinkTo(dir:'css/frontoffice', file:'request.css')}" />
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
   </head>
   <body>
     <div class="summary-box created">
@@ -16,7 +16,7 @@
             href="${createLink(action : 'download', id : rqt.id)}">
             <img
               alt="<g:message code='requestAction.action.download.Creation' />"
-              src="${createLinkTo(dir:'images/icons',file:'pdficon_small.gif')}" />
+              src="${resource(dir:'images/icons',file:'pdficon_small.gif')}" />
           </a>
           <a href="${createLink(action : 'testPdf', id : rqt.id)}">test pdf</a>
         </span>

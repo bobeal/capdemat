@@ -1,12 +1,12 @@
 <html>
   <head>
     <title><g:message code="localAuthority.header.configuration" /></title>
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/yui/editor',file:'simpleeditor.css')}" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'simpleeditor.css')}" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/yui/editor',file:'simpleeditor-min.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'editor.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthorityInformation.js')}"></script>
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice/yui/editor',file:'simpleeditor.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice/common/yui-skin',file:'simpleeditor.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'configuration.css')}" />
+    <script type="text/javascript" src="${resource(dir:'js/yui/editor',file:'simpleeditor-min.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/common',file:'editor.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'localAuthorityInformation.js')}"></script>
     <meta name="layout" content="main" />
   </head>
   <body>

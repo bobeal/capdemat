@@ -2,7 +2,7 @@
   <head>
     <title><g:message code="homeFolder.header.search" /></title>
     <meta name="layout" content="main" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'homeFolderSearch.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'homeFolderSearch.js')}"></script>
   </head>
   <body>
 

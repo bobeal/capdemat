@@ -32,13 +32,13 @@
         </label>
         <input type="text" id="initDateFrom" name="initDateFrom" value="${params?.initDateFrom}"size="8"/>
         <a>
-          <img id="initDateFromShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
+          <img id="initDateFromShow" src="${resource(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
         </a>
         <div id="initDateFromCalContainer" class="yui-cal"></div>
         <span> - </span>
         <input type="text" id="initDateTo" name="initDateTo" value="${params?.initDateTo}"size="8"/> 
         <a>
-          <img id="initDateToShow" src="${createLinkTo(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
+          <img id="initDateToShow" src="${resource(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
         </a>
         <div id="initDateToCalContainer" class="yui-cal"></div>
       </div>

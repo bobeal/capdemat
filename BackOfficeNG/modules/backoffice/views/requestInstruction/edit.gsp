@@ -2,21 +2,21 @@
   <head>
     <title><g:message code="request.header.instruction" /></title>
     <meta name="layout" content="main" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/common',file:'calendar.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'contact.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'requestInstruction.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'documentInstruction.js')}"></script>
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'condition.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/common',file:'calendar.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'contact.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'requestInstruction.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'documentInstruction.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'condition.js')}"></script>
     <script type="text/javascript">
       zenexity.capdemat.bong.requestId = '${request.id}';
       zenexity.capdemat.bong.editableStates = ${editableStates} ; 
       zenexity.capdemat.bong.agentCanWrite = '${agentCanWrite}';
       zenexity.capdemat.bong.contactPanelUrl = "${createLink(controller : 'backofficeContact', action : 'panel')}";
     </script>
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'container.css')}" ></link>
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'contact.css')}" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'requestInstruction.css')}" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'document.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice/common/yui-skin',file:'container.css')}" ></link>
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'contact.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'requestInstruction.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'document.css')}" />
     <g:if test="${externalProviderServiceLabel != null}">
       <script type="text/javascript">
         zenexity.capdemat.bong.request.External.label = '${externalProviderServiceLabel}';

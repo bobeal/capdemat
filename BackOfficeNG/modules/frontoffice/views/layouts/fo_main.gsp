@@ -74,12 +74,12 @@
    <!-- footer -->
    <div id="ft">
      <a href="http://www.capwebct.fr/">
-       <img src="${createLinkTo(dir:'images',file:'logo_capwebct_small.gif')}"
+       <img src="${resource(dir:'images',file:'logo_capwebct_small.gif')}"
             alt="CapWebCT"
             style="float:left; margin: 0 0 1em;" />
      </a>
      <a href="http://europa.eu">
-       <img src="${createLinkTo(dir:'images',file:'logoUE.png')}"
+       <img src="${resource(dir:'images',file:'logoUE.png')}"
             alt="Projet cofinancé par l’Union Européenne (FEDER)"
             style="float:left; margin: 0 0 1em;" />
      </a>

@@ -3,7 +3,7 @@
   <head>
     <title><g:message code="agent.header.agentList" /></title>
     <meta name="layout" content="main" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" >
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'configuration.css')}" >
   </head>
   
   <body>

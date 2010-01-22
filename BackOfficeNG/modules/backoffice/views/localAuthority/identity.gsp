@@ -1,8 +1,8 @@
 <html>
   <head>
     <title><g:message code="localAuthority.header.configuration" /></title>
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" />
-    <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'localAuthorityIdentity.js')}"></script>
+    <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'configuration.css')}" />
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'localAuthorityIdentity.js')}"></script>
     <meta name="layout" content="main" />
   </head>
   <body>

@@ -23,11 +23,11 @@ class SessionFilters {
     def agentService
     def requestTypeService
 
-    def filters = {
+    static filters = {
         
         // filter used for local authority resources (images, css, pdf, ...)
         // that do not need a BD connection
-        openSiteContextOnly(controller:'localAuthorityResource', action:'*') {
+        openSiteContextOnly(controller:'localAuthorityResource') {
             before = {
                 try {
                     ILocalAuthorityRegistry localAuthorityRegistry =
@@ -63,7 +63,7 @@ class SessionFilters {
             }
         }
         
-        openSessionInView(controller: '(frontoffice*|backoffice*|service*|system*)', action: '*') {
+        openSessionInView(controller:'localAuthorityResource', invert:'true') {
             before = {
                 try {
                     ILocalAuthorityRegistry localAuthorityRegistry =
@@ -118,7 +118,7 @@ class SessionFilters {
             }
         }
 
-        enableAccountCreation(controller: 'frontoffice*', action: '*') {
+        enableAccountCreation(uri: '/frontoffice/**') {
             before = {
                 if (requestTypeService.getRequestTypeByLabel(IRequestService.VO_CARD_REGISTRATION_REQUEST).active) {
                     session.setAttribute("accountCreationEnabled", true)
@@ -128,7 +128,7 @@ class SessionFilters {
             }
         }
 
-        setupFrontUser(controller: 'frontoffice*', action: '*') {
+        setupFrontUser(uri: '/frontoffice/**') {
             before = {
                 def point =
                     securityService.defineAccessPoint(session.frontContext,
@@ -160,7 +160,7 @@ class SessionFilters {
             }
         }
 
-        authenticateBackUser(controller: 'backoffice*', action: '*') {
+        authenticateBackUser(uri: '/backoffice/**') {
             before = {
             		
             	if (org.codehaus.groovy.grails.commons.ConfigurationHolder.config.cas_mocking == 'true') {
@@ -208,7 +208,7 @@ class SessionFilters {
             }
         }
         
-        setupBackUser(controller: 'backoffice*', action: '*') {
+        setupBackUser(uri: '/backoffice/**') {
         	before = {
                 String user = (String) session.getAttribute(CASFilter.CAS_FILTER_USER)
                 if (user != null && user.indexOf(";") != -1) {

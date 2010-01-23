@@ -14,7 +14,7 @@ grails.config.locations = [ "file:${basedir}/${appName}-config.properties" ]
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
                       xml: ['text/xml', 'application/xml'],
-                      text: 'text-plain',
+                      text: 'text/plain',
                       js: 'text/javascript',
                       rss: 'application/rss+xml',
                       atom: 'application/atom+xml',
@@ -25,50 +25,19 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
                       form: 'application/x-www-form-urlencoded',
                       multipartForm: 'multipart/form-data'
                     ]
-// The default codec used to encode data with ${}
-grails.views.default.codec="none" // none, html, base64
 
 // enabled native2ascii conversion of i18n properties files
 grails.enable.native2ascii = true
 
-// log4j configuration
-log4j {
-    appender.stdout = "org.apache.log4j.RollingFileAppender"
-    appender.'stdout.layout'="org.apache.log4j.PatternLayout"
-    appender.'stdout.layout.ConversionPattern'='%d %t-%p [%c] - %m%n'
-    appender.'stdout.MaxFileSize'="20000KB"
-    appender.'stdout.MaxBackupIndex'="10"
-    appender.errors = "org.apache.log4j.RollingFileAppender"
-    appender.'errors.layout'="org.apache.log4j.PatternLayout"
-    appender.'errors.layout.ConversionPattern'='%d %t-%p [%c] - %m%n'
-    appender.'errors.MaxFileSize'="20000KB"
-    appender.'errors.MaxBackupIndex'="10"
-    rootLogger="error,stdout"
-    logger {
-        StackTrace="error,errors"
-        org {
-            codehaus.groovy.grails.web.servlet="error"  //  controllers
-            codehaus.groovy.grails.web.pages="error" //  GSP
-            codehaus.groovy.grails.web.sitemesh="error" //  layouts
-            codehaus.groovy.grails."web.mapping.filter"="error" // URL mapping
-            codehaus.groovy.grails."web.mapping"="error" // URL mapping
-            codehaus.groovy.grails.commons="info" // core / classloading
-            codehaus.groovy.grails.plugins="error" // plugins
-            codehaus.groovy.grails.orm.hibernate="error" // hibernate integration
-            springframework="off"
-            hibernate="off"
-        }
-        fr.cg95="debug"
-        fr.capwebct="info"
-        // to debug Horanet calls
-        // org.apache.axis.client="debug"
-    }
-    additivity.StackTrace=false
-}
-
+grails.views.default.codec="none" // none, html, base64
 grails.views.gsp.encoding="UTF-8"
+grails.converters.encoding="UTF-8"
+
+// Set to false to use the new Grails 1.2 JSONBuilder in the render method
+grails.json.legacy.builder=true
 
 // Debug Plugin
+/*
 grails.debug.system = true
 grails.debug.stats = true
 grails.debug.params = true
@@ -77,6 +46,7 @@ grails.debug.controller = true
 grails.debug.session = true
 grails.debug.requestAttributes = true
 grails.debug.model = true
+*/
 
 //jcaptcha Plugin
 import java.awt.Font
@@ -125,22 +95,37 @@ jcaptchas {
 }
 
 environments {
-    development {
-        log4j {
-            appender.'stdout.File'="capdemat.log"
-            appender.'errors.File'="stacktrace.log"
-            logger {
-                grails="debug"
-            }
-        }
-    }
-    production {
-        log4j {
-            appender.'stdout.File'="\${CapDemat}/WEB-INF/capdemat.log"
-            appender.'errors.File'="\${CapDemat}/WEB-INF/stacktrace.log"
-            logger {
-                grails="error"
-            }
-        }
-    }
+	development {
+		log4j = {
+			// in development mode, let's see all my log messages
+			debug 'grails.app', 'fr.cg95', 'fr.capwebct'
+		}
+	}
+	
+	production {
+		def catalinaBase = System.properties.getProperty('catalina.base')
+		if (!catalinaBase) catalinaBase = '.'   // just in case
+		def logDirectory = "${catalinaBase}/logs"
+		
+		log4j = {
+			appenders {
+				// set up a log file in the standard tomcat area; be sure to use .toString() with ${}
+				rollingFile name:'capdemat', file:"${logDirectory}/${appName}.log".toString(), 
+					maxFileSize:'20000KB', maxBackupIndex:"10"
+				'null' name:'stacktrace'
+			}
+			
+			root {
+				// change the root logger to my tomcatLog file
+				error 'capdemat'
+				additivity = true
+			}
+			
+			// example for sending stacktraces to my tomcatLog file
+			error capdemat:'StackTrace'
+			
+			// set level for my messages; this uses the root logger (and thus the tomcatLog file)
+			info 'grails.app'
+		}
+	}
 }

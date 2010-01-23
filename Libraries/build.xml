@@ -93,11 +93,11 @@
                 <include name="commons-httpclient*.jar" />
             </fileset>
             <fileset dir="${axis.lib.dir}" />
-            <fileset dir="${spring.lib.dir}">
-                <include name="jdom*.jar" />
-            </fileset>
             <fileset dir="${jaxen.lib.dir}">
                 <include name="jaxen-*.jar" />
+            </fileset>
+            <fileset dir="${jdom.lib.dir}">
+                <include name="jdom.jar" />
             </fileset>
         </copy>
     </target>

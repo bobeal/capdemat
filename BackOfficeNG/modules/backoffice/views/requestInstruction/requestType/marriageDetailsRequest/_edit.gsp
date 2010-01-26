@@ -145,7 +145,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="mdr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-textarea i18n-mdr.property.comment rows-3" ><span>${request?.comment}</span></dd>
+                <dt class=""><g:message code="mdr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-regex i18n-mdr.property.comment rows-3" regex="^.{0,255}$"><span>${request?.comment}</span></dd>
               </dl>
               
             

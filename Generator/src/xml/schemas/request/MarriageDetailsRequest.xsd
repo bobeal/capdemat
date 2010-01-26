@@ -241,6 +241,7 @@
                 <xs:appinfo>
                   <common>
                     <step name="type" />
+                    <validation jsregexp="^.{0,255}$" />
                   </common>
                   <fo>
                     <textarea rows="3" />

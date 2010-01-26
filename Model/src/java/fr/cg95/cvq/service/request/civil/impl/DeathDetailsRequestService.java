@@ -26,7 +26,7 @@ public final class DeathDetailsRequestService extends RequestService
         //FIXME see Birth
         if (SecurityContext.getCurrentSite() != null) {
             request.setDeathCity(SecurityContext.getCurrentSite().getDisplayTitle());
-            request.setDeathPostalCode(SecurityContext.getCurrentSite().getPostalCode());
+            request.setDeathPostalCode(SecurityContext.getCurrentSite().getPostalCode().substring(0,2));
         }
         return request;
     }

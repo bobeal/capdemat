@@ -8,11 +8,11 @@
   </head>
   <body>
     <div class="confirmation-box">
-      <h2><g:message code="request.header.deleteDraft" args="${[request.label,request.id]}"/></h2>
+      <h2><g:message code="request.header.deleteDraft" args="${[rqt.label,rqt.id]}"/></h2>
       <p><g:message code="request.message.draftRemovalConfirmationMessage"/></p>
       <p><g:message code="request.message.draftRemovalConfirmationWarning"/></p>
       <form method="post">
-        <input type="hidden" name="id" value="${request.id}" />
+        <input type="hidden" name="id" value="${rqt.id}" />
         <input type="submit" name="confirm" value="${message(code:'action.confirm')}" />
         <a href="${module.createLink(module:'frontoffice',controller:'Home')}">
           <g:message code="action.cancel"/>

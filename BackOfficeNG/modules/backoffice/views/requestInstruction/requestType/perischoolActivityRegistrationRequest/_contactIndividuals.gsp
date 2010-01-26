@@ -1,11 +1,11 @@
 
 
-  <g:set var="listSize" value="${request.contactIndividuals.size()}" />
+  <g:set var="listSize" value="${rqt.contactIndividuals.size()}" />
   <h3>
     <a class="addListItem" id="add_contactIndividuals[${listSize}]"></a>
     <span><g:message code="parr.property.contactIndividuals.label" /></span>
   </h3>
-  <g:each var="it" in="${request.contactIndividuals.reverse()}" status="index">
+  <g:each var="it" in="${rqt.contactIndividuals.reverse()}" status="index">
   <div class="collection-action">
     <a class="deleteListItem" id="delete_contactIndividuals[${listSize - 1 - index}]"></a>
   </div>

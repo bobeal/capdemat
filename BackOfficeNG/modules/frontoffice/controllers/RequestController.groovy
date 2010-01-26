@@ -61,35 +61,35 @@ class RequestController {
             defaultRequestService.delete(Long.valueOf(params.id))
             redirect(controller:'frontofficeHome')
         } else {
-            def request = defaultRequestService.getById(Long.valueOf(params.id))
-            return ['request':requestAdaptorService.prepareRecord(request)]
+            def rqt = defaultRequestService.getById(Long.valueOf(params.id))
+            return ['rqt':requestAdaptorService.prepareRecord(rqt)]
         }
     }
 
     def summary = {
         def requestService = requestServiceRegistry.getRequestService(Long.parseLong(params.id))
-        def request = defaultRequestService.getById(Long.parseLong(params.id))
+        def rqt = defaultRequestService.getById(Long.parseLong(params.id))
         def individuals = [:]
-        if (request.requestType.label == 'VO Card' || request.requestType.label == 'Home Folder Modification') {
+        if (rqt.requestType.label == 'VO Card' || rqt.requestType.label == 'Home Folder Modification') {
         	def homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
         	individuals.adults = homeFolderService.getAdults(homeFolderId)
         	individuals.children = homeFolderService.getChildren(homeFolderId)
         }
         def requestTypeLabel =
-            translationService.translateRequestTypeLabel(request.requestType.label).encodeAsHTML()
-        def requester = request.requesterId != null ? individualService.getById(request.requesterId) : null
+            translationService.translateRequestTypeLabel(rqt.requestType.label).encodeAsHTML()
+        def requester = rqt.requesterId != null ? individualService.getById(rqt.requesterId) : null
         def subjects = [:]
-        subjects[request.subjectId] = "${request.subjectLastName} ${request.subjectFirstName}"
-        return ['rqt': request,
+        subjects[rqt.subjectId] = "${rqt.subjectLastName} ${rqt.subjectFirstName}"
+        return ['rqt': rqt,
                 'requestTypeLabel':requestTypeLabel,
                 'requester':requester,
                 'subjects': subjects,
                 'requestNotes' : requestAdaptorService.prepareNotes(
                     defaultRequestService.getNotes(Long.parseLong(params.id), null)),
-                'externalInformations' : externalService.loadExternalInformations(request),
-                'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(request.requestType.label),
-                'documentTypes': documentAdaptorService.getDocumentTypes(requestService, request, null, [] as Set),
-                'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
+                'externalInformations' : externalService.loadExternalInformations(rqt),
+                'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),
+                'documentTypes': documentAdaptorService.getDocumentTypes(requestService, rqt, null, [] as Set),
+                'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label),
                 'individuals':individuals
         ]
     }

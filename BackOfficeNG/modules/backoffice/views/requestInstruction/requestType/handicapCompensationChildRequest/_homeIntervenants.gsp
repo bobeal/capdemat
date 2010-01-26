@@ -1,11 +1,11 @@
 
 
-  <g:set var="listSize" value="${request.homeIntervenants.size()}" />
+  <g:set var="listSize" value="${rqt.homeIntervenants.size()}" />
   <h3>
     <a class="addListItem" id="add_homeIntervenants[${listSize}]"></a>
     <span><g:message code="hccr.property.homeIntervenants.label" /></span>
   </h3>
-  <g:each var="it" in="${request.homeIntervenants.reverse()}" status="index">
+  <g:each var="it" in="${rqt.homeIntervenants.reverse()}" status="index">
   <div class="collection-action">
     <a class="deleteListItem" id="delete_homeIntervenants[${listSize - 1 - index}]"></a>
   </div>

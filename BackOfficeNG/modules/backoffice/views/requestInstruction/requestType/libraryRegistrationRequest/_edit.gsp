@@ -31,7 +31,7 @@
               
               <dl>
                 <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${request?.subjectFirstName} ${request?.subjectLastName}</span></dd>
+              <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
           
               </dl>
               
@@ -41,7 +41,7 @@
                 <dt class="required"><g:message code="lrr.property.subscription.label" /> * : </dt><dd id="subscription" class="action-editField validate-localReferentialData required-true i18n-lrr.property.subscription data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'subscription', 'lrEntries': lrTypes.subscription?.entries, 
-                             'rqt':request, 'isMultiple':lrTypes.subscription?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.subscription?.entriesSupportMultiple, 'depth':0]" />
  
           </dd>
               </dl>
@@ -55,13 +55,13 @@
             
               
               <dl>
-                <dt class="required"><g:message code="lrr.property.registrationNumber.label" /> * : </dt><dd id="registrationNumber" class="action-editField validate-string required-true i18n-lrr.property.registrationNumber" ><span>${request?.registrationNumber}</span></dd>
+                <dt class="required"><g:message code="lrr.property.registrationNumber.label" /> * : </dt><dd id="registrationNumber" class="action-editField validate-string required-true i18n-lrr.property.registrationNumber" ><span>${rqt?.registrationNumber}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="lrr.property.subscriptionPrice.label" /> * : </dt><dd id="subscriptionPrice" class="action-editField validate-subscriptionPrice required-true i18n-lrr.property.subscriptionPrice" ><span>${request?.subscriptionPrice}</span></dd>
+                <dt class="required"><g:message code="lrr.property.subscriptionPrice.label" /> * : </dt><dd id="subscriptionPrice" class="action-editField validate-subscriptionPrice required-true i18n-lrr.property.subscriptionPrice" ><span>${rqt?.subscriptionPrice}</span></dd>
               </dl>
               
             
@@ -86,13 +86,13 @@
             
               
               <dl>
-                <dt class="required"><g:message code="lrr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-lrr.property.rulesAndRegulationsAcceptance" ><span class="value-${request?.rulesAndRegulationsAcceptance}"><g:message code="message.${request?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="lrr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-lrr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="lrr.property.parentalAuthorization.label" /> * : </dt><dd id="parentalAuthorization" class="action-editField validate-acceptance required-true i18n-lrr.property.parentalAuthorization" ><span class="value-${request?.parentalAuthorization}"><g:message code="message.${request?.parentalAuthorization ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="lrr.property.parentalAuthorization.label" /> * : </dt><dd id="parentalAuthorization" class="action-editField validate-acceptance required-true i18n-lrr.property.parentalAuthorization" ><span class="value-${rqt?.parentalAuthorization}"><g:message code="message.${rqt?.parentalAuthorization ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

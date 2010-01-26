@@ -32,15 +32,15 @@ class ContactController {
     // TODO request decoupling
     def panel = {
         if (!request.get) return false
-        def request =
+        def rqt =
             defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
         // FIXME RDJ - if no requester use homefolder responsible
         def requester
-        if (request.requesterId != null)
-            requester = individualService.getById(request.requesterId)
+        if (rqt.requesterId != null)
+            requester = individualService.getById(rqt.requesterId)
         else
             requester =
-                homeFolderService.getHomeFolderResponsible(request.homeFolderId)
+                homeFolderService.getHomeFolderResponsible(rqt.homeFolderId)
 
         def requesterMeansOfContacts = []
         meansOfContactService.getAdultEnabledMeansOfContact(requester).each {
@@ -49,7 +49,7 @@ class ContactController {
         }
 
         def requestForms = []
-        requestTypeService.getRequestTypeForms(request.requestType.id,
+        requestTypeService.getRequestTypeForms(rqt.requestType.id,
             RequestFormType.REQUEST_MAIL_TEMPLATE).each {
             String data = ""
             if (it.personalizedData) data = new String(it.personalizedData)
@@ -64,9 +64,9 @@ class ContactController {
 
         // this task must maybe be done by a service
         def defaultContactRecipient
-        if (request.meansOfContact?.type == MeansOfContactEnum.EMAIL)
+        if (rqt.meansOfContact?.type == MeansOfContactEnum.EMAIL)
             defaultContactRecipient = requester.email
-        else if (request.meansOfContact?.type == MeansOfContactEnum.SMS)
+        else if (rqt.meansOfContact?.type == MeansOfContactEnum.SMS)
             defaultContactRecipient = requester.mobilePhone
 
         requesterMeansOfContacts.each() {
@@ -78,14 +78,14 @@ class ContactController {
             "requestForms": requestForms,
             "defaultContactRecipient": defaultContactRecipient,
             "requester": requester,
-            "request": [
-                "id" : request.id,
-                "state": CapdematUtils.adaptCapdematEnum(request.state,
+            "rqt": [
+                "id" : rqt.id,
+                "state": CapdematUtils.adaptCapdematEnum(rqt.state,
                     "request.state"),
                 "requesterMobilePhone": requester.mobilePhone,
                 "requesterEmail": requester.email,
                 "meansOfContact": CapdematUtils
-                    .adaptCapdematEnum(request.meansOfContact?.type,
+                    .adaptCapdematEnum(rqt.meansOfContact?.type,
                         "request.meansOfContact")
             ]
         ]
@@ -219,21 +219,21 @@ class ContactController {
 
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         def form = requestTypeService.getRequestFormById(Long.valueOf(formId))
-        def request =
+        def rqt =
             defaultRequestService.getAndTryToLock(Long.valueOf(requestId))
 
         // FIXME RDJ - if no requester use homefolder responsible
         def requester
-        if (request.requesterId != null)
-            requester = individualService.getById(request.requesterId)
+        if (rqt.requesterId != null)
+            requester = individualService.getById(rqt.requesterId)
         else
             requester =
-                homeFolderService.getHomeFolderResponsible(request.homeFolderId)
+                homeFolderService.getHomeFolderResponsible(rqt.homeFolderId)
 
         def address = requester.getHomeFolder().getAdress()
         def subjectObject = null
-        if (request.subjectId) {
-            subjectObject = individualService.getById(request.subjectId)
+        if (rqt.subjectId) {
+            subjectObject = individualService.getById(rqt.subjectId)
         }
         def subject =
             individualAdaptorService.getIndividualDescription(subjectObject)
@@ -282,15 +282,15 @@ class ContactController {
             String content = out.toString().replace('#{','${')
             def model = [
                 "DATE" : DateUtils.dateToFullString(new Date()),
-                "LAST_AGENT_NAME" : instructionService.getActionPosterDetails(request.lastInterveningUserId),
+                "LAST_AGENT_NAME" : instructionService.getActionPosterDetails(rqt.lastInterveningUserId),
                 "MOC" : message(code : "request.meansOfContact." + StringUtils.pascalToCamelCase(meansOfContact)),
-                "RQ_ID" : request.id,
+                "RQ_ID" : rqt.id,
                 "RQ_TP_LABEL" : type == "HTML" ? 
-                    translationService.translateRequestTypeDescription(request.requestType.label).toLowerCase().encodeAsHTML() :
-                    translationService.translateRequestTypeDescription(request.requestType.label).toLowerCase(),
-                "RQ_CAT" : request.requestType.category.name,
-                "RQ_CDATE" : DateUtils.dateToFullString(request.creationDate),
-                "RQ_DVAL" : request.validationDate ? DateUtils.dateToFullString(request.validationDate) : '',
+                    translationService.translateRequestTypeDescription(rqt.requestType.label).toLowerCase().encodeAsHTML() :
+                    translationService.translateRequestTypeDescription(rqt.requestType.label).toLowerCase(),
+                "RQ_CAT" : rqt.requestType.category.name,
+                "RQ_CDATE" : DateUtils.dateToFullString(rqt.creationDate),
+                "RQ_DVAL" : rqt.validationDate ? DateUtils.dateToFullString(rqt.validationDate) : '',
                 "RQ_OBSERV" : observations,
                 "HF_ID" : requester.homeFolder.id,
                 "RR_FNAME" : requester.firstName,

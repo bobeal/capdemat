@@ -1,11 +1,11 @@
 
 
-  <g:set var="listSize" value="${request.professionals.size()}" />
+  <g:set var="listSize" value="${rqt.professionals.size()}" />
   <h3>
     <a class="addListItem" id="add_professionals[${listSize}]"></a>
     <span><g:message code="hccr.property.professionals.label" /></span>
   </h3>
-  <g:each var="it" in="${request.professionals.reverse()}" status="index">
+  <g:each var="it" in="${rqt.professionals.reverse()}" status="index">
   <div class="collection-action">
     <a class="deleteListItem" id="delete_professionals[${listSize - 1 - index}]"></a>
   </div>

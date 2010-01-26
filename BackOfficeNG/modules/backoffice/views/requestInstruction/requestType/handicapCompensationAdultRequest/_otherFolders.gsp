@@ -1,11 +1,11 @@
 
 
-  <g:set var="listSize" value="${request.otherFolders.size()}" />
+  <g:set var="listSize" value="${rqt.otherFolders.size()}" />
   <h3>
     <a class="addListItem" id="add_otherFolders[${listSize}]"></a>
     <span><g:message code="hcar.property.otherFolders.label" /></span>
   </h3>
-  <g:each var="it" in="${request.otherFolders.reverse()}" status="index">
+  <g:each var="it" in="${rqt.otherFolders.reverse()}" status="index">
   <div class="collection-action">
     <a class="deleteListItem" id="delete_otherFolders[${listSize - 1 - index}]"></a>
   </div>

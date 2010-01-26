@@ -65,13 +65,13 @@
             
               
               <dl>
-                <dt class="required condition-hasSubscriberNumber-trigger"><g:message code="prr.property.isSubscriber.label" /> * : </dt><dd id="isSubscriber" class="action-editField validate-boolean required-true i18n-prr.property.isSubscriber" ><span class="value-${request?.isSubscriber}"><g:message code="message.${request?.isSubscriber ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required condition-hasSubscriberNumber-trigger"><g:message code="prr.property.isSubscriber.label" /> * : </dt><dd id="isSubscriber" class="action-editField validate-boolean required-true i18n-prr.property.isSubscriber" ><span class="value-${rqt?.isSubscriber}"><g:message code="message.${rqt?.isSubscriber ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="condition-hasSubscriberNumber-filled"><g:message code="prr.property.subscriberNumber.label" />  : </dt><dd id="subscriberNumber" class="action-editField validate- i18n-prr.property.subscriberNumber" ><span>${request?.subscriberNumber}</span></dd>
+                <dt class="condition-hasSubscriberNumber-filled"><g:message code="prr.property.subscriberNumber.label" />  : </dt><dd id="subscriberNumber" class="action-editField validate- i18n-prr.property.subscriberNumber" ><span>${rqt?.subscriberNumber}</span></dd>
               </dl>
               
             
@@ -102,7 +102,7 @@
             
               
               <div id="widget-placeReservation" class="required">
-                <g:render template="/backofficeRequestInstruction/requestType/placeReservationRequest/placeReservation" model="['request':request]" />
+                <g:render template="/backofficeRequestInstruction/requestType/placeReservationRequest/placeReservation" model="['rqt':rqt]" />
               </div>
               
             
@@ -114,7 +114,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="prr.property.paymentReference.label" />  : </dt><dd id="paymentReference" class="action-editField validate-string i18n-prr.property.paymentReference" ><span>${request?.paymentReference}</span></dd>
+                <dt class=""><g:message code="prr.property.paymentReference.label" />  : </dt><dd id="paymentReference" class="action-editField validate-string i18n-prr.property.paymentReference" ><span>${rqt?.paymentReference}</span></dd>
               </dl>
               
             

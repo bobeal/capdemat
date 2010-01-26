@@ -12,37 +12,37 @@
         <h3>${group.value.get('label')}</h3>
         <img src="${createLink(controller:'localAuthorityResource', action:'resource',  params:[type:'DISPLAY_GROUP_IMAGE',filename:group.key]).encodeAsXML()}" alt="${message(code:'displayGroup.header.logo')} ${group.value.get('label')}" />
         <ul>
-          <g:each var="request" in="${group.value.get('requests')}">
+          <g:each var="requestType" in="${group.value.get('requests')}">
             <li>
-              <g:if test="${request.enabled}">
-                <g:if test="${request.seasons && !request.seasons.isEmpty()}">
-                  <g:if test="${request.seasons.size() == 1}">
+              <g:if test="${requestType.enabled}">
+                <g:if test="${requestType.seasons && !requestType.seasons.isEmpty()}">
+                  <g:if test="${requestType.seasons.size() == 1}">
                     <a href="${createLink(controller:'frontofficeRequestCreation',
-                      params:['label':request.label, 'requestSeasonId' : request.seasons.iterator().next().id])}">
-                      <g:translateRequestTypeLabel label="${request.label}"/>
+                      params:['label':requestType.label, 'requestSeasonId' : requestType.seasons.iterator().next().id])}">
+                      <g:translateRequestTypeLabel label="${requestType.label}"/>
                     </a>
                     <span class="disabled-request-notice">
-                      ${request.seasons.iterator().next().label}
+                      ${requestType.seasons.iterator().next().label}
                     </span>
                   </g:if>
                   <g:else>
-                    <a href="${createLink(action : 'seasons', params:['label':request.label])}">
-                      <g:translateRequestTypeLabel label="${request.label}"/>
+                    <a href="${createLink(action : 'seasons', params:['label':requestType.label])}">
+                      <g:translateRequestTypeLabel label="${requestType.label}"/>
                     </a>
                   </g:else>
                 </g:if>
                 <g:else>
                   <a href="${createLink(controller:'frontofficeRequestCreation',
-                    params:['label':request.label])}">
-                    <g:translateRequestTypeLabel label="${request.label}"/>
+                    params:['label':requestType.label])}">
+                    <g:translateRequestTypeLabel label="${requestType.label}"/>
                   </a>
                 </g:else>
               </g:if>
               <g:else>
-                <g:translateRequestTypeLabel label="${request.label}"/>
-                <g:if test="${request.message}">
+                <g:translateRequestTypeLabel label="${requestType.label}"/>
+                <g:if test="${requestType.message}">
                   <span class="disabled-request-notice">
-                    <g:message code="${request.message}"/>
+                    <g:message code="${requestType.message}"/>
                   </span>
                 </g:if>
               </g:else>

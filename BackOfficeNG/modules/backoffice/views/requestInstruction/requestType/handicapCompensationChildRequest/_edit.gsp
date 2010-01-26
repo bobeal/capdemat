@@ -45,11 +45,11 @@
   <div class="yui-content">
     
       
-        <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/steps0" model="['request':request]" />
+        <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/steps0" model="['rqt':rqt]" />
       
-        <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/steps1" model="['request':request]" />
+        <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/steps1" model="['rqt':rqt]" />
       
-        <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/steps2" model="['request':request]" />
+        <g:render template="/backofficeRequestInstruction/requestType/handicapCompensationChildRequest/steps2" model="['rqt':rqt]" />
       
     
     

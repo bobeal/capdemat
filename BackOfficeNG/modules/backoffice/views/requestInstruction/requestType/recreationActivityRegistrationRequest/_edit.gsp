@@ -43,7 +43,7 @@
               
               <dl>
                 <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${request?.subjectFirstName} ${request?.subjectLastName}</span></dd>
+              <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
           
               </dl>
               
@@ -53,7 +53,7 @@
                 <dt class="required"><g:message code="rarr.property.recreationActivity.label" /> * : </dt><dd id="recreationActivity" class="action-editField validate-localReferentialData required-true i18n-rarr.property.recreationActivity data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'recreationActivity', 'lrEntries': lrTypes.recreationActivity?.entries, 
-                             'rqt':request, 'isMultiple':lrTypes.recreationActivity?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.recreationActivity?.entriesSupportMultiple, 'depth':0]" />
  
           </dd>
               </dl>
@@ -61,7 +61,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="rarr.property.urgencyPhone.label" /> * : </dt><dd id="urgencyPhone" class="action-editField validate-phone required-true i18n-rarr.property.urgencyPhone maxLength-10" ><span>${request?.urgencyPhone}</span></dd>
+                <dt class="required"><g:message code="rarr.property.urgencyPhone.label" /> * : </dt><dd id="urgencyPhone" class="action-editField validate-phone required-true i18n-rarr.property.urgencyPhone maxLength-10" ><span>${rqt?.urgencyPhone}</span></dd>
               </dl>
               
             
@@ -92,7 +92,7 @@
             
               
               <div id="widget-contactIndividuals" class="">
-                <g:render template="/backofficeRequestInstruction/requestType/recreationActivityRegistrationRequest/contactIndividuals" model="['request':request]" />
+                <g:render template="/backofficeRequestInstruction/requestType/recreationActivityRegistrationRequest/contactIndividuals" model="['rqt':rqt]" />
               </div>
               
             
@@ -123,7 +123,7 @@
             
               
               <div id="widget-authorizedIndividuals" class="">
-                <g:render template="/backofficeRequestInstruction/requestType/recreationActivityRegistrationRequest/authorizedIndividuals" model="['request':request]" />
+                <g:render template="/backofficeRequestInstruction/requestType/recreationActivityRegistrationRequest/authorizedIndividuals" model="['rqt':rqt]" />
               </div>
               
             
@@ -154,25 +154,25 @@
             
               
               <dl>
-                <dt class="required"><g:message code="rarr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-rarr.property.rulesAndRegulationsAcceptance" ><span class="value-${request?.rulesAndRegulationsAcceptance}"><g:message code="message.${request?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="rarr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-rarr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="rarr.property.classTripPermission.label" /> * : </dt><dd id="classTripPermission" class="action-editField validate-acceptance required-true i18n-rarr.property.classTripPermission" ><span class="value-${request?.classTripPermission}"><g:message code="message.${request?.classTripPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="rarr.property.classTripPermission.label" /> * : </dt><dd id="classTripPermission" class="action-editField validate-acceptance required-true i18n-rarr.property.classTripPermission" ><span class="value-${rqt?.classTripPermission}"><g:message code="message.${rqt?.classTripPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="rarr.property.childPhotoExploitationPermission.label" /> * : </dt><dd id="childPhotoExploitationPermission" class="action-editField validate-acceptance required-true i18n-rarr.property.childPhotoExploitationPermission" ><span class="value-${request?.childPhotoExploitationPermission}"><g:message code="message.${request?.childPhotoExploitationPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="rarr.property.childPhotoExploitationPermission.label" /> * : </dt><dd id="childPhotoExploitationPermission" class="action-editField validate-acceptance required-true i18n-rarr.property.childPhotoExploitationPermission" ><span class="value-${rqt?.childPhotoExploitationPermission}"><g:message code="message.${rqt?.childPhotoExploitationPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="rarr.property.hospitalizationPermission.label" /> * : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance required-true i18n-rarr.property.hospitalizationPermission" ><span class="value-${request?.hospitalizationPermission}"><g:message code="message.${request?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="rarr.property.hospitalizationPermission.label" /> * : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance required-true i18n-rarr.property.hospitalizationPermission" ><span class="value-${rqt?.hospitalizationPermission}"><g:message code="message.${rqt?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -207,7 +207,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="rarr.property.recreationCenter.label" />  : </dt><dd id="recreationCenter" class="action-editField validate-recreationCenter i18n-rarr.property.recreationCenter" ><span class="value-${request?.recreationCenter?.id}">${request?.recreationCenter?.name}</span></dd>
+                <dt class=""><g:message code="rarr.property.recreationCenter.label" />  : </dt><dd id="recreationCenter" class="action-editField validate-recreationCenter i18n-rarr.property.recreationCenter" ><span class="value-${rqt?.recreationCenter?.id}">${rqt?.recreationCenter?.name}</span></dd>
               </dl>
               
             

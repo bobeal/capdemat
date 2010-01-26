@@ -31,7 +31,7 @@
               
               <dl>
                 <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${request?.subjectFirstName} ${request?.subjectLastName}</span></dd>
+              <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
           
               </dl>
               
@@ -41,7 +41,7 @@
                 <dt class="required"><g:message code="msrr.property.activity.label" /> * : </dt><dd id="activity" class="action-editField validate-localReferentialData required-true i18n-msrr.property.activity data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'activity', 'lrEntries': lrTypes.activity?.entries, 
-                             'rqt':request, 'isMultiple':lrTypes.activity?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.activity?.entriesSupportMultiple, 'depth':0]" />
  
           </dd>
               </dl>
@@ -74,7 +74,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="msrr.property.rulesAndRegulationsAcceptance.label" />  : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance i18n-msrr.property.rulesAndRegulationsAcceptance" ><span class="value-${request?.rulesAndRegulationsAcceptance}"><g:message code="message.${request?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class=""><g:message code="msrr.property.rulesAndRegulationsAcceptance.label" />  : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance i18n-msrr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             

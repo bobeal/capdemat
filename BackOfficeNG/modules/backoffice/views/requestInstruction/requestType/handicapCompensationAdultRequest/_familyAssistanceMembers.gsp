@@ -1,11 +1,11 @@
 
 
-  <g:set var="listSize" value="${request.familyAssistanceMembers.size()}" />
+  <g:set var="listSize" value="${rqt.familyAssistanceMembers.size()}" />
   <h3>
     <a class="addListItem" id="add_familyAssistanceMembers[${listSize}]"></a>
     <span><g:message code="hcar.property.familyAssistanceMembers.label" /></span>
   </h3>
-  <g:each var="it" in="${request.familyAssistanceMembers.reverse()}" status="index">
+  <g:each var="it" in="${rqt.familyAssistanceMembers.reverse()}" status="index">
   <div class="collection-action">
     <a class="deleteListItem" id="delete_familyAssistanceMembers[${listSize - 1 - index}]"></a>
   </div>

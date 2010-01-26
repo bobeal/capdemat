@@ -1,11 +1,11 @@
 
 
-  <g:set var="listSize" value="${request.additionalFee.size()}" />
+  <g:set var="listSize" value="${rqt.additionalFee.size()}" />
   <h3>
     <a class="addListItem" id="add_additionalFee[${listSize}]"></a>
     <span><g:message code="hcar.property.additionalFee.label" /></span>
   </h3>
-  <g:each var="it" in="${request.additionalFee.reverse()}" status="index">
+  <g:each var="it" in="${rqt.additionalFee.reverse()}" status="index">
   <div class="collection-action">
     <a class="deleteListItem" id="delete_additionalFee[${listSize - 1 - index}]"></a>
   </div>

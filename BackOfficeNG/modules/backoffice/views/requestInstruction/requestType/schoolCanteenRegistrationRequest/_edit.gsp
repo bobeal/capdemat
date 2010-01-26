@@ -35,14 +35,14 @@
               
               <dl>
                 <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${request?.subjectFirstName} ${request?.subjectLastName}</span></dd>
+              <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
           
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.urgencyPhone.label" /> * : </dt><dd id="urgencyPhone" class="action-editField validate-phone required-true i18n-scrr.property.urgencyPhone maxLength-10" ><span>${request?.urgencyPhone}</span></dd>
+                <dt class="required"><g:message code="scrr.property.urgencyPhone.label" /> * : </dt><dd id="urgencyPhone" class="action-editField validate-phone required-true i18n-scrr.property.urgencyPhone maxLength-10" ><span>${rqt?.urgencyPhone}</span></dd>
               </dl>
               
             
@@ -51,7 +51,7 @@
                 <dt class="required"><g:message code="scrr.property.foodDiet.label" /> * : </dt><dd id="foodDiet" class="action-editField validate-localReferentialData required-true i18n-scrr.property.foodDiet data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'foodDiet', 'lrEntries': lrTypes.foodDiet?.entries, 
-                             'rqt':request, 'isMultiple':lrTypes.foodDiet?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.foodDiet?.entriesSupportMultiple, 'depth':0]" />
  
           </dd>
               </dl>
@@ -62,7 +62,7 @@
                 <dt class="required"><g:message code="scrr.property.canteenAttendingDays.label" /> * : </dt><dd id="canteenAttendingDays" class="action-editField validate-localReferentialData required-true i18n-scrr.property.canteenAttendingDays data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'canteenAttendingDays', 'lrEntries': lrTypes.canteenAttendingDays?.entries, 
-                             'rqt':request, 'isMultiple':lrTypes.canteenAttendingDays?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.canteenAttendingDays?.entriesSupportMultiple, 'depth':0]" />
  
           </dd>
               </dl>
@@ -70,19 +70,19 @@
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.foodAllergy.label" /> * : </dt><dd id="foodAllergy" class="action-editField validate-boolean required-true i18n-scrr.property.foodAllergy" ><span class="value-${request?.foodAllergy}"><g:message code="message.${request?.foodAllergy ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="scrr.property.foodAllergy.label" /> * : </dt><dd id="foodAllergy" class="action-editField validate-boolean required-true i18n-scrr.property.foodAllergy" ><span class="value-${rqt?.foodAllergy}"><g:message code="message.${rqt?.foodAllergy ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="scrr.property.doctorName.label" />  : </dt><dd id="doctorName" class="action-editField validate-string i18n-scrr.property.doctorName" ><span>${request?.doctorName}</span></dd>
+                <dt class=""><g:message code="scrr.property.doctorName.label" />  : </dt><dd id="doctorName" class="action-editField validate-string i18n-scrr.property.doctorName" ><span>${rqt?.doctorName}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="scrr.property.doctorPhone.label" />  : </dt><dd id="doctorPhone" class="action-editField validate-phone i18n-scrr.property.doctorPhone maxLength-10" ><span>${request?.doctorPhone}</span></dd>
+                <dt class=""><g:message code="scrr.property.doctorPhone.label" />  : </dt><dd id="doctorPhone" class="action-editField validate-phone i18n-scrr.property.doctorPhone maxLength-10" ><span>${rqt?.doctorPhone}</span></dd>
               </dl>
               
             
@@ -113,13 +113,13 @@
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.hospitalizationPermission.label" /> * : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance required-true i18n-scrr.property.hospitalizationPermission" ><span class="value-${request?.hospitalizationPermission}"><g:message code="message.${request?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="scrr.property.hospitalizationPermission.label" /> * : </dt><dd id="hospitalizationPermission" class="action-editField validate-acceptance required-true i18n-scrr.property.hospitalizationPermission" ><span class="value-${rqt?.hospitalizationPermission}"><g:message code="message.${rqt?.hospitalizationPermission ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-scrr.property.rulesAndRegulationsAcceptance" ><span class="value-${request?.rulesAndRegulationsAcceptance}"><g:message code="message.${request?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="scrr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-scrr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -154,13 +154,13 @@
             
               
               <dl>
-                <dt class=""><g:message code="scrr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-scrr.property.school" ><span class="value-${request?.school?.id}">${request?.school?.name}</span></dd>
+                <dt class=""><g:message code="scrr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-scrr.property.school" ><span class="value-${rqt?.school?.id}">${rqt?.school?.name}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="scrr.property.section.label" /> * : </dt><dd id="section" class="action-editField validate-capdematEnum required-true i18n-scrr.property.section javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${request?.section}" i18nKeyPrefix="scrr.property.section" /></dd>
+                <dt class="required"><g:message code="scrr.property.section.label" /> * : </dt><dd id="section" class="action-editField validate-capdematEnum required-true i18n-scrr.property.section javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${rqt?.section}" i18nKeyPrefix="scrr.property.section" /></dd>
               </dl>
               
             

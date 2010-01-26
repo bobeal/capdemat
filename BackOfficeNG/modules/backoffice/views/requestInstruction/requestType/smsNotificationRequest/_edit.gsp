@@ -27,20 +27,20 @@
               
               <dl>
                 <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${request?.subjectFirstName} ${request?.subjectLastName}</span></dd>
+              <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
           
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="snr.property.mobilePhone.label" />  : </dt><dd id="mobilePhone" class="action-editField validate-mobilePhone i18n-snr.property.mobilePhone maxLength-10" ><span>${request?.mobilePhone}</span></dd>
+                <dt class=""><g:message code="snr.property.mobilePhone.label" />  : </dt><dd id="mobilePhone" class="action-editField validate-mobilePhone i18n-snr.property.mobilePhone maxLength-10" ><span>${rqt?.mobilePhone}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="snr.property.subscription.label" /> * : </dt><dd id="subscription" class="action-editField validate-boolean required-true i18n-snr.property.subscription" ><span class="value-${request?.subscription}"><g:message code="message.${request?.subscription ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="snr.property.subscription.label" /> * : </dt><dd id="subscription" class="action-editField validate-boolean required-true i18n-snr.property.subscription" ><span class="value-${rqt?.subscription}"><g:message code="message.${rqt?.subscription ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -49,7 +49,7 @@
                 <dt class="required"><g:message code="snr.property.interests.label" /> * : </dt><dd id="interests" class="action-editField validate-localReferentialData required-true i18n-snr.property.interests data-localReferentialData" >
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'interests', 'lrEntries': lrTypes.interests?.entries, 
-                             'rqt':request, 'isMultiple':lrTypes.interests?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.interests?.entriesSupportMultiple, 'depth':0]" />
  
           </dd>
               </dl>

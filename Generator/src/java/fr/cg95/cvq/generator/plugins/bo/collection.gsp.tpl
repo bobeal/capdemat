@@ -30,12 +30,12 @@
   } 
 %>
 
-  <g:set var="listSize" value="\${request.${element.javaFieldName}.size()}" />
+  <g:set var="listSize" value="\${rqt.${element.javaFieldName}.size()}" />
   <h3>
     <a class="addListItem" id="add_${element.javaFieldName}[\${listSize}]"></a>
     <span><g:message code="${element.i18nPrefixCode}.label" /></span>
   </h3>
-  <g:each var="it" in="\${request.${element.javaFieldName}.reverse()}" status="index">
+  <g:each var="it" in="\${rqt.${element.javaFieldName}.reverse()}" status="index">
   <div class="collection-action">
     <a class="deleteListItem" id="delete_${element.javaFieldName}[\${listSize - 1 - index}]"></a>
   </div>

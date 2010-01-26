@@ -35,20 +35,20 @@
               
               <dl>
                 <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${request?.subjectFirstName} ${request?.subjectLastName}</span></dd>
+              <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
           
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="srr.property.section.label" /> * : </dt><dd id="section" class="action-editField validate-capdematEnum required-true i18n-srr.property.section javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${request?.section}" i18nKeyPrefix="srr.property.section" /></dd>
+                <dt class="required"><g:message code="srr.property.section.label" /> * : </dt><dd id="section" class="action-editField validate-capdematEnum required-true i18n-srr.property.section javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${rqt?.section}" i18nKeyPrefix="srr.property.section" /></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="srr.property.urgencyPhone.label" /> * : </dt><dd id="urgencyPhone" class="action-editField validate-phone required-true i18n-srr.property.urgencyPhone maxLength-10" ><span>${request?.urgencyPhone}</span></dd>
+                <dt class="required"><g:message code="srr.property.urgencyPhone.label" /> * : </dt><dd id="urgencyPhone" class="action-editField validate-phone required-true i18n-srr.property.urgencyPhone maxLength-10" ><span>${rqt?.urgencyPhone}</span></dd>
               </dl>
               
             
@@ -62,11 +62,11 @@
               <h3><g:message code="srr.property.currentSchool.label" /></h3>
               <dl class="required">
                 
-                  <dt class=""><g:message code="srr.property.currentSchoolName.label" />  : </dt><dd id="currentSchoolName" class="action-editField validate-string i18n-srr.property.currentSchoolName" ><span>${request?.currentSchoolName}</span></dd>
+                  <dt class=""><g:message code="srr.property.currentSchoolName.label" />  : </dt><dd id="currentSchoolName" class="action-editField validate-string i18n-srr.property.currentSchoolName" ><span>${rqt?.currentSchoolName}</span></dd>
                 
-                  <dt class=""><g:message code="srr.property.currentSchoolAddress.label" />  : </dt><dd id="currentSchoolAddress" class="action-editField validate-string i18n-srr.property.currentSchoolAddress" ><span>${request?.currentSchoolAddress}</span></dd>
+                  <dt class=""><g:message code="srr.property.currentSchoolAddress.label" />  : </dt><dd id="currentSchoolAddress" class="action-editField validate-string i18n-srr.property.currentSchoolAddress" ><span>${rqt?.currentSchoolAddress}</span></dd>
                 
-                  <dt class=""><g:message code="srr.property.currentSection.label" />  : </dt><dd id="currentSection" class="action-editField validate-capdematEnum i18n-srr.property.currentSection javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${request?.currentSection}" i18nKeyPrefix="srr.property.currentSection" /></dd>
+                  <dt class=""><g:message code="srr.property.currentSection.label" />  : </dt><dd id="currentSection" class="action-editField validate-capdematEnum i18n-srr.property.currentSection javatype-fr.cg95.cvq.business.users.SectionType maxLength-32" ><g:capdematEnumToField var="${rqt?.currentSection}" i18nKeyPrefix="srr.property.currentSection" /></dd>
                 
               </dl>
               
@@ -92,7 +92,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="srr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-srr.property.rulesAndRegulationsAcceptance" ><span class="value-${request?.rulesAndRegulationsAcceptance}"><g:message code="message.${request?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
+                <dt class="required"><g:message code="srr.property.rulesAndRegulationsAcceptance.label" /> * : </dt><dd id="rulesAndRegulationsAcceptance" class="action-editField validate-acceptance required-true i18n-srr.property.rulesAndRegulationsAcceptance" ><span class="value-${rqt?.rulesAndRegulationsAcceptance}"><g:message code="message.${rqt?.rulesAndRegulationsAcceptance ? 'yes' : 'no'}" /></span></dd>
               </dl>
               
             
@@ -127,7 +127,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="srr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-srr.property.school" ><span class="value-${request?.school?.id}">${request?.school?.name}</span></dd>
+                <dt class=""><g:message code="srr.property.school.label" />  : </dt><dd id="school" class="action-editField validate-school i18n-srr.property.school" ><span class="value-${rqt?.school?.id}">${rqt?.school?.name}</span></dd>
               </dl>
               
             

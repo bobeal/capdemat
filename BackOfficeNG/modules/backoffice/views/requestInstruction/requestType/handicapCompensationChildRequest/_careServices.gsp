@@ -1,11 +1,11 @@
 
 
-  <g:set var="listSize" value="${request.careServices.size()}" />
+  <g:set var="listSize" value="${rqt.careServices.size()}" />
   <h3>
     <a class="addListItem" id="add_careServices[${listSize}]"></a>
     <span><g:message code="hccr.property.careServices.label" /></span>
   </h3>
-  <g:each var="it" in="${request.careServices.reverse()}" status="index">
+  <g:each var="it" in="${rqt.careServices.reverse()}" status="index">
   <div class="collection-action">
     <a class="deleteListItem" id="delete_careServices[${listSize - 1 - index}]"></a>
   </div>

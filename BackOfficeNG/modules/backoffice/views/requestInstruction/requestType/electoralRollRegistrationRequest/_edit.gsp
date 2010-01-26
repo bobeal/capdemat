@@ -31,32 +31,32 @@
               
               <dl>
                 <dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>${request?.subjectFirstName} ${request?.subjectLastName}</span></dd>
+              <dd><span>${rqt?.subjectFirstName} ${rqt?.subjectLastName}</span></dd>
           
               </dl>
               
             
               
               <dl>
-                <dt class="required"><g:message code="errr.property.subjectNationality.label" /> * : </dt><dd id="subjectNationality" class="action-editField validate-capdematEnum required-true i18n-errr.property.subjectNationality javatype-fr.cg95.cvq.business.users.NationalityType maxLength-32" ><g:capdematEnumToField var="${request?.subjectNationality}" i18nKeyPrefix="errr.property.subjectNationality" /></dd>
+                <dt class="required"><g:message code="errr.property.subjectNationality.label" /> * : </dt><dd id="subjectNationality" class="action-editField validate-capdematEnum required-true i18n-errr.property.subjectNationality javatype-fr.cg95.cvq.business.users.NationalityType maxLength-32" ><g:capdematEnumToField var="${rqt?.subjectNationality}" i18nKeyPrefix="errr.property.subjectNationality" /></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-isDirect-trigger"><g:message code="errr.property.motive.label" /> * : </dt><dd id="motive" class="action-editField validate-capdematEnum required-true i18n-errr.property.motive javatype-fr.cg95.cvq.business.request.election.ElectoralMotiveType" ><g:capdematEnumToField var="${request?.motive}" i18nKeyPrefix="errr.property.motive" /></dd>
+                <dt class="required condition-isDirect-trigger"><g:message code="errr.property.motive.label" /> * : </dt><dd id="motive" class="action-editField validate-capdematEnum required-true i18n-errr.property.motive javatype-fr.cg95.cvq.business.request.election.ElectoralMotiveType" ><g:capdematEnumToField var="${rqt?.motive}" i18nKeyPrefix="errr.property.motive" /></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-isDirect-unfilled"><g:message code="errr.property.subjectOldCity.label" /> * : </dt><dd id="subjectOldCity" class="action-editField validate-postalCode required-true i18n-errr.property.subjectOldCity maxLength-5" ><span>${request?.subjectOldCity}</span></dd>
+                <dt class="required condition-isDirect-unfilled"><g:message code="errr.property.subjectOldCity.label" /> * : </dt><dd id="subjectOldCity" class="action-editField validate-postalCode required-true i18n-errr.property.subjectOldCity maxLength-5" ><span>${rqt?.subjectOldCity}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class="required condition-isDirect-filled"><g:message code="errr.property.subjectAddressOutsideCity.label" /> * : </dt><dd id="subjectAddressOutsideCity" class="action-editField validate-address required-true i18n-errr.property.subjectAddressOutsideCity" ><div><p class="additionalDeliveryInformation">${request?.subjectAddressOutsideCity?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${request?.subjectAddressOutsideCity?.additionalGeographicalInformation}</p><span class="streetNumber">${request?.subjectAddressOutsideCity?.streetNumber}</span> <span class="streetName">${request?.subjectAddressOutsideCity?.streetName}</span><p class="placeNameOrService">${request?.subjectAddressOutsideCity?.placeNameOrService}</p><span class="postalCode">${request?.subjectAddressOutsideCity?.postalCode}</span> <span class="city">${request?.subjectAddressOutsideCity?.city}</span><p class="countryName">${request?.subjectAddressOutsideCity?.countryName}</p></div></dd>
+                <dt class="required condition-isDirect-filled"><g:message code="errr.property.subjectAddressOutsideCity.label" /> * : </dt><dd id="subjectAddressOutsideCity" class="action-editField validate-address required-true i18n-errr.property.subjectAddressOutsideCity" ><div><p class="additionalDeliveryInformation">${rqt?.subjectAddressOutsideCity?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${rqt?.subjectAddressOutsideCity?.additionalGeographicalInformation}</p><span class="streetNumber">${rqt?.subjectAddressOutsideCity?.streetNumber}</span> <span class="streetName">${rqt?.subjectAddressOutsideCity?.streetName}</span><p class="placeNameOrService">${rqt?.subjectAddressOutsideCity?.placeNameOrService}</p><span class="postalCode">${rqt?.subjectAddressOutsideCity?.postalCode}</span> <span class="city">${rqt?.subjectAddressOutsideCity?.city}</span><p class="countryName">${rqt?.subjectAddressOutsideCity?.countryName}</p></div></dd>
               </dl>
               
             
@@ -91,7 +91,7 @@
             
               
               <dl>
-                <dt class=""><g:message code="errr.property.electoralNumber.label" />  : </dt><dd id="electoralNumber" class="action-editField validate-long i18n-errr.property.electoralNumber" ><span>${request?.electoralNumber}</span></dd>
+                <dt class=""><g:message code="errr.property.electoralNumber.label" />  : </dt><dd id="electoralNumber" class="action-editField validate-long i18n-errr.property.electoralNumber" ><span>${rqt?.electoralNumber}</span></dd>
               </dl>
               
             
@@ -103,13 +103,13 @@
             
               
               <dl>
-                <dt class=""><g:message code="errr.property.pollingStation.label" />  : </dt><dd id="pollingStation" class="action-editField validate-long i18n-errr.property.pollingStation" ><span>${request?.pollingStation}</span></dd>
+                <dt class=""><g:message code="errr.property.pollingStation.label" />  : </dt><dd id="pollingStation" class="action-editField validate-long i18n-errr.property.pollingStation" ><span>${rqt?.pollingStation}</span></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="errr.property.pollingSchoolName.label" />  : </dt><dd id="pollingSchoolName" class="action-editField validate-string i18n-errr.property.pollingSchoolName" ><span>${request?.pollingSchoolName}</span></dd>
+                <dt class=""><g:message code="errr.property.pollingSchoolName.label" />  : </dt><dd id="pollingSchoolName" class="action-editField validate-string i18n-errr.property.pollingSchoolName" ><span>${rqt?.pollingSchoolName}</span></dd>
               </dl>
               
             

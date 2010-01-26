@@ -17,7 +17,7 @@
             <div class="yui-g">
               <h3>
                 <a href="${createLink(controller:'frontofficeRequestCreation',
-                  params:['label':request.label, 'requestSeasonId' : season.id])}">
+                  params:['label':label, 'requestSeasonId' : season.id])}">
                   ${season.label}
                 </a>
               </h3>

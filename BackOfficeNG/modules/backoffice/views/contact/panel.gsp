@@ -1,6 +1,6 @@
 <h1>
-  <span class="${request.state.cssClass}">
-    <g:message code="${request.state.i18nKey}" />
+  <span class="${rqt.state.cssClass}">
+    <g:message code="${rqt.state.i18nKey}" />
   </span>
   <span><g:message code="request.property.state" /> :&nbsp;</span>
   <g:message code="contact.header.contactEcitizen" />
@@ -16,12 +16,12 @@
       <select id="meansOfContact" name="meansOfContact" class="required">
         <g:each var="moc" in="${requesterMeansOfContacts}">
           <option id="switchMoC_${moc.enumString}" value="${moc.enumString}"
-            <g:if test="${moc.enumString == request.meansOfContact.enumString}">
+            <g:if test="${moc.enumString == rqt.meansOfContact.enumString}">
               selected="selected"
             </g:if>
           >
             ${moc.i18nKey}
-            <g:if test="${moc.enumString == request.meansOfContact.enumString}">
+            <g:if test="${moc.enumString == rqt.meansOfContact.enumString}">
               (<g:message
                 code="contact.message.meansOfContactChosenByCitizen" />)
             </g:if>
@@ -120,7 +120,7 @@
         rows="5" cols="40" maxlength="1024"></textarea>
     </p>
     <div>
-      <input type="hidden" name="requestId" value="${request.id}" />
+      <input type="hidden" name="requestId" value="${rqt.id}" />
     </div>
     <p id="validationField" class="field">
       <span id="sendWidget">

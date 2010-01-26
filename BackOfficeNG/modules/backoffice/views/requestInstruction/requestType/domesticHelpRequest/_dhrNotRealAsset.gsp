@@ -1,11 +1,11 @@
 
 
-  <g:set var="listSize" value="${request.dhrNotRealAsset.size()}" />
+  <g:set var="listSize" value="${rqt.dhrNotRealAsset.size()}" />
   <h3>
     <a class="addListItem" id="add_dhrNotRealAsset[${listSize}]"></a>
     <span><g:message code="dhr.property.dhrNotRealAsset.label" /></span>
   </h3>
-  <g:each var="it" in="${request.dhrNotRealAsset.reverse()}" status="index">
+  <g:each var="it" in="${rqt.dhrNotRealAsset.reverse()}" status="index">
   <div class="collection-action">
     <a class="deleteListItem" id="delete_dhrNotRealAsset[${listSize - 1 - index}]"></a>
   </div>

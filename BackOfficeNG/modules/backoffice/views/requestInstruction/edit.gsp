@@ -8,7 +8,7 @@
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'documentInstruction.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'condition.js')}"></script>
     <script type="text/javascript">
-      zenexity.capdemat.bong.requestId = '${request.id}';
+      zenexity.capdemat.bong.requestId = '${rqt.id}';
       zenexity.capdemat.bong.editableStates = ${editableStates} ; 
       zenexity.capdemat.bong.agentCanWrite = '${agentCanWrite}';
       zenexity.capdemat.bong.contactPanelUrl = "${createLink(controller : 'backofficeContact', action : 'panel')}";
@@ -44,17 +44,17 @@
           	<g:if test="${!hasHomeFolder}">
               (<g:message code="request.message.outOfAccount" />)
             </g:if>
-            ${requestLabel} (${request.id})
+            ${requestLabel} (${rqt.id})
           </h1>
-          <g:if test="${request.requestSeason}">
-            <span id="requestSeasonLabel">${request.requestSeason.label}</span>
+          <g:if test="${rqt.requestSeason}">
+            <span id="requestSeasonLabel">${rqt.requestSeason.label}</span>
           </g:if>
-          <span id="requestTypeLabel">${request.requestType.label}</span>
+          <span id="requestTypeLabel">${requestTypeLabel}</span>
         </div>
 
         <!-- request data template selection by request type -->
         <g:render template="/backofficeRequestInstruction/requestType/${requestTypeTemplate}/edit" 
-                  model="['request':request, 'requester':requester]" />
+                  model="['rqt':rqt, 'requester':requester]" />
 
 
         <!-- request intruction document -->
@@ -68,7 +68,7 @@
                 <li>
                   <a class="removeDocument" id="removeDocument_${document.id}" />
                   <a class="documentLink" id="displayDocPanel_${document.id}" 
-                    href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}?dtid=${document.documentTypeId}&rid=${request.id}">
+                    href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}?dtid=${document.documentTypeId}&rid=${rqt.id}">
                     ${document.name}</a> - ${document.pageNumber} <g:message code="property.pages"/>
                    <g:if test="${document.endValidityDate}">
                     (<g:message code="document.property.endValidityDate"/> : 
@@ -128,7 +128,7 @@
             <li>
               <a class="${document.state.cssClass} documentState_${document.id} ${document?.id?'':'not-supplied'} documentLink" 
                 id="${!agentCanWrite && document.id == 0 ? 'doNothing' : 'displayDocPanel_'+document.id}_${UUID.randomUUID().toString().substring(0,4)}"
-                href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}?dtid=${document.documentTypeId}&rid=${request.id}">
+                href="${createLink(controller:'backofficeDocumentInstruction')}/edit/${document.id}?dtid=${document.documentTypeId}&rid=${rqt.id}">
                 <g:message code="${document.state.i18nKey}" />
               </a>
               <g:if test="${document?.id}">
@@ -144,7 +144,7 @@
       <!-- external service block -->
       <g:if test="${externalProviderServiceLabel != null && externalTemplateName != null}">
         <g:render template="${externalTemplateName}"
-          model="['request' : request, 'externalProviderServiceLabel' : externalProviderServiceLabel, 'lastTraceStatus' : lastTraceStatus]" />
+          model="['rqt' : rqt, 'externalProviderServiceLabel' : externalProviderServiceLabel, 'lastTraceStatus' : lastTraceStatus]" />
       </g:if>
 
       <!-- instruction state panel [default display = none] -->

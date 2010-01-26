@@ -1,11 +1,11 @@
 
 
-  <g:set var="listSize" value="${request.authorizedIndividuals.size()}" />
+  <g:set var="listSize" value="${rqt.authorizedIndividuals.size()}" />
   <h3>
     <a class="addListItem" id="add_authorizedIndividuals[${listSize}]"></a>
     <span><g:message code="rarr.property.authorizedIndividuals.label" /></span>
   </h3>
-  <g:each var="it" in="${request.authorizedIndividuals.reverse()}" status="index">
+  <g:each var="it" in="${rqt.authorizedIndividuals.reverse()}" status="index">
   <div class="collection-action">
     <a class="deleteListItem" id="delete_authorizedIndividuals[${listSize - 1 - index}]"></a>
   </div>

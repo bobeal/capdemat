@@ -64,8 +64,8 @@ class RequestInstructionController {
     }
 
     def edit = {
-        def request = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
-        def requester = request.requesterId != null ? individualService.getById(request.requesterId) : null
+        def rqt = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
+        def requester = rqt.requesterId != null ? individualService.getById(rqt.requesterId) : null
         def documentList = []
         def providedDocumentTypes = []
         def requestDocuments = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.id))
@@ -85,7 +85,7 @@ class RequestInstructionController {
 
         // manage allowed and associated documents to a request
         def isDocumentProvided
-        requestTypeService.getAllowedDocuments(request.requestType.id).each { documentTypeIt ->
+        requestTypeService.getAllowedDocuments(rqt.requestType.id).each { documentTypeIt ->
             isDocumentProvided = 
                 providedDocumentTypes.contains(documentTypeIt.id) ? true : false
             if (!isDocumentProvided)
@@ -101,8 +101,8 @@ class RequestInstructionController {
         def adults = []
         def children = []
         def clr = [:]
-        if (defaultRequestService.isAccountRequest(request.id)) {
-            def individuals = homeFolderService.getIndividuals(request.homeFolderId)
+        if (defaultRequestService.isAccountRequest(rqt.id)) {
+            def individuals = homeFolderService.getIndividuals(rqt.homeFolderId)
             individuals.eachWithIndex { individual, index ->
                 def item = ['data':individual, 'index':index]
                 if (individual.class.simpleName == "Adult") adults.add(item)
@@ -118,16 +118,16 @@ class RequestInstructionController {
         for(RequestState state : requestWorkflowService.getEditableStates())
             editableStates.add(state.toString())
         
-        def localReferentialTypes = getLocalReferentialTypes(localReferentialService, 
-        		request.requestType.label)
-        localReferentialTypes.each { lazyInit(request, it.key) }
+        def localReferentialTypes =
+            getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
+        localReferentialTypes.each { lazyInit(rqt, it.key) }
 
         def externalProviderServiceLabel = null
         def externalTemplateName = null
         def lastTraceStatus = null
-        if (externalService.hasMatchingExternalService(request.requestType.label)) {
+        if (externalService.hasMatchingExternalService(rqt.requestType.label)) {
             externalProviderServiceLabel = externalService
-                .getExternalServiceByRequestType(request.requestType.label).label
+                .getExternalServiceByRequestType(rqt.requestType.label).label
             externalTemplateName = ["/backofficeRequestInstruction/external",
                 externalProviderServiceLabel, "_block"].join('/')
             def externalTemplate = groovyPagesTemplateEngine
@@ -140,7 +140,7 @@ class RequestInstructionController {
                     externalProviderServiceLabel, "block"].join('/')
             def criteriaSet = new HashSet<Critere>(2)
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
-                String.valueOf(request.id), Critere.EQUALS))
+                String.valueOf(rqt.id), Critere.EQUALS))
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
                 externalProviderServiceLabel, Critere.EQUALS))
             def traces = externalService.getTraces(criteriaSet,
@@ -153,7 +153,7 @@ class RequestInstructionController {
 
         def criteriaSet = new HashSet<Critere>(2)
         criteriaSet.add(new Critere(RequestAction.SEARCH_BY_REQUEST_ID,
-            request.id, Critere.EQUALS))
+            rqt.id, Critere.EQUALS))
         criteriaSet.add(new Critere(RequestAction.SEARCH_BY_TYPE,
             RequestActionType.STATE_CHANGE, Critere.EQUALS))
         def actions = requestActionService.get(criteriaSet,
@@ -161,22 +161,22 @@ class RequestInstructionController {
         def lastActionNote = !actions.isEmpty() ? actions.get(0).note : ""
 
         return ([
-            "request": request,
-            "requestTypeLabel": request.requestType.label,
+            "rqt": rqt,
+            "requestTypeLabel": rqt.requestType.label,
             "lrTypes": localReferentialTypes,
             "adults": adults,
             "children": children,
             "requester": requester,
-            'hasHomeFolder': !homeFolderService.getById(request.homeFolderId).boundToRequest,
+            'hasHomeFolder': !homeFolderService.getById(rqt.homeFolderId).boundToRequest,
             "childrenLegalResponsibles": clr,
             "editableStates": (editableStates as JSON).toString(),
             "agentCanWrite": categoryService.hasWriteProfileOnCategory(SecurityContext.currentAgent, 
-            		request.requestType.category.id),
-            "requestState": CapdematUtils.adaptCapdematEnum(request.state, "request.state"),
+                rqt.requestType.category.id),
+            "requestState": CapdematUtils.adaptCapdematEnum(rqt.state, "request.state"),
             "lastActionNote" : lastActionNote,
-            "requestDataState": CapdematUtils.adaptCapdematEnum(request.dataState, "request.dataState"),
-            "requestLabel": translationService.translateRequestTypeLabel(request.requestType.label).encodeAsHTML(),
-            "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(request.requestType.label),
+            "requestDataState": CapdematUtils.adaptCapdematEnum(rqt.dataState, "request.dataState"),
+            "requestLabel": translationService.translateRequestTypeLabel(rqt.requestType.label).encodeAsHTML(),
+            "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label),
             "documentList": documentList,
             "externalProviderServiceLabel" : externalProviderServiceLabel,
             "externalTemplateName" : externalTemplateName,
@@ -196,9 +196,9 @@ class RequestInstructionController {
     }
     
     // FIXME - Modify lazy initialization policy in JavaBean ?
-    def lazyInit(request, listName) { 
-        if (request[listName] == null || request[listName].size() == 0) return false
-        request[listName].get(0)
+    def lazyInit(rqt, listName) {
+        if (rqt[listName] == null || rqt[listName].size() == 0) return false
+        rqt[listName].get(0)
     }
     
     def localReferentialData = {
@@ -291,23 +291,23 @@ class RequestInstructionController {
     def modify = {
         if (params.requestId == null)
              return false
-        def request = defaultRequestService.getAndTryToLock(Long.valueOf(params.requestId))
-        if (["VO Card", "Home Folder Modification"].contains(request.requestType.label)) {
-            def homeFolder = homeFolderService.getById(request.homeFolderId)
+        def rqt = defaultRequestService.getAndTryToLock(Long.valueOf(params.requestId))
+        if (["VO Card", "Home Folder Modification"].contains(rqt.requestType.label)) {
+            def homeFolder = homeFolderService.getById(rqt.homeFolderId)
             DataBindingUtils.initBind(homeFolder, params)
             bind(homeFolder)
         } else if (params.keySet().contains('_requester')) {
-            def requester = individualService.getById(request.requesterId)
+            def requester = individualService.getById(rqt.requesterId)
             bindRequester(requester, params)
         } else if (params.keySet().contains('schoolId')) {
-            request.school = schoolService.getById(Long.valueOf(params.schoolId))
+            rqt.school = schoolService.getById(Long.valueOf(params.schoolId))
         } else if (params.keySet().contains('recreationCenterId')) {
-            request.recreationCenter = recreationCenterService.getById(Long.valueOf(params.recreationCenterId))
+            rqt.recreationCenter = recreationCenterService.getById(Long.valueOf(params.recreationCenterId))
         } else {
-            DataBindingUtils.initBind(request, params)
-            bind(request)
+            DataBindingUtils.initBind(rqt, params)
+            bind(rqt)
         }
-//        log.debug("Binder custum editor PersistentStringEnum = " + getBinder(request).propertyEditorRegistry.findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
+//        log.debug("Binder custum editor PersistentStringEnum = " + getBinder(rqt).propertyEditorRegistry.findCustomEditor(fr.cg95.cvq.dao.hibernate.PersistentStringEnum.class, null))
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
@@ -342,7 +342,7 @@ class RequestInstructionController {
         render (template:'/backofficeRequestInstruction/requestType/'
                           + CapdematUtils.requestTypeLabelAsDir(cRequest.requestType.label) 
                           +'/' + listElemTokens[0]
-               ,model: ['request': cRequest])
+               ,model: ['rqt': cRequest])
     }
 
     def condition = {
@@ -491,8 +491,8 @@ class RequestInstructionController {
     }
 
     def homeFolderRequests = {
-        def request = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
-        def homeFolderRequests = defaultRequestService.getByHomeFolderId(request.homeFolderId);
+        def rqt = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
+        def homeFolderRequests = defaultRequestService.getByHomeFolderId(rqt.homeFolderId);
 
         def records = []
         homeFolderRequests.each {
@@ -590,11 +590,11 @@ class RequestInstructionController {
     }
 
     def externalReferentialChecks = {
-        def request = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
+        def rqt = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
         render(template : "/backofficeRequestInstruction/external/" + params.label + "/externalReferentialChecks",
                model : ["id" : params.id, "label" : params.label,
                         "externalReferentialCheckErrors" : externalService
-                            .checkExternalReferential(request)])
+                            .checkExternalReferential(rqt)])
     }
 
     def requestLock = {

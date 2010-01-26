@@ -34,7 +34,7 @@
           """
            <g:render template="/backofficeRequestInstruction/widget/localReferentialDataStatic" 
                      model="['javaName':'${element.javaFieldName}', 'lrEntries': lrTypes.${element.javaFieldName}?.entries, 
-                             'rqt':request, 'isMultiple':lrTypes.${element.javaFieldName}?.entriesSupportMultiple, 'depth':0]" />
+                             'rqt':rqt, 'isMultiple':lrTypes.${element.javaFieldName}?.entriesSupportMultiple, 'depth':0]" />
  
           """
       ,'school' :
@@ -45,7 +45,7 @@
           "<span>\${${wrapper}?.${element.javaFieldName}}</span>"
       ,'subject' :
           """<dt class="required"><g:message code="request.property.subject.label" /> : </dt>
-              <dd><span>\${request?.subjectFirstName} \${request?.subjectLastName}</span></dd>
+              <dd><span>\${rqt?.subjectFirstName} \${rqt?.subjectLastName}</span></dd>
           """
       ,'requester' :
           """<g:render template="/backofficeRequestInstruction/requestType/requester" model="['requester':requester]" />"""
@@ -75,7 +75,7 @@
   <div class="yui-content">
     <% if(requestBo.stepBundles.size() > 1 ) { %>
       <% requestBo.stepBundles.eachWithIndex { step, i -> %>
-        <g:render template="/backofficeRequestInstruction/requestType/${requestBo.name}/steps${i}" model="['request':request]" />
+        <g:render template="/backofficeRequestInstruction/requestType/${requestBo.name}/steps${i}" model="['rqt':rqt]" />
       <% } %>
     <% } else { %>
       <% for(step in requestBo.steps) { %>
@@ -96,18 +96,18 @@
             <% for (element in requestBo.getElementsByStep(step, column)) { %>
               <% if (element.typeClass == "SIMPLE") { %>
               <dl>
-                <% displayWidget(element, 'request') %>
+                <% displayWidget(element, 'rqt') %>
               </dl>
               <% } else if (element.typeClass == "COMPLEX") { %>
               <h3><g:message code="${element.i18nPrefixCode}.label" /></h3>
               <dl class="${element.conditionsClass}">
                 <% for (subElement in element.elements) { %>
-                  <% displayWidget(subElement, 'request') %>
+                  <% displayWidget(subElement, 'rqt') %>
                 <% } %>
               </dl>
               <% } else if (element.typeClass == "COLLECTION") { %>
               <div id="widget-${element.javaFieldName}" class="${element.conditionsClass}">
-                <g:render template="/backofficeRequestInstruction/requestType/${requestBo.name}/${element.javaFieldName}" model="['request':request]" />
+                <g:render template="/backofficeRequestInstruction/requestType/${requestBo.name}/${element.javaFieldName}" model="['rqt':rqt]" />
               </div>
               <% } %>
             <% } %>

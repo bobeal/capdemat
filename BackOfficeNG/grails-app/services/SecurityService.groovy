@@ -16,7 +16,8 @@ public class SecurityService {
                 "backofficeLocalAuthority" : /.*/,
                 "backofficeLogin" : /.*/,
                 "backofficePayment" : /.*/,
-                "backofficeRequestAdmin" : /.*/
+                "backofficeRequestAdmin" : /.*/,
+                "system" : /error/
             ]
         ],
         (ContextType.AGENT) : [
@@ -28,13 +29,15 @@ public class SecurityService {
                 "backofficeRequest" : /.*/,
                 "backofficeRequestInstruction" : /.*/,
                 "backofficeRequestType" : /.*/,
-                "backofficeStatistic" : /.*/
+                "backofficeStatistic" : /.*/,
+                "system" : /error/
             ],
             (SecurityContext.FRONT_OFFICE_CONTEXT) : [
                 "frontofficeRequestCreation" : /.*/,
                 "frontofficeRequestType" : /.*/,
                 "frontofficeDocument" : [/details/,/binary/],
-                "frontofficeHome" : [/loginAgent/,/logout/]
+                "frontofficeHome" : [/loginAgent/,/logout/],
+                "system" : /error/
             ]
         ],
         (ContextType.ECITIZEN) : [
@@ -45,7 +48,8 @@ public class SecurityService {
                 "frontofficeRequestCreation" : /.*/,
                 "frontofficeHomeFolder" : /resetPassword/,
                 "frontofficeHome" : [/loginAgent/, /login/, /test/],
-                "frontofficeDocument" : [/details/, /binary/]
+                "frontofficeDocument" : [/details/, /binary/],
+                "system" : /error/
             ]
         ]
     ]

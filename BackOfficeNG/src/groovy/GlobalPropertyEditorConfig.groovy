@@ -1,6 +1,11 @@
+import java.text.DateFormat
+
 import org.codehaus.groovy.grails.web.binding.GrailsDataBinder
-import fr.cg95.cvq.dao.hibernate.PersistentStringEnum
+import org.codehaus.groovy.grails.web.binding.StructuredDateEditor
 import org.joda.time.DateMidnight
+import org.springframework.web.servlet.support.RequestContextUtils
+
+import fr.cg95.cvq.dao.hibernate.PersistentStringEnum
 
 class GlobalPropertyEditorConfig {
     static newDataBinder = { request, object ->
@@ -11,6 +16,12 @@ class GlobalPropertyEditorConfig {
 
     private static void registerCustomEditors(request, binder) {
         binder.registerCustomEditor(PersistentStringEnum.class, new PersistentStringEnumEditor())
-        binder.registerCustomEditor(DateMidnight.class, new DateMidnightEditor(dateEditor : binder.findCustomEditor(java.util.Date.class, null)))
+        def dateEditor = new StructuredDateEditor(
+            DateFormat.getDateInstance(DateFormat.SHORT, RequestContextUtils.getLocale(request)),
+            true)
+        binder.registerCustomEditor(Date.class, dateEditor)
+        binder.registerCustomEditor(Calendar.class, dateEditor)
+        binder.registerCustomEditor(DateMidnight.class,
+            new DateMidnightEditor(dateEditor : dateEditor))
     }
 }

@@ -1,6 +1,5 @@
 import java.beans.PropertyEditorSupport
 
-import org.codehaus.groovy.grails.web.binding.GrailsDataBinder
 import org.joda.time.DateMidnight
 
 class DateMidnightEditor extends PropertyEditorSupport {

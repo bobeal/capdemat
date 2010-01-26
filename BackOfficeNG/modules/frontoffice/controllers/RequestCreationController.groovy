@@ -132,7 +132,7 @@ class RequestCreationController {
         session[uuidString].documentCounter = 0
         session[uuidString].draftVisible = false
 
-        def viewPath = "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestType.label)}/edit"
+        def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestType.label)}/edit"
         render(view: viewPath, model: [
             'isRequestCreation': true,
             'rqt': cRequest,
@@ -498,7 +498,7 @@ class RequestCreationController {
                     message(code:ExceptionUtils.getModelI18nKey(ce),
                     		args:ExceptionUtils.getModelI18nArgs(ce)))
         }
-        render( view: "frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",
+        render( view: "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestTypeInfo.label)}/edit",
                 model:
                     ['isRequestCreation': true,
                      'askConfirmCancel': askConfirmCancel, 
@@ -568,7 +568,7 @@ class RequestCreationController {
         def requestService = requestServiceRegistry.getRequestService(params.label)
         def cRequest = requestService.getById(Long.parseLong(params.id))
         requestService.release(cRequest.id)
-        render( view: "frontofficeRequestType/exit",
+        render( view: "/frontofficeRequestType/exit",
                 model:
                     ['translatedRequestTypeLabel': translationService.translateRequestTypeLabel(cRequest.requestType.label).encodeAsHTML(),
                      'requestTypeLabel': cRequest.requestType.label,

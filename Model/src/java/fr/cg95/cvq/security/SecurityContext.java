@@ -149,10 +149,12 @@ public class SecurityContext {
         Agent agent = null;
         try {
             agent = agentService.getByLogin(agentLogin);
+        } catch (CvqObjectNotFoundException confe) {
+            throw confe;
         } catch (Exception e) {
             logger.error("setCurrentAgent() error while retrieving agent " + agentLogin);
             e.printStackTrace();
-            throw new CvqException("Error while retrieving agent " + agentLogin);
+            throw new CvqObjectNotFoundException("Error while retrieving agent " + agentLogin);
         }
 
         setCurrentAgent(agent);

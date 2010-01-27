@@ -641,6 +641,11 @@ public class LocalAuthorityRegistry
         for (ILocalAuthorityLifecycleAware service : allListenerServices) {
             service.addLocalAuthority(localAuthorityName.toLowerCase());
         }
+        
+        LocalAuthority localAuthority = localAuthorityDAO.findByName(localAuthorityName);
+        for (String serverName : localAuthority.getServerNames()) {
+            registerLocalAuthorityServerName(serverName);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -668,6 +673,8 @@ public class LocalAuthorityRegistry
                         + localAuthorityName + " (" + e.getMessage() + ")");
             }
         }
+        // an existing local authority with no registered server name, bootstrap one
+        // from configured default or assign a default one (migration case only)
         if (localAuthority.getServerNames() == null 
                 || localAuthority.getServerNames().isEmpty()) {
             localAuthority.setServerNames(new TreeSet<String>());
@@ -680,11 +687,7 @@ public class LocalAuthorityRegistry
                     + serverName);
             localAuthority.getServerNames().add(serverName);
             registerLocalAuthorityServerName(serverName);
-        } else {
-            for (String serverName : localAuthority.getServerNames()) {
-                registerLocalAuthorityServerName(serverName);
-            }
-        }
+        } 
         File resourceDir;
         for (Type type : Type.values()) {
             resourceDir = new File(assetsBase + localAuthorityName + "/"

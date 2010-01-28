@@ -20,7 +20,7 @@
         </p>
         <g:if test="${record.hasDetails}">
           <p>
-            <a href="${createLink(controller:'frontofficePayment')}/details/invoice/${record.externalItemId}">
+            <a href="<g:baseUrl controller='frontofficePayment' />/details/invoice/${record.externalItemId}">
               <g:message code="payment.action.seeInvoiceDetails"/>
             </a>
           </p>

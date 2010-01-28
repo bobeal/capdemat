@@ -16,7 +16,7 @@
         </p>
         <g:if test="${record.hasDetails}">
           <p>
-            <a href="${createLink(controller:'frontofficePayment')}/details/deposit/${record.externalItemId}">
+            <a href="<g:baseUrl controller='frontofficePayment' />/details/deposit/${record.externalItemId}">
               <g:message code="payment.action.seeDepositAccountHistory"/>
             </a>
           </p>

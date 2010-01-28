@@ -121,4 +121,23 @@ public class LocalReferentialEntry {
         addLabel(lang, "");
         addMessage(lang, "");
     }
+
+    /**
+     * Unused but necessary setter, do not remove!
+     * When editing collections (i.e. "messagesMap['fr'] = 'value'"-style request parameters),
+     * Grails DataBinding for collections initializes the collection (messagesMap)
+     * even if it already exists (using its current value),
+     * and therefore needs this JavaBean property setter.
+     * @see GrailsDataBinder#autoCreatePropertyIfPossible(BeanWrapper, String, Object)
+     */
+    public final void setMessagesMap(Map<String,String> messagesMap) {
+        this.messagesMap = messagesMap;
+    }
+
+    /**
+     * @see #setMessagesMap(Map)
+     */
+    public final void setLabelsMap(Map<String,String> labelsMap) {
+        this.labelsMap = labelsMap;
+    }
 }

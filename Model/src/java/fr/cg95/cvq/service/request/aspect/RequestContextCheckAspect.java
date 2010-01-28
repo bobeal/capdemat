@@ -20,6 +20,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.dao.authority.ICategoryDAO;
+import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -47,13 +48,8 @@ public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
     private IRequestDAO requestDAO;
     private IRequestTypeDAO requestTypeDAO;
     private ICategoryDAO categoryDAO;
-    private IRequestActionService requestActionService;
+    private IRequestActionDAO requestActionDAO;
     private BeanFactory beanFactory;
-
-    public void init() {
-        requestActionService =
-            (IRequestActionService)beanFactory.getBean("requestActionService");
-    }
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.request..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
@@ -100,8 +96,8 @@ public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
                         RequestAction requestAction = null;
                         if (argument instanceof Long) {
                             try {
-                                requestAction =
-                                    requestActionService.getAction((Long)argument);
+                                requestAction = 
+                                    (RequestAction) requestActionDAO.findById(RequestAction.class,(Long)argument);
                             } catch (CvqObjectNotFoundException e) {
                                 throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                                     joinPoint.getSignature().getName(), context.type(),
@@ -325,6 +321,10 @@ public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
 
     public void setCategoryDAO(ICategoryDAO categoryDAO) {
         this.categoryDAO = categoryDAO;
+    }
+    
+    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
+        this.requestActionDAO = requestActionDAO;
     }
 
     @Override

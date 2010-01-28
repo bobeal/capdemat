@@ -1,3 +1,4 @@
+import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.request.RequestActionType
@@ -23,7 +24,10 @@ class ContactController {
     def pdfService
     def requestActionService
     def requestTypeService
-
+	def translationService
+	def instructionService
+	def homeFolderService
+	
     // directly taken from RequestInstructionController
     // TODO request decoupling
     def panel = {
@@ -92,10 +96,11 @@ class ContactController {
         if (params.previewFormat == "HTML") {
             response.contentType = "text/html; charset=utf-8"
             render prepareTemplate(params.requestId, params.requestFormId,
-                params.templateMessage?.encodeAsHTML(), params.previewFormat)
+                params.templateMessage?.encodeAsHTML(), params.meansOfContact,
+                params.previewFormat)
         } else if (params.previewFormat == "PDF") {
             def b = preparePdf(params.requestId, params.requestFormId,
-                params.templateMessage)
+                params.templateMessage, params.meansOfContact)
             response.contentType = "application/pdf"
             response.setHeader("Content-disposition",
                 "attachment; filename=letter.pdf")
@@ -131,7 +136,7 @@ class ContactController {
                     params.templateMessage, params.note,
                     params.requestFormId ?
                         preparePdf(params.requestId, params.requestFormId,
-                            params.templateMessage) : null)
+                            params.templateMessage, params.meansOfContact) : null)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.actionTraced")
@@ -141,7 +146,7 @@ class ContactController {
                 def pdf
                 if (params.requestFormId)
                     pdf = preparePdf(requestId, requestFormId,
-                        params.templateMessage)
+                        params.templateMessage, params.meansOfContact)
                 requestActionService.addAction(
                     requestId,
                     RequestActionType.CONTACT_CITIZEN,
@@ -193,7 +198,7 @@ class ContactController {
                     params.templateMessage, params.note,
                     params.requestFormId ?
                         preparePdf(params.requestId, params.requestFormId,
-                            params.templateMessage) : null)
+                            params.templateMessage, params.meansOfContact) : null)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.actionTraced")
@@ -203,14 +208,14 @@ class ContactController {
         render(notification as JSON)
     }
 
-    private preparePdf(requestId, requestFormId, templateMessage) {
+    private preparePdf(requestId, requestFormId, templateMessage, meansOfContact) {
         return pdfService.htmlToPdf(prepareTemplate(requestId, requestFormId,
-            templateMessage?.encodeAsXML().replaceAll(/\n/, "<br />"), "PDF"))
+            templateMessage?.encodeAsXML().replaceAll(/\n/, "<br />"), meansOfContact, "PDF"))
     }
 
     // directly taken from RequestInstructionController
     // TODO request decoupling
-    private prepareTemplate(requestId,formId,message,type) {
+    private prepareTemplate(requestId,formId,observations,meansOfContact,type) {
 
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         def form = requestTypeService.getRequestFormById(Long.valueOf(formId))
@@ -242,10 +247,26 @@ class ContactController {
 
             // FIXME BOR : is there a better way to do this ?
             def logoLink = ""
-            if (type == "pdf") {
-                File logoFile =
-                    localAuthorityRegistry.getLocalAuthorityResourceFile("logoPdf", false)
-                logoLink = logoFile.absolutePath
+            def footerLink = ""
+            if (type == "PDF") {
+                try {
+                    logoLink =
+                        localAuthorityRegistry.getLocalAuthorityResourceFile(
+                            LocalAuthorityResource.LOGO_PDF.id)
+                            .absolutePath
+                } catch (Exception e) {
+                    log.error("Exception while looking for JPEG logo : "
+                        + e.getMessage())
+                }
+                try {
+                    footerLink =
+                        localAuthorityRegistry.getLocalAuthorityResourceFile(
+                            LocalAuthorityResource.FOOTER_PDF.getId())
+                            .absolutePath
+                } catch (Exception e) {
+                    log.error("Exception while looking for JPEG footer : "
+                        + e.getMessage())
+                }
             }
 
             def template = groovyPagesTemplateEngine.createTemplate(templateFile);
@@ -253,19 +274,24 @@ class ContactController {
             def originalOut = requestAttributes.getOut()
             requestAttributes.setOut(out)
             template.make([
-                "forms" : forms, "type" : type, "logoLink" : logoLink
+                "forms" : forms, "type" : type, "logoLink" : logoLink,
+                "footerLink" : footerLink
             ]).writeTo(out);
             requestAttributes.setOut(originalOut)
 
             String content = out.toString().replace('#{','${')
             def model = [
-                "DATE" :
-                    java.text.DateFormat.getDateInstance().format(new Date()),
+                "DATE" : DateUtils.dateToFullString(new Date()),
+                "LAST_AGENT_NAME" : instructionService.getActionPosterDetails(request.lastInterveningUserId),
+                "MOC" : message(code : "request.meansOfContact." + StringUtils.pascalToCamelCase(meansOfContact)),
                 "RQ_ID" : request.id,
-                "RQ_TP_LABEL" : request.requestType.label,
-                "RQ_CDATE" : request.creationDate,
-                "RQ_DVAL" : request.validationDate,
-                "RQ_OBSERV" : message,
+                "RQ_TP_LABEL" : type == "HTML" ? 
+                    translationService.translateRequestTypeDescription(request.requestType.label).toLowerCase().encodeAsHTML() :
+                    translationService.translateRequestTypeDescription(request.requestType.label).toLowerCase(),
+                "RQ_CAT" : request.requestType.category.name,
+                "RQ_CDATE" : DateUtils.dateToFullString(request.creationDate),
+                "RQ_DVAL" : request.validationDate ? DateUtils.dateToFullString(request.validationDate) : '',
+                "RQ_OBSERV" : observations,
                 "HF_ID" : requester.homeFolder.id,
                 "RR_FNAME" : requester.firstName,
                 "RR_LNAME" : requester.lastName,
@@ -278,9 +304,9 @@ class ContactController {
                 "RR_ANSWER" : requester.answer,
                 "SU_FNAME" : subject?.firstName,
                 "SU_LNAME" : subject?.lastName,
-                "SU_TITLE" : subject.firstName == "" ? "" :
+                "SU_TITLE" : subject?.firstName == "" ? "" :
                     messageSource.getMessage("homeFolder.adult.title.${subject?.title.toString().toLowerCase()}",
-                    null, SecurityContext.currentLocale),
+                        null, SecurityContext.currentLocale),
                 "HF_ADDRESS_ADI" : address.additionalDeliveryInformation,
                 "HF_ADDRESS_AGI" : address.additionalGeographicalInformation,
                 "HF_ADDRESS_SNAME" : address.streetName,

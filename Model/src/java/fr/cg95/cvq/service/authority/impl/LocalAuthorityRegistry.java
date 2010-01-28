@@ -192,22 +192,31 @@ public class LocalAuthorityRegistry
         }
         return resource;
     }
-    
-    // FIXME - remove fallbackToDefault from signature (fallbackPolicy is manage by resource)
+
     @Override
-    public File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
+    public File getLocalAuthorityResourceFile(String id)
+        throws CvqException {
+        return getLocalAuthorityResourceFile(id, getLocalAuthorityResource(id).canFallback());
+    }
+
+    @Override
+    public File getLocalAuthorityResourceFile(String id, Version version)
+        throws CvqException {
+        return getLocalAuthorityResourceFile(id, version,
+            getLocalAuthorityResource(id).canFallback());
+    }
+
+    private File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
         throws CvqException {
         return getLocalAuthorityResourceFile(id,
             LocalAuthorityResource.Version.CURRENT, fallbackToDefault);
     }
 
-    // FIXME - remove fallbackToDefault from signature (fallbackPolicy is manage by resource)
-    @Override
-    public File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
+    private File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
         return getAssetsFile(resource.getType(),
-            resource.getFilename() + version.getExtension(), resource.canFallback());
+            resource.getFilename() + version.getExtension(), fallbackToDefault);
     }
 
     @Override
@@ -254,6 +263,23 @@ public class LocalAuthorityRegistry
     }
 
     @Override
+    public File getLocalAuthorityResourceFileForLocalAuthority(final String localAuthorityName,
+            final Type type, final String filename, final boolean fallbackToDefault) {
+        StringBuffer filePath = new StringBuffer().append(assetsBase)
+            .append(localAuthorityName.toLowerCase())
+            .append("/").append(type.getFolder()).append("/").append(filename)
+            .append(type.getExtension());
+        logger.debug("getAssetsFile() searching file : " + filePath.toString());
+        File resourceFile = new File(filePath.toString());
+        if (!resourceFile.exists() && fallbackToDefault) {
+            logger.warn("getAssetsFile() did not find " + filePath.toString()
+                    + ", trying default");
+            return getReferentialResource(type, filename);
+        }
+        return resourceFile;
+    }
+    
+    @Override
     public File getRequestXmlResource(Long id) {
         return new File(getRequestXmlPath(id));
     }
@@ -271,12 +297,6 @@ public class LocalAuthorityRegistry
         final String filename, final boolean fallbackToDefault) {
         return getFileContent(
             getLocalAuthorityResourceFile(type, filename, fallbackToDefault));
-    }
-
-    @Override
-    public String getBufferedLocalAuthorityResource(String id, boolean fallbackToDefault)
-        throws CvqException {
-        return getFileContent(getLocalAuthorityResourceFile(id, fallbackToDefault));
     }
 
     @Override
@@ -427,8 +447,9 @@ public class LocalAuthorityRegistry
             renameLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP, LocalAuthorityResource.Version.OLD);
         }
         // JSB : hack for PDF generation
-        if (LocalAuthorityResource.LOGO_PDF.getId().equals(id)) {
-            generateJPEGLogo();
+        if (LocalAuthorityResource.LOGO_PDF.getId().equals(id)
+            || LocalAuthorityResource.FOOTER_PDF.getId().equals(id)) {
+            generateJPEG(id);
         }
     }
 
@@ -440,15 +461,17 @@ public class LocalAuthorityRegistry
         renameLocalAuthorityResource(id, LocalAuthorityResource.Version.CURRENT, LocalAuthorityResource.Version.OLD);
         renameLocalAuthorityResource(id, LocalAuthorityResource.Version.TEMP, LocalAuthorityResource.Version.CURRENT);
         // JSB : hack for PDF generation
-        if (LocalAuthorityResource.LOGO_PDF.getId().equals(id)) {
-            generateJPEGLogo();
+        if (LocalAuthorityResource.LOGO_PDF.getId().equals(id)
+            || LocalAuthorityResource.FOOTER_PDF.getId().equals(id)) {
+            generateJPEG(id);
         }
     }
 
     @Override
     public boolean hasLocalAuthorityResource(String id, Version version)
         throws CvqException {
-        return getLocalAuthorityResourceFile(id, version, false).exists();
+        File resource = getLocalAuthorityResourceFile(id, version, false);
+        return (resource != null && resource.exists());
     }
 
     @Override
@@ -510,12 +533,39 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    public void generateJPEGLogo() {
+    public void generateJPEGFiles() {
+        String[] ids = {
+            LocalAuthorityResource.LOGO_PDF.getId(),
+            LocalAuthorityResource.FOOTER_PDF.getId()
+        };
+        for (String id : ids) {
+            try {
+                File png = getLocalAuthorityResourceFile(id, false);
+                if (png.exists()) {
+                    File jpeg = new File(StringUtils.removeEnd(png.getPath(), "png").concat("jpg"));
+                    if (!jpeg.exists()) {
+                        generateJPEG(id);
+                    }
+                }
+            } catch (CvqException e) {
+                logger.error("registerLocalAuthorities() unable to generate JPEG for " + id);
+            }
+        }
+    }
+
+    /**
+     * Hack to regenerate the JPEG version of a LocalAuthorityResource image for PDF files
+     */
+    private void generateJPEG(String id) {
         File png;
         try {
-            png = getLocalAuthorityResourceFile(LocalAuthorityResource.LOGO_PDF.getId(), false);
+            png = getLocalAuthorityResourceFile(id, false);
         } catch (CvqException e) {
-            logger.warn("generateJPEGLogo() could not get PNG logo");
+            logger.warn("generateJPEG() could not get PNG file for " + id);
+            return;
+        }
+        if (png == null || !png.exists()) {
+            logger.warn("generateJPEG() PNG file doesn't exist for " + id);
             return;
         }
         File jpeg = new File(StringUtils.removeEnd(png.getPath(), "png").concat("jpg"));
@@ -535,7 +585,7 @@ public class LocalAuthorityRegistry
             }
             ImageIO.write(image, "jpg", jpeg);
         } catch (IOException e) {
-            logger.warn("generateJPEGLogo() failed to generate JPEG logo");
+            logger.warn("generateJPEG() failed to generate JPEG file for " + id);
         }
         FopImageFactory.resetCache();
     }
@@ -591,6 +641,11 @@ public class LocalAuthorityRegistry
         for (ILocalAuthorityLifecycleAware service : allListenerServices) {
             service.addLocalAuthority(localAuthorityName.toLowerCase());
         }
+        
+        LocalAuthority localAuthority = localAuthorityDAO.findByName(localAuthorityName);
+        for (String serverName : localAuthority.getServerNames()) {
+            registerLocalAuthorityServerName(serverName);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -610,22 +665,29 @@ public class LocalAuthorityRegistry
                 if (lacb.getDefaultServerName() != null)
                     localAuthority.getServerNames().add(lacb.getDefaultServerName());
                 localAuthorityDAO.create(localAuthority);
+
+                // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
+                SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
             } catch (Exception e) {
                 throw new CvqConfigurationException("unable to create local authority " 
                         + localAuthorityName + " (" + e.getMessage() + ")");
             }
         }
+        // an existing local authority with no registered server name, bootstrap one
+        // from configured default or assign a default one (migration case only)
         if (localAuthority.getServerNames() == null 
                 || localAuthority.getServerNames().isEmpty()) {
             localAuthority.setServerNames(new TreeSet<String>());
-            String serverName = "vosdemarches.ville-" + lacb.getName() + ".fr";
+            String serverName = null;
+            if (lacb.getDefaultServerName() != null)
+                serverName = lacb.getDefaultServerName();
+            else
+                serverName = "vosdemarches.ville-" + lacb.getName() + ".fr";
+            logger.debug("instantiateLocalAuthority() initializing with server name " 
+                    + serverName);
             localAuthority.getServerNames().add(serverName);
             registerLocalAuthorityServerName(serverName);
-        } else {
-            for (String serverName : localAuthority.getServerNames()) {
-                registerLocalAuthorityServerName(serverName);
-            }
-        }
+        } 
         File resourceDir;
         for (Type type : Type.values()) {
             resourceDir = new File(assetsBase + localAuthorityName + "/"
@@ -633,6 +695,8 @@ public class LocalAuthorityRegistry
             if (!resourceDir.exists())
                 resourceDir.mkdir();
         }
+        
+        generateJPEGFiles();
     }
 
     @Override

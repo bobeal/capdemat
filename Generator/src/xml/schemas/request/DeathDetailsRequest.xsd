@@ -174,29 +174,6 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="Comment" type="xs:token" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Commentaire
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Commentaire
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="type" />
-                  </common>
-                  <fo>
-                    <textarea rows="3" />
-                  </fo>
-                  <bo column="1">
-                    <textarea rows="3" />
-                  </bo>
-                  <pdf />
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
             <xs:element name="Motive" type="ddr:DeathCertificateMotiveType" minOccurs="0">
               <xs:annotation>
                 <xs:appinfo>
@@ -210,6 +187,30 @@
               </xs:annotation>
             </xs:element>
             
+            <xs:element name="Comment" type="xs:token" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Commentaire
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Commentaire
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="type" />
+                    <validation jsregexp="^.{0,255}$" />
+                  </common>
+                  <fo>
+                    <textarea rows="3" />
+                  </fo>
+                  <bo column="1">
+                    <textarea rows="3" />
+                  </bo>
+                  <pdf />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+
           </xs:sequence>
         </xs:extension>
       </xs:complexContent>

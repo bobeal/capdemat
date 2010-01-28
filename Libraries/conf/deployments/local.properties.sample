@@ -14,7 +14,7 @@ cas_url_pattern = /*
 
 referential.properties.path=/home/bor/capdemat/Model/conf/
 assets.properties.path=/home/bor/capdemat/Assets/
-assets.included_authorities=valdoise
+assets.included_authorities=blainville
 data.properties.path=/home/bor/capdemat/Model/test/data/
 
 mail.sender_host=127.0.0.1

@@ -15,7 +15,7 @@ public class LocalAuthorityResource {
     static {
         internetMediaTypes.put(".png", "image/png");
         internetMediaTypes.put(".css", "text/css");
-        internetMediaTypes.put(".pdf", "content/pdf");
+        internetMediaTypes.put(".pdf", "application/pdf");
     }
 
     public static enum Version {
@@ -57,6 +57,7 @@ public class LocalAuthorityResource {
     public static final LocalAuthorityResource LOGO_BO = new LocalAuthorityResource("logoBo", "logoBo", Type.IMAGE, false);
     public static final LocalAuthorityResource BANNER = new LocalAuthorityResource("banner", "banner", Type.IMAGE, false);
     public static final LocalAuthorityResource LOGO_PDF = new LocalAuthorityResource("logoPdf", "logoPdf", Type.IMAGE, false);
+    public static final LocalAuthorityResource FOOTER_PDF = new LocalAuthorityResource("footerPdf", "footerPdf", Type.IMAGE, false);
     public static final LocalAuthorityResource FAQ_FO = new LocalAuthorityResource("faqFo", "faqFo", Type.PDF, true);
     public static final LocalAuthorityResource HELP_BO = new LocalAuthorityResource("helpBo", "helpBo", Type.PDF, true);
     public static final LocalAuthorityResource HELP_FO = new LocalAuthorityResource("helpFo", "helpFo", Type.PDF, true);

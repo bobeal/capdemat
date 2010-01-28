@@ -158,22 +158,6 @@ public abstract class Request implements Serializable {
             request.setStep(RequestStep.forString(requestType.getStep().toString()));
         if (requestType.getRequestSeason() != null)
             request.setRequestSeason(RequestSeason.xmlToModel(requestType.getRequestSeason()));
-        // TODO REFACTORING
-        /*
-        if (requestType.getRequester() != null)
-            request.setRequester(Adult.xmlToModel(requestType.getRequester()));
-        if (requestType.getHomeFolder() != null)
-            request.setHomeFolder(HomeFolder.xmlToModel(requestType.getHomeFolder()));
-        if (requestType.getSubject() != null) {
-            if (requestType.getSubject().isSetIndividual()) {
-                request.setSubject(Individual.xmlToModel(requestType.getSubject().getIndividual()));
-            } else if (requestType.getSubject().isSetAdult()) {
-                request.setSubject(Adult.xmlToModel(requestType.getSubject().getAdult()));
-            } else if (requestType.getSubject().isSetChild()) {
-                request.setSubject(Child.xmlToModel(requestType.getSubject().getChild()));
-            }
-        }
-        */
     }
 
     /**

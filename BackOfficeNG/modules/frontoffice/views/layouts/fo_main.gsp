@@ -43,8 +43,8 @@
          <img src="${createLink(controller : 'localAuthorityResource', action : 'resource', id : 'logoFo')}"
               alt="Logo Collectivité" />
        </h1>
-       <g:if test="${isLogin}">
-       <div class="information-box outOfAccount-login-box">
+       <g:if test="${isLogin && session.accountCreationEnabled}">
+         <div class="information-box outOfAccount-login-box">
             <div class="yui-gc">
               <div class="yui-u first">
                 <p>En créant un compte, vous avez la possibilité de:</p>

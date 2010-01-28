@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://www.cg95.fr/cvq/schema/ancr"
   xmlns:ancr="http://www.cg95.fr/cvq/schema/ancr"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -12,13 +12,13 @@
   <xs:element name="AlignmentNumberingConnectionRequest">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Demande d'alignement, numérotage, raccordement
+        Demande d'alignement, numÃ©rotage, raccordement
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
         Alignment, numbering, connection request
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Alignement, numérotage, raccordement
+        Alignement, numÃ©rotage, raccordement
       </xs:documentation>
       <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
         Alignment, numbering, connection
@@ -53,7 +53,7 @@
             <xs:element name="IsAccountAddress" type="xs:boolean" default="true">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  L'adresse est la même que celle du compte
+                  L'adresse est la mÃªme que celle du compte
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -114,10 +114,10 @@
             <xs:element name="OwnerLastName" type="cvq:LastNameType" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Nom du propriétaire
+                  Nom du propriÃ©taire
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Nom du propriétaire
+                  Nom du propriÃ©taire
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -135,10 +135,10 @@
             <xs:element name="OwnerFirstNames" type="xs:string" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Prénom(s) du propriétaire
+                  PrÃ©nom(s) du propriÃ©taire
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Prénom(s) du propriétaire
+                  PrÃ©nom(s) du propriÃ©taire
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -156,10 +156,10 @@
             <xs:element name="OwnerAddress" type="cvq:AddressType" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Adresse du propriétaire
+                  Adresse du propriÃ©taire
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Adresse du propriétaire
+                  Adresse du propriÃ©taire
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -196,10 +196,10 @@
             <xs:element name="Number" type="xs:positiveInteger">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Numéro
+                  NumÃ©ro
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Numéro
+                  NumÃ©ro
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -268,10 +268,10 @@
             <xs:element name="Area" type="xs:positiveInteger" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Superficie en m²
+                  Superficie en mÂ²
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Superficie en m²
+                  Superficie en mÂ²
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -286,7 +286,7 @@
             <xs:element name="IsAlignment" type="xs:boolean">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Alignement souhaité
+                  Alignement souhaitÃ©
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Alignement
@@ -304,10 +304,10 @@
             <xs:element name="IsNumbering" type="xs:boolean">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Numérotage souhaité
+                  NumÃ©rotage souhaitÃ©
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Numérotage
+                  NumÃ©rotage
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -322,7 +322,7 @@
             <xs:element name="IsConnection" type="xs:boolean">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Raccordement souhaité
+                  Raccordement souhaitÃ©
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
                   Raccordement

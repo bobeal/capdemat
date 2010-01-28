@@ -43,6 +43,7 @@ import fr.cg95.cvq.xml.common.RequestStateType;
 public class RequestServiceEndpointTest extends ServiceTestCase {
     
     private IExternalProviderService fakeExternalService;
+    private String fakeExternalServiceLabel = "Fake External Service";
 
     @Override
     protected void onSetUp() throws Exception {
@@ -64,7 +65,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
 
         ConfigurableApplicationContext context = getContext(getConfigLocations());
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentExternalService("Fake External Service");
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
         /* Initialize internal variables */
         AckRequestServiceEndpoint endpoint1 = 
@@ -94,7 +95,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             this.continueWithNewTransaction();
             
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService("Fake External Service");
+            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
 
             GetRequestsRequest getRequest = GetRequestsRequest.Factory.newInstance();
             AckRequestsRequest ackRequest = AckRequestsRequest.Factory.newInstance();
@@ -111,6 +112,8 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             int getCountBefore = getResponse.getRequestArray().length;
             Assert.assertEquals(1, getCountBefore);
             
+            SecurityContext.setCurrentAgent(agentNameWithManageRoles);
+
             Set<Critere> criteriaSet = new HashSet<Critere>();
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
                 DateUtils.parseDate("13/07/2007"), Critere.GT));
@@ -125,6 +128,8 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             type.setErroneous(false);
             types[0] = type;
             
+            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+
             ackRequest.setAckElementsArray(types);
             AckRequestsRequestDocument ackRequestDocument = 
                 AckRequestsRequestDocument.Factory.newInstance();
@@ -134,11 +139,15 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             Assert.assertNotNull(ackResponse);
             Assert.assertTrue(ackResponse.getAccomplished());
             
+            SecurityContext.setCurrentAgent(agentNameWithManageRoles);
+
             int newCount =
                 externalService.getTraces(criteriaSet, null, null).size();
             
             Assert.assertEquals(2, newCount);
             
+            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+
             getResponse = (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
             Assert.assertEquals(0, getResponse.getRequestArray().length);
             
@@ -146,6 +155,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
+            SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             for (ExternalServiceTrace trace :
                 externalService.getTraces(Collections.<Critere>emptySet(),
                     null, null)) {
@@ -157,7 +167,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
     public void testAckServiceEndpoint() throws Exception {
         ConfigurableApplicationContext context = getContext(getConfigLocations());
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentExternalService("Fake External Service");
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
         /* Initialize internal variables */
         AckRequestServiceEndpoint endpoint1 = 
@@ -195,6 +205,8 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             getRequest.setState(RequestStateType.Enum.forString(RequestState.PENDING.toString()));
             requestDocument.setGetRequestsRequest(getRequest);
             
+            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            
             /* Create sent traces */
             GetRequestsResponse getResponse = 
                 (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
@@ -209,6 +221,8 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             getCountBefore = getResponse.getRequestArray().length;
             
             Assert.assertEquals(1, getCountBefore);
+            
+            SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
             Set<Critere> criteriaSet = new HashSet<Critere>();
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_DATE,
@@ -234,12 +248,16 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             type.setErroneous(true);
             types[2] = type;
             
+            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            
             ackRequest.setAckElementsArray(types);
             AckRequestsRequestDocument ackRequestDocument = AckRequestsRequestDocument.Factory.newInstance();
             ackRequestDocument.setAckRequestsRequest(ackRequest);
             AckRequestsResponse ackResponse = (AckRequestsResponse) endpoint1.invokeInternal(ackRequestDocument);
             Assert.assertNotNull(ackResponse);
 
+            SecurityContext.setCurrentAgent(agentNameWithManageRoles);
+            
             int newCount =
                 externalService.getTraces(criteriaSet, null, null).size();
             
@@ -292,6 +310,8 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
                 GetRequestsRequestDocument.Factory.newInstance();
             GetRequestsRequest pendedRequest = GetRequestsRequest.Factory.newInstance();
             
+            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+            
             pendedRequestDocument.setGetRequestsRequest(pendedRequest);
             endpoint.invokeInternal(pendedRequestDocument);
             fail();
@@ -309,7 +329,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
     public void testAccessPermissions() {
         try {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService("Fake External Service");
+            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
             IExternalService externalService = 
                 (IExternalService) getContext(getConfigLocations()).getBean("externalService");
             
@@ -343,7 +363,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
     
     public void testRequestServiceEndpoint() throws Exception {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentExternalService("Fake External Service");
+        SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
         
         IExternalService externalService = 
             (IExternalService) getContext(getConfigLocations()).getBean("externalService");
@@ -361,9 +381,11 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             
             /* Initialize internal variables */
             RequestServiceEndpoint endpoint = new RequestServiceEndpoint(xmlBeansMarshaller);
+            AckRequestServiceEndpoint endpoint2 = new AckRequestServiceEndpoint(new XmlBeansMarshaller());
             endpoint.setDefaultRequestService(requestService);
             endpoint.setExternalService(externalService);
             endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
+            endpoint2.setExternalService(externalService);
             GetRequestsRequestDocument pendedRequestDocument = GetRequestsRequestDocument.Factory.newInstance();
             GetRequestsRequest pendedRequest = GetRequestsRequest.Factory.newInstance();
             
@@ -395,6 +417,9 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             this.gimmeAnHomeFolder();
             this.continueWithNewTransaction();
             
+            SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
+
             pendedResponse = (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
             completeResponse = (GetRequestsResponse) endpoint.invokeInternal(completeRequestDocument);
             int pendedCountAfter = pendedResponse.getRequestArray().length;
@@ -430,19 +455,18 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
                 AckRequestsRequestDocument.Factory.newInstance();
             ackRequestDocument.setAckRequestsRequest(ackRequest);
             AckRequestsResponse ackResponse = 
-                (AckRequestsResponse) endpoint.invokeInternal(ackRequestDocument);
+                (AckRequestsResponse) endpoint2.invokeInternal(ackRequestDocument);
             Assert.assertNotNull(ackResponse);
 
             getRequestByIdResponse = 
                 (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
             Assert.assertEquals(1, getRequestByIdResponse.getRequestArray().length);
             
-            SecurityContext.resetCurrentSite();
-            
         } catch (Exception e) {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
+            SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             for (ExternalServiceTrace trace :
                 externalService.getTraces(Collections.<Critere>emptySet(),
                     null, null)) {

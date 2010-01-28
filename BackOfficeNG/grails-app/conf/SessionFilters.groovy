@@ -5,6 +5,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.ContextType
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean
+import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import fr.cg95.cvq.util.web.filter.CASFilter
 
@@ -20,6 +21,7 @@ class SessionFilters {
 
     def securityService
     def agentService
+    def requestTypeService
 
     def filters = {
         
@@ -115,7 +117,17 @@ class SessionFilters {
                 SecurityContext.resetCurrentSite();
             }
         }
-        
+
+        enableAccountCreation(controller: 'frontoffice*', action: '*') {
+            before = {
+                if (requestTypeService.getRequestTypeByLabel(IRequestService.VO_CARD_REGISTRATION_REQUEST).active) {
+                    session.setAttribute("accountCreationEnabled", true)
+                } else {
+                    session.setAttribute("accountCreationEnabled", null)
+                }
+            }
+        }
+
         setupFrontUser(controller: 'frontoffice*', action: '*') {
             before = {
                 def point =
@@ -277,6 +289,8 @@ class SessionFilters {
                     	response.setStatus(500)
                     	render "Unexpected error while setting agent in security context"
                         e.printStackTrace()
+						HibernateUtil.rollbackTransaction()
+						SecurityContext.resetCurrentSite()
     					return false
                     }
                 }

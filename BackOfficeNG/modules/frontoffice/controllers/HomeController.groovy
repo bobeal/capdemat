@@ -54,7 +54,7 @@ class HomeController {
         result.dashBoard = [:]
                             
         File infoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
-            LocalAuthorityResource.INFORMATION_MESSAGE_FO.id, false)
+            LocalAuthorityResource.INFORMATION_MESSAGE_FO.id)
         
         if(infoFile.exists()) result.commonInfo = infoFile.text
         
@@ -141,7 +141,7 @@ class HomeController {
 
     def accessibilityPolicy = {
         File file = localAuthorityRegistry.getLocalAuthorityResourceFile(
-            LocalAuthorityResource.ACCESSIBILITY_POLICY_FO.id, true)
+            LocalAuthorityResource.ACCESSIBILITY_POLICY_FO.id)
         def accessibilityPolicy = ''
         if (file.exists()) accessibilityPolicy = file.text
         return ['accessibilityPolicy':accessibilityPolicy]

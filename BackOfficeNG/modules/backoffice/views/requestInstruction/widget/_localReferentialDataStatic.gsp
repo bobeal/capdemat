@@ -20,9 +20,16 @@
   </ul>
 </g:if>
 <g:else>
-  <g:each var="entry" in="${lrEntries}">
-    <g:if test="${lrDatas?.contains(entry.key)}">
-    <span class="entry:${entry.key}">${entry.labelsMap.fr}</span>
+  <div>
+    <g:if test="${lrDatas.size() == 0}">
+      <span class="entry:"></span>
     </g:if>
-  </g:each>
+    <g:else>
+      <g:each var="entry" in="${lrEntries}">
+        <g:if test="${lrDatas?.contains(entry.key)}">
+          <span class="entry:${entry.key}">${entry.labelsMap.fr}</span>
+        </g:if>
+      </g:each>
+    </g:else>
+  </div>
 </g:else>

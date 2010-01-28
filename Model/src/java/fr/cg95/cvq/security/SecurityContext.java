@@ -127,12 +127,16 @@ public class SecurityContext {
         logger.debug("setCurrentAgent() agent = " + agent);
 
 		CredentialBean credentialBean = currentContextThreadLocal.get();
-		if (credentialBean == null)
+		if (credentialBean == null) {
+		    logger.error("setCurrentAgent() can set agent if current site is not set !");
 			throw new CvqException("setCurrentSite() has to be called before setCurrentAgent()");
-
-        if (!credentialBean.isBoContext())
+		}
+		
+        if (!credentialBean.isBoContext()) {
+            logger.error("setCurrentAgent() agent can only be set in Back Office context !");
             throw new CvqException("Agent can only be set in Back Office context");
-
+        }
+        
         credentialBean.setAgent(agent);
     }
 
@@ -142,9 +146,17 @@ public class SecurityContext {
     public static void setCurrentAgent(String agentLogin)
         throws CvqException, CvqObjectNotFoundException {
 
-        Agent agent = agentService.getByLogin(agentLogin);
-        if (agent == null)
-            throw new CvqObjectNotFoundException("Agent not found !");
+        Agent agent = null;
+        try {
+            agent = agentService.getByLogin(agentLogin);
+        } catch (CvqObjectNotFoundException confe) {
+            throw confe;
+        } catch (Exception e) {
+            logger.error("setCurrentAgent() error while retrieving agent " + agentLogin);
+            e.printStackTrace();
+            throw new CvqObjectNotFoundException("Error while retrieving agent " + agentLogin);
+        }
+
         setCurrentAgent(agent);
     }
 
@@ -309,8 +321,10 @@ public class SecurityContext {
     }
 
     public static void setCurrentSite(LocalAuthority localAuthority, String context) {
+        logger.debug("setCurrentSite() site = " + localAuthority.getName() + ", context = " + context);
+
         CredentialBean credentialBean = new CredentialBean(localAuthority, context);
-        currentContextThreadLocal.set(credentialBean);        
+        currentContextThreadLocal.set(credentialBean);
     }
     
     /**
@@ -321,8 +335,6 @@ public class SecurityContext {
      */
     public static void setCurrentSite(String localAuthorityName, String context)
         throws CvqObjectNotFoundException {
-
-        logger.debug("setCurrentSite() site = " + localAuthorityName + ", context = " + context);
 
         LocalAuthority localAuthority = 
             localAuthorityRegistry.getLocalAuthorityByName(localAuthorityName);

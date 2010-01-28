@@ -69,7 +69,7 @@ public class CertificateService implements ICertificateService, BeanFactoryAware
             return null;
         }
         File logoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
-                LocalAuthorityResource.LOGO_PDF.getId(), false);
+                LocalAuthorityResource.LOGO_PDF.getId());
         
         File cssFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
                 LocalAuthorityResource.Type.CSS,"certificate", true);

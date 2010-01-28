@@ -145,7 +145,8 @@
   	<!-- copy WS-related XSDs in order to generate a WSDL from them -->
   	<copy todir="${web.dir}/WEB-INF/xsd">
   	  <fileset dir="${model.dir}/src/xml/schemas/external">
-            <include name="*.xsd"/>
+        <include name="RequestService.xsd" />
+  	  	<include name="HomeFolderService.xsd" />
   	  </fileset>
   	</copy>
   </target>

@@ -4,109 +4,71 @@
     <data name="Activity">
         <label lang="fr">Activités</label>
         <label lang="en">Activities</label>
-        <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="true">
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="true">
             <entry key="Dance">
                 <label lang="fr">Danse</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <entries supportPriority="false" supportPrecision="true" supportQuota="false" supportMultiple="false">
+                <entries supportPriority="false" supportPrecision="true" supportMultiple="false">
                     <entry key="Clasic">
                         <label lang="fr">Classique</label>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                     <entry key="Jazz">
                         <label lang="fr">Jazz</label>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                     <entry key="Modern">
                         <label lang="fr">Contemporain</label>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                 </entries>
             </entry>
             <entry key="Music">
                 <label lang="fr">Musique</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
                     <entry key="Instrument">
                         <label lang="fr">Instrument</label>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <entries supportPriority="true" supportPrecision="true" supportQuota="false" supportMultiple="false">
+                        <entries supportPriority="true" supportPrecision="true" supportMultiple="false">
                             <entry key="Gitar">
                                 <label lang="fr">Guitare</label>
-                                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                             </entry>
                             <entry key="Piano">
                                 <label lang="fr">Piano</label>
-                                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                             </entry>
                             <entry key="Harmonica">
                                 <label lang="fr">Harmonica</label>
-                                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                             </entry>
                         </entries>
                     </entry>
                     <entry key="group">
                         <label lang="fr">Activité d'ensemble</label>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <entries supportPriority="true" supportPrecision="false" supportQuota="false" supportMultiple="false">
+                        <entries supportPriority="true" supportPrecision="false" supportMultiple="false">
                             <entry key="Saloon">
                                 <label lang="fr">Musique de chambre</label>
-                                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                             </entry>
                             <entry key="Orkest">
                                 <label lang="fr">Orchestre</label>
-                                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                             </entry>
                             <entry key="Jazz2">
                                 <label lang="fr">Jazz</label>
-                                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                             </entry>
                             <entry key="Rock">
                                 <label lang="fr">Rock</label>
-                                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                             </entry>
                         </entries>
                     </entry>
                     <entry key="Formation">
                         <label lang="fr">Formation musicale</label>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                 </entries>
             </entry>
             <entry key="Init">
                 <label lang="fr">Initiation et orientation</label>
-                <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                <entries supportPriority="false" supportPrecision="false" supportQuota="false" supportMultiple="false">
+                <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
                     <entry key="init1">
                         <label lang="fr">Eveil 1</label>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                     <entry key="Init2">
                         <label lang="fr">Eveil 2</label>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                     <entry key="ADI">
                         <label lang="fr">ADI</label>
-                        <numberOfPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-                        <remainingPlaces xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
                     </entry>
                 </entries>
             </entry>

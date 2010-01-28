@@ -53,11 +53,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
           );
           yue.addListener(yud.get("requestFormId"), "change", function(e) {
             yue.preventDefault(e);
-            zct.toggleClass(yud.get("templateMessage"), "required");
-            zct.toggleClass(yud.get("templateMessageLabel"), "required");
             if (this.selectedIndex == 0) {
+              yud.addClass(yud.get("templateMessage"), "required");
+              yud.addClass(yud.get("templateMessageLabel"), "required");
               zct.style(yud.get("templatePreview"), { display : "none" });
             } else {
+              yud.removeClass(yud.get("templateMessage"), "required");
+              yud.removeClass(yud.get("templateMessageLabel"), "required");
               zct.style(yud.get("templatePreview"), { display : "inherit" });
             }
           });

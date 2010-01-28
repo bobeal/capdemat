@@ -97,10 +97,11 @@ public final class AgentService implements IAgentService {
     @Override
     public Agent getByLogin(final String login)
         throws CvqObjectNotFoundException {
+
         Agent agent = agentDAO.findByLogin(login);
-        if (agent == null)
-            throw new CvqObjectNotFoundException(
-                "Agent not found in DB, maybe DB needs to be synchronized with LDAP directory ??");
+        if (agent == null) {
+            throw new CvqObjectNotFoundException("Agent " + login + " not found in DB");
+        }
         return agent;
     }
 

@@ -24,13 +24,6 @@
   
 
   
-    <label for="comment" class=""><g:message code="mdr.property.comment.label" />   <span><g:message code="mdr.property.comment.help" /></span></label>
-            <textarea id="comment" name="comment" class="  validate-regex" title="<g:message code="mdr.property.comment.validationError" />" rows="3" cols="" regex="^.{0,255}$" >${rqt.comment}</textarea>
-            
-
-  
-
-  
     <label for="motive" class=""><g:message code="mdr.property.motive.label" />   <span><g:message code="mdr.property.motive.help" /></span></label>
             <select id="motive" name="motive" class="  validate-select" title="<g:message code="mdr.property.motive.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -38,6 +31,13 @@
                 <option value="fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType_${it}" ${it == rqt.motive?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="mdr.property.motive" /></option>
               </g:each>
             </select>
+            
+
+  
+
+  
+    <label for="comment" class=""><g:message code="mdr.property.comment.label" />   <span><g:message code="mdr.property.comment.help" /></span></label>
+            <textarea id="comment" name="comment" class="  validate-regex" title="<g:message code="mdr.property.comment.validationError" />" rows="3" cols="" regex="^.{0,255}$" >${rqt.comment}</textarea>
             
 
   

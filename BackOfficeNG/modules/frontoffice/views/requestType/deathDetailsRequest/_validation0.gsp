@@ -82,13 +82,6 @@
     
       
       <dl>
-        <dt><g:message code="ddr.property.comment.label" /></dt><dd>${rqt.comment?.toString()}</dd>
-
-      </dl>
-      
-    
-      
-      <dl>
         <dt><g:message code="ddr.property.motive.label" /></dt>
           <dd>
             <g:if test="${rqt.motive}">
@@ -96,6 +89,13 @@
             </g:if>
           </dd>
           
+
+      </dl>
+      
+    
+      
+      <dl>
+        <dt><g:message code="ddr.property.comment.label" /></dt><dd>${rqt.comment?.toString()}</dd>
 
       </dl>
       

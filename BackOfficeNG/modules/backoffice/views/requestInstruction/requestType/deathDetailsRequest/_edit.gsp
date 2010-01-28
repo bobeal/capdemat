@@ -128,13 +128,13 @@
             
               
               <dl>
-                <dt class=""><g:message code="ddr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-regex i18n-ddr.property.comment rows-3" regex="^.{0,255}$"><span>${request?.comment}</span></dd>
+                <dt class=""><g:message code="ddr.property.motive.label" />  : </dt><dd id="motive" class="action-editField validate-capdematEnum i18n-ddr.property.motive javatype-fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType" ><g:capdematEnumToField var="${request?.motive}" i18nKeyPrefix="ddr.property.motive" /></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="ddr.property.motive.label" />  : </dt><dd id="motive" class="action-editField validate-capdematEnum i18n-ddr.property.motive javatype-fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType" ><g:capdematEnumToField var="${request?.motive}" i18nKeyPrefix="ddr.property.motive" /></dd>
+                <dt class=""><g:message code="ddr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-regex i18n-ddr.property.comment rows-3" regex="^.{0,255}$"><span>${request?.comment}</span></dd>
               </dl>
               
             

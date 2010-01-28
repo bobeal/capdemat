@@ -145,13 +145,13 @@
             
               
               <dl>
-                <dt class=""><g:message code="mdr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-regex i18n-mdr.property.comment rows-3" regex="^.{0,255}$"><span>${request?.comment}</span></dd>
+                <dt class=""><g:message code="mdr.property.motive.label" />  : </dt><dd id="motive" class="action-editField validate-capdematEnum i18n-mdr.property.motive javatype-fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType" ><g:capdematEnumToField var="${request?.motive}" i18nKeyPrefix="mdr.property.motive" /></dd>
               </dl>
               
             
               
               <dl>
-                <dt class=""><g:message code="mdr.property.motive.label" />  : </dt><dd id="motive" class="action-editField validate-capdematEnum i18n-mdr.property.motive javatype-fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType" ><g:capdematEnumToField var="${request?.motive}" i18nKeyPrefix="mdr.property.motive" /></dd>
+                <dt class=""><g:message code="mdr.property.comment.label" />  : </dt><dd id="comment" class="action-editField validate-regex i18n-mdr.property.comment rows-3" regex="^.{0,255}$"><span>${request?.comment}</span></dd>
               </dl>
               
             

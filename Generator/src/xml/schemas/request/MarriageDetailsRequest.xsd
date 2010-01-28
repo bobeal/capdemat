@@ -230,6 +230,29 @@
               </xs:annotation>
             </xs:element>
 
+            <xs:element name="Motive" type="mdr:MarriageCertificateMotiveType" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+                  Motif de la demande
+                </xs:documentation>
+                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+                  Motif
+                </xs:documentation>
+                <xs:appinfo>
+                  <common>
+                    <step name="type" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="0" line="3" column="0">
+                      <varargCheckbox displayModulo="4" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
             <xs:element name="Comment" type="xs:token" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -252,29 +275,6 @@
                   <xslfo>
                     <element blockId="0" line="2" column="1" columnSpan="2" useLongDesc="true">
                       <string valueWeight="3"/>
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="Motive" type="mdr:MarriageCertificateMotiveType" minOccurs="0">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Motif de la demande
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Motif
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="type" />
-                  </common>
-                  <fo />
-                  <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="3" column="0">
-                      <varargCheckbox displayModulo="4" />
                     </element>
                   </xslfo>
                 </xs:appinfo>

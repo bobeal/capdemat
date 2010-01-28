@@ -216,6 +216,23 @@
               </xs:annotation>
             </xs:element>
 
+            <xs:element name="Motive" type="ddr:DeathCertificateMotiveType" minOccurs="0">
+              <xs:annotation>
+                <xs:appinfo>
+                  <common>
+                    <step name="type" />
+                  </common>
+                  <fo />
+                  <bo column="1" />
+                  <xslfo>
+                    <element blockId="0" line="3" column="0">
+                      <varargCheckbox displayModulo="3" />
+                    </element>
+                  </xslfo>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            
             <xs:element name="Comment" type="xs:token" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -238,23 +255,6 @@
                   <xslfo>
                     <element blockId="0" line="2" column="1" columnSpan="2" useLongDesc="true">
                       <string valueWeight="3" />
-                    </element>
-                  </xslfo>
-                </xs:appinfo>
-              </xs:annotation>
-            </xs:element>
-
-            <xs:element name="Motive" type="ddr:DeathCertificateMotiveType" minOccurs="0">
-              <xs:annotation>
-                <xs:appinfo>
-                  <common>
-                    <step name="type" />
-                  </common>
-                  <fo />
-                  <bo column="1" />
-                  <xslfo>
-                    <element blockId="0" line="3" column="0">
-                      <varargCheckbox displayModulo="3" />
                     </element>
                   </xslfo>
                 </xs:appinfo>

@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.context.NoSuchMessageException;
 
 import fr.cg95.cvq.exception.CvqException;
@@ -15,7 +16,7 @@ import fr.cg95.cvq.util.translation.ITranslationService;
  * @author jsb@zenexity.fr
  *
  */
-public class TranslationService implements ITranslationService {
+public class TranslationService implements ITranslationService, MessageSourceAware {
 
     private MessageSource messageSource;
 

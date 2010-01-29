@@ -23,10 +23,6 @@ agent.contributor_group=CVQ_CONTRIBUTORS
 fake_payment.url=/ServiceExporter/payment/fake_payment_input.html
 fake_payment.callbackUrl=/CapDemat/frontoffice/payment/status
 
-translationService.cacheSeconds = 0
-
-i18n.basedir = classpath: 
-
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################

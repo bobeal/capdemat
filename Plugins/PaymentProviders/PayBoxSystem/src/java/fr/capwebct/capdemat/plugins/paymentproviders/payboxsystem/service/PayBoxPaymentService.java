@@ -3,23 +3,21 @@ package fr.capwebct.capdemat.plugins.paymentproviders.payboxsystem.service;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.users.payment.Payment;
-import fr.cg95.cvq.business.users.payment.PaymentMode;
+import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.payment.IPaymentProviderService;
-import fr.cg95.cvq.payment.PaymentResultBean;
-import fr.cg95.cvq.payment.PaymentResultStatus;
-import fr.cg95.cvq.payment.PaymentServiceBean;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.payment.IPaymentProviderService;
+import fr.cg95.cvq.service.payment.PaymentResultBean;
+import fr.cg95.cvq.service.payment.PaymentResultStatus;
+import fr.cg95.cvq.service.payment.PaymentServiceBean;
 
 public class PayBoxPaymentService implements IPaymentProviderService {
 
@@ -107,12 +105,12 @@ public class PayBoxPaymentService implements IPaymentProviderService {
             urlParameters.append("&PBX_DEVISE=978");
             parameters.append("978");
 
-            String reference = payment.getHomeFolder().getId() + "S" + random.nextInt();
+            String reference = payment.getHomeFolderId() + "S" + random.nextInt();
             urlParameters.append("&PBX_CMD=").append(reference);
             parameters.append(reference);
             payment.setCvqReference(reference);
 
-            String homeFolderEmail = payment.getRequester().getEmail();
+            String homeFolderEmail = payment.getPaymentSpecificDataByKey(Payment.SPECIFIC_DATA_EMAIL);
             urlParameters.append("&PBX_PORTEUR=").append(homeFolderEmail);
             parameters.append(homeFolderEmail);
 

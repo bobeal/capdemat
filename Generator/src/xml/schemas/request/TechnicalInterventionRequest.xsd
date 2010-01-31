@@ -60,7 +60,7 @@
                   Intervention topic
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users" isTiedToRequest="true" />
+                  <model namespace="request" isTiedToRequest="true" />
                   <common>
                     <step name="intervention" />
                     <conditions>

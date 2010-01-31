@@ -9,12 +9,12 @@ import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;

@@ -88,7 +88,7 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         bulkyWasteCollectionRequest.fillCommonModelInfo(bulkyWasteCollectionRequest,bulkyWasteCollectionRequestXml);
         if (bulkyWasteCollectionRequestXml.getCollectionAddress() != null)
             bulkyWasteCollectionRequest.setCollectionAddress(Address.xmlToModel(bulkyWasteCollectionRequestXml.getCollectionAddress()));
-        List<fr.cg95.cvq.business.users.LocalReferentialData> bulkyWasteTypeList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteTypeList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData> ();
         if ( bulkyWasteCollectionRequestXml.sizeOfBulkyWasteTypeArray() > 0) {
             for (int i = 0; i < bulkyWasteCollectionRequestXml.getBulkyWasteTypeArray().length; i++) {
                 bulkyWasteTypeList.add(LocalReferentialData.xmlToModel(bulkyWasteCollectionRequestXml.getBulkyWasteTypeArray(i)));
@@ -116,9 +116,9 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         return this.collectionAddress;
     }
 
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> bulkyWasteType;
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType;
 
-    public final void setBulkyWasteType(final List<fr.cg95.cvq.business.users.LocalReferentialData> bulkyWasteType) {
+    public final void setBulkyWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType) {
         this.bulkyWasteType = bulkyWasteType;
     }
 
@@ -135,9 +135,9 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
      *  column="bulky_waste_type_index"
      * @hibernate.many-to-many
      *  column="bulky_waste_type_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
      */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getBulkyWasteType() {
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getBulkyWasteType() {
         return this.bulkyWasteType;
     }
 

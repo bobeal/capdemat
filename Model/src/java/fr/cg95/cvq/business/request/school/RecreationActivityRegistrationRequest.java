@@ -137,7 +137,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         }
         recreationActivityRegistrationRequest.setContactIndividuals(contactIndividualsList);
         recreationActivityRegistrationRequest.setClassTripPermission(Boolean.valueOf(recreationActivityRegistrationRequestXml.getClassTripPermission()));
-        List<fr.cg95.cvq.business.users.LocalReferentialData> recreationActivityList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData> ();
         if ( recreationActivityRegistrationRequestXml.sizeOfRecreationActivityArray() > 0) {
             for (int i = 0; i < recreationActivityRegistrationRequestXml.getRecreationActivityArray().length; i++) {
                 recreationActivityList.add(LocalReferentialData.xmlToModel(recreationActivityRegistrationRequestXml.getRecreationActivityArray(i)));
@@ -228,9 +228,9 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         return this.classTripPermission;
     }
 
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> recreationActivity;
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity;
 
-    public final void setRecreationActivity(final List<fr.cg95.cvq.business.users.LocalReferentialData> recreationActivity) {
+    public final void setRecreationActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity) {
         this.recreationActivity = recreationActivity;
     }
 
@@ -247,9 +247,9 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
      *  column="recreation_activity_index"
      * @hibernate.many-to-many
      *  column="recreation_activity_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
      */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getRecreationActivity() {
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getRecreationActivity() {
         return this.recreationActivity;
     }
 

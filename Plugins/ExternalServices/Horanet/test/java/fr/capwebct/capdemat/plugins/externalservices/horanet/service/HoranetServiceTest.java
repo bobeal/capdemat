@@ -10,6 +10,14 @@ import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
 
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
+import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
+import fr.cg95.cvq.business.payment.PurchaseItem;
+import fr.cg95.cvq.business.request.LocalReferentialData;
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.RequestState;
@@ -20,34 +28,26 @@ import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.business.users.SectionType;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItemDetail;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItemDetail;
-import fr.cg95.cvq.business.users.payment.ExternalTicketingContractItem;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
-import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.payment.IPaymentService;
+import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class HoranetServiceTest extends ServiceTestCase {
+public class HoranetServiceTest extends RequestTestCase {
 
 	private IExternalProviderService externalProviderService;
 	private ISchoolRegistrationRequestService srrService;
 	private ISchoolCanteenRegistrationRequestService scrrService;
 	private IPerischoolActivityRegistrationRequestService parrService;
+	
 	private void setServices() throws CvqException{
 		ConfigurableApplicationContext cac;
         try {
@@ -84,7 +84,7 @@ public class HoranetServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
 
         Long requestId = cb.getRequestId();
         String proposedLogin = cb.getLogin();
@@ -296,17 +296,6 @@ public class HoranetServiceTest extends ServiceTestCase {
         	externalProviderService.getConsumptionsByRequest(scrrRequest, dateFrom, dateTo);
         for (Date date : consumptions.keySet()) {
         	logger.debug("on date " + date + ", got consumption : " + consumptions.get(date));
-        }
-
-        // test loading administrative information for BO display
-        Map<Individual, Map<String, String>> accountsInfo = 
-            externalProviderService.getIndividualAccountsInformation(homeFolder.getId(), null, null);
-        for (Individual individual : accountsInfo.keySet()) {
-            logger.debug("account info for individual : " + individual.getFirstName());
-            for (String key : accountsInfo.get(individual).keySet()) {
-                logger.debug("key : " + key);
-                logger.debug("value : " + accountsInfo.get(individual).get(key));
-            }
         }
 
         // send an home folder modification request

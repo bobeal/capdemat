@@ -103,12 +103,15 @@
 		<antcall target="compile-tests" />
 	</target>
 	
-	<target name="compile-sources" depends="init">
+	<target name="compile-sources" depends="compile-external-schemas">
 		<mkdir dir="${basedir}/${build.classes.dir}" />
 		<javac optimize="on" debug="on" deprecation="on" encoding="UTF8"
 			verbose="off" srcdir="${basedir}/${src.java.dir}" includes="**/*.java" 
 			destdir="${basedir}/${build.classes.dir}">
-			<classpath refid="classpath.compile" />
+			<classpath>
+			    <path refid="classpath.compile" />
+				<pathelement location="${basedir}/${build.archives.dir}/${application.name}-ExternalServicesSchemas-${application.version}.jar"/>
+			</classpath>
 		</javac>
 		<copy todir="${basedir}/${build.classes.dir}" file="${conf.dir.fop}/fop-config.xml" />
 	</target>
@@ -127,7 +130,6 @@
 			</fileset>
 			<fileset dir="${conf.dir.xmlbeans}" includes="schemas.xsdconfig" />
 		</xmlbean>
-
 	</target>
 
 	<target name="generate-hibernate" description="Generates Hibernate class descriptor files" 
@@ -365,11 +367,11 @@
 			<formatter type="plain" usefile="false" />
 			<batchtest>
 				<fileset dir="${basedir}/${build.test.dir}">
-				  	<!--include name="**/CapdematTestSuite.class"/-->
-				  <include name="**/*DisplayGroupServiceTest.class" />
+				  	<include name="**/CapdematTestSuite.class" />
 					<!--include name="**/*Test.class"/-->
-				  	<!-- has to be ported -->
-				  	<exclude name="**/NextGenerationGenericDAOTest.class"/>
+					<!-- not maintained, rewriting in progress -->
+					<exclude name="PlaceReservationRequestServicePaymentTest.class" />
+                    <exclude name="HomeFolderModificationRequestServiceTest.class" />
 					<!-- requires mail sending infrastructure -->
 					<exclude name="**/MailServiceTest.class" />
 				</fileset>

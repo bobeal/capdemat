@@ -22,19 +22,19 @@ import fr.cg95.cvq.business.users.IndividualRole;
  * A data structure / cache that stores all the credentials necessary when
  * computing access privileges against a given User. This CredentialBean
  * is passed around across all access checks done for a given user.
- * Most of the methods here memorize (cache) their results for speed, and
- * also in order to break some possible loops.
  *
- * @author dom@idealx.com
+ * @author bor@zenexity.fr
  */
 public class CredentialBean {
 
     private static Logger logger = Logger.getLogger(CredentialBean.class);
+
     private Agent agent;
     private Adult adult;
     private String externalService;
     private LocalAuthority localAuthority;
     private Locale locale;
+
     private boolean boContext;
     private boolean foContext;
     private boolean adminContext;

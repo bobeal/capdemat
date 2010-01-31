@@ -77,7 +77,8 @@ public class ElementModelProperties extends ElementProperties {
         String xmlBeansPackageName = null;
         if (namespaceLastParticle != null) {
             if (namespaceLastParticle.equals("authority")
-                || namespaceLastParticle.equals("users"))
+                || namespaceLastParticle.equals("users")
+                || namespaceLastParticle.equals("request"))
                 xmlBeansPackageName = IPluginGenerator.XMLBEANS_BASE_TARGET_NS
                     + "." + IPluginGenerator.XMLBEANS_REFERENTIAL_NS;
             else

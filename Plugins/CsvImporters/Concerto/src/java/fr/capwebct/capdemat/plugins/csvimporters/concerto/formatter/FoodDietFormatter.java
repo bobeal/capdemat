@@ -3,7 +3,7 @@ package fr.capwebct.capdemat.plugins.csvimporters.concerto.formatter;
 import java.util.HashSet;
 import java.util.Set;
 
-import fr.cg95.cvq.business.users.LocalReferentialData;
+import fr.cg95.cvq.business.request.LocalReferentialData;
 
 import net.sf.anupam.csv.formatters.CSVFieldFormatter;
 

@@ -40,11 +40,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/RequestForm.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/Category.hbm.xml</value>
         <value>fr/cg95/cvq/business/users/HistoryEntry.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/LocalReferentialData.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/PlaceReservationData.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/TicketTypeSelection.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/payment/Payment.hbm.xml</value>
-        <value>fr/cg95/cvq/business/users/payment/PurchaseItem.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/LocalReferentialData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/PlaceReservationData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/TicketTypeSelection.hbm.xml</value>
+        <value>fr/cg95/cvq/business/payment/Payment.hbm.xml</value>
+        <value>fr/cg95/cvq/business/payment/PurchaseItem.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/PerischoolAuthorizedIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/PerischoolContactIndividual.hbm.xml</value>   
         <value>fr/cg95/cvq/business/request/school/RecreationAuthorizedIndividual.hbm.xml</value>
@@ -117,7 +117,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- ================================================================ -->
 
   <bean id="fakePaymentProviderService" 
-    class="fr.cg95.cvq.payment.impl.FakePaymentProviderService">
+    class="fr.cg95.cvq.service.payment.impl.FakePaymentProviderService">
     <property name="paymentUrl" value="${fake_payment.url}" />  
     <property name="callbackUrl" value="${fake_payment.callbackUrl}" />  
   </bean>

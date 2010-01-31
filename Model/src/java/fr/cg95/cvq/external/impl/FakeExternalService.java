@@ -20,6 +20,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
@@ -30,23 +31,26 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import fr.capwebct.modules.payment.schema.fam.FamilyDocument;
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
+import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
+import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItemDetail;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItemDetail;
-import fr.cg95.cvq.business.users.payment.ExternalTicketingContractItem;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqRemoteException;
 import fr.cg95.cvq.external.ExternalServiceBean;
+import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.external.IExternalProviderService;
-import fr.cg95.cvq.payment.IPaymentService;
+import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.users.IHomeFolderService;
@@ -139,154 +143,30 @@ public class FakeExternalService implements IExternalProviderService {
         }
     }
 
-    public final Map<String, List<ExternalAccountItem> > getAccountsByHomeFolder(final Long homeFolderId, String externalHomeFolderId, String externalId) 
-        throws CvqException {
+    public final Map<String, List<ExternalAccountItem> > getAccountsByHomeFolder(final Long homeFolderId, 
+            String externalHomeFolderId, String externalId) throws CvqException {
         
-        logger.debug("getAccountsByHomeFolder() home folder " + homeFolderId);
-
-        Map<String, List<ExternalAccountItem> > results = 
-            new LinkedHashMap<String, List<ExternalAccountItem> >();
-
+        String pathToFile = testDataDirectory + xmlDirectory + "/" + accountsFile;
+        File file = new File(pathToFile);
+        logger.debug("getAccountsByHomeFolder() gonna parse file " + file);
         try {
-            IRequestService requestService = 
-                requestServiceRegistry.getDefaultRequestService();
-            List<Request> requests = 
-                requestService.getByHomeFolderIdAndRequestLabel(homeFolderId,
-                        authorizingRequestLabel);
-            if (requests == null || requests.size() == 0)
-                return null;
-            // pick the first request
-            Request request = requests.get(0);
-            logger.debug("getAccountsByHomeFolder() using request : " + request.getId());
+            FamilyDocument familyDocument = FamilyDocument.Factory.parse(file);
+            Map<String, List<ExternalAccountItem> > externalAccounts = 
+                ExternalServiceUtils.parseFamilyDocument(familyDocument, getLabel());
             
-            String pathToFile = testDataDirectory + xmlDirectory + "/" + accountsFile;
-            File file = new File(pathToFile);
-            logger.debug("getAccountsByHomeFolder() got file " + file);
-            Document accountsXMLDocument = DocumentBuilderFactory.newInstance()
-                    .newDocumentBuilder().parse(file);
-
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
-
-            // deposit accounts
-            XPath xpath = new DOMXPath("//account");
-            List accountsElements = (List) xpath.evaluate(accountsXMLDocument);
-            List<ExternalAccountItem> depositAccounts = new ArrayList<ExternalAccountItem>();
-            for (Iterator i = accountsElements.iterator(); i.hasNext();) {
-                Node node = (Node) i.next();
-                String accountId = node.getAttributes().getNamedItem("account-id").getNodeValue();
-                String accountLabel = node.getAttributes().getNamedItem("account-label").getNodeValue();
-                String accountValue = node.getAttributes().getNamedItem("account-value").getNodeValue();
-                Date accountDate = simpleDateFormat.parse(node.getAttributes().getNamedItem(
-                        "account-date").getNodeValue());
-
-                ExternalDepositAccountItem edai = 
-                    new ExternalDepositAccountItem(accountLabel, Double.valueOf(accountValue), 
-                            getLabel(), accountId, accountDate, Double.parseDouble(accountValue),
-                            null);
-                depositAccounts.add(edai);
+            // manually insert subject id as the currently logged in user
+            List<ExternalAccountItem> ticketingAccounts = 
+                externalAccounts.get(IPaymentService.EXTERNAL_TICKETING_ACCOUNTS);
+            for (ExternalAccountItem eai : ticketingAccounts) {
+                ExternalTicketingContractItem etci = (ExternalTicketingContractItem) eai;
+                etci.setSubjectId(SecurityContext.getCurrentUserId());
             }
-            results.put(IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS, depositAccounts);
-
-            // bill accounts
-            xpath = new DOMXPath("//bill");
-            List billElements = (List) xpath.evaluate(accountsXMLDocument);
-            List<ExternalAccountItem> bills = new ArrayList<ExternalAccountItem>();
-            for (Iterator i = billElements.iterator(); i.hasNext();) {
-                Node node = (Node) i.next();
-                NamedNodeMap nodeAttrs = node.getAttributes();
-                String billId = nodeAttrs.getNamedItem("bill-id").getNodeValue();
-                String billLabel = nodeAttrs.getNamedItem("bill-label").getNodeValue();
-                String billAmount = nodeAttrs.getNamedItem("bill-value").getNodeValue();
-                String billTotalValue = nodeAttrs.getNamedItem("bill-total-value").getNodeValue();
-                Date billIssueDate = 
-                    simpleDateFormat.parse(nodeAttrs.getNamedItem("bill-date").getNodeValue());
-                Date billExpirationDate = 
-                    simpleDateFormat.parse(nodeAttrs.getNamedItem("bill-date-expiration").getNodeValue());
-                Date billPaymentDate = null;
-                if (nodeAttrs.getNamedItem("bill-date-payment") != null)
-                    billPaymentDate = 
-                        simpleDateFormat.parse(nodeAttrs.getNamedItem("bill-date-payment").getNodeValue());
-                String billPayed = node.getAttributes().getNamedItem("bill-payed").getNodeValue();
-                Boolean isPayed = billPayed.equals("1") ? true : false;
-                    
-                ExternalInvoiceItem eii = 
-                    new ExternalInvoiceItem(billLabel, Double.valueOf(billAmount),
-                            Double.valueOf(billTotalValue), getLabel(), billId, billIssueDate,
-                            billExpirationDate, billPaymentDate, isPayed, null);
-                bills.add(eii);
-            }
-            results.put(IPaymentService.EXTERNAL_INVOICES, bills);
-
-            // contracts accounts
-            xpath = new DOMXPath("//child");
-            int i = 0;
-            List childElements = (List) xpath.evaluate(accountsXMLDocument);
-            List<ExternalAccountItem> ticketingAccounts = new ArrayList<ExternalAccountItem>();
-            for (Iterator iter = childElements.iterator(); iter.hasNext();) {
-                Node node = (Node) iter.next();
-                String childCsn = node.getAttributes().getNamedItem("child-csn").getNodeValue();
-                logger.debug("getAccountsByHomeFolder() card CSN : " + childCsn);
-                String childId = node.getAttributes().getNamedItem("child-id").getNodeValue();
-                logger.debug("getAccountsByHomeFolder() child id : " + childId);
-
-                NodeList contractsNodes = node.getChildNodes();
-                for (int j = 0; j < contractsNodes.getLength(); j++) {
-                    Node contractNode = contractsNodes.item(j);
-                    if (contractNode.getNodeName() != null
-                            && contractNode.getNodeName().equals("contract")) {
-                        String contractId = 
-                            contractNode.getAttributes().getNamedItem("contract-id").getNodeValue();
-                        String contractValue = 
-                            contractNode.getAttributes().getNamedItem("contract-value").getNodeValue();
-                        String contractLabel = 
-                            contractNode.getAttributes().getNamedItem("contract-label").getNodeValue();
-                        Date contractDate = simpleDateFormat.parse(contractNode.getAttributes()
-                            .getNamedItem("contract-date").getNodeValue());
-                        int buyPrice = Integer.parseInt(contractNode.getAttributes().getNamedItem(
-                            "buy-price").getNodeValue());
-                        int minBuy = Integer.parseInt(contractNode.getAttributes().getNamedItem(
-                            "min-buy").getNodeValue());
-                        int maxBuy = Integer.parseInt(contractNode.getAttributes().getNamedItem(
-                            "max-buy").getNodeValue());
-
-                        Long subjectId = request.getSubjectId();
-                        List<Individual> individuals = 
-                            homeFolderService.getIndividuals(request.getHomeFolderId());
-                        Individual subject = null;
-                        for (Individual individual : individuals) {
-                            if (individual.getId().equals(subjectId)) {
-                                subject = individual;
-                                break;
-                            }
-                        }
-                        HomeFolder homeFolder = 
-                            homeFolderService.getById(request.getHomeFolderId());
-                        if (subject == null) {
-                            int k = i % homeFolder.getIndividuals().size();
-                            subject = (Individual) homeFolder.getIndividuals().toArray()[k];
-                        }
-                        ExternalTicketingContractItem etci = 
-                            new ExternalTicketingContractItem(contractLabel, 
-                                    null, getLabel(), contractId, subject.getId(),
-                                    Double.valueOf(buyPrice), Integer.valueOf(minBuy), 
-                                    Integer.valueOf(maxBuy), null, contractDate,
-                                    Integer.valueOf(contractValue), null);
-                        etci.addExternalServiceSpecificData("child-csn", childCsn);
-
-                        ticketingAccounts.add(etci);
-                        logger.debug("getHomeFolderAccounts() adding contract " + contractId);
-                    }
-                }
-                i++;
-            }
-            results.put(IPaymentService.EXTERNAL_TICKETING_ACCOUNTS, ticketingAccounts);
-
-        } catch (Exception e) {
+        } catch (XmlException e) {
             e.printStackTrace();
-            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        return results;
+        return null;
     }
 
 

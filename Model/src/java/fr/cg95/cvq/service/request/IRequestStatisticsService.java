@@ -2,6 +2,8 @@ package fr.cg95.cvq.service.request;
 
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.service.request.annotation.IsCategory;
+import fr.cg95.cvq.service.request.annotation.IsRequestType;
 
 import java.util.Date;
 import java.util.Map;
@@ -40,7 +42,7 @@ public interface IRequestStatisticsService {
      * @see {@link #QUALITY_TYPE_OK}, {@link #QUALITY_TYPE_ORANGE}, {@link #QUALITY_TYPE_RED}
      */
     Map<String, Long> getQualityStats(final Date startDate, final Date endDate,
-        final Long requestTypeId, final Long categoryId);
+        @IsRequestType final Long requestTypeId, @IsCategory final Long categoryId);
 
     /**
      * The same as {@link #getQualityStats} but with results grouped by request type id.
@@ -51,16 +53,16 @@ public interface IRequestStatisticsService {
      * @param categoryId to restrict statistics to a specific category
      */
     Map<Long, Map<String, Long>> getQualityStatsByType(final Date startDate, final Date endDate,
-        final Long requestTypeId, final Long categoryId) throws CvqException;
+        @IsRequestType final Long requestTypeId, @IsCategory final Long categoryId) throws CvqException;
 
     Map<RequestState, Long> getStateStats(final Date startDate, final Date endDate,
-        final Long requestTypeId, final Long categoryId);
+        @IsRequestType final Long requestTypeId, @IsCategory final Long categoryId);
 
     Map<Long, Long> getTypeStats(final Date startDate, final Date endDate,
-        final Long requestTypeId, final Long categoryId);
+        @IsRequestType final Long requestTypeId, @IsCategory final Long categoryId);
 
     Map<Date, Long> getTypeStatsByPeriod(final Date startDate, final Date endDate,
-        final Long requestTypeId, final Long categoryId);
+        @IsRequestType final Long requestTypeId, @IsCategory final Long categoryId);
 
     TypeStatsIntervalType getTypeStatsIntervalType(final Date startDate, final Date endDate);
 }

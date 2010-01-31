@@ -110,9 +110,9 @@ public class Requirement implements Serializable {
 
         final Requirement requirement = (Requirement) other;
 
-        if (!getRequestType().equals(requirement.getRequestType()))
+        if (!getRequestType().getId().equals(requirement.getRequestType().getId()))
             return false;
-        if (!getDocumentType().equals(requirement.getDocumentType()))
+        if (!getDocumentType().getId().equals(requirement.getDocumentType().getId()))
             return false;
 
         return true;

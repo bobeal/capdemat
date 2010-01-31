@@ -14,27 +14,30 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentState;
+import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.Payment;
-import fr.cg95.cvq.business.users.payment.PaymentState;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.testtool.HasInnerProperty;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
-public class ExternalServiceInteractionsTest extends ServiceTestCase {
+/**
+ * FIXME : dependency on request test case has to be fixed
+ */
+public class ExternalServiceInteractionsTest extends RequestTestCase {
 
     protected IExternalService externalService;
     
@@ -72,7 +75,7 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
         homeFolderId = cb.getHomeFolderId();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
@@ -98,7 +101,7 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         final Payment payment = new Payment();
         payment.setPurchaseItems(purchaseItems);
         payment.setState(PaymentState.VALIDATED);
-        payment.setHomeFolder(homeFolder);
+        payment.setHomeFolderId(homeFolder.getId());
         
         // set up the mock expectations
         context.checking(new Expectations() {{
@@ -145,7 +148,7 @@ public class ExternalServiceInteractionsTest extends ServiceTestCase {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         

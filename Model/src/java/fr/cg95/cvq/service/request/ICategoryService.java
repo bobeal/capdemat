@@ -26,8 +26,8 @@ public interface ICategoryService {
      * Return whether the given agent has at least a
      * {@link CategoryProfile#READ_ONLY} profile on the given category.
      */
-    boolean hasProfileOnCategory(final Agent agent,
-        @IsCategory final Long categoryId) throws CvqObjectNotFoundException;
+    boolean hasProfileOnCategory(final Agent agent, @IsCategory final Long categoryId) 
+        throws CvqObjectNotFoundException;
 
     /**
      * Return whether the given agent has at least a
@@ -40,7 +40,19 @@ public interface ICategoryService {
      * Get current agent's profile for this category.
      */
     CategoryProfile getProfileForCategory(final Long categoryId) throws CvqObjectNotFoundException;
-    
+
+    /**
+     * Get agent's profile for this category.
+     */
+    CategoryProfile getProfileForCategory(final Long agentId, final Long categoryId) 
+        throws CvqObjectNotFoundException;
+
+    /**
+     * Return the categories for which the current agent has a
+     * {@link CategoryProfile#MANAGER MANAGER profile}.
+     */
+    List<Category> getManaged();
+
     /**
      * Return the categories for which the current agent has at least a
      * {@link CategoryProfile#READ_ONLY profile}.
@@ -100,12 +112,6 @@ public interface ICategoryService {
      * {@link CategoryProfile#READ_ONLY read access}.
      */
     List<Category> getAll();
-
-    /**
-     * Return the categories for which the current agent has a
-     * {@link CategoryProfile#MANAGER MANAGER profile}.
-     */
-    List<Category> getManaged();
 
     Category getById(@IsCategory final Long id)
         throws CvqObjectNotFoundException;

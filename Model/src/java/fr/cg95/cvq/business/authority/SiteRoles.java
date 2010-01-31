@@ -29,11 +29,11 @@ public class SiteRoles implements Serializable {
      * @hibernate.parent
      */
     public Agent getAgent() {
-	return this.agent;
+        return this.agent;
     }
 
     public void setAgent(Agent agent) {
-	this.agent = agent;
+        this.agent = agent;
     }
 
     /**
@@ -51,8 +51,7 @@ public class SiteRoles implements Serializable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-            .toString();
+        return new ToStringBuilder(this).toString();
     }
 
     @Override
@@ -63,7 +62,7 @@ public class SiteRoles implements Serializable {
         final SiteRoles sr = (SiteRoles) other;
 
         if (!getAgent().equals(sr.getAgent())) 
-	    return false;
+            return false;
 
         return true;
     }

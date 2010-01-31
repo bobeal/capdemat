@@ -45,15 +45,14 @@ import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.SexType;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -873,12 +872,6 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     @Override
     public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
             throws CvqException {
-        return null;
-    }
-
-    @Override
-    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId,
-            String externalHomeFolderId, String externalId) throws CvqException {
         return null;
     }
 

@@ -16,6 +16,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestStep;
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
+import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -41,6 +42,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 
 /**
  * This services handles workflow tasks for requests. Workflow-related calls to
@@ -48,12 +51,13 @@ import org.springframework.beans.factory.ListableBeanFactory;
  * <ul>
  *  <li>Checking requested states changes are authorized</li>
  *  <li>Updating requests state and workflow information</li>
- *  <li>Creating and managing worklow action traces</li>
+ *  <li>Creating and managing workflow action traces</li>
  * </ul>
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class RequestWorkflowService implements IRequestWorkflowService, BeanFactoryAware {
+public class RequestWorkflowService implements IRequestWorkflowService, BeanFactoryAware,
+    ApplicationListener {
 
     private static Logger logger = Logger.getLogger(RequestWorkflowService.class);
     
@@ -410,10 +414,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         homeFolderService.onRequestArchived(request.getHomeFolderId(), request.getId());
     }
 
-    @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public void archiveHomeFolderRequests(Long homeFolderId)
-        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
+    private void archiveHomeFolderRequests(Long homeFolderId)
+        throws CvqException {
 
         List<Request> requests = requestDAO.listByHomeFolder(homeFolderId);
         if (requests == null || requests.isEmpty()) {
@@ -604,6 +607,26 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
         request.setLastInterveningUserId(userId);
 
         requestDAO.update(request);
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationEvent applicationEvent) {
+        if (applicationEvent instanceof UsersEvent) {
+            UsersEvent homeFolderEvent = (UsersEvent) applicationEvent;
+            logger.debug("onApplicationEvent() got an home folder event of type "
+                    + homeFolderEvent.getEvent());
+            if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_ARCHIVE)) {
+                logger.debug("onApplicationEvent() gonna archive home folder "
+                        + homeFolderEvent.getHomeFolderId());
+                try {
+                    archiveHomeFolderRequests(homeFolderEvent.getHomeFolderId());
+                } catch (CvqException e) {
+                    // FIXME : something better to do ?
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
+            }
+        }
     }
 
     public void setRequestDAO(IRequestDAO requestDAO) {

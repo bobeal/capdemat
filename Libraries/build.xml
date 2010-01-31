@@ -20,6 +20,13 @@
         <include name="CapDemat-Plugin-PaymentProviders-Spplus-*.jar" />
     </fileset>
 
+	<target name="clean" depends="init">
+	    <delete>
+	        <fileset refid="capdemat-core-libs"/>
+	    	<fileset refid="capdemat-plugins" />
+	    </delete>
+	</target>
+	
     <!-- still used for ServiceExporter webapp -->
     <target name="runtime-libs" depends="init">
 

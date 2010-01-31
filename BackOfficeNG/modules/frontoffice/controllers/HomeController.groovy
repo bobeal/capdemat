@@ -7,11 +7,11 @@ import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.HomeFolder
-import fr.cg95.cvq.business.users.payment.Payment
+import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqDisabledAccountException
 import fr.cg95.cvq.exception.CvqUnknownUserException
-import fr.cg95.cvq.payment.IPaymentService
+import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.security.annotation.ContextType
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
@@ -222,11 +222,8 @@ class HomeController {
     def protected getTopFivePayments() {
         
         Set criteriaSet = new HashSet<Critere>();
-        Critere critere = new Critere();
-        
-        critere.comparatif = Critere.EQUALS;
-        critere.attribut = Payment.SEARCH_BY_HOME_FOLDER_ID;
-        critere.value = currentEcitizen.homeFolder.id
+        Critere critere = new Critere(Payment.SEARCH_BY_HOME_FOLDER_ID, 
+        		currentEcitizen.homeFolder.id, Critere.EQUALS);
         criteriaSet.add(critere)
 
         return [
@@ -235,7 +232,6 @@ class HomeController {
             'count' : paymentService.getCount(criteriaSet),
             'records' : []
         ]
-        
     }
     
     def protected getTopFiveDocuments() {

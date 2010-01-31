@@ -6,7 +6,6 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 
 import java.util.List;
@@ -29,12 +28,6 @@ public interface IRequestWorkflowService {
     void updateRequestState(@IsRequest final Long id, RequestState rs, String motive)
         throws CvqException, CvqInvalidTransitionException,
             CvqObjectNotFoundException;
-
-    /**
-     * Archive all requests belonging to the given {@link HomeFolder home folder}.
-     */
-    void archiveHomeFolderRequests(@IsHomeFolder final Long homeFolderId)
-        throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
 
     /**
      * Set a request in pending state after edition by an ecitizen

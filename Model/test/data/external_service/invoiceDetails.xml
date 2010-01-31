@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<invoiceDetails invoice-id="95999-3-1910782195" invoice-value="10000">
+<invoiceDetails invoice-id="95999-3-1910782195" invoice-value="10000" 
+    xmlns="http://www.capwebct.fr/modules/payment/schema/inv">
   <invoiceDetail>
     <child-name>Pedro</child-name>
     <child-surname>ORIHUELA</child-surname>
@@ -9,7 +10,7 @@
     <value>4600</value>
   </invoiceDetail>
   <invoiceDetail>
-    <child-name>Pedro</child-name>
+    <child-name>Andres</child-name>
     <child-surname>ORIHUELA</child-surname>
     <label>Garderie du soir</label>
     <unit-price>450</unit-price>

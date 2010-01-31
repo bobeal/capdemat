@@ -90,7 +90,7 @@ public class PlaceReservationRequest extends Request implements Serializable {
         placeReservationRequest.fillCommonModelInfo(placeReservationRequest,placeReservationRequestXml);
         placeReservationRequest.setSubscriberNumber(placeReservationRequestXml.getSubscriberNumber());
         placeReservationRequest.setIsSubscriber(Boolean.valueOf(placeReservationRequestXml.getIsSubscriber()));
-        List<fr.cg95.cvq.business.users.PlaceReservationData> placeReservationList = new ArrayList<fr.cg95.cvq.business.users.PlaceReservationData> ();
+        List<fr.cg95.cvq.business.request.PlaceReservationData> placeReservationList = new ArrayList<fr.cg95.cvq.business.request.PlaceReservationData> ();
         if ( placeReservationRequestXml.sizeOfPlaceReservationArray() > 0) {
             for (int i = 0; i < placeReservationRequestXml.getPlaceReservationArray().length; i++) {
                 placeReservationList.add(PlaceReservationData.xmlToModel(placeReservationRequestXml.getPlaceReservationArray(i)));
@@ -131,9 +131,9 @@ public class PlaceReservationRequest extends Request implements Serializable {
         return this.isSubscriber;
     }
 
-    private List<fr.cg95.cvq.business.users.PlaceReservationData> placeReservation;
+    private List<fr.cg95.cvq.business.request.PlaceReservationData> placeReservation;
 
-    public final void setPlaceReservation(final List<fr.cg95.cvq.business.users.PlaceReservationData> placeReservation) {
+    public final void setPlaceReservation(final List<fr.cg95.cvq.business.request.PlaceReservationData> placeReservation) {
         this.placeReservation = placeReservation;
     }
 
@@ -150,9 +150,9 @@ public class PlaceReservationRequest extends Request implements Serializable {
      *  column="place_reservation_index"
      * @hibernate.many-to-many
      *  column="place_reservation_id"
-     *  class="fr.cg95.cvq.business.users.PlaceReservationData"
+     *  class="fr.cg95.cvq.business.request.PlaceReservationData"
      */
-    public final List<fr.cg95.cvq.business.users.PlaceReservationData> getPlaceReservation() {
+    public final List<fr.cg95.cvq.business.request.PlaceReservationData> getPlaceReservation() {
         return this.placeReservation;
     }
 

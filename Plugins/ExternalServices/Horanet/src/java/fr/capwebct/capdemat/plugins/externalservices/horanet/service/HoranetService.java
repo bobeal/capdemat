@@ -49,25 +49,25 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import fr.cg95.cvq.business.authority.School;
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail;
+import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
+import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItemDetail;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItemDetail;
-import fr.cg95.cvq.business.users.payment.ExternalTicketingContractItem;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.exception.CvqRemoteException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
-import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.payment.IPaymentService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.xml.common.RequestType;
@@ -587,55 +587,6 @@ public class HoranetService implements IExternalProviderService {
         return results;
     }
 
-
-    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId, String externalHomeFolderId, String externalId) throws CvqException {
-
-        Map<Individual, Map<String, String> > results =
-            new HashMap<Individual, Map<String, String> >();
-
-        try {
-            Document accountsXMLDocument = getHomeFolderAccountsDocument(homeFolderId);
-
-            //  contracts accounts
-            XPath xpath = new DOMXPath("//child");
-            List childElements = (List) xpath.evaluate(accountsXMLDocument);
-            for (Iterator i = childElements.iterator(); i.hasNext();) {
-                Node node = (Node) i.next();
-                NamedNodeMap nodeAttrs = node.getAttributes();
-                String card = nodeAttrs.getNamedItem("child-card").getNodeValue();
-                String childCsn = null;
-                if (nodeAttrs.getNamedItem("child-csn") != null)
-                    childCsn = nodeAttrs.getNamedItem("child-csn").getNodeValue();
-                String childId = nodeAttrs.getNamedItem("child-id").getNodeValue();
-
-                Child child = null;
-                try {
-                    child = individualService.getChildById(new Long(childId));
-                } catch (CvqObjectNotFoundException confe) {
-                    logger.error("getIndividualAccountsInformation() could not find child : " 
-                            + childId);
-                    // does it worth trying with the child card ?
-                    child = individualService.getChildByBadgeNumber(card);
-                    if (child == null) {
-                        logger.error("getIndividualAccountsInformation() could not find child with card : " 
-                                + card);
-                        continue;
-                    }
-                }
-
-                Map<String, String> individualData = new HashMap<String, String>();
-                if (childCsn != null)
-                    individualData.put("child-csn", childCsn);
-                results.put(child, individualData);
-            }
-            
-        } catch (JaxenException jaxe) {
-            throw new CvqException("Failed to parse received data : " + jaxe.getMessage());
-        }
-
-        return results;
-    }
-
     public final void loadDepositAccountDetails(ExternalDepositAccountItem edai)
         throws CvqException {
         
@@ -904,8 +855,9 @@ public class HoranetService implements IExternalProviderService {
             ExternalAccountItem eai = (ExternalAccountItem) i.next();
             org.jdom.Element account = new org.jdom.Element("account");
             account.setAttribute("account-id", eai.getExternalItemId());
-            if (eai.getRequestId() != null)
-                account.setAttribute("request-id", eai.getRequestId().toString());
+            // FIXME : should not be needed
+//            if (eai.getRequestId() != null)
+//                account.setAttribute("request-id", eai.getRequestId().toString());
             if (eai instanceof ExternalDepositAccountItem) {
                 ExternalDepositAccountItem edai = (ExternalDepositAccountItem) eai;
                 account.setAttribute("account-old-value", edai.getOldValue().intValue() + "");

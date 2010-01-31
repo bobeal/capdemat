@@ -16,7 +16,7 @@
           <key>
             <ref bean="fakePaymentProviderService" />
           </key>
-          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+          <bean class="fr.cg95.cvq.service.payment.PaymentServiceBean">
             <property name="broker" value="Régie de la ville de Dummy"></property>
             <property name="requestTypes">
               <list>
@@ -31,7 +31,7 @@
           <key>
             <ref bean="wynidPaymentProvider" />
           </key>
-          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+          <bean class="fr.cg95.cvq.service.payment.PaymentServiceBean">
             <property name="broker" value="Wynid"></property>
             <property name="serviceProperties">
               <map>
@@ -57,7 +57,7 @@
           <key>
             <ref bean="spplusPaymentProvider" />
           </key>
-          <bean class="fr.cg95.cvq.payment.PaymentServiceBean">
+          <bean class="fr.cg95.cvq.service.payment.PaymentServiceBean">
             <property name="broker" value="Spplus"></property>
             <property name="serviceProperties">
               <map>

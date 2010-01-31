@@ -4,11 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
 
@@ -46,7 +44,6 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     private Long originRequestId;
     private Boolean boundToRequest;
     
-    private Set<Payment> payments;
     private List<Individual> individuals;
 
     /** default constructor */
@@ -166,24 +163,6 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
 
     public void setAdress(Address adress) {
         this.adress = adress;
-    }
-
-    /**
-     * @hibernate.set
-     *  inverse="true"
-     *  lazy="true"
-     *  cascade="delete"
-     * @hibernate.key
-     *  column="home_folder_id"
-     * @hibernate.one-to-many
-     *  class="fr.cg95.cvq.business.users.payment.Payment"
-     */
-    public Set<Payment> getPayments() {
-        return this.payments;
-    }
-
-    public void setPayments(Set<Payment> payments) {
-        this.payments = payments;
     }
 
     /**

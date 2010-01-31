@@ -35,12 +35,12 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 import fr.cg95.cvq.xml.common.RequestStateType;
 
-public class RequestServiceEndpointTest extends ServiceTestCase {
+public class RequestServiceEndpointTest extends RequestTestCase {
     
     private IExternalProviderService fakeExternalService;
     private String fakeExternalServiceLabel = "Fake External Service";
@@ -91,7 +91,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             
-            CreationBean cb = this.gimmeAnHomeFolder();
+            CreationBean cb = this.gimmeAnHomeFolderWithRequest();
             this.continueWithNewTransaction();
             
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -193,7 +193,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             
-            this.gimmeAnHomeFolder();
+            this.gimmeAnHomeFolderWithRequest();
             this.continueWithNewTransaction();
             
             GetRequestsRequest getRequest = GetRequestsRequest.Factory.newInstance();
@@ -413,8 +413,8 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             completeCountBefore = completeResponse.getRequestArray().length;
             
             /* Create new request and child entities */
-            CreationBean cb = this.gimmeAnHomeFolder();
-            this.gimmeAnHomeFolder();
+            CreationBean cb = this.gimmeAnHomeFolderWithRequest();
+            this.gimmeAnHomeFolderWithRequest();
             this.continueWithNewTransaction();
             
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);

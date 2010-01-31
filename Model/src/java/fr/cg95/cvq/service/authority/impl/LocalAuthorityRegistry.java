@@ -470,8 +470,8 @@ public class LocalAuthorityRegistry
     @Override
     public boolean hasLocalAuthorityResource(String id, Version version)
         throws CvqException {
-        File resource = getLocalAuthorityResourceFile(id, version, false);
-        return (resource != null && resource.exists());
+        File resourceFile = getLocalAuthorityResourceFile(id, version, false);
+        return resourceFile != null && resourceFile.exists();
     }
 
     @Override

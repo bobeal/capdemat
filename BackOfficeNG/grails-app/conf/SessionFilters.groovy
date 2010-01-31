@@ -5,7 +5,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.ContextType
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import fr.cg95.cvq.util.web.filter.CASFilter
 
@@ -305,5 +305,16 @@ class SessionFilters {
                 }
         	}
         }
+
+		setBackOfficeAgentForRequests(controller: 'backoffice*', action: '*') {
+			before = {
+			    ICategoryService categoryService =
+                    applicationContext.getBean("categoryService")
+			    if (!categoryService.getManaged().isEmpty())
+				    session['isACategoryManager'] = true
+			    else
+				    session['isACategoryManager'] = false
+			}
+		}
     }
 }

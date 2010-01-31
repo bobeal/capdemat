@@ -12,7 +12,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.leisure.music.IMusicSchoolRegistrationRequestService;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 
@@ -27,7 +26,7 @@ import java.util.Set;
  *
  * @author Victor Bartel (vba@zenexity.fr)
  */
-public class RequestDraftTest extends ServiceTestCase {
+public class RequestDraftTest extends RequestTestCase {
 
     private IRequestDAO requestDAO;
     private IMusicSchoolRegistrationRequestService requestService;
@@ -121,7 +120,7 @@ public class RequestDraftTest extends ServiceTestCase {
     }
     
     void createDrafts(int step) throws CvqException {
-        CreationBean bean = this.gimmeAnHomeFolder();
+        CreationBean bean = this.gimmeAnHomeFolderWithRequest();
         
         for(int i = 1;i<=step;i++) {
             SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);

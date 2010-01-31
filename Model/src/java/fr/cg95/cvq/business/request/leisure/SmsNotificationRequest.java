@@ -90,7 +90,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
         smsNotificationRequest.fillCommonModelInfo(smsNotificationRequest,smsNotificationRequestXml);
         smsNotificationRequest.setCleverSmsContactId(smsNotificationRequestXml.getCleverSmsContactId());
         smsNotificationRequest.setMobilePhone(smsNotificationRequestXml.getMobilePhone());
-        List<fr.cg95.cvq.business.users.LocalReferentialData> interestsList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        List<fr.cg95.cvq.business.request.LocalReferentialData> interestsList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData> ();
         if ( smsNotificationRequestXml.sizeOfInterestsArray() > 0) {
             for (int i = 0; i < smsNotificationRequestXml.getInterestsArray().length; i++) {
                 interestsList.add(LocalReferentialData.xmlToModel(smsNotificationRequestXml.getInterestsArray(i)));
@@ -132,9 +132,9 @@ public class SmsNotificationRequest extends Request implements Serializable {
         return this.mobilePhone;
     }
 
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> interests;
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> interests;
 
-    public final void setInterests(final List<fr.cg95.cvq.business.users.LocalReferentialData> interests) {
+    public final void setInterests(final List<fr.cg95.cvq.business.request.LocalReferentialData> interests) {
         this.interests = interests;
     }
 
@@ -151,9 +151,9 @@ public class SmsNotificationRequest extends Request implements Serializable {
      *  column="interests_index"
      * @hibernate.many-to-many
      *  column="interests_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
      */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getInterests() {
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterests() {
         return this.interests;
     }
 

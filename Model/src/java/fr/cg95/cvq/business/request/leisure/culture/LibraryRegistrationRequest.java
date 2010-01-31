@@ -92,7 +92,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         libraryRegistrationRequest.fillCommonModelInfo(libraryRegistrationRequest,libraryRegistrationRequestXml);
         libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
         libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
-        List<fr.cg95.cvq.business.users.LocalReferentialData> subscriptionList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        List<fr.cg95.cvq.business.request.LocalReferentialData> subscriptionList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData> ();
         if ( libraryRegistrationRequestXml.sizeOfSubscriptionArray() > 0) {
             for (int i = 0; i < libraryRegistrationRequestXml.getSubscriptionArray().length; i++) {
                 subscriptionList.add(LocalReferentialData.xmlToModel(libraryRegistrationRequestXml.getSubscriptionArray(i)));
@@ -148,9 +148,9 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         return this.subscriptionPrice;
     }
 
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> subscription;
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> subscription;
 
-    public final void setSubscription(final List<fr.cg95.cvq.business.users.LocalReferentialData> subscription) {
+    public final void setSubscription(final List<fr.cg95.cvq.business.request.LocalReferentialData> subscription) {
         this.subscription = subscription;
     }
 
@@ -167,9 +167,9 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
      *  column="subscription_index"
      * @hibernate.many-to-many
      *  column="subscription_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
      */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getSubscription() {
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
         return this.subscription;
     }
 

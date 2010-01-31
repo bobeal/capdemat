@@ -20,14 +20,13 @@ import cleversms.services.soap.CleverSMSContactSEI;
 import cleversms.services.soap.Contact;
 import cleversms.services.soap.ContactNotFoundException;
 import cleversms.services.soap.ExtendValue;
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.request.LocalReferentialEntry;
 import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
@@ -162,12 +161,6 @@ public class CleverService implements IExternalProviderService {
     public Map<Date, String> getConsumptionsByRequest(Request request, Date dateFrom, Date dateTo)
             throws CvqException {
         logger.info("getConsumptionsByRequest() no action associated");
-        return null;
-    }
-
-    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId, String externalHomeFolderId, String externalId)
-            throws CvqException {
-        logger.info("getIndividualAccountsInformation() no action associated");
         return null;
     }
 

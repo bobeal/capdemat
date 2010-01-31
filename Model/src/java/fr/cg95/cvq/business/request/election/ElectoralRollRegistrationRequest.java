@@ -56,18 +56,18 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         ElectoralRollRegistrationRequestDocument electoralRollRegistrationRequestDoc = ElectoralRollRegistrationRequestDocument.Factory.newInstance();
         ElectoralRollRegistrationRequestDocument.ElectoralRollRegistrationRequest electoralRollRegistrationRequest = electoralRollRegistrationRequestDoc.addNewElectoralRollRegistrationRequest();
         super.fillCommonXmlInfo(electoralRollRegistrationRequest);
-        if (this.subjectAddressOutsideCity != null)
-            electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.modelToXml(this.subjectAddressOutsideCity));
         if (this.subjectNationality != null)
             electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(this.subjectNationality.toString()));
         electoralRollRegistrationRequest.setSubjectOldCity(this.subjectOldCity);
+        if (this.subjectAddressOutsideCity != null)
+            electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.modelToXml(this.subjectAddressOutsideCity));
         if (this.pollingStation != null)
             electoralRollRegistrationRequest.setPollingStation(this.pollingStation.longValue());
-        if (this.electoralNumber != null)
-            electoralRollRegistrationRequest.setElectoralNumber(this.electoralNumber.longValue());
         electoralRollRegistrationRequest.setPollingSchoolName(this.pollingSchoolName);
         if (this.motive != null)
             electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.xml.request.election.ElectoralMotiveType.Enum.forString(this.motive.toString()));
+        if (this.electoralNumber != null)
+            electoralRollRegistrationRequest.setElectoralNumber(this.electoralNumber.longValue());
         return electoralRollRegistrationRequestDoc;
     }
 
@@ -85,40 +85,23 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         List list = new ArrayList();
         ElectoralRollRegistrationRequest electoralRollRegistrationRequest = new ElectoralRollRegistrationRequest();
         electoralRollRegistrationRequest.fillCommonModelInfo(electoralRollRegistrationRequest,electoralRollRegistrationRequestXml);
-        if (electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity() != null)
-            electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.xmlToModel(electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity()));
         if (electoralRollRegistrationRequestXml.getSubjectNationality() != null)
             electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.business.users.NationalityType.forString(electoralRollRegistrationRequestXml.getSubjectNationality().toString()));
         else
             electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
         electoralRollRegistrationRequest.setSubjectOldCity(electoralRollRegistrationRequestXml.getSubjectOldCity());
+        if (electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity() != null)
+            electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.xmlToModel(electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity()));
         if (electoralRollRegistrationRequestXml.getPollingStation() != 0)
             electoralRollRegistrationRequest.setPollingStation(new Long(electoralRollRegistrationRequestXml.getPollingStation()));
-        if (electoralRollRegistrationRequestXml.getElectoralNumber() != 0)
-            electoralRollRegistrationRequest.setElectoralNumber(new Long(electoralRollRegistrationRequestXml.getElectoralNumber()));
         electoralRollRegistrationRequest.setPollingSchoolName(electoralRollRegistrationRequestXml.getPollingSchoolName());
         if (electoralRollRegistrationRequestXml.getMotive() != null)
             electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.business.request.election.ElectoralMotiveType.forString(electoralRollRegistrationRequestXml.getMotive().toString()));
         else
             electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.business.request.election.ElectoralMotiveType.getDefaultElectoralMotiveType());
+        if (electoralRollRegistrationRequestXml.getElectoralNumber() != 0)
+            electoralRollRegistrationRequest.setElectoralNumber(new Long(electoralRollRegistrationRequestXml.getElectoralNumber()));
         return electoralRollRegistrationRequest;
-    }
-
-    private fr.cg95.cvq.business.users.Address subjectAddressOutsideCity;
-
-    public final void setSubjectAddressOutsideCity(final fr.cg95.cvq.business.users.Address subjectAddressOutsideCity) {
-        this.subjectAddressOutsideCity = subjectAddressOutsideCity;
-    }
-
-
-    /**
-     * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="subject_address_outside_city_id"
-     *  class="fr.cg95.cvq.business.users.Address"
-     */
-    public final fr.cg95.cvq.business.users.Address getSubjectAddressOutsideCity() {
-        return this.subjectAddressOutsideCity;
     }
 
     private fr.cg95.cvq.business.users.NationalityType subjectNationality;
@@ -153,6 +136,23 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         return this.subjectOldCity;
     }
 
+    private fr.cg95.cvq.business.users.Address subjectAddressOutsideCity;
+
+    public final void setSubjectAddressOutsideCity(final fr.cg95.cvq.business.users.Address subjectAddressOutsideCity) {
+        this.subjectAddressOutsideCity = subjectAddressOutsideCity;
+    }
+
+
+    /**
+     * @hibernate.many-to-one
+     *  cascade="all"
+     *  column="subject_address_outside_city_id"
+     *  class="fr.cg95.cvq.business.users.Address"
+     */
+    public final fr.cg95.cvq.business.users.Address getSubjectAddressOutsideCity() {
+        return this.subjectAddressOutsideCity;
+    }
+
     private Long pollingStation;
 
     public final void setPollingStation(final Long pollingStation) {
@@ -166,21 +166,6 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
      */
     public final Long getPollingStation() {
         return this.pollingStation;
-    }
-
-    private Long electoralNumber;
-
-    public final void setElectoralNumber(final Long electoralNumber) {
-        this.electoralNumber = electoralNumber;
-    }
-
-
-    /**
-     * @hibernate.property
-     *  column="electoral_number"
-     */
-    public final Long getElectoralNumber() {
-        return this.electoralNumber;
     }
 
     private String pollingSchoolName;
@@ -211,6 +196,21 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
      */
     public final fr.cg95.cvq.business.request.election.ElectoralMotiveType getMotive() {
         return this.motive;
+    }
+
+    private Long electoralNumber;
+
+    public final void setElectoralNumber(final Long electoralNumber) {
+        this.electoralNumber = electoralNumber;
+    }
+
+
+    /**
+     * @hibernate.property
+     *  column="electoral_number"
+     */
+    public final Long getElectoralNumber() {
+        return this.electoralNumber;
     }
 
 }

@@ -17,7 +17,6 @@ import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
@@ -39,8 +38,8 @@ import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -48,7 +47,7 @@ import fr.cg95.cvq.util.Critere;
  *
  * @author bor@zenexity.fr
  */
-public class VoCardRequestServiceTest extends ServiceTestCase {
+public class VoCardRequestServiceTest extends RequestTestCase {
 
     public void testAll()
         throws CvqException, CvqInvalidTransitionException,
@@ -184,6 +183,7 @@ public class VoCardRequestServiceTest extends ServiceTestCase {
         assertNull(dcvoFromDb.getSubjectLastName());
         
         assertNotNull(iVoCardRequestService.getCertificate(dcvoFromDb.getId(), RequestState.PENDING));
+        assertEquals(1, dcvoFromDb.getActions().size());
         
         Adult homeFolderResponsibleFromDb = 
             iIndividualService.getAdultById(dcvoFromDb.getRequesterId());

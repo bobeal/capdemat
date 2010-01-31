@@ -62,14 +62,14 @@ public class DocumentContextCheckAspect implements Ordered {
                         } catch (CvqObjectNotFoundException confe) {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                                     joinPoint.getSignature().getName(), context.type(), context.privilege(), 
-                                    "unknown resource type : " + argument);
+                                    "no document match the given id : " + argument);
                         }
                     } else if (argument instanceof Document) {
                         document = (Document) argument;
                     } else {
                         throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                                 joinPoint.getSignature().getName(), context.type(), context.privilege(), 
-                                "unable to retrieve document from " + argument);
+                                "argument is of an unknown type " + argument);
                     }
                     homeFolderId = document.getHomeFolderId();
                     individualId = document.getIndividualId();

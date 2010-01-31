@@ -11,9 +11,8 @@ import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 
-public class CategoryServiceTest extends ServiceTestCase {
+public class CategoryServiceTest extends RequestTestCase {
 
     public void testCreateDelete() throws CvqException {
         
@@ -182,7 +181,7 @@ public class CategoryServiceTest extends ServiceTestCase {
         continueWithNewTransaction();
 
         // create an account creation request to make a test on categories rights
-        gimmeAnHomeFolder();
+        gimmeAnHomeFolderWithRequest();
         
         continueWithNewTransaction();
 

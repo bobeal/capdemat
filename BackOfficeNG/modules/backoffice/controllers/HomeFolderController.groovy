@@ -8,9 +8,9 @@ import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.service.request.IRequestService
-import fr.cg95.cvq.payment.IPaymentService
+import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.business.users.HomeFolder
-import fr.cg95.cvq.business.users.payment.Payment
+import fr.cg95.cvq.business.payment.Payment
 import fr.cg95.cvq.business.users.Adult
 
 class HomeFolderController {
@@ -82,9 +82,8 @@ class HomeFolderController {
     
     def payments = {
         def result = [payments:[]]
-        HomeFolder homefolder = this.homeFolderService.getById(Long.parseLong(params.id))
         
-        for(Payment payment : this.paymentService.getByHomeFolder(homefolder)) {
+        for (Payment payment : this.paymentService.getByHomeFolder(Long.parseLong(params.id))) {
             result.payments.add([
                 'id' : payment.id,
                 'initializationDate' : payment.initializationDate,

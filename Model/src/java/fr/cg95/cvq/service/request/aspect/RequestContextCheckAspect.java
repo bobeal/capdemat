@@ -169,19 +169,21 @@ public class RequestContextCheckAspect implements Ordered {
                         requestType = (RequestType) argument;
                     }
 
-                    if (requestType == null) {
-                        throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
-                            "no request type specified");
-                    }
+//                    if (requestType == null) {
+//                        throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+//                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+//                            "no request type specified");
+//                    }
 
-                    categoryId = requestType.getCategory().getId();
+                    if (requestType != null && requestType.getCategory() != null)
+                        categoryId = requestType.getCategory().getId();
                     
                 } else if (parameterAnnotation.annotationType().equals(IsCategory.class)) {
                     Category categoryToCheck = null;
                     if (argument instanceof Long) {
                         try {
-                            categoryToCheck = (Category) categoryDAO.findById(Category.class, (Long) argument);
+                            categoryToCheck = 
+                                (Category) categoryDAO.findById(Category.class, (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                                     joinPoint.getSignature().getName(), context.type(),
@@ -191,13 +193,9 @@ public class RequestContextCheckAspect implements Ordered {
                         categoryToCheck = (Category) argument;
                     }
 
-                    if (categoryToCheck == null) {
-                        throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
-                            "no category specified");
+                    if (categoryToCheck != null) {
+                        categoryId = categoryToCheck.getId();
                     }
-
-                    categoryId = categoryToCheck.getId();                    
                 }
             }
             i++;
@@ -212,24 +210,32 @@ public class RequestContextCheckAspect implements Ordered {
         
         if (SecurityContext.isBackOfficeContext()) {
 
-            // a MANAGER profile is required without a specific category
-            // eg case of statistics service
-            if (context.privilege().equals(ContextPrivilege.MANAGE) && categoryId == null) {
-                List<Category> agentCategories =
-                    categoryDAO.listByAgent(SecurityContext.getCurrentUserId(), CategoryProfile.MANAGER);
-                if (agentCategories != null && !agentCategories.isEmpty())
-                    return;
-
-                throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                    joinPoint.getSignature().getName(), context.type(), context.privilege(),
-                    "access denied on home folder " + homeFolderId);
-            }
-
-            // TODO ACMF : to be completed
             if (categoryId == null) {
-                logger.debug("contextAnnotatedMethod() no category or request type provided, "
-                    + "not performing any more special permission checks");
-                return;
+                if (context.privilege().equals(ContextPrivilege.MANAGE)) {
+                    // Check when a MANAGE role is asked without a specific category
+                    // Typically for statistics service where category filtering is performed later  
+
+                    List<Category> managedCategories = 
+                        categoryDAO.listByAgent(SecurityContext.getCurrentUserId(), 
+                                CategoryProfile.MANAGER);
+                    if (managedCategories != null)
+                        return;
+
+                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                    "current agent does not have a MANAGE role on any category");
+                } else {
+                    // Check when a READ or READ_WRITE role is asked without a specific category
+                    // Typically for local referential data which does not require such a strict check
+                    List<Category> categories = 
+                        categoryDAO.listByAgent(SecurityContext.getCurrentUserId(), null);
+                    if (categories != null)
+                        return;
+
+                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                    "current agent does not have a role on any category");                    
+                }
             }
             
             Category categoryToCheck = null;

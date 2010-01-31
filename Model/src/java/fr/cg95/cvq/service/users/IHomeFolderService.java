@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.users;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import fr.cg95.cvq.business.users.Address;
@@ -10,10 +9,6 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -116,14 +111,16 @@ public interface IHomeFolderService {
     void addRole(Individual owner, final Individual individual, final RoleType role)
         throws CvqException;
     
-    void addRole(Individual owner, final Individual individual, final Long homeFolderId, final RoleType role)
+    void addRole(Individual owner, final Individual individual, final Long homeFolderId, 
+            final RoleType role)
         throws CvqException;
     
     boolean removeRole(Individual owner, final Individual individual,  final RoleType role)
         throws CvqException;
     
-    boolean removeRole(Individual owner, final Individual individual, final Long homeFolderId, final RoleType role)
-    throws CvqException;
+    boolean removeRole(Individual owner, final Individual individual, final Long homeFolderId, 
+            final RoleType role)
+        throws CvqException;
     
     /**
      * Save or update all foreign (from homefolder) role owner.
@@ -169,38 +166,6 @@ public interface IHomeFolderService {
     List<Individual> getBySubjectRole(@IsIndividual Long subjectId, RoleType role);
 
     List<Individual> getBySubjectRoles(@IsIndividual Long subjectId, RoleType[] roles);
-
-    /**
-     * Get external accounts information and state for the given home folder. Designed
-     * to be called by an ecitizen from the Front Office.
-     *
-     * @param type the "account type" for which we want information (one of
-     *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_INVOICES}, 
-     *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_DEPOSIT_ACCOUNTS},
-     *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_TICKETING_ACCOUNTS}
-     *
-     */
-    Set<ExternalAccountItem> getExternalAccounts(@IsHomeFolder final Long homeFolderId, 
-            final String type)
-        throws CvqException;
-
-    Map<Individual, Map<String, String> > 
-        getIndividualExternalAccountsInformation(@IsHomeFolder final Long homeFolderId)
-        throws CvqException;
-    
-    /**
-     * Load the details of operations performed on this deposit account. Details
-     * are directly loaded into the provided object.
-     */
-    void loadExternalDepositAccountDetails(ExternalDepositAccountItem edai)
-        throws CvqException;
-    
-    /**
-     * Load the details of items paid along with this invoice. Details
-     * are directly loaded into the provided object.
-     */
-    void loadExternalInvoiceDetails(ExternalInvoiceItem eii)
-        throws CvqException;
 
     /**
      * Called by the request service to notify that a request has been validated.
@@ -255,21 +220,9 @@ public interface IHomeFolderService {
         throws CvqException, CvqObjectNotFoundException;
 
     /**
-     * Validate an home folder and its associated individuals.
-     */
-    void validate(@IsHomeFolder HomeFolder homeFolder)
-        throws CvqException, CvqObjectNotFoundException;
-
-    /**
      * Invalidate an home folder and its associated individuals.
      */
     void invalidate(@IsHomeFolder final Long id)
-        throws CvqException, CvqObjectNotFoundException;
-
-    /**
-     * Invalidate an home folder and its associated individuals.
-     */
-    void invalidate(@IsHomeFolder HomeFolder homeFolder)
         throws CvqException, CvqObjectNotFoundException;
 
     /**
@@ -277,18 +230,6 @@ public interface IHomeFolderService {
      */
     void archive(@IsHomeFolder final Long id)
         throws CvqException, CvqObjectNotFoundException;
-
-    /**
-     * Disable an home folder and its associated individuals and requests.
-     */
-    void archive(@IsHomeFolder HomeFolder homeFolder)
-        throws CvqException, CvqObjectNotFoundException;
-    
-    /**
-     * Send a confirmation mail to the home folder's responsible when the payment is commited.
-     */
-    void notifyPaymentByMail(Payment payment)
-    	throws CvqException;
 
     /**
      * Send the new password by email to the home folder's responsible,

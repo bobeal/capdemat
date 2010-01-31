@@ -7,15 +7,14 @@ import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.payment.IPaymentService;
+import fr.cg95.cvq.service.payment.IPaymentService;
 
 /**
  * The interface all external services must implement.
@@ -56,13 +55,6 @@ public interface IExternalProviderService {
      */
     Map<String, List<ExternalAccountItem> > getAccountsByHomeFolder(final Long homeFolderId, 
             final String externalHomeFolderId, final String externalId) 
-        throws CvqException;
-
-    /**
-     * Get information about individual's accounts. 
-     */
-    Map<Individual, Map<String, String> > getIndividualAccountsInformation(final Long homeFolderId, 
-            String externalHomeFolderId, final String externalId)
         throws CvqException;
 
     /**

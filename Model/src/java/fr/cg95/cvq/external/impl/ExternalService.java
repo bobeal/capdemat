@@ -19,21 +19,23 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentEvent;
+import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.Payment;
-import fr.cg95.cvq.business.users.payment.PaymentState;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.external.IExternalServiceMappingDAO;
 import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
@@ -50,7 +52,8 @@ import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.Critere;
 
-public class ExternalService implements IExternalService, BeanFactoryAware {
+public class ExternalService implements IExternalService, BeanFactoryAware,
+    ApplicationListener {
 
     private static Logger logger = Logger.getLogger(ExternalService.class);
 
@@ -175,11 +178,6 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     public void creditHomeFolderAccounts(Payment payment)
         throws CvqException {
 
-        if (!payment.getState().equals(PaymentState.VALIDATED)) {
-            logger.info("creditHomeFolderAccounts() not re-routing non validated payment");
-            return;
-        }
-        
         Map<String, List<PurchaseItem>> externalServicesToNotify = 
             new HashMap<String, List<PurchaseItem>>();
         Set<PurchaseItem> purchaseItems = payment.getPurchaseItems();
@@ -210,15 +208,14 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                     continue;
                 }
                 ExternalServiceIdentifierMapping esim = 
-                    getIdentifierMapping(externalServiceLabel, payment.getHomeFolder().getId());
+                    getIdentifierMapping(externalServiceLabel, payment.getHomeFolderId());
                 service.creditHomeFolderAccounts(externalServicesToNotify.get(externalServiceLabel), 
                         payment.getCvqReference(), payment.getBankReference(), 
-                        payment.getHomeFolder().getId(), 
+                        payment.getHomeFolderId(), 
                         esim == null ? null : esim.getExternalCapDematId(), 
                         esim == null ? null : esim.getExternalId(), payment.getCommitDate());
             }
         }
-
     }
 
     @Override
@@ -250,21 +247,35 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         return resultMap;
     }
 
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, String type) 
+        throws CvqException {
+        
+        // FIXME : at least request optimization or even refactoring ?
+        List<Request> requests = requestService.getByHomeFolderId(homeFolderId);
+        Set<String> homeFolderRequestsTypes = new HashSet<String>();
+        for (Request request : requests) {
+            homeFolderRequestsTypes.add(request.getRequestType().getLabel());
+        }
+
+        return getExternalAccounts(homeFolderId, homeFolderRequestsTypes, type);
+    }
+
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, 
             Set<String> homeFolderRequestTypes, String type) 
         throws CvqException {
 
-        Set<ExternalAccountItem> accountsInfoSet = new HashSet<ExternalAccountItem>();
         if (homeFolderRequestTypes == null || homeFolderRequestTypes.isEmpty())
-            return accountsInfoSet;
+            return Collections.emptySet();
         
         Set<IExternalProviderService> externalProviderServices =
             getExternalServicesByRequestTypes(homeFolderRequestTypes);
         if (externalProviderServices == null || externalProviderServices.isEmpty())
-            return accountsInfoSet;
+            return Collections.emptySet();
 
+        Set<ExternalAccountItem> accountsInfoSet = new HashSet<ExternalAccountItem>();
         for (IExternalProviderService service : externalProviderServices) {
             ExternalServiceBean esb = getBeanForExternalService(service);
             // ask accounts information by home folder or by request
@@ -289,44 +300,6 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public Map<Individual, Map<String, String>> getIndividualAccountsInformation(Long homeFolderId, 
-            Set<String> homeFolderRequestTypes)
-            throws CvqException {
-        
-        Map<Individual, Map<String,String>> result = new HashMap<Individual, Map<String,String>>();
-        
-        if (homeFolderRequestTypes == null || homeFolderRequestTypes.isEmpty())
-            return result;
-        
-        Set<IExternalProviderService> externalProviderServices =
-            getExternalServicesByRequestTypes(homeFolderRequestTypes);
-        if (externalProviderServices == null || externalProviderServices.isEmpty())
-            return result;
-        
-        for (IExternalProviderService externalProviderService : externalProviderServices) {
-            ExternalServiceIdentifierMapping esim = 
-                getIdentifierMapping(externalProviderService.getLabel(), homeFolderId);
-            Map<Individual, Map<String, String>> serviceResults = 
-                externalProviderService.getIndividualAccountsInformation(homeFolderId, 
-                        esim == null ? null : esim.getExternalCapDematId(), 
-                        esim == null ? null : esim.getExternalId());
-            if (serviceResults != null) {
-                for (Individual individual : serviceResults.keySet()) {
-                    if (result.get(individual) == null) {
-                        result.put(individual, serviceResults.get(individual));
-                    } else {
-                        Map<String, String> currentIndividualInfo = result.get(individual);
-                        currentIndividualInfo.putAll(serviceResults.get(individual));
-                    }
-                }
-            }
-        }
-        
-        return result;
-    }
-
-    @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {
         IExternalProviderService externalProviderService = 
             getExternalServiceByLabel(edai.getExternalServiceLabel());
@@ -346,7 +319,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         getRequestTypesForExternalService(String externalServiceLabel) {
         ExternalServiceBean esb =
             getBeanForExternalService(getExternalServiceByLabel(externalServiceLabel));
-        return esb == null ? Collections.EMPTY_LIST : esb.getRequestTypes();
+        return esb == null ? Collections.<String>emptyList() : esb.getRequestTypes();
     }
 
     @Override
@@ -519,6 +492,24 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
             }
         }
         return informations;
+    }
+
+
+    @Override
+    public void onApplicationEvent(ApplicationEvent applicationEvent) {
+        if (applicationEvent instanceof PaymentEvent) {
+            PaymentEvent paymentEvent = (PaymentEvent) applicationEvent;
+            logger.debug("onApplicationEvent() got a payment event of type "
+                    + paymentEvent.getEvent());
+            if (paymentEvent.getEvent().equals(PaymentEvent.EVENT_TYPE.PAYMENT_VALIDATED))
+                try {
+                    creditHomeFolderAccounts(paymentEvent.getPayment());
+                } catch (CvqException e) {
+                    // FIXME : we have nothing to handle this 
+                    logger.error("onApplicationEvent() unable to credit home folder account");
+                    e.printStackTrace();
+                }
+        }
     }
 
     public void setExternalServiceTraceDAO(IExternalServiceTraceDAO externalServiceTraceDAO) {

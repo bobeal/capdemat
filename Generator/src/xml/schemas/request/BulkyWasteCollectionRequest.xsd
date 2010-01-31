@@ -56,7 +56,7 @@
                   Kind of waste
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users" isTiedToRequest="true" />
+                  <model namespace="request" isTiedToRequest="true" />
                   <common>
                     <step name="waste" />
                   </common>

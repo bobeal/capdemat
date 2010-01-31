@@ -16,9 +16,8 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.service.request.school.SchoolRegistrationRequestFeeder;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 
-public class RequestSeasonServiceTest extends ServiceTestCase {
+public class RequestSeasonServiceTest extends RequestTestCase {
     
     private Long requestTypeId;
     private ISchoolRegistrationRequestService schoolRegistrationRequestService;
@@ -270,7 +269,7 @@ public class RequestSeasonServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
         // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
         Long voCardRequestId = cb.getRequestId();
         String proposedLogin = cb.getLogin();
 

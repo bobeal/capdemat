@@ -11,8 +11,8 @@ import org.hibernate.SessionFactory;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
-import fr.cg95.cvq.payment.IPaymentProviderService;
-import fr.cg95.cvq.payment.PaymentServiceBean;
+import fr.cg95.cvq.service.payment.IPaymentProviderService;
+import fr.cg95.cvq.service.payment.PaymentServiceBean;
 
 /**
  * A bean used to store configuration specific to a local authority.

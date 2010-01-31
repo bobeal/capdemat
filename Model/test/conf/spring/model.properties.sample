@@ -20,7 +20,7 @@ mail.admin_address=root@localhost
 agent.administrator_group=CVQ_ADMINISTRATORS
 agent.contributor_group=CVQ_CONTRIBUTORS
 
-fake_payment.url=/ServiceExporter/payment/fake_payment_input.html
+fake_payment.url=/CapDemat/service/fakePayment
 fake_payment.callbackUrl=/CapDemat/frontoffice/payment/status
 
 ###############################################################################

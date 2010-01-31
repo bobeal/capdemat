@@ -57,7 +57,7 @@
                   Activités périscolaires
                 </xs:documentation>
                 <xs:appinfo>
-                  <model namespace="users" isTiedToRequest="true" />
+                  <model namespace="request" isTiedToRequest="true" />
                   <common>
                     <step name="registration" />
                   </common>

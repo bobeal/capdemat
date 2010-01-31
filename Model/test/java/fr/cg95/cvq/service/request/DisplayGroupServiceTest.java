@@ -4,9 +4,9 @@ import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
-import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.security.SecurityContext;
 
-public class DisplayGroupServiceTest extends ServiceTestCase {
+public class DisplayGroupServiceTest extends RequestTestCase {
 
     @Override
     protected void onTearDown() throws Exception {
@@ -18,6 +18,10 @@ public class DisplayGroupServiceTest extends ServiceTestCase {
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
+        
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        
         for(DisplayGroup dg:iDisplayGroupService.getAll())
             iDisplayGroupService.delete(dg.getId());
         continueWithNewTransaction();

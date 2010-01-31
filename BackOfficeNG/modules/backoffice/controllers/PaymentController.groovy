@@ -1,7 +1,7 @@
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
-import fr.cg95.cvq.business.users.payment.PaymentState
-import fr.cg95.cvq.business.users.payment.PaymentMode
-import fr.cg95.cvq.payment.IPaymentService
+import fr.cg95.cvq.business.payment.PaymentState
+import fr.cg95.cvq.business.payment.PaymentMode
+import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.util.Critere
@@ -152,8 +152,8 @@ class PaymentController {
                 'broker':it.broker,
                 'cvqReference':it.cvqReference,
                 'bankReference':it.bankReference,
-                'requesterLastName':it.requester.lastName + " " + it.requester.firstName,
-                'homeFolderId':it.homeFolder.id,
+                'requesterLastName':it.requesterLastName + " " + it.requesterFirstName,
+                'homeFolderId':it.homeFolderId,
                 'initializationDate':it.initializationDate,
                 'commitDate':it.commitDate,
                 'paymentState':it.state.toString(),

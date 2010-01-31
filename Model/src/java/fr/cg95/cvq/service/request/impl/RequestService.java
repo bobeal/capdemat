@@ -20,12 +20,19 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
+import fr.cg95.cvq.business.payment.InternalInvoiceItem;
+import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentEvent;
+import fr.cg95.cvq.business.payment.PaymentState;
+import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.DataState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
@@ -42,9 +49,6 @@ import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.Payment;
-import fr.cg95.cvq.business.users.payment.PaymentState;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
@@ -87,7 +91,8 @@ import fr.cg95.cvq.xml.common.SubjectType;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public abstract class RequestService implements IRequestService, BeanFactoryAware {
+public abstract class RequestService implements IRequestService, BeanFactoryAware,
+    ApplicationListener {
 
     private static Logger logger = Logger.getLogger(RequestService.class);
 
@@ -570,16 +575,19 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
         Set<Long> requests = new HashSet<Long>();
         Set<PurchaseItem> purchaseItems = payment.getPurchaseItems();
         for (PurchaseItem purchaseItem : purchaseItems) {
-            // if purchase item is bound to a request, notify the corresponding service
-            if (purchaseItem.getRequestId() != null)
-                requests.add(purchaseItem.getRequestId());
+            // if purchase item came from us, notify the corresponding service
+            if (purchaseItem instanceof InternalInvoiceItem) {
+                InternalInvoiceItem internalInvoiceItem = (InternalInvoiceItem) purchaseItem;
+                if (internalInvoiceItem.getKeyOwner().equals("capdemat"))
+                    requests.add(Long.valueOf(internalInvoiceItem.getKey()));
+            }
         }
 
         if (!requests.isEmpty()) {
         	for (Long requestId : requests) {
         	    Request request = getById(requestId);
                 IRequestService requestService = 
-                    requestServiceRegistry.getRequestService(getById(requestId));
+                    requestServiceRegistry.getRequestService(request);
                 if (payment.getState().equals(PaymentState.VALIDATED))
                     requestService.onPaymentValidated(request, payment.getBankReference());
                 else if (payment.getState().equals(PaymentState.CANCELLED))
@@ -588,8 +596,6 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
                     requestService.onPaymentRefused(request);
             }
         }
-
-        externalService.creditHomeFolderAccounts(payment);
     }
 
     public boolean hasMatchingExternalService(final String requestLabel)
@@ -1201,6 +1207,15 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
 
         Request request = getById(id);
         delete(request);
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationEvent applicationEvent) {
+        if (applicationEvent instanceof PaymentEvent) {
+            PaymentEvent paymentEvent = (PaymentEvent) applicationEvent;
+            logger.debug("onApplicationEvent() got a payment event of type "
+                    + paymentEvent.getEvent());
+        }
     }
 
     public void onRequestValidated(Request request)

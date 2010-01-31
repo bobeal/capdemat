@@ -3,6 +3,8 @@ package fr.cg95.cvq.service.document.impl;
 import java.util.*;
 
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.document.DepositOrigin;
@@ -14,6 +16,7 @@ import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.document.DocumentTypeValidity;
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
@@ -34,7 +37,7 @@ import fr.cg95.cvq.util.translation.ITranslationService;
  *
  * @author bor@zenexity.fr
  */
-public class DocumentService implements IDocumentService {
+public class DocumentService implements IDocumentService, ApplicationListener {
 
     static Logger logger = Logger.getLogger(DocumentService.class);
 
@@ -43,11 +46,7 @@ public class DocumentService implements IDocumentService {
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
     private ITranslationService translationService;
-
-    public DocumentService() {
-        super();
-    }
-
+    
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public Document getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
@@ -263,14 +262,14 @@ public class DocumentService implements IDocumentService {
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void deleteHomeFolderDocuments(Long homeFolderId) throws CvqException {
+    private void deleteHomeFolderDocuments(Long homeFolderId) {
         List<Document> documents = getHomeFolderDocuments(homeFolderId, -1);
         for (Document document : documents)
             documentDAO.delete(document);
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void deleteIndividualDocuments(Long individualId) throws CvqException {
+    private void deleteIndividualDocuments(Long individualId) {
         List<Document> documents = getIndividualDocuments(individualId);
         logger.debug("deleteIndividualDocuments() deleting " + documents.size() + " document(s)");
         for (Document document : documents)
@@ -298,8 +297,7 @@ public class DocumentService implements IDocumentService {
     }
 
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<Document> getIndividualDocuments(final Long individualId)
-        throws CvqException {
+    public List<Document> getIndividualDocuments(final Long individualId) {
 
         return documentDAO.listByIndividual(individualId);
     }
@@ -486,6 +484,24 @@ public class DocumentService implements IDocumentService {
         return result;
     }
     
+    @Override
+    public void onApplicationEvent(ApplicationEvent applicationEvent) {
+        if (applicationEvent instanceof UsersEvent) {
+            UsersEvent homeFolderEvent = (UsersEvent) applicationEvent;
+            logger.debug("onApplicationEvent() got an home folder event of type "
+                    + homeFolderEvent.getEvent());
+            if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_DELETE)) {
+                logger.debug("onApplicationEvent() gonna delete home folder "
+                        + homeFolderEvent.getHomeFolderId());
+                deleteHomeFolderDocuments(homeFolderEvent.getHomeFolderId());
+            } else if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.INDIVIDUAL_DELETE)) {
+                logger.debug("onApplicationEvent() gonna delete individual "
+                        + homeFolderEvent.getIndividualId());
+                deleteIndividualDocuments(homeFolderEvent.getIndividualId());
+            }
+        }
+    }
+
     public void setDocumentDAO(final IDocumentDAO documentDAO) {
         this.documentDAO = documentDAO;
     }

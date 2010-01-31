@@ -2,11 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xmlns:aop="http://www.springframework.org/schema/aop"
-     xmlns:context="http://www.springframework.org/schema/context"
      xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
   <aop:aspectj-autoproxy/>
 
@@ -15,10 +13,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="hibernateExceptionTranslatorAspect" 
     class="fr.cg95.cvq.dao.hibernate.HibernateExceptionTranslatorAspect" />
 
-  <!-- 
-  <context:component-scan base-package="fr.cg95.cvq.service.request"/>
-  -->
-  
   <!-- ======================================================= -->
   <!-- ========== GENERAL SERVICES DEFINITION ================ -->  
   <!-- ======================================================= -->
@@ -111,7 +105,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="requestActionDAO" ref="requestActionDAO" />
     <property name="requestDAO" ref="requestDAO" />  
     <property name="requestTypeDAO" ref="requestTypeDAO" />
-    <property name="categoryService" ref="categoryService" />
+    <property name="categoryDAO" ref="categoryDAO" />
   </bean>
 
   <bean id="requestFilterAspect"
@@ -187,6 +181,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="requestFormDAO" ref="requestFormDAO"/>
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
     <property name="documentTypeService" ref="documentTypeService" />
+    <property name="categoryService" ref="categoryService" />
   </bean>
 
   <bean id="requestActionService" class="fr.cg95.cvq.service.request.impl.RequestActionService">
@@ -232,42 +227,18 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="authenticationService" ref="authenticationService"/>
   </bean>
 
-  <bean id="homeFolderService" class="fr.cg95.cvq.service.users.impl.HomeFolderService"
-    init-method="init">
+  <bean id="homeFolderService" class="fr.cg95.cvq.service.users.impl.HomeFolderService">
     <property name="localAuthorityRegistry"> 
   	 	<ref bean="localAuthorityRegistry"/>
   	</property>
-	  <property name="mailService">
+    <property name="mailService">
 	   <ref local="mailService"/>
     </property>
-    <property name="individualService">
-      <ref local="individualService"/>
-    </property>
-    <property name="documentService" ref="documentService" />
-    <!-- 
-    <property name="requestService">
-      <ref local="defaultRequestService"/>
-    </property>
-    <property name="requestWorkflowService">
-      <ref local="requestWorkflowService"/>
-    </property>
-    -->
-    <property name="paymentService">
-      <ref local="paymentService"/>
-    </property>
-    <property name="externalService" ref="externalService" />
-    <property name="genericDAO">
-      <ref local="genericDAO"/>
-    </property>
-    <property name="homeFolderDAO">
-      <ref local="homeFolderDAO"/>
-    </property>
-    <property name="childDAO">
-      <ref local="childDAO"/>
-    </property>
-    <property name="adultDAO">
-      <ref local="adultDAO"/>
-    </property>
+    <property name="individualService" ref="individualService"/>
+    <property name="genericDAO" ref="genericDAO" />
+    <property name="homeFolderDAO" ref="homeFolderDAO"/>
+    <property name="childDAO" ref="childDAO"/>
+    <property name="adultDAO" ref="adultDAO"/>
     <property name="individualDAO" ref="individualDAO" />
   </bean>
   
@@ -295,7 +266,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
   <bean id="documentTypeService" class="fr.cg95.cvq.service.document.impl.DocumentTypeService">
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
-    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="performDbUpdates" value="@perform_db_updates@"/>
     <property name="documentBootstrapper">
       <bean class="fr.cg95.cvq.service.document.impl.DocumentBootstrapper">
@@ -565,15 +535,13 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   </bean>
 
   <bean id="paymentFilterAspect"
-    class="fr.cg95.cvq.payment.aspect.PaymentFilterAspect" />
+    class="fr.cg95.cvq.service.payment.aspect.PaymentFilterAspect" />
 
-  <bean id="paymentService" class="fr.cg95.cvq.payment.impl.PaymentService" init-method="init">
+  <bean id="paymentService" class="fr.cg95.cvq.service.payment.impl.PaymentService">
     <property name="paymentDAO" ref="paymentDAO" />
-    <!-- 
-    <property name="requestService" ref="defaultRequestService" />
-    <property name="homeFolderService" ref="homeFolderService" />
-    <property name="externalService" ref="externalService" />
-    -->
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
+    <property name="mailService" ref="mailService" />
+    <property name="individualService" ref="individualService" />
   </bean>
 
   <bean id="displayGroupService" class="fr.cg95.cvq.service.request.impl.DisplayGroupService">
@@ -638,7 +606,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
   <bean id="documentDAO" class="fr.cg95.cvq.dao.document.hibernate.DocumentDAO" parent="genericDAO"/>
 
-  <bean id="paymentDAO" class="fr.cg95.cvq.dao.users.hibernate.PaymentDAO" parent="genericDAO"/>
+  <bean id="paymentDAO" class="fr.cg95.cvq.dao.payment.hibernate.PaymentDAO" parent="genericDAO"/>
 
   <bean id="meansOfContactDAO" class="fr.cg95.cvq.dao.request.hibernate.MeansOfContactDAO" parent="genericDAO"/>
 

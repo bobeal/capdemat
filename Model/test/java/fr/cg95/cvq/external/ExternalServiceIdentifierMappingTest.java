@@ -16,27 +16,30 @@ import org.jmock.Mockery;
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestService;
+import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.testtool.HasInnerProperty;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
-public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
+/**
+ * FIXME : dependency on request test case has to be fixed
+ */
+public class ExternalServiceIdentifierMappingTest extends RequestTestCase {
 
     private IExternalService externalService;
 
@@ -101,7 +104,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         lacb.registerExternalService(mockExternalService, esb);
 
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
@@ -132,7 +135,7 @@ public class ExternalServiceIdentifierMappingTest extends ServiceTestCase {
 
     public void testSetExternalId() throws CvqException {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        final CreationBean cb = gimmeAnHomeFolder();
+        final CreationBean cb = gimmeAnHomeFolderWithRequest();
         homeFolderId = cb.getHomeFolderId();
         ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();

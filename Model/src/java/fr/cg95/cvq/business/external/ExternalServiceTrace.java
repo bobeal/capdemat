@@ -30,7 +30,7 @@ public class ExternalServiceTrace implements Serializable {
     private String key;
 
     /**
-     * Additionnal information to distinguish between traces related to
+     * Additional information to distinguish between traces related to
      * different parts of the communication with the external service.
      */
     private String subkey;

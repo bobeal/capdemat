@@ -16,11 +16,11 @@ import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 
-public class RequestSeasonsJobTest extends ServiceTestCase {
+public class RequestSeasonsJobTest extends RequestTestCase {
  
     private RequestSeasonsJob requestSeasonsJob;
     private ISchoolRegistrationRequestService schoolRegistrationRequestService;
@@ -85,7 +85,7 @@ public class RequestSeasonsJobTest extends ServiceTestCase {
             SecurityContext.FRONT_OFFICE_CONTEXT);
         
         // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
         String proposedLogin = cb.getLogin();
 
         // close current session and re-open a new one

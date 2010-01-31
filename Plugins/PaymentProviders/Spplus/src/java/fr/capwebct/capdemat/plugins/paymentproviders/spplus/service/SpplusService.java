@@ -17,14 +17,14 @@ import org.apache.log4j.Logger;
 
 import fr.capwebct.capdemat.plugins.paymentproviders.spplus.crypto.sha;
 import fr.capwebct.capdemat.plugins.paymentproviders.spplus.utils.URLEncryption;
-import fr.cg95.cvq.business.users.payment.Payment;
-import fr.cg95.cvq.business.users.payment.PaymentMode;
+import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.payment.IPaymentProviderService;
-import fr.cg95.cvq.payment.PaymentResultBean;
-import fr.cg95.cvq.payment.PaymentResultStatus;
-import fr.cg95.cvq.payment.PaymentServiceBean;
+import fr.cg95.cvq.service.payment.IPaymentProviderService;
+import fr.cg95.cvq.service.payment.PaymentResultBean;
+import fr.cg95.cvq.service.payment.PaymentResultStatus;
+import fr.cg95.cvq.service.payment.PaymentServiceBean;
 
 public class SpplusService implements IPaymentProviderService {
 
@@ -59,7 +59,7 @@ public class SpplusService implements IPaymentProviderService {
         urlParameters.append("siret=").append(spplusSiret);
         parameters.append(spplusSiret);
         
-        String reference = payment.getHomeFolder().getId() + "S" + random.nextInt();
+        String reference = payment.getHomeFolderId() + "S" + random.nextInt();
         urlParameters.append("&reference=").append(reference);
         parameters.append(reference);
         payment.setCvqReference(reference);
@@ -90,7 +90,7 @@ public class SpplusService implements IPaymentProviderService {
         urlParameters.append("&modalite=1x");
         parameters.append("1x");
         
-        String homeFolderEmail = payment.getRequester().getEmail();
+        String homeFolderEmail = payment.getPaymentSpecificDataByKey(Payment.SPECIFIC_DATA_EMAIL);
         if (homeFolderEmail != null && !homeFolderEmail.equals("")) {
             urlParameters.append("&email=").append(homeFolderEmail);
             parameters.append(homeFolderEmail);

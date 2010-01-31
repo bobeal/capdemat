@@ -40,7 +40,7 @@ public class SystemArchitecture {
      * PCD, like so "bean(*Service)". (This assumes that you have
      * named your Spring service beans in a consistent fashion.)
      */
-    @Pointcut("execution(* fr.cg95.cvq.service..*Service.*(..)) || execution(* fr.cg95.cvq.payment..*Service.*(..)) || execution(* fr.cg95.cvq.external..*Service.*(..))")
+    @Pointcut("execution(* fr.cg95.cvq.service..*Service.*(..)) || execution(* fr.cg95.cvq.external..*Service.*(..))")
     public void businessService() {}
     
     /**

@@ -1,7 +1,6 @@
 package fr.cg95.cvq.dao.authority;
 
 import java.util.List;
-import java.util.Set;
 
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.dao.IGenericDAO;

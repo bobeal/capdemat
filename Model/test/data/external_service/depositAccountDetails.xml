@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<accountDetails account-id="95999-3-1910782193">
+<accountDetails account-id="95999-3-1910782193" 
+    xmlns="http://www.capwebct.fr/modules/payment/schema/acc">
   <accountDetail>
     <date>2009-10-20T15:35:34.163</date>
     <holder-name>Benoit</holder-name>

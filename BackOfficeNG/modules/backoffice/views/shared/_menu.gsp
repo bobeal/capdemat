@@ -18,7 +18,7 @@
     <a id="requestTypeMenuItem" href="${createLink(controller:'backofficeRequestType')}">
       <g:message code="menu.requestTypes" />
     </a>
-    <g:if test="${session.currentCredentialBean.isACategoryManager()}">
+    <g:if test="${session.isACategoryManager}">
       <a id="statisticsMenuItem" href="${createLink(controller:'backofficeStatistic')}">
         <g:message code="menu.statistics" />
       </a>

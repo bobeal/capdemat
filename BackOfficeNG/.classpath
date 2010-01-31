@@ -89,5 +89,11 @@
 	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-Model-4.1.jar"/>
 	<classpathentry kind="lib" path="/CapDemat/Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.1.jar"/>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/org.joda/joda-time-1.6.jar"/>
+	<classpathentry kind="lib" path="/CapDemat/Libraries/org.apache/xmlbean/xbean.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://xmlbeans.apache.org/docs/2.0.0/reference/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>

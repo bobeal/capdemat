@@ -24,7 +24,7 @@ public class EdemandeServiceTest extends StudyGrantRequestServiceTest {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
 
         SecurityContext.setCurrentEcitizen(cb.getLogin());
 

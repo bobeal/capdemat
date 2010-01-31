@@ -19,9 +19,9 @@ import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.service.request.RequestTestCase;
 
-public class RequestXmlGenerationJobTest extends ServiceTestCase {
+public class RequestXmlGenerationJobTest extends RequestTestCase {
 
     private IExternalService           externalService;
     private RequestXmlGenerationJob        generationJob;
@@ -130,7 +130,7 @@ public class RequestXmlGenerationJobTest extends ServiceTestCase {
     
     protected void createDummyEntities() throws CvqException {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
-        this.creationBean = this.gimmeAnHomeFolder();
+        this.creationBean = this.gimmeAnHomeFolderWithRequest();
         this.continueWithNewTransaction();
     }
     

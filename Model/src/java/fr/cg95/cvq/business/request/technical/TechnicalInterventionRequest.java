@@ -91,7 +91,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         technicalInterventionRequest.setInterventionDescription(technicalInterventionRequestXml.getInterventionDescription());
         if (technicalInterventionRequestXml.getInterventionPlace() != null)
             technicalInterventionRequest.setInterventionPlace(Address.xmlToModel(technicalInterventionRequestXml.getInterventionPlace()));
-        List<fr.cg95.cvq.business.users.LocalReferentialData> interventionTypeList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        List<fr.cg95.cvq.business.request.LocalReferentialData> interventionTypeList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData> ();
         if ( technicalInterventionRequestXml.sizeOfInterventionTypeArray() > 0) {
             for (int i = 0; i < technicalInterventionRequestXml.getInterventionTypeArray().length; i++) {
                 interventionTypeList.add(LocalReferentialData.xmlToModel(technicalInterventionRequestXml.getInterventionTypeArray(i)));
@@ -148,9 +148,9 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         return this.interventionPlace;
     }
 
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> interventionType;
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> interventionType;
 
-    public final void setInterventionType(final List<fr.cg95.cvq.business.users.LocalReferentialData> interventionType) {
+    public final void setInterventionType(final List<fr.cg95.cvq.business.request.LocalReferentialData> interventionType) {
         this.interventionType = interventionType;
     }
 
@@ -167,9 +167,9 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
      *  column="intervention_type_index"
      * @hibernate.many-to-many
      *  column="intervention_type_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
      */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getInterventionType() {
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterventionType() {
         return this.interventionType;
     }
 

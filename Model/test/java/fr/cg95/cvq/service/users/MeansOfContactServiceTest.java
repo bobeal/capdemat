@@ -28,7 +28,7 @@ public class MeansOfContactServiceTest extends ServiceTestCase {
         assertEquals(mocEmail.getType(), MeansOfContactEnum.EMAIL);
         assertEquals(mocSms.getType(), MeansOfContactEnum.SMS);
         
-        // Get all availabled
+        // Get all available
         List<MeansOfContact> fetchMoc = iMeansOfContactService.getAvailableMeansOfContact();
         assertEquals(fetchMoc.size(), MeansOfContactEnum.allMeansOfContactEnums.length);
         
@@ -75,7 +75,7 @@ public class MeansOfContactServiceTest extends ServiceTestCase {
     }
     
     public void testBusinessError() {
-        // Test default MeansOfContact initialisation 
+        // Test default MeansOfContact initialization 
         MeansOfContact moc = iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
         assertEquals(true, moc.isEnabled());
         

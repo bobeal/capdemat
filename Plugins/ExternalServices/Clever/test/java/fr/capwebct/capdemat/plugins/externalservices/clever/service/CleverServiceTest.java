@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.context.ConfigurableApplicationContext;
 
+import fr.cg95.cvq.business.request.LocalReferentialData;
 import fr.cg95.cvq.business.request.leisure.SmsNotificationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;

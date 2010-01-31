@@ -144,7 +144,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequest.setHospitalizationPermission(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getHospitalizationPermission()));
         perischoolActivityRegistrationRequest.setRulesAndRegulationsAcceptance(Boolean.valueOf(perischoolActivityRegistrationRequestXml.getRulesAndRegulationsAcceptance()));
         perischoolActivityRegistrationRequest.setUrgencyPhone(perischoolActivityRegistrationRequestXml.getUrgencyPhone());
-        List<fr.cg95.cvq.business.users.LocalReferentialData> perischoolActivityList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData> ();
         if ( perischoolActivityRegistrationRequestXml.sizeOfPerischoolActivityArray() > 0) {
             for (int i = 0; i < perischoolActivityRegistrationRequestXml.getPerischoolActivityArray().length; i++) {
                 perischoolActivityList.add(LocalReferentialData.xmlToModel(perischoolActivityRegistrationRequestXml.getPerischoolActivityArray(i)));
@@ -296,9 +296,9 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         return this.urgencyPhone;
     }
 
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> perischoolActivity;
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivity;
 
-    public final void setPerischoolActivity(final List<fr.cg95.cvq.business.users.LocalReferentialData> perischoolActivity) {
+    public final void setPerischoolActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivity) {
         this.perischoolActivity = perischoolActivity;
     }
 
@@ -315,9 +315,9 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
      *  column="perischool_activity_index"
      * @hibernate.many-to-many
      *  column="perischool_activity_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
      */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getPerischoolActivity() {
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getPerischoolActivity() {
         return this.perischoolActivity;
     }
 

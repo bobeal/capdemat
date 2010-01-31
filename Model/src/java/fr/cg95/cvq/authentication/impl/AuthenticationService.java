@@ -112,7 +112,7 @@ public class AuthenticationService implements IAuthenticationService {
             logger.warn("checkHomeFolderState() user belongs to an archived account");
             throw new CvqUnknownUserException();
         }
-        if (!homeFolder.getEnabled().booleanValue()) {
+        if (!homeFolder.getEnabled()) {
             logger.warn("checkHomeFolderState() user belongs to a disabled account");
             throw new CvqDisabledAccountException();
         }

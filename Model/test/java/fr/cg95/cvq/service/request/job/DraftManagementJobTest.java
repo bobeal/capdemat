@@ -12,8 +12,8 @@ import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.request.RequestTestCase;
 import fr.cg95.cvq.service.request.civil.IBirthDetailsRequestService;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 
@@ -22,7 +22,7 @@ import fr.cg95.cvq.util.DateUtils;
  *
  * @author Victor Bartel (vba@zenexity.fr)
  */
-public class DraftManagementJobTest extends ServiceTestCase {
+public class DraftManagementJobTest extends RequestTestCase {
     
     private IBirthDetailsRequestService requestService;
     private DraftManagementJob draftManagementJob;
@@ -93,7 +93,7 @@ public class DraftManagementJobTest extends ServiceTestCase {
     }
     
     void createDrafts(int step) throws CvqException {
-        CreationBean bean = this.gimmeAnHomeFolder();
+        CreationBean bean = this.gimmeAnHomeFolderWithRequest();
         
         for (int i = 1;i<=step;i++) {
             SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);

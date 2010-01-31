@@ -75,7 +75,7 @@
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
-              <xs:element minOccurs="0" maxOccurs="unbounded" name="contract" 
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="individual-contract" 
                 type="fam:individualContractType" />
             </xs:sequence>
           </xs:complexType>

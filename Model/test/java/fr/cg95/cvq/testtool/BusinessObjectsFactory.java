@@ -9,6 +9,7 @@ import java.util.Set;
 import org.joda.time.DateMidnight;
 
 import fr.cg95.cvq.business.request.Category;
+import fr.cg95.cvq.business.request.LocalReferentialData;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.business.authority.School;
@@ -21,7 +22,6 @@ import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.FamilyStatusType;
-import fr.cg95.cvq.business.users.LocalReferentialData;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 

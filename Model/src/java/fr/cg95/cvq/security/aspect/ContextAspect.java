@@ -51,12 +51,12 @@ public class ContextAspect implements Ordered {
                 if (SecurityContext.getCurrentEcitizen() == null)
                     throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                             joinPoint.getSignature().getName(), context.type(), context.privilege(), 
-                            "can only be called by an authenticated ecitizen");
+                            "no ecitizen found in security context");
             } else if (securityContext.equals(SecurityContext.BACK_OFFICE_CONTEXT)) {
                 if (SecurityContext.getCurrentAgent() == null)
                     throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                             joinPoint.getSignature().getName(), context.type(), context.privilege(), 
-                            "can only be called by an authenticated agent");
+                            "no agent found in security context");
                 boolean isAgent = false;
                 SiteRoles[] siteRoles = SecurityContext.getCurrentCredentialBean().getSiteRoles();
                 for (SiteRoles siteRole : siteRoles) {
@@ -66,11 +66,11 @@ public class ContextAspect implements Ordered {
                 if (!isAgent)
                     throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                             joinPoint.getSignature().getName(), context.type(), context.privilege(), 
-                            "requires an AGENT profile on the site");
+                            "current agent does not have an AGENT profile on the site");
             } else {
                 throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                         joinPoint.getSignature().getName(), context.type(), context.privilege(), 
-                        " can only be called an authenticated ecitizen or by an AGENT profile");
+                        " unknown security context for ECITIZEN_AGENT context type");
             }
         }
         

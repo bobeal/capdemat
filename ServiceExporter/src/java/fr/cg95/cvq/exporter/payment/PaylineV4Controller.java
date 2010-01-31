@@ -13,8 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.payment.IPaymentService;
 
 public class PaylineV4Controller extends AbstractController {
 

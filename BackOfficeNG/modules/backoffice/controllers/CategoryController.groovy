@@ -181,17 +181,16 @@ class CategoryController {
      * --------------------------------------------------------------------- */
     
     def adaptAgent (businessAgent) {
-        def matchingCategorieRole = businessAgent.categoriesRoles.find {
-                it.category.id == Long.valueOf(params.id)
-        }
+        def categoryProfile = 
+        	categoryService.getProfileForCategory(businessAgent.id, Long.valueOf(params.id))
         return [
             id: businessAgent.id,
             active: businessAgent.active,
             login: businessAgent.login,
             firstName: businessAgent.firstName,
             lastName: businessAgent.lastName,
-            profile: matchingCategorieRole != null ? adaptCategoryProfile(matchingCategorieRole.profile) : null,
-            notBelong: matchingCategorieRole == null ? true : false
+            profile: categoryProfile != null ? adaptCategoryProfile(categoryProfile) : null,
+            notBelong: categoryProfile == null ? true : false
         ]
     }
     

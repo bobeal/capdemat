@@ -9,9 +9,8 @@ import fr.cg95.cvq.business.request.PlaceReservationType.TicketSelection;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqPlaceReservationReferentialException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 
-public class PlaceReservationServiceTest extends ServiceTestCase {
+public class PlaceReservationServiceTest extends RequestTestCase {
 
     private static final String SERVICE_TEST = "Place Reservation";
     

@@ -13,9 +13,8 @@ import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 
-public class RequestStatisticsServiceTest extends ServiceTestCase {
+public class RequestStatisticsServiceTest extends RequestTestCase {
 
     @Override
     public void onSetUp() throws Exception {
@@ -41,9 +40,24 @@ public class RequestStatisticsServiceTest extends ServiceTestCase {
     public void testRequestStatistic() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithManageRoles);
+
+        Calendar startDate = Calendar.getInstance();
+        startDate.add(Calendar.MINUTE, -10);
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MINUTE, 1);
+
+        Map<RequestState, Long> stateStats =
+            iRequestStatisticsService.getStateStats(startDate.getTime(), endDate.getTime(),
+                iRequestTypeService.getRequestTypeByLabel(IRequestService.VO_CARD_REGISTRATION_REQUEST).getId(),
+                null);
+        Long initialCancelledNb = stateStats.get(RequestState.CANCELLED);
+        Long initialCompleteNb = stateStats.get(RequestState.COMPLETE);
+        Long initialPendingNb = stateStats.get(RequestState.PENDING);
+
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
         Request request = iRequestService.getById(cb.getRequestId());
 
         Long requestTypeId = request.getRequestType().getId();
@@ -54,11 +68,6 @@ public class RequestStatisticsServiceTest extends ServiceTestCase {
 
         continueWithNewTransaction();
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-
-        Calendar startDate = Calendar.getInstance();
-        startDate.add(Calendar.MINUTE, -1);
-        Calendar endDate = Calendar.getInstance();
-        endDate.add(Calendar.MINUTE, 1);
 
         Map<String, Long> qualityStats = null;
         try {
@@ -96,16 +105,14 @@ public class RequestStatisticsServiceTest extends ServiceTestCase {
             qualityForVocr.get(IRequestStatisticsService.QUALITY_TYPE_ORANGE));
         assertEquals(null,
             qualityForVocr.get(IRequestStatisticsService.QUALITY_TYPE_RED));
-
         
         // By resultingState
-        Map<RequestState, Long> stateStats =
+        stateStats =
             iRequestStatisticsService.getStateStats(startDate.getTime(), endDate.getTime(),
                 requestTypeId, null);
-        Assert.assertEquals(Long.valueOf(1), stateStats.get(RequestState.CANCELLED));
-        Assert.assertEquals(Long.valueOf(0), stateStats.get(RequestState.COMPLETE));
-        Assert.assertEquals(Long.valueOf(0), stateStats.get(RequestState.PENDING));
-
+        Assert.assertEquals(Long.valueOf(initialCancelledNb + 1), stateStats.get(RequestState.CANCELLED));
+        Assert.assertEquals(Long.valueOf(initialCompleteNb), stateStats.get(RequestState.COMPLETE));
+        Assert.assertEquals(Long.valueOf(initialPendingNb), stateStats.get(RequestState.PENDING));
 
         // By type
         Map<Long, Long> typeStats =

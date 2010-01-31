@@ -5,29 +5,23 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
-import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.IndividualRole;
 import fr.cg95.cvq.business.users.RoleType;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.Payment;
+import fr.cg95.cvq.business.users.UsersEvent.EVENT_TYPE;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.users.IAdultDAO;
 import fr.cg95.cvq.dao.users.IChildDAO;
@@ -36,17 +30,11 @@ import fr.cg95.cvq.dao.users.IIndividualDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.external.IExternalService;
-import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.document.IDocumentService;
-import fr.cg95.cvq.service.request.IRequestService;
-import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -56,7 +44,7 @@ import fr.cg95.cvq.util.mail.IMailService;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
+public class HomeFolderService implements IHomeFolderService, ApplicationContextAware {
 
     private static Logger logger = Logger.getLogger(HomeFolderService.class);
 
@@ -70,26 +58,8 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 
     protected ILocalAuthorityRegistry localAuthorityRegistry;
     protected IMailService mailService;
-    protected IRequestService requestService;
-    protected IRequestWorkflowService requestWorkflowService;
-    protected IDocumentService documentService;
-    protected IPaymentService paymentService;
-    protected IExternalService externalService;
 
-    private ListableBeanFactory beanFactory;
-
-    public void init() {
-        Map<String, IRequestService> beans = beanFactory.getBeansOfType(IRequestService.class, false, true);
-        for (String beanName : beans.keySet()) {
-            if (beanName.equals("defaultRequestService")) {
-                this.requestService = beans.get(beanName);
-                break;
-            }
-        }
-
-        this.requestWorkflowService = (IRequestWorkflowService)
-            beanFactory.getBeansOfType(IRequestWorkflowService.class, false, false).values().iterator().next();
-    }
+    private ApplicationContext applicationContext;
     
     @Override
     @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
@@ -168,35 +138,32 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         Individual individual = individualService.getById(individualId);
         HomeFolder homeFolder = getById(homeFolderId);
         removeRolesOnSubject(homeFolderId, individual.getId());
-        individual.setAdress(null);
         individual.setHomeFolder(null);
 
         homeFolder.getIndividuals().remove(individual);
+        individualService.delete(individual);
+
+        UsersEvent individualEvent = 
+            new UsersEvent(this, EVENT_TYPE.INDIVIDUAL_DELETE, null, individual.getId());
+        applicationContext.publishEvent(individualEvent);
     }
 
     private final void delete(final HomeFolder homeFolder)
         throws CvqException {
 
-        // payments need to be deleted first because adults are requesters for them
-        if (homeFolder.getPayments() != null) {
-            for (Object object : homeFolder.getPayments()) {
-                Payment payment = (Payment) object;
-                paymentService.delete(payment);
-            }
-        }
-
-        // delete all documents related to home folder and associated individuals
-
-        documentService.deleteHomeFolderDocuments(homeFolder.getId());
-
+        UsersEvent homeFolderEvent = 
+            new UsersEvent(this, EVENT_TYPE.HOME_FOLDER_DELETE, homeFolder.getId(), null);
+        applicationContext.publishEvent(homeFolderEvent);
+        
         List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
-            documentService.deleteIndividualDocuments(individual.getId());
+            UsersEvent individualEvent = 
+                new UsersEvent(this, EVENT_TYPE.INDIVIDUAL_DELETE, null, individual.getId());
+            applicationContext.publishEvent(individualEvent);
         }
 
         // need to stack adults and children to ensure that adults are deleted before children
         // because of legal responsibles constraints
-        // TODO REFACTORING
         Set<Adult> adults = new HashSet<Adult>();
         Set<Child> children = new HashSet<Child>();
         for (Individual individual : individuals) {
@@ -504,7 +471,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         }
         
         // check all children have at least a legal responsible
-        RoleType[] roles = {RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR};
+//        RoleType[] roles = {RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR};
         if (children != null) {
             for (Child child : children) {
                 // TODO REFACTORING : there is something strange here !
@@ -649,52 +616,11 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         return individualDAO.listBySubjectRoles(subjectId, roles);
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, String type) 
-        throws CvqException {
-        
-        // FIXME : at least request optimization or even refactoring ?
-        List<Request> requests = requestService.getByHomeFolderId(homeFolderId);
-        Set<String> homeFolderRequestsTypes = new HashSet<String>();
-        for (Request request : requests) {
-            homeFolderRequestsTypes.add(request.getRequestType().getLabel());
-        }
-
-        return externalService.getExternalAccounts(homeFolderId, 
-                homeFolderRequestsTypes, type);
-    }
-
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public Map<Individual, Map<String, String>> getIndividualExternalAccountsInformation(Long homeFolderId) 
-        throws CvqException {
-
-        // FIXME : at least request optimization or even refactoring ?
-        List<Request> requests = requestService.getByHomeFolderId(homeFolderId);
-        Set<String> homeFolderRequestsTypes = new HashSet<String>();
-        for (Request request : requests) {
-            homeFolderRequestsTypes.add(request.getRequestType().getLabel());
-        }
-
-        return externalService.getIndividualAccountsInformation(homeFolderId, 
-                homeFolderRequestsTypes);
-    }
-
-    public void loadExternalDepositAccountDetails(ExternalDepositAccountItem edai) 
-        throws CvqException {
-        
-        externalService.loadDepositAccountDetails(edai);
-    }
-
-    public void loadExternalInvoiceDetails(ExternalInvoiceItem eii) 
-        throws CvqException {
-
-        externalService.loadInvoiceDetails(eii);
-    }
-
     private void updateHomeFolderState(HomeFolder homeFolder, ActorState newState) 
 		throws CvqException {
 
-		logger.debug("Gonna update state of home folder : " + homeFolder.getId());
+		logger.debug("updateHomeFolderState() Gonna update state of home folder : " 
+		        + homeFolder.getId());
 		homeFolder.setState(newState);
 		homeFolderDAO.update(homeFolder);
 
@@ -761,8 +687,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         validate(homeFolder);
     }
 
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public final void validate(HomeFolder homeFolder)
+    private void validate(HomeFolder homeFolder)
         throws CvqException, CvqObjectNotFoundException {
 
         updateHomeFolderState(homeFolder, ActorState.VALID);
@@ -776,8 +701,7 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         invalidate(homeFolder);
     }
 
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public final void invalidate(HomeFolder homeFolder) 
+    private void invalidate(HomeFolder homeFolder) 
         throws CvqException, CvqObjectNotFoundException {
 
 		updateHomeFolderState(homeFolder, ActorState.INVALID);
@@ -791,56 +715,15 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
         archive(homeFolder);
     }
 
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public final void archive(HomeFolder homeFolder) 
+    private void archive(HomeFolder homeFolder) 
         throws CvqException, CvqObjectNotFoundException {
         
         updateHomeFolderState(homeFolder, ActorState.ARCHIVED);
         
-        requestWorkflowService.archiveHomeFolderRequests(homeFolder.getId());
+        UsersEvent homeFolderEvent = 
+            new UsersEvent(this, EVENT_TYPE.HOME_FOLDER_ARCHIVE, homeFolder.getId(), null);
+        applicationContext.publishEvent(homeFolderEvent);
     }
-
-    public void notifyPaymentByMail(Payment payment) throws CvqException {
-    	
-        Adult homeFolderResponsible = getHomeFolderResponsible(payment.getHomeFolder().getId());
-        String mailSendTo = homeFolderResponsible.getEmail();
-        if (mailSendTo == null || mailSendTo.equals("")) {
-            logger.warn("notifyPaymentByMail() e-citizen has no email adress, returning");
-            return;
-        }
-        
-        LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        Map<String, String> mailMap = 
-            lacb.getMailAsMap("hasPaymentNotification", "getPaymentNotificationData", 
-                    "CommitPaymentConfirmation");
-        
-		if (mailMap != null) {
-			String mailSubject = mailMap.get("mailSubject") != null ? mailMap.get("mailSubject") : "";
-			String mailBodyFilename = mailMap.get("mailData") != null ? mailMap.get("mailData") : "";
-            String mailBody = 
-                localAuthorityRegistry.getBufferedLocalAuthorityResource(
-                        Type.TXT, mailBodyFilename, false);
-			
-            if (mailBody == null) {
-                logger.warn("notifyPaymentByMail() did not find mail template "
-                        + mailBodyFilename + " for local authority " 
-                        + SecurityContext.getCurrentSite().getName());
-                return;
-            }
-            
-			//	Mail body variable
-			mailBody = mailBody.replace("${broker}",
-					payment.getBroker() != null ? payment.getBroker() : "" );
-			mailBody = mailBody.replace("${cvqReference}",
-					payment.getCvqReference() != null ? payment.getCvqReference() : "" );
-			mailBody = mailBody.replace("${paymentMode}",
-					payment.getPaymentMode() !=  null ? payment.getPaymentMode().toString() : "");
-			mailBody = mailBody.replace("${commitDate}",
-					payment.getCommitDate().toString());
-			
-			mailService.send(null, mailSendTo, null, mailSubject, mailBody);
-		}
-	}
 
     public PasswordResetNotificationType notifyPasswordReset(Adult adult, String password, String categoryAddress)
         throws CvqException {
@@ -893,21 +776,8 @@ public class HomeFolderService implements IHomeFolderService, BeanFactoryAware {
 		this.genericDAO = genericDAO;
 	}
 
-    public void setPaymentService(IPaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
-
-    public void setDocumentService(IDocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
-    }
-
     @Override
-    public void setBeanFactory(BeanFactory arg0) throws BeansException {
-        this.beanFactory = (ListableBeanFactory) arg0;
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }
-

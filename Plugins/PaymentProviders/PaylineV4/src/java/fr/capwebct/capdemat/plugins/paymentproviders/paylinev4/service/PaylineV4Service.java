@@ -21,15 +21,15 @@ import com.experian.payline.ws.obj.Order;
 import com.experian.payline.ws.obj.SelectedContractList;
 
 import fr.capwebct.capdemat.plugins.paymentproviders.paylinev4.webservice.client.PaylineV4Client;
-import fr.cg95.cvq.business.users.payment.Payment;
-import fr.cg95.cvq.business.users.payment.PaymentMode;
-import fr.cg95.cvq.dao.users.IPaymentDAO;
+import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentMode;
+import fr.cg95.cvq.dao.payment.IPaymentDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.payment.IPaymentProviderService;
-import fr.cg95.cvq.payment.PaymentResultBean;
-import fr.cg95.cvq.payment.PaymentResultStatus;
-import fr.cg95.cvq.payment.PaymentServiceBean;
+import fr.cg95.cvq.service.payment.IPaymentProviderService;
+import fr.cg95.cvq.service.payment.PaymentResultBean;
+import fr.cg95.cvq.service.payment.PaymentResultStatus;
+import fr.cg95.cvq.service.payment.PaymentServiceBean;
 
 public class PaylineV4Service implements IPaymentProviderService {
 
@@ -76,7 +76,7 @@ public class PaylineV4Service implements IPaymentProviderService {
         paylinePayment.setMode("CPT");
 
         Order paylineOrder = doWebPaymentRequest.addNewOrder();
-        String reference = "P4_" + payment.getHomeFolder().getId() + "_" + System.currentTimeMillis();
+        String reference = "P4_" + payment.getHomeFolderId() + "_" + System.currentTimeMillis();
         paylineOrder.setRef(reference);
         paylineOrder.setAmount(String.valueOf(payment.getAmount().intValue()));
         paylineOrder.setCurrency("978");
@@ -89,11 +89,9 @@ public class PaylineV4Service implements IPaymentProviderService {
         selectedContractList.addSelectedContract((String) paymentServiceBean.getProperty(CONTRACT_NUMBER));
 
         Buyer paylineBuyer = doWebPaymentRequest.addNewBuyer();
-        String homeFolderEmail = payment.getRequester().getEmail();
+        String homeFolderEmail = payment.getPaymentSpecificDataByKey(Payment.SPECIFIC_DATA_EMAIL);
         if (homeFolderEmail != null && !homeFolderEmail.equals("")) {
             paylineBuyer.setEmail(homeFolderEmail);
-            paylineBuyer.setFirstName(payment.getRequester().getFirstName());
-            paylineBuyer.setLastName(payment.getRequester().getLastName());
         }
 
         paylineV4Client.setCredentials((String) paymentServiceBean.getProperty(MERCHANT_ID),

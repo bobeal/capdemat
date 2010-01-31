@@ -51,18 +51,6 @@ public interface IDocumentService {
     void delete(@IsDocument final Long id)
         throws CvqException, CvqObjectNotFoundException;
     
-    /**
-     * Delete documents belonging to the given home folder.
-     */
-    void deleteHomeFolderDocuments(@IsHomeFolder final Long homeFolderId)
-        throws CvqException;
-    
-    /**
-     * Delete documents belonging to the given individual.
-     */
-    void deleteIndividualDocuments(@IsIndividual final Long individualId)
-        throws CvqException;
-
     Document getById(@IsDocument final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
 
@@ -114,8 +102,7 @@ public interface IDocumentService {
     /**
      * Get documents associated to an individual.
      */
-    List<Document> getIndividualDocuments(@IsIndividual final Long individualId)
-        throws CvqException, CvqObjectNotFoundException;
+    List<Document> getIndividualDocuments(@IsIndividual final Long individualId);
 
     /**
      * Check, for all known local authorities, that the end validity date of documents 

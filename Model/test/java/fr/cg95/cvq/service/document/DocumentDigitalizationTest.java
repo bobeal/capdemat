@@ -12,9 +12,8 @@ import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 
-public class DocumentDigitalizationTest extends ServiceTestCase {
+public class DocumentDigitalizationTest extends DocumentTestCase {
 
     public void testDocumentDigitalization() throws CvqException, IOException {
         

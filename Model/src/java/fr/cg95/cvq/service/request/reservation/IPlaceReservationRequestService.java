@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fr.cg95.cvq.business.users.PlaceReservationData;
+import fr.cg95.cvq.business.request.PlaceReservationData;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.IPlaceReservationService;

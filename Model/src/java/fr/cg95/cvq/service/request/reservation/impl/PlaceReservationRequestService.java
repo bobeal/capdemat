@@ -14,14 +14,14 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
+import fr.cg95.cvq.business.request.PlaceReservationData;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.request.TicketTypeSelection;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.PlaceReservationData;
-import fr.cg95.cvq.business.users.TicketTypeSelection;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;

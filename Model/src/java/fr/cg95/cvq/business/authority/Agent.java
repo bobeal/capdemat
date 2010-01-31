@@ -24,7 +24,7 @@ public class Agent implements Serializable {
     private String login;
     private String lastName;
     private String firstName;
-    private Boolean active;
+    private Boolean active = true;
 
     private Set<SiteRoles> sitesRoles;
     private Hashtable<String, Hashtable<String, String>> preferences; 
@@ -82,6 +82,7 @@ public class Agent implements Serializable {
      * @hibernate.set
      *  lazy="true"
      *  table="agent_site_roles"
+     *  cascade="all"
      * @hibernate.key
      *  column="agent_id"
      * @hibernate.composite-element

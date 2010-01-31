@@ -66,7 +66,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
+    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
     public List<Category> getManaged() {
         return categoryDAO.listByAgent(SecurityContext.getCurrentUserId(), CategoryProfile.MANAGER);
     }
@@ -143,6 +143,9 @@ public class CategoryService implements ICategoryService {
     public boolean hasProfileOnCategory(Agent agent, Long categoryId) 
         throws CvqObjectNotFoundException {
 
+        if (categoryId == null)
+            return false;
+        
         Category category = getById(categoryId);
         for (CategoryRoles categoryRoles : category.getCategoriesRoles()) {
             if (categoryRoles.getAgentId().equals(agent.getId()))
@@ -157,6 +160,9 @@ public class CategoryService implements ICategoryService {
     public boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) 
         throws CvqObjectNotFoundException {
         
+        if (categoryId == null)
+            return false;
+
         Category category = getById(categoryId);
         for (CategoryRoles categoryRole : category.getCategoriesRoles()) {
             if (categoryRole.getAgentId().equals(agent.getId())
@@ -172,7 +178,13 @@ public class CategoryService implements ICategoryService {
     @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
     public CategoryProfile getProfileForCategory(final Long categoryId) 
         throws CvqObjectNotFoundException {
-        Long agentId = SecurityContext.getCurrentUserId();
+        return getProfileForCategory(SecurityContext.getCurrentAgent().getId(), categoryId);
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    public CategoryProfile getProfileForCategory(final Long agentId, final Long categoryId) 
+        throws CvqObjectNotFoundException {
         Category category = getById(categoryId);
         for (CategoryRoles categoryRoles : category.getCategoriesRoles()) {
             if (categoryRoles.getAgentId().equals(agentId))

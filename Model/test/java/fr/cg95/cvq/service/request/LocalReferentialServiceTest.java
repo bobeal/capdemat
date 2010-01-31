@@ -4,7 +4,6 @@ import fr.cg95.cvq.business.request.LocalReferentialEntry;
 import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.testtool.TestUtils;
 
 import java.util.HashMap;
@@ -18,7 +17,7 @@ import junit.framework.Assert;
  * 
  * @author bor@zenexity.fr
  */
-public class LocalReferentialServiceTest extends ServiceTestCase {
+public class LocalReferentialServiceTest extends RequestTestCase {
 
     public void testAgentManipulation() throws CvqException {
 

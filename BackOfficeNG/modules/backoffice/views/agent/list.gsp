@@ -23,18 +23,12 @@
               <h3>
                 <a href="${createLink(action:'edit',id:agent.id)}">${agent.lastName} ${agent.firstName}</a>
                 <span>- ${agent.login}</span>
-								<span>- 
-								  <g:each in="${agent.sitesRoles}" var="siteRoles">
-                    <g:message code="agent.siteProfile.${siteRoles.profile.toString().toLowerCase()}" />
-                  </g:each>
-								<span>
+				<span>- 
+				    <g:each in="${agent.sitesRoles}" var="siteRoles">
+                        <g:message code="agent.siteProfile.${siteRoles.profile.toString().toLowerCase()}" />
+                    </g:each>
+				<span>
               </h3>
-              <div>
-                <g:each in="${agent.categoriesRoles}" var="categoryRole">
-                  ${categoryRole.category.name}
-                  - 
-                </g:each>
-              </div>
             </li>
             </g:each>
           </ul>

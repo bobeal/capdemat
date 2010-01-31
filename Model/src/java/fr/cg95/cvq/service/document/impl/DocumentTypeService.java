@@ -11,7 +11,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 
 public class DocumentTypeService
@@ -20,7 +19,6 @@ public class DocumentTypeService
     static Logger logger = Logger.getLogger(DocumentTypeService.class);
 
     protected IDocumentTypeDAO documentTypeDAO;
-    protected ILocalAuthorityRegistry localAuthorityRegistry;
 
     private Boolean performDbUpdates;
     private DocumentBootstrapper documentBootstrapper;
@@ -63,10 +61,6 @@ public class DocumentTypeService
         this.documentTypeDAO = documentTypeDAO;
     }
     
-    public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
-        this.localAuthorityRegistry = localAuthorityRegistry;
-    }
-
     public void setPerformDbUpdates(Boolean performDbUpdates) {
         if (performDbUpdates != null)
             this.performDbUpdates = performDbUpdates;

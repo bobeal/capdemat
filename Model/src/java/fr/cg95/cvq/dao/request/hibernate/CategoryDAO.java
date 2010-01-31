@@ -17,6 +17,7 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil;
  */
 public class CategoryDAO extends GenericDAO implements ICategoryDAO {
 
+    @SuppressWarnings("unchecked")
     public List<Category> listAll() {
 
         StringBuffer sb = new StringBuffer();
@@ -34,6 +35,7 @@ public class CategoryDAO extends GenericDAO implements ICategoryDAO {
         return (Category) query.uniqueResult(); 
     }
 
+    @SuppressWarnings("unchecked")
     public List<Category> listByAgent(final Long agentId, final CategoryProfile categoryProfile) {
         StringBuffer sb = new StringBuffer();
         sb.append("from Category category ")

@@ -21,29 +21,24 @@ import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.FamilyStatusType;
+import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.RoleType;
-import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.payment.IPaymentProviderService;
-import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.request.ICategoryService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
 import fr.cg95.cvq.service.authority.ISchoolService;
-import fr.cg95.cvq.service.document.IDocumentService;
-import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.ILocalReferentialService;
 import fr.cg95.cvq.service.request.IDisplayGroupService;
 import fr.cg95.cvq.service.request.IMeansOfContactService;
@@ -82,14 +77,13 @@ public class ServiceTestCase
     protected Adult homeFolderUncle;
     protected Address address;
     protected Long voCardRequestId;
+    protected List<Long> homeFolderIds = new ArrayList<Long>();
     protected Map<Long, Long> homeFolderVoCardRequestIds = new HashMap<Long, Long>();
 
     // users related services
     protected static IIndividualService iIndividualService;
     protected static IHomeFolderService iHomeFolderService;
     protected static IAuthenticationService iAuthenticationService;
-    protected static IDocumentService iDocumentService;
-    protected static IDocumentTypeService iDocumentTypeService;
     protected static ICertificateService iCertificateService;
 
     // authority related services
@@ -113,9 +107,6 @@ public class ServiceTestCase
     protected static IMeansOfContactService iMeansOfContactService;
     protected static IDisplayGroupService iDisplayGroupService;
     
-    protected static IPaymentService iPaymentService;
-    protected static IPaymentProviderService iFakePaymentProviderService;
-
     protected static IMailService iMailService;
     
     private static SessionFactory sessionFactory;
@@ -142,9 +133,6 @@ public class ServiceTestCase
                 // we have to set some manually because there is more than one bean
                 // with their respective type
                 iRequestService = (IRequestService) cac.getBean("defaultRequestService");
-
-                iFakePaymentProviderService = 
-                    (IPaymentProviderService) cac.getBean("fakePaymentProviderService");
 
                 iIndividualService = (IIndividualService) cac.getBean("individualService");
                 
@@ -175,9 +163,7 @@ public class ServiceTestCase
                 Agent admin = new Agent();
                 admin.setActive(Boolean.TRUE);
                 admin.setLogin(agentNameWithSiteRoles);
-                SiteRoles siteRoles = new SiteRoles();
-                siteRoles.setAgent(admin);
-                siteRoles.setProfile(SiteProfile.ADMIN);
+                SiteRoles siteRoles = new SiteRoles(SiteProfile.ADMIN, admin);
                 Set<SiteRoles> siteRolesSet = new HashSet<SiteRoles>();
                 siteRolesSet.add(siteRoles);
                 admin.setSitesRoles(siteRolesSet);
@@ -227,9 +213,7 @@ public class ServiceTestCase
         agent.setActive(Boolean.TRUE);
         agent.setLogin(agentName);
 
-        SiteRoles siteRoles = new SiteRoles();
-        siteRoles.setAgent(agent);
-        siteRoles.setProfile(siteProfile);
+        SiteRoles siteRoles = new SiteRoles(siteProfile, agent);
         Set<SiteRoles> siteRolesSet = new HashSet<SiteRoles>();
         siteRolesSet.add(siteRoles);
         agent.setSitesRoles(siteRolesSet);
@@ -279,7 +263,8 @@ public class ServiceTestCase
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             // to force re-association of agent within current session
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-            // only delete for those who asked us for an home folder at the beginning of their tests
+            // only delete for those who asked us for an home folder with request
+            // at the beginning of their tests
             for (Long homeFolderId : homeFolderVoCardRequestIds.keySet()) {
                 iRequestService.delete(homeFolderVoCardRequestIds.get(homeFolderId));
                 iHomeFolderService.delete(homeFolderId);
@@ -291,7 +276,18 @@ public class ServiceTestCase
                 }
             }
 
+            for (Long homeFolderId : homeFolderIds) {
+                iHomeFolderService.delete(homeFolderId);
+                try {
+                    iHomeFolderService.getById(homeFolderId);
+                    fail("should have thrown an exception");
+                } catch (CvqObjectNotFoundException confe) {
+                    // ok, that was expected
+                }
+            }
+
             voCardRequestId = null;
+            homeFolderIds.clear();
             homeFolderVoCardRequestIds.clear();
 
             continueWithNewTransaction();
@@ -317,8 +313,8 @@ public class ServiceTestCase
         return cac.getBean(beanName);
     }
 
+    @SuppressWarnings("unchecked")
     protected <T> T getApplicationBean(String beanName) {
-        //noinspection unchecked
         return (T)this.getApplicationContext().getBean(beanName);
     }
 
@@ -358,22 +354,10 @@ public class ServiceTestCase
         iHomeFolderService = homeFolderService;
     }
 
-    public void setDocumentService(IDocumentService documentService) {
-        iDocumentService = documentService;
-    }
-    
-    public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
-        iDocumentTypeService = documentTypeService;
-    }
-    
     public void setCertificateService(ICertificateService certificateService) {
         iCertificateService = certificateService;
     }
 
-    public void setPaymentService(IPaymentService paymentService) {
-        iPaymentService = paymentService;
-    }
-    
     public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {
         iRequestServiceRegistry = requestServiceRegistry;
     }
@@ -429,12 +413,7 @@ public class ServiceTestCase
         return new File(System.getProperty("test.data.dir"), path);
     }
 
-    /**
-     * Utility method used to easily get an home folder and individuals while running services
-     * related tests
-     */
-    public CreationBean gimmeAnHomeFolder()
-        throws CvqException {
+    public CreationBean gimmeAnHomeFolder() throws CvqException {
 
         // keep current context to reset it after home folder creation
         String currentContext = SecurityContext.getCurrentContext();
@@ -442,56 +421,30 @@ public class ServiceTestCase
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
-        VoCardRequest request = new VoCardRequest();
-
         address = BusinessObjectsFactory.gimmeAdress("12","Rue d'Aligre", "Paris", "75012");
-
-        homeFolderResponsible =
-            BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "responsible", address,
-                    FamilyStatusType.MARRIED);
-        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
-        homeFolderResponsible.setPassword("toto");
-
-        homeFolderWoman =
-            BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "LASTNAME", "wife", address,
-                    FamilyStatusType.MARRIED);
-        homeFolderUncle =
-            BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "uncle", address,
-                    FamilyStatusType.SINGLE);
-        List<Adult> adultSet = new ArrayList<Adult>();
-        adultSet.add(homeFolderResponsible);
-        adultSet.add(homeFolderWoman);
-        adultSet.add(homeFolderUncle);
-
-        child1 = BusinessObjectsFactory.gimmeChild("LASTNAME", "childone");
-        child1.setSex(SexType.MALE);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleType.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(homeFolderWoman, child1, RoleType.CLR_MOTHER);
-        iHomeFolderService.addIndividualRole(homeFolderUncle, child1, RoleType.CLR_TUTOR);
         
-        child2 = BusinessObjectsFactory.gimmeChild("LASTNAME", "childtwo");
-        child2.setSex(SexType.MALE);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleType.CLR_FATHER);
-
-        List<Child> childSet = new ArrayList<Child>();
-        childSet.add(child1);
-        childSet.add(child2);
-
-        iVoCardRequestService.create(request, adultSet, childSet, null, address, null);
+        homeFolderResponsible = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
+                "firstName", address, FamilyStatusType.SINGLE);
+        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
+        
+        homeFolderWoman = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
+                "woman", address, FamilyStatusType.SINGLE);
+        List<Adult> adults = new ArrayList<Adult>();
+        adults.add(homeFolderResponsible);
+        adults.add(homeFolderWoman);
+        HomeFolder homeFolder = iHomeFolderService.create(adults, null, new Address());
 
         CreationBean cb = new CreationBean();
-        cb.setRequestId(request.getId());
-        voCardRequestId = request.getId();
-        cb.setHomeFolderId(request.getHomeFolderId());
+        cb.setHomeFolderId(homeFolder.getId());
         cb.setLogin(homeFolderResponsible.getLogin());
-        
-        homeFolderVoCardRequestIds.put(request.getHomeFolderId(), voCardRequestId);
 
+        homeFolderIds.add(homeFolder.getId());
+        
         if (currentContext != null)
             SecurityContext.setCurrentContext(currentContext);
         if (currentAgent != null)
             SecurityContext.setCurrentAgent(currentAgent);
         
         return cb;
-    }
+    }    
 }

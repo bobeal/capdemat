@@ -85,7 +85,7 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
         List list = new ArrayList();
         MusicSchoolRegistrationRequest musicSchoolRegistrationRequest = new MusicSchoolRegistrationRequest();
         musicSchoolRegistrationRequest.fillCommonModelInfo(musicSchoolRegistrationRequest,musicSchoolRegistrationRequestXml);
-        List<fr.cg95.cvq.business.users.LocalReferentialData> activityList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        List<fr.cg95.cvq.business.request.LocalReferentialData> activityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData> ();
         if ( musicSchoolRegistrationRequestXml.sizeOfActivityArray() > 0) {
             for (int i = 0; i < musicSchoolRegistrationRequestXml.getActivityArray().length; i++) {
                 activityList.add(LocalReferentialData.xmlToModel(musicSchoolRegistrationRequestXml.getActivityArray(i)));
@@ -96,9 +96,9 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
         return musicSchoolRegistrationRequest;
     }
 
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> activity;
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> activity;
 
-    public final void setActivity(final List<fr.cg95.cvq.business.users.LocalReferentialData> activity) {
+    public final void setActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> activity) {
         this.activity = activity;
     }
 
@@ -115,9 +115,9 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
      *  column="activity_index"
      * @hibernate.many-to-many
      *  column="activity_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
      */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getActivity() {
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getActivity() {
         return this.activity;
     }
 

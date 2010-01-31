@@ -5,28 +5,41 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.context.ConfigurableApplicationContext;
+
 import junit.framework.Assert;
+import fr.cg95.cvq.business.payment.InternalInvoiceItem;
+import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.payment.InternalRequestItem;
-import fr.cg95.cvq.business.users.payment.Payment;
-import fr.cg95.cvq.business.users.payment.PaymentMode;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.payment.PaymentResultStatus;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.payment.IPaymentService;
+import fr.cg95.cvq.service.payment.PaymentResultStatus;
 
 public class PlaceReservationRequestServicePaymentTest extends PlaceReservationRequestServiceTest {
 
+    private IPaymentService iPaymentService;
+
+    @Override
+    protected void onSetUp() throws Exception {
+        super.onSetUp();
+        ConfigurableApplicationContext cac = getContext(getConfigLocations());
+        iPaymentService = 
+            (IPaymentService) cac.getBean("paymentService");
+    }
+    
     public void testPaymentCommited() throws CvqException,
         CvqObjectNotFoundException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
         String proposedLogin = cb.getLogin();
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
@@ -46,11 +59,10 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         // simulate a payment on this request
         /////////////////////////////////////
         
-        InternalRequestItem iri = new InternalRequestItem("PLACE_RESERVATION",
-                Double.valueOf("1234"), requestFromDb,
+        InternalInvoiceItem iri = new InternalInvoiceItem("PLACE_RESERVATION",
+                Double.valueOf("1234"), "key", "keyOwner",
                 "Régie de la ville de Dummy", 1, Double.valueOf("1234"));
         Payment payment = iPaymentService.createPaymentContainer(iri, PaymentMode.INTERNET);
-        iPaymentService.initPayment(payment);
         
         URL url = iPaymentService.initPayment(payment);
         Assert.assertNotNull(url);
@@ -86,7 +98,7 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         assertEquals(requestFromDb.getState(), RequestState.VALIDATED);
         assertNotNull(requestFromDb.getPaymentReference());
 
-        List<Payment> bills = iPaymentService.getByHomeFolder(homeFolder);
+        List<Payment> bills = iPaymentService.getByHomeFolder(homeFolder.getId());
         assertNotNull(bills);
         assertEquals(bills.size(), 1);
 

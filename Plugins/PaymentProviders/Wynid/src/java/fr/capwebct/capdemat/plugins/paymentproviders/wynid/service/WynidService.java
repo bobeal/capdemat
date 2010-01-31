@@ -1,13 +1,13 @@
 package fr.capwebct.capdemat.plugins.paymentproviders.wynid.service;
 
-import fr.cg95.cvq.business.users.payment.Payment;
-import fr.cg95.cvq.business.users.payment.PaymentMode;
+import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqConfigurationException;
-import fr.cg95.cvq.payment.IPaymentProviderService;
-import fr.cg95.cvq.payment.PaymentResultBean;
-import fr.cg95.cvq.payment.PaymentResultStatus;
-import fr.cg95.cvq.payment.PaymentServiceBean;
+import fr.cg95.cvq.service.payment.IPaymentProviderService;
+import fr.cg95.cvq.service.payment.PaymentResultBean;
+import fr.cg95.cvq.service.payment.PaymentResultStatus;
+import fr.cg95.cvq.service.payment.PaymentServiceBean;
 
 import org.apache.log4j.Logger;
 
@@ -32,7 +32,7 @@ public final class WynidService implements IPaymentProviderService {
     public URL doInitPayment(Payment payment, PaymentServiceBean paymentServiceBean) 
         throws CvqException {
 
-        String reference = "W_" + payment.getHomeFolder().getId() 
+        String reference = "W_" + payment.getHomeFolderId() 
             + "_" + System.currentTimeMillis();
         payment.setCvqReference(reference);
         

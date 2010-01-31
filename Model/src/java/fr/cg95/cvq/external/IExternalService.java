@@ -8,12 +8,11 @@ import java.util.Set;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
+import fr.cg95.cvq.business.payment.ExternalAccountItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.users.Individual;
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.Payment;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
@@ -70,34 +69,42 @@ public interface IExternalService {
     /**
      * Get external accounts information and state for the given home folder. Designed
      * to be called by an ecitizen from the Front Office.
+     *
+     * @param type the "account type" for which we want information (one of
+     *        {@link fr.cg95.cvq.service.payment.IPaymentService#EXTERNAL_INVOICES}, 
+     *        {@link fr.cg95.cvq.service.payment.IPaymentService#EXTERNAL_DEPOSIT_ACCOUNTS},
+     *        {@link fr.cg95.cvq.service.payment.IPaymentService#EXTERNAL_TICKETING_ACCOUNTS}
+     *
+     */
+    Set<ExternalAccountItem> getExternalAccounts(@IsHomeFolder final Long homeFolderId, 
+            final String type)
+        throws CvqException;
+
+    /**
+     * Get external accounts information and state for the given home folder. Designed
+     * to be called by an ecitizen from the Front Office.
      * 
      * @param homeFolderRequestTypes the request types for whom the given home folder
      *              has at least a request
      * @param type the "account type" for which we want information (one of
-     *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_INVOICES}, 
-     *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_DEPOSIT_ACCOUNTS},
-     *        {@link fr.cg95.cvq.payment.IPaymentService#EXTERNAL_TICKETING_ACCOUNTS}
+     *        {@link fr.cg95.cvq.service.payment.IPaymentService#EXTERNAL_INVOICES}, 
+     *        {@link fr.cg95.cvq.service.payment.IPaymentService#EXTERNAL_DEPOSIT_ACCOUNTS},
+     *        {@link fr.cg95.cvq.service.payment.IPaymentService#EXTERNAL_TICKETING_ACCOUNTS}
      */
     Set<ExternalAccountItem> getExternalAccounts(@IsHomeFolder Long homeFolderId,
         Set<String> homeFolderRequestTypes, String type)
         throws CvqException;
     
     /**
-     * Get information about individual's accounts. 
-     */
-    Map<Individual, Map<String, String> > getIndividualAccountsInformation(
-        @IsHomeFolder final Long homeFolderId,
-        Set<String> homeFolderRequestTypes)
-        throws CvqException;
-
-    /**
-     * Load details of operations performed on given deposit account.
+     * Load details of operations performed on given deposit account. Details
+     * are directly loaded into the provided object.
      */
     void loadDepositAccountDetails(ExternalDepositAccountItem edai)
         throws CvqException;
 
     /**
-     * Load details of items paid along given external invoice.
+     * Load details of items paid along given external invoice. Details
+     * are directly loaded into the provided object.
      */
     void loadInvoiceDetails(ExternalInvoiceItem eii)
         throws CvqException;

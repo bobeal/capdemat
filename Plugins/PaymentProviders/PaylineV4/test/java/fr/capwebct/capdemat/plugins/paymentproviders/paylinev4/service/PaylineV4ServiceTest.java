@@ -1,45 +1,45 @@
 package fr.capwebct.capdemat.plugins.paymentproviders.paylinev4.service;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
+import fr.cg95.cvq.business.payment.InternalInvoiceItem;
+import fr.cg95.cvq.business.payment.Payment;
+import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.users.CreationBean;
-import fr.cg95.cvq.business.users.payment.Invoice;
-import fr.cg95.cvq.business.users.payment.Payment;
-import fr.cg95.cvq.business.users.payment.PaymentMode;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.service.payment.PaymentTestCase;
 import fr.cg95.cvq.util.Critere;
 
-public class PaylineV4ServiceTest extends ServiceTestCase {
+public class PaylineV4ServiceTest extends PaymentTestCase {
 
     public void testAll() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
-        // create a vo card request (to create home folder and associates)
+        // create an home folder and associates
         CreationBean cb = gimmeAnHomeFolder();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
-        Invoice invoice1 =
-            new Invoice("Spplus Invoice 1", Double.valueOf("300"),
-                    null, "PaylineV4", "AZERTYUIOP1", new Date());
+        InternalInvoiceItem invoice1 =
+            new InternalInvoiceItem("PaylineV4 Invoice 1", Double.valueOf("300"),
+                    "key", "keyOwner", "PaylineV4", Integer.valueOf(1), 
+                    Double.valueOf(2));
         Payment payment = iPaymentService.createPaymentContainer(invoice1, PaymentMode.INTERNET);
-        Invoice invoice2 =
-            new Invoice("Spplus Invoice 2", Double.valueOf("600"),
-                    null, "PaylineV4", "AZERTYUIOP2", new Date());
+        InternalInvoiceItem invoice2 =
+            new InternalInvoiceItem("PaylineV4 Invoice 2", Double.valueOf("600"),
+                    "key", "keyOwner", "PaylineV4", Integer.valueOf(1), 
+                    Double.valueOf(2));
         iPaymentService.addPurchaseItemToPayment(payment, invoice2);
 
         payment.addPaymentSpecificData("domainName", "localhost");
 
         URL url = iPaymentService.initPayment(payment);
         Assert.assertNotNull(url);
-        System.err.println("********* Got URL " + url);
 
         continueWithNewTransaction();
 

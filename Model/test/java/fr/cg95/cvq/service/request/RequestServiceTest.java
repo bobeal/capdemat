@@ -22,7 +22,6 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 
 
@@ -31,7 +30,7 @@ import fr.cg95.cvq.util.Critere;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class RequestServiceTest extends ServiceTestCase {
+public class RequestServiceTest extends RequestTestCase {
 
     public void testRequestType()
         throws CvqException {
@@ -51,12 +50,12 @@ public class RequestServiceTest extends ServiceTestCase {
         iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(0).getId());
         iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(1).getId());
         iRequestTypeService.addRequestTypeRequirement(rt.getId(), allDocumentTypes.get(2).getId());
+        
         continueWithNewTransaction();
         rt = iRequestTypeService.getRequestTypeById(rt.getId());
-        logger.warn("AAAAAAA " + rt.getLabel());
-        Assert.assertEquals(rt.getRequirements().size(), initialRequirementsSize + 3);
+        assertEquals(initialRequirementsSize + 3, rt.getRequirements().size());
 
-        // test requirement properies consistency
+        // test requirement properties consistency
         Iterator<Requirement> requirementsIt = rt.getRequirements().iterator();
         Requirement req1 = requirementsIt.next();
         assertNotNull(req1);
@@ -73,7 +72,7 @@ public class RequestServiceTest extends ServiceTestCase {
         iRequestTypeService.removeRequestTypeRequirement(rt.getId(), allDocumentTypes.get(2).getId());
         continueWithNewTransaction();
         rt = iRequestTypeService.getRequestTypeById(rt.getId());
-        Assert.assertEquals(rt.getRequirements().size(), initialRequirementsSize + 2);
+        assertEquals(initialRequirementsSize + 2, rt.getRequirements().size());
 
         continueWithNewTransaction();
         
@@ -117,7 +116,7 @@ public class RequestServiceTest extends ServiceTestCase {
 
     public void testRequestCloning() throws CvqException {
 
-        CreationBean creationBean = gimmeAnHomeFolder();
+        CreationBean creationBean = gimmeAnHomeFolderWithRequest();
         Long requestId = creationBean.getRequestId();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -134,7 +133,7 @@ public class RequestServiceTest extends ServiceTestCase {
 
     public void testRequestSearch() throws CvqException {
         
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
@@ -195,7 +194,7 @@ public class RequestServiceTest extends ServiceTestCase {
 
     public void testRequestTypeForm() throws CvqException {
 
-        CreationBean creationBean = gimmeAnHomeFolder();
+        CreationBean creationBean = gimmeAnHomeFolderWithRequest();
         Long requestId = creationBean.getRequestId();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -258,7 +257,7 @@ public class RequestServiceTest extends ServiceTestCase {
 
     public void testRequestLocks() throws CvqException {
         // create a home folder request
-        CreationBean creationBean = gimmeAnHomeFolder();
+        CreationBean creationBean = gimmeAnHomeFolderWithRequest();
         continueWithNewTransaction();
         Long requestId = creationBean.getRequestId();
         Request request;

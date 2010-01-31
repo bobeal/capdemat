@@ -262,7 +262,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <!-- *******************************************************************  -->
 
   <bean id="paymentInitializationCheckerJob"
-    class="fr.cg95.cvq.payment.job.PaymentInitializationDateCheckerJob">
+    class="fr.cg95.cvq.service.payment.job.PaymentInitializationDateCheckerJob">
     <property name="localAuthorityRegistry"><ref bean="localAuthorityRegistry"/></property>
     <property name="mailService"><ref bean="mailService"/></property>
     <property name="paymentDAO"><ref bean="paymentDAO"/></property>

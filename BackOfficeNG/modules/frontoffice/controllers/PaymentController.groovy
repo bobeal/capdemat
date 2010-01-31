@@ -1,20 +1,20 @@
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.users.Adult
-import fr.cg95.cvq.business.users.payment.ExternalAccountItem
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItemDetail
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItemDetail
-import fr.cg95.cvq.business.users.payment.ExternalTicketingContractItem
+import fr.cg95.cvq.business.payment.ExternalAccountItem
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem
+import fr.cg95.cvq.business.payment.ExternalInvoiceItemDetail
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail
+import fr.cg95.cvq.business.payment.ExternalTicketingContractItem
 import fr.cg95.cvq.business.users.Individual
-import fr.cg95.cvq.business.users.payment.PurchaseItem
-import fr.cg95.cvq.business.users.payment.PaymentMode
-import fr.cg95.cvq.business.users.payment.Payment
-import fr.cg95.cvq.business.users.payment.PaymentState
-import fr.cg95.cvq.payment.IPaymentService
+import fr.cg95.cvq.business.payment.PurchaseItem
+import fr.cg95.cvq.business.payment.PaymentMode
+import fr.cg95.cvq.business.payment.Payment
+import fr.cg95.cvq.business.payment.PaymentState
+import fr.cg95.cvq.external.IExternalService
+import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
-import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
 
@@ -24,7 +24,7 @@ import grails.converters.JSON
 
 class PaymentController {
 
-    IHomeFolderService homeFolderService
+	IExternalService externalService
     IIndividualService individualService
     IPaymentService paymentService
     ILocalAuthorityRegistry localAuthorityRegistry
@@ -245,7 +245,7 @@ class PaymentController {
     protected List getTicketingContracts() {
         session.ticketingContracts = []
         def result = []
-        def contracts = homeFolderService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_TICKETING_ACCOUNTS)
+        def contracts = externalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_TICKETING_ACCOUNTS)
         
         for(ExternalTicketingContractItem item : contracts) {
             session.ticketingContracts.add(item)
@@ -257,10 +257,10 @@ class PaymentController {
     protected List getDepositAccounts() {
         session.depositAccounts = []
         def result = []
-        def accounts = homeFolderService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS)
+        def accounts = externalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS)
         
         for(ExternalDepositAccountItem item : accounts) {
-            homeFolderService.loadExternalDepositAccountDetails(item) 
+            externalService.loadDepositAccountDetails(item) 
             session.depositAccounts.add(item)
             result.add(this.buildDepositMap(item))
         }
@@ -271,11 +271,11 @@ class PaymentController {
     protected List getInvoices() {
         session.invoices = []
         def result = []
-        def invoices = homeFolderService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_INVOICES)
+        def invoices = externalService.getExternalAccounts(ecitizen.homeFolder.id, IPaymentService.EXTERNAL_INVOICES)
         
         for(ExternalInvoiceItem item : invoices) {
             if(!item.isPaid()) {
-                homeFolderService.loadExternalInvoiceDetails(item)
+                externalService.loadInvoiceDetails(item)
                 session.invoices.add(item)
                 result.add(this.buildInvoiceMap(item))
             }

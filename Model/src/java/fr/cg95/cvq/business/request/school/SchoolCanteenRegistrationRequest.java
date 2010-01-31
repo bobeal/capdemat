@@ -111,7 +111,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         List list = new ArrayList();
         SchoolCanteenRegistrationRequest schoolCanteenRegistrationRequest = new SchoolCanteenRegistrationRequest();
         schoolCanteenRegistrationRequest.fillCommonModelInfo(schoolCanteenRegistrationRequest,schoolCanteenRegistrationRequestXml);
-        List<fr.cg95.cvq.business.users.LocalReferentialData> foodDietList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        List<fr.cg95.cvq.business.request.LocalReferentialData> foodDietList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData> ();
         if ( schoolCanteenRegistrationRequestXml.sizeOfFoodDietArray() > 0) {
             for (int i = 0; i < schoolCanteenRegistrationRequestXml.getFoodDietArray().length; i++) {
                 foodDietList.add(LocalReferentialData.xmlToModel(schoolCanteenRegistrationRequestXml.getFoodDietArray(i)));
@@ -121,7 +121,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequest.setFoodAllergy(Boolean.valueOf(schoolCanteenRegistrationRequestXml.getFoodAllergy()));
         schoolCanteenRegistrationRequest.setDoctorPhone(schoolCanteenRegistrationRequestXml.getDoctorPhone());
         schoolCanteenRegistrationRequest.setDoctorName(schoolCanteenRegistrationRequestXml.getDoctorName());
-        List<fr.cg95.cvq.business.users.LocalReferentialData> canteenAttendingDaysList = new ArrayList<fr.cg95.cvq.business.users.LocalReferentialData> ();
+        List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDaysList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData> ();
         if ( schoolCanteenRegistrationRequestXml.sizeOfCanteenAttendingDaysArray() > 0) {
             for (int i = 0; i < schoolCanteenRegistrationRequestXml.getCanteenAttendingDaysArray().length; i++) {
                 canteenAttendingDaysList.add(LocalReferentialData.xmlToModel(schoolCanteenRegistrationRequestXml.getCanteenAttendingDaysArray(i)));
@@ -140,9 +140,9 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         return schoolCanteenRegistrationRequest;
     }
 
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> foodDiet;
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet;
 
-    public final void setFoodDiet(final List<fr.cg95.cvq.business.users.LocalReferentialData> foodDiet) {
+    public final void setFoodDiet(final List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet) {
         this.foodDiet = foodDiet;
     }
 
@@ -159,9 +159,9 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
      *  column="food_diet_index"
      * @hibernate.many-to-many
      *  column="food_diet_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
      */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getFoodDiet() {
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getFoodDiet() {
         return this.foodDiet;
     }
 
@@ -211,9 +211,9 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         return this.doctorName;
     }
 
-    private List<fr.cg95.cvq.business.users.LocalReferentialData> canteenAttendingDays;
+    private List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays;
 
-    public final void setCanteenAttendingDays(final List<fr.cg95.cvq.business.users.LocalReferentialData> canteenAttendingDays) {
+    public final void setCanteenAttendingDays(final List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays) {
         this.canteenAttendingDays = canteenAttendingDays;
     }
 
@@ -230,9 +230,9 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
      *  column="canteen_attending_days_index"
      * @hibernate.many-to-many
      *  column="canteen_attending_days_id"
-     *  class="fr.cg95.cvq.business.users.LocalReferentialData"
+     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
      */
-    public final List<fr.cg95.cvq.business.users.LocalReferentialData> getCanteenAttendingDays() {
+    public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCanteenAttendingDays() {
         return this.canteenAttendingDays;
     }
 

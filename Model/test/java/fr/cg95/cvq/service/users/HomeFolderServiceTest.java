@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.users;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,13 +14,13 @@ import org.jsmtpd.domain.Email;
 import org.jsmtpd.utils.junit.SmtpServer;
 
 import junit.framework.Assert;
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestState;
+
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
+import fr.cg95.cvq.exception.CvqAuthenticationFailedException;
 import fr.cg95.cvq.exception.CvqDisabledAccountException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqUnknownUserException;
@@ -78,7 +77,9 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         try {
             iAuthenticationService.authenticate(responsibleLogin, "toto");
         } catch (CvqDisabledAccountException cdae) {
-            fail("should not have thrown an exception");
+            fail("should not have thrown this exception");
+        } catch (CvqAuthenticationFailedException cafe) {
+            // that was expected
         }
     }
     
@@ -139,11 +140,6 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
             Assert.assertEquals(individual.getState(), ActorState.ARCHIVED);
-        }
-
-        List<Request> requests = iRequestService.getByHomeFolderId(homeFolder.getId());
-        for (Request request : requests) {
-            Assert.assertEquals(request.getState(), RequestState.ARCHIVED);
         }
     }
 
@@ -216,12 +212,12 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         List<Individual> individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LASTNAME", 
-                    Critere.EQUALS, Individual.SEARCH_BY_FIRSTNAME, "responsible", 
+                    Critere.EQUALS, Individual.SEARCH_BY_FIRSTNAME, "firstname", 
                     Critere.EQUALS, true);
         int lastAndFirstNameSearchSize = (individuals == null ? 0 : individuals.size());
         
         individuals = 
-            performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LASTNAME", 
+            performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LASTNAME",
                     Critere.NEQUALS, null, null, null, false);
         int notLastNameSearchSize = (individuals == null ? 0 : individuals.size());
 
@@ -264,7 +260,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         
         // do some tests on home folder's individuals
         homeFolder = iHomeFolderService.getById(homeFolder.getId());
-        Assert.assertEquals(homeFolder.getIndividuals().size(), 5);
+        Assert.assertEquals(2, homeFolder.getIndividuals().size());
 
         Adult homeFolderResponsibleDb = 
             iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
@@ -272,20 +268,20 @@ public class HomeFolderServiceTest extends ServiceTestCase {
                 homeFolderResponsible.getFirstName());
 
         individuals = 
-            performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LASTNAME", 
-                    Critere.EQUALS, Individual.SEARCH_BY_FIRSTNAME, "responsible", 
+            performIndividualSearch(Individual.SEARCH_BY_LASTNAME, homeFolderResponsible.getLastName(), 
+                    Critere.EQUALS, Individual.SEARCH_BY_FIRSTNAME, homeFolderResponsible.getFirstName(), 
                     Critere.EQUALS, true);
         Assert.assertEquals(individuals.size(), lastAndFirstNameSearchSize + 1);
 
         individuals = 
-            performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LASTNAME", 
+            performIndividualSearch(Individual.SEARCH_BY_LASTNAME, homeFolderResponsible.getLastName(), 
                     Critere.NEQUALS, null, null, null, false);
         Assert.assertEquals(individuals.size(), notLastNameSearchSize);
 
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "laSTN", 
                     Critere.STARTSWITH, null, null, null, false);
-        Assert.assertEquals(individuals.size(), startsWithLastNameSearchSize + 5);
+        Assert.assertEquals(individuals.size(), startsWithLastNameSearchSize + 2);
 
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LOST", 
@@ -295,16 +291,12 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "STNAME", 
                     Critere.LIKE, null, null, null, false);
-        Assert.assertEquals(individuals.size(), ilikeLastNameSearchSize + 5);
+        Assert.assertEquals(individuals.size(), ilikeLastNameSearchSize + 2);
   
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_FIRSTNAME, "OSTNAM", 
                     Critere.LIKE, null, null, null, false);
         Assert.assertEquals(individuals.size(), badFirstNameSearchSize);
-        
-        individuals = performIndividualSearch(Individual.SEARCH_BY_BIRTHDATE, new Date(), 
-                Critere.GT, null, null, null, false);
-        Assert.assertEquals(individuals.size(), 2);
     }
     
     private List<Individual> performIndividualSearch(final String attribut, final Object value,
@@ -331,9 +323,15 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         return iIndividualService.get(criteriaSet, null, false);
     }
 
-    public void testNotifyPasswordReset()
-        throws CvqException {
-        Adult adult = iHomeFolderService.getHomeFolderResponsible(gimmeAnHomeFolder().getHomeFolderId());
+    public void testNotifyPasswordReset() throws CvqException {
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+
+        CreationBean cb = gimmeAnHomeFolder();
+
+        SecurityContext.setCurrentEcitizen(cb.getLogin());
+        
+        Adult adult = iHomeFolderService.getHomeFolderResponsible(cb.getHomeFolderId());
         adult.setEmail(null);
         Email email = null;
         SmtpServer server = null;
@@ -344,13 +342,15 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         }
 
         server.getQueue().clear();
-        PasswordResetNotificationType notificationType = iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
+        PasswordResetNotificationType notificationType = 
+            iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
         Assert.assertEquals(PasswordResetNotificationType.INLINE, notificationType);
         email = server.getMessage(1000);
-        Assert.assertEquals(null, email);
+        Assert.assertNull(email);
 
         server.getQueue().clear();
-        notificationType = iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
+        notificationType = 
+            iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
         Assert.assertEquals(PasswordResetNotificationType.CATEGORY_EMAIL, notificationType);
         email = server.getMessage(1000);
         Assert.assertEquals(email.getRecipients().size(), 1);
@@ -380,7 +380,8 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         }
 
         server.getQueue().clear();
-        notificationType = iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
+        notificationType = 
+            iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
         Assert.assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
         email = server.getMessage(1000);
         Assert.assertEquals(email.getRecipients().size(), 1);
@@ -393,5 +394,4 @@ public class HomeFolderServiceTest extends ServiceTestCase {
             fail("could not open email datastream");
         }
     }
-
 }

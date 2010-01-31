@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
+import fr.cg95.cvq.business.request.PlaceReservationData;
 import fr.cg95.cvq.business.request.PlaceReservationType;
+import fr.cg95.cvq.business.request.TicketTypeSelection;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.business.users.PlaceReservationData;
-import fr.cg95.cvq.business.users.TicketTypeSelection;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -29,7 +29,7 @@ public class PlaceReservationRequestServiceSubscriberTest
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         // create a vo card request (to create home folder and associates)
-        CreationBean cb = gimmeAnHomeFolder();
+        CreationBean cb = gimmeAnHomeFolderWithRequest();
 
         String proposedLogin = cb.getLogin();
 

@@ -40,7 +40,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="fakeSmsService" class="fr.cg95.cvq.util.sms.impl.FakeSmsService" />
   
-  <bean id="certificateService" class="fr.cg95.cvq.service.users.impl.CertificateService">
+  <bean id="certificateService" class="fr.cg95.cvq.service.request.impl.CertificateService">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
     <property name="individualService" ref="individualService"/>

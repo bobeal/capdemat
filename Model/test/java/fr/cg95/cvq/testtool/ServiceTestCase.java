@@ -41,7 +41,6 @@ import fr.cg95.cvq.service.request.IPlaceReservationService;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
-import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
@@ -72,7 +71,6 @@ public class ServiceTestCase
     protected static IIndividualService iIndividualService;
     protected static IHomeFolderService iHomeFolderService;
     protected static IAuthenticationService iAuthenticationService;
-    protected static ICertificateService iCertificateService;
 
     // authority related services
     protected static ISchoolService schoolService;
@@ -299,10 +297,6 @@ public class ServiceTestCase
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
         iHomeFolderService = homeFolderService;
-    }
-
-    public void setCertificateService(ICertificateService certificateService) {
-        iCertificateService = certificateService;
     }
 
     public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {

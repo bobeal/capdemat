@@ -1,5 +1,5 @@
 import org.xhtmlrenderer.pdf.ITextRenderer
-import fr.cg95.cvq.service.users.ICertificateService
+import fr.cg95.cvq.service.request.ICertificateService
 
 class PdfService {
 	

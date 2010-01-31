@@ -1,4 +1,4 @@
-package fr.cg95.cvq.service.users.impl;
+package fr.cg95.cvq.service.request.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,14 +25,17 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.request.ICertificateService;
 import fr.cg95.cvq.service.request.ILocalReferentialService;
-import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
+/**
+ * TODO : mutualize technical tasks of generation in a specific service (to be reused by others).
+ */
 public class CertificateService implements ICertificateService {
 
     private static Logger logger = Logger.getLogger(CertificateService.class);
@@ -112,7 +115,7 @@ public class CertificateService implements ICertificateService {
         return null;
     }
     
-    // FIXME - feature duplicated in CertificateService
+    // FIXME - feature duplicated in RequestTypeAdaptorService.groovy
     // TODO - mutualize
     private Map<String,LocalReferentialType> getLocalReferentialTypes(String requestTypeLabel) {
         Map<String,LocalReferentialType> result = new HashMap<String,LocalReferentialType>();

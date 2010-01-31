@@ -1,4 +1,4 @@
-package fr.cg95.cvq.service.users;
+package fr.cg95.cvq.service.request;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
@@ -10,6 +10,9 @@ import fr.cg95.cvq.exception.CvqException;
  */
 public interface ICertificateService {
 
+    /**
+     * Generate a PDF representation of a request.
+     */
     byte[] generate(Request request) throws CvqException;
 
 }

@@ -10,7 +10,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.social.IHandicapCompensationChildRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
@@ -27,13 +26,13 @@ import java.math.BigInteger;
  */
 public class HandicapCompensationChildRequestServiceTest extends RequestTestCase {
 
-    protected IHandicapCompensationChildRequestService iHandicapCompensationChildRequestService;
+    protected IRequestService requestService;
 
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        iHandicapCompensationChildRequestService = 
-            (IHandicapCompensationChildRequestService) getBean(StringUtils.uncapitalize("HandicapCompensationChildRequest") + "Service");
+        requestService = 
+            (IRequestService) getBean(StringUtils.uncapitalize("HandicapCompensationChildRequest") + "Service");
     }
 
     protected HandicapCompensationChildRequest fillMeARequest() {
@@ -439,7 +438,7 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
         doc.setIndividualId(request.getRequesterId());
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(documentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = documentService.create(doc);
         requestDocumentService.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =
@@ -514,7 +513,7 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
          request.setRequesterId(SecurityContext.getCurrentUserId());
          request.setHomeFolderId(homeFolderId);
          HandicapCompensationChildRequestFeeder.setSubject(request, 
-             iHandicapCompensationChildRequestService.getSubjectPolicy(), null, homeFolder);
+             requestService.getSubjectPolicy(), null, homeFolder);
          
          Long requestId =
               requestWorkflowService.create(request);
@@ -532,8 +531,6 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
          HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
          assertNotNull(homeFolderAfterDelete);
          assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
-         
-         SecurityContext.resetCurrentSite();
     }
 
 
@@ -541,7 +538,7 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
         throws CvqException, CvqObjectNotFoundException,
                java.io.FileNotFoundException, java.io.IOException {
 
-	      if (!iHandicapCompensationChildRequestService.supportUnregisteredCreation())
+	      if (!requestService.supportUnregisteredCreation())
 	         return;
 
 	      startTransaction();
@@ -558,7 +555,7 @@ public class HandicapCompensationChildRequestServiceTest extends RequestTestCase
         requester.setAdress(address);
         iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         HandicapCompensationChildRequestFeeder.setSubject(request, 
-            iHandicapCompensationChildRequestService.getSubjectPolicy(), requester, null);
+            requestService.getSubjectPolicy(), requester, null);
 
         Long requestId =
              requestWorkflowService.create(request, requester);

@@ -41,8 +41,6 @@ import fr.cg95.cvq.service.request.IPlaceReservationService;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
-import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
-import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.service.users.ICertificateService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
@@ -87,9 +85,7 @@ public class ServiceTestCase
     // requests related services
     protected static IRequestServiceRegistry iRequestServiceRegistry;
     protected static IRequestActionService iRequestActionService;
-    protected static IHomeFolderModificationRequestService iHomeFolderModificationRequestService;
     protected static IRequestStatisticsService iRequestStatisticsService;
-    protected static IVoCardRequestService iVoCardRequestService;
     protected static IMeansOfContactService iMeansOfContactService;
     protected static IDisplayGroupService iDisplayGroupService;
     
@@ -323,14 +319,6 @@ public class ServiceTestCase
 
     public void setRequestActionService(IRequestActionService requestActionService) {
         iRequestActionService = requestActionService;
-    }
-
-    public void setVoCardRequestService(IVoCardRequestService voCardRequestService) {
-        iVoCardRequestService = voCardRequestService;
-    }
-
-    public void setHomeFolderModificationRequestService(IHomeFolderModificationRequestService homeFolderModificationRequestService) {
-        iHomeFolderModificationRequestService = homeFolderModificationRequestService;
     }
 
     public void setDisplayGroupService(IDisplayGroupService displayGroupService) {

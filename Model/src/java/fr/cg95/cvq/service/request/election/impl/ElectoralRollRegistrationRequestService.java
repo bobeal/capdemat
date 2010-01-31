@@ -4,7 +4,6 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.election.ElectoralRollRegistrationRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
-import fr.cg95.cvq.service.request.election.IElectoralRollRegistrationRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
 /**
@@ -12,8 +11,7 @@ import fr.cg95.cvq.service.request.impl.RequestService;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class ElectoralRollRegistrationRequestService extends RequestService 
-    implements IElectoralRollRegistrationRequestService {
+public final class ElectoralRollRegistrationRequestService extends RequestService {
 
     
     @Override

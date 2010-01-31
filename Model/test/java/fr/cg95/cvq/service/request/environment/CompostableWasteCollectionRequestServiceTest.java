@@ -10,7 +10,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.environment.ICompostableWasteCollectionRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
@@ -27,13 +26,13 @@ import java.math.BigInteger;
  */
 public class CompostableWasteCollectionRequestServiceTest extends RequestTestCase {
 
-    protected ICompostableWasteCollectionRequestService iCompostableWasteCollectionRequestService;
+    protected IRequestService requestService;
 
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        iCompostableWasteCollectionRequestService = 
-            (ICompostableWasteCollectionRequestService) getBean(StringUtils.uncapitalize("CompostableWasteCollectionRequest") + "Service");
+        requestService = 
+            (IRequestService) getBean(StringUtils.uncapitalize("CompostableWasteCollectionRequest") + "Service");
     }
 
     protected CompostableWasteCollectionRequest fillMeARequest() {
@@ -65,7 +64,7 @@ public class CompostableWasteCollectionRequestServiceTest extends RequestTestCas
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
         doc.setIndividualId(request.getRequesterId());
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(documentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = documentService.create(doc);
         requestDocumentService.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =
@@ -140,7 +139,7 @@ public class CompostableWasteCollectionRequestServiceTest extends RequestTestCas
          request.setRequesterId(SecurityContext.getCurrentUserId());
          request.setHomeFolderId(homeFolderId);
          CompostableWasteCollectionRequestFeeder.setSubject(request, 
-             iCompostableWasteCollectionRequestService.getSubjectPolicy(), null, homeFolder);
+             requestService.getSubjectPolicy(), null, homeFolder);
          
          Long requestId =
               requestWorkflowService.create(request);
@@ -158,8 +157,6 @@ public class CompostableWasteCollectionRequestServiceTest extends RequestTestCas
          HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
          assertNotNull(homeFolderAfterDelete);
          assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
-         
-         SecurityContext.resetCurrentSite();
     }
 
 
@@ -167,7 +164,7 @@ public class CompostableWasteCollectionRequestServiceTest extends RequestTestCas
         throws CvqException, CvqObjectNotFoundException,
                java.io.FileNotFoundException, java.io.IOException {
 
-	      if (!iCompostableWasteCollectionRequestService.supportUnregisteredCreation())
+	      if (!requestService.supportUnregisteredCreation())
 	         return;
 
 	      startTransaction();
@@ -184,7 +181,7 @@ public class CompostableWasteCollectionRequestServiceTest extends RequestTestCas
         requester.setAdress(address);
         iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         CompostableWasteCollectionRequestFeeder.setSubject(request, 
-            iCompostableWasteCollectionRequestService.getSubjectPolicy(), requester, null);
+            requestService.getSubjectPolicy(), requester, null);
 
         Long requestId =
              requestWorkflowService.create(request, requester);

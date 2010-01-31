@@ -10,7 +10,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.school.IRecreationActivityRegistrationRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
@@ -27,13 +26,13 @@ import java.math.BigInteger;
  */
 public class RecreationActivityRegistrationRequestServiceTest extends RequestTestCase {
 
-    protected IRecreationActivityRegistrationRequestService iRecreationActivityRegistrationRequestService;
+    protected IRequestService requestService;
 
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        iRecreationActivityRegistrationRequestService = 
-            (IRecreationActivityRegistrationRequestService) getBean(StringUtils.uncapitalize("RecreationActivityRegistrationRequest") + "Service");
+        requestService = 
+            (IRequestService) getBean(StringUtils.uncapitalize("RecreationActivityRegistrationRequest") + "Service");
     }
 
     protected RecreationActivityRegistrationRequest fillMeARequest() {
@@ -71,7 +70,7 @@ public class RecreationActivityRegistrationRequestServiceTest extends RequestTes
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
         doc.setIndividualId(request.getRequesterId());
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(documentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = documentService.create(doc);
         requestDocumentService.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =
@@ -146,7 +145,7 @@ public class RecreationActivityRegistrationRequestServiceTest extends RequestTes
          request.setRequesterId(SecurityContext.getCurrentUserId());
          request.setHomeFolderId(homeFolderId);
          RecreationActivityRegistrationRequestFeeder.setSubject(request, 
-             iRecreationActivityRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
+             requestService.getSubjectPolicy(), null, homeFolder);
          
          Long requestId =
               requestWorkflowService.create(request);
@@ -164,8 +163,6 @@ public class RecreationActivityRegistrationRequestServiceTest extends RequestTes
          HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
          assertNotNull(homeFolderAfterDelete);
          assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
-         
-         SecurityContext.resetCurrentSite();
     }
 
 
@@ -173,7 +170,7 @@ public class RecreationActivityRegistrationRequestServiceTest extends RequestTes
         throws CvqException, CvqObjectNotFoundException,
                java.io.FileNotFoundException, java.io.IOException {
 
-	      if (!iRecreationActivityRegistrationRequestService.supportUnregisteredCreation())
+	      if (!requestService.supportUnregisteredCreation())
 	         return;
 
 	      startTransaction();
@@ -190,7 +187,7 @@ public class RecreationActivityRegistrationRequestServiceTest extends RequestTes
         requester.setAdress(address);
         iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         RecreationActivityRegistrationRequestFeeder.setSubject(request, 
-            iRecreationActivityRegistrationRequestService.getSubjectPolicy(), requester, null);
+            requestService.getSubjectPolicy(), requester, null);
 
         Long requestId =
              requestWorkflowService.create(request, requester);

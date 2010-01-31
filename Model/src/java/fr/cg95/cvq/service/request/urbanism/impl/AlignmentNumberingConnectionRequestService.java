@@ -5,13 +5,11 @@ import fr.cg95.cvq.business.request.urbanism.AlignmentNumberingConnectionRequest
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.urbanism.IAlignmentNumberingConnectionRequestService;
 
 /**
  * @author jsb@zenexity.fr
  */
-public class AlignmentNumberingConnectionRequestService extends RequestService implements
-        IAlignmentNumberingConnectionRequestService {
+public class AlignmentNumberingConnectionRequestService extends RequestService {
 
     @Override
     public void init() {

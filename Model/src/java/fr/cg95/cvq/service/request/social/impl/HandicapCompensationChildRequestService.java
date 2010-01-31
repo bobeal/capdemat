@@ -12,7 +12,6 @@ import fr.cg95.cvq.service.request.condition.DateChecker;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.social.IHandicapCompensationChildRequestService;
 import fr.cg95.cvq.util.DateUtils;
 
 
@@ -21,8 +20,7 @@ import fr.cg95.cvq.util.DateUtils;
  * 
  * @author maxence.veyret@bull.net
  */
-public class HandicapCompensationChildRequestService extends RequestService 
-    implements IHandicapCompensationChildRequestService {
+public class HandicapCompensationChildRequestService extends RequestService {
     
     static Logger logger = Logger.getLogger(HandicapCompensationChildRequestService.class);
 

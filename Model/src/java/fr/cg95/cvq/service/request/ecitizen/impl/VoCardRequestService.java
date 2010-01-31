@@ -1,12 +1,9 @@
 package fr.cg95.cvq.service.request.ecitizen.impl;
 
-import org.apache.log4j.Logger;
-
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
-import fr.cg95.cvq.service.request.ecitizen.IVoCardRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
 /**
@@ -14,10 +11,7 @@ import fr.cg95.cvq.service.request.impl.RequestService;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class VoCardRequestService
-    extends RequestService implements IVoCardRequestService {
-
-    static Logger logger = Logger.getLogger(VoCardRequestService.class);
+public final class VoCardRequestService extends RequestService {
 
     @Override
     public void init() {

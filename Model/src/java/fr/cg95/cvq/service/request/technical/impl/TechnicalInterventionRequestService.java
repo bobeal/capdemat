@@ -8,10 +8,8 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.technical.ITechnicalInterventionRequestService;
 
-public class TechnicalInterventionRequestService extends RequestService 
-    implements ITechnicalInterventionRequestService {
+public class TechnicalInterventionRequestService extends RequestService {
 
     
     @Override

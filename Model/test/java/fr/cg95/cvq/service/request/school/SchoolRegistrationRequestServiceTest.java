@@ -10,7 +10,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
@@ -27,13 +26,13 @@ import java.math.BigInteger;
  */
 public class SchoolRegistrationRequestServiceTest extends RequestTestCase {
 
-    protected ISchoolRegistrationRequestService iSchoolRegistrationRequestService;
+    protected IRequestService requestService;
 
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        iSchoolRegistrationRequestService = 
-            (ISchoolRegistrationRequestService) getBean(StringUtils.uncapitalize("SchoolRegistrationRequest") + "Service");
+        requestService = 
+            (IRequestService) getBean(StringUtils.uncapitalize("SchoolRegistrationRequest") + "Service");
     }
 
     protected SchoolRegistrationRequest fillMeARequest() {
@@ -72,7 +71,7 @@ public class SchoolRegistrationRequestServiceTest extends RequestTestCase {
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
         doc.setIndividualId(request.getRequesterId());
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(documentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = documentService.create(doc);
         requestDocumentService.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =
@@ -147,7 +146,7 @@ public class SchoolRegistrationRequestServiceTest extends RequestTestCase {
          request.setRequesterId(SecurityContext.getCurrentUserId());
          request.setHomeFolderId(homeFolderId);
          SchoolRegistrationRequestFeeder.setSubject(request, 
-             iSchoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
+             requestService.getSubjectPolicy(), null, homeFolder);
          
          Long requestId =
               requestWorkflowService.create(request);
@@ -165,8 +164,6 @@ public class SchoolRegistrationRequestServiceTest extends RequestTestCase {
          HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
          assertNotNull(homeFolderAfterDelete);
          assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
-         
-         SecurityContext.resetCurrentSite();
     }
 
 
@@ -174,7 +171,7 @@ public class SchoolRegistrationRequestServiceTest extends RequestTestCase {
         throws CvqException, CvqObjectNotFoundException,
                java.io.FileNotFoundException, java.io.IOException {
 
-	      if (!iSchoolRegistrationRequestService.supportUnregisteredCreation())
+	      if (!requestService.supportUnregisteredCreation())
 	         return;
 
 	      startTransaction();
@@ -191,7 +188,7 @@ public class SchoolRegistrationRequestServiceTest extends RequestTestCase {
         requester.setAdress(address);
         iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         SchoolRegistrationRequestFeeder.setSubject(request, 
-            iSchoolRegistrationRequestService.getSubjectPolicy(), requester, null);
+            requestService.getSubjectPolicy(), requester, null);
 
         Long requestId =
              requestWorkflowService.create(request, requester);

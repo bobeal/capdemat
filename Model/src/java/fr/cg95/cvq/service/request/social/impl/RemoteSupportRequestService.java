@@ -5,16 +5,13 @@ import fr.cg95.cvq.business.request.social.RemoteSupportRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.social.IRemoteSupportRequestService;
-
 
 /**
  * Implementation of the remote support request service.
  * 
  * @author Rafik Djedjig (rdj@zenexity.fr)
  */
-public class RemoteSupportRequestService extends RequestService 
-    implements IRemoteSupportRequestService {
+public class RemoteSupportRequestService extends RequestService {
 
     
     @Override

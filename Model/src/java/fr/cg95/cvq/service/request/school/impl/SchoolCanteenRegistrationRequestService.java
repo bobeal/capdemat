@@ -10,15 +10,13 @@ import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.school.ISchoolCanteenRegistrationRequestService;
 
 /**
  * Implementation of the school canteen registration request service.
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class SchoolCanteenRegistrationRequestService 
-    extends RequestService implements ISchoolCanteenRegistrationRequestService {
+public final class SchoolCanteenRegistrationRequestService extends RequestService {
 
     private static Logger logger = Logger.getLogger(SchoolCanteenRegistrationRequestService.class);
 

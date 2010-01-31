@@ -10,15 +10,13 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.social.IHandicapCompensationAdultRequestService;
 
 /**
  * Implementation of the adult handicap compensation request service.
  * 
  * @author maxence.veyret@bull.net
  */
-public class HandicapCompensationAdultRequestService extends RequestService 
-    implements IHandicapCompensationAdultRequestService {
+public class HandicapCompensationAdultRequestService extends RequestService {
     
     static Logger logger = Logger.getLogger(HandicapCompensationAdultRequestService.class);
     

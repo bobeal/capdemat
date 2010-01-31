@@ -40,8 +40,7 @@ public class EdemandeServiceTest extends StudyGrantRequestServiceTest {
         StudyGrantRequest request = fillMeARequest();
         request.setRequesterId(SecurityContext.getCurrentUserId());
         request.setHomeFolderId(homeFolderId);
-        StudyGrantRequestFeeder.setSubject(request, 
-            iStudyGrantRequestService.getSubjectPolicy(), null, homeFolder);
+        StudyGrantRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
         Document document = new Document();
         document.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.SCHOOL_CERTIFICATE_TYPE));
         document.setHomeFolderId(homeFolderId);

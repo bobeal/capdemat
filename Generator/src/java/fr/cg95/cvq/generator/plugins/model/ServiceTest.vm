@@ -10,7 +10,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.${request.requestNamespaceLastParticle}.I${request.requestName}Service;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
@@ -27,13 +26,13 @@ import java.math.BigInteger;
  */
 public class ${request.requestName}ServiceTest extends RequestTestCase {
 
-    protected I${request.requestName}Service i${request.requestName}Service;
+    protected IRequestService requestService;
 
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        i${request.requestName}Service = 
-            (I${request.requestName}Service) getBean(StringUtils.uncapitalize("${request.requestName}") + "Service");
+        requestService = 
+            (IRequestService) getBean(StringUtils.uncapitalize("${request.requestName}") + "Service");
     }
 
     protected ${request.requestName} fillMeARequest() {
@@ -114,7 +113,7 @@ public class ${request.requestName}ServiceTest extends RequestTestCase {
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
         doc.setIndividualId(request.getRequesterId());
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(documentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = documentService.create(doc);
         requestDocumentService.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =
@@ -189,7 +188,7 @@ public class ${request.requestName}ServiceTest extends RequestTestCase {
          request.setRequesterId(SecurityContext.getCurrentUserId());
          request.setHomeFolderId(homeFolderId);
          ${request.requestName}Feeder.setSubject(request, 
-             i${request.requestName}Service.getSubjectPolicy(), null, homeFolder);
+             requestService.getSubjectPolicy(), null, homeFolder);
          
          Long requestId =
               requestWorkflowService.create(request);
@@ -242,23 +241,23 @@ public class ${request.requestName}ServiceTest extends RequestTestCase {
 	request.setRequester(homeFolder.getHomeFolderResponsible());
         ${request.requestName}Feeder.setSubject(request, homeFolder);
 
-        Set authorizedSubjects = i${request.requestName}Service.getAuthorizedSubjects(homeFolderId).keySet();
+        Set authorizedSubjects = requestService.getAuthorizedSubjects(homeFolderId).keySet();
 
 	${request.requestName}Document requestDoc =
 		(${request.requestName}Document) request.modelToXml();
-	Long requestId = i${request.requestName}Service.create(requestDoc.getDomNode());
+	Long requestId = requestWorkflowService.create(requestDoc.getDomNode());
 
         // close current session and re-open a new one
         continueWithNewTransaction();
         
-        Map newAuthorizedSubjectsMap = i${request.requestName}Service.getAuthorizedSubjects(homeFolderId);
+        Map newAuthorizedSubjectsMap = requestService.getAuthorizedSubjects(homeFolderId);
         if (newAuthorizedSubjectsMap == null) 
             assertEquals(authorizedSubjects.size(), 1);
         else
             assertEquals(newAuthorizedSubjectsMap.size(), authorizedSubjects.size() - 1);
 
 	${request.requestName} requestFromDb = 
-		(${request.requestName}) i${request.requestName}Service.getById(requestId);
+		(${request.requestName}) requestSearchService.getById(requestId);
 	assertEquals(requestId, requestFromDb.getId());
 	Adult requester = requestFromDb.getRequester();
 	assertNotNull(requester);
@@ -283,7 +282,7 @@ public class ${request.requestName}ServiceTest extends RequestTestCase {
         throws CvqException, CvqObjectNotFoundException,
                java.io.FileNotFoundException, java.io.IOException {
 
-	      if (!i${request.requestName}Service.supportUnregisteredCreation())
+	      if (!requestService.supportUnregisteredCreation())
 	         return;
 
 	      startTransaction();
@@ -300,7 +299,7 @@ public class ${request.requestName}ServiceTest extends RequestTestCase {
         requester.setAdress(address);
         iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         ${request.requestName}Feeder.setSubject(request, 
-            i${request.requestName}Service.getSubjectPolicy(), requester, null);
+            requestService.getSubjectPolicy(), requester, null);
 
         Long requestId =
              requestWorkflowService.create(request, requester);

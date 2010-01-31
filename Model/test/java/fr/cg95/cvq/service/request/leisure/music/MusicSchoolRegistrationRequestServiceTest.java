@@ -10,7 +10,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.leisure.music.IMusicSchoolRegistrationRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
@@ -27,13 +26,13 @@ import java.math.BigInteger;
  */
 public class MusicSchoolRegistrationRequestServiceTest extends RequestTestCase {
 
-    protected IMusicSchoolRegistrationRequestService iMusicSchoolRegistrationRequestService;
+    protected IRequestService requestService;
 
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        iMusicSchoolRegistrationRequestService = 
-            (IMusicSchoolRegistrationRequestService) getBean(StringUtils.uncapitalize("MusicSchoolRegistrationRequest") + "Service");
+        requestService = 
+            (IRequestService) getBean(StringUtils.uncapitalize("MusicSchoolRegistrationRequest") + "Service");
     }
 
     protected MusicSchoolRegistrationRequest fillMeARequest() {
@@ -63,7 +62,7 @@ public class MusicSchoolRegistrationRequestServiceTest extends RequestTestCase {
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
         doc.setIndividualId(request.getRequesterId());
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(documentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = documentService.create(doc);
         requestDocumentService.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =
@@ -138,7 +137,7 @@ public class MusicSchoolRegistrationRequestServiceTest extends RequestTestCase {
          request.setRequesterId(SecurityContext.getCurrentUserId());
          request.setHomeFolderId(homeFolderId);
          MusicSchoolRegistrationRequestFeeder.setSubject(request, 
-             iMusicSchoolRegistrationRequestService.getSubjectPolicy(), null, homeFolder);
+             requestService.getSubjectPolicy(), null, homeFolder);
          
          Long requestId =
               requestWorkflowService.create(request);
@@ -156,8 +155,6 @@ public class MusicSchoolRegistrationRequestServiceTest extends RequestTestCase {
          HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
          assertNotNull(homeFolderAfterDelete);
          assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
-         
-         SecurityContext.resetCurrentSite();
     }
 
 
@@ -165,7 +162,7 @@ public class MusicSchoolRegistrationRequestServiceTest extends RequestTestCase {
         throws CvqException, CvqObjectNotFoundException,
                java.io.FileNotFoundException, java.io.IOException {
 
-	      if (!iMusicSchoolRegistrationRequestService.supportUnregisteredCreation())
+	      if (!requestService.supportUnregisteredCreation())
 	         return;
 
 	      startTransaction();
@@ -182,7 +179,7 @@ public class MusicSchoolRegistrationRequestServiceTest extends RequestTestCase {
         requester.setAdress(address);
         iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         MusicSchoolRegistrationRequestFeeder.setSubject(request, 
-            iMusicSchoolRegistrationRequestService.getSubjectPolicy(), requester, null);
+            requestService.getSubjectPolicy(), requester, null);
 
         Long requestId =
              requestWorkflowService.create(request, requester);

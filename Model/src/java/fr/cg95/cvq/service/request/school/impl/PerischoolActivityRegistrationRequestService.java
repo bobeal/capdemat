@@ -8,15 +8,13 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.school.IPerischoolActivityRegistrationRequestService;
 
 /**
  * Implementation of the perischool activity registration request service.
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class PerischoolActivityRegistrationRequestService
-    extends RequestService implements IPerischoolActivityRegistrationRequestService {
+public final class PerischoolActivityRegistrationRequestService extends RequestService {
 
     private static Logger logger =
         Logger.getLogger(PerischoolActivityRegistrationRequestService.class);

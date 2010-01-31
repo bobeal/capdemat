@@ -10,7 +10,6 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.urbanism.IAlignmentNumberingConnectionRequestService;
 import fr.cg95.cvq.util.Critere;
 
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
@@ -27,13 +26,13 @@ import java.math.BigInteger;
  */
 public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestCase {
 
-    protected IAlignmentNumberingConnectionRequestService iAlignmentNumberingConnectionRequestService;
+    protected IRequestService requestService;
 
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        iAlignmentNumberingConnectionRequestService = 
-            (IAlignmentNumberingConnectionRequestService) getBean(StringUtils.uncapitalize("AlignmentNumberingConnectionRequest") + "Service");
+        requestService = 
+            (IRequestService) getBean(StringUtils.uncapitalize("AlignmentNumberingConnectionRequest") + "Service");
     }
 
     protected AlignmentNumberingConnectionRequest fillMeARequest() {
@@ -82,7 +81,7 @@ public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestC
         doc.setDepositType(DepositType.PC);
         doc.setHomeFolderId(request.getHomeFolderId());
         doc.setIndividualId(request.getRequesterId());
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(documentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long documentId = documentService.create(doc);
         requestDocumentService.addDocument(request.getId(), documentId);
         Set<RequestDocument> documentsSet =
@@ -157,7 +156,7 @@ public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestC
          request.setRequesterId(SecurityContext.getCurrentUserId());
          request.setHomeFolderId(homeFolderId);
          AlignmentNumberingConnectionRequestFeeder.setSubject(request, 
-             iAlignmentNumberingConnectionRequestService.getSubjectPolicy(), null, homeFolder);
+             requestService.getSubjectPolicy(), null, homeFolder);
          
          Long requestId =
               requestWorkflowService.create(request);
@@ -175,8 +174,6 @@ public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestC
          HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
          assertNotNull(homeFolderAfterDelete);
          assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
-         
-         SecurityContext.resetCurrentSite();
     }
 
 
@@ -184,7 +181,7 @@ public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestC
         throws CvqException, CvqObjectNotFoundException,
                java.io.FileNotFoundException, java.io.IOException {
 
-	      if (!iAlignmentNumberingConnectionRequestService.supportUnregisteredCreation())
+	      if (!requestService.supportUnregisteredCreation())
 	         return;
 
 	      startTransaction();
@@ -201,7 +198,7 @@ public class AlignmentNumberingConnectionRequestServiceTest extends RequestTestC
         requester.setAdress(address);
         iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         AlignmentNumberingConnectionRequestFeeder.setSubject(request, 
-            iAlignmentNumberingConnectionRequestService.getSubjectPolicy(), requester, null);
+            requestService.getSubjectPolicy(), requester, null);
 
         Long requestId =
              requestWorkflowService.create(request, requester);

@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.request.ecitizen.impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +22,6 @@ import fr.cg95.cvq.dao.users.IHistoryEntryDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
@@ -35,8 +33,7 @@ import fr.cg95.cvq.service.users.IIndividualService;
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class HomeFolderModificationRequestService
-    extends RequestService implements IHomeFolderModificationRequestService {
+public class HomeFolderModificationRequestService extends RequestService {
 
     static Logger logger = Logger.getLogger(HomeFolderModificationRequestService.class);
 
@@ -46,12 +43,10 @@ public class HomeFolderModificationRequestService
     private IHomeFolderService homeFolderService;
     private IIndividualService individualService;
 
-    @Override
-    public Set<HistoryEntry> getHistoryEntries(final Long hfmrId)
+    private List<HistoryEntry> getHistoryEntries(final Long hfmrId)
         throws CvqException {
 
-        List<HistoryEntry> historyEntriesList = historyEntryDAO.listByRequestId(hfmrId);
-        return new LinkedHashSet<HistoryEntry>(historyEntriesList);
+        return historyEntryDAO.listByRequestId(hfmrId);
     }
 
     @Override
@@ -64,7 +59,7 @@ public class HomeFolderModificationRequestService
         // (ie clear history entries and delete removed elements from home folder)
         //////////////////////////////////////////////////////////////////////////
 
-        Set<HistoryEntry> historiesSet = getHistoryEntries(hfmr.getId());
+        List<HistoryEntry> historiesSet = getHistoryEntries(hfmr.getId());
         Set<Object> objectsToUpdate = new HashSet<Object>();
         Set<Object> objectsToRemove = new HashSet<Object>();
 
@@ -269,7 +264,7 @@ public class HomeFolderModificationRequestService
 
         // navigate through all the history entries and cancel previous changes
 
-        Set<HistoryEntry> historiesSet = getHistoryEntries(request.getId());
+        List<HistoryEntry> historiesSet = getHistoryEntries(request.getId());
         for (HistoryEntry he : historiesSet) {
             logger.debug("restoreOriginalHomeFolder() history entry : " + he.getId());
 

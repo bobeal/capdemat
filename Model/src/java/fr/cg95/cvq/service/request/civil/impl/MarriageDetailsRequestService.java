@@ -6,7 +6,6 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.request.civil.IMarriageDetailsRequestService;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -16,8 +15,7 @@ import fr.cg95.cvq.service.request.impl.RequestService;
  * 
  * @author bor@zenexity.fr
  */
-public final class MarriageDetailsRequestService extends RequestService 
-    implements IMarriageDetailsRequestService {
+public final class MarriageDetailsRequestService extends RequestService {
     
     
     @Override

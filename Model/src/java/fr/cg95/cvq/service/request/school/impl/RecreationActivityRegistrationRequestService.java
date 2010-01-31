@@ -6,15 +6,13 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.school.IRecreationActivityRegistrationRequestService;
 
 /**
  * Implementation of the recreation activity registration request service.
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class RecreationActivityRegistrationRequestService extends RequestService
-		implements IRecreationActivityRegistrationRequestService {
+public final class RecreationActivityRegistrationRequestService extends RequestService {
 
     @Override
     public void onRequestValidated(final Request request)

@@ -28,10 +28,6 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
 import org.jaxen.dom.DOMXPath;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.ListableBeanFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -71,7 +67,7 @@ import fr.cg95.cvq.xml.common.AddressType;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument.StudyGrantRequest;
 
-public class EdemandeService implements IExternalProviderService, BeanFactoryAware {
+public class EdemandeService implements IExternalProviderService {
 
     private String label;
     private IEdemandeClient edemandeClient;
@@ -83,16 +79,11 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
     private ITranslationService translationService;
     private IHomeFolderService homeFolderService;
     private EdemandeUploader uploader;
-    private ListableBeanFactory beanFactory;
 
     private static final String SUBJECT_TRACE_SUBKEY = "subject";
     private static final String ACCOUNT_HOLDER_TRACE_SUBKEY = "accountHolder";
     private DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     private List<String> documentTypesToSend = Collections.emptyList();
-
-    public void init() {
-        this.homeFolderService = (IHomeFolderService)beanFactory.getBean("homeFolderService");
-    }
 
     @Override
     public String sendRequest(XmlObject requestXml) {
@@ -902,6 +893,10 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
         this.documentService = documentService;
     }
 
+    public void setHomeFolderService(IHomeFolderService homeFolderService) {
+        this.homeFolderService = homeFolderService;
+    }
+
     public void setExternalService(IExternalService externalService) {
         this.externalService = externalService;
     }
@@ -920,9 +915,5 @@ public class EdemandeService implements IExternalProviderService, BeanFactoryAwa
 
     public void setUploader(EdemandeUploader uploader) {
         this.uploader = uploader;
-    }
-
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = (ListableBeanFactory)beanFactory;
     }
 }

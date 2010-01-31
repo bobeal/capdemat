@@ -7,15 +7,13 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 
 /**
  * Implementation of the school registration request service.
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class SchoolRegistrationRequestService
-    extends RequestService implements ISchoolRegistrationRequestService {
+public final class SchoolRegistrationRequestService extends RequestService {
 
     @Override
     public void onRequestValidated(final Request request)

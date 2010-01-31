@@ -9,8 +9,6 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-import org.springframework.context.ConfigurableApplicationContext;
-
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
@@ -29,11 +27,12 @@ import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
+import fr.cg95.cvq.dao.users.IHistoryEntryDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 /**
@@ -43,8 +42,10 @@ import fr.cg95.cvq.testtool.BusinessObjectsFactory;
  */
 public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
-    protected ISchoolRegistrationRequestService iSchoolRegistrationRequestService;
-
+    protected IRequestService homeFolderModificationRequestService;
+    protected IRequestService schoolRegistrationRequestService;
+    protected IHistoryEntryDAO historyEntryDAO;
+    
     // define some objects that will be reused throughout the different tests
     private Address adress;
     private List<Adult> adults;
@@ -61,11 +62,11 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        iSchoolRegistrationRequestService = 
-            (ISchoolRegistrationRequestService) cac.getBean("schoolRegistrationRequestService");
+        
+        homeFolderModificationRequestService = getApplicationBean("homeFolderModificationRequestService");
+        schoolRegistrationRequestService = getApplicationBean("schoolRegistrationRequestService");
     }
-
+    
     /**
      * Overrided to run invariant tests.
      */
@@ -76,9 +77,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         
         try {
             // check entries have been deleted from history table
-            Set<HistoryEntry> remainingEntries =
-                iHomeFolderModificationRequestService.getHistoryEntries(hfmr.getId());
-            Assert.assertEquals(0, remainingEntries.size());
+            List<HistoryEntry> remainingEntries = historyEntryDAO.listByRequestId(hfmr.getId());
+            assertEquals(0, remainingEntries.size());
         } catch (Exception e) {
             // just catch and let tear down go up to his parent
         }
@@ -218,13 +218,6 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         prepareSimpleModifications();
 
         continueWithNewTransaction();
-        
-        // debug only
-        Set<HistoryEntry> entries =
-            iHomeFolderModificationRequestService.getHistoryEntries(hfmr.getId());
-        for (HistoryEntry historyEntry : entries) {
-            logger.debug("got history entry : " + historyEntry);
-        }
         
         // now retrieve and display them
         HomeFolderModificationRequest hfmrFromDb =
@@ -740,7 +733,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         RequestType requestType = 
-            requestTypeService.getRequestTypeByLabel(iSchoolRegistrationRequestService.getLabel());
+            requestTypeService.getRequestTypeByLabel(schoolRegistrationRequestService.getLabel());
         Set<Long> authorizedSchoolRegistrations =
             requestWorkflowService.getAuthorizedSubjects(requestType, homeFolderId).keySet();
         assertEquals(1, authorizedSchoolRegistrations.size());
@@ -775,5 +768,9 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         requestWorkflowService.delete(srrId);
+    }
+    
+    public void setHistoryEntryDAO(IHistoryEntryDAO historyEntryDAO) {
+        this.historyEntryDAO = historyEntryDAO;
     }
 }

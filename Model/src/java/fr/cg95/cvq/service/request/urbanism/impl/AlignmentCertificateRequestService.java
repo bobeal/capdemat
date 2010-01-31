@@ -5,15 +5,13 @@ import fr.cg95.cvq.business.request.urbanism.AlignmentCertificateRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.urbanism.IAlignmentCertificateRequestService;
 
 /**
  * Implementation of the alignment certificate request service.
  *
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public final class AlignmentCertificateRequestService
-    extends RequestService implements IAlignmentCertificateRequestService {
+public final class AlignmentCertificateRequestService extends RequestService {
 
     
     @Override

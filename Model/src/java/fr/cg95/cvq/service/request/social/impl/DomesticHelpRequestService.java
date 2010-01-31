@@ -8,15 +8,13 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import fr.cg95.cvq.service.request.social.IDomesticHelpRequestService;
 
 /**
  * Implementation of the domestic help request service.
  * 
  * @author Rafik Djedjig (rdj@zenexity.fr)
  */
-public class DomesticHelpRequestService extends RequestService implements
-        IDomesticHelpRequestService {
+public class DomesticHelpRequestService extends RequestService {
 
     static Logger logger = Logger.getLogger(DomesticHelpRequestService.class);
 

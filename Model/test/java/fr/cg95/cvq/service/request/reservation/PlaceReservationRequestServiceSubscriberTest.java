@@ -23,6 +23,15 @@ import fr.cg95.cvq.service.request.IPlaceReservationService;
 public class PlaceReservationRequestServiceSubscriberTest 
     extends PlaceReservationRequestServiceTest {
 
+    protected IPlaceReservationRequestService placeReservationRequestService;
+    
+    @Override
+    protected void onSetUp() throws Exception {
+        super.onSetUp();
+        
+        placeReservationRequestService = getApplicationBean("placeReservationRequestService");
+    }
+    
     public void testSubscribersMechanisms() throws CvqException, CvqObjectNotFoundException,
             java.io.FileNotFoundException, java.io.IOException {
 
@@ -49,14 +58,14 @@ public class PlaceReservationRequestServiceSubscriberTest
         request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
 
         try {
-            iPlaceReservationRequestService.getAuthorizedNumberOfPlaces("123");
+            placeReservationRequestService.getAuthorizedNumberOfPlaces("123");
             fail("should have thrown an exception");
         } catch (CvqObjectNotFoundException confe) {
             // that was expected
         }
 
         Map<String, Integer> authNbOfPlaces = 
-            iPlaceReservationRequestService.getAuthorizedNumberOfPlaces("SubscriberNumber");
+            placeReservationRequestService.getAuthorizedNumberOfPlaces("SubscriberNumber");
         Assert.assertEquals(authNbOfPlaces.size(), 2);
         Assert.assertEquals(authNbOfPlaces.get(IPlaceReservationService.FULL_PRICE_SUBSCRIBER), 
                 Integer.valueOf(2));
@@ -92,12 +101,12 @@ public class PlaceReservationRequestServiceSubscriberTest
                 // ... this one should succeed
                 ticketTypeSelection.setNumber(authNbOfPlaces.get(ticketSelection.getName()).longValue());
                 errorTicketsSet = 
-                    iPlaceReservationRequestService.checkPlaceReservationData(placeReservationDatas, "SubscriberNumber");
+                    placeReservationRequestService.checkPlaceReservationData(placeReservationDatas, "SubscriberNumber");
                 Assert.assertNull(errorTicketsSet);
                 // ... and this one should fail
                 ticketTypeSelection.setNumber(authNbOfPlaces.get(ticketSelection.getName()).longValue() + 1);
                 errorTicketsSet = 
-                    iPlaceReservationRequestService.checkPlaceReservationData(placeReservationDatas, "SubscriberNumber");
+                    placeReservationRequestService.checkPlaceReservationData(placeReservationDatas, "SubscriberNumber");
                 Assert.assertEquals(errorTicketsSet.size(), 1);
                 // let's go back to a correct one before creation request
                 ticketTypeSelection.setNumber(authNbOfPlaces.get(ticketSelection.getName()).longValue());

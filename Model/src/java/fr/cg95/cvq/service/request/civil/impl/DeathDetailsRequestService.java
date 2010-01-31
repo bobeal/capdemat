@@ -4,7 +4,6 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.DeathDetailsRequest;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.request.civil.IDeathDetailsRequestService;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
 /**
@@ -12,8 +11,7 @@ import fr.cg95.cvq.service.request.impl.RequestService;
  * 
  * @author bor@zenexity.fr
  */
-public final class DeathDetailsRequestService extends RequestService 
-    implements IDeathDetailsRequestService {
+public final class DeathDetailsRequestService extends RequestService {
     
     @Override
 	public boolean accept(Request request) {

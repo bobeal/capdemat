@@ -44,13 +44,13 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
 
         // fill and create the request
         // ////////////////////////////
 
         PlaceReservationRequest request = fillMeARequest();
-        request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId());
+        request.setRequesterId(homeFolderService.getHomeFolderResponsible(homeFolder.getId()).getId());
 
         Long requestId = requestWorkflowService.create(request);
         PlaceReservationRequest requestFromDb = 

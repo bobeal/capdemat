@@ -34,7 +34,7 @@ public class PaymentServiceTest extends PaymentTestCase {
     @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
-        fakeExternalService = (IExternalProviderService) getBean("fakeExternalService");
+        fakeExternalService = getApplicationBean("fakeExternalService");
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
 

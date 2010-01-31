@@ -33,7 +33,7 @@ public class CleverServiceTest extends RequestTestCase {
         SmsNotificationRequest request = new SmsNotificationRequest();
         request.setRequestType(requestTypeService.getRequestTypeByLabel("Sms Notification"));
         CreationBean creationBean = gimmeAnHomeFolder();
-        request.setSubjectId(iHomeFolderService.getHomeFolderResponsible(creationBean.getHomeFolderId()).getId());
+        request.setSubjectId(homeFolderService.getHomeFolderResponsible(creationBean.getHomeFolderId()).getId());
         request.setHomeFolderId(creationBean.getHomeFolderId());
         // Subscription
         request.setSubscription(Boolean.valueOf(true));

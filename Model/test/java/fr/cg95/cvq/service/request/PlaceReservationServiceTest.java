@@ -14,6 +14,8 @@ public class PlaceReservationServiceTest extends RequestTestCase {
 
     private static final String SERVICE_TEST = "Place Reservation";
     
+    protected static IPlaceReservationService placeReservationService;
+
     public void testAll() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -170,4 +172,8 @@ public class PlaceReservationServiceTest extends RequestTestCase {
             placeReservationService.getPlaceReservationForRequestType(SERVICE_TEST, placeReservationKey, false);
         Assert.assertNull(placeReservationTypeTemp);
     }
+
+    public void setPlaceReservationService(IPlaceReservationService iPlaceReservationService) {
+        placeReservationService = iPlaceReservationService;
+    }    
 }

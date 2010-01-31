@@ -19,6 +19,8 @@ import junit.framework.Assert;
  */
 public class LocalReferentialServiceTest extends RequestTestCase {
 
+    protected ILocalReferentialService localReferentialService;
+
     public void testAgentManipulation() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -100,4 +102,8 @@ public class LocalReferentialServiceTest extends RequestTestCase {
         retrievedLre = retrievedLrt.getEntryByKey(backupLre.getKey());
         Assert.assertNotNull(retrievedLre);
     }
+
+    public void setLocalReferentialService(ILocalReferentialService iLocalReferentialService) {
+        localReferentialService = iLocalReferentialService;
+    }    
 }

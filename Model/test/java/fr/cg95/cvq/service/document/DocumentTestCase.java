@@ -6,14 +6,14 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class DocumentTestCase extends ServiceTestCase {
 
-    protected static IDocumentService iDocumentService;
-    protected static IDocumentTypeService iDocumentTypeService;
+    protected IDocumentService documentService;
+    protected IDocumentTypeService documentTypeService;
 
     public void setDocumentService(IDocumentService documentService) {
-        iDocumentService = documentService;
+        this.documentService = documentService;
     }
     
     public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
-        iDocumentTypeService = documentTypeService;
+        this.documentTypeService = documentTypeService;
     }
 }

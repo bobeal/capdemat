@@ -78,7 +78,7 @@ public class RequestSeasonsJobTest extends RequestTestCase {
 
         // get the home folder id
         HomeFolder homeFolder =
-            iHomeFolderService.getById(cb.getHomeFolderId());
+            homeFolderService.getById(cb.getHomeFolderId());
 
         Long requestIds[] = new Long[2];
         int i = 0;
@@ -94,12 +94,11 @@ public class RequestSeasonsJobTest extends RequestTestCase {
                 request.setCurrentSchoolAddress("CurrentSchoolAddress");
                 request.setCurrentSchoolName("CurrentSchoolName");
                 request.setRequesterId(
-                    iHomeFolderService.getHomeFolderResponsible(
+                    homeFolderService.getHomeFolderResponsible(
                         homeFolder.getId()).getId());
                 request.setSubjectId(individual.getId());
                 MeansOfContact meansOfContact =
-                    iMeansOfContactService
-                        .getMeansOfContactByType(MeansOfContactEnum.EMAIL);
+                    meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
                 request.setMeansOfContact(meansOfContact);
                 requestIds[i++] =
                     requestWorkflowService.create(request);

@@ -206,7 +206,7 @@ public class CategoryServiceTest extends RequestTestCase {
         // give agent the rights for the new category and retry to load the request
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
 
-        Agent categoryAgent = iAgentService.getByLogin(agentNameWithCategoriesRoles);
+        Agent categoryAgent = agentService.getByLogin(agentNameWithCategoriesRoles);
         categoryService.addCategoryRole(categoryAgent.getId(), category2.getId(),
             CategoryProfile.READ_ONLY);
         

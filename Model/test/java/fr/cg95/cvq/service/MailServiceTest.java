@@ -4,6 +4,7 @@ import java.io.File;
 
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.util.mail.IMailService;
 
 /**
  * The tests for the mail service.
@@ -12,6 +13,8 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
  */
 public class MailServiceTest extends ServiceTestCase {
 
+    protected IMailService mailService;
+    
     public void testMail() throws CvqException {
 
         String to = "bor@zenexity.fr";
@@ -21,6 +24,10 @@ public class MailServiceTest extends ServiceTestCase {
         String body = "Veuillez trouver ci-joint le document que vous avez commandé ...";
         File file = getResourceFile("Referentiel General Interoperabilite Volet Technique V0.90.pdf");
 
-        iMailService.send(from, to, ccs, subject, body, file);
+        mailService.send(from, to, ccs, subject, body, file);
+    }
+
+    public void setMailService(IMailService mailService) {
+        this.mailService = mailService;
     }
 }

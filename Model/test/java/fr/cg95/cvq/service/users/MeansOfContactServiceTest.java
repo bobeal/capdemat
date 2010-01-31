@@ -8,9 +8,9 @@ import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.service.request.RequestTestCase;
 
-public class MeansOfContactServiceTest extends ServiceTestCase {
+public class MeansOfContactServiceTest extends RequestTestCase {
     
     public void testAll() throws CvqException {
         // Available Means of Contact are initialized during Spring Container bootstrap
@@ -19,30 +19,30 @@ public class MeansOfContactServiceTest extends ServiceTestCase {
 
         // Simple get by type
         MeansOfContact mocMail = 
-            iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
         MeansOfContact mocEmail = 
-            iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
         MeansOfContact mocSms = 
-            iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.SMS);
+            meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.SMS);
         assertEquals(mocMail.getType(), MeansOfContactEnum.MAIL);
         assertEquals(mocEmail.getType(), MeansOfContactEnum.EMAIL);
         assertEquals(mocSms.getType(), MeansOfContactEnum.SMS);
         
         // Get all available
-        List<MeansOfContact> fetchMoc = iMeansOfContactService.getAvailableMeansOfContact();
+        List<MeansOfContact> fetchMoc = meansOfContactService.getAvailableMeansOfContact();
         assertEquals(fetchMoc.size(), MeansOfContactEnum.allMeansOfContactEnums.length);
         
         // Get all enabled
-        fetchMoc = iMeansOfContactService.getEnabledMeansOfContact();
+        fetchMoc = meansOfContactService.getEnabledMeansOfContact();
         assertEquals(1, fetchMoc.size());
         
-        iMeansOfContactService.enableMeansOfContact(mocMail);
-        iMeansOfContactService.enableMeansOfContact(mocEmail);
-        iMeansOfContactService.enableMeansOfContact(mocSms);
+        meansOfContactService.enableMeansOfContact(mocMail);
+        meansOfContactService.enableMeansOfContact(mocEmail);
+        meansOfContactService.enableMeansOfContact(mocSms);
         
         continueWithNewTransaction();
         
-        fetchMoc = iMeansOfContactService.getEnabledMeansOfContact();
+        fetchMoc = meansOfContactService.getEnabledMeansOfContact();
         assertEquals(3, fetchMoc.size());
 
         // Get by current ecitizen
@@ -59,38 +59,38 @@ public class MeansOfContactServiceTest extends ServiceTestCase {
          *  - if MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE is enable
          *     then it is enable for Adult
          */        
-        fetchMoc = iMeansOfContactService.getCurrentEcitizenEnabledMeansOfContact();
+        fetchMoc = meansOfContactService.getCurrentEcitizenEnabledMeansOfContact();
         assertEquals(3, fetchMoc.size());
         
         // Enable MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE
-        MeansOfContact mocLAO = iMeansOfContactService.getMeansOfContactByType(
+        MeansOfContact mocLAO = meansOfContactService.getMeansOfContactByType(
                 MeansOfContactEnum.LOCAL_AUTHORITY_OFFICE);
-        iMeansOfContactService.enableMeansOfContact(mocLAO);
+        meansOfContactService.enableMeansOfContact(mocLAO);
         
         continueWithNewTransaction();
         
-        fetchMoc = iMeansOfContactService.getCurrentEcitizenEnabledMeansOfContact();
+        fetchMoc = meansOfContactService.getCurrentEcitizenEnabledMeansOfContact();
         assertEquals(4, fetchMoc.size());
         
         // Disable (keep 1 enabled)
-        iMeansOfContactService.disableMeansOfContact(mocMail.getId());
-        iMeansOfContactService.disableMeansOfContact(mocSms.getId());
-        iMeansOfContactService.disableMeansOfContact(mocLAO.getId());
+        meansOfContactService.disableMeansOfContact(mocMail.getId());
+        meansOfContactService.disableMeansOfContact(mocSms.getId());
+        meansOfContactService.disableMeansOfContact(mocLAO.getId());
         
         continueWithNewTransaction();
         
-        fetchMoc = iMeansOfContactService.getEnabledMeansOfContact();
+        fetchMoc = meansOfContactService.getEnabledMeansOfContact();
         assertEquals(1, fetchMoc.size());
     }
     
     public void testBusinessError() {
         // Test default MeansOfContact initialization 
-        MeansOfContact moc = iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
+        MeansOfContact moc = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
         assertEquals(true, moc.isEnabled());
         
         // Test MeansOfContact disable policy
         try {
-            iMeansOfContactService.disableMeansOfContact(moc);
+            meansOfContactService.disableMeansOfContact(moc);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
             assertEquals("request.meansOfContact.message.mustHaveOneEnabled", cme.getMessage());

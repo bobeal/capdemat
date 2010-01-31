@@ -85,7 +85,7 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
         CreationBean cb = gimmeAnHomeFolderWithRequest();
         continueWithNewTransaction();
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
 
         // create a mapping and test the retrieval
         
@@ -143,7 +143,7 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
         assertEquals(5, esimIndividuals.size());
         ExternalServiceIndividualMapping esimIndividual = null;
         for (ExternalServiceIndividualMapping m : esimIndividuals) {
-            if (m.getIndividualId().equals(iHomeFolderService.getHomeFolderResponsible(cb.getHomeFolderId()).getId()))
+            if (m.getIndividualId().equals(homeFolderService.getHomeFolderResponsible(cb.getHomeFolderId()).getId()))
                 esimIndividual = m;
         }
         assertNotNull(esimIndividual);

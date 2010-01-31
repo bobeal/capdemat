@@ -83,7 +83,7 @@ public class ConcertoCsvImportServiceTest extends RequestTestCase {
             throw new CvqException(e.getMessage());
         }
         
-        Set<HomeFolder> allHomeFolders = iHomeFolderService.getAll(true, true);
+        Set<HomeFolder> allHomeFolders = homeFolderService.getAll(true, true);
         Assert.assertEquals(allHomeFolders.size(), 1);
         
         HomeFolder homeFolder = allHomeFolders.iterator().next();
@@ -92,7 +92,7 @@ public class ConcertoCsvImportServiceTest extends RequestTestCase {
         Assert.assertTrue(homeFolder.getFamilyQuotient().contains("013,09"));
         
         Adult homeFolderResponsible = 
-            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+            homeFolderService.getHomeFolderResponsible(homeFolder.getId());
         Assert.assertNotNull(homeFolderResponsible);
         Assert.assertEquals(homeFolderResponsible.getLastName(), "KAFKA");
         Assert.assertEquals(homeFolderResponsible.getFirstName(), "Julie");
@@ -105,7 +105,7 @@ public class ConcertoCsvImportServiceTest extends RequestTestCase {
         // TODO Better refactor this, to respect Address Normalisation
         Assert.assertEquals(address.getStreetName(), "12 RUE DE COTTE");
         
-        List<Child> children = iHomeFolderService.getChildren(homeFolder.getId());
+        List<Child> children = homeFolderService.getChildren(homeFolder.getId());
         Assert.assertEquals(children.size(), 2);
         for (Child child : children) {
             Assert.assertEquals(child.getLastName(), "KAFKA");

@@ -38,7 +38,7 @@ public class FakeExternalServiceTest extends ExternalServiceTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         Long homeFolderId = homeFolder.getId();
 
         registerFakeExternalService();

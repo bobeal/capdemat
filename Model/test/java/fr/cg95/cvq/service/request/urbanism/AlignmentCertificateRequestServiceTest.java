@@ -32,7 +32,7 @@ public class AlignmentCertificateRequestServiceTest extends RequestTestCase {
     protected void onSetUp() throws Exception {
         super.onSetUp();
         requestService = 
-            (IRequestService) getBean(StringUtils.uncapitalize("AlignmentCertificateRequest") + "Service");
+            getApplicationBean(StringUtils.uncapitalize("AlignmentCertificateRequest") + "Service");
     }
 
     protected AlignmentCertificateRequest fillMeARequest() {
@@ -52,7 +52,7 @@ public class AlignmentCertificateRequestServiceTest extends RequestTestCase {
             request.setOwnerAddress(OwnerAddress);
     	      
         // Means Of Contact
-        MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
+        MeansOfContact meansOfContact = meansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);
         request.setMeansOfContact(meansOfContact);
         
@@ -136,7 +136,7 @@ public class AlignmentCertificateRequestServiceTest extends RequestTestCase {
          SecurityContext.setCurrentEcitizen(cb.getLogin());
 
          // get the home folder id
-         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+         HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
          assertNotNull(homeFolder);
          Long homeFolderId = homeFolder.getId();
          assertNotNull(homeFolderId);
@@ -163,9 +163,9 @@ public class AlignmentCertificateRequestServiceTest extends RequestTestCase {
          
          completeValidateAndDelete(requestFromDb);
 
-         HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
+         HomeFolder homeFolderAfterDelete = homeFolderService.getById(homeFolderId);
          assertNotNull(homeFolderAfterDelete);
-         assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
+         assertNotNull(homeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
     }
 
 
@@ -188,7 +188,7 @@ public class AlignmentCertificateRequestServiceTest extends RequestTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
+        homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         AlignmentCertificateRequestFeeder.setSubject(request, 
             requestService.getSubjectPolicy(), requester, null);
 
@@ -221,13 +221,13 @@ public class AlignmentCertificateRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
         
         try {
-            iHomeFolderService.getById(homeFolderId);
+            homeFolderService.getById(homeFolderId);
             fail("should not have found home folder");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected
         }
         try {
-            iIndividualService.getById(requesterId);
+            individualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

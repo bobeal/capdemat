@@ -34,20 +34,11 @@ import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
 import fr.cg95.cvq.service.authority.ISchoolService;
-import fr.cg95.cvq.service.request.ILocalReferentialService;
-import fr.cg95.cvq.service.request.IDisplayGroupService;
-import fr.cg95.cvq.service.request.IMeansOfContactService;
-import fr.cg95.cvq.service.request.IPlaceReservationService;
-import fr.cg95.cvq.service.request.IRequestActionService;
-import fr.cg95.cvq.service.request.IRequestServiceRegistry;
-import fr.cg95.cvq.service.request.IRequestStatisticsService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.util.mail.IMailService;
 
-public class ServiceTestCase
-    extends AbstractDependencyInjectionSpringContextTests {
+public class ServiceTestCase extends AbstractDependencyInjectionSpringContextTests {
 
     protected static Logger logger = Logger.getLogger(ServiceTestCase.class);
 
@@ -58,7 +49,7 @@ public class ServiceTestCase
     public String agentNameWithSiteRoles = "admin";
 
     // some ecitizen-related objects that can be reused in tests
-    // they are created by the {@link BusinessObjectsFactory#gimmeAnHomeFolder} method
+    // they are created by the {@link #gimmeAnHomeFolder} method
     protected Child child1;
     protected Child child2;
     protected Adult homeFolderResponsible;
@@ -68,27 +59,16 @@ public class ServiceTestCase
     protected List<Long> homeFolderIds = new ArrayList<Long>();
 
     // users related services
-    protected static IIndividualService iIndividualService;
-    protected static IHomeFolderService iHomeFolderService;
-    protected static IAuthenticationService iAuthenticationService;
+    protected IIndividualService individualService;
+    protected IHomeFolderService homeFolderService;
+    protected IAuthenticationService authenticationService;
 
     // authority related services
-    protected static ISchoolService schoolService;
-    protected static IRecreationCenterService recreationCenterService;
-    protected static IAgentService iAgentService;
-    protected static ILocalReferentialService localReferentialService;
-    protected static IPlaceReservationService placeReservationService;
-    protected static ILocalAuthorityRegistry iLocalAuthorityRegistry;
+    protected ISchoolService schoolService;
+    protected IRecreationCenterService recreationCenterService;
+    protected IAgentService agentService;
+    protected ILocalAuthorityRegistry localAuthorityRegistry;
 
-    // requests related services
-    protected static IRequestServiceRegistry iRequestServiceRegistry;
-    protected static IRequestActionService iRequestActionService;
-    protected static IRequestStatisticsService iRequestStatisticsService;
-    protected static IMeansOfContactService iMeansOfContactService;
-    protected static IDisplayGroupService iDisplayGroupService;
-    
-    protected static IMailService iMailService;
-    
     private static SessionFactory sessionFactory;
     
     protected static Boolean isInitialized = Boolean.FALSE;
@@ -105,26 +85,20 @@ public class ServiceTestCase
 
     @Override
     protected void onSetUp() throws Exception {
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
         
+        // as beans are autowired by type with spring test framework,
+        // we have to set some manually because there is more than one bean
+        // with their respective type
+
+        individualService = getApplicationBean("individualService");
+        sessionFactory = getApplicationBean("sessionFactory_dummy");
+
         synchronized(isInitialized) {
             if (!isInitialized.booleanValue()) {
-                // as beans are autowired by type with spring test framework,
-                // we have to set some manually because there is more than one bean
-                // with their respective type
-
-                iIndividualService = (IIndividualService) cac.getBean("individualService");
-                
-                iMeansOfContactService = 
-                    (IMeansOfContactService) cac.getBean("meansOfContactService");
-
-                sessionFactory = (SessionFactory) cac.getBean("sessionFactory_dummy");
-                
-                logger.debug("onSetUp() storing session factory " + sessionFactory);
                 
                 startTransaction();
                 
-                IGenericDAO genericDAO = (IGenericDAO) cac.getBean("genericDAO");
+                IGenericDAO genericDAO = getApplicationBean("genericDAO");
                 
                 SecurityContext.setCurrentSite(localAuthorityName, 
                         SecurityContext.BACK_OFFICE_CONTEXT);
@@ -184,7 +158,7 @@ public class ServiceTestCase
         Set<SiteRoles> siteRolesSet = new HashSet<SiteRoles>();
         siteRolesSet.add(siteRoles);
         agent.setSitesRoles(siteRolesSet);
-        iAgentService.create(agent);
+        agentService.create(agent);
     }
 
     protected void startTransaction() throws CvqException {
@@ -229,9 +203,9 @@ public class ServiceTestCase
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
             for (Long homeFolderId : homeFolderIds) {
-                iHomeFolderService.delete(homeFolderId);
+                homeFolderService.delete(homeFolderId);
                 try {
-                    iHomeFolderService.getById(homeFolderId);
+                    homeFolderService.getById(homeFolderId);
                     fail("should have thrown an exception");
                 } catch (CvqObjectNotFoundException confe) {
                     // ok, that was expected
@@ -247,7 +221,7 @@ public class ServiceTestCase
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
             // ensure all requests have been deleted after each test
-            assertEquals(0, iIndividualService.get(new HashSet<Critere>(), null, true).size());
+            assertEquals(0, individualService.get(new HashSet<Critere>(), null, true).size());
 
             rollbackTransaction();
             SecurityContext.resetCurrentSite();
@@ -256,7 +230,8 @@ public class ServiceTestCase
             fail("Error during tear down : " + e.getMessage());
         }
     }
-    
+
+    @Deprecated
     public Object getBean(final String beanName) throws Exception {
         ConfigurableApplicationContext cac = getContext(getConfigLocations());
         return cac.getBean(beanName);
@@ -264,59 +239,31 @@ public class ServiceTestCase
 
     @SuppressWarnings("unchecked")
     protected <T> T getApplicationBean(String beanName) {
-        return (T)this.getApplicationContext().getBean(beanName);
+        return (T) this.getApplicationContext().getBean(beanName);
     }
 
     public void setAuthenticationService(IAuthenticationService authenticationService) {
-        iAuthenticationService = authenticationService;
+        this.authenticationService = authenticationService;
     }
 
-    public void setMailService(IMailService mailService) {
-        iMailService = mailService;
-    }
-
-    public void setLocalReferentialService(ILocalReferentialService iLocalReferentialService) {
-        localReferentialService = iLocalReferentialService;
+    public void setSchoolService(ISchoolService schoolService) {
+        this.schoolService = schoolService;
     }
     
-    public void setPlaceReservationService(IPlaceReservationService iPlaceReservationService) {
-        placeReservationService = iPlaceReservationService;
-    }
-    
-    public void setSchoolService(ISchoolService iSchoolService) {
-        schoolService = iSchoolService;
-    }
-    
-    public void setRecreationCenterService(IRecreationCenterService iRecreationCenterService) {
-        recreationCenterService = iRecreationCenterService;
+    public void setRecreationCenterService(IRecreationCenterService recreationCenterService) {
+        this.recreationCenterService = recreationCenterService;
     }
     
     public void setAgentService(IAgentService agentService) {
-        iAgentService = agentService;
+        this.agentService = agentService;
     }
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        iHomeFolderService = homeFolderService;
+        this.homeFolderService = homeFolderService;
     }
 
-    public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {
-        iRequestServiceRegistry = requestServiceRegistry;
-    }
-    
     public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
-        iLocalAuthorityRegistry = localAuthorityRegistry;
-    }
-
-    public void setRequestStatisticsService(IRequestStatisticsService requestStatisticsService) {
-        iRequestStatisticsService = requestStatisticsService;
-    }
-
-    public void setRequestActionService(IRequestActionService requestActionService) {
-        iRequestActionService = requestActionService;
-    }
-
-    public void setDisplayGroupService(IDisplayGroupService displayGroupService) {
-        iDisplayGroupService = displayGroupService;
+        this.localAuthorityRegistry = localAuthorityRegistry;
     }
 
     /**
@@ -349,9 +296,9 @@ public class ServiceTestCase
         homeFolderResponsible = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
                 "firstName", address, FamilyStatusType.SINGLE);
         homeFolderResponsible.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
+        homeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
         
-        HomeFolder homeFolder = iHomeFolderService.create(homeFolderResponsible);
+        HomeFolder homeFolder = homeFolderService.create(homeFolderResponsible);
 
         CreationBean cb = new CreationBean();
         cb.setHomeFolderId(homeFolder.getId());
@@ -381,14 +328,14 @@ public class ServiceTestCase
         
         homeFolderResponsible = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
                 "firstName", address, FamilyStatusType.SINGLE);
-        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
+        homeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
         
         homeFolderWoman = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "lastName", 
                 "woman", address, FamilyStatusType.SINGLE);
         List<Adult> adults = new ArrayList<Adult>();
         adults.add(homeFolderResponsible);
         adults.add(homeFolderWoman);
-        HomeFolder homeFolder = iHomeFolderService.create(adults, null, new Address());
+        HomeFolder homeFolder = homeFolderService.create(adults, null, new Address());
 
         CreationBean cb = new CreationBean();
         cb.setHomeFolderId(homeFolder.getId());

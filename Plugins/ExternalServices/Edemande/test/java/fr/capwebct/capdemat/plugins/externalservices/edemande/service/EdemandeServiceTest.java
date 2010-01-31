@@ -29,7 +29,7 @@ public class EdemandeServiceTest extends StudyGrantRequestServiceTest {
         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
         assertNotNull(homeFolderId);

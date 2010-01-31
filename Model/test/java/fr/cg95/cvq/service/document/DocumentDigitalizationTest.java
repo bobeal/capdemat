@@ -26,14 +26,14 @@ public class DocumentDigitalizationTest extends DocumentTestCase {
         SecurityContext.setCurrentEcitizen(responsibleLogin);
 
         // get home folder id from request id
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         Long homeFolderId = homeFolder.getId();
 
         // create a document
         Document doc = new Document();
-        doc.setDocumentType(iDocumentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setHomeFolderId(homeFolderId);
-        Long docId = iDocumentService.create(doc);
+        Long docId = documentService.create(doc);
 
         // add binary data
         DocumentBinary docBin = new DocumentBinary();
@@ -42,12 +42,12 @@ public class DocumentDigitalizationTest extends DocumentTestCase {
         FileInputStream fis = new FileInputStream(file);
         fis.read(data);
         docBin.setData(data);
-        iDocumentService.addPage(docId, docBin);
+        documentService.addPage(docId, docBin);
         
         LocalAuthority la = SecurityContext.getCurrentSite();
         la.setDocumentDigitalizationEnabled(false);
         try {
-            iDocumentService.addPage(docId, docBin);
+            documentService.addPage(docId, docBin);
             fail("should have thrown an exception");
         } catch (CvqDisabledFunctionalityException cdfe) {
             // that was expected

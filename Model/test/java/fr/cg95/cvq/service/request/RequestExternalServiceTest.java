@@ -18,7 +18,7 @@ public class RequestExternalServiceTest extends RequestTestCase {
     @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
-        fakeExternalService = (IExternalProviderService) getBean("fakeExternalService");
+        fakeExternalService = getApplicationBean("fakeExternalService");
     }
 
     public void testHasMatchingExternalService() throws CvqException {

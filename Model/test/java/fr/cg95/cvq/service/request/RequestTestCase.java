@@ -37,6 +37,7 @@ public class RequestTestCase extends ServiceTestCase {
     protected IRequestSearchService requestSearchService;
     protected IRequestWorkflowService requestWorkflowService;
     protected IRequestDocumentService requestDocumentService;
+    protected IMeansOfContactService meansOfContactService;
 
     protected IRequestTypeService requestTypeService;
     protected ICategoryService categoryService;
@@ -70,10 +71,10 @@ public class RequestTestCase extends ServiceTestCase {
         category.setRequestTypes(new HashSet<RequestType>(requestTypesSet));
         genericDAO.create(category);
 
-        Agent agent = iAgentService.getByLogin(agentNameWithCategoriesRoles);
+        Agent agent = agentService.getByLogin(agentNameWithCategoriesRoles);
         categoryService.addCategoryRole(agent.getId(), category.getId(), 
                 CategoryProfile.READ_WRITE);
-        agent = iAgentService.getByLogin(agentNameWithManageRoles);
+        agent = agentService.getByLogin(agentNameWithManageRoles);
         categoryService.addCategoryRole(agent.getId(), category.getId(), 
                 CategoryProfile.MANAGER);
 
@@ -138,7 +139,7 @@ public class RequestTestCase extends ServiceTestCase {
         homeFolderResponsible =
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "responsible", address,
                     FamilyStatusType.MARRIED);
-        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
+        homeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
         homeFolderResponsible.setPassword("toto");
 
         homeFolderWoman =
@@ -154,13 +155,13 @@ public class RequestTestCase extends ServiceTestCase {
 
         child1 = BusinessObjectsFactory.gimmeChild("LASTNAME", "childone");
         child1.setSex(SexType.MALE);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleType.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(homeFolderWoman, child1, RoleType.CLR_MOTHER);
-        iHomeFolderService.addIndividualRole(homeFolderUncle, child1, RoleType.CLR_TUTOR);
+        homeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleType.CLR_FATHER);
+        homeFolderService.addIndividualRole(homeFolderWoman, child1, RoleType.CLR_MOTHER);
+        homeFolderService.addIndividualRole(homeFolderUncle, child1, RoleType.CLR_TUTOR);
         
         child2 = BusinessObjectsFactory.gimmeChild("LASTNAME", "childtwo");
         child2.setSex(SexType.MALE);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleType.CLR_FATHER);
+        homeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleType.CLR_FATHER);
 
         List<Child> childSet = new ArrayList<Child>();
         childSet.add(child1);
@@ -214,5 +215,9 @@ public class RequestTestCase extends ServiceTestCase {
 
     public void setCategoryService(ICategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    public void setMeansOfContactService(IMeansOfContactService meansOfContactService) {
+        this.meansOfContactService = meansOfContactService;
     }
 }

@@ -23,6 +23,7 @@ import fr.cg95.cvq.service.request.IPlaceReservationService;
 public class PlaceReservationRequestServiceSubscriberTest 
     extends PlaceReservationRequestServiceTest {
 
+    protected IPlaceReservationService placeReservationService;
     protected IPlaceReservationRequestService placeReservationRequestService;
     
     @Override
@@ -45,7 +46,7 @@ public class PlaceReservationRequestServiceSubscriberTest
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         Assert.assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
         Assert.assertNotNull(homeFolderId);
@@ -54,8 +55,8 @@ public class PlaceReservationRequestServiceSubscriberTest
         // ////////////////////////////
 
         PlaceReservationRequest request = fillMeARequest();
-        iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId();
-        request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
+        homeFolderService.getHomeFolderResponsible(homeFolderId).getId();
+        request.setRequesterId(homeFolderService.getHomeFolderResponsible(homeFolderId).getId());
 
         try {
             placeReservationRequestService.getAuthorizedNumberOfPlaces("123");
@@ -120,4 +121,8 @@ public class PlaceReservationRequestServiceSubscriberTest
 
         commitTransaction();
     }
+
+    public void setPlaceReservationService(IPlaceReservationService iPlaceReservationService) {
+        placeReservationService = iPlaceReservationService;
+    }    
 }

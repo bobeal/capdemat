@@ -8,20 +8,12 @@ import java.util.Set;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
 
-public class ExternalServiceTracesTest extends ServiceTestCase {
+public class ExternalServiceTracesTest extends ExternalServiceTestCase {
     
     protected Long newId = -1L;
-    protected IExternalService externalService;
-    
-    @Override
-    protected void onSetUp() throws Exception {
-        super.onSetUp();
-        externalService = (IExternalService) getBean("externalService");
-    }
     
     public void testBaseFunctionality() throws Exception {
 

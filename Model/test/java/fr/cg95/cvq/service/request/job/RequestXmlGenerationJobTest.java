@@ -90,11 +90,11 @@ public class RequestXmlGenerationJobTest extends RequestTestCase {
         this.generationJob.launchJob();
         this.remakeSecurityContext();
 
-        File file = iLocalAuthorityRegistry.getRequestXmlResource(id3);
+        File file = localAuthorityRegistry.getRequestXmlResource(id3);
         assertTrue(file.exists());
-        file = iLocalAuthorityRegistry.getRequestXmlResource(id1);
+        file = localAuthorityRegistry.getRequestXmlResource(id1);
         assertTrue(file.exists());
-        file = iLocalAuthorityRegistry.getRequestXmlResource(id2);
+        file = localAuthorityRegistry.getRequestXmlResource(id2);
         assertFalse(file.exists());
     }
     
@@ -106,7 +106,7 @@ public class RequestXmlGenerationJobTest extends RequestTestCase {
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
         this.generationJob.performGeneration();
 
-        File file = iLocalAuthorityRegistry.getRequestXmlResource(creationBean.getRequestId());
+        File file = localAuthorityRegistry.getRequestXmlResource(creationBean.getRequestId());
         assertTrue(file.exists());
 
         ExternalServiceTrace trace = new ExternalServiceTrace();
@@ -122,13 +122,13 @@ public class RequestXmlGenerationJobTest extends RequestTestCase {
         
         continueWithNewTransaction();
         
-        file = iLocalAuthorityRegistry.getRequestXmlResource(creationBean.getRequestId());
+        file = localAuthorityRegistry.getRequestXmlResource(creationBean.getRequestId());
         assertFalse(file.exists());
     }
     
     protected String getXmlOutputFolder() {
         return String.format("%1$s/%2$s/%3$s/",
-            iLocalAuthorityRegistry.getAssetsBase(),
+            localAuthorityRegistry.getAssetsBase(),
             SecurityContext.getCurrentConfigurationBean().getName(),
             Type.REQUEST_XML.getFolder());
     }

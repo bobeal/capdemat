@@ -16,6 +16,8 @@ import fr.cg95.cvq.security.SecurityContext;
 
 public class RequestStatisticsServiceTest extends RequestTestCase {
 
+    protected IRequestStatisticsService requestStatisticsService;
+
     @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
@@ -48,7 +50,7 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
         endDate.add(Calendar.MINUTE, 1);
 
         Map<RequestState, Long> stateStats =
-            iRequestStatisticsService.getStateStats(startDate.getTime(), endDate.getTime(),
+            requestStatisticsService.getStateStats(startDate.getTime(), endDate.getTime(),
                 requestTypeService.getRequestTypeByLabel(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST).getId(),
                 null);
         Long initialCancelledNb = stateStats.get(RequestState.CANCELLED);
@@ -71,7 +73,7 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
 
         Map<String, Long> qualityStats = null;
         try {
-            qualityStats = iRequestStatisticsService.getQualityStats(startDate.getTime(),
+            qualityStats = requestStatisticsService.getQualityStats(startDate.getTime(),
                     endDate.getTime(), requestTypeId, categoryId);
             fail("should have thrown an exception");
         } catch (PermissionException pe) {
@@ -80,14 +82,14 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
 
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
-        qualityStats = iRequestStatisticsService.getQualityStats(startDate.getTime(),
+        qualityStats = requestStatisticsService.getQualityStats(startDate.getTime(),
                 endDate.getTime(), requestTypeId, categoryId);
         assertEquals(Long.valueOf(1), qualityStats.get(IRequestStatisticsService.QUALITY_TYPE_OK));
         assertEquals(Long.valueOf(0),
             qualityStats.get(IRequestStatisticsService.QUALITY_TYPE_ORANGE));
         assertEquals(Long.valueOf(0), qualityStats.get(IRequestStatisticsService.QUALITY_TYPE_RED));
 
-        qualityStats = iRequestStatisticsService.getQualityStats(startDate.getTime(),
+        qualityStats = requestStatisticsService.getQualityStats(startDate.getTime(),
                 endDate.getTime(), requestTypeId, null);
         assertEquals(Long.valueOf(1), qualityStats.get(IRequestStatisticsService.QUALITY_TYPE_OK));
         assertEquals(Long.valueOf(0),
@@ -95,7 +97,7 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
         assertEquals(Long.valueOf(0), qualityStats.get(IRequestStatisticsService.QUALITY_TYPE_RED));
 
         Map<Long, Map<String, Long>> qualityByTypeMap =
-            iRequestStatisticsService.getQualityStatsByType(startDate.getTime(), endDate.getTime(),
+            requestStatisticsService.getQualityStatsByType(startDate.getTime(), endDate.getTime(),
             null, null);
         assertNotNull(qualityByTypeMap.get(request.getRequestType().getId()));
         Map<String,Long> qualityForVocr = qualityByTypeMap.get(request.getRequestType().getId());
@@ -108,7 +110,7 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
         
         // By resultingState
         stateStats =
-            iRequestStatisticsService.getStateStats(startDate.getTime(), endDate.getTime(),
+            requestStatisticsService.getStateStats(startDate.getTime(), endDate.getTime(),
                 requestTypeId, null);
         Assert.assertEquals(Long.valueOf(initialCancelledNb + 1), stateStats.get(RequestState.CANCELLED));
         Assert.assertEquals(Long.valueOf(initialCompleteNb), stateStats.get(RequestState.COMPLETE));
@@ -116,14 +118,18 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
 
         // By type
         Map<Long, Long> typeStats =
-            iRequestStatisticsService.getTypeStats(startDate.getTime(), endDate.getTime(),
+            requestStatisticsService.getTypeStats(startDate.getTime(), endDate.getTime(),
             requestTypeId, null);
         Assert.assertEquals(1, typeStats.size());
 
         startDate.add(Calendar.DAY_OF_YEAR, -10);
         Map<Date, Long> periodStats =
-            iRequestStatisticsService.getTypeStatsByPeriod(startDate.getTime(),
+            requestStatisticsService.getTypeStatsByPeriod(startDate.getTime(),
             endDate.getTime(), requestTypeId, null);
         Assert.assertNotNull(periodStats);
+    }
+
+    public void setRequestStatisticsService(IRequestStatisticsService requestStatisticsService) {
+        this.requestStatisticsService = requestStatisticsService;
     }
 }

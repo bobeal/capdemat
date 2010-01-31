@@ -90,8 +90,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         Iterator<Long> it = foreignOwnersIds.iterator();
         while (it.hasNext()) {
-            Adult a = iIndividualService.getAdultById(it.next());
-            iIndividualService.delete(a);
+            Adult a = individualService.getAdultById(it.next());
+            individualService.delete(a);
             it.remove();
         }
 
@@ -118,7 +118,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        homeFolder = homeFolderService.getById(cb.getHomeFolderId());
 
         // create the home folder modification request
         hfmr = new HomeFolderModificationRequest();
@@ -156,7 +156,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         List<Adult> foreignOwners = new ArrayList<Adult>();
         foreignOwners.add(BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "TUTOR", "Foreign", 
                 address.clone(), FamilyStatusType.OTHER));
-        iHomeFolderService.addHomeFolderRole(foreignOwners.get(0), homeFolder.getId(), 
+        homeFolderService.addHomeFolderRole(foreignOwners.get(0), homeFolder.getId(), 
                 RoleType.HOME_FOLDER_RESPONSIBLE);
         continueWithNewTransaction();
 
@@ -197,7 +197,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
                     "Drancy", "93700");
         homeFolderUncle.setAdress(newAdress);
 
-        Adult testReloadedWoman = iIndividualService.getAdultById(homeFolderWoman.getId());
+        Adult testReloadedWoman = individualService.getAdultById(homeFolderWoman.getId());
         testReloadedWoman.setFirstName2("Angélique");
         List<Adult> newAdults = new ArrayList<Adult>();
         newAdults.add(homeFolderUncle);
@@ -222,7 +222,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         // now retrieve and display them
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
-        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
+        homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75013");
         Assert.assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
@@ -249,7 +249,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         // check modifications are still there
         hfmrFromDb =
             (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
-        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
+        homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75013");
         Assert.assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
@@ -273,7 +273,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
-        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
+        homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         Assert.assertEquals(adress.getPostalCode(), "75012");
         Assert.assertEquals(adress.getCity(), "Paris".toUpperCase());
@@ -294,15 +294,15 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         newAdult = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "adult", "new", 
                 null, FamilyStatusType.SINGLE);
         adults.add(newAdult);
-        iHomeFolderService.addIndividualRole(newAdult, child1, RoleType.CLR_TUTOR);
+        homeFolderService.addIndividualRole(newAdult, child1, RoleType.CLR_TUTOR);
         
-        iHomeFolderService.removeIndividualRole(homeFolderUncle, child1, 
+        homeFolderService.removeIndividualRole(homeFolderUncle, child1, 
                 RoleType.CLR_TUTOR); 
         
         newChild = BusinessObjectsFactory.gimmeChild("child", "new");
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, 
+        homeFolderService.addIndividualRole(homeFolderResponsible, 
                 newChild, RoleType.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(newAdult, newChild, RoleType.CLR_TUTOR);
+        homeFolderService.addIndividualRole(newAdult, newChild, RoleType.CLR_TUTOR);
         children.add(newChild);
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
@@ -329,7 +329,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
-        Adult adult = iIndividualService.getAdultById(newAdult.getId());
+        Adult adult = individualService.getAdultById(newAdult.getId());
         assertNotNull(adult);
         assertNotNull(adult.getIndividualRoles());
         assertEquals(2, adult.getIndividualRoles().size());
@@ -353,7 +353,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
 
         List<Individual> individuals = 
-            iHomeFolderService.getBySubjectRole(child1.getId(), RoleType.CLR_TUTOR);
+            homeFolderService.getBySubjectRole(child1.getId(), RoleType.CLR_TUTOR);
         assertEquals(1, individuals.size());
         assertEquals(newAdult.getId(), individuals.get(0).getId());
 
@@ -366,13 +366,13 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
 
         try {
-            iIndividualService.getById(newAdult.getId());
+            individualService.getById(newAdult.getId());
             fail("should have thrown an exception");
         } catch (CvqObjectNotFoundException confe) {
             // that was expected
         }
 
-        individuals = iHomeFolderService.getBySubjectRole(child1.getId(), RoleType.CLR_TUTOR);
+        individuals = homeFolderService.getBySubjectRole(child1.getId(), RoleType.CLR_TUTOR);
         assertEquals(1, individuals.size());
         assertEquals(homeFolderUncle.getId(), individuals.get(0).getId());
     }
@@ -387,11 +387,11 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         child1.setBirthCity("Paris");
 
         newChild = BusinessObjectsFactory.gimmeChild("Badiane", "XXXX");
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, 
+        homeFolderService.addIndividualRole(homeFolderResponsible, 
                 newChild, RoleType.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(homeFolderWoman, 
+        homeFolderService.addIndividualRole(homeFolderWoman, 
                 newChild, RoleType.CLR_MOTHER);
-        iHomeFolderService.addIndividualRole(homeFolderUncle, 
+        homeFolderService.addIndividualRole(homeFolderUncle, 
                 newChild, RoleType.CLR_TUTOR);
         children.add(newChild);
 
@@ -410,20 +410,20 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         // used to resync home folder responsible wrt home folder state
         homeFolderResponsible =
-            iHomeFolderService.getHomeFolderResponsible(hfmr.getHomeFolderId());
+            homeFolderService.getHomeFolderResponsible(hfmr.getHomeFolderId());
         SecurityContext.setCurrentEcitizen(homeFolderResponsible);
 
         // check modifications have been saved
-        children = iHomeFolderService.getChildren(homeFolder.getId());
+        children = homeFolderService.getChildren(homeFolder.getId());
         assertEquals(2, children.size());
         RoleType[] roles = {RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR };
         for (Child child : children) {
             if (child.getFirstName().equals(child1.getFirstName())) {
                 assertEquals(child.getBirthCity(), "Paris");
-                assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
+                assertEquals(3, homeFolderService.getBySubjectRoles(child.getId(), roles).size());
             } else if (child.getFirstName().equals(newChild.getFirstName())) {
                 assertEquals(child.getLastName(), "Badiane");
-                assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
+                assertEquals(3, homeFolderService.getBySubjectRoles(child.getId(), roles).size());
             } else {
                 fail("Don't know this child : " + child);
             }
@@ -445,15 +445,15 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // check modifications are still saved
-        children = iHomeFolderService.getChildren(homeFolder.getId());
+        children = homeFolderService.getChildren(homeFolder.getId());
         assertEquals(2, children.size());
         for (Child child : children) {
             if (child.getFirstName().equals(child1.getFirstName())) {
                 assertEquals(child.getBirthCity(), "Paris");
-                assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
+                assertEquals(3, homeFolderService.getBySubjectRoles(child.getId(), roles).size());
             } else if (child.getFirstName().equals(newChild.getFirstName())) {
                 assertEquals(child.getLastName(), "Badiane");
-                assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
+                assertEquals(3, homeFolderService.getBySubjectRoles(child.getId(), roles).size());
             } else {
                 fail("Don't know this child : " + child);
             }
@@ -482,8 +482,8 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         // check modifications have been effectively cancelled
         HomeFolderModificationRequest hfmrFromDb =
             (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
-        homeFolder = iHomeFolderService.getById(hfmrFromDb.getHomeFolderId());
-        children = iHomeFolderService.getChildren(homeFolder.getId());
+        homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
+        children = homeFolderService.getChildren(homeFolder.getId());
         assertEquals(2, children.size());
         RoleType[] roles = {RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR };
         for (Child child : children) {
@@ -491,9 +491,9 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
             Assert.assertNotNull(child.getAdress());
             Assert.assertEquals(child.getLastName(), "LASTNAME");
             if (child.getFirstName().equals("childone")) {
-                assertEquals(3, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
+                assertEquals(3, homeFolderService.getBySubjectRoles(child.getId(), roles).size());
             } else if (child.getFirstName().equals("childtwo")) {
-                assertEquals(1, iHomeFolderService.getBySubjectRoles(child.getId(), roles).size());
+                assertEquals(1, homeFolderService.getBySubjectRoles(child.getId(), roles).size());
             }
         }
     }
@@ -527,7 +527,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
 
         // check modifications have been saved
-        List<Adult> allAdults = iHomeFolderService.getAdults(homeFolder.getId());
+        List<Adult> allAdults = homeFolderService.getAdults(homeFolder.getId());
         assertEquals(3, allAdults.size());
         assertFalse(allAdults.contains(homeFolderUncle));
 
@@ -544,14 +544,14 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         
         // check removed adult has been deleted from DB
         try {
-            iIndividualService.getById(homeFolderUncle.getId());
+            individualService.getById(homeFolderUncle.getId());
             fail("Adult should have been removed");
         } catch (CvqObjectNotFoundException confe) {
             // that's what we expected
         }
 
         // check new adult and its specific adress are well stored
-        allAdults = iHomeFolderService.getAdults(homeFolder.getId());
+        allAdults = homeFolderService.getAdults(homeFolder.getId());
         assertEquals(3, allAdults.size());
         boolean foundNewAdult = false;
         for (Adult tempAdult : allAdults) {
@@ -581,7 +581,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
         // check removed adult has been restored
         try {
-            iIndividualService.getById(homeFolderUncle.getId());
+            individualService.getById(homeFolderUncle.getId());
         } catch (CvqObjectNotFoundException confe) {
             fail("Adult should have been restored");
         }
@@ -593,15 +593,15 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         createModificationRequest();
 
         Adult responsibleToRemove = 
-            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+            homeFolderService.getHomeFolderResponsible(homeFolder.getId());
         adults.remove(responsibleToRemove);
 
-        iHomeFolderService.addHomeFolderRole(homeFolderUncle, homeFolder.getId(), 
+        homeFolderService.addHomeFolderRole(homeFolderUncle, homeFolder.getId(), 
                 RoleType.HOME_FOLDER_RESPONSIBLE);
-        iHomeFolderService.addIndividualRole(homeFolderUncle, child2, RoleType.CLR_FATHER);
+        homeFolderService.addIndividualRole(homeFolderUncle, child2, RoleType.CLR_FATHER);
         homeFolderUncle.setPassword("toto");
 
-        iHomeFolderService.removeHomeFolderRole(responsibleToRemove, 
+        homeFolderService.removeHomeFolderRole(responsibleToRemove, 
                 homeFolder.getId(), RoleType.HOME_FOLDER_RESPONSIBLE);
 
         requestWorkflowService.createAccountModificationRequest(hfmr, adults, children, 
@@ -624,11 +624,11 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         continueWithNewTransaction();
 
-        homeFolder = iHomeFolderService.getById(homeFolder.getId());
-        adults = iHomeFolderService.getAdults(homeFolder.getId());
+        homeFolder = homeFolderService.getById(homeFolder.getId());
+        adults = homeFolderService.getAdults(homeFolder.getId());
         Assert.assertEquals(adults.size(), 2);
         Adult homeFolderResponsible = 
-            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+            homeFolderService.getHomeFolderResponsible(homeFolder.getId());
         Assert.assertEquals(homeFolderResponsible.getLastName(), homeFolderUncle.getLastName());
         Assert.assertEquals(homeFolderResponsible.getFirstName(), homeFolderUncle.getFirstName());
     }
@@ -648,11 +648,11 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         continueWithNewTransaction();
         
-        homeFolder = iHomeFolderService.getById(homeFolder.getId());
-        adults = iHomeFolderService.getAdults(homeFolder.getId());
+        homeFolder = homeFolderService.getById(homeFolder.getId());
+        adults = homeFolderService.getAdults(homeFolder.getId());
         Assert.assertEquals(adults.size(), 3);
         Adult homeFolderResponsible = 
-            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+            homeFolderService.getHomeFolderResponsible(homeFolder.getId());
         Assert.assertEquals(homeFolderResponsible.getLastName(), "LASTNAME");
         Assert.assertEquals(homeFolderResponsible.getFirstName(), "responsible");
     }
@@ -690,7 +690,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         Long homeFolderId = homeFolder.getId();
         assertNotNull(homeFolderId);
 
@@ -739,9 +739,9 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         assertEquals(1, authorizedSchoolRegistrations.size());
 
         // create the home folder modification request
-        homeFolder = iHomeFolderService.getById(homeFolderId);
+        homeFolder = homeFolderService.getById(homeFolderId);
         homeFolderResponsible = 
-            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+            homeFolderService.getHomeFolderResponsible(homeFolder.getId());
         HomeFolderModificationRequest hfmr = new HomeFolderModificationRequest();
 
         List<Adult> adultSet = new ArrayList<Adult>();

@@ -10,7 +10,7 @@ public class PaymentTestCase extends ServiceTestCase {
     @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
-        fakePaymentProviderService = (IPaymentProviderService) getBean("fakePaymentProviderService");
+        fakePaymentProviderService = getApplicationBean("fakePaymentProviderService");
     }
     
     public void setPaymentService(IPaymentService paymentService) {

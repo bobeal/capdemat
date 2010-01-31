@@ -57,7 +57,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         requestTypes.add(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
         esb.setRequestTypes(requestTypes);
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
-        fakeExternalService = (IExternalProviderService) getBean("fakeExternalService");
+        fakeExternalService = getApplicationBean("fakeExternalService");
         lacb.registerExternalService(fakeExternalService, esb);
     }
     

@@ -88,9 +88,9 @@ public class HoranetServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         homeFolder.setFamilyQuotient("354,44");
-        iHomeFolderService.modify(homeFolder);
+        homeFolderService.modify(homeFolder);
         
         // create and validate a school registration request to be able to issue
         // a school canteen registration request
@@ -106,7 +106,7 @@ public class HoranetServiceTest extends RequestTestCase {
         srrRequest.setCurrentSchoolName("CurrentSchoolName");
         srrRequest.setSubjectId(child1.getId());
         srrRequest.setSubjectLastName(child1.getLastName());
-        MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
+        MeansOfContact meansOfContact = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
         srrRequest.setMeansOfContact(meansOfContact);
         requestWorkflowService.create(srrRequest);
      
@@ -293,8 +293,8 @@ public class HoranetServiceTest extends RequestTestCase {
         Address address = homeFolder.getAdress();
         address.setStreetName("Ma nouvelle adresse");
         requestWorkflowService.createAccountModificationRequest(hfmr, 
-                iHomeFolderService.getAdults(homeFolder.getId()), 
-                iHomeFolderService.getChildren(homeFolder.getId()), null, address, null);
+                homeFolderService.getAdults(homeFolder.getId()), 
+                homeFolderService.getChildren(homeFolder.getId()), null, address, null);
         
         continueWithNewTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);

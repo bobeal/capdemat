@@ -8,10 +8,12 @@ import fr.cg95.cvq.security.SecurityContext;
 
 public class DisplayGroupServiceTest extends RequestTestCase {
 
+    protected IDisplayGroupService displayGroupService;
+
     @Override
     protected void onTearDown() throws Exception {
-        for(DisplayGroup dg:iDisplayGroupService.getAll())
-            iDisplayGroupService.delete(dg.getId());
+        for(DisplayGroup dg:displayGroupService.getAll())
+            displayGroupService.delete(dg.getId());
         continueWithNewTransaction();
     }
 
@@ -22,8 +24,8 @@ public class DisplayGroupServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         
-        for(DisplayGroup dg:iDisplayGroupService.getAll())
-            iDisplayGroupService.delete(dg.getId());
+        for(DisplayGroup dg:displayGroupService.getAll())
+            displayGroupService.delete(dg.getId());
         continueWithNewTransaction();
     }
 
@@ -36,7 +38,7 @@ public class DisplayGroupServiceTest extends RequestTestCase {
     public void testCrud() throws CvqException {
 
         try {
-            iDisplayGroupService.create(null);
+            displayGroupService.create(null);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
             assertEquals("displayGroup.error.notProvided", cme.getMessage());
@@ -45,14 +47,14 @@ public class DisplayGroupServiceTest extends RequestTestCase {
         DisplayGroup displayGroup = new DisplayGroup();
         displayGroup.setName("dg1");
         displayGroup.setLabel("d g 1");
-        iDisplayGroupService.create(displayGroup);
+        displayGroupService.create(displayGroup);
         continueWithNewTransaction();
 
-        assertEquals(1, iDisplayGroupService.getAll().size());
+        assertEquals(1, displayGroupService.getAll().size());
 
         continueWithNewTransaction();
 
-        DisplayGroup dg = iDisplayGroupService.getById(displayGroup.getId());
+        DisplayGroup dg = displayGroupService.getById(displayGroup.getId());
         assertEquals(displayGroup.getId(), dg.getId());
 
         DisplayGroup displayGroup2 = new DisplayGroup();
@@ -60,35 +62,35 @@ public class DisplayGroupServiceTest extends RequestTestCase {
         displayGroup2.setLabel("d g 2");
 
         try {
-            iDisplayGroupService.create(displayGroup2);
+            displayGroupService.create(displayGroup2);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
             assertEquals("displayGroup.error.nameAlreadyExists", cme.getMessage());
         }
 
         displayGroup2.setName("dg2");
-        iDisplayGroupService.create(displayGroup2);
+        displayGroupService.create(displayGroup2);
         continueWithNewTransaction();
         
-        assertEquals(2, iDisplayGroupService.getAll().size());
+        assertEquals(2, displayGroupService.getAll().size());
 
         continueWithNewTransaction();
 
-        dg = iDisplayGroupService.getById(displayGroup.getId());
+        dg = displayGroupService.getById(displayGroup.getId());
         dg.setLabel("d g 2");
         try {
-            iDisplayGroupService.modify(dg);
+            displayGroupService.modify(dg);
             fail("should have thrown an exception");
         } catch (CvqModelException cme) {
             assertEquals("displayGroup.error.labelAlreadyExists", cme.getMessage());
         }
 
         dg.setLabel("d g 3");
-        iDisplayGroupService.modify(dg);
+        displayGroupService.modify(dg);
 
-        iDisplayGroupService.delete(displayGroup.getId());
+        displayGroupService.delete(displayGroup.getId());
         continueWithNewTransaction();
-        assertEquals(1, iDisplayGroupService.getAll().size());
+        assertEquals(1, displayGroupService.getAll().size());
     }
 
     public void testRequestTypeAssociation() throws CvqException {
@@ -96,12 +98,12 @@ public class DisplayGroupServiceTest extends RequestTestCase {
         DisplayGroup dg = new DisplayGroup();
         dg.setName("dg1");
         dg.setLabel("d g 1");
-        iDisplayGroupService.create(dg);
+        displayGroupService.create(dg);
 
         DisplayGroup dg2 = new DisplayGroup();
         dg2.setName("dg2");
         dg2.setLabel("d g 2");
-        iDisplayGroupService.create(dg2);
+        displayGroupService.create(dg2);
 
         RequestType voRt = null;
         RequestType hfmRt = null;
@@ -115,24 +117,28 @@ public class DisplayGroupServiceTest extends RequestTestCase {
 
         continueWithNewTransaction();
 
-        iDisplayGroupService.addRequestType(dg.getId(), voRt.getId());
-        iDisplayGroupService.addRequestType(dg.getId(), hfmRt.getId());
+        displayGroupService.addRequestType(dg.getId(), voRt.getId());
+        displayGroupService.addRequestType(dg.getId(), hfmRt.getId());
 
         continueWithNewTransaction();
 
-        dg = iDisplayGroupService.getById(dg.getId());
+        dg = displayGroupService.getById(dg.getId());
         assertEquals(2, dg.getRequestTypes().size());
 
         continueWithNewTransaction();
 
-        iDisplayGroupService.addRequestType(dg2.getId(), hfmRt.getId());
+        displayGroupService.addRequestType(dg2.getId(), hfmRt.getId());
 
         continueWithNewTransaction();
 
-        dg = iDisplayGroupService.getById(dg.getId());
+        dg = displayGroupService.getById(dg.getId());
         assertEquals(1, dg.getRequestTypes().size());
 
-        dg2 = iDisplayGroupService.getById(dg2.getId());
+        dg2 = displayGroupService.getById(dg2.getId());
         assertEquals(1, dg2.getRequestTypes().size());
+    }
+
+    public void setDisplayGroupService(IDisplayGroupService displayGroupService) {
+        this.displayGroupService = displayGroupService;
     }
 }

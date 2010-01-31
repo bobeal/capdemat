@@ -44,7 +44,7 @@ public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
         continueWithNewTransaction();
         
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        final HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        final HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         
         // initialize the mock external provider service
         final ExternalServiceBean esb = new ExternalServiceBean();

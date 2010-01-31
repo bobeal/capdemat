@@ -32,7 +32,7 @@ public class BulkyWasteCollectionRequestServiceTest extends RequestTestCase {
     protected void onSetUp() throws Exception {
         super.onSetUp();
         requestService = 
-            (IRequestService) getBean(StringUtils.uncapitalize("BulkyWasteCollectionRequest") + "Service");
+            getApplicationBean(StringUtils.uncapitalize("BulkyWasteCollectionRequest") + "Service");
     }
 
     protected BulkyWasteCollectionRequest fillMeARequest() {
@@ -43,7 +43,7 @@ public class BulkyWasteCollectionRequestServiceTest extends RequestTestCase {
     	                            request.setOtherWaste("OtherWaste");
       
         // Means Of Contact
-        MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
+        MeansOfContact meansOfContact = meansOfContactService.getMeansOfContactByType(
                     MeansOfContactEnum.EMAIL);
         request.setMeansOfContact(meansOfContact);
         
@@ -127,7 +127,7 @@ public class BulkyWasteCollectionRequestServiceTest extends RequestTestCase {
          SecurityContext.setCurrentEcitizen(cb.getLogin());
 
          // get the home folder id
-         HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+         HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
          assertNotNull(homeFolder);
          Long homeFolderId = homeFolder.getId();
          assertNotNull(homeFolderId);
@@ -154,9 +154,9 @@ public class BulkyWasteCollectionRequestServiceTest extends RequestTestCase {
          
          completeValidateAndDelete(requestFromDb);
 
-         HomeFolder homeFolderAfterDelete = iHomeFolderService.getById(homeFolderId);
+         HomeFolder homeFolderAfterDelete = homeFolderService.getById(homeFolderId);
          assertNotNull(homeFolderAfterDelete);
-         assertNotNull(iHomeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
+         assertNotNull(homeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
     }
 
 
@@ -179,7 +179,7 @@ public class BulkyWasteCollectionRequestServiceTest extends RequestTestCase {
                                               FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
-        iHomeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
+        homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
         BulkyWasteCollectionRequestFeeder.setSubject(request, 
             requestService.getSubjectPolicy(), requester, null);
 
@@ -212,13 +212,13 @@ public class BulkyWasteCollectionRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
         
         try {
-            iHomeFolderService.getById(homeFolderId);
+            homeFolderService.getById(homeFolderId);
             fail("should not have found home folder");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected
         }
         try {
-            iIndividualService.getById(requesterId);
+            individualService.getById(requesterId);
             fail("should not have found requester");
         } catch (CvqObjectNotFoundException confe) {
             // great, that was expected

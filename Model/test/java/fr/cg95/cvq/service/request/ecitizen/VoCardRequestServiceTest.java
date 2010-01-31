@@ -53,7 +53,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         VoCardRequest dcvo = new VoCardRequest();
-        MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
+        MeansOfContact meansOfContact = meansOfContactService.getMeansOfContactByType(
                 MeansOfContactEnum.EMAIL);
         dcvo.setMeansOfContact(meansOfContact);
 
@@ -80,7 +80,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         homeFolderResponsible.setCfbn("5050505E");
         homeFolderResponsible.setEmail("bor@zenexity.fr");
         homeFolderResponsible.setNameOfUse("NAMEOFUSE");
-        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
+        homeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
 
         Adult mother = new Adult();
         mother.setTitle(TitleType.MADAM);
@@ -109,7 +109,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         Adult adultGrandMother = 
             BusinessObjectsFactory.gimmeAdult(TitleType.MADAM, "LASTNAME","josiane", null, 
                     FamilyStatusType.WIDOW);
-        iHomeFolderService.addIndividualRole(mother, adultGrandMother, RoleType.TUTOR);
+        homeFolderService.addIndividualRole(mother, adultGrandMother, RoleType.TUTOR);
 
         List<Adult> adultSet = new ArrayList<Adult>();
         adultSet.add(mother);
@@ -124,8 +124,8 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         child1.setFirstName2("Yargla");
         child1.setFirstName3("Djaba");
         child1.setSex(SexType.MALE);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleType.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(mother, child1, RoleType.CLR_MOTHER);
+        homeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleType.CLR_FATHER);
+        homeFolderService.addIndividualRole(mother, child1, RoleType.CLR_MOTHER);
 
         Adult tutorNotInHomeFolder = 
             BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "TUTOR", "outside", null, 
@@ -137,9 +137,9 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         List<Child> childSet = new ArrayList<Child>();
         childSet.add(child1);
         childSet.add(child2);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleType.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(mother, child2, RoleType.CLR_MOTHER);
-        iHomeFolderService.addIndividualRole(tutorNotInHomeFolder, child2, RoleType.CLR_TUTOR);
+        homeFolderService.addIndividualRole(homeFolderResponsible, child2, RoleType.CLR_FATHER);
+        homeFolderService.addIndividualRole(mother, child2, RoleType.CLR_MOTHER);
+        homeFolderService.addIndividualRole(tutorNotInHomeFolder, child2, RoleType.CLR_TUTOR);
 
         requestWorkflowService.createAccountCreationRequest(dcvo, adultSet, childSet, 
                 null, address, null);
@@ -155,8 +155,8 @@ public class VoCardRequestServiceTest extends RequestTestCase {
 
         // retrieve a fresh new home folder
         assertNotNull(dcvo.getHomeFolderId());
-        HomeFolder homeFolder = iHomeFolderService.getById(dcvo.getHomeFolderId());
-        homeFolderResponsible = iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+        HomeFolder homeFolder = homeFolderService.getById(dcvo.getHomeFolderId());
+        homeFolderResponsible = homeFolderService.getHomeFolderResponsible(homeFolder.getId());
         assertNotNull(homeFolderResponsible);
         assertEquals("Vedad", homeFolderResponsible.getFirstName());
         
@@ -178,7 +178,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         assertEquals(1, dcvoFromDb.getActions().size());
         
         Adult homeFolderResponsibleFromDb = 
-            iIndividualService.getAdultById(dcvoFromDb.getRequesterId());
+            individualService.getAdultById(dcvoFromDb.getRequesterId());
         assertNotNull("Associated object of class Adult not saved !", homeFolderResponsibleFromDb);
         assertEquals(homeFolderResponsibleFromDb.getLastName(),"LASTNAME");
         assertEquals(homeFolderResponsibleFromDb.getId(), dcvoFromDb.getRequesterId());
@@ -188,14 +188,14 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         assertNotNull("Associated object of class Adress not saved !", adresseFromDb);
         assertEquals(adresseFromDb.getCity(),"PARIS");
 
-        homeFolder = iHomeFolderService.getById(dcvoFromDb.getHomeFolderId());
+        homeFolder = homeFolderService.getById(dcvoFromDb.getHomeFolderId());
         assertNotNull(homeFolder.getId());
         assertEquals(homeFolder.getState(), ActorState.PENDING);
         assertNotNull(homeFolder.getAdress());
         assertEquals(homeFolder.getBoundToRequest(), Boolean.FALSE);
         assertEquals(homeFolder.getIndividuals().size(), 5);
         
-        HomeFolder homeFolderOtherWay = iHomeFolderService.getById(dcvo.getHomeFolderId());
+        HomeFolder homeFolderOtherWay = homeFolderService.getById(dcvo.getHomeFolderId());
         assertNotNull(homeFolderOtherWay.getId());
         assertEquals(homeFolder.getId(), homeFolderOtherWay.getId());
 
@@ -246,9 +246,9 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         // close current session and re-open a new one
         continueWithNewTransaction();
         
-        homeFolder = iAuthenticationService.authenticate(homeFolderResponsible.getLogin(),"totopwd");
+        homeFolder = authenticationService.authenticate(homeFolderResponsible.getLogin(),"totopwd");
         assertNotNull("Retrieved home folder is null !", homeFolder);
-        Adult respHomeFolderRetr = iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+        Adult respHomeFolderRetr = homeFolderService.getHomeFolderResponsible(homeFolder.getId());
         assertNotNull("Retrieved home folder responsible is null !", respHomeFolderRetr);
         List<Individual> individuSetRetr = homeFolder.getIndividuals();
         assertEquals(individuSetRetr.size(),5);
@@ -330,12 +330,12 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         /////////////////////////////////////////////////////////
         
         homeFolderResponsible = 
-            iIndividualService.getAdultById(yaRequest.getRequesterId());
-        String generatedPassword = iAuthenticationService.generatePassword();
-        iIndividualService.modifyPassword(homeFolderResponsible, "totopwd", generatedPassword);
+            individualService.getAdultById(yaRequest.getRequesterId());
+        String generatedPassword = authenticationService.generatePassword();
+        individualService.modifyPassword(homeFolderResponsible, "totopwd", generatedPassword);
         continueWithNewTransaction();
         try {
-            iAuthenticationService.authenticate(homeFolderResponsible.getLogin(), generatedPassword);
+            authenticationService.authenticate(homeFolderResponsible.getLogin(), generatedPassword);
         } catch (CvqAuthenticationFailedException cafe) {
             fail("Unable to authenticate user with its new password !");
         }

@@ -48,7 +48,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         // get the home folder id
         Assert.assertNotNull(cb.getHomeFolderId());
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         String responsibleLogin = cb.getLogin();
         
         continueWithNewTransaction();
@@ -57,25 +57,25 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         homeFolder.setEnabled(Boolean.FALSE);
-        iHomeFolderService.modify(homeFolder);
+        homeFolderService.modify(homeFolder);
         
         continueWithNewTransaction();
         
         try {
-            iAuthenticationService.authenticate(responsibleLogin, "toto");
+            authenticationService.authenticate(responsibleLogin, "toto");
             fail("should have thrown an exception");
         } catch (CvqDisabledAccountException cdae) {
             // that was expected
         }
         
-        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         homeFolder.setEnabled(Boolean.TRUE);
-        iHomeFolderService.modify(homeFolder);
+        homeFolderService.modify(homeFolder);
         
         continueWithNewTransaction();
         
         try {
-            iAuthenticationService.authenticate(responsibleLogin, "toto");
+            authenticationService.authenticate(responsibleLogin, "toto");
         } catch (CvqDisabledAccountException cdae) {
             fail("should not have thrown this exception");
         } catch (CvqAuthenticationFailedException cafe) {
@@ -92,14 +92,14 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
         // get all home folders
-        Set<HomeFolder> fetchHomeFolders = iHomeFolderService.getAll(true, true);
+        Set<HomeFolder> fetchHomeFolders = homeFolderService.getAll(true, true);
         Assert.assertEquals(fetchHomeFolders.size(), 1);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         Assert.assertNotNull(homeFolder.getId());
 
         continueWithNewTransaction();
@@ -107,34 +107,34 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        List<Individual> initialResults = iIndividualService.get(new HashSet<Critere>(), null, false);
+        List<Individual> initialResults = individualService.get(new HashSet<Critere>(), null, false);
         int initialResultsSize = initialResults.size();
-        int homeFoldersCountBeforeArchive = iHomeFolderService.getAll(true, false).size();
+        int homeFoldersCountBeforeArchive = homeFolderService.getAll(true, false).size();
 
-        iHomeFolderService.archive(homeFolder.getId());
+        homeFolderService.archive(homeFolder.getId());
 
         continueWithNewTransaction();
 
         Assert.assertEquals(homeFoldersCountBeforeArchive - 1,
-            iHomeFolderService.getAll(true, false).size());
+            homeFolderService.getAll(true, false).size());
         Assert.assertEquals(homeFoldersCountBeforeArchive - 1,
-            iHomeFolderService.getAll(true, true).size());
+            homeFolderService.getAll(true, true).size());
 
         // individuals from home folder should no longer appear in search results
-        initialResults = iIndividualService.get(new HashSet<Critere>(), null, false);
+        initialResults = individualService.get(new HashSet<Critere>(), null, false);
         Assert.assertEquals(initialResultsSize, 
                 initialResults.size() + homeFolder.getIndividuals().size());
         
         try {
             Adult homeFolderResponsible = 
-                iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
-            iAuthenticationService.authenticate(homeFolderResponsible.getLogin(), "toto");
+                homeFolderService.getHomeFolderResponsible(homeFolder.getId());
+            authenticationService.authenticate(homeFolderResponsible.getLogin(), "toto");
             fail("should have thrown an exception");
         } catch (CvqUnknownUserException cuue) {
             // that was expected
         }
 
-        homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         Assert.assertEquals(homeFolder.getState(), ActorState.ARCHIVED);
         
         List<Individual> individuals = homeFolder.getIndividuals();
@@ -155,16 +155,16 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         beans.add(gimmeAnHomeFolder());
         
         for(CreationBean bean: beans) {
-            HomeFolder folder = iHomeFolderService.getById(bean.getHomeFolderId());
+            HomeFolder folder = homeFolderService.getById(bean.getHomeFolderId());
             total1 += folder.getIndividuals().size();
-            total2 += iHomeFolderService.getHomeFolderResponsible(bean.getHomeFolderId()) != null ? 1 : 0;
+            total2 += homeFolderService.getHomeFolderResponsible(bean.getHomeFolderId()) != null ? 1 : 0;
         }
         continueWithNewTransaction();
         
-        Integer result1 = iIndividualService.get(new HashSet<Critere>(),
+        Integer result1 = individualService.get(new HashSet<Critere>(),
             new HashMap<String,String>(),null,null).size();
         
-        Integer count1 = iIndividualService.getCount(new HashSet<Critere>());
+        Integer count1 = individualService.getCount(new HashSet<Critere>());
         
         assertEquals(total1,result1);
         assertEquals(count1,result1);
@@ -174,8 +174,8 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         ct.setAttribut(Individual.SEARCH_IS_HOME_FOLDER_RESPONSIBLE);
         criterias.add(ct);
         
-        Integer count2 = iIndividualService.getCount(criterias);
-        Integer result2 = iIndividualService.get(criterias,
+        Integer count2 = individualService.getCount(criterias);
+        Integer result2 = individualService.get(criterias,
             new HashMap<String,String>(),null,null).size();
         
         assertEquals(total2,result2);
@@ -192,14 +192,14 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         ct.setValue(beans.get(1).getHomeFolderId());
         criterias.add(ct);
         
-        Integer count3 = iIndividualService.getCount(criterias);
-        Integer result3 = iIndividualService.get(criterias,
+        Integer count3 = individualService.getCount(criterias);
+        Integer result3 = individualService.get(criterias,
             new HashMap<String,String>(),null,null).size();
         
         assertTrue(result3 <= 1);
         assertEquals(count3,result3);
         
-        Integer result4 = iIndividualService.get(new HashSet<Critere>(),
+        Integer result4 = individualService.get(new HashSet<Critere>(),
             new HashMap<String,String>(),5,null).size();
         
         assertTrue(result4 <= 5);
@@ -246,7 +246,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
 
         continueWithNewTransaction();
         
@@ -254,16 +254,16 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         // and validate it
-        iHomeFolderService.validate(homeFolder.getId());
+        homeFolderService.validate(homeFolder.getId());
 
         continueWithNewTransaction();
         
         // do some tests on home folder's individuals
-        homeFolder = iHomeFolderService.getById(homeFolder.getId());
+        homeFolder = homeFolderService.getById(homeFolder.getId());
         Assert.assertEquals(2, homeFolder.getIndividuals().size());
 
         Adult homeFolderResponsibleDb = 
-            iHomeFolderService.getHomeFolderResponsible(homeFolder.getId());
+            homeFolderService.getHomeFolderResponsible(homeFolder.getId());
         Assert.assertEquals(homeFolderResponsibleDb.getFirstName(),
                 homeFolderResponsible.getFirstName());
 
@@ -320,7 +320,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
             criteriaSet.add(crit2);
         }
         
-        return iIndividualService.get(criteriaSet, null, false);
+        return individualService.get(criteriaSet, null, false);
     }
 
     public void testNotifyPasswordReset() throws CvqException {
@@ -331,7 +331,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         
-        Adult adult = iHomeFolderService.getHomeFolderResponsible(cb.getHomeFolderId());
+        Adult adult = homeFolderService.getHomeFolderResponsible(cb.getHomeFolderId());
         adult.setEmail(null);
         Email email = null;
         SmtpServer server = null;
@@ -343,14 +343,14 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         server.getQueue().clear();
         PasswordResetNotificationType notificationType = 
-            iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
+            homeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
         Assert.assertEquals(PasswordResetNotificationType.INLINE, notificationType);
         email = server.getMessage(1000);
         Assert.assertNull(email);
 
         server.getQueue().clear();
         notificationType = 
-            iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
+            homeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
         Assert.assertEquals(PasswordResetNotificationType.CATEGORY_EMAIL, notificationType);
         email = server.getMessage(1000);
         Assert.assertEquals(email.getRecipients().size(), 1);
@@ -366,7 +366,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         adult.setEmail("example2@example.com");
 
         server.getQueue().clear();
-        notificationType = iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
+        notificationType = homeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
         Assert.assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
         email = server.getMessage(1000);
         Assert.assertEquals(email.getRecipients().size(), 1);
@@ -381,7 +381,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         server.getQueue().clear();
         notificationType = 
-            iHomeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
+            homeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
         Assert.assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
         email = server.getMessage(1000);
         Assert.assertEquals(email.getRecipients().size(), 1);

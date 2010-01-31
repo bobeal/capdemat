@@ -19,6 +19,8 @@ public class RequestSeasonServiceTest extends RequestTestCase {
     
     private Long requestTypeId;
     
+    protected IRequestServiceRegistry requestServiceRegistry;
+
     @Override
     protected void onSetUp() throws Exception {
         
@@ -31,7 +33,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         List<RequestType> requestTypesSet = requestTypeService.getAllRequestTypes();
         for (RequestType tempRequestType : requestTypesSet) {
             IRequestService service = 
-                iRequestServiceRegistry.getRequestService(tempRequestType.getLabel());
+                requestServiceRegistry.getRequestService(tempRequestType.getLabel());
             if (service.isOfRegistrationKind() 
                     && service.getSubjectPolicy().equals(IRequestWorkflowService.SUBJECT_POLICY_CHILD)) {
                 requestTypeId = tempRequestType.getId();
@@ -270,17 +272,17 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         SecurityContext.setCurrentEcitizen(proposedLogin);
 
         // get the home folder id
-        HomeFolder homeFolder = iHomeFolderService.getById(cb.getHomeFolderId());
+        HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
         assertNotNull(homeFolderId);
         
         RequestType requestType = requestTypeService.getRequestTypeById(requestTypeId);
         IRequestService requestService = 
-            iRequestServiceRegistry.getRequestService(requestType.getLabel());
+            requestServiceRegistry.getRequestService(requestType.getLabel());
         Request request = requestService.getSkeletonRequest();
         request.setRequestSeason(season);
-        request.setRequesterId(iHomeFolderService.getHomeFolderResponsible(homeFolderId).getId());
+        request.setRequesterId(homeFolderService.getHomeFolderResponsible(homeFolderId).getId());
         request.setSubjectId(child1.getId());
 
         Long requestId = requestWorkflowService.create(request);
@@ -299,4 +301,8 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         continueWithNewTransaction();
         requestTypeService.removeRequestSeason(requestTypeId, season.getId());
     }
+
+    public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {
+        this.requestServiceRegistry = requestServiceRegistry;
+    }    
 }

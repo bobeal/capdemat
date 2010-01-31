@@ -21,13 +21,13 @@ public class AgentServiceTest extends ServiceTestCase {
         agent.setFirstName("agentFirstName");
         agent.setLastName("agentLastName");
         agent.setLogin("agentLogin");
-        iAgentService.create(agent);
+        agentService.create(agent);
         
         continueWithNewTransaction();
         
         Agent fetchAgent = null;
         try {
-            fetchAgent = iAgentService.getByLogin("agentLogin");
+            fetchAgent = agentService.getByLogin("agentLogin");
         } catch (CvqObjectNotFoundException confe) {
             fail("should not have happened");
         }
@@ -35,12 +35,12 @@ public class AgentServiceTest extends ServiceTestCase {
         assertEquals("agentLastName", fetchAgent.getLastName());
         assertEquals("agentLogin", fetchAgent.getLogin());
 
-        iAgentService.delete("agentLogin");
+        agentService.delete("agentLogin");
 
         continueWithNewTransaction();
         
         try {
-            fetchAgent = iAgentService.getByLogin("agentLogin");
+            fetchAgent = agentService.getByLogin("agentLogin");
             fail("should have thrown an exception");
         } catch (CvqObjectNotFoundException confe) {
             // that was expected

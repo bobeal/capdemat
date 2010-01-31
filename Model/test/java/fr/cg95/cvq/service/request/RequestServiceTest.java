@@ -139,7 +139,7 @@ public class RequestServiceTest extends RequestTestCase {
 
         Request request = requestSearchService.getById(cb.getRequestId());
         Long requesterId = request.getRequesterId();
-        Adult requester = iIndividualService.getAdultById(requesterId);
+        Adult requester = individualService.getAdultById(requesterId);
         
         Set <Critere> critSet = new HashSet<Critere>();
         // search by ...

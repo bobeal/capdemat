@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import fr.cg95.cvq.business.authority.CategoryProfile;
-import fr.cg95.cvq.business.authority.CategoryRoles;
 import fr.cg95.cvq.business.document.DocumentType;
+import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
@@ -27,6 +26,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.ICategoryService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestTypeService;
@@ -41,6 +41,7 @@ public class RequestTypeService implements IRequestTypeService {
 
     private IDocumentTypeService documentTypeService;
     private IRequestServiceRegistry requestServiceRegistry;
+    private ICategoryService categoryService;
 
     private IRequestTypeDAO requestTypeDAO;
     private IRequestFormDAO requestFormDAO;
@@ -68,14 +69,13 @@ public class RequestTypeService implements IRequestTypeService {
             return requestTypeDAO.listAll();
 
         // else filters categories it is authorized to see
-        CategoryRoles[] authorizedCategories =
-            SecurityContext.getCurrentCredentialBean().getCategoryRoles();
+        List<Category> categories = categoryService.getAssociated();
         List<RequestType> results = new ArrayList<RequestType>();
-        if (authorizedCategories == null) {
+        if (categories == null) {
             return results;
         } else {
-            for (CategoryRoles categoryRole : authorizedCategories) {
-                results.addAll(categoryRole.getCategory().getRequestTypes());
+            for (Category category : categories) {
+                results.addAll(category.getRequestTypes());
             }
         }
         
@@ -97,12 +97,10 @@ public class RequestTypeService implements IRequestTypeService {
         throws CvqException {
 
         // else filters categories it is authorized to see
-        CategoryRoles[] authorizedCategories =
-            SecurityContext.getCurrentCredentialBean().getCategoryRoles();
+        List<Category> categories = categoryService.getManaged();
         List<RequestType> results = new ArrayList<RequestType>();
-        for (CategoryRoles categoryRole : authorizedCategories) {
-            if (categoryRole.getProfile().equals(CategoryProfile.MANAGER))
-                results.addAll(categoryRole.getCategory().getRequestTypes());
+        for (Category category : categories) {
+            results.addAll(category.getRequestTypes());
         }
 
         return results;
@@ -408,11 +406,9 @@ public class RequestTypeService implements IRequestTypeService {
         for (RequestForm requestForm : requestFormList) {
             if (!requestForm.getId().equals(requestFormId)) {
                 if (requestForm.getLabel().equals(label))
-                    throw new CvqModelException("label already used",
-                        "requestForm.message.labelAlreadyUsed");
+                    throw new CvqModelException("requestForm.message.labelAlreadyUsed");
                 if (requestForm.getShortLabel().equals(shortLabel))
-                    throw new CvqModelException("short label already used",
-                        "requestForm.message.shortLabelAlreadyUsed");
+                    throw new CvqModelException("requestForm.message.shortLabelAlreadyUsed");
             }
         }
     }
@@ -426,17 +422,16 @@ public class RequestTypeService implements IRequestTypeService {
 
         RequestType requestType = getRequestTypeById(requestTypeId);
         if (requestType == null)
-            throw new CvqModelException("request type is invalid",
-                "requestForm.message.requestTypeIsInvalid");
+            throw new CvqModelException("requestForm.message.requestTypeIsInvalid");
 
         checkRequestFormLabelUniqueness(requestForm.getLabel(), requestForm.getShortLabel(),
                 requestForm.getType(), requestTypeId,
                 requestForm.getId() == null ? new Long(-1) : requestForm.getId());
 
         if (requestForm.getLabel() == null && requestForm.getLabel().trim().isEmpty())
-            throw new CvqModelException("label is null","requestForm.message.labelIsNull");
+            throw new CvqModelException("requestForm.message.labelIsNull");
         if (requestForm.getShortLabel() == null && requestForm.getShortLabel().trim().isEmpty())
-            throw new CvqModelException("short label is null","requestForm.message.shortLabelIsNull");
+            throw new CvqModelException("requestForm.message.shortLabelIsNull");
 
         if (this.requestTypeContainsForm(requestType, requestForm)) {
             result = requestForm.getId();
@@ -510,6 +505,10 @@ public class RequestTypeService implements IRequestTypeService {
 
     public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
+    }
+    
+    public void setCategoryService(ICategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     public void setGenericDAO(IGenericDAO genericDAO) {

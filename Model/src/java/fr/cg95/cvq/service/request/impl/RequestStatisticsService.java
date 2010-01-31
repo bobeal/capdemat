@@ -12,7 +12,7 @@ import org.joda.time.Days;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.authority.Category;
+import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
@@ -22,7 +22,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
-import fr.cg95.cvq.service.authority.ICategoryService;
+import fr.cg95.cvq.service.request.ICategoryService;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 

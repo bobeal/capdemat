@@ -15,14 +15,14 @@ import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import au.com.bytecode.opencsv.CSVReader;
-import fr.cg95.cvq.business.authority.LocalReferentialEntry;
-import fr.cg95.cvq.business.authority.LocalReferentialType;
+import fr.cg95.cvq.business.request.LocalReferentialEntry;
+import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqLocalReferentialException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.ILocalReferentialService;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
+import fr.cg95.cvq.service.request.ILocalReferentialService;
 
 public class LocalReferentialImporter {
     private static Logger logger = Logger.getLogger(LocalReferentialImporter.class);

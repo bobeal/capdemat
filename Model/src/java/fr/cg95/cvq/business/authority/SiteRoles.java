@@ -10,9 +10,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class SiteRoles implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private SiteProfile profile;
+    private SiteProfile profile;
     private Agent agent;
 
     /** full constructor */

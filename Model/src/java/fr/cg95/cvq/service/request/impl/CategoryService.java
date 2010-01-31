@@ -1,20 +1,17 @@
-package fr.cg95.cvq.service.authority.impl;
+package fr.cg95.cvq.service.request.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.Category;
-import fr.cg95.cvq.business.authority.CategoryProfile;
-import fr.cg95.cvq.business.authority.CategoryRoles;
-import fr.cg95.cvq.business.authority.SiteProfile;
-import fr.cg95.cvq.business.authority.SiteRoles;
+import fr.cg95.cvq.business.request.Category;
+import fr.cg95.cvq.business.request.CategoryProfile;
+import fr.cg95.cvq.business.request.CategoryRoles;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.dao.authority.ICategoryDAO;
+import fr.cg95.cvq.dao.request.ICategoryDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -24,8 +21,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.IAgentService;
-import fr.cg95.cvq.service.authority.ICategoryService;
-import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.service.request.ICategoryService;
 
 /**
  * Implementation of the {@link ICategoryService category service}.
@@ -61,44 +57,24 @@ public class CategoryService implements ICategoryService {
         if (SecurityContext.isAdminContext())
             return categoryDAO.listAll();
         
-        Agent agent = SecurityContext.getCurrentAgent();
-        
-        // if agent is admin, return all categories ...
-        Set<SiteRoles> agentSiteRoles = agent.getSitesRoles();
-        for (SiteRoles siteRole : agentSiteRoles) {
-            if (siteRole.getProfile().equals(SiteProfile.ADMIN))
-                return categoryDAO.listAll();
-        }
+        // if agent is an admin, return the whole list
+        if (SecurityContext.getCurrentCredentialBean().hasSiteAdminRole())
+            return categoryDAO.listAll();
         
         // else only return those categories it has a role on
-        List<Category> results = new ArrayList<Category>();        
-        Set<CategoryRoles> agentCategoriesRoles = agent.getCategoriesRoles();
-        for (Object object : categoryDAO.listAll()) {
-            Category category = (Category) object;
-            if (agentCategoriesRoles != null) {
-                for (CategoryRoles categoryRole : agentCategoriesRoles)
-                    // it is one of the authorized categories for the current agent
-                    if (categoryRole.getCategory().getId().equals(category.getId()))
-                        results.add(category);
-            }
-        }
-
-        return results;
+        return categoryDAO.listByAgent(SecurityContext.getCurrentAgent().getId(), null);
     }
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
     public List<Category> getManaged() {
-        List<Category> results = new ArrayList<Category>();
+        return categoryDAO.listByAgent(SecurityContext.getCurrentUserId(), CategoryProfile.MANAGER);
+    }
 
-        CategoryRoles[] agentCategoryRoles =
-            SecurityContext.getCurrentCredentialBean().getCategoryRoles();
-        for (CategoryRoles categoryRole : agentCategoryRoles) {
-            if (categoryRole.getProfile().equals(CategoryProfile.MANAGER))
-                results.add(categoryRole.getCategory());
-        }
-        
-        return results;
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
+    public List<Category> getAssociated() {
+        return categoryDAO.listByAgent(SecurityContext.getCurrentUserId(), null);
     }
 
     @Override
@@ -146,59 +122,64 @@ public class CategoryService implements ICategoryService {
             category.setRequestTypes(null);
         }
 
-        List<Agent> allAgents = agentService.getAll();
-        for (Agent agent : allAgents) {
-            if (agent.getCategoriesRoles() != null) {
-                Set<CategoryRoles> newCategoriesRoles = new HashSet<CategoryRoles>();
-                for (CategoryRoles categoryRoles : agent.getCategoriesRoles()) {
-                    if (!categoryRoles.getCategory().getId().equals(id)) {
-                        newCategoriesRoles.add(categoryRoles);
-                    }
-                }
-                agent.setCategoriesRoles(newCategoriesRoles);
-                agentService.modify(agent);
-            }
-        }
         categoryDAO.delete(category);
     }
 
     @Override
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
-    public List<Agent> getAuthorizedForCategory(Long categoryId) {
+    public List<Agent> getAuthorizedForCategory(Long categoryId) throws CvqObjectNotFoundException {
 
-        Critere critere = new Critere(Agent.SEARCH_BY_CATEGORY_ID, categoryId,
-            Critere.EQUALS);
-        Set<Critere> critereSet = new HashSet<Critere>();
-        critereSet.add(critere);
+        List<Agent> agentsList = new ArrayList<Agent>();
+        Category category = getById(categoryId);
+        for (CategoryRoles categoryRoles : category.getCategoriesRoles()) {
+            agentsList.add(agentService.getById(categoryRoles.getAgentId()));
+        }
 
-        return agentService.get(critereSet);
+        return agentsList;
     }
 
     @Override
     @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
-    public boolean hasProfileOnCategory(Agent agent, Long categoryId) {
+    public boolean hasProfileOnCategory(Agent agent, Long categoryId) 
+        throws CvqObjectNotFoundException {
 
-        Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
-        for (CategoryRoles categoryRole : agentCategoryRoles) {
-            if (categoryRole.getCategory().getId().equals(categoryId))
-                    return true;
+        Category category = getById(categoryId);
+        for (CategoryRoles categoryRoles : category.getCategoriesRoles()) {
+            if (categoryRoles.getAgentId().equals(agent.getId()))
+                return true;
         }
-        
+
         return false;
     }
 
     @Override
     @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
-    public boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) {
-        Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
-        for (CategoryRoles categoryRole : agentCategoryRoles) {
-            if (categoryRole.getCategory().getId().equals(categoryId)
+    public boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) 
+        throws CvqObjectNotFoundException {
+        
+        Category category = getById(categoryId);
+        for (CategoryRoles categoryRole : category.getCategoriesRoles()) {
+            if (categoryRole.getAgentId().equals(agent.getId())
                 && (categoryRole.getProfile().equals(CategoryProfile.MANAGER)
                 || categoryRole.getProfile().equals(CategoryProfile.READ_WRITE )))
-                    return true;
+                return true;
         }
-        
+
         return false;        
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    public CategoryProfile getProfileForCategory(final Long categoryId) 
+        throws CvqObjectNotFoundException {
+        Long agentId = SecurityContext.getCurrentUserId();
+        Category category = getById(categoryId);
+        for (CategoryRoles categoryRoles : category.getCategoriesRoles()) {
+            if (categoryRoles.getAgentId().equals(agentId))
+                return categoryRoles.getProfile();
+        }
+
+        return null;
     }
 
     @Override
@@ -222,8 +203,7 @@ public class CategoryService implements ICategoryService {
     @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
     public Category removeRequestType(Long categoryId, Long requestTypeId) throws CvqException {
 
-        Category category = 
-            (Category) categoryDAO.findById(Category.class, categoryId);
+        Category category = getById(categoryId);
         RequestType requestType = 
             (RequestType) requestTypeDAO.findById(RequestType.class, requestTypeId);
         requestType.setCategory(null);
@@ -231,6 +211,72 @@ public class CategoryService implements ICategoryService {
 
         categoryDAO.update(category);
         return category;
+    }
+
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    public void addCategoryRole(final Long agentId, final  Long categoryId,
+            final CategoryProfile categoryProfile ) throws CvqException {
+
+        if (agentId == null)
+            throw new CvqException("No agent id provided");
+        Category category = getById(categoryId);
+
+        CategoryRoles categoryRoles = new CategoryRoles();
+        categoryRoles.setAgentId(agentId);
+        categoryRoles.setCategory(category);
+        categoryRoles.setProfile(categoryProfile);
+        category.addCategoryRole(categoryRoles);
+
+        modify(category);
+    }
+
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    public void modifyCategoryRole(final Long agentId, final  Long categoryId,
+            final CategoryProfile categoryProfile ) throws CvqException {
+
+        if (agentId == null)
+            throw new CvqException("No agent id provided");
+        Category category = getById(categoryId);
+
+        boolean foundCategoryRole = false;
+        for (CategoryRoles categoryRoles : category.getCategoriesRoles()) {
+            if (categoryRoles.getAgentId().equals(agentId)) {
+                categoryRoles.setProfile(categoryProfile);
+                foundCategoryRole = true;
+                break;
+            }
+        }
+        if (!foundCategoryRole) {
+            CategoryRoles categoryRoles = new CategoryRoles();
+            categoryRoles.setAgentId(agentId);
+            categoryRoles.setCategory(getById(categoryId));
+            categoryRoles.setProfile(categoryProfile);
+            category.getCategoriesRoles().add(categoryRoles);
+        }
+
+        modify(category);
+    }
+
+    @Override
+    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    public void removeCategoryRole(final Long agentId, final  Long categoryId) throws CvqException {
+
+        if (agentId == null)
+            throw new CvqException("No agent id provided");
+        Category category = getById(categoryId);
+
+        boolean foundCategoryRole = false;
+        for (CategoryRoles categoryRoles : category.getCategoriesRoles()) {
+            if (categoryRoles.getAgentId().equals(agentId)) {
+                category.getCategoriesRoles().remove(categoryRoles);
+                foundCategoryRole = true;
+                break;
+            }
+        }
+        if (foundCategoryRole)
+            modify(category);
     }
 
     public void setCategoryDAO(ICategoryDAO categoryDAO) {

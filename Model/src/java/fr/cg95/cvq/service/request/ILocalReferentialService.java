@@ -1,9 +1,9 @@
-package fr.cg95.cvq.service.authority;
+package fr.cg95.cvq.service.request;
 
 import java.util.Map;
 import java.util.Set;
 
-import fr.cg95.cvq.business.authority.LocalReferentialType;
+import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.exception.CvqException;
 
 public interface ILocalReferentialService {

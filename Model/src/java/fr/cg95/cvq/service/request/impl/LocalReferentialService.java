@@ -1,4 +1,4 @@
-package fr.cg95.cvq.service.authority.impl;
+package fr.cg95.cvq.service.request.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,9 +13,9 @@ import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlOptions;
 
-import fr.cg95.cvq.business.authority.LocalReferentialEntry;
-import fr.cg95.cvq.business.authority.LocalReferentialType;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
+import fr.cg95.cvq.business.request.LocalReferentialEntry;
+import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqLocalReferentialException;
 import fr.cg95.cvq.schema.referential.LocalReferentialDocument;
@@ -29,7 +29,7 @@ import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.ILocalReferentialService;
+import fr.cg95.cvq.service.request.ILocalReferentialService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestTypeLifecycleAware;
 

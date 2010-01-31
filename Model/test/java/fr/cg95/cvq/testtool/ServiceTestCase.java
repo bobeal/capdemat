@@ -14,9 +14,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.Category;
-import fr.cg95.cvq.business.authority.CategoryProfile;
-import fr.cg95.cvq.business.authority.CategoryRoles;
+import fr.cg95.cvq.business.request.Category;
+import fr.cg95.cvq.business.request.CategoryProfile;
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.authority.SiteProfile;
@@ -39,16 +38,16 @@ import fr.cg95.cvq.payment.IPaymentProviderService;
 import fr.cg95.cvq.payment.IPaymentService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
-import fr.cg95.cvq.service.authority.ICategoryService;
+import fr.cg95.cvq.service.request.ICategoryService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.ILocalReferentialService;
-import fr.cg95.cvq.service.authority.IPlaceReservationService;
 import fr.cg95.cvq.service.authority.IRecreationCenterService;
 import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
+import fr.cg95.cvq.service.request.ILocalReferentialService;
 import fr.cg95.cvq.service.request.IDisplayGroupService;
 import fr.cg95.cvq.service.request.IMeansOfContactService;
+import fr.cg95.cvq.service.request.IPlaceReservationService;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
@@ -185,7 +184,7 @@ public class ServiceTestCase
                 genericDAO.create(admin);
 
                 SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-
+                
                 Category category = new Category();
                 category.setName("General");
                 List<RequestType> requestTypesSet = iRequestTypeService.getAllRequestTypes();
@@ -196,13 +195,11 @@ public class ServiceTestCase
                 category.setRequestTypes(new HashSet<RequestType>(requestTypesSet));
                 genericDAO.create(category);
                                 
-                Agent agent = bootstrapAgent(agentNameWithCategoriesRoles, category,
-                        CategoryProfile.READ_WRITE);
-                genericDAO.create(agent);
+                bootstrapAgent(agentNameWithCategoriesRoles, SiteProfile.AGENT, category,
+                    CategoryProfile.READ_WRITE);
                 
-                Agent manager = bootstrapAgent(agentNameWithManageRoles, category, 
-                        CategoryProfile.MANAGER);
-                genericDAO.create(manager);
+                bootstrapAgent(agentNameWithManageRoles, SiteProfile.AGENT, category,
+                    CategoryProfile.MANAGER);
                 
                 School school = new School();
                 school.setActive(Boolean.TRUE);
@@ -223,8 +220,8 @@ public class ServiceTestCase
         startTransaction();
     }
 
-    private Agent bootstrapAgent(String agentName, Category category, 
-            CategoryProfile categoryProfile) {
+    private void bootstrapAgent(String agentName, SiteProfile siteProfile, Category category,
+        CategoryProfile categoryProfile) throws CvqException {
 
         Agent agent = new Agent();
         agent.setActive(Boolean.TRUE);
@@ -232,20 +229,14 @@ public class ServiceTestCase
 
         SiteRoles siteRoles = new SiteRoles();
         siteRoles.setAgent(agent);
-        siteRoles.setProfile(SiteProfile.AGENT);
+        siteRoles.setProfile(siteProfile);
         Set<SiteRoles> siteRolesSet = new HashSet<SiteRoles>();
         siteRolesSet.add(siteRoles);
         agent.setSitesRoles(siteRolesSet);
+        iAgentService.create(agent);
 
-        CategoryRoles categoryRoles = new CategoryRoles();
-        categoryRoles.setAgent(agent);
-        categoryRoles.setCategory(category);
-        categoryRoles.setProfile(categoryProfile);
-        Set<CategoryRoles> categoryRolesSet = new HashSet<CategoryRoles>();
-        categoryRolesSet.add(categoryRoles);
-        agent.setCategoriesRoles(categoryRolesSet);
-        
-        return agent;
+        if (category != null)
+            iCategoryService.addCategoryRole(agent.getId(), category.getId(), categoryProfile);
     }
 
     protected void startTransaction() throws CvqException {

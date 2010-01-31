@@ -229,8 +229,7 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
                 lock.setDate(new Date());
                 lock.setUserId(SecurityContext.getCurrentUserId());
             } else {
-                throw new CvqException("Request is already locked",
-                    "request.lock.exception.alreadyLocked");
+                throw new CvqException("request.lock.error.alreadyLocked");
             }
             requestDAO.saveOrUpdate(lock);
             locks.put(requestId, lock);

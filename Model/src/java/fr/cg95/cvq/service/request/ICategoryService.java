@@ -1,10 +1,10 @@
-package fr.cg95.cvq.service.authority;
+package fr.cg95.cvq.service.request;
 
 import java.util.List;
 
 import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.Category;
-import fr.cg95.cvq.business.authority.CategoryProfile;
+import fr.cg95.cvq.business.request.Category;
+import fr.cg95.cvq.business.request.CategoryProfile;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -19,17 +19,34 @@ public interface ICategoryService {
     /**
      * Return agents that have a right (read or write) for the given category.
      */
-    List<Agent> getAuthorizedForCategory(@IsCategory final Long categoryId);
+    List<Agent> getAuthorizedForCategory(@IsCategory final Long categoryId)
+        throws CvqObjectNotFoundException;
 
     /**
      * Return whether the given agent has at least a
      * {@link CategoryProfile#READ_ONLY} profile on the given category.
      */
     boolean hasProfileOnCategory(final Agent agent,
-        @IsCategory final Long categoryId);
+        @IsCategory final Long categoryId) throws CvqObjectNotFoundException;
 
-    boolean hasWriteProfileOnCategory(Agent agent, @IsCategory Long categoryId);
+    /**
+     * Return whether the given agent has at least a
+     * {@link CategoryProfile#READ_WRITE} profile on the given category.
+     */
+    boolean hasWriteProfileOnCategory(Agent agent, @IsCategory Long categoryId) 
+        throws CvqObjectNotFoundException;
 
+    /**
+     * Get current agent's profile for this category.
+     */
+    CategoryProfile getProfileForCategory(final Long categoryId) throws CvqObjectNotFoundException;
+    
+    /**
+     * Return the categories for which the current agent has at least a
+     * {@link CategoryProfile#READ_ONLY profile}.
+     */
+    List<Category> getAssociated();
+    
     /**
      * Add a request type to the given category.
      */
@@ -43,7 +60,24 @@ public interface ICategoryService {
     Category removeRequestType(@IsCategory final Long categoryId,
         @IsRequestType final Long requestTypeId)
         throws CvqException;
-    
+
+    /**
+     * Give an agent a role on a category.
+     */
+    void addCategoryRole(final Long agentId, final Long categoryId,
+        final CategoryProfile categoryProfile) throws CvqException;
+
+    /**
+     * Modify or add an agent's role on a category.
+     */
+    public void modifyCategoryRole(final Long agentId, final  Long categoryId,
+        final CategoryProfile categoryProfile) throws CvqException;
+
+    /**
+     * Remove agent's role on a category.
+     */
+    public void removeCategoryRole(final Long agentId, final  Long categoryId) throws CvqException;
+
     /**
      * Create a category.
      * 

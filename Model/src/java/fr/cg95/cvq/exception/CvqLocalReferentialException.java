@@ -7,18 +7,13 @@ package fr.cg95.cvq.exception;
  */
 public class CvqLocalReferentialException extends CvqException {
 
-    public CvqLocalReferentialException(String reason, String key) {
-        super(reason, key);
-        // TODO Auto-generated constructor stub
-    }
-
     private static final long serialVersionUID = 1L;
 
     public CvqLocalReferentialException() {
         super();
     }
 
-    public CvqLocalReferentialException(String reason) {
-        super(reason);
+    public CvqLocalReferentialException(String key) {
+        super(key);
     }
 }

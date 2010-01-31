@@ -1,11 +1,11 @@
-package fr.cg95.cvq.service.authority;
+package fr.cg95.cvq.service.request;
 
 import java.util.Date;
 import java.util.Set;
 
 import junit.framework.Assert;
-import fr.cg95.cvq.business.authority.PlaceReservationType;
-import fr.cg95.cvq.business.authority.PlaceReservationType.TicketSelection;
+import fr.cg95.cvq.business.request.PlaceReservationType;
+import fr.cg95.cvq.business.request.PlaceReservationType.TicketSelection;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqPlaceReservationReferentialException;
 import fr.cg95.cvq.security.SecurityContext;

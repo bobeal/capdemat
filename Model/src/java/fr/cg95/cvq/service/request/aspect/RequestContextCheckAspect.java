@@ -3,24 +3,22 @@ package fr.cg95.cvq.service.request.aspect;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.core.Ordered;
 
-import fr.cg95.cvq.business.authority.Category;
-import fr.cg95.cvq.business.authority.CategoryProfile;
-import fr.cg95.cvq.business.authority.CategoryRoles;
+import fr.cg95.cvq.business.request.Category;
+import fr.cg95.cvq.business.request.CategoryProfile;
+import fr.cg95.cvq.business.request.CategoryRoles;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestType;
-import fr.cg95.cvq.dao.authority.ICategoryDAO;
+import fr.cg95.cvq.dao.request.ICategoryDAO;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
@@ -35,7 +33,6 @@ import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
-import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.annotation.IsCategory;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.annotation.IsRequestAction;
@@ -43,7 +40,7 @@ import fr.cg95.cvq.service.request.annotation.IsRequestType;
 import fr.cg95.cvq.util.Critere;
 
 @Aspect
-public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
+public class RequestContextCheckAspect implements Ordered {
     
     private Logger logger = Logger.getLogger(RequestContextCheckAspect.class);
     
@@ -51,7 +48,6 @@ public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
     private IRequestTypeDAO requestTypeDAO;
     private ICategoryDAO categoryDAO;
     private IRequestActionDAO requestActionDAO;
-    private BeanFactory beanFactory;
 
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.request..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
@@ -181,37 +177,6 @@ public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
 
                     categoryId = requestType.getCategory().getId();
                     
-                    // TODO : mutualize
-//                    CategoryRoles[] categoryRoles = 
-//                        SecurityContext.getCurrentCredentialBean().getCategoryRoles();
-//                    for (CategoryRoles categoryRole : categoryRoles) {
-//                        Set<RequestType> categoryRequests = 
-//                            categoryRole.getCategory().getRequestTypes();
-//                        if (categoryRequests == null)
-//                            continue;
-//                        for (RequestType requestTypeToCheck : categoryRequests) {
-//                            if (requestTypeToCheck.getId().equals(requestType.getId())) {
-//                                // we found the request type we are interested in
-//                                if (context.privilege().equals(ContextPrivilege.READ)
-//                                        || (context.privilege().equals(ContextPrivilege.WRITE)
-//                                                && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
-//                                                        || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
-//                                                        || (context.privilege().equals(ContextPrivilege.MANAGE)
-//                                                                && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
-//                                    // that's ok, let's return
-//                                    return;
-//                                } else {
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-                    
-                    // if we are here, that means agent is not authorized
-//                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-//                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
-//                            "request type " + requestType.getLabel());
-                    
                 } else if (parameterAnnotation.annotationType().equals(IsCategory.class)) {
                     Category categoryToCheck = null;
                     if (argument instanceof Long) {
@@ -232,33 +197,7 @@ public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
                             "no category specified");
                     }
 
-                    categoryId = categoryToCheck.getId();
-                    
-                    // TODO : mutualize
-//                    CategoryRoles[] categoryRoles =
-//                        SecurityContext.getCurrentCredentialBean().getCategoryRoles();
-//                    for (CategoryRoles categoryRole : categoryRoles) {
-//                        Category category = categoryRole.getCategory();
-//                        if (categoryToCheck.getId().equals(category.getId())) {
-//                            // we found the category we are interested in
-//                            if (context.privilege().equals(ContextPrivilege.READ)
-//                                || (context.privilege().equals(ContextPrivilege.WRITE)
-//                                    && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
-//                                        || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
-//                                || (context.privilege().equals(ContextPrivilege.MANAGE)
-//                                    && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
-//                                // that's ok, let's return
-//                                return;
-//                            } else {
-//                                break;
-//                            }
-//                        }
-//                    }
-//
-//                    // if we are here, that means agent is not authorized
-//                    throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-//                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
-//                            "category " + categoryToCheck.getName());
+                    categoryId = categoryToCheck.getId();                    
                 }
             }
             i++;
@@ -273,15 +212,14 @@ public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
         
         if (SecurityContext.isBackOfficeContext()) {
 
-            if (context.privilege().equals(ContextPrivilege.MANAGE)) {
-                CategoryRoles[] categoryRoles =
-                    SecurityContext.getCurrentCredentialBean().getCategoryRoles();
-                if (categoryRoles != null) {
-                    for (CategoryRoles categoryRole : categoryRoles) {
-                        if (categoryRole.getProfile().equals(CategoryProfile.MANAGER))
-                            return;
-                    }
-                }
+            // a MANAGER profile is required without a specific category
+            // eg case of statistics service
+            if (context.privilege().equals(ContextPrivilege.MANAGE) && categoryId == null) {
+                List<Category> agentCategories =
+                    categoryDAO.listByAgent(SecurityContext.getCurrentUserId(), CategoryProfile.MANAGER);
+                if (agentCategories != null && !agentCategories.isEmpty())
+                    return;
+
                 throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                     joinPoint.getSignature().getName(), context.type(), context.privilege(),
                     "access denied on home folder " + homeFolderId);
@@ -301,24 +239,26 @@ public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
                 // this has been checked before
             }
 
-            CategoryRoles[] categoryRoles =
-                SecurityContext.getCurrentCredentialBean().getCategoryRoles();
-            for (CategoryRoles categoryRole : categoryRoles) {
-                Category category = categoryRole.getCategory();
-                if (categoryToCheck.getId().equals(category.getId())) {
-                    // we found the category we are interested in
-                    if (context.privilege().equals(ContextPrivilege.READ)
-                        || (context.privilege().equals(ContextPrivilege.WRITE)
-                            && (categoryRole.getProfile().equals(CategoryProfile.READ_WRITE)
-                                || categoryRole.getProfile().equals(CategoryProfile.MANAGER)))
-                        || (context.privilege().equals(ContextPrivilege.MANAGE)
-                            && categoryRole.getProfile().equals(CategoryProfile.MANAGER))) {
-                        // that's ok, let's return
-                        return;
-                    } else {
-                        break;
-                    }
+            // retrieve agent's profile on category
+            CategoryProfile agentCategoryProfile = null;
+            for (CategoryRoles categoryRoles : categoryToCheck.getCategoriesRoles()) {
+                if (categoryRoles.getAgentId().equals(SecurityContext.getCurrentUserId())) {
+                    agentCategoryProfile = categoryRoles.getProfile();
+                    break;
                 }
+            }
+
+            // if it has one, check it is sufficient
+            if (agentCategoryProfile != null) {
+                if (context.privilege().equals(ContextPrivilege.READ)
+                        || (context.privilege().equals(ContextPrivilege.WRITE)
+                                && (agentCategoryProfile.equals(CategoryProfile.READ_WRITE)
+                                        || agentCategoryProfile.equals(CategoryProfile.MANAGER)))
+                                        || (context.privilege().equals(ContextPrivilege.MANAGE)
+                                                && agentCategoryProfile.equals(CategoryProfile.MANAGER))) {
+                    // that's ok, let's return
+                    return;
+                } 
             }
 
             // if we are here, that means agent is not authorized
@@ -347,10 +287,5 @@ public class RequestContextCheckAspect implements Ordered, BeanFactoryAware {
     
     public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
         this.requestActionDAO = requestActionDAO;
-    }
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
     }
 }

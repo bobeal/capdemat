@@ -10,11 +10,12 @@ import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.external.IExternalService
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.IAgentService
-import fr.cg95.cvq.service.authority.ICategoryService
-import fr.cg95.cvq.service.authority.ILocalReferentialService
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.IRecreationCenterService
 import fr.cg95.cvq.service.authority.ISchoolService
 import fr.cg95.cvq.service.document.IDocumentService
+import fr.cg95.cvq.service.request.ICategoryService
+import fr.cg95.cvq.service.request.ILocalReferentialService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService

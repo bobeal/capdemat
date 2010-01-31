@@ -16,8 +16,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class Agent implements Serializable {
 
-    public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
-
     private static final long serialVersionUID = 1L;
 
     /** identifier field */
@@ -28,7 +26,6 @@ public class Agent implements Serializable {
     private String firstName;
     private Boolean active;
 
-    private Set<CategoryRoles> categoriesRoles;
     private Set<SiteRoles> sitesRoles;
     private Hashtable<String, Hashtable<String, String>> preferences; 
 
@@ -84,23 +81,6 @@ public class Agent implements Serializable {
     /**
      * @hibernate.set
      *  lazy="true"
-     *  table="agent_category_roles"
-     * @hibernate.key
-     *  column="agent_id"
-     * @hibernate.composite-element
-     *  class="fr.cg95.cvq.business.authority.CategoryRoles"
-     */
-    public Set<CategoryRoles> getCategoriesRoles() {
-        return this.categoriesRoles;
-    }
-
-    public void setCategoriesRoles(Set<CategoryRoles> categoriesRoles) {
-        this.categoriesRoles = categoriesRoles;
-    }
-
-    /**
-     * @hibernate.set
-     *  lazy="true"
      *  table="agent_site_roles"
      * @hibernate.key
      *  column="agent_id"
@@ -139,7 +119,7 @@ public class Agent implements Serializable {
     public void setPreferences(Hashtable<String, Hashtable<String, String>> preferences) {
         this.preferences = preferences;
     }
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)

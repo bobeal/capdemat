@@ -1,10 +1,10 @@
-package fr.cg95.cvq.business.authority;
+package fr.cg95.cvq.business.request;
 
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
 
 public final class CategoryProfile extends PersistentStringEnum {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     public static final CategoryProfile READ_ONLY = new CategoryProfile("R/O");
     public static final CategoryProfile READ_WRITE = new CategoryProfile("R/W");

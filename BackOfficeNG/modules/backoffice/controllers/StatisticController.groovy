@@ -1,5 +1,5 @@
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.authority.ICategoryService
+import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestStatisticsService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.util.Critere

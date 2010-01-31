@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.authority.LocalReferentialEntry;
-import fr.cg95.cvq.business.authority.LocalReferentialType;
+import fr.cg95.cvq.business.request.LocalReferentialEntry;
+import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;

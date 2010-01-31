@@ -1,4 +1,4 @@
-package fr.cg95.cvq.business.authority;
+package fr.cg95.cvq.business.request;
 
 import java.io.Serializable;
 
@@ -10,17 +10,17 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class CategoryRoles implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private CategoryProfile profile;
+    private CategoryProfile profile;
     private Category category;
-    private Agent agent;
+    private Long agentId;
 
     /** full constructor */
-    public CategoryRoles(CategoryProfile profile, Category category, Agent agent) {
+    public CategoryRoles(CategoryProfile profile, Category category, Long agentId) {
         this.profile = profile;
         this.category = category;
-        this.agent = agent;
+        this.agentId = agentId;
     }
 
     /** default constructor */
@@ -30,12 +30,24 @@ public class CategoryRoles implements Serializable {
     /**
      * @hibernate.parent
      */
-    public Agent getAgent() {
-        return this.agent;
+    public Category getCategory() {
+        return this.category;
     }
 
-    public void setAgent(Agent agent) {
-        this.agent = agent;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="agent_id"
+     */
+    public Long getAgentId() {
+        return this.agentId;
+    }
+
+    public void setAgentId(Long agentId) {
+        this.agentId = agentId;
     }
 
     /**
@@ -51,19 +63,6 @@ public class CategoryRoles implements Serializable {
         this.profile = profile;
     }
 
-    /**
-     * @hibernate.many-to-one
-     *  class="fr.cg95.cvq.business.authority.Category"
-     *  column="category_id"
-     */
-    public Category getCategory() {
-        return this.category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -77,7 +76,7 @@ public class CategoryRoles implements Serializable {
 
         final CategoryRoles sr = (CategoryRoles) other;
 
-        if (!getAgent().equals(sr.getAgent()))
+        if (!getAgentId().equals(sr.getAgentId()))
             return false;
         if (!getCategory().equals(sr.getCategory()))
             return false;
@@ -88,7 +87,7 @@ public class CategoryRoles implements Serializable {
     @Override
     public int hashCode() {
         int result;
-        result = getAgent().hashCode();
+        result = getAgentId().hashCode();
         result = 29 * result + getCategory().hashCode();
         return result;
     }

@@ -25,9 +25,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
   <bean id="authenticationService" 
     class="fr.cg95.cvq.authentication.impl.AuthenticationService">
-    <property name="individualDAO">
-      <ref local="individualDAO"/>
-    </property>
+    <property name="individualDAO" ref="individualDAO"/>
   </bean>
 
   <bean id="mailService" class="fr.cg95.cvq.util.mail.impl.MailService">
@@ -60,12 +58,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   <bean id="historyInterceptor" class="fr.cg95.cvq.dao.hibernate.HistoryInterceptor">
   </bean>
 
-  <bean id="localAuthoritiesLoader"
-    class="fr.cg95.cvq.service.authority.LocalAuthoritiesLoader"
-    init-method="init" depends-on="securityContext">
-    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
-  </bean>
-
   <bean id="securityContext" class="fr.cg95.cvq.security.SecurityContext">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="agentService" ref="agentService" />
@@ -90,49 +82,26 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
   </bean>
 
   <!-- *******************************************************************  -->
-  <!-- ******************** AUTHORITIES SERVICES**************************  -->
+  <!-- ******************** AUTHORITY SERVICES ***************************  -->
   <!-- *******************************************************************  -->
 
-  <bean id="localReferentialService"
-    class="fr.cg95.cvq.service.authority.impl.LocalReferentialService">
+  <bean id="localAuthoritiesLoader"
+    class="fr.cg95.cvq.service.authority.LocalAuthoritiesLoader"
+    init-method="init" depends-on="securityContext">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
-  </bean>
-
-  <bean id="placeReservationService" 
-    class="fr.cg95.cvq.service.authority.impl.PlaceReservationService">
-    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
-  </bean>
-  
-  <bean id="categoryService" class="fr.cg95.cvq.service.authority.impl.CategoryService">
-    <property name="categoryDAO">
-      <ref local="categoryDAO"/>
-    </property>
-    <property name="requestTypeDAO">
-      <ref local="requestTypeDAO"/>
-    </property>
-    <property name="agentService" ref="agentService" />
   </bean>
 
   <bean id="agentService" class="fr.cg95.cvq.service.authority.impl.AgentService">
-    <property name="agentDAO">
-      <ref local="agentDAO"/>
-    </property>
-    <property name="categoryDAO">
-      <ref local="categoryDAO"/>
-    </property>
+    <property name="agentDAO" ref="agentDAO"/>
   </bean>
 
   <bean id="schoolService" class="fr.cg95.cvq.service.authority.impl.SchoolService">
-    <property name="DAO">
-      <ref local="schoolDAO"/>
-    </property>
+    <property name="DAO" ref="schoolDAO"/>
   </bean>
 
   <bean id="recreationCenterService" 
     class="fr.cg95.cvq.service.authority.impl.RecreationCenterService">
-    <property name="DAO">
-      <ref local="recreationCenterDAO"/>
-    </property>
+    <property name="DAO" ref="recreationCenterDAO"/>
   </bean>
 
   <!-- ******************** GENERIC REQUEST SERVICE **********************  -->
@@ -142,12 +111,28 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="requestActionDAO" ref="requestActionDAO" />
     <property name="requestDAO" ref="requestDAO" />  
     <property name="requestTypeDAO" ref="requestTypeDAO" />
-    <property name="categoryDAO" ref="categoryDAO" />
+    <property name="categoryService" ref="categoryService" />
   </bean>
 
   <bean id="requestFilterAspect"
     class="fr.cg95.cvq.service.request.aspect.RequestFilterAspect">
     <property name="categoryService" ref="categoryService" />
+  </bean>
+
+  <bean id="localReferentialService"
+    class="fr.cg95.cvq.service.request.impl.LocalReferentialService">
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
+  </bean>
+
+  <bean id="placeReservationService" 
+    class="fr.cg95.cvq.service.request.impl.PlaceReservationService">
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
+  </bean>
+  
+  <bean id="categoryService" class="fr.cg95.cvq.service.request.impl.CategoryService">
+    <property name="categoryDAO" ref="categoryDAO"/>
+    <property name="requestTypeDAO" ref="requestTypeDAO"/>
+    <property name="agentService" ref="agentService" />
   </bean>
 
   <bean id="requestService" class="fr.cg95.cvq.service.request.impl.RequestService"
@@ -633,7 +618,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
   <bean id="localAuthorityDAO" class="fr.cg95.cvq.dao.authority.hibernate.LocalAuthorityDAO" parent="genericDAO"/>
 
-  <bean id="categoryDAO" class="fr.cg95.cvq.dao.authority.hibernate.CategoryDAO" parent="genericDAO"/>
+  <bean id="categoryDAO" class="fr.cg95.cvq.dao.request.hibernate.CategoryDAO" parent="genericDAO"/>
 
   <bean id="agentDAO" class="fr.cg95.cvq.dao.authority.hibernate.AgentDAO" parent="genericDAO"/>
 

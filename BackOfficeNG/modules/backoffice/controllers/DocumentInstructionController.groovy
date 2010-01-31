@@ -2,19 +2,19 @@ import grails.converters.JSON
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.document.IDocumentService
+import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService
-import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.document.DepositOrigin
 import fr.cg95.cvq.business.document.DepositType
 import fr.cg95.cvq.business.document.DocumentType
+import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestDocument
 import fr.cg95.cvq.business.document.DocumentAction
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.business.authority.Agent
-import fr.cg95.cvq.service.authority.ICategoryService
 
 class DocumentInstructionController {
     

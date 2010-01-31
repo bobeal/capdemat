@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlObject;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.Request;

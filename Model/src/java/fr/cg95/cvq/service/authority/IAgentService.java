@@ -3,14 +3,10 @@ package fr.cg95.cvq.service.authority;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.CategoryProfile;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.service.request.annotation.IsCategory;
-import fr.cg95.cvq.util.Critere;
 
 /**
  * Service related to the management of agents.
@@ -28,8 +24,6 @@ public interface IAgentService {
     
     List<Agent> getAll();
     
-    List<Agent> get(final Set<Critere> criteriaSet);
-
     /**
      * Get an agent by id.
      */
@@ -58,29 +52,6 @@ public interface IAgentService {
     void updateUserProfiles(String username, List<String> groups, 
         Map<String, String> informations) throws CvqException;
 
-    /**
-     * FIXME move to Category service
-     */
-    void addCategoryRole(final Long agentId, @IsCategory final Long categoryId,
-        final CategoryProfile categoryProfile) throws CvqException;
-    
-    /**
-     * Modify or add agent's categoryRole
-     *
-     * FIXME move to Category service
-     */
-    public void modifyCategoryRole(final Long agentId,
-        @IsCategory final Long categoryId,
-        final CategoryProfile categoryProfile)
-        throws CvqException;
-    
-    /**
-     * FIXME move to Category service
-     */
-    public void removeCategoryRole(final Long agentId,
-        @IsCategory final Long categoryId)
-        throws CvqException;
-    
     /**
      * Retrieve current agent's preferences by key.
      * 

@@ -61,8 +61,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, BeanFact
     private IDocumentService documentService;
     private IHomeFolderService homeFolderService;
     private IExternalService externalService;
-    private IRequestServiceRegistry requestServiceRegistry;
 
+    private IRequestServiceRegistry requestServiceRegistry;
     private IRequestActionService requestActionService;
     private IRequestNotificationService requestNotificationService;
 

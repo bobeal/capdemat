@@ -17,7 +17,7 @@ public class CvqInvalidTransitionException extends CvqException {
      * when possible.
      */
     public CvqInvalidTransitionException() {
-        super("Transition is invalid", "message.invalidTransition");
+        super("message.invalidTransition");
     }
 
     /**
@@ -27,7 +27,6 @@ public class CvqInvalidTransitionException extends CvqException {
      * and use it here instead of String ?
      */
     public CvqInvalidTransitionException(String from, String to) {
-        super("Transition from " + from + " to " + to + " is invalid",
-            "message.invalidTransition.parametered", new String[]{from, to});
+        super("message.invalidTransition.parametered", new String[]{from, to});
     }
 }

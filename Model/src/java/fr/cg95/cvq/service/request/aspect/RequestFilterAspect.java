@@ -1,13 +1,11 @@
 package fr.cg95.cvq.service.request.aspect;
 
-import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.Category;
-import fr.cg95.cvq.business.authority.CategoryRoles;
+import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
-import fr.cg95.cvq.service.authority.ICategoryService;
+import fr.cg95.cvq.service.request.ICategoryService;
 import fr.cg95.cvq.service.request.annotation.RequestFilter;
 import fr.cg95.cvq.util.Critere;
 
@@ -16,7 +14,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.Ordered;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +26,7 @@ public class RequestFilterAspect implements Ordered {
 
     private ICategoryService categoryService;
 
+    @SuppressWarnings("unchecked")
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(requestFilter) && within(fr.cg95.cvq.service.request..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, RequestFilter requestFilter) {
 
@@ -41,15 +39,7 @@ public class RequestFilterAspect implements Ordered {
             if (requestFilter.privilege().equals(ContextPrivilege.MANAGE)) {
                 agentCategories = categoryService.getManaged();
             } else if (requestFilter.privilege().equals(ContextPrivilege.READ)) {
-                Agent agent = SecurityContext.getCurrentAgent();
-                Set<CategoryRoles> agentCategoryRoles = agent.getCategoriesRoles();
-                if (agentCategoryRoles == null) {
-                    return;
-                }
-                agentCategories = new ArrayList<Category>();
-                for (CategoryRoles categoryRole : agentCategoryRoles) {
-                    agentCategories.add(categoryRole.getCategory());
-                }
+                agentCategories = categoryService.getAssociated();
             }
             StringBuffer sb = new StringBuffer();
             if (agentCategories == null || agentCategories.isEmpty()) {

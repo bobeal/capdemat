@@ -99,8 +99,7 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         if (externalProviderServices == null || externalProviderServices.isEmpty())
             return;
         if (!request.getState().equals(RequestState.VALIDATED)) {
-            throw new CvqException("Request must be validated before sending",
-                "plugins.externalservices.error.requestMustBeValidated");
+            throw new CvqException("plugins.externalservices.error.requestMustBeValidated");
         }
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         for (IExternalProviderService externalProviderService : externalProviderServices) {
@@ -494,7 +493,8 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
         HomeFolder homeFolder = homeFolderService.getById(request.getHomeFolderId());
         for (IExternalProviderService eps :
             getExternalServicesByRequestType(request.getRequestType().getLabel())) {
-            ExternalServiceIdentifierMapping esim = getIdentifierMapping(eps.getLabel(), homeFolder.getId());
+            ExternalServiceIdentifierMapping esim = getIdentifierMapping(eps.getLabel(), 
+                    request.getHomeFolderId());
             if (esim != null) {
                 homeFolder.setExternalId(esim.getExternalId());
                 homeFolder.setExternalCapDematId(esim.getExternalCapDematId());
@@ -513,7 +513,8 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
                     informations.putAll(
                         eps.loadExternalInformations(requestService.fillRequestXml(request)));
                 } catch (CvqException e) {
-                    // TODO JSB
+                    logger.warn("loadExternalInformations()" +
+                            "Failed to retrieve information for " + eps.getLabel());
                 }
             }
         }

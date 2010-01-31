@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
-import fr.cg95.cvq.business.authority.PlaceReservationType;
+import fr.cg95.cvq.business.request.PlaceReservationType;
 import fr.cg95.cvq.business.request.reservation.PlaceReservationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -18,7 +18,7 @@ import fr.cg95.cvq.business.users.TicketTypeSelection;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.IPlaceReservationService;
+import fr.cg95.cvq.service.request.IPlaceReservationService;
 
 public class PlaceReservationRequestServiceSubscriberTest 
     extends PlaceReservationRequestServiceTest {

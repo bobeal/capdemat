@@ -6,7 +6,6 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import fr.cg95.cvq.business.authority.Category;
 import fr.cg95.cvq.service.request.IRequestService;
 
 
@@ -19,12 +18,12 @@ import fr.cg95.cvq.service.request.IRequestService;
  */
 public class RequestType implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     public static final String SEARCH_BY_CATEGORY_ID = "categoryId";
     public static final String SEARCH_BY_STATE = "active";
 
-	/** identifier field */
+    /** identifier field */
     private Long id;
 
     private String label;
@@ -97,7 +96,7 @@ public class RequestType implements Serializable {
     /**
      * @hibernate.many-to-one
      *  column="category_id"
-     *  class="fr.cg95.cvq.business.authority.Category"
+     *  class="fr.cg95.cvq.business.request.Category"
      */
     public Category getCategory() {
         return this.category;

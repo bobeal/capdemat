@@ -1,8 +1,9 @@
-package fr.cg95.cvq.dao.authority;
+package fr.cg95.cvq.dao.request;
 
 import java.util.List;
 
-import fr.cg95.cvq.business.authority.Category;
+import fr.cg95.cvq.business.request.Category;
+import fr.cg95.cvq.business.request.CategoryProfile;
 import fr.cg95.cvq.dao.IGenericDAO;
 
 /**
@@ -14,6 +15,11 @@ public interface ICategoryDAO extends IGenericDAO {
      * Return the list of all known categories.
      */
     List<Category> listAll();
+
+    /**
+     * Return the list of category for which agent has a role.
+     */
+    List<Category> listByAgent(final Long agentId, final CategoryProfile categoryProfile);
 
     /**
      * Get a category by name.

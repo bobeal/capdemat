@@ -1,7 +1,7 @@
-package fr.cg95.cvq.service.authority;
+package fr.cg95.cvq.service.request;
 
-import fr.cg95.cvq.business.authority.LocalReferentialEntry;
-import fr.cg95.cvq.business.authority.LocalReferentialType;
+import fr.cg95.cvq.business.request.LocalReferentialEntry;
+import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.testtool.ServiceTestCase;

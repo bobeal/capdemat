@@ -1,18 +1,16 @@
-package fr.cg95.cvq.service.authority;
+package fr.cg95.cvq.service.request;
 
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.Assert;
+
 import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.Category;
-import fr.cg95.cvq.business.authority.CategoryProfile;
-import fr.cg95.cvq.business.authority.CategoryRoles;
+import fr.cg95.cvq.business.request.Category;
+import fr.cg95.cvq.business.request.CategoryProfile;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class CategoryServiceTest extends ServiceTestCase {
@@ -22,9 +20,9 @@ public class CategoryServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Category category = new Category();
-        category.setName("Environnement");
-        category.setPrimaryEmail("category@blop.fr");
+        int nbOfCategories = iCategoryService.getAll().size();
+
+        Category category = new Category("Environnement", "category@blop.fr");
         category.addEmail("category@dummy.fr");
         category.addEmail("blop@valdoise.fr");
 
@@ -36,8 +34,22 @@ public class CategoryServiceTest extends ServiceTestCase {
         }
         
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        iCategoryService.create(category);
-        
+        Long newCategoryId = iCategoryService.create(category);
+
+        assertEquals(nbOfCategories + 1, iCategoryService.getAll().size());
+        Category newCategory = iCategoryService.getById(newCategoryId);
+        assertEquals("Environnement", newCategory.getName());
+        assertEquals("category@blop.fr", newCategory.getPrimaryEmail());
+        assertEquals(2, newCategory.getEmails().size());
+
+        newCategory.removeEmail("blop@valdoise.fr");
+        iCategoryService.modify(newCategory);
+
+        continueWithNewTransaction();
+
+        newCategory = iCategoryService.getById(newCategoryId);
+        assertEquals(1, newCategory.getEmails().size());
+
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         try {
             iCategoryService.delete(category.getId());
@@ -48,6 +60,9 @@ public class CategoryServiceTest extends ServiceTestCase {
         
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         iCategoryService.delete(category.getId());
+
+        continueWithNewTransaction();
+        assertEquals(nbOfCategories, iCategoryService.getAll().size());
     }
     
     public void testListAllFiltering() throws CvqException {
@@ -55,22 +70,65 @@ public class CategoryServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         
-        Category category = new Category();
-        category.setName("Environnement");
+        Category category = new Category("Environnement", null);
         iCategoryService.create(category);
         
         continueWithNewTransaction();
         
-        Assert.assertEquals(2, iCategoryService.getAll().size());
+        assertEquals(2, iCategoryService.getAll().size());
         
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        Assert.assertEquals(1, iCategoryService.getAll().size());
+        assertEquals(1, iCategoryService.getAll().size());
         
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         iCategoryService.delete(category.getId());
     }
-    
-    public void testAll() throws CvqException {
+
+    public void testAgentAssociation() throws CvqException {
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+
+        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        Category category = new Category("Environnement", "category@blop.fr");
+        Long associatedCategoryId = iCategoryService.create(category);
+
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+
+        Long associatedAgentId = SecurityContext.getCurrentAgent().getId();
+        int agentAssociatedCategories = iCategoryService.getAssociated().size();
+
+        try {
+            iCategoryService.addCategoryRole(associatedAgentId, associatedCategoryId,
+                CategoryProfile.READ_WRITE);
+            fail("should have thrown an exception");
+        } catch (PermissionException pe) {
+            // that was expected
+        }
+
+        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        try {
+            iCategoryService.addCategoryRole(associatedAgentId, associatedCategoryId,
+                CategoryProfile.READ_WRITE);
+        } catch (PermissionException pe) {
+            fail("should not have thrown an exception");
+        }
+
+        continueWithNewTransaction();
+
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        assertEquals(agentAssociatedCategories + 1, iCategoryService.getAssociated().size());
+
+        SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
+        iCategoryService.removeCategoryRole(associatedAgentId, associatedCategoryId);
+        iCategoryService.delete(associatedCategoryId);
+
+        continueWithNewTransaction();
+
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        assertEquals(agentAssociatedCategories, iCategoryService.getAssociated().size());
+}
+
+    public void testRequestTypeAssociation() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
@@ -79,34 +137,16 @@ public class CategoryServiceTest extends ServiceTestCase {
         int requestTypesNb = requestTypesSet.size();
 
         List<Category> categoriesList = iCategoryService.getAll();
-        Assert.assertEquals(1, categoriesList.size());
+        assertEquals(1, categoriesList.size());
         Category category1 = categoriesList.get(0);
 
         // create a category to make some tests with
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        Category category2 = new Category();
-        category2.setName("Une autre catégorie");
-        category2.setPrimaryEmail("category@blop.fr");
-        category2.addEmail("category@dummy.fr");
-        category2.addEmail("blop@valdoise.fr");
-        
+        Category category2 = new Category("Une autre catégorie", "category@blop.fr");
         Long newCategoryId = iCategoryService.create(category2);
 
         continueWithNewTransaction();
 
-        // test retrieving by id and do some modifications on it
-        category2 = iCategoryService.getById(newCategoryId);
-        Assert.assertNotNull(category2);
-        Assert.assertEquals(2, category2.getEmails().size());
-        Assert.assertEquals("Une autre catégorie", category2.getName());
-        category2.removeEmail("blop@valdoise.fr");
-        iCategoryService.modify(category2);
-        
-        continueWithNewTransaction();
-        
-        category2 = iCategoryService.getById(newCategoryId);
-        Assert.assertEquals(1, category2.getEmails().size());
-        
         // associate the new category with account creation requests
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         RequestType requestTypeToAdd = null;
@@ -118,17 +158,15 @@ public class CategoryServiceTest extends ServiceTestCase {
             }
         }
         try {
-            iCategoryService.addRequestType(category2.getId(), requestTypeToAdd.getId());
+            iCategoryService.addRequestType(newCategoryId, requestTypeToAdd.getId());
             fail("should have thrown an exception");
         } catch (PermissionException pe) {
             // ok
         }
 
-        continueWithNewTransaction();
-
         // now, be an authorized admin and do the modification
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        iCategoryService.addRequestType(category2.getId(), requestTypeToAdd.getId());
+        iCategoryService.addRequestType(newCategoryId, requestTypeToAdd.getId());
 
         continueWithNewTransaction();
 
@@ -137,9 +175,9 @@ public class CategoryServiceTest extends ServiceTestCase {
 
         // check associations have been correctly saved
         category1 = iCategoryService.getById(category1.getId());
-        Assert.assertEquals(category1.getRequestTypes().size(), requestTypesNb - 1);
+        assertEquals(requestTypesNb - 1, category1.getRequestTypes().size());
         category2 = iCategoryService.getById(category2.getId());
-        Assert.assertEquals(category2.getRequestTypes().size(), 1);
+        assertEquals(1, category2.getRequestTypes().size());
         
         continueWithNewTransaction();
 
@@ -163,15 +201,10 @@ public class CategoryServiceTest extends ServiceTestCase {
 
         // give agent the rights for the new category and retry to load the request
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
-        
+
         Agent categoryAgent = iAgentService.getByLogin(agentNameWithCategoriesRoles);
-        Set<CategoryRoles> agentCategoriesRolesSet = categoryAgent.getCategoriesRoles();
-        CategoryRoles catRole = new CategoryRoles();
-        catRole.setAgent(categoryAgent);
-        catRole.setCategory(category2);
-        catRole.setProfile(CategoryProfile.READ_ONLY);
-        agentCategoriesRolesSet.add(catRole);
-        iAgentService.modify(categoryAgent);
+        iCategoryService.addCategoryRole(categoryAgent.getId(), category2.getId(),
+            CategoryProfile.READ_ONLY);
         
         continueWithNewTransaction();
 

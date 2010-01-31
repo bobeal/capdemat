@@ -1,7 +1,7 @@
-import fr.cg95.cvq.business.authority.Category
-import fr.cg95.cvq.business.authority.CategoryProfile
-import fr.cg95.cvq.service.authority.ICategoryService
+import fr.cg95.cvq.business.request.Category
+import fr.cg95.cvq.business.request.CategoryProfile
 import fr.cg95.cvq.service.authority.IAgentService
+import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestTypeService
 
 import grails.converters.JSON
@@ -150,7 +150,7 @@ class CategoryController {
     }
     
     def unassociateAgent = {
-        agentService.removeCategoryRole(Long.valueOf(params.agentId), Long.valueOf(params.categoryId))
+        categoryService.removeCategoryRole(Long.valueOf(params.agentId), Long.valueOf(params.categoryId))
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
@@ -168,7 +168,7 @@ class CategoryController {
             if (params.agentId == null || params.categoryId == null)
                 render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
             
-            agentService.modifyCategoryRole(
+            categoryService.modifyCategoryRole(
                   Long.valueOf(params.agentId), 
                   Long.valueOf(params.categoryId),
                   CategoryProfile.allCategoryProfiles[Integer.valueOf(params.profileIndex)])

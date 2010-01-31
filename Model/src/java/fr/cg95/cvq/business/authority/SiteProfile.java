@@ -9,9 +9,9 @@ import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
  */
 public final class SiteProfile extends PersistentStringEnum {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** An user that can access the site but has no specific right */
+    /** An user that can access the site but has no specific right */
     public static final SiteProfile AGENT = new SiteProfile("Agent");
     /** A site administrator, can manage agents, categories, ... */
     public static final SiteProfile ADMIN = new SiteProfile("Admin");

@@ -1,8 +1,8 @@
-package fr.cg95.cvq.service.authority;
+package fr.cg95.cvq.service.request;
 
 import java.util.Set;
 
-import fr.cg95.cvq.business.authority.PlaceReservationType;
+import fr.cg95.cvq.business.request.PlaceReservationType;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqPlaceReservationReferentialException;
 

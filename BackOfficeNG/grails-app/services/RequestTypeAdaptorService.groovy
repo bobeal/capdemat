@@ -2,7 +2,7 @@ import fr.cg95.cvq.business.users.HomeFolder
 import fr.cg95.cvq.business.request.DisplayGroup
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.exception.CvqException
-import fr.cg95.cvq.service.authority.ILocalReferentialService
+import fr.cg95.cvq.service.request.ILocalReferentialService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry

@@ -7,18 +7,13 @@ package fr.cg95.cvq.exception;
  */
 public class CvqDisabledAccountException extends CvqException {
 
-    public CvqDisabledAccountException(String reason, String key) {
-        super(reason, key);
-        // TODO Auto-generated constructor stub
-    }
-
     private static final long serialVersionUID = 1L;
 
     public CvqDisabledAccountException() {
         super();
     }
 
-    public CvqDisabledAccountException(final String reason) {
-        super(reason);
+    public CvqDisabledAccountException(final String key) {
+        super(key);
     }
 }

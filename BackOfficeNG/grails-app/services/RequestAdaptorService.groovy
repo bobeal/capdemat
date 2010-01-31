@@ -1,6 +1,6 @@
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.authority.ICategoryService
+import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IHomeFolderService

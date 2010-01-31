@@ -1,6 +1,5 @@
-package fr.cg95.cvq.business.authority;
+package fr.cg95.cvq.business.request;
 
-import fr.cg95.cvq.business.request.RequestType;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,11 +26,22 @@ public class Category implements Serializable {
     /** the request types that are handled by this category */
     private Set<RequestType> requestTypes;
 
+    /**
+     * the agent roles for this category
+     * TODO : rename
+     */
+    private Set<CategoryRoles> categoriesRoles;
+
     /** emails of contact for this category */
     private Set<String> emails;
     
     /** default constructor */
     public Category() {
+    }
+
+    public Category(String name, String primaryEmail) {
+        this.name = name;
+        this.primaryEmail = primaryEmail;
     }
 
     /**
@@ -119,11 +129,33 @@ public class Category implements Serializable {
         this.requestTypes = requestTypes;
     }
 
+    /**
+     * @hibernate.set
+     *  lazy="true"
+     *  table="agent_category_roles"
+     * @hibernate.key
+     *  column="category_id"
+     * @hibernate.composite-element
+     *  class="fr.cg95.cvq.business.request.CategoryRoles"
+     */
+    public Set<CategoryRoles> getCategoriesRoles() {
+        return this.categoriesRoles;
+    }
+
+    public void setCategoriesRoles(Set<CategoryRoles> categoriesRoles) {
+        this.categoriesRoles = categoriesRoles;
+    }
+
+    public void addCategoryRole(CategoryRoles categoryRole) {
+        if (this.categoriesRoles == null)
+            this.categoriesRoles = new HashSet<CategoryRoles>();
+        this.categoriesRoles.add(categoryRole);
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
             .append("id", getId())
             .toString();
     }
-
 }

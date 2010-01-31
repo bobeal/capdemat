@@ -1,4 +1,4 @@
-package fr.cg95.cvq.business.authority;
+package fr.cg95.cvq.business.request;
 
 import java.util.Map;
 import java.util.Set;

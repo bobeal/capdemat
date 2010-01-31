@@ -17,9 +17,9 @@ import fr.cg95.cvq.xml.common.LocalAuthorityType;
  */
 public class LocalAuthority implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/** identifier field */
+    /** identifier field */
     private Long id;
 
     private String name;

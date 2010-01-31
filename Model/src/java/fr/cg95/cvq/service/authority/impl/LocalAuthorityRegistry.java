@@ -145,7 +145,7 @@ public class LocalAuthorityRegistry
         // and avoid concurrent modification exceptions, although it can probably be enhanced
         for (String serverName : serverNames) {
             if (!isAvailableLocalAuthorityServerName(serverName)) {
-                throw new CvqException("ServerName " + serverName + " already exists", "localAuthority.existing.url.error", new String[]{serverName});
+                throw new CvqException("localAuthority.error.existingUrl", new String[]{serverName});
             }
         }
         LocalAuthority localAuthority = SecurityContext.getCurrentSite();

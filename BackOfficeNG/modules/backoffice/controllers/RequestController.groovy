@@ -5,7 +5,7 @@ import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.service.authority.IAgentService
-import fr.cg95.cvq.service.authority.ICategoryService
+import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestStatisticsService
 import fr.cg95.cvq.util.Critere

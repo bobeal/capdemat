@@ -9,7 +9,7 @@ import junit.framework.Assert;
 
 import org.w3c.dom.Node;
 
-import fr.cg95.cvq.business.authority.Category;
+import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestForm;

@@ -7,18 +7,13 @@ package fr.cg95.cvq.exception;
  */
 public class CvqBadPasswordException extends CvqException {
 
-    public CvqBadPasswordException(String reason, String key) {
-        super(reason, key);
-        // TODO Auto-generated constructor stub
-    }
-
     private static final long serialVersionUID = 1L;
 
     public CvqBadPasswordException() {
         super();
     }
 
-    public CvqBadPasswordException(String reason) {
-        super(reason);
+    public CvqBadPasswordException(String key) {
+        super(key);
     }
 }

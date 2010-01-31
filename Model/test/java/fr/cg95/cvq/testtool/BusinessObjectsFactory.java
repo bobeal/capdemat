@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.joda.time.DateMidnight;
 
-import fr.cg95.cvq.business.authority.Category;
+import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.RecreationCenter;
 import fr.cg95.cvq.business.authority.School;

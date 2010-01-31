@@ -1,3 +1,4 @@
+import fr.cg95.cvq.business.request.LocalReferentialEntry
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestFormType
 import fr.cg95.cvq.business.request.RequestSeason
@@ -5,12 +6,11 @@ import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
-import fr.cg95.cvq.business.authority.LocalReferentialEntry
 import fr.cg95.cvq.security.SecurityContext
-import fr.cg95.cvq.service.authority.ICategoryService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
-import fr.cg95.cvq.service.authority.ILocalReferentialService
 import fr.cg95.cvq.service.document.IDocumentTypeService
+import fr.cg95.cvq.service.request.ICategoryService
+import fr.cg95.cvq.service.request.ILocalReferentialService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.util.Critere

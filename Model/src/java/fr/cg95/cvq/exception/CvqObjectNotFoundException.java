@@ -7,18 +7,13 @@ package fr.cg95.cvq.exception;
  */
 public class CvqObjectNotFoundException extends CvqException {
 
-    public CvqObjectNotFoundException(String reason, String key) {
-        super(reason, key);
-        // TODO Auto-generated constructor stub
-    }
-
     private static final long serialVersionUID = 1L;
 
     public CvqObjectNotFoundException() {
         super();
     }
 
-    public CvqObjectNotFoundException(final String reason) {
-        super(reason);
+    public CvqObjectNotFoundException(final String key) {
+        super(key);
     }
 }

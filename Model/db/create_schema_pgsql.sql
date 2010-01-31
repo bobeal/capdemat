@@ -3,10 +3,7 @@
         drop constraint FK58621BA71A211CC;
 
     alter table agent_category_roles 
-        drop constraint FKBAFB98B6CE4D7137;
-
-    alter table agent_category_roles 
-        drop constraint FKBAFB98B6FB8D007D;
+        drop constraint FKBAFB98B63ED1C7EB;
 
     alter table agent_site_roles 
         drop constraint FK1C3B6D3FFB8D007D;
@@ -42,7 +39,7 @@
         drop constraint FK7E2C4DCB9891C203;
 
     alter table category_emails 
-        drop constraint FKB9136EB8CE4D7137;
+        drop constraint FKB9136EB83ED1C7EB;
 
     alter table child 
         drop constraint FK5A3F51C71A211CC;
@@ -387,7 +384,7 @@
         drop constraint FK998F4693C5FD0068;
 
     alter table request_type 
-        drop constraint FK4DAE96EACE4D7137;
+        drop constraint FK4DAE96EA3ED1C7EB;
 
     alter table request_type 
         drop constraint FK4DAE96EA1D0DF06;
@@ -725,9 +722,9 @@
     );
 
     create table agent_category_roles (
-        agent_id int8 not null,
-        profile varchar(16),
-        category_id int8
+        category_id int8 not null,
+        agent_id int8,
+        profile varchar(16)
     );
 
     create table agent_site_roles (
@@ -2213,14 +2210,9 @@
         references individual;
 
     alter table agent_category_roles 
-        add constraint FKBAFB98B6CE4D7137 
+        add constraint FKBAFB98B63ED1C7EB 
         foreign key (category_id) 
         references category;
-
-    alter table agent_category_roles 
-        add constraint FKBAFB98B6FB8D007D 
-        foreign key (agent_id) 
-        references agent;
 
     alter table agent_site_roles 
         add constraint FK1C3B6D3FFB8D007D 
@@ -2278,7 +2270,7 @@
         references local_referential_data;
 
     alter table category_emails 
-        add constraint FKB9136EB8CE4D7137 
+        add constraint FKB9136EB83ED1C7EB 
         foreign key (category_id) 
         references category;
 
@@ -2853,7 +2845,7 @@
         references request_type;
 
     alter table request_type 
-        add constraint FK4DAE96EACE4D7137 
+        add constraint FK4DAE96EA3ED1C7EB 
         foreign key (category_id) 
         references category;
 

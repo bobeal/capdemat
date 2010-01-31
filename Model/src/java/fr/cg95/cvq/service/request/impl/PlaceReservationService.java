@@ -1,4 +1,4 @@
-package fr.cg95.cvq.service.authority.impl;
+package fr.cg95.cvq.service.request.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,9 +17,9 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
-import fr.cg95.cvq.business.authority.PlaceReservationType;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
-import fr.cg95.cvq.business.authority.PlaceReservationType.TicketSelection;
+import fr.cg95.cvq.business.request.PlaceReservationType;
+import fr.cg95.cvq.business.request.PlaceReservationType.TicketSelection;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqPlaceReservationReferentialException;
 import fr.cg95.cvq.schema.referential.PlaceReservationDocument;
@@ -28,7 +28,7 @@ import fr.cg95.cvq.schema.referential.PlaceReservationTicketType;
 import fr.cg95.cvq.schema.referential.PlaceReservationEntryType.Label;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.authority.IPlaceReservationService;
+import fr.cg95.cvq.service.request.IPlaceReservationService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestTypeLifecycleAware;
 

@@ -1,4 +1,4 @@
-package fr.cg95.cvq.business.authority;
+package fr.cg95.cvq.business.request;
 
 import java.text.Normalizer;
 import java.util.HashMap;
@@ -38,8 +38,8 @@ public class LocalReferentialType {
     
     /**
      * Map of all entries indexed by their key
-     *  - usefull to ensure key uniqueness in entries tree
-     *  - usefull to ease fetching of a particular entry in the tree
+     *  - useful to ensure key uniqueness in entries tree
+     *  - useful to ease fetching of a particular entry in the tree
      */
     private Map<String,LocalReferentialEntry> keyEntriesMap ;
 
@@ -153,7 +153,7 @@ public class LocalReferentialType {
             keyEntriesMap = new HashMap<String, LocalReferentialEntry>();
         
         if (keyEntriesMap.containsKey(lre.getKey()))
-            throw new CvqLocalReferentialException("entry [key= " + lre.getKey() + "] already exists","localReferential.error.entryAlreadyExists");
+            throw new CvqLocalReferentialException("localReferential.error.entryAlreadyExists");
         keyEntriesMap.put(lre.getKey(), lre);
     }
     

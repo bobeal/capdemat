@@ -13,7 +13,7 @@
 		<exec executable="${grails}" failonerror="true">
 			<arg value="clean"/>
 		</exec>
-        <delete file="${app.name}-${application.version}-${application.revision}.war" />
+        <delete file="target/${app.name}-${app.version}.war" />
         <delete>
            	<fileset dir=".">
            		<include name="*.log" />
@@ -35,7 +35,7 @@
 		<exec executable="${grails}" failonerror="true">
 			<arg value="war"/>
 		</exec>
-                <move file="${app.name}-${app.version}.war" 
+                <move file="target/${app.name}-${app.version}.war"
                     tofile="${release.dir}/${app.name}-${application.version}-${application.revision}.war"/>
     </target>
 	

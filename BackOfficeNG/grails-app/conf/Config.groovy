@@ -1,16 +1,3 @@
-// locations to search for config files that get merged into the main config
-// config files can either be Java properties files or ConfigSlurper scripts
-
-// grails.config.locations = [ "classpath:${appName}-config.properties",
-//                             "classpath:${appName}-config.groovy",
-//                             "file:${userHome}/.grails/${appName}-config.properties",
-//                             "file:${userHome}/.grails/${appName}-config.groovy"]
-
-grails.config.locations = [ "file:${basedir}/${appName}-config.properties" ]
-
-// if(System.properties["${appName}.config.location"]) {
-//    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
-// }
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
                       xml: ['text/xml', 'application/xml'],
@@ -96,6 +83,7 @@ jcaptchas {
 
 environments {
 	development {
+		grails.config.locations = [ "file:${basedir}/${appName}-config.properties" ]
 		log4j = {
 			// in development mode, let's see all my log messages
 			debug 'grails.app', 'fr.cg95', 'fr.capwebct'
@@ -103,6 +91,7 @@ environments {
 	}
 	
 	production {
+		grails.config.locations = [ "classpath:${appName}-config.properties" ]
 		def catalinaBase = System.properties.getProperty('catalina.base')
 		if (!catalinaBase) catalinaBase = '.'   // just in case
 		def logDirectory = "${catalinaBase}/logs"

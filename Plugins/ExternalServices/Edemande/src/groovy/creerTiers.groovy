@@ -1,5 +1,5 @@
 <%
-    String.metaClass.truncate = { length ->
+    org.codehaus.groovy.runtime.GStringImpl.metaClass.truncate = { length ->
         if (delegate == null)
             return ""
         if (delegate.length() > length)

@@ -62,6 +62,14 @@ form.editable-list-form p.same-line input.first-button { margin-left: 28%; }
 #requestData dl dd form input.submitField,
 #requestData dl dd form input.revertField { width: auto !important; }
 
+#requestInformation dl.actionDetails { height: 1% }
+
+#requestInformation dl.actionDetails dt,
+#requestInformation dl.actionDetails dd {
+  display : block !important;
+}
+
+#requestInformation .note { height: 1%; }
 
 /* document.css
 -------------------------------------------------------------- */

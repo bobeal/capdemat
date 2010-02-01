@@ -16,17 +16,14 @@ import fr.cg95.cvq.dao.users.IHomeFolderDAO;
  */
 public class HomeFolderDAO extends GenericDAO implements IHomeFolderDAO {
 
-    public HomeFolderDAO() {
-        super();
-    }
-
-    public List<HomeFolder> listAll(boolean filterArchived, boolean filterBoundToRequest) {
+    @SuppressWarnings("unchecked")
+    public List<HomeFolder> listAll(boolean filterArchived, boolean filterTemporary) {
         StringBuffer sb = new StringBuffer();
         sb.append("from HomeFolder as homeFolder where 1 = 1 ");
         if (filterArchived)
             sb.append(" and homeFolder.state != 'Archived'");
-        if (filterBoundToRequest)
-            sb.append(" and homeFolder.boundToRequest = 'false'");
+        if (filterTemporary)
+            sb.append(" and homeFolder.temporary = 'false'");
         Query query = HibernateUtil.getSession().createQuery(sb.toString());
         
         return query.list();    

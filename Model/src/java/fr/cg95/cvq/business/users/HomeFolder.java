@@ -39,10 +39,9 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     private ActorState state;
     private Address adress;
     private Boolean enabled;
+    /** home folders created along a request are considered to be temporary */
+    private boolean temporary = false;
     private String familyQuotient;
-    
-    private Long originRequestId;
-    private Boolean boundToRequest;
     
     private List<Individual> individuals;
 
@@ -187,30 +186,6 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
 
     /**
      * @hibernate.property
-     *  column="bound_to_request"
-     */
-	public Boolean getBoundToRequest() {
-		return boundToRequest;
-	}
-
-	public void setBoundToRequest(Boolean boundToRequest) {
-		this.boundToRequest = boundToRequest;
-	}
-
-    /**
-     * @hibernate.property
-     *  column="origin_request_id"
-     */
-	public Long getOriginRequestId() {
-		return originRequestId;
-	}
-
-	public void setOriginRequestId(Long originRequestId) {
-		this.originRequestId = originRequestId;
-	}
-
-    /**
-     * @hibernate.property
      *  column="enabled"
      */
     public Boolean getEnabled() {
@@ -219,6 +194,18 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="is_temporary"
+     */
+    public boolean isTemporary() {
+        return temporary;
+    }
+
+    public void setTemporary(boolean temporary) {
+        this.temporary = temporary;
     }
 
     /**

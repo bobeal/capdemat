@@ -1554,9 +1554,8 @@
         id int8 not null,
         state varchar(16) not null,
         adress_id int8,
-        bound_to_request bool,
-        origin_request_id int8,
         enabled bool,
+        is_temporary bool,
         family_quotient varchar(255),
         primary key (id)
     );
@@ -1952,6 +1951,7 @@
         subject_last_name varchar(255),
         subject_first_name varchar(255),
         step_states bytea,
+        has_tied_home_folder bool,
         primary key (id)
     );
 

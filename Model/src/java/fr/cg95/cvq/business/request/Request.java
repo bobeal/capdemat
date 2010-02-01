@@ -75,6 +75,8 @@ public abstract class Request implements Serializable {
     private Long subjectId;
     private String subjectLastName;
     private String subjectFirstName;
+    /** whether it has an home folder with lifecycle tied to request */
+    private boolean hasTiedHomeFolder = false;
     
     private Set<RequestDocument> documents;
     private Set<RequestAction> actions;
@@ -485,5 +487,17 @@ public abstract class Request implements Serializable {
 
     public void setStepStates(Map<String, Map<String, String>> stepStates) {
         this.stepStates = stepStates;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="has_tied_home_folder"
+     */
+    public boolean getHasTiedHomeFolder() {
+        return hasTiedHomeFolder;
+    }
+
+    public void setHasTiedHomeFolder(boolean hasTiedHomeFolder) {
+        this.hasTiedHomeFolder = hasTiedHomeFolder;
     }
 }

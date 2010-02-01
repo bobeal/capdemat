@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -74,7 +73,9 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         List<Adult> adults = new ArrayList<Adult>();
         adults.add(adult);
         
-        return create(adults, null, adult.getAdress());
+        HomeFolder homeFolder = create(adults, null, adult.getAdress());
+        homeFolder.setTemporary(true);
+        return homeFolder;
     }
 
     @Override
@@ -89,7 +90,6 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         HomeFolder homeFolder = new HomeFolder();
         initializeCommonAttributes(homeFolder);
         homeFolder.setAdress(address);
-        homeFolder.setBoundToRequest(Boolean.valueOf(false));
         homeFolderDAO.create(homeFolder);
         genericDAO.create(address);
 
@@ -353,11 +353,10 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
-    public final Set<HomeFolder> getAll(boolean filterArchived, boolean filterBoundToRequest)
+    public final List<HomeFolder> getAll(boolean filterArchived, boolean filterTemporary)
         throws CvqException {
 
-        List<HomeFolder> homeFolders = homeFolderDAO.listAll(filterArchived, filterBoundToRequest);
-        return new LinkedHashSet<HomeFolder>(homeFolders);
+        return homeFolderDAO.listAll(filterArchived, filterTemporary);
     }
 
     @Override
@@ -798,54 +797,6 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 		}
     }
     
-    @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public void onRequestArchived(Long homeFolderId, Long requestId) throws CvqException {
-        HomeFolder homeFolder = getById(homeFolderId);
-        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
-            archive(homeFolder);
-        }
-    }
-
-    @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public void onRequestCancelled(Long homeFolderId, Long requestId) throws CvqException {
-        HomeFolder homeFolder = getById(homeFolderId);
-        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
-            invalidate(homeFolder);
-        }
-    }
-
-    @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public void onRequestRejected(Long homeFolderId, Long requestId) throws CvqException {
-        HomeFolder homeFolder = getById(homeFolderId);
-        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
-            invalidate(homeFolder);
-        }
-    }
-
-    @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
-    public void onRequestValidated(Long homeFolderId, Long requestId) throws CvqException {
-        HomeFolder homeFolder = getById(homeFolderId);
-        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
-            validate(homeFolder);
-        }
-    }
-
-    @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void onRequestDeleted(final Long homeFolderId, final Long requestId)
-        throws CvqException {
-        HomeFolder homeFolder = getById(homeFolderId);
-        if (homeFolder.getBoundToRequest() && homeFolder.getOriginRequestId().equals(requestId)) {
-            logger.debug("onRequestDeleted() Home folder " + homeFolderId 
-                    + " belongs to request " + requestId + ", removing it from DB");
-            delete(homeFolder);
-        }
-    }
-
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public final void validate(final Long id)
         throws CvqException, CvqObjectNotFoundException {

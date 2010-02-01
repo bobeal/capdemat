@@ -510,15 +510,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         setAdministrativeInformation(request);
 
-        Long requestId = (requestDAO.saveOrUpdate(request)).getId();
-
+        // requests other than acount creation that triggered an home folder creation are tied to it
         if (homeFolder != null 
                 && !request.getRequestType().getLabel().equals(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST)) {
-            homeFolder.setBoundToRequest(Boolean.valueOf(true));
-            homeFolder.setOriginRequestId(requestId);
-            homeFolderService.modify(homeFolder);
+            request.setHasTiedHomeFolder(true);
         }
         
+        Long requestId = (requestDAO.saveOrUpdate(request)).getId();
+
         if (!RequestState.DRAFT.equals(request.getState())) {
             // TODO DECOUPLING
             byte[] pdfData = certificateService.generate(request);
@@ -666,7 +665,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         throws CvqException, CvqObjectNotFoundException {
 
         requestDAO.delete(request);
-        homeFolderService.onRequestDeleted(request.getHomeFolderId(), request.getId());
+        
+        if (request.getHasTiedHomeFolder())
+            homeFolderService.delete(request.getHomeFolderId());
     }
 
     @Override
@@ -850,10 +851,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         validateAssociatedDocuments(request.getDocuments());
 
         // those two request types are special ones
-        if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest)
+        if (request instanceof VoCardRequest || request instanceof HomeFolderModificationRequest
+                || request.getHasTiedHomeFolder())
             homeFolderService.validate(request.getHomeFolderId());
-        else
-            homeFolderService.onRequestValidated(request.getHomeFolderId(), request.getId());
 
 		// send request data to interested external services
         // TODO DECOUPLING
@@ -913,8 +913,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         else if (request instanceof HomeFolderModificationRequest)
             // home folder was supposed to be valid before modification request
             homeFolderService.validate(request.getHomeFolderId());
-        else
-            homeFolderService.onRequestCancelled(request.getHomeFolderId(), request.getId());
+        else if (request.getHasTiedHomeFolder())
+            homeFolderService.invalidate(request.getHomeFolderId());
     }
 
     private void reject(final Request request, final String motive)
@@ -946,8 +946,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         else if (request instanceof HomeFolderModificationRequest)
             // home folder was supposed to be valid before modification request
             homeFolderService.validate(request.getHomeFolderId());
-        else
-            homeFolderService.onRequestRejected(request.getHomeFolderId(), request.getId());
+        else if (request.getHasTiedHomeFolder())
+            homeFolderService.invalidate(request.getHomeFolderId());
     }
     
     private void close(Request request)
@@ -991,7 +991,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             throw new CvqInvalidTransitionException();
         }
 
-        homeFolderService.onRequestArchived(request.getHomeFolderId(), request.getId());
+        if (request.getHasTiedHomeFolder())
+            homeFolderService.archive(request.getHomeFolderId());
     }
 
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)

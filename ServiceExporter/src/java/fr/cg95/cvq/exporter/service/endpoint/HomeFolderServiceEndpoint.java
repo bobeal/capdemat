@@ -1,7 +1,6 @@
 package fr.cg95.cvq.exporter.service.endpoint;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.oxm.Marshaller;
 import org.springframework.ws.server.endpoint.AbstractMarshallingPayloadEndpoint;
@@ -37,7 +36,7 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
             GetHomeFoldersResponseDocument.Factory.newInstance();
        GetHomeFoldersResponse response = 
             responseDocument.addNewGetHomeFoldersResponse();
-        Set<HomeFolder> homeFolders = homeFolderService.getAll(true, true);
+        List<HomeFolder> homeFolders = homeFolderService.getAll(true, true);
         for (HomeFolder homeFolder : homeFolders) {
             List<Request> voCardRequests =
                 requestSearchService.getByHomeFolderIdAndRequestLabel(homeFolder.getId(),

@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -83,7 +82,7 @@ public class ConcertoCsvImportServiceTest extends RequestTestCase {
             throw new CvqException(e.getMessage());
         }
         
-        Set<HomeFolder> allHomeFolders = homeFolderService.getAll(true, true);
+        List<HomeFolder> allHomeFolders = homeFolderService.getAll(true, true);
         Assert.assertEquals(allHomeFolders.size(), 1);
         
         HomeFolder homeFolder = allHomeFolders.iterator().next();

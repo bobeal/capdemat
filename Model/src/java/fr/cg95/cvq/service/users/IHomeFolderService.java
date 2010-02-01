@@ -1,7 +1,6 @@
 package fr.cg95.cvq.service.users;
 
 import java.util.List;
-import java.util.Set;
 
 import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.Address;
@@ -15,7 +14,6 @@ import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsIndividual;
-import fr.cg95.cvq.service.request.annotation.IsRequest;
 
 /**
  * Service related to the management of home folders.
@@ -67,7 +65,7 @@ public interface IHomeFolderService {
     void deleteIndividual(@IsHomeFolder final Long homeFolderId, final Long individualId)
         throws CvqException, CvqObjectNotFoundException;
     
-    Set<HomeFolder> getAll(boolean filterArchived, boolean filterBoundToRequest)
+    List<HomeFolder> getAll(boolean filterArchived, boolean filterBoundToRequest)
         throws CvqException;
 
     HomeFolder getById(@IsHomeFolder final Long id)
@@ -172,52 +170,6 @@ public interface IHomeFolderService {
 
     List<Individual> getBySubjectRoles(@IsIndividual Long subjectId, RoleType[] roles);
 
-    /**
-     * Called by the request service to notify that a request has been validated.
-     * 
-     * It is then up to the home folder service to take the correct decisions : either delete
-     * the associated, either do nothing.
-     */
-    void onRequestValidated(@IsHomeFolder final Long homeFolderId, final Long requestId)
-        throws CvqException;
-    
-    /**
-     * Called by the request service to notify that a request has been cancelled.
-     * 
-     * It is then up to the home folder service to take the correct decisions : either delete
-     * the associated, either do nothing.
-     */
-    void onRequestCancelled(@IsHomeFolder final Long homeFolderId, final Long requestId)
-        throws CvqException;
-    
-    /**
-     * Called by the request service to notify that a request has been rejected.
-     * 
-     * It is then up to the home folder service to take the correct decisions : either delete
-     * the associated, either do nothing.
-     */
-    void onRequestRejected(@IsHomeFolder final Long homeFolderId, final Long requestId)
-        throws CvqException;
-    
-    /**
-     * Called by the request service to notify that a request has been archived.
-     * 
-     * It is then up to the home folder service to take the correct decisions : either delete
-     * the associated, either do nothing.
-     */
-    void onRequestArchived(@IsHomeFolder final Long homeFolderId, final Long requestId)
-        throws CvqException;
-    
-    /**
-     * Called by the request service to notify that a request has been deleted.
-     * 
-     * It is then up to the home folder service to take the correct decisions : either delete
-     * the associated, either do nothing.
-     */
-    void onRequestDeleted(@IsHomeFolder final Long homeFolderId,
-        @IsRequest final Long requestId)
-        throws CvqException;
-    
     /**
      * Validate an home folder and its associated individuals.
      */

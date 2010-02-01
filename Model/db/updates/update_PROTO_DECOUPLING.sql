@@ -88,3 +88,15 @@ alter table purchase_item drop constraint FKB113279154BCD4FA;
 alter table purchase_item add constraint FKB1132791A8364360 foreign key (payment_id) references payment;
 alter table purchase_item_specific_data drop constraint FK455E96692BA69830;
 alter table purchase_item_specific_data add constraint FK455E9669669F9D96 foreign key (id) references purchase_item;
+
+alter table request add column has_tied_home_folder bool;
+alter table home_folder add column is_temporary bool;
+update request set has_tied_home_folder = false;
+update request set has_tied_home_folder = true 
+    from home_folder
+    where request.home_folder_id = home_folder.id
+    and home_folder.origin_request_id = request.id
+    and home_folder.bound_to_request = true;
+update home_folder set is_temporary = true where bound_to_request = true;
+alter table home_folder drop column origin_request_id;
+alter table home_folder drop column bound_to_request;

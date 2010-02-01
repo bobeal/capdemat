@@ -173,6 +173,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         assertEquals(homeFolderResponsible.getLastName(), dcvoFromDb.getRequesterLastName());
         assertNull(dcvoFromDb.getSubjectId());
         assertNull(dcvoFromDb.getSubjectLastName());
+        assertEquals(dcvoFromDb.getHasTiedHomeFolder(), false);
         
         assertNotNull(requestSearchService.getCertificate(dcvoFromDb.getId(), RequestState.PENDING));
         assertEquals(1, dcvoFromDb.getActions().size());
@@ -192,7 +193,6 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         assertNotNull(homeFolder.getId());
         assertEquals(homeFolder.getState(), ActorState.PENDING);
         assertNotNull(homeFolder.getAdress());
-        assertEquals(homeFolder.getBoundToRequest(), Boolean.FALSE);
         assertEquals(homeFolder.getIndividuals().size(), 5);
         
         HomeFolder homeFolderOtherWay = homeFolderService.getById(dcvo.getHomeFolderId());

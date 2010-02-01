@@ -92,7 +92,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
         // get all home folders
-        Set<HomeFolder> fetchHomeFolders = homeFolderService.getAll(true, true);
+        List<HomeFolder> fetchHomeFolders = homeFolderService.getAll(true, true);
         Assert.assertEquals(fetchHomeFolders.size(), 1);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);

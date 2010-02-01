@@ -51,7 +51,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
       init : function() {
         initControls();
       }
-    }
+    };
   }();
   
   yue.onDOMReady(zcbh.Details.init);

@@ -3,7 +3,7 @@
     <title><g:message code="homeFolder.header.details" args="${[params.id]}"/></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'homeFolderDetails.js')}"></script>
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin/',file:'container.css')}" />
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice/common/yui-skin',file:'container.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'homeFolder.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'document.css')}" />
     <script type="text/javascript">
@@ -22,20 +22,24 @@
             <ul class="yui-nav">
               <li class="selected"><a href="#page1"><em><g:message code="homeFolder.property.adults" /></em></a></li>
               <g:if test="${children && children.size() > 0}">
-                <li><a href="#page1"><em><g:message code="homeFolder.property.children" /></em></a></li>
+                <li><a href="#page2"><em><g:message code="homeFolder.property.children" /></em></a></li>
               </g:if>
             </ul>
             <div class="yui-content">
               <!-- Page 1 -->
               <div id="page1">
                 <h2><g:message code="property.form" /><span> - <g:message code="homeFolder.property.adults" /></span></h2>
-                <g:render template="detailsAdults" />
+                <g:each in="${adults}" var="adult">
+                  <g:render template="adult" model="['adult':adult]" />
+                </g:each>
               </div>
                <!-- Page 2 -->
               <g:if test="${children && children.size() > 0}">
                 <div id="page2">
                   <h2><g:message code="property.form" /><span> - <g:message code="homeFolder.property.children" /></span></h2>
-                  <g:render template="detailsChildren" />
+                  <g:each in="${children}" var="child">
+                    <g:render template="child" model="['child':child, 'responsibles':responsibles]" />
+                  </g:each>
                 </div>
               </g:if>
             </div>

@@ -23,7 +23,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -50,7 +49,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
@@ -138,12 +136,13 @@ public class HoranetService implements IExternalProviderService {
             XmlOptions xmlOptions = new XmlOptions();
             xmlOptions.setCharacterEncoding("UTF-8");
             
-            ByteArrayDataSource bds = new ByteArrayDataSource(requestXml.xmlText(xmlOptions), "text/xml");
-            DataHandler dhSource = new DataHandler(bds);
+            AttachmentPart attachement = new AttachmentPart();
+            attachement.setContent(requestXml.xmlText(xmlOptions), "text/xml; charset=utf-8");
 
             call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
             call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
             call.setProperty(Call.ATTACHMENT_ENCAPSULATION_FORMAT, Call.ATTACHMENT_ENCAPSULATION_FORMAT_DIME);
+            call.setProperty(Call.CHARACTER_SET_ENCODING, "UTF-8");
 //            call.setTargetEndpointAddress(endPoint2.toString());
             call.setTargetEndpointAddress(endPoint.toString());
             call.setSOAPActionURI(SOAP_ACTION_URI);
@@ -159,12 +158,10 @@ public class HoranetService implements IExternalProviderService {
             call.addParameter(new QName(HORANET_CVQ_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
 //            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildCard"), Constants.XSD_STRING, ParameterMode.IN);
             call.setReturnType(XMLType.AXIS_VOID);
-            call.addAttachmentPart(dhSource);
+            call.addAttachmentPart(attachement);
 
             logger.debug("sendRequest() calling HoraNet");
 
-//            RequestType testRequest = (RequestType) requestXml;
-            
             RequestType request = null;
             try {
                 String classSimpleName = requestXml.getClass().getSimpleName();
@@ -268,13 +265,13 @@ public class HoranetService implements IExternalProviderService {
                 throw new CvqException("Error while preparing XML payment");
             }
 
-            ByteArrayDataSource bds = new ByteArrayDataSource(xmlPayment, "text/xml");
-            DataHandler dhSource = new DataHandler(bds);
+            AttachmentPart attachement = new AttachmentPart();
+            attachement.setContent(xmlPayment, "text/xml; charset=utf-8");
 
             call.addParameter(new QName(HORANET_CVQ_NS, "ZipCode"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
             call.setReturnType(Constants.XSD_ANY);
-            call.addAttachmentPart(dhSource);
+            call.addAttachmentPart(attachement);
 
             call.invoke(new Object[] {
                             SecurityContext.getCurrentSite().getPostalCode(),

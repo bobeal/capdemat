@@ -252,7 +252,7 @@ class ContactController {
                 try {
                     logoLink =
                         localAuthorityRegistry.getLocalAuthorityResourceFile(
-                            LocalAuthorityResource.LOGO_PDF.id, false)
+                            LocalAuthorityResource.LOGO_PDF.id)
                             .absolutePath
                 } catch (Exception e) {
                     log.error("Exception while looking for JPEG logo : "
@@ -261,7 +261,7 @@ class ContactController {
                 try {
                     footerLink =
                         localAuthorityRegistry.getLocalAuthorityResourceFile(
-                            LocalAuthorityResource.FOOTER_PDF.getId(), false)
+                            LocalAuthorityResource.FOOTER_PDF.getId())
                             .absolutePath
                 } catch (Exception e) {
                     log.error("Exception while looking for JPEG footer : "

@@ -161,7 +161,7 @@ public class CertificateService implements ICertificateService {
                 localAuthorityRegistry.generateJPEGFiles();
                 try {
                     File logoFile = new File(StringUtils.removeEnd(
-                        localAuthorityRegistry.getLocalAuthorityResourceFile(LocalAuthorityResource.LOGO_PDF.getId(), false).getPath(), "png").concat("jpg"));
+                        localAuthorityRegistry.getLocalAuthorityResourceFile(LocalAuthorityResource.LOGO_PDF.getId()).getPath(), "png").concat("jpg"));
                     transformer.setParameter("logoSource", logoFile.getPath());
                 } catch (Exception e) {
                     logger.warn("Exception while looking for JPEG logo : "

@@ -253,7 +253,6 @@
     <ant dir="${serviceexporter.dir}" target="war" />
     <ant dir="${bong.dir}" target="war" />
     <ant dir="${model.dir}" target="admin-package" />
-    <ant dir="${assets.dir}" target="assets-template" />
   </target>
 
   <target name="build-war-serviceexporter" depends="prepare-configfiles, deploy-libs">
@@ -266,10 +265,6 @@
 
   <target name="build-admin-package" depends="prepare-configfiles">
     <ant dir="${model.dir}" target="admin-package" />
-  </target>
-
-  <target name="build-assets-template" depends="init">
-    <ant dir="${assets.dir}" target="assets-template" />
   </target>
 
   <!-- ================================================================================= -->

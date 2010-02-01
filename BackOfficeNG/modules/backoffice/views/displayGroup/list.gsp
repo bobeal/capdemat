@@ -3,7 +3,7 @@
   <head>
     <title>${message(code:'displayGroup.header.list')}</title>
     <meta name="layout" content="main" />
-    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" 
+    <link rel="stylesheet" href="${createLinkTo(dir:'css/backoffice',file:'configuration.css')}" />
     <script type="text/javascript" src="${createLinkTo(dir:'js/backoffice',file:'displayGroupList.js')}"></script>
   </head>
 

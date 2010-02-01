@@ -80,7 +80,7 @@ public class EntryPointExternalService implements IExternalProviderService {
     }
 
     public boolean handlesTraces() {
-        return false;
+        return true;
     }
 
     public List<String> checkExternalReferential(final XmlObject requestXml) {

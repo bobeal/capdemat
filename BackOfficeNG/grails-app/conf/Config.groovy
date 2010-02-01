@@ -38,9 +38,11 @@ log4j {
     appender.'stdout.layout.ConversionPattern'='%d %t-%p [%c] - %m%n'
     appender.'stdout.MaxFileSize'="20000KB"
     appender.'stdout.MaxBackupIndex'="10"
-    appender.errors = "org.apache.log4j.FileAppender"
+    appender.errors = "org.apache.log4j.RollingFileAppender"
     appender.'errors.layout'="org.apache.log4j.PatternLayout"
     appender.'errors.layout.ConversionPattern'='%d %t-%p [%c] - %m%n'
+    appender.'errors.MaxFileSize'="20000KB"
+    appender.'errors.MaxBackupIndex'="10"
     rootLogger="error,stdout"
     logger {
         StackTrace="error,errors"

@@ -11,6 +11,9 @@
   <!--[if IE 6]>
   <link rel="stylesheet" href="${createLinkTo(dir:'css/frontoffice/hacks',file:'ie6.css')}" />
   <![endif]-->
+  <!--[if IE 7]>
+  <link rel="stylesheet" href="${createLinkTo(dir:'css/frontoffice/hacks',file:'ie7.css')}" />
+  <![endif]-->
   <!-- Dependencies for tabview and button and probably our own scripts -->
   <script type="text/javascript" src="${createLinkTo(dir:'js/yui/utilities',file:'utilities.js')}"></script>
   <!-- Dependency for tools / FIXME : should not be required for FO -->

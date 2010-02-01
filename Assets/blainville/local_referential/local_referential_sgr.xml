@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LocalReferential xmlns="http://www.cg95.fr/cvq/schema/referential">
+    <request>StudyGrantRequest</request>
+    <data name="TaxHouseholdCity">
+        <label lang="fr">Commune</label>
+        <label lang="en">City</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Paris">
+                <label lang="fr">Paris</label>
+                <message lang="fr">Paris est magique</message>
+            </entry>
+        </entries>
+    </data>
+    <data name="CurrentSchoolName">
+        <label lang="fr">Nom de l'Ã©tablissement</label>
+        <label lang="en">School name</label>
+        <entries supportPriority="false" supportPrecision="false" supportMultiple="false">
+            <entry key="Sorbonne">
+                <label lang="fr">Sorbonne</label>
+                <message lang="fr"/>
+            </entry>
+        </entries>
+    </data>
+</LocalReferential>

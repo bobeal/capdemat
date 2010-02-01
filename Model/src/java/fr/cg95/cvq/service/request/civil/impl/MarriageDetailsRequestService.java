@@ -30,7 +30,7 @@ public final class MarriageDetailsRequestService extends RequestService
         //FIXME see Birth
         if (SecurityContext.getCurrentSite() != null) {
             request.setMarriageCity(SecurityContext.getCurrentSite().getDisplayTitle());
-            request.setMarriagePostalCode(SecurityContext.getCurrentSite().getPostalCode());
+            request.setMarriagePostalCode(SecurityContext.getCurrentSite().getPostalCode().substring(0,2));
         }
         return request;
     }

@@ -192,22 +192,31 @@ public class LocalAuthorityRegistry
         }
         return resource;
     }
-    
-    // FIXME - remove fallbackToDefault from signature (fallbackPolicy is manage by resource)
+
     @Override
-    public File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
+    public File getLocalAuthorityResourceFile(String id)
+        throws CvqException {
+        return getLocalAuthorityResourceFile(id, getLocalAuthorityResource(id).canFallback());
+    }
+
+    @Override
+    public File getLocalAuthorityResourceFile(String id, Version version)
+        throws CvqException {
+        return getLocalAuthorityResourceFile(id, version,
+            getLocalAuthorityResource(id).canFallback());
+    }
+
+    private File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
         throws CvqException {
         return getLocalAuthorityResourceFile(id,
             LocalAuthorityResource.Version.CURRENT, fallbackToDefault);
     }
 
-    // FIXME - remove fallbackToDefault from signature (fallbackPolicy is manage by resource)
-    @Override
-    public File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
+    private File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
         return getAssetsFile(resource.getType(),
-            resource.getFilename() + version.getExtension(), resource.canFallback());
+            resource.getFilename() + version.getExtension(), fallbackToDefault);
     }
 
     @Override
@@ -254,6 +263,23 @@ public class LocalAuthorityRegistry
     }
 
     @Override
+    public File getLocalAuthorityResourceFileForLocalAuthority(final String localAuthorityName,
+            final Type type, final String filename, final boolean fallbackToDefault) {
+        StringBuffer filePath = new StringBuffer().append(assetsBase)
+            .append(localAuthorityName.toLowerCase())
+            .append("/").append(type.getFolder()).append("/").append(filename)
+            .append(type.getExtension());
+        logger.debug("getAssetsFile() searching file : " + filePath.toString());
+        File resourceFile = new File(filePath.toString());
+        if (!resourceFile.exists() && fallbackToDefault) {
+            logger.warn("getAssetsFile() did not find " + filePath.toString()
+                    + ", trying default");
+            return getReferentialResource(type, filename);
+        }
+        return resourceFile;
+    }
+    
+    @Override
     public File getRequestXmlResource(Long id) {
         return new File(getRequestXmlPath(id));
     }
@@ -271,12 +297,6 @@ public class LocalAuthorityRegistry
         final String filename, final boolean fallbackToDefault) {
         return getFileContent(
             getLocalAuthorityResourceFile(type, filename, fallbackToDefault));
-    }
-
-    @Override
-    public String getBufferedLocalAuthorityResource(String id, boolean fallbackToDefault)
-        throws CvqException {
-        return getFileContent(getLocalAuthorityResourceFile(id, fallbackToDefault));
     }
 
     @Override
@@ -621,6 +641,11 @@ public class LocalAuthorityRegistry
         for (ILocalAuthorityLifecycleAware service : allListenerServices) {
             service.addLocalAuthority(localAuthorityName.toLowerCase());
         }
+        
+        LocalAuthority localAuthority = localAuthorityDAO.findByName(localAuthorityName);
+        for (String serverName : localAuthority.getServerNames()) {
+            registerLocalAuthorityServerName(serverName);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -648,6 +673,8 @@ public class LocalAuthorityRegistry
                         + localAuthorityName + " (" + e.getMessage() + ")");
             }
         }
+        // an existing local authority with no registered server name, bootstrap one
+        // from configured default or assign a default one (migration case only)
         if (localAuthority.getServerNames() == null 
                 || localAuthority.getServerNames().isEmpty()) {
             localAuthority.setServerNames(new TreeSet<String>());
@@ -660,11 +687,7 @@ public class LocalAuthorityRegistry
                     + serverName);
             localAuthority.getServerNames().add(serverName);
             registerLocalAuthorityServerName(serverName);
-        } else {
-            for (String serverName : localAuthority.getServerNames()) {
-                registerLocalAuthorityServerName(serverName);
-            }
-        }
+        } 
         File resourceDir;
         for (Type type : Type.values()) {
             resourceDir = new File(assetsBase + localAuthorityName + "/"

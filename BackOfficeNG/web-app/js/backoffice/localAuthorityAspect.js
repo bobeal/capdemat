@@ -72,15 +72,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
       * @description Revenir à l'ancienne version
       */
       rollback : function(e) {
+        var fileID = (yue.getTarget(e).id||'_').split('_')[1]; //FIXME: Call more clean ConfirmationDialog
         new zct.ConfirmationDialog(content, function(){
-          var fileID = (yue.getTarget(e).id||'_').split('_')[1];
+          alert(fileID);
           zct.doAjaxCall("/rollback/" + fileID, null, function(o){
             zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
             zcbl.Aspect.loadBox(fileID);
           });
         }).show(e);
       }
-    }
+    };
   }();
   yue.onDOMReady(zcbl.Aspect.init);
 }());

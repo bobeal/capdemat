@@ -73,13 +73,18 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
     public boolean authenticate(String externalServiceLabel, String password) {
         IExternalProviderService externalProviderService =
             getExternalServiceByLabel(externalServiceLabel);
-        if (externalProviderService == null)
+        if (externalProviderService == null) {
+            logger.warn("authenticate() unable to find a matching service for "
+                    + externalServiceLabel);
             return false;
-        
+        }
+
         ExternalServiceBean esb = getBeanForExternalService(externalProviderService);
         if (esb.getPassword().equals(password))
             return true;
-        
+
+        logger.warn("authenticate() authentication failed for service "
+                + externalServiceLabel);
         return false;
     }
 

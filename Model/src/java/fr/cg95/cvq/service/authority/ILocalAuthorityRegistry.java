@@ -88,18 +88,20 @@ public interface ILocalAuthorityRegistry {
         final boolean fallbackToDefault);
 
     /**
+     * Same as {@link #getLocalAuthorityResourceFile(Type, String, boolean)} but for the given
+     * local authority.
+     * 
+     * FIXME It is still necessary for the local referential service (but is should not)
+     */
+    File getLocalAuthorityResourceFileForLocalAuthority(final String localAuthorityName,
+            final Type type, final String filename, final boolean fallbackToDefault);
+
+    /**
      * Same as {@link #getLocalAuthorityResource(Type, String, boolean)} but
      * with file content returned in a string.
      */
     String getBufferedLocalAuthorityResource(final Type type,
         final String filename, final boolean fallbackToDefault);
-
-    /**
-     * Same as {@link #getLocalAuthorityResourceFile(String, boolean)} but
-     * with file content returned in a string.
-     */
-    String getBufferedLocalAuthorityResource(String id, boolean fallbackToDefault)
-        throws CvqException;
 
     /**
      * Get the helps data for the given request type as a Map<v=stepName,k=helpDataAsString>.
@@ -112,16 +114,16 @@ public interface ILocalAuthorityRegistry {
     List<String> getLocalAuthorityRules(String requestTypeLabel);
 
     /**
-     * Same as {@link #getLocalAuthorityResourceFile(String, LocalAuthorityResource.Version, boolean)}
+     * Same as {@link #getLocalAuthorityResourceFile(String, LocalAuthorityResource.Version)}
      * for current version.
      */
-    File getLocalAuthorityResourceFile(String id, boolean fallbackToDefault)
+    File getLocalAuthorityResourceFile(String id)
         throws CvqException;
 
     /**
-     * Get the file for this local authority resource id and version in the current local authority assets.
+     * Get the file for this resource id and version in the current local authority assets.
      */
-    File getLocalAuthorityResourceFile(String id, Version version, boolean fallbackToDefault)
+    File getLocalAuthorityResourceFile(String id, Version version)
         throws CvqException;
 
     File getLocalAuthorityResourceFile(Type type, String filename, Version version, boolean fallbackToDefault) throws CvqException;

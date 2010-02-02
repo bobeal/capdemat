@@ -96,7 +96,7 @@ public class HoranetServiceV3 implements IExternalProviderService {
     
     private String login;
     private String password;
-    private String encoding = "UTF-8";
+    private String encoding = "ISO-8859-1";
 
     private Service service;
     private Call call;
@@ -131,7 +131,10 @@ public class HoranetServiceV3 implements IExternalProviderService {
             call = (Call) service.createCall();
             call.setOperationName(new QName(HORANET_CVQ2_NS, "AddRegistration"));
 
-            ByteArrayDataSource bds = new ByteArrayDataSource(requestXml.xmlText(), "text/xml");
+            XmlOptions xmlOptions = new XmlOptions();
+            xmlOptions.setCharacterEncoding("ISO-8859-1");
+            ByteArrayDataSource bds = 
+                new ByteArrayDataSource(requestXml.xmlText(xmlOptions), "text/xml; charset=iso-8859-1");
             DataHandler dhSource = new DataHandler(bds);
 
             call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
@@ -253,7 +256,8 @@ public class HoranetServiceV3 implements IExternalProviderService {
                 throw new CvqException("Error while preparing XML payment");
             }
 
-            ByteArrayDataSource bds = new ByteArrayDataSource(xmlPayment, "text/xml");
+            ByteArrayDataSource bds = 
+                new ByteArrayDataSource(xmlPayment, "text/xml; charset=iso-8859-1");
             DataHandler dhSource = new DataHandler(bds);
 
             call.addParameter(new QName(HORANET_CVQ_NS, "ZipCode"), Constants.XSD_STRING, ParameterMode.IN);
@@ -703,29 +707,11 @@ public class HoranetServiceV3 implements IExternalProviderService {
                 }
                 edai.addAccountDetail(edaiDetail);
             }
-        } catch (ServiceException se) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + se.getMessage());
-        } catch (RemoteException re) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + re.getMessage());
-        } catch (SAXException saxe) {
-            throw new CvqException("Failed to parse received data : " + saxe.getMessage());
-        } catch (IOException ioe) {
-            throw new CvqRemoteException("Failed to read received data : " + ioe.getMessage());
-        } catch (SOAPException soape) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + soape.getMessage());
-        } catch (JaxenException jaxe) {
-            throw new CvqException("Failed to parse received data : " + jaxe.getMessage());
-        } catch (ParseException pe) {
-            throw new CvqException("Failed to parse received data : " + pe.getMessage());
-        } catch (ParserConfigurationException pce) {
-            throw new CvqException("Failed to parse received data : " + pce.getMessage());
+        } catch (Exception e) {
+            logger.error("loadDepositAccountDetails() got an exception " + e.getMessage());
         }
     }
     
-
     public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
         logger.debug("loadInvoiceDetails()");
 
@@ -792,23 +778,8 @@ public class HoranetServiceV3 implements IExternalProviderService {
                 }
                 eii.addInvoiceDetail(eiiDetail);
             }
-        } catch (ServiceException se) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + se.getMessage());
-        } catch (RemoteException re) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + re.getMessage());
-        } catch (SAXException saxe) {
-            throw new CvqException("Failed to parse received data : " + saxe.getMessage());
-        } catch (IOException ioe) {
-            throw new CvqRemoteException("Failed to read received data : " + ioe.getMessage());
-        } catch (SOAPException soape) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + soape.getMessage());
-        } catch (JaxenException jaxe) {
-            throw new CvqException("Failed to parse received data : " + jaxe.getMessage());
-        } catch (ParserConfigurationException pce) {
-            throw new CvqException("Failed to parse received data : " + pce.getMessage());
+        } catch (Exception e) {
+            logger.error("loadInvoiceDetails() got an exception : " + e.getMessage());
         }
     }
 

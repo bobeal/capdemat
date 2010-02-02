@@ -29,17 +29,14 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         StringBuffer sb = new StringBuffer();
         sb.append("select * from external_service_traces");
         if (lastOnly) {
-            List<String> keys = HibernateUtil.getSession().createQuery("select distinct key from ExternalServiceTrace").list();
-            List<String> ids = new ArrayList<String>(keys.size());
-            Query query;
-            for (String key : keys) {
-                query = HibernateUtil.getSession().createQuery("select id from ExternalServiceTrace where key = :key order by date desc");
-                query.setString("key", key);
-                query.setMaxResults(1);
-                ids.add(((Long)query.uniqueResult()).toString());
-            }
+            List<BigInteger> ids = HibernateUtil.getSession()
+                .createSQLQuery("select max(id) from external_service_traces group by key").list();
+            String stringIds[] = new String[ids.size()];
+            int i = 0;
+            for (BigInteger id : ids)
+                stringIds[i++] = id.toString();
             sb.append(" where id in (");
-            sb.append(StringUtils.join(ids.toArray(), ", "));
+            sb.append(StringUtils.join(stringIds, ", "));
             sb.append(')');
         } else {
             sb.append(" where 1 = 1 ");
@@ -96,17 +93,14 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         StringBuffer sb = new StringBuffer();
         sb.append("select count(*) from external_service_traces");
         if (lastOnly) {
-            List<String> keys = HibernateUtil.getSession().createQuery("select distinct key from ExternalServiceTrace").list();
-            List<String> ids = new ArrayList<String>(keys.size());
-            Query query;
-            for (String key : keys) {
-                query = HibernateUtil.getSession().createQuery("select id from ExternalServiceTrace where key = :key order by date desc");
-                query.setString("key", key);
-                query.setMaxResults(1);
-                ids.add(((Long)query.uniqueResult()).toString());
-            }
+            List<BigInteger> ids = HibernateUtil.getSession()
+                .createSQLQuery("select max(id) from external_service_traces group by key").list();
+            String stringIds[] = new String[ids.size()];
+            int i = 0;
+            for (BigInteger id : ids)
+                stringIds[i++] = id.toString();
             sb.append(" where id in (");
-            sb.append(StringUtils.join(ids.toArray(), ", "));
+            sb.append(StringUtils.join(stringIds, ", "));
             sb.append(')');
         } else {
             sb.append(" where 1 = 1 ");

@@ -77,12 +77,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
         zca.advise("save", new zca.Advice("before", zcbrt.Manager.validate), zcb.Editor);
         zca.advise("notify", new zca.Advice("before", zcbrt.Manager.update), zcb.Editor);
         zcbrt.Manager.editor = zcb.Editor.init("template", null, "workArea_Tab1Notifier");
-
         zcbrt.Manager.editor.on('afterRender',function(ev){
           if(zcb.Editor.options.toolbar.buttons.length > 0) {
             var button = zcb.Editor.options.toolbar.buttons[zcb.Editor.options.toolbar.buttons.length - 1].buttons[0];
             var select = yus.query('select',button.container)[0];
-
             yue.on(select,'change',function(ev){
               if(zct.val(select) != '0') {
                 zcbrt.Manager.editor.execCommand('inserthtml', zct.val(select));

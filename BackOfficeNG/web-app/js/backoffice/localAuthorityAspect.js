@@ -62,8 +62,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
         cont.innerHTML = "";
         var validform = zcv.check(yud.get('setupForm_' + fileID), cont);
         if (validform) {
+          var target = yue.getTarget(e);
           zct.doAjaxFormSubmitCall('setupForm_' + fileID,[],function(o){
-            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
+            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
             zcbl.Aspect.loadBox(fileID);
           }, true);
         }
@@ -74,9 +75,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
       rollback : function(e) {
         var fileID = (yue.getTarget(e).id||'_').split('_')[1]; //FIXME: Call more clean ConfirmationDialog
         new zct.ConfirmationDialog(content, function(){
-          alert(fileID);
+          var target = yue.getTarget(e);
           zct.doAjaxCall("/rollback/" + fileID, null, function(o){
-            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
+            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
             zcbl.Aspect.loadBox(fileID);
           });
         }).show(e);

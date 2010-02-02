@@ -55,13 +55,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
       * @description Upload a new file
       */
       save : function(e) {
-        var fileID = (yue.getTarget(e).id||'_').split('_')[1];
+        var target = yue.getTarget(e);
+        var fileID = (target.id||'_').split('_')[1];
         var cont = yud.get('setupFormErrors_' + fileID);
         cont.innerHTML = "";
         var validform = zcv.check(yud.get('setupForm_' + fileID), cont);
         if (validform) {
           zct.doAjaxFormSubmitCall('setupForm_' + fileID,[],function(o){
-            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
+            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
             zcbl.PDF.loadBox(fileID);
           }, true);
         }
@@ -71,9 +72,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
       */
       rollback : function(e) {
         new zct.ConfirmationDialog(content, function(){
-          var fileID = (yue.getTarget(e).id||'_').split('_')[1];
+          var target = yue.getTarget(e);
+          var fileID = (target.id||'_').split('_')[1];
           zct.doAjaxCall("/rollback/" + fileID, null, function(o){
-            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
+            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
             zcbl.PDF.loadBox(fileID);
           });
         }).show(e);

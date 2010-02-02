@@ -49,14 +49,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
         var cont = yud.get(id + "FormErrors");
         cont.innerHTML = "";
         if (zcv.check(yud.get(id + "Form"), cont)) {
+          var target = yue.getTarget(e);
           zct.doAjaxFormSubmitCall(id + "Form", [], function(o){
-            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
+            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
           });
         }
       },
       saveMoC : function(e) {
-        zct.doAjaxFormSubmitCall(splitEvent(e) + "Form", [], function(o){
-          zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
+        var target  = yue.getTarget(e);
+        zct.doAjaxFormSubmitCall(splitEvent(e) + "Form",[], function(o){
+          zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
           zcbl.Requests.loadMoCs();
         });
       }

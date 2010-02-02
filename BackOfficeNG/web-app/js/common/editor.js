@@ -86,7 +86,10 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong");
         if (!options) options = zcb.Editor.options;
         var editorId = label + "Editor";
         options.width = (zct.width(yud.get(editorId).parentNode) - 5) + "px";
+       console.log("editorId " + editorId);
+       console.log("options" + options);
         var editor = new YAHOO.widget.SimpleEditor(editorId, options);
+        console.log("editor " + editor);
         editor._docType =
           '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
         yue.on(
@@ -104,10 +107,11 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong");
       },
       save : function(e, args) {
         args.editor.saveHTML();
+        var target = yue.getTarget(e);
         zct.doAjaxFormSubmitCall(
           args.label + "Form",
           {
-            "event" : e,
+            "target" : target,
             "notificationContainer" : args.notificationContainer
           },
           zcb.Editor.notify
@@ -118,7 +122,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong");
           "success",
           ylj.parse(o.responseText).success_msg,
           o.argument.notificationContainer,
-          o.argument.event
+          o.argument.target
         );
       }
     };

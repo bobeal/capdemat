@@ -603,16 +603,16 @@
             <xs:element name="AccountHolderEdemandeId" type="xs:string">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Identifiant Edemande du titulaire du compte
+                  Identifiant du titulaire du compte dans Grand Angle
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Identifiant Edemande du titulaire du compte
+                  Identifiant du titulaire du compte dans Grand Angle
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Edemande account holder ID
+                  Account holder ID in Grand Angle
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Edemande account holder ID
+                  Account holder ID in Grand Angle
                 </xs:documentation>
                 <xs:appinfo>
                   <common>
@@ -773,16 +773,16 @@
             <xs:element name="EdemandeId" type="xs:string">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Identifiant Edemande du téléservice
+                  Identifiant de la demande dans Grand Angle
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Identifiant Edemande du téléservice
+                  Identifiant de la demande dans Grand Angle
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Edemande request ID
+                  Request ID in Grand Angle
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Edemande request ID
+                  Request ID in Grand Angle
                 </xs:documentation>
                 <xs:appinfo>
                   <common>

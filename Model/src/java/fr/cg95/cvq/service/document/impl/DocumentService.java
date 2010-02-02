@@ -98,7 +98,6 @@ public class DocumentService implements IDocumentService {
         }
     }
 
-    @Context(type=ContextType.SUPER_ADMIN)
     public void checkDocumentsValidity()
         throws CvqException {
 

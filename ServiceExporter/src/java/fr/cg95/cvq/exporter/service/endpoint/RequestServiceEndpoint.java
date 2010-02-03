@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
 import org.springframework.oxm.Marshaller;
 
 import fr.capwebct.capdemat.GetRequestsRequestDocument;
@@ -166,7 +167,14 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
             if (localAuthorityRegistry.getRequestXmlResource(r.getId()).exists()) {
                 rt = RequestType.Factory.parse(localAuthorityRegistry.getRequestXmlResource(r.getId()));
             } else {
-                rt = r.modelToXmlRequest();
+                // TODO : port this properly in 4.2
+                XmlObject xmlObject = defaultRequestService.fillRequestXml(r); 
+                try {
+                    rt =  (fr.cg95.cvq.xml.common.RequestType) xmlObject.getClass().getMethod("get" + xmlObject.getClass().getSimpleName().replace("DocumentImpl", "")).invoke(xmlObject);
+                } catch (Exception e) {
+                    logger.error("prepareRequestsForResponse() Unexpected exception while converting to XML "
+                            + e.getMessage());
+                }
             }
             resultArray.add(rt);
             

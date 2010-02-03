@@ -164,6 +164,18 @@ ${endGT()}
     <img src="file://\${logoPath}" alt="mairie2424" />
   </div>
   <h1>\${i18n.translate('${requestPdf.acronym}.label')}</h1>
+  <div class="localAuthority">
+    <h2>\${i18n.translate('pdf.localAutorityReservedSection')}</h2>
+    <p>
+      \${i18n.translate('property.creationDate')} : <strong>\${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong>,
+      \${i18n.translate('property.requester')} : <strong>\${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong>,
+      \${i18n.translate('pdf.requestId')} : <strong>\${rqt.id}</strong>,
+      \${i18n.translate('pdf.agentId')} : <strong>\${rqt.lastInterveningUserId}</strong>
+    </p>
+    <p class="note">
+      \${i18n.translate('pdf.note')} :
+    </p>
+  </div>
 <% requestPdf.steps.each { step -> %>
   <% if (requestPdf.getElementsByStep(step).isEmpty()) return %>
   <h2>\${i18n.translate('${step.i18nPrefix()}.step.${step.name}.label')}</h2>

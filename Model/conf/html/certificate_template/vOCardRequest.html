@@ -43,6 +43,19 @@
   </div>
   <h1>${i18n.translate((rqt.requestType.label =='VO Card' ? 'vcr' : 'hfmr') + '.label')}</h1>
   
+  <div class="localAuthority">
+    <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
+    <p>
+      ${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong>,
+      ${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong>,
+      ${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong>,
+      ${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId}</strong>
+    </p>
+    <p class="note">
+      ${i18n.translate('pdf.note')} :
+    </p>
+  </div>
+  
   <h2>${i18n.translate('homeFolder.property.adults')}</h2>
   
   <div class="complex">

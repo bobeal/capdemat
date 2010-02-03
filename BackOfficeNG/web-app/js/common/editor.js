@@ -104,10 +104,11 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong");
       },
       save : function(e, args) {
         args.editor.saveHTML();
+        var target = yue.getTarget(e);
         zct.doAjaxFormSubmitCall(
           args.label + "Form",
           {
-            "event" : e,
+            "target" : target,
             "notificationContainer" : args.notificationContainer
           },
           zcb.Editor.notify
@@ -118,7 +119,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong");
           "success",
           ylj.parse(o.responseText).success_msg,
           o.argument.notificationContainer,
-          o.argument.event
+          o.argument.target
         );
       }
     };

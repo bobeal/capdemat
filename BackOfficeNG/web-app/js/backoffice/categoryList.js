@@ -16,7 +16,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.request.category');
       processClick : function(e) {
         return (yue.getTarget(e).id||'_').split('_')[0];
       },
-      delete : function(e) {
+      deleteEntry : function(e) {
         var id = (yue.getTarget(e).id||'_').split('_')[1];
         new zct.ConfirmationDialog(
           {

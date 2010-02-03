@@ -55,13 +55,15 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong.payment");
         }
       },
       saveDisplayConfiguration : function(e) {
+        var target = yue.getTarget(e);
         zct.doAjaxFormSubmitCall(yue.getTarget(e).form.id, [], function(o){
-          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg, null, e);
+          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg, null, target);
         });
       },
       saveActivation : function(e) {
+        var target = yue.getTarget(e);
         zct.doAjaxFormSubmitCall(yue.getTarget(e).form.id, [], function(o){
-          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg, null, e);
+          zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg, null, target);
         });
       }
     }

@@ -111,7 +111,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.backoffice.homeFolder');
             .innerHTML = json.id;
         });
       }
-    }
+    };
   }();
   
   yue.onDOMReady(zcbh.Details.init);

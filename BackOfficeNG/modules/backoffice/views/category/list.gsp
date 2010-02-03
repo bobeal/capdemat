@@ -31,7 +31,7 @@
                 <a href="${createLink(action:'edit',id:category.id)}">${category.name}</a>
                 <span>- ${category.primaryEmail}</span>
                 <span>
-                  <img id="delete_${category.id}"
+                  <img id="deleteEntry_${category.id}"
                     src="${createLinkTo(dir:'images/icons',file:'16-delete.png')}"
                     alt="<g:message code="request.action.removeCategory" />">
                 </span>

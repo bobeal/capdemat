@@ -23,7 +23,12 @@ public class ByteArrayDataSource implements javax.activation.DataSource {
     private String type;
 
     public ByteArrayDataSource(String data, String type) {
-        this.data = data.getBytes();
+        try {
+            this.data = data.getBytes("iso-8859-1");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            this.data = data.getBytes();
+        }
         this.type = type;
     }
 

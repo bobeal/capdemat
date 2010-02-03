@@ -39,8 +39,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
         var cont = yud.get("identityFormErrors");
         cont.innerHTML = "";
         if (zcv.check(yud.get("identityForm"), cont)) {
+          var target = yue.getTarget(e);
           zct.doAjaxFormSubmitCall("identityForm", [], function(o){
-            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
+            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
           });
         }
       }

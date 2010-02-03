@@ -75,7 +75,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       * @description Upload the edit season form
       */
       saveSeason: function(e) {
-        var id = (yue.getTarget(e).id||'_').split('_')[1];
+      var target = yue.getTarget(e);
+        var id = (target.id||'_').split('_')[1];
         var form = yud.get('seasonForm_' + id);
         var cont = yud.get('error-container_' + id);
         cont.innerHTML = "";
@@ -83,7 +84,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
         if (validform) {
           zct.doAjaxFormSubmitCall('seasonForm_' + id,[],function(o){
             zcbrt.Seasons.loadSeasons();
-            zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg, null, e);
+            zct.Notifier.processMessage('success',ylj.parse(o.responseText).success_msg, null, target);
           });
         }
       },
@@ -98,10 +99,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       * @description Request season deletion
       */
       deleteSeason : function(e) {
-        var id = (yue.getTarget(e).id||'_').split('_')[1];
+        var target = yue.getTarget(e);
+        var id = (target.id||'_').split('_')[1];
         new zct.ConfirmationDialog(content, function(){
           zct.doAjaxDeleteCall('/editSeason', 'requestTypeId=' + zcbrt.currentId + '&id=' + id, function(o){
-            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, e);
+            zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
             zcbrt.Seasons.loadSeasons();
           })
         }).show(e);

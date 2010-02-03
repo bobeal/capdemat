@@ -48,9 +48,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
             n.value = parseInt(n.value);
             if(n.value < 0) n.value = n.value * -1;
           });
+          var target = yue.getTarget(e);
           zct.doAjaxFormSubmitCall(form.id,[],function(o){
             var json = ylj.parse(o.responseText);
-            zct.Notifier.processMessage('success',json.success_msg, null, e);
+            zct.Notifier.processMessage('success',json.success_msg, null, target);
           });
         }
       },

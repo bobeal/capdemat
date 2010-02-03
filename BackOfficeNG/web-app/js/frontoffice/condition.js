@@ -195,11 +195,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
       unfilledDescendants : undefined,
       triggerValues: undefined,
       
+      /* hack to save selectedIndexes of select elements
+       * to avoid condition submission when their value doesn't change
+       */
+      selectValues : undefined,
+
       init : function() {
         initWidgets();
         initElements();
         zcf.Condition.retainStates();
-        
+        zcf.Condition.selectValues = {};
+
         reset();
         zcf.Condition.setAll();
         zcf.Condition.test(undefined,undefined,true);
@@ -212,7 +218,21 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
           if(/submit|file/i.test(target.type)||!zct.isIn(target.nodeName,['select','input'])) return true;
           if( !zct.isIn(target.nodeName,['select','input','textarea'])) return yue.stopEvent(e);
           if(/radio|checkbox/i.test(target.type) && e.type == 'change') return yue.stopEvent(e);
-          if(!/radio|checkbox/i.test(target.type) && e.type == 'click') return yue.stopEvent(e);
+          if(!/radio|checkbox/i.test(target.type) && e.type == 'click') {
+            if (!/select/i.test(target.nodeName)) {
+              return yue.stopEvent(e);
+            }
+            else {
+              if (zcf.Condition.selectValues[target.name] == null) {
+                zcf.Condition.selectValues[target.name] = target.selectedIndex;
+                return yue.stopEvent(e);
+              } else if (zcf.Condition.selectValues[target.name] != target.selectedIndex) {
+                zcf.Condition.selectValues[target.name] = target.selectedIndex;
+              } else {
+                return yue.stopEvent(e);
+              }
+            }
+          }
         }
         reset();
         if(zcf.Condition.set(e)) zcf.Condition.test(e,true);

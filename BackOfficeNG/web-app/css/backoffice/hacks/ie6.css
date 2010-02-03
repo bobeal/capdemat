@@ -71,6 +71,13 @@ form.editable-list-form p.same-line input.first-button { margin-left: 28%; }
 
 #requestInformation .note { height: 1%; }
 
+/* homefolder.css (FIXME : duplicate with requestInstruction.css)
+-------------------------------------------------------------- */
+#homeFolderData dl { height: 1%; }
+#homeFolderData dl dd { width: 12em !important; height: 2em; overflow: visible; }
+#homeFolderData dl dt { height: 2em; width: 10.5em !important; overflow: hidden; }
+
+
 /* document.css
 -------------------------------------------------------------- */
 

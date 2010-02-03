@@ -788,9 +788,9 @@
   zct.Notifier = function() {
     return {
       confirmationDialog : undefined,
-      getMessageZone : function(cn, event) {
+      getMessageZone : function(cn, triggerEl) {
         if (cn) return cn;
-        if (event) {
+        if (triggerEl) {
           var el = document.createElement("div");
           yud.addClass(el, "invisible");
           return document.body.appendChild(el);
@@ -819,24 +819,23 @@
        * @param type {String} message type
        * @param message {String} message body
        * @param cn {HTMLElement} message container
-       * @param event the event which triggered the message;
+       * @param triggerEl {HTMLElement} which triggered the message;
        *        used to determine the message container
        *        for success and warning messages if no container is supplied
        * @author vba@zenexity.fr
        **/
-      processMessage : function(type,message,cn,event) {
+      processMessage : function(type,message,cn,triggerEl) {
         var method = ['display',zct.capitalize(type)].join('');
-        zct.tryToCall(zct.Notifier[method],zct.Notifier,message,cn,event);
+        zct.tryToCall(zct.Notifier[method],zct.Notifier,message,cn,triggerEl);
       },
-      animateMessage : function(message,cn,color,event) {
-        var el = new yu.Element(yud.get(zct.Notifier.getMessageZone(cn, event)));
+      animateMessage : function(message,cn,color,triggerEl) {
+        var el = new yu.Element(yud.get(zct.Notifier.getMessageZone(cn, triggerEl)));
         el.replaceClass('invisible','success-top');
         zct.style(el.get('element'),{'background-color':color||'#20aa20'});
         zct.text(el.get('element'),message);
-        if (!cn && event) {
-          var target = yue.getTarget(event);
-          var box = yud.getAncestorByClassName(target, "mainbox");
-          var relative = box ? box : target;
+        if (!cn && triggerEl) {
+          var box = yud.getAncestorByClassName(triggerEl, "mainbox");
+          var relative = box ? box : triggerEl;
           var pos = yud.getXY(relative);
           pos[0] -= el.get("element").offsetWidth/2 - relative.offsetWidth/2;
           if (!box) pos[1] -= el.get("element").offsetHeight;
@@ -847,7 +846,7 @@
         zct.fadeIn(el.get('element'),0.01,function(e,n){
           zct.fadeNone(el.get('element'),3,function(e,n){
             zct.fadeOut(el.get('element'),3,function(e,n){
-              if (!cn && event) el.get("parentNode").removeChild(el.get("element"));
+              if (!cn && triggerEl) el.get("parentNode").removeChild(el.get("element"));
             });
           });
         });
@@ -860,8 +859,8 @@
        * 
        * @author vba@zenexity.fr
        **/
-      displaySuccess : function(message,cn,event) { zct.Notifier.animateMessage(message,cn, undefined,event);},
-      displayWarning : function(message,cn,event) { zct.Notifier.animateMessage(message,cn,'orange',event);},
+      displaySuccess : function(message,cn,triggerEl) { zct.Notifier.animateMessage(message,cn, undefined,triggerEl);},
+      displayWarning : function(message,cn,triggerEl) { zct.Notifier.animateMessage(message,cn,'orange',triggerEl);},
       /**
        * @description Displays unexpected error message, injected dynamically.
        * @method displayUnexpectedError

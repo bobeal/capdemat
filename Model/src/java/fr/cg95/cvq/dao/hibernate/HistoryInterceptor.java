@@ -18,7 +18,6 @@ import org.hibernate.type.Type;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.Historizable;
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.HistoryEntry;
 
 /**
@@ -34,7 +33,7 @@ public final class HistoryInterceptor extends EmptyInterceptor {
     
     private ThreadLocal<Map<Object, Set<HistoryEntry>>> currentContextHistories = 
         new ThreadLocal<Map<Object, Set<HistoryEntry>>>();
-    private ThreadLocal<Request> currentContextRequest = new ThreadLocal<Request>();
+    private ThreadLocal<Long> currentContextRequestId = new ThreadLocal<Long>();
     private ThreadLocal<String> currentContextUser = new ThreadLocal<String>();
     private ThreadLocal<Session> currentContextSession = new ThreadLocal<Session>();
     private ThreadLocal<Boolean> currentContextStatus = new ThreadLocal<Boolean>();
@@ -53,15 +52,15 @@ public final class HistoryInterceptor extends EmptyInterceptor {
     public HistoryInterceptor() {
     }
 
-    public void setCurrentRequest(final Request request) {
-        logger.debug("setCurrentRequest() setting current request : " + request);
-        currentContextRequest.set(request);
+    public void setCurrentRequest(final Long requestId) {
+        logger.debug("setCurrentRequest() setting current request : " + requestId);
+        currentContextRequestId.set(requestId);
         currentContextStatus.set(Boolean.TRUE);
     }
 
     public void resetCurrentRequest() {
         logger.debug("resetCurrentRequest() resetting current request");
-        currentContextRequest.set(null);
+        currentContextRequestId.set(null);
     }
     
     public void setCurrentUser(final String userLogin) {
@@ -122,7 +121,7 @@ public final class HistoryInterceptor extends EmptyInterceptor {
      */
     public boolean doObjectHistorization(Object obj) {
 
-        if (currentContextRequest.get() == null)
+        if (currentContextRequestId.get() == null)
             return false;
 
         if (!(obj instanceof Historizable)) {
@@ -211,7 +210,7 @@ public final class HistoryInterceptor extends EmptyInterceptor {
             // Generate a new entry
             HistoryEntry entry = new HistoryEntry();
             entry.setUserName(currentContextUser.get());
-            entry.setRequestId(currentContextRequest.get().getId());
+            entry.setRequestId(currentContextRequestId.get());
             entry.setOperation("update");
             entry.setClazz(obj.getClass().getName());
             entry.setObjectId(((Historizable) obj).getId());
@@ -249,7 +248,7 @@ public final class HistoryInterceptor extends EmptyInterceptor {
 
         HistoryEntry entry = new HistoryEntry();
         entry.setUserName(currentContextUser.get());
-        entry.setRequestId((currentContextRequest.get()).getId());
+        entry.setRequestId(currentContextRequestId.get());
         entry.setOperation("created");
         entry.setClazz(obj.getClass().getName());
         entry.setObjectId(h.getId());
@@ -271,7 +270,7 @@ public final class HistoryInterceptor extends EmptyInterceptor {
     @Override
     public void postFlush(Iterator it) throws CallbackException {
 
-        if (currentContextRequest.get() == null) {
+        if (currentContextRequestId.get() == null) {
 //            logger.debug("postFlush() not in the context of an historizable action, returning");
             return;
         }

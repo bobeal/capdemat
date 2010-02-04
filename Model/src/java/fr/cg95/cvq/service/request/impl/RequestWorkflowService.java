@@ -167,7 +167,13 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         setAdministrativeInformation(hfmr);
         requestDAO.create(hfmr);
 
-        homeFolderService.modify(homeFolder.getId(), hfmr, adults, children, adress);
+        homeFolderService.modify(homeFolder.getId(), hfmr.getId(), adults, children, adress);
+        
+        // in case of an home folder responsible change, the new one has normally been set
+        // in the security context. Yes, this seems like a hack. And so it is.
+        hfmr.setRequesterId(SecurityContext.getCurrentEcitizen().getId());
+        hfmr.setRequesterFirstName(SecurityContext.getCurrentEcitizen().getFirstName());
+        hfmr.setRequesterLastName(SecurityContext.getCurrentEcitizen().getLastName());
         
         requestDAO.update(hfmr);
 

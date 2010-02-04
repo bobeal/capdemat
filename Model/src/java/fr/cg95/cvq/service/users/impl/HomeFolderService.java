@@ -12,7 +12,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import fr.cg95.cvq.business.request.ecitizen.HomeFolderModificationRequest;
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
@@ -130,7 +129,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void modify(final Long homeFolderId, final HomeFolderModificationRequest hfmr,
+    public void modify(final Long homeFolderId, final Long keyId,
             final List<Adult> newAdults, List<Child> newChildren, Address adress)
         throws CvqException {
 
@@ -153,7 +152,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         if (adress.getId() != null)
             adress = (Address)HibernateUtil.getSession().merge(adress);
         
-        historyInterceptor.setCurrentRequest(hfmr);
+        historyInterceptor.setCurrentRequest(keyId);
         historyInterceptor.setCurrentUser(SecurityContext.getCurrentUserLogin());
         historyInterceptor.setCurrentSession(HibernateUtil.getSession());
         
@@ -259,7 +258,6 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
                         logger.debug("modify() Got the new logged in user with login : "
                                 + adult.getLogin());
                         // and set it as the request's requester, to pass security checks
-                        hfmr.setRequesterId(adult.getId());
                         SecurityContext.setCurrentEcitizen(adult);
                     }
                 }

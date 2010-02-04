@@ -33,11 +33,6 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
     private static Map<Long, RequestLock> locks =
         Collections.synchronizedMap(new HashMap<Long, RequestLock>());
 
-    protected Request getById(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
-        return (Request) requestDAO.findById(Request.class, id);
-    }
-
     @Override
     @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
     public Request getAndLock(final Long id)

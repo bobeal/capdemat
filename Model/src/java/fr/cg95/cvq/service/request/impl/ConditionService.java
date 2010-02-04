@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.service.request.IConditionService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
@@ -17,9 +16,10 @@ public class ConditionService implements IConditionService {
     
     private Map<String,IConditionChecker> commonConditions;
 
-    public void init() throws CvqConfigurationException {
-        commonConditions = new HashMap<String,IConditionChecker>();
-        commonConditions.put("_homeFolderResponsible.activeHomeFolder", new EqualityChecker("true"));
+    public ConditionService() {
+        commonConditions = new HashMap<String,IConditionChecker>(1);
+        commonConditions.put("_homeFolderResponsible.activeHomeFolder",
+            new EqualityChecker("true"));
     }
 
     @Override

@@ -6,6 +6,7 @@ import fr.cg95.cvq.service.request.ILocalReferentialService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
+import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IDisplayGroupService
 
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
@@ -14,6 +15,7 @@ public class RequestTypeAdaptorService {
     
     IRequestTypeService requestTypeService
     IRequestServiceRegistry requestServiceRegistry
+    IRequestWorkflowService requestWorkflowService
     ILocalReferentialService localReferentialService
     IDisplayGroupService displayGroupService
 
@@ -80,8 +82,8 @@ public class RequestTypeAdaptorService {
         if (!requestTypeService.isRegistrationOpen(requestType.id))
             i18nError.add('requestType.message.registrationClosed')
         if (homeFolder != null
-            && service.subjectPolicy != IRequestService.SUBJECT_POLICY_NONE
-            && service.getAuthorizedSubjects(homeFolder.id)?.isEmpty())
+            && service.subjectPolicy != IRequestWorkflowService.SUBJECT_POLICY_NONE
+            && requestWorkflowService.getAuthorizedSubjects(requestType, homeFolder.id)?.isEmpty())
                 i18nError.add('requestType.message.noAuthorizedSubjects')
 
         return i18nError

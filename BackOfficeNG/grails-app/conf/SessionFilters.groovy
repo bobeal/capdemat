@@ -6,6 +6,7 @@ import fr.cg95.cvq.security.annotation.ContextType
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean
 import fr.cg95.cvq.service.request.ICategoryService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import fr.cg95.cvq.util.web.filter.CASFilter
 
@@ -120,7 +121,7 @@ class SessionFilters {
 
         enableAccountCreation(uri: '/frontoffice/**') {
             before = {
-                if (requestTypeService.getRequestTypeByLabel(IRequestService.VO_CARD_REGISTRATION_REQUEST).active) {
+                if (requestTypeService.getRequestTypeByLabel(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST).active) {
                     session.setAttribute("accountCreationEnabled", true)
                 } else {
                     session.setAttribute("accountCreationEnabled", null)

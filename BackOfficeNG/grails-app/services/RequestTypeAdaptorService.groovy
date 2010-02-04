@@ -29,7 +29,7 @@ public class RequestTypeAdaptorService {
                     continue
                 def i18nError = requestTypeNotAccessibleMessages(rt, homeFolder)
                 result[dg.name].requests.add(['label': rt.label,
-                                              'seasons' : requestServiceRegistry.getRequestService(rt.label).isOfRegistrationKind ? requestTypeService.getOpenSeasons(rt) : [],
+                                              'seasons' : requestServiceRegistry.getRequestService(rt.label).isOfRegistrationKind() ? requestTypeService.getOpenSeasons(rt) : [],
                                               'enabled': i18nError.isEmpty(),
                                               'message': !i18nError.isEmpty() ? i18nError.get(0) : null
                                              ])

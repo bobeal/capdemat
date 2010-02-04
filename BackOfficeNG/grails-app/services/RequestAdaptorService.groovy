@@ -1,7 +1,7 @@
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.ICategoryService
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IHomeFolderService
 
@@ -10,7 +10,7 @@ import org.joda.time.Minutes;
 
 class RequestAdaptorService {
 
-    IRequestService defaultRequestService
+    IRequestLockService requestLockService
     IRequestTypeService requestTypeService
     IHomeFolderService homeFolderService
     ICategoryService categoryService
@@ -57,9 +57,9 @@ class RequestAdaptorService {
                 'isEditable' : (RequestState.DRAFT.equals(request.state)
                         || RequestState.PENDING.equals(request.state)
                         || RequestState.UNCOMPLETE.equals(request.state)) 
-                        && !IRequestService.VO_CARD_REGISTRATION_REQUEST.equals(request.requestType.label)
-                        && !IRequestService.HOME_FOLDER_MODIFICATION_REQUEST.equals(request.requestType.label)
-                        && !defaultRequestService.isLocked(request.id)
+                        && !IRequestTypeService.VO_CARD_REGISTRATION_REQUEST.equals(request.requestType.label)
+                        && !IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST.equals(request.requestType.label)
+                        && !requestLockService.isLocked(request.id)
         ]
     }
 
@@ -125,15 +125,15 @@ class RequestAdaptorService {
 
     public prepareLock(requestId) {
         def result = [:]
-        result.locked = defaultRequestService.isLocked(requestId)
+        result.locked = requestLockService.isLocked(requestId)
         result.lockedByCurrentUser =
-            defaultRequestService.isLockedByCurrentUser(requestId)
+            requestLockService.isLockedByCurrentUser(requestId)
         if (result.lockedByCurrentUser) result.cssClass = "lockacquired"
         else if (result.locked) result.cssClass = "locked"
         else result.cssClass = "free"
         if (result.lockedByCurrentUser || result.locked) result.i18nKey = "locked"
         else result.i18nKey = "free"
-        def requestLock = defaultRequestService.getRequestLock(requestId)
+        def requestLock = requestLockService.getRequestLock(requestId)
         if (requestLock != null) {
             result.age =
                 Minutes.minutesBetween(new DateTime(requestLock.getDate()),

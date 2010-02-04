@@ -44,7 +44,6 @@ alter table local_referential_data drop constraint FK49407E74DBACE805;
 alter table local_referential_data add constraint FK49407E748F4CC15E foreign key (local_referential_parent_data_id) references local_referential_data;
 
 alter table music_school_registration_request_activity drop constraint FK6393FFD4696ECB;
-alter table music_school_registration_request_activity drop constraint ;
 alter table music_school_registration_request_activity add constraint FK6393FFD4B4094824 foreign key (activity_id) references local_referential_data;
 
 alter table perischool_activity_registration_request_perischool_activity drop constraint FK2007A4E9D633AA6C;
@@ -97,6 +96,7 @@ update request set has_tied_home_folder = true
     where request.home_folder_id = home_folder.id
     and home_folder.origin_request_id = request.id
     and home_folder.bound_to_request = true;
+update home_folder set is_temporary = false;
 update home_folder set is_temporary = true where bound_to_request = true;
 alter table home_folder drop column origin_request_id;
 alter table home_folder drop column bound_to_request;

@@ -16,7 +16,8 @@ import fr.cg95.cvq.security.annotation.ContextType
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.payment.IPaymentService
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestNoteService
+import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
@@ -28,7 +29,8 @@ class HomeController {
     def requestTypeAdaptorService
     def securityService
     
-    IRequestService defaultRequestService
+    IRequestNoteService requestNoteService
+    IRequestSearchService requestSearchService
     IRequestActionService requestActionService
     ILocalAuthorityRegistry localAuthorityRegistry
     IHomeFolderService homeFolderService
@@ -61,13 +63,13 @@ class HomeController {
         result.dashBoard.lastRequests = requestAdaptorService.prepareRecords(this.getTopFiveRequests())
         result.dashBoard.lastRequests.records.each {
             it.lastAgentNote = requestAdaptorService.prepareNote(
-                defaultRequestService.getLastAgentNote(it.id, null))
+                requestNoteService.getLastAgentNote(it.id, null))
         }
         result.dashBoard.incompleteRequests = requestAdaptorService
             .prepareRecords(getLastIncompleteRequests())
         result.dashBoard.incompleteRequests.records.each {
             it.lastAgentNote = requestAdaptorService.prepareNote(
-                    defaultRequestService.getLastAgentNote(it.id, null))
+                    requestNoteService.getLastAgentNote(it.id, null))
         }
         result.dashBoard.drafts =
             requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
@@ -194,9 +196,9 @@ class HomeController {
         criteriaSet.add(critere)
         
         return [
-            'all' : defaultRequestService.get(criteriaSet, 'creationDate', 'desc', 
+            'all' : requestSearchService.get(criteriaSet, 'creationDate', 'desc', 
                 draft ? -1 : resultsPerList, 0),
-            'count' : defaultRequestService.getCount(criteriaSet),
+            'count' : requestSearchService.getCount(criteriaSet),
             'records' : []
         ]
     }
@@ -212,9 +214,9 @@ class HomeController {
         critere.value = RequestState.UNCOMPLETE
         criteriaSet.add(critere)
         return [
-            'all' : defaultRequestService.get(criteriaSet,
+            'all' : requestSearchService.get(criteriaSet,
                 Request.SEARCH_BY_CREATION_DATE, "desc", -1, 0),
-            'count' : defaultRequestService.getCount(criteriaSet),
+            'count' : requestSearchService.getCount(criteriaSet),
             'records' : []
         ]
     }

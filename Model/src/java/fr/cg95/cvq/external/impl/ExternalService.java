@@ -56,8 +56,7 @@ public class ExternalService implements IExternalService, ApplicationListener {
         IExternalProviderService externalProviderService =
             getExternalServiceByLabel(externalServiceLabel);
         if (externalProviderService == null) {
-            logger.warn("authenticate() unable to find a matching service for "
-                    + externalServiceLabel);
+            logger.warn("authenticate() unable to find a matching service for " + externalServiceLabel);
             return false;
         }
 
@@ -65,8 +64,7 @@ public class ExternalService implements IExternalService, ApplicationListener {
         if (esb.getPassword().equals(password))
             return true;
 
-        logger.warn("authenticate() authentication failed for service "
-                + externalServiceLabel);
+        logger.warn("authenticate() authentication failed for service " + externalServiceLabel);
         return false;
     }
 
@@ -172,6 +170,8 @@ public class ExternalService implements IExternalService, ApplicationListener {
     public Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, String type) 
         throws CvqException {
         
+        // FIXME : this can cause backward compatibility problems
+        //         not sure that all existing accounts have a mapping
         List<ExternalServiceIdentifierMapping> esimList = 
             externalServiceMappingDAO.getIdentifierMappings(homeFolderId);
         if (esimList == null || esimList.isEmpty())
@@ -383,8 +383,7 @@ public class ExternalService implements IExternalService, ApplicationListener {
     public void onApplicationEvent(ApplicationEvent applicationEvent) {
         if (applicationEvent instanceof PaymentEvent) {
             PaymentEvent paymentEvent = (PaymentEvent) applicationEvent;
-            logger.debug("onApplicationEvent() got a payment event of type "
-                    + paymentEvent.getEvent());
+            logger.debug("onApplicationEvent() got a payment event of type " + paymentEvent.getEvent());
             if (paymentEvent.getEvent().equals(PaymentEvent.EVENT_TYPE.PAYMENT_VALIDATED))
                 try {
                     creditHomeFolderAccounts(paymentEvent.getPayment());

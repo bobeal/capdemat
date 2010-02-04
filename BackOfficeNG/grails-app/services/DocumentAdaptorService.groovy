@@ -28,12 +28,12 @@ public class DocumentAdaptorService {
     def servletContext
     
     def getDocumentTypes(Request cRequest, String sessionUuid, Set newDocuments) {
-        def requestType = requestTypeService.getRequestTypeByLabel(cRequest.requestType.label)
-        def documentTypes = requestTypeService.getAllowedDocuments(requestType.getId())
+        def documentTypes = requestTypeService.getAllowedDocuments(cRequest.requestType.id)
         def result = [:]
         def documentTypeList = []
         documentTypes.each {
-            def providedAssociatedDocs = getProvidedAssociatedDocuments(cRequest, it)
+            def providedAssociatedDocs = 
+            	SecurityContext.currentEcitizen ? getProvidedAssociatedDocuments(cRequest, it) : []
             def newAssociatedDocs = getNewAssociatedDocuments(sessionUuid, newDocuments, it) 
             def docType = ['id':it.id,
                            'name':messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),
@@ -52,12 +52,9 @@ public class DocumentAdaptorService {
     }
     
     private List getProvidedAssociatedDocuments(Request cRequest, DocumentType docType) {
-        // TODO : add a docType parameter to service's method
-        def requestDocuments = requestDocumentService.getAssociatedDocuments(cRequest)
-        def documents = requestDocuments.collect{ documentService.getById(it.documentId) }
-        def docTypeDocuments = documents.findAll{ it.documentType.id == docType.id }
+        def documents = requestDocumentService.getAssociatedDocumentsByType(cRequest.id, docType.id)
         def result = []
-        docTypeDocuments.each {
+        documents.each {
             result.add(['id':it.id, 'isNew':false,
                         'endValidityDate':it.endValidityDate, 'ecitizenNote':it.ecitizenNote])
         }

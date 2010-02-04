@@ -64,4 +64,10 @@ public interface IRequestDocumentService {
     Set<RequestDocument> getAssociatedDocuments(@IsRequest final Long requestId) throws CvqException;
     
     Set<RequestDocument> getAssociatedDocuments(@IsRequest Request request) throws CvqException;
+    
+    /**
+     * Get associated documents of the given type.
+     */
+    Set<Document> getAssociatedDocumentsByType(@IsRequest final Long requestId, final Long documentTypeId)
+        throws CvqException;
 }

@@ -7,8 +7,7 @@
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   
   <bean id="capwebctPaymentModuleExternalService"
-    class="fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.service.CapwebctPaymentModuleService"
-    init-method="init">
+    class="fr.capwebct.capdemat.plugins.externalservices.capwebctpaymentmodule.service.CapwebctPaymentModuleService">
     <property name="label" value="CapwebctPaymentModule" />
     <property name="capwebctPaymentModuleClient" ref="capwebctPaymentModuleClient" />
   </bean>

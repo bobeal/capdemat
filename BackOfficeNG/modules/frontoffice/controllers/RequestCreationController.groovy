@@ -12,9 +12,12 @@ import fr.cg95.cvq.service.request.IAutofillService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IConditionService
+import fr.cg95.cvq.service.request.IRequestDocumentService
+import fr.cg95.cvq.service.request.IRequestLockService
+import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestTypeService
-import fr.cg95.cvq.service.request.IRequestServiceRegistry
+import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IHomeFolderService
@@ -24,14 +27,20 @@ import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class RequestCreationController {
     
+    IRequestDocumentService requestDocumentService
+    IRequestLockService requestLockService
+    IRequestNoteService requestNoteService
     IRequestTypeService requestTypeService
-    IRequestServiceRegistry requestServiceRegistry
+    IRequestWorkflowService requestWorkflowService
+    
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
     IIndividualService individualService
     IDocumentService documentService
     IDocumentTypeService documentTypeService
     IHomeFolderService homeFolderService
+    
+    IConditionService conditionService
     IAutofillService autofillService
     
     def documentAdaptorService
@@ -66,27 +75,13 @@ class RequestCreationController {
             return false
         }
 
-        /*
-        def requestService
-        if (params.id)
-            requestService = requestServiceRegistry.getRequestService(Long.valueOf(params.id))
-        else
-            requestService = requestServiceRegistry.getRequestService(params.label)
-        if (requestService == null) {
-            redirect(uri: '/frontoffice/requestType')
-            return false
-        }
-
-        def cRequest =
-            params.id ? requestService.getAndLock(Long.valueOf(params.id)) :
-                requestService.getSkeletonRequest()
-        */
-
         def requestType
-        if (cRequest.requestType)
+        if (cRequest.requestType) {
             requestType = cRequest.requestType
-        else
+        } else {
             requestType = requestTypeService.getRequestTypeByLabel(params.label)
+            cRequest.requestType = requestType
+        }
 
         // allow setting of request season only on creation
         if (params.requestSeasonId && cRequest.id == null) {
@@ -94,13 +89,14 @@ class RequestCreationController {
                 requestTypeService.getRequestSeason(requestType.id, Long.valueOf(params.requestSeasonId))
         }
         // check we have a request season if and only if the service needs one
-        if ((requestTypeService.isOfRegistrationKind()
+        if ((requestTypeService.isOfRegistrationKind(requestType.id)
                 && requestTypeService.getOpenSeasons(requestType).size() > 0
                 && cRequest.requestSeason == null)) {
             redirect(uri : "/frontoffice/requestType")
             return false
         }
 
+        // TODO @rdj : what is this for ?
         def requester = SecurityContext.currentEcitizen
         if (requester == null) {
             requester = new Adult()
@@ -110,11 +106,9 @@ class RequestCreationController {
         if (cRequest.id == null) {
             def i18accessErrors =
                 requestTypeAdaptorService.requestTypeNotAccessibleMessages(
-                    requestTypeService.getRequestTypeByLabel(requestType.label),
-                    requester.homeFolder)
+                    requestTypeService.getRequestTypeById(requestType.id), requester.homeFolder)
             if (!i18accessErrors.isEmpty())
-                throw new CvqException(requestType.label + " is not accessible",
-                i18accessErrors.get(0))
+                throw new CvqException(i18accessErrors.get(0))
         }
 
         def individuals
@@ -153,7 +147,7 @@ class RequestCreationController {
             'individuals' : individuals,
             'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
             'draftVisible': session[uuidString].draftVisible,
-            'subjects': getAuthorizedSubjects(requestService, cRequest),
+            'subjects': getAuthorizedSubjects(cRequest),
             'meansOfContact': getMeansOfContact(meansOfContactService, requester),
             'currentStep': 'firstStep',
             'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
@@ -180,7 +174,6 @@ class RequestCreationController {
         // FIXME BOR : maybe find a clearer name ? editedCollectionElement ?
         def editList
         
-        def requestService = requestServiceRegistry.getRequestService(requestTypeInfo.label)
         def cRequest = session[uuidString].cRequest
         // Usefull to bind object different from cRequest
         def objectToBind = [:]
@@ -213,7 +206,7 @@ class RequestCreationController {
                 askConfirmCancel = true
             }
             else if (submitAction[1] == 'confirmCancelRequest') {
-                if (cRequest.id) requestService.release(cRequest.id)
+                if (cRequest.id) requestLockService.release(cRequest.id)
                 session.removeAttribute(uuidString)
                 redirect(uri: '/frontoffice/requestType')
                 return
@@ -287,13 +280,13 @@ class RequestCreationController {
             }
             else if (submitAction[1] == 'documentAssociate') {
                 def docParam = targetAsMap(submitAction[3])
-                requestService.addDocument(cRequest, Long.valueOf(docParam.id))
+                requestDocumentService.addDocument(cRequest.id, Long.valueOf(docParam.id))
                 isDocumentEditMode = false
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentUnassociate') {
                 def docParam = targetAsMap(submitAction[3])
-                requestService.removeDocument(cRequest, Long.valueOf(docParam.id))
+                requestDocumentService.removeDocument(cRequest, Long.valueOf(docParam.id))
                 isDocumentEditMode = false
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
@@ -393,7 +386,7 @@ class RequestCreationController {
             else if (submitAction[1] == 'draft') {
                 cRequest.homeFolderId = SecurityContext.getCurrentEcitizen().getHomeFolder().getId()
                 cRequest.state = RequestState.DRAFT
-                requestService.create(cRequest)
+                requestWorkflowService.create(cRequest)
                 flash.confirmationMessage = message(code:'request.message.savedAsDraft')
                 flash.confirmationMessageNotice = message(code:'request.message.savedAsDraftNotice')
             }
@@ -438,15 +431,17 @@ class RequestCreationController {
                     def docs = documentAdaptorService.deserializeDocuments(newDocuments, uuidString)
                     def parameters = [:]
                     if (cRequest.id && !RequestState.DRAFT.equals(cRequest.state)) {
-                        requestService.rewindWorkflow(cRequest, docs)
+                        requestWorkflowService.rewindWorkflow(cRequest, docs)
                         parameters.isEdition = true
                     } else if (requestTypeInfo.label == 'Home Folder Modification') {
-                        requestService.modify(cRequest, objectToBind.individuals.adults, 
+                        requestWorkflowService.createAccountModificationRequest(cRequest, 
+                                objectToBind.individuals.adults, 
                         		objectToBind.individuals.children, 
                         		objectToBind.individuals.foreignAdults, 
                         		objectToBind.homeFolderResponsible.adress, docs)
                     } else if (requestTypeInfo.label == 'VO Card') {
-                        requestService.create(cRequest, objectToBind.individuals.adults, 
+                        requestWorkflowService.createAccountCreationRequest(cRequest, 
+                                objectToBind.individuals.adults, 
                         		objectToBind.individuals.children, 
                         		objectToBind.individuals.foreignAdults, 
                         		objectToBind.homeFolderResponsible.adress, docs)
@@ -455,13 +450,13 @@ class RequestCreationController {
                     } else {
                         cRequest.state = RequestState.PENDING
                         if (SecurityContext.currentEcitizen == null)
-                            requestService.create(cRequest, objectToBind.requester, docs)
+                            requestWorkflowService.create(cRequest, objectToBind.requester, docs)
                         else
-                            requestService.create(cRequest, docs)
+                            requestWorkflowService.create(cRequest, docs)
                     }
                     
                     if (params.requestNote && !params.requestNote.trim().isEmpty()) {
-                        requestService.addNote(cRequest.id, RequestNoteType.PUBLIC, 
+                        requestNoteService.addNote(cRequest.id, RequestNoteType.PUBLIC, 
                         		params.requestNote.trim())
                     }
                     
@@ -519,7 +514,7 @@ class RequestCreationController {
                      'individuals' : objectToBind.individuals,
                      'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
                      'draftVisible': session[uuidString].draftVisible,                     
-                     'subjects': getAuthorizedSubjects(requestService, cRequest),
+                     'subjects': getAuthorizedSubjects(cRequest),
                      'meansOfContact': getMeansOfContact(meansOfContactService, objectToBind.homeFolderResponsible),
                      'currentStep': currentStep,
                      'stepStates': cRequest.stepStates,
@@ -557,11 +552,10 @@ class RequestCreationController {
         }
         
         try {
-            IRequestService service = requestServiceRegistry.getRequestService(params.requestTypeLabel)
             for(Map entry : (JSON.parse(params.conditionsContainer) as List)) {
                 result.add([
                     success_msg: message(code:'message.conditionTested'),
-                    test: service.isConditionFilled(entry),
+                    test: conditionService.isConditionFilled(params.requestTypeLabel, entry),
                     status: 'ok'
                 ])
             }
@@ -576,14 +570,13 @@ class RequestCreationController {
     }
 
     def exit = {
-        def requestService = requestServiceRegistry.getRequestService(params.label)
-        def cRequest = requestService.getById(Long.parseLong(params.id))
-        requestService.release(cRequest.id)
+        def requestId = Long.parseLong(params.id)
+        requestWorkflowService.release(cRequestId)
         render( view: "/frontofficeRequestType/exit",
                 model:
-                    ['translatedRequestTypeLabel': translationService.translateRequestTypeLabel(cRequest.requestType.label).encodeAsHTML(),
-                     'requestTypeLabel': cRequest.requestType.label,
-                     'requestId': cRequest.id,
+                    ['translatedRequestTypeLabel': translationService.translateRequestTypeLabel(params.label).encodeAsHTML(),
+                     'requestTypeLabel': params.label,
+                     'requestId': requestId,
                      'requesterLogin': params.requesterLogin,
                      'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card'),
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
@@ -594,17 +587,16 @@ class RequestCreationController {
     /* Step and Validation
      * ------------------------------------------------------------------------------------------- */
     
-    def getAuthorizedSubjects(requestService, cRequest) {
+    def getAuthorizedSubjects(cRequest) {
         def subjects = [:]
         if (SecurityContext.currentEcitizen != null 
-        		&& !requestService.subjectPolicy.equals(IRequestService.SUBJECT_POLICY_NONE)) {
+        		&& !requestTypeService.getSubjectPolicy(cRequest.requestType.id).equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
             def authorizedSubjects = requestWorkflowService.getAuthorizedSubjects(cRequest.requetType.label)
             authorizedSubjects.each { subjectId, seasonsSet ->
                 if (cRequest.requestSeason == null
                     || seasonsSet.contains(cRequest.requestSeason)) {
                     def subject = individualService.getById(subjectId)
-                    subjects[subjectId] =
-                        subject.lastName + ' ' + subject.firstName
+                    subjects[subjectId] = subject.lastName + ' ' + subject.firstName
                 }
             }
             

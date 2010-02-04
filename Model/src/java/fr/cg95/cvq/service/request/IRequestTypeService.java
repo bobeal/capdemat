@@ -109,12 +109,16 @@ public interface IRequestTypeService {
     Set<DocumentType> getAllowedDocuments(final Long requestTypeId)
         throws CvqException;
 
+    String getSubjectPolicy(final Long requestTypeId) throws CvqException;
+    
     //////////////////////////////////////////////////////////
     // Seasons related methods
     //////////////////////////////////////////////////////////
 
     boolean isRegistrationOpen(final Long requestTypeId) throws CvqException;
 
+    boolean isOfRegistrationKind(final Long requestTypeId) throws CvqException;
+    
     /**
      * Associate a new season to the given request type.
      *

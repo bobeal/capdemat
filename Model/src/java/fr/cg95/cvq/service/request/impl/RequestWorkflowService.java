@@ -631,6 +631,12 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return null;
     }
 
+    @Override
+    public Request getSkeletonRequest(final String requestTypeLabel) throws CvqException {
+        IRequestService service = requestServiceRegistry.getRequestService(requestTypeLabel);
+        return service.getSkeletonRequest();
+    }
+    
     private void purgeClonedRequest(fr.cg95.cvq.xml.common.RequestType requestType) {
 
         // administrative data

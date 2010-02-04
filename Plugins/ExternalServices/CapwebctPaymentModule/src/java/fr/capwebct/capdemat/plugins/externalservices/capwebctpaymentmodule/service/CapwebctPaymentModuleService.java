@@ -57,9 +57,6 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
     private String label;
 
     private ICapwebctPaymentModuleClient capwebctPaymentModuleClient;
-
-    public void init() {
-    }
     
     public Map<String, List<ExternalAccountItem>> getAccountsByHomeFolder(Long homeFolderId, 
             String externalHomeFolderId, String externalId)
@@ -260,10 +257,10 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
     }
 
     public String sendRequest(XmlObject requestXml) throws CvqException {
+        
         SendRequestRequestDocument sendRequestRequestDocument =
             SendRequestRequestDocument.Factory.newInstance();
-        SendRequestRequest sendRequestRequest =
-            sendRequestRequestDocument.addNewSendRequestRequest();
+        SendRequestRequest sendRequestRequest = sendRequestRequestDocument.addNewSendRequestRequest();
         RequestType request = null;
         try {
             request = (RequestType)requestXml.getClass()
@@ -285,17 +282,33 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         return "";
     }
 
+    public boolean supportsConsumptions() {
+        return false;
+    }
+
+    public boolean handlesTraces() {
+        return false;
+    }
+
+    public List<String> checkExternalReferential(final XmlObject requestXml) {
+        return new ArrayList<String>(0);
+    }
+
+    public Map<String, Object> loadExternalInformations(XmlObject requestXml)
+        throws CvqException {
+        return Collections.emptyMap();
+    }
+
+    public void checkConfiguration(ExternalServiceBean externalServiceBean)
+        throws CvqConfigurationException {
+    }
+
     /** ***** Not Implemented methods ****** */
     /** *********************************** */
 
     public Map<Date, String> getConsumptions(Long key, Date dateFrom, Date dateTo)
             throws CvqException {
         return null;
-    }
-
-    public void checkConfiguration(ExternalServiceBean externalServiceBean)
-            throws CvqConfigurationException {
-        logger.debug("checkConfiguration() nothing special to do");
     }
 
     public String helloWorld() throws CvqException {
@@ -314,22 +327,5 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
 
     public void setCapwebctPaymentModuleClient(ICapwebctPaymentModuleClient capwebctPaymentModuleClient) {
         this.capwebctPaymentModuleClient = capwebctPaymentModuleClient;
-    }
-
-    public boolean supportsConsumptions() {
-        return false;
-    }
-
-    public boolean handlesTraces() {
-        return false;
-    }
-
-    public List<String> checkExternalReferential(final XmlObject requestXml) {
-        return new ArrayList<String>(0);
-    }
-
-    public Map<String, Object> loadExternalInformations(XmlObject requestXml)
-        throws CvqException {
-        return Collections.emptyMap();
     }
 }

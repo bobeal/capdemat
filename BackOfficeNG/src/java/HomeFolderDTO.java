@@ -8,7 +8,6 @@ import fr.cg95.cvq.exception.CvqModelException;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -17,10 +16,10 @@ import java.util.Map;
 import java.util.HashMap;
 
 /*
- * Home Folder DTO usefull to ease data binding 
+ * Home Folder DTO useful to ease data binding 
  * in VO Card Request and HomeFolder Modification Request
  *
- * FIXME - move business code in buisiness layer !
+ * FIXME - move business code in business layer !
  */
 public class HomeFolderDTO implements Serializable {
 

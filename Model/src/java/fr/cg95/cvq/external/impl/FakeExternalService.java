@@ -91,17 +91,6 @@ public class FakeExternalService implements IExternalProviderService {
         logger.debug("creditHomeFolderAccounts() Gonna credit home folder " + homeFolderId);
         logger.debug("creditHomeFolderAccounts() for transaction " + cvqReference + " / "
                 + bankReference);
-        // TODO : port it to the new XML schemas
-//        HomeFolder homeFolder = homeFolderService.getById(homeFolderId);
-//        try {
-//            String xmlPayment = ExternalServiceUtils.paymentToXml(purchaseItems, cvqReference, 
-//                    bankReference, homeFolder, validationDate);
-//            logger.debug("creditHomeFolderAccounts() got XML payment " + xmlPayment);
-//        } catch (IOException ioe) {
-//            logger.error("creditHomeFolderAccounts() Error while preparing XML payment"
-//                    + ioe.getMessage());
-//            throw new CvqException("Error while preparing XML payment");
-//        }
     }
 
     public final Map<Date, String> getConsumptions(final Long key, 

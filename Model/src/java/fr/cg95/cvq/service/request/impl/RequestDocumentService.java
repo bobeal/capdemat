@@ -139,6 +139,20 @@ public class RequestDocumentService implements IRequestDocumentService {
         return request.getDocuments();
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public Set<Document> getAssociatedDocumentsByType(final Long requestId, final Long documentTypeId)
+        throws CvqException {
+        Request request = getById(requestId);
+        Set<Document> result = new HashSet<Document>();
+        for (RequestDocument requestDocument : request.getDocuments()) {
+            Document document = documentService.getById(requestDocument.getDocumentId());
+            if (document.getDocumentType().getId().equals(documentTypeId))
+                result.add(document);
+        }
+        return result;
+    }
+
     private void updateLastModificationInformation(Request request) {
 
         // update request's last modification date

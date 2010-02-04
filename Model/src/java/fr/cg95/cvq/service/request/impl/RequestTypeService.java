@@ -74,17 +74,14 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
 
     private ListableBeanFactory beanFactory;
 
-    @SuppressWarnings("unchecked")
     public void init() throws CvqConfigurationException {
         Map<String, IRequestTypeLifecycleAware> services = 
-            (Map<String, IRequestTypeLifecycleAware>)
-            beanFactory.getBeansOfType(IRequestTypeLifecycleAware.class,
-                true, true);
+            beanFactory.getBeansOfType(IRequestTypeLifecycleAware.class, true, true);
         if (services != null && !services.isEmpty()) {
             allListenerServices = services.values();
         }
         
-        Map<String, IRequestService> servicesMap = (Map<String, IRequestService>) 
+        Map<String, IRequestService> servicesMap =  
             beanFactory.getBeansOfType(IRequestService.class, true, true); 
         if (servicesMap != null && !servicesMap.isEmpty()) {
             for (IRequestService requestService : servicesMap.values()) {
@@ -289,6 +286,13 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
         return null;
     }
 
+    @Override
+    public String getSubjectPolicy(final Long requestTypeId) throws CvqException {
+        RequestType requestType = getRequestTypeById(requestTypeId);
+        IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
+        return service.getSubjectPolicy();
+    }
+    
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public void modifyRequestTypeRequirement(Long requestTypeId, Requirement requirement)
@@ -539,6 +543,13 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
             return true;
     }
 
+    @Override
+    public boolean isOfRegistrationKind(final Long requestTypeId) throws CvqException {
+        RequestType requestType = getRequestTypeById(requestTypeId);
+        IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
+        return service.isOfRegistrationKind();
+    }
+    
     /**
      * Check requestForm's labels uniqueness for given RequesType and RequestFormType
      */

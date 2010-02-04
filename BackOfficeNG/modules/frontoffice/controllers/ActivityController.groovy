@@ -1,13 +1,15 @@
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.Individual
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestSearchService
+import fr.cg95.cvq.service.request.IRequestExternalService
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.security.SecurityContext
 
 class ActivityController {
     
-    IRequestService defaultRequestService
-    
+    IRequestSearchService requestSearchService
+    IRequestExternalService requestExternalService
+
     Adult ecitizen
     
     def afterInterceptor = { result ->
@@ -61,7 +63,7 @@ class ActivityController {
         to = dates.to.time
         def result = [:]
         for (Request r :
-            defaultRequestService.getByHomeFolderId(ecitizen.homeFolder.id)) {
+            requestSearchService.getByHomeFolderId(ecitizen.homeFolder.id)) {
             def name = "${r.subjectFirstName} ${r.subjectLastName}"
             def label = r.requestType.label
             if (
@@ -69,7 +71,7 @@ class ActivityController {
                 || (requestTypeLabel && label != requestTypeLabel)
             ) continue
             if(!result[name]) result[name] = [:]
-            def map = defaultRequestService.getConsumptionsByRequest(r.id,from,to)
+            def map = requestExternalService.getConsumptionsByRequest(r.id,from,to)
             if(map && !map.keySet().isEmpty()) {
                 for(Date date : map.keySet()) { 
                     if(!result[name][label]) result[name][label] = [:]

@@ -185,9 +185,11 @@ public interface IRequestWorkflowService {
      * 
      * TODO REFACTORING : maybe return type will have to be migrated to a Request object
      */
-   Node getRequestClone(@IsSubject Long subjectId, @IsHomeFolder Long homeFolderId, String requestLabel)
+    Node getRequestClone(@IsSubject Long subjectId, @IsHomeFolder Long homeFolderId, String requestLabel)
             throws CvqException;
 
+    Request getSkeletonRequest(final String requestTypeLabel) throws CvqException;
+    
     /**
      * Edit a request.
      */

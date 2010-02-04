@@ -396,12 +396,7 @@ public class Individual implements Historizable, Serializable {
     }
 
     public void setSex(String sex) {
-        SexType[] allSexTypes = SexType.allSexTypes;
-        for (int i=0; i < allSexTypes.length; i++) {
-            SexType sexType = allSexTypes[i];
-            if (sexType.toString().equals(sex))
-                this.sex = sexType;
-        }
+        this.sex = SexType.forString(sex);
     }
 
     /**
@@ -443,6 +438,10 @@ public class Individual implements Historizable, Serializable {
         this.state = state;
     }
 
+    public void setState(String state) {
+        this.state = ActorState.forString(state);
+    }
+    
     /**
      * @hibernate.many-to-one
      *  class="fr.cg95.cvq.business.users.Address"
@@ -510,5 +509,4 @@ public class Individual implements Historizable, Serializable {
             .append("id", getId())
             .toString();
     }
-
 }

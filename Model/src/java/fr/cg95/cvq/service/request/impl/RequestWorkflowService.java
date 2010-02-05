@@ -132,6 +132,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         homeFolderService.saveForeignRoleOwners(homeFolder.getId(), adults, children, 
                 foreignRoleOwners);
         
+        HibernateUtil.getSession().flush();
+        
         logger.debug("create() Created request object with id : " + requestId);
     }
     
@@ -235,8 +237,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         throws CvqException {
         
         HomeFolder homeFolder = performBusinessChecks(request, requester);
+        
+        HibernateUtil.getSession().flush();
         SecurityContext.setCurrentEcitizen(
                 homeFolderService.getHomeFolderResponsible(homeFolder.getId()));
+
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
         requestService.onRequestCreated(request);
         requestDocumentService.addDocuments(request, documents);

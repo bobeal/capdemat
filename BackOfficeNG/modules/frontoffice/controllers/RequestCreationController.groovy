@@ -96,7 +96,7 @@ class RequestCreationController {
             return false
         }
 
-        // TODO @rdj : what is this for ?
+        // we need a requester that is home folder responsible to pass security checks
         def requester = SecurityContext.currentEcitizen
         if (requester == null) {
             requester = new Adult()
@@ -571,7 +571,7 @@ class RequestCreationController {
 
     def exit = {
         def requestId = Long.parseLong(params.id)
-        requestWorkflowService.release(cRequestId)
+        requestLockService.release(requestId)
         render( view: "/frontofficeRequestType/exit",
                 model:
                     ['translatedRequestTypeLabel': translationService.translateRequestTypeLabel(params.label).encodeAsHTML(),
@@ -591,7 +591,9 @@ class RequestCreationController {
         def subjects = [:]
         if (SecurityContext.currentEcitizen != null 
         		&& !requestTypeService.getSubjectPolicy(cRequest.requestType.id).equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
-            def authorizedSubjects = requestWorkflowService.getAuthorizedSubjects(cRequest.requetType.label)
+            def authorizedSubjects = 
+                requestWorkflowService.getAuthorizedSubjects(cRequest.requestType, 
+                    SecurityContext.currentEcitizen.homeFolder.id)
             authorizedSubjects.each { subjectId, seasonsSet ->
                 if (cRequest.requestSeason == null
                     || seasonsSet.contains(cRequest.requestSeason)) {

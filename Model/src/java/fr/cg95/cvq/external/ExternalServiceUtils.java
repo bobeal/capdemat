@@ -46,7 +46,7 @@ public class ExternalServiceUtils {
                 eai.setOldValue(new Double(accountType.getAccountValue()));
                 Calendar oldValueDate = accountType.getAccountDate();
                 eai.setOldValueDate(oldValueDate.getTime());
-
+                eai.setAmount(new Double(accountType.getAccountValue()));
                 eai.addExternalServiceSpecificData(EXTERNAL_FAMILY_ACCOUNT_ID_KEY,
                         accountType.getExternalFamilyAccountId());
                 eai.addExternalServiceSpecificData(EXTERNAL_APPLICATION_ID_KEY, 

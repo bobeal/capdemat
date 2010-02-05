@@ -89,7 +89,7 @@ class RequestAdaptorService {
               'state':request.state.toString(),
               'lastModificationDate':request.lastModificationDate,
               'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId),
-              'permanent':!homeFolder.boundToRequest,
+              'temporary':homeFolder.temporary,
               'quality':quality,
               'isViewable':categoryService.hasProfileOnCategory(SecurityContext.currentAgent,
                            request.requestType.category?.id)

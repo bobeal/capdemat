@@ -36,11 +36,11 @@
 
   <p class="third-line">
     <g:message code="request.property.withAccount"/> : 
-    <g:if test="${record.permanent}">
-      <img src="${resource(dir:'images/icons',file:'12-check-green.png')}"/>
+    <g:if test="${record.temporary}">
+      <img src="${resource(dir:'images/icons',file:'HorsFoyerListe.gif')}"/>
     </g:if>
     <g:else>
-      <img src="${resource(dir:'images/icons',file:'HorsFoyerListe.gif')}"/>
+      <img src="${resource(dir:'images/icons',file:'12-check-green.png')}"/>
     </g:else>
     - <g:message code="request.property.qualityOfService"/> :
     <g:if test="${record.quality == 'red'}">

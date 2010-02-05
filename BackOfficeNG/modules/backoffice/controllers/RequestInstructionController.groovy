@@ -176,7 +176,7 @@ class RequestInstructionController {
             "adults": adults,
             "children": children,
             "requester": requester,
-            'hasHomeFolder': !homeFolderService.getById(rqt.homeFolderId).boundToRequest,
+            'hasHomeFolder': !homeFolderService.getById(rqt.homeFolderId).temporary,
             "childrenLegalResponsibles": clr,
             "editableStates": (editableStates as JSON).toString(),
             "agentCanWrite": categoryService.hasWriteProfileOnCategory(SecurityContext.currentAgent, 
@@ -486,7 +486,7 @@ class RequestInstructionController {
         
         result.info = [
             'id' : homeFolder.id,
-            'boundToRequest': homeFolder.boundToRequest,
+            'temporary': homeFolder.temporary,
             'state' : homeFolder.state,
             'enabled' : homeFolder.enabled,
             'addressDetails' :   "${homeFolder.adress.streetNumber} "+

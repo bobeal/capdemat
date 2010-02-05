@@ -64,7 +64,7 @@ public interface IHomeFolderService {
     void deleteIndividual(@IsHomeFolder final Long homeFolderId, final Long individualId)
         throws CvqException, CvqObjectNotFoundException;
     
-    List<HomeFolder> getAll(boolean filterArchived, boolean filterBoundToRequest)
+    List<HomeFolder> getAll(boolean filterArchived, boolean filterTemporary)
         throws CvqException;
 
     HomeFolder getById(@IsHomeFolder final Long id)

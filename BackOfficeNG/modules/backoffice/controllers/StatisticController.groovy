@@ -338,7 +338,7 @@ class StatisticController {
                                 if (i > 0) {
                                     data[data.size() - 1][2] = new SimpleDateFormat(format).format(fr.cg95.cvq.util.DateUtils.getShiftedDate(date, shiftUnit, -1))
                                 }
-                                line[3] = count
+                                line[3] = count.toString()
                                 data.add(line)
                                 if (i > 0) {
                                     data[data.size() - 2][2] = new SimpleDateFormat(format).format(fr.cg95.cvq.util.DateUtils.getShiftedDate(date, shiftUnit, -1))

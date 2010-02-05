@@ -6,8 +6,6 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import fr.cg95.cvq.service.request.IRequestService;
-
 
 /**
  * @hibernate.class

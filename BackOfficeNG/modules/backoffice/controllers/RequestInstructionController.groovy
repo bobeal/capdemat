@@ -15,13 +15,17 @@ import fr.cg95.cvq.service.authority.IRecreationCenterService
 import fr.cg95.cvq.service.authority.ISchoolService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.ICategoryService
+import fr.cg95.cvq.service.request.IConditionService
 import fr.cg95.cvq.service.request.ILocalReferentialService
 import fr.cg95.cvq.service.request.IMeansOfContactService
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestDocumentService
+import fr.cg95.cvq.service.request.IRequestLockService
+import fr.cg95.cvq.service.request.IRequestNoteService
+import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IRequestActionService
-import fr.cg95.cvq.service.request.IRequestServiceRegistry
+import fr.cg95.cvq.service.request.IRequestExternalService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.util.Critere
@@ -36,8 +40,11 @@ class RequestInstructionController {
 
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
 
-    IRequestService defaultRequestService
     IRequestActionService requestActionService
+    IRequestLockService requestLockService
+    IRequestSearchService requestSearchService
+    IRequestDocumentService requestDocumentService
+    IRequestNoteService requestNoteService
     IRequestTypeService requestTypeService
     IRequestWorkflowService requestWorkflowService
     IHomeFolderService homeFolderService
@@ -45,13 +52,14 @@ class RequestInstructionController {
     IDocumentService documentService
     IMeansOfContactService meansOfContactService
     IAgentService agentService
-    IRequestServiceRegistry requestServiceRegistry
     IMailService mailService
     ICategoryService categoryService
     ILocalReferentialService localReferentialService 
     IRecreationCenterService recreationCenterService
     ISchoolService schoolService
+    IRequestExternalService requestExternalService
     IExternalService externalService
+    IConditionService conditionService
 
     def translationService
     def instructionService
@@ -65,11 +73,11 @@ class RequestInstructionController {
     }
 
     def edit = {
-        def rqt = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
+        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
         def requester = rqt.requesterId != null ? individualService.getById(rqt.requesterId) : null
         def documentList = []
         def providedDocumentTypes = []
-        def requestDocuments = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.id))
+        def requestDocuments = requestDocumentService.getAssociatedDocuments(Long.valueOf(params.id))
     
         requestDocuments.each {
             def document = documentService.getById(it.documentId)
@@ -102,7 +110,7 @@ class RequestInstructionController {
         def adults = []
         def children = []
         def clr = [:]
-        if (defaultRequestService.isAccountRequest(rqt.id)) {
+        if (requestTypeService.isAccountRequest(rqt.id)) {
             def individuals = homeFolderService.getIndividuals(rqt.homeFolderId)
             individuals.eachWithIndex { individual, index ->
                 def item = ['data':individual, 'index':index]
@@ -126,8 +134,8 @@ class RequestInstructionController {
         def externalProviderServiceLabel = null
         def externalTemplateName = null
         def lastTraceStatus = null
-        if (externalService.hasMatchingExternalService(rqt.requestType.label)) {
-            externalProviderServiceLabel = externalService
+        if (requestExternalService.hasMatchingExternalService(rqt.requestType.label)) {
+            externalProviderServiceLabel = requestExternalService
                 .getExternalServiceByRequestType(rqt.requestType.label).label
             externalTemplateName = ["/backofficeRequestInstruction/external",
                 externalProviderServiceLabel, "_block"].join('/')
@@ -203,7 +211,7 @@ class RequestInstructionController {
     }
     
     def localReferentialData = {
-        def rqt = defaultRequestService.getAndTryToLock(Long.valueOf(params.requestId))
+        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.requestId))
         def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
         render( template: '/backofficeRequestInstruction/widget/localReferentialDataStatic',
                 model: ['rqt':rqt,
@@ -254,7 +262,7 @@ class RequestInstructionController {
             model["propertyValueType"] = propertyTypes.javatype
         }
         else if (propertyType == "localReferentialData") {
-            def rqt = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
+            def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
             def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
             model['lrType'] = lrTypes[params.propertyName]
             model['lrDatas'] = rqt[params.propertyName].collect { it.name }
@@ -292,7 +300,7 @@ class RequestInstructionController {
     def modify = {
         if (params.requestId == null)
              return false
-        def rqt = defaultRequestService.getAndTryToLock(Long.valueOf(params.requestId))
+        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.requestId))
         if (["VO Card", "Home Folder Modification"].contains(rqt.requestType.label)) {
             def homeFolder = homeFolderService.getById(rqt.homeFolderId)
             DataBindingUtils.initBind(homeFolder, params)
@@ -325,7 +333,7 @@ class RequestInstructionController {
         if (params.requestId == null || params.listAction == null )
              return
         
-        def cRequest = defaultRequestService.getAndTryToLock(Long.valueOf(params.requestId))
+        def cRequest = requestLockService.getAndTryToLock(Long.valueOf(params.requestId))
         def actionTokens = params.listAction.tokenize('_')
 
         def listElemTokens = actionTokens[1].tokenize('[]')
@@ -354,11 +362,10 @@ class RequestInstructionController {
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
         
         try {
-            IRequestService service = requestServiceRegistry.getRequestService(params.requestTypeLabel)
             for(Map entry : (JSON.parse(params.conditionsContainer) as List)) {
                 result.add([
                     success_msg: message(code:'message.conditionTested'),
-                    test: service.isConditionFilled(entry),
+                    test: conditionService.isConditionFilled(params.requestTypeLabel, entry),
                     status: 'ok'
                 ])
             }
@@ -429,9 +436,8 @@ class RequestInstructionController {
 
     def removeDocument = {
         if (request.getMethod().toLowerCase() == "delete") {
-            defaultRequestService.removeDocument(
-                defaultRequestService
-                    .getAndTryToLock(Long.valueOf(params.requestId)),
+            requestDocumentService.removeDocument(
+                requestLockService.getAndTryToLock(Long.valueOf(params.requestId)),
                 Long.valueOf(params.documentId))
             render ([status:"ok",
                 success_msg:message(code:"message.deleteDone")] as JSON)
@@ -448,7 +454,7 @@ class RequestInstructionController {
     // FIXME : copy-paste from frontOfficeHomeFolderController. mutualize if possible
     def homeFolder = {
         def result = ['adults':[], 'children': [], homeFolder: []]
-        def cRequest = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
+        def cRequest = requestLockService.getAndTryToLock(Long.valueOf(params.id))
         def homeFolder = homeFolderService.getById(cRequest.homeFolderId)
         homeFolderService.getAdults(homeFolder.id).each { adult ->
             result.adults.add([
@@ -492,8 +498,8 @@ class RequestInstructionController {
     }
 
     def homeFolderRequests = {
-        def rqt = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
-        def homeFolderRequests = defaultRequestService.getByHomeFolderId(rqt.homeFolderId);
+        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
+        def homeFolderRequests = requestSearchService.getByHomeFolderId(rqt.homeFolderId);
 
         def records = []
         homeFolderRequests.each {
@@ -540,7 +546,7 @@ class RequestInstructionController {
     def requestNotes = {
         render(template : 'requestNotes',
                model : ['requestNoteList' : requestAdaptorService.prepareNotes(
-                            defaultRequestService.getNotes(Long.valueOf(params.id),
+                            requestNoteService.getNotes(Long.valueOf(params.id),
                             RequestNoteType.forString(params.type))),
                         'requestNoteTypes' : RequestNoteType.allRequestNoteTypes.collect{
                             CapdematUtils.adaptCapdematEnum(it, "request.note.type")},
@@ -549,7 +555,7 @@ class RequestInstructionController {
 
     def requestNote = {
         if (params.requestId != null && params.note != null && params.requestNoteType != null) {
-            defaultRequestService.addNote(
+            requestNoteService.addNote(
                 Long.valueOf(params.requestId),
                 RequestNoteType.forString(params.requestNoteType), params.note)
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
@@ -560,7 +566,7 @@ class RequestInstructionController {
 
     def external = {
         if (request.post) {
-            externalService.sendRequest(defaultRequestService.getAndTryToLock(Long.valueOf(params.id)))
+            requestExternalService.sendRequest(requestLockService.getAndTryToLock(Long.valueOf(params.id)))
             def criteriaSet = new HashSet<Critere>(2)
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
                 params.id, Critere.EQUALS))
@@ -591,10 +597,10 @@ class RequestInstructionController {
     }
 
     def externalReferentialChecks = {
-        def rqt = defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
+        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
         render(template : "/backofficeRequestInstruction/external/" + params.label + "/externalReferentialChecks",
                model : ["id" : params.id, "label" : params.label,
-                        "externalReferentialCheckErrors" : externalService
+                        "externalReferentialCheckErrors" : requestExternalService
                             .checkExternalReferential(rqt)])
     }
 
@@ -609,10 +615,10 @@ class RequestInstructionController {
                        model : requestAdaptorService.prepareLock(id))
             }
         } else if (request.post) {
-            defaultRequestService.lock(Long.valueOf(params.id))
+            requestLockService.lock(Long.valueOf(params.id))
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } else if (request.method.toLowerCase() == "delete") {
-            defaultRequestService.release(Long.valueOf(params.id))
+            requestLockService.release(Long.valueOf(params.id))
             render([status:"ok", success_msg:message(code:"message.deleteDone")] as JSON)
         }
     }

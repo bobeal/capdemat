@@ -3,6 +3,8 @@ import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
 import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestFormType
+import fr.cg95.cvq.service.request.IRequestLockService
+import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.security.SecurityContext
 
 import grails.converters.JSON
@@ -14,7 +16,9 @@ import org.springframework.web.context.request.RequestContextHolder
 // TODO request decoupling
 class ContactController {
 
-    def defaultRequestService
+    IRequestLockService requestLockService
+    IRequestSearchService requestSearchService
+
     def groovyPagesTemplateEngine
     def individualService
     def individualAdaptorService
@@ -32,8 +36,7 @@ class ContactController {
     // TODO request decoupling
     def panel = {
         if (!request.get) return false
-        def rqt =
-            defaultRequestService.getAndTryToLock(Long.valueOf(params.id))
+        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
         // FIXME RDJ - if no requester use homefolder responsible
         def requester
         if (rqt.requesterId != null)
@@ -152,7 +155,7 @@ class ContactController {
                     RequestActionType.CONTACT_CITIZEN,
                     params.templateMessage, params.note, pdf)
                 meansOfContactService.notifyByEmail(
-                    defaultRequestService.getById(requestId).requestType
+                    requestSearchService.getById(requestId).requestType
                         .category.primaryEmail,
                     params.email,
                     message(code:"mail.ecitizenContact.subject"),
@@ -219,8 +222,7 @@ class ContactController {
 
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         def form = requestTypeService.getRequestFormById(Long.valueOf(formId))
-        def rqt =
-            defaultRequestService.getAndTryToLock(Long.valueOf(requestId))
+        def rqt = requestLockService.getAndTryToLock(Long.valueOf(requestId))
 
         // FIXME RDJ - if no requester use homefolder responsible
         def requester

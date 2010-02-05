@@ -3,7 +3,8 @@ import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.ICategoryService
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestDocumentService
+import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.document.DocumentState
@@ -25,14 +26,15 @@ class DocumentInstructionController {
     
     IDocumentService documentService
     IDocumentTypeService documentTypeService
-    IRequestService defaultRequestService
+    IRequestDocumentService requestDocumentService
+    IRequestLockService requestLockService
     IRequestTypeService requestTypeService
     ICategoryService categoryService
 
     
     def edit = {
         def document = [actions:[],documentType:[:]]
-        Request request = defaultRequestService.getAndTryToLock(Long.valueOf(params.rid))
+        Request request = requestLockService.getAndTryToLock(Long.valueOf(params.rid))
         Agent agent = SecurityContext.currentAgent;
         
         if(!params.id || Integer.valueOf(params.id) == 0) {
@@ -81,13 +83,13 @@ class DocumentInstructionController {
             	document = documentService.getById(Long.valueOf(params.documentId))
             } else {
                 document = new Document()
-                Request req = defaultRequestService.getAndTryToLock(Long.valueOf(params.requestId))
+                Request req = requestLockService.getAndTryToLock(Long.valueOf(params.requestId))
                 document.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(params.documentTypeId))
                 document.homeFolderId = req.homeFolderId
                 document.depositOrigin = DepositOrigin.AGENT
                 
                 documentService.create(document)
-                defaultRequestService.addDocument(req, document.id)
+                requestDocumentService.addDocument(req, document.id)
                 result.newDocumentId = document.id
             }
             
@@ -161,8 +163,8 @@ class DocumentInstructionController {
     def documentsList = {
         
         def documents = [], types = [], result = [:], agent = SecurityContext.currentAgent
-        Request request = defaultRequestService.getAndTryToLock(Long.valueOf(params.rid))
-        Set docs = defaultRequestService.getAssociatedDocuments(Long.valueOf(params.rid))
+        Request request = requestLockService.getAndTryToLock(Long.valueOf(params.rid))
+        Set docs = requestDocumentService.getAssociatedDocuments(Long.valueOf(params.rid))
 
         for (RequestDocument rd: docs) {
             def d = documentService.getById(rd.documentId);

@@ -6,7 +6,7 @@ import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.request.ICategoryService
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestStatisticsService
 import fr.cg95.cvq.util.Critere
 import fr.cg95.cvq.security.SecurityContext
@@ -17,7 +17,7 @@ class RequestController {
 
     IAgentService agentService
     ICategoryService categoryService
-    IRequestService defaultRequestService
+    IRequestSearchService requestSearchService
     IRequestStatisticsService requestStatisticsService
     
     def translationService
@@ -107,7 +107,7 @@ class RequestController {
             (params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)        
             
         // now, perform the search request
-        def requests = defaultRequestService.get(criteria, sortBy, sortDir, results, recordOffset)
+        def requests = requestSearchService.get(criteria, sortBy, sortDir, results, recordOffset)
         def recordsList = []
         requests.each {
             def record = requestAdaptorService.prepareRecordForSummaryView(it)
@@ -117,7 +117,7 @@ class RequestController {
         render(view:'search', 
             model:['records':recordsList,
                    'recordsReturned':requests.size(),
-                   'totalRecords':defaultRequestService.getCount(criteria),
+                   'totalRecords':requestSearchService.getCount(criteria),
                    'filters':parsedFilters.filters,
                    'filterBy':parsedFilters.filterBy,
                    'recordOffset':recordOffset,
@@ -212,8 +212,8 @@ class RequestController {
             criteriaSet.add(critere)
         }
         return [
-            'all' : defaultRequestService.get(criteriaSet, null, null, tasksShowNb, 0),
-            'count' : defaultRequestService.getCount(criteriaSet)
+            'all' : requestSearchService.get(criteriaSet, null, null, tasksShowNb, 0),
+            'count' : requestSearchService.getCount(criteriaSet)
         ]
     }
 }

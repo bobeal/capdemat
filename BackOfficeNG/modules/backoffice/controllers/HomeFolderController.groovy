@@ -7,7 +7,7 @@ import fr.cg95.cvq.business.users.ActorState
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.business.users.RoleType
-import fr.cg95.cvq.service.request.IRequestService
+import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.business.users.HomeFolder
 import fr.cg95.cvq.business.payment.Payment
@@ -17,7 +17,7 @@ class HomeFolderController {
 
     IHomeFolderService homeFolderService
     IIndividualService individualService
-    IRequestService defaultRequestService
+    IRequestSearchService requestSearchService
     IPaymentService paymentService
     
     def instructionService
@@ -71,7 +71,7 @@ class HomeFolderController {
     
     def requests = {
         def result = [requests:[]]
-        def homeFolderRequests = defaultRequestService.getByHomeFolderId(Long.valueOf(params.id));
+        def homeFolderRequests = requestSearchService.getByHomeFolderId(Long.valueOf(params.id));
 
         homeFolderRequests.each {
           def record = requestAdaptorService.prepareRecordForSummaryView(it)

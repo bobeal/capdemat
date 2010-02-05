@@ -68,6 +68,7 @@ public class FakeExternalService implements IExternalProviderService {
 
     private IRequestSearchService requestSearchService;
     private IHomeFolderService homeFolderService;
+    private IPaymentService paymentService;
     
     private String label;
     private String authorizingRequestLabel;
@@ -138,13 +139,23 @@ public class FakeExternalService implements IExternalProviderService {
             Map<String, List<ExternalAccountItem> > externalAccounts = 
                 ExternalServiceUtils.parseFamilyDocument(familyDocument, getLabel());
             
-            // manually insert subject id as the currently logged in user
-            List<ExternalAccountItem> ticketingAccounts = 
-                externalAccounts.get(IPaymentService.EXTERNAL_TICKETING_ACCOUNTS);
-            for (ExternalAccountItem eai : ticketingAccounts) {
+            String supportedBroker = paymentService.getAllBrokers().keySet().iterator().next();
+            for (ExternalAccountItem eai :
+                externalAccounts.get(IPaymentService.EXTERNAL_TICKETING_ACCOUNTS)) {
+                eai.setSupportedBroker(supportedBroker);
+                // manually insert subject id as the currently logged in user
                 ExternalTicketingContractItem etci = (ExternalTicketingContractItem) eai;
                 etci.setSubjectId(SecurityContext.getCurrentUserId());
             }
+            for (ExternalAccountItem eai :
+                externalAccounts.get(IPaymentService.EXTERNAL_DEPOSIT_ACCOUNTS)) {
+                eai.setSupportedBroker(supportedBroker);
+            }
+            for (ExternalAccountItem eai :
+                externalAccounts.get(IPaymentService.EXTERNAL_INVOICES)) {
+                eai.setSupportedBroker(supportedBroker);
+            }
+            return externalAccounts;
         } catch (XmlException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -399,5 +410,9 @@ public class FakeExternalService implements IExternalProviderService {
     public Map<String, Object> loadExternalInformations(XmlObject requestXml)
         throws CvqException {
         return Collections.emptyMap();
+    }
+
+    public void setPaymentService(IPaymentService paymentService) {
+        this.paymentService = paymentService;
     }
 }

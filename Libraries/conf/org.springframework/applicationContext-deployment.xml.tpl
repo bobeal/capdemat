@@ -131,6 +131,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="homeFolderService">
       <ref bean="homeFolderService" />
     </property>
+    <property name="paymentService" ref="paymentService" />
     <property name="xmlDirectory" value="external_service"/>
     <property name="consumptionsFile" value="consumptions.xml"/>
     <property name="accountsFile" value="accounts.xml"/>

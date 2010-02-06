@@ -74,15 +74,9 @@ class RequestCreationController {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
-
-        def requestType
-        if (cRequest.requestType) {
-            requestType = cRequest.requestType
-        } else {
-            requestType = requestTypeService.getRequestTypeByLabel(params.label)
-            cRequest.requestType = requestType
-        }
-
+        
+        def requestType = cRequest.requestType
+        
         // allow setting of request season only on creation
         if (params.requestSeasonId && cRequest.id == null) {
             cRequest.requestSeason =
@@ -105,8 +99,7 @@ class RequestCreationController {
 
         if (cRequest.id == null) {
             def i18accessErrors =
-                requestTypeAdaptorService.requestTypeNotAccessibleMessages(
-                    requestTypeService.getRequestTypeById(requestType.id), requester.homeFolder)
+                requestTypeAdaptorService.requestTypeNotAccessibleMessages(requestType.id, requester.homeFolder)
             if (!i18accessErrors.isEmpty())
                 throw new CvqException(i18accessErrors.get(0))
         }
@@ -114,8 +107,6 @@ class RequestCreationController {
         def individuals
         if (requestType.label != 'Home Folder Modification') individuals = new HomeFolderDTO()
         else individuals = new HomeFolderDTO(requester.homeFolder, getAllRoleOwners(requester.homeFolder))
-
-        def newDocuments = [] as Set
 
         if (requestType.label == 'Home Folder Modification') {
             ["adults-required", "children", "foreignAdults", "account-required", "document", "validation"].each {
@@ -134,7 +125,7 @@ class RequestCreationController {
         session[uuidString].requester = requester
         session[uuidString].homeFolderResponsible = requester
         session[uuidString].individuals = individuals
-        session[uuidString].newDocuments = newDocuments
+        session[uuidString].newDocuments = []
         session[uuidString].documentCounter = 0
         session[uuidString].draftVisible = false
 
@@ -153,7 +144,7 @@ class RequestCreationController {
             'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
             'uuidString': uuidString,
             'missingSteps': missingSteps(cRequest.stepStates),
-            'documentTypes': documentAdaptorService.getDocumentTypes(cRequest, uuidString, newDocuments),
+            'documentTypes': documentAdaptorService.getDocumentTypes(cRequest, uuidString, []),
             'isDocumentEditMode': false,
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
             'isEdition' : cRequest.id != null && !RequestState.DRAFT.equals(cRequest.state)

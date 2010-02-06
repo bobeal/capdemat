@@ -639,6 +639,13 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     public Request getSkeletonRequest(final String requestTypeLabel) throws CvqException {
         IRequestService service = requestServiceRegistry.getRequestService(requestTypeLabel);
+        Request request = service.getSkeletonRequest();
+        request.setRequestType(requestTypeService.getRequestTypeByLabel(requestTypeLabel));
+        if (SecurityContext.getCurrentEcitizen() != null) {
+            Adult currentEcitizen = SecurityContext.getCurrentEcitizen();
+            request.setRequesterId(currentEcitizen.getId());
+            request.setHomeFolderId(currentEcitizen.getHomeFolder().getId());
+        }
         return service.getSkeletonRequest();
     }
     

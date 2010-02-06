@@ -23,7 +23,6 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.fop.image.FopImageFactory;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.joda.time.DateMidnight;
@@ -90,12 +89,9 @@ public class LocalAuthorityRegistry
     private String[] includedLocalAuthorities;
     private String localAuthoritiesListFilename;
 
-    @SuppressWarnings("unchecked")
     public void init() {
         Map<String, ILocalAuthorityLifecycleAware> services =
-            (Map<String, ILocalAuthorityLifecycleAware>)
-            beanFactory.getBeansOfType(
-                ILocalAuthorityLifecycleAware.class, true, true);
+            beanFactory.getBeansOfType(ILocalAuthorityLifecycleAware.class, true, true);
         if (!services.isEmpty()) {
             allListenerServices = services.values();
         }
@@ -587,10 +583,8 @@ public class LocalAuthorityRegistry
         } catch (IOException e) {
             logger.warn("generateJPEG() failed to generate JPEG file for " + id);
         }
-        FopImageFactory.resetCache();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void registerLocalAuthorities(Resource[] localAuthoritiesFiles) {
 
@@ -615,8 +609,7 @@ public class LocalAuthorityRegistry
         }
 
         Map<String, LocalAuthorityConfigurationBean> beansMap =
-            (Map<String, LocalAuthorityConfigurationBean>)gac.getBeansOfType(
-                LocalAuthorityConfigurationBean.class, true, true);
+            gac.getBeansOfType(LocalAuthorityConfigurationBean.class, true, true);
         if (beansMap.isEmpty()) {
             logger.warn("registerLocalAuthorities() no local authority configuration bean found !");
             return;

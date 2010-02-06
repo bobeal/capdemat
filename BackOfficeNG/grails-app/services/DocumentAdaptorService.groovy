@@ -33,7 +33,7 @@ public class DocumentAdaptorService {
         def documentTypeList = []
         documentTypes.each {
             def providedAssociatedDocs = 
-            	SecurityContext.currentEcitizen ? getProvidedAssociatedDocuments(cRequest, it) : []
+            	SecurityContext.currentEcitizen && cRequest.id ? getProvidedAssociatedDocuments(cRequest, it) : []
             def newAssociatedDocs = getNewAssociatedDocuments(sessionUuid, newDocuments, it) 
             def docType = ['id':it.id,
                            'name':messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),

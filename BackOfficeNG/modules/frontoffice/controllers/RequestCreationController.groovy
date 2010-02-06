@@ -499,7 +499,7 @@ class RequestCreationController {
             session[uuidString].individuals = objectToBind.individuals
             session[uuidString].newDocuments = newDocuments
         } catch (CvqException ce) {
-            ce.printStackTrace()
+            log.error ce.getMessage()
             requestAdaptorService.stepState(cRequest.stepStates?.get(currentStep), 'invalid',
                     message(code:ExceptionUtils.getModelI18nKey(ce),
                     		args:ExceptionUtils.getModelI18nArgs(ce)))

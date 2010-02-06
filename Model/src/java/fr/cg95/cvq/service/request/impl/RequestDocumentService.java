@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.impl;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -144,6 +145,8 @@ public class RequestDocumentService implements IRequestDocumentService {
     public Set<Document> getAssociatedDocumentsByType(final Long requestId, final Long documentTypeId)
         throws CvqException {
         Request request = getById(requestId);
+        if (request.getDocuments() == null)
+            return Collections.emptySet();
         Set<Document> result = new HashSet<Document>();
         for (RequestDocument requestDocument : request.getDocuments()) {
             Document document = documentService.getById(requestDocument.getDocumentId());

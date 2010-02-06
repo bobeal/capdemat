@@ -44,7 +44,6 @@
                 <exclude name="commons-dbcp-1.1.jar" />
                 <exclude name="commons-pool.jar" />
             </fileset>
-            <fileset dir="${fop.lib.dir}" />
             <fileset dir="${oro.lib.dir}" />
             <fileset dir="${jaxen.lib.dir}" />
             <fileset dir="${log4j.lib.dir}" />
@@ -74,7 +73,6 @@
             <fileset dir="${aspectj.lib.dir}">
                 <include name="aspectjweaver-*.jar" />
             </fileset>
-            <fileset dir="${fop.lib.dir}" />
             <fileset dir="${hibernate.lib.dir}">
                 <include name="c3p0-*.jar" />
                 <include name="antlr-*.jar" />

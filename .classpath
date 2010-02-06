@@ -40,9 +40,6 @@
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-pool.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-validator.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/avalon-framework-cvs-20020806.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/batik.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.apache/fop-0.20.5/fop.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jakarta-oro-2.0.8/jakarta-oro-2.0.8.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/jaxen-core.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/jaxen/jaxen-dom.jar"/>

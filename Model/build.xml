@@ -113,7 +113,6 @@
 				<pathelement location="${basedir}/${build.archives.dir}/${application.name}-ExternalServicesSchemas-${application.version}.jar"/>
 			</classpath>
 		</javac>
-		<copy todir="${basedir}/${build.classes.dir}" file="${conf.dir.fop}/fop-config.xml" />
 	</target>
 
 	<target name="compile-external-schemas" description="Compile external services schemas"

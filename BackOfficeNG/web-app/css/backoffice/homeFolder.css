@@ -1,6 +1,15 @@
+/* --------------------------------------------------------------
+
+    homeFolder special styles :
+    TODO & FIXME : duplicate from homeFolderinstructioncss => to be merge !
+
+-------------------------------------------------------------- */
+
+/* Data
+-------------------------------------------------------------- */
+
 /* header hn*/
 #homeFolderData h3      { margin-bottom: 0;  border: 0; font-size: 1.3em; font-style: italic; overflow: auto; }
-#homeFolderData h3 span { float: left; }
 
 /* definition list */
 #homeFolderData dl {
@@ -15,89 +24,28 @@
 #homeFolderData dl dd {
   float: left;
   margin: 0;
-  padding: .3em;
+  padding: .5em;
   border-top: 1px dashed #FFD053;
 }
 
 #homeFolderData dl dt { width: 9em; min-height: 1.5em; text-align: right; clear: both; }
-#homeFolderData dl dt.required { font-weight: bold; }
-
 #homeFolderData dl dd { width: 14em; font-size: 1.15em; }
-
-#homeFolderData dl dd.action-editField:hover           { background: #ffffff; cursor: pointer; }
-#homeFolderData dl dd.current-editField:hover { background: transparent; cursor: default; }/* not used ! */
 
 #homeFolderData dl dd ul li { padding: .3em 0; }
 
-/* override editable-list-form */
-#homeFolderData dl dd .editable-list-form                    { margin: 0; font-weight: normal; }
-#homeFolderData dl dd .editable-list-form ul                 { margin : 0; }
-#homeFolderData dl dd .editable-list-form fieldset           { margin: 0; float:none; border: 0; background: transparent; }
-#homeFolderData dl dd .editable-list-form input              { width: auto; display: inline; margin: 0 0 .2em 0; }
-#homeFolderData dl dd .editable-list-form select             { width: 100%; display: block; } 
-#homeFolderData dl dd .editable-list-form label              { width: auto; display: block; float: none; margin: 0; padding: .3em 0 0 0; text-align: left; } 
-#homeFolderData dl dd .editable-list-form input[type=text]   { width: 98%; }
-#homeFolderData dl dd .editable-list-form input[type=button] { margin: .5em 0 0 0 }
-#homeFolderData dl dd .editable-list-form input.line1        { width: 19%; }
-#homeFolderData dl dd .editable-list-form input.line2        { width: 74%; }
-#homeFolderData dl dd .editable-list-form input.validate-date-au { width: 80%; }
-
-/* condition test=false 
- FIXME - Must we modify background ? I think, we don't ...
-*/
-#homeFolderData .not-action-editField { color: #999 !important; /*background-color: #ffffab !important;*/ }
-
-/* collection add/remove link action */
-#homeFolderData .collection-action { margin: 5px 10px; overflow: auto;}
-
-#homeFolderData a span   { display: none; }
-#homeFolderData a:hover  { background-color: transparent; }
-
-#homeFolderData .listItemSkeleton { display: none; }
+span.tagged { float:right; font-size:1.1em; }
 
 
+/* Information
+-------------------------------------------------------------- */
 #homeFolderInformation { margin-top: 10px; }
 
 /* list */
 #homeFolderInformation div div div ul { margin: 10px;}
 #homeFolderInformation div div div li { padding: .7em 0; border-bottom: 1px dashed #C1CFE2; }
-
-/* form */
-#homeFolderInformation div div div form { margin: 10px;  padding: 0; }
-#homeFolderInformation div div div form label { display: block; float: none; margin: 0; text-align: left; }
-#homeFolderInformation div div div form input { margin: 0; }
- 
-/* definition list (for homeFolder.individual) */
-#homeFolderInformation dl {
-  margin : 10px 20px 10px 20px ;
-  padding: 5px;
-  border: 1px solid #cccccc;
-  border-right-color: #aaaaaa;
-  border-bottom-color: #aaaaaa;
-  -moz-border-radius: .5em;
-  -webkit-border-radius: .5em;
-  background-color: #ffffff; 
-}
-
-#homeFolderInformation dl dt {
-  float: left;
-  width: 10em;
-  font-weight: bold;
-  text-align : right;
-}
-
-#homeFolderInformation dl dd {
-  border-left: 1px dashed #aaaaaa;
-  margin: 0 0 0 11em;
-  padding: 0 0 .5em .5em;
-  border-left: 1px dashed #aaaaaa;
-}
+#homeFolderInformation div div div ul ul { margin: 0px;}
+#homeFolderInformation div div div ul ul li { padding: 0; border-bottom: none; }
 
 #homeFolderInformation .tag-state { float: right; }
 #homeFolderInformation .comment   { font-size: 1.4em; font-weight: normal; }
 
-span.tagged {
-  /*cursor:pointer;*/
-  float:right;
-  font-size:1.1em;
-}

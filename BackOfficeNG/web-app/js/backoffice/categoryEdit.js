@@ -31,6 +31,7 @@ zenexity.capdemat.bong.categoryEdit = function() {
   // only called if zcv.check has validated all fields, either event is cancelled
   function onSubmitSaveCategoryClick(ev) {
     if (zcv.check(ev, yud.get('categoryFormErrors'))) {
+      var target = yue.getTarget(ev);
       zct.doAjaxFormSubmitCall('categoryForm',null,
       function(o) {
         var response = ylj.parse(o.responseText);
@@ -39,7 +40,7 @@ zenexity.capdemat.bong.categoryEdit = function() {
             window.location = zenexity.capdemat.baseUrl + "/edit/" + response.id ;
           else {
             // Is message useful
-            zct.Notifier.processMessage('success',response.success_msg, null, ev);
+            zct.Notifier.processMessage('success',response.success_msg, null, target);
             resetCategoryDataDiv();
           }
         } else {

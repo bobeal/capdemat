@@ -213,6 +213,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="requestExternalService" ref="requestExternalService" />
     <property name="requestSearchService" ref="requestSearchService" />
+    <property name="requestExportService" ref="requestExportService" />
   </bean>
   
   <bean id="requestXmlGenerationJobInvoker"

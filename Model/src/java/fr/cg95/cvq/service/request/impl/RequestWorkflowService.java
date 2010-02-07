@@ -646,7 +646,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             request.setRequesterId(currentEcitizen.getId());
             request.setHomeFolderId(currentEcitizen.getHomeFolder().getId());
         }
-        return service.getSkeletonRequest();
+        return request;
     }
     
     private void purgeClonedRequest(fr.cg95.cvq.xml.common.RequestType requestType) {

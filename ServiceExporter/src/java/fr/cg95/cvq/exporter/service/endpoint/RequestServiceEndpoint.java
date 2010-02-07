@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
 import org.springframework.oxm.Marshaller;
 
 import fr.capwebct.capdemat.GetRequestsRequestDocument;
@@ -23,6 +24,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.external.IExternalService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.request.IRequestExportService;
 import fr.cg95.cvq.service.request.IRequestExternalService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.util.Critere;
@@ -34,6 +36,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
     private static Logger logger = Logger.getLogger(RequestServiceEndpoint.class);
     
     private ILocalAuthorityRegistry localAuthorityRegistry;
+    private IRequestExportService requestExportService;
     private IRequestSearchService requestSearchService;
     private IRequestExternalService requestExternalService;
     private IExternalService externalService;
@@ -168,7 +171,14 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
             if (localAuthorityRegistry.getRequestXmlResource(r.getId()).exists()) {
                 rt = RequestType.Factory.parse(localAuthorityRegistry.getRequestXmlResource(r.getId()));
             } else {
-                rt = r.modelToXmlRequest();
+                // TODO : port this properly in 4.2
+                XmlObject xmlObject = requestExportService.fillRequestXml(r); 
+                try {
+                    rt =  (fr.cg95.cvq.xml.common.RequestType) xmlObject.getClass().getMethod("get" + xmlObject.getClass().getSimpleName().replace("DocumentImpl", "")).invoke(xmlObject);
+                } catch (Exception e) {
+                    logger.error("prepareRequestsForResponse() Unexpected exception while converting to XML "
+                            + e.getMessage());
+                }
             }
             resultArray.add(rt);
             
@@ -198,6 +208,10 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
 
     public void setRequestSearchService(IRequestSearchService requestSearchService) {
         this.requestSearchService = requestSearchService;
+    }
+
+    public void setRequestExportService(IRequestExportService requestExportService) {
+        this.requestExportService = requestExportService;
     }
 
     public void setExternalService(IExternalService externalService) {

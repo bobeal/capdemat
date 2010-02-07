@@ -45,12 +45,7 @@ public class RequestServiceRegistry implements IRequestServiceRegistry {
 
     @Override
     public IRequestService getRequestService(String requestLabel) {
-        for (IRequestService requestService : servicesMap.values()) {
-            if (requestService.getLabel().equals(requestLabel))
-                return requestService;
-        }
-
-        return null;
+        return servicesMap.get(requestLabel);
     }
 
     @Override

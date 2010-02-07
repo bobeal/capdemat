@@ -118,7 +118,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
         var cont = yud.get("contactFormErrors");
         cont.innerHTML = "";
         if (zcv.check(yud.get("contactForm"), cont)) {
-          zct.doAjaxFormSubmitCall("contactForm", e, zcb.Contact.notify);
+          var target = yue.getTarget(e);
+          zct.doAjaxFormSubmitCall("contactForm", target, zcb.Contact.notify);
         }
       },
       notify : function(o) {

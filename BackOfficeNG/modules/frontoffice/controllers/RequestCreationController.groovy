@@ -99,7 +99,7 @@ class RequestCreationController {
 
         if (cRequest.id == null) {
             def i18accessErrors =
-                requestTypeAdaptorService.requestTypeNotAccessibleMessages(requestType.id, requester.homeFolder)
+                requestTypeAdaptorService.requestTypeNotAccessibleMessages(requestType, requester.homeFolder)
             if (!i18accessErrors.isEmpty())
                 throw new CvqException(i18accessErrors.get(0))
         }
@@ -125,7 +125,7 @@ class RequestCreationController {
         session[uuidString].requester = requester
         session[uuidString].homeFolderResponsible = requester
         session[uuidString].individuals = individuals
-        session[uuidString].newDocuments = []
+        session[uuidString].newDocuments = [] as Set
         session[uuidString].documentCounter = 0
         session[uuidString].draftVisible = false
 
@@ -144,7 +144,7 @@ class RequestCreationController {
             'stepStates': cRequest.stepStates?.size() != 0 ? cRequest.stepStates : null,
             'uuidString': uuidString,
             'missingSteps': missingSteps(cRequest.stepStates),
-            'documentTypes': documentAdaptorService.getDocumentTypes(cRequest, uuidString, []),
+            'documentTypes': documentAdaptorService.getDocumentTypes(cRequest, uuidString, [] as Set),
             'isDocumentEditMode': false,
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
             'isEdition' : cRequest.id != null && !RequestState.DRAFT.equals(cRequest.state)
@@ -562,7 +562,8 @@ class RequestCreationController {
 
     def exit = {
         def requestId = Long.parseLong(params.id)
-        requestLockService.release(requestId)
+        if (SecurityContext.currentEcitizen)
+            requestLockService.release(requestId)
         render( view: "/frontofficeRequestType/exit",
                 model:
                     ['translatedRequestTypeLabel': translationService.translateRequestTypeLabel(params.label).encodeAsHTML(),

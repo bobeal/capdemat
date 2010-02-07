@@ -44,7 +44,6 @@ public class RequestExportService implements IRequestExportService {
         if (request.getSubjectId() != null) {
             Individual individual = individualService.getById(request.getSubjectId());
             SubjectType subject = xmlRequestType.addNewSubject();
-            subject.setIndividual(Individual.modelToXml(individual));
             if (individual instanceof Adult) {
                 subject.setAdult(Adult.modelToXml((Adult)individual));
             } else if (individual instanceof Child) {

@@ -17,7 +17,9 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
     private LocalAuthority la;
     
     @Override
-    public void onSetUp() throws CvqException {
+    public void onSetUp() throws Exception {
+        super.onSetUp();
+        
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         la = SecurityContext.getCurrentSite();
         assertEquals(la.getServerNames().size(), 1);        

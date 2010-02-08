@@ -1,53 +1,41 @@
 package fr.cg95.cvq.business.request.urbanism;
 
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-import fr.cg95.cvq.xml.common.*;
-import fr.cg95.cvq.xml.request.urbanism.*;
 
 /**
- *
  * Generated class file, do not edit !
  */
-public final class AcrRequesterQualityType extends PersistentStringEnum { 
+public final class AcrRequesterQualityType extends PersistentStringEnum {
 
     private static final long serialVersionUID = 1L;
-
+  
     public static final AcrRequesterQualityType OWNER = new AcrRequesterQualityType("Owner");
+  
     public static final AcrRequesterQualityType TENANT = new AcrRequesterQualityType("Tenant");
-
+  
 
     /**
      * Prevent instantiation and subclassing with a private constructor.
      */
     private AcrRequesterQualityType(String value) {
-       super(value);
+        super(value);
     }
 
-
     public AcrRequesterQualityType() {}
-
-
 
     public static AcrRequesterQualityType[] allAcrRequesterQualityTypes = {
         OWNER,
         TENANT
     };
 
-
     public static AcrRequesterQualityType getDefaultAcrRequesterQualityType() {
         return OWNER;
     }
 
-
     public static AcrRequesterQualityType forString(final String enumAsString) {
-        if (enumAsString == null || enumAsString.equals(""))
-            return getDefaultAcrRequesterQualityType();
-
-        if (enumAsString.equals(OWNER.toString()))
-            return OWNER;
-        else if (enumAsString.equals(TENANT.toString()))
-            return TENANT;
-
+        for (AcrRequesterQualityType value : allAcrRequesterQualityTypes)
+            if (value.toString().equals(enumAsString))
+                return value;
         return getDefaultAcrRequesterQualityType();
     }
 }

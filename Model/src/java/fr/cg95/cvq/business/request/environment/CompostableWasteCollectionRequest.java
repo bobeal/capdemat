@@ -1,19 +1,22 @@
+
 package fr.cg95.cvq.business.request.environment;
-
-import fr.cg95.cvq.business.request.*;
-import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.business.authority.*;
-import fr.cg95.cvq.xml.common.*;
-import fr.cg95.cvq.xml.request.environment.*;
-
-import org.apache.xmlbeans.XmlOptions;
-import org.apache.xmlbeans.XmlObject;
-
-import fr.cg95.cvq.xml.common.RequestType;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.xmlbeans.XmlOptions;
+
+import fr.cg95.cvq.business.authority.*;
+import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.users.*;
+import fr.cg95.cvq.xml.common.RequestType;
+import fr.cg95.cvq.xml.common.*;
+import fr.cg95.cvq.xml.request.environment.*;
 
 /**
  * Generated class file, do not edit !
@@ -24,20 +27,17 @@ import java.util.*;
  * @hibernate.joined-subclass-key
  *  column="id"
  */
-public class CompostableWasteCollectionRequest extends Request implements Serializable { 
+public class CompostableWasteCollectionRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
-
     public CompostableWasteCollectionRequest() {
         super();
+      
     }
-
 
     @Override
     public final String modelToXmlString() {
-
         CompostableWasteCollectionRequestDocument object = (CompostableWasteCollectionRequestDocument) this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
@@ -48,27 +48,29 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
     }
 
     @Override
-    public final XmlObject modelToXml() {
-
+    public final CompostableWasteCollectionRequestDocument modelToXml() {
+        
         Calendar calendar = Calendar.getInstance();
         Date date = null;
         CompostableWasteCollectionRequestDocument compostableWasteCollectionRequestDoc = CompostableWasteCollectionRequestDocument.Factory.newInstance();
         CompostableWasteCollectionRequestDocument.CompostableWasteCollectionRequest compostableWasteCollectionRequest = compostableWasteCollectionRequestDoc.addNewCompostableWasteCollectionRequest();
         super.fillCommonXmlInfo(compostableWasteCollectionRequest);
         int i = 0;
+    
+        i = 0;
         if (compostableWasteType != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] compostableWasteTypeTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[compostableWasteType.size()];
-            Iterator compostableWasteTypeIt = compostableWasteType.iterator();
-            while (compostableWasteTypeIt.hasNext()) {
-                LocalReferentialData object = (LocalReferentialData) compostableWasteTypeIt.next();
-                compostableWasteTypeTypeTab[i] = LocalReferentialData.modelToXml(object);
-                i = i + 1;
+            for (LocalReferentialData object : compostableWasteType) {
+              compostableWasteTypeTypeTab[i++] = LocalReferentialData.modelToXml(object);
             }
             compostableWasteCollectionRequest.setCompostableWasteTypeArray(compostableWasteTypeTypeTab);
         }
+      
         if (this.collectionAddress != null)
             compostableWasteCollectionRequest.setCollectionAddress(Address.modelToXml(this.collectionAddress));
+      
         compostableWasteCollectionRequest.setOtherWaste(this.otherWaste);
+      
         return compostableWasteCollectionRequestDoc;
     }
 
@@ -80,80 +82,86 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
     }
 
     public static CompostableWasteCollectionRequest xmlToModel(CompostableWasteCollectionRequestDocument compostableWasteCollectionRequestDoc) {
-
         CompostableWasteCollectionRequestDocument.CompostableWasteCollectionRequest compostableWasteCollectionRequestXml = compostableWasteCollectionRequestDoc.getCompostableWasteCollectionRequest();
         Calendar calendar = Calendar.getInstance();
         List list = new ArrayList();
         CompostableWasteCollectionRequest compostableWasteCollectionRequest = new CompostableWasteCollectionRequest();
-        compostableWasteCollectionRequest.fillCommonModelInfo(compostableWasteCollectionRequest,compostableWasteCollectionRequestXml);
-        List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteTypeList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData> ();
-        if ( compostableWasteCollectionRequestXml.sizeOfCompostableWasteTypeArray() > 0) {
-            for (int i = 0; i < compostableWasteCollectionRequestXml.getCompostableWasteTypeArray().length; i++) {
-                compostableWasteTypeList.add(LocalReferentialData.xmlToModel(compostableWasteCollectionRequestXml.getCompostableWasteTypeArray(i)));
-            }
+        compostableWasteCollectionRequest.fillCommonModelInfo(compostableWasteCollectionRequest, compostableWasteCollectionRequestXml);
+    
+        List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteTypeList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(compostableWasteCollectionRequestXml.sizeOfCompostableWasteTypeArray());
+        for (LocalReferentialDataType object : compostableWasteCollectionRequestXml.getCompostableWasteTypeArray()) {
+            compostableWasteTypeList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
         }
         compostableWasteCollectionRequest.setCompostableWasteType(compostableWasteTypeList);
+      
         if (compostableWasteCollectionRequestXml.getCollectionAddress() != null)
             compostableWasteCollectionRequest.setCollectionAddress(Address.xmlToModel(compostableWasteCollectionRequestXml.getCollectionAddress()));
+      
         compostableWasteCollectionRequest.setOtherWaste(compostableWasteCollectionRequestXml.getOtherWaste());
+      
         return compostableWasteCollectionRequest;
     }
 
+  
     private List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteType;
 
     public final void setCompostableWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteType) {
         this.compostableWasteType = compostableWasteType;
     }
 
-
     /**
-     * @hibernate.list
-     *  inverse="false"
-     *  lazy="false"
-     *  cascade="all"
-     *  table="compostable_waste_collection_request_compostable_waste_type"
-     * @hibernate.key
-     *  column="compostable_waste_collection_request_id"
-     * @hibernate.list-index
-     *  column="compostable_waste_type_index"
-     * @hibernate.many-to-many
-     *  column="compostable_waste_type_id"
-     *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-     */
+ 
+        * @hibernate.list
+        *  inverse="false"
+        *  lazy="false"
+        *  cascade="all"
+        *  table="compostable_waste_collection_request_compostable_waste_type"
+        * @hibernate.key
+        *  column="compostable_waste_collection_request_id"
+        * @hibernate.list-index
+        *  column="compostable_waste_type_index"
+        * @hibernate.many-to-many
+        *  column="compostable_waste_type_id"
+        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
+      
+    */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCompostableWasteType() {
         return this.compostableWasteType;
     }
-
+  
     private fr.cg95.cvq.business.users.Address collectionAddress;
 
     public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
         this.collectionAddress = collectionAddress;
     }
 
-
     /**
-     * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="collection_address_id"
-     *  class="fr.cg95.cvq.business.users.Address"
-     */
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="collection_address_id"
+        *  class="fr.cg95.cvq.business.users.Address"
+      
+    */
     public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
         return this.collectionAddress;
     }
-
+  
     private String otherWaste;
 
     public final void setOtherWaste(final String otherWaste) {
         this.otherWaste = otherWaste;
     }
 
-
     /**
-     * @hibernate.property
-     *  column="other_waste"
-     */
+ 
+        * @hibernate.property
+        *  column="other_waste"
+        
+      
+    */
     public final String getOtherWaste() {
         return this.otherWaste;
     }
-
+  
 }

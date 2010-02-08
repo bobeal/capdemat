@@ -1,19 +1,22 @@
+
 package fr.cg95.cvq.business.request.election;
-
-import fr.cg95.cvq.business.request.*;
-import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.business.authority.*;
-import fr.cg95.cvq.xml.common.*;
-import fr.cg95.cvq.xml.request.election.*;
-
-import org.apache.xmlbeans.XmlOptions;
-import org.apache.xmlbeans.XmlObject;
-
-import fr.cg95.cvq.xml.common.RequestType;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.xmlbeans.XmlOptions;
+
+import fr.cg95.cvq.business.authority.*;
+import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.users.*;
+import fr.cg95.cvq.xml.common.RequestType;
+import fr.cg95.cvq.xml.common.*;
+import fr.cg95.cvq.xml.request.election.*;
 
 /**
  * Generated class file, do not edit !
@@ -24,21 +27,19 @@ import java.util.*;
  * @hibernate.joined-subclass-key
  *  column="id"
  */
-public class ElectoralRollRegistrationRequest extends Request implements Serializable { 
+public class ElectoralRollRegistrationRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
-
     public ElectoralRollRegistrationRequest() {
         super();
+      
         motive = fr.cg95.cvq.business.request.election.ElectoralMotiveType.NEW_CITY_RESIDENT;
+      
     }
-
 
     @Override
     public final String modelToXmlString() {
-
         ElectoralRollRegistrationRequestDocument object = (ElectoralRollRegistrationRequestDocument) this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
@@ -49,25 +50,34 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
     }
 
     @Override
-    public final XmlObject modelToXml() {
-
+    public final ElectoralRollRegistrationRequestDocument modelToXml() {
+        
         Calendar calendar = Calendar.getInstance();
         Date date = null;
         ElectoralRollRegistrationRequestDocument electoralRollRegistrationRequestDoc = ElectoralRollRegistrationRequestDocument.Factory.newInstance();
         ElectoralRollRegistrationRequestDocument.ElectoralRollRegistrationRequest electoralRollRegistrationRequest = electoralRollRegistrationRequestDoc.addNewElectoralRollRegistrationRequest();
         super.fillCommonXmlInfo(electoralRollRegistrationRequest);
+        int i = 0;
+    
         if (this.subjectNationality != null)
             electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.xml.common.NationalityType.Enum.forString(this.subjectNationality.toString()));
+      
         electoralRollRegistrationRequest.setSubjectOldCity(this.subjectOldCity);
+      
         if (this.subjectAddressOutsideCity != null)
             electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.modelToXml(this.subjectAddressOutsideCity));
+      
         if (this.pollingStation != null)
             electoralRollRegistrationRequest.setPollingStation(this.pollingStation.longValue());
+      
         electoralRollRegistrationRequest.setPollingSchoolName(this.pollingSchoolName);
+      
         if (this.motive != null)
             electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.xml.request.election.ElectoralMotiveType.Enum.forString(this.motive.toString()));
+      
         if (this.electoralNumber != null)
             electoralRollRegistrationRequest.setElectoralNumber(this.electoralNumber.longValue());
+      
         return electoralRollRegistrationRequestDoc;
     }
 
@@ -79,138 +89,157 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
     }
 
     public static ElectoralRollRegistrationRequest xmlToModel(ElectoralRollRegistrationRequestDocument electoralRollRegistrationRequestDoc) {
-
         ElectoralRollRegistrationRequestDocument.ElectoralRollRegistrationRequest electoralRollRegistrationRequestXml = electoralRollRegistrationRequestDoc.getElectoralRollRegistrationRequest();
         Calendar calendar = Calendar.getInstance();
         List list = new ArrayList();
         ElectoralRollRegistrationRequest electoralRollRegistrationRequest = new ElectoralRollRegistrationRequest();
-        electoralRollRegistrationRequest.fillCommonModelInfo(electoralRollRegistrationRequest,electoralRollRegistrationRequestXml);
+        electoralRollRegistrationRequest.fillCommonModelInfo(electoralRollRegistrationRequest, electoralRollRegistrationRequestXml);
+    
         if (electoralRollRegistrationRequestXml.getSubjectNationality() != null)
             electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.business.users.NationalityType.forString(electoralRollRegistrationRequestXml.getSubjectNationality().toString()));
         else
             electoralRollRegistrationRequest.setSubjectNationality(fr.cg95.cvq.business.users.NationalityType.getDefaultNationalityType());
+      
         electoralRollRegistrationRequest.setSubjectOldCity(electoralRollRegistrationRequestXml.getSubjectOldCity());
+      
         if (electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity() != null)
             electoralRollRegistrationRequest.setSubjectAddressOutsideCity(Address.xmlToModel(electoralRollRegistrationRequestXml.getSubjectAddressOutsideCity()));
+      
         if (electoralRollRegistrationRequestXml.getPollingStation() != 0)
             electoralRollRegistrationRequest.setPollingStation(new Long(electoralRollRegistrationRequestXml.getPollingStation()));
+      
         electoralRollRegistrationRequest.setPollingSchoolName(electoralRollRegistrationRequestXml.getPollingSchoolName());
+      
         if (electoralRollRegistrationRequestXml.getMotive() != null)
             electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.business.request.election.ElectoralMotiveType.forString(electoralRollRegistrationRequestXml.getMotive().toString()));
         else
             electoralRollRegistrationRequest.setMotive(fr.cg95.cvq.business.request.election.ElectoralMotiveType.getDefaultElectoralMotiveType());
+      
         if (electoralRollRegistrationRequestXml.getElectoralNumber() != 0)
             electoralRollRegistrationRequest.setElectoralNumber(new Long(electoralRollRegistrationRequestXml.getElectoralNumber()));
+      
         return electoralRollRegistrationRequest;
     }
 
+  
     private fr.cg95.cvq.business.users.NationalityType subjectNationality;
 
     public final void setSubjectNationality(final fr.cg95.cvq.business.users.NationalityType subjectNationality) {
         this.subjectNationality = subjectNationality;
     }
 
-
     /**
-     * @hibernate.property
-     *  column="subject_nationality"
-     *  length="32"
-     */
+ 
+        * @hibernate.property
+        *  column="subject_nationality"
+        *  length="32"
+      
+    */
     public final fr.cg95.cvq.business.users.NationalityType getSubjectNationality() {
         return this.subjectNationality;
     }
-
+  
     private String subjectOldCity;
 
     public final void setSubjectOldCity(final String subjectOldCity) {
         this.subjectOldCity = subjectOldCity;
     }
 
-
     /**
-     * @hibernate.property
-     *  column="subject_old_city"
-     *  length="5"
-     */
+ 
+        * @hibernate.property
+        *  column="subject_old_city"
+        *  length="5"
+      
+    */
     public final String getSubjectOldCity() {
         return this.subjectOldCity;
     }
-
+  
     private fr.cg95.cvq.business.users.Address subjectAddressOutsideCity;
 
     public final void setSubjectAddressOutsideCity(final fr.cg95.cvq.business.users.Address subjectAddressOutsideCity) {
         this.subjectAddressOutsideCity = subjectAddressOutsideCity;
     }
 
-
     /**
-     * @hibernate.many-to-one
-     *  cascade="all"
-     *  column="subject_address_outside_city_id"
-     *  class="fr.cg95.cvq.business.users.Address"
-     */
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="subject_address_outside_city_id"
+        *  class="fr.cg95.cvq.business.users.Address"
+      
+    */
     public final fr.cg95.cvq.business.users.Address getSubjectAddressOutsideCity() {
         return this.subjectAddressOutsideCity;
     }
-
+  
     private Long pollingStation;
 
     public final void setPollingStation(final Long pollingStation) {
         this.pollingStation = pollingStation;
     }
 
-
     /**
-     * @hibernate.property
-     *  column="polling_station"
-     */
+ 
+        * @hibernate.property
+        *  column="polling_station"
+        
+      
+    */
     public final Long getPollingStation() {
         return this.pollingStation;
     }
-
+  
     private String pollingSchoolName;
 
     public final void setPollingSchoolName(final String pollingSchoolName) {
         this.pollingSchoolName = pollingSchoolName;
     }
 
-
     /**
-     * @hibernate.property
-     *  column="polling_school_name"
-     */
+ 
+        * @hibernate.property
+        *  column="polling_school_name"
+        
+      
+    */
     public final String getPollingSchoolName() {
         return this.pollingSchoolName;
     }
-
+  
     private fr.cg95.cvq.business.request.election.ElectoralMotiveType motive;
 
     public final void setMotive(final fr.cg95.cvq.business.request.election.ElectoralMotiveType motive) {
         this.motive = motive;
     }
 
-
     /**
-     * @hibernate.property
-     *  column="motive"
-     */
+ 
+        * @hibernate.property
+        *  column="motive"
+        
+      
+    */
     public final fr.cg95.cvq.business.request.election.ElectoralMotiveType getMotive() {
         return this.motive;
     }
-
+  
     private Long electoralNumber;
 
     public final void setElectoralNumber(final Long electoralNumber) {
         this.electoralNumber = electoralNumber;
     }
 
-
     /**
-     * @hibernate.property
-     *  column="electoral_number"
-     */
+ 
+        * @hibernate.property
+        *  column="electoral_number"
+        
+      
+    */
     public final Long getElectoralNumber() {
         return this.electoralNumber;
     }
-
+  
 }

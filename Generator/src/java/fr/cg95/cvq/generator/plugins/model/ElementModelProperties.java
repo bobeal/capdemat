@@ -37,11 +37,48 @@ public class ElementModelProperties extends ElementProperties {
      */
     private String complexContainerElementName;
 
-    public ElementModelProperties() {
-    }
+    private String widget;
 
     public ElementModelProperties(ElementProperties eltProperties) {
         super(eltProperties);
+        if (isSimpleType()) {
+            String xmlBeanType = getXmlBeanType();
+            if (xmlBeanType.indexOf("XmlLong") != -1) {
+                widget = "long";
+            } else if (xmlBeanType.indexOf("XmlDouble") != -1) {
+                widget = "double";
+            } else if (xmlBeanType.indexOf("XmlString") != -1
+                || xmlBeanType.indexOf("XmlToken") != -1) {
+                if (getEnumValues() == null) {
+                    widget = "string";
+                } else {
+                    widget = "enum";
+                }
+            } else if (xmlBeanType.indexOf("XmlDate") != -1) {
+                widget = "date";
+            } else if (xmlBeanType.indexOf("XmlBoolean") != -1) {
+                widget = "boolean";
+            } else if (xmlBeanType.indexOf("XmlPositiveInteger") != -1) {
+                widget = "positiveInteger";
+            } else if (xmlBeanType.indexOf("XmlDecimal") != -1) {
+                widget = "short";
+            }
+        } else {
+            if (getMaxOccurs() != null
+                && getMaxOccurs().intValue() == 1) {
+                if (isReferentialType()) {
+                    widget = "referential";
+                } else {
+                    widget = "complex";
+                }
+            } else {
+                if (isReferentialType()) {
+                    widget = "referentialList";
+                } else {
+                    widget = "complexList";
+                }
+            }
+        }
     }
 
     public void setElementName(final String elementName) {
@@ -126,5 +163,9 @@ public class ElementModelProperties extends ElementProperties {
 
     public String getComplexContainerElementTypeName() {
         return this.complexContainerElementTypeName;
+    }
+
+    public String getWidget() {
+        return widget;
     }
 }

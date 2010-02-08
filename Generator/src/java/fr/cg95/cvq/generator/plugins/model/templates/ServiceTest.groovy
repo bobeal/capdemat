@@ -1,5 +1,8 @@
-
-package fr.cg95.cvq.service.request.civil;
+<%
+  import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.generator.plugins.model.ModelPluginUtils
+%>
+package fr.cg95.cvq.service.request.${request.requestNamespaceLastParticle};
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,7 +16,7 @@ import java.util.Set;
 
 import fr.cg95.cvq.business.document.*;
 import fr.cg95.cvq.business.request.*;
-import fr.cg95.cvq.business.request.civil.*;
+import fr.cg95.cvq.business.request.${request.requestNamespaceLastParticle}.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -28,165 +31,75 @@ import fr.cg95.cvq.util.Critere;
  * Generated class file, do not edit !
  * Extend it to define your own specific test cases.
  */
-public class MarriageDetailsRequestServiceTest extends RequestTestCase {
+public class ${request.requestName}ServiceTest extends RequestTestCase {
 
     protected IRequestService requestService;
 
     @Override
     protected void onSetUp() throws Exception {
         super.onSetUp();
-        requestService = getApplicationBean("marriageDetailsRequestService");
+        requestService = getApplicationBean("${StringUtils.uncapitalize(request.requestName)}Service");
     }
 
-    protected MarriageDetailsRequest fillMeARequest() {
-        MarriageDetailsRequest request = new MarriageDetailsRequest();
-        
-          
-          
-            
-              request.setFormat(MarriageCertificateFormatType.FULL_COPY);
-            
-          
-        
-          
-          
-               request.setCopies(BigInteger.valueOf(1));
-          
-        
-          
-          
-            
-              if ("MarriageHusbandLastName".length() > 38)
-                  request.setMarriageHusbandLastName("MarriageHusbandLastName".substring(0, 38));
+    protected ${request.requestName} fillMeARequest() {
+        ${request.requestName} request = new ${request.requestName}();
+        <% request.elementsPropertiesMap.keySet().each { field -> %>
+          <% def fieldProperties = request.elementsPropertiesMap.get(field) %>
+          <% if (fieldProperties.xmlBeanType == "org.apache.xmlbeans.XmlLong") { %>
+            request.set${field}(new Long(1));
+          <% } else if (fieldProperties.xmlBeanType == "org.apache.xmlbeans.XmlString") { %>
+            <% if (fieldProperties.enumValues) { %>
+              request.set${field}(${fieldProperties.xmlSchemaType}.${ModelPluginUtils.getEnumStaticName(request.getRandomEnumFromTab(fieldProperties.enumValues))});
+            <% } else if (fieldProperties.maxLength && fieldProperties.maxLength > 0) { %>
+              if ("${field}".length() > ${fieldProperties.maxLength})
+                  request.set${field}("${field}".substring(0, ${fieldProperties.maxLength}));
               else
-                  request.setMarriageHusbandLastName("MarriageHusbandLastName");
-            
-          
-        
-          
-          
-            
-               request.setMarriageWifeFirstNames("MarriageWifeFirstNames");
-            
-          
-        
-          
-          
-               request.setComment("Comment");
-          
-        
-          
-          
-            
-               request.setRequesterQualityPrecision("RequesterQualityPrecision");
-            
-          
-        
-          
-          
-            
-               request.setFatherFirstNames("FatherFirstNames");
-            
-          
-        
-          
-          
-            
-              if ("MarriagePostalCode".length() > 2)
-                  request.setMarriagePostalCode("MarriagePostalCode".substring(0, 2));
-              else
-                  request.setMarriagePostalCode("MarriagePostalCode");
-            
-          
-        
-          
-          
-            
-              if ("MotherMaidenName".length() > 38)
-                  request.setMotherMaidenName("MotherMaidenName".substring(0, 38));
-              else
-                  request.setMotherMaidenName("MotherMaidenName");
-            
-          
-        
-          
-          
-            
-               request.setMarriageHusbandFirstNames("MarriageHusbandFirstNames");
-            
-          
-        
-          
-          
-            
-              request.setRequesterQuality(MarriageRequesterQualityType.REQUESTER);
-            
-          
-        
-          
-          
-            
-              if ("MarriageCity".length() > 32)
-                  request.setMarriageCity("MarriageCity".substring(0, 32));
-              else
-                  request.setMarriageCity("MarriageCity");
-            
-          
-        
-          
-          
-            
-              if ("MarriageWifeLastName".length() > 38)
-                  request.setMarriageWifeLastName("MarriageWifeLastName".substring(0, 38));
-              else
-                  request.setMarriageWifeLastName("MarriageWifeLastName");
-            
-          
-        
-          
-          
-               request.setMarriageDate(new Date());
-          
-        
-          
-          
-            
-              if ("FatherLastName".length() > 38)
-                  request.setFatherLastName("FatherLastName".substring(0, 38));
-              else
-                  request.setFatherLastName("FatherLastName");
-            
-          
-        
-          
-          
-            
-              request.setRelationship(MarriageRelationshipType.HUSBAND);
-            
-          
-        
-          
-          
-            
-               request.setMotherFirstNames("MotherFirstNames");
-            
-          
-        
-          
-          
-            
-              request.setMotive(MarriageCertificateMotiveType.NOTARY_ACT);
-            
-          
-        
+                  request.set${field}("${field}");
+            <% } else if (fieldProperties.length && fieldProperties.length > 0) { %>
+                  if ("${field}".length() > ${fieldProperties.length})
+                      request.set${field}("${field}".substring(0, ${fieldProperties.length}));
+                  else
+                      request.set${field}("${field}");
+            <% } else { %>
+               request.set${field}("${field}");
+            <% } %>
+          <% } else if (fieldProperties.xmlBeanType == "org.apache.xmlbeans.XmlDate") { %>
+               request.set${field}(new Date());
+          <% } else if (fieldProperties.xmlBeanType == "org.apache.xmlbeans.XmlToken") { %>
+               request.set${field}("${field}");
+          <% } else if (fieldProperties.xmlBeanType == "org.apache.xmlbeans.XmlPositiveInteger") { %>
+               request.set${field}(BigInteger.valueOf(1));
+          <% } else if (fieldProperties.xmlBeanType == "org.apache.xmlbeans.XmlBoolean") { %>
+               request.set${field}(Boolean.valueOf(true));
+          <% } else if (fieldProperties.xmlBeanType == "org.apache.xmlbeans.XmlObject") { %>
+            <% def xmlSchemaType = fieldProperties.xmlSchemaType %>
+            <% if (xmlSchemaType == "AddressType") { %>
+              <% if (fieldProperties.isTiedToRequest()) { %>
+                request.set${field}(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
+              <% } else { %>
+                request.set${field}(address);
+              <% } %>
+            <% } else if (xmlSchemaType == "IndividualType") { %>
+              request.set${field}(homeFolderWoman);
+            <% } else if (xmlSchemaType == "AdultType") { %>
+              request.set${field}(homeFolderWoman);
+            <% } else if (xmlSchemaType == "ChildType") { %>
+              request.set${field}(child1);
+            <% } else if (xmlSchemaType == "RecreationCenterType") { %>
+              request.set${field}(recreationCenterService.getAll().get(0));
+            <% } else if (xmlSchemaType == "SchoolType") { %>
+              request.set${field}(schoolService.getAll().iterator().next());
+            <% } %>
+          <% } %>
+        <% } %>
         // Means Of Contact
         MeansOfContact meansOfContact = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);
         request.setMeansOfContact(meansOfContact);
-        MarriageDetailsRequestFeeder.feed(request);
+        ${request.requestName}Feeder.feed(request);
         return request;
     }
 
-    protected void completeValidateAndDelete(MarriageDetailsRequest request)
+    protected void completeValidateAndDelete(${request.requestName} request)
         throws CvqException, IOException {
         // add a document to the request
         ///////////////////////////////
@@ -247,12 +160,12 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
         assertNotNull(homeFolderId);
         // fill and create the request
         //////////////////////////////
-        MarriageDetailsRequest request = fillMeARequest();
+        ${request.requestName} request = fillMeARequest();
         request.setRequesterId(SecurityContext.getCurrentUserId());
         request.setHomeFolderId(homeFolderId);
-        MarriageDetailsRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
+        ${request.requestName}Feeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
         Long requestId = requestWorkflowService.create(request);
-        MarriageDetailsRequest requestFromDb = (MarriageDetailsRequest) requestSearchService.getById(requestId);
+        ${request.requestName} requestFromDb = (${request.requestName}) requestSearchService.getById(requestId);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
         assertNotNull(requestFromDb.getRequesterLastName());
@@ -270,20 +183,20 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
             return;
         startTransaction();
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
-        MarriageDetailsRequest request = fillMeARequest();
+        ${request.requestName} request = fillMeARequest();
         Address address = BusinessObjectsFactory.gimmeAdress("12", "Rue d'Aligre", "Paris", "75012");
         Adult requester = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "LASTNAME", "requester", address, FamilyStatusType.MARRIED);
         requester.setPassword("requester");
         requester.setAdress(address);
         homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE);
-        MarriageDetailsRequestFeeder
+        ${request.requestName}Feeder
             .setSubject(request, requestService.getSubjectPolicy(), requester, null);
         Long requestId = requestWorkflowService.create(request, requester);
         // close current session and re-open a new one
         continueWithNewTransaction();
         // start testing request creation
         /////////////////////////////////
-        MarriageDetailsRequest requestFromDb = (MarriageDetailsRequest) requestSearchService.getById(requestId);
+        ${request.requestName} requestFromDb = (${request.requestName}) requestSearchService.getById(requestId);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
         assertNotNull(requestFromDb.getRequesterLastName());

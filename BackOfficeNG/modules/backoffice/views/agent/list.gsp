@@ -21,7 +21,14 @@
             <g:each in="${agents}" var="agent">
             <li id="agent-${agent.id}">
               <h3>
-                <a href="${createLink(action:'edit',id:agent.id)}">${agent.lastName} ${agent.firstName}</a>
+                <a href="${createLink(action:'edit',id:agent.id)}">
+                  <g:if test="${agent.lastName || agent.firstName}">
+                    ${agent.lastName} ${agent.firstName}
+                  </g:if>
+                  <g:else>
+                    ${agent.login}
+                  </g:else>
+                </a>
                 <span>- ${agent.login}</span>
 								<span>- 
 								  <g:each in="${agent.sitesRoles}" var="siteRoles">

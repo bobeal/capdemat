@@ -49,6 +49,10 @@ import fr.cg95.cvq.external.ExternalServiceUtils;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.xml.common.RequestType;
+import fr.cg95.cvq.xml.request.school.PerischoolActivityRegistrationRequestDocument.PerischoolActivityRegistrationRequest;
+import fr.cg95.cvq.xml.request.school.RecreationActivityRegistrationRequestDocument.RecreationActivityRegistrationRequest;
+import fr.cg95.cvq.xml.request.school.SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest;
+import fr.cg95.cvq.xml.request.school.SchoolRegistrationRequestDocument.SchoolRegistrationRequest;
 
 public class CapwebctPaymentModuleService implements IExternalProviderService {
 
@@ -260,7 +264,9 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
         
         SendRequestRequestDocument sendRequestRequestDocument =
             SendRequestRequestDocument.Factory.newInstance();
-        SendRequestRequest sendRequestRequest = sendRequestRequestDocument.addNewSendRequestRequest();
+        SendRequestRequest sendRequestRequest =
+            sendRequestRequestDocument.addNewSendRequestRequest();
+
         RequestType request = null;
         try {
             request = (RequestType)requestXml.getClass()
@@ -276,7 +282,16 @@ public class CapwebctPaymentModuleService implements IExternalProviderService {
             logger.error("fillXmlObject() No such method exception while filling request xml");
             throw new CvqException("No such method exception while filling request xml");
         }
-        sendRequestRequest.setRequest(request);
+        if (request instanceof SchoolRegistrationRequest)
+            sendRequestRequest.setSchoolRegistrationRequest((SchoolRegistrationRequest) request);
+        else if (request instanceof SchoolCanteenRegistrationRequest)
+            sendRequestRequest.setSchoolCanteenRegistrationRequest((SchoolCanteenRegistrationRequest) request);
+        else if (request instanceof PerischoolActivityRegistrationRequest)
+            sendRequestRequest.setPerischoolActivityRegistrationRequest((PerischoolActivityRegistrationRequest) request);
+        else if (request instanceof RecreationActivityRegistrationRequest)
+            sendRequestRequest.setRecreationActivityRegistrationRequest((RecreationActivityRegistrationRequest) request);
+        else
+            sendRequestRequest.setRequest(request);
         sendRequestRequest.setRequestTypeLabel(request.getRequestTypeLabel());
         capwebctPaymentModuleClient.sendRequest(sendRequestRequestDocument);
         return "";

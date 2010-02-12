@@ -147,6 +147,7 @@
   	  <fileset dir="${model.dir}/src/xml/schemas/external">
         <include name="RequestService.xsd" />
   	  	<include name="HomeFolderService.xsd" />
+        <include name="SendRequest.xsd" />
   	  </fileset>
   	</copy>
   </target>

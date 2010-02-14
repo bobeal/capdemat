@@ -59,7 +59,7 @@ log4j {
             hibernate="off"
         }
         fr.cg95="debug"
-        fr.capwebct="info"
+        fr.capwebct="debug"
         // to debug Horanet calls
         // org.apache.axis.client="debug"
     }

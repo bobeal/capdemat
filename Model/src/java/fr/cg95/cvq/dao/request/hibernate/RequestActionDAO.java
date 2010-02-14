@@ -20,10 +20,6 @@ import fr.cg95.cvq.dao.request.IRequestActionDAO;
  */
 public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
 
-    /**
-     * TODO : it can happen that a request has two entries for a given resulting
-     * state
-     */
     public RequestAction findByRequestIdAndResultingState(final Long requestId,
             final RequestState requestState) {
 
@@ -41,12 +37,16 @@ public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
         objectList.add(requestState.toString());
         typeList.add(Hibernate.STRING);
         
+        sb.append(" order by date desc");
+
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
 
-        return (RequestAction) HibernateUtil.getSession()
+        List<RequestAction> actions = HibernateUtil.getSession()
             .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).uniqueResult();
+            .setParameters(objectTab, typeTab).list();
+        
+        return actions != null && !actions.isEmpty() ? actions.get(0) : null;
     }
 
     public boolean hasAction(final Long requestId, final RequestActionType type) {

@@ -12,6 +12,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="contextAspect" class="fr.cg95.cvq.security.aspect.ContextAspect" />
   <bean id="hibernateExceptionTranslatorAspect" 
     class="fr.cg95.cvq.dao.hibernate.HibernateExceptionTranslatorAspect" />
+  <bean id="requestCompositionEnforcingAspect"
+    class="fr.cg95.cvq.dao.request.RequestCompositionEnforcingAspect" />
 
   <!-- ======================================================= -->
   <!-- ========== GENERAL SERVICES DEFINITION ================ -->  
@@ -100,7 +102,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
   <bean id="requestContextCheckAspect" 
     class="fr.cg95.cvq.service.request.aspect.RequestContextCheckAspect">
-    <property name="requestActionDAO" ref="requestActionDAO" />
     <property name="requestDAO" ref="requestDAO" />  
     <property name="requestTypeDAO" ref="requestTypeDAO" />
     <property name="categoryDAO" ref="categoryDAO" />
@@ -161,6 +162,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     init-method="init">
     <property name="performDbUpdates" value="@perform_db_updates@"/>
     <property name="genericDAO" ref="genericDAO"/>
+    <property name="requestDAO" ref="requestDAO"/>
     <property name="requestTypeDAO" ref="requestTypeDAO"/>
     <property name="requestFormDAO" ref="requestFormDAO"/>
     <property name="requestServiceRegistry" ref="requestServiceRegistry" />
@@ -204,7 +206,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
   <bean id="requestSearchService" class="fr.cg95.cvq.service.request.impl.RequestSearchService">
     <property name="requestDAO" ref="requestDAO" />
-    <property name="requestActionDAO" ref="requestActionDAO" />
   </bean>
   
   <bean id="requestDocumentService" class="fr.cg95.cvq.service.request.impl.RequestDocumentService">
@@ -369,6 +370,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="isOfRegistrationKind" value="true"/>
     <property name="xslFoFilename" value="studyGrantRequest"/>
     <property name="defaultDisplayGroup" value="school" />
+    <property name="requestDAO" ref="requestDAO"/>
   </bean>
 
  <bean id="birthDetailsRequestService" 

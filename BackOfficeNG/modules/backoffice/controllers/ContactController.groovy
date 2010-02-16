@@ -118,7 +118,8 @@ class ContactController {
         response.contentType = "application/pdf"
         response.setHeader("Content-disposition",
             "attachment; filename=letter.pdf")
-        def data = requestActionService.getAction(Long.valueOf(params.requestActionId)).file
+        def data = requestActionService.getAction(Long.valueOf(params.requestId),
+            Long.valueOf(params.requestActionId)).file
         response.contentLength = data.length
         response.outputStream << data
         response.outputStream.flush()

@@ -14,31 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.leisure.music.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="music_school_registration_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class MusicSchoolRegistrationRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private MusicSchoolRegistrationRequestData musicSchoolRegistrationRequestData;
+
+    public MusicSchoolRegistrationRequest(RequestData requestData, MusicSchoolRegistrationRequestData musicSchoolRegistrationRequestData) {
+        super(requestData);
+        this.musicSchoolRegistrationRequestData = musicSchoolRegistrationRequestData;
+    }
+
     public MusicSchoolRegistrationRequest() {
         super();
-      
+        this.musicSchoolRegistrationRequestData = new MusicSchoolRegistrationRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public MusicSchoolRegistrationRequestData getSpecificData() {
+        return musicSchoolRegistrationRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(MusicSchoolRegistrationRequestData musicSchoolRegistrationRequestData) {
+        this.musicSchoolRegistrationRequestData = musicSchoolRegistrationRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        MusicSchoolRegistrationRequestDocument object = (MusicSchoolRegistrationRequestDocument) this.modelToXml();
+        MusicSchoolRegistrationRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -56,27 +71,25 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
         MusicSchoolRegistrationRequestDocument.MusicSchoolRegistrationRequest musicSchoolRegistrationRequest = musicSchoolRegistrationRequestDoc.addNewMusicSchoolRegistrationRequest();
         super.fillCommonXmlInfo(musicSchoolRegistrationRequest);
         int i = 0;
-    
+        
         i = 0;
-        if (activity != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] activityTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[activity.size()];
-            for (LocalReferentialData object : activity) {
+        if (getActivity() != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] activityTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getActivity().size()];
+            for (LocalReferentialData object : getActivity()) {
               activityTypeTab[i++] = LocalReferentialData.modelToXml(object);
             }
             musicSchoolRegistrationRequest.setActivityArray(activityTypeTab);
         }
       
-        if (this.rulesAndRegulationsAcceptance != null)
-            musicSchoolRegistrationRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
+        if (getRulesAndRegulationsAcceptance() != null)
+            musicSchoolRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
       
         return musicSchoolRegistrationRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        MusicSchoolRegistrationRequestDocument musicSchoolRegistrationRequestDoc =
-            (MusicSchoolRegistrationRequestDocument) modelToXml();
-        return musicSchoolRegistrationRequestDoc.getMusicSchoolRegistrationRequest();
+    public final MusicSchoolRegistrationRequestDocument.MusicSchoolRegistrationRequest modelToXmlRequest() {
+        return modelToXml().getMusicSchoolRegistrationRequest();
     }
 
     public static MusicSchoolRegistrationRequest xmlToModel(MusicSchoolRegistrationRequestDocument musicSchoolRegistrationRequestDoc) {
@@ -85,7 +98,7 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
         List list = new ArrayList();
         MusicSchoolRegistrationRequest musicSchoolRegistrationRequest = new MusicSchoolRegistrationRequest();
         musicSchoolRegistrationRequest.fillCommonModelInfo(musicSchoolRegistrationRequest, musicSchoolRegistrationRequestXml);
-    
+        
         List<fr.cg95.cvq.business.request.LocalReferentialData> activityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(musicSchoolRegistrationRequestXml.sizeOfActivityArray());
         for (LocalReferentialDataType object : musicSchoolRegistrationRequestXml.getActivityArray()) {
             activityList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
@@ -98,47 +111,20 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
     }
 
   
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> activity;
-
     public final void setActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> activity) {
-        this.activity = activity;
+        musicSchoolRegistrationRequestData.setActivity(activity);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="music_school_registration_request_activity"
-        * @hibernate.key
-        *  column="music_school_registration_request_id"
-        * @hibernate.list-index
-        *  column="activity_index"
-        * @hibernate.many-to-many
-        *  column="activity_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-      
-    */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getActivity() {
-        return this.activity;
+        return musicSchoolRegistrationRequestData.getActivity();
     }
   
-    private Boolean rulesAndRegulationsAcceptance;
-
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+        musicSchoolRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
-      
-    */
     public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
+        return musicSchoolRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
   
 }

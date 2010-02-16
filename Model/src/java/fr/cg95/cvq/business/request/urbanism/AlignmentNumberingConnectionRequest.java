@@ -14,35 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.urbanism.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="alignment_numbering_connection_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class AlignmentNumberingConnectionRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private AlignmentNumberingConnectionRequestData alignmentNumberingConnectionRequestData;
+
+    public AlignmentNumberingConnectionRequest(RequestData requestData, AlignmentNumberingConnectionRequestData alignmentNumberingConnectionRequestData) {
+        super(requestData);
+        this.alignmentNumberingConnectionRequestData = alignmentNumberingConnectionRequestData;
+    }
+
     public AlignmentNumberingConnectionRequest() {
         super();
-      
-        requesterQuality = fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType.OWNER;
-      
-        isAccountAddress = Boolean.valueOf(true);
-      
+        this.alignmentNumberingConnectionRequestData = new AlignmentNumberingConnectionRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public AlignmentNumberingConnectionRequestData getSpecificData() {
+        return alignmentNumberingConnectionRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(AlignmentNumberingConnectionRequestData alignmentNumberingConnectionRequestData) {
+        this.alignmentNumberingConnectionRequestData = alignmentNumberingConnectionRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        AlignmentNumberingConnectionRequestDocument object = (AlignmentNumberingConnectionRequestDocument) this.modelToXml();
+        AlignmentNumberingConnectionRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -60,55 +71,53 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         AlignmentNumberingConnectionRequestDocument.AlignmentNumberingConnectionRequest alignmentNumberingConnectionRequest = alignmentNumberingConnectionRequestDoc.addNewAlignmentNumberingConnectionRequest();
         super.fillCommonXmlInfo(alignmentNumberingConnectionRequest);
         int i = 0;
-    
-        if (this.isNumbering != null)
-            alignmentNumberingConnectionRequest.setIsNumbering(this.isNumbering.booleanValue());
+        
+        if (getIsNumbering() != null)
+            alignmentNumberingConnectionRequest.setIsNumbering(getIsNumbering().booleanValue());
       
-        if (this.otherAddress != null)
-            alignmentNumberingConnectionRequest.setOtherAddress(Address.modelToXml(this.otherAddress));
+        if (getOtherAddress() != null)
+            alignmentNumberingConnectionRequest.setOtherAddress(Address.modelToXml(getOtherAddress()));
       
-        alignmentNumberingConnectionRequest.setOwnerFirstNames(this.ownerFirstNames);
+        alignmentNumberingConnectionRequest.setOwnerFirstNames(getOwnerFirstNames());
       
-        if (this.number != null)
-            alignmentNumberingConnectionRequest.setNumber(new BigInteger(this.number.toString()));
+        if (getNumber() != null)
+            alignmentNumberingConnectionRequest.setNumber(new BigInteger(getNumber().toString()));
       
-        if (this.area != null)
-            alignmentNumberingConnectionRequest.setArea(new BigInteger(this.area.toString()));
+        if (getArea() != null)
+            alignmentNumberingConnectionRequest.setArea(new BigInteger(getArea().toString()));
       
-        if (this.moreThanTwoYears != null)
-            alignmentNumberingConnectionRequest.setMoreThanTwoYears(this.moreThanTwoYears.booleanValue());
+        if (getMoreThanTwoYears() != null)
+            alignmentNumberingConnectionRequest.setMoreThanTwoYears(getMoreThanTwoYears().booleanValue());
       
-        if (this.ownerAddress != null)
-            alignmentNumberingConnectionRequest.setOwnerAddress(Address.modelToXml(this.ownerAddress));
+        if (getOwnerAddress() != null)
+            alignmentNumberingConnectionRequest.setOwnerAddress(Address.modelToXml(getOwnerAddress()));
       
-        if (this.requesterQuality != null)
-            alignmentNumberingConnectionRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.AncrRequesterQualityType.Enum.forString(this.requesterQuality.toString()));
+        if (getRequesterQuality() != null)
+            alignmentNumberingConnectionRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.AncrRequesterQualityType.Enum.forString(getRequesterQuality().toString()));
       
-        alignmentNumberingConnectionRequest.setSection(this.section);
+        alignmentNumberingConnectionRequest.setSection(getSection());
       
-        alignmentNumberingConnectionRequest.setTransportationRoute(this.transportationRoute);
+        alignmentNumberingConnectionRequest.setTransportationRoute(getTransportationRoute());
       
-        alignmentNumberingConnectionRequest.setLocality(this.locality);
+        alignmentNumberingConnectionRequest.setLocality(getLocality());
       
-        if (this.isConnection != null)
-            alignmentNumberingConnectionRequest.setIsConnection(this.isConnection.booleanValue());
+        if (getIsConnection() != null)
+            alignmentNumberingConnectionRequest.setIsConnection(getIsConnection().booleanValue());
       
-        if (this.isAccountAddress != null)
-            alignmentNumberingConnectionRequest.setIsAccountAddress(this.isAccountAddress.booleanValue());
+        if (getIsAccountAddress() != null)
+            alignmentNumberingConnectionRequest.setIsAccountAddress(getIsAccountAddress().booleanValue());
       
-        if (this.isAlignment != null)
-            alignmentNumberingConnectionRequest.setIsAlignment(this.isAlignment.booleanValue());
+        if (getIsAlignment() != null)
+            alignmentNumberingConnectionRequest.setIsAlignment(getIsAlignment().booleanValue());
       
-        alignmentNumberingConnectionRequest.setOwnerLastName(this.ownerLastName);
+        alignmentNumberingConnectionRequest.setOwnerLastName(getOwnerLastName());
       
         return alignmentNumberingConnectionRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        AlignmentNumberingConnectionRequestDocument alignmentNumberingConnectionRequestDoc =
-            (AlignmentNumberingConnectionRequestDocument) modelToXml();
-        return alignmentNumberingConnectionRequestDoc.getAlignmentNumberingConnectionRequest();
+    public final AlignmentNumberingConnectionRequestDocument.AlignmentNumberingConnectionRequest modelToXmlRequest() {
+        return modelToXml().getAlignmentNumberingConnectionRequest();
     }
 
     public static AlignmentNumberingConnectionRequest xmlToModel(AlignmentNumberingConnectionRequestDocument alignmentNumberingConnectionRequestDoc) {
@@ -117,7 +126,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         List list = new ArrayList();
         AlignmentNumberingConnectionRequest alignmentNumberingConnectionRequest = new AlignmentNumberingConnectionRequest();
         alignmentNumberingConnectionRequest.fillCommonModelInfo(alignmentNumberingConnectionRequest, alignmentNumberingConnectionRequestXml);
-    
+        
         alignmentNumberingConnectionRequest.setIsNumbering(Boolean.valueOf(alignmentNumberingConnectionRequestXml.getIsNumbering()));
       
         if (alignmentNumberingConnectionRequestXml.getOtherAddress() != null)
@@ -157,263 +166,124 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
     }
 
   
-    private Boolean isNumbering;
-
     public final void setIsNumbering(final Boolean isNumbering) {
-        this.isNumbering = isNumbering;
+        alignmentNumberingConnectionRequestData.setIsNumbering(isNumbering);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="is_numbering"
-        
-      
-    */
     public final Boolean getIsNumbering() {
-        return this.isNumbering;
+        return alignmentNumberingConnectionRequestData.getIsNumbering();
     }
   
-    private fr.cg95.cvq.business.users.Address otherAddress;
-
     public final void setOtherAddress(final fr.cg95.cvq.business.users.Address otherAddress) {
-        this.otherAddress = otherAddress;
+        alignmentNumberingConnectionRequestData.setOtherAddress(otherAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="other_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getOtherAddress() {
-        return this.otherAddress;
+        return alignmentNumberingConnectionRequestData.getOtherAddress();
     }
   
-    private String ownerFirstNames;
-
     public final void setOwnerFirstNames(final String ownerFirstNames) {
-        this.ownerFirstNames = ownerFirstNames;
+        alignmentNumberingConnectionRequestData.setOwnerFirstNames(ownerFirstNames);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="owner_first_names"
-        
-      
-    */
     public final String getOwnerFirstNames() {
-        return this.ownerFirstNames;
+        return alignmentNumberingConnectionRequestData.getOwnerFirstNames();
     }
   
-    private java.math.BigInteger number;
-
     public final void setNumber(final java.math.BigInteger number) {
-        this.number = number;
+        alignmentNumberingConnectionRequestData.setNumber(number);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="number"
-        *  type="serializable"
-        
-      
-    */
     public final java.math.BigInteger getNumber() {
-        return this.number;
+        return alignmentNumberingConnectionRequestData.getNumber();
     }
   
-    private java.math.BigInteger area;
-
     public final void setArea(final java.math.BigInteger area) {
-        this.area = area;
+        alignmentNumberingConnectionRequestData.setArea(area);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="area"
-        *  type="serializable"
-        
-      
-    */
     public final java.math.BigInteger getArea() {
-        return this.area;
+        return alignmentNumberingConnectionRequestData.getArea();
     }
   
-    private Boolean moreThanTwoYears;
-
     public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
-        this.moreThanTwoYears = moreThanTwoYears;
+        alignmentNumberingConnectionRequestData.setMoreThanTwoYears(moreThanTwoYears);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="more_than_two_years"
-        
-      
-    */
     public final Boolean getMoreThanTwoYears() {
-        return this.moreThanTwoYears;
+        return alignmentNumberingConnectionRequestData.getMoreThanTwoYears();
     }
   
-    private fr.cg95.cvq.business.users.Address ownerAddress;
-
     public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
-        this.ownerAddress = ownerAddress;
+        alignmentNumberingConnectionRequestData.setOwnerAddress(ownerAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="owner_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
-        return this.ownerAddress;
+        return alignmentNumberingConnectionRequestData.getOwnerAddress();
     }
   
-    private fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType requesterQuality;
-
     public final void setRequesterQuality(final fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType requesterQuality) {
-        this.requesterQuality = requesterQuality;
+        alignmentNumberingConnectionRequestData.setRequesterQuality(requesterQuality);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="requester_quality"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType getRequesterQuality() {
-        return this.requesterQuality;
+        return alignmentNumberingConnectionRequestData.getRequesterQuality();
     }
   
-    private String section;
-
     public final void setSection(final String section) {
-        this.section = section;
+        alignmentNumberingConnectionRequestData.setSection(section);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="section"
-        
-      
-    */
     public final String getSection() {
-        return this.section;
+        return alignmentNumberingConnectionRequestData.getSection();
     }
   
-    private String transportationRoute;
-
     public final void setTransportationRoute(final String transportationRoute) {
-        this.transportationRoute = transportationRoute;
+        alignmentNumberingConnectionRequestData.setTransportationRoute(transportationRoute);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="transportation_route"
-        
-      
-    */
     public final String getTransportationRoute() {
-        return this.transportationRoute;
+        return alignmentNumberingConnectionRequestData.getTransportationRoute();
     }
   
-    private String locality;
-
     public final void setLocality(final String locality) {
-        this.locality = locality;
+        alignmentNumberingConnectionRequestData.setLocality(locality);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="locality"
-        
-      
-    */
     public final String getLocality() {
-        return this.locality;
+        return alignmentNumberingConnectionRequestData.getLocality();
     }
   
-    private Boolean isConnection;
-
     public final void setIsConnection(final Boolean isConnection) {
-        this.isConnection = isConnection;
+        alignmentNumberingConnectionRequestData.setIsConnection(isConnection);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="is_connection"
-        
-      
-    */
     public final Boolean getIsConnection() {
-        return this.isConnection;
+        return alignmentNumberingConnectionRequestData.getIsConnection();
     }
   
-    private Boolean isAccountAddress;
-
     public final void setIsAccountAddress(final Boolean isAccountAddress) {
-        this.isAccountAddress = isAccountAddress;
+        alignmentNumberingConnectionRequestData.setIsAccountAddress(isAccountAddress);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="is_account_address"
-        
-      
-    */
     public final Boolean getIsAccountAddress() {
-        return this.isAccountAddress;
+        return alignmentNumberingConnectionRequestData.getIsAccountAddress();
     }
   
-    private Boolean isAlignment;
-
     public final void setIsAlignment(final Boolean isAlignment) {
-        this.isAlignment = isAlignment;
+        alignmentNumberingConnectionRequestData.setIsAlignment(isAlignment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="is_alignment"
-        
-      
-    */
     public final Boolean getIsAlignment() {
-        return this.isAlignment;
+        return alignmentNumberingConnectionRequestData.getIsAlignment();
     }
   
-    private String ownerLastName;
-
     public final void setOwnerLastName(final String ownerLastName) {
-        this.ownerLastName = ownerLastName;
+        alignmentNumberingConnectionRequestData.setOwnerLastName(ownerLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="owner_last_name"
-        *  length="38"
-      
-    */
     public final String getOwnerLastName() {
-        return this.ownerLastName;
+        return alignmentNumberingConnectionRequestData.getOwnerLastName();
     }
   
 }

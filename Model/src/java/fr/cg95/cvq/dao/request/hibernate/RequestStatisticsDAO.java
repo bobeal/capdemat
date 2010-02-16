@@ -31,7 +31,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer();
-        sb.append("select distinct(request.id) from Request request join request.actions action")
+        sb.append("select distinct(request.id) from RequestData request join request.actions action")
             .append(" where 1 = 1 ");
 
         if (startDate != null) {
@@ -93,7 +93,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer();
-        sb.append("select request.requestType.id, count(request.id) from Request request")
+        sb.append("select request.requestType.id, count(request.id) from RequestData request")
             .append(" join request.actions action");
 
         sb.append(" where request.requestType.id in ( ");
@@ -209,7 +209,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
         final List<Long> requestTypeIds) {
 
         StringBuffer sb = new StringBuffer();
-        sb.append("select request.requestType.id, count(*) from Request as request")
+        sb.append("select request.requestType.id, count(*) from RequestData as request")
             .append(" where 1 = 1 ");
 
         List<Type> typeList = new ArrayList<Type>();
@@ -258,7 +258,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
     public Long countByPeriod(Date startDate, Date endDate, List<Long> requestTypeIds) {
 
         StringBuffer sb = new StringBuffer();
-        sb.append("select count(*) from Request as request")
+        sb.append("select count(*) from RequestData as request")
             .append(" where 1 = 1 ");
 
         List<Type> typeList = new ArrayList<Type>();
@@ -300,7 +300,7 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
 
     public Date getOldestRequest() {
         return (Date)HibernateUtil.getSession()
-            .createQuery("select min(creationDate) from Request as request")
+            .createQuery("select min(creationDate) from RequestData as request")
             .list().get(0);
     }
 }

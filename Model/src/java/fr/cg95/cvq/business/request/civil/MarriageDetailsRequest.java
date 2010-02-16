@@ -14,33 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.civil.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="marriage_details_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class MarriageDetailsRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private MarriageDetailsRequestData marriageDetailsRequestData;
+
+    public MarriageDetailsRequest(RequestData requestData, MarriageDetailsRequestData marriageDetailsRequestData) {
+        super(requestData);
+        this.marriageDetailsRequestData = marriageDetailsRequestData;
+    }
+
     public MarriageDetailsRequest() {
         super();
-      
-        format = fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType.FULL_COPY;
-      
+        this.marriageDetailsRequestData = new MarriageDetailsRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public MarriageDetailsRequestData getSpecificData() {
+        return marriageDetailsRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(MarriageDetailsRequestData marriageDetailsRequestData) {
+        this.marriageDetailsRequestData = marriageDetailsRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        MarriageDetailsRequestDocument object = (MarriageDetailsRequestDocument) this.modelToXml();
+        MarriageDetailsRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -58,60 +71,58 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         MarriageDetailsRequestDocument.MarriageDetailsRequest marriageDetailsRequest = marriageDetailsRequestDoc.addNewMarriageDetailsRequest();
         super.fillCommonXmlInfo(marriageDetailsRequest);
         int i = 0;
-    
-        if (this.format != null)
-            marriageDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.MarriageCertificateFormatType.Enum.forString(this.format.toString()));
+        
+        if (getFormat() != null)
+            marriageDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.MarriageCertificateFormatType.Enum.forString(getFormat().toString()));
       
-        if (this.copies != null)
-            marriageDetailsRequest.setCopies(new BigInteger(this.copies.toString()));
+        if (getCopies() != null)
+            marriageDetailsRequest.setCopies(new BigInteger(getCopies().toString()));
         MarriageHusbandInformationType marriageHusbandInformationTypeMarriageHusband = marriageDetailsRequest.addNewMarriageHusband();
-        marriageHusbandInformationTypeMarriageHusband.setMarriageHusbandLastName(this.marriageHusbandLastName);
+        marriageHusbandInformationTypeMarriageHusband.setMarriageHusbandLastName(getMarriageHusbandLastName());
         MarriageWifeInformationType marriageWifeInformationTypeMarriageWife = marriageDetailsRequest.addNewMarriageWife();
-        marriageWifeInformationTypeMarriageWife.setMarriageWifeFirstNames(this.marriageWifeFirstNames);
+        marriageWifeInformationTypeMarriageWife.setMarriageWifeFirstNames(getMarriageWifeFirstNames());
       
-        marriageDetailsRequest.setComment(this.comment);
+        marriageDetailsRequest.setComment(getComment());
       
-        marriageDetailsRequest.setRequesterQualityPrecision(this.requesterQualityPrecision);
+        marriageDetailsRequest.setRequesterQualityPrecision(getRequesterQualityPrecision());
         MarriageFatherInformationType marriageFatherInformationTypeFatherInformation = marriageDetailsRequest.addNewFatherInformation();
-        marriageFatherInformationTypeFatherInformation.setFatherFirstNames(this.fatherFirstNames);
+        marriageFatherInformationTypeFatherInformation.setFatherFirstNames(getFatherFirstNames());
         MarriageInformationType marriageInformationTypeMarriage = marriageDetailsRequest.addNewMarriage();
-        marriageInformationTypeMarriage.setMarriagePostalCode(this.marriagePostalCode);
+        marriageInformationTypeMarriage.setMarriagePostalCode(getMarriagePostalCode());
         MarriageMotherInformationType marriageMotherInformationTypeMotherInformation = marriageDetailsRequest.addNewMotherInformation();
-        marriageMotherInformationTypeMotherInformation.setMotherMaidenName(this.motherMaidenName);
+        marriageMotherInformationTypeMotherInformation.setMotherMaidenName(getMotherMaidenName());
       
-        marriageHusbandInformationTypeMarriageHusband.setMarriageHusbandFirstNames(this.marriageHusbandFirstNames);
+        marriageHusbandInformationTypeMarriageHusband.setMarriageHusbandFirstNames(getMarriageHusbandFirstNames());
       
-        if (this.requesterQuality != null)
-            marriageDetailsRequest.setRequesterQuality(fr.cg95.cvq.xml.request.civil.MarriageRequesterQualityType.Enum.forString(this.requesterQuality.toString()));
+        if (getRequesterQuality() != null)
+            marriageDetailsRequest.setRequesterQuality(fr.cg95.cvq.xml.request.civil.MarriageRequesterQualityType.Enum.forString(getRequesterQuality().toString()));
       
-        marriageInformationTypeMarriage.setMarriageCity(this.marriageCity);
+        marriageInformationTypeMarriage.setMarriageCity(getMarriageCity());
       
-        marriageWifeInformationTypeMarriageWife.setMarriageWifeLastName(this.marriageWifeLastName);
+        marriageWifeInformationTypeMarriageWife.setMarriageWifeLastName(getMarriageWifeLastName());
       
-        date = this.marriageDate;
+        date = getMarriageDate();
         if (date != null) {
             calendar.setTime(date);
             marriageInformationTypeMarriage.setMarriageDate(calendar);
         }
       
-        marriageFatherInformationTypeFatherInformation.setFatherLastName(this.fatherLastName);
+        marriageFatherInformationTypeFatherInformation.setFatherLastName(getFatherLastName());
       
-        if (this.relationship != null)
-            marriageDetailsRequest.setRelationship(fr.cg95.cvq.xml.request.civil.MarriageRelationshipType.Enum.forString(this.relationship.toString()));
+        if (getRelationship() != null)
+            marriageDetailsRequest.setRelationship(fr.cg95.cvq.xml.request.civil.MarriageRelationshipType.Enum.forString(getRelationship().toString()));
       
-        marriageMotherInformationTypeMotherInformation.setMotherFirstNames(this.motherFirstNames);
+        marriageMotherInformationTypeMotherInformation.setMotherFirstNames(getMotherFirstNames());
       
-        if (this.motive != null)
-            marriageDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.MarriageCertificateMotiveType.Enum.forString(this.motive.toString()));
+        if (getMotive() != null)
+            marriageDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.MarriageCertificateMotiveType.Enum.forString(getMotive().toString()));
       
         return marriageDetailsRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        MarriageDetailsRequestDocument marriageDetailsRequestDoc =
-            (MarriageDetailsRequestDocument) modelToXml();
-        return marriageDetailsRequestDoc.getMarriageDetailsRequest();
+    public final MarriageDetailsRequestDocument.MarriageDetailsRequest modelToXmlRequest() {
+        return modelToXml().getMarriageDetailsRequest();
     }
 
     public static MarriageDetailsRequest xmlToModel(MarriageDetailsRequestDocument marriageDetailsRequestDoc) {
@@ -120,7 +131,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         List list = new ArrayList();
         MarriageDetailsRequest marriageDetailsRequest = new MarriageDetailsRequest();
         marriageDetailsRequest.fillCommonModelInfo(marriageDetailsRequest, marriageDetailsRequestXml);
-    
+        
         if (marriageDetailsRequestXml.getFormat() != null)
             marriageDetailsRequest.setFormat(fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType.forString(marriageDetailsRequestXml.getFormat().toString()));
         else
@@ -176,311 +187,148 @@ public class MarriageDetailsRequest extends Request implements Serializable {
     }
 
   
-    private fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType format;
-
     public final void setFormat(final fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType format) {
-        this.format = format;
+        marriageDetailsRequestData.setFormat(format);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="format"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType getFormat() {
-        return this.format;
+        return marriageDetailsRequestData.getFormat();
     }
   
-    private java.math.BigInteger copies;
-
     public final void setCopies(final java.math.BigInteger copies) {
-        this.copies = copies;
+        marriageDetailsRequestData.setCopies(copies);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="copies"
-        *  type="serializable"
-        
-      
-    */
     public final java.math.BigInteger getCopies() {
-        return this.copies;
+        return marriageDetailsRequestData.getCopies();
     }
   
-    private String marriageHusbandLastName;
-
     public final void setMarriageHusbandLastName(final String marriageHusbandLastName) {
-        this.marriageHusbandLastName = marriageHusbandLastName;
+        marriageDetailsRequestData.setMarriageHusbandLastName(marriageHusbandLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_husband_last_name"
-        *  length="38"
-      
-    */
     public final String getMarriageHusbandLastName() {
-        return this.marriageHusbandLastName;
+        return marriageDetailsRequestData.getMarriageHusbandLastName();
     }
   
-    private String marriageWifeFirstNames;
-
     public final void setMarriageWifeFirstNames(final String marriageWifeFirstNames) {
-        this.marriageWifeFirstNames = marriageWifeFirstNames;
+        marriageDetailsRequestData.setMarriageWifeFirstNames(marriageWifeFirstNames);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_wife_first_names"
-        
-      
-    */
     public final String getMarriageWifeFirstNames() {
-        return this.marriageWifeFirstNames;
+        return marriageDetailsRequestData.getMarriageWifeFirstNames();
     }
   
-    private String comment;
-
     public final void setComment(final String comment) {
-        this.comment = comment;
+        marriageDetailsRequestData.setComment(comment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="comment"
-        
-      
-    */
     public final String getComment() {
-        return this.comment;
+        return marriageDetailsRequestData.getComment();
     }
   
-    private String requesterQualityPrecision;
-
     public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
-        this.requesterQualityPrecision = requesterQualityPrecision;
+        marriageDetailsRequestData.setRequesterQualityPrecision(requesterQualityPrecision);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="requester_quality_precision"
-        
-      
-    */
     public final String getRequesterQualityPrecision() {
-        return this.requesterQualityPrecision;
+        return marriageDetailsRequestData.getRequesterQualityPrecision();
     }
   
-    private String fatherFirstNames;
-
     public final void setFatherFirstNames(final String fatherFirstNames) {
-        this.fatherFirstNames = fatherFirstNames;
+        marriageDetailsRequestData.setFatherFirstNames(fatherFirstNames);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_first_names"
-        
-      
-    */
     public final String getFatherFirstNames() {
-        return this.fatherFirstNames;
+        return marriageDetailsRequestData.getFatherFirstNames();
     }
   
-    private String marriagePostalCode;
-
     public final void setMarriagePostalCode(final String marriagePostalCode) {
-        this.marriagePostalCode = marriagePostalCode;
+        marriageDetailsRequestData.setMarriagePostalCode(marriagePostalCode);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_postal_code"
-        *  length="2"
-      
-    */
     public final String getMarriagePostalCode() {
-        return this.marriagePostalCode;
+        return marriageDetailsRequestData.getMarriagePostalCode();
     }
   
-    private String motherMaidenName;
-
     public final void setMotherMaidenName(final String motherMaidenName) {
-        this.motherMaidenName = motherMaidenName;
+        marriageDetailsRequestData.setMotherMaidenName(motherMaidenName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_maiden_name"
-        *  length="38"
-      
-    */
     public final String getMotherMaidenName() {
-        return this.motherMaidenName;
+        return marriageDetailsRequestData.getMotherMaidenName();
     }
   
-    private String marriageHusbandFirstNames;
-
     public final void setMarriageHusbandFirstNames(final String marriageHusbandFirstNames) {
-        this.marriageHusbandFirstNames = marriageHusbandFirstNames;
+        marriageDetailsRequestData.setMarriageHusbandFirstNames(marriageHusbandFirstNames);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_husband_first_names"
-        
-      
-    */
     public final String getMarriageHusbandFirstNames() {
-        return this.marriageHusbandFirstNames;
+        return marriageDetailsRequestData.getMarriageHusbandFirstNames();
     }
   
-    private fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType requesterQuality;
-
     public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType requesterQuality) {
-        this.requesterQuality = requesterQuality;
+        marriageDetailsRequestData.setRequesterQuality(requesterQuality);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="requester_quality"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType getRequesterQuality() {
-        return this.requesterQuality;
+        return marriageDetailsRequestData.getRequesterQuality();
     }
   
-    private String marriageCity;
-
     public final void setMarriageCity(final String marriageCity) {
-        this.marriageCity = marriageCity;
+        marriageDetailsRequestData.setMarriageCity(marriageCity);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_city"
-        *  length="32"
-      
-    */
     public final String getMarriageCity() {
-        return this.marriageCity;
+        return marriageDetailsRequestData.getMarriageCity();
     }
   
-    private String marriageWifeLastName;
-
     public final void setMarriageWifeLastName(final String marriageWifeLastName) {
-        this.marriageWifeLastName = marriageWifeLastName;
+        marriageDetailsRequestData.setMarriageWifeLastName(marriageWifeLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_wife_last_name"
-        *  length="38"
-      
-    */
     public final String getMarriageWifeLastName() {
-        return this.marriageWifeLastName;
+        return marriageDetailsRequestData.getMarriageWifeLastName();
     }
   
-    private java.util.Date marriageDate;
-
     public final void setMarriageDate(final java.util.Date marriageDate) {
-        this.marriageDate = marriageDate;
+        marriageDetailsRequestData.setMarriageDate(marriageDate);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="marriage_date"
-        
-      
-    */
     public final java.util.Date getMarriageDate() {
-        return this.marriageDate;
+        return marriageDetailsRequestData.getMarriageDate();
     }
   
-    private String fatherLastName;
-
     public final void setFatherLastName(final String fatherLastName) {
-        this.fatherLastName = fatherLastName;
+        marriageDetailsRequestData.setFatherLastName(fatherLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_last_name"
-        *  length="38"
-      
-    */
     public final String getFatherLastName() {
-        return this.fatherLastName;
+        return marriageDetailsRequestData.getFatherLastName();
     }
   
-    private fr.cg95.cvq.business.request.civil.MarriageRelationshipType relationship;
-
     public final void setRelationship(final fr.cg95.cvq.business.request.civil.MarriageRelationshipType relationship) {
-        this.relationship = relationship;
+        marriageDetailsRequestData.setRelationship(relationship);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="relationship"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.civil.MarriageRelationshipType getRelationship() {
-        return this.relationship;
+        return marriageDetailsRequestData.getRelationship();
     }
   
-    private String motherFirstNames;
-
     public final void setMotherFirstNames(final String motherFirstNames) {
-        this.motherFirstNames = motherFirstNames;
+        marriageDetailsRequestData.setMotherFirstNames(motherFirstNames);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_first_names"
-        
-      
-    */
     public final String getMotherFirstNames() {
-        return this.motherFirstNames;
+        return marriageDetailsRequestData.getMotherFirstNames();
     }
   
-    private fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType motive;
-
     public final void setMotive(final fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType motive) {
-        this.motive = motive;
+        marriageDetailsRequestData.setMotive(motive);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="motive"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType getMotive() {
-        return this.motive;
+        return marriageDetailsRequestData.getMotive();
     }
   
 }

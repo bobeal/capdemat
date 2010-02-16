@@ -2049,7 +2049,7 @@
     </xs:choice>
   </xs:complexType>
 
-  <xs:complexType name="RequestType" abstract="true">
+  <xs:complexType name="RequestType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
         Informations générales relatives à une demande administrative

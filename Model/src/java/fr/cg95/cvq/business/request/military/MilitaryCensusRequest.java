@@ -14,51 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.military.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="military_census_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class MilitaryCensusRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private MilitaryCensusRequestData militaryCensusRequestData;
+
+    public MilitaryCensusRequest(RequestData requestData, MilitaryCensusRequestData militaryCensusRequestData) {
+        super(requestData);
+        this.militaryCensusRequestData = militaryCensusRequestData;
+    }
+
     public MilitaryCensusRequest() {
         super();
-      
-        childStatus = fr.cg95.cvq.business.users.FamilyStatusType.OTHER;
-      
-        affectionOrDisease = Boolean.valueOf(false);
-      
-        statePupil = Boolean.valueOf(false);
-      
-        childBirthCountry = fr.cg95.cvq.business.users.CountryType.FR;
-      
-        motherNationality = fr.cg95.cvq.business.users.FullNationalityType.FR;
-      
-        highlyInfirm = Boolean.valueOf(false);
-      
-        japdExemption = Boolean.valueOf(false);
-      
-        childResidenceCountry = fr.cg95.cvq.business.users.CountryType.FR;
-      
-        prefectPupil = Boolean.valueOf(false);
-      
-        childCountry = fr.cg95.cvq.business.users.FullNationalityType.FR;
-      
+        this.militaryCensusRequestData = new MilitaryCensusRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public MilitaryCensusRequestData getSpecificData() {
+        return militaryCensusRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(MilitaryCensusRequestData militaryCensusRequestData) {
+        this.militaryCensusRequestData = militaryCensusRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        MilitaryCensusRequestDocument object = (MilitaryCensusRequestDocument) this.modelToXml();
+        MilitaryCensusRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -76,119 +71,117 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         MilitaryCensusRequestDocument.MilitaryCensusRequest militaryCensusRequest = militaryCensusRequestDoc.addNewMilitaryCensusRequest();
         super.fillCommonXmlInfo(militaryCensusRequest);
         int i = 0;
-      MilitaryFatherInformationType militaryFatherInformationTypeFatherInformation = militaryCensusRequest.addNewFatherInformation();
-        if (this.fatherBirthDepartment != null)
-            militaryFatherInformationTypeFatherInformation.setFatherBirthDepartment(fr.cg95.cvq.xml.common.InseeDepartementCodeType.Enum.forString(this.fatherBirthDepartment.toString()));
+          MilitaryFatherInformationType militaryFatherInformationTypeFatherInformation = militaryCensusRequest.addNewFatherInformation();
+        if (getFatherBirthDepartment() != null)
+            militaryFatherInformationTypeFatherInformation.setFatherBirthDepartment(fr.cg95.cvq.xml.common.InseeDepartementCodeType.Enum.forString(getFatherBirthDepartment().toString()));
         ProfessionalSituationInformationType professionalSituationInformationTypeProfessionalSituationInformation = militaryCensusRequest.addNewProfessionalSituationInformation();
-        professionalSituationInformationTypeProfessionalSituationInformation.setChildProfession(this.childProfession);
+        professionalSituationInformationTypeProfessionalSituationInformation.setChildProfession(getChildProfession());
         FamilySituationInformationType familySituationInformationTypeFamilySituationInformation = militaryCensusRequest.addNewFamilySituationInformation();
-        if (this.childStatus != null)
-            familySituationInformationTypeFamilySituationInformation.setChildStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(this.childStatus.toString()));
+        if (getChildStatus() != null)
+            familySituationInformationTypeFamilySituationInformation.setChildStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getChildStatus().toString()));
       
-        if (this.aliveChildren != null)
-            familySituationInformationTypeFamilySituationInformation.setAliveChildren(new BigInteger(this.aliveChildren.toString()));
+        if (getAliveChildren() != null)
+            familySituationInformationTypeFamilySituationInformation.setAliveChildren(new BigInteger(getAliveChildren().toString()));
       
-        if (this.affectionOrDisease != null)
-            militaryCensusRequest.setAffectionOrDisease(this.affectionOrDisease.booleanValue());
+        if (getAffectionOrDisease() != null)
+            militaryCensusRequest.setAffectionOrDisease(getAffectionOrDisease().booleanValue());
       
-        if (this.statePupil != null)
-            familySituationInformationTypeFamilySituationInformation.setStatePupil(this.statePupil.booleanValue());
+        if (getStatePupil() != null)
+            familySituationInformationTypeFamilySituationInformation.setStatePupil(getStatePupil().booleanValue());
       
-        if (this.childTitle != null)
-            militaryCensusRequest.setChildTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(this.childTitle.toString()));
+        if (getChildTitle() != null)
+            militaryCensusRequest.setChildTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getChildTitle().toString()));
       
-        militaryCensusRequest.setChildMail(this.childMail);
+        militaryCensusRequest.setChildMail(getChildMail());
       
-        if (this.childDiploma != null)
-            professionalSituationInformationTypeProfessionalSituationInformation.setChildDiploma(fr.cg95.cvq.xml.request.military.ChildDiplomaType.Enum.forString(this.childDiploma.toString()));
+        if (getChildDiploma() != null)
+            professionalSituationInformationTypeProfessionalSituationInformation.setChildDiploma(fr.cg95.cvq.xml.request.military.ChildDiplomaType.Enum.forString(getChildDiploma().toString()));
         MilitaryMotherInformationType militaryMotherInformationTypeMotherInformation = militaryCensusRequest.addNewMotherInformation();
-        if (this.motherBirthCountry != null)
-            militaryMotherInformationTypeMotherInformation.setMotherBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(this.motherBirthCountry.toString()));
+        if (getMotherBirthCountry() != null)
+            militaryMotherInformationTypeMotherInformation.setMotherBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getMotherBirthCountry().toString()));
       
-        militaryFatherInformationTypeFatherInformation.setFatherBirthCity(this.fatherBirthCity);
+        militaryFatherInformationTypeFatherInformation.setFatherBirthCity(getFatherBirthCity());
       
-        date = this.fatherBirthDate;
+        date = getFatherBirthDate();
         if (date != null) {
             calendar.setTime(date);
             militaryFatherInformationTypeFatherInformation.setFatherBirthDate(calendar);
         }
       
-        militaryFatherInformationTypeFatherInformation.setFatherFirstName(this.fatherFirstName);
+        militaryFatherInformationTypeFatherInformation.setFatherFirstName(getFatherFirstName());
       
-        militaryMotherInformationTypeMotherInformation.setMotherBirthCity(this.motherBirthCity);
+        militaryMotherInformationTypeMotherInformation.setMotherBirthCity(getMotherBirthCity());
       
-        if (this.fatherNationality != null)
-            militaryFatherInformationTypeFatherInformation.setFatherNationality(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(this.fatherNationality.toString()));
+        if (getFatherNationality() != null)
+            militaryFatherInformationTypeFatherInformation.setFatherNationality(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(getFatherNationality().toString()));
       
-        date = this.motherBirthDate;
+        date = getMotherBirthDate();
         if (date != null) {
             calendar.setTime(date);
             militaryMotherInformationTypeMotherInformation.setMotherBirthDate(calendar);
         }
       
-        militaryMotherInformationTypeMotherInformation.setMotherFirstName(this.motherFirstName);
+        militaryMotherInformationTypeMotherInformation.setMotherFirstName(getMotherFirstName());
       
-        if (this.childBirthCountry != null)
-            militaryCensusRequest.setChildBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(this.childBirthCountry.toString()));
+        if (getChildBirthCountry() != null)
+            militaryCensusRequest.setChildBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getChildBirthCountry().toString()));
       
-        if (this.motherNationality != null)
-            militaryMotherInformationTypeMotherInformation.setMotherNationality(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(this.motherNationality.toString()));
+        if (getMotherNationality() != null)
+            militaryMotherInformationTypeMotherInformation.setMotherNationality(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(getMotherNationality().toString()));
       
-        if (this.highlyInfirm != null)
-            militaryCensusRequest.setHighlyInfirm(this.highlyInfirm.booleanValue());
+        if (getHighlyInfirm() != null)
+            militaryCensusRequest.setHighlyInfirm(getHighlyInfirm().booleanValue());
       
-        professionalSituationInformationTypeProfessionalSituationInformation.setChildSpeciality(this.childSpeciality);
+        professionalSituationInformationTypeProfessionalSituationInformation.setChildSpeciality(getChildSpeciality());
       
-        if (this.childOtherCountry != null)
-            militaryCensusRequest.setChildOtherCountry(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(this.childOtherCountry.toString()));
+        if (getChildOtherCountry() != null)
+            militaryCensusRequest.setChildOtherCountry(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(getChildOtherCountry().toString()));
       
-        if (this.childrenInCharge != null)
-            familySituationInformationTypeFamilySituationInformation.setChildrenInCharge(new BigInteger(this.childrenInCharge.toString()));
+        if (getChildrenInCharge() != null)
+            familySituationInformationTypeFamilySituationInformation.setChildrenInCharge(new BigInteger(getChildrenInCharge().toString()));
       
-        if (this.japdExemption != null)
-            militaryCensusRequest.setJapdExemption(this.japdExemption.booleanValue());
+        if (getJapdExemption() != null)
+            militaryCensusRequest.setJapdExemption(getJapdExemption().booleanValue());
       
-        if (this.childSituation != null)
-            professionalSituationInformationTypeProfessionalSituationInformation.setChildSituation(fr.cg95.cvq.xml.request.military.ChildSituationType.Enum.forString(this.childSituation.toString()));
+        if (getChildSituation() != null)
+            professionalSituationInformationTypeProfessionalSituationInformation.setChildSituation(fr.cg95.cvq.xml.request.military.ChildSituationType.Enum.forString(getChildSituation().toString()));
       
-        militaryCensusRequest.setMaidenName(this.maidenName);
+        militaryCensusRequest.setMaidenName(getMaidenName());
       
-        militaryCensusRequest.setChildPhone(this.childPhone);
+        militaryCensusRequest.setChildPhone(getChildPhone());
       
-        militaryMotherInformationTypeMotherInformation.setMotherLastName(this.motherLastName);
+        militaryMotherInformationTypeMotherInformation.setMotherLastName(getMotherLastName());
       
-        militaryFatherInformationTypeFatherInformation.setFatherLastName(this.fatherLastName);
+        militaryFatherInformationTypeFatherInformation.setFatherLastName(getFatherLastName());
       
-        if (this.prefectPupilDepartment != null)
-            familySituationInformationTypeFamilySituationInformation.setPrefectPupilDepartment(fr.cg95.cvq.xml.common.InseeDepartementCodeType.Enum.forString(this.prefectPupilDepartment.toString()));
+        if (getPrefectPupilDepartment() != null)
+            familySituationInformationTypeFamilySituationInformation.setPrefectPupilDepartment(fr.cg95.cvq.xml.common.InseeDepartementCodeType.Enum.forString(getPrefectPupilDepartment().toString()));
       
-        if (this.motherBirthDepartment != null)
-            militaryMotherInformationTypeMotherInformation.setMotherBirthDepartment(fr.cg95.cvq.xml.common.InseeDepartementCodeType.Enum.forString(this.motherBirthDepartment.toString()));
+        if (getMotherBirthDepartment() != null)
+            militaryMotherInformationTypeMotherInformation.setMotherBirthDepartment(fr.cg95.cvq.xml.common.InseeDepartementCodeType.Enum.forString(getMotherBirthDepartment().toString()));
       
-        if (this.childResidenceCountry != null)
-            militaryCensusRequest.setChildResidenceCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(this.childResidenceCountry.toString()));
+        if (getChildResidenceCountry() != null)
+            militaryCensusRequest.setChildResidenceCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getChildResidenceCountry().toString()));
       
-        familySituationInformationTypeFamilySituationInformation.setOtherSituation(this.otherSituation);
+        familySituationInformationTypeFamilySituationInformation.setOtherSituation(getOtherSituation());
       
-        if (this.prefectPupil != null)
-            familySituationInformationTypeFamilySituationInformation.setPrefectPupil(this.prefectPupil.booleanValue());
+        if (getPrefectPupil() != null)
+            familySituationInformationTypeFamilySituationInformation.setPrefectPupil(getPrefectPupil().booleanValue());
       
-        if (this.childCountry != null)
-            militaryCensusRequest.setChildCountry(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(this.childCountry.toString()));
+        if (getChildCountry() != null)
+            militaryCensusRequest.setChildCountry(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(getChildCountry().toString()));
       
-        militaryCensusRequest.setChildConvention(this.childConvention);
+        militaryCensusRequest.setChildConvention(getChildConvention());
       
-        if (this.fatherBirthCountry != null)
-            militaryFatherInformationTypeFatherInformation.setFatherBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(this.fatherBirthCountry.toString()));
+        if (getFatherBirthCountry() != null)
+            militaryFatherInformationTypeFatherInformation.setFatherBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getFatherBirthCountry().toString()));
       
         return militaryCensusRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        MilitaryCensusRequestDocument militaryCensusRequestDoc =
-            (MilitaryCensusRequestDocument) modelToXml();
-        return militaryCensusRequestDoc.getMilitaryCensusRequest();
+    public final MilitaryCensusRequestDocument.MilitaryCensusRequest modelToXmlRequest() {
+        return modelToXml().getMilitaryCensusRequest();
     }
 
     public static MilitaryCensusRequest xmlToModel(MilitaryCensusRequestDocument militaryCensusRequestDoc) {
@@ -197,7 +190,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         List list = new ArrayList();
         MilitaryCensusRequest militaryCensusRequest = new MilitaryCensusRequest();
         militaryCensusRequest.fillCommonModelInfo(militaryCensusRequest, militaryCensusRequestXml);
-    
+        
         if (militaryCensusRequestXml.getFatherInformation().getFatherBirthDepartment() != null)
             militaryCensusRequest.setFatherBirthDepartment(fr.cg95.cvq.business.users.InseeDepartementCodeType.forString(militaryCensusRequestXml.getFatherInformation().getFatherBirthDepartment().toString()));
         else
@@ -327,635 +320,300 @@ public class MilitaryCensusRequest extends Request implements Serializable {
     }
 
   
-    private fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment;
-
     public final void setFatherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment) {
-        this.fatherBirthDepartment = fatherBirthDepartment;
+        militaryCensusRequestData.setFatherBirthDepartment(fatherBirthDepartment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_birth_department"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.InseeDepartementCodeType getFatherBirthDepartment() {
-        return this.fatherBirthDepartment;
+        return militaryCensusRequestData.getFatherBirthDepartment();
     }
   
-    private String childProfession;
-
     public final void setChildProfession(final String childProfession) {
-        this.childProfession = childProfession;
+        militaryCensusRequestData.setChildProfession(childProfession);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_profession"
-        
-      
-    */
     public final String getChildProfession() {
-        return this.childProfession;
+        return militaryCensusRequestData.getChildProfession();
     }
   
-    private fr.cg95.cvq.business.users.FamilyStatusType childStatus;
-
     public final void setChildStatus(final fr.cg95.cvq.business.users.FamilyStatusType childStatus) {
-        this.childStatus = childStatus;
+        militaryCensusRequestData.setChildStatus(childStatus);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_status"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.FamilyStatusType getChildStatus() {
-        return this.childStatus;
+        return militaryCensusRequestData.getChildStatus();
     }
   
-    private java.math.BigInteger aliveChildren;
-
     public final void setAliveChildren(final java.math.BigInteger aliveChildren) {
-        this.aliveChildren = aliveChildren;
+        militaryCensusRequestData.setAliveChildren(aliveChildren);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="alive_children"
-        *  type="serializable"
-        
-      
-    */
     public final java.math.BigInteger getAliveChildren() {
-        return this.aliveChildren;
+        return militaryCensusRequestData.getAliveChildren();
     }
   
-    private Boolean affectionOrDisease;
-
     public final void setAffectionOrDisease(final Boolean affectionOrDisease) {
-        this.affectionOrDisease = affectionOrDisease;
+        militaryCensusRequestData.setAffectionOrDisease(affectionOrDisease);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="affection_or_disease"
-        
-      
-    */
     public final Boolean getAffectionOrDisease() {
-        return this.affectionOrDisease;
+        return militaryCensusRequestData.getAffectionOrDisease();
     }
   
-    private Boolean statePupil;
-
     public final void setStatePupil(final Boolean statePupil) {
-        this.statePupil = statePupil;
+        militaryCensusRequestData.setStatePupil(statePupil);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="state_pupil"
-        
-      
-    */
     public final Boolean getStatePupil() {
-        return this.statePupil;
+        return militaryCensusRequestData.getStatePupil();
     }
   
-    private fr.cg95.cvq.business.users.TitleType childTitle;
-
     public final void setChildTitle(final fr.cg95.cvq.business.users.TitleType childTitle) {
-        this.childTitle = childTitle;
+        militaryCensusRequestData.setChildTitle(childTitle);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_title"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.TitleType getChildTitle() {
-        return this.childTitle;
+        return militaryCensusRequestData.getChildTitle();
     }
   
-    private String childMail;
-
     public final void setChildMail(final String childMail) {
-        this.childMail = childMail;
+        militaryCensusRequestData.setChildMail(childMail);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_mail"
-        
-      
-    */
     public final String getChildMail() {
-        return this.childMail;
+        return militaryCensusRequestData.getChildMail();
     }
   
-    private fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma;
-
     public final void setChildDiploma(final fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma) {
-        this.childDiploma = childDiploma;
+        militaryCensusRequestData.setChildDiploma(childDiploma);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_diploma"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.military.ChildDiplomaType getChildDiploma() {
-        return this.childDiploma;
+        return militaryCensusRequestData.getChildDiploma();
     }
   
-    private fr.cg95.cvq.business.users.CountryType motherBirthCountry;
-
     public final void setMotherBirthCountry(final fr.cg95.cvq.business.users.CountryType motherBirthCountry) {
-        this.motherBirthCountry = motherBirthCountry;
+        militaryCensusRequestData.setMotherBirthCountry(motherBirthCountry);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_birth_country"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.CountryType getMotherBirthCountry() {
-        return this.motherBirthCountry;
+        return militaryCensusRequestData.getMotherBirthCountry();
     }
   
-    private String fatherBirthCity;
-
     public final void setFatherBirthCity(final String fatherBirthCity) {
-        this.fatherBirthCity = fatherBirthCity;
+        militaryCensusRequestData.setFatherBirthCity(fatherBirthCity);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_birth_city"
-        
-      
-    */
     public final String getFatherBirthCity() {
-        return this.fatherBirthCity;
+        return militaryCensusRequestData.getFatherBirthCity();
     }
   
-    private java.util.Date fatherBirthDate;
-
     public final void setFatherBirthDate(final java.util.Date fatherBirthDate) {
-        this.fatherBirthDate = fatherBirthDate;
+        militaryCensusRequestData.setFatherBirthDate(fatherBirthDate);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_birth_date"
-        
-      
-    */
     public final java.util.Date getFatherBirthDate() {
-        return this.fatherBirthDate;
+        return militaryCensusRequestData.getFatherBirthDate();
     }
   
-    private String fatherFirstName;
-
     public final void setFatherFirstName(final String fatherFirstName) {
-        this.fatherFirstName = fatherFirstName;
+        militaryCensusRequestData.setFatherFirstName(fatherFirstName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_first_name"
-        *  length="38"
-      
-    */
     public final String getFatherFirstName() {
-        return this.fatherFirstName;
+        return militaryCensusRequestData.getFatherFirstName();
     }
   
-    private String motherBirthCity;
-
     public final void setMotherBirthCity(final String motherBirthCity) {
-        this.motherBirthCity = motherBirthCity;
+        militaryCensusRequestData.setMotherBirthCity(motherBirthCity);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_birth_city"
-        
-      
-    */
     public final String getMotherBirthCity() {
-        return this.motherBirthCity;
+        return militaryCensusRequestData.getMotherBirthCity();
     }
   
-    private fr.cg95.cvq.business.users.FullNationalityType fatherNationality;
-
     public final void setFatherNationality(final fr.cg95.cvq.business.users.FullNationalityType fatherNationality) {
-        this.fatherNationality = fatherNationality;
+        militaryCensusRequestData.setFatherNationality(fatherNationality);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_nationality"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.FullNationalityType getFatherNationality() {
-        return this.fatherNationality;
+        return militaryCensusRequestData.getFatherNationality();
     }
   
-    private java.util.Date motherBirthDate;
-
     public final void setMotherBirthDate(final java.util.Date motherBirthDate) {
-        this.motherBirthDate = motherBirthDate;
+        militaryCensusRequestData.setMotherBirthDate(motherBirthDate);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_birth_date"
-        
-      
-    */
     public final java.util.Date getMotherBirthDate() {
-        return this.motherBirthDate;
+        return militaryCensusRequestData.getMotherBirthDate();
     }
   
-    private String motherFirstName;
-
     public final void setMotherFirstName(final String motherFirstName) {
-        this.motherFirstName = motherFirstName;
+        militaryCensusRequestData.setMotherFirstName(motherFirstName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_first_name"
-        *  length="38"
-      
-    */
     public final String getMotherFirstName() {
-        return this.motherFirstName;
+        return militaryCensusRequestData.getMotherFirstName();
     }
   
-    private fr.cg95.cvq.business.users.CountryType childBirthCountry;
-
     public final void setChildBirthCountry(final fr.cg95.cvq.business.users.CountryType childBirthCountry) {
-        this.childBirthCountry = childBirthCountry;
+        militaryCensusRequestData.setChildBirthCountry(childBirthCountry);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_birth_country"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.CountryType getChildBirthCountry() {
-        return this.childBirthCountry;
+        return militaryCensusRequestData.getChildBirthCountry();
     }
   
-    private fr.cg95.cvq.business.users.FullNationalityType motherNationality;
-
     public final void setMotherNationality(final fr.cg95.cvq.business.users.FullNationalityType motherNationality) {
-        this.motherNationality = motherNationality;
+        militaryCensusRequestData.setMotherNationality(motherNationality);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_nationality"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.FullNationalityType getMotherNationality() {
-        return this.motherNationality;
+        return militaryCensusRequestData.getMotherNationality();
     }
   
-    private Boolean highlyInfirm;
-
     public final void setHighlyInfirm(final Boolean highlyInfirm) {
-        this.highlyInfirm = highlyInfirm;
+        militaryCensusRequestData.setHighlyInfirm(highlyInfirm);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="highly_infirm"
-        
-      
-    */
     public final Boolean getHighlyInfirm() {
-        return this.highlyInfirm;
+        return militaryCensusRequestData.getHighlyInfirm();
     }
   
-    private String childSpeciality;
-
     public final void setChildSpeciality(final String childSpeciality) {
-        this.childSpeciality = childSpeciality;
+        militaryCensusRequestData.setChildSpeciality(childSpeciality);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_speciality"
-        
-      
-    */
     public final String getChildSpeciality() {
-        return this.childSpeciality;
+        return militaryCensusRequestData.getChildSpeciality();
     }
   
-    private fr.cg95.cvq.business.users.FullNationalityType childOtherCountry;
-
     public final void setChildOtherCountry(final fr.cg95.cvq.business.users.FullNationalityType childOtherCountry) {
-        this.childOtherCountry = childOtherCountry;
+        militaryCensusRequestData.setChildOtherCountry(childOtherCountry);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_other_country"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.FullNationalityType getChildOtherCountry() {
-        return this.childOtherCountry;
+        return militaryCensusRequestData.getChildOtherCountry();
     }
   
-    private java.math.BigInteger childrenInCharge;
-
     public final void setChildrenInCharge(final java.math.BigInteger childrenInCharge) {
-        this.childrenInCharge = childrenInCharge;
+        militaryCensusRequestData.setChildrenInCharge(childrenInCharge);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="children_in_charge"
-        *  type="serializable"
-        
-      
-    */
     public final java.math.BigInteger getChildrenInCharge() {
-        return this.childrenInCharge;
+        return militaryCensusRequestData.getChildrenInCharge();
     }
   
-    private Boolean japdExemption;
-
     public final void setJapdExemption(final Boolean japdExemption) {
-        this.japdExemption = japdExemption;
+        militaryCensusRequestData.setJapdExemption(japdExemption);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="japd_exemption"
-        
-      
-    */
     public final Boolean getJapdExemption() {
-        return this.japdExemption;
+        return militaryCensusRequestData.getJapdExemption();
     }
   
-    private fr.cg95.cvq.business.request.military.ChildSituationType childSituation;
-
     public final void setChildSituation(final fr.cg95.cvq.business.request.military.ChildSituationType childSituation) {
-        this.childSituation = childSituation;
+        militaryCensusRequestData.setChildSituation(childSituation);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_situation"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.military.ChildSituationType getChildSituation() {
-        return this.childSituation;
+        return militaryCensusRequestData.getChildSituation();
     }
   
-    private String maidenName;
-
     public final void setMaidenName(final String maidenName) {
-        this.maidenName = maidenName;
+        militaryCensusRequestData.setMaidenName(maidenName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="maiden_name"
-        *  length="38"
-      
-    */
     public final String getMaidenName() {
-        return this.maidenName;
+        return militaryCensusRequestData.getMaidenName();
     }
   
-    private String childPhone;
-
     public final void setChildPhone(final String childPhone) {
-        this.childPhone = childPhone;
+        militaryCensusRequestData.setChildPhone(childPhone);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_phone"
-        *  length="10"
-      
-    */
     public final String getChildPhone() {
-        return this.childPhone;
+        return militaryCensusRequestData.getChildPhone();
     }
   
-    private String motherLastName;
-
     public final void setMotherLastName(final String motherLastName) {
-        this.motherLastName = motherLastName;
+        militaryCensusRequestData.setMotherLastName(motherLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_last_name"
-        *  length="38"
-      
-    */
     public final String getMotherLastName() {
-        return this.motherLastName;
+        return militaryCensusRequestData.getMotherLastName();
     }
   
-    private String fatherLastName;
-
     public final void setFatherLastName(final String fatherLastName) {
-        this.fatherLastName = fatherLastName;
+        militaryCensusRequestData.setFatherLastName(fatherLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_last_name"
-        *  length="38"
-      
-    */
     public final String getFatherLastName() {
-        return this.fatherLastName;
+        return militaryCensusRequestData.getFatherLastName();
     }
   
-    private fr.cg95.cvq.business.users.InseeDepartementCodeType prefectPupilDepartment;
-
     public final void setPrefectPupilDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType prefectPupilDepartment) {
-        this.prefectPupilDepartment = prefectPupilDepartment;
+        militaryCensusRequestData.setPrefectPupilDepartment(prefectPupilDepartment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="prefect_pupil_department"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.InseeDepartementCodeType getPrefectPupilDepartment() {
-        return this.prefectPupilDepartment;
+        return militaryCensusRequestData.getPrefectPupilDepartment();
     }
   
-    private fr.cg95.cvq.business.users.InseeDepartementCodeType motherBirthDepartment;
-
     public final void setMotherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType motherBirthDepartment) {
-        this.motherBirthDepartment = motherBirthDepartment;
+        militaryCensusRequestData.setMotherBirthDepartment(motherBirthDepartment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_birth_department"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.InseeDepartementCodeType getMotherBirthDepartment() {
-        return this.motherBirthDepartment;
+        return militaryCensusRequestData.getMotherBirthDepartment();
     }
   
-    private fr.cg95.cvq.business.users.CountryType childResidenceCountry;
-
     public final void setChildResidenceCountry(final fr.cg95.cvq.business.users.CountryType childResidenceCountry) {
-        this.childResidenceCountry = childResidenceCountry;
+        militaryCensusRequestData.setChildResidenceCountry(childResidenceCountry);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_residence_country"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.CountryType getChildResidenceCountry() {
-        return this.childResidenceCountry;
+        return militaryCensusRequestData.getChildResidenceCountry();
     }
   
-    private String otherSituation;
-
     public final void setOtherSituation(final String otherSituation) {
-        this.otherSituation = otherSituation;
+        militaryCensusRequestData.setOtherSituation(otherSituation);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="other_situation"
-        
-      
-    */
     public final String getOtherSituation() {
-        return this.otherSituation;
+        return militaryCensusRequestData.getOtherSituation();
     }
   
-    private Boolean prefectPupil;
-
     public final void setPrefectPupil(final Boolean prefectPupil) {
-        this.prefectPupil = prefectPupil;
+        militaryCensusRequestData.setPrefectPupil(prefectPupil);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="prefect_pupil"
-        
-      
-    */
     public final Boolean getPrefectPupil() {
-        return this.prefectPupil;
+        return militaryCensusRequestData.getPrefectPupil();
     }
   
-    private fr.cg95.cvq.business.users.FullNationalityType childCountry;
-
     public final void setChildCountry(final fr.cg95.cvq.business.users.FullNationalityType childCountry) {
-        this.childCountry = childCountry;
+        militaryCensusRequestData.setChildCountry(childCountry);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_country"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.FullNationalityType getChildCountry() {
-        return this.childCountry;
+        return militaryCensusRequestData.getChildCountry();
     }
   
-    private String childConvention;
-
     public final void setChildConvention(final String childConvention) {
-        this.childConvention = childConvention;
+        militaryCensusRequestData.setChildConvention(childConvention);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="child_convention"
-        
-      
-    */
     public final String getChildConvention() {
-        return this.childConvention;
+        return militaryCensusRequestData.getChildConvention();
     }
   
-    private fr.cg95.cvq.business.users.CountryType fatherBirthCountry;
-
     public final void setFatherBirthCountry(final fr.cg95.cvq.business.users.CountryType fatherBirthCountry) {
-        this.fatherBirthCountry = fatherBirthCountry;
+        militaryCensusRequestData.setFatherBirthCountry(fatherBirthCountry);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_birth_country"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.CountryType getFatherBirthCountry() {
-        return this.fatherBirthCountry;
+        return militaryCensusRequestData.getFatherBirthCountry();
     }
   
 }

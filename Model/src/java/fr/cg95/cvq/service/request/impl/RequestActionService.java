@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.impl;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.Request;
@@ -19,7 +18,6 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.request.IRequestActionService;
-import fr.cg95.cvq.util.Critere;
 
 /**
  *
@@ -32,28 +30,21 @@ public class RequestActionService implements IRequestActionService {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public RequestAction getAction(final Long id)
+    public RequestAction getAction(final Long requestId, final Long id)
         throws CvqObjectNotFoundException {
-        return
-            (RequestAction)requestActionDAO.findById(RequestAction.class, id);
-    }
-
-    @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<RequestAction> get(Set<Critere> criteriaSet, String sort,
-        String dir, int count, int offset) {
-        return requestActionDAO.get(criteriaSet, sort, dir, count, offset);
+        // do not directly use requestActionDAO to enforce request access rights
+        Request request = requestDAO.findById(requestId);
+        for (RequestAction action : request.getActions()) {
+            if (action.getId().equals(id))
+                return action;
+        }
+        throw new CvqObjectNotFoundException();
     }
 
     @Override
     public boolean hasAction(final Long requestId, final RequestActionType type)
         throws CvqException {
-        Set<Critere> criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_REQUEST_ID,
-            requestId, Critere.EQUALS));
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_TYPE,
-            type, Critere.EQUALS));
-        return requestActionDAO.getCount(criteriaSet) > 0;
+        return requestActionDAO.hasAction(requestId, type);
     }
 
     @Override
@@ -122,7 +113,6 @@ public class RequestActionService implements IRequestActionService {
         requestAction.setDate(date);
         requestAction.setResultingState(resultingState);
         requestAction.setFile(pdfData);
-        requestAction.setRequest(request);
 
         if (request.getActions() == null) {
             Set<RequestAction> actionsSet = new HashSet<RequestAction>();

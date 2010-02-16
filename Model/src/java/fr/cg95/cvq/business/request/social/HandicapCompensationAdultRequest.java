@@ -14,177 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="handicap_compensation_adult_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class HandicapCompensationAdultRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private HandicapCompensationAdultRequestData handicapCompensationAdultRequestData;
+
+    public HandicapCompensationAdultRequest(RequestData requestData, HandicapCompensationAdultRequestData handicapCompensationAdultRequestData) {
+        super(requestData);
+        this.handicapCompensationAdultRequestData = handicapCompensationAdultRequestData;
+    }
+
     public HandicapCompensationAdultRequest() {
         super();
-      
-        healthFollowedByProfessional = Boolean.valueOf(false);
-      
-        professionalSupportProfessionals = Boolean.valueOf(false);
-      
-        isFamilyAssistance = Boolean.valueOf(false);
-      
-        foldersCdes = Boolean.valueOf(false);
-      
-        benefitsEducationAllocationOfDisabledChildren = Boolean.valueOf(false);
-      
-        homeInterventionHomeIntervenant = Boolean.valueOf(false);
-      
-        projectRequestsHousingFacilities = Boolean.valueOf(false);
-      
-        benefitsDisabilityPension = Boolean.valueOf(false);
-      
-        legalAccessPresence = Boolean.valueOf(false);
-      
-        projectRequestsDisabledWorkerRecognition = Boolean.valueOf(false);
-      
-        benefitsUnemploymentBenefits = Boolean.valueOf(false);
-      
-        familyFamilyDependents = Boolean.valueOf(false);
-      
-        projectRequestsVocationalTraining = Boolean.valueOf(false);
-      
-        facilitiesCustomCar = Boolean.valueOf(false);
-      
-        professionalStatusIndemnified = Boolean.valueOf(false);
-      
-        benefitsDisabledAdultAllocation = Boolean.valueOf(false);
-      
-        benefitsThirdPartyCompensatoryAllowance = Boolean.valueOf(false);
-      
-        projectRequestsTransportCostAllocation = Boolean.valueOf(false);
-      
-        benefitsProfessionalOrientation = Boolean.valueOf(false);
-      
-        benefitsDisabilityRecognition = Boolean.valueOf(false);
-      
-        professionalStatusRegisterAsUnemployed = Boolean.valueOf(false);
-      
-        benefitsPainfulStandingCard = Boolean.valueOf(false);
-      
-        facilitiesSpecializedTransport = Boolean.valueOf(false);
-      
-        benefitsParkingCard = Boolean.valueOf(false);
-      
-        professionalSupportSocialServiceSupport = Boolean.valueOf(false);
-      
-        benefitsWorkAccidentAnnuity = Boolean.valueOf(false);
-      
-        careCareServices = Boolean.valueOf(false);
-      
-        benefitsDailyAllowances = Boolean.valueOf(false);
-      
-        projectRequestsCustomCar = Boolean.valueOf(false);
-      
-        projectRequestsACTPRenewal = Boolean.valueOf(false);
-      
-        foldersMdph = Boolean.valueOf(false);
-      
-        professionalSupportDealsWithSameProfessional = Boolean.valueOf(false);
-      
-        dwellingEstablishmentReception = Boolean.valueOf(false);
-      
-        projectRequestsOrdinaryWorking = Boolean.valueOf(false);
-      
-        dwellingSocialReception = Boolean.valueOf(false);
-      
-        benefitsDisabledWorkerRecognition = Boolean.valueOf(false);
-      
-        projectRequestsEuropeanParkingCard = Boolean.valueOf(false);
-      
-        healthFollowedByDoctor = Boolean.valueOf(false);
-      
-        projectRequestsFreePensionMembership = Boolean.valueOf(false);
-      
-        healthFollowedByHospital = Boolean.valueOf(false);
-      
-        projectRequestsInstitutionSupport = Boolean.valueOf(false);
-      
-        benefitsSocialWelfare = Boolean.valueOf(false);
-      
-        projectRequestsHandicapRecognition = Boolean.valueOf(false);
-      
-        projectRequestsProfessionalOrientation = Boolean.valueOf(false);
-      
-        benefitsSupplementForSingleParents = Boolean.valueOf(false);
-      
-        projectRequestsIncreaseForIndependentLiving = Boolean.valueOf(false);
-      
-        benefitsThirdPartySupplement = Boolean.valueOf(false);
-      
-        projectRequestsAssistance = Boolean.valueOf(false);
-      
-        benefitsSupportedByAnInstitution = Boolean.valueOf(false);
-      
-        projectRequestsThirdPartyHelp = Boolean.valueOf(false);
-      
-        projectRequestsDisabledAdultAllowance = Boolean.valueOf(false);
-      
-        foldersOtherFolders = Boolean.valueOf(false);
-      
-        projectRequestsOther = Boolean.valueOf(false);
-      
-        benefitsThirdPersonCompensatoryAllowance = Boolean.valueOf(false);
-      
-        projectRequestsDisabilityCostAllocation = Boolean.valueOf(false);
-      
-        professionalStatusElectiveFunction = Boolean.valueOf(false);
-      
-        foldersCotorep = Boolean.valueOf(false);
-      
-        benefitsIncreaseForIndependentLiving = Boolean.valueOf(false);
-      
-        projectRequestsDisabilityCard = Boolean.valueOf(false);
-      
-        benefitsEducationOfDisabledChildren = Boolean.valueOf(false);
-      
-        benefitsOtherBenefits = Boolean.valueOf(false);
-      
-        benefitsDisabilityCompensation = Boolean.valueOf(false);
-      
-        projectRequestsTechnicalHelp = Boolean.valueOf(false);
-      
-        facilitiesTechnicalAssistance = Boolean.valueOf(false);
-      
-        benefitsCompensatoryAllowanceForExpenses = Boolean.valueOf(false);
-      
-        facilitiesHousing = Boolean.valueOf(false);
-      
-        projectRequestsDisabledPriorityCard = Boolean.valueOf(false);
-      
-        projectRequestsEducationAllocationOfDisabledChildren = Boolean.valueOf(false);
-      
-        projectRequestsShelteredWork = Boolean.valueOf(false);
-      
-        studiesAssistanceUnderDisability = Boolean.valueOf(false);
-      
-        studiesHighSchool = Boolean.valueOf(false);
-      
-        benefitsDisabilityCard = Boolean.valueOf(false);
-      
-        facilitiesAnimalAid = Boolean.valueOf(false);
-      
+        this.handicapCompensationAdultRequestData = new HandicapCompensationAdultRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public HandicapCompensationAdultRequestData getSpecificData() {
+        return handicapCompensationAdultRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(HandicapCompensationAdultRequestData handicapCompensationAdultRequestData) {
+        this.handicapCompensationAdultRequestData = handicapCompensationAdultRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        HandicapCompensationAdultRequestDocument object = (HandicapCompensationAdultRequestDocument) this.modelToXml();
+        HandicapCompensationAdultRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -202,481 +71,479 @@ public class HandicapCompensationAdultRequest extends Request implements Seriali
         HandicapCompensationAdultRequestDocument.HandicapCompensationAdultRequest handicapCompensationAdultRequest = handicapCompensationAdultRequestDoc.addNewHandicapCompensationAdultRequest();
         super.fillCommonXmlInfo(handicapCompensationAdultRequest);
         int i = 0;
-      HcarHealthType hcarHealthTypeHealth = handicapCompensationAdultRequest.addNewHealth();
-        if (this.healthFollowedByProfessional != null)
-            hcarHealthTypeHealth.setHealthFollowedByProfessional(this.healthFollowedByProfessional.booleanValue());
+          HcarHealthType hcarHealthTypeHealth = handicapCompensationAdultRequest.addNewHealth();
+        if (getHealthFollowedByProfessional() != null)
+            hcarHealthTypeHealth.setHealthFollowedByProfessional(getHealthFollowedByProfessional().booleanValue());
         HcarProfessionalSupportType hcarProfessionalSupportTypeProfessionalSupport = handicapCompensationAdultRequest.addNewProfessionalSupport();
-        if (this.professionalSupportProfessionals != null)
-            hcarProfessionalSupportTypeProfessionalSupport.setProfessionalSupportProfessionals(this.professionalSupportProfessionals.booleanValue());
+        if (getProfessionalSupportProfessionals() != null)
+            hcarProfessionalSupportTypeProfessionalSupport.setProfessionalSupportProfessionals(getProfessionalSupportProfessionals().booleanValue());
       
         i = 0;
-        if (familyDependents != null) {
-            fr.cg95.cvq.xml.request.social.HcarFamilyDependentType[] familyDependentsTypeTab = new fr.cg95.cvq.xml.request.social.HcarFamilyDependentType[familyDependents.size()];
-            for (HcarFamilyDependent object : familyDependents) {
+        if (getFamilyDependents() != null) {
+            fr.cg95.cvq.xml.request.social.HcarFamilyDependentType[] familyDependentsTypeTab = new fr.cg95.cvq.xml.request.social.HcarFamilyDependentType[getFamilyDependents().size()];
+            for (HcarFamilyDependent object : getFamilyDependents()) {
               familyDependentsTypeTab[i++] = object.modelToXml();
             }
             handicapCompensationAdultRequest.setFamilyDependentsArray(familyDependentsTypeTab);
         }
         HcarFamilyAssistanceType hcarFamilyAssistanceTypeFamilyAssistance = handicapCompensationAdultRequest.addNewFamilyAssistance();
-        if (this.isFamilyAssistance != null)
-            hcarFamilyAssistanceTypeFamilyAssistance.setIsFamilyAssistance(this.isFamilyAssistance.booleanValue());
+        if (getIsFamilyAssistance() != null)
+            hcarFamilyAssistanceTypeFamilyAssistance.setIsFamilyAssistance(getIsFamilyAssistance().booleanValue());
       
-        handicapCompensationAdultRequest.setProjectComments(this.projectComments);
+        handicapCompensationAdultRequest.setProjectComments(getProjectComments());
         HcarFoldersType hcarFoldersTypeFolders = handicapCompensationAdultRequest.addNewFolders();
-        hcarFoldersTypeFolders.setFoldersMdphDepartment(this.foldersMdphDepartment);
+        hcarFoldersTypeFolders.setFoldersMdphDepartment(getFoldersMdphDepartment());
       
-        if (this.foldersCdes != null)
-            hcarFoldersTypeFolders.setFoldersCdes(this.foldersCdes.booleanValue());
+        if (getFoldersCdes() != null)
+            hcarFoldersTypeFolders.setFoldersCdes(getFoldersCdes().booleanValue());
       
-        handicapCompensationAdultRequest.setProjectNeeds(this.projectNeeds);
+        handicapCompensationAdultRequest.setProjectNeeds(getProjectNeeds());
         HcarBenefitsType hcarBenefitsTypeBenefits = handicapCompensationAdultRequest.addNewBenefits();
-        if (this.benefitsEducationAllocationOfDisabledChildren != null)
-            hcarBenefitsTypeBenefits.setBenefitsEducationAllocationOfDisabledChildren(this.benefitsEducationAllocationOfDisabledChildren.booleanValue());
+        if (getBenefitsEducationAllocationOfDisabledChildren() != null)
+            hcarBenefitsTypeBenefits.setBenefitsEducationAllocationOfDisabledChildren(getBenefitsEducationAllocationOfDisabledChildren().booleanValue());
         HcarHomeInterventionType hcarHomeInterventionTypeHomeIntervention = handicapCompensationAdultRequest.addNewHomeIntervention();
-        if (this.homeInterventionHomeIntervenant != null)
-            hcarHomeInterventionTypeHomeIntervention.setHomeInterventionHomeIntervenant(this.homeInterventionHomeIntervenant.booleanValue());
+        if (getHomeInterventionHomeIntervenant() != null)
+            hcarHomeInterventionTypeHomeIntervention.setHomeInterventionHomeIntervenant(getHomeInterventionHomeIntervenant().booleanValue());
       
         i = 0;
-        if (otherFolders != null) {
-            fr.cg95.cvq.xml.request.social.HcarOtherFolderType[] otherFoldersTypeTab = new fr.cg95.cvq.xml.request.social.HcarOtherFolderType[otherFolders.size()];
-            for (HcarOtherFolder object : otherFolders) {
+        if (getOtherFolders() != null) {
+            fr.cg95.cvq.xml.request.social.HcarOtherFolderType[] otherFoldersTypeTab = new fr.cg95.cvq.xml.request.social.HcarOtherFolderType[getOtherFolders().size()];
+            for (HcarOtherFolder object : getOtherFolders()) {
               otherFoldersTypeTab[i++] = object.modelToXml();
             }
             handicapCompensationAdultRequest.setOtherFoldersArray(otherFoldersTypeTab);
         }
       
-        hcarFoldersTypeFolders.setFoldersMdphNumber(this.foldersMdphNumber);
+        hcarFoldersTypeFolders.setFoldersMdphNumber(getFoldersMdphNumber());
         HcarProjectRequestsType hcarProjectRequestsTypeProjectRequests = handicapCompensationAdultRequest.addNewProjectRequests();
-        if (this.projectRequestsHousingFacilities != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsHousingFacilities(this.projectRequestsHousingFacilities.booleanValue());
+        if (getProjectRequestsHousingFacilities() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsHousingFacilities(getProjectRequestsHousingFacilities().booleanValue());
         HcarSubjectType hcarSubjectTypeHcarSubject = handicapCompensationAdultRequest.addNewHcarSubject();
-        date = this.subjectBirthDate;
+        date = getSubjectBirthDate();
         if (date != null) {
             calendar.setTime(date);
             hcarSubjectTypeHcarSubject.setSubjectBirthDate(calendar);
         }
       
-        if (this.benefitsDisabilityPension != null)
-            hcarBenefitsTypeBenefits.setBenefitsDisabilityPension(this.benefitsDisabilityPension.booleanValue());
+        if (getBenefitsDisabilityPension() != null)
+            hcarBenefitsTypeBenefits.setBenefitsDisabilityPension(getBenefitsDisabilityPension().booleanValue());
         HcarLegalAccessType hcarLegalAccessTypeLegalAccess = handicapCompensationAdultRequest.addNewLegalAccess();
-        if (this.legalAccessPresence != null)
-            hcarLegalAccessTypeLegalAccess.setLegalAccessPresence(this.legalAccessPresence.booleanValue());
+        if (getLegalAccessPresence() != null)
+            hcarLegalAccessTypeLegalAccess.setLegalAccessPresence(getLegalAccessPresence().booleanValue());
       
-        hcarSubjectTypeHcarSubject.setSubjectMaidenName(this.subjectMaidenName);
+        hcarSubjectTypeHcarSubject.setSubjectMaidenName(getSubjectMaidenName());
       
-        if (this.projectRequestsDisabledWorkerRecognition != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsDisabledWorkerRecognition(this.projectRequestsDisabledWorkerRecognition.booleanValue());
+        if (getProjectRequestsDisabledWorkerRecognition() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsDisabledWorkerRecognition(getProjectRequestsDisabledWorkerRecognition().booleanValue());
       
-        if (this.benefitsUnemploymentBenefits != null)
-            hcarBenefitsTypeBenefits.setBenefitsUnemploymentBenefits(this.benefitsUnemploymentBenefits.booleanValue());
+        if (getBenefitsUnemploymentBenefits() != null)
+            hcarBenefitsTypeBenefits.setBenefitsUnemploymentBenefits(getBenefitsUnemploymentBenefits().booleanValue());
       
         i = 0;
-        if (homeIntervenants != null) {
-            fr.cg95.cvq.xml.request.social.HcarHomeIntervenantType[] homeIntervenantsTypeTab = new fr.cg95.cvq.xml.request.social.HcarHomeIntervenantType[homeIntervenants.size()];
-            for (HcarHomeIntervenant object : homeIntervenants) {
+        if (getHomeIntervenants() != null) {
+            fr.cg95.cvq.xml.request.social.HcarHomeIntervenantType[] homeIntervenantsTypeTab = new fr.cg95.cvq.xml.request.social.HcarHomeIntervenantType[getHomeIntervenants().size()];
+            for (HcarHomeIntervenant object : getHomeIntervenants()) {
               homeIntervenantsTypeTab[i++] = object.modelToXml();
             }
             handicapCompensationAdultRequest.setHomeIntervenantsArray(homeIntervenantsTypeTab);
         }
         HcarProfessionalStatusType hcarProfessionalStatusTypeProfessionalStatus = handicapCompensationAdultRequest.addNewProfessionalStatus();
-        if (this.professionalStatusKind != null)
-            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusKind(fr.cg95.cvq.xml.request.social.HcarProfessionalStatusKindType.Enum.forString(this.professionalStatusKind.toString()));
+        if (getProfessionalStatusKind() != null)
+            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusKind(fr.cg95.cvq.xml.request.social.HcarProfessionalStatusKindType.Enum.forString(getProfessionalStatusKind().toString()));
         HcarFamilyType hcarFamilyTypeFamily = handicapCompensationAdultRequest.addNewFamily();
-        if (this.familyFamilyDependents != null)
-            hcarFamilyTypeFamily.setFamilyFamilyDependents(this.familyFamilyDependents.booleanValue());
+        if (getFamilyFamilyDependents() != null)
+            hcarFamilyTypeFamily.setFamilyFamilyDependents(getFamilyFamilyDependents().booleanValue());
         HcarFormationType hcarFormationTypeFormation = handicapCompensationAdultRequest.addNewFormation();
-        hcarFormationTypeFormation.setFormationPreviousFormation(this.formationPreviousFormation);
+        hcarFormationTypeFormation.setFormationPreviousFormation(getFormationPreviousFormation());
       
-        hcarBenefitsTypeBenefits.setBenefitsEducationOfDisabledChildrenDetails(this.benefitsEducationOfDisabledChildrenDetails);
+        hcarBenefitsTypeBenefits.setBenefitsEducationOfDisabledChildrenDetails(getBenefitsEducationOfDisabledChildrenDetails());
       
-        if (this.projectRequestsVocationalTraining != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsVocationalTraining(this.projectRequestsVocationalTraining.booleanValue());
+        if (getProjectRequestsVocationalTraining() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsVocationalTraining(getProjectRequestsVocationalTraining().booleanValue());
         HcarFacilitiesType hcarFacilitiesTypeFacilities = handicapCompensationAdultRequest.addNewFacilities();
-        if (this.facilitiesCustomCar != null)
-            hcarFacilitiesTypeFacilities.setFacilitiesCustomCar(this.facilitiesCustomCar.booleanValue());
+        if (getFacilitiesCustomCar() != null)
+            hcarFacilitiesTypeFacilities.setFacilitiesCustomCar(getFacilitiesCustomCar().booleanValue());
       
-        hcarLegalAccessTypeLegalAccess.setLegalAccessRepresentativeKindDetail(this.legalAccessRepresentativeKindDetail);
+        hcarLegalAccessTypeLegalAccess.setLegalAccessRepresentativeKindDetail(getLegalAccessRepresentativeKindDetail());
       
-        if (this.professionalStatusIndemnified != null)
-            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusIndemnified(this.professionalStatusIndemnified.booleanValue());
+        if (getProfessionalStatusIndemnified() != null)
+            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusIndemnified(getProfessionalStatusIndemnified().booleanValue());
       
-        if (this.benefitsDisabledAdultAllocation != null)
-            hcarBenefitsTypeBenefits.setBenefitsDisabledAdultAllocation(this.benefitsDisabledAdultAllocation.booleanValue());
+        if (getBenefitsDisabledAdultAllocation() != null)
+            hcarBenefitsTypeBenefits.setBenefitsDisabledAdultAllocation(getBenefitsDisabledAdultAllocation().booleanValue());
       
-        if (this.benefitsThirdPartyCompensatoryAllowance != null)
-            hcarBenefitsTypeBenefits.setBenefitsThirdPartyCompensatoryAllowance(this.benefitsThirdPartyCompensatoryAllowance.booleanValue());
+        if (getBenefitsThirdPartyCompensatoryAllowance() != null)
+            hcarBenefitsTypeBenefits.setBenefitsThirdPartyCompensatoryAllowance(getBenefitsThirdPartyCompensatoryAllowance().booleanValue());
       
-        date = this.professionalStatusDate;
+        date = getProfessionalStatusDate();
         if (date != null) {
             calendar.setTime(date);
             hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusDate(calendar);
         }
       
-        if (this.projectRequestsTransportCostAllocation != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsTransportCostAllocation(this.projectRequestsTransportCostAllocation.booleanValue());
+        if (getProjectRequestsTransportCostAllocation() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsTransportCostAllocation(getProjectRequestsTransportCostAllocation().booleanValue());
       
-        if (this.benefitsProfessionalOrientation != null)
-            hcarBenefitsTypeBenefits.setBenefitsProfessionalOrientation(this.benefitsProfessionalOrientation.booleanValue());
+        if (getBenefitsProfessionalOrientation() != null)
+            hcarBenefitsTypeBenefits.setBenefitsProfessionalOrientation(getBenefitsProfessionalOrientation().booleanValue());
       
-        if (this.benefitsDisabilityRecognition != null)
-            hcarBenefitsTypeBenefits.setBenefitsDisabilityRecognition(this.benefitsDisabilityRecognition.booleanValue());
+        if (getBenefitsDisabilityRecognition() != null)
+            hcarBenefitsTypeBenefits.setBenefitsDisabilityRecognition(getBenefitsDisabilityRecognition().booleanValue());
       
-        if (this.professionalStatusRegisterAsUnemployed != null)
-            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusRegisterAsUnemployed(this.professionalStatusRegisterAsUnemployed.booleanValue());
+        if (getProfessionalStatusRegisterAsUnemployed() != null)
+            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusRegisterAsUnemployed(getProfessionalStatusRegisterAsUnemployed().booleanValue());
         HcarDwellingType hcarDwellingTypeDwelling = handicapCompensationAdultRequest.addNewDwelling();
-        hcarDwellingTypeDwelling.setDwellingSocialReceptionNaming(this.dwellingSocialReceptionNaming);
+        hcarDwellingTypeDwelling.setDwellingSocialReceptionNaming(getDwellingSocialReceptionNaming());
       
-        date = this.professionalStatusIndemnifiedDate;
+        date = getProfessionalStatusIndemnifiedDate();
         if (date != null) {
             calendar.setTime(date);
             hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusIndemnifiedDate(calendar);
         }
       
-        if (this.familyStatus != null)
-            hcarFamilyTypeFamily.setFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(this.familyStatus.toString()));
+        if (getFamilyStatus() != null)
+            hcarFamilyTypeFamily.setFamilyStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getFamilyStatus().toString()));
       
-        if (this.benefitsPainfulStandingCard != null)
-            hcarBenefitsTypeBenefits.setBenefitsPainfulStandingCard(this.benefitsPainfulStandingCard.booleanValue());
+        if (getBenefitsPainfulStandingCard() != null)
+            hcarBenefitsTypeBenefits.setBenefitsPainfulStandingCard(getBenefitsPainfulStandingCard().booleanValue());
       
-        hcarBenefitsTypeBenefits.setBenefitsProfessionalOrientationDetails(this.benefitsProfessionalOrientationDetails);
+        hcarBenefitsTypeBenefits.setBenefitsProfessionalOrientationDetails(getBenefitsProfessionalOrientationDetails());
       
-        hcarFoldersTypeFolders.setFoldersCdesDepartment(this.foldersCdesDepartment);
+        hcarFoldersTypeFolders.setFoldersCdesDepartment(getFoldersCdesDepartment());
       
-        if (this.facilitiesSpecializedTransport != null)
-            hcarFacilitiesTypeFacilities.setFacilitiesSpecializedTransport(this.facilitiesSpecializedTransport.booleanValue());
+        if (getFacilitiesSpecializedTransport() != null)
+            hcarFacilitiesTypeFacilities.setFacilitiesSpecializedTransport(getFacilitiesSpecializedTransport().booleanValue());
       
-        if (this.benefitsParkingCard != null)
-            hcarBenefitsTypeBenefits.setBenefitsParkingCard(this.benefitsParkingCard.booleanValue());
+        if (getBenefitsParkingCard() != null)
+            hcarBenefitsTypeBenefits.setBenefitsParkingCard(getBenefitsParkingCard().booleanValue());
       
-        hcarFacilitiesTypeFacilities.setFacilitiesSpecializedTransportDetails(this.facilitiesSpecializedTransportDetails);
+        hcarFacilitiesTypeFacilities.setFacilitiesSpecializedTransportDetails(getFacilitiesSpecializedTransportDetails());
         HcarSocialServiceType hcarSocialServiceTypeSocialService = handicapCompensationAdultRequest.addNewSocialService();
-        if (this.professionalSupportSocialServiceSupport != null)
-            hcarSocialServiceTypeSocialService.setProfessionalSupportSocialServiceSupport(this.professionalSupportSocialServiceSupport.booleanValue());
+        if (getProfessionalSupportSocialServiceSupport() != null)
+            hcarSocialServiceTypeSocialService.setProfessionalSupportSocialServiceSupport(getProfessionalSupportSocialServiceSupport().booleanValue());
         HcarSocialSecurityType hcarSocialSecurityTypeSocialSecurity = handicapCompensationAdultRequest.addNewSocialSecurity();
-        hcarSocialSecurityTypeSocialSecurity.setSocialSecurityNumber(this.socialSecurityNumber);
+        hcarSocialSecurityTypeSocialSecurity.setSocialSecurityNumber(getSocialSecurityNumber());
       
-        hcarBenefitsTypeBenefits.setBenefitsWorkAccidentAnnuityRatio(this.benefitsWorkAccidentAnnuityRatio);
+        hcarBenefitsTypeBenefits.setBenefitsWorkAccidentAnnuityRatio(getBenefitsWorkAccidentAnnuityRatio());
       
-        if (this.benefitsWorkAccidentAnnuity != null)
-            hcarBenefitsTypeBenefits.setBenefitsWorkAccidentAnnuity(this.benefitsWorkAccidentAnnuity.booleanValue());
+        if (getBenefitsWorkAccidentAnnuity() != null)
+            hcarBenefitsTypeBenefits.setBenefitsWorkAccidentAnnuity(getBenefitsWorkAccidentAnnuity().booleanValue());
         HcarCareType hcarCareTypeCare = handicapCompensationAdultRequest.addNewCare();
-        if (this.careCareServices != null)
-            hcarCareTypeCare.setCareCareServices(this.careCareServices.booleanValue());
+        if (getCareCareServices() != null)
+            hcarCareTypeCare.setCareCareServices(getCareCareServices().booleanValue());
       
-        hcarBenefitsTypeBenefits.setBenefitsDisabilityRatio(this.benefitsDisabilityRatio);
+        hcarBenefitsTypeBenefits.setBenefitsDisabilityRatio(getBenefitsDisabilityRatio());
       
-        if (this.benefitsDailyAllowances != null)
-            hcarBenefitsTypeBenefits.setBenefitsDailyAllowances(this.benefitsDailyAllowances.booleanValue());
+        if (getBenefitsDailyAllowances() != null)
+            hcarBenefitsTypeBenefits.setBenefitsDailyAllowances(getBenefitsDailyAllowances().booleanValue());
       
-        if (this.projectRequestsCustomCar != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsCustomCar(this.projectRequestsCustomCar.booleanValue());
+        if (getProjectRequestsCustomCar() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsCustomCar(getProjectRequestsCustomCar().booleanValue());
         HcarPaymentAgencyType hcarPaymentAgencyTypePaymentAgency = handicapCompensationAdultRequest.addNewPaymentAgency();
-        hcarPaymentAgencyTypePaymentAgency.setPaymentAgencyBeneficiaryNumber(this.paymentAgencyBeneficiaryNumber);
+        hcarPaymentAgencyTypePaymentAgency.setPaymentAgencyBeneficiaryNumber(getPaymentAgencyBeneficiaryNumber());
       
-        hcarFoldersTypeFolders.setFoldersCotorepNumber(this.foldersCotorepNumber);
+        hcarFoldersTypeFolders.setFoldersCotorepNumber(getFoldersCotorepNumber());
       
-        if (this.projectRequestsACTPRenewal != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsACTPRenewal(this.projectRequestsACTPRenewal.booleanValue());
+        if (getProjectRequestsACTPRenewal() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsACTPRenewal(getProjectRequestsACTPRenewal().booleanValue());
       
-        if (this.dwellingSocialReceptionAddress != null)
-            hcarDwellingTypeDwelling.setDwellingSocialReceptionAddress(Address.modelToXml(this.dwellingSocialReceptionAddress));
+        if (getDwellingSocialReceptionAddress() != null)
+            hcarDwellingTypeDwelling.setDwellingSocialReceptionAddress(Address.modelToXml(getDwellingSocialReceptionAddress()));
       
-        if (this.foldersMdph != null)
-            hcarFoldersTypeFolders.setFoldersMdph(this.foldersMdph.booleanValue());
+        if (getFoldersMdph() != null)
+            hcarFoldersTypeFolders.setFoldersMdph(getFoldersMdph().booleanValue());
       
-        hcarBenefitsTypeBenefits.setBenefitsSupportedByAnInstitutionDetails(this.benefitsSupportedByAnInstitutionDetails);
+        hcarBenefitsTypeBenefits.setBenefitsSupportedByAnInstitutionDetails(getBenefitsSupportedByAnInstitutionDetails());
       
-        if (this.professionalSupportDealsWithSameProfessional != null)
-            hcarProfessionalSupportTypeProfessionalSupport.setProfessionalSupportDealsWithSameProfessional(this.professionalSupportDealsWithSameProfessional.booleanValue());
+        if (getProfessionalSupportDealsWithSameProfessional() != null)
+            hcarProfessionalSupportTypeProfessionalSupport.setProfessionalSupportDealsWithSameProfessional(getProfessionalSupportDealsWithSameProfessional().booleanValue());
       
-        if (this.dwellingEstablishmentReception != null)
-            hcarDwellingTypeDwelling.setDwellingEstablishmentReception(this.dwellingEstablishmentReception.booleanValue());
+        if (getDwellingEstablishmentReception() != null)
+            hcarDwellingTypeDwelling.setDwellingEstablishmentReception(getDwellingEstablishmentReception().booleanValue());
       
-        hcarFoldersTypeFolders.setFoldersCotorepDepartment(this.foldersCotorepDepartment);
+        hcarFoldersTypeFolders.setFoldersCotorepDepartment(getFoldersCotorepDepartment());
       
         i = 0;
-        if (additionalFee != null) {
-            fr.cg95.cvq.xml.request.social.HcarAdditionalFeeType[] additionalFeeTypeTab = new fr.cg95.cvq.xml.request.social.HcarAdditionalFeeType[additionalFee.size()];
-            for (HcarAdditionalFee object : additionalFee) {
+        if (getAdditionalFee() != null) {
+            fr.cg95.cvq.xml.request.social.HcarAdditionalFeeType[] additionalFeeTypeTab = new fr.cg95.cvq.xml.request.social.HcarAdditionalFeeType[getAdditionalFee().size()];
+            for (HcarAdditionalFee object : getAdditionalFee()) {
               additionalFeeTypeTab[i++] = object.modelToXml();
             }
             handicapCompensationAdultRequest.setAdditionalFeeArray(additionalFeeTypeTab);
         }
       
-        if (this.projectRequestsOrdinaryWorking != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsOrdinaryWorking(this.projectRequestsOrdinaryWorking.booleanValue());
+        if (getProjectRequestsOrdinaryWorking() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsOrdinaryWorking(getProjectRequestsOrdinaryWorking().booleanValue());
       
-        hcarLegalAccessTypeLegalAccess.setLegalAccessRepresentativeFirstName(this.legalAccessRepresentativeFirstName);
+        hcarLegalAccessTypeLegalAccess.setLegalAccessRepresentativeFirstName(getLegalAccessRepresentativeFirstName());
       
-        if (this.dwellingSocialReception != null)
-            hcarDwellingTypeDwelling.setDwellingSocialReception(this.dwellingSocialReception.booleanValue());
+        if (getDwellingSocialReception() != null)
+            hcarDwellingTypeDwelling.setDwellingSocialReception(getDwellingSocialReception().booleanValue());
       
-        if (this.benefitsDisabledWorkerRecognition != null)
-            hcarBenefitsTypeBenefits.setBenefitsDisabledWorkerRecognition(this.benefitsDisabledWorkerRecognition.booleanValue());
+        if (getBenefitsDisabledWorkerRecognition() != null)
+            hcarBenefitsTypeBenefits.setBenefitsDisabledWorkerRecognition(getBenefitsDisabledWorkerRecognition().booleanValue());
       
-        if (this.projectRequestsEuropeanParkingCard != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsEuropeanParkingCard(this.projectRequestsEuropeanParkingCard.booleanValue());
+        if (getProjectRequestsEuropeanParkingCard() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsEuropeanParkingCard(getProjectRequestsEuropeanParkingCard().booleanValue());
       
-        if (this.healthFollowedByDoctor != null)
-            hcarHealthTypeHealth.setHealthFollowedByDoctor(this.healthFollowedByDoctor.booleanValue());
+        if (getHealthFollowedByDoctor() != null)
+            hcarHealthTypeHealth.setHealthFollowedByDoctor(getHealthFollowedByDoctor().booleanValue());
       
         i = 0;
-        if (familyAssistanceMembers != null) {
-            fr.cg95.cvq.xml.request.social.HcarFamilyAssistanceMemberType[] familyAssistanceMembersTypeTab = new fr.cg95.cvq.xml.request.social.HcarFamilyAssistanceMemberType[familyAssistanceMembers.size()];
-            for (HcarFamilyAssistanceMember object : familyAssistanceMembers) {
+        if (getFamilyAssistanceMembers() != null) {
+            fr.cg95.cvq.xml.request.social.HcarFamilyAssistanceMemberType[] familyAssistanceMembersTypeTab = new fr.cg95.cvq.xml.request.social.HcarFamilyAssistanceMemberType[getFamilyAssistanceMembers().size()];
+            for (HcarFamilyAssistanceMember object : getFamilyAssistanceMembers()) {
               familyAssistanceMembersTypeTab[i++] = object.modelToXml();
             }
             handicapCompensationAdultRequest.setFamilyAssistanceMembersArray(familyAssistanceMembersTypeTab);
         }
       
-        if (this.projectRequestsFreePensionMembership != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsFreePensionMembership(this.projectRequestsFreePensionMembership.booleanValue());
+        if (getProjectRequestsFreePensionMembership() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsFreePensionMembership(getProjectRequestsFreePensionMembership().booleanValue());
       
         i = 0;
-        if (professionals != null) {
-            fr.cg95.cvq.xml.request.social.HcarProfessionalType[] professionalsTypeTab = new fr.cg95.cvq.xml.request.social.HcarProfessionalType[professionals.size()];
-            for (HcarProfessional object : professionals) {
+        if (getProfessionals() != null) {
+            fr.cg95.cvq.xml.request.social.HcarProfessionalType[] professionalsTypeTab = new fr.cg95.cvq.xml.request.social.HcarProfessionalType[getProfessionals().size()];
+            for (HcarProfessional object : getProfessionals()) {
               professionalsTypeTab[i++] = object.modelToXml();
             }
             handicapCompensationAdultRequest.setProfessionalsArray(professionalsTypeTab);
         }
       
-        if (this.healthFollowedByHospital != null)
-            hcarHealthTypeHealth.setHealthFollowedByHospital(this.healthFollowedByHospital.booleanValue());
+        if (getHealthFollowedByHospital() != null)
+            hcarHealthTypeHealth.setHealthFollowedByHospital(getHealthFollowedByHospital().booleanValue());
       
-        hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusEmployerName(this.professionalStatusEmployerName);
+        hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusEmployerName(getProfessionalStatusEmployerName());
       
-        if (this.projectRequestsInstitutionSupport != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsInstitutionSupport(this.projectRequestsInstitutionSupport.booleanValue());
+        if (getProjectRequestsInstitutionSupport() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsInstitutionSupport(getProjectRequestsInstitutionSupport().booleanValue());
       
-        if (this.benefitsSocialWelfare != null)
-            hcarBenefitsTypeBenefits.setBenefitsSocialWelfare(this.benefitsSocialWelfare.booleanValue());
+        if (getBenefitsSocialWelfare() != null)
+            hcarBenefitsTypeBenefits.setBenefitsSocialWelfare(getBenefitsSocialWelfare().booleanValue());
       
-        if (this.projectRequestsHandicapRecognition != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsHandicapRecognition(this.projectRequestsHandicapRecognition.booleanValue());
+        if (getProjectRequestsHandicapRecognition() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsHandicapRecognition(getProjectRequestsHandicapRecognition().booleanValue());
       
         i = 0;
-        if (careServices != null) {
-            fr.cg95.cvq.xml.request.social.HcarCareServiceType[] careServicesTypeTab = new fr.cg95.cvq.xml.request.social.HcarCareServiceType[careServices.size()];
-            for (HcarCareService object : careServices) {
+        if (getCareServices() != null) {
+            fr.cg95.cvq.xml.request.social.HcarCareServiceType[] careServicesTypeTab = new fr.cg95.cvq.xml.request.social.HcarCareServiceType[getCareServices().size()];
+            for (HcarCareService object : getCareServices()) {
               careServicesTypeTab[i++] = object.modelToXml();
             }
             handicapCompensationAdultRequest.setCareServicesArray(careServicesTypeTab);
         }
       
-        handicapCompensationAdultRequest.setProjectWish(this.projectWish);
+        handicapCompensationAdultRequest.setProjectWish(getProjectWish());
       
-        if (this.dwellingKind != null)
-            hcarDwellingTypeDwelling.setDwellingKind(fr.cg95.cvq.xml.request.social.HcarDwellingKindType.Enum.forString(this.dwellingKind.toString()));
+        if (getDwellingKind() != null)
+            hcarDwellingTypeDwelling.setDwellingKind(fr.cg95.cvq.xml.request.social.HcarDwellingKindType.Enum.forString(getDwellingKind().toString()));
       
-        hcarHealthTypeHealth.setHealthProfessionalLastName(this.healthProfessionalLastName);
+        hcarHealthTypeHealth.setHealthProfessionalLastName(getHealthProfessionalLastName());
       
-        hcarFormationTypeFormation.setFormationStudiesLevel(this.formationStudiesLevel);
+        hcarFormationTypeFormation.setFormationStudiesLevel(getFormationStudiesLevel());
       
-        if (this.projectRequestsProfessionalOrientation != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsProfessionalOrientation(this.projectRequestsProfessionalOrientation.booleanValue());
+        if (getProjectRequestsProfessionalOrientation() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsProfessionalOrientation(getProjectRequestsProfessionalOrientation().booleanValue());
       
-        hcarHealthTypeHealth.setHealthDoctorLastName(this.healthDoctorLastName);
+        hcarHealthTypeHealth.setHealthDoctorLastName(getHealthDoctorLastName());
       
-        if (this.legalAccessKind != null)
-            hcarLegalAccessTypeLegalAccess.setLegalAccessKind(fr.cg95.cvq.xml.request.social.HcarLegalAccessKindType.Enum.forString(this.legalAccessKind.toString()));
+        if (getLegalAccessKind() != null)
+            hcarLegalAccessTypeLegalAccess.setLegalAccessKind(fr.cg95.cvq.xml.request.social.HcarLegalAccessKindType.Enum.forString(getLegalAccessKind().toString()));
       
-        hcarFacilitiesTypeFacilities.setFacilitiesHousingDetails(this.facilitiesHousingDetails);
+        hcarFacilitiesTypeFacilities.setFacilitiesHousingDetails(getFacilitiesHousingDetails());
       
-        if (this.benefitsSupplementForSingleParents != null)
-            hcarBenefitsTypeBenefits.setBenefitsSupplementForSingleParents(this.benefitsSupplementForSingleParents.booleanValue());
+        if (getBenefitsSupplementForSingleParents() != null)
+            hcarBenefitsTypeBenefits.setBenefitsSupplementForSingleParents(getBenefitsSupplementForSingleParents().booleanValue());
       
-        if (this.projectRequestsIncreaseForIndependentLiving != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsIncreaseForIndependentLiving(this.projectRequestsIncreaseForIndependentLiving.booleanValue());
+        if (getProjectRequestsIncreaseForIndependentLiving() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsIncreaseForIndependentLiving(getProjectRequestsIncreaseForIndependentLiving().booleanValue());
       
-        hcarBenefitsTypeBenefits.setBenefitsDisabilityPensionCategory(this.benefitsDisabilityPensionCategory);
+        hcarBenefitsTypeBenefits.setBenefitsDisabilityPensionCategory(getBenefitsDisabilityPensionCategory());
       
-        if (this.benefitsThirdPartySupplement != null)
-            hcarBenefitsTypeBenefits.setBenefitsThirdPartySupplement(this.benefitsThirdPartySupplement.booleanValue());
+        if (getBenefitsThirdPartySupplement() != null)
+            hcarBenefitsTypeBenefits.setBenefitsThirdPartySupplement(getBenefitsThirdPartySupplement().booleanValue());
         HcarStudiesType hcarStudiesTypeStudies = handicapCompensationAdultRequest.addNewStudies();
-        hcarStudiesTypeStudies.setStudiesHighSchoolGrade(this.studiesHighSchoolGrade);
+        hcarStudiesTypeStudies.setStudiesHighSchoolGrade(getStudiesHighSchoolGrade());
       
-        hcarSubjectTypeHcarSubject.setSubjectBirthCity(this.subjectBirthCity);
+        hcarSubjectTypeHcarSubject.setSubjectBirthCity(getSubjectBirthCity());
       
-        hcarLegalAccessTypeLegalAccess.setLegalAccessRepresentativeName(this.legalAccessRepresentativeName);
+        hcarLegalAccessTypeLegalAccess.setLegalAccessRepresentativeName(getLegalAccessRepresentativeName());
       
-        if (this.projectRequestsAssistance != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsAssistance(this.projectRequestsAssistance.booleanValue());
+        if (getProjectRequestsAssistance() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsAssistance(getProjectRequestsAssistance().booleanValue());
       
-        if (this.professionalStatusEnvironment != null)
-            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusEnvironment(fr.cg95.cvq.xml.request.social.HcarProfessionalStatusEnvironmentType.Enum.forString(this.professionalStatusEnvironment.toString()));
+        if (getProfessionalStatusEnvironment() != null)
+            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusEnvironment(fr.cg95.cvq.xml.request.social.HcarProfessionalStatusEnvironmentType.Enum.forString(getProfessionalStatusEnvironment().toString()));
       
-        if (this.benefitsSupportedByAnInstitution != null)
-            hcarBenefitsTypeBenefits.setBenefitsSupportedByAnInstitution(this.benefitsSupportedByAnInstitution.booleanValue());
+        if (getBenefitsSupportedByAnInstitution() != null)
+            hcarBenefitsTypeBenefits.setBenefitsSupportedByAnInstitution(getBenefitsSupportedByAnInstitution().booleanValue());
       
-        if (this.projectRequestsThirdPartyHelp != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsThirdPartyHelp(this.projectRequestsThirdPartyHelp.booleanValue());
+        if (getProjectRequestsThirdPartyHelp() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsThirdPartyHelp(getProjectRequestsThirdPartyHelp().booleanValue());
       
-        if (this.projectRequestsDisabledAdultAllowance != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsDisabledAdultAllowance(this.projectRequestsDisabledAdultAllowance.booleanValue());
+        if (getProjectRequestsDisabledAdultAllowance() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsDisabledAdultAllowance(getProjectRequestsDisabledAdultAllowance().booleanValue());
       
-        if (this.paymentAgencyBeneficiary != null)
-            hcarPaymentAgencyTypePaymentAgency.setPaymentAgencyBeneficiary(fr.cg95.cvq.xml.request.social.HcarPaymentAgencyBeneficiaryType.Enum.forString(this.paymentAgencyBeneficiary.toString()));
+        if (getPaymentAgencyBeneficiary() != null)
+            hcarPaymentAgencyTypePaymentAgency.setPaymentAgencyBeneficiary(fr.cg95.cvq.xml.request.social.HcarPaymentAgencyBeneficiaryType.Enum.forString(getPaymentAgencyBeneficiary().toString()));
       
-        if (this.foldersOtherFolders != null)
-            hcarFoldersTypeFolders.setFoldersOtherFolders(this.foldersOtherFolders.booleanValue());
+        if (getFoldersOtherFolders() != null)
+            hcarFoldersTypeFolders.setFoldersOtherFolders(getFoldersOtherFolders().booleanValue());
       
-        hcarFacilitiesTypeFacilities.setFacilitiesAnimalAidDetails(this.facilitiesAnimalAidDetails);
+        hcarFacilitiesTypeFacilities.setFacilitiesAnimalAidDetails(getFacilitiesAnimalAidDetails());
       
-        hcarStudiesTypeStudies.setStudiesAssistanceUnderDisabilityDetails(this.studiesAssistanceUnderDisabilityDetails);
+        hcarStudiesTypeStudies.setStudiesAssistanceUnderDisabilityDetails(getStudiesAssistanceUnderDisabilityDetails());
       
         i = 0;
-        if (otherBenefits != null) {
-            fr.cg95.cvq.xml.request.social.HcarOtherBenefitType[] otherBenefitsTypeTab = new fr.cg95.cvq.xml.request.social.HcarOtherBenefitType[otherBenefits.size()];
-            for (HcarOtherBenefit object : otherBenefits) {
+        if (getOtherBenefits() != null) {
+            fr.cg95.cvq.xml.request.social.HcarOtherBenefitType[] otherBenefitsTypeTab = new fr.cg95.cvq.xml.request.social.HcarOtherBenefitType[getOtherBenefits().size()];
+            for (HcarOtherBenefit object : getOtherBenefits()) {
               otherBenefitsTypeTab[i++] = object.modelToXml();
             }
             handicapCompensationAdultRequest.setOtherBenefitsArray(otherBenefitsTypeTab);
         }
       
-        if (this.paymentAgencyAddress != null)
-            hcarPaymentAgencyTypePaymentAgency.setPaymentAgencyAddress(Address.modelToXml(this.paymentAgencyAddress));
+        if (getPaymentAgencyAddress() != null)
+            hcarPaymentAgencyTypePaymentAgency.setPaymentAgencyAddress(Address.modelToXml(getPaymentAgencyAddress()));
       
-        if (this.projectRequestsOther != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsOther(this.projectRequestsOther.booleanValue());
+        if (getProjectRequestsOther() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsOther(getProjectRequestsOther().booleanValue());
       
-        if (this.benefitsThirdPersonCompensatoryAllowance != null)
-            hcarBenefitsTypeBenefits.setBenefitsThirdPersonCompensatoryAllowance(this.benefitsThirdPersonCompensatoryAllowance.booleanValue());
+        if (getBenefitsThirdPersonCompensatoryAllowance() != null)
+            hcarBenefitsTypeBenefits.setBenefitsThirdPersonCompensatoryAllowance(getBenefitsThirdPersonCompensatoryAllowance().booleanValue());
       
-        if (this.projectRequestsDisabilityCostAllocation != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsDisabilityCostAllocation(this.projectRequestsDisabilityCostAllocation.booleanValue());
+        if (getProjectRequestsDisabilityCostAllocation() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsDisabilityCostAllocation(getProjectRequestsDisabilityCostAllocation().booleanValue());
       
-        if (this.socialSecurityAgencyAddress != null)
-            hcarSocialSecurityTypeSocialSecurity.setSocialSecurityAgencyAddress(Address.modelToXml(this.socialSecurityAgencyAddress));
+        if (getSocialSecurityAgencyAddress() != null)
+            hcarSocialSecurityTypeSocialSecurity.setSocialSecurityAgencyAddress(Address.modelToXml(getSocialSecurityAgencyAddress()));
       
-        if (this.dwellingReceptionAddress != null)
-            hcarDwellingTypeDwelling.setDwellingReceptionAddress(Address.modelToXml(this.dwellingReceptionAddress));
+        if (getDwellingReceptionAddress() != null)
+            hcarDwellingTypeDwelling.setDwellingReceptionAddress(Address.modelToXml(getDwellingReceptionAddress()));
       
-        hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusProfession(this.professionalStatusProfession);
+        hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusProfession(getProfessionalStatusProfession());
       
-        if (this.professionalStatusAddress != null)
-            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusAddress(Address.modelToXml(this.professionalStatusAddress));
+        if (getProfessionalStatusAddress() != null)
+            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusAddress(Address.modelToXml(getProfessionalStatusAddress()));
       
-        hcarFormationTypeFormation.setFormationDiploma(this.formationDiploma);
+        hcarFormationTypeFormation.setFormationDiploma(getFormationDiploma());
       
-        if (this.subjectTitle != null)
-            hcarSubjectTypeHcarSubject.setSubjectTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(this.subjectTitle.toString()));
+        if (getSubjectTitle() != null)
+            hcarSubjectTypeHcarSubject.setSubjectTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getSubjectTitle().toString()));
       
-        if (this.professionalStatusElectiveFunction != null)
-            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusElectiveFunction(this.professionalStatusElectiveFunction.booleanValue());
+        if (getProfessionalStatusElectiveFunction() != null)
+            hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusElectiveFunction(getProfessionalStatusElectiveFunction().booleanValue());
       
-        if (this.foldersCotorep != null)
-            hcarFoldersTypeFolders.setFoldersCotorep(this.foldersCotorep.booleanValue());
+        if (getFoldersCotorep() != null)
+            hcarFoldersTypeFolders.setFoldersCotorep(getFoldersCotorep().booleanValue());
       
-        if (this.benefitsIncreaseForIndependentLiving != null)
-            hcarBenefitsTypeBenefits.setBenefitsIncreaseForIndependentLiving(this.benefitsIncreaseForIndependentLiving.booleanValue());
+        if (getBenefitsIncreaseForIndependentLiving() != null)
+            hcarBenefitsTypeBenefits.setBenefitsIncreaseForIndependentLiving(getBenefitsIncreaseForIndependentLiving().booleanValue());
       
-        hcarSubjectTypeHcarSubject.setSubjectBirthCountry(this.subjectBirthCountry);
+        hcarSubjectTypeHcarSubject.setSubjectBirthCountry(getSubjectBirthCountry());
       
-        if (this.projectRequestsDisabilityCard != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsDisabilityCard(this.projectRequestsDisabilityCard.booleanValue());
+        if (getProjectRequestsDisabilityCard() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsDisabilityCard(getProjectRequestsDisabilityCard().booleanValue());
       
-        hcarStudiesTypeStudies.setStudiesHighSchoolName(this.studiesHighSchoolName);
+        hcarStudiesTypeStudies.setStudiesHighSchoolName(getStudiesHighSchoolName());
       
-        if (this.dwellingReceptionType != null)
-            hcarDwellingTypeDwelling.setDwellingReceptionType(fr.cg95.cvq.xml.request.social.HcarDwellingReceptionKindType.Enum.forString(this.dwellingReceptionType.toString()));
+        if (getDwellingReceptionType() != null)
+            hcarDwellingTypeDwelling.setDwellingReceptionType(fr.cg95.cvq.xml.request.social.HcarDwellingReceptionKindType.Enum.forString(getDwellingReceptionType().toString()));
       
-        date = this.professionalStatusRegisterAsUnemployedDate;
+        date = getProfessionalStatusRegisterAsUnemployedDate();
         if (date != null) {
             calendar.setTime(date);
             hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusRegisterAsUnemployedDate(calendar);
         }
       
-        hcarPaymentAgencyTypePaymentAgency.setPaymentAgencyName(this.paymentAgencyName);
+        hcarPaymentAgencyTypePaymentAgency.setPaymentAgencyName(getPaymentAgencyName());
       
-        hcarDwellingTypeDwelling.setDwellingReceptionNaming(this.dwellingReceptionNaming);
+        hcarDwellingTypeDwelling.setDwellingReceptionNaming(getDwellingReceptionNaming());
       
-        hcarSocialSecurityTypeSocialSecurity.setSocialSecurityAgencyName(this.socialSecurityAgencyName);
+        hcarSocialSecurityTypeSocialSecurity.setSocialSecurityAgencyName(getSocialSecurityAgencyName());
       
-        if (this.benefitsEducationOfDisabledChildren != null)
-            hcarBenefitsTypeBenefits.setBenefitsEducationOfDisabledChildren(this.benefitsEducationOfDisabledChildren.booleanValue());
+        if (getBenefitsEducationOfDisabledChildren() != null)
+            hcarBenefitsTypeBenefits.setBenefitsEducationOfDisabledChildren(getBenefitsEducationOfDisabledChildren().booleanValue());
       
-        hcarFacilitiesTypeFacilities.setFacilitiesTechnicalAssistanceDetails(this.facilitiesTechnicalAssistanceDetails);
+        hcarFacilitiesTypeFacilities.setFacilitiesTechnicalAssistanceDetails(getFacilitiesTechnicalAssistanceDetails());
       
-        if (this.benefitsOtherBenefits != null)
-            hcarBenefitsTypeBenefits.setBenefitsOtherBenefits(this.benefitsOtherBenefits.booleanValue());
+        if (getBenefitsOtherBenefits() != null)
+            hcarBenefitsTypeBenefits.setBenefitsOtherBenefits(getBenefitsOtherBenefits().booleanValue());
       
-        hcarFoldersTypeFolders.setFoldersCdesNumber(this.foldersCdesNumber);
+        hcarFoldersTypeFolders.setFoldersCdesNumber(getFoldersCdesNumber());
       
-        if (this.benefitsDisabilityCompensation != null)
-            hcarBenefitsTypeBenefits.setBenefitsDisabilityCompensation(this.benefitsDisabilityCompensation.booleanValue());
+        if (getBenefitsDisabilityCompensation() != null)
+            hcarBenefitsTypeBenefits.setBenefitsDisabilityCompensation(getBenefitsDisabilityCompensation().booleanValue());
       
-        hcarHealthTypeHealth.setHealthDoctorFirstName(this.healthDoctorFirstName);
+        hcarHealthTypeHealth.setHealthDoctorFirstName(getHealthDoctorFirstName());
       
-        if (this.projectRequestsTechnicalHelp != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsTechnicalHelp(this.projectRequestsTechnicalHelp.booleanValue());
+        if (getProjectRequestsTechnicalHelp() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsTechnicalHelp(getProjectRequestsTechnicalHelp().booleanValue());
       
-        if (this.facilitiesTechnicalAssistance != null)
-            hcarFacilitiesTypeFacilities.setFacilitiesTechnicalAssistance(this.facilitiesTechnicalAssistance.booleanValue());
+        if (getFacilitiesTechnicalAssistance() != null)
+            hcarFacilitiesTypeFacilities.setFacilitiesTechnicalAssistance(getFacilitiesTechnicalAssistance().booleanValue());
       
-        if (this.benefitsCompensatoryAllowanceForExpenses != null)
-            hcarBenefitsTypeBenefits.setBenefitsCompensatoryAllowanceForExpenses(this.benefitsCompensatoryAllowanceForExpenses.booleanValue());
+        if (getBenefitsCompensatoryAllowanceForExpenses() != null)
+            hcarBenefitsTypeBenefits.setBenefitsCompensatoryAllowanceForExpenses(getBenefitsCompensatoryAllowanceForExpenses().booleanValue());
       
-        if (this.facilitiesHousing != null)
-            hcarFacilitiesTypeFacilities.setFacilitiesHousing(this.facilitiesHousing.booleanValue());
+        if (getFacilitiesHousing() != null)
+            hcarFacilitiesTypeFacilities.setFacilitiesHousing(getFacilitiesHousing().booleanValue());
       
-        hcarHealthTypeHealth.setHealthHospitalName(this.healthHospitalName);
+        hcarHealthTypeHealth.setHealthHospitalName(getHealthHospitalName());
       
-        if (this.projectRequestsDisabledPriorityCard != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsDisabledPriorityCard(this.projectRequestsDisabledPriorityCard.booleanValue());
+        if (getProjectRequestsDisabledPriorityCard() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsDisabledPriorityCard(getProjectRequestsDisabledPriorityCard().booleanValue());
       
-        if (this.projectRequestsEducationAllocationOfDisabledChildren != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsEducationAllocationOfDisabledChildren(this.projectRequestsEducationAllocationOfDisabledChildren.booleanValue());
+        if (getProjectRequestsEducationAllocationOfDisabledChildren() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsEducationAllocationOfDisabledChildren(getProjectRequestsEducationAllocationOfDisabledChildren().booleanValue());
       
-        hcarProjectRequestsTypeProjectRequests.setProjectRequestsOtherDetails(this.projectRequestsOtherDetails);
+        hcarProjectRequestsTypeProjectRequests.setProjectRequestsOtherDetails(getProjectRequestsOtherDetails());
       
-        if (this.legalAccessRepresentativeKind != null)
-            hcarLegalAccessTypeLegalAccess.setLegalAccessRepresentativeKind(fr.cg95.cvq.xml.request.social.HcarLegalAccessRepresentativeKindType.Enum.forString(this.legalAccessRepresentativeKind.toString()));
+        if (getLegalAccessRepresentativeKind() != null)
+            hcarLegalAccessTypeLegalAccess.setLegalAccessRepresentativeKind(fr.cg95.cvq.xml.request.social.HcarLegalAccessRepresentativeKindType.Enum.forString(getLegalAccessRepresentativeKind().toString()));
       
-        if (this.projectRequestsShelteredWork != null)
-            hcarProjectRequestsTypeProjectRequests.setProjectRequestsShelteredWork(this.projectRequestsShelteredWork.booleanValue());
+        if (getProjectRequestsShelteredWork() != null)
+            hcarProjectRequestsTypeProjectRequests.setProjectRequestsShelteredWork(getProjectRequestsShelteredWork().booleanValue());
       
-        hcarFormationTypeFormation.setFormationCurrentFormation(this.formationCurrentFormation);
+        hcarFormationTypeFormation.setFormationCurrentFormation(getFormationCurrentFormation());
       
-        if (this.studiesAssistanceUnderDisability != null)
-            hcarStudiesTypeStudies.setStudiesAssistanceUnderDisability(this.studiesAssistanceUnderDisability.booleanValue());
+        if (getStudiesAssistanceUnderDisability() != null)
+            hcarStudiesTypeStudies.setStudiesAssistanceUnderDisability(getStudiesAssistanceUnderDisability().booleanValue());
       
-        if (this.professionalSupportSocialServiceAddress != null)
-            hcarSocialServiceTypeSocialService.setProfessionalSupportSocialServiceAddress(Address.modelToXml(this.professionalSupportSocialServiceAddress));
+        if (getProfessionalSupportSocialServiceAddress() != null)
+            hcarSocialServiceTypeSocialService.setProfessionalSupportSocialServiceAddress(Address.modelToXml(getProfessionalSupportSocialServiceAddress()));
       
-        if (this.studiesHighSchool != null)
-            hcarStudiesTypeStudies.setStudiesHighSchool(this.studiesHighSchool.booleanValue());
+        if (getStudiesHighSchool() != null)
+            hcarStudiesTypeStudies.setStudiesHighSchool(getStudiesHighSchool().booleanValue());
       
-        hcarHealthTypeHealth.setHealthProfessionalFirstName(this.healthProfessionalFirstName);
+        hcarHealthTypeHealth.setHealthProfessionalFirstName(getHealthProfessionalFirstName());
       
-        hcarSocialServiceTypeSocialService.setProfessionalSupportSocialServiceName(this.professionalSupportSocialServiceName);
+        hcarSocialServiceTypeSocialService.setProfessionalSupportSocialServiceName(getProfessionalSupportSocialServiceName());
       
-        hcarFacilitiesTypeFacilities.setFacilitiesCustomCarDetails(this.facilitiesCustomCarDetails);
+        hcarFacilitiesTypeFacilities.setFacilitiesCustomCarDetails(getFacilitiesCustomCarDetails());
       
-        hcarDwellingTypeDwelling.setDwellingPrecision(this.dwellingPrecision);
+        hcarDwellingTypeDwelling.setDwellingPrecision(getDwellingPrecision());
       
-        if (this.benefitsDisabilityCard != null)
-            hcarBenefitsTypeBenefits.setBenefitsDisabilityCard(this.benefitsDisabilityCard.booleanValue());
+        if (getBenefitsDisabilityCard() != null)
+            hcarBenefitsTypeBenefits.setBenefitsDisabilityCard(getBenefitsDisabilityCard().booleanValue());
       
-        if (this.socialSecurityMemberShipKind != null)
-            hcarSocialSecurityTypeSocialSecurity.setSocialSecurityMemberShipKind(fr.cg95.cvq.xml.request.social.HcarSocialSecurityMemberShipKindType.Enum.forString(this.socialSecurityMemberShipKind.toString()));
+        if (getSocialSecurityMemberShipKind() != null)
+            hcarSocialSecurityTypeSocialSecurity.setSocialSecurityMemberShipKind(fr.cg95.cvq.xml.request.social.HcarSocialSecurityMemberShipKindType.Enum.forString(getSocialSecurityMemberShipKind().toString()));
       
-        hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusElectiveFunctionDetails(this.professionalStatusElectiveFunctionDetails);
+        hcarProfessionalStatusTypeProfessionalStatus.setProfessionalStatusElectiveFunctionDetails(getProfessionalStatusElectiveFunctionDetails());
       
-        if (this.facilitiesAnimalAid != null)
-            hcarFacilitiesTypeFacilities.setFacilitiesAnimalAid(this.facilitiesAnimalAid.booleanValue());
+        if (getFacilitiesAnimalAid() != null)
+            hcarFacilitiesTypeFacilities.setFacilitiesAnimalAid(getFacilitiesAnimalAid().booleanValue());
       
-        if (this.studiesHighSchoolAddress != null)
-            hcarStudiesTypeStudies.setStudiesHighSchoolAddress(Address.modelToXml(this.studiesHighSchoolAddress));
+        if (getStudiesHighSchoolAddress() != null)
+            hcarStudiesTypeStudies.setStudiesHighSchoolAddress(Address.modelToXml(getStudiesHighSchoolAddress()));
       
         return handicapCompensationAdultRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        HandicapCompensationAdultRequestDocument handicapCompensationAdultRequestDoc =
-            (HandicapCompensationAdultRequestDocument) modelToXml();
-        return handicapCompensationAdultRequestDoc.getHandicapCompensationAdultRequest();
+    public final HandicapCompensationAdultRequestDocument.HandicapCompensationAdultRequest modelToXmlRequest() {
+        return modelToXml().getHandicapCompensationAdultRequest();
     }
 
     public static HandicapCompensationAdultRequest xmlToModel(HandicapCompensationAdultRequestDocument handicapCompensationAdultRequestDoc) {
@@ -685,7 +552,7 @@ public class HandicapCompensationAdultRequest extends Request implements Seriali
         List list = new ArrayList();
         HandicapCompensationAdultRequest handicapCompensationAdultRequest = new HandicapCompensationAdultRequest();
         handicapCompensationAdultRequest.fillCommonModelInfo(handicapCompensationAdultRequest, handicapCompensationAdultRequestXml);
-    
+        
         handicapCompensationAdultRequest.setHealthFollowedByProfessional(Boolean.valueOf(handicapCompensationAdultRequestXml.getHealth().getHealthFollowedByProfessional()));
       
         handicapCompensationAdultRequest.setProfessionalSupportProfessionals(Boolean.valueOf(handicapCompensationAdultRequestXml.getProfessionalSupport().getProfessionalSupportProfessionals()));
@@ -1075,2651 +942,1220 @@ public class HandicapCompensationAdultRequest extends Request implements Seriali
     }
 
   
-    private Boolean healthFollowedByProfessional;
-
     public final void setHealthFollowedByProfessional(final Boolean healthFollowedByProfessional) {
-        this.healthFollowedByProfessional = healthFollowedByProfessional;
+        handicapCompensationAdultRequestData.setHealthFollowedByProfessional(healthFollowedByProfessional);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="health_followed_by_professional"
-        
-      
-    */
     public final Boolean getHealthFollowedByProfessional() {
-        return this.healthFollowedByProfessional;
+        return handicapCompensationAdultRequestData.getHealthFollowedByProfessional();
     }
   
-    private Boolean professionalSupportProfessionals;
-
     public final void setProfessionalSupportProfessionals(final Boolean professionalSupportProfessionals) {
-        this.professionalSupportProfessionals = professionalSupportProfessionals;
+        handicapCompensationAdultRequestData.setProfessionalSupportProfessionals(professionalSupportProfessionals);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_support_professionals"
-        
-      
-    */
     public final Boolean getProfessionalSupportProfessionals() {
-        return this.professionalSupportProfessionals;
+        return handicapCompensationAdultRequestData.getProfessionalSupportProfessionals();
     }
   
-    private List<fr.cg95.cvq.business.request.social.HcarFamilyDependent> familyDependents;
-
     public final void setFamilyDependents(final List<fr.cg95.cvq.business.request.social.HcarFamilyDependent> familyDependents) {
-        this.familyDependents = familyDependents;
+        handicapCompensationAdultRequestData.setFamilyDependents(familyDependents);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="family_dependents_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarFamilyDependent"
-      
-    */
     public final List<fr.cg95.cvq.business.request.social.HcarFamilyDependent> getFamilyDependents() {
-        return this.familyDependents;
+        return handicapCompensationAdultRequestData.getFamilyDependents();
     }
   
-    private Boolean isFamilyAssistance;
-
     public final void setIsFamilyAssistance(final Boolean isFamilyAssistance) {
-        this.isFamilyAssistance = isFamilyAssistance;
+        handicapCompensationAdultRequestData.setIsFamilyAssistance(isFamilyAssistance);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="is_family_assistance"
-        
-      
-    */
     public final Boolean getIsFamilyAssistance() {
-        return this.isFamilyAssistance;
+        return handicapCompensationAdultRequestData.getIsFamilyAssistance();
     }
   
-    private String projectComments;
-
     public final void setProjectComments(final String projectComments) {
-        this.projectComments = projectComments;
+        handicapCompensationAdultRequestData.setProjectComments(projectComments);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_comments"
-        *  length="600"
-      
-    */
     public final String getProjectComments() {
-        return this.projectComments;
+        return handicapCompensationAdultRequestData.getProjectComments();
     }
   
-    private String foldersMdphDepartment;
-
     public final void setFoldersMdphDepartment(final String foldersMdphDepartment) {
-        this.foldersMdphDepartment = foldersMdphDepartment;
+        handicapCompensationAdultRequestData.setFoldersMdphDepartment(foldersMdphDepartment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="folders_mdph_department"
-        *  length="2"
-      
-    */
     public final String getFoldersMdphDepartment() {
-        return this.foldersMdphDepartment;
+        return handicapCompensationAdultRequestData.getFoldersMdphDepartment();
     }
   
-    private Boolean foldersCdes;
-
     public final void setFoldersCdes(final Boolean foldersCdes) {
-        this.foldersCdes = foldersCdes;
+        handicapCompensationAdultRequestData.setFoldersCdes(foldersCdes);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="folders_cdes"
-        
-      
-    */
     public final Boolean getFoldersCdes() {
-        return this.foldersCdes;
+        return handicapCompensationAdultRequestData.getFoldersCdes();
     }
   
-    private String projectNeeds;
-
     public final void setProjectNeeds(final String projectNeeds) {
-        this.projectNeeds = projectNeeds;
+        handicapCompensationAdultRequestData.setProjectNeeds(projectNeeds);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_needs"
-        *  length="600"
-      
-    */
     public final String getProjectNeeds() {
-        return this.projectNeeds;
+        return handicapCompensationAdultRequestData.getProjectNeeds();
     }
   
-    private Boolean benefitsEducationAllocationOfDisabledChildren;
-
     public final void setBenefitsEducationAllocationOfDisabledChildren(final Boolean benefitsEducationAllocationOfDisabledChildren) {
-        this.benefitsEducationAllocationOfDisabledChildren = benefitsEducationAllocationOfDisabledChildren;
+        handicapCompensationAdultRequestData.setBenefitsEducationAllocationOfDisabledChildren(benefitsEducationAllocationOfDisabledChildren);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_education_allocation_of_disabled_children"
-        
-      
-    */
     public final Boolean getBenefitsEducationAllocationOfDisabledChildren() {
-        return this.benefitsEducationAllocationOfDisabledChildren;
+        return handicapCompensationAdultRequestData.getBenefitsEducationAllocationOfDisabledChildren();
     }
   
-    private Boolean homeInterventionHomeIntervenant;
-
     public final void setHomeInterventionHomeIntervenant(final Boolean homeInterventionHomeIntervenant) {
-        this.homeInterventionHomeIntervenant = homeInterventionHomeIntervenant;
+        handicapCompensationAdultRequestData.setHomeInterventionHomeIntervenant(homeInterventionHomeIntervenant);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="home_intervention_home_intervenant"
-        
-      
-    */
     public final Boolean getHomeInterventionHomeIntervenant() {
-        return this.homeInterventionHomeIntervenant;
+        return handicapCompensationAdultRequestData.getHomeInterventionHomeIntervenant();
     }
   
-    private List<fr.cg95.cvq.business.request.social.HcarOtherFolder> otherFolders;
-
     public final void setOtherFolders(final List<fr.cg95.cvq.business.request.social.HcarOtherFolder> otherFolders) {
-        this.otherFolders = otherFolders;
+        handicapCompensationAdultRequestData.setOtherFolders(otherFolders);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="other_folders_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarOtherFolder"
-      
-    */
     public final List<fr.cg95.cvq.business.request.social.HcarOtherFolder> getOtherFolders() {
-        return this.otherFolders;
+        return handicapCompensationAdultRequestData.getOtherFolders();
     }
   
-    private String foldersMdphNumber;
-
     public final void setFoldersMdphNumber(final String foldersMdphNumber) {
-        this.foldersMdphNumber = foldersMdphNumber;
+        handicapCompensationAdultRequestData.setFoldersMdphNumber(foldersMdphNumber);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="folders_mdph_number"
-        *  length="30"
-      
-    */
     public final String getFoldersMdphNumber() {
-        return this.foldersMdphNumber;
+        return handicapCompensationAdultRequestData.getFoldersMdphNumber();
     }
   
-    private Boolean projectRequestsHousingFacilities;
-
     public final void setProjectRequestsHousingFacilities(final Boolean projectRequestsHousingFacilities) {
-        this.projectRequestsHousingFacilities = projectRequestsHousingFacilities;
+        handicapCompensationAdultRequestData.setProjectRequestsHousingFacilities(projectRequestsHousingFacilities);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_housing_facilities"
-        
-      
-    */
     public final Boolean getProjectRequestsHousingFacilities() {
-        return this.projectRequestsHousingFacilities;
+        return handicapCompensationAdultRequestData.getProjectRequestsHousingFacilities();
     }
   
-    private java.util.Date subjectBirthDate;
-
     public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
-        this.subjectBirthDate = subjectBirthDate;
+        handicapCompensationAdultRequestData.setSubjectBirthDate(subjectBirthDate);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="subject_birth_date"
-        
-      
-    */
     public final java.util.Date getSubjectBirthDate() {
-        return this.subjectBirthDate;
+        return handicapCompensationAdultRequestData.getSubjectBirthDate();
     }
   
-    private Boolean benefitsDisabilityPension;
-
     public final void setBenefitsDisabilityPension(final Boolean benefitsDisabilityPension) {
-        this.benefitsDisabilityPension = benefitsDisabilityPension;
+        handicapCompensationAdultRequestData.setBenefitsDisabilityPension(benefitsDisabilityPension);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_disability_pension"
-        
-      
-    */
     public final Boolean getBenefitsDisabilityPension() {
-        return this.benefitsDisabilityPension;
+        return handicapCompensationAdultRequestData.getBenefitsDisabilityPension();
     }
   
-    private Boolean legalAccessPresence;
-
     public final void setLegalAccessPresence(final Boolean legalAccessPresence) {
-        this.legalAccessPresence = legalAccessPresence;
+        handicapCompensationAdultRequestData.setLegalAccessPresence(legalAccessPresence);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="legal_access_presence"
-        
-      
-    */
     public final Boolean getLegalAccessPresence() {
-        return this.legalAccessPresence;
+        return handicapCompensationAdultRequestData.getLegalAccessPresence();
     }
   
-    private String subjectMaidenName;
-
     public final void setSubjectMaidenName(final String subjectMaidenName) {
-        this.subjectMaidenName = subjectMaidenName;
+        handicapCompensationAdultRequestData.setSubjectMaidenName(subjectMaidenName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="subject_maiden_name"
-        *  length="38"
-      
-    */
     public final String getSubjectMaidenName() {
-        return this.subjectMaidenName;
+        return handicapCompensationAdultRequestData.getSubjectMaidenName();
     }
   
-    private Boolean projectRequestsDisabledWorkerRecognition;
-
     public final void setProjectRequestsDisabledWorkerRecognition(final Boolean projectRequestsDisabledWorkerRecognition) {
-        this.projectRequestsDisabledWorkerRecognition = projectRequestsDisabledWorkerRecognition;
+        handicapCompensationAdultRequestData.setProjectRequestsDisabledWorkerRecognition(projectRequestsDisabledWorkerRecognition);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_disabled_worker_recognition"
-        
-      
-    */
     public final Boolean getProjectRequestsDisabledWorkerRecognition() {
-        return this.projectRequestsDisabledWorkerRecognition;
+        return handicapCompensationAdultRequestData.getProjectRequestsDisabledWorkerRecognition();
     }
   
-    private Boolean benefitsUnemploymentBenefits;
-
     public final void setBenefitsUnemploymentBenefits(final Boolean benefitsUnemploymentBenefits) {
-        this.benefitsUnemploymentBenefits = benefitsUnemploymentBenefits;
+        handicapCompensationAdultRequestData.setBenefitsUnemploymentBenefits(benefitsUnemploymentBenefits);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_unemployment_benefits"
-        
-      
-    */
     public final Boolean getBenefitsUnemploymentBenefits() {
-        return this.benefitsUnemploymentBenefits;
+        return handicapCompensationAdultRequestData.getBenefitsUnemploymentBenefits();
     }
   
-    private List<fr.cg95.cvq.business.request.social.HcarHomeIntervenant> homeIntervenants;
-
     public final void setHomeIntervenants(final List<fr.cg95.cvq.business.request.social.HcarHomeIntervenant> homeIntervenants) {
-        this.homeIntervenants = homeIntervenants;
+        handicapCompensationAdultRequestData.setHomeIntervenants(homeIntervenants);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="home_intervenants_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarHomeIntervenant"
-      
-    */
     public final List<fr.cg95.cvq.business.request.social.HcarHomeIntervenant> getHomeIntervenants() {
-        return this.homeIntervenants;
+        return handicapCompensationAdultRequestData.getHomeIntervenants();
     }
   
-    private fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType professionalStatusKind;
-
     public final void setProfessionalStatusKind(final fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType professionalStatusKind) {
-        this.professionalStatusKind = professionalStatusKind;
+        handicapCompensationAdultRequestData.setProfessionalStatusKind(professionalStatusKind);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_kind"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType getProfessionalStatusKind() {
-        return this.professionalStatusKind;
+        return handicapCompensationAdultRequestData.getProfessionalStatusKind();
     }
   
-    private Boolean familyFamilyDependents;
-
     public final void setFamilyFamilyDependents(final Boolean familyFamilyDependents) {
-        this.familyFamilyDependents = familyFamilyDependents;
+        handicapCompensationAdultRequestData.setFamilyFamilyDependents(familyFamilyDependents);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="family_family_dependents"
-        
-      
-    */
     public final Boolean getFamilyFamilyDependents() {
-        return this.familyFamilyDependents;
+        return handicapCompensationAdultRequestData.getFamilyFamilyDependents();
     }
   
-    private String formationPreviousFormation;
-
     public final void setFormationPreviousFormation(final String formationPreviousFormation) {
-        this.formationPreviousFormation = formationPreviousFormation;
+        handicapCompensationAdultRequestData.setFormationPreviousFormation(formationPreviousFormation);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="formation_previous_formation"
-        *  length="180"
-      
-    */
     public final String getFormationPreviousFormation() {
-        return this.formationPreviousFormation;
+        return handicapCompensationAdultRequestData.getFormationPreviousFormation();
     }
   
-    private String benefitsEducationOfDisabledChildrenDetails;
-
     public final void setBenefitsEducationOfDisabledChildrenDetails(final String benefitsEducationOfDisabledChildrenDetails) {
-        this.benefitsEducationOfDisabledChildrenDetails = benefitsEducationOfDisabledChildrenDetails;
+        handicapCompensationAdultRequestData.setBenefitsEducationOfDisabledChildrenDetails(benefitsEducationOfDisabledChildrenDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_education_of_disabled_children_details"
-        *  length="60"
-      
-    */
     public final String getBenefitsEducationOfDisabledChildrenDetails() {
-        return this.benefitsEducationOfDisabledChildrenDetails;
+        return handicapCompensationAdultRequestData.getBenefitsEducationOfDisabledChildrenDetails();
     }
   
-    private Boolean projectRequestsVocationalTraining;
-
     public final void setProjectRequestsVocationalTraining(final Boolean projectRequestsVocationalTraining) {
-        this.projectRequestsVocationalTraining = projectRequestsVocationalTraining;
+        handicapCompensationAdultRequestData.setProjectRequestsVocationalTraining(projectRequestsVocationalTraining);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_vocational_training"
-        
-      
-    */
     public final Boolean getProjectRequestsVocationalTraining() {
-        return this.projectRequestsVocationalTraining;
+        return handicapCompensationAdultRequestData.getProjectRequestsVocationalTraining();
     }
   
-    private Boolean facilitiesCustomCar;
-
     public final void setFacilitiesCustomCar(final Boolean facilitiesCustomCar) {
-        this.facilitiesCustomCar = facilitiesCustomCar;
+        handicapCompensationAdultRequestData.setFacilitiesCustomCar(facilitiesCustomCar);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="facilities_custom_car"
-        
-      
-    */
     public final Boolean getFacilitiesCustomCar() {
-        return this.facilitiesCustomCar;
+        return handicapCompensationAdultRequestData.getFacilitiesCustomCar();
     }
   
-    private String legalAccessRepresentativeKindDetail;
-
     public final void setLegalAccessRepresentativeKindDetail(final String legalAccessRepresentativeKindDetail) {
-        this.legalAccessRepresentativeKindDetail = legalAccessRepresentativeKindDetail;
+        handicapCompensationAdultRequestData.setLegalAccessRepresentativeKindDetail(legalAccessRepresentativeKindDetail);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="legal_access_representative_kind_detail"
-        *  length="80"
-      
-    */
     public final String getLegalAccessRepresentativeKindDetail() {
-        return this.legalAccessRepresentativeKindDetail;
+        return handicapCompensationAdultRequestData.getLegalAccessRepresentativeKindDetail();
     }
   
-    private Boolean professionalStatusIndemnified;
-
     public final void setProfessionalStatusIndemnified(final Boolean professionalStatusIndemnified) {
-        this.professionalStatusIndemnified = professionalStatusIndemnified;
+        handicapCompensationAdultRequestData.setProfessionalStatusIndemnified(professionalStatusIndemnified);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_indemnified"
-        
-      
-    */
     public final Boolean getProfessionalStatusIndemnified() {
-        return this.professionalStatusIndemnified;
+        return handicapCompensationAdultRequestData.getProfessionalStatusIndemnified();
     }
   
-    private Boolean benefitsDisabledAdultAllocation;
-
     public final void setBenefitsDisabledAdultAllocation(final Boolean benefitsDisabledAdultAllocation) {
-        this.benefitsDisabledAdultAllocation = benefitsDisabledAdultAllocation;
+        handicapCompensationAdultRequestData.setBenefitsDisabledAdultAllocation(benefitsDisabledAdultAllocation);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_disabled_adult_allocation"
-        
-      
-    */
     public final Boolean getBenefitsDisabledAdultAllocation() {
-        return this.benefitsDisabledAdultAllocation;
+        return handicapCompensationAdultRequestData.getBenefitsDisabledAdultAllocation();
     }
   
-    private Boolean benefitsThirdPartyCompensatoryAllowance;
-
     public final void setBenefitsThirdPartyCompensatoryAllowance(final Boolean benefitsThirdPartyCompensatoryAllowance) {
-        this.benefitsThirdPartyCompensatoryAllowance = benefitsThirdPartyCompensatoryAllowance;
+        handicapCompensationAdultRequestData.setBenefitsThirdPartyCompensatoryAllowance(benefitsThirdPartyCompensatoryAllowance);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_third_party_compensatory_allowance"
-        
-      
-    */
     public final Boolean getBenefitsThirdPartyCompensatoryAllowance() {
-        return this.benefitsThirdPartyCompensatoryAllowance;
+        return handicapCompensationAdultRequestData.getBenefitsThirdPartyCompensatoryAllowance();
     }
   
-    private java.util.Date professionalStatusDate;
-
     public final void setProfessionalStatusDate(final java.util.Date professionalStatusDate) {
-        this.professionalStatusDate = professionalStatusDate;
+        handicapCompensationAdultRequestData.setProfessionalStatusDate(professionalStatusDate);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_date"
-        
-      
-    */
     public final java.util.Date getProfessionalStatusDate() {
-        return this.professionalStatusDate;
+        return handicapCompensationAdultRequestData.getProfessionalStatusDate();
     }
   
-    private Boolean projectRequestsTransportCostAllocation;
-
     public final void setProjectRequestsTransportCostAllocation(final Boolean projectRequestsTransportCostAllocation) {
-        this.projectRequestsTransportCostAllocation = projectRequestsTransportCostAllocation;
+        handicapCompensationAdultRequestData.setProjectRequestsTransportCostAllocation(projectRequestsTransportCostAllocation);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_transport_cost_allocation"
-        
-      
-    */
     public final Boolean getProjectRequestsTransportCostAllocation() {
-        return this.projectRequestsTransportCostAllocation;
+        return handicapCompensationAdultRequestData.getProjectRequestsTransportCostAllocation();
     }
   
-    private Boolean benefitsProfessionalOrientation;
-
     public final void setBenefitsProfessionalOrientation(final Boolean benefitsProfessionalOrientation) {
-        this.benefitsProfessionalOrientation = benefitsProfessionalOrientation;
+        handicapCompensationAdultRequestData.setBenefitsProfessionalOrientation(benefitsProfessionalOrientation);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_professional_orientation"
-        
-      
-    */
     public final Boolean getBenefitsProfessionalOrientation() {
-        return this.benefitsProfessionalOrientation;
+        return handicapCompensationAdultRequestData.getBenefitsProfessionalOrientation();
     }
   
-    private Boolean benefitsDisabilityRecognition;
-
     public final void setBenefitsDisabilityRecognition(final Boolean benefitsDisabilityRecognition) {
-        this.benefitsDisabilityRecognition = benefitsDisabilityRecognition;
+        handicapCompensationAdultRequestData.setBenefitsDisabilityRecognition(benefitsDisabilityRecognition);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_disability_recognition"
-        
-      
-    */
     public final Boolean getBenefitsDisabilityRecognition() {
-        return this.benefitsDisabilityRecognition;
+        return handicapCompensationAdultRequestData.getBenefitsDisabilityRecognition();
     }
   
-    private Boolean professionalStatusRegisterAsUnemployed;
-
     public final void setProfessionalStatusRegisterAsUnemployed(final Boolean professionalStatusRegisterAsUnemployed) {
-        this.professionalStatusRegisterAsUnemployed = professionalStatusRegisterAsUnemployed;
+        handicapCompensationAdultRequestData.setProfessionalStatusRegisterAsUnemployed(professionalStatusRegisterAsUnemployed);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_register_as_unemployed"
-        
-      
-    */
     public final Boolean getProfessionalStatusRegisterAsUnemployed() {
-        return this.professionalStatusRegisterAsUnemployed;
+        return handicapCompensationAdultRequestData.getProfessionalStatusRegisterAsUnemployed();
     }
   
-    private String dwellingSocialReceptionNaming;
-
     public final void setDwellingSocialReceptionNaming(final String dwellingSocialReceptionNaming) {
-        this.dwellingSocialReceptionNaming = dwellingSocialReceptionNaming;
+        handicapCompensationAdultRequestData.setDwellingSocialReceptionNaming(dwellingSocialReceptionNaming);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="dwelling_social_reception_naming"
-        *  length="80"
-      
-    */
     public final String getDwellingSocialReceptionNaming() {
-        return this.dwellingSocialReceptionNaming;
+        return handicapCompensationAdultRequestData.getDwellingSocialReceptionNaming();
     }
   
-    private java.util.Date professionalStatusIndemnifiedDate;
-
     public final void setProfessionalStatusIndemnifiedDate(final java.util.Date professionalStatusIndemnifiedDate) {
-        this.professionalStatusIndemnifiedDate = professionalStatusIndemnifiedDate;
+        handicapCompensationAdultRequestData.setProfessionalStatusIndemnifiedDate(professionalStatusIndemnifiedDate);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_indemnified_date"
-        
-      
-    */
     public final java.util.Date getProfessionalStatusIndemnifiedDate() {
-        return this.professionalStatusIndemnifiedDate;
+        return handicapCompensationAdultRequestData.getProfessionalStatusIndemnifiedDate();
     }
   
-    private fr.cg95.cvq.business.users.FamilyStatusType familyStatus;
-
     public final void setFamilyStatus(final fr.cg95.cvq.business.users.FamilyStatusType familyStatus) {
-        this.familyStatus = familyStatus;
+        handicapCompensationAdultRequestData.setFamilyStatus(familyStatus);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="family_status"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.FamilyStatusType getFamilyStatus() {
-        return this.familyStatus;
+        return handicapCompensationAdultRequestData.getFamilyStatus();
     }
   
-    private Boolean benefitsPainfulStandingCard;
-
     public final void setBenefitsPainfulStandingCard(final Boolean benefitsPainfulStandingCard) {
-        this.benefitsPainfulStandingCard = benefitsPainfulStandingCard;
+        handicapCompensationAdultRequestData.setBenefitsPainfulStandingCard(benefitsPainfulStandingCard);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_painful_standing_card"
-        
-      
-    */
     public final Boolean getBenefitsPainfulStandingCard() {
-        return this.benefitsPainfulStandingCard;
+        return handicapCompensationAdultRequestData.getBenefitsPainfulStandingCard();
     }
   
-    private String benefitsProfessionalOrientationDetails;
-
     public final void setBenefitsProfessionalOrientationDetails(final String benefitsProfessionalOrientationDetails) {
-        this.benefitsProfessionalOrientationDetails = benefitsProfessionalOrientationDetails;
+        handicapCompensationAdultRequestData.setBenefitsProfessionalOrientationDetails(benefitsProfessionalOrientationDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_professional_orientation_details"
-        *  length="60"
-      
-    */
     public final String getBenefitsProfessionalOrientationDetails() {
-        return this.benefitsProfessionalOrientationDetails;
+        return handicapCompensationAdultRequestData.getBenefitsProfessionalOrientationDetails();
     }
   
-    private String foldersCdesDepartment;
-
     public final void setFoldersCdesDepartment(final String foldersCdesDepartment) {
-        this.foldersCdesDepartment = foldersCdesDepartment;
+        handicapCompensationAdultRequestData.setFoldersCdesDepartment(foldersCdesDepartment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="folders_cdes_department"
-        *  length="2"
-      
-    */
     public final String getFoldersCdesDepartment() {
-        return this.foldersCdesDepartment;
+        return handicapCompensationAdultRequestData.getFoldersCdesDepartment();
     }
   
-    private Boolean facilitiesSpecializedTransport;
-
     public final void setFacilitiesSpecializedTransport(final Boolean facilitiesSpecializedTransport) {
-        this.facilitiesSpecializedTransport = facilitiesSpecializedTransport;
+        handicapCompensationAdultRequestData.setFacilitiesSpecializedTransport(facilitiesSpecializedTransport);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="facilities_specialized_transport"
-        
-      
-    */
     public final Boolean getFacilitiesSpecializedTransport() {
-        return this.facilitiesSpecializedTransport;
+        return handicapCompensationAdultRequestData.getFacilitiesSpecializedTransport();
     }
   
-    private Boolean benefitsParkingCard;
-
     public final void setBenefitsParkingCard(final Boolean benefitsParkingCard) {
-        this.benefitsParkingCard = benefitsParkingCard;
+        handicapCompensationAdultRequestData.setBenefitsParkingCard(benefitsParkingCard);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_parking_card"
-        
-      
-    */
     public final Boolean getBenefitsParkingCard() {
-        return this.benefitsParkingCard;
+        return handicapCompensationAdultRequestData.getBenefitsParkingCard();
     }
   
-    private String facilitiesSpecializedTransportDetails;
-
     public final void setFacilitiesSpecializedTransportDetails(final String facilitiesSpecializedTransportDetails) {
-        this.facilitiesSpecializedTransportDetails = facilitiesSpecializedTransportDetails;
+        handicapCompensationAdultRequestData.setFacilitiesSpecializedTransportDetails(facilitiesSpecializedTransportDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="facilities_specialized_transport_details"
-        *  length="60"
-      
-    */
     public final String getFacilitiesSpecializedTransportDetails() {
-        return this.facilitiesSpecializedTransportDetails;
+        return handicapCompensationAdultRequestData.getFacilitiesSpecializedTransportDetails();
     }
   
-    private Boolean professionalSupportSocialServiceSupport;
-
     public final void setProfessionalSupportSocialServiceSupport(final Boolean professionalSupportSocialServiceSupport) {
-        this.professionalSupportSocialServiceSupport = professionalSupportSocialServiceSupport;
+        handicapCompensationAdultRequestData.setProfessionalSupportSocialServiceSupport(professionalSupportSocialServiceSupport);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_support_social_service_support"
-        
-      
-    */
     public final Boolean getProfessionalSupportSocialServiceSupport() {
-        return this.professionalSupportSocialServiceSupport;
+        return handicapCompensationAdultRequestData.getProfessionalSupportSocialServiceSupport();
     }
   
-    private String socialSecurityNumber;
-
     public final void setSocialSecurityNumber(final String socialSecurityNumber) {
-        this.socialSecurityNumber = socialSecurityNumber;
+        handicapCompensationAdultRequestData.setSocialSecurityNumber(socialSecurityNumber);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="social_security_number"
-        *  length="13"
-      
-    */
     public final String getSocialSecurityNumber() {
-        return this.socialSecurityNumber;
+        return handicapCompensationAdultRequestData.getSocialSecurityNumber();
     }
   
-    private String benefitsWorkAccidentAnnuityRatio;
-
     public final void setBenefitsWorkAccidentAnnuityRatio(final String benefitsWorkAccidentAnnuityRatio) {
-        this.benefitsWorkAccidentAnnuityRatio = benefitsWorkAccidentAnnuityRatio;
+        handicapCompensationAdultRequestData.setBenefitsWorkAccidentAnnuityRatio(benefitsWorkAccidentAnnuityRatio);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_work_accident_annuity_ratio"
-        *  length="3"
-      
-    */
     public final String getBenefitsWorkAccidentAnnuityRatio() {
-        return this.benefitsWorkAccidentAnnuityRatio;
+        return handicapCompensationAdultRequestData.getBenefitsWorkAccidentAnnuityRatio();
     }
   
-    private Boolean benefitsWorkAccidentAnnuity;
-
     public final void setBenefitsWorkAccidentAnnuity(final Boolean benefitsWorkAccidentAnnuity) {
-        this.benefitsWorkAccidentAnnuity = benefitsWorkAccidentAnnuity;
+        handicapCompensationAdultRequestData.setBenefitsWorkAccidentAnnuity(benefitsWorkAccidentAnnuity);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_work_accident_annuity"
-        
-      
-    */
     public final Boolean getBenefitsWorkAccidentAnnuity() {
-        return this.benefitsWorkAccidentAnnuity;
+        return handicapCompensationAdultRequestData.getBenefitsWorkAccidentAnnuity();
     }
   
-    private Boolean careCareServices;
-
     public final void setCareCareServices(final Boolean careCareServices) {
-        this.careCareServices = careCareServices;
+        handicapCompensationAdultRequestData.setCareCareServices(careCareServices);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="care_care_services"
-        
-      
-    */
     public final Boolean getCareCareServices() {
-        return this.careCareServices;
+        return handicapCompensationAdultRequestData.getCareCareServices();
     }
   
-    private String benefitsDisabilityRatio;
-
     public final void setBenefitsDisabilityRatio(final String benefitsDisabilityRatio) {
-        this.benefitsDisabilityRatio = benefitsDisabilityRatio;
+        handicapCompensationAdultRequestData.setBenefitsDisabilityRatio(benefitsDisabilityRatio);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_disability_ratio"
-        *  length="3"
-      
-    */
     public final String getBenefitsDisabilityRatio() {
-        return this.benefitsDisabilityRatio;
+        return handicapCompensationAdultRequestData.getBenefitsDisabilityRatio();
     }
   
-    private Boolean benefitsDailyAllowances;
-
     public final void setBenefitsDailyAllowances(final Boolean benefitsDailyAllowances) {
-        this.benefitsDailyAllowances = benefitsDailyAllowances;
+        handicapCompensationAdultRequestData.setBenefitsDailyAllowances(benefitsDailyAllowances);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_daily_allowances"
-        
-      
-    */
     public final Boolean getBenefitsDailyAllowances() {
-        return this.benefitsDailyAllowances;
+        return handicapCompensationAdultRequestData.getBenefitsDailyAllowances();
     }
   
-    private Boolean projectRequestsCustomCar;
-
     public final void setProjectRequestsCustomCar(final Boolean projectRequestsCustomCar) {
-        this.projectRequestsCustomCar = projectRequestsCustomCar;
+        handicapCompensationAdultRequestData.setProjectRequestsCustomCar(projectRequestsCustomCar);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_custom_car"
-        
-      
-    */
     public final Boolean getProjectRequestsCustomCar() {
-        return this.projectRequestsCustomCar;
+        return handicapCompensationAdultRequestData.getProjectRequestsCustomCar();
     }
   
-    private String paymentAgencyBeneficiaryNumber;
-
     public final void setPaymentAgencyBeneficiaryNumber(final String paymentAgencyBeneficiaryNumber) {
-        this.paymentAgencyBeneficiaryNumber = paymentAgencyBeneficiaryNumber;
+        handicapCompensationAdultRequestData.setPaymentAgencyBeneficiaryNumber(paymentAgencyBeneficiaryNumber);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="payment_agency_beneficiary_number"
-        *  length="20"
-      
-    */
     public final String getPaymentAgencyBeneficiaryNumber() {
-        return this.paymentAgencyBeneficiaryNumber;
+        return handicapCompensationAdultRequestData.getPaymentAgencyBeneficiaryNumber();
     }
   
-    private String foldersCotorepNumber;
-
     public final void setFoldersCotorepNumber(final String foldersCotorepNumber) {
-        this.foldersCotorepNumber = foldersCotorepNumber;
+        handicapCompensationAdultRequestData.setFoldersCotorepNumber(foldersCotorepNumber);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="folders_cotorep_number"
-        *  length="30"
-      
-    */
     public final String getFoldersCotorepNumber() {
-        return this.foldersCotorepNumber;
+        return handicapCompensationAdultRequestData.getFoldersCotorepNumber();
     }
   
-    private Boolean projectRequestsACTPRenewal;
-
     public final void setProjectRequestsACTPRenewal(final Boolean projectRequestsACTPRenewal) {
-        this.projectRequestsACTPRenewal = projectRequestsACTPRenewal;
+        handicapCompensationAdultRequestData.setProjectRequestsACTPRenewal(projectRequestsACTPRenewal);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_a_c_t_p_renewal"
-        
-      
-    */
     public final Boolean getProjectRequestsACTPRenewal() {
-        return this.projectRequestsACTPRenewal;
+        return handicapCompensationAdultRequestData.getProjectRequestsACTPRenewal();
     }
   
-    private fr.cg95.cvq.business.users.Address dwellingSocialReceptionAddress;
-
     public final void setDwellingSocialReceptionAddress(final fr.cg95.cvq.business.users.Address dwellingSocialReceptionAddress) {
-        this.dwellingSocialReceptionAddress = dwellingSocialReceptionAddress;
+        handicapCompensationAdultRequestData.setDwellingSocialReceptionAddress(dwellingSocialReceptionAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dwelling_social_reception_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getDwellingSocialReceptionAddress() {
-        return this.dwellingSocialReceptionAddress;
+        return handicapCompensationAdultRequestData.getDwellingSocialReceptionAddress();
     }
   
-    private Boolean foldersMdph;
-
     public final void setFoldersMdph(final Boolean foldersMdph) {
-        this.foldersMdph = foldersMdph;
+        handicapCompensationAdultRequestData.setFoldersMdph(foldersMdph);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="folders_mdph"
-        
-      
-    */
     public final Boolean getFoldersMdph() {
-        return this.foldersMdph;
+        return handicapCompensationAdultRequestData.getFoldersMdph();
     }
   
-    private String benefitsSupportedByAnInstitutionDetails;
-
     public final void setBenefitsSupportedByAnInstitutionDetails(final String benefitsSupportedByAnInstitutionDetails) {
-        this.benefitsSupportedByAnInstitutionDetails = benefitsSupportedByAnInstitutionDetails;
+        handicapCompensationAdultRequestData.setBenefitsSupportedByAnInstitutionDetails(benefitsSupportedByAnInstitutionDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_supported_by_an_institution_details"
-        *  length="60"
-      
-    */
     public final String getBenefitsSupportedByAnInstitutionDetails() {
-        return this.benefitsSupportedByAnInstitutionDetails;
+        return handicapCompensationAdultRequestData.getBenefitsSupportedByAnInstitutionDetails();
     }
   
-    private Boolean professionalSupportDealsWithSameProfessional;
-
     public final void setProfessionalSupportDealsWithSameProfessional(final Boolean professionalSupportDealsWithSameProfessional) {
-        this.professionalSupportDealsWithSameProfessional = professionalSupportDealsWithSameProfessional;
+        handicapCompensationAdultRequestData.setProfessionalSupportDealsWithSameProfessional(professionalSupportDealsWithSameProfessional);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_support_deals_with_same_professional"
-        
-      
-    */
     public final Boolean getProfessionalSupportDealsWithSameProfessional() {
-        return this.professionalSupportDealsWithSameProfessional;
+        return handicapCompensationAdultRequestData.getProfessionalSupportDealsWithSameProfessional();
     }
   
-    private Boolean dwellingEstablishmentReception;
-
     public final void setDwellingEstablishmentReception(final Boolean dwellingEstablishmentReception) {
-        this.dwellingEstablishmentReception = dwellingEstablishmentReception;
+        handicapCompensationAdultRequestData.setDwellingEstablishmentReception(dwellingEstablishmentReception);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="dwelling_establishment_reception"
-        
-      
-    */
     public final Boolean getDwellingEstablishmentReception() {
-        return this.dwellingEstablishmentReception;
+        return handicapCompensationAdultRequestData.getDwellingEstablishmentReception();
     }
   
-    private String foldersCotorepDepartment;
-
     public final void setFoldersCotorepDepartment(final String foldersCotorepDepartment) {
-        this.foldersCotorepDepartment = foldersCotorepDepartment;
+        handicapCompensationAdultRequestData.setFoldersCotorepDepartment(foldersCotorepDepartment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="folders_cotorep_department"
-        *  length="2"
-      
-    */
     public final String getFoldersCotorepDepartment() {
-        return this.foldersCotorepDepartment;
+        return handicapCompensationAdultRequestData.getFoldersCotorepDepartment();
     }
   
-    private List<fr.cg95.cvq.business.request.social.HcarAdditionalFee> additionalFee;
-
     public final void setAdditionalFee(final List<fr.cg95.cvq.business.request.social.HcarAdditionalFee> additionalFee) {
-        this.additionalFee = additionalFee;
+        handicapCompensationAdultRequestData.setAdditionalFee(additionalFee);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="additional_fee_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarAdditionalFee"
-      
-    */
     public final List<fr.cg95.cvq.business.request.social.HcarAdditionalFee> getAdditionalFee() {
-        return this.additionalFee;
+        return handicapCompensationAdultRequestData.getAdditionalFee();
     }
   
-    private Boolean projectRequestsOrdinaryWorking;
-
     public final void setProjectRequestsOrdinaryWorking(final Boolean projectRequestsOrdinaryWorking) {
-        this.projectRequestsOrdinaryWorking = projectRequestsOrdinaryWorking;
+        handicapCompensationAdultRequestData.setProjectRequestsOrdinaryWorking(projectRequestsOrdinaryWorking);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_ordinary_working"
-        
-      
-    */
     public final Boolean getProjectRequestsOrdinaryWorking() {
-        return this.projectRequestsOrdinaryWorking;
+        return handicapCompensationAdultRequestData.getProjectRequestsOrdinaryWorking();
     }
   
-    private String legalAccessRepresentativeFirstName;
-
     public final void setLegalAccessRepresentativeFirstName(final String legalAccessRepresentativeFirstName) {
-        this.legalAccessRepresentativeFirstName = legalAccessRepresentativeFirstName;
+        handicapCompensationAdultRequestData.setLegalAccessRepresentativeFirstName(legalAccessRepresentativeFirstName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="legal_access_representative_first_name"
-        *  length="38"
-      
-    */
     public final String getLegalAccessRepresentativeFirstName() {
-        return this.legalAccessRepresentativeFirstName;
+        return handicapCompensationAdultRequestData.getLegalAccessRepresentativeFirstName();
     }
   
-    private Boolean dwellingSocialReception;
-
     public final void setDwellingSocialReception(final Boolean dwellingSocialReception) {
-        this.dwellingSocialReception = dwellingSocialReception;
+        handicapCompensationAdultRequestData.setDwellingSocialReception(dwellingSocialReception);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="dwelling_social_reception"
-        
-      
-    */
     public final Boolean getDwellingSocialReception() {
-        return this.dwellingSocialReception;
+        return handicapCompensationAdultRequestData.getDwellingSocialReception();
     }
   
-    private Boolean benefitsDisabledWorkerRecognition;
-
     public final void setBenefitsDisabledWorkerRecognition(final Boolean benefitsDisabledWorkerRecognition) {
-        this.benefitsDisabledWorkerRecognition = benefitsDisabledWorkerRecognition;
+        handicapCompensationAdultRequestData.setBenefitsDisabledWorkerRecognition(benefitsDisabledWorkerRecognition);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_disabled_worker_recognition"
-        
-      
-    */
     public final Boolean getBenefitsDisabledWorkerRecognition() {
-        return this.benefitsDisabledWorkerRecognition;
+        return handicapCompensationAdultRequestData.getBenefitsDisabledWorkerRecognition();
     }
   
-    private Boolean projectRequestsEuropeanParkingCard;
-
     public final void setProjectRequestsEuropeanParkingCard(final Boolean projectRequestsEuropeanParkingCard) {
-        this.projectRequestsEuropeanParkingCard = projectRequestsEuropeanParkingCard;
+        handicapCompensationAdultRequestData.setProjectRequestsEuropeanParkingCard(projectRequestsEuropeanParkingCard);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_european_parking_card"
-        
-      
-    */
     public final Boolean getProjectRequestsEuropeanParkingCard() {
-        return this.projectRequestsEuropeanParkingCard;
+        return handicapCompensationAdultRequestData.getProjectRequestsEuropeanParkingCard();
     }
   
-    private Boolean healthFollowedByDoctor;
-
     public final void setHealthFollowedByDoctor(final Boolean healthFollowedByDoctor) {
-        this.healthFollowedByDoctor = healthFollowedByDoctor;
+        handicapCompensationAdultRequestData.setHealthFollowedByDoctor(healthFollowedByDoctor);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="health_followed_by_doctor"
-        
-      
-    */
     public final Boolean getHealthFollowedByDoctor() {
-        return this.healthFollowedByDoctor;
+        return handicapCompensationAdultRequestData.getHealthFollowedByDoctor();
     }
   
-    private List<fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember> familyAssistanceMembers;
-
     public final void setFamilyAssistanceMembers(final List<fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember> familyAssistanceMembers) {
-        this.familyAssistanceMembers = familyAssistanceMembers;
+        handicapCompensationAdultRequestData.setFamilyAssistanceMembers(familyAssistanceMembers);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="family_assistance_members_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember"
-      
-    */
     public final List<fr.cg95.cvq.business.request.social.HcarFamilyAssistanceMember> getFamilyAssistanceMembers() {
-        return this.familyAssistanceMembers;
+        return handicapCompensationAdultRequestData.getFamilyAssistanceMembers();
     }
   
-    private Boolean projectRequestsFreePensionMembership;
-
     public final void setProjectRequestsFreePensionMembership(final Boolean projectRequestsFreePensionMembership) {
-        this.projectRequestsFreePensionMembership = projectRequestsFreePensionMembership;
+        handicapCompensationAdultRequestData.setProjectRequestsFreePensionMembership(projectRequestsFreePensionMembership);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_free_pension_membership"
-        
-      
-    */
     public final Boolean getProjectRequestsFreePensionMembership() {
-        return this.projectRequestsFreePensionMembership;
+        return handicapCompensationAdultRequestData.getProjectRequestsFreePensionMembership();
     }
   
-    private List<fr.cg95.cvq.business.request.social.HcarProfessional> professionals;
-
     public final void setProfessionals(final List<fr.cg95.cvq.business.request.social.HcarProfessional> professionals) {
-        this.professionals = professionals;
+        handicapCompensationAdultRequestData.setProfessionals(professionals);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="professionals_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarProfessional"
-      
-    */
     public final List<fr.cg95.cvq.business.request.social.HcarProfessional> getProfessionals() {
-        return this.professionals;
+        return handicapCompensationAdultRequestData.getProfessionals();
     }
   
-    private Boolean healthFollowedByHospital;
-
     public final void setHealthFollowedByHospital(final Boolean healthFollowedByHospital) {
-        this.healthFollowedByHospital = healthFollowedByHospital;
+        handicapCompensationAdultRequestData.setHealthFollowedByHospital(healthFollowedByHospital);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="health_followed_by_hospital"
-        
-      
-    */
     public final Boolean getHealthFollowedByHospital() {
-        return this.healthFollowedByHospital;
+        return handicapCompensationAdultRequestData.getHealthFollowedByHospital();
     }
   
-    private String professionalStatusEmployerName;
-
     public final void setProfessionalStatusEmployerName(final String professionalStatusEmployerName) {
-        this.professionalStatusEmployerName = professionalStatusEmployerName;
+        handicapCompensationAdultRequestData.setProfessionalStatusEmployerName(professionalStatusEmployerName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_employer_name"
-        *  length="38"
-      
-    */
     public final String getProfessionalStatusEmployerName() {
-        return this.professionalStatusEmployerName;
+        return handicapCompensationAdultRequestData.getProfessionalStatusEmployerName();
     }
   
-    private Boolean projectRequestsInstitutionSupport;
-
     public final void setProjectRequestsInstitutionSupport(final Boolean projectRequestsInstitutionSupport) {
-        this.projectRequestsInstitutionSupport = projectRequestsInstitutionSupport;
+        handicapCompensationAdultRequestData.setProjectRequestsInstitutionSupport(projectRequestsInstitutionSupport);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_institution_support"
-        
-      
-    */
     public final Boolean getProjectRequestsInstitutionSupport() {
-        return this.projectRequestsInstitutionSupport;
+        return handicapCompensationAdultRequestData.getProjectRequestsInstitutionSupport();
     }
   
-    private Boolean benefitsSocialWelfare;
-
     public final void setBenefitsSocialWelfare(final Boolean benefitsSocialWelfare) {
-        this.benefitsSocialWelfare = benefitsSocialWelfare;
+        handicapCompensationAdultRequestData.setBenefitsSocialWelfare(benefitsSocialWelfare);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_social_welfare"
-        
-      
-    */
     public final Boolean getBenefitsSocialWelfare() {
-        return this.benefitsSocialWelfare;
+        return handicapCompensationAdultRequestData.getBenefitsSocialWelfare();
     }
   
-    private Boolean projectRequestsHandicapRecognition;
-
     public final void setProjectRequestsHandicapRecognition(final Boolean projectRequestsHandicapRecognition) {
-        this.projectRequestsHandicapRecognition = projectRequestsHandicapRecognition;
+        handicapCompensationAdultRequestData.setProjectRequestsHandicapRecognition(projectRequestsHandicapRecognition);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_handicap_recognition"
-        
-      
-    */
     public final Boolean getProjectRequestsHandicapRecognition() {
-        return this.projectRequestsHandicapRecognition;
+        return handicapCompensationAdultRequestData.getProjectRequestsHandicapRecognition();
     }
   
-    private List<fr.cg95.cvq.business.request.social.HcarCareService> careServices;
-
     public final void setCareServices(final List<fr.cg95.cvq.business.request.social.HcarCareService> careServices) {
-        this.careServices = careServices;
+        handicapCompensationAdultRequestData.setCareServices(careServices);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="care_services_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarCareService"
-      
-    */
     public final List<fr.cg95.cvq.business.request.social.HcarCareService> getCareServices() {
-        return this.careServices;
+        return handicapCompensationAdultRequestData.getCareServices();
     }
   
-    private String projectWish;
-
     public final void setProjectWish(final String projectWish) {
-        this.projectWish = projectWish;
+        handicapCompensationAdultRequestData.setProjectWish(projectWish);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_wish"
-        *  length="600"
-      
-    */
     public final String getProjectWish() {
-        return this.projectWish;
+        return handicapCompensationAdultRequestData.getProjectWish();
     }
   
-    private fr.cg95.cvq.business.request.social.HcarDwellingKindType dwellingKind;
-
     public final void setDwellingKind(final fr.cg95.cvq.business.request.social.HcarDwellingKindType dwellingKind) {
-        this.dwellingKind = dwellingKind;
+        handicapCompensationAdultRequestData.setDwellingKind(dwellingKind);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="dwelling_kind"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.social.HcarDwellingKindType getDwellingKind() {
-        return this.dwellingKind;
+        return handicapCompensationAdultRequestData.getDwellingKind();
     }
   
-    private String healthProfessionalLastName;
-
     public final void setHealthProfessionalLastName(final String healthProfessionalLastName) {
-        this.healthProfessionalLastName = healthProfessionalLastName;
+        handicapCompensationAdultRequestData.setHealthProfessionalLastName(healthProfessionalLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="health_professional_last_name"
-        *  length="38"
-      
-    */
     public final String getHealthProfessionalLastName() {
-        return this.healthProfessionalLastName;
+        return handicapCompensationAdultRequestData.getHealthProfessionalLastName();
     }
   
-    private String formationStudiesLevel;
-
     public final void setFormationStudiesLevel(final String formationStudiesLevel) {
-        this.formationStudiesLevel = formationStudiesLevel;
+        handicapCompensationAdultRequestData.setFormationStudiesLevel(formationStudiesLevel);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="formation_studies_level"
-        *  length="30"
-      
-    */
     public final String getFormationStudiesLevel() {
-        return this.formationStudiesLevel;
+        return handicapCompensationAdultRequestData.getFormationStudiesLevel();
     }
   
-    private Boolean projectRequestsProfessionalOrientation;
-
     public final void setProjectRequestsProfessionalOrientation(final Boolean projectRequestsProfessionalOrientation) {
-        this.projectRequestsProfessionalOrientation = projectRequestsProfessionalOrientation;
+        handicapCompensationAdultRequestData.setProjectRequestsProfessionalOrientation(projectRequestsProfessionalOrientation);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_professional_orientation"
-        
-      
-    */
     public final Boolean getProjectRequestsProfessionalOrientation() {
-        return this.projectRequestsProfessionalOrientation;
+        return handicapCompensationAdultRequestData.getProjectRequestsProfessionalOrientation();
     }
   
-    private String healthDoctorLastName;
-
     public final void setHealthDoctorLastName(final String healthDoctorLastName) {
-        this.healthDoctorLastName = healthDoctorLastName;
+        handicapCompensationAdultRequestData.setHealthDoctorLastName(healthDoctorLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="health_doctor_last_name"
-        *  length="38"
-      
-    */
     public final String getHealthDoctorLastName() {
-        return this.healthDoctorLastName;
+        return handicapCompensationAdultRequestData.getHealthDoctorLastName();
     }
   
-    private fr.cg95.cvq.business.request.social.HcarLegalAccessKindType legalAccessKind;
-
     public final void setLegalAccessKind(final fr.cg95.cvq.business.request.social.HcarLegalAccessKindType legalAccessKind) {
-        this.legalAccessKind = legalAccessKind;
+        handicapCompensationAdultRequestData.setLegalAccessKind(legalAccessKind);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="legal_access_kind"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.social.HcarLegalAccessKindType getLegalAccessKind() {
-        return this.legalAccessKind;
+        return handicapCompensationAdultRequestData.getLegalAccessKind();
     }
   
-    private String facilitiesHousingDetails;
-
     public final void setFacilitiesHousingDetails(final String facilitiesHousingDetails) {
-        this.facilitiesHousingDetails = facilitiesHousingDetails;
+        handicapCompensationAdultRequestData.setFacilitiesHousingDetails(facilitiesHousingDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="facilities_housing_details"
-        *  length="60"
-      
-    */
     public final String getFacilitiesHousingDetails() {
-        return this.facilitiesHousingDetails;
+        return handicapCompensationAdultRequestData.getFacilitiesHousingDetails();
     }
   
-    private Boolean benefitsSupplementForSingleParents;
-
     public final void setBenefitsSupplementForSingleParents(final Boolean benefitsSupplementForSingleParents) {
-        this.benefitsSupplementForSingleParents = benefitsSupplementForSingleParents;
+        handicapCompensationAdultRequestData.setBenefitsSupplementForSingleParents(benefitsSupplementForSingleParents);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_supplement_for_single_parents"
-        
-      
-    */
     public final Boolean getBenefitsSupplementForSingleParents() {
-        return this.benefitsSupplementForSingleParents;
+        return handicapCompensationAdultRequestData.getBenefitsSupplementForSingleParents();
     }
   
-    private Boolean projectRequestsIncreaseForIndependentLiving;
-
     public final void setProjectRequestsIncreaseForIndependentLiving(final Boolean projectRequestsIncreaseForIndependentLiving) {
-        this.projectRequestsIncreaseForIndependentLiving = projectRequestsIncreaseForIndependentLiving;
+        handicapCompensationAdultRequestData.setProjectRequestsIncreaseForIndependentLiving(projectRequestsIncreaseForIndependentLiving);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_increase_for_independent_living"
-        
-      
-    */
     public final Boolean getProjectRequestsIncreaseForIndependentLiving() {
-        return this.projectRequestsIncreaseForIndependentLiving;
+        return handicapCompensationAdultRequestData.getProjectRequestsIncreaseForIndependentLiving();
     }
   
-    private String benefitsDisabilityPensionCategory;
-
     public final void setBenefitsDisabilityPensionCategory(final String benefitsDisabilityPensionCategory) {
-        this.benefitsDisabilityPensionCategory = benefitsDisabilityPensionCategory;
+        handicapCompensationAdultRequestData.setBenefitsDisabilityPensionCategory(benefitsDisabilityPensionCategory);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_disability_pension_category"
-        *  length="60"
-      
-    */
     public final String getBenefitsDisabilityPensionCategory() {
-        return this.benefitsDisabilityPensionCategory;
+        return handicapCompensationAdultRequestData.getBenefitsDisabilityPensionCategory();
     }
   
-    private Boolean benefitsThirdPartySupplement;
-
     public final void setBenefitsThirdPartySupplement(final Boolean benefitsThirdPartySupplement) {
-        this.benefitsThirdPartySupplement = benefitsThirdPartySupplement;
+        handicapCompensationAdultRequestData.setBenefitsThirdPartySupplement(benefitsThirdPartySupplement);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_third_party_supplement"
-        
-      
-    */
     public final Boolean getBenefitsThirdPartySupplement() {
-        return this.benefitsThirdPartySupplement;
+        return handicapCompensationAdultRequestData.getBenefitsThirdPartySupplement();
     }
   
-    private String studiesHighSchoolGrade;
-
     public final void setStudiesHighSchoolGrade(final String studiesHighSchoolGrade) {
-        this.studiesHighSchoolGrade = studiesHighSchoolGrade;
+        handicapCompensationAdultRequestData.setStudiesHighSchoolGrade(studiesHighSchoolGrade);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="studies_high_school_grade"
-        *  length="60"
-      
-    */
     public final String getStudiesHighSchoolGrade() {
-        return this.studiesHighSchoolGrade;
+        return handicapCompensationAdultRequestData.getStudiesHighSchoolGrade();
     }
   
-    private String subjectBirthCity;
-
     public final void setSubjectBirthCity(final String subjectBirthCity) {
-        this.subjectBirthCity = subjectBirthCity;
+        handicapCompensationAdultRequestData.setSubjectBirthCity(subjectBirthCity);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="subject_birth_city"
-        *  length="32"
-      
-    */
     public final String getSubjectBirthCity() {
-        return this.subjectBirthCity;
+        return handicapCompensationAdultRequestData.getSubjectBirthCity();
     }
   
-    private String legalAccessRepresentativeName;
-
     public final void setLegalAccessRepresentativeName(final String legalAccessRepresentativeName) {
-        this.legalAccessRepresentativeName = legalAccessRepresentativeName;
+        handicapCompensationAdultRequestData.setLegalAccessRepresentativeName(legalAccessRepresentativeName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="legal_access_representative_name"
-        *  length="38"
-      
-    */
     public final String getLegalAccessRepresentativeName() {
-        return this.legalAccessRepresentativeName;
+        return handicapCompensationAdultRequestData.getLegalAccessRepresentativeName();
     }
   
-    private Boolean projectRequestsAssistance;
-
     public final void setProjectRequestsAssistance(final Boolean projectRequestsAssistance) {
-        this.projectRequestsAssistance = projectRequestsAssistance;
+        handicapCompensationAdultRequestData.setProjectRequestsAssistance(projectRequestsAssistance);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_assistance"
-        
-      
-    */
     public final Boolean getProjectRequestsAssistance() {
-        return this.projectRequestsAssistance;
+        return handicapCompensationAdultRequestData.getProjectRequestsAssistance();
     }
   
-    private fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType professionalStatusEnvironment;
-
     public final void setProfessionalStatusEnvironment(final fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType professionalStatusEnvironment) {
-        this.professionalStatusEnvironment = professionalStatusEnvironment;
+        handicapCompensationAdultRequestData.setProfessionalStatusEnvironment(professionalStatusEnvironment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_environment"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType getProfessionalStatusEnvironment() {
-        return this.professionalStatusEnvironment;
+        return handicapCompensationAdultRequestData.getProfessionalStatusEnvironment();
     }
   
-    private Boolean benefitsSupportedByAnInstitution;
-
     public final void setBenefitsSupportedByAnInstitution(final Boolean benefitsSupportedByAnInstitution) {
-        this.benefitsSupportedByAnInstitution = benefitsSupportedByAnInstitution;
+        handicapCompensationAdultRequestData.setBenefitsSupportedByAnInstitution(benefitsSupportedByAnInstitution);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_supported_by_an_institution"
-        
-      
-    */
     public final Boolean getBenefitsSupportedByAnInstitution() {
-        return this.benefitsSupportedByAnInstitution;
+        return handicapCompensationAdultRequestData.getBenefitsSupportedByAnInstitution();
     }
   
-    private Boolean projectRequestsThirdPartyHelp;
-
     public final void setProjectRequestsThirdPartyHelp(final Boolean projectRequestsThirdPartyHelp) {
-        this.projectRequestsThirdPartyHelp = projectRequestsThirdPartyHelp;
+        handicapCompensationAdultRequestData.setProjectRequestsThirdPartyHelp(projectRequestsThirdPartyHelp);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_third_party_help"
-        
-      
-    */
     public final Boolean getProjectRequestsThirdPartyHelp() {
-        return this.projectRequestsThirdPartyHelp;
+        return handicapCompensationAdultRequestData.getProjectRequestsThirdPartyHelp();
     }
   
-    private Boolean projectRequestsDisabledAdultAllowance;
-
     public final void setProjectRequestsDisabledAdultAllowance(final Boolean projectRequestsDisabledAdultAllowance) {
-        this.projectRequestsDisabledAdultAllowance = projectRequestsDisabledAdultAllowance;
+        handicapCompensationAdultRequestData.setProjectRequestsDisabledAdultAllowance(projectRequestsDisabledAdultAllowance);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_disabled_adult_allowance"
-        
-      
-    */
     public final Boolean getProjectRequestsDisabledAdultAllowance() {
-        return this.projectRequestsDisabledAdultAllowance;
+        return handicapCompensationAdultRequestData.getProjectRequestsDisabledAdultAllowance();
     }
   
-    private fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType paymentAgencyBeneficiary;
-
     public final void setPaymentAgencyBeneficiary(final fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType paymentAgencyBeneficiary) {
-        this.paymentAgencyBeneficiary = paymentAgencyBeneficiary;
+        handicapCompensationAdultRequestData.setPaymentAgencyBeneficiary(paymentAgencyBeneficiary);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="payment_agency_beneficiary"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType getPaymentAgencyBeneficiary() {
-        return this.paymentAgencyBeneficiary;
+        return handicapCompensationAdultRequestData.getPaymentAgencyBeneficiary();
     }
   
-    private Boolean foldersOtherFolders;
-
     public final void setFoldersOtherFolders(final Boolean foldersOtherFolders) {
-        this.foldersOtherFolders = foldersOtherFolders;
+        handicapCompensationAdultRequestData.setFoldersOtherFolders(foldersOtherFolders);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="folders_other_folders"
-        
-      
-    */
     public final Boolean getFoldersOtherFolders() {
-        return this.foldersOtherFolders;
+        return handicapCompensationAdultRequestData.getFoldersOtherFolders();
     }
   
-    private String facilitiesAnimalAidDetails;
-
     public final void setFacilitiesAnimalAidDetails(final String facilitiesAnimalAidDetails) {
-        this.facilitiesAnimalAidDetails = facilitiesAnimalAidDetails;
+        handicapCompensationAdultRequestData.setFacilitiesAnimalAidDetails(facilitiesAnimalAidDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="facilities_animal_aid_details"
-        *  length="60"
-      
-    */
     public final String getFacilitiesAnimalAidDetails() {
-        return this.facilitiesAnimalAidDetails;
+        return handicapCompensationAdultRequestData.getFacilitiesAnimalAidDetails();
     }
   
-    private String studiesAssistanceUnderDisabilityDetails;
-
     public final void setStudiesAssistanceUnderDisabilityDetails(final String studiesAssistanceUnderDisabilityDetails) {
-        this.studiesAssistanceUnderDisabilityDetails = studiesAssistanceUnderDisabilityDetails;
+        handicapCompensationAdultRequestData.setStudiesAssistanceUnderDisabilityDetails(studiesAssistanceUnderDisabilityDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="studies_assistance_under_disability_details"
-        *  length="60"
-      
-    */
     public final String getStudiesAssistanceUnderDisabilityDetails() {
-        return this.studiesAssistanceUnderDisabilityDetails;
+        return handicapCompensationAdultRequestData.getStudiesAssistanceUnderDisabilityDetails();
     }
   
-    private List<fr.cg95.cvq.business.request.social.HcarOtherBenefit> otherBenefits;
-
     public final void setOtherBenefits(final List<fr.cg95.cvq.business.request.social.HcarOtherBenefit> otherBenefits) {
-        this.otherBenefits = otherBenefits;
+        handicapCompensationAdultRequestData.setOtherBenefits(otherBenefits);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        * @hibernate.key
-        *  column="handicap_compensation_adult_request_id"
-        * @hibernate.list-index
-        *  column="other_benefits_index"
-        * @hibernate.one-to-many
-        *  class="fr.cg95.cvq.business.request.social.HcarOtherBenefit"
-      
-    */
     public final List<fr.cg95.cvq.business.request.social.HcarOtherBenefit> getOtherBenefits() {
-        return this.otherBenefits;
+        return handicapCompensationAdultRequestData.getOtherBenefits();
     }
   
-    private fr.cg95.cvq.business.users.Address paymentAgencyAddress;
-
     public final void setPaymentAgencyAddress(final fr.cg95.cvq.business.users.Address paymentAgencyAddress) {
-        this.paymentAgencyAddress = paymentAgencyAddress;
+        handicapCompensationAdultRequestData.setPaymentAgencyAddress(paymentAgencyAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="payment_agency_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getPaymentAgencyAddress() {
-        return this.paymentAgencyAddress;
+        return handicapCompensationAdultRequestData.getPaymentAgencyAddress();
     }
   
-    private Boolean projectRequestsOther;
-
     public final void setProjectRequestsOther(final Boolean projectRequestsOther) {
-        this.projectRequestsOther = projectRequestsOther;
+        handicapCompensationAdultRequestData.setProjectRequestsOther(projectRequestsOther);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_other"
-        
-      
-    */
     public final Boolean getProjectRequestsOther() {
-        return this.projectRequestsOther;
+        return handicapCompensationAdultRequestData.getProjectRequestsOther();
     }
   
-    private Boolean benefitsThirdPersonCompensatoryAllowance;
-
     public final void setBenefitsThirdPersonCompensatoryAllowance(final Boolean benefitsThirdPersonCompensatoryAllowance) {
-        this.benefitsThirdPersonCompensatoryAllowance = benefitsThirdPersonCompensatoryAllowance;
+        handicapCompensationAdultRequestData.setBenefitsThirdPersonCompensatoryAllowance(benefitsThirdPersonCompensatoryAllowance);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_third_person_compensatory_allowance"
-        
-      
-    */
     public final Boolean getBenefitsThirdPersonCompensatoryAllowance() {
-        return this.benefitsThirdPersonCompensatoryAllowance;
+        return handicapCompensationAdultRequestData.getBenefitsThirdPersonCompensatoryAllowance();
     }
   
-    private Boolean projectRequestsDisabilityCostAllocation;
-
     public final void setProjectRequestsDisabilityCostAllocation(final Boolean projectRequestsDisabilityCostAllocation) {
-        this.projectRequestsDisabilityCostAllocation = projectRequestsDisabilityCostAllocation;
+        handicapCompensationAdultRequestData.setProjectRequestsDisabilityCostAllocation(projectRequestsDisabilityCostAllocation);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_disability_cost_allocation"
-        
-      
-    */
     public final Boolean getProjectRequestsDisabilityCostAllocation() {
-        return this.projectRequestsDisabilityCostAllocation;
+        return handicapCompensationAdultRequestData.getProjectRequestsDisabilityCostAllocation();
     }
   
-    private fr.cg95.cvq.business.users.Address socialSecurityAgencyAddress;
-
     public final void setSocialSecurityAgencyAddress(final fr.cg95.cvq.business.users.Address socialSecurityAgencyAddress) {
-        this.socialSecurityAgencyAddress = socialSecurityAgencyAddress;
+        handicapCompensationAdultRequestData.setSocialSecurityAgencyAddress(socialSecurityAgencyAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="social_security_agency_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getSocialSecurityAgencyAddress() {
-        return this.socialSecurityAgencyAddress;
+        return handicapCompensationAdultRequestData.getSocialSecurityAgencyAddress();
     }
   
-    private fr.cg95.cvq.business.users.Address dwellingReceptionAddress;
-
     public final void setDwellingReceptionAddress(final fr.cg95.cvq.business.users.Address dwellingReceptionAddress) {
-        this.dwellingReceptionAddress = dwellingReceptionAddress;
+        handicapCompensationAdultRequestData.setDwellingReceptionAddress(dwellingReceptionAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="dwelling_reception_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getDwellingReceptionAddress() {
-        return this.dwellingReceptionAddress;
+        return handicapCompensationAdultRequestData.getDwellingReceptionAddress();
     }
   
-    private String professionalStatusProfession;
-
     public final void setProfessionalStatusProfession(final String professionalStatusProfession) {
-        this.professionalStatusProfession = professionalStatusProfession;
+        handicapCompensationAdultRequestData.setProfessionalStatusProfession(professionalStatusProfession);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_profession"
-        *  length="60"
-      
-    */
     public final String getProfessionalStatusProfession() {
-        return this.professionalStatusProfession;
+        return handicapCompensationAdultRequestData.getProfessionalStatusProfession();
     }
   
-    private fr.cg95.cvq.business.users.Address professionalStatusAddress;
-
     public final void setProfessionalStatusAddress(final fr.cg95.cvq.business.users.Address professionalStatusAddress) {
-        this.professionalStatusAddress = professionalStatusAddress;
+        handicapCompensationAdultRequestData.setProfessionalStatusAddress(professionalStatusAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="professional_status_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getProfessionalStatusAddress() {
-        return this.professionalStatusAddress;
+        return handicapCompensationAdultRequestData.getProfessionalStatusAddress();
     }
   
-    private String formationDiploma;
-
     public final void setFormationDiploma(final String formationDiploma) {
-        this.formationDiploma = formationDiploma;
+        handicapCompensationAdultRequestData.setFormationDiploma(formationDiploma);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="formation_diploma"
-        *  length="120"
-      
-    */
     public final String getFormationDiploma() {
-        return this.formationDiploma;
+        return handicapCompensationAdultRequestData.getFormationDiploma();
     }
   
-    private fr.cg95.cvq.business.users.TitleType subjectTitle;
-
     public final void setSubjectTitle(final fr.cg95.cvq.business.users.TitleType subjectTitle) {
-        this.subjectTitle = subjectTitle;
+        handicapCompensationAdultRequestData.setSubjectTitle(subjectTitle);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="subject_title"
-        
-      
-    */
     public final fr.cg95.cvq.business.users.TitleType getSubjectTitle() {
-        return this.subjectTitle;
+        return handicapCompensationAdultRequestData.getSubjectTitle();
     }
   
-    private Boolean professionalStatusElectiveFunction;
-
     public final void setProfessionalStatusElectiveFunction(final Boolean professionalStatusElectiveFunction) {
-        this.professionalStatusElectiveFunction = professionalStatusElectiveFunction;
+        handicapCompensationAdultRequestData.setProfessionalStatusElectiveFunction(professionalStatusElectiveFunction);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_elective_function"
-        
-      
-    */
     public final Boolean getProfessionalStatusElectiveFunction() {
-        return this.professionalStatusElectiveFunction;
+        return handicapCompensationAdultRequestData.getProfessionalStatusElectiveFunction();
     }
   
-    private Boolean foldersCotorep;
-
     public final void setFoldersCotorep(final Boolean foldersCotorep) {
-        this.foldersCotorep = foldersCotorep;
+        handicapCompensationAdultRequestData.setFoldersCotorep(foldersCotorep);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="folders_cotorep"
-        
-      
-    */
     public final Boolean getFoldersCotorep() {
-        return this.foldersCotorep;
+        return handicapCompensationAdultRequestData.getFoldersCotorep();
     }
   
-    private Boolean benefitsIncreaseForIndependentLiving;
-
     public final void setBenefitsIncreaseForIndependentLiving(final Boolean benefitsIncreaseForIndependentLiving) {
-        this.benefitsIncreaseForIndependentLiving = benefitsIncreaseForIndependentLiving;
+        handicapCompensationAdultRequestData.setBenefitsIncreaseForIndependentLiving(benefitsIncreaseForIndependentLiving);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_increase_for_independent_living"
-        
-      
-    */
     public final Boolean getBenefitsIncreaseForIndependentLiving() {
-        return this.benefitsIncreaseForIndependentLiving;
+        return handicapCompensationAdultRequestData.getBenefitsIncreaseForIndependentLiving();
     }
   
-    private String subjectBirthCountry;
-
     public final void setSubjectBirthCountry(final String subjectBirthCountry) {
-        this.subjectBirthCountry = subjectBirthCountry;
+        handicapCompensationAdultRequestData.setSubjectBirthCountry(subjectBirthCountry);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="subject_birth_country"
-        *  length="50"
-      
-    */
     public final String getSubjectBirthCountry() {
-        return this.subjectBirthCountry;
+        return handicapCompensationAdultRequestData.getSubjectBirthCountry();
     }
   
-    private Boolean projectRequestsDisabilityCard;
-
     public final void setProjectRequestsDisabilityCard(final Boolean projectRequestsDisabilityCard) {
-        this.projectRequestsDisabilityCard = projectRequestsDisabilityCard;
+        handicapCompensationAdultRequestData.setProjectRequestsDisabilityCard(projectRequestsDisabilityCard);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_disability_card"
-        
-      
-    */
     public final Boolean getProjectRequestsDisabilityCard() {
-        return this.projectRequestsDisabilityCard;
+        return handicapCompensationAdultRequestData.getProjectRequestsDisabilityCard();
     }
   
-    private String studiesHighSchoolName;
-
     public final void setStudiesHighSchoolName(final String studiesHighSchoolName) {
-        this.studiesHighSchoolName = studiesHighSchoolName;
+        handicapCompensationAdultRequestData.setStudiesHighSchoolName(studiesHighSchoolName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="studies_high_school_name"
-        *  length="60"
-      
-    */
     public final String getStudiesHighSchoolName() {
-        return this.studiesHighSchoolName;
+        return handicapCompensationAdultRequestData.getStudiesHighSchoolName();
     }
   
-    private fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType dwellingReceptionType;
-
     public final void setDwellingReceptionType(final fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType dwellingReceptionType) {
-        this.dwellingReceptionType = dwellingReceptionType;
+        handicapCompensationAdultRequestData.setDwellingReceptionType(dwellingReceptionType);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="dwelling_reception_type"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType getDwellingReceptionType() {
-        return this.dwellingReceptionType;
+        return handicapCompensationAdultRequestData.getDwellingReceptionType();
     }
   
-    private java.util.Date professionalStatusRegisterAsUnemployedDate;
-
     public final void setProfessionalStatusRegisterAsUnemployedDate(final java.util.Date professionalStatusRegisterAsUnemployedDate) {
-        this.professionalStatusRegisterAsUnemployedDate = professionalStatusRegisterAsUnemployedDate;
+        handicapCompensationAdultRequestData.setProfessionalStatusRegisterAsUnemployedDate(professionalStatusRegisterAsUnemployedDate);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_register_as_unemployed_date"
-        
-      
-    */
     public final java.util.Date getProfessionalStatusRegisterAsUnemployedDate() {
-        return this.professionalStatusRegisterAsUnemployedDate;
+        return handicapCompensationAdultRequestData.getProfessionalStatusRegisterAsUnemployedDate();
     }
   
-    private String paymentAgencyName;
-
     public final void setPaymentAgencyName(final String paymentAgencyName) {
-        this.paymentAgencyName = paymentAgencyName;
+        handicapCompensationAdultRequestData.setPaymentAgencyName(paymentAgencyName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="payment_agency_name"
-        *  length="50"
-      
-    */
     public final String getPaymentAgencyName() {
-        return this.paymentAgencyName;
+        return handicapCompensationAdultRequestData.getPaymentAgencyName();
     }
   
-    private String dwellingReceptionNaming;
-
     public final void setDwellingReceptionNaming(final String dwellingReceptionNaming) {
-        this.dwellingReceptionNaming = dwellingReceptionNaming;
+        handicapCompensationAdultRequestData.setDwellingReceptionNaming(dwellingReceptionNaming);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="dwelling_reception_naming"
-        *  length="80"
-      
-    */
     public final String getDwellingReceptionNaming() {
-        return this.dwellingReceptionNaming;
+        return handicapCompensationAdultRequestData.getDwellingReceptionNaming();
     }
   
-    private String socialSecurityAgencyName;
-
     public final void setSocialSecurityAgencyName(final String socialSecurityAgencyName) {
-        this.socialSecurityAgencyName = socialSecurityAgencyName;
+        handicapCompensationAdultRequestData.setSocialSecurityAgencyName(socialSecurityAgencyName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="social_security_agency_name"
-        *  length="50"
-      
-    */
     public final String getSocialSecurityAgencyName() {
-        return this.socialSecurityAgencyName;
+        return handicapCompensationAdultRequestData.getSocialSecurityAgencyName();
     }
   
-    private Boolean benefitsEducationOfDisabledChildren;
-
     public final void setBenefitsEducationOfDisabledChildren(final Boolean benefitsEducationOfDisabledChildren) {
-        this.benefitsEducationOfDisabledChildren = benefitsEducationOfDisabledChildren;
+        handicapCompensationAdultRequestData.setBenefitsEducationOfDisabledChildren(benefitsEducationOfDisabledChildren);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_education_of_disabled_children"
-        
-      
-    */
     public final Boolean getBenefitsEducationOfDisabledChildren() {
-        return this.benefitsEducationOfDisabledChildren;
+        return handicapCompensationAdultRequestData.getBenefitsEducationOfDisabledChildren();
     }
   
-    private String facilitiesTechnicalAssistanceDetails;
-
     public final void setFacilitiesTechnicalAssistanceDetails(final String facilitiesTechnicalAssistanceDetails) {
-        this.facilitiesTechnicalAssistanceDetails = facilitiesTechnicalAssistanceDetails;
+        handicapCompensationAdultRequestData.setFacilitiesTechnicalAssistanceDetails(facilitiesTechnicalAssistanceDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="facilities_technical_assistance_details"
-        *  length="60"
-      
-    */
     public final String getFacilitiesTechnicalAssistanceDetails() {
-        return this.facilitiesTechnicalAssistanceDetails;
+        return handicapCompensationAdultRequestData.getFacilitiesTechnicalAssistanceDetails();
     }
   
-    private Boolean benefitsOtherBenefits;
-
     public final void setBenefitsOtherBenefits(final Boolean benefitsOtherBenefits) {
-        this.benefitsOtherBenefits = benefitsOtherBenefits;
+        handicapCompensationAdultRequestData.setBenefitsOtherBenefits(benefitsOtherBenefits);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_other_benefits"
-        
-      
-    */
     public final Boolean getBenefitsOtherBenefits() {
-        return this.benefitsOtherBenefits;
+        return handicapCompensationAdultRequestData.getBenefitsOtherBenefits();
     }
   
-    private String foldersCdesNumber;
-
     public final void setFoldersCdesNumber(final String foldersCdesNumber) {
-        this.foldersCdesNumber = foldersCdesNumber;
+        handicapCompensationAdultRequestData.setFoldersCdesNumber(foldersCdesNumber);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="folders_cdes_number"
-        *  length="30"
-      
-    */
     public final String getFoldersCdesNumber() {
-        return this.foldersCdesNumber;
+        return handicapCompensationAdultRequestData.getFoldersCdesNumber();
     }
   
-    private Boolean benefitsDisabilityCompensation;
-
     public final void setBenefitsDisabilityCompensation(final Boolean benefitsDisabilityCompensation) {
-        this.benefitsDisabilityCompensation = benefitsDisabilityCompensation;
+        handicapCompensationAdultRequestData.setBenefitsDisabilityCompensation(benefitsDisabilityCompensation);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_disability_compensation"
-        
-      
-    */
     public final Boolean getBenefitsDisabilityCompensation() {
-        return this.benefitsDisabilityCompensation;
+        return handicapCompensationAdultRequestData.getBenefitsDisabilityCompensation();
     }
   
-    private String healthDoctorFirstName;
-
     public final void setHealthDoctorFirstName(final String healthDoctorFirstName) {
-        this.healthDoctorFirstName = healthDoctorFirstName;
+        handicapCompensationAdultRequestData.setHealthDoctorFirstName(healthDoctorFirstName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="health_doctor_first_name"
-        *  length="38"
-      
-    */
     public final String getHealthDoctorFirstName() {
-        return this.healthDoctorFirstName;
+        return handicapCompensationAdultRequestData.getHealthDoctorFirstName();
     }
   
-    private Boolean projectRequestsTechnicalHelp;
-
     public final void setProjectRequestsTechnicalHelp(final Boolean projectRequestsTechnicalHelp) {
-        this.projectRequestsTechnicalHelp = projectRequestsTechnicalHelp;
+        handicapCompensationAdultRequestData.setProjectRequestsTechnicalHelp(projectRequestsTechnicalHelp);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_technical_help"
-        
-      
-    */
     public final Boolean getProjectRequestsTechnicalHelp() {
-        return this.projectRequestsTechnicalHelp;
+        return handicapCompensationAdultRequestData.getProjectRequestsTechnicalHelp();
     }
   
-    private Boolean facilitiesTechnicalAssistance;
-
     public final void setFacilitiesTechnicalAssistance(final Boolean facilitiesTechnicalAssistance) {
-        this.facilitiesTechnicalAssistance = facilitiesTechnicalAssistance;
+        handicapCompensationAdultRequestData.setFacilitiesTechnicalAssistance(facilitiesTechnicalAssistance);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="facilities_technical_assistance"
-        
-      
-    */
     public final Boolean getFacilitiesTechnicalAssistance() {
-        return this.facilitiesTechnicalAssistance;
+        return handicapCompensationAdultRequestData.getFacilitiesTechnicalAssistance();
     }
   
-    private Boolean benefitsCompensatoryAllowanceForExpenses;
-
     public final void setBenefitsCompensatoryAllowanceForExpenses(final Boolean benefitsCompensatoryAllowanceForExpenses) {
-        this.benefitsCompensatoryAllowanceForExpenses = benefitsCompensatoryAllowanceForExpenses;
+        handicapCompensationAdultRequestData.setBenefitsCompensatoryAllowanceForExpenses(benefitsCompensatoryAllowanceForExpenses);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_compensatory_allowance_for_expenses"
-        
-      
-    */
     public final Boolean getBenefitsCompensatoryAllowanceForExpenses() {
-        return this.benefitsCompensatoryAllowanceForExpenses;
+        return handicapCompensationAdultRequestData.getBenefitsCompensatoryAllowanceForExpenses();
     }
   
-    private Boolean facilitiesHousing;
-
     public final void setFacilitiesHousing(final Boolean facilitiesHousing) {
-        this.facilitiesHousing = facilitiesHousing;
+        handicapCompensationAdultRequestData.setFacilitiesHousing(facilitiesHousing);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="facilities_housing"
-        
-      
-    */
     public final Boolean getFacilitiesHousing() {
-        return this.facilitiesHousing;
+        return handicapCompensationAdultRequestData.getFacilitiesHousing();
     }
   
-    private String healthHospitalName;
-
     public final void setHealthHospitalName(final String healthHospitalName) {
-        this.healthHospitalName = healthHospitalName;
+        handicapCompensationAdultRequestData.setHealthHospitalName(healthHospitalName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="health_hospital_name"
-        *  length="60"
-      
-    */
     public final String getHealthHospitalName() {
-        return this.healthHospitalName;
+        return handicapCompensationAdultRequestData.getHealthHospitalName();
     }
   
-    private Boolean projectRequestsDisabledPriorityCard;
-
     public final void setProjectRequestsDisabledPriorityCard(final Boolean projectRequestsDisabledPriorityCard) {
-        this.projectRequestsDisabledPriorityCard = projectRequestsDisabledPriorityCard;
+        handicapCompensationAdultRequestData.setProjectRequestsDisabledPriorityCard(projectRequestsDisabledPriorityCard);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_disabled_priority_card"
-        
-      
-    */
     public final Boolean getProjectRequestsDisabledPriorityCard() {
-        return this.projectRequestsDisabledPriorityCard;
+        return handicapCompensationAdultRequestData.getProjectRequestsDisabledPriorityCard();
     }
   
-    private Boolean projectRequestsEducationAllocationOfDisabledChildren;
-
     public final void setProjectRequestsEducationAllocationOfDisabledChildren(final Boolean projectRequestsEducationAllocationOfDisabledChildren) {
-        this.projectRequestsEducationAllocationOfDisabledChildren = projectRequestsEducationAllocationOfDisabledChildren;
+        handicapCompensationAdultRequestData.setProjectRequestsEducationAllocationOfDisabledChildren(projectRequestsEducationAllocationOfDisabledChildren);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_education_allocation_of_disabled_children"
-        
-      
-    */
     public final Boolean getProjectRequestsEducationAllocationOfDisabledChildren() {
-        return this.projectRequestsEducationAllocationOfDisabledChildren;
+        return handicapCompensationAdultRequestData.getProjectRequestsEducationAllocationOfDisabledChildren();
     }
   
-    private String projectRequestsOtherDetails;
-
     public final void setProjectRequestsOtherDetails(final String projectRequestsOtherDetails) {
-        this.projectRequestsOtherDetails = projectRequestsOtherDetails;
+        handicapCompensationAdultRequestData.setProjectRequestsOtherDetails(projectRequestsOtherDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_other_details"
-        *  length="60"
-      
-    */
     public final String getProjectRequestsOtherDetails() {
-        return this.projectRequestsOtherDetails;
+        return handicapCompensationAdultRequestData.getProjectRequestsOtherDetails();
     }
   
-    private fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType legalAccessRepresentativeKind;
-
     public final void setLegalAccessRepresentativeKind(final fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType legalAccessRepresentativeKind) {
-        this.legalAccessRepresentativeKind = legalAccessRepresentativeKind;
+        handicapCompensationAdultRequestData.setLegalAccessRepresentativeKind(legalAccessRepresentativeKind);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="legal_access_representative_kind"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.social.HcarLegalAccessRepresentativeKindType getLegalAccessRepresentativeKind() {
-        return this.legalAccessRepresentativeKind;
+        return handicapCompensationAdultRequestData.getLegalAccessRepresentativeKind();
     }
   
-    private Boolean projectRequestsShelteredWork;
-
     public final void setProjectRequestsShelteredWork(final Boolean projectRequestsShelteredWork) {
-        this.projectRequestsShelteredWork = projectRequestsShelteredWork;
+        handicapCompensationAdultRequestData.setProjectRequestsShelteredWork(projectRequestsShelteredWork);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="project_requests_sheltered_work"
-        
-      
-    */
     public final Boolean getProjectRequestsShelteredWork() {
-        return this.projectRequestsShelteredWork;
+        return handicapCompensationAdultRequestData.getProjectRequestsShelteredWork();
     }
   
-    private String formationCurrentFormation;
-
     public final void setFormationCurrentFormation(final String formationCurrentFormation) {
-        this.formationCurrentFormation = formationCurrentFormation;
+        handicapCompensationAdultRequestData.setFormationCurrentFormation(formationCurrentFormation);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="formation_current_formation"
-        *  length="120"
-      
-    */
     public final String getFormationCurrentFormation() {
-        return this.formationCurrentFormation;
+        return handicapCompensationAdultRequestData.getFormationCurrentFormation();
     }
   
-    private Boolean studiesAssistanceUnderDisability;
-
     public final void setStudiesAssistanceUnderDisability(final Boolean studiesAssistanceUnderDisability) {
-        this.studiesAssistanceUnderDisability = studiesAssistanceUnderDisability;
+        handicapCompensationAdultRequestData.setStudiesAssistanceUnderDisability(studiesAssistanceUnderDisability);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="studies_assistance_under_disability"
-        
-      
-    */
     public final Boolean getStudiesAssistanceUnderDisability() {
-        return this.studiesAssistanceUnderDisability;
+        return handicapCompensationAdultRequestData.getStudiesAssistanceUnderDisability();
     }
   
-    private fr.cg95.cvq.business.users.Address professionalSupportSocialServiceAddress;
-
     public final void setProfessionalSupportSocialServiceAddress(final fr.cg95.cvq.business.users.Address professionalSupportSocialServiceAddress) {
-        this.professionalSupportSocialServiceAddress = professionalSupportSocialServiceAddress;
+        handicapCompensationAdultRequestData.setProfessionalSupportSocialServiceAddress(professionalSupportSocialServiceAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="professional_support_social_service_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getProfessionalSupportSocialServiceAddress() {
-        return this.professionalSupportSocialServiceAddress;
+        return handicapCompensationAdultRequestData.getProfessionalSupportSocialServiceAddress();
     }
   
-    private Boolean studiesHighSchool;
-
     public final void setStudiesHighSchool(final Boolean studiesHighSchool) {
-        this.studiesHighSchool = studiesHighSchool;
+        handicapCompensationAdultRequestData.setStudiesHighSchool(studiesHighSchool);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="studies_high_school"
-        
-      
-    */
     public final Boolean getStudiesHighSchool() {
-        return this.studiesHighSchool;
+        return handicapCompensationAdultRequestData.getStudiesHighSchool();
     }
   
-    private String healthProfessionalFirstName;
-
     public final void setHealthProfessionalFirstName(final String healthProfessionalFirstName) {
-        this.healthProfessionalFirstName = healthProfessionalFirstName;
+        handicapCompensationAdultRequestData.setHealthProfessionalFirstName(healthProfessionalFirstName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="health_professional_first_name"
-        *  length="38"
-      
-    */
     public final String getHealthProfessionalFirstName() {
-        return this.healthProfessionalFirstName;
+        return handicapCompensationAdultRequestData.getHealthProfessionalFirstName();
     }
   
-    private String professionalSupportSocialServiceName;
-
     public final void setProfessionalSupportSocialServiceName(final String professionalSupportSocialServiceName) {
-        this.professionalSupportSocialServiceName = professionalSupportSocialServiceName;
+        handicapCompensationAdultRequestData.setProfessionalSupportSocialServiceName(professionalSupportSocialServiceName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_support_social_service_name"
-        *  length="60"
-      
-    */
     public final String getProfessionalSupportSocialServiceName() {
-        return this.professionalSupportSocialServiceName;
+        return handicapCompensationAdultRequestData.getProfessionalSupportSocialServiceName();
     }
   
-    private String facilitiesCustomCarDetails;
-
     public final void setFacilitiesCustomCarDetails(final String facilitiesCustomCarDetails) {
-        this.facilitiesCustomCarDetails = facilitiesCustomCarDetails;
+        handicapCompensationAdultRequestData.setFacilitiesCustomCarDetails(facilitiesCustomCarDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="facilities_custom_car_details"
-        *  length="60"
-      
-    */
     public final String getFacilitiesCustomCarDetails() {
-        return this.facilitiesCustomCarDetails;
+        return handicapCompensationAdultRequestData.getFacilitiesCustomCarDetails();
     }
   
-    private String dwellingPrecision;
-
     public final void setDwellingPrecision(final String dwellingPrecision) {
-        this.dwellingPrecision = dwellingPrecision;
+        handicapCompensationAdultRequestData.setDwellingPrecision(dwellingPrecision);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="dwelling_precision"
-        *  length="120"
-      
-    */
     public final String getDwellingPrecision() {
-        return this.dwellingPrecision;
+        return handicapCompensationAdultRequestData.getDwellingPrecision();
     }
   
-    private Boolean benefitsDisabilityCard;
-
     public final void setBenefitsDisabilityCard(final Boolean benefitsDisabilityCard) {
-        this.benefitsDisabilityCard = benefitsDisabilityCard;
+        handicapCompensationAdultRequestData.setBenefitsDisabilityCard(benefitsDisabilityCard);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="benefits_disability_card"
-        
-      
-    */
     public final Boolean getBenefitsDisabilityCard() {
-        return this.benefitsDisabilityCard;
+        return handicapCompensationAdultRequestData.getBenefitsDisabilityCard();
     }
   
-    private fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType socialSecurityMemberShipKind;
-
     public final void setSocialSecurityMemberShipKind(final fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType socialSecurityMemberShipKind) {
-        this.socialSecurityMemberShipKind = socialSecurityMemberShipKind;
+        handicapCompensationAdultRequestData.setSocialSecurityMemberShipKind(socialSecurityMemberShipKind);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="social_security_member_ship_kind"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType getSocialSecurityMemberShipKind() {
-        return this.socialSecurityMemberShipKind;
+        return handicapCompensationAdultRequestData.getSocialSecurityMemberShipKind();
     }
   
-    private String professionalStatusElectiveFunctionDetails;
-
     public final void setProfessionalStatusElectiveFunctionDetails(final String professionalStatusElectiveFunctionDetails) {
-        this.professionalStatusElectiveFunctionDetails = professionalStatusElectiveFunctionDetails;
+        handicapCompensationAdultRequestData.setProfessionalStatusElectiveFunctionDetails(professionalStatusElectiveFunctionDetails);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="professional_status_elective_function_details"
-        *  length="60"
-      
-    */
     public final String getProfessionalStatusElectiveFunctionDetails() {
-        return this.professionalStatusElectiveFunctionDetails;
+        return handicapCompensationAdultRequestData.getProfessionalStatusElectiveFunctionDetails();
     }
   
-    private Boolean facilitiesAnimalAid;
-
     public final void setFacilitiesAnimalAid(final Boolean facilitiesAnimalAid) {
-        this.facilitiesAnimalAid = facilitiesAnimalAid;
+        handicapCompensationAdultRequestData.setFacilitiesAnimalAid(facilitiesAnimalAid);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="facilities_animal_aid"
-        
-      
-    */
     public final Boolean getFacilitiesAnimalAid() {
-        return this.facilitiesAnimalAid;
+        return handicapCompensationAdultRequestData.getFacilitiesAnimalAid();
     }
   
-    private fr.cg95.cvq.business.users.Address studiesHighSchoolAddress;
-
     public final void setStudiesHighSchoolAddress(final fr.cg95.cvq.business.users.Address studiesHighSchoolAddress) {
-        this.studiesHighSchoolAddress = studiesHighSchoolAddress;
+        handicapCompensationAdultRequestData.setStudiesHighSchoolAddress(studiesHighSchoolAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="studies_high_school_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getStudiesHighSchoolAddress() {
-        return this.studiesHighSchoolAddress;
+        return handicapCompensationAdultRequestData.getStudiesHighSchoolAddress();
     }
   
 }

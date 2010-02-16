@@ -160,14 +160,12 @@ class RequestInstructionController {
             }
         }
 
-        def criteriaSet = new HashSet<Critere>(2)
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_REQUEST_ID,
-            rqt.id, Critere.EQUALS))
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_TYPE,
-            RequestActionType.STATE_CHANGE, Critere.EQUALS))
-        def actions = requestActionService.get(criteriaSet,
-            RequestAction.SEARCH_BY_DATE, "desc", 1, 0)
-        def lastActionNote = !actions.isEmpty() ? actions.get(0).note : ""
+        def lastActionNote
+        rqt.actions.each {
+            if (RequestActionType.STATE_CHANGE.equals(it.type)) {
+                lastActionNote = it.note
+            }
+        }
 
         return ([
             "rqt": rqt,
@@ -510,15 +508,10 @@ class RequestInstructionController {
     }
 
     def requestActions = {
-        def criteriaSet = new HashSet<Critere>(2)
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_REQUEST_ID,
-            Long.valueOf(params.id), Critere.EQUALS))
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_RESULTING_STATE,
-            RequestState.DRAFT, Critere.NEQUALS))
-        def requestActions = requestActionService.get(criteriaSet,
-            RequestAction.SEARCH_BY_DATE, "asc", 0, 0)
         def requestActionList = []
-        requestActions.each {
+        requestSearchService.getById(Long.valueOf(params.id)).actions.each {
+            if (RequestState.DRAFT.equals(it.resultingState))
+                return
             def user = instructionService.getActionPosterDetails(it.agentId)
             def resultingState = null
             if (it.type.equals(RequestActionType.STATE_CHANGE)) {
@@ -540,7 +533,10 @@ class RequestInstructionController {
             ]
             requestActionList.add(requestAction)
         }
-        render(template:'requestHistory', model: ['requestActionList':requestActionList])
+        render(template : "requestHistory", model : [
+            "requestId" : params.id,
+            "requestActionList" : requestActionList
+        ])
     }
 
     def requestNotes = {

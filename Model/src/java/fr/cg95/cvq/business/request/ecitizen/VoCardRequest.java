@@ -1,37 +1,51 @@
 package fr.cg95.cvq.business.request.ecitizen;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestData;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
 /**
- * @hibernate.joined-subclass
- *  table="vo_card_request"
- *  lazy="true"
- * @hibernate.joined-subclass-key
- *  column="id"
- *
  * @author bor@zenexity.fr
  */
 public class VoCardRequest extends Request implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public VoCardRequest() {
-        super();
+    private VoCardRequestData voCardRequestData;
+
+    public VoCardRequest(RequestData requestData, VoCardRequestData voCardRequestData) {
+        super(requestData);
+        this.voCardRequestData = voCardRequestData;
     }
 
+    public VoCardRequest() {
+        super();
+        voCardRequestData = new VoCardRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public VoCardRequestData getSpecificData() {
+        return voCardRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(VoCardRequestData voCardRequestData) {
+        this.voCardRequestData = voCardRequestData;
+    }
 
     @Override
     public String modelToXmlString() {
-
         VoCardRequestDocument object = (VoCardRequestDocument) this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
@@ -43,9 +57,6 @@ public class VoCardRequest extends Request implements Serializable {
 
     @Override
     public XmlObject modelToXml() {
-
-        Calendar calendar = Calendar.getInstance();
-        Date date = null;
         VoCardRequestDocument voCardRequestDoc = VoCardRequestDocument.Factory.newInstance();
         VoCardRequestDocument.VoCardRequest voCardRequest = voCardRequestDoc.addNewVoCardRequest();
         super.fillCommonXmlInfo(voCardRequest);
@@ -53,14 +64,11 @@ public class VoCardRequest extends Request implements Serializable {
     }
 
     public static VoCardRequest xmlToModel(VoCardRequestDocument voCardRequestDoc) {
-
         VoCardRequestDocument.VoCardRequest voCardRequestXml = voCardRequestDoc.getVoCardRequest();
-        Calendar calendar = Calendar.getInstance();
         VoCardRequest voCardRequest = new VoCardRequest();
         voCardRequest.fillCommonModelInfo(voCardRequest,voCardRequestXml);
         return voCardRequest;
     }
-
 
     @Override
     public RequestType modelToXmlRequest() {
@@ -68,5 +76,4 @@ public class VoCardRequest extends Request implements Serializable {
             (VoCardRequestDocument) modelToXml();
         return voCardRequestDocument.getVoCardRequest();
     }
-
 }

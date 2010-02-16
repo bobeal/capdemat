@@ -19,7 +19,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
     <property name="mappingResources">
       <list>
-        <value>fr/cg95/cvq/business/request/Request.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/RequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestType.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestSeason.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/DisplayGroup.hbm.xml</value>
@@ -45,6 +45,33 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/request/TicketTypeSelection.hbm.xml</value>
         <value>fr/cg95/cvq/business/payment/Payment.hbm.xml</value>
         <value>fr/cg95/cvq/business/payment/PurchaseItem.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/PerischoolActivityRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/StudyGrantRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/SchoolCanteenRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/RecreationActivityRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/school/SchoolRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/technical/TechnicalInterventionRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/reservation/PlaceReservationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/RemoteSupportRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HandicapCompensationChildRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/HandicapCompensationAdultRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/social/DomesticHelpRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/environment/BulkyWasteCollectionRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/environment/CompostableWasteCollectionRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/urbanism/AlignmentCertificateRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/urbanism/SewerConnectionRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/urbanism/AlignmentNumberingConnectionRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/ecitizen/VoCardRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/ecitizen/HomeFolderModificationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/localpolice/HolidaySecurityRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/civil/MarriageDetailsRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/civil/DeathDetailsRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/civil/BirthDetailsRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/election/ElectoralRollRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/military/MilitaryCensusRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/leisure/culture/LibraryRegistrationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/leisure/SmsNotificationRequestData.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/leisure/music/MusicSchoolRegistrationRequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/PerischoolAuthorizedIndividual.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/school/PerischoolContactIndividual.hbm.xml</value>   
         <value>fr/cg95/cvq/business/request/school/RecreationAuthorizedIndividual.hbm.xml</value>

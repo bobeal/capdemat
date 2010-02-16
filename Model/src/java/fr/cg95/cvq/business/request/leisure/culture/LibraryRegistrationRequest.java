@@ -14,35 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.leisure.culture.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="library_registration_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class LibraryRegistrationRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private LibraryRegistrationRequestData libraryRegistrationRequestData;
+
+    public LibraryRegistrationRequest(RequestData requestData, LibraryRegistrationRequestData libraryRegistrationRequestData) {
+        super(requestData);
+        this.libraryRegistrationRequestData = libraryRegistrationRequestData;
+    }
+
     public LibraryRegistrationRequest() {
         super();
-      
-        parentalAuthorization = Boolean.valueOf(false);
-      
-        rulesAndRegulationsAcceptance = Boolean.valueOf(false);
-      
+        this.libraryRegistrationRequestData = new LibraryRegistrationRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public LibraryRegistrationRequestData getSpecificData() {
+        return libraryRegistrationRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(LibraryRegistrationRequestData libraryRegistrationRequestData) {
+        this.libraryRegistrationRequestData = libraryRegistrationRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        LibraryRegistrationRequestDocument object = (LibraryRegistrationRequestDocument) this.modelToXml();
+        LibraryRegistrationRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -60,35 +71,33 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         LibraryRegistrationRequestDocument.LibraryRegistrationRequest libraryRegistrationRequest = libraryRegistrationRequestDoc.addNewLibraryRegistrationRequest();
         super.fillCommonXmlInfo(libraryRegistrationRequest);
         int i = 0;
-    
-        libraryRegistrationRequest.setRegistrationNumber(this.registrationNumber);
+        
+        libraryRegistrationRequest.setRegistrationNumber(getRegistrationNumber());
       
-        if (this.parentalAuthorization != null)
-            libraryRegistrationRequest.setParentalAuthorization(this.parentalAuthorization.booleanValue());
+        if (getParentalAuthorization() != null)
+            libraryRegistrationRequest.setParentalAuthorization(getParentalAuthorization().booleanValue());
       
-        if (this.subscriptionPrice != null)
-            libraryRegistrationRequest.setSubscriptionPrice(new BigDecimal(this.subscriptionPrice));
+        if (getSubscriptionPrice() != null)
+            libraryRegistrationRequest.setSubscriptionPrice(new BigDecimal(getSubscriptionPrice()));
       
         i = 0;
-        if (subscription != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] subscriptionTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[subscription.size()];
-            for (LocalReferentialData object : subscription) {
+        if (getSubscription() != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] subscriptionTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getSubscription().size()];
+            for (LocalReferentialData object : getSubscription()) {
               subscriptionTypeTab[i++] = LocalReferentialData.modelToXml(object);
             }
             libraryRegistrationRequest.setSubscriptionArray(subscriptionTypeTab);
         }
       
-        if (this.rulesAndRegulationsAcceptance != null)
-            libraryRegistrationRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
+        if (getRulesAndRegulationsAcceptance() != null)
+            libraryRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
       
         return libraryRegistrationRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        LibraryRegistrationRequestDocument libraryRegistrationRequestDoc =
-            (LibraryRegistrationRequestDocument) modelToXml();
-        return libraryRegistrationRequestDoc.getLibraryRegistrationRequest();
+    public final LibraryRegistrationRequestDocument.LibraryRegistrationRequest modelToXmlRequest() {
+        return modelToXml().getLibraryRegistrationRequest();
     }
 
     public static LibraryRegistrationRequest xmlToModel(LibraryRegistrationRequestDocument libraryRegistrationRequestDoc) {
@@ -97,7 +106,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         List list = new ArrayList();
         LibraryRegistrationRequest libraryRegistrationRequest = new LibraryRegistrationRequest();
         libraryRegistrationRequest.fillCommonModelInfo(libraryRegistrationRequest, libraryRegistrationRequestXml);
-    
+        
         libraryRegistrationRequest.setRegistrationNumber(libraryRegistrationRequestXml.getRegistrationNumber());
       
         libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
@@ -117,98 +126,44 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
     }
 
   
-    private String registrationNumber;
-
     public final void setRegistrationNumber(final String registrationNumber) {
-        this.registrationNumber = registrationNumber;
+        libraryRegistrationRequestData.setRegistrationNumber(registrationNumber);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="registration_number"
-        
-      
-    */
     public final String getRegistrationNumber() {
-        return this.registrationNumber;
+        return libraryRegistrationRequestData.getRegistrationNumber();
     }
   
-    private Boolean parentalAuthorization;
-
     public final void setParentalAuthorization(final Boolean parentalAuthorization) {
-        this.parentalAuthorization = parentalAuthorization;
+        libraryRegistrationRequestData.setParentalAuthorization(parentalAuthorization);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="parental_authorization"
-        
-      
-    */
     public final Boolean getParentalAuthorization() {
-        return this.parentalAuthorization;
+        return libraryRegistrationRequestData.getParentalAuthorization();
     }
   
-    private Short subscriptionPrice;
-
     public final void setSubscriptionPrice(final Short subscriptionPrice) {
-        this.subscriptionPrice = subscriptionPrice;
+        libraryRegistrationRequestData.setSubscriptionPrice(subscriptionPrice);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="subscription_price"
-        
-      
-    */
     public final Short getSubscriptionPrice() {
-        return this.subscriptionPrice;
+        return libraryRegistrationRequestData.getSubscriptionPrice();
     }
   
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> subscription;
-
     public final void setSubscription(final List<fr.cg95.cvq.business.request.LocalReferentialData> subscription) {
-        this.subscription = subscription;
+        libraryRegistrationRequestData.setSubscription(subscription);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="library_registration_request_subscription"
-        * @hibernate.key
-        *  column="library_registration_request_id"
-        * @hibernate.list-index
-        *  column="subscription_index"
-        * @hibernate.many-to-many
-        *  column="subscription_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-      
-    */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
-        return this.subscription;
+        return libraryRegistrationRequestData.getSubscription();
     }
   
-    private Boolean rulesAndRegulationsAcceptance;
-
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+        libraryRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
-      
-    */
     public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
+        return libraryRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
   
 }

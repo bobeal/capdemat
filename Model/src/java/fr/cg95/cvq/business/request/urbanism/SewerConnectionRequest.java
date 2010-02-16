@@ -14,35 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.urbanism.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="sewer_connection_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class SewerConnectionRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private SewerConnectionRequestData sewerConnectionRequestData;
+
+    public SewerConnectionRequest(RequestData requestData, SewerConnectionRequestData sewerConnectionRequestData) {
+        super(requestData);
+        this.sewerConnectionRequestData = sewerConnectionRequestData;
+    }
+
     public SewerConnectionRequest() {
         super();
-      
-        requesterQuality = fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType.OWNER;
-      
-        moreThanTwoYears = Boolean.valueOf(false);
-      
+        this.sewerConnectionRequestData = new SewerConnectionRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public SewerConnectionRequestData getSpecificData() {
+        return sewerConnectionRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(SewerConnectionRequestData sewerConnectionRequestData) {
+        this.sewerConnectionRequestData = sewerConnectionRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        SewerConnectionRequestDocument object = (SewerConnectionRequestDocument) this.modelToXml();
+        SewerConnectionRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -60,37 +71,35 @@ public class SewerConnectionRequest extends Request implements Serializable {
         SewerConnectionRequestDocument.SewerConnectionRequest sewerConnectionRequest = sewerConnectionRequestDoc.addNewSewerConnectionRequest();
         super.fillCommonXmlInfo(sewerConnectionRequest);
         int i = 0;
-    
-        sewerConnectionRequest.setOwnerLastName(this.ownerLastName);
+        
+        sewerConnectionRequest.setOwnerLastName(getOwnerLastName());
       
-        sewerConnectionRequest.setOwnerFirstNames(this.ownerFirstNames);
+        sewerConnectionRequest.setOwnerFirstNames(getOwnerFirstNames());
       
-        if (this.ownerAddress != null)
-            sewerConnectionRequest.setOwnerAddress(Address.modelToXml(this.ownerAddress));
+        if (getOwnerAddress() != null)
+            sewerConnectionRequest.setOwnerAddress(Address.modelToXml(getOwnerAddress()));
       
-        if (this.requesterQuality != null)
-            sewerConnectionRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.ScrRequesterQualityType.Enum.forString(this.requesterQuality.toString()));
+        if (getRequesterQuality() != null)
+            sewerConnectionRequest.setRequesterQuality(fr.cg95.cvq.xml.request.urbanism.ScrRequesterQualityType.Enum.forString(getRequesterQuality().toString()));
       
-        if (this.moreThanTwoYears != null)
-            sewerConnectionRequest.setMoreThanTwoYears(this.moreThanTwoYears.booleanValue());
+        if (getMoreThanTwoYears() != null)
+            sewerConnectionRequest.setMoreThanTwoYears(getMoreThanTwoYears().booleanValue());
       
-        sewerConnectionRequest.setTransportationRoute(this.transportationRoute);
+        sewerConnectionRequest.setTransportationRoute(getTransportationRoute());
       
-        sewerConnectionRequest.setLocality(this.locality);
+        sewerConnectionRequest.setLocality(getLocality());
       
-        if (this.number != null)
-            sewerConnectionRequest.setNumber(new BigInteger(this.number.toString()));
+        if (getNumber() != null)
+            sewerConnectionRequest.setNumber(new BigInteger(getNumber().toString()));
       
-        sewerConnectionRequest.setSection(this.section);
+        sewerConnectionRequest.setSection(getSection());
       
         return sewerConnectionRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        SewerConnectionRequestDocument sewerConnectionRequestDoc =
-            (SewerConnectionRequestDocument) modelToXml();
-        return sewerConnectionRequestDoc.getSewerConnectionRequest();
+    public final SewerConnectionRequestDocument.SewerConnectionRequest modelToXmlRequest() {
+        return modelToXml().getSewerConnectionRequest();
     }
 
     public static SewerConnectionRequest xmlToModel(SewerConnectionRequestDocument sewerConnectionRequestDoc) {
@@ -99,7 +108,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         List list = new ArrayList();
         SewerConnectionRequest sewerConnectionRequest = new SewerConnectionRequest();
         sewerConnectionRequest.fillCommonModelInfo(sewerConnectionRequest, sewerConnectionRequestXml);
-    
+        
         sewerConnectionRequest.setOwnerLastName(sewerConnectionRequestXml.getOwnerLastName());
       
         sewerConnectionRequest.setOwnerFirstNames(sewerConnectionRequestXml.getOwnerFirstNames());
@@ -126,159 +135,76 @@ public class SewerConnectionRequest extends Request implements Serializable {
     }
 
   
-    private String ownerLastName;
-
     public final void setOwnerLastName(final String ownerLastName) {
-        this.ownerLastName = ownerLastName;
+        sewerConnectionRequestData.setOwnerLastName(ownerLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="owner_last_name"
-        *  length="38"
-      
-    */
     public final String getOwnerLastName() {
-        return this.ownerLastName;
+        return sewerConnectionRequestData.getOwnerLastName();
     }
   
-    private String ownerFirstNames;
-
     public final void setOwnerFirstNames(final String ownerFirstNames) {
-        this.ownerFirstNames = ownerFirstNames;
+        sewerConnectionRequestData.setOwnerFirstNames(ownerFirstNames);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="owner_first_names"
-        
-      
-    */
     public final String getOwnerFirstNames() {
-        return this.ownerFirstNames;
+        return sewerConnectionRequestData.getOwnerFirstNames();
     }
   
-    private fr.cg95.cvq.business.users.Address ownerAddress;
-
     public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
-        this.ownerAddress = ownerAddress;
+        sewerConnectionRequestData.setOwnerAddress(ownerAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="owner_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
-        return this.ownerAddress;
+        return sewerConnectionRequestData.getOwnerAddress();
     }
   
-    private fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType requesterQuality;
-
     public final void setRequesterQuality(final fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType requesterQuality) {
-        this.requesterQuality = requesterQuality;
+        sewerConnectionRequestData.setRequesterQuality(requesterQuality);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="requester_quality"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType getRequesterQuality() {
-        return this.requesterQuality;
+        return sewerConnectionRequestData.getRequesterQuality();
     }
   
-    private Boolean moreThanTwoYears;
-
     public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
-        this.moreThanTwoYears = moreThanTwoYears;
+        sewerConnectionRequestData.setMoreThanTwoYears(moreThanTwoYears);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="more_than_two_years"
-        
-      
-    */
     public final Boolean getMoreThanTwoYears() {
-        return this.moreThanTwoYears;
+        return sewerConnectionRequestData.getMoreThanTwoYears();
     }
   
-    private String transportationRoute;
-
     public final void setTransportationRoute(final String transportationRoute) {
-        this.transportationRoute = transportationRoute;
+        sewerConnectionRequestData.setTransportationRoute(transportationRoute);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="transportation_route"
-        
-      
-    */
     public final String getTransportationRoute() {
-        return this.transportationRoute;
+        return sewerConnectionRequestData.getTransportationRoute();
     }
   
-    private String locality;
-
     public final void setLocality(final String locality) {
-        this.locality = locality;
+        sewerConnectionRequestData.setLocality(locality);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="locality"
-        
-      
-    */
     public final String getLocality() {
-        return this.locality;
+        return sewerConnectionRequestData.getLocality();
     }
   
-    private java.math.BigInteger number;
-
     public final void setNumber(final java.math.BigInteger number) {
-        this.number = number;
+        sewerConnectionRequestData.setNumber(number);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="number"
-        *  type="serializable"
-        
-      
-    */
     public final java.math.BigInteger getNumber() {
-        return this.number;
+        return sewerConnectionRequestData.getNumber();
     }
   
-    private String section;
-
     public final void setSection(final String section) {
-        this.section = section;
+        sewerConnectionRequestData.setSection(section);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="section"
-        
-      
-    */
     public final String getSection() {
-        return this.section;
+        return sewerConnectionRequestData.getSection();
     }
   
 }

@@ -14,33 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.civil.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="death_details_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class DeathDetailsRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private DeathDetailsRequestData deathDetailsRequestData;
+
+    public DeathDetailsRequest(RequestData requestData, DeathDetailsRequestData deathDetailsRequestData) {
+        super(requestData);
+        this.deathDetailsRequestData = deathDetailsRequestData;
+    }
+
     public DeathDetailsRequest() {
         super();
-      
-        format = fr.cg95.cvq.business.request.civil.DeathCertificateFormatType.FULL_COPY;
-      
+        this.deathDetailsRequestData = new DeathDetailsRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public DeathDetailsRequestData getSpecificData() {
+        return deathDetailsRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(DeathDetailsRequestData deathDetailsRequestData) {
+        this.deathDetailsRequestData = deathDetailsRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        DeathDetailsRequestDocument object = (DeathDetailsRequestDocument) this.modelToXml();
+        DeathDetailsRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -58,27 +71,27 @@ public class DeathDetailsRequest extends Request implements Serializable {
         DeathDetailsRequestDocument.DeathDetailsRequest deathDetailsRequest = deathDetailsRequestDoc.addNewDeathDetailsRequest();
         super.fillCommonXmlInfo(deathDetailsRequest);
         int i = 0;
-    
-        deathDetailsRequest.setDeathFirstNames(this.deathFirstNames);
+        
+        deathDetailsRequest.setDeathFirstNames(getDeathFirstNames());
       
-        deathDetailsRequest.setDeathCity(this.deathCity);
+        deathDetailsRequest.setDeathCity(getDeathCity());
       
-        if (this.format != null)
-            deathDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.DeathCertificateFormatType.Enum.forString(this.format.toString()));
+        if (getFormat() != null)
+            deathDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.DeathCertificateFormatType.Enum.forString(getFormat().toString()));
       
-        if (this.copies != null)
-            deathDetailsRequest.setCopies(new BigInteger(this.copies.toString()));
+        if (getCopies() != null)
+            deathDetailsRequest.setCopies(new BigInteger(getCopies().toString()));
       
-        deathDetailsRequest.setComment(this.comment);
+        deathDetailsRequest.setComment(getComment());
       
-        if (this.motive != null)
-            deathDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.DeathCertificateMotiveType.Enum.forString(this.motive.toString()));
+        if (getMotive() != null)
+            deathDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.DeathCertificateMotiveType.Enum.forString(getMotive().toString()));
       
-        deathDetailsRequest.setDeathPostalCode(this.deathPostalCode);
+        deathDetailsRequest.setDeathPostalCode(getDeathPostalCode());
       
-        deathDetailsRequest.setDeathLastName(this.deathLastName);
+        deathDetailsRequest.setDeathLastName(getDeathLastName());
       
-        date = this.deathDate;
+        date = getDeathDate();
         if (date != null) {
             calendar.setTime(date);
             deathDetailsRequest.setDeathDate(calendar);
@@ -88,10 +101,8 @@ public class DeathDetailsRequest extends Request implements Serializable {
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        DeathDetailsRequestDocument deathDetailsRequestDoc =
-            (DeathDetailsRequestDocument) modelToXml();
-        return deathDetailsRequestDoc.getDeathDetailsRequest();
+    public final DeathDetailsRequestDocument.DeathDetailsRequest modelToXmlRequest() {
+        return modelToXml().getDeathDetailsRequest();
     }
 
     public static DeathDetailsRequest xmlToModel(DeathDetailsRequestDocument deathDetailsRequestDoc) {
@@ -100,7 +111,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
         List list = new ArrayList();
         DeathDetailsRequest deathDetailsRequest = new DeathDetailsRequest();
         deathDetailsRequest.fillCommonModelInfo(deathDetailsRequest, deathDetailsRequestXml);
-    
+        
         deathDetailsRequest.setDeathFirstNames(deathDetailsRequestXml.getDeathFirstNames());
       
         deathDetailsRequest.setDeathCity(deathDetailsRequestXml.getDeathCity());
@@ -132,158 +143,76 @@ public class DeathDetailsRequest extends Request implements Serializable {
     }
 
   
-    private String deathFirstNames;
-
     public final void setDeathFirstNames(final String deathFirstNames) {
-        this.deathFirstNames = deathFirstNames;
+        deathDetailsRequestData.setDeathFirstNames(deathFirstNames);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="death_first_names"
-        
-      
-    */
     public final String getDeathFirstNames() {
-        return this.deathFirstNames;
+        return deathDetailsRequestData.getDeathFirstNames();
     }
   
-    private String deathCity;
-
     public final void setDeathCity(final String deathCity) {
-        this.deathCity = deathCity;
+        deathDetailsRequestData.setDeathCity(deathCity);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="death_city"
-        *  length="32"
-      
-    */
     public final String getDeathCity() {
-        return this.deathCity;
+        return deathDetailsRequestData.getDeathCity();
     }
   
-    private fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format;
-
     public final void setFormat(final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format) {
-        this.format = format;
+        deathDetailsRequestData.setFormat(format);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="format"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType getFormat() {
-        return this.format;
+        return deathDetailsRequestData.getFormat();
     }
   
-    private java.math.BigInteger copies;
-
     public final void setCopies(final java.math.BigInteger copies) {
-        this.copies = copies;
+        deathDetailsRequestData.setCopies(copies);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="copies"
-        *  type="serializable"
-        
-      
-    */
     public final java.math.BigInteger getCopies() {
-        return this.copies;
+        return deathDetailsRequestData.getCopies();
     }
   
-    private String comment;
-
     public final void setComment(final String comment) {
-        this.comment = comment;
+        deathDetailsRequestData.setComment(comment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="comment"
-        
-      
-    */
     public final String getComment() {
-        return this.comment;
+        return deathDetailsRequestData.getComment();
     }
   
-    private fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive;
-
     public final void setMotive(final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive) {
-        this.motive = motive;
+        deathDetailsRequestData.setMotive(motive);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="motive"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType getMotive() {
-        return this.motive;
+        return deathDetailsRequestData.getMotive();
     }
   
-    private String deathPostalCode;
-
     public final void setDeathPostalCode(final String deathPostalCode) {
-        this.deathPostalCode = deathPostalCode;
+        deathDetailsRequestData.setDeathPostalCode(deathPostalCode);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="death_postal_code"
-        *  length="2"
-      
-    */
     public final String getDeathPostalCode() {
-        return this.deathPostalCode;
+        return deathDetailsRequestData.getDeathPostalCode();
     }
   
-    private String deathLastName;
-
     public final void setDeathLastName(final String deathLastName) {
-        this.deathLastName = deathLastName;
+        deathDetailsRequestData.setDeathLastName(deathLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="death_last_name"
-        *  length="38"
-      
-    */
     public final String getDeathLastName() {
-        return this.deathLastName;
+        return deathDetailsRequestData.getDeathLastName();
     }
   
-    private java.util.Date deathDate;
-
     public final void setDeathDate(final java.util.Date deathDate) {
-        this.deathDate = deathDate;
+        deathDetailsRequestData.setDeathDate(deathDate);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="death_date"
-        
-      
-    */
     public final java.util.Date getDeathDate() {
-        return this.deathDate;
+        return deathDetailsRequestData.getDeathDate();
     }
   
 }

@@ -1,13 +1,13 @@
 package fr.cg95.cvq.service.request.impl;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
@@ -22,8 +22,7 @@ import fr.cg95.cvq.util.Critere;
 public class RequestSearchService implements IRequestSearchService {
 
     private IRequestDAO requestDAO;
-    private IRequestActionDAO requestActionDAO;
-    
+
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT, privilege=ContextPrivilege.NONE)
     @RequestFilter(privilege=ContextPrivilege.READ)
@@ -101,15 +100,13 @@ public class RequestSearchService implements IRequestSearchService {
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public byte[] getCertificate(final Long id, final RequestState requestState)
         throws CvqException {
-        Set<Critere> criteriaSet = new HashSet<Critere>();
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_REQUEST_ID,
-            id, Critere.EQUALS));
-        criteriaSet.add(new Critere(RequestAction.SEARCH_BY_RESULTING_STATE,
-            requestState, Critere.EQUALS));
-        List<RequestAction> action =
-            requestActionDAO.get(criteriaSet, RequestAction.SEARCH_BY_DATE,
-                "desc", 1, 0);
-        return !action.isEmpty() ? action.get(0).getFile() : null;
+        List<RequestAction> actions = new ArrayList<RequestAction>(getById(id).getActions());
+        Collections.reverse(actions);
+        for (RequestAction action : actions) {
+            if (requestState.equals(action.getResultingState()))
+                return action.getFile();
+        }
+        return null;
     }
 
     @Override
@@ -123,9 +120,5 @@ public class RequestSearchService implements IRequestSearchService {
 
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
-    }
-
-    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
-        this.requestActionDAO = requestActionDAO;
     }
 }

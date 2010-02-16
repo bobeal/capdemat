@@ -14,33 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.civil.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="birth_details_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class BirthDetailsRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private BirthDetailsRequestData birthDetailsRequestData;
+
+    public BirthDetailsRequest(RequestData requestData, BirthDetailsRequestData birthDetailsRequestData) {
+        super(requestData);
+        this.birthDetailsRequestData = birthDetailsRequestData;
+    }
+
     public BirthDetailsRequest() {
         super();
-      
-        format = fr.cg95.cvq.business.request.civil.BirthCertificateFormatType.FULL_COPY;
-      
+        this.birthDetailsRequestData = new BirthDetailsRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public BirthDetailsRequestData getSpecificData() {
+        return birthDetailsRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(BirthDetailsRequestData birthDetailsRequestData) {
+        this.birthDetailsRequestData = birthDetailsRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        BirthDetailsRequestDocument object = (BirthDetailsRequestDocument) this.modelToXml();
+        BirthDetailsRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -58,55 +71,53 @@ public class BirthDetailsRequest extends Request implements Serializable {
         BirthDetailsRequestDocument.BirthDetailsRequest birthDetailsRequest = birthDetailsRequestDoc.addNewBirthDetailsRequest();
         super.fillCommonXmlInfo(birthDetailsRequest);
         int i = 0;
-    
-        if (this.format != null)
-            birthDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.BirthCertificateFormatType.Enum.forString(this.format.toString()));
+        
+        if (getFormat() != null)
+            birthDetailsRequest.setFormat(fr.cg95.cvq.xml.request.civil.BirthCertificateFormatType.Enum.forString(getFormat().toString()));
       
-        if (this.copies != null)
-            birthDetailsRequest.setCopies(new BigInteger(this.copies.toString()));
+        if (getCopies() != null)
+            birthDetailsRequest.setCopies(new BigInteger(getCopies().toString()));
       
-        birthDetailsRequest.setBirthPostalCode(this.birthPostalCode);
+        birthDetailsRequest.setBirthPostalCode(getBirthPostalCode());
       
-        birthDetailsRequest.setComment(this.comment);
+        birthDetailsRequest.setComment(getComment());
       
-        birthDetailsRequest.setBirthFirstNames(this.birthFirstNames);
+        birthDetailsRequest.setBirthFirstNames(getBirthFirstNames());
       
-        if (this.motive != null)
-            birthDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.BirthCertificateMotiveType.Enum.forString(this.motive.toString()));
+        if (getMotive() != null)
+            birthDetailsRequest.setMotive(fr.cg95.cvq.xml.request.civil.BirthCertificateMotiveType.Enum.forString(getMotive().toString()));
       
-        date = this.birthDate;
+        date = getBirthDate();
         if (date != null) {
             calendar.setTime(date);
             birthDetailsRequest.setBirthDate(calendar);
         }
       
-        birthDetailsRequest.setRequesterQualityPrecision(this.requesterQualityPrecision);
+        birthDetailsRequest.setRequesterQualityPrecision(getRequesterQualityPrecision());
       
-        birthDetailsRequest.setBirthCity(this.birthCity);
+        birthDetailsRequest.setBirthCity(getBirthCity());
       
-        if (this.requesterQuality != null)
-            birthDetailsRequest.setRequesterQuality(fr.cg95.cvq.xml.request.civil.BirthRequesterQualityType.Enum.forString(this.requesterQuality.toString()));
+        if (getRequesterQuality() != null)
+            birthDetailsRequest.setRequesterQuality(fr.cg95.cvq.xml.request.civil.BirthRequesterQualityType.Enum.forString(getRequesterQuality().toString()));
         FatherInformationType fatherInformationTypeFatherInformation = birthDetailsRequest.addNewFatherInformation();
-        fatherInformationTypeFatherInformation.setFatherLastName(this.fatherLastName);
+        fatherInformationTypeFatherInformation.setFatherLastName(getFatherLastName());
       
-        birthDetailsRequest.setBirthMarriageName(this.birthMarriageName);
+        birthDetailsRequest.setBirthMarriageName(getBirthMarriageName());
         MotherInformationType motherInformationTypeMotherInformation = birthDetailsRequest.addNewMotherInformation();
-        motherInformationTypeMotherInformation.setMotherFirstNames(this.motherFirstNames);
+        motherInformationTypeMotherInformation.setMotherFirstNames(getMotherFirstNames());
       
-        fatherInformationTypeFatherInformation.setFatherFirstNames(this.fatherFirstNames);
+        fatherInformationTypeFatherInformation.setFatherFirstNames(getFatherFirstNames());
       
-        motherInformationTypeMotherInformation.setMotherMaidenName(this.motherMaidenName);
+        motherInformationTypeMotherInformation.setMotherMaidenName(getMotherMaidenName());
       
-        birthDetailsRequest.setBirthLastName(this.birthLastName);
+        birthDetailsRequest.setBirthLastName(getBirthLastName());
       
         return birthDetailsRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        BirthDetailsRequestDocument birthDetailsRequestDoc =
-            (BirthDetailsRequestDocument) modelToXml();
-        return birthDetailsRequestDoc.getBirthDetailsRequest();
+    public final BirthDetailsRequestDocument.BirthDetailsRequest modelToXmlRequest() {
+        return modelToXml().getBirthDetailsRequest();
     }
 
     public static BirthDetailsRequest xmlToModel(BirthDetailsRequestDocument birthDetailsRequestDoc) {
@@ -115,7 +126,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         List list = new ArrayList();
         BirthDetailsRequest birthDetailsRequest = new BirthDetailsRequest();
         birthDetailsRequest.fillCommonModelInfo(birthDetailsRequest, birthDetailsRequestXml);
-    
+        
         if (birthDetailsRequestXml.getFormat() != null)
             birthDetailsRequest.setFormat(fr.cg95.cvq.business.request.civil.BirthCertificateFormatType.forString(birthDetailsRequestXml.getFormat().toString()));
         else
@@ -164,277 +175,132 @@ public class BirthDetailsRequest extends Request implements Serializable {
     }
 
   
-    private fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format;
-
     public final void setFormat(final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format) {
-        this.format = format;
+        birthDetailsRequestData.setFormat(format);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="format"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType getFormat() {
-        return this.format;
+        return birthDetailsRequestData.getFormat();
     }
   
-    private java.math.BigInteger copies;
-
     public final void setCopies(final java.math.BigInteger copies) {
-        this.copies = copies;
+        birthDetailsRequestData.setCopies(copies);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="copies"
-        *  type="serializable"
-        
-      
-    */
     public final java.math.BigInteger getCopies() {
-        return this.copies;
+        return birthDetailsRequestData.getCopies();
     }
   
-    private String birthPostalCode;
-
     public final void setBirthPostalCode(final String birthPostalCode) {
-        this.birthPostalCode = birthPostalCode;
+        birthDetailsRequestData.setBirthPostalCode(birthPostalCode);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="birth_postal_code"
-        *  length="2"
-      
-    */
     public final String getBirthPostalCode() {
-        return this.birthPostalCode;
+        return birthDetailsRequestData.getBirthPostalCode();
     }
   
-    private String comment;
-
     public final void setComment(final String comment) {
-        this.comment = comment;
+        birthDetailsRequestData.setComment(comment);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="comment"
-        
-      
-    */
     public final String getComment() {
-        return this.comment;
+        return birthDetailsRequestData.getComment();
     }
   
-    private String birthFirstNames;
-
     public final void setBirthFirstNames(final String birthFirstNames) {
-        this.birthFirstNames = birthFirstNames;
+        birthDetailsRequestData.setBirthFirstNames(birthFirstNames);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="birth_first_names"
-        
-      
-    */
     public final String getBirthFirstNames() {
-        return this.birthFirstNames;
+        return birthDetailsRequestData.getBirthFirstNames();
     }
   
-    private fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive;
-
     public final void setMotive(final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive) {
-        this.motive = motive;
+        birthDetailsRequestData.setMotive(motive);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="motive"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType getMotive() {
-        return this.motive;
+        return birthDetailsRequestData.getMotive();
     }
   
-    private java.util.Date birthDate;
-
     public final void setBirthDate(final java.util.Date birthDate) {
-        this.birthDate = birthDate;
+        birthDetailsRequestData.setBirthDate(birthDate);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="birth_date"
-        
-      
-    */
     public final java.util.Date getBirthDate() {
-        return this.birthDate;
+        return birthDetailsRequestData.getBirthDate();
     }
   
-    private String requesterQualityPrecision;
-
     public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
-        this.requesterQualityPrecision = requesterQualityPrecision;
+        birthDetailsRequestData.setRequesterQualityPrecision(requesterQualityPrecision);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="requester_quality_precision"
-        
-      
-    */
     public final String getRequesterQualityPrecision() {
-        return this.requesterQualityPrecision;
+        return birthDetailsRequestData.getRequesterQualityPrecision();
     }
   
-    private String birthCity;
-
     public final void setBirthCity(final String birthCity) {
-        this.birthCity = birthCity;
+        birthDetailsRequestData.setBirthCity(birthCity);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="birth_city"
-        *  length="32"
-      
-    */
     public final String getBirthCity() {
-        return this.birthCity;
+        return birthDetailsRequestData.getBirthCity();
     }
   
-    private fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality;
-
     public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality) {
-        this.requesterQuality = requesterQuality;
+        birthDetailsRequestData.setRequesterQuality(requesterQuality);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="requester_quality"
-        
-      
-    */
     public final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType getRequesterQuality() {
-        return this.requesterQuality;
+        return birthDetailsRequestData.getRequesterQuality();
     }
   
-    private String fatherLastName;
-
     public final void setFatherLastName(final String fatherLastName) {
-        this.fatherLastName = fatherLastName;
+        birthDetailsRequestData.setFatherLastName(fatherLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_last_name"
-        *  length="38"
-      
-    */
     public final String getFatherLastName() {
-        return this.fatherLastName;
+        return birthDetailsRequestData.getFatherLastName();
     }
   
-    private String birthMarriageName;
-
     public final void setBirthMarriageName(final String birthMarriageName) {
-        this.birthMarriageName = birthMarriageName;
+        birthDetailsRequestData.setBirthMarriageName(birthMarriageName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="birth_marriage_name"
-        *  length="38"
-      
-    */
     public final String getBirthMarriageName() {
-        return this.birthMarriageName;
+        return birthDetailsRequestData.getBirthMarriageName();
     }
   
-    private String motherFirstNames;
-
     public final void setMotherFirstNames(final String motherFirstNames) {
-        this.motherFirstNames = motherFirstNames;
+        birthDetailsRequestData.setMotherFirstNames(motherFirstNames);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_first_names"
-        
-      
-    */
     public final String getMotherFirstNames() {
-        return this.motherFirstNames;
+        return birthDetailsRequestData.getMotherFirstNames();
     }
   
-    private String fatherFirstNames;
-
     public final void setFatherFirstNames(final String fatherFirstNames) {
-        this.fatherFirstNames = fatherFirstNames;
+        birthDetailsRequestData.setFatherFirstNames(fatherFirstNames);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="father_first_names"
-        
-      
-    */
     public final String getFatherFirstNames() {
-        return this.fatherFirstNames;
+        return birthDetailsRequestData.getFatherFirstNames();
     }
   
-    private String motherMaidenName;
-
     public final void setMotherMaidenName(final String motherMaidenName) {
-        this.motherMaidenName = motherMaidenName;
+        birthDetailsRequestData.setMotherMaidenName(motherMaidenName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mother_maiden_name"
-        *  length="38"
-      
-    */
     public final String getMotherMaidenName() {
-        return this.motherMaidenName;
+        return birthDetailsRequestData.getMotherMaidenName();
     }
   
-    private String birthLastName;
-
     public final void setBirthLastName(final String birthLastName) {
-        this.birthLastName = birthLastName;
+        birthDetailsRequestData.setBirthLastName(birthLastName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="birth_last_name"
-        *  length="38"
-      
-    */
     public final String getBirthLastName() {
-        return this.birthLastName;
+        return birthDetailsRequestData.getBirthLastName();
     }
   
 }

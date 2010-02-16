@@ -9,6 +9,7 @@ import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -96,4 +97,7 @@ public interface IRequestDAO extends IGenericDAO {
     RequestLock getRequestLock(Long requestId);
 
     List<Long> cleanRequestLocks();
+
+    Request findById(Long id)
+        throws CvqObjectNotFoundException;
 }

@@ -19,6 +19,7 @@ import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -32,7 +33,7 @@ public class MeansOfContactTransformer {
     
     private static ILocalAuthorityRegistry localAuthorityRegistry;
     private static IMeansOfContactService meansOfContactService;
-    private static IGenericDAO genericDAO ;
+    private static IRequestDAO requestDAO;
     
     private List rmocSubList;
     private StringBuffer updateScriptStringBuffer;
@@ -112,9 +113,9 @@ public class MeansOfContactTransformer {
         logger.debug("TEST SINGLE");
         try {
             MeansOfContact mocMail= meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.MAIL);
-            Request request = (Request)genericDAO.findById(Request.class, new Long(requestId));
+            Request request = (Request)requestDAO.findById(Request.class, new Long(requestId));
             request.setMeansOfContact(mocMail);
-            genericDAO.update(request);
+            requestDAO.update(request);
             System.out.println("request.id=" + request.getId());
         } catch (Exception e) {
             logger.debug(e.getStackTrace());
@@ -157,7 +158,7 @@ public class MeansOfContactTransformer {
         for (Iterator it = rmocSubList.iterator(); it.hasNext();){
             RequestMeansOfContactDTO rmoc= (RequestMeansOfContactDTO) it.next();
             try {
-                Request request = (Request)genericDAO.findById(Request.class, rmoc.getRequestId());
+                Request request = (Request)requestDAO.findById(Request.class, rmoc.getRequestId());
                 if (isMail(rmoc))
                     request.setMeansOfContact(mocMail);
                 else if (isEmail(rmoc))
@@ -177,7 +178,7 @@ public class MeansOfContactTransformer {
                 else
                     request.setMeansOfContact(mocMail);
                 
-                genericDAO.update(request);
+                requestDAO.update(request);
                 requestList.add(request);
                 
                 try {
@@ -263,7 +264,7 @@ public class MeansOfContactTransformer {
         
         localAuthorityRegistry = (LocalAuthorityRegistry)cpxa.getBean("localAuthorityRegistry");
         meansOfContactService = (MeansOfContactService)cpxa.getBean("meansOfContactService");
-        genericDAO = (GenericDAO)cpxa.getBean("genericDAO");
+        requestDAO = (IRequestDAO)cpxa.getBean("genericDAO");
         
         MeansOfContactTransformer meansOfContactTransformer= new MeansOfContactTransformer();
         localAuthorityRegistry.browseAndCallback(meansOfContactTransformer, "transformMoc", null);

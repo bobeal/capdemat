@@ -1,17 +1,13 @@
 package fr.cg95.cvq.service.request;
 
+import java.util.Date;
+
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
-import fr.cg95.cvq.service.request.annotation.IsRequestAction;
-import fr.cg95.cvq.util.Critere;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -22,19 +18,13 @@ public interface IRequestActionService {
     /**
      * Get a specific action by ID.
      */
-    RequestAction getAction(@IsRequestAction final Long id)
+    RequestAction getAction(@IsRequest final Long requestId, final Long id)
         throws CvqObjectNotFoundException;
-
-    /**
-     * Get actions by criteria
-     */
-    List<RequestAction> get(@IsRequest Set<Critere> criteriaSet,
-        String sort, String dir, int recordsReturned, int startIndex);
 
     /**
      * Return whether the given request has an action trace with the given type.
      */
-    boolean hasAction(final Long requestId, final RequestActionType type)
+    boolean hasAction(@IsRequest final Long requestId, final RequestActionType type)
         throws CvqException;
 
     void addDraftCreationAction(@IsRequest Long requestId, Date date)

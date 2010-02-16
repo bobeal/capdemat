@@ -14,39 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.school.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="school_canteen_registration_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class SchoolCanteenRegistrationRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private SchoolCanteenRegistrationRequestData schoolCanteenRegistrationRequestData;
+
+    public SchoolCanteenRegistrationRequest(RequestData requestData, SchoolCanteenRegistrationRequestData schoolCanteenRegistrationRequestData) {
+        super(requestData);
+        this.schoolCanteenRegistrationRequestData = schoolCanteenRegistrationRequestData;
+    }
+
     public SchoolCanteenRegistrationRequest() {
         super();
-      
-        foodAllergy = Boolean.valueOf(false);
-      
-        hospitalizationPermission = Boolean.valueOf(false);
-      
-        rulesAndRegulationsAcceptance = Boolean.valueOf(false);
-      
-        section = fr.cg95.cvq.business.users.SectionType.UNKNOWN;
-      
+        this.schoolCanteenRegistrationRequestData = new SchoolCanteenRegistrationRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public SchoolCanteenRegistrationRequestData getSpecificData() {
+        return schoolCanteenRegistrationRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(SchoolCanteenRegistrationRequestData schoolCanteenRegistrationRequestData) {
+        this.schoolCanteenRegistrationRequestData = schoolCanteenRegistrationRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        SchoolCanteenRegistrationRequestDocument object = (SchoolCanteenRegistrationRequestDocument) this.modelToXml();
+        SchoolCanteenRegistrationRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -64,54 +71,52 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest schoolCanteenRegistrationRequest = schoolCanteenRegistrationRequestDoc.addNewSchoolCanteenRegistrationRequest();
         super.fillCommonXmlInfo(schoolCanteenRegistrationRequest);
         int i = 0;
-    
+        
         i = 0;
-        if (foodDiet != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] foodDietTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[foodDiet.size()];
-            for (LocalReferentialData object : foodDiet) {
+        if (getFoodDiet() != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] foodDietTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getFoodDiet().size()];
+            for (LocalReferentialData object : getFoodDiet()) {
               foodDietTypeTab[i++] = LocalReferentialData.modelToXml(object);
             }
             schoolCanteenRegistrationRequest.setFoodDietArray(foodDietTypeTab);
         }
       
-        if (this.foodAllergy != null)
-            schoolCanteenRegistrationRequest.setFoodAllergy(this.foodAllergy.booleanValue());
+        if (getFoodAllergy() != null)
+            schoolCanteenRegistrationRequest.setFoodAllergy(getFoodAllergy().booleanValue());
       
-        schoolCanteenRegistrationRequest.setDoctorPhone(this.doctorPhone);
+        schoolCanteenRegistrationRequest.setDoctorPhone(getDoctorPhone());
       
-        schoolCanteenRegistrationRequest.setDoctorName(this.doctorName);
+        schoolCanteenRegistrationRequest.setDoctorName(getDoctorName());
       
         i = 0;
-        if (canteenAttendingDays != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] canteenAttendingDaysTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[canteenAttendingDays.size()];
-            for (LocalReferentialData object : canteenAttendingDays) {
+        if (getCanteenAttendingDays() != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] canteenAttendingDaysTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getCanteenAttendingDays().size()];
+            for (LocalReferentialData object : getCanteenAttendingDays()) {
               canteenAttendingDaysTypeTab[i++] = LocalReferentialData.modelToXml(object);
             }
             schoolCanteenRegistrationRequest.setCanteenAttendingDaysArray(canteenAttendingDaysTypeTab);
         }
       
-        if (this.school != null)
-            schoolCanteenRegistrationRequest.setSchool(School.modelToXml(this.school));
+        if (getSchool() != null)
+            schoolCanteenRegistrationRequest.setSchool(School.modelToXml(getSchool()));
       
-        if (this.hospitalizationPermission != null)
-            schoolCanteenRegistrationRequest.setHospitalizationPermission(this.hospitalizationPermission.booleanValue());
+        if (getHospitalizationPermission() != null)
+            schoolCanteenRegistrationRequest.setHospitalizationPermission(getHospitalizationPermission().booleanValue());
       
-        if (this.rulesAndRegulationsAcceptance != null)
-            schoolCanteenRegistrationRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
+        if (getRulesAndRegulationsAcceptance() != null)
+            schoolCanteenRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
       
-        schoolCanteenRegistrationRequest.setUrgencyPhone(this.urgencyPhone);
+        schoolCanteenRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
       
-        if (this.section != null)
-            schoolCanteenRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(this.section.toString()));
+        if (getSection() != null)
+            schoolCanteenRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().toString()));
       
         return schoolCanteenRegistrationRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        SchoolCanteenRegistrationRequestDocument schoolCanteenRegistrationRequestDoc =
-            (SchoolCanteenRegistrationRequestDocument) modelToXml();
-        return schoolCanteenRegistrationRequestDoc.getSchoolCanteenRegistrationRequest();
+    public final SchoolCanteenRegistrationRequestDocument.SchoolCanteenRegistrationRequest modelToXmlRequest() {
+        return modelToXml().getSchoolCanteenRegistrationRequest();
     }
 
     public static SchoolCanteenRegistrationRequest xmlToModel(SchoolCanteenRegistrationRequestDocument schoolCanteenRegistrationRequestDoc) {
@@ -120,7 +125,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         List list = new ArrayList();
         SchoolCanteenRegistrationRequest schoolCanteenRegistrationRequest = new SchoolCanteenRegistrationRequest();
         schoolCanteenRegistrationRequest.fillCommonModelInfo(schoolCanteenRegistrationRequest, schoolCanteenRegistrationRequestXml);
-    
+        
         List<fr.cg95.cvq.business.request.LocalReferentialData> foodDietList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(schoolCanteenRegistrationRequestXml.sizeOfFoodDietArray());
         for (LocalReferentialDataType object : schoolCanteenRegistrationRequestXml.getFoodDietArray()) {
             foodDietList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
@@ -157,193 +162,84 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
     }
 
   
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet;
-
     public final void setFoodDiet(final List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet) {
-        this.foodDiet = foodDiet;
+        schoolCanteenRegistrationRequestData.setFoodDiet(foodDiet);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="school_canteen_registration_request_food_diet"
-        * @hibernate.key
-        *  column="school_canteen_registration_request_id"
-        * @hibernate.list-index
-        *  column="food_diet_index"
-        * @hibernate.many-to-many
-        *  column="food_diet_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-      
-    */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getFoodDiet() {
-        return this.foodDiet;
+        return schoolCanteenRegistrationRequestData.getFoodDiet();
     }
   
-    private Boolean foodAllergy;
-
     public final void setFoodAllergy(final Boolean foodAllergy) {
-        this.foodAllergy = foodAllergy;
+        schoolCanteenRegistrationRequestData.setFoodAllergy(foodAllergy);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="food_allergy"
-        
-      
-    */
     public final Boolean getFoodAllergy() {
-        return this.foodAllergy;
+        return schoolCanteenRegistrationRequestData.getFoodAllergy();
     }
   
-    private String doctorPhone;
-
     public final void setDoctorPhone(final String doctorPhone) {
-        this.doctorPhone = doctorPhone;
+        schoolCanteenRegistrationRequestData.setDoctorPhone(doctorPhone);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="doctor_phone"
-        *  length="10"
-      
-    */
     public final String getDoctorPhone() {
-        return this.doctorPhone;
+        return schoolCanteenRegistrationRequestData.getDoctorPhone();
     }
   
-    private String doctorName;
-
     public final void setDoctorName(final String doctorName) {
-        this.doctorName = doctorName;
+        schoolCanteenRegistrationRequestData.setDoctorName(doctorName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="doctor_name"
-        
-      
-    */
     public final String getDoctorName() {
-        return this.doctorName;
+        return schoolCanteenRegistrationRequestData.getDoctorName();
     }
   
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays;
-
     public final void setCanteenAttendingDays(final List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays) {
-        this.canteenAttendingDays = canteenAttendingDays;
+        schoolCanteenRegistrationRequestData.setCanteenAttendingDays(canteenAttendingDays);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="school_canteen_registration_request_canteen_attending_days"
-        * @hibernate.key
-        *  column="school_canteen_registration_request_id"
-        * @hibernate.list-index
-        *  column="canteen_attending_days_index"
-        * @hibernate.many-to-many
-        *  column="canteen_attending_days_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-      
-    */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCanteenAttendingDays() {
-        return this.canteenAttendingDays;
+        return schoolCanteenRegistrationRequestData.getCanteenAttendingDays();
     }
   
-    private fr.cg95.cvq.business.authority.School school;
-
     public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
-        this.school = school;
+        schoolCanteenRegistrationRequestData.setSchool(school);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        
-        *  column="school_id"
-        *  class="fr.cg95.cvq.business.authority.School"
-      
-    */
     public final fr.cg95.cvq.business.authority.School getSchool() {
-        return this.school;
+        return schoolCanteenRegistrationRequestData.getSchool();
     }
   
-    private Boolean hospitalizationPermission;
-
     public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
-        this.hospitalizationPermission = hospitalizationPermission;
+        schoolCanteenRegistrationRequestData.setHospitalizationPermission(hospitalizationPermission);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="hospitalization_permission"
-        
-      
-    */
     public final Boolean getHospitalizationPermission() {
-        return this.hospitalizationPermission;
+        return schoolCanteenRegistrationRequestData.getHospitalizationPermission();
     }
   
-    private Boolean rulesAndRegulationsAcceptance;
-
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+        schoolCanteenRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
-      
-    */
     public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
+        return schoolCanteenRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
   
-    private String urgencyPhone;
-
     public final void setUrgencyPhone(final String urgencyPhone) {
-        this.urgencyPhone = urgencyPhone;
+        schoolCanteenRegistrationRequestData.setUrgencyPhone(urgencyPhone);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="urgency_phone"
-        *  length="10"
-      
-    */
     public final String getUrgencyPhone() {
-        return this.urgencyPhone;
+        return schoolCanteenRegistrationRequestData.getUrgencyPhone();
     }
   
-    private fr.cg95.cvq.business.users.SectionType section;
-
     public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
-        this.section = section;
+        schoolCanteenRegistrationRequestData.setSection(section);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="section"
-        *  length="32"
-      
-    */
     public final fr.cg95.cvq.business.users.SectionType getSection() {
-        return this.section;
+        return schoolCanteenRegistrationRequestData.getSection();
     }
   
 }

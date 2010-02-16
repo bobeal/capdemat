@@ -527,7 +527,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             request.setHasTiedHomeFolder(true);
         }
         
-        Long requestId = (requestDAO.saveOrUpdate(request)).getId();
+        Long requestId = requestDAO.saveOrUpdate(request).getId();
 
         if (!RequestState.DRAFT.equals(request.getState())) {
             // TODO DECOUPLING

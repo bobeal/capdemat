@@ -14,37 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.school.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="school_registration_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class SchoolRegistrationRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private SchoolRegistrationRequestData schoolRegistrationRequestData;
+
+    public SchoolRegistrationRequest(RequestData requestData, SchoolRegistrationRequestData schoolRegistrationRequestData) {
+        super(requestData);
+        this.schoolRegistrationRequestData = schoolRegistrationRequestData;
+    }
+
     public SchoolRegistrationRequest() {
         super();
-      
-        currentSection = fr.cg95.cvq.business.users.SectionType.UNKNOWN;
-      
-        rulesAndRegulationsAcceptance = Boolean.valueOf(false);
-      
-        section = fr.cg95.cvq.business.users.SectionType.UNKNOWN;
-      
+        this.schoolRegistrationRequestData = new SchoolRegistrationRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public SchoolRegistrationRequestData getSpecificData() {
+        return schoolRegistrationRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(SchoolRegistrationRequestData schoolRegistrationRequestData) {
+        this.schoolRegistrationRequestData = schoolRegistrationRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        SchoolRegistrationRequestDocument object = (SchoolRegistrationRequestDocument) this.modelToXml();
+        SchoolRegistrationRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -62,33 +71,31 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         SchoolRegistrationRequestDocument.SchoolRegistrationRequest schoolRegistrationRequest = schoolRegistrationRequestDoc.addNewSchoolRegistrationRequest();
         super.fillCommonXmlInfo(schoolRegistrationRequest);
         int i = 0;
-      CurrentSchoolType currentSchoolTypeCurrentSchool = schoolRegistrationRequest.addNewCurrentSchool();
-        currentSchoolTypeCurrentSchool.setCurrentSchoolAddress(this.currentSchoolAddress);
+          CurrentSchoolType currentSchoolTypeCurrentSchool = schoolRegistrationRequest.addNewCurrentSchool();
+        currentSchoolTypeCurrentSchool.setCurrentSchoolAddress(getCurrentSchoolAddress());
       
-        currentSchoolTypeCurrentSchool.setCurrentSchoolName(this.currentSchoolName);
+        currentSchoolTypeCurrentSchool.setCurrentSchoolName(getCurrentSchoolName());
       
-        if (this.currentSection != null)
-            currentSchoolTypeCurrentSchool.setCurrentSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(this.currentSection.toString()));
+        if (getCurrentSection() != null)
+            currentSchoolTypeCurrentSchool.setCurrentSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getCurrentSection().toString()));
       
-        if (this.school != null)
-            schoolRegistrationRequest.setSchool(School.modelToXml(this.school));
+        if (getSchool() != null)
+            schoolRegistrationRequest.setSchool(School.modelToXml(getSchool()));
       
-        if (this.rulesAndRegulationsAcceptance != null)
-            schoolRegistrationRequest.setRulesAndRegulationsAcceptance(this.rulesAndRegulationsAcceptance.booleanValue());
+        if (getRulesAndRegulationsAcceptance() != null)
+            schoolRegistrationRequest.setRulesAndRegulationsAcceptance(getRulesAndRegulationsAcceptance().booleanValue());
       
-        schoolRegistrationRequest.setUrgencyPhone(this.urgencyPhone);
+        schoolRegistrationRequest.setUrgencyPhone(getUrgencyPhone());
       
-        if (this.section != null)
-            schoolRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(this.section.toString()));
+        if (getSection() != null)
+            schoolRegistrationRequest.setSection(fr.cg95.cvq.xml.common.SectionType.Enum.forString(getSection().toString()));
       
         return schoolRegistrationRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        SchoolRegistrationRequestDocument schoolRegistrationRequestDoc =
-            (SchoolRegistrationRequestDocument) modelToXml();
-        return schoolRegistrationRequestDoc.getSchoolRegistrationRequest();
+    public final SchoolRegistrationRequestDocument.SchoolRegistrationRequest modelToXmlRequest() {
+        return modelToXml().getSchoolRegistrationRequest();
     }
 
     public static SchoolRegistrationRequest xmlToModel(SchoolRegistrationRequestDocument schoolRegistrationRequestDoc) {
@@ -97,7 +104,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         List list = new ArrayList();
         SchoolRegistrationRequest schoolRegistrationRequest = new SchoolRegistrationRequest();
         schoolRegistrationRequest.fillCommonModelInfo(schoolRegistrationRequest, schoolRegistrationRequestXml);
-    
+        
         schoolRegistrationRequest.setCurrentSchoolAddress(schoolRegistrationRequestXml.getCurrentSchool().getCurrentSchoolAddress());
       
         schoolRegistrationRequest.setCurrentSchoolName(schoolRegistrationRequestXml.getCurrentSchool().getCurrentSchoolName());
@@ -123,124 +130,60 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
     }
 
   
-    private String currentSchoolAddress;
-
     public final void setCurrentSchoolAddress(final String currentSchoolAddress) {
-        this.currentSchoolAddress = currentSchoolAddress;
+        schoolRegistrationRequestData.setCurrentSchoolAddress(currentSchoolAddress);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="current_school_address"
-        
-      
-    */
     public final String getCurrentSchoolAddress() {
-        return this.currentSchoolAddress;
+        return schoolRegistrationRequestData.getCurrentSchoolAddress();
     }
   
-    private String currentSchoolName;
-
     public final void setCurrentSchoolName(final String currentSchoolName) {
-        this.currentSchoolName = currentSchoolName;
+        schoolRegistrationRequestData.setCurrentSchoolName(currentSchoolName);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="current_school_name"
-        
-      
-    */
     public final String getCurrentSchoolName() {
-        return this.currentSchoolName;
+        return schoolRegistrationRequestData.getCurrentSchoolName();
     }
   
-    private fr.cg95.cvq.business.users.SectionType currentSection;
-
     public final void setCurrentSection(final fr.cg95.cvq.business.users.SectionType currentSection) {
-        this.currentSection = currentSection;
+        schoolRegistrationRequestData.setCurrentSection(currentSection);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="current_section"
-        *  length="32"
-      
-    */
     public final fr.cg95.cvq.business.users.SectionType getCurrentSection() {
-        return this.currentSection;
+        return schoolRegistrationRequestData.getCurrentSection();
     }
   
-    private fr.cg95.cvq.business.authority.School school;
-
     public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
-        this.school = school;
+        schoolRegistrationRequestData.setSchool(school);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        
-        *  column="school_id"
-        *  class="fr.cg95.cvq.business.authority.School"
-      
-    */
     public final fr.cg95.cvq.business.authority.School getSchool() {
-        return this.school;
+        return schoolRegistrationRequestData.getSchool();
     }
   
-    private Boolean rulesAndRegulationsAcceptance;
-
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
-        this.rulesAndRegulationsAcceptance = rulesAndRegulationsAcceptance;
+        schoolRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="rules_and_regulations_acceptance"
-        
-      
-    */
     public final Boolean getRulesAndRegulationsAcceptance() {
-        return this.rulesAndRegulationsAcceptance;
+        return schoolRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
   
-    private String urgencyPhone;
-
     public final void setUrgencyPhone(final String urgencyPhone) {
-        this.urgencyPhone = urgencyPhone;
+        schoolRegistrationRequestData.setUrgencyPhone(urgencyPhone);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="urgency_phone"
-        *  length="10"
-      
-    */
     public final String getUrgencyPhone() {
-        return this.urgencyPhone;
+        return schoolRegistrationRequestData.getUrgencyPhone();
     }
   
-    private fr.cg95.cvq.business.users.SectionType section;
-
     public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {
-        this.section = section;
+        schoolRegistrationRequestData.setSection(section);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="section"
-        *  length="32"
-      
-    */
     public final fr.cg95.cvq.business.users.SectionType getSection() {
-        return this.section;
+        return schoolRegistrationRequestData.getSection();
     }
   
 }

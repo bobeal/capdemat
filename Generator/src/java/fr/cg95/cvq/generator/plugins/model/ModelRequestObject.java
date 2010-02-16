@@ -297,6 +297,7 @@ public class ModelRequestObject {
         model.put("constructorAttributes", constructorAttributes);
         model.put("elements", elementsPropertiesMap.values());
         writeBusinessObjectFile(requestName, GroovyManager.generate("Request.groovy", model).getBytes());
+        writeBusinessObjectFile(requestName + "Data", GroovyManager.generate("RequestData.groovy", model).getBytes());
     }
 
     private void generateEnumClass(String className, ElementProperties eltProperties) {

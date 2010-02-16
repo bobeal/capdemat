@@ -25,6 +25,7 @@ import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -66,6 +67,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     private IRequestTypeDAO requestTypeDAO;
     private IRequestFormDAO requestFormDAO;
     private IGenericDAO genericDAO;
+    private IRequestDAO requestDAO;
 
     private Boolean performDbUpdates;
     
@@ -257,7 +259,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public boolean isAccountRequest(final Long requestId) 
         throws CvqException, CvqObjectNotFoundException {
-        Request request = (Request) genericDAO.findById(Request.class, requestId);
+        Request request = (Request) requestDAO.findById(Request.class, requestId);
         return request.getRequestType().getLabel().equals(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST)
             || request.getRequestType().getLabel().equals(IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST);
     }
@@ -688,5 +690,9 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = (ListableBeanFactory) beanFactory;
+    }
+
+    public void setRequestDAO(IRequestDAO requestDAO) {
+        this.requestDAO = requestDAO;
     }
 }

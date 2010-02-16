@@ -25,7 +25,8 @@
           <dt><g:message code="${requestAction.fileName}" /></dt>
           <dd>
             <a title="<g:message code='${"requestAction.action.download." + requestAction.type.enumString}' />"
-              href="${createLink(controller : 'backofficeContact', action : 'view', params : ['requestActionId' : requestAction.id])}">
+              href="${createLink(controller : 'backofficeContact', action : 'view',
+                params : ['requestId' : requestId, 'requestActionId' : requestAction.id])}">
               <img
                 alt="<g:message code='${"requestAction.action.download." + requestAction.type.enumString}' />"
                 src="${resource(dir:'images/icons',file:'pdficon_small.gif')}" />

@@ -1,5 +1,6 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -15,12 +16,14 @@ import org.joda.time.DateTime;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestActionType;
+import fr.cg95.cvq.business.request.RequestData;
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
+import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.util.Critere;
 
@@ -35,7 +38,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             int recordsReturned, int startIndex) {
 
         StringBuffer sb = new StringBuffer();
-        sb.append("from Request as request").append(" where 1 = 1 ");
+        sb.append("from RequestData as request").append(" where 1 = 1 ");
 
         List<Object> parametersValues = new ArrayList<Object>();
         List<Type> parametersTypes = new ArrayList<Type>();
@@ -187,7 +190,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             query.setMaxResults(recordsReturned);
         query.setFirstResult(startIndex);
         
-        return query.list(); 
+        return recompose(query.list());
     }
 
     /**
@@ -199,7 +202,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     protected Long searchCount(final Set<Critere> criteria) {
 
         StringBuffer sbSelect = new StringBuffer();
-        sbSelect.append("select count(*) from Request as request");
+        sbSelect.append("select count(*) from RequestData as request");
 
         StringBuffer sb = new StringBuffer(" where 1 = 1 ");
 
@@ -347,17 +350,15 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
-        StringBuffer sb = new StringBuffer().append("from Request as request ")
+        StringBuffer sb = new StringBuffer().append("from RequestData as request ")
             .append("where request.requesterId = ?");
         objectList.add(requesterId);
         typeList.add(Hibernate.LONG);
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list();
+        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list());
     }
 
     public List<Request> listBySubject(final Long subjectId) {
@@ -365,17 +366,15 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
-        StringBuffer sb = new StringBuffer().append("from Request as request ")
+        StringBuffer sb = new StringBuffer().append("from RequestData as request ")
             .append("where request.subjectId = ?");
         objectList.add(subjectId);
         typeList.add(Hibernate.LONG);
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list();
+        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list());
     }
 
     public List<Request> listBySubjectAndLabel(Long subjectId, String label, RequestState[] excludedStates) {
@@ -383,7 +382,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
-        StringBuffer sb = new StringBuffer().append("from Request as request");
+        StringBuffer sb = new StringBuffer().append("from RequestData as request");
 
         sb.append(" where request.requestType.label = ?");
         objectList.add(label);
@@ -402,10 +401,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         }
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list();
+        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list());
     }
 
     public List<Request> listByHomeFolder(final Long homeFolderId) {
@@ -413,7 +410,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
-        StringBuffer sb = new StringBuffer().append("from Request as request ")
+        StringBuffer sb = new StringBuffer().append("from RequestData as request ")
             .append("where request.homeFolderId = ?");
 
         objectList.add(homeFolderId);
@@ -426,10 +423,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list();
+        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list());
     }
 
     public List<Request> listByHomeFolderAndLabel(final Long homeFolderId, final String label,
@@ -438,7 +433,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
 
-        StringBuffer sb = new StringBuffer().append("from Request as request");
+        StringBuffer sb = new StringBuffer().append("from RequestData as request");
 
         sb.append(" where request.homeFolderId = ?");
         objectList.add(homeFolderId);
@@ -457,10 +452,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         }
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list();
+        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list());
     }
 
     public List<Request> listByStates(final Set<RequestState> states) {
@@ -475,7 +468,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer();
-        sb.append("from Request as request ");
+        sb.append("from RequestData as request ");
 
         boolean firstStatement = true;
         for (RequestState requestState : states) {
@@ -498,21 +491,19 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        return HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .list();
+        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list());
     }
 
     public List<Request> listByNotMatchingActionLabel(final RequestActionType type) {
 
         StringBuffer sb = new StringBuffer();
-        sb.append("from Request as request ").append("where request.id not in (");
-        sb.append("select request.id from Request request join request.actions action ")
+        sb.append("from RequestData as request ").append("where request.id not in (");
+        sb.append("select request.id from RequestData request join request.actions action ")
             .append(" where action.type = '").append(type.toString()).append("'");
         sb.append(")");
 
-        return HibernateUtil.getSession().createQuery(sb.toString()).list();
+        return recompose(HibernateUtil.getSession().createQuery(sb.toString()).list());
     }
     
     public Long getSubjectId(Long requestId) {
@@ -520,7 +511,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer();
-        sb.append("select r.subjectId from Request as r ").append("where r.id = ?");
+        sb.append("select r.subjectId from RequestData as r ").append("where r.id = ?");
         
         objectList.add(requestId);
         typeList.add(Hibernate.LONG);
@@ -541,7 +532,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Object> objectList = new ArrayList<Object>();
 
         StringBuffer sb = new StringBuffer()
-            .append("select request.subjectId from Request as request");
+            .append("select request.subjectId from RequestData as request");
 
         sb.append(" where request.homeFolderId = ?");
         objectList.add(homeFolderId);
@@ -572,8 +563,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         List<Object> objectList = new ArrayList<Object>();
         
         StringBuffer sb = new StringBuffer();
-        sb.append("from Request as request ").append("where request.id not in (");
-        sb.append("select request.id from Request request join request.actions action ")
+        sb.append("from RequestData as request ").append("where request.id not in (");
+        sb.append("select request.id from RequestData request join request.actions action ")
             .append(" where action.type = ?").append(")");
         sb.append(" and request.state = ?");
         sb.append(" and request.creationDate <= ?");
@@ -589,10 +580,8 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         Type[] typeTab = typeList.toArray(new Type[1]);
         Object[] objectTab = objectList.toArray(new Object[1]);
         
-        List<Request> result = HibernateUtil.getSession()
-            .createQuery(sb.toString()).setParameters(objectTab, typeTab).list();
-        
-        return result;
+        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
+            .setParameters(objectTab, typeTab).list());
     }
 
     protected boolean existsCriteriaName(String name, Set<Critere> criterias) {
@@ -601,44 +590,6 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         }
         return false;
     }
-
-    /*
-     * Hacked method to bypass Hibernate mapping 'one class per subclass' strategy 
-     * performance limitations.
-     * - we create a 'clazz_' column initialized with value 5 in resultSet
-     * - we ask Hibernate to transform the resultSet in 'VoCardRequest' object 
-     * (to transport result in Capdemat)
-     * 
-     * note : Hibernate can instanciate a 'VoCardRequestObject' object 
-     * from the added 'clazz_' information
-     */
-    private Request nativeSqlFindById(final Long id) {
-        Object request = HibernateUtil.getSession()
-             .createSQLQuery(
-                     "SELECT id," 
-                         +"creation_date," 
-                         +"last_modification_date," 
-                         +"requester_id," 
-                         +"request_type_id," 
-                         +"state," 
-                         +"request_step," 
-                         +"home_folder_id," 
-                         +"data_state," 
-                         +"last_intervening_user_id," 
-                         +"orange_alert," 
-                         +"red_alert," 
-                         +"validation_date," 
-                         +"subject_table_name," 
-                         +"subject_id," 
-                         +"season_uuid," 
-                         +"means_of_contact_id,"
-                         +"5 AS clazz_"
-                     +" FROM request WHERE id=" + id)
-             .addEntity(VoCardRequest.class)
-             .uniqueResult();
-        
-         return (Request)request;
-     }
 
     @Override
     public RequestLock getRequestLock(Long requestId) {
@@ -669,5 +620,153 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             .executeUpdate();
         }
         return requestIds;
+    }
+
+    @Override
+    public <T> T saveOrUpdate(T object) {
+        if (Request.class.isAssignableFrom(object.getClass())) {
+            Request request = (Request)object;
+            RequestData requestData = request.getRequestData();
+            try {
+                Object specificData = request.getSpecificData();
+                requestData.setSpecificDataClass(specificData.getClass());
+                specificData = super.saveOrUpdate(specificData);
+                try {
+                    requestData.setSpecificDataId((Long)specificData.getClass().getMethod("getId").invoke(specificData));
+                } catch (IllegalAccessException e) {
+                    // this should not happen...
+                    throw new RuntimeException(e);
+                } catch (InvocationTargetException e) {
+                    // this should not happen...
+                    throw new RuntimeException(e);
+                } catch (NoSuchMethodException e) {
+                    // this should not happen...
+                    throw new RuntimeException(e);
+                }
+            } catch (CvqException e) {
+                // no specific data, we are handling a raw Request
+            }
+            super.saveOrUpdate(requestData);
+            return object;
+        }
+        return super.saveOrUpdate(object);
+    }
+
+    @Override
+    public Object findById(Class<?> clazz, Long id) throws CvqObjectNotFoundException {
+        if (Request.class.isAssignableFrom(clazz)) {
+            return findById(id);
+        }
+        return super.findById(clazz, id);
+    }
+
+    public Request findById(Long id) throws CvqObjectNotFoundException {
+        return recompose((RequestData)findById(RequestData.class, id));
+    }
+
+    @Override
+    public Long create(Object object) {
+        if (Request.class.isAssignableFrom(object.getClass())) {
+            Request request = (Request)object;
+            RequestData requestData = request.getRequestData();
+            try {
+                Object specificData = request.getSpecificData();
+                requestData.setSpecificDataClass(specificData.getClass());
+                specificData = super.create(specificData);
+                try {
+                    requestData.setSpecificDataId((Long)specificData.getClass().getMethod("getId").invoke(specificData));
+                } catch (IllegalAccessException e) {
+                    // this should not happen...
+                    throw new RuntimeException(e);
+                } catch (InvocationTargetException e) {
+                    // this should not happen...
+                    throw new RuntimeException(e);
+                } catch (NoSuchMethodException e) {
+                    // this should not happen...
+                    throw new RuntimeException(e);
+                }
+            } catch (CvqException e) {
+                // no specific data, we are handling a raw Request
+            }
+            return super.create(requestData);
+        }
+        return super.create(object);
+    }
+
+    @Override
+    public void delete(Object object) {
+        if (Request.class.isAssignableFrom(object.getClass())) {
+            Request request = (Request)object;
+            super.delete(request.getRequestData());
+            try {
+                super.delete(request.getSpecificData());
+            } catch (CvqException e) {
+                // no specific data, we were handling a raw Request
+            }
+            return;
+        }
+        super.delete(object);
+    }
+
+    @Override
+    public void update(Object object) {
+        if (Request.class.isAssignableFrom(object.getClass())) {
+            Request request = (Request)object;
+            super.update(request.getRequestData());
+            try {
+                super.update(request.getSpecificData());
+            } catch (CvqException e) {
+                // no specific data, we were handling a raw Request
+            }
+            return;
+        }
+        super.update(object);
+    }
+
+    private Request recompose(RequestData requestData) {
+        Object specificData;
+        try {
+            specificData =
+                findById(requestData.getSpecificDataClass(), requestData.getSpecificDataId());
+        } catch (CvqObjectNotFoundException e) {
+            // handling a raw request
+            return new Request(requestData);
+        }
+        String specificDataClassName = requestData.getSpecificDataClass().getName();
+        String specificClassName =
+            specificDataClassName.substring(0, specificDataClassName.length() - 4);
+        try {
+            return (Request)Class.forName(specificClassName)
+                .getConstructor(RequestData.class, requestData.getSpecificDataClass())
+                    .newInstance(requestData, specificData);
+        } catch (InstantiationException e) {
+            // should not happen
+            e.printStackTrace();
+            return null;
+        } catch (IllegalAccessException e) {
+            // should not happen
+            e.printStackTrace();
+            return null;
+        } catch (InvocationTargetException e) {
+            // should not happen
+            e.printStackTrace();
+            return null;
+        } catch (NoSuchMethodException e) {
+            // should not happen
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            // should not happen
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private List<Request> recompose(List<RequestData> requestDatas) {
+        List<Request> result = new ArrayList<Request>(requestDatas.size());
+        for (RequestData requestData : requestDatas) {
+            result.add(recompose(requestData));
+        }
+        return result;
     }
 }

@@ -14,33 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.leisure.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="sms_notification_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class SmsNotificationRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private SmsNotificationRequestData smsNotificationRequestData;
+
+    public SmsNotificationRequest(RequestData requestData, SmsNotificationRequestData smsNotificationRequestData) {
+        super(requestData);
+        this.smsNotificationRequestData = smsNotificationRequestData;
+    }
+
     public SmsNotificationRequest() {
         super();
-      
-        subscription = Boolean.valueOf(false);
-      
+        this.smsNotificationRequestData = new SmsNotificationRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public SmsNotificationRequestData getSpecificData() {
+        return smsNotificationRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(SmsNotificationRequestData smsNotificationRequestData) {
+        this.smsNotificationRequestData = smsNotificationRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        SmsNotificationRequestDocument object = (SmsNotificationRequestDocument) this.modelToXml();
+        SmsNotificationRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -58,31 +71,29 @@ public class SmsNotificationRequest extends Request implements Serializable {
         SmsNotificationRequestDocument.SmsNotificationRequest smsNotificationRequest = smsNotificationRequestDoc.addNewSmsNotificationRequest();
         super.fillCommonXmlInfo(smsNotificationRequest);
         int i = 0;
-    
-        smsNotificationRequest.setCleverSmsContactId(this.cleverSmsContactId);
+        
+        smsNotificationRequest.setCleverSmsContactId(getCleverSmsContactId());
       
-        smsNotificationRequest.setMobilePhone(this.mobilePhone);
+        smsNotificationRequest.setMobilePhone(getMobilePhone());
       
         i = 0;
-        if (interests != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] interestsTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[interests.size()];
-            for (LocalReferentialData object : interests) {
+        if (getInterests() != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] interestsTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getInterests().size()];
+            for (LocalReferentialData object : getInterests()) {
               interestsTypeTab[i++] = LocalReferentialData.modelToXml(object);
             }
             smsNotificationRequest.setInterestsArray(interestsTypeTab);
         }
       
-        if (this.subscription != null)
-            smsNotificationRequest.setSubscription(this.subscription.booleanValue());
+        if (getSubscription() != null)
+            smsNotificationRequest.setSubscription(getSubscription().booleanValue());
       
         return smsNotificationRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        SmsNotificationRequestDocument smsNotificationRequestDoc =
-            (SmsNotificationRequestDocument) modelToXml();
-        return smsNotificationRequestDoc.getSmsNotificationRequest();
+    public final SmsNotificationRequestDocument.SmsNotificationRequest modelToXmlRequest() {
+        return modelToXml().getSmsNotificationRequest();
     }
 
     public static SmsNotificationRequest xmlToModel(SmsNotificationRequestDocument smsNotificationRequestDoc) {
@@ -91,7 +102,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
         List list = new ArrayList();
         SmsNotificationRequest smsNotificationRequest = new SmsNotificationRequest();
         smsNotificationRequest.fillCommonModelInfo(smsNotificationRequest, smsNotificationRequestXml);
-    
+        
         smsNotificationRequest.setCleverSmsContactId(smsNotificationRequestXml.getCleverSmsContactId());
       
         smsNotificationRequest.setMobilePhone(smsNotificationRequestXml.getMobilePhone());
@@ -108,81 +119,36 @@ public class SmsNotificationRequest extends Request implements Serializable {
     }
 
   
-    private String cleverSmsContactId;
-
     public final void setCleverSmsContactId(final String cleverSmsContactId) {
-        this.cleverSmsContactId = cleverSmsContactId;
+        smsNotificationRequestData.setCleverSmsContactId(cleverSmsContactId);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="clever_sms_contact_id"
-        
-      
-    */
     public final String getCleverSmsContactId() {
-        return this.cleverSmsContactId;
+        return smsNotificationRequestData.getCleverSmsContactId();
     }
   
-    private String mobilePhone;
-
     public final void setMobilePhone(final String mobilePhone) {
-        this.mobilePhone = mobilePhone;
+        smsNotificationRequestData.setMobilePhone(mobilePhone);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="mobile_phone"
-        *  length="10"
-      
-    */
     public final String getMobilePhone() {
-        return this.mobilePhone;
+        return smsNotificationRequestData.getMobilePhone();
     }
   
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> interests;
-
     public final void setInterests(final List<fr.cg95.cvq.business.request.LocalReferentialData> interests) {
-        this.interests = interests;
+        smsNotificationRequestData.setInterests(interests);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="sms_notification_request_interests"
-        * @hibernate.key
-        *  column="sms_notification_request_id"
-        * @hibernate.list-index
-        *  column="interests_index"
-        * @hibernate.many-to-many
-        *  column="interests_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-      
-    */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterests() {
-        return this.interests;
+        return smsNotificationRequestData.getInterests();
     }
   
-    private Boolean subscription;
-
     public final void setSubscription(final Boolean subscription) {
-        this.subscription = subscription;
+        smsNotificationRequestData.setSubscription(subscription);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="subscription"
-        
-      
-    */
     public final Boolean getSubscription() {
-        return this.subscription;
+        return smsNotificationRequestData.getSubscription();
     }
   
 }

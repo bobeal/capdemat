@@ -14,31 +14,46 @@ import org.apache.xmlbeans.XmlOptions;
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
-import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.environment.*;
 
 /**
  * Generated class file, do not edit !
- *
- * @hibernate.joined-subclass
- *  table="bulky_waste_collection_request"
- *  lazy="false"
- * @hibernate.joined-subclass-key
- *  column="id"
  */
 public class BulkyWasteCollectionRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private BulkyWasteCollectionRequestData bulkyWasteCollectionRequestData;
+
+    public BulkyWasteCollectionRequest(RequestData requestData, BulkyWasteCollectionRequestData bulkyWasteCollectionRequestData) {
+        super(requestData);
+        this.bulkyWasteCollectionRequestData = bulkyWasteCollectionRequestData;
+    }
+
     public BulkyWasteCollectionRequest() {
         super();
-      
+        this.bulkyWasteCollectionRequestData = new BulkyWasteCollectionRequestData();
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    @Override
+    public BulkyWasteCollectionRequestData getSpecificData() {
+        return bulkyWasteCollectionRequestData;
+    }
+
+    /**
+     * Reserved for RequestDAO !
+     */
+    public void setSpecificData(BulkyWasteCollectionRequestData bulkyWasteCollectionRequestData) {
+        this.bulkyWasteCollectionRequestData = bulkyWasteCollectionRequestData;
     }
 
     @Override
     public final String modelToXmlString() {
-        BulkyWasteCollectionRequestDocument object = (BulkyWasteCollectionRequestDocument) this.modelToXml();
+        BulkyWasteCollectionRequestDocument object = this.modelToXml();
         XmlOptions opts = new XmlOptions();
         opts.setSavePrettyPrint();
         opts.setSavePrettyPrintIndent(4);
@@ -56,29 +71,27 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         BulkyWasteCollectionRequestDocument.BulkyWasteCollectionRequest bulkyWasteCollectionRequest = bulkyWasteCollectionRequestDoc.addNewBulkyWasteCollectionRequest();
         super.fillCommonXmlInfo(bulkyWasteCollectionRequest);
         int i = 0;
-    
-        if (this.collectionAddress != null)
-            bulkyWasteCollectionRequest.setCollectionAddress(Address.modelToXml(this.collectionAddress));
+        
+        if (getCollectionAddress() != null)
+            bulkyWasteCollectionRequest.setCollectionAddress(Address.modelToXml(getCollectionAddress()));
       
         i = 0;
-        if (bulkyWasteType != null) {
-            fr.cg95.cvq.xml.common.LocalReferentialDataType[] bulkyWasteTypeTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[bulkyWasteType.size()];
-            for (LocalReferentialData object : bulkyWasteType) {
+        if (getBulkyWasteType() != null) {
+            fr.cg95.cvq.xml.common.LocalReferentialDataType[] bulkyWasteTypeTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getBulkyWasteType().size()];
+            for (LocalReferentialData object : getBulkyWasteType()) {
               bulkyWasteTypeTypeTab[i++] = LocalReferentialData.modelToXml(object);
             }
             bulkyWasteCollectionRequest.setBulkyWasteTypeArray(bulkyWasteTypeTypeTab);
         }
       
-        bulkyWasteCollectionRequest.setOtherWaste(this.otherWaste);
+        bulkyWasteCollectionRequest.setOtherWaste(getOtherWaste());
       
         return bulkyWasteCollectionRequestDoc;
     }
 
     @Override
-    public RequestType modelToXmlRequest() {
-        BulkyWasteCollectionRequestDocument bulkyWasteCollectionRequestDoc =
-            (BulkyWasteCollectionRequestDocument) modelToXml();
-        return bulkyWasteCollectionRequestDoc.getBulkyWasteCollectionRequest();
+    public final BulkyWasteCollectionRequestDocument.BulkyWasteCollectionRequest modelToXmlRequest() {
+        return modelToXml().getBulkyWasteCollectionRequest();
     }
 
     public static BulkyWasteCollectionRequest xmlToModel(BulkyWasteCollectionRequestDocument bulkyWasteCollectionRequestDoc) {
@@ -87,7 +100,7 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
         List list = new ArrayList();
         BulkyWasteCollectionRequest bulkyWasteCollectionRequest = new BulkyWasteCollectionRequest();
         bulkyWasteCollectionRequest.fillCommonModelInfo(bulkyWasteCollectionRequest, bulkyWasteCollectionRequestXml);
-    
+        
         if (bulkyWasteCollectionRequestXml.getCollectionAddress() != null)
             bulkyWasteCollectionRequest.setCollectionAddress(Address.xmlToModel(bulkyWasteCollectionRequestXml.getCollectionAddress()));
       
@@ -103,65 +116,28 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
     }
 
   
-    private fr.cg95.cvq.business.users.Address collectionAddress;
-
     public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
-        this.collectionAddress = collectionAddress;
+        bulkyWasteCollectionRequestData.setCollectionAddress(collectionAddress);
     }
 
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="collection_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
     public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
-        return this.collectionAddress;
+        return bulkyWasteCollectionRequestData.getCollectionAddress();
     }
   
-    private List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType;
-
     public final void setBulkyWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType) {
-        this.bulkyWasteType = bulkyWasteType;
+        bulkyWasteCollectionRequestData.setBulkyWasteType(bulkyWasteType);
     }
 
-    /**
- 
-        * @hibernate.list
-        *  inverse="false"
-        *  lazy="false"
-        *  cascade="all"
-        *  table="bulky_waste_collection_request_bulky_waste_type"
-        * @hibernate.key
-        *  column="bulky_waste_collection_request_id"
-        * @hibernate.list-index
-        *  column="bulky_waste_type_index"
-        * @hibernate.many-to-many
-        *  column="bulky_waste_type_id"
-        *  class="fr.cg95.cvq.business.request.LocalReferentialData"
-      
-    */
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getBulkyWasteType() {
-        return this.bulkyWasteType;
+        return bulkyWasteCollectionRequestData.getBulkyWasteType();
     }
   
-    private String otherWaste;
-
     public final void setOtherWaste(final String otherWaste) {
-        this.otherWaste = otherWaste;
+        bulkyWasteCollectionRequestData.setOtherWaste(otherWaste);
     }
 
-    /**
- 
-        * @hibernate.property
-        *  column="other_waste"
-        
-      
-    */
     public final String getOtherWaste() {
-        return this.otherWaste;
+        return bulkyWasteCollectionRequestData.getOtherWaste();
     }
   
 }

@@ -68,7 +68,7 @@
                 <li>
                   <a class="removeDocument" id="removeDocument_${document.id}" />
                   <a class="documentLink" id="displayDocPanel_${document.id}" 
-                    href="${createLink(controller:'backofficeDocumentInstruction', action : 'edit', id : document.id, params : ['dtid' : document.documentTypeId, 'rid' : rqt.id])}">
+                    href="${createLink(controller:'backofficeDocumentInstruction', action : 'edit', id : document.id, params : ['dtid' : document.documentTypeId, 'requestId' : rqt.id])}">
                     ${document.name}</a> - ${document.pageNumber} <g:message code="property.pages"/>
                    <g:if test="${document.endValidityDate}">
                     (<g:message code="document.property.endValidityDate"/> : 
@@ -128,7 +128,7 @@
             <li>
               <a class="${document.state.cssClass} documentState_${document.id} ${document?.id?'':'not-supplied'} documentLink" 
                 id="${!agentCanWrite && document.id == 0 ? 'doNothing' : 'displayDocPanel_'+document.id}_${UUID.randomUUID().toString().substring(0,4)}"
-                href="${createLink(controller:'backofficeDocumentInstruction', action : 'edit', id : document.id, params : ['dtid' : document.documentTypeId, 'rid' : rqt.id])}">
+                href="${createLink(controller:'backofficeDocumentInstruction', action : 'edit', id : document.id, params : ['dtid' : document.documentTypeId, 'requestId' : rqt.id])}">
                 <g:message code="${document.state.i18nKey}" />
               </a>
               <g:if test="${document?.id}">

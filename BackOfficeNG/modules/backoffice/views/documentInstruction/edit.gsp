@@ -52,7 +52,7 @@
             <span class="routine-indicator" style="display:none">
               <g:message code="action.loading" /> ...
             </span>
-            <input type="hidden" name="requestId" value="${params.rid}" />
+            <input type="hidden" name="requestId" value="${params.requestId}" />
             <input type="hidden" name="documentId" value="${document.id}" />
             <input type="hidden" name="documentTypeId" value="${params.dtid}" />
           </form>

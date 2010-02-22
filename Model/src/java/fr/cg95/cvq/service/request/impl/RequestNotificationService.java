@@ -173,13 +173,11 @@ public class RequestNotificationService implements IRequestNotificationService,
         logger.debug("onApplicationEvent() got a request event of type " + requestEvent.getEvent());
         try {
             if (requestEvent.getEvent().equals(EVENT_TYPE.REQUEST_CREATED)) {
-                Object pdfData = requestEvent.getComplementaryData(COMP_DATA.PDF_FILE);
-                notifyRequestCreation(requestEvent.getRequest(), 
-                        pdfData != null ? ((String) pdfData).getBytes() : null);
+                notifyRequestCreation(requestEvent.getRequest(),
+                    (byte[])requestEvent.getComplementaryData(COMP_DATA.PDF_FILE));
             } else if (requestEvent.getEvent().equals(EVENT_TYPE.REQUEST_VALIDATED)) {
-                Object pdfData = requestEvent.getComplementaryData(COMP_DATA.PDF_FILE);
                 notifyRequestValidation(requestEvent.getRequest().getId(), 
-                        pdfData != null ? ((String) pdfData).getBytes() : null);
+                    (byte[])requestEvent.getComplementaryData(COMP_DATA.PDF_FILE));
             } else if (requestEvent.getEvent().equals(EVENT_TYPE.NOTE_ADDED)) {
                 notifyAgentNote(requestEvent.getRequest().getId(), 
                         ((RequestNote) requestEvent.getComplementaryData(COMP_DATA.REQUEST_NOTE)));

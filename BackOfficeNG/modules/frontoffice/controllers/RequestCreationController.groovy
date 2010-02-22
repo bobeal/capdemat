@@ -16,6 +16,7 @@ import fr.cg95.cvq.service.request.IConditionService
 import fr.cg95.cvq.service.request.IRequestDocumentService
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestNoteService
+import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IMeansOfContactService
@@ -30,6 +31,7 @@ class RequestCreationController {
     IRequestDocumentService requestDocumentService
     IRequestLockService requestLockService
     IRequestNoteService requestNoteService
+    IRequestSearchService requestSearchService
     IRequestTypeService requestTypeService
     IRequestWorkflowService requestWorkflowService
     
@@ -66,10 +68,13 @@ class RequestCreationController {
             flash.isOutOfAccountRequest = true
 
         def cRequest
-        if (params.id)
-            cRequest = requestLockService.getAndLock(Long.valueOf(params.id))
-        else
+        if (params.id) {
+            def id = Long.valueOf(params.id)
+            requestLockService.lock(id)
+            cRequest = requestSearchService.getById(id, true)
+        } else {
             cRequest = requestWorkflowService.getSkeletonRequest(params.label)
+        }
         if (cRequest == null) {
             redirect(uri: '/frontoffice/requestType')
             return false

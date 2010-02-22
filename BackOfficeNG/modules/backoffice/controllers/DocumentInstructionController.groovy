@@ -5,6 +5,7 @@ import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestDocumentService
 import fr.cg95.cvq.service.request.IRequestLockService
+import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.document.DocumentState
@@ -29,12 +30,17 @@ class DocumentInstructionController {
     IRequestDocumentService requestDocumentService
     IRequestLockService requestLockService
     IRequestTypeService requestTypeService
+    IRequestSearchService requestSearchService
     ICategoryService categoryService
 
-    
+    def beforeInterceptor = {
+        if (params.requestId)
+            requestLockService.tryToLock(Long.valueOf(params.requestId))
+    }
+
     def edit = {
         def document = [actions:[],documentType:[:]]
-        Request request = requestLockService.getAndTryToLock(Long.valueOf(params.rid))
+        Request request = requestSearchService.getById(Long.valueOf(params.requestId), false)
         Agent agent = SecurityContext.currentAgent;
         
         if(!params.id || Integer.valueOf(params.id) == 0) {
@@ -83,7 +89,7 @@ class DocumentInstructionController {
             	document = documentService.getById(Long.valueOf(params.documentId))
             } else {
                 document = new Document()
-                Request req = requestLockService.getAndTryToLock(Long.valueOf(params.requestId))
+                Request req = requestSearchService.getById(Long.valueOf(params.requestId), false)
                 document.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(params.documentTypeId))
                 document.homeFolderId = req.homeFolderId
                 document.depositOrigin = DepositOrigin.AGENT
@@ -163,8 +169,8 @@ class DocumentInstructionController {
     def documentsList = {
         
         def documents = [], types = [], result = [:], agent = SecurityContext.currentAgent
-        Request request = requestLockService.getAndTryToLock(Long.valueOf(params.rid))
-        Set docs = requestDocumentService.getAssociatedDocuments(Long.valueOf(params.rid))
+        Request request = requestSearchService.getById(Long.valueOf(params.requestId), false)
+        Set docs = requestDocumentService.getAssociatedDocuments(Long.valueOf(params.requestId))
 
         for (RequestDocument rd: docs) {
             def d = documentService.getById(rd.documentId);
@@ -189,7 +195,7 @@ class DocumentInstructionController {
         
         result.agentCanWrite = categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
         result.documents = documents
-        result.requestId = params.rid
+        result.requestId = params.requestId
         result.shortMode = params.shortMode
 
         return result

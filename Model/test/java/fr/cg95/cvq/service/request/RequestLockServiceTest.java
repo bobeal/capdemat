@@ -30,7 +30,7 @@ public class RequestLockServiceTest extends RequestTestCase {
         Request request;
         // try to lock it with agent method in FO
         try {
-            requestLockService.getAndTryToLock(requestId);
+            requestLockService.tryToLock(requestId);
             fail("should have been forbidden");
         } catch (PermissionException e) {
             // OK
@@ -38,7 +38,8 @@ public class RequestLockServiceTest extends RequestTestCase {
             fail("should have thrown a PermissionException");
         }
         // lock it with ecitizen method
-        request = requestLockService.getAndLock(requestId);
+        requestLockService.lock(requestId);
+        request = requestSearchService.getById(requestId, false);
         assertEquals(requestId, request.getId());
         assertTrue(requestLockService.isLockedByCurrentUser(requestId));
         assertFalse(requestLockService.isLocked(requestId));
@@ -46,7 +47,7 @@ public class RequestLockServiceTest extends RequestTestCase {
         // try to lock it in BO
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        request = requestLockService.getAndTryToLock(requestId);
+        requestLockService.tryToLock(requestId);
         // check it couldn't be locked
         assertEquals(requestId, request.getId());
         assertFalse(requestLockService.isLockedByCurrentUser(requestId));
@@ -65,7 +66,7 @@ public class RequestLockServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         // try to lock it with ecitizen method in BO
         try {
-            requestLockService.getAndLock(requestId);
+            requestLockService.lock(requestId);
             fail("should have been forbidden");
         } catch (PermissionException e) {
             // OK
@@ -73,7 +74,8 @@ public class RequestLockServiceTest extends RequestTestCase {
             fail("should have thrown a PermissionException");
         }
         // lock it with correct method
-        request = requestLockService.getAndTryToLock(requestId);
+        requestLockService.tryToLock(requestId);
+        request = requestSearchService.getById(requestId, false);
         assertEquals(requestId, request.getId());
         assertTrue(requestLockService.isLockedByCurrentUser(requestId));
         assertFalse(requestLockService.isLocked(requestId));
@@ -81,7 +83,7 @@ public class RequestLockServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(creationBean.getLogin());
         try {
-            requestLockService.getAndLock(requestId);
+            requestLockService.lock(requestId);
             fail("should have been forbidden");
         } catch (CvqException e) {
             // OK

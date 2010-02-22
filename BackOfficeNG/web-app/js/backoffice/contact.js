@@ -36,7 +36,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
             underlay: "shadow", close: true
           });
         panel.render();
-        zct.doAjaxCall(url + "/" + zcb.requestId, null, function(o) {
+        zct.doAjaxCall(url + "?requestId=" + zcb.requestId, null, function(o) {
           panel.setBody(o.responseText);
           zcb.Contact.switchMoC();
           yud.getElementsBy(

@@ -31,12 +31,16 @@ class ContactController {
 	def translationService
 	def instructionService
 	def homeFolderService
-	
+
+    def beforeInterceptor = {
+        requestLockService.tryToLock(Long.valueOf(params.requestId))
+    }
+
     // directly taken from RequestInstructionController
     // TODO request decoupling
     def panel = {
         if (!request.get) return false
-        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
+        def rqt = requestSearchService.getById(Long.valueOf(params.requestId), false)
         // FIXME RDJ - if no requester use homefolder responsible
         def requester
         if (rqt.requesterId != null)
@@ -223,7 +227,7 @@ class ContactController {
 
         def requestAttributes = RequestContextHolder.currentRequestAttributes()
         def form = requestTypeService.getRequestFormById(Long.valueOf(formId))
-        def rqt = requestLockService.getAndTryToLock(Long.valueOf(requestId))
+        def rqt = requestSearchService.getById(Long.valueOf(requestId), false)
 
         // FIXME RDJ - if no requester use homefolder responsible
         def requester

@@ -71,7 +71,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
       * @description Don't forget to comment each of your method
       */
       init : function() {
-        zcbd.Instruction.listUrl = [zc['contextPath'],'/backoffice/documentInstruction/documentsList?rid=',zcb['requestId']].join('');
+        zcbd.Instruction.listUrl = [zc['contextPath'],'/backoffice/documentInstruction/documentsList?requestId=',zcb['requestId']].join('');
         initWidgets();
         initEvents();
         

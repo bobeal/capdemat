@@ -1,24 +1,21 @@
 package fr.cg95.cvq.service.request;
 
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 
 public interface IRequestLockService {
 
     /**
-     * Get a request by id, after locking it.
+     * Lock a request as an ecitizen or fail with an exception.
      */
-    Request getAndLock(@IsRequest final Long id)
-        throws CvqException, CvqObjectNotFoundException;
+    void lock(@IsRequest final Long id)
+        throws CvqException;
 
     /**
-     * Get a request by id, after trying to lock it.
+     * Lock a request as an agent or fail silently.
      */
-    Request getAndTryToLock(@IsRequest final Long id)
-        throws CvqException, CvqObjectNotFoundException;
+    void tryToLock(@IsRequest final Long id);
 
     /**
      * Get the lock put on this request if it exists
@@ -26,9 +23,13 @@ public interface IRequestLockService {
     RequestLock getRequestLock(@IsRequest final Long requestId);
 
     /**
-     * Put a lock on a request
+     * <p>Put a lock on a request.</p>
+     * <p>
+     *   Visible to allow aspect security checks,
+     *   but should not be called directly; use {@link #lock(Long)} or {@link #tryToLock(Long)}.
+     * </p>
      */
-    void lock(@IsRequest final Long requestId)
+    void applyLock(@IsRequest final Long requestId)
         throws CvqException;
 
     /**

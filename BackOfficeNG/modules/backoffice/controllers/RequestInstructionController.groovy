@@ -70,10 +70,16 @@ class RequestInstructionController {
 
     def beforeInterceptor = {
         session["currentMenu"] = "request"
+        if (params.action != "requestLock") {
+            if (params.requestId)
+                requestLockService.tryToLock(Long.valueOf(params.requestId))
+            else if (params.id)
+                requestLockService.tryToLock(Long.valueOf(params.id))
+        }
     }
 
     def edit = {
-        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
+        def rqt = requestSearchService.getById(Long.valueOf(params.id), true)
         def requester = rqt.requesterId != null ? individualService.getById(rqt.requesterId) : null
         def documentList = []
         def providedDocumentTypes = []
@@ -209,7 +215,7 @@ class RequestInstructionController {
     }
     
     def localReferentialData = {
-        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.requestId))
+        def rqt = requestSearchService.getById(Long.valueOf(params.requestId), true)
         def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
         render( template: '/backofficeRequestInstruction/widget/localReferentialDataStatic',
                 model: ['rqt':rqt,
@@ -260,7 +266,7 @@ class RequestInstructionController {
             model["propertyValueType"] = propertyTypes.javatype
         }
         else if (propertyType == "localReferentialData") {
-            def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
+            def rqt = requestSearchService.getById(Long.valueOf(params.id), true)
             def lrTypes = getLocalReferentialTypes(localReferentialService, rqt.requestType.label)
             model['lrType'] = lrTypes[params.propertyName]
             model['lrDatas'] = rqt[params.propertyName].collect { it.name }
@@ -298,7 +304,7 @@ class RequestInstructionController {
     def modify = {
         if (params.requestId == null)
              return false
-        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.requestId))
+        def rqt = requestSearchService.getById(Long.valueOf(params.requestId), true)
         if (["VO Card", "Home Folder Modification"].contains(rqt.requestType.label)) {
             def homeFolder = homeFolderService.getById(rqt.homeFolderId)
             DataBindingUtils.initBind(homeFolder, params)
@@ -331,7 +337,7 @@ class RequestInstructionController {
         if (params.requestId == null || params.listAction == null )
              return
         
-        def cRequest = requestLockService.getAndTryToLock(Long.valueOf(params.requestId))
+        def cRequest = requestSearchService.getById(Long.valueOf(params.requestId), true)
         def actionTokens = params.listAction.tokenize('_')
 
         def listElemTokens = actionTokens[1].tokenize('[]')
@@ -435,7 +441,7 @@ class RequestInstructionController {
     def removeDocument = {
         if (request.getMethod().toLowerCase() == "delete") {
             requestDocumentService.removeDocument(
-                requestLockService.getAndTryToLock(Long.valueOf(params.requestId)),
+                requestSearchService.getById(Long.valueOf(params.requestId), false),
                 Long.valueOf(params.documentId))
             render ([status:"ok",
                 success_msg:message(code:"message.deleteDone")] as JSON)
@@ -452,7 +458,7 @@ class RequestInstructionController {
     // FIXME : copy-paste from frontOfficeHomeFolderController. mutualize if possible
     def homeFolder = {
         def result = ['adults':[], 'children': [], homeFolder: []]
-        def cRequest = requestLockService.getAndTryToLock(Long.valueOf(params.id))
+        def cRequest = requestSearchService.getById(Long.valueOf(params.id), false)
         def homeFolder = homeFolderService.getById(cRequest.homeFolderId)
         homeFolderService.getAdults(homeFolder.id).each { adult ->
             result.adults.add([
@@ -496,7 +502,7 @@ class RequestInstructionController {
     }
 
     def homeFolderRequests = {
-        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
+        def rqt = requestSearchService.getById(Long.valueOf(params.id), false)
         def homeFolderRequests = requestSearchService.getByHomeFolderId(rqt.homeFolderId, false);
 
         def records = []
@@ -562,7 +568,7 @@ class RequestInstructionController {
 
     def external = {
         if (request.post) {
-            requestExternalService.sendRequest(requestLockService.getAndTryToLock(Long.valueOf(params.id)))
+            requestExternalService.sendRequest(requestSearchService.getById(Long.valueOf(params.id), true))
             def criteriaSet = new HashSet<Critere>(2)
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
                 params.id, Critere.EQUALS))
@@ -593,7 +599,7 @@ class RequestInstructionController {
     }
 
     def externalReferentialChecks = {
-        def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
+        def rqt = requestSearchService.getById(Long.valueOf(params.id), true)
         render(template : "/backofficeRequestInstruction/external/" + params.label + "/externalReferentialChecks",
                model : ["id" : params.id, "label" : params.label,
                         "externalReferentialCheckErrors" : requestExternalService

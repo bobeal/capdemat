@@ -12,11 +12,9 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
 
-import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
@@ -35,34 +33,31 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
 
     @Override
     @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
-    public Request getAndLock(final Long id)
-    throws CvqException, CvqObjectNotFoundException {
+    public void lock(final Long id)
+        throws CvqException {
         synchronized(locks) {
-            lock(id);
-            return (Request)requestDAO.findById(Request.class, id);
+            applyLock(id);
         }
     }
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
-    public Request getAndTryToLock(final Long id)
-    throws CvqObjectNotFoundException {
+    public void tryToLock(final Long id) {
         synchronized(locks) {
             try {
                 // FIXME JSB : hack to avoid bypassing aspect security
-                ((IRequestLockService)beanFactory.getBean("requestLockService")).lock(id);
+                ((IRequestLockService)beanFactory.getBean("requestLockService")).applyLock(id);
             } catch (PermissionException e) {
                 // couldn't lock request : we only have READ privilege
             } catch (CvqException e) {
                 // couldn't lock request : it is probably already locked
             }
-            return (Request)requestDAO.findById(Request.class, id);
         }
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
-    public void lock(final Long requestId)
+    public void applyLock(final Long requestId)
     throws CvqException {
         synchronized(locks) {
             RequestLock lock = getRequestLock(requestId);

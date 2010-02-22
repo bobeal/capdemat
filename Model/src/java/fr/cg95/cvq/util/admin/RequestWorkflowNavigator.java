@@ -166,7 +166,7 @@ public class RequestWorkflowNavigator {
             requestTypeLabel, Critere.EQUALS));
         requests = Collections.emptyList();
         try {
-            requests = requestSearchService.get(criteres, null, null, 0, 0);
+            requests = requestSearchService.get(criteres, null, null, 0, 0, false);
         } catch (CvqException e) {
             e.printStackTrace();
             System.out.println("Couldn't get the list of requests, aborting.");

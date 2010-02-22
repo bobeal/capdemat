@@ -302,9 +302,9 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
         /* Test season associated to the school registration request */
-        assertEquals(season, requestSearchService.getById(requestId).getRequestSeason());
+        assertEquals(season, requestSearchService.getById(requestId, false).getRequestSeason());
         
-        assertNull(requestSearchService.getById(voCardRequestId).getRequestSeason());
+        assertNull(requestSearchService.getById(voCardRequestId, false).getRequestSeason());
         
         requestWorkflowService.delete(requestId);
         continueWithNewTransaction();

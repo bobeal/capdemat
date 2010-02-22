@@ -64,7 +64,7 @@ public class RequestDraftTest extends RequestTestCase {
         criteria.setValue(RequestState.DRAFT);
         criterias.add(criteria);
 
-        return requestSearchService.get(criterias, null, null, 0, 0);
+        return requestSearchService.get(criterias, null, null, 0, 0, true);
     }
     
     Request getDraftById(Long id) throws CvqException {
@@ -82,7 +82,7 @@ public class RequestDraftTest extends RequestTestCase {
         criteria.setValue(id);
         criterias.add(criteria);
         
-        List<Request> reqs = requestSearchService.get(criterias, null, null, 0, 0);
+        List<Request> reqs = requestSearchService.get(criterias, null, null, 0, 0, false);
         
         return reqs.get(0);
     }
@@ -102,7 +102,7 @@ public class RequestDraftTest extends RequestTestCase {
             Long id = requestWorkflowService.create(request);
             continueWithNewTransaction();
             
-            request = requestSearchService.getById(id);
+            request = requestSearchService.getById(id, true);
             request.setCreationDate(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,i*(-1)));
             
             SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);

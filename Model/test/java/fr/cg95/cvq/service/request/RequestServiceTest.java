@@ -124,7 +124,7 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Request request = requestSearchService.getById(requestId);
+        Request request = requestSearchService.getById(requestId, false);
         Node requestCloneNode =
             requestWorkflowService.getRequestClone(null, request.getHomeFolderId(),
             		request.getRequestType().getLabel());
@@ -141,7 +141,7 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Request request = requestSearchService.getById(cb.getRequestId());
+        Request request = requestSearchService.getById(cb.getRequestId(), false);
         Long requesterId = request.getRequesterId();
         Adult requester = individualService.getAdultById(requesterId);
         
@@ -189,7 +189,7 @@ public class RequestServiceTest extends RequestTestCase {
         crit.setValue(request.getRequestType().getLabel());
         critSet.add(crit);
 
-        List<Request> fetchRequest = requestSearchService.get(critSet, null, null, -1, 0);
+        List<Request> fetchRequest = requestSearchService.get(critSet, null, null, -1, 0, false);
         assertEquals(1, fetchRequest.size());
 
         SecurityContext.resetCurrentSite();
@@ -204,7 +204,7 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
-        Request request = requestSearchService.getById(requestId);
+        Request request = requestSearchService.getById(requestId, false);
         RequestType requestType = request.getRequestType();
 
         RequestForm requestForm = new RequestForm();

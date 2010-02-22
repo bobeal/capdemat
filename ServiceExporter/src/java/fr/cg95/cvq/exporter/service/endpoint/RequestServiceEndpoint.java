@@ -83,11 +83,11 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
         
         // if a request id is specified, return the request whatever states and dates are set to
         if (typedRequest.getId() != 0) {
-            Request askedRequest = requestSearchService.getById(typedRequest.getId());
+            Request askedRequest = requestSearchService.getById(typedRequest.getId(), true);
             if (askedRequest != null 
                     && authorizedRequestTypesLabels.contains(askedRequest.getRequestType().getLabel())) {
                 List<Request> requests = new ArrayList<Request>();
-                requests.add(requestSearchService.getById(typedRequest.getId()));
+                requests.add(requestSearchService.getById(typedRequest.getId(), true));
 
                 response.setRequestArray(prepareRequestsForResponse(requests));
                 
@@ -119,7 +119,7 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
             // they will be filtered first according to requested states and dates
             // then according to trace status (an acknowledged request won't be resent) 
             List<Request> requests =
-                requestSearchService.get(criterias, null, null, 0, 0);
+                requestSearchService.get(criterias, null, null, 0, 0, true);
             List<Request> selectedRequests = new ArrayList<Request>();
             for (Request eligibleRequest : requests) {
                 boolean keepIt = false;

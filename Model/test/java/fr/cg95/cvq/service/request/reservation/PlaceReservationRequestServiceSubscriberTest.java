@@ -117,7 +117,7 @@ public class PlaceReservationRequestServiceSubscriberTest
         
         Long requestId = requestWorkflowService.create(request);
         PlaceReservationRequest requestFromDb = 
-            (PlaceReservationRequest) requestSearchService.getById(requestId);
+            (PlaceReservationRequest) requestSearchService.getById(requestId, false);
         completeValidateAndDelete(requestFromDb);
 
         commitTransaction();

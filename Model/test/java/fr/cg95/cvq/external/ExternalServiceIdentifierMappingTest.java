@@ -98,7 +98,7 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
-        Request request = requestSearchService.getById(cb.getRequestId());
+        Request request = requestSearchService.getById(cb.getRequestId(), false);
         requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
         requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 
@@ -121,7 +121,7 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        Request request = requestSearchService.getById(cb.getRequestId());
+        Request request = requestSearchService.getById(cb.getRequestId(), false);
         requestWorkflowService.updateRequestState(request.getId(), RequestState.COMPLETE, null);
         requestWorkflowService.updateRequestState(request.getId(), RequestState.VALIDATED, null);
 

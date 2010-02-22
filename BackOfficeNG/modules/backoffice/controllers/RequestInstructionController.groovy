@@ -497,7 +497,7 @@ class RequestInstructionController {
 
     def homeFolderRequests = {
         def rqt = requestLockService.getAndTryToLock(Long.valueOf(params.id))
-        def homeFolderRequests = requestSearchService.getByHomeFolderId(rqt.homeFolderId);
+        def homeFolderRequests = requestSearchService.getByHomeFolderId(rqt.homeFolderId, false);
 
         def records = []
         homeFolderRequests.each {
@@ -509,7 +509,7 @@ class RequestInstructionController {
 
     def requestActions = {
         def requestActionList = []
-        requestSearchService.getById(Long.valueOf(params.id)).actions.each {
+        requestSearchService.getById(Long.valueOf(params.id), false).actions.each {
             if (RequestState.DRAFT.equals(it.resultingState))
                 return
             def user = instructionService.getActionPosterDetails(it.agentId)

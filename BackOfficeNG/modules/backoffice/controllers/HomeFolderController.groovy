@@ -71,7 +71,8 @@ class HomeFolderController {
     
     def requests = {
         def result = [requests:[]]
-        def homeFolderRequests = requestSearchService.getByHomeFolderId(Long.valueOf(params.id));
+        def homeFolderRequests =
+            requestSearchService.getByHomeFolderId(Long.valueOf(params.id), false);
 
         homeFolderRequests.each {
           def record = requestAdaptorService.prepareRecordForSummaryView(it)

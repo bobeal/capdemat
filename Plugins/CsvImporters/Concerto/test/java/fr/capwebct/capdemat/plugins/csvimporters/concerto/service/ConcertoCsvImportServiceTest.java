@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
-import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolCanteenRegistrationRequest;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
@@ -17,11 +18,13 @@ import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
+import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.importer.ICsvParserService;
 import fr.cg95.cvq.service.request.RequestTestCase;
+import fr.cg95.cvq.util.Critere;
 
 public class ConcertoCsvImportServiceTest extends RequestTestCase {
 
@@ -127,7 +130,11 @@ public class ConcertoCsvImportServiceTest extends RequestTestCase {
                 fail("Found a child with an unexpected first name");
             }
 
-            List<Request> childRequests = requestSearchService.getBySubjectId(child.getId());
+            Set<Critere> criteriaSet = new HashSet<Critere>(1);
+            criteriaSet.add(
+                new Critere(Request.SEARCH_BY_SUBJECT_ID, child.getId(), Critere.EQUALS));
+            List<Request> childRequests =
+                requestSearchService.get(criteriaSet, null, null, 0, 0, true);
             assertEquals(2, childRequests.size());
             for (Request request : childRequests) {
                 if (request instanceof SchoolRegistrationRequest) {

@@ -103,7 +103,7 @@ public class RequestExternalService implements IRequestExternalService {
         set.add(RequestState.VALIDATED);
         List<Request> result = new ArrayList<Request>();
         for (String rt : getRequestTypesForExternalService(externalServiceLabel)) {
-            for (Request req : requestDAO.listByStatesAndType(set, rt)) {
+            for (Request req : requestDAO.listByStatesAndType(set, rt, true)) {
                 Set<Critere> criteriaSet = new HashSet<Critere>(3);
                 criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
                     String.valueOf(req.getId()), Critere.EQUALS));

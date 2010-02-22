@@ -10,7 +10,6 @@ import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -27,10 +26,10 @@ public class RequestSearchService implements IRequestSearchService {
     @Context(type=ContextType.ECITIZEN_AGENT, privilege=ContextPrivilege.NONE)
     @RequestFilter(privilege=ContextPrivilege.READ)
     public List<Request> get(Set<Critere> criteriaSet, final String sort, final String dir,
-            final int recordsReturned, final int startIndex)
+            final int recordsReturned, final int startIndex, final boolean full)
         throws CvqException {
 
-        return requestDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex);
+        return requestDAO.search(criteriaSet, sort, dir, recordsReturned, startIndex, full);
     }
 
     @Override
@@ -43,64 +42,32 @@ public class RequestSearchService implements IRequestSearchService {
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public Request getById(final Long id)
+    public Request getById(final Long id, final boolean full)
         throws CvqException, CvqObjectNotFoundException {
-        return requestDAO.findById(id);
+        return requestDAO.findById(id, full);
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<Request> getByRequesterId(final Long requesterId)
-        throws CvqException {
+    public List<Request> getByHomeFolderId(final Long homeFolderId, final boolean full) throws CvqException {
 
-        return requestDAO.listByRequester(requesterId);
-    }
-
-    @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<Request> getBySubjectId(final Long subjectId)
-        throws CvqException, CvqObjectNotFoundException {
-
-        return requestDAO.listBySubject(subjectId);
-    }
-
-    @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<Request> getBySubjectIdAndRequestLabel(final Long subjectId, 
-            final String requestLabel, boolean retrieveArchived)
-        throws CvqException, CvqObjectNotFoundException {
-
-        if (requestLabel == null)
-            throw new CvqModelException("request.label_required");
-
-        RequestState[] excludedStates = null;
-        if (!retrieveArchived)
-            excludedStates = new RequestState[] { RequestState.ARCHIVED };
-
-        return requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates);
-    }
-
-    @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
-    public List<Request> getByHomeFolderId(final Long homeFolderId) throws CvqException {
-
-        return requestDAO.listByHomeFolder(homeFolderId);
+        return requestDAO.listByHomeFolder(homeFolderId, full);
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public List<Request> getByHomeFolderIdAndRequestLabel(final Long homeFolderId, 
-            final String requestLabel)
+        final String requestLabel, final boolean full)
         throws CvqException, CvqObjectNotFoundException {
 
-        return requestDAO.listByHomeFolderAndLabel(homeFolderId, requestLabel, null);
+        return requestDAO.listByHomeFolderAndLabel(homeFolderId, requestLabel, null, full);
     }
 
     @Override
     @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
     public byte[] getCertificate(final Long id, final RequestState requestState)
         throws CvqException {
-        List<RequestAction> actions = new ArrayList<RequestAction>(getById(id).getActions());
+        List<RequestAction> actions = new ArrayList<RequestAction>(getById(id, false).getActions());
         Collections.reverse(actions);
         for (RequestAction action : actions) {
             if (requestState.equals(action.getResultingState()))

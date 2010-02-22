@@ -50,7 +50,7 @@ public class RequestCreationNotificationJob {
         }
 
         List<Request> requestsToNotify = 
-            requestDAO.listByNotMatchingActionLabel(RequestActionType.CREATION_NOTIFICATION);
+            requestDAO.listByNotMatchingActionLabel(RequestActionType.CREATION_NOTIFICATION, false);
         logger.debug("notifyLocalAuthRequestsCreation() got "
                 + requestsToNotify.size() + " requests to notify");
         Map<Category, List<Request>> requestsByService =

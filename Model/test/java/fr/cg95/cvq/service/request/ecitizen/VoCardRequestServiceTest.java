@@ -170,7 +170,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         //////////////////////////////////////////////////
 
         Long requestId = dcvo.getId();
-        VoCardRequest dcvoFromDb = (VoCardRequest) requestSearchService.getById(requestId);
+        VoCardRequest dcvoFromDb = (VoCardRequest) requestSearchService.getById(requestId, true);
         assertEquals(dcvoFromDb.getState(), RequestState.PENDING);
         assertNotNull(dcvoFromDb.getRequesterId());
         assertEquals(homeFolderResponsible.getId(), dcvoFromDb.getRequesterId());
@@ -257,11 +257,11 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         assertNotNull("Retrieved home folder responsible is null !", respHomeFolderRetr);
         List<Individual> individuSetRetr = homeFolder.getIndividuals();
         assertEquals(individuSetRetr.size(),5);
-        List<Request> folderRequests = requestSearchService.getByRequesterId(homeFolderResponsible.getId());
+        List<Request> folderRequests = requestSearchService.getByHomeFolderId(homeFolder.getId(), true);
         assertEquals(1, folderRequests.size());
         VoCardRequest dcvoRetr = (VoCardRequest) folderRequests.get(0);
         assertNotNull("Retrieved cartevaloise request is null !", dcvoRetr);
-
+        assertEquals(homeFolderResponsible.getId(), dcvoRetr.getRequesterId());
         // test attachment of the documents
         List<Document> homeFolderDocuments = documentService.getHomeFolderDocuments(homeFolder.getId(), -1);
         assertEquals(1, homeFolderDocuments.size());
@@ -293,7 +293,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         crit.setValue(SecurityContext.getCurrentAgent().getId());
         criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
-        List<Request> carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0);
+        List<Request> carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0, false);
         assertTrue(carteVoList.size() > 0);
 
         // close current session and re-open a new one
@@ -328,7 +328,7 @@ public class VoCardRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(homeFolderResponsible.getLogin());
 
-        Request yaRequest = requestSearchService.getById(dcvoFromDb.getId());
+        Request yaRequest = requestSearchService.getById(dcvoFromDb.getId(), false);
 
         /////////////////////////////////////////////////////////
         // Change user's password                              //

@@ -62,7 +62,7 @@ public class RequestSeasonsJob {
                     criterias.add(new Critere(Request.SEARCH_BY_SEASON_ID,
                         requestSeason.getId(), Critere.EQUALS));
                     List<Request> requests = 
-                        requestSearchService.get(criterias, null, null, 0, 0);
+                        requestSearchService.get(criterias, null, null, 0, 0, false);
                     for (Request request : requests) {
                         requestWorkflowService.updateRequestState(request.getId(),
                             RequestState.NOTIFIED, null);
@@ -70,7 +70,7 @@ public class RequestSeasonsJob {
                                 RequestState.ARCHIVED, null);
                     }
                     stateCriteria.setValue(RequestState.NOTIFIED);
-                    requests = requestSearchService.get(criterias, null, null, 0, 0);
+                    requests = requestSearchService.get(criterias, null, null, 0, 0, false);
                     for (Request request : requests) {
                         requestWorkflowService.updateRequestState(request.getId(),
                             RequestState.ARCHIVED, null);

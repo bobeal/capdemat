@@ -64,13 +64,13 @@ class RequestController {
             requestWorkflowService.delete(Long.valueOf(params.id))
             redirect(controller:'frontofficeHome')
         } else {
-            def rqt = requestSearchService.getById(Long.valueOf(params.id))
+            def rqt = requestSearchService.getById(Long.valueOf(params.id), false)
             return ['rqt':requestAdaptorService.prepareRecord(rqt)]
         }
     }
 
     def summary = {
-        def rqt = requestSearchService.getById(Long.parseLong(params.id))
+        def rqt = requestSearchService.getById(Long.parseLong(params.id), true)
         def individuals = [:]
         if (rqt.requestType.label == 'VO Card' || rqt.requestType.label == 'Home Folder Modification') {
         	def homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
@@ -97,7 +97,7 @@ class RequestController {
     }
     
     def testPdf = {
-        def cRequest = requestSearchService.getById(Long.parseLong(params.id))
+        def cRequest = requestSearchService.getById(Long.parseLong(params.id), true)
         
         def data = pdfService.requestToPdf(cRequest)
         response.contentType = "application/pdf"
@@ -160,7 +160,7 @@ class RequestController {
         
         return [
             'all' : requestSearchService.get(criteriaSet, Request.SEARCH_BY_CREATION_DATE,
-                'desc', max, offset),
+                'desc', max, offset, false),
             'count' : requestSearchService.getCount(criteriaSet),
             'records' : []
         ]

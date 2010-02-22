@@ -63,7 +63,7 @@ class ActivityController {
         to = dates.to.time
         def result = [:]
         for (Request r :
-            requestSearchService.getByHomeFolderId(ecitizen.homeFolder.id)) {
+            requestSearchService.getByHomeFolderId(ecitizen.homeFolder.id, false)) {
             def name = "${r.subjectFirstName} ${r.subjectLastName}"
             def label = r.requestType.label
             if (

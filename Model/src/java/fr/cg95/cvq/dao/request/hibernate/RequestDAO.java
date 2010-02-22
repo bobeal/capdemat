@@ -35,7 +35,7 @@ import fr.cg95.cvq.util.Critere;
 public class RequestDAO extends GenericDAO implements IRequestDAO {
 
     public List<Request> search(final Set<Critere> criteria, final String sort, String dir, 
-            int recordsReturned, int startIndex) {
+        int recordsReturned, int startIndex, final boolean full) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("from RequestData as request").append(" where 1 = 1 ");
@@ -190,7 +190,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             query.setMaxResults(recordsReturned);
         query.setFirstResult(startIndex);
         
-        return recompose(query.list());
+        return transform(query.list(), full);
     }
 
     /**
@@ -345,39 +345,22 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         return searchCount(criteria).longValue();
     }
 
-    public List<Request> listByRequester(final Long requesterId) {
-
-        List<Type> typeList = new ArrayList<Type>();
-        List<Object> objectList = new ArrayList<Object>();
-
-        StringBuffer sb = new StringBuffer().append("from RequestData as request ")
-            .append("where request.requesterId = ?");
-        objectList.add(requesterId);
-        typeList.add(Hibernate.LONG);
-
-        Type[] typeTab = typeList.toArray(new Type[0]);
-        Object[] objectTab = objectList.toArray(new Object[0]);
-        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).list());
+    public List<Request> listByRequester(final Long requesterId, final boolean full) {
+        Query query = HibernateUtil.getSession()
+            .createQuery("from RequestData as request where request.requesterId = :requesterId");
+        query.setLong("requesterId", requesterId);
+        return transform(query.list(), full);
     }
 
-    public List<Request> listBySubject(final Long subjectId) {
-
-        List<Type> typeList = new ArrayList<Type>();
-        List<Object> objectList = new ArrayList<Object>();
-
-        StringBuffer sb = new StringBuffer().append("from RequestData as request ")
-            .append("where request.subjectId = ?");
-        objectList.add(subjectId);
-        typeList.add(Hibernate.LONG);
-
-        Type[] typeTab = typeList.toArray(new Type[0]);
-        Object[] objectTab = objectList.toArray(new Object[0]);
-        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).list());
+    public List<Request> listBySubject(final Long subjectId, final boolean full) {
+        Query query = HibernateUtil.getSession()
+            .createQuery("from RequestData as request where request.subjectId = :subjectId");
+        query.setLong("subjectId", subjectId);
+        return transform(query.list(), full);
     }
 
-    public List<Request> listBySubjectAndLabel(Long subjectId, String label, RequestState[] excludedStates) {
+    public List<Request> listBySubjectAndLabel(Long subjectId, String label,
+        RequestState[] excludedStates, final boolean full) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -399,36 +382,23 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 typeList.add(Hibernate.STRING);
             }
         }
+        Query query = HibernateUtil.getSession().createQuery(sb.toString());
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).list());
+        query.setParameters(objectTab, typeTab);
+        return transform(query.list(), full);
     }
 
-    public List<Request> listByHomeFolder(final Long homeFolderId) {
-
-        List<Type> typeList = new ArrayList<Type>();
-        List<Object> objectList = new ArrayList<Object>();
-
-        StringBuffer sb = new StringBuffer().append("from RequestData as request ")
-            .append("where request.homeFolderId = ?");
-
-        objectList.add(homeFolderId);
-        typeList.add(Hibernate.LONG);
-
-        //FIXME jsb : use only one method that builds queries
-        sb.append(" and request.state != ?");
-        objectList.add(RequestState.DRAFT.toString());
-        typeList.add(Hibernate.STRING);
-
-        Type[] typeTab = typeList.toArray(new Type[0]);
-        Object[] objectTab = objectList.toArray(new Object[0]);
-        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).list());
+    public List<Request> listByHomeFolder(final Long homeFolderId, final boolean full) {
+        Query query = HibernateUtil.getSession()
+            .createQuery("from RequestData as request where request.homeFolderId = :homeFolderId and request.state != :draft");
+        query.setLong("homeFolderId", homeFolderId);
+        query.setString("draft", RequestState.DRAFT.toString());
+        return transform(query.list(), full);
     }
 
     public List<Request> listByHomeFolderAndLabel(final Long homeFolderId, final String label,
-            final RequestState[] excludedStates) {
+        final RequestState[] excludedStates, final boolean full) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -450,19 +420,19 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
                 typeList.add(Hibernate.STRING);
             }
         }
+        Query query = HibernateUtil.getSession().createQuery(sb.toString());
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).list());
+        query.setParameters(objectTab, typeTab);
+        return transform(query.list(), full);
     }
 
-    public List<Request> listByStates(final Set<RequestState> states) {
-
-        return listByStatesAndType(states, null);
+    public List<Request> listByStates(final Set<RequestState> states, final boolean full) {
+        return listByStatesAndType(states, null, full);
     }
 
     public List<Request> listByStatesAndType(final Set<RequestState> states, 
-            final String requestTypeLabel) {
+        final String requestTypeLabel, final boolean full) {
 
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -488,43 +458,21 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             objectList.add(requestTypeLabel);
             typeList.add(Hibernate.STRING);
         }
-
+        Query query = HibernateUtil.getSession().createQuery(sb.toString());
         Type[] typeTab = typeList.toArray(new Type[0]);
         Object[] objectTab = objectList.toArray(new Object[0]);
-        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).list());
+        query.setParameters(objectTab, typeTab);
+        return transform(query.list(), full);
     }
 
-    public List<Request> listByNotMatchingActionLabel(final RequestActionType type) {
-
-        StringBuffer sb = new StringBuffer();
-        sb.append("from RequestData as request ").append("where request.id not in (");
-        sb.append("select request.id from RequestData request join request.actions action ")
-            .append(" where action.type = '").append(type.toString()).append("'");
-        sb.append(")");
-
-        return recompose(HibernateUtil.getSession().createQuery(sb.toString()).list());
+    public List<Request> listByNotMatchingActionLabel(final RequestActionType type,
+        final boolean full) {
+        Query query = HibernateUtil.getSession()
+            .createQuery("from RequestData as request where request.id not in (select request.id from RequestData request join request.actions action  where action.type = :type)");
+        query.setString("type", type.toString());
+        return transform(query.list(), full);
     }
-    
-    public Long getSubjectId(Long requestId) {
-        List<Type> typeList = new ArrayList<Type>();
-        List<Object> objectList = new ArrayList<Object>();
 
-        StringBuffer sb = new StringBuffer();
-        sb.append("select r.subjectId from RequestData as r ").append("where r.id = ?");
-        
-        objectList.add(requestId);
-        typeList.add(Hibernate.LONG);
-
-        Type[] typeTab = typeList.toArray(new Type[1]);
-        Object[] objectTab = objectList.toArray(new Object[1]);
-        
-        return (Long)HibernateUtil.getSession()
-            .createQuery(sb.toString())
-            .setParameters(objectTab, typeTab)
-            .uniqueResult();
-    }
-    
     public List<Long> listHomeFolderSubjectIds(Long homeFolderId, String label, 
             RequestState[] excludedStates) {
         
@@ -557,7 +505,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     }
     
     public List<Request>
-        listDraftedByNotificationAndDate(RequestActionType type, Date date) {
+        listDraftedByNotificationAndDate(RequestActionType type, Date date, final boolean full) {
         
         List<Type> typeList = new ArrayList<Type>();
         List<Object> objectList = new ArrayList<Object>();
@@ -576,19 +524,11 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         objectList.add(type.toString());
         objectList.add(RequestState.DRAFT.toString());
         objectList.add(date);
-        
+        Query query = HibernateUtil.getSession().createQuery(sb.toString());
         Type[] typeTab = typeList.toArray(new Type[1]);
         Object[] objectTab = objectList.toArray(new Object[1]);
-        
-        return recompose(HibernateUtil.getSession().createQuery(sb.toString())
-            .setParameters(objectTab, typeTab).list());
-    }
-
-    protected boolean existsCriteriaName(String name, Set<Critere> criterias) {
-        for(Critere c : criterias) {
-            if(c.getAttribut().equals(name)) return true;
-        }
-        return false;
+        query.setParameters(objectTab, typeTab);
+        return transform(query.list(), full);
     }
 
     @Override
@@ -653,15 +593,18 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     }
 
     @Override
-    public Object findById(Class<?> clazz, Long id) throws CvqObjectNotFoundException {
+    public Object findById(Class<?> clazz, Long id)
+        throws CvqObjectNotFoundException {
         if (Request.class.isAssignableFrom(clazz)) {
-            return findById(id);
+            return findById(id, true);
         }
         return super.findById(clazz, id);
     }
 
-    public Request findById(Long id) throws CvqObjectNotFoundException {
-        return recompose((RequestData)findById(RequestData.class, id));
+    public Request findById(Long id, final boolean full)
+        throws CvqObjectNotFoundException {
+        RequestData requestData = (RequestData)findById(RequestData.class, id);
+        return full ? recompose(requestData) : new Request(requestData);
     }
 
     @Override
@@ -762,10 +705,10 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         }
     }
 
-    private List<Request> recompose(List<RequestData> requestDatas) {
+    private List<Request> transform(List<RequestData> requestDatas, final boolean full) {
         List<Request> result = new ArrayList<Request>(requestDatas.size());
         for (RequestData requestData : requestDatas) {
-            result.add(recompose(requestData));
+            result.add(full ? recompose(requestData) : new Request(requestData));
         }
         return result;
     }

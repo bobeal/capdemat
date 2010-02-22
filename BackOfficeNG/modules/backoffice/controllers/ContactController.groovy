@@ -156,7 +156,7 @@ class ContactController {
                     RequestActionType.CONTACT_CITIZEN,
                     params.templateMessage, params.note, pdf)
                 meansOfContactService.notifyByEmail(
-                    requestSearchService.getById(requestId).requestType
+                    requestSearchService.getById(requestId, false).requestType
                         .category.primaryEmail,
                     params.email,
                     message(code:"mail.ecitizenContact.subject"),

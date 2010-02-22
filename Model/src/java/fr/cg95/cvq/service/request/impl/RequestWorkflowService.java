@@ -143,7 +143,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         List<Request> otherRequests = 
             requestDAO.listByHomeFolderAndLabel(homeFolder.getId(), 
                     IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST, 
-                    getStatesExcludedForInProgressRequest());
+                    getStatesExcludedForInProgressRequest(), false);
         if (otherRequests != null && !otherRequests.isEmpty())
             throw new CvqModelException("homeFolder.error.alreadyAccountModifcationInProgess");
 
@@ -199,7 +199,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         RequestEvent requestEvent = 
             new RequestEvent(this, EVENT_TYPE.REQUEST_CREATED, hfmr);
         if (pdfData != null)
-            requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, new String(pdfData));
+            requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
         applicationContext.publishEvent(requestEvent);
     }
 
@@ -449,7 +449,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 criterias.add(new Critere(Request.SEARCH_BY_SEASON_ID,
                     season.getId(), Critere.EQUALS));
                 List<Request> seasonRequests = 
-                    requestDAO.search(criterias, null, null, 0, 0);
+                    requestDAO.search(criterias, null, null, 0, 0, false);
                 for (Request request : seasonRequests) {
                     Set<RequestSeason> subjectSeasons = null;
                     if (requestService.getSubjectPolicy().equals(IRequestWorkflowService.SUBJECT_POLICY_NONE))
@@ -537,7 +537,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             RequestEvent requestEvent = 
                 new RequestEvent(this, EVENT_TYPE.REQUEST_CREATED, request);
             if (pdfData != null)
-                requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, new String(pdfData));
+                requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
             applicationContext.publishEvent(requestEvent);
 
         } else if (!requestActionService.hasAction(requestId, RequestActionType.CREATION)) {
@@ -568,10 +568,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         RequestState[] excludedStates = getStatesExcludedForRequestsCloning();
         List<Request> requests = null;
         if (subjectId != null)
-            requests = requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates);
+            requests =
+                requestDAO.listBySubjectAndLabel(subjectId, requestLabel, excludedStates, true);
         else if (homeFolderId != null)
             requests = requestDAO.listByHomeFolderAndLabel(homeFolderId, requestLabel,
-                    excludedStates);
+                excludedStates, true);
         Request request = null;
         if (requests == null || requests.isEmpty()) {
             IRequestService tempRequestService =
@@ -885,7 +886,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         RequestEvent requestEvent = 
             new RequestEvent(this, EVENT_TYPE.REQUEST_VALIDATED, request);
         if (pdfData != null)
-            requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, new String(pdfData));
+            requestEvent.addComplementaryData(COMP_DATA.PDF_FILE, pdfData);
         applicationContext.publishEvent(requestEvent);
     }
 
@@ -1022,7 +1023,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private void archiveHomeFolderRequests(Long homeFolderId)
         throws CvqException {
 
-        List<Request> requests = requestDAO.listByHomeFolder(homeFolderId);
+        List<Request> requests = requestDAO.listByHomeFolder(homeFolderId, false);
         if (requests == null || requests.isEmpty()) {
             logger.debug("archiveHomeFolderRequests() no requests associated to home folder "
                     + homeFolderId);

@@ -174,7 +174,7 @@ public class FakeExternalService implements IExternalProviderService {
         try {
             List<Request> requests = 
                 requestSearchService.getByHomeFolderIdAndRequestLabel(homeFolderId,
-                        authorizingRequestLabel);
+                    authorizingRequestLabel, false);
             if (requests == null || requests.size() == 0)
                 return null;
             // pick the first request

@@ -223,7 +223,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         
         // now retrieve and display them
         HomeFolderModificationRequest hfmrFromDb =
-            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
+            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId(), false);
         homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         assertEquals(adress.getPostalCode(), "75013");
@@ -250,7 +250,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         // check modifications are still there
         hfmrFromDb =
-            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
+            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId(), false);
         homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         assertEquals(adress.getPostalCode(), "75013");
@@ -275,7 +275,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
         
         HomeFolderModificationRequest hfmrFromDb =
-            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
+            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId(), false);
         homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
         assertEquals(adress.getPostalCode(), "75012");
@@ -488,7 +488,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         // check modifications have been effectively cancelled
         HomeFolderModificationRequest hfmrFromDb =
-            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
+            (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId(), false);
         homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
         children = homeFolderService.getChildren(homeFolder.getId());
         assertEquals(2, children.size());

@@ -65,7 +65,7 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         CreationBean cb = gimmeAnHomeFolderWithRequest();
-        Request request = requestSearchService.getById(cb.getRequestId());
+        Request request = requestSearchService.getById(cb.getRequestId(), false);
 
         Long requestTypeId = request.getRequestType().getId();
         Long categoryId = request.getRequestType().getCategory().getId();

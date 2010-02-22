@@ -40,7 +40,7 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
         for (HomeFolder homeFolder : homeFolders) {
             List<Request> voCardRequests =
                 requestSearchService.getByHomeFolderIdAndRequestLabel(homeFolder.getId(),
-                    "VO Card Request");
+                    "VO Card Request", false);
             if (voCardRequests == null || voCardRequests.isEmpty()) {
 //               logger.debug("invokeInternal() ignoring home folder " + homeFolder.getId()
 //                       + " without VO Card request");

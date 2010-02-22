@@ -62,7 +62,7 @@ public class RequestXmlGenerationJob {
         Critere statusCritere =
             new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
                 TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS);
-        for (Request r : requestSearchService.get(criteriaSet, null, null, 0, 0)) {
+        for (Request r : requestSearchService.get(criteriaSet, null, null, 0, 0, true)) {
             criteriaSet.clear();
             criteriaSet.add(statusCritere);
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,

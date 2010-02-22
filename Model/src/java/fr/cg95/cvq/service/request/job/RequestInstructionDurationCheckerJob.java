@@ -75,7 +75,7 @@ public class RequestInstructionDurationCheckerJob {
         }
     
         // retrieve all requests currently in instruction
-        List<Request> requestsToInspect = requestDAO.listByStates(statesToLookFor);
+        List<Request> requestsToInspect = requestDAO.listByStates(statesToLookFor, false);
         Map<Category, List<Request>> requestsByService = 
             RequestUtils.groupByCategory(requestsToInspect);
         for (Category category : requestsByService.keySet()) {

@@ -145,7 +145,7 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         testCrit.setValue(request.getHomeFolderId());
         Set<Critere> testCritSet = new HashSet<Critere>();
         testCritSet.add(testCrit);
-        List<Request> allRequests = requestSearchService.get(testCritSet, null, null, -1, 0);
+        List<Request> allRequests = requestSearchService.get(testCritSet, null, null, -1, 0, false);
         assertNotNull(allRequests);
         // close current session and re-open a new one
         continueWithNewTransaction();
@@ -161,7 +161,7 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         //     Write tele-service xml data file
         File xmlFile = File.createTempFile("tmp" + request.getId(), ".xml");
         FileOutputStream xmlFos = new FileOutputStream(xmlFile);
-        xmlFos.write(requestSearchService.getById(request.getId()).modelToXmlString().getBytes());
+        xmlFos.write(requestSearchService.getById(request.getId(), true).modelToXmlString().getBytes());
         File file = File.createTempFile("tmp" + request.getId(), ".pdf");
         FileOutputStream fos = new FileOutputStream(file);
         fos.write(generatedCertificate);
@@ -190,7 +190,7 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         request.setHomeFolderId(homeFolderId);
         HolidaySecurityRequestFeeder.setSubject(request, requestService.getSubjectPolicy(), null, homeFolder);
         Long requestId = requestWorkflowService.create(request);
-        HolidaySecurityRequest requestFromDb = (HolidaySecurityRequest) requestSearchService.getById(requestId);
+        HolidaySecurityRequest requestFromDb = (HolidaySecurityRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
         assertNotNull(requestFromDb.getRequesterLastName());
@@ -222,7 +222,7 @@ public class HolidaySecurityRequestServiceTest extends RequestTestCase {
         continueWithNewTransaction();
         // start testing request creation
         /////////////////////////////////
-        HolidaySecurityRequest requestFromDb = (HolidaySecurityRequest) requestSearchService.getById(requestId);
+        HolidaySecurityRequest requestFromDb = (HolidaySecurityRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestId, requestFromDb.getId());
         assertNotNull(requestFromDb.getRequesterId());
         assertNotNull(requestFromDb.getRequesterLastName());

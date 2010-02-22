@@ -107,7 +107,8 @@ class RequestController {
             (params.recordOffset == "" || params.recordOffset == null) ? 0 : Integer.valueOf(params.recordOffset)        
             
         // now, perform the search request
-        def requests = requestSearchService.get(criteria, sortBy, sortDir, results, recordOffset)
+        def requests =
+            requestSearchService.get(criteria, sortBy, sortDir, results, recordOffset, false)
         def recordsList = []
         requests.each {
             def record = requestAdaptorService.prepareRecordForSummaryView(it)
@@ -212,7 +213,7 @@ class RequestController {
             criteriaSet.add(critere)
         }
         return [
-            'all' : requestSearchService.get(criteriaSet, null, null, tasksShowNb, 0),
+            'all' : requestSearchService.get(criteriaSet, null, null, tasksShowNb, 0, false),
             'count' : requestSearchService.getCount(criteriaSet)
         ]
     }

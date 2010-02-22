@@ -96,7 +96,8 @@ public class HomeFolderModificationRequestService extends RequestService {
                         if (individual instanceof Adult) {
                             Adult adult = (Adult) individual;
 
-                            List<Request> requests = requestDAO.listByRequester(adult.getId());
+                            List<Request> requests =
+                                requestDAO.listByRequester(adult.getId(), false);
                             for (Request tempRequest : requests) {
                                 // don't remove requesterLastName 'coz it can be useful
                                 // for history purposes
@@ -114,7 +115,7 @@ public class HomeFolderModificationRequestService extends RequestService {
 
                         // update requests whose individual is the subject
                         List<Request> requestsAsSubject =
-                            requestDAO.listBySubject(individual.getId());
+                            requestDAO.listBySubject(individual.getId(), false);
                         for (Request requestAsSubject : requestsAsSubject) {
                             // don't remove subjectLastName 'coz it can be useful
                             // for history purposes

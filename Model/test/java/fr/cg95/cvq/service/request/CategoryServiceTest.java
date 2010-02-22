@@ -201,7 +201,7 @@ public class CategoryServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
         
         try {
-            requestSearchService.getById(voCardRequestId);
+            requestSearchService.getById(voCardRequestId, false);
             fail("should have thrown a permission exception");
         } catch (PermissionException pe) {
             // ok, that was expeceted
@@ -219,7 +219,7 @@ public class CategoryServiceTest extends RequestTestCase {
         continueWithNewTransaction();
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        requestSearchService.getById(voCardRequestId);
+        requestSearchService.getById(voCardRequestId, false);
         
         continueWithNewTransaction();
 

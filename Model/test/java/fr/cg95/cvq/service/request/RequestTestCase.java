@@ -113,7 +113,7 @@ public class RequestTestCase extends ServiceTestCase {
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
             // ensure all requests have been deleted after each test
-            assertEquals(0, requestSearchService.get(new HashSet<Critere>(), null, null, -1, 0).size());
+            assertEquals(0, requestSearchService.get(new HashSet<Critere>(), null, null, -1, 0, false).size());
 
             rollbackTransaction();
             SecurityContext.resetCurrentSite();

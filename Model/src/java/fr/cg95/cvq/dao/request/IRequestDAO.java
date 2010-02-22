@@ -27,7 +27,7 @@ public interface IRequestDAO extends IGenericDAO {
      * @param startIndex start index of the records to return
      */
     List<Request> search(final Set<Critere> criteria, final String sort, String dir, 
-            int recordsReturned, int startIndex);
+        int recordsReturned, int startIndex, final boolean full);
 
     /**
      * Return the number of requests that match a set of search criteria.
@@ -37,12 +37,12 @@ public interface IRequestDAO extends IGenericDAO {
     /**
      * Return the list of all requests whose requester has the given id.
      */
-    List<Request> listByRequester(final Long requesterId);
+    List<Request> listByRequester(final Long requesterId, final boolean full);
 
     /**
      * Return the list of all requests whose subject, if any, has the given id.
      */
-    List<Request> listBySubject(final Long subjectId);
+    List<Request> listBySubject(final Long subjectId, final boolean full);
 
     /**
      * Return the list of requests with the given label whose associated subject has
@@ -51,12 +51,12 @@ public interface IRequestDAO extends IGenericDAO {
      * @param label label identifier as used internally by all requests-related services
      */
     List<Request> listBySubjectAndLabel(final Long subjectId, final String label, 
-            final RequestState[] excludedStates);
+        final RequestState[] excludedStates, final boolean full);
 
     /**
      * Return the list of all requests whose associated home folder has the given id.
      */
-    List<Request> listByHomeFolder(final Long homeFolderId);
+    List<Request> listByHomeFolder(final Long homeFolderId, final boolean full);
 
     /**
      * Return the list of requests with the given label whose associated home folder has
@@ -65,31 +65,30 @@ public interface IRequestDAO extends IGenericDAO {
      * @param label label identifier as used internally by all requests-related services
      */
     List<Request> listByHomeFolderAndLabel(final Long homeFolderId, final String label, 
-            final RequestState[] excludedStates);
+        final RequestState[] excludedStates, final boolean full);
 
     /**
      * Return the list of all requests who are in one of the given states.
      */
-    List<Request> listByStates(final Set<RequestState> states);
+    List<Request> listByStates(final Set<RequestState> states, final boolean full);
     
     /**
      * Return the list of all requests of the given type who are in one of the given states.
      */
-    List<Request> listByStatesAndType(final Set<RequestState> states, 
-            final String requestTypeLabel);
+    List<Request> listByStatesAndType(final Set<RequestState> states, final String requestTypeLabel,
+        final boolean full);
     
     /**
      * Return the list of requests which do not have the given action type.
      */
-    List<Request> listByNotMatchingActionLabel(final RequestActionType type);
+    List<Request> listByNotMatchingActionLabel(final RequestActionType type, final boolean full);
 
     /**
      * Retrieve drafted requests created before given date that don't have the 
      * given action trace label yet.
      */
-    List<Request> listDraftedByNotificationAndDate(RequestActionType type, Date date);
-    
-    Long getSubjectId (Long requestId);
+    List<Request> listDraftedByNotificationAndDate(RequestActionType type, Date date,
+        final boolean full);
 
     List<Long> listHomeFolderSubjectIds(Long homeFolderId, String label, 
             RequestState[] excludedStates);
@@ -98,6 +97,6 @@ public interface IRequestDAO extends IGenericDAO {
 
     List<Long> cleanRequestLocks();
 
-    Request findById(Long id)
+    Request findById(Long id, final boolean full)
         throws CvqObjectNotFoundException;
 }

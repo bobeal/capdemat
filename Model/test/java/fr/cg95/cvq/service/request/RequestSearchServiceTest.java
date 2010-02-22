@@ -44,7 +44,7 @@ public class RequestSearchServiceTest extends RequestTestCase {
         crit3.setComparatif(Critere.EQUALS);
         crit3.setValue(homeFolderId);
         criteriaSet.add(crit3);
-        List<Request> carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0);
+        List<Request> carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0, false);
         assertEquals(carteVoList.size(),1);
 
         crit = new Critere();
@@ -53,7 +53,7 @@ public class RequestSearchServiceTest extends RequestTestCase {
         crit.setValue("connaispascegarsla!");
         criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
-        carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0);
+        carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0, false);
         assertEquals(carteVoList.size(),0);
 
         crit = new Critere();
@@ -62,7 +62,7 @@ public class RequestSearchServiceTest extends RequestTestCase {
         crit.setValue(cb.getRequestId());
         criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
-        carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0);
+        carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0, false);
         assertEquals(carteVoList.size(), 1);
 
         crit = new Critere();
@@ -71,7 +71,7 @@ public class RequestSearchServiceTest extends RequestTestCase {
         crit.setValue(String.valueOf(homeFolderId));
         criteriaSet = new HashSet<Critere>();
         criteriaSet.add(crit);
-        carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0);
+        carteVoList = requestSearchService.get(criteriaSet, null, null, -1, 0, false);
         for (Request req : carteVoList) {
             assertFalse(req.getId() == homeFolderId);
         }

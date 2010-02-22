@@ -51,7 +51,7 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
 
         Long requestId = requestWorkflowService.create(request);
         PlaceReservationRequest requestFromDb = 
-            (PlaceReservationRequest) requestSearchService.getById(requestId);
+            (PlaceReservationRequest) requestSearchService.getById(requestId, false);
         
         // simulate a payment on this request
         /////////////////////////////////////
@@ -91,7 +91,7 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
 
         // check that request has been validated and payment reference is correctly set
         requestFromDb = 
-            (PlaceReservationRequest) requestSearchService.getById(requestId);
+            (PlaceReservationRequest) requestSearchService.getById(requestId, true);
         assertEquals(requestFromDb.getState(), RequestState.VALIDATED);
         assertNotNull(requestFromDb.getPaymentReference());
 

@@ -62,7 +62,7 @@ public class DraftManagementJob {
         LocalAuthority authority = SecurityContext.getCurrentSite();
         
         Set<Critere> criterias = prepareQueryParams(authority.getDraftLiveDuration());
-        List<Request> requests = requestDAO.search(criterias,null,null,0,0);
+        List<Request> requests = requestDAO.search(criterias,null,null,0,0, true);
         for (Request r : requests) 
             requestDAO.delete(r);
     }
@@ -80,7 +80,7 @@ public class DraftManagementJob {
         
         List<Request> requests = requestDAO.listDraftedByNotificationAndDate(
             RequestActionType.DRAFT_DELETE_NOTIFICATION,
-            DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -limit));
+            DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR, -limit), false);
         
         for (Request r : requests) {
             Adult adult = this.individualService.getAdultById(r.getRequesterId());

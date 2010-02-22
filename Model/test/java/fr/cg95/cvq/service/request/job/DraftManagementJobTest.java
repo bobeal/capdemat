@@ -36,7 +36,7 @@ public class DraftManagementJobTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(this.agentNameWithManageRoles);
 
-        List<Request> requests = this.getDrafts();
+        List<Request> requests = this.getDrafts(true);
         try {
             for (Request r : requests) 
                 requestWorkflowService.delete(r.getId());
@@ -57,12 +57,12 @@ public class DraftManagementJobTest extends RequestTestCase {
         SecurityContext.getCurrentSite().setDraftNotificationBeforeDelete(2);
         continueWithNewTransaction();
         
-        int before = this.getDrafts().size();
+        int before = this.getDrafts(false).size();
         draftManagementJob.deleteExpiredDrafts();
         
         continueWithNewTransaction();
         
-        int after = this.getDrafts().size();
+        int after = this.getDrafts(false).size();
         assertEquals(before-1,after);
         
         SecurityContext.getCurrentSite().setDraftLiveDuration(3);
@@ -71,7 +71,7 @@ public class DraftManagementJobTest extends RequestTestCase {
         draftManagementJob.deleteExpiredDrafts();
         
         continueWithNewTransaction();
-        assertEquals(after-1,this.getDrafts().size());
+        assertEquals(after-1,this.getDrafts(false).size());
         
         SecurityContext.getCurrentSite().setDraftLiveDuration(1);
         continueWithNewTransaction();
@@ -79,7 +79,7 @@ public class DraftManagementJobTest extends RequestTestCase {
         draftManagementJob.deleteExpiredDrafts();
         
         continueWithNewTransaction();
-        assertEquals(0,this.getDrafts().size());
+        assertEquals(0,this.getDrafts(false).size());
     }
     
     @Test
@@ -109,7 +109,7 @@ public class DraftManagementJobTest extends RequestTestCase {
         assertEquals(1, mailsCount);
     }
 
-    protected List<Request> getDrafts() throws CvqException {
+    protected List<Request> getDrafts(boolean full) throws CvqException {
         Set<Critere> criterias = new HashSet<Critere>();
         
         Critere criteria = new Critere();
@@ -118,7 +118,7 @@ public class DraftManagementJobTest extends RequestTestCase {
         criteria.setValue(RequestState.DRAFT);
         criterias.add(criteria);
 
-        return requestSearchService.get(criterias,null,null,0,0);
+        return requestSearchService.get(criterias,null,null,0,0, full);
     }
     
     void createDrafts(int step) throws CvqException {
@@ -132,7 +132,7 @@ public class DraftManagementJobTest extends RequestTestCase {
             request.setHomeFolderId(SecurityContext.getCurrentEcitizen().getHomeFolder().getId());
             request.setState(RequestState.DRAFT);
             Long id = requestWorkflowService.create(request);
-            request = requestSearchService.getById(id);
+            request = requestSearchService.getById(id, true);
             request.setCreationDate(DateUtils.getShiftedDate(Calendar.DAY_OF_YEAR,i*(-1)));
             
             SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);

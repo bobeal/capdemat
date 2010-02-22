@@ -33,7 +33,7 @@ public class RequestActionService implements IRequestActionService {
     public RequestAction getAction(final Long requestId, final Long id)
         throws CvqObjectNotFoundException {
         // do not directly use requestActionDAO to enforce request access rights
-        Request request = requestDAO.findById(requestId);
+        Request request = requestDAO.findById(requestId, false);
         for (RequestAction action : request.getActions()) {
             if (action.getId().equals(id))
                 return action;

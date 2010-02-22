@@ -197,7 +197,7 @@ class HomeController {
         
         return [
             'all' : requestSearchService.get(criteriaSet, 'creationDate', 'desc', 
-                draft ? -1 : resultsPerList, 0),
+                draft ? -1 : resultsPerList, 0, false),
             'count' : requestSearchService.getCount(criteriaSet),
             'records' : []
         ]
@@ -215,7 +215,7 @@ class HomeController {
         criteriaSet.add(critere)
         return [
             'all' : requestSearchService.get(criteriaSet,
-                Request.SEARCH_BY_CREATION_DATE, "desc", -1, 0),
+                Request.SEARCH_BY_CREATION_DATE, "desc", -1, 0, false),
             'count' : requestSearchService.getCount(criteriaSet),
             'records' : []
         ]

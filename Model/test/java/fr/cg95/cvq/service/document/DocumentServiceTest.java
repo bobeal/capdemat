@@ -10,7 +10,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.Assert;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.document.DepositOrigin;
 import fr.cg95.cvq.business.document.DepositType;
@@ -32,6 +34,7 @@ import fr.cg95.cvq.service.document.IDocumentService;
  */
 public class DocumentServiceTest extends DocumentTestCase {
 
+    @Test
     public void testAll()
         throws CvqException, java.io.IOException, java.io.FileNotFoundException {
 
@@ -191,8 +194,8 @@ public class DocumentServiceTest extends DocumentTestCase {
         doc.setEndValidityDate(calendar.getTime());
         documentService.modify(docToModify);
         docToModify = documentService.getById(docId4);
-        Assert.assertNotNull("Argh, where my f****** document has gone ??!");
-        Assert.assertEquals(doc.getAgentNote(), "Quelle belle PJ");
+        assertNotNull("Argh, where my f****** document has gone ??!");
+        assertEquals(doc.getAgentNote(), "Quelle belle PJ");
 
         // hmm ? just a test :-)
         try {
@@ -204,11 +207,11 @@ public class DocumentServiceTest extends DocumentTestCase {
         
         // retrieve all known document types
         allDocumentTypes = documentTypeService.getAllDocumentTypes();
-        Assert.assertNotNull(allDocumentTypes);
+        assertNotNull(allDocumentTypes);
         
         SecurityContext.setCurrentEcitizen(cb.getLogin());
         int count = documentService.searchCount(null);
-        Assert.assertNotSame(count, 0);
+        assertNotSame(count, 0);
         
         List<Document> docs = new ArrayList<Document>();
         Hashtable<String, Object> params = new Hashtable<String, Object>();
@@ -216,16 +219,17 @@ public class DocumentServiceTest extends DocumentTestCase {
                 IDocumentTypeService.TAXES_NOTIFICATION_TYPE));
         
         docs = documentService.search(params,-1,-1);
-        Assert.assertNotSame(docs.size(), 0);
+        assertNotSame(docs.size(), 0);
         
         params = new Hashtable<String, Object>();
         params.put("homeFolderId", cb.getHomeFolderId());        
         
         count = documentService.searchCount(params);
         docs = documentService.search(params,-1,-1);
-        Assert.assertEquals(docs.size(), count);
+        assertEquals(docs.size(), count);
     }
     
+    @Test
     public void testCreate() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -272,6 +276,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         documentService.getById(documentId);
     }
 
+    @Test
     public void testHomeFolderDeleteEvent() throws CvqException {
         
         CreationBean cb = gimmeMinimalHomeFolder();
@@ -302,6 +307,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         assertTrue(documents.isEmpty());
     }
 
+    @Test
     public void testIndividualDeleteEvent() throws CvqException {
 
         CreationBean cb = gimmeAnHomeFolder();

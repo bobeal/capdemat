@@ -4,6 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
@@ -19,10 +24,11 @@ public class RequestSeasonServiceTest extends RequestTestCase {
     
     private Long requestTypeId;
     
+    @Autowired
     protected IRequestServiceRegistry requestServiceRegistry;
 
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         
         super.onSetUp();
         
@@ -45,7 +51,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
     }
     
     @Override
-    protected void onTearDown() throws Exception {
+    public void onTearDown() throws Exception {
         // finally remove all seasons related settings
 
         continueWithNewTransaction();
@@ -68,6 +74,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         super.onTearDown();
     }
     
+    @Test
     public void testGoodSeasonManagement() throws CvqException {
 
         // Create
@@ -160,6 +167,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         }
     }
     
+    @Test
     public void testErrorSeasonManagement() throws CvqException {
         // Create
         RequestSeason season =
@@ -240,6 +248,7 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         checkModifySeasonError(badSeason, "request.season.effect_ended");
     }
     
+    @Test
     public void testGetRequestAssociatedSeason() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -301,8 +310,4 @@ public class RequestSeasonServiceTest extends RequestTestCase {
         continueWithNewTransaction();
         requestTypeService.removeRequestSeason(requestTypeId, season.getId());
     }
-
-    public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {
-        this.requestServiceRegistry = requestServiceRegistry;
-    }    
 }

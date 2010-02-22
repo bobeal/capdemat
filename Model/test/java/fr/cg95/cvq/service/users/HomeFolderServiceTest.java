@@ -12,8 +12,9 @@ import javax.mail.internet.MimeMessage;
 
 import org.jsmtpd.domain.Email;
 import org.jsmtpd.utils.junit.SmtpServer;
+import org.junit.Test;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.users.ActorState;
 import fr.cg95.cvq.business.users.Adult;
@@ -37,6 +38,7 @@ import fr.cg95.cvq.util.Critere;
  */
 public class HomeFolderServiceTest extends ServiceTestCase {
 
+    @Test
     public void testDisabledHomeFolder()
         throws CvqException {
         
@@ -47,7 +49,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
         // get the home folder id
-        Assert.assertNotNull(cb.getHomeFolderId());
+        assertNotNull(cb.getHomeFolderId());
         HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
         String responsibleLogin = cb.getLogin();
         
@@ -83,6 +85,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         }
     }
     
+    @Test
     public void testArchivedHomeFolder()
         throws CvqException {
     
@@ -93,14 +96,14 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         
         // get all home folders
         List<HomeFolder> fetchHomeFolders = homeFolderService.getAll(true, true);
-        Assert.assertEquals(fetchHomeFolders.size(), 1);
+        assertEquals(fetchHomeFolders.size(), 1);
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(cb.getLogin());
 
         // get the home folder id
         HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        Assert.assertNotNull(homeFolder.getId());
+        assertNotNull(homeFolder.getId());
 
         continueWithNewTransaction();
 
@@ -115,14 +118,14 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         continueWithNewTransaction();
 
-        Assert.assertEquals(homeFoldersCountBeforeArchive - 1,
+        assertEquals(homeFoldersCountBeforeArchive - 1,
             homeFolderService.getAll(true, false).size());
-        Assert.assertEquals(homeFoldersCountBeforeArchive - 1,
+        assertEquals(homeFoldersCountBeforeArchive - 1,
             homeFolderService.getAll(true, true).size());
 
         // individuals from home folder should no longer appear in search results
         initialResults = individualService.get(new HashSet<Critere>(), null, false);
-        Assert.assertEquals(initialResultsSize, 
+        assertEquals(initialResultsSize, 
                 initialResults.size() + homeFolder.getIndividuals().size());
         
         try {
@@ -135,14 +138,15 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         }
 
         homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        Assert.assertEquals(homeFolder.getState(), ActorState.ARCHIVED);
+        assertEquals(homeFolder.getState(), ActorState.ARCHIVED);
         
         List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
-            Assert.assertEquals(individual.getState(), ActorState.ARCHIVED);
+            assertEquals(individual.getState(), ActorState.ARCHIVED);
         }
     }
 
+    @Test
     public void testIndividualSearch() throws CvqException {
         Integer total1 = 0, total2 = 0; 
         List<CreationBean> beans = new ArrayList<CreationBean>();
@@ -205,6 +209,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         assertTrue(result4 <= 5);
     }
     
+    @Test
     public void testAll()
         throws CvqException {
 
@@ -260,43 +265,43 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         
         // do some tests on home folder's individuals
         homeFolder = homeFolderService.getById(homeFolder.getId());
-        Assert.assertEquals(2, homeFolder.getIndividuals().size());
+        assertEquals(2, homeFolder.getIndividuals().size());
 
         Adult homeFolderResponsibleDb = 
             homeFolderService.getHomeFolderResponsible(homeFolder.getId());
-        Assert.assertEquals(homeFolderResponsibleDb.getFirstName(),
+        assertEquals(homeFolderResponsibleDb.getFirstName(),
                 homeFolderResponsible.getFirstName());
 
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, homeFolderResponsible.getLastName(), 
                     Critere.EQUALS, Individual.SEARCH_BY_FIRSTNAME, homeFolderResponsible.getFirstName(), 
                     Critere.EQUALS, true);
-        Assert.assertEquals(individuals.size(), lastAndFirstNameSearchSize + 1);
+        assertEquals(individuals.size(), lastAndFirstNameSearchSize + 1);
 
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, homeFolderResponsible.getLastName(), 
                     Critere.NEQUALS, null, null, null, false);
-        Assert.assertEquals(individuals.size(), notLastNameSearchSize);
+        assertEquals(individuals.size(), notLastNameSearchSize);
 
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "laSTN", 
                     Critere.STARTSWITH, null, null, null, false);
-        Assert.assertEquals(individuals.size(), startsWithLastNameSearchSize + 2);
+        assertEquals(individuals.size(), startsWithLastNameSearchSize + 2);
 
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "LOST", 
                     Critere.STARTSWITH, null, null, null, false);
-        Assert.assertEquals(individuals.size(), badLastNameSearchSize);
+        assertEquals(individuals.size(), badLastNameSearchSize);
 
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_LASTNAME, "STNAME", 
                     Critere.LIKE, null, null, null, false);
-        Assert.assertEquals(individuals.size(), ilikeLastNameSearchSize + 2);
+        assertEquals(individuals.size(), ilikeLastNameSearchSize + 2);
   
         individuals = 
             performIndividualSearch(Individual.SEARCH_BY_FIRSTNAME, "OSTNAM", 
                     Critere.LIKE, null, null, null, false);
-        Assert.assertEquals(individuals.size(), badFirstNameSearchSize);
+        assertEquals(individuals.size(), badFirstNameSearchSize);
     }
     
     private List<Individual> performIndividualSearch(final String attribut, final Object value,
@@ -323,6 +328,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         return individualService.get(criteriaSet, null, false);
     }
 
+    @Test
     public void testNotifyPasswordReset() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -336,7 +342,7 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         Email email = null;
         SmtpServer server = null;
         try {
-            server = ((JsmtpdMailService)getBean("jsmtpdMailService")).getServer();
+            server = ((JsmtpdMailService)getApplicationBean("jsmtpdMailService")).getServer();
         } catch (Exception e) {
             fail("couldn't get jsmtpdMailService bean");
         }
@@ -344,19 +350,19 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         server.getQueue().clear();
         PasswordResetNotificationType notificationType = 
             homeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
-        Assert.assertEquals(PasswordResetNotificationType.INLINE, notificationType);
+        assertEquals(PasswordResetNotificationType.INLINE, notificationType);
         email = server.getMessage(1000);
-        Assert.assertNull(email);
+        assertNull(email);
 
         server.getQueue().clear();
         notificationType = 
             homeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
-        Assert.assertEquals(PasswordResetNotificationType.CATEGORY_EMAIL, notificationType);
+        assertEquals(PasswordResetNotificationType.CATEGORY_EMAIL, notificationType);
         email = server.getMessage(1000);
-        Assert.assertEquals(email.getRecipients().size(), 1);
-        Assert.assertEquals(email.getRecipients().get(0).toString(), "example@example.com");
+        assertEquals(email.getRecipients().size(), 1);
+        assertEquals(email.getRecipients().get(0).toString(), "example@example.com");
         try {
-            Assert.assertTrue(new MimeMessage(null, email.getDataStream().openInputStream()).getSubject().contains("Votre nouveau mot de passe pour vos démarches en ligne"));
+            assertTrue(new MimeMessage(null, email.getDataStream().openInputStream()).getSubject().contains("Votre nouveau mot de passe pour vos démarches en ligne"));
         } catch (MessagingException e) {
             fail("could not instantiate a MimeMessage from email");
         } catch (IOException e) {
@@ -367,12 +373,12 @@ public class HomeFolderServiceTest extends ServiceTestCase {
 
         server.getQueue().clear();
         notificationType = homeFolderService.notifyPasswordReset(adult, adult.getPassword(), null);
-        Assert.assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
+        assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
         email = server.getMessage(1000);
-        Assert.assertEquals(email.getRecipients().size(), 1);
-        Assert.assertEquals(email.getRecipients().get(0).toString(), adult.getEmail());
+        assertEquals(email.getRecipients().size(), 1);
+        assertEquals(email.getRecipients().get(0).toString(), adult.getEmail());
         try {
-            Assert.assertTrue(new MimeMessage(null, email.getDataStream().openInputStream()).getSubject().contains("Votre nouveau mot de passe pour vos démarches en ligne"));
+            assertTrue(new MimeMessage(null, email.getDataStream().openInputStream()).getSubject().contains("Votre nouveau mot de passe pour vos démarches en ligne"));
         } catch (MessagingException e) {
             fail("could not instantiate a MimeMessage from email");
         } catch (IOException e) {
@@ -382,12 +388,12 @@ public class HomeFolderServiceTest extends ServiceTestCase {
         server.getQueue().clear();
         notificationType = 
             homeFolderService.notifyPasswordReset(adult, adult.getPassword(), "example@example.com");
-        Assert.assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
+        assertEquals(PasswordResetNotificationType.ADULT_EMAIL, notificationType);
         email = server.getMessage(1000);
-        Assert.assertEquals(email.getRecipients().size(), 1);
-        Assert.assertEquals(email.getRecipients().get(0).toString(), adult.getEmail());
+        assertEquals(email.getRecipients().size(), 1);
+        assertEquals(email.getRecipients().get(0).toString(), adult.getEmail());
         try {
-            Assert.assertTrue(new MimeMessage(null, email.getDataStream().openInputStream()).getSubject().contains("Votre nouveau mot de passe pour vos démarches en ligne"));
+            assertTrue(new MimeMessage(null, email.getDataStream().openInputStream()).getSubject().contains("Votre nouveau mot de passe pour vos démarches en ligne"));
         } catch (MessagingException e) {
             fail("could not instantiate a MimeMessage from email");
         } catch (IOException e) {

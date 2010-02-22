@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
@@ -23,22 +30,19 @@ import fr.cg95.cvq.service.request.RequestTestCase;
 
 public class RequestXmlGenerationJobTest extends RequestTestCase {
 
-    private IExternalService           externalService;
-    private RequestXmlGenerationJob        generationJob;
-    private CreationBean                   creationBean;
+    @Autowired
+    private IExternalService externalService;
+    @Autowired
+    private RequestXmlGenerationJob generationJob;
+    @Resource(name="fakeExternalService")
     private IExternalProviderService fakeExternalService;
 
+    private CreationBean creationBean;
+
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         super.onSetUp();
         
-        this.externalService = 
-            super.<IExternalService>getApplicationBean("externalService");
-        this.generationJob = 
-            super.<RequestXmlGenerationJob>getApplicationBean("requestXmlGenerationJob");
-        this.fakeExternalService = 
-            super.<IExternalProviderService>getApplicationBean("fakeExternalService");
-
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
 
         ExternalServiceBean esb = new ExternalServiceBean();
@@ -51,11 +55,12 @@ public class RequestXmlGenerationJobTest extends RequestTestCase {
     }
     
     @Override
-    protected void onTearDown() throws Exception {
+    public void onTearDown() throws Exception {
         this.eraseTestFiles();
         super.onTearDown();
     }
-    
+
+    @Test
     public void testXmlDataGeneration() throws Exception {
 
         // register the mock external provider service with the LACB
@@ -98,6 +103,7 @@ public class RequestXmlGenerationJobTest extends RequestTestCase {
         assertFalse(file.exists());
     }
     
+    @Test
     public void testXmlDataErasing() throws Exception {
 
         this.createDummyEntities();

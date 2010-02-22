@@ -16,7 +16,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.w3c.dom.Node;
 
@@ -77,7 +76,7 @@ import fr.cg95.cvq.xml.common.SubjectType;
  * 
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class RequestWorkflowService implements IRequestWorkflowService, ApplicationListener,
+public class RequestWorkflowService implements IRequestWorkflowService, ApplicationListener<UsersEvent>,
     ApplicationContextAware {
 
     private static Logger logger = Logger.getLogger(RequestWorkflowService.class);
@@ -1223,21 +1222,16 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        if (applicationEvent instanceof UsersEvent) {
-            UsersEvent homeFolderEvent = (UsersEvent) applicationEvent;
-            logger.debug("onApplicationEvent() got an home folder event of type "
-                    + homeFolderEvent.getEvent());
-            if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_ARCHIVE)) {
-                logger.debug("onApplicationEvent() gonna archive home folder "
-                        + homeFolderEvent.getHomeFolderId());
-                try {
-                    archiveHomeFolderRequests(homeFolderEvent.getHomeFolderId());
-                } catch (CvqException e) {
-                    // FIXME : something better to do ?
-                    e.printStackTrace();
-                    throw new RuntimeException();
-                }
+    public void onApplicationEvent(UsersEvent usersEvent) {
+        logger.debug("onApplicationEvent() got an home folder event of type " + usersEvent.getEvent());
+        if (usersEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_ARCHIVE)) {
+            logger.debug("onApplicationEvent() gonna archive home folder " + usersEvent.getHomeFolderId());
+            try {
+                archiveHomeFolderRequests(usersEvent.getHomeFolderId());
+            } catch (CvqException e) {
+                // FIXME : something better to do ?
+                e.printStackTrace();
+                throw new RuntimeException();
             }
         }
     }

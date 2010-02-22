@@ -3,7 +3,6 @@ package fr.cg95.cvq.service.document.impl;
 import java.util.*;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
@@ -37,7 +36,7 @@ import fr.cg95.cvq.util.translation.ITranslationService;
  *
  * @author bor@zenexity.fr
  */
-public class DocumentService implements IDocumentService, ApplicationListener {
+public class DocumentService implements IDocumentService, ApplicationListener<UsersEvent> {
 
     static Logger logger = Logger.getLogger(DocumentService.class);
 
@@ -484,20 +483,16 @@ public class DocumentService implements IDocumentService, ApplicationListener {
     }
     
     @Override
-    public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        if (applicationEvent instanceof UsersEvent) {
-            UsersEvent homeFolderEvent = (UsersEvent) applicationEvent;
-            logger.debug("onApplicationEvent() got an home folder event of type "
-                    + homeFolderEvent.getEvent());
-            if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_DELETE)) {
-                logger.debug("onApplicationEvent() gonna delete home folder "
-                        + homeFolderEvent.getHomeFolderId());
-                deleteHomeFolderDocuments(homeFolderEvent.getHomeFolderId());
-            } else if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.INDIVIDUAL_DELETE)) {
-                logger.debug("onApplicationEvent() gonna delete individual "
-                        + homeFolderEvent.getIndividualId());
-                deleteIndividualDocuments(homeFolderEvent.getIndividualId());
-            }
+    public void onApplicationEvent(UsersEvent homeFolderEvent) {
+        logger.debug("onApplicationEvent() got an home folder event of type " + homeFolderEvent.getEvent());
+        if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_DELETE)) {
+            logger.debug("onApplicationEvent() gonna delete home folder "
+                    + homeFolderEvent.getHomeFolderId());
+            deleteHomeFolderDocuments(homeFolderEvent.getHomeFolderId());
+        } else if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.INDIVIDUAL_DELETE)) {
+            logger.debug("onApplicationEvent() gonna delete individual "
+                    + homeFolderEvent.getIndividualId());
+            deleteIndividualDocuments(homeFolderEvent.getIndividualId());
         }
     }
 

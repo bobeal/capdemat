@@ -14,6 +14,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 /**
  * Request service draft test case
  *
@@ -21,6 +25,7 @@ import java.util.Set;
  */
 public class RequestDraftTest extends RequestTestCase {
 
+    @Test
     public void testDrafts() throws CvqException {
 
         this.createDrafts(2);

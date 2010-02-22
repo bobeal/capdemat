@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.request.PlaceReservationData;
 import fr.cg95.cvq.business.request.PlaceReservationType;
 import fr.cg95.cvq.business.request.TicketTypeSelection;
@@ -27,7 +28,7 @@ public class PlaceReservationRequestServiceSubscriberTest
     protected IPlaceReservationRequestService placeReservationRequestService;
     
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         super.onSetUp();
         
         placeReservationRequestService = getApplicationBean("placeReservationRequestService");
@@ -47,9 +48,9 @@ public class PlaceReservationRequestServiceSubscriberTest
 
         // get the home folder id
         HomeFolder homeFolder = homeFolderService.getById(cb.getHomeFolderId());
-        Assert.assertNotNull(homeFolder);
+        assertNotNull(homeFolder);
         Long homeFolderId = homeFolder.getId();
-        Assert.assertNotNull(homeFolderId);
+        assertNotNull(homeFolderId);
 
         // fill and create the request
         // ////////////////////////////
@@ -67,16 +68,16 @@ public class PlaceReservationRequestServiceSubscriberTest
 
         Map<String, Integer> authNbOfPlaces = 
             placeReservationRequestService.getAuthorizedNumberOfPlaces("SubscriberNumber");
-        Assert.assertEquals(authNbOfPlaces.size(), 2);
-        Assert.assertEquals(authNbOfPlaces.get(IPlaceReservationService.FULL_PRICE_SUBSCRIBER), 
+        assertEquals(authNbOfPlaces.size(), 2);
+        assertEquals(authNbOfPlaces.get(IPlaceReservationService.FULL_PRICE_SUBSCRIBER), 
                 Integer.valueOf(2));
-        Assert.assertEquals(authNbOfPlaces.get(IPlaceReservationService.REDUCED_PRICE_SUBSCRIBER), 
+        assertEquals(authNbOfPlaces.get(IPlaceReservationService.REDUCED_PRICE_SUBSCRIBER), 
                 Integer.valueOf(1));
         request.setSubscriberNumber("SubscriberNumber");
         
         PlaceReservationType placeReservationType = 
             placeReservationService.getPlaceReservationForRequestType("Place Reservation", "Vac", true);
-        Assert.assertEquals(placeReservationType.getTicketsSelection().size(), 2);
+        assertEquals(placeReservationType.getTicketsSelection().size(), 2);
         
         PlaceReservationData placeReservationData = new PlaceReservationData();
         placeReservationData.setName(placeReservationType.getKey());
@@ -103,12 +104,12 @@ public class PlaceReservationRequestServiceSubscriberTest
                 ticketTypeSelection.setNumber(authNbOfPlaces.get(ticketSelection.getName()).longValue());
                 errorTicketsSet = 
                     placeReservationRequestService.checkPlaceReservationData(placeReservationDatas, "SubscriberNumber");
-                Assert.assertNull(errorTicketsSet);
+                assertNull(errorTicketsSet);
                 // ... and this one should fail
                 ticketTypeSelection.setNumber(authNbOfPlaces.get(ticketSelection.getName()).longValue() + 1);
                 errorTicketsSet = 
                     placeReservationRequestService.checkPlaceReservationData(placeReservationDatas, "SubscriberNumber");
-                Assert.assertEquals(errorTicketsSet.size(), 1);
+                assertEquals(errorTicketsSet.size(), 1);
                 // let's go back to a correct one before creation request
                 ticketTypeSelection.setNumber(authNbOfPlaces.get(ticketSelection.getName()).longValue());
             }

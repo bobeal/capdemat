@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
@@ -15,6 +19,7 @@ import fr.cg95.cvq.security.SecurityContext;
 
 public class DocumentDigitalizationTest extends DocumentTestCase {
 
+    @Test
     public void testDocumentDigitalization() throws CvqException, IOException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.payment.InternalInvoiceItem;
@@ -21,7 +20,7 @@ import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 
-public class RequestPaymentsListener implements ApplicationListener {
+public class RequestPaymentsListener implements ApplicationListener<PaymentEvent> {
 
     private static Logger logger = Logger.getLogger(RequestPaymentsListener.class);
     
@@ -87,20 +86,15 @@ public class RequestPaymentsListener implements ApplicationListener {
         return (Request) requestDAO.findById(Request.class, id);
     }
 
-
     @Override
-    public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        if (applicationEvent instanceof PaymentEvent) {
-            PaymentEvent paymentEvent = (PaymentEvent) applicationEvent;
-            logger.debug("onApplicationEvent() got a payment event of type "
-                    + paymentEvent.getEvent());
-            try {
-                notifyPaymentResult(paymentEvent.getPayment());
-            } catch (CvqException e) {
-                // TODO We have nothing to handle this
-                logger.error("onApplicationEvent() got an error while notifying payment resutl");
-                e.printStackTrace();
-            }
+    public void onApplicationEvent(PaymentEvent paymentEvent) {
+        logger.debug("onApplicationEvent() got a payment event of type " + paymentEvent.getEvent());
+        try {
+            notifyPaymentResult(paymentEvent.getPayment());
+        } catch (CvqException e) {
+            // TODO We have nothing to handle this
+            logger.error("onApplicationEvent() got an error while notifying payment resutl");
+            e.printStackTrace();
         }
     }
 

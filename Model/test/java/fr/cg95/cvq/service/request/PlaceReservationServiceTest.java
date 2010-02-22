@@ -3,6 +3,11 @@ package fr.cg95.cvq.service.request;
 import java.util.Date;
 import java.util.Set;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.*;
+
 import junit.framework.Assert;
 import fr.cg95.cvq.business.request.PlaceReservationType;
 import fr.cg95.cvq.business.request.PlaceReservationType.TicketSelection;
@@ -14,8 +19,10 @@ public class PlaceReservationServiceTest extends RequestTestCase {
 
     private static final String SERVICE_TEST = "Place Reservation";
     
-    protected static IPlaceReservationService placeReservationService;
+    @Autowired
+    protected IPlaceReservationService placeReservationService;
 
+    @Test
     public void testAll() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -172,8 +179,4 @@ public class PlaceReservationServiceTest extends RequestTestCase {
             placeReservationService.getPlaceReservationForRequestType(SERVICE_TEST, placeReservationKey, false);
         Assert.assertNull(placeReservationTypeTemp);
     }
-
-    public void setPlaceReservationService(IPlaceReservationService iPlaceReservationService) {
-        placeReservationService = iPlaceReservationService;
-    }    
 }

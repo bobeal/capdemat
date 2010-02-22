@@ -11,6 +11,7 @@ import java.util.Set;
 import org.hamcrest.core.AllOf;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.junit.Test;
 
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
@@ -35,6 +36,7 @@ public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
    
     private final String EXTERNAL_SERVICE_LABEL = "Dummy External Service";
     
+    @Test
     public void testInteractions() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);

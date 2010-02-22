@@ -3,6 +3,8 @@ package fr.capwebct.capdemat.plugins.externalservices.clever.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.request.LocalReferentialData;
 import fr.cg95.cvq.business.request.leisure.SmsNotificationRequest;
 import fr.cg95.cvq.business.users.CreationBean;
@@ -23,7 +25,7 @@ public class CleverServiceTest extends RequestTestCase {
     protected IRequestExportService requestExportService;
 
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         super.onSetUp();
     }
 

@@ -14,7 +14,6 @@ import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
@@ -44,7 +43,7 @@ import fr.cg95.cvq.xml.common.HomeFolderType;
 import fr.cg95.cvq.xml.common.IndividualType;
 import fr.cg95.cvq.xml.common.RequestType;
 
-public class ExternalService implements IExternalService, ApplicationListener {
+public class ExternalService implements IExternalService, ApplicationListener<PaymentEvent> {
 
     private static Logger logger = Logger.getLogger(ExternalService.class);
 
@@ -380,19 +379,16 @@ public class ExternalService implements IExternalService, ApplicationListener {
     }
 
     @Override
-    public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        if (applicationEvent instanceof PaymentEvent) {
-            PaymentEvent paymentEvent = (PaymentEvent) applicationEvent;
-            logger.debug("onApplicationEvent() got a payment event of type " + paymentEvent.getEvent());
-            if (paymentEvent.getEvent().equals(PaymentEvent.EVENT_TYPE.PAYMENT_VALIDATED))
-                try {
-                    creditHomeFolderAccounts(paymentEvent.getPayment());
-                } catch (CvqException e) {
-                    // FIXME : we have nothing to handle this 
-                    logger.error("onApplicationEvent() unable to credit home folder account");
-                    e.printStackTrace();
-                }
-        }
+    public void onApplicationEvent(PaymentEvent paymentEvent) {
+        logger.debug("onApplicationEvent() got a payment event of type " + paymentEvent.getEvent());
+        if (paymentEvent.getEvent().equals(PaymentEvent.EVENT_TYPE.PAYMENT_VALIDATED))
+            try {
+                creditHomeFolderAccounts(paymentEvent.getPayment());
+            } catch (CvqException e) {
+                // FIXME : we have nothing to handle this 
+                logger.error("onApplicationEvent() unable to credit home folder account");
+                e.printStackTrace();
+            }
     }
 
     public void setExternalServiceTraceDAO(IExternalServiceTraceDAO externalServiceTraceDAO) {

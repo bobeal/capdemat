@@ -23,15 +23,14 @@ import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
 /**
  *
  * @author bor@zenexity.fr
  */
-public class RequestNotificationService implements IRequestNotificationService,
-    ApplicationListener {
+public class RequestNotificationService implements IRequestNotificationService, 
+    ApplicationListener<RequestEvent> {
 
     private static Logger logger = Logger.getLogger(RequestNotificationService.class);
 
@@ -170,29 +169,25 @@ public class RequestNotificationService implements IRequestNotificationService,
     }
 
     @Override
-    public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        if (applicationEvent instanceof RequestEvent) {
-            RequestEvent requestEvent = (RequestEvent) applicationEvent;
-            logger.debug("onApplicationEvent() got a request event of type "
-                    + requestEvent.getEvent());
-            try {
-                if (requestEvent.getEvent().equals(EVENT_TYPE.REQUEST_CREATED)) {
-                    Object pdfData = requestEvent.getComplementaryData(COMP_DATA.PDF_FILE);
-                    notifyRequestCreation(requestEvent.getRequest(), 
-                            pdfData != null ? ((String) pdfData).getBytes() : null);
-                } else if (requestEvent.getEvent().equals(EVENT_TYPE.REQUEST_VALIDATED)) {
-                    Object pdfData = requestEvent.getComplementaryData(COMP_DATA.PDF_FILE);
-                    notifyRequestValidation(requestEvent.getRequest().getId(), 
-                            pdfData != null ? ((String) pdfData).getBytes() : null);
-                } else if (requestEvent.getEvent().equals(EVENT_TYPE.NOTE_ADDED)) {
-                    notifyAgentNote(requestEvent.getRequest().getId(), 
-                            ((RequestNote) requestEvent.getComplementaryData(COMP_DATA.REQUEST_NOTE)));
-                }
-            } catch (CvqException e) {
-                // FIXME we have nothing to handle this
-                logger.error("onApplicationEvent() got an error while notifying request creation");
-                e.printStackTrace();
+    public void onApplicationEvent(RequestEvent requestEvent) {
+        logger.debug("onApplicationEvent() got a request event of type " + requestEvent.getEvent());
+        try {
+            if (requestEvent.getEvent().equals(EVENT_TYPE.REQUEST_CREATED)) {
+                Object pdfData = requestEvent.getComplementaryData(COMP_DATA.PDF_FILE);
+                notifyRequestCreation(requestEvent.getRequest(), 
+                        pdfData != null ? ((String) pdfData).getBytes() : null);
+            } else if (requestEvent.getEvent().equals(EVENT_TYPE.REQUEST_VALIDATED)) {
+                Object pdfData = requestEvent.getComplementaryData(COMP_DATA.PDF_FILE);
+                notifyRequestValidation(requestEvent.getRequest().getId(), 
+                        pdfData != null ? ((String) pdfData).getBytes() : null);
+            } else if (requestEvent.getEvent().equals(EVENT_TYPE.NOTE_ADDED)) {
+                notifyAgentNote(requestEvent.getRequest().getId(), 
+                        ((RequestNote) requestEvent.getComplementaryData(COMP_DATA.REQUEST_NOTE)));
             }
+        } catch (CvqException e) {
+            // FIXME we have nothing to handle this
+            logger.error("onApplicationEvent() got an error while notifying request creation");
+            e.printStackTrace();
         }
     }
 }

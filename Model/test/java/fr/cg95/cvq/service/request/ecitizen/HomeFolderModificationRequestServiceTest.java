@@ -7,7 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.Assert;
+import javax.annotation.Resource;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.request.RequestState;
@@ -42,8 +47,11 @@ import fr.cg95.cvq.testtool.BusinessObjectsFactory;
  */
 public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
+    @Resource(name="homeFolderModificationRequestService")
     protected IRequestService homeFolderModificationRequestService;
+    @Resource(name="schoolRegistrationRequestService")
     protected IRequestService schoolRegistrationRequestService;
+    @Autowired
     protected IHistoryEntryDAO historyEntryDAO;
     
     // define some objects that will be reused throughout the different tests
@@ -59,19 +67,11 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
     // Useful to clean individual who do not belong to homeFolder in onTearDown
     protected Set< Long> foreignOwnersIds = new HashSet<Long>();
 
-    @Override
-    protected void onSetUp() throws Exception {
-        super.onSetUp();
-        
-        homeFolderModificationRequestService = getApplicationBean("homeFolderModificationRequestService");
-        schoolRegistrationRequestService = getApplicationBean("schoolRegistrationRequestService");
-    }
-    
     /**
      * Overrided to run invariant tests.
      */
     @Override
-    protected void onTearDown() throws Exception {
+    public void onTearDown() throws Exception {
 
         continueWithNewTransaction();
         
@@ -136,6 +136,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         }
     }
 
+    @Test
     public void testMultiHibernateTransaction()
         throws CvqException {
 
@@ -162,7 +163,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         requestWorkflowService.createAccountModificationRequest(hfmr, copyAdults, copyChildren, 
                 foreignOwners, adress, null);
-        Assert.assertEquals(copyAdults.size() + copyChildren.size(), 
+        assertEquals(copyAdults.size() + copyChildren.size(), 
                 homeFolder.getIndividuals().size());
 
         continueWithNewTransaction();
@@ -212,6 +213,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
                 null, adress, null);
     }
 
+    @Test
     public void testSimpleModificationsValidated()
         throws CvqException {
 
@@ -224,13 +226,13 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
             (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
         homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
-        Assert.assertEquals(adress.getPostalCode(), "75013");
-        Assert.assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
+        assertEquals(adress.getPostalCode(), "75013");
+        assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
         List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
             if (individual.getId().equals(homeFolderUncle.getId())) {
-                Assert.assertEquals(homeFolderUncle.getFirstName3(), "Groumph");
-                Assert.assertEquals(homeFolderUncle.getProfession(), "Entraineur du PSG");
+                assertEquals(homeFolderUncle.getFirstName3(), "Groumph");
+                assertEquals(homeFolderUncle.getProfession(), "Entraineur du PSG");
             }
         }
 
@@ -251,10 +253,11 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
             (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
         homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
-        Assert.assertEquals(adress.getPostalCode(), "75013");
-        Assert.assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
+        assertEquals(adress.getPostalCode(), "75013");
+        assertEquals(adress.getCity(), "Paris Ville Lumière".toUpperCase());
     }
 
+    @Test
     public void testSimpleModificationsCancelled()
         throws CvqException {
 
@@ -275,13 +278,13 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
             (HomeFolderModificationRequest) requestSearchService.getById(hfmr.getId());
         homeFolder = homeFolderService.getById(hfmrFromDb.getHomeFolderId());
         adress = homeFolder.getAdress();
-        Assert.assertEquals(adress.getPostalCode(), "75012");
-        Assert.assertEquals(adress.getCity(), "Paris".toUpperCase());
+        assertEquals(adress.getPostalCode(), "75012");
+        assertEquals(adress.getCity(), "Paris".toUpperCase());
         List<Individual> individuals = homeFolder.getIndividuals();
         for (Individual individual : individuals) {
             if (individual.getId().equals(homeFolderUncle.getId())) {
-                Assert.assertEquals(individual.getLastName(), "LASTNAME");
-                Assert.assertTrue(individual.getFirstName().startsWith("uncle"));
+                assertEquals(individual.getLastName(), "LASTNAME");
+                assertTrue(individual.getFirstName().startsWith("uncle"));
             }
         }
     }
@@ -309,6 +312,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
                 null, adress, null);
     }
 
+    @Test
     public void testChildAdultAddWithClrValidated()
         throws CvqException {
         
@@ -345,6 +349,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         }
     }
 
+    @Test
     public void testChildAdultAddWithClrCancelled()
         throws CvqException {
 
@@ -399,6 +404,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
                 null, adress, null);
     }
 
+    @Test
     public void testChildrenAddRemoveValidated()
         throws Exception {
 
@@ -460,6 +466,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         }
     }
 
+    @Test
     public void testChildrenAddRemoveCancelled()
         throws Exception {
 
@@ -487,9 +494,9 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         assertEquals(2, children.size());
         RoleType[] roles = {RoleType.CLR_FATHER, RoleType.CLR_MOTHER, RoleType.CLR_TUTOR };
         for (Child child : children) {
-            Assert.assertNotSame(child.getFirstName(), "XXXX");
-            Assert.assertNotNull(child.getAdress());
-            Assert.assertEquals(child.getLastName(), "LASTNAME");
+            assertNotSame(child.getFirstName(), "XXXX");
+            assertNotNull(child.getAdress());
+            assertEquals(child.getLastName(), "LASTNAME");
             if (child.getFirstName().equals("childone")) {
                 assertEquals(3, homeFolderService.getBySubjectRoles(child.getId(), roles).size());
             } else if (child.getFirstName().equals("childtwo")) {
@@ -519,6 +526,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
                 null, adress, null);
     }
 
+    @Test
     public void testSimpleAdultsAddRemoveValidated()
         throws CvqException {
 
@@ -565,6 +573,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
             fail("Newly added adult has not been found in home folder");
     }
 
+    @Test
     public void testSimpleAdultsAddRemoveCancelled()
         throws CvqException {
 
@@ -608,6 +617,7 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
                 null, adress, null);
     }
 
+    @Test
     public void testHomeFolderResponsibleChangeValidated()
         throws CvqException {
 
@@ -626,13 +636,14 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
 
         homeFolder = homeFolderService.getById(homeFolder.getId());
         adults = homeFolderService.getAdults(homeFolder.getId());
-        Assert.assertEquals(adults.size(), 2);
+        assertEquals(adults.size(), 2);
         Adult homeFolderResponsible = 
             homeFolderService.getHomeFolderResponsible(homeFolder.getId());
-        Assert.assertEquals(homeFolderResponsible.getLastName(), homeFolderUncle.getLastName());
-        Assert.assertEquals(homeFolderResponsible.getFirstName(), homeFolderUncle.getFirstName());
+        assertEquals(homeFolderResponsible.getLastName(), homeFolderUncle.getLastName());
+        assertEquals(homeFolderResponsible.getFirstName(), homeFolderUncle.getFirstName());
     }
 
+    @Test
     public void testHomeFolderResponsibleChangeCancelled()
         throws CvqException {
 
@@ -650,11 +661,11 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         
         homeFolder = homeFolderService.getById(homeFolder.getId());
         adults = homeFolderService.getAdults(homeFolder.getId());
-        Assert.assertEquals(adults.size(), 3);
+        assertEquals(adults.size(), 3);
         Adult homeFolderResponsible = 
             homeFolderService.getHomeFolderResponsible(homeFolder.getId());
-        Assert.assertEquals(homeFolderResponsible.getLastName(), "LASTNAME");
-        Assert.assertEquals(homeFolderResponsible.getFirstName(), "responsible");
+        assertEquals(homeFolderResponsible.getLastName(), "LASTNAME");
+        assertEquals(homeFolderResponsible.getFirstName(), "responsible");
     }
 
     /**
@@ -768,9 +779,5 @@ public class HomeFolderModificationRequestServiceTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         requestWorkflowService.delete(srrId);
-    }
-    
-    public void setHistoryEntryDAO(IHistoryEntryDAO historyEntryDAO) {
-        this.historyEntryDAO = historyEntryDAO;
     }
 }

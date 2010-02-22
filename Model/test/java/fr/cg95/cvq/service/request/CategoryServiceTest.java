@@ -2,7 +2,9 @@ package fr.cg95.cvq.service.request;
 
 import java.util.List;
 
-import junit.framework.Assert;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.request.Category;
@@ -14,6 +16,7 @@ import fr.cg95.cvq.security.SecurityContext;
 
 public class CategoryServiceTest extends RequestTestCase {
 
+    @Test
     public void testCreateDelete() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -67,6 +70,7 @@ public class CategoryServiceTest extends RequestTestCase {
         assertEquals(nbOfCategories, categoryService.getAll().size());
     }
     
+    @Test
     public void testListAllFiltering() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -86,6 +90,7 @@ public class CategoryServiceTest extends RequestTestCase {
         categoryService.delete(category.getId());
     }
 
+    @Test
     public void testAgentAssociation() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -132,6 +137,7 @@ public class CategoryServiceTest extends RequestTestCase {
         assertEquals(agentAssociatedCategories, categoryService.getAssociated().size());
     }
 
+    @Test
     public void testRequestTypeAssociation() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -229,6 +235,6 @@ public class CategoryServiceTest extends RequestTestCase {
         continueWithNewTransaction();
 
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-        Assert.assertEquals(1, categoryService.getAll().size());
+        assertEquals(1, categoryService.getAll().size());
     }
 }

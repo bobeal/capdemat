@@ -8,6 +8,9 @@ import java.util.Set;
 import org.hamcrest.core.AllOf;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.external.ExternalServiceIdentifierMapping;
 import fr.cg95.cvq.business.external.ExternalServiceIndividualMapping;
@@ -25,17 +28,9 @@ import fr.cg95.cvq.testtool.HasInnerProperty;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
-/**
- * FIXME : dependency on request test case has to be fixed
- */
 public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCase {
 
     private final String EXTERNAL_SERVICE_LABEL = "Dummy External Service";
-
-    @Override
-    public void onSetUp() throws Exception {
-        super.onSetUp();
-    }
 
     @Override
     public void onTearDown() throws Exception {
@@ -52,6 +47,7 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
         super.onTearDown();
     }
 
+    @Test
     public void testIdentifiersIntroduction() throws CvqException {
                 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -114,6 +110,7 @@ public class ExternalServiceIdentifierMappingTest extends ExternalServiceTestCas
         externalService.deleteIdentifierMappings(EXTERNAL_SERVICE_LABEL, cb.getHomeFolderId());
     }
 
+    @Test
     public void testSetExternalId() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);

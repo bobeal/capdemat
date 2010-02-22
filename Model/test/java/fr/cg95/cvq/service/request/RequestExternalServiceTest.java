@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
@@ -12,15 +19,12 @@ import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 
 public class RequestExternalServiceTest extends RequestTestCase {
 
-    private static IRequestExternalService requestExternalService;
-    private static IExternalProviderService fakeExternalService;
+    @Autowired
+    private IRequestExternalService requestExternalService;
+    @Resource(name="fakeExternalService")
+    private IExternalProviderService fakeExternalService;
     
-    @Override
-    public void onSetUp() throws Exception {
-        super.onSetUp();
-        fakeExternalService = getApplicationBean("fakeExternalService");
-    }
-
+    @Test
     public void testHasMatchingExternalService() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
@@ -43,6 +47,7 @@ public class RequestExternalServiceTest extends RequestTestCase {
         lacb.unregisterExternalService(fakeExternalService);
     }
     
+    @Test
     public void testGetRequestTypesForExternalService() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
@@ -63,9 +68,5 @@ public class RequestExternalServiceTest extends RequestTestCase {
         assertEquals("School Registration", requestTypesFromService.iterator().next());
 
         lacb.unregisterExternalService(fakeExternalService);
-    }
-
-    public void setRequestExternalService(IRequestExternalService requestExternalService) {
-        RequestExternalServiceTest.requestExternalService = requestExternalService;
     }
 }

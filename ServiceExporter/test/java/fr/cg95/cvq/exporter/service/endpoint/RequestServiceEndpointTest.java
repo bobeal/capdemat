@@ -8,10 +8,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
 
 import org.springframework.beans.BeansException;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.oxm.xmlbeans.XmlBeansMarshaller;
 
 import fr.capwebct.capdemat.AckRequestType;
@@ -46,7 +45,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
     private String fakeExternalServiceLabel = "Fake External Service";
 
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         super.onSetUp();
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
@@ -63,7 +62,6 @@ public class RequestServiceEndpointTest extends RequestTestCase {
     
     public void testGetAndAckFlow() throws Exception {
 
-        ConfigurableApplicationContext context = getContext(getConfigLocations());
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
@@ -71,10 +69,8 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         AckRequestServiceEndpoint endpoint1 = 
             new AckRequestServiceEndpoint(new XmlBeansMarshaller());
         RequestServiceEndpoint endpoint2 = new RequestServiceEndpoint(new XmlBeansMarshaller());
-        IExternalService externalService = 
-            (IExternalService) context.getBean("externalService");
-        ILocalAuthorityRegistry localAuthorityRegistry = 
-            (ILocalAuthorityRegistry) context.getBean("localAuthorityRegistry");
+        IExternalService externalService = getApplicationBean("externalService");
+        ILocalAuthorityRegistry localAuthorityRegistry = getApplicationBean("localAuthorityRegistry");
         endpoint1.setExternalService(externalService);
         endpoint2.setExternalService(externalService);
         endpoint2.setRequestSearchService(requestSearchService);
@@ -108,7 +104,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             GetRequestsResponse getResponse = 
                 (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
             int getCountBefore = getResponse.getRequestArray().length;
-            Assert.assertEquals(1, getCountBefore);
+            assertEquals(1, getCountBefore);
             
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
@@ -117,7 +113,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
                 DateUtils.parseDate("13/07/2007"), Critere.GT));
             int tracesCount = 
                 externalService.getTraces(criteriaSet, null, null).size();
-            Assert.assertEquals(1, tracesCount);
+            assertEquals(1, tracesCount);
             
             /* Create acknowledgement response */
             AckRequestType[] types = new AckRequestType[1];
@@ -134,20 +130,20 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             ackRequestDocument.setAckRequestsRequest(ackRequest);
             AckRequestsResponse ackResponse = 
                 (AckRequestsResponse) endpoint1.invokeInternal(ackRequestDocument);
-            Assert.assertNotNull(ackResponse);
-            Assert.assertTrue(ackResponse.getAccomplished());
+            assertNotNull(ackResponse);
+            assertTrue(ackResponse.getAccomplished());
             
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
 
             int newCount =
                 externalService.getTraces(criteriaSet, null, null).size();
             
-            Assert.assertEquals(2, newCount);
+            assertEquals(2, newCount);
             
             SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
 
             getResponse = (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
-            Assert.assertEquals(0, getResponse.getRequestArray().length);
+            assertEquals(0, getResponse.getRequestArray().length);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,7 +159,6 @@ public class RequestServiceEndpointTest extends RequestTestCase {
     }
     
     public void testAckServiceEndpoint() throws Exception {
-        ConfigurableApplicationContext context = getContext(getConfigLocations());
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         
@@ -171,10 +166,8 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         AckRequestServiceEndpoint endpoint1 = 
             new AckRequestServiceEndpoint(new XmlBeansMarshaller());
         RequestServiceEndpoint endpoint2 = new RequestServiceEndpoint(new XmlBeansMarshaller());
-        IExternalService externalService = 
-            (IExternalService) context.getBean("externalService");
-        ILocalAuthorityRegistry localAuthorityRegistry = 
-            (ILocalAuthorityRegistry) context.getBean("localAuthorityRegistry");
+        IExternalService externalService = getApplicationBean("externalService");
+        ILocalAuthorityRegistry localAuthorityRegistry = getApplicationBean("localAuthorityRegistry");
         endpoint1.setExternalService(externalService);
         endpoint2.setExternalService(externalService);
         endpoint2.setRequestSearchService(requestSearchService);
@@ -208,7 +201,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
                 (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
             int getCountBefore = getResponse.getRequestArray().length;
             
-            Assert.assertEquals(1, getCountBefore);
+            assertEquals(1, getCountBefore);
             
             getRequest.setRequestTypeLabel(IRequestTypeService.VO_CARD_REGISTRATION_REQUEST);
             requestDocument.setGetRequestsRequest(getRequest);
@@ -216,7 +209,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             getResponse = (GetRequestsResponse) endpoint2.invokeInternal(requestDocument);
             getCountBefore = getResponse.getRequestArray().length;
             
-            Assert.assertEquals(1, getCountBefore);
+            assertEquals(1, getCountBefore);
             
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
@@ -225,7 +218,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
                 DateUtils.parseDate("13/07/2007"), Critere.GT));
             int tracesCount = 
                 externalService.getTraces(criteriaSet, null, null).size();
-            Assert.assertNotSame(0, tracesCount);
+            assertNotSame(0, tracesCount);
             
             /* Create acknowledged traces */
             AckRequestType[] types = new AckRequestType[3];
@@ -250,23 +243,23 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             AckRequestsRequestDocument ackRequestDocument = AckRequestsRequestDocument.Factory.newInstance();
             ackRequestDocument.setAckRequestsRequest(ackRequest);
             AckRequestsResponse ackResponse = (AckRequestsResponse) endpoint1.invokeInternal(ackRequestDocument);
-            Assert.assertNotNull(ackResponse);
+            assertNotNull(ackResponse);
 
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             
             int newCount =
                 externalService.getTraces(criteriaSet, null, null).size();
             
-            Assert.assertEquals(newCount, tracesCount+3);
+            assertEquals(newCount, tracesCount+3);
             
             criteriaSet = new HashSet<Critere>();
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
                 TraceStatusEnum.ERROR, Critere.EQUALS));
             ExternalServiceTrace trace = externalService.getTraces(criteriaSet, null, null).get(0);
             
-            Assert.assertEquals(trace.getKey(), "2347");
-            Assert.assertEquals(trace.getKeyOwner(),"capdemat");
-            Assert.assertEquals(trace.getStatus(), TraceStatusEnum.ERROR);
+            assertEquals(trace.getKey(), "2347");
+            assertEquals(trace.getKeyOwner(),"capdemat");
+            assertEquals(trace.getStatus(), TraceStatusEnum.ERROR);
             
             
         } catch (Exception e) {
@@ -287,13 +280,9 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             SecurityContext.resetCurrentSite();
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
-            IExternalService externalService = 
-                (IExternalService) getContext(getConfigLocations()).getBean("externalService");
+            IExternalService externalService = getApplicationBean("externalService");
+            ILocalAuthorityRegistry localAuthorityRegistry = getApplicationBean("localAuthorityRegistry");
             
-            ConfigurableApplicationContext cac;
-            cac = getContext(getConfigLocations());
-            ILocalAuthorityRegistry localAuthorityRegistry = 
-                (ILocalAuthorityRegistry) cac.getBean("localAuthorityRegistry");
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
             
             XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
@@ -325,13 +314,8 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         try {
             SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
-            IExternalService externalService = 
-                (IExternalService) getContext(getConfigLocations()).getBean("externalService");
-            
-            ConfigurableApplicationContext cac;
-            cac = getContext(getConfigLocations());
-            ILocalAuthorityRegistry localAuthorityRegistry = 
-                (ILocalAuthorityRegistry) cac.getBean("localAuthorityRegistry");
+            IExternalService externalService = getApplicationBean("externalService");
+            ILocalAuthorityRegistry localAuthorityRegistry = getApplicationBean("localAuthorityRegistry");
             
             XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
             RequestServiceEndpoint endpoint = new RequestServiceEndpoint(xmlBeansMarshaller);
@@ -347,7 +331,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             pendedRequestDocument.setGetRequestsRequest(pendedRequest);
             GetRequestsResponse getResponse = 
                 (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
-            Assert.assertNotSame(getResponse.getError().length(), 0);
+            assertNotSame(getResponse.getError().length(), 0);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -359,16 +343,11 @@ public class RequestServiceEndpointTest extends RequestTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentExternalService(fakeExternalServiceLabel);
         
-        IExternalService externalService = 
-            (IExternalService) getContext(getConfigLocations()).getBean("externalService");
-        
-        ConfigurableApplicationContext cac;
+        IExternalService externalService = getApplicationBean("externalService");
         
         try {
             int completeCountBefore = 0;
-            cac = getContext(getConfigLocations());
-            ILocalAuthorityRegistry localAuthorityRegistry = 
-                (ILocalAuthorityRegistry) cac.getBean("localAuthorityRegistry");
+            ILocalAuthorityRegistry localAuthorityRegistry = getApplicationBean("localAuthorityRegistry");
             
             XmlBeansMarshaller xmlBeansMarshaller = new XmlBeansMarshaller();
             
@@ -418,9 +397,9 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             int pendedCountAfter = pendedResponse.getRequestArray().length;
             int completeCountAfter = completeResponse.getRequestArray().length;
             
-            Assert.assertEquals("Pended request counts don't match", 
+            assertEquals("Pended request counts don't match", 
                     pendedCountBefore + 2, pendedCountAfter);
-            Assert.assertEquals("Complete request counts don't match",
+            assertEquals("Complete request counts don't match",
                     completeCountBefore, completeCountAfter);
             
             /*
@@ -431,7 +410,7 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             pendedRequestDocument.setGetRequestsRequest(getRequestById);
             GetRequestsResponse getRequestByIdResponse = 
                 (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
-            Assert.assertEquals(1, getRequestByIdResponse.getRequestArray().length);
+            assertEquals(1, getRequestByIdResponse.getRequestArray().length);
             
             /*
              * Ack it and check we still get it when asked by id 
@@ -449,11 +428,11 @@ public class RequestServiceEndpointTest extends RequestTestCase {
             ackRequestDocument.setAckRequestsRequest(ackRequest);
             AckRequestsResponse ackResponse = 
                 (AckRequestsResponse) endpoint2.invokeInternal(ackRequestDocument);
-            Assert.assertNotNull(ackResponse);
+            assertNotNull(ackResponse);
 
             getRequestByIdResponse = 
                 (GetRequestsResponse) endpoint.invokeInternal(pendedRequestDocument);
-            Assert.assertEquals(1, getRequestByIdResponse.getRequestArray().length);
+            assertEquals(1, getRequestByIdResponse.getRequestArray().length);
             
         } catch (Exception e) {
             e.printStackTrace();

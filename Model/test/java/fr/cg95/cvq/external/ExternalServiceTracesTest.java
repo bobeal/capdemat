@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.security.SecurityContext;
@@ -15,6 +19,7 @@ public class ExternalServiceTracesTest extends ExternalServiceTestCase {
     
     protected Long newId = -1L;
     
+    @Test
     public void testBaseFunctionality() throws Exception {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);

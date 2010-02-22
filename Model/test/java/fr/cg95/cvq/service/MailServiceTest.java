@@ -2,6 +2,9 @@ package fr.cg95.cvq.service;
 
 import java.io.File;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 import fr.cg95.cvq.util.mail.IMailService;
@@ -13,8 +16,10 @@ import fr.cg95.cvq.util.mail.IMailService;
  */
 public class MailServiceTest extends ServiceTestCase {
 
+    @Autowired
     protected IMailService mailService;
     
+    @Test
     public void testMail() throws CvqException {
 
         String to = "bor@zenexity.fr";
@@ -25,9 +30,5 @@ public class MailServiceTest extends ServiceTestCase {
         File file = getResourceFile("Referentiel General Interoperabilite Volet Technique V0.90.pdf");
 
         mailService.send(from, to, ccs, subject, body, file);
-    }
-
-    public void setMailService(IMailService mailService) {
-        this.mailService = mailService;
     }
 }

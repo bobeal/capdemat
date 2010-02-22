@@ -11,6 +11,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
+import static org.junit.Assert.*;
+import org.junit.Test;
+
 import fr.cg95.cvq.business.document.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.request.civil.*;
@@ -29,14 +34,9 @@ import fr.cg95.cvq.util.Critere;
  * Extend it to define your own specific test cases.
  */
 public class MarriageDetailsRequestServiceTest extends RequestTestCase {
-
+    
+    @Resource(name="marriageDetailsRequestService")
     protected IRequestService requestService;
-
-    @Override
-    protected void onSetUp() throws Exception {
-        super.onSetUp();
-        requestService = getApplicationBean("marriageDetailsRequestService");
-    }
 
     protected MarriageDetailsRequest fillMeARequest() {
         MarriageDetailsRequest request = new MarriageDetailsRequest();
@@ -233,7 +233,8 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
         // delete request
         requestWorkflowService.delete(request.getId());
     }
-
+    
+    @Test
     public void testWithHomeFolderPojo()
         throws CvqException, CvqObjectNotFoundException, FileNotFoundException, IOException {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -263,7 +264,8 @@ public class MarriageDetailsRequestServiceTest extends RequestTestCase {
         assertNotNull(homeFolderAfterDelete);
         assertNotNull(homeFolderService.getHomeFolderResponsible(homeFolderAfterDelete.getId()));
     }
-
+    
+    @Test
     public void testWithoutHomeFolder()
         throws CvqException, CvqObjectNotFoundException, FileNotFoundException, IOException {
         if (!requestService.supportUnregisteredCreation())

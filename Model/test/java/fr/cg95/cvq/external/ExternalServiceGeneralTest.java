@@ -1,11 +1,16 @@
 package fr.cg95.cvq.external;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 
 public class ExternalServiceGeneralTest extends ExternalServiceTestCase {
 
+    @Test
     public void testAuthenticate() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);

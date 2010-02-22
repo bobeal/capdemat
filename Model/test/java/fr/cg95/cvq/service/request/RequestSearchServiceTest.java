@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
@@ -13,6 +17,7 @@ import fr.cg95.cvq.util.Critere;
 
 public class RequestSearchServiceTest extends RequestTestCase {
 
+    @Test
     public void testSearch() throws CvqException {
         
         CreationBean cb = gimmeAnHomeFolderWithRequest();

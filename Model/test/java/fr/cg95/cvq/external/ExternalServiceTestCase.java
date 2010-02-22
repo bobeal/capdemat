@@ -3,23 +3,26 @@ package fr.cg95.cvq.external;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
 import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.RequestTestCase;
 
+/**
+ * FIXME : dependency on request test case has to be fixed
+ */
 public class ExternalServiceTestCase extends RequestTestCase {
 
+    @Autowired
     protected IExternalService externalService;
+    @Resource(name="fakeExternalService")
     protected IExternalProviderService fakeExternalService;
     
-    @Override
-    public void onSetUp() throws Exception {
-        super.onSetUp();
-        fakeExternalService = getApplicationBean("fakeExternalService");
-    }
-
     protected void registerFakeExternalService() throws CvqConfigurationException {
         ExternalServiceBean esb = new ExternalServiceBean();
         List<String> requestTypes = new ArrayList<String>();
@@ -29,13 +32,9 @@ public class ExternalServiceTestCase extends RequestTestCase {
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         lacb.registerExternalService(fakeExternalService, esb);
     }
-    
+
     protected void unregisterFakeExternalService() {
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
         lacb.unregisterExternalService(fakeExternalService);
-    }
-    
-    public void setExternalService(IExternalService externalService) {
-        this.externalService = externalService;
-    }
+    }    
 }

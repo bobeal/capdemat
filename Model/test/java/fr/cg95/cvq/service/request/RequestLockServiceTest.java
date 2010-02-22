@@ -1,5 +1,10 @@
 package fr.cg95.cvq.service.request;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.exception.CvqException;
@@ -8,8 +13,10 @@ import fr.cg95.cvq.security.SecurityContext;
 
 public class RequestLockServiceTest extends RequestTestCase {
 
+    @Autowired
     protected IRequestLockService requestLockService;
     
+    @Test
     public void testRequestLocks() throws CvqException {
         
         // create a home folder request
@@ -87,9 +94,5 @@ public class RequestLockServiceTest extends RequestTestCase {
         requestLockService.release(requestId);
         assertFalse(requestLockService.isLockedByCurrentUser(requestId));
         assertFalse(requestLockService.isLocked(requestId));
-    }
-
-    public void setRequestLockService(IRequestLockService requestLockService) {
-        this.requestLockService = requestLockService;
     }
 }

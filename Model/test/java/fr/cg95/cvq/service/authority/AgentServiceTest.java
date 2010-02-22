@@ -1,5 +1,9 @@
 package fr.cg95.cvq.service.authority;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -12,7 +16,8 @@ import fr.cg95.cvq.testtool.ServiceTestCase;
  * @author bor@zenexity.fr
  */
 public class AgentServiceTest extends ServiceTestCase {
-   
+
+    @Test
     public void testCreate() throws CvqException {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);

@@ -6,10 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import javax.annotation.Resource;
+
 import org.hibernate.SessionFactory;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
+import org.junit.After;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.authority.Agent;
@@ -38,9 +43,10 @@ import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
 
-public class ServiceTestCase extends AbstractDependencyInjectionSpringContextTests {
-
-    protected static Logger logger = Logger.getLogger(ServiceTestCase.class);
+@ContextConfiguration({ "/applicationContext.xml",  "/applicationContext-deployment.xml",
+    "/applicationContext-test.xml", "/applicationContext-admin.xml",
+    "classpath*:pluginContext.xml", "classpath:/localAuthority-dummy.xml"})
+public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
 
     // some tests data that can (have to) be used inside tests
     public String localAuthorityName = "dummy";
@@ -59,40 +65,31 @@ public class ServiceTestCase extends AbstractDependencyInjectionSpringContextTes
     protected List<Long> homeFolderIds = new ArrayList<Long>();
 
     // users related services
+    @Resource(name="individualService")
     protected IIndividualService individualService;
+    @Autowired
     protected IHomeFolderService homeFolderService;
+    @Autowired
     protected IAuthenticationService authenticationService;
 
     // authority related services
+    @Autowired
     protected ISchoolService schoolService;
+    @Autowired
     protected IRecreationCenterService recreationCenterService;
+    @Autowired
     protected IAgentService agentService;
+    @Autowired
     protected ILocalAuthorityRegistry localAuthorityRegistry;
 
-    private static SessionFactory sessionFactory;
+    @Resource(name="sessionFactory_dummy")
+    private SessionFactory sessionFactory;
     
     protected static Boolean isInitialized = Boolean.FALSE;
 
-    @Override
-    protected String[] getConfigLocations() {
-        return new String[] { "/applicationContext.xml",
-                              "/applicationContext-deployment.xml",
-                              "/applicationContext-test.xml",
-                              "/applicationContext-admin.xml",
-                              "classpath*:pluginContext.xml",
-                              "classpath:/localAuthority-dummy.xml"};
-    }
-
-    @Override
-    protected void onSetUp() throws Exception {
+    @Before
+    public void onSetUp() throws Exception {
         
-        // as beans are autowired by type with spring test framework,
-        // we have to set some manually because there is more than one bean
-        // with their respective type
-
-        individualService = getApplicationBean("individualService");
-        sessionFactory = getApplicationBean("sessionFactory_dummy");
-
         synchronized(isInitialized) {
             if (!isInitialized.booleanValue()) {
                 
@@ -192,8 +189,8 @@ public class ServiceTestCase extends AbstractDependencyInjectionSpringContextTes
         HibernateUtil.beginTransaction();
     }
     
-    @Override
-    protected void onTearDown() throws Exception {
+    @After
+    public void onTearDown() throws Exception {
 
         try {
             continueWithNewTransaction();
@@ -231,39 +228,9 @@ public class ServiceTestCase extends AbstractDependencyInjectionSpringContextTes
         }
     }
 
-    @Deprecated
-    public Object getBean(final String beanName) throws Exception {
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        return cac.getBean(beanName);
-    }
-
     @SuppressWarnings("unchecked")
     protected <T> T getApplicationBean(String beanName) {
-        return (T) this.getApplicationContext().getBean(beanName);
-    }
-
-    public void setAuthenticationService(IAuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
-
-    public void setSchoolService(ISchoolService schoolService) {
-        this.schoolService = schoolService;
-    }
-    
-    public void setRecreationCenterService(IRecreationCenterService recreationCenterService) {
-        this.recreationCenterService = recreationCenterService;
-    }
-    
-    public void setAgentService(IAgentService agentService) {
-        this.agentService = agentService;
-    }
-
-    public void setHomeFolderService(IHomeFolderService homeFolderService) {
-        this.homeFolderService = homeFolderService;
-    }
-
-    public void setLocalAuthorityRegistry(ILocalAuthorityRegistry localAuthorityRegistry) {
-        this.localAuthorityRegistry = localAuthorityRegistry;
+        return (T)  applicationContext.getBean(beanName);
     }
 
     /**

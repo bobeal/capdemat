@@ -1,5 +1,7 @@
 package fr.capwebct.capdemat.plugins.externalservices.edemande.service;
 
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
 import fr.cg95.cvq.business.users.CreationBean;
@@ -15,7 +17,7 @@ public class EdemandeServiceTest extends StudyGrantRequestServiceTest {
     private IRequestExternalService requestExternalService;
 
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         super.onSetUp();
         requestExternalService = getApplicationBean("requestExternalService");
     }

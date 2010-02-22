@@ -5,7 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.payment.InternalInvoiceItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentMode;
@@ -39,7 +40,7 @@ public class PaylineV4ServiceTest extends PaymentTestCase {
         payment.addPaymentSpecificData("domainName", "localhost");
 
         URL url = paymentService.initPayment(payment);
-        Assert.assertNotNull(url);
+        assertNotNull(url);
 
         continueWithNewTransaction();
 

@@ -9,6 +9,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.document.DepositOrigin;
 import fr.cg95.cvq.business.document.DepositType;
 import fr.cg95.cvq.business.document.Document;
@@ -44,6 +48,7 @@ import fr.cg95.cvq.util.Critere;
  */
 public class VoCardRequestServiceTest extends RequestTestCase {
 
+    @Test
     public void testAll() throws Exception {
 
         /////////////////////////////////////////////

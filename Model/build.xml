@@ -30,8 +30,8 @@
 			<path refid="classpath.compile" />
 
 			<fileset dir="${basedir}/${lib.dir}">
-				<include name="**/spring-mock.jar" />
-				<include name="**/junit.jar" />
+				<include name="**/org.springframework.test-*.jar" />
+				<include name="**/junit-4.7.jar" />
 				<include name="**/jsmtpd-core-*.jar" />
 				<include name="**/jmock-*.jar" />
                 <include name="**/hamcrest-*.jar" />
@@ -312,12 +312,10 @@
     </target>
     -->
 	
-	<target name="run-tests" depends="prepare-configfiles, compile-tests" description="Runs the Junit test suite. Notice: A known Ant/Junit bug prevents this
-  	task to automatically work so add lib/junit/junit.jar to your CLASSPATH environment
-	variable prior to running the test suite">
+	<target name="run-tests" depends="prepare-configfiles, compile-tests">
 
-		<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" 
-			classpath="${libraries.dir}/groovy/groovy-all-1.6.7.jar" />
+		<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy"
+		    classpath="../Libraries/groovy/groovy-all-1.6.7.jar" />
 
 		<groovy>
 		  	def dialect
@@ -338,39 +336,23 @@
 		</groovy>
 		<echo message="Configured CT configuration file for DB : ${database.type}" />
 
-		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask">
-			<classpath>
-				<pathelement location="${basedir}/${lib.dir}/org.apache/ant-junit-1.6.2.jar" />
-			</classpath>
-		</taskdef>
-
-		<junit fork="on" printsummary="true" timeout="3000000" 
+		<junit fork="yes" forkmode="once" printsummary="true" timeout="3000000" 
 			haltonfailure="${junit.haltonfailure}" haltonerror="${junit.haltonerror}" 
-			filtertrace="${junit.filtertrace}">
-			<!-- for users behind a proxy -->
-			<!--
-      	<jvmarg value="-Dhttp.proxyHost=172.16.249.4"/>
-      	<jvmarg value="-Dhttp.proxyPort=8080"/>
-      	-->
-			<!--
-    	<jvmarg value="-Djavax.net.ssl.keyStore=${basedir}/conf/security/cvq.keystore"/>
-      	<jvmarg value="-Djavax.net.ssl.keyStorePassword=horanet"/>
-      	<jvmarg value="-Djavax.net.ssl.trustStore=${basedir}/conf/security/cvq.keystore"/>
-      	-->
+			filtertrace="${junit.filtertrace}" showoutput="true">
 
 			<classpath refid="classpath.run.test" />
-
+            <jvmarg line="-Xms256m -Xmx768m -XX:MaxPermSize=512m"/>
 			<sysproperty key="net.sourceforge.cobertura.datafile" file="${basedir}/${doc.cobertura.dir}/cobertura.ser" />
 			<sysproperty key="test.resource.dir" value="${test.resource.dir}" />
 			<sysproperty key="test.data.dir" value="${test.data.dir}" />
 			<formatter type="plain" usefile="false" />
+		    
 			<batchtest>
 				<fileset dir="${basedir}/${build.test.dir}">
-				  	<include name="**/CapdematTestSuite.class" />
-					<!--include name="**/*Test.class"/-->
+					<include name="**/*Test.class"/>
 					<!-- not maintained, rewriting in progress -->
-					<exclude name="PlaceReservationRequestServicePaymentTest.class" />
-                    <exclude name="HomeFolderModificationRequestServiceTest.class" />
+					<exclude name="**/PlaceReservation*Test.class" />
+                    <exclude name="**/HomeFolderModificationRequestServiceTest.class" />
 					<!-- requires mail sending infrastructure -->
 					<exclude name="**/MailServiceTest.class" />
 				</fileset>
@@ -388,7 +370,6 @@
 				-->
 			</batchtest>
 		</junit>
-
 	</target>
 
 	<target name="clean-tests">

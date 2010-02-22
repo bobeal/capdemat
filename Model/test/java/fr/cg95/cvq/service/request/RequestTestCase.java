@@ -6,7 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.request.Category;
@@ -31,28 +33,33 @@ import fr.cg95.cvq.util.Critere;
 
 public class RequestTestCase extends ServiceTestCase {
 
+    @Autowired
     protected IDocumentService documentService;
+    @Autowired
     protected IDocumentTypeService documentTypeService;
     
+    @Autowired
     protected IRequestSearchService requestSearchService;
+    @Autowired
     protected IRequestWorkflowService requestWorkflowService;
+    @Autowired
     protected IRequestDocumentService requestDocumentService;
+    @Autowired
     protected IMeansOfContactService meansOfContactService;
-
+    @Autowired
     protected IRequestTypeService requestTypeService;
+    @Autowired
     protected ICategoryService categoryService;
 
     protected Long voCardRequestId;
     protected Map<Long, Long> homeFolderVoCardRequestIds = new HashMap<Long, Long>();
 
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         
         super.onSetUp();
         
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        
-        IGenericDAO genericDAO = (IGenericDAO) cac.getBean("genericDAO");
+        IGenericDAO genericDAO = getApplicationBean("genericDAO");
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
@@ -82,7 +89,7 @@ public class RequestTestCase extends ServiceTestCase {
     }
 
     @Override
-    protected void onTearDown() throws Exception {
+    public void onTearDown() throws Exception {
 
         try {
             continueWithNewTransaction();
@@ -187,37 +194,5 @@ public class RequestTestCase extends ServiceTestCase {
         continueWithNewTransaction();
         
         return cb;
-    }
-
-    public void setDocumentService(IDocumentService documentService) {
-        this.documentService = documentService;
-    }
-    
-    public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
-    }
-
-    public void setRequestDocumentService(IRequestDocumentService requestDocumentService) {
-        this.requestDocumentService = requestDocumentService;
-    }
-
-    public void setRequestSearchService(IRequestSearchService requestSearchService) {
-        this.requestSearchService = requestSearchService;
-    }
-
-    public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
-        this.requestWorkflowService = requestWorkflowService;
-    }
-
-    public void setRequestTypeService(IRequestTypeService requestTypeService) {
-        this.requestTypeService = requestTypeService;
-    }
-
-    public void setCategoryService(ICategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
-
-    public void setMeansOfContactService(IMeansOfContactService meansOfContactService) {
-        this.meansOfContactService = meansOfContactService;
     }
 }

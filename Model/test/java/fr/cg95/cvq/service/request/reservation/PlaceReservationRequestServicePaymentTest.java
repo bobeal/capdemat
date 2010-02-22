@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.context.ConfigurableApplicationContext;
+import static org.junit.Assert.*;
 
-import junit.framework.Assert;
 import fr.cg95.cvq.business.payment.InternalInvoiceItem;
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentMode;
@@ -26,11 +25,9 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
     private IPaymentService iPaymentService;
 
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         super.onSetUp();
-        ConfigurableApplicationContext cac = getContext(getConfigLocations());
-        iPaymentService = 
-            (IPaymentService) cac.getBean("paymentService");
+        iPaymentService = getApplicationBean("paymentService");
     }
     
     public void testPaymentCommited() throws CvqException,
@@ -65,7 +62,7 @@ public class PlaceReservationRequestServicePaymentTest extends PlaceReservationR
         Payment payment = iPaymentService.createPaymentContainer(iri, PaymentMode.INTERNET);
         
         URL url = iPaymentService.initPayment(payment);
-        Assert.assertNotNull(url);
+        assertNotNull(url);
         
         // prepare the payment's commit
         

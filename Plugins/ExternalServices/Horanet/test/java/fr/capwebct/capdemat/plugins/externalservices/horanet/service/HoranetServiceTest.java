@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.context.ConfigurableApplicationContext;
+import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
@@ -43,13 +43,7 @@ public class HoranetServiceTest extends RequestTestCase {
 	private IExternalProviderService externalProviderService;
 	
 	private void setServices() throws CvqException{
-		ConfigurableApplicationContext cac;
-        try {
-            cac = getContext(getConfigLocations());
-    		externalProviderService = (IExternalProviderService) cac.getBean("horanetExternalService");
-        } catch (Exception e) {
-            throw new CvqException(e.getMessage());
-        }
+	    externalProviderService = getApplicationBean("horanetExternalService");
     }
 
 //	public void testHelloWorld() throws CvqException {

@@ -1,5 +1,10 @@
 package fr.cg95.cvq.service.request;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.exception.CvqException;
@@ -8,17 +13,18 @@ import fr.cg95.cvq.security.SecurityContext;
 
 public class DisplayGroupServiceTest extends RequestTestCase {
 
+    @Autowired
     protected IDisplayGroupService displayGroupService;
 
     @Override
-    protected void onTearDown() throws Exception {
+    public void onTearDown() throws Exception {
         for(DisplayGroup dg:displayGroupService.getAll())
             displayGroupService.delete(dg.getId());
         continueWithNewTransaction();
     }
 
     @Override
-    protected void onSetUp() throws Exception {
+    public void onSetUp() throws Exception {
         super.onSetUp();
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -35,6 +41,7 @@ public class DisplayGroupServiceTest extends RequestTestCase {
      * - displayGroup.error.nameAlreadyExists
      * - displayGroup.error.labelAlreadyExists  
      */
+    @Test
     public void testCrud() throws CvqException {
 
         try {
@@ -93,7 +100,8 @@ public class DisplayGroupServiceTest extends RequestTestCase {
         assertEquals(1, displayGroupService.getAll().size());
     }
 
-    public void testRequestTypeAssociation() throws CvqException {
+    @Test
+   public void testRequestTypeAssociation() throws CvqException {
 
         DisplayGroup dg = new DisplayGroup();
         dg.setName("dg1");
@@ -136,9 +144,5 @@ public class DisplayGroupServiceTest extends RequestTestCase {
 
         dg2 = displayGroupService.getById(dg2.getId());
         assertEquals(1, dg2.getRequestTypes().size());
-    }
-
-    public void setDisplayGroupService(IDisplayGroupService displayGroupService) {
-        this.displayGroupService = displayGroupService;
     }
 }

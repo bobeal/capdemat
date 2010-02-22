@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import junit.framework.Assert;
 
 /**
@@ -19,8 +22,10 @@ import junit.framework.Assert;
  */
 public class LocalReferentialServiceTest extends RequestTestCase {
 
+    @Autowired
     protected ILocalReferentialService localReferentialService;
 
+    @Test
     public void testAgentManipulation() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -102,8 +107,4 @@ public class LocalReferentialServiceTest extends RequestTestCase {
         retrievedLre = retrievedLrt.getEntryByKey(backupLre.getKey());
         Assert.assertNotNull(retrievedLre);
     }
-
-    public void setLocalReferentialService(ILocalReferentialService iLocalReferentialService) {
-        localReferentialService = iLocalReferentialService;
-    }    
 }

@@ -5,6 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.civil.BirthDetailsRequest;
@@ -23,10 +28,11 @@ import fr.cg95.cvq.util.DateUtils;
  */
 public class DraftManagementJobTest extends RequestTestCase {
     
+    @Autowired
     protected DraftManagementJob draftManagementJob;
     
     @Override
-    protected void onTearDown() throws Exception {
+    public void onTearDown() throws Exception {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(this.agentNameWithManageRoles);
 
@@ -42,6 +48,7 @@ public class DraftManagementJobTest extends RequestTestCase {
         super.onTearDown();
     }
 
+    @Test
     public void testRequestDraftRemoval() throws CvqException {
 
         this.createDrafts(4);
@@ -75,6 +82,7 @@ public class DraftManagementJobTest extends RequestTestCase {
         assertEquals(0,this.getDrafts().size());
     }
     
+    @Test
     public void testDraftMailSending() throws CvqException {
         
         this.createDrafts(8);
@@ -133,9 +141,5 @@ public class DraftManagementJobTest extends RequestTestCase {
         }
         
         continueWithNewTransaction();
-    }
-    
-    public void setDraftManagementJob(DraftManagementJob draftManagementJob) {
-        this.draftManagementJob = draftManagementJob;
     }
 }

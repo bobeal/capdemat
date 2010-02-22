@@ -1,12 +1,16 @@
 package fr.cg95.cvq.external;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Assert;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItemDetail;
@@ -22,6 +26,7 @@ import fr.cg95.cvq.service.payment.IPaymentService;
 
 public class FakeExternalServiceTest extends ExternalServiceTestCase {
 
+    @Test
     public void testContracts() throws CvqException {
 
         // create a vo card request (to create home folder and associates)
@@ -59,7 +64,7 @@ public class FakeExternalServiceTest extends ExternalServiceTestCase {
             completeAccount.get(IPaymentService.EXTERNAL_TICKETING_ACCOUNTS);
         ExternalTicketingContractItem etciToPayOn = 
             (ExternalTicketingContractItem) externalAccounts.get(0);
-        Assert.assertNotNull(etciToPayOn.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY));
+        assertNotNull(etciToPayOn.getExternalServiceSpecificDataByKey(ExternalServiceUtils.EXTERNAL_APPLICATION_ID_KEY));
 
         // make a payment on choosen ticketing contract
         Collection<PurchaseItem> purchaseItems = new ArrayList<PurchaseItem>();
@@ -80,15 +85,15 @@ public class FakeExternalServiceTest extends ExternalServiceTestCase {
             logger.debug(edai.getExternalItemId());
             if (edai.getExternalItemId().equals("95999-3-1910782193")) {
                 externalService.loadDepositAccountDetails(edai);
-                Assert.assertEquals(2, edai.getAccountDetails().size());
+                assertEquals(2, edai.getAccountDetails().size());
                 boolean foundCheque = false;
                 for (ExternalDepositAccountItemDetail edaiDetail : edai.getAccountDetails()) {
-                    Assert.assertEquals("ORIHUELA", edaiDetail.getHolderSurname());
-                    Assert.assertEquals("Benoit", edaiDetail.getHolderName());
+                    assertEquals("ORIHUELA", edaiDetail.getHolderSurname());
+                    assertEquals("Benoit", edaiDetail.getHolderName());
                     if (edaiDetail.getPaymentType().equals("Chèque")) {
                         foundCheque = true;
-                        Assert.assertEquals(20345, edaiDetail.getValue().intValue());
-                        Assert.assertEquals("0101566442", edaiDetail.getPaymentId());
+                        assertEquals(20345, edaiDetail.getValue().intValue());
+                        assertEquals("0101566442", edaiDetail.getPaymentId());
                     }
                 }
                 if (!foundCheque)
@@ -103,18 +108,18 @@ public class FakeExternalServiceTest extends ExternalServiceTestCase {
             ExternalInvoiceItem eii =
                 (ExternalInvoiceItem) externalAccountItem;
             if (eii.getExternalItemId().equals("95999-3-1910782195")) {
-                Assert.assertEquals(Boolean.FALSE, eii.isPaid());
+                assertEquals(Boolean.FALSE, eii.isPaid());
                 externalService.loadInvoiceDetails(eii);
-                Assert.assertEquals(2, eii.getInvoiceDetails().size());
+                assertEquals(2, eii.getInvoiceDetails().size());
                 boolean foundPedro = false;
                 for (ExternalInvoiceItemDetail eiiDetail : eii.getInvoiceDetails()) {
-                    Assert.assertEquals("ORIHUELA", eiiDetail.getSubjectSurname());
+                    assertEquals("ORIHUELA", eiiDetail.getSubjectSurname());
                     if (eiiDetail.getSubjectName().equals("Pedro")) {
                         foundPedro = true;
-                        Assert.assertEquals("Repas restauration scolaire", eiiDetail.getLabel());
-                        Assert.assertEquals(2300, eiiDetail.getUnitPrice().intValue());
-                        Assert.assertEquals(2.5, eiiDetail.getQuantity().doubleValue());
-                        Assert.assertEquals(4600, eiiDetail.getValue().intValue());
+                        assertEquals("Repas restauration scolaire", eiiDetail.getLabel());
+                        assertEquals(2300, eiiDetail.getUnitPrice().intValue());
+                        assertEquals(BigDecimal.valueOf(2.5), eiiDetail.getQuantity());
+                        assertEquals(4600, eiiDetail.getValue().intValue());
                     }
                 }
                 if (!foundPedro)

@@ -2,6 +2,10 @@ package fr.cg95.cvq.service.users;
 
 import java.util.List;
 
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.users.CreationBean;
@@ -12,6 +16,7 @@ import fr.cg95.cvq.service.request.RequestTestCase;
 
 public class MeansOfContactServiceTest extends RequestTestCase {
     
+    @Test
     public void testAll() throws CvqException {
         // Available Means of Contact are initialized during Spring Container bootstrap
         
@@ -83,6 +88,7 @@ public class MeansOfContactServiceTest extends RequestTestCase {
         assertEquals(1, fetchMoc.size());
     }
     
+    @Test
     public void testBusinessError() {
         // Test default MeansOfContact initialization 
         MeansOfContact moc = meansOfContactService.getMeansOfContactByType(MeansOfContactEnum.EMAIL);

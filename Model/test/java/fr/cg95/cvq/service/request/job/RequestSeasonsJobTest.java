@@ -1,5 +1,10 @@
 package fr.cg95.cvq.service.request.job;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
 import fr.cg95.cvq.business.request.Request;
@@ -20,6 +25,7 @@ import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 
 public class RequestSeasonsJobTest extends RequestTestCase {
  
+    @Autowired
     protected RequestSeasonsJob requestSeasonsJob;
     
     /**
@@ -47,6 +53,7 @@ public class RequestSeasonsJobTest extends RequestTestCase {
         continueWithNewTransaction();
     }
 
+    @Test
     public void testJob() throws CvqException {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
@@ -168,9 +175,5 @@ public class RequestSeasonsJobTest extends RequestTestCase {
         
         SecurityContext.setCurrentAgent(agentNameWithManageRoles);
         requestTypeService.removeRequestSeason(requestType.getId(), season.getId());
-    }
-
-    public void setRequestSeasonsJob(RequestSeasonsJob requestSeasonsJob) {
-        this.requestSeasonsJob = requestSeasonsJob;
     }
 }

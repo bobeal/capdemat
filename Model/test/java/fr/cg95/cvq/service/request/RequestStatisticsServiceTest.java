@@ -4,7 +4,10 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.Date;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
@@ -16,6 +19,7 @@ import fr.cg95.cvq.security.SecurityContext;
 
 public class RequestStatisticsServiceTest extends RequestTestCase {
 
+    @Autowired
     protected IRequestStatisticsService requestStatisticsService;
 
     @Override
@@ -39,6 +43,7 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
         super.onTearDown();
     }
     
+    @Test
     public void testRequestStatistic() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -112,24 +117,20 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
         stateStats =
             requestStatisticsService.getStateStats(startDate.getTime(), endDate.getTime(),
                 requestTypeId, null);
-        Assert.assertEquals(Long.valueOf(initialCancelledNb + 1), stateStats.get(RequestState.CANCELLED));
-        Assert.assertEquals(Long.valueOf(initialCompleteNb), stateStats.get(RequestState.COMPLETE));
-        Assert.assertEquals(Long.valueOf(initialPendingNb), stateStats.get(RequestState.PENDING));
+        assertEquals(Long.valueOf(initialCancelledNb + 1), stateStats.get(RequestState.CANCELLED));
+        assertEquals(Long.valueOf(initialCompleteNb), stateStats.get(RequestState.COMPLETE));
+        assertEquals(Long.valueOf(initialPendingNb), stateStats.get(RequestState.PENDING));
 
         // By type
         Map<Long, Long> typeStats =
             requestStatisticsService.getTypeStats(startDate.getTime(), endDate.getTime(),
             requestTypeId, null);
-        Assert.assertEquals(1, typeStats.size());
+        assertEquals(1, typeStats.size());
 
         startDate.add(Calendar.DAY_OF_YEAR, -10);
         Map<Date, Long> periodStats =
             requestStatisticsService.getTypeStatsByPeriod(startDate.getTime(),
             endDate.getTime(), requestTypeId, null);
-        Assert.assertNotNull(periodStats);
-    }
-
-    public void setRequestStatisticsService(IRequestStatisticsService requestStatisticsService) {
-        this.requestStatisticsService = requestStatisticsService;
+        assertNotNull(periodStats);
     }
 }

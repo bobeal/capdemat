@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
@@ -47,7 +46,7 @@ import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.mail.IMailService;
 
 public final class PaymentService implements IPaymentService, 
-    ApplicationListener, ApplicationContextAware {
+    ApplicationListener<UsersEvent>, ApplicationContextAware {
 
     private static Logger logger = Logger.getLogger(PaymentService.class);
 
@@ -403,16 +402,11 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        if (applicationEvent instanceof UsersEvent) {
-            UsersEvent homeFolderEvent = (UsersEvent) applicationEvent;
-            logger.debug("onApplicationEvent() got an home folder event of type "
-                    + homeFolderEvent.getEvent());
-            if (homeFolderEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_DELETE)) {
-                logger.debug("onApplicationEvent() gonna delete home folder "
-                        + homeFolderEvent.getHomeFolderId());
-                deleteHomeFolderPayments(homeFolderEvent.getHomeFolderId());
-            }
+    public void onApplicationEvent(UsersEvent usersEvent) {
+        logger.debug("onApplicationEvent() got an home folder event of type " + usersEvent.getEvent());
+        if (usersEvent.getEvent().equals(UsersEvent.EVENT_TYPE.HOME_FOLDER_DELETE)) {
+            logger.debug("onApplicationEvent() gonna delete home folder " + usersEvent.getHomeFolderId());
+            deleteHomeFolderPayments(usersEvent.getHomeFolderId());
         }
     }
 

@@ -2,6 +2,10 @@ package fr.cg95.cvq.service.authority;
 
 import java.util.TreeSet;
 
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -25,6 +29,7 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
         assertEquals(la.getServerNames().size(), 1);        
     }
     
+    @Test
     public void testGetLocalAuthorityByServerName()
         throws CvqException {
 
@@ -41,6 +46,7 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
         localAuthorityRegistry.removeLocalAuthorityServerName(oldServerName + "new");
     }
 
+    @Test
     public void testAddLocalAuthorityServerName()
         throws CvqException {
 
@@ -51,6 +57,7 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
         localAuthorityRegistry.removeLocalAuthorityServerName("sn2");
     }
 
+    @Test
     public void testRegisterLocalAuthorityServerName()
         throws CvqException {
 
@@ -61,6 +68,7 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
         localAuthorityRegistry.unregisterLocalAuthorityServerName("sn3");
     }
 
+    @Test
     public void testRemoveLocalAuthorityServerName()
         throws CvqException {
 
@@ -72,6 +80,7 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
         localAuthorityRegistry.addLocalAuthorityServerName(oldServerName);
     }
 
+    @Test
     public void testUnregisterLocalAuthorityServerName()
         throws CvqException {
 
@@ -82,6 +91,7 @@ public class LocalAuthorityRegistryTest extends ServiceTestCase {
         localAuthorityRegistry.registerLocalAuthorityServerName(la.getServerNames().first());
     }
 
+    @Test
     public void testSetLocalAuthorityServerNames()
         throws CvqException{
 

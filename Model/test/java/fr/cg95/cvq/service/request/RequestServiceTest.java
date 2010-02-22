@@ -5,8 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
 
+import org.junit.Test;
 import org.w3c.dom.Node;
 
 import fr.cg95.cvq.business.request.Category;
@@ -31,6 +32,7 @@ import fr.cg95.cvq.util.Critere;
  */
 public class RequestServiceTest extends RequestTestCase {
 
+    @Test
     public void testRequestType()
         throws CvqException {
 
@@ -90,9 +92,9 @@ public class RequestServiceTest extends RequestTestCase {
 
         rt = requestTypeService.getRequestTypeById(rt.getId());
         if (shouldBeActive)
-            Assert.assertTrue(rt.getActive().booleanValue());
+            assertTrue(rt.getActive().booleanValue());
         else
-            Assert.assertFalse(rt.getActive().booleanValue());
+            assertFalse(rt.getActive().booleanValue());
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
@@ -108,11 +110,12 @@ public class RequestServiceTest extends RequestTestCase {
         int requestTypeNumber = requestTypeService.getAllRequestTypes().size();
         int requestTypeInCategory = 
             requestTypeService.getRequestTypes(criteriaSet).size();
-        Assert.assertEquals(requestTypeNumber, requestTypeInCategory);
+        assertEquals(requestTypeNumber, requestTypeInCategory);
 
         SecurityContext.resetCurrentSite();
     }
 
+    @Test
     public void testRequestCloning() throws CvqException {
 
         CreationBean creationBean = gimmeAnHomeFolderWithRequest();
@@ -130,6 +133,7 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.resetCurrentSite();
     }
 
+    @Test
     public void testRequestSearch() throws CvqException {
         
         CreationBean cb = gimmeAnHomeFolderWithRequest();
@@ -191,6 +195,7 @@ public class RequestServiceTest extends RequestTestCase {
         SecurityContext.resetCurrentSite();
     }
 
+    @Test
     public void testRequestTypeForm() throws CvqException {
 
         CreationBean creationBean = gimmeAnHomeFolderWithRequest();
@@ -214,14 +219,14 @@ public class RequestServiceTest extends RequestTestCase {
         
         List<RequestForm> forms = requestTypeService.getRequestTypeForms(
                 requestType.getId(), RequestFormType.REQUEST_MAIL_TEMPLATE);
-        Assert.assertEquals(1, forms.size());
+        assertEquals(1, forms.size());
 
         RequestForm tmpForm = requestTypeService.getRequestFormById(id);
-        Assert.assertEquals(tmpForm.getLabel(),requestForm.getLabel());
-        Assert.assertEquals(tmpForm.getShortLabel(),requestForm.getShortLabel());
-        Assert.assertEquals(tmpForm.getTemplateName(),requestForm.getTemplateName());
-        Assert.assertEquals(tmpForm.getType(),requestForm.getType());
-        Assert.assertEquals("MyData", new String(tmpForm.getPersonalizedData()));
+        assertEquals(tmpForm.getLabel(),requestForm.getLabel());
+        assertEquals(tmpForm.getShortLabel(),requestForm.getShortLabel());
+        assertEquals(tmpForm.getTemplateName(),requestForm.getTemplateName());
+        assertEquals(tmpForm.getType(),requestForm.getType());
+        assertEquals("MyData", new String(tmpForm.getPersonalizedData()));
 
         tmpForm.setLabel("new label");
         tmpForm.setShortLabel("new short label");
@@ -232,14 +237,14 @@ public class RequestServiceTest extends RequestTestCase {
         
         continueWithNewTransaction();
         
-        Assert.assertEquals(sameId,id);
+        assertEquals(sameId,id);
 
         tmpForm = requestTypeService.getRequestFormById(sameId);
-        Assert.assertEquals(tmpForm.getLabel(),"new label");
-        Assert.assertEquals(tmpForm.getShortLabel(),"new short label");
-        Assert.assertEquals(tmpForm.getTemplateName(),"tmp");
-        Assert.assertEquals(tmpForm.getType(),requestForm.getType());
-        Assert.assertEquals(new String(tmpForm.getPersonalizedData()),"new data");
+        assertEquals(tmpForm.getLabel(),"new label");
+        assertEquals(tmpForm.getShortLabel(),"new short label");
+        assertEquals(tmpForm.getTemplateName(),"tmp");
+        assertEquals(tmpForm.getType(),requestForm.getType());
+        assertEquals(new String(tmpForm.getPersonalizedData()),"new data");
 
         try {
             RequestForm f = new RequestForm();
@@ -250,13 +255,13 @@ public class RequestServiceTest extends RequestTestCase {
             requestTypeService.modifyRequestTypeForm(requestType.getId(), f);
             fail("RequestForm data can't be duplicated");
         } catch (CvqModelException cvqme) {
-            Assert.assertEquals("requestForm.message.labelAlreadyUsed", cvqme.getI18nKey());
+            assertEquals("requestForm.message.labelAlreadyUsed", cvqme.getI18nKey());
         } finally {
             requestTypeService.removeRequestTypeForm(requestType.getId(), tmpForm.getId());
             continueWithNewTransaction();
             forms = requestTypeService.getRequestTypeForms(requestType.getId(),
                 RequestFormType.REQUEST_MAIL_TEMPLATE);
-            Assert.assertEquals(0, forms.size());
+            assertEquals(0, forms.size());
         }
     }
 

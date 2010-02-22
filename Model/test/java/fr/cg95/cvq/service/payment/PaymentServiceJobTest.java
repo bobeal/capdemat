@@ -4,6 +4,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.*;
+
 import fr.cg95.cvq.business.payment.Payment;
 import fr.cg95.cvq.business.payment.PaymentMode;
 import fr.cg95.cvq.business.payment.PaymentState;
@@ -15,18 +20,11 @@ import fr.cg95.cvq.service.payment.job.PaymentInitializationDateCheckerJob;
 import fr.cg95.cvq.util.DateUtils;
 
 public class PaymentServiceJobTest extends PaymentTestCase {
-	       
-	private IPaymentDAO paymentDAO;
-	private PaymentInitializationDateCheckerJob paymentInitilizationDateCheckerJob;
-	
-    @Override
-    public void onSetUp() throws Exception {
-        super.onSetUp();
 
-        paymentDAO = super.<IPaymentDAO>getApplicationBean("paymentDAO");
-        paymentInitilizationDateCheckerJob = 
-            super.<PaymentInitializationDateCheckerJob>getApplicationBean("paymentInitializationCheckerJob");
-    }
+    @Autowired
+	private IPaymentDAO paymentDAO;
+    @Autowired
+	private PaymentInitializationDateCheckerJob paymentInitilizationDateCheckerJob;
 	
 	private Payment createPayment(int timeShifting, PaymentState paymentState, boolean commitAlert, 
 			String broker, String cvqReference , PaymentMode paymentMode) throws CvqException {
@@ -58,6 +56,7 @@ public class PaymentServiceJobTest extends PaymentTestCase {
 		return payment;
     }
 	
+	@Test
 	public void testPaymentDAOSearchNotCommited() throws CvqException {
     	
     	Payment payment = 
@@ -82,7 +81,8 @@ public class PaymentServiceJobTest extends PaymentTestCase {
         listPayment = paymentDAO.searchNotCommited();
         assertEquals(0, listPayment.size());
     }
-	
+
+	@Test
     public void testPaymentInitialization() throws CvqException {
     	
     	Payment payment = 

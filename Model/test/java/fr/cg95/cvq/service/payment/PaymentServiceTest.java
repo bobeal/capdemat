@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.Assert;
+import javax.annotation.Resource;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
@@ -29,12 +33,12 @@ import fr.cg95.cvq.util.Critere;
 
 public class PaymentServiceTest extends PaymentTestCase {
 
+    @Resource(name="fakeExternalService")
     private IExternalProviderService fakeExternalService;
 
     @Override
     public void onSetUp() throws Exception {
         super.onSetUp();
-        fakeExternalService = getApplicationBean("fakeExternalService");
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
 
@@ -52,14 +56,14 @@ public class PaymentServiceTest extends PaymentTestCase {
     private Payment gimmePayment() throws CvqException {
         
         Map<String, String> brokers = paymentService.getAllBrokers();
-        Assert.assertNotNull(brokers);
-        Assert.assertFalse(brokers.isEmpty());
+        assertNotNull(brokers);
+        assertFalse(brokers.isEmpty());
         String broker = null;
         for (String b : brokers.keySet()) {
             if (b.indexOf("Dummy") > 0)
                 broker = b;
         }
-        Assert.assertNotNull(broker);
+        assertNotNull(broker);
         
         InternalInvoiceItem internalRequestItem1 =
             new InternalInvoiceItem("IRI 1", Double.valueOf("154"),
@@ -82,6 +86,7 @@ public class PaymentServiceTest extends PaymentTestCase {
         return payment;
     }    
     
+    @Test
     public void testPaymentCreate() throws CvqException {
         
         CreationBean cb = gimmeAnHomeFolder();
@@ -110,6 +115,7 @@ public class PaymentServiceTest extends PaymentTestCase {
         paymentService.delete(payment.getId());
     }
     
+    @Test
     public void testPaymentSuccessFlow() throws CvqException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
@@ -121,25 +127,25 @@ public class PaymentServiceTest extends PaymentTestCase {
         Payment payment = gimmePayment();
 
         URL url = paymentService.initPayment(payment);
-        Assert.assertNotNull(url);
+        assertNotNull(url);
         
         continueWithNewTransaction();
         
         List<Payment> payments = paymentService.getByHomeFolder(cb.getHomeFolderId());
-        Assert.assertEquals(1, payments.size());
+        assertEquals(1, payments.size());
         payment = payments.get(0);
-        Assert.assertEquals(3, payment.getPurchaseItems().size());
-        Assert.assertEquals(payment.getState(), PaymentState.INITIALIZED);
-        Assert.assertNotNull(payment.getCvqReference());
-        Assert.assertNotNull(payment.getId());
+        assertEquals(3, payment.getPurchaseItems().size());
+        assertEquals(payment.getState(), PaymentState.INITIALIZED);
+        assertNotNull(payment.getCvqReference());
+        assertNotNull(payment.getId());
         
         Set<PurchaseItem> purchaseItems = payment.getPurchaseItems();
         for (PurchaseItem purchaseItem : purchaseItems) {
             if (purchaseItem instanceof ExternalDepositAccountItem) {
                 ExternalDepositAccountItem edai = (ExternalDepositAccountItem) purchaseItem;
-                Assert.assertEquals("EFA-ID", 
+                assertEquals("EFA-ID", 
                         edai.getExternalServiceSpecificDataByKey("externalFamilyAccountId"));
-                Assert.assertEquals("Cantine", 
+                assertEquals("Cantine", 
                         edai.getExternalServiceSpecificDataByKey("externalApplicationLabel"));
             } else if (purchaseItem instanceof InternalInvoiceItem) {
                 InternalInvoiceItem iii = (InternalInvoiceItem) purchaseItem;
@@ -156,13 +162,13 @@ public class PaymentServiceTest extends PaymentTestCase {
         PaymentResultStatus returnStatus = paymentService.commitPayment(parameters);
         SecurityContext.setCurrentContext(SecurityContext.FRONT_OFFICE_CONTEXT);
         SecurityContext.setCurrentEcitizen(cb.getLogin());
-        Assert.assertEquals(returnStatus, PaymentResultStatus.OK);
+        assertEquals(returnStatus, PaymentResultStatus.OK);
         
         continueWithNewTransaction();
         
         payment = paymentService.getById(payment.getId());
-        Assert.assertEquals(3, payment.getPurchaseItems().size());
-        Assert.assertEquals(payment.getState(), PaymentState.VALIDATED);
+        assertEquals(3, payment.getPurchaseItems().size());
+        assertEquals(payment.getState(), PaymentState.VALIDATED);
 
         paymentService.delete(payment.getId());
         
@@ -175,9 +181,10 @@ public class PaymentServiceTest extends PaymentTestCase {
             // that was expected
         }
 
-        Assert.assertEquals(0, paymentService.getByHomeFolder(cb.getHomeFolderId()).size());
+        assertEquals(0, paymentService.getByHomeFolder(cb.getHomeFolderId()).size());
     }
 
+    @Test
     public void testPaymentSearch() throws CvqException {
 
         CreationBean cb = gimmeAnHomeFolder();
@@ -248,7 +255,7 @@ public class PaymentServiceTest extends PaymentTestCase {
         
         payments = paymentService.get(criteria, null, null, -1, 0);
 
-        Assert.assertEquals(1, payments.size());
+        assertEquals(1, payments.size());
         
         paymentService.delete(payment.getId());
     }

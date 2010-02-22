@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.request.Request;
@@ -83,59 +83,59 @@ public class ConcertoCsvImportServiceTest extends RequestTestCase {
         }
         
         List<HomeFolder> allHomeFolders = homeFolderService.getAll(true, true);
-        Assert.assertEquals(allHomeFolders.size(), 1);
+        assertEquals(allHomeFolders.size(), 1);
         
         HomeFolder homeFolder = allHomeFolders.iterator().next();
-        Assert.assertNotNull(homeFolder);
-        Assert.assertNotNull(homeFolder.getFamilyQuotient());
-        Assert.assertTrue(homeFolder.getFamilyQuotient().contains("013,09"));
+        assertNotNull(homeFolder);
+        assertNotNull(homeFolder.getFamilyQuotient());
+        assertTrue(homeFolder.getFamilyQuotient().contains("013,09"));
         
         Adult homeFolderResponsible = 
             homeFolderService.getHomeFolderResponsible(homeFolder.getId());
-        Assert.assertNotNull(homeFolderResponsible);
-        Assert.assertEquals(homeFolderResponsible.getLastName(), "KAFKA");
-        Assert.assertEquals(homeFolderResponsible.getFirstName(), "Julie");
-        Assert.assertEquals(homeFolderResponsible.getHomePhone(), "0606060606");
-        Assert.assertEquals(homeFolderResponsible.getTitle().toString(), "Madam");
+        assertNotNull(homeFolderResponsible);
+        assertEquals(homeFolderResponsible.getLastName(), "KAFKA");
+        assertEquals(homeFolderResponsible.getFirstName(), "Julie");
+        assertEquals(homeFolderResponsible.getHomePhone(), "0606060606");
+        assertEquals(homeFolderResponsible.getTitle().toString(), "Madam");
         
         Address address = homeFolder.getAdress();
-        Assert.assertEquals(address.getPostalCode(), "75012");
-        Assert.assertEquals(address.getCity(), "PARIS");
+        assertEquals(address.getPostalCode(), "75012");
+        assertEquals(address.getCity(), "PARIS");
         // TODO Better refactor this, to respect Address Normalisation
-        Assert.assertEquals(address.getStreetName(), "12 RUE DE COTTE");
+        assertEquals(address.getStreetName(), "12 RUE DE COTTE");
         
         List<Child> children = homeFolderService.getChildren(homeFolder.getId());
-        Assert.assertEquals(children.size(), 2);
+        assertEquals(children.size(), 2);
         for (Child child : children) {
-            Assert.assertEquals(child.getLastName(), "KAFKA");
+            assertEquals(child.getLastName(), "KAFKA");
 
             if (child.getFirstName().equals("Franz")) {
-                Assert.assertEquals(child.getSex(), SexType.MALE);
+                assertEquals(child.getSex(), SexType.MALE);
                 Calendar now = GregorianCalendar.getInstance();
                 now.setTime(child.getBirthDate());
-                Assert.assertEquals(now.get(Calendar.YEAR), 2001);
-                Assert.assertEquals(now.get(Calendar.MONTH), 10);
-                Assert.assertEquals(now.get(Calendar.DAY_OF_MONTH), 18);
+                assertEquals(now.get(Calendar.YEAR), 2001);
+                assertEquals(now.get(Calendar.MONTH), 10);
+                assertEquals(now.get(Calendar.DAY_OF_MONTH), 18);
             } else if (child.getFirstName().equals("Elli")) {
-                Assert.assertEquals(child.getSex(), SexType.FEMALE);
+                assertEquals(child.getSex(), SexType.FEMALE);
                 Calendar now = GregorianCalendar.getInstance();
                 now.setTime(child.getBirthDate());
-                Assert.assertEquals(now.get(Calendar.YEAR), 1998);
-                Assert.assertEquals(now.get(Calendar.MONTH), 6);
-                Assert.assertEquals(now.get(Calendar.DAY_OF_MONTH), 15);
+                assertEquals(now.get(Calendar.YEAR), 1998);
+                assertEquals(now.get(Calendar.MONTH), 6);
+                assertEquals(now.get(Calendar.DAY_OF_MONTH), 15);
             } else {
                 fail("Found a child with an unexpected first name");
             }
 
             List<Request> childRequests = requestSearchService.getBySubjectId(child.getId());
-            Assert.assertEquals(2, childRequests.size());
+            assertEquals(2, childRequests.size());
             for (Request request : childRequests) {
                 if (request instanceof SchoolRegistrationRequest) {
                     SchoolRegistrationRequest srr = (SchoolRegistrationRequest) request;
                     if (child.getFirstName().equals("Franz"))
-                        Assert.assertEquals(srr.getSection(), SectionType.THIRD_SECTION);
+                        assertEquals(srr.getSection(), SectionType.THIRD_SECTION);
                     else
-                        Assert.assertEquals(srr.getSection(), SectionType.CE2);
+                        assertEquals(srr.getSection(), SectionType.CE2);
                 } else if (request instanceof SchoolCanteenRegistrationRequest) {
                     
                 } else {

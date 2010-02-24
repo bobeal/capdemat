@@ -163,6 +163,8 @@ class BackofficeRequestInstructionController {
     // TODO - Mutualize with FrontOffice
     def getLocalReferentialTypes(localReferentialService, requestTypeLabel) {
         def result = [:]
+        if (requestTypeLabel == 'Ticket Booking')
+            return result
         try {
             localReferentialService.getLocalReferentialDataByRequestType(requestTypeLabel).each{
                 result.put(StringUtils.firstCase(it.dataName,'Lower'), it)

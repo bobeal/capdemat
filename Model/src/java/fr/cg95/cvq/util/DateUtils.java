@@ -8,9 +8,13 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import org.joda.time.DateTime;
+
 public class DateUtils {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+
+    private static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 
 	public static int getWorkDaysBetweenDates(Date startDate, Date endDate) {
 		Calendar startCalendar = GregorianCalendar.getInstance();
@@ -35,7 +39,7 @@ public class DateUtils {
     public static Date parseDate(String source) throws ParseException {
        return dateFormat.parse(source);
     }
-    
+
     public static String formatDate(Date date) {
         if (date == null)
             return "";
@@ -44,6 +48,10 @@ public class DateUtils {
 
         return df.format(date);
     }
+
+    public static Date parseDateTime(String source) throws ParseException {
+        return dateTimeFormat.parse(source);
+     }
 
     public static Date getShiftedDate(int shiftUnit, int shiftAmount) {
 
@@ -59,5 +67,14 @@ public class DateUtils {
         calendar.setTime(reference);
         calendar.add(shiftUnit, shiftAmount);
         return calendar.getTime();
+    }
+
+    public static Date setTime(Date date, String hours, String minutes) {
+        if (date == null)
+            return null;
+        DateTime dateTime = new DateTime(date);
+        dateTime = dateTime.withHourOfDay("".equals(hours) ? 0 : new Integer(hours));
+        dateTime = dateTime.withMinuteOfHour("".equals(minutes) ? 0 : new Integer(minutes));
+        return dateTime.toDate();
     }
 }

@@ -6,11 +6,18 @@ import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.RoleType
+import fr.cg95.cvq.business.payment.Payment
+import fr.cg95.cvq.business.payment.InternalInvoiceItem
+import fr.cg95.cvq.business.payment.PaymentMode
+import fr.cg95.cvq.business.request.ticket.Event
+import fr.cg95.cvq.business.authority.LocalAuthorityResource
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.exception.CvqValidationException
+import fr.cg95.cvq.exception.CvqTicketBookingException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IAutofillService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.request.ITicketBookingService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.IConditionService
@@ -21,9 +28,13 @@ import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.request.reservation.ITicketBookingRequestService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IHomeFolderService
-import fr.cg95.cvq.util.translation.ITranslationService;
+import fr.cg95.cvq.util.translation.ITranslationService
+import fr.cg95.cvq.service.payment.IPaymentService
+import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.util.DateUtils
 
 import grails.converters.JSON
 import net.sf.oval.Validator
@@ -47,9 +58,13 @@ class FrontofficeRequestCreationController {
     IDocumentService documentService
     IDocumentTypeService documentTypeService
     IHomeFolderService homeFolderService
-
+    
+    ITicketBookingService ticketBookingService
+    ITicketBookingRequestService ticketBookingRequestService
+    
     IConditionService conditionService
     IAutofillService autofillService
+    IPaymentService paymentService
 
     ITranslationService translationService
 
@@ -130,6 +145,7 @@ class FrontofficeRequestCreationController {
         session[uuidString].homeFolderResponsible = requester
         session[uuidString].individuals = individuals
         session[uuidString].draftVisible = false
+        fillTicketBookingSession(uuidString, params.label)
 
         def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(requestType.label)}/edit"
         render(view: viewPath, model: [
@@ -150,7 +166,7 @@ class FrontofficeRequestCreationController {
             'isDocumentEditMode': false,
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
             'isEdition' : cRequest.id != null && !RequestState.DRAFT.equals(cRequest.state)
-        ].plus(fillCommonRequestModel(requestType.label)))
+        ].plus(fillCommonRequestModel(uuidString, requestType.label)))
     }
 
     def step = {
@@ -436,6 +452,44 @@ class FrontofficeRequestCreationController {
                 flash.confirmationMessage = message(code:'request.message.savedAsDraft')
                 flash.confirmationMessageNotice = message(code:'request.message.savedAsDraftNotice')
             }
+            else if (submitAction[1] == 'tbrDisplayPrevious') {}
+            else if (submitAction[1] == 'tbrDisplayNext') {}
+            else if (submitAction[1] == 'tbrSortBy') {}
+            else if (submitAction[1] == 'tbrBook') {}
+            else if (submitAction[1] == 'tbrBookPlaces') {
+                def ticketParam = targetAsMap(submitAction[3])
+                def placeNumber = params['placeNumber_' + ticketParam.fareId]
+                try {
+                    ticketBookingRequestService.reserve(cRequest, placeNumber, 
+                        Long.valueOf(ticketParam.fareId),Long.valueOf(ticketParam.placeCategoryId),
+                        Long.valueOf(ticketParam.eventId))
+                } catch (CvqTicketBookingException e) {
+                    flash.tbrErrorFareId = Long.valueOf(ticketParam.fareId)
+                    flash.tbrMessageError = message(code: e.i18nKey, args:e.i18nArgs as List)
+                }
+            }
+            else if (submitAction[1] == 'tbrFreePlaces') {
+                def index = Integer.valueOf(submitAction[3])
+                ticketBookingRequestService.free(cRequest, index)
+            }
+            else if (submitAction[1] == 'tbrAskUpdateSubscriberMode') {
+                flash.tbrAskUpdateSubscriberMode = true;
+                flash.isSubscriber = new Boolean(params.isSubscriber);
+                flash.subscriberNumber = params.subscriberNumber
+                flash.subscriberFirstName = params.subscriberFirstName
+                flash.subscriberLastName = params.subscriberLastName
+            }
+            else if (submitAction[1] == 'tbrCancelSubscriberMode') {}
+            else if (submitAction[1] == 'tbrUpdateSubscriberMode') {
+                try {
+                    println params
+                    ticketBookingRequestService.switchSubscriberMode(cRequest, new Boolean(params.isSubscriber),
+                        params.subscriberNumber, params.subscriberFirstName, params.subscriberLastName)
+                } catch (CvqTicketBookingException ctbe) {
+                    flash.tbrErrorSubscriber = true
+                    flash.tbrMessageError = message(code: ctbe.i18nKey)
+                }
+            }
             // standard save action
             else {
                 // remove databinding when saving a step of account creation/modification
@@ -544,6 +598,16 @@ class FrontofficeRequestCreationController {
                     }
                     parameters.canFollowRequest = params.'_homeFolderResponsible.activeHomeFolder'
                     parameters.requesterLogin = objectToBind.homeFolderResponsible.login
+
+                    if (requestTypeInfo.label == 'Ticket Booking' && session.supportsPaymentsTab) {
+                        def payment =   tbrToPayment(cRequest)
+                        payment.addPaymentSpecificData('scheme',request.scheme)
+                        payment.addPaymentSpecificData('domainName',request.serverName)
+                        payment.addPaymentSpecificData('port',request.serverPort.toString())
+                        payment.addPaymentSpecificData('callbackUrl',createLink(action:'exit', params:parameters).toString())
+                        redirect(url:paymentService.initPayment(payment).toString())
+                        return false
+                    }
                     redirect(action:'exit', params:parameters)
                     return
                 } else {
@@ -578,6 +642,7 @@ class FrontofficeRequestCreationController {
             session[uuidString].requester = objectToBind.requester
             session[uuidString].homeFolderResponsible = objectToBind.homeFolderResponsible
             session[uuidString].individuals = objectToBind.individuals
+            fillTicketBookingSession(uuidString, requestTypeInfo.label)
         } catch (CvqValidationException e) {
             e.invalidFields.each {
                 requestAdaptorService.stepState(cRequest.stepStates?.get(it.key), 'invalid', null, it.value)
@@ -611,19 +676,19 @@ class FrontofficeRequestCreationController {
                              'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
                              'isEdition' : cRequest.id != null && !RequestState.DRAFT.equals(cRequest.state),
                              'requestNote' : params.requestNote
-                     ].plus(fillCommonRequestModel(requestTypeInfo.label)))
+                     ].plus(fillCommonRequestModel(uuidString, requestTypeInfo.label)))
     }  
 
-    def fillCommonRequestModel(requestTypeLabel) {
-        return [
+    def fillCommonRequestModel(uuidString, requestTypeLabel) {
+      return [
             'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(requestTypeLabel),
             'requestTypeLabel': requestTypeLabel,
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)),
             'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)),
             'customJS' : requestTypeAdaptorService.getCustomJS(requestTypeLabel),
             'displayChildrenInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayChildrenInAccountCreation(),
-            'displayTutorsInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayTutorsInAccountCreation(),
-        ]
+            'displayTutorsInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayTutorsInAccountCreation()
+      ].plus(fillTicketBookingtModel(uuidString, requestTypeLabel))
     }
 
     def condition = {
@@ -669,7 +734,10 @@ class FrontofficeRequestCreationController {
                      'requesterLogin': params.requesterLogin,
                      'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card'),
                      'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-                     'isEdition' : params.isEdition
+                     'isEdition' : params.isEdition,
+                     'bankReference': params.bankReference,
+                     'cvqReference': params.cvqReference,
+                     'paymentStatus': params.status
                     ])
     }
 
@@ -827,6 +895,96 @@ class FrontofficeRequestCreationController {
         }
         owners += homeFolderService.listByHomeFolderRoles(homeFolder.id, RoleType.homeFolderRoleTypes)
         return owners
+    }
+
+    /* Ticket Booking
+     * ------------------------------------------------------------------------------------------- */
+
+    def entertainmentLogo = {
+        def entertainment = ticketBookingService.getEntertainmentById(Long.valueOf(params.id))
+        def logo = entertainment.logo
+        if (logo == null) {
+            def noLogoResource = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                LocalAuthorityResource.Type.IMAGE, 'ticketBookingNoLogo',
+                LocalAuthorityResource.Version.CURRENT, true)
+            logo = noLogoResource.readBytes()
+        }
+        response.contentType = "image/png"
+        response.outputStream << logo
+    }
+
+    def fillTicketBookingtModel(uuidString, requestTypeLabel) {
+        if (requestTypeLabel != 'Ticket Booking')
+            return [:]
+
+        def ticketEvents = ticketBookingService.getEvents(
+            session[uuidString].ticketBooking.criterias,
+            session[uuidString].ticketBooking.sortBy,
+            null,
+            session[uuidString].ticketBooking.recordsReturns,
+            session[uuidString].ticketBooking.startsIndex)
+
+        return [
+            'ticketEvents': ticketEvents,
+            'maxCartSize': ticketBookingService.getMaxCartSize()
+        ]
+    }
+
+    def fillTicketBookingSession(uuidString, requestTypeLabel) {
+        if (requestTypeLabel != 'Ticket Booking')
+            return
+        if (session[uuidString].ticketBooking == null) {
+            session[uuidString].ticketBooking = [:]
+            session[uuidString].ticketBooking.criterias = new HashSet<Critere>() 
+            session[uuidString].ticketBooking.sortBy = 'date'
+            session[uuidString].ticketBooking.recordsReturns = 8
+            session[uuidString].ticketBooking.startsIndex = 0
+            session[uuidString].ticketBooking.ticketEventsSize = ticketBookingService.getEvents(
+            session[uuidString].ticketBooking.criterias, null, null, -1, 0).size()
+        } else {
+            if (params."submit-tbrDisplayPrevious-entertainments")
+                session[uuidString].ticketBooking.startsIndex -= session[uuidString].ticketBooking.recordsReturns
+            if (params."submit-tbrDisplayNext-entertainments")
+                session[uuidString].ticketBooking.startsIndex += session[uuidString].ticketBooking.recordsReturns
+            if (params."submit-tbrSortBy-entertainments")
+                session[uuidString].ticketBooking.sortBy = params.sortBy
+
+            def submitAction = (params.keySet().find { it.startsWith('submit-') }).tokenize('-')
+            if (submitAction[1] == 'tbrBook')
+                session[uuidString].ticketBooking.selectedEventId = Long.valueOf(submitAction[3])
+        }
+    }
+
+    def tbrToPayment(cRequest) {
+        def internalInvoiceItems = []
+        cRequest.tbrTicket.each {
+            /*
+             *  public InternalInvoiceItem(final String label, final Double amount,
+             *      final String key, final String keyOwner, final String supportedBroker,
+             *      final Integer quantity, final Double unitPrice);
+            */
+            internalInvoiceItems.add(new InternalInvoiceItem(
+                    it.eventName + " ("+ DateUtils.format(it.eventDate)+ ") " + it.eventPlace,
+                    it.price * 100,
+                    cRequest.id.toString(), 'capdemat',
+                    'Régie démo de Blainville',
+                    it.placeNumber.intValue(),
+                    it.price * 100))
+        }
+        def payment = paymentService.createPaymentContainer(
+                internalInvoiceItems.remove(0), PaymentMode.INTERNET)
+        internalInvoiceItems.each { paymentService.addPurchaseItemToPayment(payment, it)}
+        return payment
+    }
+
+    def fillTicketBookingPaymentParam(requestTypeLabel) {
+        if (requestTypeLabel != 'Ticket Booking')
+            return [:]
+        return [
+            'bankReference': params.bankReference,
+            'cvqReference': params.cvqReference,
+            'paymentStatus': params.status
+        ]
     }
 
     /* Utils

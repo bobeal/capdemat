@@ -18,6 +18,6 @@ class BackofficeUrlMappings {
     "/backoffice/agent/$action?/$id?" (controller : "backofficeAgent" )
     "/backoffice/statistic/$action?/$id?" (controller : "backofficeStatistic" )
     "/backoffice/external/$action?/$id?" (controller : "backofficeExternal" )
-
+    "/backoffice/ticketBooking/$action?/$id?" (controller : "backofficeTicketBooking" )
   }
 }

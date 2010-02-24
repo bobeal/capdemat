@@ -18,7 +18,7 @@
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'requestTypeConfigure.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'requestTypeSeasons.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'requestTypeRules.js')}"></script>
-    
+    <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'ticketBooking.js')}"></script>
     <script type="text/javascript">
       zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       zenexity.capdemat.bong.requesttype.currentId = '${requestType.id}';
@@ -69,6 +69,7 @@
           </div>
           <div id="requestTypeLocalReferential" style="display:none"></div>
           <div id="requestTypeRules" style="display:none"></div>
+          <div id="requestTypeTicketBooking" style="display:none"></div>
         </div>
         <form method="post" id="templateForm" action="${createLink(action:'mailTemplate')}" class="editor-form">
           <div id="templatePanel">

@@ -23,6 +23,7 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.ILocalReferentialService;
+import fr.cg95.cvq.util.FileUtils;
 
 public class LocalReferentialImporter {
     private static Logger logger = Logger.getLogger(LocalReferentialImporter.class);
@@ -66,7 +67,7 @@ public class LocalReferentialImporter {
                 }
             }
             
-            Reader csvFileReader = new StringReader(new String(getBytesFromFile(csvFile)));
+            Reader csvFileReader = new StringReader(new String(FileUtils.getBytesFromFile(csvFile)));
             CSVReader csvReader = new CSVReader(csvFileReader,';','"',1);
             
             for (Object o : csvReader.readAll()) {
@@ -123,31 +124,4 @@ public class LocalReferentialImporter {
         LocalReferentialImporter lrImporter = new LocalReferentialImporter();
         localAuthorityRegistry.browseAndCallback(lrImporter, "csvToLocalReferential", new Object[]{csvFileName,lrTypeDataName});
     }
-    
-    // File Util method (copy from web)
-    private byte[] getBytesFromFile(File file) throws IOException {
-        InputStream is = new FileInputStream(file);
-        // Get the size of the file
-        long length = file.length();
-        if (length > Integer.MAX_VALUE) {
-            // File is too large
-        }
-        // Create the byte array to hold the data
-        byte[] bytes = new byte[(int)length];
-        // Read in the bytes
-        int offset = 0;
-        int numRead = 0;
-        while (offset < bytes.length
-               && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
-            offset += numRead;
-        }
-        // Ensure all the bytes have been read in
-        if (offset < bytes.length) {
-            throw new IOException("Could not completely read file "+file.getName());
-        }
-        // Close the input stream and return bytes
-        is.close();
-        return bytes;
-    }
-    
 }

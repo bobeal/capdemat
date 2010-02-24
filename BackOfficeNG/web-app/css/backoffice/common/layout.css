@@ -161,7 +161,7 @@ a.logo:hover { color: #c8ddff; background: transparent; }
 strong { font-weight: bold !important; }
 
 /* utils */
-.invisible { display: none; }
+.invisible { display: none !important; }
 .txt-right { text-align: right; }
 
 /* messages

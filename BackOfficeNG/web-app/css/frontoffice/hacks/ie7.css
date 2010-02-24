@@ -14,3 +14,9 @@
 -------------------------------------------------------------- */
 .data-detail dl    { height: 1%; }
 .data-detail dl dd { width: 17.75em !important; }
+
+
+/* ticket booking
+-------------------------------------------------------------- */
+#entertainments dl dd { width: 66% !important; }
+#entertainment button { overflow: visible !important; }

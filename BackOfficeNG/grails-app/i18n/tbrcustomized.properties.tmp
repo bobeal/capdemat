@@ -1,0 +1,74 @@
+tbr.duration.value =
+
+tbr.step.requester.label =
+tbr.step.requester.desc =
+
+tbr.step.entertainments.label =
+tbr.step.entertainments.desc =
+
+tbr.step.rules.label =
+tbr.step.rules.desc =
+
+
+tbr.property.isSubscriber.help =
+tbr.property.isSubscriber.validationError =
+
+
+tbr.property.subscriberNumber.help =
+tbr.property.subscriberNumber.validationError =
+
+
+tbr.property.subscriberFirstName.help =
+tbr.property.subscriberFirstName.validationError =
+
+
+tbr.property.subscriberLastName.help =
+tbr.property.subscriberLastName.validationError =
+
+
+tbr.property.tbrTicket.help =
+tbr.property.tbrTicket.validationError =
+
+tbr.property.tbrTicket.elementAdditionSuccess =
+
+
+tbr.property.eventName.help =
+tbr.property.eventName.validationError =
+
+
+tbr.property.eventDate.help =
+tbr.property.eventDate.validationError =
+
+
+tbr.property.eventPlace.help =
+tbr.property.eventPlace.validationError =
+
+
+tbr.property.placeCategory.help =
+tbr.property.placeCategory.validationError =
+
+
+tbr.property.placeNumber.help =
+tbr.property.placeNumber.validationError =
+
+
+tbr.property.fareType.help =
+tbr.property.fareType.validationError =
+
+
+tbr.property.price.help =
+tbr.property.price.validationError =
+
+
+tbr.property.totalPrice.help =
+tbr.property.totalPrice.validationError =
+
+
+tbr.property.paymentReference.help =
+tbr.property.paymentReference.validationError =
+
+
+tbr.property.rulesAndRegulationsAcceptance.help =
+tbr.property.rulesAndRegulationsAcceptance.validationError =
+
+

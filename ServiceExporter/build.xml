@@ -30,8 +30,8 @@
       <path location="${web.dir}/WEB-INF/classes" />
 
       <fileset dir="${model.dir}/${lib.dir}">
-        <include name="**/spring-mock.jar" />
-        <include name="**/junit.jar" />
+        <include name="**/org.springframework.test-*.jar" />
+        <include name="**/junit-4.7.jar" />
       </fileset>
 
       <pathelement path="${model.dir}/${build.test.dir}"/>

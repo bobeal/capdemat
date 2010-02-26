@@ -2,10 +2,6 @@ grails-app/conf/CapDemat-config.properties
 grails-app/conf/spring/applicationContext.xml
 grails-app/conf/spring/applicationContext-admin.xml
 grails-app/conf/spring/applicationContext-deployment.xml
-grails-app/controllers/Frontoffice*
-grails-app/controllers/Backoffice*
-grails-app/views/backoffice*
-grails-app/views/frontoffice*
 stacktrace.log
 capdemat.log
 

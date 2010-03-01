@@ -39,9 +39,9 @@
 
   <target name="clean" depends="init">
     <delete dir="${basedir}/${build.dir}" />
-    <delete file="${bong.dir}/modules/backoffice/views/requestInstruction/external/Edemande/_externalReferentialChecks.gsp" />
-    <delete file="${bong.dir}/modules/backoffice/views/requestInstruction/external/Edemande/_block.gsp" />
-    <delete file="${bong.dir}/modules/backoffice/views/requestInstruction/external/Edemande/_externalStatus.gsp" />
+    <delete file="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/_externalReferentialChecks.gsp" />
+    <delete file="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/_block.gsp" />
+    <delete file="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/_externalStatus.gsp" />
   </target>
 
   <target name="compile" depends="init">
@@ -97,11 +97,11 @@
   <target name="deploy" depends="dist">
     <copy todir="${deploy.plugins.dir}" 
       file="${basedir}/${build.archives.dir}/${application.name}-${module.name}-${application.version}.jar"/>
-    <copy todir="${bong.dir}/modules/backoffice/views/requestInstruction/external/Edemande/"
+    <copy todir="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/"
       file="${basedir}/src/gsp/_block.gsp"/>
-    <copy todir="${bong.dir}/modules/backoffice/views/requestInstruction/external/Edemande/"
+    <copy todir="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/"
       file="${basedir}/src/gsp/_externalReferentialChecks.gsp"/>
-    <copy todir="${bong.dir}/modules/backoffice/views/requestInstruction/external/Edemande/"
+    <copy todir="${bong.dir}/grails-app/views/backofficeRequestInstruction/external/Edemande/"
       file="${basedir}/src/gsp/_externalStatus.gsp"/>
   </target>
       

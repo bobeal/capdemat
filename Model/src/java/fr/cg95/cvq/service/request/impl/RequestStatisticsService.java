@@ -7,23 +7,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
-import org.apache.log4j.Logger;
-
 import fr.cg95.cvq.business.request.Category;
-import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.dao.request.IRequestStatisticsDAO;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.request.ICategoryService;
 import fr.cg95.cvq.service.request.IRequestStatisticsService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 
 /**
@@ -38,14 +36,14 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     private IRequestStatisticsDAO requestStatisticsDAO;
     private ICategoryService categoryService;
     private IRequestWorkflowService requestWorkflowService;
+    private IRequestTypeService requestTypeService;
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public Map<String, Long> getQualityStats(final Date startDate, final Date endDate,
         final Long requestTypeId, final Long categoryId) {
 
-        LocalAuthority la = SecurityContext.getCurrentSite();
-        if (!la.isInstructionAlertsEnabled())
+        if (!requestTypeService.getGlobalRequestTypeConfiguration().isInstructionAlertsEnabled())
             return null;
 
         List<Long> requestTypes = getRequestTypeIdsFromParameters(requestTypeId, categoryId);
@@ -70,8 +68,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
         final Date endDate, final Long requestTypeId, final Long categoryId)
         throws CvqException {
 
-        LocalAuthority la = SecurityContext.getCurrentSite();
-        if (!la.isInstructionAlertsEnabled())
+        if (!requestTypeService.getGlobalRequestTypeConfiguration().isInstructionAlertsEnabled())
             return null;
 
         List<Long> requestTypes = getRequestTypeIdsFromParameters(requestTypeId, categoryId);
@@ -245,5 +242,9 @@ public class RequestStatisticsService implements IRequestStatisticsService {
 
     public void setRequestWorkflowService(IRequestWorkflowService requestWorkflowService) {
         this.requestWorkflowService = requestWorkflowService;
+    }
+
+    public void setRequestTypeService(IRequestTypeService requestTypeService) {
+        this.requestTypeService = requestTypeService;
     }
 }

@@ -1,29 +1,30 @@
 package fr.cg95.cvq.service.request.job;
 
-import fr.cg95.cvq.business.request.Request;
-import fr.cg95.cvq.business.request.RequestActionType;
-import fr.cg95.cvq.business.request.RequestState;
-import fr.cg95.cvq.business.users.Adult;
-import fr.cg95.cvq.business.authority.LocalAuthority;
-import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
-import fr.cg95.cvq.dao.request.IRequestDAO;
-import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
-import fr.cg95.cvq.service.request.IRequestActionService;
-import fr.cg95.cvq.service.users.IIndividualService;
-import fr.cg95.cvq.util.Critere;
-import fr.cg95.cvq.util.DateUtils;
-import fr.cg95.cvq.util.mail.IMailService;
-import fr.cg95.cvq.util.translation.ITranslationService;
-
-import org.apache.log4j.Logger;
-
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.log4j.Logger;
+
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
+import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
+import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestActionType;
+import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.dao.request.IRequestDAO;
+import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.security.SecurityContext;
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.request.IRequestActionService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
+import fr.cg95.cvq.service.users.IIndividualService;
+import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.DateUtils;
+import fr.cg95.cvq.util.mail.IMailService;
+import fr.cg95.cvq.util.translation.ITranslationService;
 
 /**
  * Job dedicated to the management of drafts.
@@ -46,6 +47,7 @@ public class DraftManagementJob {
     private IMailService mailService;
     private IIndividualService individualService;
     private ITranslationService translationService;
+    private IRequestTypeService requestTypeService;
 
     private static String DRAFT_NOTIFICATION_SUBJECT = 
         "[CapDémat] Expiration d'une demande sauvée en tant que brouillon";
@@ -59,9 +61,8 @@ public class DraftManagementJob {
     }
     
     public void deleteExpiredDrafts() {
-        LocalAuthority authority = SecurityContext.getCurrentSite();
-        
-        Set<Critere> criterias = prepareQueryParams(authority.getDraftLiveDuration());
+        Set<Critere> criterias = prepareQueryParams(
+            requestTypeService.getGlobalRequestTypeConfiguration().getDraftLiveDuration());
         List<Request> requests = requestDAO.search(criterias,null,null,0,0, true);
         for (Request r : requests) 
             requestDAO.delete(r);
@@ -74,9 +75,8 @@ public class DraftManagementJob {
      */
     public Integer sendNotifications() throws CvqException {
         Integer counter = 0; 
-        LocalAuthority authority = SecurityContext.getCurrentSite();
-        Integer limit =
-            authority.getDraftLiveDuration() - authority.getDraftNotificationBeforeDelete();
+        GlobalRequestTypeConfiguration config = requestTypeService.getGlobalRequestTypeConfiguration();
+        Integer limit = config.getDraftLiveDuration() - config.getDraftNotificationBeforeDelete();
         
         List<Request> requests = requestDAO.listDraftedByNotificationAndDate(
             RequestActionType.DRAFT_DELETE_NOTIFICATION,
@@ -88,12 +88,12 @@ public class DraftManagementJob {
             if (r.getRequestType().getCategory() != null)
                 from = r.getRequestType().getCategory().getPrimaryEmail();
             else
-                from = authority.getAdminEmail();
+                from = SecurityContext.getCurrentSite().getAdminEmail();
             boolean sent = false;
             
             try {
                 String mailBody =
-                    this.buildMailTemplate(r, authority.getDraftLiveDuration());
+                    this.buildMailTemplate(r, config.getDraftLiveDuration());
                 if (mailBody != null) {
                     try {
                         mailService.send(from, adult.getEmail(), null,
@@ -178,5 +178,9 @@ public class DraftManagementJob {
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+
+    public void setRequestTypeService(IRequestTypeService requestTypeService) {
+        this.requestTypeService = requestTypeService;
     }
 }

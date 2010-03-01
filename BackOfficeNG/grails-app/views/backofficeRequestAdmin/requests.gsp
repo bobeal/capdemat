@@ -17,19 +17,20 @@
             <div class="error" id="draftsFormErrors"> </div>
             <p class="field">
               <label for="draftLiveDuration">
-                <g:message code="localAuthority.property.draftLiveDuration" /> :
+                <g:message code="requestAdmin.property.draftLiveDuration" /> :
                 <!-- <span> (<g:message code="property.days" />) </span> -->
               </label>
-              <input type="text" name="draftLiveDuration" value="${draftLiveDuration}"
+              <input type="text" name="draftLiveDuration"
+                value="${globalRequestTypeConfiguration.draftLiveDuration}"
               class="required validate-positiveInteger" />
             </p>
             <p class="field">
               <label for="draftNotificationBeforeDelete">
-                <g:message code="localAuthority.property.draftNotificationBeforeDelete" /> :
+                <g:message code="requestAdmin.property.draftNotificationBeforeDelete" /> :
                 <!-- <span> (<g:message code="property.days" />) </span> -->
               </label>
               <input type="text" name="draftNotificationBeforeDelete"
-                value="${draftNotificationBeforeDelete}"
+                value="${globalRequestTypeConfiguration.draftNotificationBeforeDelete}"
                 class="required validate-positiveInteger" />
             </p>
             <div class="form-button">
@@ -49,57 +50,95 @@
               <label>
                 <g:message code="localAuthority.property.documentDigitalizationEnabled" /> :
               </label>
-              <input type="radio" class="required validate-one-required" name="documentDigitalizationEnabled" value="1" <g:if test="${documentDigitalizationEnabled == true}">checked="checked"</g:if>/>
+              <input type="radio" class="required validate-one-required"
+                name="documentDigitalizationEnabled" value="1"
+                <g:if test="${documentDigitalizationEnabled == true}">
+                  checked="checked"
+                </g:if> />
               <g:message code="message.yes" />
-              <input type="radio" class="required validate-one-required" name="documentDigitalizationEnabled" value="0" <g:if test="${documentDigitalizationEnabled == false}">checked="checked"</g:if>/>
+              <input type="radio" class="required validate-one-required"
+                name="documentDigitalizationEnabled" value="0"
+                <g:if test="${documentDigitalizationEnabled == false}">
+                  checked="checked"
+                </g:if> />
               <g:message code="message.no" />
             </p>
             <p class="field">
               <label>
-                <g:message code="localAuthority.property.requestsCreationNotificationEnabled" /> :
+                <g:message code="requestAdmin.property.requestsCreationNotificationEnabled" /> :
               </label>
-              <input type="radio" class="required validate-one-required" name="requestsCreationNotificationEnabled" value="1" <g:if test="${requestsCreationNotificationEnabled == true}">checked="checked"</g:if>/>
+              <input type="radio" class="required validate-one-required"
+                name="requestsCreationNotificationEnabled" value="1"
+                <g:if test="${globalRequestTypeConfiguration.requestsCreationNotificationEnabled == true}">
+                  checked="checked"
+                </g:if> />
               <g:message code="message.yes" />
-              <input type="radio" class="required validate-one-required" name="requestsCreationNotificationEnabled" value="0" <g:if test="${requestsCreationNotificationEnabled == false}">checked="checked"</g:if>/>
+              <input type="radio" class="required validate-one-required"
+                name="requestsCreationNotificationEnabled" value="0"
+                <g:if test="${globalRequestTypeConfiguration.requestsCreationNotificationEnabled == false}">
+                  checked="checked"
+                </g:if> />
               <g:message code="message.no" />
             </p>
             <p class="field">
               <label>
-                <g:message code="localAuthority.property.instructionAlertsEnabled" /> :
+                <g:message code="requestAdmin.property.instructionAlertsEnabled" /> :
               </label>
-              <input type="radio" class="required validate-one-required" name="instructionAlertsEnabled" value="1" <g:if test="${instructionAlertsEnabled == true}">checked="checked"</g:if>/>
+              <input type="radio" class="required validate-one-required"
+                name="instructionAlertsEnabled" value="1"
+                <g:if test="${globalRequestTypeConfiguration.instructionAlertsEnabled == true}">
+                  checked="checked"
+                </g:if> />
               <g:message code="message.yes" />
-              <input type="radio" class="required validate-one-required" name="instructionAlertsEnabled" value="0" <g:if test="${instructionAlertsEnabled == false}">checked="checked"</g:if>/>
+              <input type="radio" class="required validate-one-required"
+                name="instructionAlertsEnabled" value="0"
+                <g:if test="${globalRequestTypeConfiguration.instructionAlertsEnabled == false}">
+                  checked="checked"
+                </g:if> />
               <g:message code="message.no" />
             </p>
             <p class="field">
               <label>
-                <g:message code="localAuthority.property.instructionAlertsDetailed" /> :
+                <g:message code="requestAdmin.property.instructionAlertsDetailed" /> :
               </label>
-              <input type="radio" class="required validate-one-required" name="instructionAlertsDetailed" value="1" <g:if test="${instructionAlertsDetailed == true}">checked="checked"</g:if>/>
+              <input type="radio" class="required validate-one-required"
+                name="instructionAlertsDetailed" value="1"
+                <g:if test="${globalRequestTypeConfiguration.instructionAlertsDetailed == true}">
+                  checked="checked"
+                </g:if> />
               <g:message code="message.yes" />
-              <input type="radio" class="required validate-one-required" name="instructionAlertsDetailed" value="0" <g:if test="${instructionAlertsDetailed == false}">checked="checked"</g:if>/>
+              <input type="radio" class="required validate-one-required"
+                name="instructionAlertsDetailed" value="0"
+                <g:if test="${globalRequestTypeConfiguration.instructionAlertsDetailed == false}">
+                  checked="checked"
+                </g:if> />
               <g:message code="message.no" />
             </p>
             <p class="field">
-              <label for="instructionDefaultAlertDelay">
-                <g:message code="localAuthority.property.instructionDefaultAlertDelay" /> :
+              <label for="instructionAlertDelay">
+                <g:message code="requestType.property.instructionAlertDelay" /> :
               </label>
-              <input type="text" class="required validate-number" name="instructionDefaultAlertDelay" id="instructionDefaultAlertDelay" value="${instructionDefaultAlertDelay}" size="3" />
+              <input type="text" class="required validate-number" size="3"
+                name="instructionAlertDelay" id="instructionAlertDelay"
+                value="${globalRequestTypeConfiguration.instructionAlertDelay}" />
               <g:message code="property.days" />
             </p>
             <p class="field">
-              <label for="instructionDefaultMaxDelay">
-                <g:message code="localAuthority.property.instructionDefaultMaxDelay" /> :
+              <label for="instructionMaxDelay">
+                <g:message code="requestType.property.instructionMaxDelay" /> :
               </label>
-              <input type="text" class="required validate-number" name="instructionDefaultMaxDelay" id="instructionDefaultMaxDelay" value="${instructionDefaultMaxDelay}" size="3" />
+              <input type="text" class="required validate-number" name="instructionMaxDelay"
+                id="instructionMaxDelay" size="3"
+                value="${globalRequestTypeConfiguration.instructionMaxDelay}" />
               <g:message code="property.days" />
             </p>
             <p class="field">
               <label for="requestLockMaxDelay">
-                <g:message code="localAuthority.property.requestLockMaxDelay" /> :
+                <g:message code="requestAdmin.property.requestLockMaxDelay" /> :
               </label>
-              <input type="text" class="required validate-number" name="requestLockMaxDelay" id="requestLockMaxDelay" value="${requestLockMaxDelay}" size="5" />
+              <input type="text" class="required validate-number" name="requestLockMaxDelay"
+                id="requestLockMaxDelay" size="5"
+                value="${globalRequestTypeConfiguration.requestLockMaxDelay}" />
               <g:message code="property.minutes" />
             </p>
             <div class="form-button">

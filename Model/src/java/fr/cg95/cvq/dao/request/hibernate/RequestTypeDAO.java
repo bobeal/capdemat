@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
+import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
@@ -63,5 +64,10 @@ public class RequestTypeDAO extends GenericDAO implements IRequestTypeDAO {
         Criteria crit = HibernateUtil.getSession().createCriteria(RequestType.class);
         crit.add(Critere.compose("label", requestTypeLabel, Critere.EQUALS));
         return (RequestType) crit.uniqueResult();
+    }
+
+    public GlobalRequestTypeConfiguration getGlobalRequestTypeConfiguration() {
+        return (GlobalRequestTypeConfiguration)HibernateUtil.getSession()
+            .createCriteria(GlobalRequestTypeConfiguration.class).uniqueResult();
     }
 }

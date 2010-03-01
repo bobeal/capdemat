@@ -191,6 +191,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestStatisticsDAO" ref="requestStatisticsDAO"/>
     <property name="categoryService" ref="categoryService" />
     <property name="requestWorkflowService" ref="requestWorkflowService" />
+    <property name="requestTypeService" ref="requestTypeService" />
   </bean>
 
   <bean id="requestExternalService" class="fr.cg95.cvq.service.request.impl.RequestExternalService">
@@ -215,6 +216,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
   <bean id="requestLockService" class="fr.cg95.cvq.service.request.impl.RequestLockService">
     <property name="requestDAO" ref="requestDAO" />  
+    <property name="requestTypeService" ref="requestTypeService" />
   </bean>
   
   <bean id="requestNoteService" class="fr.cg95.cvq.service.request.impl.RequestNoteService">

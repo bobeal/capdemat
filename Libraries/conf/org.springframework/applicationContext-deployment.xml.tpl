@@ -21,6 +21,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
       <list>
         <value>fr/cg95/cvq/business/request/RequestData.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestType.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/GlobalRequestTypeConfiguration.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestSeason.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/DisplayGroup.hbm.xml</value>
         <value>fr/cg95/cvq/business/authority/LocalAuthority.hbm.xml</value>

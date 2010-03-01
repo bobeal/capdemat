@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.*;
 
+import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.civil.BirthDetailsRequest;
@@ -52,9 +53,10 @@ public class DraftManagementJobTest extends RequestTestCase {
     public void testRequestDraftRemoval() throws CvqException {
 
         this.createDrafts(4);
-
-        SecurityContext.getCurrentSite().setDraftLiveDuration(4);
-        SecurityContext.getCurrentSite().setDraftNotificationBeforeDelete(2);
+        GlobalRequestTypeConfiguration config =
+            requestTypeService.getGlobalRequestTypeConfiguration();
+        config.setDraftLiveDuration(4);
+        config.setDraftNotificationBeforeDelete(2);
         continueWithNewTransaction();
         
         int before = this.getDrafts(false).size();
@@ -64,16 +66,18 @@ public class DraftManagementJobTest extends RequestTestCase {
         
         int after = this.getDrafts(false).size();
         assertEquals(before-1,after);
-        
-        SecurityContext.getCurrentSite().setDraftLiveDuration(3);
+
+        config = requestTypeService.getGlobalRequestTypeConfiguration();
+        config.setDraftLiveDuration(3);
         continueWithNewTransaction();
         
         draftManagementJob.deleteExpiredDrafts();
         
         continueWithNewTransaction();
         assertEquals(after-1,this.getDrafts(false).size());
-        
-        SecurityContext.getCurrentSite().setDraftLiveDuration(1);
+
+        config = requestTypeService.getGlobalRequestTypeConfiguration();
+        config.setDraftLiveDuration(1);
         continueWithNewTransaction();
         
         draftManagementJob.deleteExpiredDrafts();
@@ -86,10 +90,11 @@ public class DraftManagementJobTest extends RequestTestCase {
     public void testDraftMailSending() throws CvqException {
         
         this.createDrafts(8);
-        
+        GlobalRequestTypeConfiguration config =
+            requestTypeService.getGlobalRequestTypeConfiguration();
         SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
-        SecurityContext.getCurrentSite().setDraftLiveDuration(9);
-        SecurityContext.getCurrentSite().setDraftNotificationBeforeDelete(4);
+        config.setDraftLiveDuration(9);
+        config.setDraftNotificationBeforeDelete(4);
         continueWithNewTransaction();
         
         int mailsCount = draftManagementJob.sendNotifications();
@@ -99,8 +104,9 @@ public class DraftManagementJobTest extends RequestTestCase {
         
         mailsCount = draftManagementJob.sendNotifications();
         assertEquals(0, mailsCount);
-        
-        SecurityContext.getCurrentSite().setDraftNotificationBeforeDelete(5);
+
+        config = requestTypeService.getGlobalRequestTypeConfiguration();
+        config.setDraftNotificationBeforeDelete(5);
         continueWithNewTransaction();
         
         mailsCount = draftManagementJob.sendNotifications();

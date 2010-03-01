@@ -436,3 +436,30 @@ update request set specific_data_class = 'fr.cg95.cvq.business.request.leisure.S
 update request set specific_data_class = 'fr.cg95.cvq.business.request.school.StudyGrantRequestData' where request_type_id = (select id from request_type where label = 'Study Grant');
 update request set specific_data_class = 'fr.cg95.cvq.business.request.technical.TechnicalInterventionRequestData' where request_type_id = (select id from request_type where label = 'Technical Intervention');
 update request set specific_data_class = 'fr.cg95.cvq.business.request.ecitizen.VoCardRequestData' where request_type_id = (select id from request_type where label = 'VO Card');
+
+create table global_request_type_configuration (
+    id int8 not null,
+    draft_live_duration int4 not null,
+    draft_notification_before_delete int4 not null,
+    requests_creation_notification_enabled bool not null,
+    instruction_alerts_enabled bool not null,
+    instruction_alerts_detailed bool not null,
+    instruction_max_delay int4 not null,
+    instruction_alert_delay int4 not null,
+    request_lock_max_delay int4 not null,
+    primary key (id)
+);
+insert into global_request_type_configuration
+    select nextval('hibernate_sequence'), draft_live_duration, draft_notification_before_delete,
+        requests_creation_notification_enabled, instruction_alerts_enabled,
+        instruction_alerts_detailed, instruction_default_max_delay, instruction_default_alert_delay,
+        request_lock_max_delay
+    from local_authority limit 1;
+alter table local_authority drop column draft_live_duration;
+alter table local_authority drop column draft_notification_before_delete;
+alter table local_authority drop column requests_creation_notification_enabled;
+alter table local_authority drop column instruction_alerts_enabled;
+alter table local_authority drop column instruction_alerts_detailed;
+alter table local_authority drop column instruction_default_max_delay;
+alter table local_authority drop column instruction_default_alert_delay;
+alter table local_authority drop column request_lock_max_delay;

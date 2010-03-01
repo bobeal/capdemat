@@ -443,6 +443,8 @@
 
     drop table forms;
 
+    drop table global_request_type_configuration;
+
     drop table handicap_compensation_adult_request;
 
     drop table handicap_compensation_child_request;
@@ -954,6 +956,19 @@
         request_form_id int8 not null,
         request_type_id int8 not null,
         primary key (request_form_id, request_type_id)
+    );
+
+    create table global_request_type_configuration (
+        id int8 not null,
+        draft_live_duration int4 not null,
+        draft_notification_before_delete int4 not null,
+        requests_creation_notification_enabled bool not null,
+        instruction_alerts_enabled bool not null,
+        instruction_alerts_detailed bool not null,
+        instruction_max_delay int4 not null,
+        instruction_alert_delay int4 not null,
+        request_lock_max_delay int4 not null,
+        primary key (id)
     );
 
     create table handicap_compensation_adult_request (
@@ -1539,19 +1554,11 @@
         display_title varchar(100) not null,
         postal_code varchar(5) not null,
         server_names bytea,
-        draft_live_duration int4 not null,
-        draft_notification_before_delete int4 not null,
-        requests_creation_notification_enabled bool not null,
         document_digitalization_enabled bool not null,
-        instruction_alerts_enabled bool not null,
-        instruction_alerts_detailed bool not null,
-        instruction_default_max_delay int4 not null,
-        instruction_default_alert_delay int4 not null,
         admin_email varchar(255),
         payment_deactivation_start_date timestamp,
         payment_deactivation_end_date timestamp,
         display_in_progress_payments bool not null,
-        request_lock_max_delay int4 not null,
         primary key (id)
     );
 

@@ -24,7 +24,6 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.util.Critere;
 
 /**
@@ -540,13 +539,12 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Long> cleanRequestLocks() {
+    public List<Long> cleanRequestLocks(int maxDelay) {
         List<RequestLock> requestLocks =
             (List<RequestLock>)HibernateUtil.getSession()
             .createCriteria(RequestLock.class)
             .add(Restrictions.lt("date",
-                new DateTime().minusMinutes(
-                    SecurityContext.getCurrentSite().getRequestLockMaxDelay())
+                new DateTime().minusMinutes(maxDelay)
                     .toDate()))
             .list();
         List<Long> requestIds =  new ArrayList<Long>(requestLocks.size());

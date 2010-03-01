@@ -18,6 +18,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="mailService"><ref bean="mailService"/></property>
     <property name="translationService" ref="translationService" />
     <property name="requestDAO"><ref bean="requestDAO"/></property>
+    <property name="requestTypeService" ref="requestTypeService" />
   </bean>
 
   <bean id="requestInstructionDurationCheckerJobInvoker"
@@ -55,6 +56,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="mailService"><ref bean="mailService"/></property>
     <property name="translationService" ref="translationService" />
     <property name="requestDAO"><ref bean="requestDAO"/></property>
+    <property name="requestTypeService" ref="requestTypeService" />
   </bean>
 
   <bean id="requestCreationNotificationJobInvoker"
@@ -164,6 +166,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestDAO" ref="requestDAO"/>
     <property name="mailService" ref="mailService"/>
     <property name="individualService" ref="individualService"/>
+    <property name="requestTypeService" ref="requestTypeService" />
   </bean>
   
   <bean id="draftManagementRemoverJobInvoker"

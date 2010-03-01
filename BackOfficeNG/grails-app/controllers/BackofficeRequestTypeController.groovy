@@ -6,7 +6,6 @@ import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
-import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.ICategoryService
@@ -110,11 +109,11 @@ class BackofficeRequestTypeController {
     def loadAlertsArea = {
         def requestType = 
             requestTypeService.getRequestTypeById(Long.valueOf(params.id))
-        def la = SecurityContext.getCurrentSite()
+        def config = requestTypeService.globalRequestTypeConfiguration
         render(template:"alerts",
                model:['requestType':requestType,
-                      'instructionDefaultMaxDelay':la.instructionDefaultMaxDelay,
-                      'instructionDefaultAlertDelay':la.instructionDefaultAlertDelay])
+                      "instructionDefaultMaxDelay" : config.instructionMaxDelay,
+                      "instructionDefaultAlertDelay" : config.instructionAlertDelay])
     }
 
     def saveAlerts = {

@@ -14,6 +14,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestActionService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.RequestUtils;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
@@ -31,6 +32,7 @@ public class RequestCreationNotificationJob {
     private IMailService mailService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private ITranslationService translationService;
+    private IRequestTypeService requestTypeService;
 
     private IRequestDAO requestDAO;
 
@@ -43,7 +45,8 @@ public class RequestCreationNotificationJob {
 
         LocalAuthority la = SecurityContext.getCurrentSite();
         logger.info("notifyLocalAuthRequestsCreation() dealing with " + la.getName());
-        if (!la.isRequestsCreationNotificationEnabled()) {
+        if (!requestTypeService.getGlobalRequestTypeConfiguration()
+            .isRequestsCreationNotificationEnabled()) {
             logger.info("notifyLocalAuthRequestsCreation() requests creation notification are disabled for "
                     + la.getName() + ", returning");
             return;
@@ -113,5 +116,9 @@ public class RequestCreationNotificationJob {
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+
+    public void setRequestTypeService(IRequestTypeService requestTypeService) {
+        this.requestTypeService = requestTypeService;
     }
 }

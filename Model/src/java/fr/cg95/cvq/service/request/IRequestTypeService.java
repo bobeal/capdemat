@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.document.DocumentType;
+import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestSeason;
@@ -224,4 +225,6 @@ public interface IRequestTypeService {
      */
     List<RequestForm> getRequestTypeForms(@IsRequestType final Long requestTypeId,
         RequestFormType requestFormType) throws CvqException;
+
+    GlobalRequestTypeConfiguration getGlobalRequestTypeConfiguration();
 }

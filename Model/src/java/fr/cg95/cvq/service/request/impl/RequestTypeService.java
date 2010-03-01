@@ -18,6 +18,7 @@ import org.springframework.beans.factory.ListableBeanFactory;
 
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.Category;
+import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
@@ -168,6 +169,8 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     @Context(type=ContextType.SUPER_ADMIN)
     public void addLocalAuthority(String localAuthorityName) {
         if (performDbUpdates) {
+            if (getGlobalRequestTypeConfiguration() == null)
+                genericDAO.saveOrUpdate(new GlobalRequestTypeConfiguration());
             for (IRequestService requestService : requestServiceRegistry.getAllRequestServices()) {
                 logger.debug("addLocalAuthority() registering service " + requestService.getLabel() 
                         + " for local authority " + localAuthorityName);
@@ -694,5 +697,9 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
 
     public void setRequestDAO(IRequestDAO requestDAO) {
         this.requestDAO = requestDAO;
+    }
+
+    public GlobalRequestTypeConfiguration getGlobalRequestTypeConfiguration() {
+        return requestTypeDAO.getGlobalRequestTypeConfiguration();
     }
 }

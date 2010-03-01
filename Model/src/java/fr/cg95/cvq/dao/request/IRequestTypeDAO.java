@@ -3,6 +3,7 @@ package fr.cg95.cvq.dao.request;
 import java.util.List;
 import java.util.Set;
 
+import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.DisplayGroup;
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -29,4 +30,6 @@ public interface IRequestTypeDAO extends IGenericDAO {
     List<RequestType> listByCategoryAndState(Set<Critere> criteriaSet);
 
     List<DisplayGroup> listAllDisplayGroup();
+
+    GlobalRequestTypeConfiguration getGlobalRequestTypeConfiguration();
 }

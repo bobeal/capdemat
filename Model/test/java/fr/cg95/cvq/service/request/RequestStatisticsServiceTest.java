@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.*;
 
-import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.users.CreationBean;
@@ -27,8 +26,7 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
         super.onSetUp();
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        LocalAuthority localAuthority = SecurityContext.getCurrentSite();
-        localAuthority.setInstructionAlertsEnabled(true);
+        requestTypeService.getGlobalRequestTypeConfiguration().setInstructionAlertsEnabled(true);
         continueWithNewTransaction();
     }
     
@@ -36,8 +34,7 @@ public class RequestStatisticsServiceTest extends RequestTestCase {
     public void onTearDown() throws Exception {
         
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        LocalAuthority localAuthority = SecurityContext.getCurrentSite();
-        localAuthority.setInstructionAlertsEnabled(false);
+        requestTypeService.getGlobalRequestTypeConfiguration().setInstructionAlertsEnabled(false);
         continueWithNewTransaction();
         
         super.onTearDown();

@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.authority.LocalAuthority;
+import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestState;
@@ -19,6 +20,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestActionService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
 import fr.cg95.cvq.service.request.RequestUtils;
 import fr.cg95.cvq.util.DateUtils;
@@ -44,6 +46,7 @@ public class RequestInstructionDurationCheckerJob {
     private IMailService mailService;
     
     private IRequestDAO requestDAO;
+    private IRequestTypeService requestTypeService;
     
     public void launchJob() {
         localAuthorityRegistry.browseAndCallback(this,
@@ -54,9 +57,11 @@ public class RequestInstructionDurationCheckerJob {
         throws CvqException {
 
         LocalAuthority la = SecurityContext.getCurrentSite();
+        GlobalRequestTypeConfiguration config =
+            requestTypeService.getGlobalRequestTypeConfiguration();
         // get the list of states for which we consider instruction to be done
         logger.info("checkLocalAuthRequestsInstructionDuration() dealing with " + la.getName());
-        if (!la.isInstructionAlertsEnabled()) {
+        if (!config.isInstructionAlertsEnabled()) {
             logger.info("checkLocalAuthRequestsInstructionDuration() " 
                     + "requests instruction alerts are disabled for "
                     + SecurityContext.getCurrentSite().getName() + ", returning");
@@ -65,8 +70,8 @@ public class RequestInstructionDurationCheckerJob {
 
         Date now = new Date();
         List<RequestState> instructionDoneStates = requestWorkflowService.getInstructionDoneStates();
-        Integer localAuthLevelAlertDelay = la.getInstructionDefaultAlertDelay();
-        Integer localAuthLevelMaxDelay = la.getInstructionDefaultMaxDelay();
+        Integer localAuthLevelAlertDelay = config.getInstructionAlertDelay();
+        Integer localAuthLevelMaxDelay = config.getInstructionMaxDelay();
     
         // calculate the list of states that are "before" retrieved states
         Set<RequestState> statesToLookFor = new HashSet<RequestState>();
@@ -146,7 +151,7 @@ public class RequestInstructionDurationCheckerJob {
                     .append("\tAlertes oranges : ").append(orangeRequests.size()).append("\n")
                     .append("\tAlertes rouges : ").append(redRequests.size()).append("\n");
 
-                if (la.isInstructionAlertsDetailed()) {
+                if (config.isInstructionAlertsDetailed()) {
                     if (!orangeRequests.isEmpty()) {
                         body.append("\n").append("Détail des alertes oranges :\n");
                         for (Request request : orangeRequests) {
@@ -219,5 +224,9 @@ public class RequestInstructionDurationCheckerJob {
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+
+    public void setRequestTypeService(IRequestTypeService requestTypeService) {
+        this.requestTypeService = requestTypeService;
     }
 }

@@ -21,11 +21,12 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.request.IRequestLockService;
+import fr.cg95.cvq.service.request.IRequestTypeService;
 
 public class RequestLockService implements IRequestLockService, BeanFactoryAware {
 
     protected IRequestDAO requestDAO;
-
+    private IRequestTypeService requestTypeService;
     private ListableBeanFactory beanFactory;
 
     private static Map<Long, RequestLock> locks =
@@ -67,7 +68,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
             }
             else if (lock.getUserId().equals(SecurityContext.getCurrentUserId())
                     || new DateTime(lock.getDate().getTime()).plusMinutes(
-                            SecurityContext.getCurrentSite().getRequestLockMaxDelay())
+                        requestTypeService.getGlobalRequestTypeConfiguration().getRequestLockMaxDelay())
                             .isBeforeNow()) {
                 // current user owns the lock,
                 // or the lock is old enough to be overriden
@@ -101,7 +102,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
             return (lock != null
                     && !lock.getUserId().equals(SecurityContext.getCurrentUserId())
                     && !new DateTime(lock.getDate().getTime()).plusMinutes(
-                            SecurityContext.getCurrentSite().getRequestLockMaxDelay())
+                        requestTypeService.getGlobalRequestTypeConfiguration().getRequestLockMaxDelay())
                             .isBeforeNow());
         }
     }
@@ -114,7 +115,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
             return (lock != null
                     && lock.getUserId().equals(SecurityContext.getCurrentUserId())
                     && !new DateTime(lock.getDate().getTime()).plusMinutes(
-                            SecurityContext.getCurrentSite().getRequestLockMaxDelay())
+                        requestTypeService.getGlobalRequestTypeConfiguration().getRequestLockMaxDelay())
                             .isBeforeNow());
         }
     }
@@ -137,7 +138,8 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
     @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.NONE)
     public void cleanRequestLocks() {
         synchronized (locks) {
-            List<Long> requestIds = requestDAO.cleanRequestLocks();
+            List<Long> requestIds = requestDAO.cleanRequestLocks(
+                requestTypeService.getGlobalRequestTypeConfiguration().getRequestLockMaxDelay());
             for (Long requestId : requestIds) {
                 locks.remove(requestId);
             }
@@ -151,5 +153,9 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
     @Override
     public void setBeanFactory(BeanFactory arg0) throws BeansException {
         this.beanFactory = (ListableBeanFactory) arg0;
+    }
+
+    public void setRequestTypeService(IRequestTypeService requestTypeService) {
+        this.requestTypeService = requestTypeService;
     }
 }

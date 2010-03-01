@@ -1,5 +1,6 @@
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.IMeansOfContactService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.business.request.MeansOfContact
 
 import grails.converters.JSON
@@ -7,6 +8,7 @@ import grails.converters.JSON
 class BackofficeRequestAdminController {
 
     IMeansOfContactService meansOfContactService
+    IRequestTypeService requestTypeService
 
     def defaultAction = 'requests'
         
@@ -33,19 +35,16 @@ class BackofficeRequestAdminController {
 
     def requests = {
         if (request.get) {
-        	def currentSite = SecurityContext.getCurrentSite()
-            return ["subMenuEntries" : subMenuEntries,
-                    "draftLiveDuration" : currentSite.draftLiveDuration,
-                    "draftNotificationBeforeDelete" : currentSite.draftNotificationBeforeDelete,
-                    "requestsCreationNotificationEnabled" : currentSite.requestsCreationNotificationEnabled,
-                    "documentDigitalizationEnabled" : currentSite.documentDigitalizationEnabled,
-                    "instructionAlertsEnabled" : currentSite.instructionAlertsEnabled,
-                    "instructionAlertsDetailed" : currentSite.instructionAlertsDetailed,
-                    "instructionDefaultMaxDelay" : currentSite.instructionDefaultMaxDelay,
-                    "instructionDefaultAlertDelay" : currentSite.instructionDefaultAlertDelay,
-                    "requestLockMaxDelay" : currentSite.requestLockMaxDelay]
+            return [
+                "subMenuEntries" : subMenuEntries,
+                "globalRequestTypeConfiguration" :
+                    requestTypeService.getGlobalRequestTypeConfiguration(),
+                "documentDigitalizationEnabled" :
+                    SecurityContext.getCurrentSite().documentDigitalizationEnabled,
+            ]
         } else if (request.post) {
             bind(SecurityContext.getCurrentSite())
+            bind(requestTypeService.getGlobalRequestTypeConfiguration())
             render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
             return false
         }

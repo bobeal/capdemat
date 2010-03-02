@@ -23,9 +23,8 @@
       <path refid="classpath.compile" />
 
       <fileset dir="${model.dir}/${lib.dir}">
-        <include name="**/spring-mock.jar" />
-        <include name="**/junit.jar" />
-        <include name="**/hsqldb.jar" />
+        <include name="**/org.springframework.test-*.jar" />
+        <include name="**/junit*.jar" />
       </fileset>
 
       <pathelement path="${model.dir}/${build.test.dir}"/>

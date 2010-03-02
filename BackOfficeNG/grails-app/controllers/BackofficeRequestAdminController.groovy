@@ -43,8 +43,10 @@ class BackofficeRequestAdminController {
                     SecurityContext.getCurrentSite().documentDigitalizationEnabled,
             ]
         } else if (request.post) {
+            def config = requestTypeService.getGlobalRequestTypeConfiguration()
             bind(SecurityContext.getCurrentSite())
-            bind(requestTypeService.getGlobalRequestTypeConfiguration())
+            bind(config)
+            requestTypeService.modifyGlobalRequestTypeConfiguration(config)
             render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
             return false
         }

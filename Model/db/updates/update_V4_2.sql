@@ -463,3 +463,8 @@ alter table local_authority drop column instruction_alerts_detailed;
 alter table local_authority drop column instruction_default_max_delay;
 alter table local_authority drop column instruction_default_alert_delay;
 alter table local_authority drop column request_lock_max_delay;
+
+alter table global_request_type_configuration add column filing_delay int4;
+update global_request_type_configuration set filing_delay = 6;
+alter table global_request_type_configuration alter column filing_delay set not null;
+alter table request_type add column filing_delay int4;

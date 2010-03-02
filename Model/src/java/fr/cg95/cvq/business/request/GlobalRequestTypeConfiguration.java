@@ -42,6 +42,11 @@ public class GlobalRequestTypeConfiguration {
     private boolean requestsCreationNotificationEnabled = false;
 
     /**
+     * Number of months before requests are filed (between 1 and 36 months)
+     */
+    private int filingDelay = 5;
+
+    /**
      * @hibernate.id
      *  generator-class="sequence"
      *  column="id"
@@ -156,5 +161,18 @@ public class GlobalRequestTypeConfiguration {
 
     public void setRequestLockMaxDelay(int requestLockMaxDelay) {
         this.requestLockMaxDelay = requestLockMaxDelay;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="filing_delay"
+     *  not-null="true"
+     */
+    public int getFilingDelay() {
+        return filingDelay;
+    }
+
+    public void setFilingDelay(int filingDelay) {
+        this.filingDelay = filingDelay;
     }
 }

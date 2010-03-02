@@ -968,6 +968,7 @@
         instruction_max_delay int4 not null,
         instruction_alert_delay int4 not null,
         request_lock_max_delay int4 not null,
+        filing_delay int4 not null,
         primary key (id)
     );
 
@@ -1953,6 +1954,7 @@
         authorize_multiple_registrations_per_season bool,
         instruction_alert_delay int4,
         instruction_max_delay int4,
+        filing_delay int4,
         primary key (id)
     );
 

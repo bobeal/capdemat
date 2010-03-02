@@ -85,7 +85,7 @@ class BackofficeRequestTypeController {
     // the boolean indicates if it's a mandatory step
     def baseConfigurationItems = [
         "forms":["requestType.configuration.forms", false],
-        "alerts":["requestType.configuration.alerts", false],
+        "delays":["requestType.configuration.delays", false],
         "documents":["requestType.configuration.documentType", false]
     ]
     
@@ -106,27 +106,21 @@ class BackofficeRequestTypeController {
                 "requestTypes":requestAdaptorService.translateAndSortRequestTypes()]
     }
 
-    def loadAlertsArea = {
-        def requestType = 
-            requestTypeService.getRequestTypeById(Long.valueOf(params.id))
-        def config = requestTypeService.globalRequestTypeConfiguration
-        render(template:"alerts",
-               model:['requestType':requestType,
-                      "instructionDefaultMaxDelay" : config.instructionMaxDelay,
-                      "instructionDefaultAlertDelay" : config.instructionAlertDelay])
-    }
-
-    def saveAlerts = {
-        def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.requestTypeId))
-        if (params.instructionMaxDelay != '') {
-            requestType.setInstructionMaxDelay(Integer.valueOf(params.instructionMaxDelay))
+    def delays = {
+        if (request.get) {
+            render(
+                template : "delays",
+                model : [
+                    "requestType" : requestTypeService.getRequestTypeById(Long.valueOf(params.id)),
+                    "defaultConfig" : requestTypeService.globalRequestTypeConfiguration
+                ]
+            )
+        } else if (request.post) {
+            def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.requestTypeId))
+            bind(requestType)
+            requestTypeService.modifyRequestType(requestType)
+            render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         }
-        if (params.instructionAlertDelay != ''){
-            requestType.setInstructionAlertDelay(Integer.valueOf(params.instructionAlertDelay))
-        }
-        requestTypeService.modifyRequestType(requestType)
-
-        render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
     }
 
     def loadSeasonsArea = {

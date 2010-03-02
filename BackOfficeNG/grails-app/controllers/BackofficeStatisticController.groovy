@@ -26,7 +26,7 @@ class BackofficeStatisticController {
     def beforeInterceptor = {
         session['currentMenu'] = 'statistics'
         statisticTypes = ['state','type']
-        if (SecurityContext.getCurrentSite().instructionAlertsEnabled) statisticTypes.add('quality')
+        if (requestTypeService.globalRequestTypeConfiguration.instructionAlertsEnabled) statisticTypes.add('quality')
     }
 
 	def defaultAction = 'type'

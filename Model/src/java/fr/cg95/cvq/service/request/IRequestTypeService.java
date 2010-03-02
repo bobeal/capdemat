@@ -227,4 +227,7 @@ public interface IRequestTypeService {
         RequestFormType requestFormType) throws CvqException;
 
     GlobalRequestTypeConfiguration getGlobalRequestTypeConfiguration();
+
+    void modifyGlobalRequestTypeConfiguration(GlobalRequestTypeConfiguration newConfig)
+        throws CvqModelException;
 }

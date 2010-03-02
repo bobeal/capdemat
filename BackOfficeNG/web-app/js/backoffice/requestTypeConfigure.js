@@ -39,15 +39,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       prepareSimpleClick : function(e) {
         return (yue.getTarget(e).id||'').split('_')[0];
       },
-      saveRequestTypeAlerts: function(e) {
-        var form = yud.get('requestTypeAlertsForm');
-        var error = yud.get('dialogRequestTypeAlertsFormError');
+      saveRequestTypeDelays: function(e) {
+        var form = yud.get('requestTypeDelaysForm');
+        var error = yud.get('dialogRequestTypeDelaysFormError');
         
         if(zcv.check(form,error)) {
-          zct.each(yus.query('input[type=text]',form),function(i,n){
-            n.value = parseInt(n.value);
-            if(n.value < 0) n.value = n.value * -1;
-          });
           var target = yue.getTarget(e);
           zct.doAjaxFormSubmitCall(form.id,[],function(o){
             var json = ylj.parse(o.responseText);
@@ -92,7 +88,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       displayDocuments : function(e) {
         zcbrp.Documents.init();
       },
-      displayAlerts : function(e) {},
+      displayDelays : function(e) {
+        var url = ['/delays/',zcbrp.currentId].join('');
+        zct.doAjaxCall(url,'',function(o){
+          yud.get('requestTypeDelays').innerHTML = o.responseText;
+        });
+      },
       displaySeasons: function(e) {
         zcbrp.Seasons.loadSeasons();
       },
@@ -105,19 +106,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
     }
   }();
 
-  /**
-   * Build default "display area" functions.
-   */
-  zct.each(['Alerts'],function(i,name){
-    zcbrp.Conf[['display',name].join('')] = function(e) {
-      var url = ['/load',name,'Area/',zcbrp.currentId].join('');
-      zct.doAjaxCall(url,'',function(o){
-        var el = yud.get(['requestType',name].join(''));
-        el.innerHTML = o.responseText;
-      });
-    };
-  });
-  
   YAHOO.util.Event.onDOMReady(zcbrp.Conf.init);  
   
 }());

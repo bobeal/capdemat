@@ -141,6 +141,15 @@
                 value="${globalRequestTypeConfiguration.requestLockMaxDelay}" />
               <g:message code="property.minutes" />
             </p>
+            <p class="field">
+              <label for="filingDelay">
+                <g:message code="requestType.property.filingDelay" /> :
+              </label>
+              <input type="text" class="required validate-number" name="filingDelay"
+                id="filingDelay" size="5"
+                value="${globalRequestTypeConfiguration.filingDelay}" />
+              <g:message code="property.months" />
+            </p>
             <div class="form-button">
               <input id="save_platformConfiguration" type="button" value="${message(code:'action.save')}" />
             </div>

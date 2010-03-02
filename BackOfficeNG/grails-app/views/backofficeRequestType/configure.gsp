@@ -55,7 +55,7 @@
               </div>
             </div>
           </div>
-          <div class="mainbox mainbox-yellow" id="requestTypeAlerts" style="display:none"></div>
+          <div class="mainbox mainbox-yellow" id="requestTypeDelays" style="display:none"></div>
           <div class="mainbox mainbox-yellow" id="requestTypeSeasons" style="display:none"></div>
           <div class="mainbox mainbox-yellow" id="requestTypeDocuments" style="display:none">
             <h2><g:message code="requestType.configuration.documents" /></h2>

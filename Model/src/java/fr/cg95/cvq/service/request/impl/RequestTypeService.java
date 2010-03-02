@@ -271,6 +271,10 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
     public void modifyRequestType(RequestType requestType)
         throws CvqException {
+        if (requestType.getFilingDelay() != null
+            && (requestType.getFilingDelay() < 1 || requestType.getFilingDelay() > 36)) {
+            throw new CvqModelException("requestType.error.invalidFilingDelay");
+        }
         requestTypeDAO.update(requestType);
     }
 
@@ -701,5 +705,13 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
 
     public GlobalRequestTypeConfiguration getGlobalRequestTypeConfiguration() {
         return requestTypeDAO.getGlobalRequestTypeConfiguration();
+    }
+
+    public void modifyGlobalRequestTypeConfiguration(GlobalRequestTypeConfiguration config)
+        throws CvqModelException {
+        if (config.getFilingDelay() < 1 || config.getFilingDelay() > 36) {
+            throw new CvqModelException("requestType.error.invalidFilingDelay");
+        }
+        genericDAO.update(config);
     }
 }

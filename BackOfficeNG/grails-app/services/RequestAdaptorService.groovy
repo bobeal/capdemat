@@ -139,7 +139,7 @@ class RequestAdaptorService {
                 Minutes.minutesBetween(new DateTime(requestLock.getDate()),
                     new DateTime()).minutes
             result.lifetime =
-                SecurityContext.currentSite.requestLockMaxDelay - result.age
+                requestTypeService.globalRequestTypeConfiguration.requestLockMaxDelay - result.age
             if (result.lockedByCurrentUser)
                 result.lockerName = translationService.translate("you")
             else {

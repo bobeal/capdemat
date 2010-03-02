@@ -19,6 +19,7 @@ import fr.cg95.cvq.service.payment.IPaymentService
 import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestActionService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
 
@@ -32,6 +33,7 @@ class FrontofficeHomeController {
     IRequestNoteService requestNoteService
     IRequestSearchService requestSearchService
     IRequestActionService requestActionService
+    IRequestTypeService requestTypeService
     ILocalAuthorityRegistry localAuthorityRegistry
     IHomeFolderService homeFolderService
     IPaymentService paymentService
@@ -73,12 +75,12 @@ class FrontofficeHomeController {
         }
         result.dashBoard.drafts =
             requestAdaptorService.prepareRecords(this.getTopFiveRequests(draft:true))
+        def draftLiveDuration = requestTypeService.globalRequestTypeConfiguration.draftLiveDuration
         result.dashBoard.drafts.records.each {
             if (requestActionService.hasAction(it.id,
                 RequestActionType.DRAFT_DELETE_NOTIFICATION)) {
                 it.displayDraftWarning = true
-                it.draftExpirationDate = it.creationDate +
-                    SecurityContext.currentSite.draftLiveDuration
+                it.draftExpirationDate = it.creationDate + draftLiveDuration
             }
         }
 

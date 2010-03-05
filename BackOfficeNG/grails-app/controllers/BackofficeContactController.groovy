@@ -10,6 +10,7 @@ import fr.cg95.cvq.security.SecurityContext
 import grails.converters.JSON
 
 import org.springframework.web.context.request.RequestContextHolder
+import org.xhtmlrenderer.pdf.ITextRenderer
 
 // mostly taken from RequestInstructionController,
 // so still dependent on a request
@@ -25,7 +26,6 @@ class BackofficeContactController {
     def localAuthorityRegistry
     def meansOfContactService
     def messageSource
-    def pdfService
     def requestActionService
     def requestTypeService
 	def translationService
@@ -217,8 +217,15 @@ class BackofficeContactController {
     }
 
     private preparePdf(requestId, requestFormId, templateMessage, meansOfContact) {
-        return pdfService.htmlToPdf(prepareTemplate(requestId, requestFormId,
-            templateMessage?.encodeAsXML().replaceAll(/\n/, "<br />"), meansOfContact, "PDF"))
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        ITextRenderer renderer = new ITextRenderer()
+        renderer.setDocumentFromString(prepareTemplate(
+            requestId, requestFormId,
+            templateMessage?.encodeAsXML().replaceAll(/\n/, "<br />"),
+            meansOfContact, "PDF"))
+        renderer.layout()
+        renderer.createPDF(baos)
+        return baos.toByteArray()
     }
 
     // directly taken from RequestInstructionController

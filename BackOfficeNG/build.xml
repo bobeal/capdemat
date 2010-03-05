@@ -20,11 +20,7 @@
            	</fileset>
         </delete>
         <delete>
-           	<fileset dir="lib">
-           		<include name="*.jar" />
-           		<exclude name="core-renderer.jar" />
-           		<exclude name="itext-paulo-155.jar" />
-           	</fileset>
+            <fileset dir="lib" />
         </delete>
     </target>
 

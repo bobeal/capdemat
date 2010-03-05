@@ -102,6 +102,7 @@
             <fileset dir="${jdom.lib.dir}">
                 <include name="jdom.jar" />
             </fileset>
+            <fileset dir="${lowagie.lib.dir}" />
         </copy>
     </target>
 

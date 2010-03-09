@@ -14,7 +14,7 @@
   
   <configuration>
     <properties
-      outputdir="./BackOfficeNG/modules/backoffice/views/requestInstruction/requestType/"
+      outputdir="./BackOfficeNG/grails-app/views/backofficeRequestInstruction/requestType/"
       edittemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/edit.gsp.tpl"
       stepstemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/steps.gsp.tpl"
       collectiontemplate="./Generator/src/java/fr/cg95/cvq/generator/plugins/bo/collection.gsp.tpl"

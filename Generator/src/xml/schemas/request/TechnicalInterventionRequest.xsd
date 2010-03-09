@@ -69,6 +69,7 @@
                   </common>
                   <fo />
                   <bo column="1" />
+                  <pdf />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

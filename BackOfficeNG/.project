@@ -10,14 +10,77 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
-			<name>org.codehaus.groovy.eclipse.groovyBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>com.springsource.sts.grails.core.nature</nature>
+		<nature>org.eclipse.jdt.groovy.core.groovyNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>org.codehaus.groovy.eclipse.groovyNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>capdemat-script-utils-0.1-src-groovy</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/capdemat-script-utils-0.1/src/groovy</location>
+		</link>
+		<link>
+			<name>extended-data-binding-0.2-grails-app-taglib</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/extended-data-binding-0.2/grails-app/taglib</location>
+		</link>
+		<link>
+			<name>extended-data-binding-0.2-src-groovy</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/extended-data-binding-0.2/src/groovy</location>
+		</link>
+		<link>
+			<name>google-chart-0.5.1-grails-app-i18n</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/google-chart-0.5.1/grails-app/i18n</location>
+		</link>
+		<link>
+			<name>google-chart-0.5.1-grails-app-taglib</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/google-chart-0.5.1/grails-app/taglib</location>
+		</link>
+		<link>
+			<name>google-chart-0.5.1-grails-app-views</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/google-chart-0.5.1/grails-app/views</location>
+		</link>
+		<link>
+			<name>google-chart-0.5.1-src-groovy</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/google-chart-0.5.1/src/groovy</location>
+		</link>
+		<link>
+			<name>jcaptcha-1.0-grails-app-controllers</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/jcaptcha-1.0/grails-app/controllers</location>
+		</link>
+		<link>
+			<name>jcaptcha-1.0-grails-app-services</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/jcaptcha-1.0/grails-app/services</location>
+		</link>
+		<link>
+			<name>jcaptcha-1.0-grails-app-taglib</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/jcaptcha-1.0/grails-app/taglib</location>
+		</link>
+		<link>
+			<name>tomcat-1.2.0-src-groovy</name>
+			<type>2</type>
+			<location>/home/bor/zenexity/capdemat/git/capdemat/BackOfficeNG/plugins/tomcat-1.2.0/src/groovy</location>
+		</link>
+		<link>
+			<name>webxml-1.2-grails-app-conf</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/webxml-1.2/grails-app/conf</location>
+		</link>
+		<link>
+			<name>webxml-1.2-grails-app-i18n</name>
+			<type>2</type>
+			<location>/home/bor/temp/capdemat/BackOfficeNG/plugins/webxml-1.2/grails-app/i18n</location>
+		</link>
+	</linkedResources>
 </projectDescription>

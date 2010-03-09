@@ -18,7 +18,7 @@
 	<classpathentry kind="src" output="Plugins/PaymentProviders/PaylineV4/build/test" path="Plugins/PaymentProviders/PaylineV4/test/java"/>
 	<classpathentry kind="src" output="Plugins/CsvImporters/Concerto/build/test" path="Plugins/CsvImporters/Concerto/test/java"/>
 	<classpathentry kind="src" output="Plugins/CsvImporters/Concerto/build/classes" path="Plugins/CsvImporters/Concerto/src/java"/>
-	<classpathentry kind="src" output="Generator/build/classes" path="Generator/src/java"/>
+	<classpathentry excluding="**/*.groovy" kind="src" output="Generator/build/classes" path="Generator/src/java"/>
 	<classpathentry kind="src" output="Model/build/classes" path="Model/src/java"/>
 	<classpathentry kind="src" output="Model/build/test" path="Model/test/java"/>
 	<classpathentry kind="src" output="ServiceExporter/webapp/WEB-INF/classes" path="ServiceExporter/src/java"/>
@@ -91,21 +91,21 @@
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.lowagie/core-renderer.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.lowagie/iText-2.0.8.jar"/>
-	<classpathentry kind="lib" path="/home/jsb/Projets/CapDemat/CG95/Libraries/org.springframework/org.springframework.context-3.0.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/home/jsb/Projets/CapDemat/CG95/Libraries/org.springframework/org.springframework.beans-3.0.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.core-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-1.5.8.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-xml-1.5.8.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.oxm-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.jdom/jdom.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.context.support-3.0.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.web-3.0.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.web.servlet-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-security-1.5.8.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.sun/xws-security.jar"/>
 	<classpathentry kind="lib" path="Libraries/groovy/groovy-all-1.6.7.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.beans-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.context-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.context.support-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.core-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.oxm-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.web-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.web.servlet-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="Model/lib/org.springframework/org.springframework.test-3.0.1.RELEASE.jar" sourcepath="Model/lib/org.springframework/org.springframework.test-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Model/lib/junit/junit-4.7.jar"/>
-	<classpathentry kind="lib" path="Model/lib/org.springframework/org.springframework.test-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Generator/lib/ant.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

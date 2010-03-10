@@ -26,7 +26,7 @@ public interface IDocumentService {
     String PAGE_ADD_ACTION = "PAGE_ADD_ACTION";
     String PAGE_EDIT_ACTION = "PAGE_EDIT_ACTION";
     String PAGE_DELETE_ACTION = "PAGE_DELETE_ACTION";
-    
+
     /**
      * Add a document to the system.
      *
@@ -44,13 +44,13 @@ public interface IDocumentService {
      */
     void modify(@IsDocument Document document)
         throws CvqException;
-    
+
 	/**
      * Delete an existing document.
      */
     void delete(@IsDocument final Long id)
         throws CvqException, CvqObjectNotFoundException;
-    
+
     Document getById(@IsDocument final Long documentId)
         throws CvqException, CvqObjectNotFoundException;
 
@@ -74,7 +74,7 @@ public interface IDocumentService {
      */
     void deletePage(@IsDocument final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException;
-    
+
     /**
      * Get all binary data associated to a document.
      */
@@ -105,6 +105,11 @@ public interface IDocumentService {
     List<Document> getIndividualDocuments(@IsIndividual final Long individualId);
 
     /**
+     * Get the new documents created during the current session. 
+     */
+    List<Document> getBySessionUuid(final String sessionUuid);
+
+    /**
      * Check, for all known local authorities, that the end validity date of documents 
      * in state PENDING, CHECKED or VALIDATED has not been reached. If it has been reached,
      * the document state is set to OUTDATED.
@@ -119,7 +124,7 @@ public interface IDocumentService {
     void updateDocumentState(final Long id, final DocumentState ds, final String message, 
             final Date validityDate)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
-    
+
     /**
      * Validate a document.
      *
@@ -188,9 +193,11 @@ public interface IDocumentService {
      * @return found documents
      */
     List<Document> search(Hashtable<String,Object> searchParams,int max,int offset);
-    
+
     /**
      * Get a count of documents matching the given criteria.
      */
     Integer searchCount(Hashtable<String,Object> searchParams);
+
+    void deleteUnpersistedSessionDocuments(final String sessionUuid);
 }

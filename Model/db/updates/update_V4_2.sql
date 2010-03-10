@@ -470,3 +470,6 @@ alter table global_request_type_configuration alter column filing_delay set not 
 alter table request_type add column filing_delay int4;
 
 alter table request_action add column filename varchar(255);
+
+alter table document add column session_uuid varchar(255);
+alter table document rename column deposit_from to deposit_id;

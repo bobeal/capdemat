@@ -1,5 +1,7 @@
 package fr.cg95.cvq.dao;
 
+import java.util.List;
+
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 
 /**
@@ -14,6 +16,15 @@ public interface IGenericDAO {
      */
     Object findById(final Class<?> clazz, final Long id) 
         throws CvqObjectNotFoundException;
+
+    /**
+     * Retrieve unique instance of the given class that match property.
+     */
+    <T> T findUniqueBySimpleProperty(final Class<T> clazz, final String propertyName, 
+            final Object propertyValue);
+
+    <T> List<T> findBySimpleProperty(final Class<T> clazz, final String propertyName, 
+            final Object propertyValue);
 
     /**
      * Create a persistent object in DB.

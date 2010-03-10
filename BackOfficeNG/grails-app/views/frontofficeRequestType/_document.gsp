@@ -22,7 +22,6 @@
   </fieldset>
   <p class="document-button">
     <input type="submit" name="submit-documentSave-document-id:${document.id}_documentTypeId:${documentType.id}" value="${message(code:'action.save')}" />
-    <input type="submit" name="submit-documentCancel-document-id:${document.id}" value="${message(code:'action.cancel')}" />
   </p>
 </g:if>
 <g:else>  

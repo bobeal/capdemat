@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentAction;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.dao.request.IRequestDAO;
@@ -83,8 +84,11 @@ public class RequestDocumentService implements IRequestDocumentService {
         } else {
             request.getDocuments().add(requestDocument);
         }
-
-        updateLastModificationInformation(request);
+ 
+        // this method is called when adding a document to a request being created
+        // in this case, do not update modification information
+        if (request.getId() != null)
+            updateLastModificationInformation(request);
     }
     
     @Override
@@ -95,14 +99,15 @@ public class RequestDocumentService implements IRequestDocumentService {
         if (documents == null)
             return;
 
-        Set<Long> documentIds = new HashSet<Long>();
         for (Document document : documents) {
-            document.setId(null);
+            document.setSessionUuid(null);
             document.setHomeFolderId(request.getHomeFolderId());
-            documentIds.add(documentService.create(document));
+            document.setDepositId(request.getRequesterId());
+            for (DocumentAction documentAction : document.getActions()) {
+                documentAction.setAgentId(request.getRequesterId());
+            }
+            addDocument(request, document.getId());
         }
-        for (Long documentId : documentIds)
-            addDocument(request, documentId);
     }
 
     @Override
@@ -119,7 +124,10 @@ public class RequestDocumentService implements IRequestDocumentService {
             }
         }
 
-        updateLastModificationInformation(request);
+        // this method is called when adding a document to a request being created
+        // in this case, do not update modification information
+        if (request.getId() != null)
+            updateLastModificationInformation(request);
     }
 
     @Override
@@ -131,15 +139,6 @@ public class RequestDocumentService implements IRequestDocumentService {
         return request.getDocuments();
     }
     
-    @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public Set<RequestDocument> getAssociatedDocuments(Request request)
-        throws CvqException {
-        if (request.getId() != null)
-            request = getById(request.getId());
-        return request.getDocuments();
-    }
-
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Set<Document> getAssociatedDocumentsByType(final Long requestId, final Long documentTypeId)

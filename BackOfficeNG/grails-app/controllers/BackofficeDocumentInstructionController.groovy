@@ -23,7 +23,7 @@ class BackofficeDocumentInstructionController {
     def defaultAction = "edit"
     
     def instructionService
-    def documentAdaptorService
+    DocumentAdaptorService documentAdaptorService
     
     IDocumentService documentService
     IDocumentTypeService documentTypeService

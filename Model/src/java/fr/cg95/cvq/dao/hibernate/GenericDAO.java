@@ -6,6 +6,7 @@ import java.util.Map;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
+import org.hibernate.criterion.Expression;
 import org.hibernate.type.Type;
 
 import fr.cg95.cvq.dao.IGenericDAO;
@@ -17,6 +18,7 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
  */
 public class GenericDAO implements IGenericDAO {
 
+    @Override
     public Object findById(final Class<?> clazz, final Long id)
         throws CvqObjectNotFoundException {
         Object object = null;
@@ -33,19 +35,39 @@ public class GenericDAO implements IGenericDAO {
         return object;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T findUniqueBySimpleProperty(final Class<T> clazz, final String propertyName, 
+            final Object propertyValue) {
+        return (T) HibernateUtil.getSession().createCriteria(clazz)
+            .add(Expression.eq(propertyName, propertyValue)).uniqueResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> List<T> findBySimpleProperty(Class<T> clazz, String propertyName,
+            Object propertyValue) {
+        return (List<T>) HibernateUtil.getSession().createCriteria(clazz)
+            .add(Expression.eq(propertyName, propertyValue)).list();
+    }
+
+    @Override
     public Long create(final Object object) {
         return (Long) HibernateUtil.getSession().save(object);
     }
 
+    @Override
     public <T> T saveOrUpdate(final T object) {
         HibernateUtil.getSession().saveOrUpdate(object);
         return object;
     }
 
+    @Override
     public void update(final Object object) {
         HibernateUtil.getSession().update(object);
     }
 
+    @Override
     public void delete(final Object object) {
         HibernateUtil.getSession().delete(object);
     }

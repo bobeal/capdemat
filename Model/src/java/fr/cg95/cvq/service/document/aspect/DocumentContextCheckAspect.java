@@ -16,6 +16,7 @@ import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.GenericAccessManager;
 import fr.cg95.cvq.security.PermissionException;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.*;
 import fr.cg95.cvq.service.document.annotation.IsDocument;
 import fr.cg95.cvq.service.request.aspect.RequestContextCheckAspect;
@@ -24,30 +25,32 @@ import fr.cg95.cvq.service.request.aspect.RequestContextCheckAspect;
 public class DocumentContextCheckAspect implements Ordered {
 
     private Logger logger = Logger.getLogger(RequestContextCheckAspect.class);
+
     private IDocumentDAO documentDAO;
-    
+
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.document..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
-        
+
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        
+
         if (!ArrayUtils.contains(context.types(), ContextType.ECITIZEN)
-            && !ArrayUtils.contains(context.types(), ContextType.AGENT))
+                && !ArrayUtils.contains(context.types(), ContextType.AGENT)
+                && !ArrayUtils.contains(context.types(), ContextType.UNAUTH_ECITIZEN))
             return;
-        
+
         if (context.privilege().equals(ContextPrivilege.NONE)) {
-            logger.debug("contextAnnotatedMethod() no special privilege asked"
-                    + " on method " + signature.getMethod().getName() + ", returning");
+            logger.debug("contextAnnotatedMethod() no special privilege asked" + " on method "
+                    + signature.getMethod().getName() + ", returning");
             return;
         }
-        
-        
+
         Method method = signature.getMethod();
         Annotation[][] parametersAnnotations = method.getParameterAnnotations();
         Object[] arguments = joinPoint.getArgs();
         Long homeFolderId = null;
         Long individualId = null;
         int i = 0;
+        Document document = null;
         for (Object argument : arguments) {
             if (parametersAnnotations[i] != null && parametersAnnotations[i].length > 0) {
                 Annotation parameterAnnotation = parametersAnnotations[i][0];
@@ -56,19 +59,19 @@ public class DocumentContextCheckAspect implements Ordered {
                 } else if (parameterAnnotation.annotationType().equals(IsIndividual.class)) {
                     individualId = (Long) argument;
                 } else if (parameterAnnotation.annotationType().equals(IsDocument.class)) {
-                    Document document = null;
                     if (argument instanceof Long) {
                         try {
-                            document = (Document) documentDAO.findById(Document.class, (Long) argument);
+                            document = (Document) documentDAO.findById(Document.class,
+                                    (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
-                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                            throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                                     joinPoint.getSignature().getName(), context.types(), context.privilege(),
                                     "no document match the given id : " + argument);
                         }
                     } else if (argument instanceof Document) {
                         document = (Document) argument;
                     } else {
-                        throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+                        throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                                 joinPoint.getSignature().getName(), context.types(), context.privilege(),
                                 "argument is of an unknown type " + argument);
                     }
@@ -79,14 +82,28 @@ public class DocumentContextCheckAspect implements Ordered {
             i++;
         }
 
-        if (!GenericAccessManager.performPermissionCheck(homeFolderId, 
-                individualId, context.privilege()))
-            throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
+        // by-pass security checks for documents created in out-of-account requests
+        if (ArrayUtils.contains(context.types(), ContextType.UNAUTH_ECITIZEN)
+                && SecurityContext.getCurrentEcitizen() == null
+                && SecurityContext.getCurrentContext().equals(SecurityContext.FRONT_OFFICE_CONTEXT)) {
+            if (document == null
+                    || document.getSessionUuid() == null
+                    || document.getHomeFolderId() != null
+                    || document.getIndividualId() != null) {
+                throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
+                        joinPoint.getSignature().getName(), context.types(), context.privilege(),
+                        "access denied on unauthenticated ecitizen");
+            } else {
+                return;
+            }
+        }
+
+        if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId, context.privilege()))
+            throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
                     joinPoint.getSignature().getName(), context.types(), context.privilege(),
-                    "access denied on home folder " + homeFolderId 
-                        + " / individual " + individualId);
+                    "access denied on home folder " + homeFolderId + " / individual " + individualId);
     }
-    
+
     @Override
     public int getOrder() {
         return 1;

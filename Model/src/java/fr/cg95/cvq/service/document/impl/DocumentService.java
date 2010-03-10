@@ -6,8 +6,6 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
-import fr.cg95.cvq.business.document.DepositOrigin;
-import fr.cg95.cvq.business.document.DepositType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentAction;
 import fr.cg95.cvq.business.document.DocumentBinary;
@@ -19,6 +17,7 @@ import fr.cg95.cvq.business.users.UsersEvent;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
@@ -46,7 +45,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     protected IDocumentTypeDAO documentTypeDAO;
     private ITranslationService translationService;
     
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.READ)
     public Document getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
         return (Document) documentDAO.findById(Document.class, id);
@@ -132,7 +131,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
 
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public Long create(Document document)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -141,18 +140,9 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         if (document.getDocumentType() == null)
             throw new CvqException("You must provide a type for your document");
 
-        document.setState(DocumentState.PENDING);
         document.setCreationDate(new Date());
         document.setDepositId(SecurityContext.getCurrentUserId());
-        
-        // set required default values
-        if (document.getDepositType() == null)
-            document.setDepositType(DepositType.PC);
-        if (document.getDepositOrigin() == null)
-            document.setDepositOrigin(DepositOrigin.ECITIZEN);
-        if (document.getCertified() == null)
-            document.setCertified(Boolean.FALSE);
-        
+
         computeEndValidityDate(document);
 
         Long documentId = documentDAO.create(document);
@@ -161,10 +151,13 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
         addActionTrace(CREATION_ACTION, DocumentState.PENDING, document);
 
+        // when creating a new document in FO, we need it to be persisted before rendering the view
+        HibernateUtil.getSession().flush();
+
         return documentId;
     }
 
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void modify(final Document document)
         throws CvqException {
 
@@ -173,15 +166,18 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         documentDAO.update(document);
     }
 
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
         Document document = getById(id);
         documentDAO.delete(document);
+
+        // when deleting a new document in FO, we need it to be removed from DB before rendering the view
+        HibernateUtil.getSession().flush();
     }
 
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void addPage(final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -201,7 +197,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         addActionTrace(PAGE_ADD_ACTION, null, document);
     }
 
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void modifyPage(final Long documentId, final DocumentBinary documentBinary)
         throws CvqException {
 
@@ -221,7 +217,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
 
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void deletePage(final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -247,7 +243,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
     
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.READ)
     public Set<DocumentBinary> getAllPages(final Long documentId)
         throws CvqException {
 
@@ -298,6 +294,10 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     public List<Document> getIndividualDocuments(final Long individualId) {
 
         return documentDAO.listByIndividual(individualId);
+    }
+    
+    public List<Document> getBySessionUuid(final String sessionUuid) {
+        return documentDAO.findBySimpleProperty(Document.class, "sessionUuid", sessionUuid);
     }
     
     @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.NONE)
@@ -494,6 +494,12 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                     + homeFolderEvent.getIndividualId());
             deleteIndividualDocuments(homeFolderEvent.getIndividualId());
         }
+    }
+
+    public void deleteUnpersistedSessionDocuments(final String sessionUuid) {
+        List<Document> sessionDocuments = getBySessionUuid(sessionUuid);
+        for (Document document : sessionDocuments)
+            documentDAO.delete(document);
     }
 
     public void setDocumentDAO(final IDocumentDAO documentDAO) {

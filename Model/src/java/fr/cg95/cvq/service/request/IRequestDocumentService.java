@@ -10,6 +10,11 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 
+/**
+ * Manage the associations between a request and documents.
+ * 
+ * @author Benoit Orihuela (bor@zenexity.fr)
+ */
 public interface IRequestDocumentService {
 
     /**
@@ -34,8 +39,7 @@ public interface IRequestDocumentService {
         throws CvqException, CvqObjectNotFoundException;
     
     /**
-     * Add a single document to a request.
-     * Enable adding document to not persisted request
+     * Add a single existing document to a not yet persisted request.
      *
      * @param request to which the document has to linked
      * @param documentId a document that must have been created with the creation
@@ -62,8 +66,6 @@ public interface IRequestDocumentService {
      * asked for.
      */
     Set<RequestDocument> getAssociatedDocuments(@IsRequest final Long requestId) throws CvqException;
-    
-    Set<RequestDocument> getAssociatedDocuments(@IsRequest Request request) throws CvqException;
     
     /**
      * Get associated documents of the given type.

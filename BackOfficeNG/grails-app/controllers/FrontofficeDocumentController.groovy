@@ -15,30 +15,25 @@ class FrontofficeDocumentController {
     IDocumentService documentService
     IDocumentTypeService documentTypeService
     
-    def instructionService
-    def documentAdaptorService
+    InstructionService instructionService
+    DocumentAdaptorService documentAdaptorService
     
     Adult currentEcitizen
     int maxRows = 10
     
     def beforeInterceptor = {
         this.currentEcitizen = SecurityContext.getCurrentEcitizen();
-        documentAdaptorService.setServletContext(servletContext)
     }
 
     def details = {
         def result = [:], prevPage = null, nextPage = null, index = 0
-        Document document
-        if (params.sessionUuid == null || params.sessionUuid == "") 
-        	  document = documentService.getById(Long.valueOf(params.id))
-        else 
-        	  document = documentAdaptorService.deserializeDocument(params.id, params.sessionUuid)
+        Document document = documentService.getById(params.long('id'))
        
         if (params.isRequestCreation)
             result.isRequestCreation = true
         
         result.page = params.pn ? Integer.parseInt(params.pn) : 0
-        result.actions = this.getActions(document)        
+        result.actions = this.getActions(document)
         result.sessionUuid = params.sessionUuid
         
         def pages =  document.datas
@@ -87,10 +82,7 @@ class FrontofficeDocumentController {
     }
     
     def binary = {
-        Document document
-        if (params.sessionUuid == '') document = documentService.getById(Long.valueOf(params.id))
-        else document = documentAdaptorService.deserializeDocument(params.id, params.sessionUuid)
-        
+        Document document = documentService.getById(params.long('id'))
         DocumentBinary binary = document.datas.get(params.pn ? Integer.valueOf(params.pn) : 0)
         
         response.contentType = "image/png"
@@ -118,7 +110,7 @@ class FrontofficeDocumentController {
         else if(state?.nf)
             criterias.put('individualId',Long.valueOf(state.nf))
         
-        this.documentService.search(criterias,maxRows,offset).each {
+        documentService.search(criterias,maxRows,offset).each {
             result.add([
                 'id' : it.id,
                 'creationDate' : it.creationDate,
@@ -135,7 +127,7 @@ class FrontofficeDocumentController {
         
         return [
             'all' : result,
-            'count' : this.documentService.searchCount(criterias)
+            'count' : documentService.searchCount(criterias)
         ]
     }
     

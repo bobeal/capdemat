@@ -24,6 +24,10 @@ public class DocumentBinary implements Serializable {
     public DocumentBinary() {
     }
 
+    public DocumentBinary(byte[] data) {
+        this.data = data;
+    }
+    
     /**
      * @hibernate.id
      *  generator-class="sequence"

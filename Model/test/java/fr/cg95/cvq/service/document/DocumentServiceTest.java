@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.junit.Test;
 
@@ -335,6 +336,63 @@ public class DocumentServiceTest extends DocumentTestCase {
         
         List<Document> documents = 
             documentService.getIndividualDocuments(homeFolderWoman.getId());
+        assertTrue(documents.isEmpty());
+    }
+
+    @Test
+    public void testUnauthenticatedUseCases() throws CvqException {
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+
+        DocumentType documentType =
+            documentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
+        String uuid = UUID.randomUUID().toString();
+        Document document = new Document(null, "coucou", documentType, uuid);
+        documentService.create(document);
+
+        continueWithNewTransaction();
+
+        List<Document> documents = documentService.getBySessionUuid(uuid);
+        assertNotNull(documents);
+        assertEquals(1, documents.size());
+
+        document = documents.get(0);
+        assertEquals("coucou", document.getEcitizenNote());
+
+        document.setEcitizenNote("hello buddy");
+        documentService.modify(document);
+
+        continueWithNewTransaction();
+
+        document = documentService.getBySessionUuid(uuid).get(0);
+        assertEquals("hello buddy", document.getEcitizenNote());
+
+        DocumentBinary documentBinary = new DocumentBinary();
+        documentService.addPage(document.getId(), documentBinary);
+
+        continueWithNewTransaction();
+
+        document = documentService.getBySessionUuid(uuid).get(0);
+        documentBinary = document.getDatas().get(0);
+        documentService.modifyPage(document.getId(), documentBinary);
+
+        continueWithNewTransaction();
+
+        document = documentService.getBySessionUuid(uuid).get(0);
+        assertEquals(1, document.getDatas().size());
+
+        documentService.deletePage(document.getId(), 0);
+
+        continueWithNewTransaction();
+
+        document = documentService.getBySessionUuid(uuid).get(0);
+        assertEquals(0, document.getDatas().size());
+
+        documentService.delete(document.getId());
+
+        continueWithNewTransaction();
+
+        documents = documentService.getBySessionUuid(uuid);
         assertTrue(documents.isEmpty());
     }
 }

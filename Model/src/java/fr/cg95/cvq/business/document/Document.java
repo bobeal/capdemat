@@ -1,14 +1,14 @@
 package fr.cg95.cvq.business.document;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-
-/** 
+/**
  * @hibernate.class
  *  table="document"
  *  lazy="false"
@@ -17,9 +17,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class Document implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	/** identifier field */
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     /** creation date of the document in the system, set by the model */
     private Date creationDate;
@@ -28,22 +27,35 @@ public class Document implements Serializable {
     private Date endValidityDate;
     private String ecitizenNote;
     private String agentNote;
-    private DocumentState state;
-    private DepositType depositType;
-    private DepositOrigin depositOrigin;
+    private DocumentState state = DocumentState.PENDING;
+    private DepositType depositType = DepositType.PC;
+    private DepositOrigin depositOrigin = DepositOrigin.ECITIZEN;
     private Long depositId;
-
     private Long homeFolderId;
     private Long individualId;
-    
     private DocumentType documentType;
-    private Boolean certified;
-    
-    private List<DocumentBinary> datas;
+    private boolean certified = false;
+
+    /**
+     * As documents are persisted before a request is finished and / or before ecitizen accounts are created, 
+     * we need a way to track them without having the whole usual environment. For that, we use the session
+     * UUID.
+     */
+    private String sessionUuid;
+
+    private List<DocumentBinary> datas = new ArrayList<DocumentBinary>();
     private Set<DocumentAction> actions;
 
     /** default constructor */
     public Document() {
+    }
+
+    public Document(Long homeFolderId, String ecitizenNote, DocumentType documentType,
+            String sessionUuid) {
+        this.homeFolderId = homeFolderId;
+        this.ecitizenNote = ecitizenNote;
+        this.documentType = documentType;
+        this.sessionUuid = sessionUuid;
     }
 
     /**
@@ -160,7 +172,7 @@ public class Document implements Serializable {
 
     /**
      * @hibernate.property
-     *  column="deposit_from"
+     *  column="deposit_id"
      */
     public Long getDepositId() {
         return this.depositId;
@@ -210,14 +222,26 @@ public class Document implements Serializable {
     /**
      * @hibernate.property
      */
-	public Boolean getCertified() {
-		return certified;
-	}
+    public boolean getCertified() {
+        return certified;
+    }
 
-	public void setCertified(Boolean certified) {
-		this.certified = certified;
-	}
-    
+    public void setCertified(boolean certified) {
+        this.certified = certified;
+    }
+
+    public void setSessionUuid(String sessionUuid) {
+        this.sessionUuid = sessionUuid;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="session_uuid"
+     */
+    public String getSessionUuid() {
+        return sessionUuid;
+    }
+
     /**
      * @hibernate.list
      *  inverse="false"
@@ -258,8 +282,6 @@ public class Document implements Serializable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-            .append("id", getId())
-            .toString();
+        return new ToStringBuilder(this).append("id", getId()).toString();
     }
 }

@@ -819,11 +819,12 @@
         state varchar(16),
         deposit_type varchar(24),
         deposit_origin varchar(10),
-        deposit_from int8,
+        deposit_id int8,
         home_folder_id int8,
         individual_id int8,
         document_type_id int8,
         certified bool,
+        session_uuid varchar(255),
         primary key (id)
     );
 

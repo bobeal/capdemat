@@ -63,7 +63,7 @@ class BackofficeRequestInstructionController {
 
     def translationService
     def instructionService
-    def documentAdaptorService
+    DocumentAdaptorService documentAdaptorService
     def homeFolderAdaptorService
     def requestAdaptorService
     def defaultAction = "edit"

@@ -72,7 +72,7 @@ public class I18nPlugin implements IPluginGenerator {
             for (String lang: requestI18n.getI18nLabels().keySet()) {
                 String output = outputDir + requestI18n.getAcronym();
                 String templateOutput = outputDir + requestI18n.getAcronym() + "customized";
-                if (!lang.equals("en")) {
+                if (!lang.equals("fr")) {
                     output += "_" + lang;
                     templateOutput += "_" + lang;
                 }

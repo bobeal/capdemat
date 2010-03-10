@@ -54,6 +54,8 @@ payment : initialized, validated, refused, cancelled
 .tag-statechange, .tag-contactcitizen,
 /* document (request creation) */
 .tag-new,
+/* request admin actions */
+.tag-archivesdeleted, .tag-archivesdownloaded, .tag-passwordreset, .tag-requestsarchived, .tag-archivesmigrated,
 /*  misc */
 .tag-draft { 
   padding: 0 .2em;
@@ -68,6 +70,7 @@ payment : initialized, validated, refused, cancelled
 }
 
 /* yellow */
+.tag-archivesdownloaded,
 .tag-pending,
 .tag-initialized,
 .tag-sent,
@@ -75,6 +78,7 @@ payment : initialized, validated, refused, cancelled
 .tag-uncomplete    { background: #ffcc20; border-color:#ffaa20; }
 
 /* green */
+.tag-requestsarchived,
 .tag-clrtutor,
 .tag-tutor,
 .tag-valid,
@@ -88,6 +92,7 @@ payment : initialized, validated, refused, cancelled
 .tag-enable        { background: #20cc20; border-color:#20aa20; }
 
 /* red */
+.tag-archivesdeleted,
 .tag-invalid,
 .tag-rejected,
 .tag-refused,
@@ -103,6 +108,7 @@ payment : initialized, validated, refused, cancelled
 .tag-not_provided  { background: #dedede; color: #cc2020; border-color: #aa2020; }
 
 /* blue */
+.tag-archivesmigrated,
 .tag-new,
 .tag-clrfather,
 .tag-checked,
@@ -117,6 +123,7 @@ payment : initialized, validated, refused, cancelled
 .tag-agent         { background: #ec7000; border-color:#da7000; }
 
 /* violet */
+.tag-passwordreset,
 .tag-required,
 .tag-eCitizen, .tag-ecitizen,
 .tag-creationnotification,

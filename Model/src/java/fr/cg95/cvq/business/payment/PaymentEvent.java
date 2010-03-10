@@ -1,8 +1,8 @@
 package fr.cg95.cvq.business.payment;
 
-import org.springframework.context.ApplicationEvent;
+import fr.cg95.cvq.business.CapDematEvent;
 
-public class PaymentEvent extends ApplicationEvent {
+public class PaymentEvent extends CapDematEvent {
 
     private static final long serialVersionUID = 1L;
 

@@ -17,7 +17,9 @@
               </a>
             </span>
           </g:if>
-          <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
+          <g:if test="${record.state != 'Archived'}">
+            <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
+          </g:if>
             ${record.label}
             <g:message code="request.searchResult.requestId" />
             <span>${record.id}</span>
@@ -27,7 +29,9 @@
              <g:message code="layout.for" />
              ${record.subjectLastName} ${record.subjectFirstName}
             </g:if>
-          </a>
+          <g:if test="${record.state != 'Archived'}">
+            </a>
+          </g:if>
         </p>
         <p>
           <g:message code="request.searchResult.creationDate" 
@@ -41,6 +45,11 @@
             </g:if>
           </g:if> 
         </p>
+        <g:if test="${record.state == 'Archived'}">
+          <p class="agent-note">
+            <g:message code="request.message.archived" />
+          </p>
+        </g:if>
         <g:if test="${record.lastAgentNote}">
           <p class="agent-note">
             <g:message code="request.property.lastAgentNote" />

@@ -1,9 +1,11 @@
 package fr.cg95.cvq.service.request;
 
 import java.util.Date;
+import java.util.List;
 
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestActionType;
+import fr.cg95.cvq.business.request.RequestAdminAction;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -59,4 +61,6 @@ public interface IRequestActionService {
     void addSystemAction(@IsRequest final Long requestId,
         final RequestActionType type)
         throws CvqException;
+
+    List<RequestAdminAction> getAdminActions();
 }

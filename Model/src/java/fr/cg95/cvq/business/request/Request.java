@@ -330,6 +330,14 @@ public class Request implements Serializable {
         requestData.setHasTiedHomeFolder(hasTiedHomeFolder);
     }
 
+    public byte[] getDocumentsArchive() {
+        return requestData.getDocumentsArchive();
+    }
+
+    public void setDocumentsArchive(byte[] documentsArchive) {
+        requestData.setDocumentsArchive(documentsArchive);
+    }
+
     /**
      * Reserved for RequestDAO !
      */

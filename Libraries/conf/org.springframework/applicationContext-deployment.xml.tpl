@@ -36,6 +36,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <value>fr/cg95/cvq/business/authority/Agent.hbm.xml</value>
         <value>fr/cg95/cvq/business/document/DocumentAction.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestAction.hbm.xml</value>
+        <value>fr/cg95/cvq/business/request/RequestAdminAction.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestLock.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestNote.hbm.xml</value>
         <value>fr/cg95/cvq/business/request/RequestForm.hbm.xml</value>
@@ -159,7 +160,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="localAuthorityRegistry"
     class="fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry" init-method="init">
+    <property name="requestArchivingJob" ref="requestArchivingJob" />
     <property name="localAuthorityDAO" ref="localAuthorityDAO" />
+    <property name="requestActionDAO" ref="requestActionDAO" />
     <property name="performDbUpdates" value="@perform_db_updates@" />
     <property name="referentialBase" value="${referential.properties.path}" />
     <property name="assetsBase" value="${assets.properties.path}" />

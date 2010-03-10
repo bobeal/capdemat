@@ -59,6 +59,7 @@ import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.dao.authority.ILocalAuthorityDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.request.IRequestActionDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -70,6 +71,7 @@ import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.request.job.RequestArchivingJob;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
@@ -105,9 +107,11 @@ public class LocalAuthorityRegistry
     /** Keep a map of all services interested in local authorities lifecycle */
     protected Collection<ILocalAuthorityLifecycleAware> allListenerServices;
 
+    private RequestArchivingJob requestArchivingJob;
     private ILocalAuthorityDAO localAuthorityDAO;
     private IAgentService agentService;
     private IHomeFolderService homeFolderService;
+    private IRequestActionDAO requestActionDAO;
 
     private ListableBeanFactory beanFactory;
 
@@ -771,7 +775,8 @@ public class LocalAuthorityRegistry
             if (!resourceDir.exists())
                 resourceDir.mkdir();
         }
-        
+        if (!requestActionDAO.hasArchivesMigrationAction())
+            requestArchivingJob.migrate();
         generateJPEGFiles();
     }
 
@@ -889,6 +894,7 @@ public class LocalAuthorityRegistry
         for (File file : files) {
             result.add(StringUtils.removeEnd(file.getName(), type.getExtension()));
         }
+        Collections.sort(result, String.CASE_INSENSITIVE_ORDER);
         return result;
     }
 
@@ -980,5 +986,13 @@ public class LocalAuthorityRegistry
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {
         this.homeFolderService = homeFolderService;
+    }
+
+    public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {
+        this.requestActionDAO = requestActionDAO;
+    }
+
+    public void setRequestArchivingJob(RequestArchivingJob requestArchivingJob) {
+        this.requestArchivingJob = requestArchivingJob;
     }
 }

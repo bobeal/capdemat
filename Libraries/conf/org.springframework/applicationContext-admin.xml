@@ -320,6 +320,43 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <!-- *******************************************************************  -->
+  <!-- ************** Request archiving job configuration ****************  -->
+  <!-- *******************************************************************  -->
+
+  <bean id="requestArchivingJob" class="fr.cg95.cvq.service.request.job.RequestArchivingJob">
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
+    <property name="externalService" ref="externalService" />
+    <property name="requestDAO" ref="requestDAO" />
+    <property name="requestPdfService" ref="requestPdfService" />
+    <property name="translationService" ref="translationService" />
+    <property name="requestWorkflowService"  ref="requestWorkflowService" />
+    <property name="requestServiceRegistry"  ref="requestServiceRegistry" />
+  </bean>
+
+  <bean id="requestArchivingInvoker"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="requestArchivingJob" />
+    <property name="targetMethod" value="launch" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+    <!-- dev -->
+  <bean id="requestArchivingTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="requestArchivingInvoker" />
+    <property name="cronExpression" value="0 0/5 * * * ?" />
+  </bean>
+
+  <!-- prod -->
+  <!--
+  <bean id="requestArchivingTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="requestArchivingInvoker" />
+    <property name="cronExpression" value="0 0 * * * ?" />
+  </bean>
+  -->
+
+  <!-- *******************************************************************  -->
   <!-- ************ Where everything happens (or not) ********************  -->
   <!-- *******************************************************************  -->
 
@@ -334,7 +371,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <ref bean="draftManagementRemoverJobTrigger"/>
         <ref bean="draftManagementNotifierJobTrigger"/>
         <ref bean="requestLocksCleaningTrigger"/>
-	    <!--
+        <!--
+        <ref bean="requestArchivingTrigger"/>
         <ref bean="requestWorkflowNavigatorTrigger" />
         <ref bean="paymentInitializationCheckerTrigger" />
 	    -->

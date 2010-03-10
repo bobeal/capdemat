@@ -29,19 +29,6 @@
         title="${message(code:'requestType.message.instructionAlertDelayIsNumber')}"/>
       <g:message code="property.days" />
     </p>
-    <p class="field">
-      <label for="filingDelay">
-        <g:message code="requestType.property.filingDelay" /> :
-        <span>
-          (<g:message code="message.defaultValue" /> :
-            ${defaultConfig.filingDelay} <g:message code="property.months" />)
-        </span>
-      </label>
-      <input type="text" name="filingDelay" value="${requestType?.filingDelay}"
-        class="validate-number" size="3"
-        title="${message(code:'requestType.message.filingDelayIsNumber')}"/>
-      <g:message code="property.months" />
-    </p>
     <div class="form-button">
       <input type="button" id="saveRequestTypeDelays"
         name="saveRequestTypeDelays" value="${message(code:'action.save')}" />

@@ -78,6 +78,12 @@ public class RequestData implements Serializable {
 
     private Long specificDataId;
 
+    /**
+     * Hack to store PDF chunk with documents as they are when the request is validated;
+     * to be deleted when we have document versioning
+     */
+    private byte[] documentsArchive;
+
     public RequestData() {
         this.stepStates = new LinkedHashMap<String, Map<String, String>>();
     }
@@ -440,5 +446,17 @@ public class RequestData implements Serializable {
 
     public void setSpecificDataId(Long specificDataId) {
         this.specificDataId = specificDataId;
+    }
+
+    /**
+     * @hibernate.property
+     *  column="documents_archive"
+     */
+    public byte[] getDocumentsArchive() {
+        return documentsArchive;
+    }
+
+    public void setDocumentsArchive(byte[] documentsArchive) {
+        this.documentsArchive = documentsArchive;
     }
 }

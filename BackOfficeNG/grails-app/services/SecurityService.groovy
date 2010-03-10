@@ -17,6 +17,7 @@ public class SecurityService {
                 "backofficeLogin" : /.*/,
                 "backofficePayment" : /.*/,
                 "backofficeRequestAdmin" : /.*/,
+                "backofficeRequestArchives" : /.*/,
                 "system" : /error/
             ]
         ],

@@ -21,12 +21,11 @@
         <p class="note">
           <g:capdematEnumToFlag var="${requestNote.type}" i18nKeyPrefix="request.note.type" />${requestNote.note}
         </p>
-        <p class="noteMetadata">
-          <g:message code="request.property.note" /> n° <strong>${requestNote.id}</strong>
-          <g:if test="${requestNote.date != null}">
-            <g:message code="request.note.date" /> <strong><g:formatDate formatName="format.fullDate" date="${requestNote.date}"/></strong>
-          </g:if>
-        </p>
+        <g:if test="${requestNote.date != null}">
+          <p class="noteMetadata">
+            <g:message code="request.note.date" /> <g:message code="layout.one.date" /> <strong><g:formatDate formatName="format.fullDate" date="${requestNote.date}"/></strong>
+          </p>
+        </g:if>
       </dd>
     </g:each>
   </dl>

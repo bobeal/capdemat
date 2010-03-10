@@ -1,5 +1,7 @@
 package fr.cg95.cvq.service.request;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -64,4 +66,12 @@ public interface IRequestSearchService {
      */
     byte[] getCertificate(@IsRequest final Long requestId)
         throws CvqException;
+
+    File getArchives(List<String> names)
+        throws IOException;
+
+    /**
+     * @return the names of the archives which could not be deleted
+     */
+    List<String> deleteArchives(List<String> names);
 }

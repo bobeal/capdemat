@@ -228,6 +228,9 @@ public interface IRequestTypeService {
 
     GlobalRequestTypeConfiguration getGlobalRequestTypeConfiguration();
 
-    void modifyGlobalRequestTypeConfiguration(GlobalRequestTypeConfiguration newConfig)
-        throws CvqModelException;
+    void generateArchivesPassword()
+        throws CvqException;
+
+    boolean checkArchivesPassword(String password)
+        throws CvqException;
 }

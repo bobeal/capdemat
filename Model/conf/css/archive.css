@@ -1,0 +1,28 @@
+li { list-style : none; }
+
+
+
+h2 { page-break-after : avoid; }
+
+dl {
+  page-break-inside : avoid;
+  padding : 5px;
+  border : 1px solid #cccccc;
+  border-right-color : #aaaaaa;
+  border-bottom-color : #aaaaaa;
+  background-color : #ffffff;
+}
+
+dl .tag { font-size : 1.1em; }
+
+dl dt {
+  float : left;
+  width : 30%;
+  text-align : right;
+}
+
+dl dd {
+  border-left : 1px dashed #aaaaaa;
+  margin : 0 0 0 31%;
+  padding : 0 0 .5em .5em;
+}

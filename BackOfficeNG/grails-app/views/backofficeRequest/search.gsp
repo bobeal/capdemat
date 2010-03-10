@@ -14,7 +14,7 @@
           <g:render template="advancedSearchForm" />          
         </div>
 
-        <div id="search-results">
+        <div class="search-results">
           <g:render template="searchResults" />
         </div>
         

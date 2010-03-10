@@ -94,6 +94,7 @@
             <fileset dir="${common.lib.dir}">
                 <include name="commons-codec.jar" />
                 <include name="commons-httpclient*.jar" />
+                <include name="commons-compress*.jar" />
             </fileset>
             <fileset dir="${axis.lib.dir}" />
             <fileset dir="${jaxen.lib.dir}">

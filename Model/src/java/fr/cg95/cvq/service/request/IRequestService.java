@@ -44,7 +44,17 @@ public interface IRequestService {
      * if not defined)
      */
     String getExternalReferentialFilename();
-    
+
+    /**
+     * Number of months before requests are filed (between 1 and 36 months)
+     */
+    int getFilingDelay();
+
+    /**
+     * Whether documents must be included in archives
+     */
+    boolean isArchiveDocuments();
+
     /**
      * Whether the request type handled by current service authorizes creation operation without 
      * having already an account.

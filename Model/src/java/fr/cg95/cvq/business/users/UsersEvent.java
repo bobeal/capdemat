@@ -1,8 +1,8 @@
 package fr.cg95.cvq.business.users;
 
-import org.springframework.context.ApplicationEvent;
+import fr.cg95.cvq.business.CapDematEvent;
 
-public class UsersEvent extends ApplicationEvent {
+public class UsersEvent extends CapDematEvent {
 
     private static final long serialVersionUID = 1L;
 

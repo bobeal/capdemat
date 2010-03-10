@@ -8,9 +8,9 @@
 
 /* search results
 -------------------------------------------------------------- */
-#search-results { margin: 0 1em; }
+.search-results { margin: 0 1em; }
 
-#search-results div.pagination {
+.search-results div.pagination {
 	margin: 1em 0 ;
 	text-align: center;
 	font-weight: bold;
@@ -18,30 +18,30 @@
 	border:1px solid #C8DDFF;
 }
 
-#search-results div.pagination span {
+.search-results div.pagination span {
   margin-right: 0.5em;
 }
 
-#search-results div.pagination a {
+.search-results div.pagination a {
   margin-right: 0.5em;
 }
 
-#search-results li {
+.search-results li {
   margin-bottom: 1em;
   padding-bottom: 0.5em;
 	border-bottom: 1px dashed #999999;
 }
 
-#search-results p.first-line { font-size: 1.1em; font-weight: normal; padding-bottom: 0.3em; }
-#search-results p.state      { color: #ff7400; }
-#search-results p.second-line, #search-results p.third-line  { font-size: 0.9em; }
-#search-results .tag-state { float: right; font-size: 0.8em; }
-#search-results span.current-sort { font-size: 1.2em; font-weight: bold; }
+.search-results p.first-line { font-size: 1.1em; font-weight: normal; padding-bottom: 0.3em; }
+.search-results p.state      { color: #ff7400; }
+.search-results p.second-line, .search-results p.third-line  { font-size: 0.9em; }
+.search-results .tag-state { float: right; font-size: 0.8em; }
+.search-results span.current-sort { font-size: 1.2em; font-weight: bold; }
 
 /* Request 
 -------------------------------------------------------------- */
-#search-results .request p.first-line { color: #0000ff; }
+.search-results .request p.first-line { color: #0000ff; }
 
 /* Payment 
 -------------------------------------------------------------- */
-#search-results .payment span.reference { text-decoration: underline; }
+.search-results .payment span.reference { text-decoration: underline; }

@@ -67,13 +67,13 @@ public class RequestSeasonsJob {
                         requestWorkflowService.updateRequestState(request.getId(),
                             RequestState.NOTIFIED, null);
                         requestWorkflowService.updateRequestState(request.getId(),
-                                RequestState.ARCHIVED, null);
+                            RequestState.CLOSED, null);
                     }
                     stateCriteria.setValue(RequestState.NOTIFIED);
                     requests = requestSearchService.get(criterias, null, null, 0, 0, false);
                     for (Request request : requests) {
                         requestWorkflowService.updateRequestState(request.getId(),
-                            RequestState.ARCHIVED, null);
+                            RequestState.CLOSED, null);
                     }
                 }
             }

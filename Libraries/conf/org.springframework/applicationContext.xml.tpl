@@ -42,12 +42,16 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="fakeSmsService" class="fr.cg95.cvq.util.sms.impl.FakeSmsService" />
   
-  <bean id="certificateService" class="fr.cg95.cvq.service.request.impl.CertificateService">
+  <bean id="requestPdfService" class="fr.cg95.cvq.service.request.impl.RequestPdfService">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
     <property name="individualService" ref="individualService"/>
     <property name="homeFolderService" ref="homeFolderService" />
     <property name="localReferentialService" ref="localReferentialService"/>
+    <property name="requestSearchService" ref="requestSearchService"/>
+    <property name="agentService" ref="agentService"/>
+    <property name="externalService" ref="externalService"/>
+    <property name="documentService" ref="documentService"/>
   </bean>
 
   <!-- history interceptor that logs all changes made on home folders -->
@@ -133,6 +137,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="requestService" class="fr.cg95.cvq.service.request.impl.RequestService"
     abstract="true" init-method="init">
     <property name="genericDAO" ref="genericDAO" />
+    <property name="filingDelay" value="6"/>
+    <property name="archiveDocuments" value="false"/>
   </bean>
   
   <bean id="requestServiceRegistry" class="fr.cg95.cvq.service.request.impl.RequestServiceRegistry">
@@ -149,7 +155,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="individualService" ref="individualService" />
     <property name="requestDocumentService" ref="requestDocumentService" />
     <property name="requestTypeService" ref="requestTypeService" />
-    <property name="certificateService" ref="certificateService" />
+    <property name="requestPdfService" ref="requestPdfService" />
   </bean>
 
   <bean id="autofillService" class="fr.cg95.cvq.service.request.impl.AutofillService">
@@ -172,6 +178,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="categoryService" ref="categoryService" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="requestSearchService" ref="requestSearchService" />
+    <property name="authenticationService" ref="authenticationService" />
   </bean>
 
   <bean id="requestActionService" class="fr.cg95.cvq.service.request.impl.RequestActionService">
@@ -209,6 +216,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   
   <bean id="requestSearchService" class="fr.cg95.cvq.service.request.impl.RequestSearchService">
     <property name="requestDAO" ref="requestDAO" />
+    <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
   </bean>
   
   <bean id="requestDocumentService" class="fr.cg95.cvq.service.request.impl.RequestDocumentService">
@@ -328,6 +336,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
   </bean>
 
   <bean id="perischoolActivityRegistrationRequestService" 
@@ -339,6 +348,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
   </bean>
 
   <bean id="recreationActivityRegistrationRequestService" 
@@ -350,6 +360,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
   </bean>
 
   <bean id="schoolCanteenRegistrationRequestService" 
@@ -362,6 +373,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_CHILD" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
+    <property name="filingDelay" value="12"/>
   </bean>
 
   <bean id="studyGrantRequestService"
@@ -375,6 +387,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="xslFoFilename" value="studyGrantRequest"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="requestDAO" ref="requestDAO"/>
+    <property name="filingDelay" value="12"/>
   </bean>
 
  <bean id="birthDetailsRequestService" 
@@ -412,6 +425,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="election" />
+    <property name="filingDelay" value="12"/>
   </bean>
 
   <bean id="alignmentCertificateRequestService" 
@@ -449,6 +463,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="culture" />
+    <property name="filingDelay" value="12"/>
   </bean>
 
   <bean id="musicSchoolRegistrationRequestService" 
@@ -460,6 +475,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="leisure" />
+    <property name="filingDelay" value="12"/>
   </bean>
 
   <bean id="placeReservationRequestService" 

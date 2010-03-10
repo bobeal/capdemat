@@ -40,8 +40,7 @@ public interface IAuthenticationService {
     /**
      * Generate a new random password.
      */
-    String generatePassword()
-        throws CvqException;
+    String generatePassword();
 
     /**
      * Set a new password for the given adult.

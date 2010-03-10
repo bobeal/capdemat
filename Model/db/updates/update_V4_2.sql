@@ -466,12 +466,30 @@ alter table local_authority drop column instruction_default_max_delay;
 alter table local_authority drop column instruction_default_alert_delay;
 alter table local_authority drop column request_lock_max_delay;
 
-alter table global_request_type_configuration add column filing_delay int4;
-update global_request_type_configuration set filing_delay = 6;
-alter table global_request_type_configuration alter column filing_delay set not null;
-alter table request_type add column filing_delay int4;
-
 alter table request_action add column filename varchar(255);
 
 alter table document add column session_uuid varchar(255);
 alter table document rename column deposit_from to deposit_id;
+
+alter table request add column documents_archive bytea;
+alter table global_request_type_configuration add column archives_password varchar(255);
+
+create table request_admin_action (
+    id int8 not null,
+    type varchar(255) not null,
+    admin_id int8 not null,
+    date timestamp not null,
+    primary key (id)
+);
+
+create table request_admin_action_complementary_data (
+    id int8 not null,
+    value bytea,
+    key varchar(255) not null,
+    primary key (id, key)
+);
+
+alter table request_admin_action_complementary_data
+    add constraint FK783DC15070D87F22
+    foreign key (id)
+    references request_admin_action;

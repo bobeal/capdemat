@@ -29,6 +29,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
         yue.on(yud.get('draftsBox'),'click',zcbl.Requests.clickEv.dispatch,zcbl.Requests.clickEv,true);
         yue.on(yud.get('meansOfContactBox'),'click',zcbl.Requests.clickEv.dispatch,zcbl.Requests.clickEv,true);
         yue.on(yud.get('platformConfigurationBox'),'click',zcbl.Requests.clickEv.dispatch,zcbl.Requests.clickEv,true);
+        yue.on(yud.get('archivesPasswordBox'),'click',zcbl.Requests.clickEv.dispatch,zcbl.Requests.clickEv,true);
         zcbl.Requests.loadMoCs();
       },
       /**
@@ -60,6 +61,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.localauthority');
         zct.doAjaxFormSubmitCall(splitEvent(e) + "Form",[], function(o){
           zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
           zcbl.Requests.loadMoCs();
+        });
+      },
+      resetArchivesPassword : function(e) {
+        var target  = yue.getTarget(e);
+        zct.doAjaxDeleteCall("/../requestArchives/password", null, function(o){
+          zct.Notifier.processMessage('success', ylj.parse(o.responseText).success_msg, null, target);
         });
       }
     }

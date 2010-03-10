@@ -1,0 +1,146 @@
+<%
+  import java.text.SimpleDateFormat
+  import org.apache.commons.lang.StringEscapeUtils
+  def dateFormat = new SimpleDateFormat(i18n.translate("format.fullDate"))
+  def mixedCase(o) {
+      def result = o.toString()
+      return result[0].toLowerCase() + result[1..(result.length() - 1)]
+  }
+  def getUserName(userId) {
+      def displayName = ""
+      if (userId == -1) {
+          displayName = i18n.translate("system")
+      } else {
+          def user
+          try {
+              user = agentService.getById(userId)
+          } catch (CvqObjectNotFoundException) {}
+          if (!user) {
+              try {
+                  user = individualService.getById(userId)
+              } catch (CvqObjectNotFoundException) {}
+          }
+          if (user)
+              displayName = "${user.firstName} ${user.lastName}"
+      }
+      return displayName
+  }
+  def getUserNature(userId) {
+      def nature = ""
+      if (userId == -1) {
+          nature = "system"
+      } else {
+          try {
+              agentService.getById(userId)
+              nature = "agent"
+          } catch (CvqObjectNotFoundException) {
+              nature = "eCitizen"
+          }
+      }
+      return nature
+  }
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>${i18n.translate("requestArchive.title", [request.id])}</title>
+    <link href="file://${certificateCSSPath}" type="text/css" rel="stylesheet" media="print" />
+    <link href="file://${archiveCSSPath}" type="text/css" rel="stylesheet" media="print" />
+    <link href="file://${tagCSSPath}" type="text/css" rel="stylesheet" media="print" />
+  </head>
+  <body>
+    <h2>${i18n.translate("request.header.history")}</h2>
+    <ul>
+      <% request.actions.each { %>
+        <li>
+          <dl>
+            <dt>
+              <span class="tag tag-${it.type.toString().toLowerCase()}">
+                ${i18n.translate("requestAction.type." + mixedCase(it.type))}
+              </span>
+            </dt>
+            <% if (it.resultingState) { %>
+              <dd>
+                <span class="tag tag-${it.resultingState.toString().toLowerCase()}">
+                  ${i18n.translate("request.state." + mixedCase(it.resultingState))}</span>
+              </dd>
+            <% } %>
+            <dd>
+              ${i18n.translate("searchResult.actionDate")}
+              <strong>${dateFormat.format(it.date)}</strong>
+              <% if (it.agentId) { %>
+                ${i18n.translate("layout.by")}
+                <strong>${getUserName(it.agentId)}</strong>
+              <% } %>
+            </dd>
+            <% if (it.message) { %>
+              <dt>${i18n.translate("requestAction.property.message")} :</dt>
+              <dd>${StringEscapeUtils.escapeXml(it.message)}</dd>
+            <% } %>
+            <% if (it.note) { %>
+              <dt>${i18n.translate("requestAction.property.note")} :</dt>
+              <dd>${StringEscapeUtils.escapeXml(it.note)}</dd>
+            <% } %>
+          </dl>
+        </li>
+      <% } %>
+    </ul>
+    <% if (request.notes && !request.notes.isEmpty()) { %>
+      <h2>${i18n.translate("request.header.notes")}</h2>
+      <ul>
+        <% request.notes.each { %>
+          <li>
+            <dl>
+              <dt>
+                <% def nature = getUserNature(it.userId) %>
+                <span class="tag-${nature}">${i18n.translate(nature)}</span>
+              </dt>
+              <dd>
+                à destination
+                <span class="tag-${it.type.toString().toLowerCase()} tag-state">
+                  ${i18n.translate("request.note.type." + it.type.toString().toLowerCase())}
+                </span>
+              </dd>
+              <dd>
+                ${i18n.translate("request.note.date")}
+                <% if (it.date) { %>
+                  ${i18n.translate("layout.on.date")}
+                  <strong>${dateFormat.format(it.date)}</strong>
+                <% } %>
+                ${i18n.translate("layout.by")}
+                <strong>${getUserName(it.userId)}</strong>
+              </dd>
+              <dt>${i18n.translate("request.property.note")} :</dt>
+              <dd>${StringEscapeUtils.escapeXml(it.note)}</dd>
+            </dl>
+          </li>
+        <% } %>
+      </ul>
+    <% } %>
+    <% externalTraces.each { label, current -> %>
+      <h2>${label}</h2>
+      <ul>
+        <% current.each { %>
+          <li>
+            <dl>
+              <dt>
+                <span class="tag-${it.status.toString().toLowerCase()}">
+                  ${i18n.translate("externalservice.trace.status." + mixedCase(it.status))}
+                </span>
+              </dt>
+              <dd>
+                ${i18n.translate("layout.on.date")}
+                <strong>${dateFormat.format(it.date)}</strong>
+              </dd>
+              <% if (it.message) { %>
+                <dt>${i18n.translate("externalServiceTrace.property.message")} :</dt>
+                <dd>${StringEscapeUtils.escapeXml(it.message)}</dd>
+              <% } %>
+            </dl>
+          </li>
+        <% } %>
+      </ul>
+    <% } %>
+  </body>
+</html>

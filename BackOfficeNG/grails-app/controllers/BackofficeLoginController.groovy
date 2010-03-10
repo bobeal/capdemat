@@ -10,6 +10,8 @@ class BackofficeLoginController {
         session.currentCredentialBean = null
         session.removeAttribute(CASFilter.CAS_FILTER_USER)
         session.removeAttribute(CASFilter.CAS_FILTER_RECEIPT)
+        // FIXME requests coupling
+        session.hasAccessToRequestArchives = false
 
         if (CH.config.cas_mocking == "true")
             response.sendRedirect('/CapDemat/cas.gsp')

@@ -308,6 +308,9 @@
     alter table request_action 
         drop constraint FK7AC459E6D7FE2713;
 
+    alter table request_admin_action_complementary_data 
+        drop constraint FK783DC15070D87F22;
+
     alter table request_document 
         drop constraint FK712980CBD7FE2713;
 
@@ -548,6 +551,10 @@
     drop table request;
 
     drop table request_action;
+
+    drop table request_admin_action;
+
+    drop table request_admin_action_complementary_data;
 
     drop table request_document;
 
@@ -969,7 +976,7 @@
         instruction_max_delay int4 not null,
         instruction_alert_delay int4 not null,
         request_lock_max_delay int4 not null,
-        filing_delay int4 not null,
+        archives_password varchar(255),
         primary key (id)
     );
 
@@ -1882,6 +1889,7 @@
         has_tied_home_folder bool,
         specific_data_class varchar(255),
         specific_data_id int8,
+        documents_archive bytea,
         primary key (id)
     );
 
@@ -1897,6 +1905,21 @@
         type varchar(255),
         request_id int8,
         primary key (id)
+    );
+
+    create table request_admin_action (
+        id int8 not null,
+        type varchar(255) not null,
+        admin_id int8 not null,
+        date timestamp not null,
+        primary key (id)
+    );
+
+    create table request_admin_action_complementary_data (
+        id int8 not null,
+        value bytea,
+        key varchar(255) not null,
+        primary key (id, key)
     );
 
     create table request_document (
@@ -1956,7 +1979,6 @@
         authorize_multiple_registrations_per_season bool,
         instruction_alert_delay int4,
         instruction_max_delay int4,
-        filing_delay int4,
         primary key (id)
     );
 
@@ -2646,6 +2668,11 @@
         add constraint FK7AC459E6D7FE2713 
         foreign key (request_id) 
         references request;
+
+    alter table request_admin_action_complementary_data 
+        add constraint FK783DC15070D87F22 
+        foreign key (id) 
+        references request_admin_action;
 
     alter table request_document 
         add constraint FK712980CBD7FE2713 

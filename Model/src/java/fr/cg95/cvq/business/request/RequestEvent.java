@@ -3,9 +3,9 @@ package fr.cg95.cvq.business.request;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.context.ApplicationEvent;
+import fr.cg95.cvq.business.CapDematEvent;
 
-public class RequestEvent extends ApplicationEvent {
+public class RequestEvent extends CapDematEvent {
 
     private static final long serialVersionUID = 1L;
 

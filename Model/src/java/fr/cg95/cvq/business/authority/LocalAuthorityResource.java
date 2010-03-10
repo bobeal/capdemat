@@ -36,8 +36,10 @@ public class LocalAuthorityResource {
         DISPLAY_GROUP_IMAGE("img/display_group", ".png"),
         LOCAL_REFERENTIAL("local_referential", ".xml"),
         MAIL_TEMPLATES("html/templates/mails", ".html"),
+        ARCHIVE_TEMPLATES("html/templates/archive", ".html"),
         PDF("pdf", ".pdf"),
         REQUEST_XML("xml_request", ".xml"),
+        REQUEST_ARCHIVE("pdf/request_archives", ".pdf"),
         TXT("txt", ".txt"),
         XSL("xsl", ".xsl");
         private String folder;

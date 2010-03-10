@@ -2,6 +2,7 @@ class BackofficeUrlMappings {
   static mappings = {
 
     "/backoffice/requestAdmin/$action?/$id?" (controller : "backofficeRequestAdmin" )
+    "/backoffice/requestArchives/$action?/$id?" (controller : "backofficeRequestArchives" )
     "/backoffice/requestType/$action?/$id?" (controller : "backofficeRequestType" )
     "/backoffice/payment/$action?/$id?" (controller : "backofficePayment" )
     "/backoffice/category/$action?/$id?" (controller : "backofficeCategory" )

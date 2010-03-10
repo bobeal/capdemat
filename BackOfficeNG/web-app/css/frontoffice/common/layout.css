@@ -79,4 +79,9 @@ p.agent-note {
     background-color:#ffffcc;
 }
 
-
+p.agent-note {
+    margin-top: 0.6em !important; padding: 0.2em;
+    font-size: 0.9em;
+    border: 1px solid #ffddaa;
+    background-color:#ffffcc;
+}

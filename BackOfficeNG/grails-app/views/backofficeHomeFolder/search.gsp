@@ -13,7 +13,7 @@
           <g:render template="searchForm" />
         </div>
 
-        <div id="search-results">
+        <div class="search-results">
           <g:render template="searchResults" />
         </div>
         

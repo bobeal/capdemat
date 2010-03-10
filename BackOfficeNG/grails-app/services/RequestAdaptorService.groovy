@@ -91,8 +91,9 @@ class RequestAdaptorService {
               'lastInterveningUserId': instructionService.getActionPosterDetails(request.lastInterveningUserId),
               'temporary':homeFolder.temporary,
               'quality':quality,
-              'isViewable':categoryService.hasProfileOnCategory(SecurityContext.currentAgent,
-                           request.requestType.category?.id)
+              'isViewable' : !RequestState.ARCHIVED.equals(request.state)
+                  && categoryService.hasProfileOnCategory(SecurityContext.currentAgent,
+                      request.requestType.category?.id)
         ]
 
         return record

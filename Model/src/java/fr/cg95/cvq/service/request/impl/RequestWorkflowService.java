@@ -53,7 +53,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.document.IDocumentService;
-import fr.cg95.cvq.service.request.ICertificateService;
+import fr.cg95.cvq.service.request.IRequestPdfService;
 import fr.cg95.cvq.service.request.IRequestActionService;
 import fr.cg95.cvq.service.request.IRequestDocumentService;
 import fr.cg95.cvq.service.request.IRequestExternalService;
@@ -81,7 +81,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
     private static Logger logger = Logger.getLogger(RequestWorkflowService.class);
     
-    private ICertificateService certificateService;
+    private IRequestPdfService requestPdfService;
     private IDocumentService documentService;
     private IHomeFolderService homeFolderService;
     private IIndividualService individualService;
@@ -179,7 +179,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         requestDAO.update(hfmr);
 
         // TODO REFACTORING : branch into common treatments
-        byte[] pdfData = certificateService.generate(hfmr);
+        byte[] pdfData = requestPdfService.generateCertificate(hfmr);
 
         requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData);
 
@@ -530,7 +530,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         if (!RequestState.DRAFT.equals(request.getState())) {
             // TODO DECOUPLING
-            byte[] pdfData = certificateService.generate(request);
+            byte[] pdfData = requestPdfService.generateCertificate(request);
             
             requestActionService.addCreationAction(requestId, new Date(), pdfData);
     
@@ -838,7 +838,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 	 *            whether or not we want the request's certificate to be
 	 *            generated (some requests have to add extra information in the
 	 *            certificate and so they call directly the
-	 *            {@link ICertificateService})
+	 *            {@link IRequestPdfService})
 	 */
     private void validate(final Request request)
         throws CvqException, CvqInvalidTransitionException, CvqModelException,
@@ -860,7 +860,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
 
         // TODO Decoupling
-        byte[] pdfData = certificateService.generate(request);
+        byte[] pdfData = requestPdfService.generateCertificate(request);
+        if (requestServiceRegistry.getRequestService(request).isArchiveDocuments()) {
+            request.setDocumentsArchive(
+                requestPdfService.generateDocumentsArchive(request.getDocuments()));
+        }
 
         request.setState(RequestState.VALIDATED);
         request.setDataState(DataState.VALID);
@@ -996,6 +1000,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     private void archive(final Request request)
         throws CvqException, CvqInvalidTransitionException {
 
+        if (!SecurityContext.isAdminContext()) {
+            throw new CvqModelException("request.error.archiveForbidden");
+        }
         // if no state change asked, just return silently
         if (request.getState().equals(RequestState.ARCHIVED))
             return;
@@ -1087,9 +1094,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             requestStateList.add(RequestState.CANCELLED);
             requestStateList.add(RequestState.REJECTED);
         } else if (rs.equals(RequestState.REJECTED)) {
-            requestStateList.add(RequestState.ARCHIVED);
+            if (SecurityContext.isAdminContext())
+                requestStateList.add(RequestState.ARCHIVED);
         } else if (rs.equals(RequestState.CANCELLED)) {
-            requestStateList.add(RequestState.ARCHIVED);
+            if (SecurityContext.isAdminContext())
+                requestStateList.add(RequestState.ARCHIVED);
         } else if (rs.equals(RequestState.ARCHIVED)) {
             // no more state transitions available from there
         } else if (rs.equals(RequestState.VALIDATED)) {
@@ -1097,9 +1106,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             requestStateList.add(RequestState.NOTIFIED);
         } else if (rs.equals(RequestState.NOTIFIED)) {
             requestStateList.add(RequestState.CLOSED);
-            requestStateList.add(RequestState.ARCHIVED);
+            if (SecurityContext.isAdminContext())
+                requestStateList.add(RequestState.ARCHIVED);
         } else if (rs.equals(RequestState.CLOSED)) {
-            requestStateList.add(RequestState.ARCHIVED);
+            if (SecurityContext.isAdminContext())
+                requestStateList.add(RequestState.ARCHIVED);
         }
 
         return requestStateList.toArray(new RequestState[requestStateList.size()]);
@@ -1273,8 +1284,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         this.requestDocumentService = requestDocumentService;
     }
 
-    public void setCertificateService(ICertificateService certificateService) {
-        this.certificateService = certificateService;
+    public void setRequestPdfService(IRequestPdfService requestPdfService) {
+        this.requestPdfService = requestPdfService;
     }
 
     @Override

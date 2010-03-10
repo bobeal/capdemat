@@ -88,18 +88,28 @@ class BackofficeRequestController {
         }
         
         // deal with dynamic filters
+        def hasStateFilter = false
         def parsedFilters = SearchUtils.parseFilters(params.filterBy)
         parsedFilters.filters.each { key, value ->
             Critere critere = new Critere()
             critere.attribut = key.replaceAll('Filter','')
             critere.comparatif = Critere.EQUALS
-            if (key == 'stateFilter')
+            if (key == 'stateFilter') {
                 critere.value = value
+                hasStateFilter = true
+            }
             else if (key == 'qualityFilter') {
                 critere.attribut = 'qualityType'
                 critere.value = "qualityType"+value
             } else
                 critere.value = Long.valueOf(value)
+            criteria.add(critere)
+        }
+        if (!hasStateFilter) {
+            Critere critere = new Critere()
+            critere.attribut = Request.SEARCH_BY_STATE
+            critere.comparatif = Critere.NEQUALS
+            critere.value = RequestState.ARCHIVED
             criteria.add(critere)
         }
         
@@ -235,6 +245,13 @@ class BackofficeRequestController {
             critere.attribut = Request.SEARCH_BY_REQUEST_TYPE_ID
             critere.comparatif = critere.EQUALS
             critere.value = state.filters.requestTypeIdFilter
+            criteriaSet.add(critere)
+        }
+        if (attr != RequestState.ARCHIVED) {
+            critere = new Critere()
+            critere.attribut = Request.SEARCH_BY_STATE
+            critere.comparatif = Critere.NEQUALS
+            critere.value = RequestState.ARCHIVED
             criteriaSet.add(critere)
         }
         return [

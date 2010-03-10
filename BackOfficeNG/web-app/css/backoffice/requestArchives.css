@@ -1,0 +1,53 @@
+#archivesList {height: 500px; overflow : auto;}
+
+form label { float : inherit; }
+
+#archivesHistory { margin-top : 10px; }
+
+#archivesHistory .yui-content li {
+  border-bottom:1px dashed #C1CFE2;
+  padding:0.7em 0;
+}
+
+#archivesHistory .yui-content li dl dd li {
+  border : 0;
+  padding : 0;
+}
+
+dl {
+  padding : 5px;
+  border : 1px solid #cccccc;
+  border-right-color : #aaaaaa;
+  border-bottom-color : #aaaaaa;
+  -moz-border-radius : .5em;
+  -webkit-border-radius : .5em;
+  background-color : #ffffff;
+}
+
+li:hover dl {
+  border-color : black;
+  border-width : 2px;
+}
+
+dl .tag { font-size : 1.1em; }
+
+dl dt {
+  float : left;
+  width : 30%;
+  text-align : right;
+  display : none;
+}
+
+dl dd {
+  border-left : 1px dashed #aaaaaa;
+  margin : 0 0 0 31%;
+  padding : 0 0 .5em .5em;
+  display : none;
+}
+
+dl dt.title,
+dl dd.title,
+li:hover dl dt,
+li:hover dl dd {
+  display : inherit;
+}

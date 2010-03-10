@@ -15,16 +15,23 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
+import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.request.GlobalRequestTypeConfiguration;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestAdminAction;
+import fr.cg95.cvq.business.request.RequestAdminEvent;
 import fr.cg95.cvq.business.request.RequestForm;
 import fr.cg95.cvq.business.request.RequestFormType;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
+import fr.cg95.cvq.business.request.RequestAdminAction.Data;
+import fr.cg95.cvq.business.request.RequestAdminAction.Type;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
@@ -55,13 +62,18 @@ import fr.cg95.cvq.util.Critere;
  * @author bor@zenexity.fr
  */
 public class RequestTypeService implements IRequestTypeService, ILocalAuthorityLifecycleAware,
-    BeanFactoryAware {
+    BeanFactoryAware, ApplicationContextAware {
 
     private static Logger logger = Logger.getLogger(RequestTypeService.class);
-    
+    private ApplicationContext applicationContext;
     private IDocumentTypeService documentTypeService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
+    private IAuthenticationService authenticationService;
     
+    public void setAuthenticationService(IAuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+
     private IRequestServiceRegistry requestServiceRegistry;
     private IRequestSearchService requestSearchService;
     private ICategoryService categoryService;
@@ -167,8 +179,17 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
         if (performDbUpdates) {
-            if (getGlobalRequestTypeConfiguration() == null)
+            if (getGlobalRequestTypeConfiguration() == null) {
                 genericDAO.saveOrUpdate(new GlobalRequestTypeConfiguration());
+                HibernateUtil.getSession().flush();
+            }
+            if (getGlobalRequestTypeConfiguration().getArchivesPassword() == null) {
+                try {
+                    generateArchivesPassword();
+                } catch (CvqException e) {
+                    throw new RuntimeException("error generating archives password", e);
+                }
+            }
             for (IRequestService requestService : requestServiceRegistry.getAllRequestServices()) {
                 logger.debug("addLocalAuthority() registering service " + requestService.getLabel() 
                         + " for local authority " + localAuthorityName);
@@ -269,10 +290,6 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void modifyRequestType(RequestType requestType)
         throws CvqException {
-        if (requestType.getFilingDelay() != null
-            && (requestType.getFilingDelay() < 1 || requestType.getFilingDelay() > 36)) {
-            throw new CvqModelException("requestType.error.invalidFilingDelay");
-        }
         requestTypeDAO.update(requestType);
     }
 
@@ -705,11 +722,30 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
         return requestTypeDAO.getGlobalRequestTypeConfiguration();
     }
 
-    public void modifyGlobalRequestTypeConfiguration(GlobalRequestTypeConfiguration config)
-        throws CvqModelException {
-        if (config.getFilingDelay() < 1 || config.getFilingDelay() > 36) {
-            throw new CvqModelException("requestType.error.invalidFilingDelay");
-        }
-        genericDAO.update(config);
+    @Override
+    public void generateArchivesPassword()
+        throws CvqException {
+        String password = authenticationService.generatePassword();
+        getGlobalRequestTypeConfiguration()
+            .setArchivesPassword(authenticationService.encryptPassword(password));
+        RequestAdminAction action = new RequestAdminAction(Type.PASSWORD_RESET);
+        action.getComplementaryData().put(Data.PASSWORD, password);
+        RequestAdminEvent event = new RequestAdminEvent(this, action);
+        applicationContext.publishEvent(event);
+        action.getComplementaryData().put(Data.PASSWORD, null);
+        genericDAO.saveOrUpdate(action);
+    }
+
+    @Override
+    public boolean checkArchivesPassword(String password)
+        throws CvqException {
+        return authenticationService.encryptPassword(password)
+            .equals(getGlobalRequestTypeConfiguration().getArchivesPassword());
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext)
+        throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

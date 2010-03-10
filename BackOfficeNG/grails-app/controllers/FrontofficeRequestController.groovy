@@ -20,7 +20,7 @@ class FrontofficeRequestController {
     DocumentAdaptorService documentAdaptorService
     def requestTypeAdaptorService
     // TODO : remove it when removing testPdf closure
-    def certificateService
+    def requestPdfService
 
     IIndividualService individualService
     IRequestExternalService requestExternalService
@@ -100,7 +100,7 @@ class FrontofficeRequestController {
     def testPdf = {
         def cRequest = requestSearchService.getById(Long.parseLong(params.id), true)
         
-        def data = certificateService.generate(cRequest)
+        def data = requestPdfService.generateCertificate(cRequest)
         response.contentType = "application/pdf"
         response.setHeader("Content-disposition", "attachment; filename=request.pdf")
         response.contentLength = data.length

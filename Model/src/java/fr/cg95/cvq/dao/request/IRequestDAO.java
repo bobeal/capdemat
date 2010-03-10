@@ -9,6 +9,7 @@ import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestLock;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.util.Critere;
 
@@ -106,4 +107,10 @@ public interface IRequestDAO extends IGenericDAO {
 
     Request findById(Long id, final boolean full)
         throws CvqObjectNotFoundException;
+
+    /**
+     * Delete specific data
+     */
+    public void empty(Request request)
+        throws CvqException;
 }

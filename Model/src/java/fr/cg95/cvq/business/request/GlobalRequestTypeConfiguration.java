@@ -41,10 +41,7 @@ public class GlobalRequestTypeConfiguration {
      */
     private boolean requestsCreationNotificationEnabled = false;
 
-    /**
-     * Number of months before requests are filed (between 1 and 36 months)
-     */
-    private int filingDelay = 6;
+    private String archivesPassword;
 
     /**
      * @hibernate.id
@@ -165,14 +162,13 @@ public class GlobalRequestTypeConfiguration {
 
     /**
      * @hibernate.property
-     *  column="filing_delay"
-     *  not-null="true"
+     *  column="archives_password"
      */
-    public int getFilingDelay() {
-        return filingDelay;
+    public String getArchivesPassword() {
+        return archivesPassword;
     }
 
-    public void setFilingDelay(int filingDelay) {
-        this.filingDelay = filingDelay;
+    public void setArchivesPassword(String archivesPassword) {
+        this.archivesPassword = archivesPassword;
     }
 }

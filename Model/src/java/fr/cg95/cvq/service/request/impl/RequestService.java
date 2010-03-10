@@ -29,6 +29,8 @@ public abstract class RequestService implements IRequestService {
     protected Boolean isOfRegistrationKind;
     protected String defaultDisplayGroup;
     protected Map<String, IConditionChecker> conditions;
+    protected int filingDelay;
+    protected boolean archiveDocuments;
 
     protected IGenericDAO genericDAO;
     
@@ -168,5 +170,26 @@ public abstract class RequestService implements IRequestService {
 
     public void setGenericDAO(IGenericDAO genericDAO) {
         this.genericDAO = genericDAO;
+    }
+
+    @Override
+    public int getFilingDelay() {
+        return filingDelay;
+    }
+
+    public void setFilingDelay(int filingDelay) {
+        if (filingDelay < 1 || filingDelay > 36) {
+            throw new RuntimeException("Filing delay must be between 1 and 36 months");
+        }
+        this.filingDelay = filingDelay;
+    }
+
+    @Override
+    public boolean isArchiveDocuments() {
+        return archiveDocuments;
+    }
+
+    public void setArchiveDocuments(boolean archiveDocuments) {
+        this.archiveDocuments = archiveDocuments;
     }
 }

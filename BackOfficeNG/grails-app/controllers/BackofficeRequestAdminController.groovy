@@ -1,7 +1,7 @@
+import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.request.IRequestTypeService
-import fr.cg95.cvq.business.request.MeansOfContact
 
 import grails.converters.JSON
 
@@ -12,9 +12,10 @@ class BackofficeRequestAdminController {
 
     def defaultAction = 'requests'
         
-    def subMenuEntries = [
+    def static subMenuEntries = [
         'requestAdmin.requests',
-        'displayGroup.list'
+        'displayGroup.list',
+        'requestArchives.index'
     ]
 
     def beforeInterceptor = { 
@@ -43,10 +44,9 @@ class BackofficeRequestAdminController {
                     SecurityContext.getCurrentSite().documentDigitalizationEnabled,
             ]
         } else if (request.post) {
-            def config = requestTypeService.getGlobalRequestTypeConfiguration()
+            if (params.archivesPassword) throw new CvqException("Did you expect this to work ?")
             bind(SecurityContext.getCurrentSite())
-            bind(config)
-            requestTypeService.modifyGlobalRequestTypeConfiguration(config)
+            bind(requestTypeService.getGlobalRequestTypeConfiguration())
             render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
             return false
         }

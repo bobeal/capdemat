@@ -2,14 +2,20 @@ package fr.cg95.cvq.service.request.impl;
 
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationListener;
+
+import fr.cg95.cvq.business.CapDematEvent;
 import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestAdminAction;
+import fr.cg95.cvq.business.request.RequestAdminEvent;
 import fr.cg95.cvq.business.request.RequestEvent;
 import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestNoteType;
+import fr.cg95.cvq.business.request.RequestAdminAction.Data;
 import fr.cg95.cvq.business.request.RequestEvent.COMP_DATA;
-import fr.cg95.cvq.business.request.RequestEvent.EVENT_TYPE;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -17,20 +23,17 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
-import fr.cg95.cvq.service.request.IRequestNotificationService;
+import fr.cg95.cvq.service.request.job.RequestArchivingJob;
+import fr.cg95.cvq.service.request.job.RequestArchivingJob.Result;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.mail.IMailService;
 import fr.cg95.cvq.util.translation.ITranslationService;
-
-import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationListener;
 
 /**
  *
  * @author bor@zenexity.fr
  */
-public class RequestNotificationService implements IRequestNotificationService, 
-    ApplicationListener<RequestEvent> {
+public class RequestNotificationService implements ApplicationListener<CapDematEvent> {
 
     private static Logger logger = Logger.getLogger(RequestNotificationService.class);
 
@@ -42,7 +45,7 @@ public class RequestNotificationService implements IRequestNotificationService,
 
     private IRequestDAO requestDAO;
 
-    public void notifyRequestCreation(Request request, byte[] pdfData)
+    private void notifyRequestCreation(Request request, byte[] pdfData)
         throws CvqException {
 
         LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
@@ -80,7 +83,7 @@ public class RequestNotificationService implements IRequestNotificationService,
         }
     }
 
-    public void notifyRequestValidation(Long requestId, final byte[] pdfData)
+    private void notifyRequestValidation(Long requestId, final byte[] pdfData)
         throws CvqException {
 
 		LocalAuthorityConfigurationBean lacb = SecurityContext.getCurrentConfigurationBean();
@@ -125,7 +128,7 @@ public class RequestNotificationService implements IRequestNotificationService,
         }
     }
 
-    public void notifyAgentNote(Long requestId, RequestNote note)
+    private void notifyAgentNote(Long requestId, RequestNote note)
         throws CvqException {
         if (note.getType().equals(RequestNoteType.PUBLIC)) {
             Request request = (Request) requestDAO.findById(Request.class, requestId);
@@ -141,6 +144,45 @@ public class RequestNotificationService implements IRequestNotificationService,
                             agent.getFirstName(), agent.getLastName(), request.getId(), note.getNote()
                         }));
             }
+        }
+    }
+
+    private void notifyRequestArchiving(Result result)
+        throws CvqException {
+        if (result.numberOfSuccesses == 0 && result.failures.isEmpty()) {
+            logger.info("notifyRequestArchiving() : nothing to notify");
+            return;
+        }
+        if (SecurityContext.getCurrentSite().getAdminEmail() != null) {
+            String body = new String();
+            if (result.numberOfSuccesses != 0) {
+                body += translationService.translate("requestArchive.notification.body",
+                    new Object[]{result.numberOfSuccesses}) + "\n";
+            }
+            if (!result.failures.isEmpty()) {
+                body += translationService.translate("requestArchive.notification.body.failures")
+                    + "\n";
+                for (Map.Entry<Request, Throwable> failure : result.failures.entrySet()) {
+                    body += "\t" + failure.getKey().getId() + " : "
+                        + failure.getValue().getLocalizedMessage() + "\n";
+                }
+            }
+            mailService.send(null, SecurityContext.getCurrentSite().getAdminEmail(), null,
+                translationService.translate("requestArchive.notification.subject"), body);
+        } else {
+            logger.warn("notifyRequestArchiving() : no admin email to notify");
+        }
+    }
+
+    private void notifyArchivesPassword(String password)
+        throws CvqException {
+        if (SecurityContext.getCurrentSite().getAdminEmail() != null) {
+            mailService.send(null, SecurityContext.getCurrentSite().getAdminEmail(), null,
+                translationService.translate("requestArchive.passwordResetNotification.subject"),
+                translationService.translate("requestArchive.passwordResetNotification.body",
+                    new Object[]{password}));
+        } else {
+            logger.warn("notifyArchivesPassword() : no admin email to notify");
         }
     }
 
@@ -168,24 +210,58 @@ public class RequestNotificationService implements IRequestNotificationService,
         this.translationService = translationService;
     }
 
-    @Override
-    public void onApplicationEvent(RequestEvent requestEvent) {
+    private void onApplicationEvent(RequestEvent requestEvent) {
         logger.debug("onApplicationEvent() got a request event of type " + requestEvent.getEvent());
         try {
-            if (requestEvent.getEvent().equals(EVENT_TYPE.REQUEST_CREATED)) {
-                notifyRequestCreation(requestEvent.getRequest(),
-                    (byte[])requestEvent.getComplementaryData(COMP_DATA.PDF_FILE));
-            } else if (requestEvent.getEvent().equals(EVENT_TYPE.REQUEST_VALIDATED)) {
-                notifyRequestValidation(requestEvent.getRequest().getId(), 
-                    (byte[])requestEvent.getComplementaryData(COMP_DATA.PDF_FILE));
-            } else if (requestEvent.getEvent().equals(EVENT_TYPE.NOTE_ADDED)) {
-                notifyAgentNote(requestEvent.getRequest().getId(), 
-                        ((RequestNote) requestEvent.getComplementaryData(COMP_DATA.REQUEST_NOTE)));
+            switch (requestEvent.getEvent()) {
+                case REQUEST_CREATED :
+                    notifyRequestCreation(requestEvent.getRequest(),
+                        (byte[])requestEvent.getComplementaryData(COMP_DATA.PDF_FILE));
+                    break;
+                case REQUEST_VALIDATED :
+                    notifyRequestValidation(requestEvent.getRequest().getId(),
+                        (byte[])requestEvent.getComplementaryData(COMP_DATA.PDF_FILE));
+                    break;
+                case NOTE_ADDED :
+                    notifyAgentNote(requestEvent.getRequest().getId(),
+                        ((RequestNote)requestEvent.getComplementaryData(COMP_DATA.REQUEST_NOTE)));
+                    break;
             }
         } catch (CvqException e) {
             // FIXME we have nothing to handle this
             logger.error("onApplicationEvent() got an error while notifying request creation");
             e.printStackTrace();
+        }
+    }
+
+    private void onApplicationEvent(RequestAdminEvent event) {
+        try {
+            if (RequestAdminAction.Type.REQUESTS_ARCHIVED.equals(event.getAction().getType())
+                || RequestAdminAction.Type.ARCHIVES_MIGRATED.equals(event.getAction().getType())) {
+                notifyRequestArchiving((RequestArchivingJob.Result)
+                    event.getAction().getComplementaryData().get(Data.ARCHIVING_RESULT));
+            } else if (RequestAdminAction.Type.PASSWORD_RESET.equals(event.getAction().getType())) {
+                notifyArchivesPassword(
+                    (String)event.getAction().getComplementaryData().get(Data.PASSWORD));
+            } else {
+                logger.debug("no notification for RequestAdminEvent of type "
+                    + event.getAction().getType());
+            }
+        } catch (CvqException e) {
+            // FIXME we have nothing to handle this
+            logger.error("onApplicationEvent(RequestAdminEvent) got an error");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onApplicationEvent(CapDematEvent event) {
+        if (event instanceof RequestEvent) {
+            onApplicationEvent((RequestEvent)event);
+        } else if (event instanceof RequestAdminEvent) {
+            onApplicationEvent((RequestAdminEvent)event);
+        } else {
+            logger.debug("onApplicationEvent() : unhandled event type");
         }
     }
 }

@@ -2,11 +2,13 @@ package fr.cg95.cvq.service.request.impl;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestActionType;
+import fr.cg95.cvq.business.request.RequestAdminAction;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
 import fr.cg95.cvq.dao.request.IRequestActionDAO;
@@ -124,6 +126,12 @@ public class RequestActionService implements IRequestActionService {
         }
 
         requestDAO.update(request);
+    }
+
+    @Override
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.READ)
+    public List<RequestAdminAction> getAdminActions() {
+        return requestActionDAO.getAdminActions();
     }
 
     public void setRequestActionDAO(IRequestActionDAO requestActionDAO) {

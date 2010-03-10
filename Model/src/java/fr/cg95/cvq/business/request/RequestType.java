@@ -50,11 +50,6 @@ public class RequestType implements Serializable {
     /** the number of days before the maximum delay timeout where we send an alert email */
     private Integer instructionAlertDelay;
 
-    /**
-     * Allows overriding of {@link #GlobalRequestTypeConfiguration.filingDelay}
-     */
-    private Integer filingDelay;
-
     public RequestType() {
         setSeasons(new TreeSet<RequestSeason>());
     }
@@ -217,17 +212,5 @@ public class RequestType implements Serializable {
         return new ToStringBuilder(this)
             .append("id", getId())
             .toString();
-    }
-
-    /**
-     * @hibernate.property
-     *  column="filing_delay"
-     */
-    public Integer getFilingDelay() {
-        return filingDelay;
-    }
-
-    public void setFilingDelay(Integer filingDelay) {
-        this.filingDelay = filingDelay;
     }
 }

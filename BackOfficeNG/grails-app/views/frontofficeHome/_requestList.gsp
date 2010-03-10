@@ -12,7 +12,9 @@
               </a>
             </span>
           </g:if>
-          <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
+          <g:if test="${record.state != 'Archived'}">
+            <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
+          </g:if>
             ${record.label}
             <g:message code="searchResult.id" />
             <span>${record.id}</span>
@@ -23,17 +25,24 @@
             </g:if>
             - <g:message code="request.searchResult.creationDate"
                          args="${[formatDate(date:record.creationDate,formatName:'format.date')]}" />
-          </a>
-          <g:if test="${record.lastAgentNote}">
-            <p class="agent-note">
-              <g:message code="request.property.lastAgentNote" />
-              <g:if test="${record.lastAgentNote.date != null}">
-                <g:message code="layout.on.date" /> <g:formatDate date="${record.lastAgentNote.date}" formatName="format.date" />
-              </g:if>
-              <g:message code="layout.by" />&nbsp;${record.lastAgentNote.user_name} :
-              <strong>${record.lastAgentNote.note}</strong>
-            </p>
+          <g:if test="${record.state != 'Archived'}">
+            </a>
+            <g:if test="${record.lastAgentNote}">
+              <p class="agent-note">
+                <g:message code="request.property.lastAgentNote" />
+                <g:if test="${record.lastAgentNote.date != null}">
+                  <g:message code="layout.on.date" /> <g:formatDate date="${record.lastAgentNote.date}" formatName="format.date" />
+                </g:if>
+                <g:message code="layout.by" />&nbsp;${record.lastAgentNote.user_name} :
+                <strong>${record.lastAgentNote.note}</strong>
+              </p>
+            </g:if>
           </g:if>
+          <g:else>
+            <p class="agent-note">
+              <g:message code="request.message.archived" />
+            </p>
+          </g:else>
         </li>
       </g:each>
     </ul>

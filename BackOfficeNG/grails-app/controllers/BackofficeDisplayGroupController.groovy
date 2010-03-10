@@ -18,10 +18,7 @@ class BackofficeDisplayGroupController {
     
     def beforeInterceptor = { session['currentMenu'] = 'requestAdmin' }
     
-    def subMenuEntries = [
-        'requestAdmin.requests',
-        'displayGroup.list'
-    ]
+    def static subMenuEntries = BackofficeRequestAdminController.subMenuEntries
 
     def list = {
         def displayGroups = displayGroupService.getAll().sort{it.label}

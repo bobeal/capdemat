@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -17,9 +18,11 @@ import org.hibernate.type.Type;
 import org.joda.time.DateTime;
 
 import fr.cg95.cvq.business.request.Request;
+import fr.cg95.cvq.business.request.RequestAction;
 import fr.cg95.cvq.business.request.RequestActionType;
 import fr.cg95.cvq.business.request.RequestData;
 import fr.cg95.cvq.business.request.RequestLock;
+import fr.cg95.cvq.business.request.RequestNote;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
@@ -768,5 +771,41 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
             result.add(full ? recompose(requestData) : new Request(requestData));
         }
         return result;
+    }
+
+    public void empty(Request request)
+        throws CvqException {
+        for (RequestAction action : request.getActions()) {
+            action.setFile(null);
+            action.setMessage(null);
+            action.setNote(null);
+        }
+        Iterator<RequestNote> it = request.getNotes().iterator();
+        while (it.hasNext()) {
+            delete(it.next());
+            it.remove();
+        }
+        update(request);
+        delete(request.getSpecificData());
+        try {
+            request.getClass()
+                .getMethod("setSpecificData", request.getRequestData().getSpecificDataClass())
+                    .invoke(request, (Object)null);
+        } catch (IllegalArgumentException e) {
+            // should not happen
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            // should not happen
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            // should not happen
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            // should not happen
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            // should not happen
+            e.printStackTrace();
+        }
     }
 }

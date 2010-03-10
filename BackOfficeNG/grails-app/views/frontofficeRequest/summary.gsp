@@ -55,7 +55,7 @@
                 <strong><g:message code="request.note.type.${requestNote.type.toString().toLowerCase()}" /></strong>
                 n° <strong>${requestNote.id}</strong>
                 <g:if test="${requestNote.date != null}">
-                  <g:message code="request.note.date" /> <strong><g:formatDate formatName="format.fullDate" date="${requestNote.date}"/></strong>
+                  <g:message code="request.note.date" /> <g:message code="layout.one.date" /> <strong><g:formatDate formatName="format.fullDate" date="${requestNote.date}"/></strong>
                 </g:if>
               </p>
             </dd>

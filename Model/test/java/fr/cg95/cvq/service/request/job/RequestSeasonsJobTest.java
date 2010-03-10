@@ -165,10 +165,10 @@ public class RequestSeasonsJobTest extends RequestTestCase {
         SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
 
         requestFromDb = requestSearchService.getById(requestIds[0], false);
-        assertEquals(RequestState.ARCHIVED, requestFromDb.getState());
+        assertEquals(RequestState.CLOSED, requestFromDb.getState());
         requestWorkflowService.delete(requestIds[0]);
         requestFromDb = requestSearchService.getById(requestIds[1], false);
-        assertEquals(RequestState.ARCHIVED, requestFromDb.getState());
+        assertEquals(RequestState.CLOSED, requestFromDb.getState());
         requestWorkflowService.delete(requestIds[1]);
 
         continueWithNewTransaction();

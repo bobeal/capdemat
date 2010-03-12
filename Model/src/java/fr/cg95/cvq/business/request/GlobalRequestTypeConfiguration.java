@@ -44,7 +44,7 @@ public class GlobalRequestTypeConfiguration {
     /**
      * Number of months before requests are filed (between 1 and 36 months)
      */
-    private int filingDelay = 5;
+    private int filingDelay = 6;
 
     /**
      * @hibernate.id

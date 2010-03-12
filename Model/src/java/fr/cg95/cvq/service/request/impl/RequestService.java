@@ -77,6 +77,7 @@ import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.mail.IMailService;
+import fr.cg95.cvq.xml.common.IndividualType;
 import fr.cg95.cvq.xml.common.SubjectType;
 
 
@@ -1160,8 +1161,27 @@ public abstract class RequestService implements IRequestService, BeanFactoryAwar
                 subject.setChild(Child.modelToXml((Child)individual));
             }
         }
+        
         if (request.getHomeFolderId() != null) {
             xmlRequestType.addNewHomeFolder().set(homeFolderService.getById(request.getHomeFolderId()).modelToXml());
+
+            List<Individual> externalIndividuals = 
+                homeFolderService.getExternalIndividuals(request.getHomeFolderId());
+            if (externalIndividuals != null && !externalIndividuals.isEmpty()) {
+                IndividualType[] individualsArray = new IndividualType[externalIndividuals.size()];
+                int i = 0;
+                for (Individual externalIndividual : externalIndividuals) {
+                    if (externalIndividual instanceof Adult) {
+                        Adult adult = (Adult) externalIndividual;
+                        individualsArray[i] = Adult.modelToXml(adult);
+                    } else if (externalIndividual instanceof Child) {
+                        Child child = (Child) externalIndividual;
+                        individualsArray[i] = Child.modelToXml(child);
+                    }
+                    i++;
+                }
+                xmlRequestType.getHomeFolder().setExternalIndividualsArray(individualsArray);
+            }
         }
         if (request.getRequesterId() != null) {
             xmlRequestType.addNewRequester().set(Adult.modelToXml(individualService.getAdultById(request.getRequesterId())));

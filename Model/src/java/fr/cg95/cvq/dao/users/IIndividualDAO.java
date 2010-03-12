@@ -53,7 +53,8 @@ public interface IIndividualDAO extends IGenericDAO {
      */
     List<Individual> listByHomeFolderRole(final Long homeFolderId, final RoleType role);
     
-    List<Individual> listByHomeFolderRoles(final Long homeFolderId, final RoleType[] roles);
+    List<Individual> listByHomeFolderRoles(final Long homeFolderId, final RoleType[] roles, 
+            boolean onlyExternals);
     
     /**
      * Return the list of {@link Individual individuals} who have the given role (if one 
@@ -64,8 +65,12 @@ public interface IIndividualDAO extends IGenericDAO {
     /**
      * Return the list of {@link Individual individuals} who have the given roles 
      * on the given subject.
+     * 
+     * @param onlyExternals whether returned inviduals are restricted to individuals not belonging
+     *        to the home folder.
      */
-    List<Individual> listBySubjectRoles(final Long subjectId, final RoleType[] roles);
+    List<Individual> listBySubjectRoles(final Long subjectId, final RoleType[] roles, 
+            boolean onlyExternals);
     
     /**
      * Return the list of individual logins that start with the given

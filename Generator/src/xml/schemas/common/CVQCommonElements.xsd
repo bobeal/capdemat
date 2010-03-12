@@ -1649,22 +1649,6 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="LegalResponsibleType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Informations caractérisant le responsable légal d'un enfant
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Responsable légal
-      </xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="Id" type="xs:long" />
-      <xs:element name="Role" type="cvq:LegalResponsibleRoleType" />
-      <xs:element name="LegalResponsible" type="cvq:AdultType" />
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:simpleType name="ActorStateType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -1879,8 +1863,6 @@
     <xs:complexContent>
       <xs:extension base="cvq:IndividualType">
         <xs:sequence>
-          <xs:element name="LegalResponsible" type="cvq:LegalResponsibleType" minOccurs="1"
-            maxOccurs="3" />
           <xs:element name="Note" type="xs:string" minOccurs="0" />
         </xs:sequence>
       </xs:extension>
@@ -1932,27 +1914,6 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="LegalResponsibleRoleType">
-    <xs:annotation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-        Informations caractérisant la qualité du responsable légal pour l'enfant
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-        Qualité du responsable légal
-      </xs:documentation>
-      <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Father" value="Père" />
-        <enum key="Mother" value="Mère" />
-        <enum key="Tutor" value="Tuteur" />
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Father" />
-      <xs:enumeration value="Mother" />
-      <xs:enumeration value="Tutor" />
-    </xs:restriction>
-  </xs:simpleType>
-
   <xs:complexType name="HomeFolderType">
     <xs:annotation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
@@ -1966,7 +1927,8 @@
       <xs:element name="Id" type="xs:long" />
       <xs:element name="ExternalCapdematId" type="xs:string" minOccurs="0" />
       <xs:element name="ExternalId" type="xs:string" minOccurs="0" />
-      <xs:element name="Individuals" type="cvq:IndividualType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Individuals" type="cvq:IndividualType" maxOccurs="unbounded" />
+      <xs:element name="ExternalIndividuals" type="cvq:IndividualType" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="Address" type="cvq:AddressType" minOccurs="0" />
       <xs:element name="State" type="cvq:ActorStateType" />
       <xs:element name="FamilyQuotient" type="xs:string" minOccurs="0" />

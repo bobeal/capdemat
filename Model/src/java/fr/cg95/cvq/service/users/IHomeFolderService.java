@@ -82,6 +82,12 @@ public interface IHomeFolderService {
     List<Individual> getIndividuals(@IsHomeFolder final Long homeFolderId)
         throws CvqException;
     
+    /**
+     * Get a list of individuals who have a role in the home folder but are not part of it.
+     */
+    List<Individual> getExternalIndividuals(@IsHomeFolder final Long homeFolderId)
+        throws CvqException;
+
     // Role-related methods
     /////////////////////////////////////
     

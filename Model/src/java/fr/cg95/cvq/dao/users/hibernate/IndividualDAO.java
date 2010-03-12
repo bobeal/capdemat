@@ -145,7 +145,8 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     }
     
     @Override
-    public List<Individual> listByHomeFolderRoles(Long homeFolderId, RoleType[] roles) {
+    public List<Individual> listByHomeFolderRoles(Long homeFolderId, RoleType[] roles, 
+            boolean onlyExternals) {
 
         StringBuffer sb = new StringBuffer();
         sb.append("select individual from Individual as individual")
@@ -159,6 +160,9 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
                 sb.append(" or ");
         }
         sb.append(")");
+        
+        if (onlyExternals)
+            sb.append(" and individual.homeFolder = null");
         
         Query query = HibernateUtil.getSession()
             .createQuery(sb.toString())
@@ -190,7 +194,7 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
     }
 
     @Override
-    public List<Individual> listBySubjectRoles(Long subjectId, RoleType[] roles) {
+    public List<Individual> listBySubjectRoles(Long subjectId, RoleType[] roles, boolean onlyExternals) {
         StringBuffer sb = new StringBuffer();
         sb.append("select individual from Individual as individual")
             .append(" join individual.individualRoles individualRole ")
@@ -203,7 +207,10 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
                 sb.append(" or ");
         }
         sb.append(")");
-        
+
+        if (onlyExternals)
+            sb.append(" and individual.homeFolder = null");
+
         Query query = HibernateUtil.getSession()
             .createQuery(sb.toString())
             .setLong(0, subjectId);

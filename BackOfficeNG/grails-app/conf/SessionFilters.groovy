@@ -3,6 +3,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.ContextType
+import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean
 import fr.cg95.cvq.service.request.ICategoryService
@@ -21,8 +22,10 @@ import org.hibernate.SessionFactory
 class SessionFilters {
 
     def securityService
-    def agentService
-    def requestTypeService
+    
+    IAgentService agentService
+    IRequestTypeService requestTypeService
+    ICategoryService categoryService
 
     static filters = {
         
@@ -307,14 +310,13 @@ class SessionFilters {
         	}
         }
 
-		setBackOfficeAgentForRequests(controller: 'backoffice*', action: '*') {
+		setBackOfficeAgentForRequests(uri: '/backoffice/**') {
 			before = {
-			    ICategoryService categoryService =
-                    applicationContext.getBean("categoryService")
 			    if (!categoryService.getManaged().isEmpty())
 				    session['isACategoryManager'] = true
 			    else
 				    session['isACategoryManager'] = false
+                return true
 			}
 		}
     }

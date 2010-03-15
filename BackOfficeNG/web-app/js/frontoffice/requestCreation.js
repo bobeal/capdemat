@@ -72,6 +72,12 @@
         }
       }
     };
+    
+    var initCustomJS = function() {
+      var label = yud.get("conditionsForm").requestTypeLabel.value.split(' ').join('');
+      if (!!zcf.requesttype && !!zcf.requesttype[label + 'Request'])
+        zcf.requesttype[label + 'Request'].init();
+    };
 
     return {
       clickEvent : undefined,
@@ -86,6 +92,7 @@
         yue.on('requestTabView','keyup',zcf.RequestCreation.formatField);
         yue.on(yus.query("#requestTabView .validate-phone"), "keyup", zcf.RequestCreation.formatPhone);
         yue.on(yus.query("#requestTabView .date .month, #requestTabView .date .year"), "change", zcf.RequestCreation.dateChange);
+        yue.on(yus.query("#requestTabView .validate-mobilePhone"), "keyup", zcf.RequestCreation.formatPhone);
         
         var requestNote = yud.get("requestNote");
         if (requestNote != null) {
@@ -153,6 +160,7 @@
           else if (fieldType[1] === 'city') targetEl.value = targetEl.value.toUpperCase();
           else if (fieldType[1] === 'firstName') targetEl.value = zct.capitalize(targetEl.value);
           else if (fieldType[1] === 'phone') zcf.RequestCreation.formatPhone(e);
+          else if (fieldType[1] === 'mobilePhone') zcf.RequestCreation.formatPhone(e);
         }
       },
       formatPhone : function(e) {

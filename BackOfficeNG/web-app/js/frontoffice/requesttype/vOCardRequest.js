@@ -13,7 +13,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
     return {
       init: function() {
         var phonesEl = yud.getChildrenBy(
-            yud.get('adultPhones'), function(el){return el.nodeName === 'INPUT'});
+            yud.get('adultPhones'), function(el){return el.nodeName === 'INPUT'});  
         zcv.complexRules['atLeastOne'].pushFields(phonesEl[0].name, phonesEl[1].name, phonesEl[2].name);
 
         if (!!yud.get('foreignAdultPhones')) {
@@ -21,7 +21,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
               yud.get('foreignAdultPhones'), function(el){return el.nodeName === 'INPUT'});
           zcv.complexRules['atLeastOne'].pushFields(phonesEl[0].name, phonesEl[1].name, phonesEl[2].name);
         }
-
+        
         zcf.RequestCreation.computeScope = function(form) {
           return zcv.scope.OUTSIDE;
         };

@@ -1900,9 +1900,11 @@
         Rôle
       </xs:documentation>
       <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/translation/enum">
-        <enum key="Pending" value="En attente" />
-        <enum key="Valid" value="Valide" />
-        <enum key="Invalid" value="Invalide" />
+        <enum key="HomeFolderResponsible" value="Responsable de compte" />
+        <enum key="ClrMother" value="Responsable légal / Mère" />
+        <enum key="ClrFather" value="Responsable légal / Père" />
+        <enum key="ClrTutor" value="Responsable légal / Tuteur" />
+        <enum key="Tutor" value="Tuteur" />
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="cirilNetEnfanceExternalService"
+    class="fr.capwebct.capdemat.plugins.externalservices.cirilnetenfance.service.CirilNetEnfanceService"
+    init-method="init">
+    <property name="label" value="CirilNetEnfance"></property>
+    <!-- Insert services you need here -->
+    <property name="homeFolderService">
+      <ref bean="homeFolderService" />
+    </property>
+    <property name="childService">
+      <ref bean="childService" />
+    </property>
+    <property name="externalService">
+      <ref bean="externalService" />
+    </property>
+   <property name="schoolCanteenRegistrationRequestService">
+      <ref bean="schoolCanteenRegistrationRequestService" />
+    </property>
+    <property name="schoolRegistrationRequestService">
+      <ref bean="schoolRegistrationRequestService" />
+    </property>
+    <property name="perischoolActivityRegistrationRequestService">
+      <ref bean="perischoolActivityRegistrationRequestService" />
+    </property>
+    <property name="homeFolderModificationRequestService">
+      <ref bean="homeFolderModificationRequestService"/>
+    </property>
+    <property name="recreationActivityRegistrationRequestService">
+      <ref bean="recreationActivityRegistrationRequestService"/>
+    </property>
+    <property name="schoolService">
+      <ref bean="schoolService"/>
+    </property>
+ 
+  </bean>
+
+  
+  
+</beans>

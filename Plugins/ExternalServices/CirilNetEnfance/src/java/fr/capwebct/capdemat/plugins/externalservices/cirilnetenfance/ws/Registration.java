@@ -1,25 +1,18 @@
 package fr.capwebct.capdemat.plugins.externalservices.cirilnetenfance.ws;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.Name;
 import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPBodyElement;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFault;
 import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
@@ -29,29 +22,19 @@ import org.apache.xmlbeans.XmlObject;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.input.DOMBuilder;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.DOMOutputter;
 import org.jdom.xpath.XPath;
-import org.springframework.ws.soap.SoapElement;
-
 
 import fr.cg95.cvq.exception.CvqException;
-
-
 
 public class Registration {
 
     private static Logger logger = Logger.getLogger(Registration.class);
+
     private String endPoint;
     private XmlObject modelToXml;
     private String registrationType;
     
-    public Registration() {
-    }
-    
-
     public Registration(String endPoint, XmlObject modelToXml, String registrationType) {
         super();
         this.endPoint = endPoint;
@@ -97,16 +80,15 @@ public class Registration {
             message.writeTo(outStream);
             String envoi = outStream.toString("UTF-8");
             
-            logger.debug("getReturnRegistration() message envoy� : " + envoi);            
+            logger.debug("getReturnRegistration() message envoyé : " + envoi);            
             
             SOAPMessage response = con.call(message, url);
-            
-            
-            // get r�ponse
+
+            // get réponse
             ByteArrayOutputStream outStream2 = new ByteArrayOutputStream();
             response.writeTo(outStream2);
             String reponse = outStream2.toString("UTF-8");
-            logger.debug("Registration() message re�u : " + reponse);
+            logger.debug("Registration() message reçu : " + reponse);
             
             SOAPPart sp = response.getSOAPPart();
             SOAPEnvelope env = sp.getEnvelope();
@@ -128,14 +110,14 @@ public class Registration {
             List<Attribute> attr = nodeError.getAttributes();
             String messageError = "";
             for(Attribute at : attr){
-                if (at.getName().equals("state")){
+                if (at.getName().equals("state")) {
                     // get state attribute equal error to stop process and catch error type
-                    if (at.getValue().equals("error")){
+                    if (at.getValue().equals("error")) {
                         messageError= nodeError.getChild("Error").getChild("Message").getText();
                     }
                 }
-            }                        
-            if ( messageError.equals("")){
+            }
+            if (messageError.equals("")) {
                 if (registrationType.equals("SchoolRegistration")){
                     XPath xpath = XPath.newInstance("//SchoolName");
                     Element node = (Element) xpath.selectSingleNode(repDoc);
@@ -145,45 +127,44 @@ public class Registration {
                 XPath xpathExtern = XPath.newInstance("//HomeFolderMapping");
                 Element hfe = (Element) xpathExtern.selectSingleNode(repDoc);
                 
-                XPath xpathIndividuMap = XPath.newInstance("//IndividualMapping");
-                List<Element>listIndividualMap = (List<Element>) xpathIndividuMap.selectNodes(repDoc);
-                
-                if( hfe != null){
-                    logger.debug("homefoldermapping response : " +hfe.getChild("ExternalId").getText()); 
-                    demandReturn.put("homeFolderMapping", hfe.getChild("ExternalId").getText());
-                    HashMap<String, String> IndivdualMapping = new HashMap<String, String>();
-                    logger.debug("individual mapping size : " + listIndividualMap);
-                    if(listIndividualMap.size() > 0) { 
+                if (hfe != null) {
+                    String externalHomeFolderId = hfe.getChild("ExternalId").getText();
+                    logger.debug("homefoldermapping response : " + externalHomeFolderId); 
+                    demandReturn.put("homeFolderMapping", externalHomeFolderId);
+                    
+                    XPath xpathIndividuMap = XPath.newInstance("//IndividualMapping");
+                    List<Element> listIndividualMap = 
+                        (List<Element>) xpathIndividuMap.selectNodes(repDoc);
+                    logger.debug("individual mapping size : " + listIndividualMap.size());
+                    
+                    HashMap<String, String> indivdualMapping = new HashMap<String, String>();
+                    if (!listIndividualMap.isEmpty()) { 
                         for (Element indMap : listIndividualMap){
-                                IndivdualMapping.put(indMap.getChild("CapDematId").getText(), indMap.getChild("ExternalId").getText());
+                            indivdualMapping.put(indMap.getChild("CapDematId").getText(), 
+                                    indMap.getChild("ExternalId").getText());
                         }                       
-                        demandReturn.put("indMapp", IndivdualMapping);
+                        demandReturn.put("indMapp", indivdualMapping);
                     }
                 }
             } else {
                 demandReturn.put("error", messageError);
             }
-            
-           
-        } catch (JDOMException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.debug(e.getMessage());
             throw new CvqException();
-        } catch (MalformedURLException e) {
-            throw new CvqException();
-        } catch (SOAPException esoap) {
-            esoap.printStackTrace();
-            logger.debug(esoap.getMessage());
-            throw new CvqException();
-        } catch (IOException e) {
-            throw new CvqException();
-        }
+        } 
+        
         return demandReturn;
     }
     
 
-    private void listElements(Element element, SOAPEnvelope SoapEnveloppe, SOAPElement soapElement) throws SOAPException {
+    private void listElements(Element element, SOAPEnvelope SoapEnveloppe, SOAPElement soapElement) 
+        throws SOAPException {
+        
         List<Element>  elements = (List<Element>) element.getChildren();
-        for(Element elem : elements) {
-            if(elem.getName().equals("Individuals")){
+        for (Element elem : elements) {
+            if (elem.getName().equals("Individuals")) {
                 Name child = SoapEnveloppe.createName(elem.getName());
                 SOAPElement se = soapElement.addChildElement(child);
                 setAttributes(elem.getAttributes(), SoapEnveloppe, se);
@@ -195,7 +176,7 @@ public class Registration {
                
                 for(Attribute at : atts) {
                     if (at.getName().equals("type")) {
-                        if (at.getValue().equals("com:ChildType")){
+                        if (at.getValue().equals("com:ChildType")) {
                             child1 = SoapEnveloppe.createName("Child");
                             
                         } else {
@@ -203,7 +184,7 @@ public class Registration {
                             
                         }                            
                     }
-                    if (at.getName().equals("isHomeFolderResponsible")){
+                    if (at.getName().equals("isHomeFolderResponsible")) {
                         attResp = SoapEnveloppe.createName(at.getName());
                         value = at.getValue();
                     }
@@ -225,41 +206,11 @@ public class Registration {
         }
     }
 
-
-    private void setAttributes(List<Attribute> attributes, SOAPEnvelope enveloppe, SOAPElement element) throws SOAPException {
+    private void setAttributes(List<Attribute> attributes, SOAPEnvelope enveloppe, 
+            SOAPElement element) throws SOAPException {
         for(Attribute attribut : attributes){
             Name att = enveloppe.createName(attribut.getName());
             element.addAttribute(att, attribut.getValue());
         }
-    }
-
-
-    public final String getEndPoint() {
-        return endPoint;
-    }
-
-
-    public final void setEndPoint(String endPoint) {
-        this.endPoint = endPoint;
-    }
-
-
-    public final XmlObject getModelToXml() {
-        return modelToXml;
-    }
-
-
-    public final void setModelToXml(XmlObject modelToXml) {
-        this.modelToXml = modelToXml;
-    }
-    
-    
-    public final String getRegistrationType() {
-        return registrationType;
-    }
-    
-    
-    public final void setRegistrationType(String registrationType) {
-        this.registrationType = registrationType;
     }
 }

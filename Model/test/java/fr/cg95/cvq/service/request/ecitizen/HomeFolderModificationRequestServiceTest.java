@@ -38,7 +38,7 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.testtool.BusinessObjectsFactory;
+import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 /**
  * The tests for the home folder modification request service.

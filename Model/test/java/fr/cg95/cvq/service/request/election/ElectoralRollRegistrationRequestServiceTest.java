@@ -26,8 +26,8 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 /**
  * Generated class file, do not edit !

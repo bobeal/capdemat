@@ -1,5 +1,8 @@
 package fr.cg95.cvq.testtool;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,7 +13,6 @@ import javax.annotation.Resource;
 
 import org.hibernate.SessionFactory;
 import org.junit.After;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,8 +20,6 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.business.authority.Agent;
-import fr.cg95.cvq.business.authority.RecreationCenter;
-import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.authority.SiteProfile;
 import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.users.Address;
@@ -42,6 +42,7 @@ import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 @ContextConfiguration({ "/applicationContext.xml",  "/applicationContext-deployment.xml",
     "/applicationContext-test.xml", "/applicationContext-admin.xml",
@@ -126,15 +127,8 @@ public class ServiceTestCase extends AbstractJUnit4SpringContextTests {
                 bootstrapAgent(agentNameWithCategoriesRoles, SiteProfile.AGENT);
                 bootstrapAgent(agentNameWithManageRoles, SiteProfile.AGENT);
                 
-                School school = new School();
-                school.setActive(Boolean.TRUE);
-                school.setName("Ecole Jean Jaurès");
-                genericDAO.create(school);
-                
-                RecreationCenter recreationCenter = new RecreationCenter();
-                recreationCenter.setActive(Boolean.TRUE);
-                recreationCenter.setName("Centre de loisirs Louise Michel");
-                genericDAO.create(recreationCenter);
+                genericDAO.create(BusinessObjectsFactory.gimmeSchool("École Jean Jaurès"));
+                genericDAO.create(BusinessObjectsFactory.gimmeRecreationCenter("Centre de loisirs Louise Michel"));
 
                 commitTransaction();
                 

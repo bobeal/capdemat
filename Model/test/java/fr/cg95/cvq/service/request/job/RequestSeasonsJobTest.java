@@ -21,7 +21,7 @@ import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.RequestTestCase;
-import fr.cg95.cvq.testtool.BusinessObjectsFactory;
+import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 public class RequestSeasonsJobTest extends RequestTestCase {
  

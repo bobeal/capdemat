@@ -9,8 +9,8 @@ import fr.cg95.cvq.business.request.school.RecreationContactIndividual;
 import fr.cg95.cvq.business.request.school.RecreationActivityRegistrationRequest;
 import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.HomeFolder;
-import fr.cg95.cvq.testtool.BusinessObjectsFactory;
 import fr.cg95.cvq.testtool.TestUtils;
+import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 public class RecreationActivityRegistrationRequestFeeder {
 

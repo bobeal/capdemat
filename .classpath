@@ -107,5 +107,7 @@
 	<classpathentry kind="lib" path="Model/lib/org.springframework/org.springframework.test-3.0.1.RELEASE.jar" sourcepath="Model/lib/org.springframework/org.springframework.test-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Model/lib/junit/junit-4.7.jar"/>
 	<classpathentry kind="lib" path="Generator/lib/ant.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.orm-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.transaction-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

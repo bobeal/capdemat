@@ -242,6 +242,28 @@
           todir="BackOfficeNG/grails-app/conf/spring"
           overwrite="true">
     </copy>
+    <exec executable = "git" outputproperty="git.branches" failonerror="true">
+      <arg value = "branch" />
+    </exec>
+    <taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy"
+      classpath="${libraries.dir}/groovy/groovy-all-1.6.7.jar" />
+    <groovy>
+      def branch
+      properties."git.branches".eachLine {
+          def current = it =~ /\* (.*)/
+          if (current.matches()) {
+              branch = current[0][1]
+          }
+      }
+      def engine = new groovy.text.SimpleTemplateEngine()
+      def templateFile = new File('Assets/blainville/localAuthority-blainville.xml.tpl')
+      def resultFile = new File('Assets/blainville/localAuthority-blainville.xml')
+      def template = engine.createTemplate(templateFile)
+      def binding = [
+          "branch" : branch
+      ]
+      resultFile.write(template.make(binding).toString())
+    </groovy>
   </target>
 
   <!-- ================================================================================= -->

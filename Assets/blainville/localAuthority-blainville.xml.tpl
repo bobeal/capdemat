@@ -113,7 +113,7 @@
       <value>org.postgresql.Driver</value>
     </property>
     <property name="jdbcUrl">
-      <value>jdbc:postgresql://localhost:5432/capdemat_blainville</value>
+      <value>jdbc:postgresql://localhost:5432/capdemat_blainville_${branch}</value>
     </property>
     <property name="user">
       <value>capdemat</value>

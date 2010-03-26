@@ -14,6 +14,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
+import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 public final class TestUtils {
 

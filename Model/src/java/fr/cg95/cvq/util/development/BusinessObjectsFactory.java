@@ -1,4 +1,4 @@
-package fr.cg95.cvq.testtool;
+package fr.cg95.cvq.util.development;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -35,14 +35,12 @@ public class BusinessObjectsFactory {
     public static LocalAuthority gimmeLocalAuthority(String name) {
         LocalAuthority localAuthority = new LocalAuthority();
         localAuthority.setName(name);
-
         return localAuthority;
     }
 
     public static Category gimmeCategory(String name) {
         Category category = new Category();
         category.setName(name);
-
         return category;
     }
 
@@ -50,20 +48,20 @@ public class BusinessObjectsFactory {
         School school = new School();
         school.setName(name);
         school.setAdress("Rue du centre");
-
+        school.setActive(true);
         return school;
     }
 
     public static RecreationCenter gimmeRecreationCenter(String name) {
         RecreationCenter recreationCenter = new RecreationCenter();
         recreationCenter.setName(name);
-
+        recreationCenter.setAddress("Rue du centre");
+        recreationCenter.setActive(true);
         return recreationCenter;
     }
 
-    public static Adult gimmeAdult(TitleType title, String lastName,
-            String firstName, Address adress, FamilyStatusType fs) {
-        
+    public static Adult gimmeAdult(TitleType title, String lastName, String firstName,
+        Address adress, FamilyStatusType fs) {
         Adult adult = new Adult();
         adult.setTitle(title);
         adult.setLastName(lastName);
@@ -75,7 +73,7 @@ public class BusinessObjectsFactory {
         adult.setHomePhone("0101010101");
         adult.setMobilePhone("0606060606");
         adult.setOfficePhone("0202020202");
-        adult.setEmail("rdj@zenexity.fr");
+        adult.setEmail("example@example.com");
         adult.setCfbn("5050505E");
         adult.setProfession("Profession");
         adult.setSex(SexType.MALE);
@@ -83,12 +81,10 @@ public class BusinessObjectsFactory {
             adult.setAdress(adress);
         adult.setBirthCity("PARIS");
         adult.setBirthCountry("FRANCE");
-
         return adult;
     }
 
     public static Child gimmeChild(String lastName, String firstName) {
-        
         Child child = new Child();
         child.setLastName(lastName);
         child.setFirstName(firstName);
@@ -100,12 +96,11 @@ public class BusinessObjectsFactory {
         Date currentDate = new Date();
         calendar.setTime(currentDate);
         child.setBirthDate(calendar.getTime());
-        
         return child;
     }
 
-    public static Address gimmeAdress(String streetNumber, String streetName,
-            String city, String postalCode) {
+    public static Address gimmeAdress(String streetNumber, String streetName, String city,
+        String postalCode) {
         Address address = new Address();
         address.setAdditionalDeliveryInformation("Chez Zenxity");
         address.setAdditionalGeographicalInformation("Bat. ParisCyber Village");
@@ -113,19 +108,16 @@ public class BusinessObjectsFactory {
         address.setStreetName(streetName);
         address.setCity(city);
         address.setPostalCode(postalCode);
-
         return address;
     }
 
-    public static Document gimmeDocument(String note, DepositOrigin depOrig,
-            DepositType depType, DocumentType docType) {
-        
+    public static Document gimmeDocument(String note, DepositOrigin depOrig, DepositType depType,
+        DocumentType docType) {
         Document doc = new Document();
         doc.setEcitizenNote(note);
         doc.setDepositOrigin(depOrig);
         doc.setDepositType(depType);
         doc.setDocumentType(docType);
-
         return doc;
     }
 
@@ -167,22 +159,17 @@ public class BusinessObjectsFactory {
 
         return lrd;
     }
-    
-    public static RequestSeason gimmeRequestSeason(final String label, 
-            final int registrationStartOffset, final int registrationEndOffset, 
-            final int effectStartOffset, final int effectEndOffset) {
+
+    public static RequestSeason gimmeRequestSeason(final String label,
+        final int registrationStartOffset, final int registrationEndOffset,
+        final int effectStartOffset, final int effectEndOffset) {
         RequestSeason requestSeason = new RequestSeason();
         requestSeason.setLabel(label);
-        requestSeason.setRegistrationStart(
-            new DateMidnight().plusMonths(registrationStartOffset));
-        requestSeason.setRegistrationEnd(
-            new DateMidnight().plusMonths(registrationEndOffset));
-        requestSeason.setValidationAuthorizationStart(
-            requestSeason.getRegistrationEnd());
-        requestSeason.setEffectStart(
-            new DateMidnight().plusMonths(effectStartOffset));
-        requestSeason.setEffectEnd(
-            new DateMidnight().plusMonths(effectEndOffset));
+        requestSeason.setRegistrationStart(new DateMidnight().plusMonths(registrationStartOffset));
+        requestSeason.setRegistrationEnd(new DateMidnight().plusMonths(registrationEndOffset));
+        requestSeason.setValidationAuthorizationStart(requestSeason.getRegistrationEnd());
+        requestSeason.setEffectStart(new DateMidnight().plusMonths(effectStartOffset));
+        requestSeason.setEffectEnd(new DateMidnight().plusMonths(effectEndOffset));
         return requestSeason;
     }
 }

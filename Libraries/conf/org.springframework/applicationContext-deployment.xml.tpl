@@ -120,6 +120,33 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   </bean>
 
+  <bean id="templateSessionFactory"
+    class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+    parent="abstractSessionFactory">
+    <property name="dataSource">
+      <bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass">
+          <value>org.postgresql.Driver</value>
+        </property>
+        <property name="jdbcUrl">
+          <value>jdbc:postgresql://localhost:5432/template1</value>
+        </property>
+        <property name="user">
+          <value>capdemat</value>
+        </property>
+        <property name="password">
+          <value>capdematpass</value>
+        </property>
+        <property name="acquireIncrement" value="0" />
+        <property name="initialPoolSize" value="1" />
+        <property name="minPoolSize" value="1" />
+        <property name="maxPoolSize" value="1" />
+        <property name="maxStatements" value="0"/>
+        <property name="maxIdleTime" value="300" />
+      </bean>
+    </property>
+  </bean>
+
   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
     <!-- the SMTP host responsible for sending mail messages -->
     <property name="host">
@@ -138,6 +165,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="assetsBase" value="${assets.properties.path}" />
     <property name="includes" value="${assets.included_authorities}" />
     <property name="localAuthoritiesListFilename" value="local_authorities_list.txt" />
+    <property name="templateSessionFactory" ref="templateSessionFactory" />
+    <property name="agentService" ref="agentService" />
+    <property name="homeFolderService" ref="homeFolderService" />
   </bean>
 
   <!-- ================================================================ -->

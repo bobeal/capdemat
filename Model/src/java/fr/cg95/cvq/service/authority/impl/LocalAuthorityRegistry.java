@@ -11,10 +11,15 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,16 +36,27 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 
+import fr.cg95.cvq.business.authority.Agent;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
+import fr.cg95.cvq.business.authority.SiteProfile;
+import fr.cg95.cvq.business.authority.SiteRoles;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
+import fr.cg95.cvq.business.users.Address;
+import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.FamilyStatusType;
+import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.business.users.TitleType;
 import fr.cg95.cvq.dao.authority.ILocalAuthorityDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqConfigurationException;
@@ -50,9 +66,12 @@ import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
+import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.authority.LocalAuthorityConfigurationBean;
+import fr.cg95.cvq.service.users.IHomeFolderService;
+import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 /**
  * Implementation of the local authority registry.
@@ -63,6 +82,14 @@ public class LocalAuthorityRegistry
     implements ILocalAuthorityRegistry, ApplicationContextAware, BeanFactoryAware {
 
     private static Logger logger = Logger.getLogger(LocalAuthorityRegistry.class);
+
+    /**
+     * The name of the Local authority used in development mode
+     */
+    private static final String DEVELOPMENT_LOCAL_AUTHORITY = "blainville";
+    private static final String DEVELOPMENT_ADMIN_NAME = "admin";
+    private static final String DEVELOPMENT_AGENT_NAME = "agent";
+    private static final String DEVELOPMENT_MANAGER_NAME = "manager";
 
     /** Used to store the currently deployed local authorities. */
     private Map<String, LocalAuthorityConfigurationBean> configurationBeansMap = 
@@ -79,6 +106,8 @@ public class LocalAuthorityRegistry
     protected Collection<ILocalAuthorityLifecycleAware> allListenerServices;
 
     private ILocalAuthorityDAO localAuthorityDAO;
+    private IAgentService agentService;
+    private IHomeFolderService homeFolderService;
 
     private ListableBeanFactory beanFactory;
 
@@ -88,6 +117,8 @@ public class LocalAuthorityRegistry
     private String assetsBase;
     private String[] includedLocalAuthorities;
     private String localAuthoritiesListFilename;
+
+    private SessionFactory templateSessionFactory;
 
     public void init() {
         Map<String, ILocalAuthorityLifecycleAware> services =
@@ -602,12 +633,38 @@ public class LocalAuthorityRegistry
                     if (includedLocalAuthorities[j].equals(localAuthorityName)) {
                         logger.debug("registerLocalAuthorities() loading " + localAuthorityName);
                         xmlBeanDefinitionReader.loadBeanDefinitions(localAuthoritiesFiles[i]);
+                        if (DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)
+                            && performDbUpdates) {
+                            HibernateUtil.setSessionFactory(templateSessionFactory);
+                            BeanDefinition definition =
+                                gac.getBeanDefinition("pgDataSource_blainville");
+                            try {
+                                String dbName =
+                                    new URI(parseJDBCProperty(definition, "jdbcUrl").substring(5))
+                                        .getPath().substring(1);
+                                if (BigInteger.ZERO.equals(HibernateUtil.getSession()
+                                    .createSQLQuery("select count(*) from pg_catalog.pg_database where datname = :dbName")
+                                        .setString("dbName", dbName).uniqueResult())) {
+                                    try {
+                                        HibernateUtil.getSession().connection().createStatement()
+                                            .execute("create database \"" + dbName + '\"');
+                                    } catch (SQLException e) {
+                                        logger.error("could not create database " + dbName);
+                                        e.printStackTrace();
+                                    }
+                                    gac.getBean("&sessionFactory_blainville",
+                                        LocalSessionFactoryBean.class).createDatabaseSchema();
+                                }
+                            } catch (URISyntaxException e) {
+                                logger.error("got an exception while trying to create dev database");
+                                e.printStackTrace();
+                            }
+                        }
                         break;
                     }
                 }
             }
         }
-
         Map<String, LocalAuthorityConfigurationBean> beansMap =
             gac.getBeansOfType(LocalAuthorityConfigurationBean.class, true, true);
         if (beansMap.isEmpty()) {
@@ -658,9 +715,33 @@ public class LocalAuthorityRegistry
                 if (lacb.getDefaultServerName() != null)
                     localAuthority.getServerNames().add(lacb.getDefaultServerName());
                 localAuthorityDAO.create(localAuthority);
-
                 HibernateUtil.getSession().flush();
-                
+                if (DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)) {
+                    SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
+                        SecurityContext.ADMIN_CONTEXT);
+                    createAgent(DEVELOPMENT_ADMIN_NAME, SiteProfile.ADMIN);
+                    createAgent(DEVELOPMENT_AGENT_NAME, SiteProfile.AGENT);
+                    createAgent(DEVELOPMENT_MANAGER_NAME, SiteProfile.AGENT);
+                    localAuthorityDAO.create(
+                        BusinessObjectsFactory.gimmeSchool("École Jean Jaurès"));
+                    localAuthorityDAO.create(BusinessObjectsFactory
+                        .gimmeRecreationCenter("Centre de loisirs Louise Michel"));
+                    SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
+                        SecurityContext.FRONT_OFFICE_CONTEXT);
+                    Address address = BusinessObjectsFactory.gimmeAdress(
+                        "12", "Rue d'Aligre", "Paris", "75012");
+                    Adult homeFolderResponsible =
+                        BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "Dupont", "Jean",
+                            address, FamilyStatusType.SINGLE);
+                    homeFolderService.addHomeFolderRole(homeFolderResponsible,
+                        RoleType.HOME_FOLDER_RESPONSIBLE);
+                    List<Adult> adults = new ArrayList<Adult>(2);
+                    adults.add(homeFolderResponsible);
+                    adults.add(BusinessObjectsFactory.gimmeAdult(TitleType.MISTER,
+                        "Durand", "Jacques", address, FamilyStatusType.SINGLE));
+                    homeFolderResponsible.setPassword("aaaaaaaa");
+                    homeFolderService.create(adults, null, new Address());
+                }
                 // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
                 SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
             } catch (Exception e) {
@@ -862,5 +943,40 @@ public class LocalAuthorityRegistry
         if (start != null && end == null) return start.isAfterNow();
         if (start == null && end != null) return end.isBeforeNow();
         return !new Interval(start, end).containsNow();
+    }
+
+    /**
+     * Utility method which parses a property value as String in a BeanDefinition,
+     * for on-the-fly development database creation.
+     */
+    private String parseJDBCProperty(BeanDefinition definition, String property) {
+        return
+            ((TypedStringValue)definition.getPropertyValues().getPropertyValue(property).getValue())
+                .getValue();
+    }
+
+    private Agent createAgent(String login, SiteProfile siteProfile)
+        throws CvqException {
+        Agent agent = new Agent();
+        agent.setActive(Boolean.TRUE);
+        agent.setLogin(login);
+        SiteRoles siteRoles = new SiteRoles(siteProfile, agent);
+        Set<SiteRoles> siteRolesSet = new HashSet<SiteRoles>(1);
+        siteRolesSet.add(siteRoles);
+        agent.setSitesRoles(siteRolesSet);
+        agentService.create(agent);
+        return agent;
+    }
+
+    public void setTemplateSessionFactory(SessionFactory templateSessionFactory) {
+        this.templateSessionFactory = templateSessionFactory;
+    }
+
+    public void setAgentService(IAgentService agentService) {
+        this.agentService = agentService;
+    }
+
+    public void setHomeFolderService(IHomeFolderService homeFolderService) {
+        this.homeFolderService = homeFolderService;
     }
 }

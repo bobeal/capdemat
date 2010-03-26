@@ -1,7 +1,7 @@
 <ul id="${depth==0 ? 'lrt' : 'lre'}Entries_${parentEntry}" ${depth==0 ? 'class="editableTree"' : ''}>
 <g:each var="entry" in="${lrEntries}">
   <li class="" id="entry_${entry.key}">
-    <strong>${entry.label}</strong>
+    <strong>${entry.label} (clé : ${entry.key})</strong>
     <g:if test="${!areReadOnly}">
       <a class="editItem" id="editEntry_${entry.key}"><span>${message(code:'action.remove')}</span></a>
       <a class="deleteItem" id="confirmRemoveEntry_${entry.key}"><span>${message(code:'action.modify')}</span></a>

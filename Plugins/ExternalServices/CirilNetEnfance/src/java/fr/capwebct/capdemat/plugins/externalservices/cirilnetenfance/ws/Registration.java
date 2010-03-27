@@ -101,7 +101,6 @@ public class Registration {
             con.close();
             
             // convert Dom in JDOM because this API is better
-            DOMBuilder builder2 = new DOMBuilder();
             Document repDoc = (Document) builder.build(result);
             
             XPath xpathError = XPath.newInstance("//message");
@@ -151,8 +150,8 @@ public class Registration {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.debug(e.getMessage());
-            throw new CvqException();
+            logger.error(e.getMessage());
+            throw new CvqException(e.getMessage());
         } 
         
         return demandReturn;

@@ -98,8 +98,8 @@ public class CirilNetEnfanceService implements IExternalProviderService {
             throw new CvqException();
         }
 
-        logger.debug("sendRequest()" + request.getId());
-        logger.debug("sendRequest() externalId :" + request.getHomeFolder().getExternalId());
+        logger.debug("sendRequest() request id " + request.getId());
+        logger.debug("sendRequest() external id :" + request.getHomeFolder().getExternalId());
         
         String cirilId = request.getHomeFolder().getExternalId();
         Long homeFolderId = request.getHomeFolder().getId();
@@ -107,8 +107,8 @@ public class CirilNetEnfanceService implements IExternalProviderService {
         if (request instanceof SchoolRegistrationRequest) {
             HashMap<String, Object> repDoc = 
                 sendRegistration(xmlRequest, "SchoolRegistration", homeFolderId);
-            if (repDoc.containsKey("homeFolderMapping")) {
-                logger.debug("schoolRegistration() getschool : " + repDoc.get("school"));
+            if (repDoc.containsKey("school")) {
+                logger.debug("sendRequest() got school : " + repDoc.get("school"));
                 School school = getSchool((String)repDoc.get("school"));
                 SchoolRegistrationRequestDocument srrDocument =
                     (SchoolRegistrationRequestDocument) xmlRequest;

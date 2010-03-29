@@ -4,6 +4,7 @@
       <p>${message(code:'requestType.message.AskConfirmationCancelRequest')}</p>
       <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
       <input type="hidden" name="uuidString" value="${uuidString}" />
+      <input type="hidden" name="returnUrl" value="${returnUrl}" />
       <input type="submit" name="submit-confirmCancelRequest-${currentStep}"
              value="${message(code:'action.confirm')}" />
       <input type="submit" name="submit-discardCancelRequest-${currentStep}"
@@ -15,6 +16,7 @@
   <form id="cancelRequestForm" method="post" action="${createLink(action:'step')}" class="exitActionForm">
     <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
     <input type="hidden" name="uuidString" value="${uuidString}" />
+    <input type="hidden" name="returnUrl" value="${returnUrl}" />
     <input type="submit" name="submit-cancelRequest-${currentStep}" 
            value="${rqt.state.toString().equals("Draft") ? message(code:'action.quit') : message(code:'action.cancel')}" />
   </form>

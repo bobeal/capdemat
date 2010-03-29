@@ -204,7 +204,10 @@ class FrontofficeRequestCreationController {
             else if (submitAction[1] == 'confirmCancelRequest') {
                 if (cRequest.id) requestLockService.release(cRequest.id)
                 session.removeAttribute(uuidString)
-                redirect(uri: '/frontoffice/requestType')
+                if (params.returnUrl != '')
+                    redirect(url: params.returnUrl)
+                else
+                    redirect(uri: '/frontoffice/requestType')
                 return
             }
             else if (submitAction[1] == 'discardCancelRequest') {

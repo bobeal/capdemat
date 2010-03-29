@@ -42,7 +42,7 @@
           </g:if> 
         </p>
         <g:if test="${record.lastAgentNote}">
-          <p>
+          <p class="agent-note">
             <g:message code="request.property.lastAgentNote" />
             <g:if test="${record.lastAgentNote.date}">
                 <g:message code="layout.on.date" /> <g:formatDate date="${record.lastAgentNote.date}" formatName="format.date" />

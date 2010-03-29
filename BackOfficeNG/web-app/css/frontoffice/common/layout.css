@@ -72,5 +72,11 @@ h2 span { display: block; line-height: 1.5em; font-size: .5em; }
 .hidden   { display: none !important; }
 .unactive { display: none !important; }
 strong  { font-weight: bold; }
+p.agent-note {
+    margin-top: 0.6em !important; padding: 0.2em;
+    font-size: 0.9em;
+    border: 1px solid #ffddaa;
+    background-color:#ffffcc;
+}
 
 

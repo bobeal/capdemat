@@ -86,12 +86,13 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
 
                 response.setRequestArray(prepareRequestsForResponse(requests));
                 
-                // Reset to original context
-                SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
-                SecurityContext.setCurrentExternalService(currentExternalService);
             } else {
                 response.setError(noPermissions);
             }
+
+            // Reset to original context
+            SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
+            SecurityContext.setCurrentExternalService(currentExternalService);
 
             return response;
         }
@@ -129,14 +130,14 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
             
             response.setRequestArray(prepareRequestsForResponse(selectedRequests));
             
-            // Reset to original context
-            SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
-            SecurityContext.setCurrentExternalService(currentExternalService);
-
         } catch (Exception e) {
             e.printStackTrace();
             response.setError(e.getMessage());
         }
+
+        // Reset to original context
+        SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentExternalService(currentExternalService);
 
         return response;
     }

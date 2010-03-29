@@ -26,6 +26,7 @@ import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
+import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.external.ExternalServiceBean;
@@ -81,6 +82,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         endpoint2.setExternalService(externalService);
         endpoint2.setDefaultRequestService(defaultRequestService);
         endpoint2.setLocalAuthorityRegistry(localAuthorityRegistry);
+        endpoint2.setRequestDAO((IRequestDAO)getApplicationBean("requestDAO"));
         
         try {
             for (ExternalServiceTrace trace :
@@ -183,6 +185,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
         endpoint2.setExternalService(externalService);
         endpoint2.setDefaultRequestService(defaultRequestService);
         endpoint2.setLocalAuthorityRegistry(localAuthorityRegistry);
+        endpoint2.setRequestDAO((IRequestDAO)getApplicationBean("requestDAO"));
         
         try {
             for (ExternalServiceTrace trace :
@@ -385,6 +388,8 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             endpoint.setDefaultRequestService(requestService);
             endpoint.setExternalService(externalService);
             endpoint.setLocalAuthorityRegistry(localAuthorityRegistry);
+            endpoint.setRequestDAO((IRequestDAO)getApplicationBean("requestDAO"));
+            
             endpoint2.setExternalService(externalService);
             GetRequestsRequestDocument pendedRequestDocument = GetRequestsRequestDocument.Factory.newInstance();
             GetRequestsRequest pendedRequest = GetRequestsRequest.Factory.newInstance();
@@ -466,6 +471,7 @@ public class RequestServiceEndpointTest extends ServiceTestCase {
             e.printStackTrace();
             fail("Unwaited exception trown : " + e.getMessage());
         } finally {
+            SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
             SecurityContext.setCurrentAgent(agentNameWithManageRoles);
             for (ExternalServiceTrace trace :
                 externalService.getTraces(Collections.<Critere>emptySet(),

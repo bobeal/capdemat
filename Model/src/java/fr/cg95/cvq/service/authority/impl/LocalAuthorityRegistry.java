@@ -960,6 +960,8 @@ public class LocalAuthorityRegistry
         Agent agent = new Agent();
         agent.setActive(Boolean.TRUE);
         agent.setLogin(login);
+        agent.setFirstName(login);
+        agent.setLastName(DEVELOPMENT_LOCAL_AUTHORITY);
         SiteRoles siteRoles = new SiteRoles(siteProfile, agent);
         Set<SiteRoles> siteRolesSet = new HashSet<SiteRoles>(1);
         siteRolesSet.add(siteRoles);

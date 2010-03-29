@@ -15,10 +15,10 @@
     <a id="requestMenuItem" href="${createLink(controller:'backofficeRequest')}">
       <g:message code="menu.search" />
     </a>
-    <a id="requestTypeMenuItem" href="${createLink(controller:'backofficeRequestType')}">
-      <g:message code="menu.requestTypes" />
-    </a>
     <g:if test="${session.isACategoryManager}">
+      <a id="requestTypeMenuItem" href="${createLink(controller:'backofficeRequestType')}">
+       <g:message code="menu.requestTypes" />
+      </a>
       <a id="statisticsMenuItem" href="${createLink(controller:'backofficeStatistic')}">
         <g:message code="menu.statistics" />
       </a>

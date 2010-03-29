@@ -26,6 +26,7 @@ import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.dao.IGenericDAO;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestFormDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
@@ -163,6 +164,8 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
             requestForm.getRequestTypes().add(requestType);
         }
         requestFormDAO.update(requestForm);
+        // FIXME Hack to allow display groups and categories initialization
+        HibernateUtil.getSession().flush();
     }
     
     @Override

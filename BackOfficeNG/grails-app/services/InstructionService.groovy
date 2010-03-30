@@ -1,10 +1,12 @@
 import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.util.translation.ITranslationService
 
 class InstructionService {
     
     IAgentService agentService
     IIndividualService individualService
+    ITranslationService translationService
     
     def getActionPosterDetails(posterId, withNature = false) {
         def displayName
@@ -13,8 +15,8 @@ class InstructionService {
             displayName = ""
             nature = ""
         } else if (posterId == -1) {
-            displayName = "Système"
             nature = "system"
+            displayName = translationService.translate(nature)
         } else {
             def poster
             try {
@@ -29,8 +31,8 @@ class InstructionService {
             }
             if (poster) displayName = "${poster.firstName} ${poster.lastName}"
             else displayName = null
-            if (withNature) return ["displayName" : displayName, "nature" : nature]
-            else return displayName
         }
+        if (withNature) return ["displayName" : displayName, "nature" : nature]
+        else return displayName
     }
 }

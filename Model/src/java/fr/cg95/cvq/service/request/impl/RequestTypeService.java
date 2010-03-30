@@ -121,11 +121,6 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     @Context(types = {ContextType.SUPER_ADMIN})
     public void initRequestData(String serviceLabel) {
         
-        if (serviceLabel == null || serviceLabel.trim().length() == 0) {
-            logger.info("initRequestData() ignoring empty service label");
-            return;
-        }
-        
         logger.debug("initRequestData() initializing " + serviceLabel 
                 + " for local authority " 
                 + SecurityContext.getCurrentSite().getName());

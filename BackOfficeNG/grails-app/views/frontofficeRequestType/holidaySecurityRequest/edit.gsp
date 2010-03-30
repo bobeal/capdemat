@@ -208,12 +208,7 @@
            <input type="submit" id="submit-step-registration" name="submit-step-registration" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-  
-           <a id="next-tab-registration" class="next-tab" href="#rules"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.registration != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -250,14 +245,7 @@
            <input type="submit" id="submit-step-rules" name="submit-step-rules" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-rules" class="prev-tab" href="#registration"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-rules" class="next-tab" href="#contactphone"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.rules != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -294,14 +282,7 @@
            <input type="submit" id="submit-step-contactphone" name="submit-step-contactphone" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-contactphone" class="prev-tab" href="#rules"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-contactphone" class="next-tab" href="#contact"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.contactphone != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -336,14 +317,7 @@
            <input type="submit" id="submit-step-contact" name="submit-step-contact" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-contact" class="prev-tab" href="#contactphone"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-contact" class="next-tab" href="#additional"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.contact != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -378,14 +352,7 @@
            <input type="submit" id="submit-step-additional" name="submit-step-additional" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-additional" class="prev-tab" href="#contact"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-additional" class="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.additional != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -420,14 +387,7 @@
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-document" class="prev-tab" href="#additional"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-document" class="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.document != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -515,12 +475,7 @@
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-validation" class="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-         </div>
+         
          <g:if test="${helps.validation != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>

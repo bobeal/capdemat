@@ -191,14 +191,7 @@
            <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" class="submit-step" value="\${message(code:'action.validate')}" />
   <% } %>
          </form>
-         <div class="navTab">
-  <% if (step.index != 0) { %>
-           <a id="prev-tab-${step.camelCaseName}" class="prev-tab" href="#${requestFo.steps.get(step.index -1).name}"><g:message code="request.step.navigation.previous"/></a>
-  <% } %>
-  <% if (step.index != requestFo.steps.size() - 1) { %>
-           <a id="next-tab-${step.camelCaseName}" class="next-tab" href="#${requestFo.steps.get(step.index + 1).name}"><g:message code="request.step.navigation.next"/></a>
-  <% } %>
-         </div>
+         
          <g:if test="\${helps.${step.name} != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>

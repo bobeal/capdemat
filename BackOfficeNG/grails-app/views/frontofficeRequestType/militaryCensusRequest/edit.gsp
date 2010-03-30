@@ -195,12 +195,7 @@
            <input type="submit" id="submit-step-census" name="submit-step-census" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-  
-           <a id="next-tab-census" class="next-tab" href="#parentage"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.census != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -237,14 +232,7 @@
            <input type="submit" id="submit-step-parentage" name="submit-step-parentage" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-parentage" class="prev-tab" href="#census"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-parentage" class="next-tab" href="#situation"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.parentage != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -281,14 +269,7 @@
            <input type="submit" id="submit-step-situation" name="submit-step-situation" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-situation" class="prev-tab" href="#parentage"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-situation" class="next-tab" href="#exemption"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.situation != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -323,14 +304,7 @@
            <input type="submit" id="submit-step-exemption" name="submit-step-exemption" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-exemption" class="prev-tab" href="#situation"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-exemption" class="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.exemption != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -365,14 +339,7 @@
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-document" class="prev-tab" href="#exemption"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-document" class="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.document != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -460,12 +427,7 @@
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-validation" class="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-         </div>
+         
          <g:if test="${helps.validation != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>

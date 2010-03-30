@@ -128,14 +128,6 @@ h2.request-creation { margin: 0; color: #DB4366; }
 #requestTabView fieldset.collection-fieldset-add legend,
 #requestTabView fieldset.collection-fieldset-edit legend { margin: 0; padding: 0; border: 1px solid #FF812B; }
 
-
-#requestTabView .navTab { height: 2em }
-#requestTabView .navTab a { color: #2020AA; }
-#requestTabView .navTab .next-tab { float: right; }
-#requestTabView .navTab .prev-tab { float: left; }
-
-#requestTabView .nextTab:hover, #requestTabView .prevTab:hover { background: #2020AA; color:#ffffff; }
-
 #requestTabView form div.box {
   min-height: 30em;
   padding:  0 1.5em 1.5em 1.5em;

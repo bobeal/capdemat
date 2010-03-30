@@ -182,12 +182,7 @@
            <input type="submit" id="submit-step-requester" name="submit-step-requester" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-  
-           <a id="next-tab-requester" class="next-tab" href="#nature"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.requester != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -224,14 +219,7 @@
            <input type="submit" id="submit-step-nature" name="submit-step-nature" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-nature" class="prev-tab" href="#requester"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-nature" class="next-tab" href="#type"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.nature != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -268,14 +256,7 @@
            <input type="submit" id="submit-step-type" name="submit-step-type" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-type" class="prev-tab" href="#nature"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-type" class="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.type != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -310,14 +291,7 @@
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-document" class="prev-tab" href="#type"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-document" class="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.document != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -405,12 +379,7 @@
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-validation" class="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-         </div>
+         
          <g:if test="${helps.validation != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>

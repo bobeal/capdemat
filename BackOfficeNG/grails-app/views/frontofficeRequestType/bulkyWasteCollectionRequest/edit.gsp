@@ -152,12 +152,7 @@
            <input type="submit" id="submit-step-waste" name="submit-step-waste" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-  
-           <a id="next-tab-waste" class="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.waste != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -192,14 +187,7 @@
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-document" class="prev-tab" href="#waste"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-document" class="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.document != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -287,12 +275,7 @@
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-validation" class="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-         </div>
+         
          <g:if test="${helps.validation != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>

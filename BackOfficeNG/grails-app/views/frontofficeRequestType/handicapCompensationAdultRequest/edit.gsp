@@ -272,12 +272,7 @@
            <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-  
-           <a id="next-tab-subject" class="next-tab" href="#dwelling"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.subject != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -314,14 +309,7 @@
            <input type="submit" id="submit-step-dwelling" name="submit-step-dwelling" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-dwelling" class="prev-tab" href="#subject"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-dwelling" class="next-tab" href="#socialSecurityAndPaymentAgency"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.dwelling != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -358,14 +346,7 @@
            <input type="submit" id="submit-step-socialSecurityAndPaymentAgency" name="submit-step-socialSecurityAndPaymentAgency" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-socialSecurityAndPaymentAgency" class="prev-tab" href="#dwelling"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-socialSecurityAndPaymentAgency" class="next-tab" href="#occupationnalAndSchoolStatus"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.socialSecurityAndPaymentAgency != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -402,14 +383,7 @@
            <input type="submit" id="submit-step-occupationnalAndSchoolStatus" name="submit-step-occupationnalAndSchoolStatus" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-occupationnalAndSchoolStatus" class="prev-tab" href="#socialSecurityAndPaymentAgency"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-occupationnalAndSchoolStatus" class="next-tab" href="#folders"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.occupationnalAndSchoolStatus != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -446,14 +420,7 @@
            <input type="submit" id="submit-step-folders" name="submit-step-folders" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-folders" class="prev-tab" href="#occupationnalAndSchoolStatus"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-folders" class="next-tab" href="#benefits"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.folders != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -490,14 +457,7 @@
            <input type="submit" id="submit-step-benefits" name="submit-step-benefits" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-benefits" class="prev-tab" href="#folders"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-benefits" class="next-tab" href="#aid"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.benefits != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -534,14 +494,7 @@
            <input type="submit" id="submit-step-aid" name="submit-step-aid" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-aid" class="prev-tab" href="#benefits"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-aid" class="next-tab" href="#health"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.aid != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -578,14 +531,7 @@
            <input type="submit" id="submit-step-health" name="submit-step-health" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-health" class="prev-tab" href="#aid"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-health" class="next-tab" href="#project"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.health != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -622,14 +568,7 @@
            <input type="submit" id="submit-step-project" name="submit-step-project" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-project" class="prev-tab" href="#health"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-project" class="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.project != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -664,14 +603,7 @@
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-document" class="prev-tab" href="#project"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-document" class="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.document != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -761,12 +693,7 @@
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-validation" class="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-         </div>
+         
          <g:if test="${helps.validation != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>

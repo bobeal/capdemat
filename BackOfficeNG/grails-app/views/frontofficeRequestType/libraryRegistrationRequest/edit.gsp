@@ -150,12 +150,7 @@
            <input type="submit" id="submit-step-registration" name="submit-step-registration" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-  
-           <a id="next-tab-registration" class="next-tab" href="#rules"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.registration != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -192,14 +187,7 @@
            <input type="submit" id="submit-step-rules" name="submit-step-rules" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-rules" class="prev-tab" href="#registration"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-rules" class="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.rules != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -285,12 +273,7 @@
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-validation" class="prev-tab" href="#rules"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-         </div>
+         
          <g:if test="${helps.validation != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>

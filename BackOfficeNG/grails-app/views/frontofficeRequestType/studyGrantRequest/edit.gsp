@@ -227,12 +227,7 @@
            <input type="submit" id="submit-step-subject" name="submit-step-subject" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-  
-           <a id="next-tab-subject" class="next-tab" href="#taxHousehold"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.subject != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -269,14 +264,7 @@
            <input type="submit" id="submit-step-taxHousehold" name="submit-step-taxHousehold" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-taxHousehold" class="prev-tab" href="#subject"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-taxHousehold" class="next-tab" href="#otherHelps"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.taxHousehold != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -313,14 +301,7 @@
            <input type="submit" id="submit-step-otherHelps" name="submit-step-otherHelps" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-otherHelps" class="prev-tab" href="#taxHousehold"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-otherHelps" class="next-tab" href="#currentStudies"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.otherHelps != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -357,14 +338,7 @@
            <input type="submit" id="submit-step-currentStudies" name="submit-step-currentStudies" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-currentStudies" class="prev-tab" href="#otherHelps"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-currentStudies" class="next-tab" href="#calculationElements"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.currentStudies != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -401,14 +375,7 @@
            <input type="submit" id="submit-step-calculationElements" name="submit-step-calculationElements" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-calculationElements" class="prev-tab" href="#currentStudies"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-calculationElements" class="next-tab" href="#bankReference"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.calculationElements != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -445,14 +412,7 @@
            <input type="submit" id="submit-step-bankReference" name="submit-step-bankReference" class="submit-step" value="${message(code:'action.validate')}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-bankReference" class="prev-tab" href="#calculationElements"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-bankReference" class="next-tab" href="#document"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.bankReference != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -487,14 +447,7 @@
            <input type="hidden" name="uuidString" value="${uuidString}" />
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-document" class="prev-tab" href="#bankReference"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-           <a id="next-tab-document" class="next-tab" href="#validation"><g:message code="request.step.navigation.next"/></a>
-  
-         </div>
+         
          <g:if test="${helps.document != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>
@@ -582,12 +535,7 @@
            <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
   
          </form>
-         <div class="navTab">
-  
-           <a id="prev-tab-validation" class="prev-tab" href="#document"><g:message code="request.step.navigation.previous"/></a>
-  
-  
-         </div>
+         
          <g:if test="${helps.validation != null}">       
          <div class="requestHelp">
            <h3><g:message code="header.help"/></h3>

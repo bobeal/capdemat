@@ -740,7 +740,7 @@ public class LocalAuthorityRegistry
                     adults.add(BusinessObjectsFactory.gimmeAdult(TitleType.MISTER,
                         "Durand", "Jacques", address, FamilyStatusType.SINGLE));
                     homeFolderResponsible.setPassword("aaaaaaaa");
-                    homeFolderService.create(adults, null, new Address());
+                    homeFolderService.create(adults, null, address);
                 }
                 // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
                 SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);

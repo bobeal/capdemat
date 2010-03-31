@@ -22,7 +22,7 @@
           </g:if>
         </dd>
         <g:if test="${requestAction.hasFile}">
-          <dt><g:message code="${requestAction.fileName}" /></dt>
+          <dt><g:message code="${requestAction.fileType}" /></dt>
           <dd>
             <a title="<g:message code='${"requestAction.action.download." + requestAction.type.enumString}' />"
               href="${createLink(controller : 'backofficeContact', action : 'view',
@@ -32,10 +32,10 @@
                 src="${resource(dir:'images/icons',file:'pdficon_small.gif')}" />
             </a>
           </dd>
-        </g:if>
-        <g:if test="${requestAction.message}">
-          <dt><g:message code="requestAction.property.message" /> :</dt>
-          <dd>${requestAction.message}</dd>
+        </g:if>        
+        <g:if test="${requestAction.filename}">
+          <dt><g:message code="requestAction.property.filename" /> :</dt>
+          <dd>${requestAction.filename}</dd>
         </g:if>
         <g:if test="${requestAction.note}">
           <dt><g:message code="requestAction.property.note" /> :</dt>

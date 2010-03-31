@@ -29,6 +29,7 @@ public class RequestAction implements Serializable {
     private RequestState resultingState;
     private String message;
     private byte[] file;
+    private String filename;
 
     /**
      * @hibernate.id
@@ -105,6 +106,18 @@ public class RequestAction implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+    
+    /**
+     * @hibernate.property
+     *  column="filename"
+     */
+    public String getFilename() {
+        return filename;
+    }
+    
+    public void setFilename (String filename) {
+        this.filename = filename;
     }
 
     /**

@@ -50,10 +50,10 @@ public class RequestActionService implements IRequestActionService {
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addAction(final Long requestId, final RequestActionType type,
-        final String message, final String note, final byte[] pdfData)
+        final String message, final String note, final byte[] pdfData, String filename)
         throws CvqException {
 
-        addActionTrace(type, message, note, new Date(), null, requestId, pdfData);
+        addActionTrace(type, message, note, new Date(), null, requestId, pdfData, filename);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class RequestActionService implements IRequestActionService {
         final RequestActionType type)
         throws CvqException {
 
-        addActionTrace(type, null, null, new Date(), null, requestId, null);
+        addActionTrace(type, null, null, new Date(), null, requestId, null, null);
     }
 
     @Override
@@ -70,14 +70,14 @@ public class RequestActionService implements IRequestActionService {
     public void addDraftCreationAction(Long requestId, Date date)
         throws CvqException {
         addActionTrace(RequestActionType.CREATION, null, null, date,
-            RequestState.DRAFT, requestId, null);
+            RequestState.DRAFT, requestId, null, null);
     }
 
     @Override
     public void addCreationAction(Long requestId, Date date, byte[] pdfData)
         throws CvqException {
         addActionTrace(RequestActionType.CREATION, null, null, date,
-            RequestState.PENDING, requestId, pdfData);
+            RequestState.PENDING, requestId, pdfData, null);
     }
 
     @Override
@@ -87,12 +87,12 @@ public class RequestActionService implements IRequestActionService {
         throws CvqException {
 
         addActionTrace(RequestActionType.STATE_CHANGE, null, note, date,
-            resultingState, requestId, pdfData);
+            resultingState, requestId, pdfData, null);
     }
 
     private void addActionTrace(final RequestActionType type, final String message,
         final String note, final Date date, final RequestState resultingState,
-        final Long requestId, final byte[] pdfData)
+        final Long requestId, final byte[] pdfData, String filename)
         throws CvqException {
 
         Request request = (Request) requestDAO.findById(Request.class, requestId);
@@ -113,6 +113,7 @@ public class RequestActionService implements IRequestActionService {
         requestAction.setDate(date);
         requestAction.setResultingState(resultingState);
         requestAction.setFile(pdfData);
+        requestAction.setFilename(filename);
 
         if (request.getActions() == null) {
             Set<RequestAction> actionsSet = new HashSet<RequestAction>();

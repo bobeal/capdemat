@@ -468,3 +468,5 @@ alter table global_request_type_configuration add column filing_delay int4;
 update global_request_type_configuration set filing_delay = 6;
 alter table global_request_type_configuration alter column filing_delay set not null;
 alter table request_type add column filing_delay int4;
+
+alter table request_action add column filename varchar(255);

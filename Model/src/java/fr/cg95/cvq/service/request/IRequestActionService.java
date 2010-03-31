@@ -47,9 +47,10 @@ public interface IRequestActionService {
 
     /**
      * Add an (non-workflow) action trace for the given request.
+     * @param filename TODO
      */
     void addAction(@IsRequest final Long requestId, final RequestActionType type,
-        final String message, final String note, final byte[] pdfData)
+        final String message, final String note, final byte[] pdfData, String filename)
         throws CvqException;
 
     /**

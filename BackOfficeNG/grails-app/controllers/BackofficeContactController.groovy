@@ -5,6 +5,7 @@ import fr.cg95.cvq.business.request.RequestActionType
 import fr.cg95.cvq.business.request.RequestFormType
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestSearchService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.security.SecurityContext
 
 import grails.converters.JSON
@@ -19,6 +20,7 @@ class BackofficeContactController {
 
     IRequestLockService requestLockService
     IRequestSearchService requestSearchService
+    IRequestTypeService requestTypeService
 
     def groovyPagesTemplateEngine
     def individualService
@@ -27,7 +29,6 @@ class BackofficeContactController {
     def meansOfContactService
     def messageSource
     def requestActionService
-    def requestTypeService
 	def translationService
 	def instructionService
 	def homeFolderService
@@ -135,6 +136,8 @@ class BackofficeContactController {
         def requestFormId
         if (params.requestFormId)
             requestFormId = Long.valueOf(params.requestFormId)
+        def requestForm = requestTypeService.getRequestFormById(requestFormId)
+        def requestFormLabel = requestForm.getLabel()
         def notification
         switch (MeansOfContactEnum.forString(params.meansOfContact)) {
             case MeansOfContactEnum.MAIL :
@@ -144,7 +147,7 @@ class BackofficeContactController {
                     params.templateMessage, params.note,
                     params.requestFormId ?
                         preparePdf(params.requestId, params.requestFormId,
-                            params.templateMessage, params.meansOfContact) : null)
+                            params.templateMessage, params.meansOfContact) : null, requestFormLabel)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.actionTraced")
@@ -158,7 +161,7 @@ class BackofficeContactController {
                 requestActionService.addAction(
                     requestId,
                     RequestActionType.CONTACT_CITIZEN,
-                    params.templateMessage, params.note, pdf)
+                    params.templateMessage, params.note, pdf, requestFormLabel)
                 meansOfContactService.notifyByEmail(
                     requestSearchService.getById(requestId, false).requestType
                         .category.primaryEmail,
@@ -182,7 +185,7 @@ class BackofficeContactController {
                 requestActionService.addAction(
                     requestId,
                     RequestActionType.CONTACT_CITIZEN,
-                    null, params.note, null)
+                    null, params.note, null,null)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.actionTraced")
@@ -192,7 +195,7 @@ class BackofficeContactController {
                 requestActionService.addAction(
                     requestId,
                     RequestActionType.CONTACT_CITIZEN,
-                    params.smsMessage, params.note, null)
+                    params.smsMessage, params.note, null,null)
                 meansOfContactService.notifyBySms(params.mobilePhone, params.smsMessage)
                 notification = [
                     status : "ok",
@@ -206,7 +209,7 @@ class BackofficeContactController {
                     params.templateMessage, params.note,
                     params.requestFormId ?
                         preparePdf(params.requestId, params.requestFormId,
-                            params.templateMessage, params.meansOfContact) : null)
+                            params.templateMessage, params.meansOfContact) : null, requestFormLabel)
                 notification = [
                     status : "ok",
                     success_msg : message(code : "message.actionTraced")

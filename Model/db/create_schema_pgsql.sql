@@ -1891,6 +1891,7 @@
         date timestamp,
         resulting_state varchar(16),
         message varchar(1024),
+        filename varchar(255),
         file bytea,
         type varchar(255),
         request_id int8,

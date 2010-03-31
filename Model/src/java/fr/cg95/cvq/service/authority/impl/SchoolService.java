@@ -42,7 +42,7 @@ public class SchoolService implements ISchoolService {
     }
 
     @Override
-    @Context(type=ContextType.ADMIN, privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public Long create(final School school) {
         Long schoolId = null;
         if (school != null)
@@ -52,7 +52,7 @@ public class SchoolService implements ISchoolService {
     }
 
     @Override
-    @Context(type=ContextType.ADMIN, privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void modify(final School school) {
         if (school != null)
             schoolDAO.update(school);

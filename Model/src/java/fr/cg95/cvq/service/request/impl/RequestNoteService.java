@@ -38,7 +38,7 @@ public class RequestNoteService implements IRequestNoteService, ApplicationConte
     private ApplicationContext applicationContext;
     
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<RequestNote> getNotes(final Long requestId, RequestNoteType type)
         throws CvqException {
 
@@ -82,7 +82,7 @@ public class RequestNoteService implements IRequestNoteService, ApplicationConte
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addNote(final Long requestId, final RequestNoteType rtn, final String note)
         throws CvqException, CvqObjectNotFoundException {
 

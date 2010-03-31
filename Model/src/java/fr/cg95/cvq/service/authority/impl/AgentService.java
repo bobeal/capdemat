@@ -33,7 +33,7 @@ public final class AgentService implements IAgentService {
     private IAgentDAO agentDAO;
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public Long create(Agent agent) throws CvqException {
         
         if (agent == null)
@@ -46,7 +46,7 @@ public final class AgentService implements IAgentService {
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void modify(final Agent agent) {
         if (agent != null) {
             agentDAO.update(agent);
@@ -54,7 +54,7 @@ public final class AgentService implements IAgentService {
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void delete(final String agentLogin) {
         Agent agent = agentDAO.findByLogin(agentLogin);
         if (agent != null)
@@ -62,7 +62,7 @@ public final class AgentService implements IAgentService {
     }
 
     @Override
-    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public List<Agent> getAll() {
         return agentDAO.listAll();
     }
@@ -95,7 +95,7 @@ public final class AgentService implements IAgentService {
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void updateUserProfiles(String username, List<String> groups,
             Map<String, String> informations) throws CvqException {
 
@@ -127,7 +127,7 @@ public final class AgentService implements IAgentService {
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void modifyProfiles(Agent agent, final List<String> newGroups, 
             final List<String> administratorGroups,
             final List<String> agentGroups) {
@@ -187,7 +187,7 @@ public final class AgentService implements IAgentService {
     }
     
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.NONE)
     public Hashtable<String, String> getPreferenceByKey(String key) {
         Agent agent = SecurityContext.getCurrentAgent();
         if (agent.getPreferences() == null) return null;
@@ -195,7 +195,7 @@ public final class AgentService implements IAgentService {
     }
     
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.NONE)
     public void modifyPreference(String key,
         Hashtable<String,String> preference) {
         Agent agent = SecurityContext.getCurrentAgent();

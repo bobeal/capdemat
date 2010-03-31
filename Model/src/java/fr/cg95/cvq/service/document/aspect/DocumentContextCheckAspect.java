@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.document.Document;
@@ -30,8 +31,8 @@ public class DocumentContextCheckAspect implements Ordered {
         
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         
-        if (!context.type().equals(ContextType.ECITIZEN) 
-                && !context.type().equals(ContextType.ECITIZEN_AGENT))
+        if (!ArrayUtils.contains(context.types(), ContextType.ECITIZEN)
+            && !ArrayUtils.contains(context.types(), ContextType.AGENT))
             return;
         
         if (context.privilege().equals(ContextPrivilege.NONE)) {
@@ -61,14 +62,14 @@ public class DocumentContextCheckAspect implements Ordered {
                             document = (Document) documentDAO.findById(Document.class, (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                                    joinPoint.getSignature().getName(), context.types(), context.privilege(),
                                     "no document match the given id : " + argument);
                         }
                     } else if (argument instanceof Document) {
                         document = (Document) argument;
                     } else {
                         throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                                joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                                joinPoint.getSignature().getName(), context.types(), context.privilege(),
                                 "argument is of an unknown type " + argument);
                     }
                     homeFolderId = document.getHomeFolderId();
@@ -81,7 +82,7 @@ public class DocumentContextCheckAspect implements Ordered {
         if (!GenericAccessManager.performPermissionCheck(homeFolderId, 
                 individualId, context.privilege()))
             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                    joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "access denied on home folder " + homeFolderId 
                         + " / individual " + individualId);
     }

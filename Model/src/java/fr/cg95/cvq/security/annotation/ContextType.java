@@ -11,45 +11,25 @@ public enum ContextType {
      *   <li>while issuing an unregistered request</li>
      * </ul>
      */
-    UNAUTH_ECITIZEN("UNAUTH_ECITIZEN"),
-    
+    UNAUTH_ECITIZEN,
+
     /**
      * For authenticated ecitizens.
      */
-    ECITIZEN("ECITIZEN"), 
-    
+    ECITIZEN,
+
     /**
      * For authenticated agents with {@link SiteProfile#AGENT agent profile} on current site.
      */
-    AGENT("AGENT"), 
-    
-    /**
-     * The union of {@link #ECITIZEN} and {@link #AGENT}.
-     */
-    ECITIZEN_AGENT("ECITIZEN_AGENT"), 
-    
+    AGENT,
+
     /**
      * For authenticated agents with {@link SiteProfile#ADMIN admin profile} on current site.
      */
-    ADMIN("ADMIN"), 
-
-    /**
-     * The union of {@link #AGENT} and {@link #ADMIN}
-     */
-    AGENT_ADMIN("AGENT_ADMIN"),
+    ADMIN,
 
     /** 
      * For super administrators (ie administrators of the whole platform, typically cron jobs :-) ).
      */
-    SUPER_ADMIN("SUPER_ADMIN");
-    
-    private final String value;
-
-    ContextType(String value) {
-        this.value = value;
-    }
-
-    public String value() {
-        return value;
-    }
+    SUPER_ADMIN;
 }

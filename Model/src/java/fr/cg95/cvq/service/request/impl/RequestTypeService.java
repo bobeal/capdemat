@@ -118,7 +118,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
         }
     }
 
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void initRequestData(String serviceLabel) {
         
         if (serviceLabel == null || serviceLabel.trim().length() == 0) {
@@ -169,7 +169,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
     
     @Override
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
         if (performDbUpdates) {
             if (getGlobalRequestTypeConfiguration() == null)
@@ -183,7 +183,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void removeLocalAuthority(String localAuthorityName) {
         // nothing to do
     }
@@ -224,7 +224,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     @RequestFilter(privilege=ContextPrivilege.READ)
     public List<RequestType> getRequestTypes(Set<Critere> criteriaSet)
         throws CvqException {
@@ -233,7 +233,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.NONE)
     public List<RequestType> getManagedRequestTypes()
         throws CvqException {
 
@@ -262,7 +262,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public boolean isAccountRequest(final Long requestId) 
         throws CvqException, CvqObjectNotFoundException {
         Request request = (Request) requestDAO.findById(Request.class, requestId);
@@ -271,7 +271,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void modifyRequestType(RequestType requestType)
         throws CvqException {
         if (requestType.getFilingDelay() != null
@@ -306,7 +306,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
     
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void modifyRequestTypeRequirement(Long requestTypeId, Requirement requirement)
         throws CvqException {
 
@@ -318,7 +318,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void addRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
         throws CvqException {
 
@@ -339,7 +339,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void removeRequestTypeRequirement(Long requestTypeId, Long documentTypeId)
         throws CvqException {
 
@@ -426,7 +426,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void addRequestSeason(final Long requestTypeId, RequestSeason seasonContainer)
         throws CvqException {
 
@@ -451,7 +451,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void modifyRequestSeason(final Long requestTypeId, RequestSeason seasonContainer)
         throws CvqException {
 
@@ -474,7 +474,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void removeRequestSeason(final Long requestTypeId,
         final Long requestSeasonId)
         throws CvqException {
@@ -501,7 +501,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
         requestTypeDAO.update(requestType);
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public RequestSeason getRequestSeason(Long requestTypeId, Long id)
         throws CvqException {
 
@@ -515,7 +515,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Set<RequestSeason> getRequestSeasons(Long requestTypeId)
         throws CvqException {
         return getRequestTypeById(requestTypeId).getSeasons();
@@ -644,7 +644,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<RequestForm> getRequestTypeForms(Long requestTypeId,
             RequestFormType requestFormType) throws CvqException {
 

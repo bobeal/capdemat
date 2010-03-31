@@ -39,7 +39,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     private IRequestTypeService requestTypeService;
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public Map<String, Long> getQualityStats(final Date startDate, final Date endDate,
         final Long requestTypeId, final Long categoryId) {
 
@@ -63,7 +63,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public Map<Long, Map<String, Long>> getQualityStatsByType(final Date startDate, 
         final Date endDate, final Long requestTypeId, final Long categoryId)
         throws CvqException {
@@ -92,7 +92,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public Map<RequestState, Long> getStateStats(Date startDate, Date endDate, Long requestTypeId,
         Long categoryId) {
 
@@ -109,7 +109,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public Map<Long, Long> getTypeStats(Date startDate, Date endDate, Long requestTypeId,
         Long categoryId) {
 
@@ -120,7 +120,7 @@ public class RequestStatisticsService implements IRequestStatisticsService {
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public Map<Date, Long> getTypeStatsByPeriod(final Date startDate, final Date endDate,
         final Long requestTypeId, final Long categoryId) {
 

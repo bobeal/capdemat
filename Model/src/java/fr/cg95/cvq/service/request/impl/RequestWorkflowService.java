@@ -204,7 +204,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen());
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
@@ -213,7 +213,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, List<Document> documents) throws CvqException {
         Long requestId = create(request);
         requestDocumentService.addDocuments(request, documents);
@@ -221,7 +221,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
     
     @Override
-    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, Adult requester)
         throws CvqException {
         HomeFolder homeFolder = performBusinessChecks(request, requester);
@@ -231,7 +231,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
     
     @Override
-    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, Adult requester, List<Document> documents) 
         throws CvqException {
         
@@ -411,7 +411,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Map<Long, Set<RequestSeason>> getAuthorizedSubjects(final RequestType requestType,
             final Long homeFolderId)
             throws CvqException, CvqObjectNotFoundException {
@@ -556,7 +556,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Node getRequestClone(final Long subjectId, Long homeFolderId, final String requestLabel)
         throws CvqException {
 
@@ -667,7 +667,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void rewindWorkflow(Request request, List<Document> documents)
         throws CvqException {
         rewindWorkflow(request);
@@ -675,7 +675,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void modify(Request request)
         throws CvqException {
 
@@ -695,7 +695,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -704,7 +704,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void updateRequestDataState(final Long id, final DataState rs)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -744,7 +744,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void updateRequestState(final Long id, final RequestState rs, final String motive)
             throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
 
@@ -1019,7 +1019,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             homeFolderService.archive(request.getHomeFolderId());
     }
 
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     private void archiveHomeFolderRequests(Long homeFolderId)
         throws CvqException {
 
@@ -1040,7 +1040,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void rewindWorkflow(Request request)
         throws CvqException, CvqInvalidTransitionException {
         if (request.getState().equals(RequestState.PENDING)

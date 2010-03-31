@@ -46,7 +46,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     private IAgentService agentService;
     
     @Override
-    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public Category getById(final Long id)
         throws CvqObjectNotFoundException {
         Category category = 
@@ -59,7 +59,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public List<Category> getAll() {
         
         if (SecurityContext.isAdminContext())
@@ -74,19 +74,19 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public List<Category> getManaged() {
         return categoryDAO.listByAgent(SecurityContext.getCurrentUserId(), CategoryProfile.MANAGER);
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.NONE)
     public List<Category> getAssociated() {
         return categoryDAO.listByAgent(SecurityContext.getCurrentUserId(), null);
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public Long create(final Category category)
         throws CvqException, CvqModelException {
 
@@ -107,7 +107,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void modify(final Category category) {
         // FIXME : check the new name does not conflit with an existing one
         if (category != null)
@@ -115,7 +115,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void delete(final Long id)
         throws CvqObjectNotFoundException {
 
@@ -134,7 +134,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public List<Agent> getAuthorizedForCategory(Long categoryId) throws CvqObjectNotFoundException {
 
         List<Agent> agentsList = new ArrayList<Agent>();
@@ -147,7 +147,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public boolean hasProfileOnCategory(Agent agent, Long categoryId) 
         throws CvqObjectNotFoundException {
 
@@ -164,7 +164,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public boolean hasWriteProfileOnCategory(Agent agent, Long categoryId) 
         throws CvqObjectNotFoundException {
         
@@ -183,14 +183,14 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public CategoryProfile getProfileForCategory(final Long categoryId) 
         throws CvqObjectNotFoundException {
         return getProfileForCategory(SecurityContext.getCurrentAgent().getId(), categoryId);
     }
 
     @Override
-    @Context(type=ContextType.AGENT_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.AGENT, ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public CategoryProfile getProfileForCategory(final Long agentId, final Long categoryId) 
         throws CvqObjectNotFoundException {
         Category category = getById(categoryId);
@@ -203,7 +203,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public Category addRequestType(Long categoryId, Long requestTypeId) throws CvqException {
 
         Category category = 
@@ -220,7 +220,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
    }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public Category removeRequestType(Long categoryId, Long requestTypeId) throws CvqException {
 
         Category category = getById(categoryId);
@@ -234,7 +234,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void addCategoryRole(final Long agentId, final  Long categoryId,
             final CategoryProfile categoryProfile ) throws CvqException {
 
@@ -252,7 +252,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void modifyCategoryRole(final Long agentId, final  Long categoryId,
             final CategoryProfile categoryProfile ) throws CvqException {
 
@@ -280,7 +280,7 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void removeCategoryRole(final Long agentId, final  Long categoryId) throws CvqException {
 
         if (agentId == null)
@@ -312,18 +312,18 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
         bootstrap(localAuthorityRegistry.getLocalAuthorityByName(localAuthorityName).getAdminEmail());
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void removeLocalAuthority(String localAuthorityName) {
         // do not remove categories on local authority unloading
     }
 
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     private void bootstrap(String adminEmail) {
         logger.debug("bootstraping categories");
         if (getAll().size() > 0) {

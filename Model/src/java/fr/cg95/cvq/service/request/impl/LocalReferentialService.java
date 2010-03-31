@@ -67,7 +67,7 @@ public class LocalReferentialService
      * ILocalAuthorityLifecycleAware interface
      */
     @Override
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(final String localAuthorityName) {
 
         logger.debug("adding local authority : " + localAuthorityName);
@@ -80,7 +80,7 @@ public class LocalReferentialService
      * ILocalAuthorityLifecycleAware interface
      */
     @Override
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void removeLocalAuthority(final String localAuthorityName) {
 
         logger.debug("removing local authority : " + localAuthorityName);
@@ -614,7 +614,7 @@ public class LocalReferentialService
     }
 
     @Override
-    @Context(type=ContextType.AGENT, privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public LocalReferentialType getLocalReferentialDataByName(final String dataName)
         throws CvqException {
 
@@ -678,7 +678,7 @@ public class LocalReferentialService
     }
 
     @Override
-    @Context(type=ContextType.AGENT, privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public boolean isLocalReferentialConfigured(final String requestTypeLabel)
         throws CvqException {
         
@@ -691,7 +691,7 @@ public class LocalReferentialService
     }
 
     @Override
-    @Context(type=ContextType.AGENT, privilege=ContextPrivilege.MANAGE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
     public void setLocalReferentialData(LocalReferentialType newLrt)
         throws CvqException {
 

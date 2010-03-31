@@ -64,7 +64,7 @@
           </div>
        </g:if>
      </div>
-     <g:render template="/shared/menus/menu_${session.frontContext ? session.frontContext.value.toLowerCase() : 'unauth_ecitizen' }"/>
+     <g:render template="/shared/menus/menu_${session.frontContext ? session.frontContext.toString().toLowerCase() : 'unauth_ecitizen' }"/>
      
      <!-- header -->
      <div id="bd">

@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target( { ElementType.METHOD })
 public @interface Context {
 
-    ContextType type();
+    ContextType[] types();
     ContextPrivilege privilege() default ContextPrivilege.READ;
 }

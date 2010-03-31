@@ -73,7 +73,7 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public final Payment createPaymentContainer(PurchaseItem purchaseItem, PaymentMode paymentMode) 
         throws CvqModelException, CvqInvalidBrokerException, CvqException {
 
@@ -105,7 +105,7 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public final void addPurchaseItemToPayment(Payment payment, PurchaseItem purchaseItem)
         throws CvqInvalidBrokerException, CvqModelException, CvqException, 
             CvqObjectNotFoundException {
@@ -128,7 +128,7 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public final void removePurchaseItemFromPayment(Payment payment, PurchaseItem purchaseItem) {
 
         double newAmount = payment.getAmount().doubleValue() 
@@ -167,7 +167,7 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public final URL initPayment(Payment payment)
         throws CvqException {
     
@@ -187,7 +187,7 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.SUPER_ADMIN}, privilege = ContextPrivilege.NONE)
     public final PaymentResultStatus commitPayment(final Map<String, String> parameters)
         throws CvqException {
         
@@ -237,7 +237,7 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public PaymentResultStatus getStateFromParameters(Map<String, String> parameters) 
         throws CvqException {
 
@@ -273,13 +273,13 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public final List<Payment> getByHomeFolder(final Long homeFolderId) {
         return paymentDAO.findByHomeFolder(homeFolderId);
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public final Payment getById(final Long id)
         throws CvqObjectNotFoundException {
         return (Payment) paymentDAO.findById(Payment.class, id);
@@ -307,7 +307,7 @@ public final class PaymentService implements IPaymentService,
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void delete(Long id) throws CvqObjectNotFoundException {
         Payment payment = getById(id);
         delete(payment);
@@ -317,7 +317,7 @@ public final class PaymentService implements IPaymentService,
         paymentDAO.delete(payment);
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     private void deleteHomeFolderPayments(final Long homeFolderId) {
         List<Payment> homeFolderPayments = getByHomeFolder(homeFolderId);
         for (Payment payment : homeFolderPayments)

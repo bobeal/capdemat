@@ -9,12 +9,12 @@ public class PermissionException extends RuntimeException {
 
     private String fullMessage;
 
-    public PermissionException(Class<?> c, String methodName, ContextType type, 
-            ContextPrivilege privilege, String message) {
+    public PermissionException(Class<?> c, String methodName, ContextType[] types,
+        ContextPrivilege privilege, String message) {
         super("");
 
         StringBuffer sb = new StringBuffer().append("denied access to ").append(c.getName())
-                .append(".").append(methodName).append(" with type ").append(type)
+                .append(".").append(methodName).append(" with types ").append(types)
                 .append(" and privilege ").append(privilege).append(" for ")
                 .append(SecurityContext.getCurrentUserLogin()).append(" (")
                 .append(SecurityContext.getCurrentUserId() + ")");

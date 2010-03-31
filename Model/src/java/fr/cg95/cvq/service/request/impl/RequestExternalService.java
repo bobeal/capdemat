@@ -97,7 +97,7 @@ public class RequestExternalService implements IRequestExternalService {
         return esb == null ? Collections.<String>emptyList() : esb.getRequestTypes();
     }
 
-    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.SUPER_ADMIN}, privilege = ContextPrivilege.NONE)
     public List<Request> getSendableRequests(String externalServiceLabel) {
         Set<RequestState> set = new HashSet<RequestState>(1);
         set.add(RequestState.VALIDATED);
@@ -121,7 +121,7 @@ public class RequestExternalService implements IRequestExternalService {
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.SUPER_ADMIN}, privilege = ContextPrivilege.NONE)
     public Set<String> getGenerableRequestTypes() {
         Set<String> result = new HashSet<String>();
         for (ExternalServiceBean esb :
@@ -134,7 +134,7 @@ public class RequestExternalService implements IRequestExternalService {
     }
 
     @Override
-    @Context(type = ContextType.AGENT, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<String> checkExternalReferential(Request request) throws CvqException {
 
         if (!hasMatchingExternalService(request.getRequestType().getLabel()))
@@ -147,7 +147,7 @@ public class RequestExternalService implements IRequestExternalService {
     }
 
     @Override
-    @Context(type=ContextType.AGENT, privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void sendRequest(Request request) throws CvqException {
 
         if (!request.getState().equals(RequestState.VALIDATED))
@@ -165,7 +165,7 @@ public class RequestExternalService implements IRequestExternalService {
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Map<String, Object> loadExternalInformations(Request request) throws CvqException {
 
         // get the external services interested by this request type
@@ -179,7 +179,7 @@ public class RequestExternalService implements IRequestExternalService {
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Map<Date, String> getConsumptionsByRequest(final Long requestId, Date dateFrom, Date dateTo)
             throws CvqException {
 

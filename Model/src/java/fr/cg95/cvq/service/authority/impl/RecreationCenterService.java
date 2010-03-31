@@ -36,7 +36,7 @@ public final class RecreationCenterService implements IRecreationCenterService {
     }
 
     @Override
-    @Context(type=ContextType.ADMIN, privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public Long create(final RecreationCenter recreationCenter) {
         Long recreationCenterId = null;
         if (recreationCenter != null)

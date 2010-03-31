@@ -134,7 +134,7 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void addLocalAuthorityServerName(String serverName) {
         LocalAuthority localAuthority = SecurityContext.getCurrentSite();
         localAuthority.getServerNames().add(serverName);
@@ -143,13 +143,13 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void registerLocalAuthorityServerName(String serverName) {
         serverNameMappings.put(serverName, SecurityContext.getCurrentSite());
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void removeLocalAuthorityServerName(String serverName) {
         LocalAuthority localAuthority = SecurityContext.getCurrentSite();
         localAuthority.getServerNames().remove(serverName);
@@ -158,13 +158,13 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void unregisterLocalAuthorityServerName(String serverName) {
         serverNameMappings.put(serverName, null);
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void setLocalAuthorityServerNames(TreeSet<String> serverNames)
         throws CvqException {
         // this method iterates twice on serverNames but it is needed
@@ -186,7 +186,7 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.READ)
     public boolean isAvailableLocalAuthorityServerName(String serverName) {
         return (serverNameMappings.get(serverName) == null 
                 || serverNameMappings.get(serverName).getId().equals(SecurityContext.getCurrentSite().getId()));
@@ -402,7 +402,7 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void saveLocalAuthorityResource(Type type, String filename,
         byte[] data) throws CvqException {
         if (data == null) {
@@ -427,7 +427,7 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void saveLocalAuthorityResource(String id, byte[] data)
         throws CvqException {
         if (data == null) {
@@ -452,7 +452,7 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void replaceLocalAuthorityResource(String id, byte[] data)
         throws CvqException {
         if (data == null) {
@@ -481,7 +481,7 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void rollbackLocalAuthorityResource(String id)
         throws CvqException {
         renameLocalAuthorityResource(id, LocalAuthorityResource.Version.OLD, LocalAuthorityResource.Version.TEMP);
@@ -502,7 +502,7 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void renameLocalAuthorityResource(String id, Version oldVersion, Version newVersion)
         throws CvqException {
         LocalAuthorityResource resource = getLocalAuthorityResource(id);
@@ -519,7 +519,7 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void renameLocalAuthorityResource(Type type, String oldFilename, String newFilename)
         throws CvqException {
         if (oldFilename.equals(newFilename))
@@ -536,7 +536,7 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void removeLocalAuthorityResource(Type type, String filename) {
         File assetsFile = getAssetsFile(type, filename, false);
         if (!assetsFile.exists())
@@ -546,7 +546,7 @@ public class LocalAuthorityRegistry
     }
 
     @Override
-    @Context(type = ContextType.ADMIN, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
     public void removeLocalAuthorityResource(String id)
         throws CvqException {
         File file;

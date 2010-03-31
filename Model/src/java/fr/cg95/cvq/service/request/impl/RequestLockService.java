@@ -33,7 +33,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
         Collections.synchronizedMap(new HashMap<Long, RequestLock>());
 
     @Override
-    @Context(type=ContextType.ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void lock(final Long id)
         throws CvqException {
         synchronized(locks) {
@@ -42,7 +42,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public void tryToLock(final Long id) {
         synchronized(locks) {
             try {
@@ -57,7 +57,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void applyLock(final Long requestId)
     throws CvqException {
         synchronized(locks) {
@@ -83,7 +83,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public RequestLock getRequestLock(final Long requestId) {
         synchronized (locks) {
             //check in memory cache
@@ -95,7 +95,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public boolean isLocked(final Long requestId) {
         synchronized (locks) {
             RequestLock lock = getRequestLock(requestId);
@@ -108,7 +108,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public boolean isLockedByCurrentUser(final Long requestId) {
         synchronized (locks) {
             RequestLock lock = getRequestLock(requestId);
@@ -121,7 +121,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void release(final Long requestId) {
         synchronized (locks) {
             RequestLock lock = getRequestLock(requestId);
@@ -135,7 +135,7 @@ public class RequestLockService implements IRequestLockService, BeanFactoryAware
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.SUPER_ADMIN}, privilege = ContextPrivilege.NONE)
     public void cleanRequestLocks() {
         synchronized (locks) {
             List<Long> requestIds = requestDAO.cleanRequestLocks(

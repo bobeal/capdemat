@@ -23,7 +23,7 @@ public class DocumentTypeService
     private Boolean performDbUpdates;
     private DocumentBootstrapper documentBootstrapper;
 
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     private void initSampleDocumentTypes() {
         logger.debug("initSampleDocumentTypes() init for " 
             + SecurityContext.getCurrentSite().getName());
@@ -31,13 +31,13 @@ public class DocumentTypeService
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
         if (performDbUpdates) initSampleDocumentTypes();
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void removeLocalAuthority(String localAuthorityName) {
     }
 

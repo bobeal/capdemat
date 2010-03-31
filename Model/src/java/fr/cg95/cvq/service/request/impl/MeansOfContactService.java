@@ -46,7 +46,7 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
      *  - MeansOfContact removing not yet implement ...
      *  - EMAIL MeansOfContact is enabled by default
      */
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     private void initAvalaibleMeansOfContact() {
         logger.debug("initAvalaibleMeansOfContact() init for " 
             + SecurityContext.getCurrentSite().getName());
@@ -73,13 +73,13 @@ public class MeansOfContactService implements IMeansOfContactService, ILocalAuth
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
         if (performDbUpdates) initAvalaibleMeansOfContact();
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void removeLocalAuthority(String localAuthorityName) {
     }
 

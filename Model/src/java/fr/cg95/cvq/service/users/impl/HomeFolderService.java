@@ -66,7 +66,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     private HistoryInterceptor historyInterceptor;
     
     @Override
-    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public HomeFolder create(final Adult adult) throws CvqException {
 
         List<Adult> adults = new ArrayList<Adult>();
@@ -78,7 +78,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public HomeFolder create(List<Adult> adults, List<Child> children, Address address)
         throws  CvqException, CvqModelException {
 
@@ -119,7 +119,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void modify(final HomeFolder homeFolder)
         throws CvqException {
 
@@ -128,7 +128,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void modify(final Long homeFolderId, final Long keyId,
             final List<Adult> newAdults, List<Child> newChildren, Address adress)
         throws CvqException {
@@ -287,7 +287,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
     
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void delete(final Long id)
         throws CvqException {
 
@@ -296,7 +296,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void deleteIndividual(final Long homeFolderId, final Long individualId) 
         throws CvqException, CvqObjectNotFoundException {
 
@@ -350,7 +350,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public final List<HomeFolder> getAll(boolean filterArchived, boolean filterTemporary)
         throws CvqException {
 
@@ -358,7 +358,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public final HomeFolder getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -366,7 +366,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public final List<Child> getChildren(final Long homeFolderId)
         throws CvqException {
 
@@ -374,7 +374,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public final List<Adult> getAdults(final Long homeFolderId)
         throws CvqException {
 
@@ -382,7 +382,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Individual> getIndividuals(Long homeFolderId) throws CvqException {
         
         return individualDAO.listByHomeFolder(homeFolderId);
@@ -399,7 +399,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
     
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addHomeFolderRole(Individual owner, Long homeFolderId, RoleType role)
             throws CvqException {
  
@@ -411,7 +411,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 
 
     @Override
-    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void addHomeFolderRole(Individual owner, RoleType role)
             throws CvqException {
 
@@ -434,7 +434,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void removeRolesOnSubject(final Long homeFolderId, final Long individualId)
         throws CvqException {
         
@@ -458,7 +458,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public boolean removeHomeFolderRole(Individual owner, Long homeFolderId, RoleType role)
             throws CvqException {
 
@@ -481,7 +481,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public boolean removeIndividualRole(Individual owner, Individual individual, RoleType role)
             throws CvqException {
 
@@ -543,7 +543,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
     
     @Override
-    @Context(type=ContextType.UNAUTH_ECITIZEN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public boolean removeRole(Individual owner, final Individual individual,  final RoleType role)
             throws CvqException {
         if (owner.getIndividualRoles() == null)
@@ -571,7 +571,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void checkAndFinalizeRoles(Long homeFolderId, List<Adult> adults, List<Child> children)
         throws CvqException, CvqModelException {
         
@@ -703,7 +703,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
     
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public boolean hasHomeFolderRole(Long ownerId, Long homeFolderId, RoleType role)
             throws CvqException {
         
@@ -721,7 +721,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public boolean hasIndividualRole(Long ownerId, Individual individual, RoleType role)
             throws CvqException {
 
@@ -746,7 +746,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Adult getHomeFolderResponsible(Long homeFolderId) throws CvqException {
         
         List<Individual> individuals = 
@@ -757,25 +757,25 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Individual> getByHomeFolderRole(Long homeFolderId, RoleType role) {
         return individualDAO.listByHomeFolderRole(homeFolderId, role);
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Individual> listByHomeFolderRoles(Long homeFolderId, RoleType[] roles) {
         return individualDAO.listByHomeFolderRoles(homeFolderId, roles);
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Individual> getBySubjectRole(Long subjectId, RoleType role) {
         return individualDAO.listBySubjectRole(subjectId, role);
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Individual> getBySubjectRoles(Long subjectId, RoleType[] roles) {
         return individualDAO.listBySubjectRoles(subjectId, roles);
     }
@@ -795,7 +795,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 		}
     }
     
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void validate(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -809,7 +809,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         updateHomeFolderState(homeFolder, ActorState.VALID);
     }
     
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void invalidate(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -823,7 +823,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
 		updateHomeFolderState(homeFolder, ActorState.INVALID);
 	}
 
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public final void archive(final Long id) 
         throws CvqException, CvqObjectNotFoundException {
         

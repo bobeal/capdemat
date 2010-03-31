@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -48,11 +49,10 @@ public class RequestContextCheckAspect implements Ordered {
         
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 
-        if (!context.type().equals(ContextType.ECITIZEN) 
-                && !context.type().equals(ContextType.ECITIZEN_AGENT)
-                && !context.type().equals(ContextType.AGENT)) {
-            logger.debug("contextAnnotatedMethod() unhandled context type ("
-                    + context.type() + ") on method " + signature.getMethod().getName()
+        if (!ArrayUtils.contains(context.types(), ContextType.ECITIZEN)
+            && !ArrayUtils.contains(context.types(), ContextType.AGENT)) {
+            logger.debug("contextAnnotatedMethod() unhandled context types ("
+                    + context.types() + ") on method " + signature.getMethod().getName()
                     + ", ignoring");
             return;
         }
@@ -88,7 +88,7 @@ public class RequestContextCheckAspect implements Ordered {
                             request = (Request) requestDAO.findById(Request.class, (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                                    joinPoint.getSignature().getName(), context.type(),
+                                    joinPoint.getSignature().getName(), context.types(),
                                     context.privilege(), "unknown resource type : " + argument);
                         }
                     } else if (argument instanceof Request) {
@@ -100,7 +100,7 @@ public class RequestContextCheckAspect implements Ordered {
                             categoryId = request.getRequestType().getCategory().getId();
                         else
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                                joinPoint.getSignature().getName(), context.type(),
+                                joinPoint.getSignature().getName(), context.types(),
                                 context.privilege(), 
                                 "no category associated to request type : " 
                                     + request.getRequestType().getLabel());
@@ -119,7 +119,7 @@ public class RequestContextCheckAspect implements Ordered {
                             requestType = (RequestType) requestTypeDAO.findById(RequestType.class, (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                                    joinPoint.getSignature().getName(), context.types(), context.privilege(),
                                     "unknown resource type : " + argument);
                         }                        
                     } else if (argument instanceof RequestType) {
@@ -143,7 +143,7 @@ public class RequestContextCheckAspect implements Ordered {
                                 (Category) categoryDAO.findById(Category.class, (Long) argument);
                         } catch (CvqObjectNotFoundException confe) {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                                    joinPoint.getSignature().getName(), context.type(),
+                                    joinPoint.getSignature().getName(), context.types(),
                                     context.privilege(), "unknown resource type : " + argument);
                         }
                     } else if (argument instanceof Category) {
@@ -161,7 +161,7 @@ public class RequestContextCheckAspect implements Ordered {
         if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId,
             context.privilege()))
             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                    joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "access denied on home folder " + homeFolderId +
                     " / individual " + individualId);
         
@@ -179,7 +179,7 @@ public class RequestContextCheckAspect implements Ordered {
                         return;
 
                     throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                            joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "current agent does not have a MANAGE role on any category");
                 } else {
                     // Check when a READ or READ_WRITE role is asked without a specific category
@@ -190,7 +190,7 @@ public class RequestContextCheckAspect implements Ordered {
                         return;
 
                     throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                            joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                            joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "current agent does not have a role on any category");                    
                 }
             }
@@ -226,7 +226,7 @@ public class RequestContextCheckAspect implements Ordered {
 
             // if we are here, that means agent is not authorized
             throw new PermissionException(joinPoint.getSignature().getDeclaringType(),
-                    joinPoint.getSignature().getName(), context.type(), context.privilege(),
+                    joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "category " + categoryToCheck.getName());
         }
     }

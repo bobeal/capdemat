@@ -32,7 +32,7 @@ public class CsvParserService implements ICsvParserService {
         = new HashMap<String, ICsvImportProviderService>();
 
     @Override
-    @Context(type=ContextType.ADMIN,privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public void parseData(String importerName, byte[] csvData) 
         throws CvqException {
 

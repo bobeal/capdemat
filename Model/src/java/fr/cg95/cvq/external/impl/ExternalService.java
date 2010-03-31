@@ -165,7 +165,7 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Set<ExternalAccountItem> getExternalAccounts(Long homeFolderId, String type) 
         throws CvqException {
         
@@ -200,7 +200,7 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public void loadDepositAccountDetails(ExternalDepositAccountItem edai) throws CvqException {
         IExternalProviderService externalProviderService = 
             getExternalServiceByLabel(edai.getExternalServiceLabel());
@@ -208,14 +208,14 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public void loadInvoiceDetails(ExternalInvoiceItem eii) throws CvqException {
         IExternalProviderService externalProviderService = 
             getExternalServiceByLabel(eii.getExternalServiceLabel());
         externalProviderService.loadInvoiceDetails(eii);
     }
 
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     private void creditHomeFolderAccounts(Payment payment)
         throws CvqException {
 
@@ -260,7 +260,7 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Map<Date, String> getConsumptions(Long key, Date dateFrom, Date dateTo,
             Set<IExternalProviderService> externalProviderServices)
         throws CvqException {
@@ -295,21 +295,21 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     }
     
     @Override
-    @Context(type = ContextType.AGENT, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long addTrace(ExternalServiceTrace trace) {
         trace.setDate(new Date());
         return externalServiceTraceDAO.create(trace);
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet,
         String sort, String dir) {
         return externalServiceTraceDAO.get(criteriaSet, sort, dir);
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public ExternalServiceIdentifierMapping
         getIdentifierMapping(String externalServiceLabel, Long homeFolderId) {
         return externalServiceMappingDAO
@@ -317,7 +317,7 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
             String externalId) {
         ExternalServiceIndividualMapping newMapping = 
@@ -344,7 +344,7 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void deleteIdentifierMappings(final String externalServiceLabel, final Long homeFolderId) {
         ExternalServiceIdentifierMapping esim = getIdentifierMapping(externalServiceLabel, homeFolderId);
         externalServiceMappingDAO.delete(esim);

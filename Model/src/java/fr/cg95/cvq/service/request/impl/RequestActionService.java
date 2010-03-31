@@ -29,7 +29,7 @@ public class RequestActionService implements IRequestActionService {
     private IRequestDAO requestDAO;
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public RequestAction getAction(final Long requestId, final Long id)
         throws CvqObjectNotFoundException {
         // do not directly use requestActionDAO to enforce request access rights
@@ -48,7 +48,7 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
-    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addAction(final Long requestId, final RequestActionType type,
         final String message, final String note, final byte[] pdfData)
         throws CvqException {
@@ -57,7 +57,7 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
-    @Context(type=ContextType.SUPER_ADMIN,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.SUPER_ADMIN}, privilege = ContextPrivilege.WRITE)
     public void addSystemAction(final Long requestId,
         final RequestActionType type)
         throws CvqException {
@@ -66,7 +66,7 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN, privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void addDraftCreationAction(Long requestId, Date date)
         throws CvqException {
         addActionTrace(RequestActionType.CREATION, null, null, date,
@@ -81,7 +81,7 @@ public class RequestActionService implements IRequestActionService {
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addWorfklowAction(final Long requestId, final String note, final Date date,
             final RequestState resultingState, final byte[] pdfData)
         throws CvqException {

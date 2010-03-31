@@ -27,7 +27,7 @@ public class RequestDocumentService implements IRequestDocumentService {
     private IDocumentService documentService;
     
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addDocuments(final Long requestId, final Set<Long> documentsId)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -49,7 +49,7 @@ public class RequestDocumentService implements IRequestDocumentService {
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addDocument(final Long requestId, final Long documentId)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -69,7 +69,7 @@ public class RequestDocumentService implements IRequestDocumentService {
     }
     
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addDocument(Request request, final Long documentId)
         throws CvqException, CvqObjectNotFoundException {
         RequestDocument requestDocument = new RequestDocument();
@@ -88,7 +88,7 @@ public class RequestDocumentService implements IRequestDocumentService {
     }
     
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addDocuments(Request request, List<Document> documents)
         throws CvqException {
         
@@ -106,7 +106,7 @@ public class RequestDocumentService implements IRequestDocumentService {
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void removeDocument(Request request, final Long documentId)
         throws CvqException, CvqObjectNotFoundException {
         if (request.getId() != null)
@@ -123,7 +123,7 @@ public class RequestDocumentService implements IRequestDocumentService {
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Set<RequestDocument> getAssociatedDocuments(final Long requestId)
         throws CvqException {
 
@@ -132,7 +132,7 @@ public class RequestDocumentService implements IRequestDocumentService {
     }
     
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Set<RequestDocument> getAssociatedDocuments(Request request)
         throws CvqException {
         if (request.getId() != null)
@@ -141,7 +141,7 @@ public class RequestDocumentService implements IRequestDocumentService {
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Set<Document> getAssociatedDocumentsByType(final Long requestId, final Long documentTypeId)
         throws CvqException {
         Request request = getById(requestId);

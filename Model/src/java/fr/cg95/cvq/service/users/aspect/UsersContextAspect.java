@@ -3,6 +3,7 @@ package fr.cg95.cvq.service.users.aspect;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -24,8 +25,8 @@ public class UsersContextAspect implements Ordered {
     @Before("fr.cg95.cvq.SystemArchitecture.businessService() && @annotation(context) && within(fr.cg95.cvq.service.users..*)")
     public void contextAnnotatedMethod(JoinPoint joinPoint, Context context) {
         
-        if (!context.type().equals(ContextType.ECITIZEN) 
-                && !context.type().equals(ContextType.ECITIZEN_AGENT))
+        if (!ArrayUtils.contains(context.types(), ContextType.ECITIZEN)
+            && !ArrayUtils.contains(context.types(), ContextType.AGENT))
             return;
         
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -58,7 +59,7 @@ public class UsersContextAspect implements Ordered {
 
         if (!GenericAccessManager.performPermissionCheck(homeFolderId, individualId, context.privilege()))
             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
-                    joinPoint.getSignature().getName(), context.type(), context.privilege(), 
+                    joinPoint.getSignature().getName(), context.types(), context.privilege(),
                     "access denied on home folder " + homeFolderId 
                         + " / individual " + individualId);
     }

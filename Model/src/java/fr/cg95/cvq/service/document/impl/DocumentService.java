@@ -46,7 +46,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     protected IDocumentTypeDAO documentTypeDAO;
     private ITranslationService translationService;
     
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Document getById(final Long id)
         throws CvqException, CvqObjectNotFoundException {
         return (Document) documentDAO.findById(Document.class, id);
@@ -102,7 +102,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         localAuthorityRegistry.browseAndCallback(this, "checkLocalAuthDocumentsValidity", null);
     }
     
-    @Context(type=ContextType.SUPER_ADMIN)
+    @Context(types = {ContextType.SUPER_ADMIN})
     public void checkLocalAuthDocumentsValidity()
         throws CvqException {
 
@@ -132,7 +132,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long create(Document document)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -164,7 +164,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         return documentId;
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void modify(final Document document)
         throws CvqException {
 
@@ -173,7 +173,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         documentDAO.update(document);
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -181,7 +181,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         documentDAO.delete(document);
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addPage(final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -201,7 +201,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         addActionTrace(PAGE_ADD_ACTION, null, document);
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void modifyPage(final Long documentId, final DocumentBinary documentBinary)
         throws CvqException {
 
@@ -221,7 +221,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void deletePage(final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException {
 
@@ -247,7 +247,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
     
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Set<DocumentBinary> getAllPages(final Long documentId)
         throws CvqException {
 
@@ -259,14 +259,14 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             return new LinkedHashSet<DocumentBinary>(document.getDatas());
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     private void deleteHomeFolderDocuments(Long homeFolderId) {
         List<Document> documents = getHomeFolderDocuments(homeFolderId, -1);
         for (Document document : documents)
             documentDAO.delete(document);
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     private void deleteIndividualDocuments(Long individualId) {
         List<Document> documents = getIndividualDocuments(individualId);
         logger.debug("deleteIndividualDocuments() deleting " + documents.size() + " document(s)");
@@ -274,7 +274,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             documentDAO.delete(document);
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Document> getProvidedDocuments(final DocumentType docType,
             final Long homeFolderId, final Long individualId)
         throws CvqException {
@@ -288,24 +288,24 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                 homeFolderId, individualId);
     }
     
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Document> getHomeFolderDocuments(final Long homeFolderId, int maxResults) {
 
         return documentDAO.listByHomeFolder(homeFolderId, maxResults);
     }
 
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Document> getIndividualDocuments(final Long individualId) {
 
         return documentDAO.listByIndividual(individualId);
     }
     
-    @Context(type=ContextType.ECITIZEN, privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.NONE)
     public Integer searchCount(Hashtable<String,Object> searchParams) {
         return documentDAO.searchCount(this.prepareSearchParams(searchParams));
     }
     
-    @Context(type=ContextType.ECITIZEN, privilege=ContextPrivilege.NONE)
+    @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.NONE)
     public List<Document> search(Hashtable<String,Object> searchParams,int max,int offset) {
         return documentDAO.search(this.prepareSearchParams(searchParams),max,offset);
     }
@@ -332,7 +332,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     // TODO : make workflow method private - migrate unit tests
     //////////////////////////////////////////////////////////
     
-    @Context(type=ContextType.AGENT)
+    @Context(types = {ContextType.AGENT})
     public void updateDocumentState(final Long id, final DocumentState ds, final String message, 
             final Date validityDate)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
@@ -346,7 +346,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             outDated(id);
     }
 
-    @Context(type=ContextType.AGENT)
+    @Context(types = {ContextType.AGENT})
     public void validate(final Long id, final Date validityDate, final String message)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
@@ -375,7 +375,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.VALIDATED, document);
     }
 
-    @Context(type=ContextType.AGENT)
+    @Context(types = {ContextType.AGENT})
     public void check(final Long id, final String message)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
@@ -391,7 +391,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.CHECKED, document);
     }
 
-    @Context(type=ContextType.AGENT)
+    @Context(types = {ContextType.AGENT})
     public void refuse(final Long id, final String message)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
@@ -409,7 +409,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.REFUSED, document);
     }
 
-    @Context(type=ContextType.AGENT)
+    @Context(types = {ContextType.AGENT})
     public void outDated(final Long id)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
 
@@ -426,7 +426,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.OUTDATED, document);
     }
 
-    @Context(type=ContextType.AGENT)
+    @Context(types = {ContextType.AGENT})
     public DocumentState[] getPossibleTransitions(DocumentState ds)
         throws CvqException {
 

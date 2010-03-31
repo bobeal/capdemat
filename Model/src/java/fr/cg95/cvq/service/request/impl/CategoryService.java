@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.authority.Agent;
+import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Category;
 import fr.cg95.cvq.business.request.CategoryProfile;
 import fr.cg95.cvq.business.request.CategoryRoles;
@@ -25,6 +26,7 @@ import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.IAgentService;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.ICategoryService;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestServiceRegistry;
@@ -314,17 +316,9 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
     @Override
     @Context(types = {ContextType.SUPER_ADMIN})
     public void addLocalAuthority(String localAuthorityName) {
-        bootstrap(localAuthorityRegistry.getLocalAuthorityByName(localAuthorityName).getAdminEmail());
-    }
-
-    @Override
-    @Context(types = {ContextType.SUPER_ADMIN})
-    public void removeLocalAuthority(String localAuthorityName) {
-        // do not remove categories on local authority unloading
-    }
-
-    @Context(types = {ContextType.SUPER_ADMIN})
-    private void bootstrap(String adminEmail) {
+        LocalAuthority localAuthority =
+            localAuthorityRegistry.getLocalAuthorityByName(localAuthorityName);
+        String adminEmail = localAuthority.getAdminEmail();
         logger.debug("bootstraping categories");
         if (getAll().size() > 0) {
             logger.debug("some categories already exist, returning");
@@ -342,8 +336,21 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
         categories.put("technical", new Category("Service technique", adminEmail));
         categories.put("security", new Category("Sécurité", adminEmail));
         try {
-            for (Category c : categories.values())
+            Long agentId = null;
+            Long managerId = null;
+            if (LocalAuthorityRegistry.DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)) {
+                agentId =
+                    agentService.getByLogin(LocalAuthorityRegistry.DEVELOPMENT_AGENT_NAME).getId();
+                managerId = agentService.getByLogin(LocalAuthorityRegistry.DEVELOPMENT_MANAGER_NAME)
+                    .getId();
+            }
+            for (Category c : categories.values()) {
                 create(c);
+                if (LocalAuthorityRegistry.DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)) {
+                    addCategoryRole(agentId, c.getId(), CategoryProfile.READ_WRITE);
+                    addCategoryRole(managerId, c.getId(), CategoryProfile.MANAGER);
+                }
+            }
             // those display groups are merged in the same category
             categories.put("election", categories.get("civil"));
             categories.put("culture", categories.get("leisure"));
@@ -359,6 +366,12 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
             logger.equals("Display Group init failed !");
             cvqe.printStackTrace();
         }
+    }
+
+    @Override
+    @Context(types = {ContextType.SUPER_ADMIN})
+    public void removeLocalAuthority(String localAuthorityName) {
+        // do not remove categories on local authority unloading
     }
 
     public void setRequestServiceRegistry(IRequestServiceRegistry requestServiceRegistry) {

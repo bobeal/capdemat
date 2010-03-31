@@ -86,10 +86,10 @@ public class LocalAuthorityRegistry
     /**
      * The name of the Local authority used in development mode
      */
-    private static final String DEVELOPMENT_LOCAL_AUTHORITY = "blainville";
-    private static final String DEVELOPMENT_ADMIN_NAME = "admin";
-    private static final String DEVELOPMENT_AGENT_NAME = "agent";
-    private static final String DEVELOPMENT_MANAGER_NAME = "manager";
+    public static final String DEVELOPMENT_LOCAL_AUTHORITY = "blainville";
+    public static final String DEVELOPMENT_ADMIN_NAME = "admin";
+    public static final String DEVELOPMENT_AGENT_NAME = "agent";
+    public static final String DEVELOPMENT_MANAGER_NAME = "manager";
 
     /** Used to store the currently deployed local authorities. */
     private Map<String, LocalAuthorityConfigurationBean> configurationBeansMap = 

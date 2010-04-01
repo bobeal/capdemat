@@ -134,10 +134,12 @@ class BackofficeContactController {
         if (!request.post) return false
         def requestId = Long.valueOf(params.requestId)
         def requestFormId
-        if (params.requestFormId)
+        def requestFormLabel = null
+        if (params.requestFormId) {
             requestFormId = Long.valueOf(params.requestFormId)
-        def requestForm = requestTypeService.getRequestFormById(requestFormId)
-        def requestFormLabel = requestForm.getLabel()
+            def requestForm = requestTypeService.getRequestFormById(requestFormId)
+            requestFormLabel = requestForm.getLabel()
+        }
         def notification
         switch (MeansOfContactEnum.forString(params.meansOfContact)) {
             case MeansOfContactEnum.MAIL :

@@ -37,6 +37,12 @@
           <dt><g:message code="requestAction.property.filename" /> :</dt>
           <dd>${requestAction.filename}</dd>
         </g:if>
+        <g:if test="${!requestAction.hasFile}">
+            <g:if test="${requestAction.message}">
+                <dt><g:message code="requestAction.property.message" /> :</dt>
+                <dd>${requestAction.message}</dd>
+            </g:if>
+        </g:if>
         <g:if test="${requestAction.note}">
           <dt><g:message code="requestAction.property.note" /> :</dt>
           <dd>${requestAction.note}</dd>

@@ -78,6 +78,23 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.bong");
                 { type: 'push', label: 'Unordered list', value: 'insertunorderedlist' },
                 { type: 'separator' }
               ]
+            },
+            {
+            	group: 'textstyle', label: 'Links',
+            	buttons: [
+            	 { type: 'push', label: 'Insert a link', value:'createlink' },
+            	 { type: 'separator' }
+            	          
+              ]
+            },
+            {
+            	group: 'textstyle', label: 'Edit',
+            	buttons: [
+            	 { type: 'push', label: 'Undo', value:'undo' },
+            	 { type: 'push', label: 'Redo', value:'redo' },
+            	 { type: 'separator' }
+            	          
+              ]
             }
           ]
         }

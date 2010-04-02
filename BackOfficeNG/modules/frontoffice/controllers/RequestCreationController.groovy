@@ -94,6 +94,22 @@ class RequestCreationController {
             return false
         }
 
+        def requester = SecurityContext.currentEcitizen
+        if (requester == null) {
+            requester = new Adult()
+            homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE)
+        }
+
+        if (flash.cRequest?.id == null) {
+            def i18accessErrors =
+                requestTypeAdaptorService.requestTypeNotAccessibleMessages(
+                    requestTypeService.getRequestTypeByLabel(params.label),
+                    requester.homeFolder)
+            if (!i18accessErrors.isEmpty())
+                throw new CvqException(params.label + " is not accessible",
+                    i18accessErrors.get(0))
+            }
+
         def cRequest = flash.cRequest ? flash.cRequest : requestService.getSkeletonRequest()
 
         def requestType = requestTypeService.getRequestTypeByLabel(params.label)
@@ -108,22 +124,6 @@ class RequestCreationController {
                 && cRequest.requestSeason == null)) {
             redirect(uri : "/frontoffice/requestType")
             return false
-        }
-
-        def requester = SecurityContext.currentEcitizen
-        if (requester == null) {
-            requester = new Adult()
-            homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE)
-        }
-
-        if (cRequest.id == null) {
-            def i18accessErrors =
-                requestTypeAdaptorService.requestTypeNotAccessibleMessages(
-                    requestTypeService.getRequestTypeByLabel(params.label),
-                    requester.homeFolder)
-            if (!i18accessErrors.isEmpty())
-                throw new CvqException(params.label + " is not accessible",
-                i18accessErrors.get(0))
         }
 
         def individuals

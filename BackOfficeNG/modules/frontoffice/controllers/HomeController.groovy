@@ -127,7 +127,10 @@ class HomeController {
             if (params.login) {
                 session.currentEcitizen = params.login
                 SecurityContext.setCurrentEcitizen(params.login)
-                redirect(controller:'frontofficeRequestType')
+                if (params.requestTypeLabel)
+                    redirect(controller:"frontofficeRequestCreation", params:[label:params.requestTypeLabel])
+                else
+                    redirect(controller:'frontofficeRequestType')
                 return false
             } else {
                 redirect(controller:"frontofficeRequestCreation", params:[label:params.requestTypeLabel])

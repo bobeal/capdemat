@@ -147,6 +147,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         if (this.checked) newTagStateEl = yud.getNextSibling(this);
       });
 
+      var submitButton = yus.query('input[name=submitButton]', formId);
+      yud.setAttribute(submitButton[0], 'disabled', 'true');
+      
       zct.doAjaxFormSubmitCall(
           formId,
           null,
@@ -161,6 +164,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               zcbr.Information.refreshTab("Historique");
             } else {
               zct.Notifier.processMessage('modelError',response.success_msg);
+              submitButton[0].removeAttribute('disabled');
             }
           });
     }

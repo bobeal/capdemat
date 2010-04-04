@@ -18,6 +18,7 @@ import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
+import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 
@@ -37,11 +38,17 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
             GetHomeFoldersResponseDocument.Factory.newInstance();
        GetHomeFoldersResponse response = 
             responseDocument.addNewGetHomeFoldersResponse();
-        Set<HomeFolder> homeFolders = homeFolderService.getAll(true, true);
-        for (HomeFolder homeFolder : homeFolders) {
+
+       // Switch to admin context to be able to call services without permission exceptions
+       String currentExternalService = SecurityContext.getCurrentExternalService();
+       SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
+       
+       Set<HomeFolder> homeFolders = homeFolderService.getAll(true, true);
+
+       for (HomeFolder homeFolder : homeFolders) {
             List<Request> voCardRequests =
                 defaultRequestService.getByHomeFolderIdAndRequestLabel(homeFolder.getId(),
-                    "VO Card Request");
+                    "VO Card");
             if (voCardRequests == null || voCardRequests.isEmpty()) {
 //               logger.debug("invokeInternal() ignoring home folder " + homeFolder.getId()
 //                       + " without VO Card request");
@@ -68,7 +75,11 @@ public class HomeFolderServiceEndpoint extends AbstractMarshallingPayloadEndpoin
             }
         }
 
-        return response;
+       // Reset to original context
+       SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
+       SecurityContext.setCurrentExternalService(currentExternalService);
+
+       return response;
     }
 
     public void setHomeFolderService(IHomeFolderService homeFolderService) {

@@ -516,6 +516,7 @@ class FrontofficeRequestCreationController {
                      'subjects': getAuthorizedSubjects(cRequest),
                      'meansOfContact': getMeansOfContact(meansOfContactService, objectToBind.homeFolderResponsible),
                      'currentStep': currentStep,
+                     'stepStates': cRequest.stepStates,
                      'uuidString': uuidString,
                      'editList': editList,
                      'missingSteps': missingSteps(cRequest.stepStates),

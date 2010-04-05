@@ -26,6 +26,10 @@ agent.contributor_group=CVQ_CONTRIBUTORS
 fake_payment.url=/service/fakePayment
 fake_payment.callbackUrl=/frontoffice/payment/status
 
+translationService.cacheSeconds = -1
+
+i18n.basedir = /WEB-INF
+
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################

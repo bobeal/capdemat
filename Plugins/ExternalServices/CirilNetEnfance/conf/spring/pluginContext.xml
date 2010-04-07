@@ -13,8 +13,8 @@
     <property name="schoolRegistrationRequestService">
       <ref bean="schoolRegistrationRequestService" />
     </property>
-    <property name="schoolService">
-      <ref bean="schoolService"/>
+    <property name="schoolDAO">
+      <ref bean="schoolDAO"/>
     </property>
  
   </bean>

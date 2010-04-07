@@ -19,13 +19,13 @@ import fr.cg95.cvq.business.users.payment.ExternalAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
 import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.users.payment.PurchaseItem;
+import fr.cg95.cvq.dao.authority.ISchoolDAO;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.IExternalProviderService;
 import fr.cg95.cvq.external.IExternalService;
-import fr.cg95.cvq.service.authority.ISchoolService;
 import fr.cg95.cvq.service.request.school.ISchoolRegistrationRequestService;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.ecitizen.HomeFolderModificationRequestDocument.HomeFolderModificationRequest;
@@ -44,7 +44,7 @@ public class CirilNetEnfanceService implements IExternalProviderService {
     private String label;
     
     private IExternalService externalService;
-    private ISchoolService schoolService;
+    private ISchoolDAO schoolDAO;
     private ISchoolRegistrationRequestService schoolRegistrationRequestService;
 
     public void checkConfiguration(ExternalServiceBean externalServiceBean)
@@ -161,7 +161,7 @@ public class CirilNetEnfanceService implements IExternalProviderService {
     }
     
     private School getSchool(String schoolName) throws CvqException {
-        School school = schoolService.getByName(schoolName);
+        School school = schoolDAO.findByName(schoolName);
         if (school == null) {
             if(schoolName.equals("")||schoolName.equals(null))
                 schoolName = "ecole de demo";
@@ -169,7 +169,7 @@ public class CirilNetEnfanceService implements IExternalProviderService {
             school = new School();
             school.setActive(true);
             school.setName(schoolName);
-            schoolService.create(school);
+            schoolDAO.create(school);
         }
         return school;
     }
@@ -190,13 +190,13 @@ public class CirilNetEnfanceService implements IExternalProviderService {
         this.externalService = externalService;
     }
 
-    public void setSchoolService(ISchoolService schoolService) {
-        this.schoolService = schoolService;
-    }
-
     public void setSchoolRegistrationRequestService(
             ISchoolRegistrationRequestService schoolRegistrationRequestService) {
         this.schoolRegistrationRequestService = schoolRegistrationRequestService;
+    }
+
+    public void setSchoolDAO(ISchoolDAO schoolDAO) {
+        this.schoolDAO = schoolDAO;
     }
 
     @Override

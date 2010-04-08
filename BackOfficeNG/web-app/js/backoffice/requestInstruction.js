@@ -352,13 +352,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             propertyValue = propertyWrapperEl.innerHTML;
           }
 
-          zct.doAjaxCall(
-            '/widget/?id=' + zenexity.capdemat.bong.requestId
+          zct.doAjaxPostCall(
+            '/widget', 'id=' + zenexity.capdemat.bong.requestId
             + '&propertyType=' + ylj.stringify(jsonPropertyType)
             + '&propertyName=' + targetEl.id
             + '&propertyValue=' + propertyValue
             + '&propertyRegex=' + (yl.isUndefined(targetEl.attributes.regex) ? '' : encodeURIComponent(targetEl.attributes.regex.value)),
-            null, 
             function(o) {
               yud.addClass(targetEl, 'current-editField');
               yud.addClass(yud.getFirstChild(targetEl), 'invisible');

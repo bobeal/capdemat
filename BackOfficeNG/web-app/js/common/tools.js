@@ -752,8 +752,8 @@
       failure: zct.handleUnexpectedError
     };
     if (zct.isFunction(callback)) handlers.success = callback;
-    var uri = [zenexity.capdemat.baseUrl,url,'?',params].join('');
-    YAHOO.util.Connect.asyncRequest('POST', uri, handlers);
+    var uri = zenexity.capdemat.baseUrl + url;
+    YAHOO.util.Connect.asyncRequest('POST', uri, handlers, params);
   };
   
   /**

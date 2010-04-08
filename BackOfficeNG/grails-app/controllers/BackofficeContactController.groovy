@@ -304,10 +304,11 @@ class BackofficeContactController {
                 "LAST_AGENT_NAME" : instructionService.getActionPosterDetails(rqt.lastInterveningUserId),
                 "MOC" : message(code : "request.meansOfContact." + StringUtils.pascalToCamelCase(meansOfContact)),
                 "RQ_ID" : rqt.id,
+                "RQ_CAT" : rqt.requestType.category.name,
+                "RQ_CAT_EMAIL" : rqt.requestType.category.primaryEmail,
                 "RQ_TP_LABEL" : type == "HTML" ? 
                     translationService.translateRequestTypeDescription(rqt.requestType.label).toLowerCase().encodeAsHTML() :
                     translationService.translateRequestTypeDescription(rqt.requestType.label).toLowerCase(),
-                "RQ_CAT" : rqt.requestType.category.name,
                 "RQ_CDATE" : DateUtils.dateToFullString(rqt.creationDate),
                 "RQ_DVAL" : rqt.validationDate ? DateUtils.dateToFullString(rqt.validationDate) : '',
                 "RQ_OBSERV" : observations,

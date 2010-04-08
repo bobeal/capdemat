@@ -32,6 +32,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
           { text: '(TS) Date de création', value:'#{RQ_CDATE}' },
           { text: '(TS) Date de validation', value:'#{RQ_DVAL}' },
           { text: '(TS) Observations', value:'#{RQ_OBSERV}' },
+          { text: '(TS) Catégorie', value: '#{RQ_CAT}' },
+          { text: '(TS) Email  de la catégorie', value: '#{RQ_CAT_EMAIL}' },
           { text: '(CP) Identifiant', value:'#{HF_ID}' },
           { text: '(DM) Prénom', value:'#{RR_FNAME}' },
           { text: '(DM) Nom', value:'#{RR_LNAME}' },
@@ -41,8 +43,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request.templates');
           { text: '(DM) Réponse', value:'#{RR_ANSWER}' },
           { text: '(SU) Prénom', value:'#{SU_FNAME}' },
           { text: '(SU) Nom', value:'#{SU_LNAME}' },
-          { text: '(SU) Civilité', value:'#{SU_TITLE}' }
-        ]
+          { text: '(SU) Civilité', value:'#{SU_TITLE}' },
+          { text: '(AR) Nom de l\'agent', value: '#{LAST_AGENT_NAME}' }        ]
       }]
   });
 

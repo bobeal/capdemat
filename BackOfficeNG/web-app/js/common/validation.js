@@ -108,8 +108,8 @@
         this.enhanceErrorEl = el;
         this.valid = true;
         this.value = el.value;
-        /* we don't use title attribut to call the error message, to keep the standard error message */
-        this.errorMsg = ''; 
+        //VSI : we don't use title attribut to call the error message, to keep the standard error message
+        this.errorMsg = '';
         this.required = yud.hasClass(el, 'required');
         this.rule = /validate-([\w-]+)/i.test(el.className) ? /validate-([\w-]+)/i.exec(el.className)[1] : ''
 

@@ -24,20 +24,19 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
 
     @Override
     public void init() {
-        super.init();
-
-        conditions.put("abroadInternship", new EqualityChecker("true"));
-        conditions.put("currentStudies", new EqualityListChecker(Arrays.asList("otherStudies")));
-        conditions.put("taxHouseholdCity", new EqualityChecker("573"));
-        conditions.put("currentSchoolName", new EqualityChecker("autre"));
-        conditions.put("isSubjectAccountHolder", new EqualityChecker("true"));
+        StudyGrantRequest.conditions.put("abroadInternship", new EqualityChecker("true"));
+        StudyGrantRequest.conditions.put("currentStudies",
+            new EqualityListChecker(Arrays.asList("otherStudies")));
+        StudyGrantRequest.conditions.put("taxHouseholdCity", new EqualityChecker("573"));
+        StudyGrantRequest.conditions.put("currentSchoolName", new EqualityChecker("autre"));
+        StudyGrantRequest.conditions.put("isSubjectAccountHolder", new EqualityChecker("true"));
     }
 
     public boolean accept(Request request) {
         return request instanceof StudyGrantRequest;
     }
 
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         return new StudyGrantRequest();
     }
 

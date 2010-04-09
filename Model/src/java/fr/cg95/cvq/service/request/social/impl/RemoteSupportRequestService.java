@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.social.impl;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.RemoteSupportRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -13,15 +12,13 @@ import fr.cg95.cvq.service.request.impl.RequestService;
  */
 public class RemoteSupportRequestService extends RequestService {
 
-    
     @Override
     public void init() {
-
-        super.init();
-
-        conditions.put("requestInformationRequestKind", new EqualityChecker("Couple"));
-        conditions.put("requestInformationEmergency", new EqualityChecker("true"));
-        conditions.put("contactKind", new EqualityChecker("Other"));
+        RemoteSupportRequest.conditions.put("requestInformationRequestKind",
+            new EqualityChecker("Couple"));
+        RemoteSupportRequest.conditions.put("requestInformationEmergency",
+            new EqualityChecker("true"));
+        RemoteSupportRequest.conditions.put("contactKind", new EqualityChecker("Other"));
     }
 
     @Override
@@ -30,7 +27,7 @@ public class RemoteSupportRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         return new RemoteSupportRequest();
     }
 }

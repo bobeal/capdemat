@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.PerischoolActivityRegistrationRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -38,7 +37,7 @@ public final class PerischoolActivityRegistrationRequestService extends RequestS
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         PerischoolActivityRegistrationRequest request =
             new PerischoolActivityRegistrationRequest();
         if (SecurityContext.getCurrentEcitizen() != null)

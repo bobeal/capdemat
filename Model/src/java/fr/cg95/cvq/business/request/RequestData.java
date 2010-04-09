@@ -2,11 +2,16 @@ package fr.cg95.cvq.business.request;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import fr.cg95.cvq.service.request.SubjectId;
+import fr.cg95.cvq.service.request.condition.EqualityChecker;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Real persisted class containing request data
@@ -20,6 +25,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class RequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(1);
+    static {
+        conditions.put("_homeFolderResponsible.activeHomeFolder", new EqualityChecker("true"));
+    }
 
     private Long id;
 
@@ -57,6 +69,7 @@ public class RequestData implements Serializable {
 
     private String requesterFirstName;
 
+    @SubjectId(profiles = {"subject"})
     private Long subjectId;
 
     private String subjectLastName;

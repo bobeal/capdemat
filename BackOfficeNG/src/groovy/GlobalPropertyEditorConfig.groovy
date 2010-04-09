@@ -23,5 +23,7 @@ class GlobalPropertyEditorConfig {
         binder.registerCustomEditor(Calendar.class, dateEditor)
         binder.registerCustomEditor(DateMidnight.class,
             new DateMidnightEditor(dateEditor : dateEditor))
+        binder.registerCustomEditor(String.class,
+            new StringEditor(editor : binder.findCustomEditor(String.class, null)))
     }
 }

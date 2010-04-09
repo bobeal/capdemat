@@ -10,7 +10,7 @@
                 </g:if>
                 <span><g:message code="scrr.property.hospitalizationPermission.help" /></span>
               </label>
-              <ul class="yes-no required">
+              <ul class="yes-no required ${invalidFields.contains('hospitalizationPermission') ? 'validation-failed' : ''}">
                 <g:each in="${[true,false]}">
                   <li>
                     <input type="radio" id="hospitalizationPermission_${it ? 'yes' : 'no'}" class="required  validate-acceptance" title="" value="${it}" name="hospitalizationPermission" ${it == rqt.hospitalizationPermission ? 'checked="checked"': ''} />
@@ -31,7 +31,7 @@
                 </g:if>
                 <span><g:message code="scrr.property.rulesAndRegulationsAcceptance.help" /></span>
               </label>
-              <ul class="yes-no required">
+              <ul class="yes-no required ${invalidFields.contains('rulesAndRegulationsAcceptance') ? 'validation-failed' : ''}">
                 <g:each in="${[true,false]}">
                   <li>
                     <input type="radio" id="rulesAndRegulationsAcceptance_${it ? 'yes' : 'no'}" class="required  validate-acceptance" title="" value="${it}" name="rulesAndRegulationsAcceptance" ${it == rqt.rulesAndRegulationsAcceptance ? 'checked="checked"': ''} />

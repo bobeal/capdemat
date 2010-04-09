@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class ElectoralRollRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -46,6 +55,14 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "subjectNationality"
+      )
+    
     private fr.cg95.cvq.business.users.NationalityType subjectNationality;
 
     public final void setSubjectNationality(final fr.cg95.cvq.business.users.NationalityType subjectNationality) {
@@ -63,6 +80,57 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
         return this.subjectNationality;
     }
   
+    
+      @MaxLength(
+        
+          value = 5,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['motive'].test(_this.motive.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"registration"},
+        message = "subjectOldCity"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['motive'].test(_this.motive.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"registration"},
+        message = "subjectOldCity"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['motive'].test(_this.motive.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"registration"},
+        message = "subjectOldCity"
+      )
+    
     private String subjectOldCity;
 
     public final void setSubjectOldCity(final String subjectOldCity) {
@@ -80,6 +148,39 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
         return this.subjectOldCity;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['motive'].test(_this.motive.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"registration"},
+        message = "subjectAddressOutsideCity"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['motive'].test(_this.motive.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"registration"},
+        message = "subjectAddressOutsideCity"
+      )
+    
     private fr.cg95.cvq.business.users.Address subjectAddressOutsideCity;
 
     public final void setSubjectAddressOutsideCity(final fr.cg95.cvq.business.users.Address subjectAddressOutsideCity) {
@@ -98,6 +199,7 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
         return this.subjectAddressOutsideCity;
     }
   
+    
     private Long pollingStation;
 
     public final void setPollingStation(final Long pollingStation) {
@@ -115,6 +217,7 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
         return this.pollingStation;
     }
   
+    
     private String pollingSchoolName;
 
     public final void setPollingSchoolName(final String pollingSchoolName) {
@@ -132,6 +235,14 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
         return this.pollingSchoolName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "motive"
+      )
+    
     private fr.cg95.cvq.business.request.election.ElectoralMotiveType motive;
 
     public final void setMotive(final fr.cg95.cvq.business.request.election.ElectoralMotiveType motive) {
@@ -149,6 +260,7 @@ public class ElectoralRollRegistrationRequestData implements Serializable {
         return this.motive;
     }
   
+    
     private Long electoralNumber;
 
     public final void setElectoralNumber(final Long electoralNumber) {

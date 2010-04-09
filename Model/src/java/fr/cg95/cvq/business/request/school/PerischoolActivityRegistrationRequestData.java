@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class PerischoolActivityRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -54,6 +63,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
     }
 
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"authorization"},
+        message = "authorizedIndividuals"
+      )
+    
     private List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> authorizedIndividuals;
 
     public final void setAuthorizedIndividuals(final List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> authorizedIndividuals) {
@@ -78,6 +95,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.authorizedIndividuals;
     }
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"contact"},
+        message = "contactIndividuals"
+      )
+    
     private List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividuals;
 
     public final void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> contactIndividuals) {
@@ -102,6 +127,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.contactIndividuals;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "classTripPermission"
+      )
+    
     private Boolean classTripPermission;
 
     public final void setClassTripPermission(final Boolean classTripPermission) {
@@ -119,6 +152,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.classTripPermission;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "childPhotoExploitationPermission"
+      )
+    
     private Boolean childPhotoExploitationPermission;
 
     public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
@@ -136,6 +177,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.childPhotoExploitationPermission;
     }
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"administration"},
+        message = "school"
+      )
+    
     private fr.cg95.cvq.business.authority.School school;
 
     public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
@@ -154,6 +203,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.school;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "hospitalizationPermission"
+      )
+    
     private Boolean hospitalizationPermission;
 
     public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
@@ -171,6 +228,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.hospitalizationPermission;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
     private Boolean rulesAndRegulationsAcceptance;
 
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
@@ -188,6 +253,30 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.rulesAndRegulationsAcceptance;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
     private String urgencyPhone;
 
     public final void setUrgencyPhone(final String urgencyPhone) {
@@ -205,6 +294,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.urgencyPhone;
     }
   
+    
+      @LocalReferential(
+        
+        
+        profiles = {"registration"},
+        message = "perischoolActivity"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivity;
 
     public final void setPerischoolActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivity) {
@@ -231,6 +328,14 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         return this.perischoolActivity;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"administration"},
+        message = "section"
+      )
+    
     private fr.cg95.cvq.business.users.SectionType section;
 
     public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {

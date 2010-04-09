@@ -419,7 +419,7 @@ public class HomeFolderModificationRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
 
         return new HomeFolderModificationRequest();
     }

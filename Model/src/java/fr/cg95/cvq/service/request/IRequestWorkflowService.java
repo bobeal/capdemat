@@ -27,6 +27,7 @@ import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
+import fr.cg95.cvq.service.request.annotation.IsRequestType;
 
 /**
  * @author bor@zenexity.fr
@@ -204,4 +205,17 @@ public interface IRequestWorkflowService {
      * Remove permanently a request.
      */
     void delete(@IsRequest Long id) throws CvqException, CvqObjectNotFoundException;
+
+    /**
+     * Perform checks wrt subject policies :
+     * <ul>
+     *   <li>Check that subject is coherent wrt the request's policy.</li>
+     *   <li>Check that subject is allowed to issue a request of the given type</li>
+     * </ul>
+     *
+     * @throws CvqModelException if there's a policy violation
+     */
+    void checkSubjectPolicy(@IsSubject final Long subjectId, @IsHomeFolder Long homeFolderId,
+        final String policy, @IsRequestType final RequestType requestType)
+        throws CvqException, CvqModelException;
 }

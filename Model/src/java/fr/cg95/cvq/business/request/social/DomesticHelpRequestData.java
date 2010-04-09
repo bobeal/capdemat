@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class DomesticHelpRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -56,6 +65,26 @@ public class DomesticHelpRequestData implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrIsSpouseRetired'].test(_this.dhrIsSpouseRetired.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpousePrincipalPensionPlan"
+      )
+    
     private fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrSpousePrincipalPensionPlan;
 
     public final void setDhrSpousePrincipalPensionPlan(final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrSpousePrincipalPensionPlan) {
@@ -73,6 +102,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpousePrincipalPensionPlan;
     }
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"resources"},
+        message = "dhrRealAsset"
+      )
+    
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"resources"},
+        message = "dhrRealAsset"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.DhrRealAsset> dhrRealAsset;
 
     public final void setDhrRealAsset(final List<fr.cg95.cvq.business.request.social.DhrRealAsset> dhrRealAsset) {
@@ -97,6 +143,45 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrRealAsset;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['dhrIsSpouseRetired'].test(_this.dhrIsSpouseRetired.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseProfession"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['dhrIsSpouseRetired'].test(_this.dhrIsSpouseRetired.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseProfession"
+      )
+    
     private String dhrSpouseProfession;
 
     public final void setDhrSpouseProfession(final String dhrSpouseProfession) {
@@ -114,6 +199,7 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseProfession;
     }
   
+    
     private java.math.BigInteger dhrNetIncome;
 
     public final void setDhrNetIncome(final java.math.BigInteger dhrNetIncome) {
@@ -132,6 +218,7 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrNetIncome;
     }
   
+    
     private java.math.BigInteger professionalTaxes;
 
     public final void setProfessionalTaxes(final java.math.BigInteger professionalTaxes) {
@@ -150,6 +237,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.professionalTaxes;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrIsSpouseRetired"
+      )
+    
     private Boolean dhrIsSpouseRetired;
 
     public final void setDhrIsSpouseRetired(final Boolean dhrIsSpouseRetired) {
@@ -167,6 +271,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrIsSpouseRetired;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseTitle"
+      )
+    
     private fr.cg95.cvq.business.users.TitleType dhrSpouseTitle;
 
     public final void setDhrSpouseTitle(final fr.cg95.cvq.business.users.TitleType dhrSpouseTitle) {
@@ -184,6 +305,14 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseTitle;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "dhrRequesterBirthDate"
+      )
+    
     private java.util.Date dhrRequesterBirthDate;
 
     public final void setDhrRequesterBirthDate(final java.util.Date dhrRequesterBirthDate) {
@@ -201,6 +330,7 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrRequesterBirthDate;
     }
   
+    
     private java.math.BigInteger dhrRealEstateInvestmentIncome;
 
     public final void setDhrRealEstateInvestmentIncome(final java.math.BigInteger dhrRealEstateInvestmentIncome) {
@@ -219,6 +349,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrRealEstateInvestmentIncome;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequesterNationality'].test(_this.dhrRequesterNationality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "dhrRequesterIsFrenchResident"
+      )
+    
     private Boolean dhrRequesterIsFrenchResident;
 
     public final void setDhrRequesterIsFrenchResident(final Boolean dhrRequesterIsFrenchResident) {
@@ -236,6 +383,21 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrRequesterIsFrenchResident;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrCurrentDwellingAddress"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrCurrentDwellingAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dhrCurrentDwellingAddress;
 
     public final void setDhrCurrentDwellingAddress(final fr.cg95.cvq.business.users.Address dhrCurrentDwellingAddress) {
@@ -254,6 +416,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrCurrentDwellingAddress;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrSpouseNationality'].test(_this.dhrSpouseNationality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseFranceArrivalDate"
+      )
+    
     private java.util.Date dhrSpouseFranceArrivalDate;
 
     public final void setDhrSpouseFranceArrivalDate(final java.util.Date dhrSpouseFranceArrivalDate) {
@@ -271,6 +450,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseFranceArrivalDate;
     }
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAsset"
+      )
+    
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAsset"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> dhrNotRealAsset;
 
     public final void setDhrNotRealAsset(final List<fr.cg95.cvq.business.request.social.DhrNotRealAsset> dhrNotRealAsset) {
@@ -295,6 +491,14 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrNotRealAsset;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "dhrRequesterNationality"
+      )
+    
     private fr.cg95.cvq.business.users.NationalityType dhrRequesterNationality;
 
     public final void setDhrRequesterNationality(final fr.cg95.cvq.business.users.NationalityType dhrRequesterNationality) {
@@ -312,6 +516,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrRequesterNationality;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrCurrentDwellingKind'].test(_this.dhrCurrentDwellingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dhrCurrentDwellingArrivalDate"
+      )
+    
     private java.util.Date dhrCurrentDwellingArrivalDate;
 
     public final void setDhrCurrentDwellingArrivalDate(final java.util.Date dhrCurrentDwellingArrivalDate) {
@@ -329,6 +550,57 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrCurrentDwellingArrivalDate;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrHaveFamilyReferent'].test(_this.dhrHaveFamilyReferent.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"familyReferent"},
+        message = "dhrReferentFirstName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrHaveFamilyReferent'].test(_this.dhrHaveFamilyReferent.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"familyReferent"},
+        message = "dhrReferentFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrHaveFamilyReferent'].test(_this.dhrHaveFamilyReferent.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"familyReferent"},
+        message = "dhrReferentFirstName"
+      )
+    
     private String dhrReferentFirstName;
 
     public final void setDhrReferentFirstName(final String dhrReferentFirstName) {
@@ -346,6 +618,14 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrReferentFirstName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrIncomesAnnualTotal"
+      )
+    
     private java.math.BigInteger dhrIncomesAnnualTotal;
 
     public final void setDhrIncomesAnnualTotal(final java.math.BigInteger dhrIncomesAnnualTotal) {
@@ -364,6 +644,14 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrIncomesAnnualTotal;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "dhrRequesterHaveGuardian"
+      )
+    
     private Boolean dhrRequesterHaveGuardian;
 
     public final void setDhrRequesterHaveGuardian(final Boolean dhrRequesterHaveGuardian) {
@@ -381,6 +669,7 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrRequesterHaveGuardian;
     }
   
+    
     private java.math.BigInteger dhrIncomeTax;
 
     public final void setDhrIncomeTax(final java.math.BigInteger dhrIncomeTax) {
@@ -399,6 +688,39 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrIncomeTax;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseBirthPlace"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseBirthPlace"
+      )
+    
     private String dhrSpouseBirthPlace;
 
     public final void setDhrSpouseBirthPlace(final String dhrSpouseBirthPlace) {
@@ -416,6 +738,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseBirthPlace;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseBirthDate"
+      )
+    
     private java.util.Date dhrSpouseBirthDate;
 
     public final void setDhrSpouseBirthDate(final java.util.Date dhrSpouseBirthDate) {
@@ -433,6 +772,41 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseBirthDate;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrCurrentDwellingKind'].test(_this.dhrCurrentDwellingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dhrCurrentDwellingNetArea"
+      )
+    
+      @MatchPattern(
+        
+          pattern = "^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$",
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrCurrentDwellingKind'].test(_this.dhrCurrentDwellingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dhrCurrentDwellingNetArea"
+      )
+    
     private Short dhrCurrentDwellingNetArea;
 
     public final void setDhrCurrentDwellingNetArea(final Short dhrCurrentDwellingNetArea) {
@@ -450,6 +824,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrCurrentDwellingNetArea;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequesterNationality'].test(_this.dhrRequesterNationality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "dhrRequesterFranceArrivalDate"
+      )
+    
     private java.util.Date dhrRequesterFranceArrivalDate;
 
     public final void setDhrRequesterFranceArrivalDate(final java.util.Date dhrRequesterFranceArrivalDate) {
@@ -467,6 +858,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrRequesterFranceArrivalDate;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrCurrentDwellingKind'].test(_this.dhrCurrentDwellingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dhrCurrentDwellingStatus"
+      )
+    
     private fr.cg95.cvq.business.request.social.DhrDwellingStatusType dhrCurrentDwellingStatus;
 
     public final void setDhrCurrentDwellingStatus(final fr.cg95.cvq.business.request.social.DhrDwellingStatusType dhrCurrentDwellingStatus) {
@@ -484,6 +892,57 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrCurrentDwellingStatus;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseFirstName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseFirstName"
+      )
+    
     private String dhrSpouseFirstName;
 
     public final void setDhrSpouseFirstName(final String dhrSpouseFirstName) {
@@ -501,6 +960,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseFirstName;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseFamilyStatus"
+      )
+    
     private fr.cg95.cvq.business.users.FamilyStatusType dhrSpouseFamilyStatus;
 
     public final void setDhrSpouseFamilyStatus(final fr.cg95.cvq.business.users.FamilyStatusType dhrSpouseFamilyStatus) {
@@ -518,6 +994,7 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseFamilyStatus;
     }
   
+    
     private java.math.BigInteger dhrFurnitureInvestmentIncome;
 
     public final void setDhrFurnitureInvestmentIncome(final java.math.BigInteger dhrFurnitureInvestmentIncome) {
@@ -536,6 +1013,39 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrFurnitureInvestmentIncome;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequesterHaveGuardian'].test(_this.dhrRequesterHaveGuardian.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "dhrGuardianAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequesterHaveGuardian'].test(_this.dhrRequesterHaveGuardian.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "dhrGuardianAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dhrGuardianAddress;
 
     public final void setDhrGuardianAddress(final fr.cg95.cvq.business.users.Address dhrGuardianAddress) {
@@ -554,6 +1064,57 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrGuardianAddress;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrHaveFamilyReferent'].test(_this.dhrHaveFamilyReferent.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"familyReferent"},
+        message = "dhrReferentName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrHaveFamilyReferent'].test(_this.dhrHaveFamilyReferent.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"familyReferent"},
+        message = "dhrReferentName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrHaveFamilyReferent'].test(_this.dhrHaveFamilyReferent.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"familyReferent"},
+        message = "dhrReferentName"
+      )
+    
     private String dhrReferentName;
 
     public final void setDhrReferentName(final String dhrReferentName) {
@@ -571,6 +1132,7 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrReferentName;
     }
   
+    
     private java.math.BigInteger localRate;
 
     public final void setLocalRate(final java.math.BigInteger localRate) {
@@ -589,6 +1151,45 @@ public class DomesticHelpRequestData implements Serializable {
         return this.localRate;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['dhrIsSpouseRetired'].test(_this.dhrIsSpouseRetired.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseEmployer"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['dhrIsSpouseRetired'].test(_this.dhrIsSpouseRetired.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseEmployer"
+      )
+    
     private String dhrSpouseEmployer;
 
     public final void setDhrSpouseEmployer(final String dhrSpouseEmployer) {
@@ -606,6 +1207,14 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseEmployer;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"spouse"},
+        message = "dhrRequestKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.DhrRequestKindType dhrRequestKind;
 
     public final void setDhrRequestKind(final fr.cg95.cvq.business.request.social.DhrRequestKindType dhrRequestKind) {
@@ -623,6 +1232,14 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrRequestKind;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "dhrPrincipalPensionPlan"
+      )
+    
     private fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrPrincipalPensionPlan;
 
     public final void setDhrPrincipalPensionPlan(final fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType dhrPrincipalPensionPlan) {
@@ -640,6 +1257,21 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrPrincipalPensionPlan;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "dhrComplementaryPensionPlan"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "dhrComplementaryPensionPlan"
+      )
+    
     private String dhrComplementaryPensionPlan;
 
     public final void setDhrComplementaryPensionPlan(final String dhrComplementaryPensionPlan) {
@@ -657,6 +1289,39 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrComplementaryPensionPlan;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrHaveFamilyReferent'].test(_this.dhrHaveFamilyReferent.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"familyReferent"},
+        message = "dhrReferentAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrHaveFamilyReferent'].test(_this.dhrHaveFamilyReferent.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"familyReferent"},
+        message = "dhrReferentAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dhrReferentAddress;
 
     public final void setDhrReferentAddress(final fr.cg95.cvq.business.users.Address dhrReferentAddress) {
@@ -675,6 +1340,7 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrReferentAddress;
     }
   
+    
     private java.math.BigInteger propertyTaxes;
 
     public final void setPropertyTaxes(final java.math.BigInteger propertyTaxes) {
@@ -693,6 +1359,57 @@ public class DomesticHelpRequestData implements Serializable {
         return this.propertyTaxes;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequesterHaveGuardian'].test(_this.dhrRequesterHaveGuardian.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "dhrGuardianName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequesterHaveGuardian'].test(_this.dhrRequesterHaveGuardian.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "dhrGuardianName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequesterHaveGuardian'].test(_this.dhrRequesterHaveGuardian.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "dhrGuardianName"
+      )
+    
     private String dhrGuardianName;
 
     public final void setDhrGuardianName(final String dhrGuardianName) {
@@ -710,6 +1427,7 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrGuardianName;
     }
   
+    
     private java.math.BigInteger pensions;
 
     public final void setPensions(final java.math.BigInteger pensions) {
@@ -728,6 +1446,14 @@ public class DomesticHelpRequestData implements Serializable {
         return this.pensions;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrCurrentDwellingKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.DhrDwellingKindType dhrCurrentDwellingKind;
 
     public final void setDhrCurrentDwellingKind(final fr.cg95.cvq.business.request.social.DhrDwellingKindType dhrCurrentDwellingKind) {
@@ -745,6 +1471,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrCurrentDwellingKind;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrCurrentDwellingKind'].test(_this.dhrCurrentDwellingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dhrCurrentDwellingNumberOfRoom"
+      )
+    
     private Short dhrCurrentDwellingNumberOfRoom;
 
     public final void setDhrCurrentDwellingNumberOfRoom(final Short dhrCurrentDwellingNumberOfRoom) {
@@ -762,6 +1505,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrCurrentDwellingNumberOfRoom;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequesterHaveGuardian'].test(_this.dhrRequesterHaveGuardian.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "dhrGuardianMeasure"
+      )
+    
     private fr.cg95.cvq.business.request.social.DhrGuardianMeasureType dhrGuardianMeasure;
 
     public final void setDhrGuardianMeasure(final fr.cg95.cvq.business.request.social.DhrGuardianMeasureType dhrGuardianMeasure) {
@@ -779,6 +1539,16 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrGuardianMeasure;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrCurrentDwellingPhone"
+      )
+    
     private String dhrCurrentDwellingPhone;
 
     public final void setDhrCurrentDwellingPhone(final String dhrCurrentDwellingPhone) {
@@ -796,6 +1566,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrCurrentDwellingPhone;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrSpouseNationality'].test(_this.dhrSpouseNationality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseIsFrenchResident"
+      )
+    
     private Boolean dhrSpouseIsFrenchResident;
 
     public final void setDhrSpouseIsFrenchResident(final Boolean dhrSpouseIsFrenchResident) {
@@ -813,6 +1600,7 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseIsFrenchResident;
     }
   
+    
     private java.math.BigInteger dhrAllowances;
 
     public final void setDhrAllowances(final java.math.BigInteger dhrAllowances) {
@@ -831,6 +1619,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrAllowances;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseNationality"
+      )
+    
     private fr.cg95.cvq.business.users.NationalityType dhrSpouseNationality;
 
     public final void setDhrSpouseNationality(final fr.cg95.cvq.business.users.NationalityType dhrSpouseNationality) {
@@ -848,6 +1653,57 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseNationality;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrSpouseTitle'].test(_this.dhrSpouseTitle.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseMaidenName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrSpouseTitle'].test(_this.dhrSpouseTitle.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseMaidenName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrSpouseTitle'].test(_this.dhrSpouseTitle.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseMaidenName"
+      )
+    
     private String dhrSpouseMaidenName;
 
     public final void setDhrSpouseMaidenName(final String dhrSpouseMaidenName) {
@@ -865,6 +1721,23 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseMaidenName;
     }
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrPreviousDwelling"
+      )
+    
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrPreviousDwelling"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> dhrPreviousDwelling;
 
     public final void setDhrPreviousDwelling(final List<fr.cg95.cvq.business.request.social.DhrPreviousDwelling> dhrPreviousDwelling) {
@@ -889,6 +1762,57 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrPreviousDwelling;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseName"
+      )
+    
     private String dhrSpouseName;
 
     public final void setDhrSpouseName(final String dhrSpouseName) {
@@ -906,6 +1830,45 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseName;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrSpousePrincipalPensionPlan'].test(_this.dhrSpousePrincipalPensionPlan.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpousePensionPlanDetail"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrSpousePrincipalPensionPlan'].test(_this.dhrSpousePrincipalPensionPlan.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpousePensionPlanDetail"
+      )
+    
     private String dhrSpousePensionPlanDetail;
 
     public final void setDhrSpousePensionPlanDetail(final String dhrSpousePensionPlanDetail) {
@@ -923,6 +1886,21 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpousePensionPlanDetail;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "dhrRequesterBirthPlace"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "dhrRequesterBirthPlace"
+      )
+    
     private String dhrRequesterBirthPlace;
 
     public final void setDhrRequesterBirthPlace(final String dhrRequesterBirthPlace) {
@@ -940,6 +1918,45 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrRequesterBirthPlace;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['dhrIsSpouseRetired'].test(_this.dhrIsSpouseRetired.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['dhrIsSpouseRetired'].test(_this.dhrIsSpouseRetired.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dhrSpouseAddress;
 
     public final void setDhrSpouseAddress(final fr.cg95.cvq.business.users.Address dhrSpouseAddress) {
@@ -958,6 +1975,14 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrSpouseAddress;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"familyReferent"},
+        message = "dhrHaveFamilyReferent"
+      )
+    
     private Boolean dhrHaveFamilyReferent;
 
     public final void setDhrHaveFamilyReferent(final Boolean dhrHaveFamilyReferent) {
@@ -975,6 +2000,39 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrHaveFamilyReferent;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrPrincipalPensionPlan'].test(_this.dhrPrincipalPensionPlan.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "dhrPensionPlanDetail"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrPrincipalPensionPlan'].test(_this.dhrPrincipalPensionPlan.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "dhrPensionPlanDetail"
+      )
+    
     private String dhrPensionPlanDetail;
 
     public final void setDhrPensionPlanDetail(final String dhrPensionPlanDetail) {
@@ -992,6 +2050,45 @@ public class DomesticHelpRequestData implements Serializable {
         return this.dhrPensionPlanDetail;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrIsSpouseRetired'].test(_this.dhrIsSpouseRetired.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseComplementaryPensionPlan"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrIsSpouseRetired'].test(_this.dhrIsSpouseRetired.toString());" +
+                
+              
+            
+            "active &= _this.conditions['dhrRequestKind'].test(_this.dhrRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"spouse"},
+        message = "dhrSpouseComplementaryPensionPlan"
+      )
+    
     private String dhrSpouseComplementaryPensionPlan;
 
     public final void setDhrSpouseComplementaryPensionPlan(final String dhrSpouseComplementaryPensionPlan) {

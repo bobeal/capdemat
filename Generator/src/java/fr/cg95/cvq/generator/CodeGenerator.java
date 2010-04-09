@@ -3,6 +3,8 @@ package fr.cg95.cvq.generator;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -693,6 +695,14 @@ public final class CodeGenerator {
 
         // for each application element in the list, send data to plugins
         // interested in this (parent, node) pair
+        Collections.sort(applicationDocumentationList, new Comparator<ApplicationDocumentation>() {
+            @Override
+            public int compare(ApplicationDocumentation o1, ApplicationDocumentation o2) {
+                if (o1.getNodeName().equals("common")) return -1;
+                else if (o2.getNodeName().equals("common")) return +1;
+                return 0;
+            }
+        });
         for (ApplicationDocumentation applicationDocumentation :
             applicationDocumentationList) {
 //             logger.debug("processApplicationInformation() Application documentation has node " + applicationDocumentation.getNodeName() + " and parent " + parent);

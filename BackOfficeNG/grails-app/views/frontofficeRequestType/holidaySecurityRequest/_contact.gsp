@@ -4,7 +4,7 @@
   
     <label for="otherContactLastName" class="required"><g:message code="hsr.property.otherContactLastName.label" /> *  <span><g:message code="hsr.property.otherContactLastName.help" /></span></label>
             <input type="text" id="otherContactLastName" name="otherContactLastName" value="${rqt.otherContactLastName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="hsr.property.otherContactLastName.validationError" />"  maxlength="38" />
+                    class="required  validate-lastName ${invalidFields.contains('otherContactLastName') ? 'validation-failed' : ''}" title="<g:message code="hsr.property.otherContactLastName.validationError" />"  maxlength="38" />
             
 
   
@@ -12,7 +12,7 @@
   
     <label for="otherContactFirstName" class="required"><g:message code="hsr.property.otherContactFirstName.label" /> *  <span><g:message code="hsr.property.otherContactFirstName.help" /></span></label>
             <input type="text" id="otherContactFirstName" name="otherContactFirstName" value="${rqt.otherContactFirstName?.toString()}" 
-                    class="required  validate-firstName" title="<g:message code="hsr.property.otherContactFirstName.validationError" />"  maxlength="38" />
+                    class="required  validate-firstName ${invalidFields.contains('otherContactFirstName') ? 'validation-failed' : ''}" title="<g:message code="hsr.property.otherContactFirstName.validationError" />"  maxlength="38" />
             
 
   
@@ -44,7 +44,7 @@
   
     <label for="otherContactPhone" class="required"><g:message code="hsr.property.otherContactPhone.label" /> *  <span><g:message code="hsr.property.otherContactPhone.help" /></span></label>
             <input type="text" id="otherContactPhone" name="otherContactPhone" value="${rqt.otherContactPhone?.toString()}" 
-                    class="required  validate-phone" title="<g:message code="hsr.property.otherContactPhone.validationError" />"  maxlength="10" />
+                    class="required  validate-phone ${invalidFields.contains('otherContactPhone') ? 'validation-failed' : ''}" title="<g:message code="hsr.property.otherContactPhone.validationError" />"  maxlength="10" />
             
 
   

@@ -86,7 +86,6 @@ public class CommonPlugin implements IPluginGenerator {
                         }
                 }
             }
-            appDoc.setRequestCommon(requestCommon);
         }
         else {
             if (appDoc.hasChildNode("step")) {
@@ -122,6 +121,7 @@ public class CommonPlugin implements IPluginGenerator {
                         ApplicationDocumentation.getNodeAttributeValue(autofill[0], "field"));
             }
         }
+        appDoc.setRequestCommon(requestCommon);
     }
     
     public void onOtherApplicationInformation(ApplicationDocumentation appDoc) {
@@ -135,7 +135,7 @@ public class CommonPlugin implements IPluginGenerator {
     }
     
     public void startElement(String elementName, String type) {
-        requestCommon.setCurrentElementCommon(new ElementCommon());
+        requestCommon.setCurrentElementCommon(new ElementCommon(elementName));
         depth ++;
     }
     

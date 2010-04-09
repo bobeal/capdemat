@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class SchoolRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -50,6 +59,7 @@ public class SchoolRegistrationRequestData implements Serializable {
     }
 
   
+    
     private String currentSchoolAddress;
 
     public final void setCurrentSchoolAddress(final String currentSchoolAddress) {
@@ -67,6 +77,7 @@ public class SchoolRegistrationRequestData implements Serializable {
         return this.currentSchoolAddress;
     }
   
+    
     private String currentSchoolName;
 
     public final void setCurrentSchoolName(final String currentSchoolName) {
@@ -84,6 +95,7 @@ public class SchoolRegistrationRequestData implements Serializable {
         return this.currentSchoolName;
     }
   
+    
     private fr.cg95.cvq.business.users.SectionType currentSection;
 
     public final void setCurrentSection(final fr.cg95.cvq.business.users.SectionType currentSection) {
@@ -101,6 +113,14 @@ public class SchoolRegistrationRequestData implements Serializable {
         return this.currentSection;
     }
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"administration"},
+        message = "school"
+      )
+    
     private fr.cg95.cvq.business.authority.School school;
 
     public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
@@ -119,6 +139,14 @@ public class SchoolRegistrationRequestData implements Serializable {
         return this.school;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
     private Boolean rulesAndRegulationsAcceptance;
 
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
@@ -136,6 +164,30 @@ public class SchoolRegistrationRequestData implements Serializable {
         return this.rulesAndRegulationsAcceptance;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
     private String urgencyPhone;
 
     public final void setUrgencyPhone(final String urgencyPhone) {
@@ -153,6 +205,14 @@ public class SchoolRegistrationRequestData implements Serializable {
         return this.urgencyPhone;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "section"
+      )
+    
     private fr.cg95.cvq.business.users.SectionType section;
 
     public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {

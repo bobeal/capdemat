@@ -1,9 +1,8 @@
 package fr.cg95.cvq.service.request.school.impl;
 
-import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.SchoolRegistrationRequest;
-import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.business.users.SectionType;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
@@ -33,7 +32,7 @@ public final class SchoolRegistrationRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         SchoolRegistrationRequest request =
             new SchoolRegistrationRequest();
         if (SecurityContext.getCurrentEcitizen() != null)

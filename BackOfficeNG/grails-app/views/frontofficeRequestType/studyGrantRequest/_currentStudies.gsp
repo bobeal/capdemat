@@ -15,24 +15,24 @@
     
       <label for="currentSchoolNamePrecision" class="required condition-isCurrentSchoolNameOther-filled"><g:message code="sgr.property.currentSchoolNamePrecision.label" /> *  <span><g:message code="sgr.property.currentSchoolNamePrecision.help" /></span></label>
             <input type="text" id="currentSchoolNamePrecision" name="currentSchoolNamePrecision" value="${rqt.currentSchoolNamePrecision?.toString()}" 
-                    class="required condition-isCurrentSchoolNameOther-filled  validate-string" title="<g:message code="sgr.property.currentSchoolNamePrecision.validationError" />"   />
+                    class="required condition-isCurrentSchoolNameOther-filled  validate-string ${invalidFields.contains('currentSchoolNamePrecision') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.currentSchoolNamePrecision.validationError" />"   />
             
 
     
       <label for="currentSchoolPostalCode" class="required"><g:message code="sgr.property.currentSchoolPostalCode.label" /> *  <span><g:message code="sgr.property.currentSchoolPostalCode.help" /></span></label>
             <input type="text" id="currentSchoolPostalCode" name="currentSchoolPostalCode" value="${rqt.currentSchoolPostalCode?.toString()}" 
-                    class="required  validate-postalCode" title="<g:message code="sgr.property.currentSchoolPostalCode.validationError" />"  maxlength="5" />
+                    class="required  validate-postalCode ${invalidFields.contains('currentSchoolPostalCode') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.currentSchoolPostalCode.validationError" />"  maxlength="5" />
             
 
     
       <label for="currentSchoolCity" class="required"><g:message code="sgr.property.currentSchoolCity.label" /> *  <span><g:message code="sgr.property.currentSchoolCity.help" /></span></label>
             <input type="text" id="currentSchoolCity" name="currentSchoolCity" value="${rqt.currentSchoolCity?.toString()}" 
-                    class="required  validate-city" title="<g:message code="sgr.property.currentSchoolCity.validationError" />"  maxlength="32" />
+                    class="required  validate-city ${invalidFields.contains('currentSchoolCity') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.currentSchoolCity.validationError" />"  maxlength="32" />
             
 
     
       <label for="currentSchoolCountry" class="required"><g:message code="sgr.property.currentSchoolCountry.label" /> *  <span><g:message code="sgr.property.currentSchoolCountry.help" /></span></label>
-            <select id="currentSchoolCountry" name="currentSchoolCountry" class="required  validate-not-first" title="<g:message code="sgr.property.currentSchoolCountry.validationError" />">
+            <select id="currentSchoolCountry" name="currentSchoolCountry" class="required  validate-not-first ${invalidFields.contains('currentSchoolCountry') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.currentSchoolCountry.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']}">
                 <option value="fr.cg95.cvq.business.users.CountryType_${it}" ${it == rqt.currentSchoolCountry?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.currentSchoolCountry" /></option>
@@ -50,12 +50,12 @@
     
       <label for="alevelsDate" class="required"><g:message code="sgr.property.alevelsDate.label" /> *  <span><g:message code="sgr.property.alevelsDate.help" /></span></label>
             <input type="text" id="alevelsDate" name="alevelsDate" value="${rqt.alevelsDate?.toString()}" 
-                    class="required  validate-regex" title="<g:message code="sgr.property.alevelsDate.validationError" />" regex="^\d{2,4}$" maxlength="4" />
+                    class="required  validate-regex ${invalidFields.contains('alevelsDate') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.alevelsDate.validationError" />" regex="^\d{2,4}$" maxlength="4" />
             
 
     
       <label for="alevels" class="required"><g:message code="sgr.property.alevels.label" /> *  <span><g:message code="sgr.property.alevels.help" /></span></label>
-            <select id="alevels" name="alevels" class="required  validate-not-first" title="<g:message code="sgr.property.alevels.validationError" />">
+            <select id="alevels" name="alevels" class="required  validate-not-first ${invalidFields.contains('alevels') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.alevels.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['es','l','s','stg','sti','stl','st2s','stav','tmd','h','p']}">
                 <option value="fr.cg95.cvq.business.request.school.ALevelsType_${it}" ${it == rqt.alevels?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.alevels" /></option>
@@ -72,7 +72,7 @@
     <legend><g:message code="sgr.property.currentStudiesInformations.label" /></legend>
     
       <label for="currentStudiesDiploma" class="required"><g:message code="sgr.property.currentStudiesDiploma.label" /> *  <span><g:message code="sgr.property.currentStudiesDiploma.help" /></span></label>
-            <select id="currentStudiesDiploma" name="currentStudiesDiploma" class="required condition-isInOtherStudies-trigger  validate-not-first" title="<g:message code="sgr.property.currentStudiesDiploma.validationError" />">
+            <select id="currentStudiesDiploma" name="currentStudiesDiploma" class="required condition-isInOtherStudies-trigger  validate-not-first ${invalidFields.contains('currentStudiesDiploma') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.currentStudiesDiploma.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['licence','licencePro','master','bts','dut','otherStudies']}">
                 <option value="fr.cg95.cvq.business.request.school.CurrentStudiesType_${it}" ${it == rqt.currentStudiesDiploma?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.currentStudiesDiploma" /></option>
@@ -83,12 +83,12 @@
     
       <label for="otherStudiesLabel" class="required condition-isInOtherStudies-filled"><g:message code="sgr.property.otherStudiesLabel.label" /> *  <span><g:message code="sgr.property.otherStudiesLabel.help" /></span></label>
             <input type="text" id="otherStudiesLabel" name="otherStudiesLabel" value="${rqt.otherStudiesLabel?.toString()}" 
-                    class="required condition-isInOtherStudies-filled  validate-string" title="<g:message code="sgr.property.otherStudiesLabel.validationError" />"   />
+                    class="required condition-isInOtherStudies-filled  validate-string ${invalidFields.contains('otherStudiesLabel') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.otherStudiesLabel.validationError" />"   />
             
 
     
       <label for="currentStudiesLevel" class="required"><g:message code="sgr.property.currentStudiesLevel.label" /> *  <span><g:message code="sgr.property.currentStudiesLevel.help" /></span></label>
-            <select id="currentStudiesLevel" name="currentStudiesLevel" class="required  validate-not-first" title="<g:message code="sgr.property.currentStudiesLevel.validationError" />">
+            <select id="currentStudiesLevel" name="currentStudiesLevel" class="required  validate-not-first ${invalidFields.contains('currentStudiesLevel') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.currentStudiesLevel.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['firstYear','secondYear','thirdYear']}">
                 <option value="fr.cg95.cvq.business.request.school.CurrentStudiesLevelType_${it}" ${it == rqt.currentStudiesLevel?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.currentStudiesLevel" /></option>
@@ -98,7 +98,7 @@
 
     
       <label class="required"><g:message code="sgr.property.sandwichCourses.label" /> *  <span><g:message code="sgr.property.sandwichCourses.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('sandwichCourses') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="sandwichCourses_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="sandwichCourses" ${it == rqt.sandwichCourses ? 'checked="checked"': ''} />
@@ -110,7 +110,7 @@
 
     
       <label class="required"><g:message code="sgr.property.abroadInternship.label" /> *  <span><g:message code="sgr.property.abroadInternship.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('abroadInternship') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="abroadInternship_${it ? 'yes' : 'no'}" class="required condition-makesAbroadInternship-trigger  validate-one-required boolean" title="" value="${it}" name="abroadInternship" ${it == rqt.abroadInternship ? 'checked="checked"': ''} />
@@ -123,24 +123,24 @@
     
       <label for="abroadInternshipStartDate" class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipStartDate.label" /> *  <span><g:message code="sgr.property.abroadInternshipStartDate.help" /></span></label>
             <input type="text" id="abroadInternshipStartDate" name="abroadInternshipStartDate" value="${formatDate(formatName:'format.date',date:rqt.abroadInternshipStartDate)}" 
-                   class="required condition-makesAbroadInternship-filled  validate-date" title="<g:message code="sgr.property.abroadInternshipStartDate.validationError" />" />
+                   class="required condition-makesAbroadInternship-filled  validate-date ${invalidFields.contains('abroadInternshipStartDate') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.abroadInternshipStartDate.validationError" />" />
             
 
     
       <label for="abroadInternshipEndDate" class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipEndDate.label" /> *  <span><g:message code="sgr.property.abroadInternshipEndDate.help" /></span></label>
             <input type="text" id="abroadInternshipEndDate" name="abroadInternshipEndDate" value="${formatDate(formatName:'format.date',date:rqt.abroadInternshipEndDate)}" 
-                   class="required condition-makesAbroadInternship-filled  validate-date" title="<g:message code="sgr.property.abroadInternshipEndDate.validationError" />" />
+                   class="required condition-makesAbroadInternship-filled  validate-date ${invalidFields.contains('abroadInternshipEndDate') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.abroadInternshipEndDate.validationError" />" />
             
 
     
       <label for="abroadInternshipSchoolName" class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipSchoolName.label" /> *  <span><g:message code="sgr.property.abroadInternshipSchoolName.help" /></span></label>
             <input type="text" id="abroadInternshipSchoolName" name="abroadInternshipSchoolName" value="${rqt.abroadInternshipSchoolName?.toString()}" 
-                    class="required condition-makesAbroadInternship-filled  validate-string" title="<g:message code="sgr.property.abroadInternshipSchoolName.validationError" />"   />
+                    class="required condition-makesAbroadInternship-filled  validate-string ${invalidFields.contains('abroadInternshipSchoolName') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.abroadInternshipSchoolName.validationError" />"   />
             
 
     
       <label for="abroadInternshipSchoolCountry" class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipSchoolCountry.label" /> *  <span><g:message code="sgr.property.abroadInternshipSchoolCountry.help" /></span></label>
-            <select id="abroadInternshipSchoolCountry" name="abroadInternshipSchoolCountry" class="required condition-makesAbroadInternship-filled  validate-not-first" title="<g:message code="sgr.property.abroadInternshipSchoolCountry.validationError" />">
+            <select id="abroadInternshipSchoolCountry" name="abroadInternshipSchoolCountry" class="required condition-makesAbroadInternship-filled  validate-not-first ${invalidFields.contains('abroadInternshipSchoolCountry') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.abroadInternshipSchoolCountry.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Unknown','af','za','al','dz','de','ad','ao','ai','aq','ag','an','sa','ar','am','aw','au','at','az','bj','bs','bh','bd','bb','pw','be','bz','bm','bt','by','mm','bo','ba','bw','br','bn','bg','bf','bi','ci','kh','cm','ca','cv','cl','cn','cy','co','km','cg','kp','kr','cr','hr','cu','dk','dj','dm','eg','ae','ec','er','es','ee','us','et','fi','fr','ge','ga','gm','gh','gi','gr','gd','gl','gp','gu','gt','gn','gq','gw','gy','gf','ht','hn','hk','hu','ck','fj','mh','sb','in','id','ir','iq','ie','is','il','it','jm','jp','jo','kz','ke','kg','ki','kw','la','ls','lv','lb','lr','ly','li','lt','lu','mg','my','mw','mv','ml','mt','ma','mu','mr','mx','fm','md','mc','mn','mz','np','na','nr','ni','ne','ng','nu','no','nz','om','ug','uz','pe','pk','pa','pg','py','nl','ph','pl','pt','qa','cf','cd','do','cz','ro','gb','ru','rw','sn','kn','sm','va','vc','lc','sv','ws','st','sc','sl','sg','si','sk','so','sd','lk','se','ch','sr','sz','sy','tw','tj','tz','td','th','tl','tg','to','vt','tn','tm','tr','tv','ua','uy','vu','ve','vn','ye','zm','zw','mk']}">
                 <option value="fr.cg95.cvq.business.users.CountryType_${it}" ${it == rqt.abroadInternshipSchoolCountry?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="sgr.property.abroadInternshipSchoolCountry" /></option>

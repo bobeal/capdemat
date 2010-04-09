@@ -1,14 +1,14 @@
 package fr.cg95.cvq.service.request.civil.impl;
 
+import java.util.Arrays;
+
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.BirthDetailsRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
-import java.util.Arrays;
 
 /**
  * Implementation of the {@link IBirthDetailsRequestService birth details request service}.
@@ -16,14 +16,12 @@ import java.util.Arrays;
  * @author bor@zenexity.fr
  */
 public final class BirthDetailsRequestService extends RequestService {
-    
+
     @Override
     public void init() {
-        super.init();
-
-        conditions.put("requesterQuality", new EqualityChecker("Other"));
-        conditions.put("format",
-            new EqualityListChecker(Arrays.asList("FullCopy", "ExtractWithRelationship")));        
+        BirthDetailsRequest.conditions.put("requesterQuality", new EqualityChecker("Other"));
+        BirthDetailsRequest.conditions.put("format",
+            new EqualityListChecker(Arrays.asList("FullCopy", "ExtractWithRelationship")));
     }
 
     @Override
@@ -32,7 +30,7 @@ public final class BirthDetailsRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         BirthDetailsRequest request = new BirthDetailsRequest();
         // this test is here only because, on frontoffice homepage, requests are created
         // to display their translated labels, while the currentSite has already been reset by

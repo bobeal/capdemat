@@ -31,13 +31,10 @@ public final class PlaceReservationRequestService
     static Logger logger = Logger.getLogger(PlaceReservationRequestService.class);
 
     private IPlaceReservationService placeReservationService;
-    
-    
+
     @Override
     public void init() {
-        super.init();
-
-        conditions.put("isSubscriber", new EqualityChecker("true"));
+        PlaceReservationRequest.conditions.put("isSubscriber", new EqualityChecker("true"));
     }
 
     @Override
@@ -264,7 +261,7 @@ public final class PlaceReservationRequestService
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         return new PlaceReservationRequest();
     }
 

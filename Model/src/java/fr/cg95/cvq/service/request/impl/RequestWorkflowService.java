@@ -325,16 +325,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return null;
     }
 
-    /**
-     * Perform checks wrt subject policies :
-     * <ul>
-     *   <li>Check that subject is coherent wrt the request's policy.</li>
-     *   <li>Check that subject is allowed to issue a request of the given type</li>
-     * </ul>
-     * 
-     * @throws CvqModelException if there's a policy violation
-     */
-    private void checkSubjectPolicy(final Long subjectId, Long homeFolderId, final String policy,
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public void checkSubjectPolicy(final Long subjectId, Long homeFolderId, final String policy,
             final RequestType requestType) 
         throws CvqException, CvqModelException {
 

@@ -4,7 +4,7 @@
   
     
             <label for="subjectId" class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
-            <select id="subjectId" name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first " title="<g:message code="request.property.subject.validationError" /> ">
+            <select id="subjectId" name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first  ${invalidFields.contains('subjectId') ? 'validation-failed' : ''}" title="<g:message code="request.property.subject.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${subjects}">
                 <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
@@ -16,7 +16,7 @@
 
   
     <label for="subjectNationality" class="required"><g:message code="errr.property.subjectNationality.label" /> *  <span><g:message code="errr.property.subjectNationality.help" /></span></label>
-            <select id="subjectNationality" name="subjectNationality" class="required  validate-not-first" title="<g:message code="errr.property.subjectNationality.validationError" />">
+            <select id="subjectNationality" name="subjectNationality" class="required  validate-not-first ${invalidFields.contains('subjectNationality') ? 'validation-failed' : ''}" title="<g:message code="errr.property.subjectNationality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
                 <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.subjectNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="errr.property.subjectNationality" /></option>
@@ -28,7 +28,7 @@
 
   
     <label class="required"><g:message code="errr.property.motive.label" /> *  <span><g:message code="errr.property.motive.help" /></span></label>
-            <ul class="required">
+            <ul class="required ${invalidFields.contains('motive') ? 'validation-failed' : ''}">
               <g:each in="${['NewCityResident','DirectCityContribution','CivilServantObligatoryResident','FutureAuthorizedCitizen']}">
               <li>
                 <input type="radio" id="motive_${it}" class="required condition-isDirect-trigger  validate-one-required" value="fr.cg95.cvq.business.request.election.ElectoralMotiveType_${it}" name="motive" ${it == rqt.motive.toString() ? 'checked="checked"': ''} title="<g:message code="errr.property.motive.validationError" />" />
@@ -43,7 +43,7 @@
   
     <label for="subjectOldCity" class="required condition-isDirect-unfilled"><g:message code="errr.property.subjectOldCity.label" /> *  <span><g:message code="errr.property.subjectOldCity.help" /></span></label>
             <input type="text" id="subjectOldCity" name="subjectOldCity" value="${rqt.subjectOldCity?.toString()}" 
-                    class="required condition-isDirect-unfilled  validate-postalCode" title="<g:message code="errr.property.subjectOldCity.validationError" />"  maxlength="5" />
+                    class="required condition-isDirect-unfilled  validate-postalCode ${invalidFields.contains('subjectOldCity') ? 'validation-failed' : ''}" title="<g:message code="errr.property.subjectOldCity.validationError" />"  maxlength="5" />
             
 
   

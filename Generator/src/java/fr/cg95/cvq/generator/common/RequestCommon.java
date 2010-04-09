@@ -86,9 +86,6 @@ public class RequestCommon {
     
     /* Current Elemeent managment */
     public void setCurrentElementStep (String name) {
-        if (currentElementCommon == null)
-            currentElementCommon = new ElementCommon();
-        
         Step step = getStepByName(name);
         if (step == null)
             throw new RuntimeException("setCurrentElementStep() - " +

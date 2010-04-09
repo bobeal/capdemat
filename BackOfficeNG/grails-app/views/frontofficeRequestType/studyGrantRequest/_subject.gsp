@@ -7,7 +7,7 @@
     
       
             <label for="subjectId" class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
-            <select id="subjectId" name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first autofill-subjectFilling-trigger" title="<g:message code="request.property.subject.validationError" /> ">
+            <select id="subjectId" name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first autofill-subjectFilling-trigger ${invalidFields.contains('subjectId') ? 'validation-failed' : ''}" title="<g:message code="request.property.subject.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${subjects}">
                 <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
@@ -40,30 +40,30 @@
     
       <label for="subjectPhone" class=""><g:message code="sgr.property.subjectPhone.label" />   <span><g:message code="sgr.property.subjectPhone.help" /></span></label>
             <input type="text" id="subjectPhone" name="subjectPhone" value="${rqt.subjectPhone?.toString()}" 
-                    class=" autofill-subjectFilling-listener-HomePhone validate-phone" title="<g:message code="sgr.property.subjectPhone.validationError" />"  maxlength="10" />
+                    class=" autofill-subjectFilling-listener-HomePhone validate-phone ${invalidFields.contains('subjectPhone') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.subjectPhone.validationError" />"  maxlength="10" />
             
 
     
       <label for="subjectMobilePhone" class=""><g:message code="sgr.property.subjectMobilePhone.label" />   <span><g:message code="sgr.property.subjectMobilePhone.help" /></span></label>
             <input type="text" id="subjectMobilePhone" name="subjectMobilePhone" value="${rqt.subjectMobilePhone?.toString()}" 
-                    class=" autofill-subjectFilling-listener-MobilePhone validate-mobilePhone" title="<g:message code="sgr.property.subjectMobilePhone.validationError" />"  maxlength="10" />
+                    class=" autofill-subjectFilling-listener-MobilePhone validate-mobilePhone ${invalidFields.contains('subjectMobilePhone') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.subjectMobilePhone.validationError" />"  maxlength="10" />
             
 
     
       <label for="subjectEmail" class=""><g:message code="sgr.property.subjectEmail.label" />   <span><g:message code="sgr.property.subjectEmail.help" /></span></label>
             <input type="text" id="subjectEmail" name="subjectEmail" value="${rqt.subjectEmail?.toString()}" 
-                    class=" autofill-subjectFilling-listener-Email validate-email" title="<g:message code="sgr.property.subjectEmail.validationError" />"   />
+                    class=" autofill-subjectFilling-listener-Email validate-email ${invalidFields.contains('subjectEmail') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.subjectEmail.validationError" />"   />
             
 
     
       <label for="subjectBirthDate" class="required"><g:message code="sgr.property.subjectBirthDate.label" /> *  <span><g:message code="sgr.property.subjectBirthDate.help" /></span></label>
             <input type="text" id="subjectBirthDate" name="subjectBirthDate" value="${formatDate(formatName:'format.date',date:rqt.subjectBirthDate)}" 
-                   class="required autofill-subjectFilling-listener-BirthDate validate-date" title="<g:message code="sgr.property.subjectBirthDate.validationError" />" />
+                   class="required autofill-subjectFilling-listener-BirthDate validate-date ${invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.subjectBirthDate.validationError" />" />
             
 
     
       <label class="required"><g:message code="sgr.property.subjectFirstRequest.label" /> *  <span><g:message code="sgr.property.subjectFirstRequest.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('subjectFirstRequest') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="subjectFirstRequest_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="subjectFirstRequest" ${it == rqt.subjectFirstRequest ? 'checked="checked"': ''} />

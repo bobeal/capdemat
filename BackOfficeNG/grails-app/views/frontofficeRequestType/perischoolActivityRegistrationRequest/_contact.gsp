@@ -9,13 +9,13 @@
     
         <label for="contactIndividuals.${listIndex}.lastName" class="required"><g:message code="parr.property.lastName.label" /> *  <span><g:message code="parr.property.lastName.help" /></span></label>
             <input type="text" id="contactIndividuals.${listIndex}.lastName" name="contactIndividuals[${listIndex}].lastName" value="${editList?.contactIndividuals?.lastName?.toString()}" 
-                    class="required  validate-lastName" title="<g:message code="parr.property.lastName.validationError" />"  maxlength="38" />
+                    class="required  validate-lastName ${invalidFields.contains('lastName') ? 'validation-failed' : ''}" title="<g:message code="parr.property.lastName.validationError" />"  maxlength="38" />
             
 
     
         <label for="contactIndividuals.${listIndex}.firstName" class="required"><g:message code="parr.property.firstName.label" /> *  <span><g:message code="parr.property.firstName.help" /></span></label>
             <input type="text" id="contactIndividuals.${listIndex}.firstName" name="contactIndividuals[${listIndex}].firstName" value="${editList?.contactIndividuals?.firstName?.toString()}" 
-                    class="required  validate-firstName" title="<g:message code="parr.property.firstName.validationError" />"  maxlength="38" />
+                    class="required  validate-firstName ${invalidFields.contains('firstName') ? 'validation-failed' : ''}" title="<g:message code="parr.property.firstName.validationError" />"  maxlength="38" />
             
 
     
@@ -43,13 +43,13 @@
     
         <label for="contactIndividuals.${listIndex}.homePhone" class=""><g:message code="parr.property.homePhone.label" />   <span><g:message code="parr.property.homePhone.help" /></span></label>
             <input type="text" id="contactIndividuals.${listIndex}.homePhone" name="contactIndividuals[${listIndex}].homePhone" value="${editList?.contactIndividuals?.homePhone?.toString()}" 
-                    class="  validate-phone" title="<g:message code="parr.property.homePhone.validationError" />"  maxlength="10" />
+                    class="  validate-phone ${invalidFields.contains('homePhone') ? 'validation-failed' : ''}" title="<g:message code="parr.property.homePhone.validationError" />"  maxlength="10" />
             
 
     
         <label for="contactIndividuals.${listIndex}.officePhone" class=""><g:message code="parr.property.officePhone.label" />   <span><g:message code="parr.property.officePhone.help" /></span></label>
             <input type="text" id="contactIndividuals.${listIndex}.officePhone" name="contactIndividuals[${listIndex}].officePhone" value="${editList?.contactIndividuals?.officePhone?.toString()}" 
-                    class="  validate-phone" title="<g:message code="parr.property.officePhone.validationError" />"  maxlength="10" />
+                    class="  validate-phone ${invalidFields.contains('officePhone') ? 'validation-failed' : ''}" title="<g:message code="parr.property.officePhone.validationError" />"  maxlength="10" />
             
 
     

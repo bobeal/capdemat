@@ -1,9 +1,16 @@
 package fr.cg95.cvq.generator.plugins.model;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
+import fr.cg95.cvq.generator.common.ConditionListener;
+import fr.cg95.cvq.generator.common.ElementCommon;
 
 public class ElementModelProperties extends ElementProperties {
 
@@ -37,7 +44,11 @@ public class ElementModelProperties extends ElementProperties {
      */
     private String complexContainerElementName;
 
+    private ConditionListener complexContainerConditionListener;
+
     private String widget;
+
+    private ElementCommon elementCommon;
 
     public ElementModelProperties(ElementProperties eltProperties) {
         super(eltProperties);
@@ -167,5 +178,76 @@ public class ElementModelProperties extends ElementProperties {
 
     public String getWidget() {
         return widget;
+    }
+
+    private boolean isMandatory() {
+        return (BigInteger.ONE.equals(minOccurs) && BigInteger.ONE.equals(maxOccurs))
+            || (elementCommon.getConditionListener() != null
+                && elementCommon.getConditionListener().isRequired());
+    }
+
+    public Map<String, Map<String, Object>> getValidationAnnotations() {
+        Map<String, Map<String, Object>> annotations = new HashMap<String, Map<String, Object>>();
+        Map<String, Object> additionnalAttributes = new HashMap<String, Object>();
+        if (getModelClassName() != null
+            && getModelClassName().equals("LocalReferentialData")) {
+            annotations.put("LocalReferential", additionnalAttributes);
+        } else {
+            if (isMandatory()) {
+                annotations.put("NotNull", additionnalAttributes);
+                if (widget == "string")
+                    annotations.put("NotBlank", additionnalAttributes);
+            } else {
+                if (minOccurs != null && minOccurs.compareTo(BigInteger.ZERO) > 0) {
+                    additionnalAttributes.put("value", minOccurs);
+                    annotations.put("MinSize", new HashMap<String, Object>(additionnalAttributes));
+                    additionnalAttributes.clear();
+                }
+                if (maxOccurs != null && maxOccurs.compareTo(BigInteger.ONE) > 0) {
+                    additionnalAttributes.put("value", maxOccurs);
+                    annotations.put("MaxSize", new HashMap<String, Object>(additionnalAttributes));
+                    additionnalAttributes.clear();
+                }
+            }
+            if ("string".equals(widget) && minLength > 0) {
+                additionnalAttributes.put("value", minLength);
+                annotations.put("MinLength", new HashMap<String, Object>(additionnalAttributes));
+                //additionnalAttributes = new HashMap<String, Object>();
+                additionnalAttributes.clear();
+            }
+            if ("string".equals(widget) && maxLength > 0) {
+                additionnalAttributes.put("value", maxLength);
+                annotations.put("MaxLength", new HashMap<String, Object>(additionnalAttributes));
+                //additionnalAttributes = new HashMap<String, Object>();
+                additionnalAttributes.clear();
+            }
+            String pattern = elementCommon.getJsRegexp();
+            if (pattern != null && !pattern.trim().isEmpty()) {
+                additionnalAttributes.put("pattern",
+                    '"' + StringEscapeUtils.escapeJava(pattern) + '"');
+                annotations.put("MatchPattern", new HashMap<String, Object>(additionnalAttributes));
+                additionnalAttributes.clear();
+            }
+            if (widget.startsWith("referential") || widget.startsWith("complex")) {
+                annotations.put("AssertValid", new HashMap<String, Object>(additionnalAttributes));
+            }
+        }
+        return annotations;
+    }
+
+    public ElementCommon getElementCommon() {
+        return elementCommon;
+    }
+
+    public void setElementCommon(ElementCommon elementCommon) {
+        this.elementCommon = elementCommon;
+    }
+
+    public ConditionListener getComplexContainerConditionListener() {
+        return complexContainerConditionListener;
+    }
+
+    public void setComplexContainerConditionListener(ConditionListener complexContainerConditionListener) {
+        this.complexContainerConditionListener = complexContainerConditionListener;
     }
 }

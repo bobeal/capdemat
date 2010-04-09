@@ -18,24 +18,26 @@ public class DomesticHelpRequestService extends RequestService {
 
     static Logger logger = Logger.getLogger(DomesticHelpRequestService.class);
 
-    
     @Override
     public void init() {
-
-        super.init();
-
-        conditions.put("dhrRequestKind", new EqualityChecker("Couple"));
-        conditions.put("dhrHaveFamilyReferent", new EqualityChecker("true"));
-        conditions.put("dhrRequesterNationality", new EqualityChecker("OutsideEuropeanUnion"));
-        conditions.put("dhrPrincipalPensionPlan", new EqualityChecker("Other"));
-        conditions.put("dhrRequesterHaveGuardian", new EqualityChecker("true"));
-        conditions.put("dhrSpouseTitle", new EqualityChecker("Madam"));
-        conditions.put("dhrSpouseNationality", new EqualityChecker("OutsideEuropeanUnion"));
-        conditions.put("dhrIsSpouseRetired", new EqualityChecker("true"));
-        conditions.put("dhrSpousePrincipalPensionPlan", new EqualityChecker("Other"));
-        conditions.put("dhrCurrentDwellingKind", new EqualityChecker("placeOfResidence"));
-        conditions.put("dhrPreviousDwelling[0].dhrPreviousDwellingKind", new EqualityChecker("placeOfResidence"));
-        conditions.put("dhrNotRealAsset[0].dhrNotRealAssetKind", new EqualityChecker("RealEstate"));
+        DomesticHelpRequest.conditions.put("dhrRequestKind", new EqualityChecker("Couple"));
+        DomesticHelpRequest.conditions.put("dhrHaveFamilyReferent", new EqualityChecker("true"));
+        DomesticHelpRequest.conditions.put("dhrRequesterNationality",
+            new EqualityChecker("OutsideEuropeanUnion"));
+        DomesticHelpRequest.conditions.put("dhrPrincipalPensionPlan", new EqualityChecker("Other"));
+        DomesticHelpRequest.conditions.put("dhrRequesterHaveGuardian", new EqualityChecker("true"));
+        DomesticHelpRequest.conditions.put("dhrSpouseTitle", new EqualityChecker("Madam"));
+        DomesticHelpRequest.conditions.put("dhrSpouseNationality",
+            new EqualityChecker("OutsideEuropeanUnion"));
+        DomesticHelpRequest.conditions.put("dhrIsSpouseRetired", new EqualityChecker("true"));
+        DomesticHelpRequest.conditions.put("dhrSpousePrincipalPensionPlan",
+            new EqualityChecker("Other"));
+        DomesticHelpRequest.conditions.put("dhrCurrentDwellingKind",
+            new EqualityChecker("placeOfResidence"));
+        DomesticHelpRequest.conditions.put("dhrPreviousDwelling[0].dhrPreviousDwellingKind",
+            new EqualityChecker("placeOfResidence"));
+        DomesticHelpRequest.conditions.put("dhrNotRealAsset[0].dhrNotRealAssetKind",
+            new EqualityChecker("RealEstate"));
     }
 
     @Override
@@ -104,7 +106,7 @@ public class DomesticHelpRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         return new DomesticHelpRequest();
     }
 }

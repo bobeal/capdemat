@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class RecreationActivityRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -52,6 +61,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
     }
 
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"administration"},
+        message = "recreationCenter"
+      )
+    
     private fr.cg95.cvq.business.authority.RecreationCenter recreationCenter;
 
     public final void setRecreationCenter(final fr.cg95.cvq.business.authority.RecreationCenter recreationCenter) {
@@ -70,6 +87,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.recreationCenter;
     }
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"authorization"},
+        message = "authorizedIndividuals"
+      )
+    
     private List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> authorizedIndividuals;
 
     public final void setAuthorizedIndividuals(final List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> authorizedIndividuals) {
@@ -94,6 +119,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.authorizedIndividuals;
     }
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"contact"},
+        message = "contactIndividuals"
+      )
+    
     private List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> contactIndividuals;
 
     public final void setContactIndividuals(final List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> contactIndividuals) {
@@ -118,6 +151,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.contactIndividuals;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "classTripPermission"
+      )
+    
     private Boolean classTripPermission;
 
     public final void setClassTripPermission(final Boolean classTripPermission) {
@@ -135,6 +176,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.classTripPermission;
     }
   
+    
+      @LocalReferential(
+        
+        
+        profiles = {"registration"},
+        message = "recreationActivity"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity;
 
     public final void setRecreationActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity) {
@@ -161,6 +210,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.recreationActivity;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "childPhotoExploitationPermission"
+      )
+    
     private Boolean childPhotoExploitationPermission;
 
     public final void setChildPhotoExploitationPermission(final Boolean childPhotoExploitationPermission) {
@@ -178,6 +235,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.childPhotoExploitationPermission;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "hospitalizationPermission"
+      )
+    
     private Boolean hospitalizationPermission;
 
     public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
@@ -195,6 +260,14 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.hospitalizationPermission;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
     private Boolean rulesAndRegulationsAcceptance;
 
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
@@ -212,6 +285,30 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         return this.rulesAndRegulationsAcceptance;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
     private String urgencyPhone;
 
     public final void setUrgencyPhone(final String urgencyPhone) {

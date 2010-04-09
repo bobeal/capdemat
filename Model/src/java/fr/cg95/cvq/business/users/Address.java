@@ -2,6 +2,10 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
+import net.sf.oval.constraint.MatchPattern;
+import net.sf.oval.constraint.MaxLength;
+import net.sf.oval.constraint.NotNull;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.xml.common.AddressType;
@@ -20,14 +24,32 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
 
     /** identifier field */
     private Long id;
-    
+
+    @MaxLength(value = 38)
     private String additionalDeliveryInformation;
+
+    @MaxLength(value = 38)
     private String additionalGeographicalInformation;
+
+    @MaxLength(value = 5)
     private String streetNumber;
+
+    @NotNull
+    @MaxLength(value = 32)
     private String streetName;
+
+    @MaxLength(value = 38)
     private String placeNameOrService;
+
+    @NotNull
+    @MatchPattern(pattern = "[0-9]{5}")
     private String postalCode;
+
+    @NotNull
+    @MaxLength(value = 32)
     private String city;
+
+    @MaxLength(value = 38)
     private String countryName;
 
     public Address() {

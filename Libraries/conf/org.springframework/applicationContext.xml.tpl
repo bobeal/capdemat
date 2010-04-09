@@ -121,6 +121,17 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
   </bean>
 
+  <bean id="localReferentialServiceToLocalReferentialCheckInjector"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="fr.cg95.cvq.service.request.LocalReferentialCheck.setLocalReferentialService" />
+    <property name="arguments">
+      <list>
+        <ref local="localReferentialService" />
+      </list>
+    </property>
+  </bean>
+
   <bean id="placeReservationService" 
     class="fr.cg95.cvq.service.request.impl.PlaceReservationService">
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
@@ -145,6 +156,17 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestDAO" ref="requestDAO"/>
   </bean>
 
+  <bean id="requestServiceRegistryToSubjectIdCheckInjector"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="fr.cg95.cvq.service.request.SubjectIdCheck.setRequestServiceRegistry" />
+    <property name="arguments">
+      <list>
+        <ref local="requestServiceRegistry" />
+      </list>
+    </property>
+  </bean>
+
   <bean id="requestWorkflowService" class="fr.cg95.cvq.service.request.impl.RequestWorkflowService">
     <property name="requestDAO" ref="requestDAO" />
     <property name="requestActionService" ref="requestActionService" />
@@ -156,6 +178,17 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestDocumentService" ref="requestDocumentService" />
     <property name="requestTypeService" ref="requestTypeService" />
     <property name="requestPdfService" ref="requestPdfService" />
+  </bean>
+
+  <bean id="requestWorkflowServiceToSubjectIdCheckInjector"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="fr.cg95.cvq.service.request.SubjectIdCheck.setRequestWorkflowService" />
+    <property name="arguments">
+      <list>
+        <ref local="requestWorkflowService" />
+      </list>
+    </property>
   </bean>
 
   <bean id="autofillService" class="fr.cg95.cvq.service.request.impl.AutofillService">

@@ -110,5 +110,6 @@
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.orm-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/org.springframework.transaction-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-compress-1.0.jar"/>
+	<classpathentry kind="lib" path="Libraries/net.sf/oval-1.50.jar" sourcepath="/home/jsb/Programmes/OVal/oval-1.50-without-dependencies/oval-1.50-sources.zip"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

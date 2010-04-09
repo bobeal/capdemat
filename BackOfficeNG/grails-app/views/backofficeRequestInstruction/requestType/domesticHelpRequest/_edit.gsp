@@ -268,7 +268,7 @@
                 
                   <dt class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNumberOfRoom.label" /> * : </dt><dd id="dhrCurrentDwellingNumberOfRoom" class="action-editField validate-dhrDwellingNumberOfRoom required-true i18n-dhr.property.dhrCurrentDwellingNumberOfRoom" ><span>${rqt?.dhrCurrentDwellingNumberOfRoom}</span></dd>
                 
-                  <dt class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> * : </dt><dd id="dhrCurrentDwellingNetArea" class="action-editField validate-regex required-true i18n-dhr.property.dhrCurrentDwellingNetArea" regex="/^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$/"><span>${rqt?.dhrCurrentDwellingNetArea}</span></dd>
+                  <dt class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingNetArea.label" /> * : </dt><dd id="dhrCurrentDwellingNetArea" class="action-editField validate-regex required-true i18n-dhr.property.dhrCurrentDwellingNetArea" regex="^[1-9]$|^[1-9][0-9]$|^[1-4][0-9][0-9]$|^500$"><span>${rqt?.dhrCurrentDwellingNetArea}</span></dd>
                 
               </dl>
               

@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class AlignmentNumberingConnectionRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -48,6 +57,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "isNumbering"
+      )
+    
     private Boolean isNumbering;
 
     public final void setIsNumbering(final Boolean isNumbering) {
@@ -65,6 +82,39 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.isNumbering;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['isAccountAddress'].test(_this.isAccountAddress.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"requester"},
+        message = "otherAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['isAccountAddress'].test(_this.isAccountAddress.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"requester"},
+        message = "otherAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address otherAddress;
 
     public final void setOtherAddress(final fr.cg95.cvq.business.users.Address otherAddress) {
@@ -83,6 +133,39 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.otherAddress;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerFirstNames"
+      )
+    
     private String ownerFirstNames;
 
     public final void setOwnerFirstNames(final String ownerFirstNames) {
@@ -100,6 +183,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.ownerFirstNames;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "number"
+      )
+    
     private java.math.BigInteger number;
 
     public final void setNumber(final java.math.BigInteger number) {
@@ -118,6 +209,7 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.number;
     }
   
+    
     private java.math.BigInteger area;
 
     public final void setArea(final java.math.BigInteger area) {
@@ -136,6 +228,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.area;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "moreThanTwoYears"
+      )
+    
     private Boolean moreThanTwoYears;
 
     public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
@@ -153,6 +253,39 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.moreThanTwoYears;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address ownerAddress;
 
     public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
@@ -171,6 +304,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.ownerAddress;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "requesterQuality"
+      )
+    
     private fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType requesterQuality;
 
     public final void setRequesterQuality(final fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType requesterQuality) {
@@ -188,6 +329,21 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.requesterQuality;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "section"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"cadastre"},
+        message = "section"
+      )
+    
     private String section;
 
     public final void setSection(final String section) {
@@ -205,6 +361,7 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.section;
     }
   
+    
     private String transportationRoute;
 
     public final void setTransportationRoute(final String transportationRoute) {
@@ -222,6 +379,7 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.transportationRoute;
     }
   
+    
     private String locality;
 
     public final void setLocality(final String locality) {
@@ -239,6 +397,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.locality;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "isConnection"
+      )
+    
     private Boolean isConnection;
 
     public final void setIsConnection(final Boolean isConnection) {
@@ -256,6 +422,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.isConnection;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"requester"},
+        message = "isAccountAddress"
+      )
+    
     private Boolean isAccountAddress;
 
     public final void setIsAccountAddress(final Boolean isAccountAddress) {
@@ -273,6 +447,14 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.isAccountAddress;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "isAlignment"
+      )
+    
     private Boolean isAlignment;
 
     public final void setIsAlignment(final Boolean isAlignment) {
@@ -290,6 +472,57 @@ public class AlignmentNumberingConnectionRequestData implements Serializable {
         return this.isAlignment;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerLastName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerLastName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerLastName"
+      )
+    
     private String ownerLastName;
 
     public final void setOwnerLastName(final String ownerLastName) {

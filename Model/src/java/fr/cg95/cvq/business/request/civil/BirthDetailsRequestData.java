@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class BirthDetailsRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -46,6 +55,14 @@ public class BirthDetailsRequestData implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"type"},
+        message = "format"
+      )
+    
     private fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format;
 
     public final void setFormat(final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType format) {
@@ -63,6 +80,14 @@ public class BirthDetailsRequestData implements Serializable {
         return this.format;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"type"},
+        message = "copies"
+      )
+    
     private java.math.BigInteger copies;
 
     public final void setCopies(final java.math.BigInteger copies) {
@@ -81,6 +106,30 @@ public class BirthDetailsRequestData implements Serializable {
         return this.copies;
     }
   
+    
+      @MaxLength(
+        
+          value = 2,
+        
+        
+        profiles = {"nature"},
+        message = "birthPostalCode"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "birthPostalCode"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "birthPostalCode"
+      )
+    
     private String birthPostalCode;
 
     public final void setBirthPostalCode(final String birthPostalCode) {
@@ -98,6 +147,16 @@ public class BirthDetailsRequestData implements Serializable {
         return this.birthPostalCode;
     }
   
+    
+      @MatchPattern(
+        
+          pattern = "^.{0,255}$",
+        
+        
+        profiles = {"type"},
+        message = "comment"
+      )
+    
     private String comment;
 
     public final void setComment(final String comment) {
@@ -115,6 +174,21 @@ public class BirthDetailsRequestData implements Serializable {
         return this.comment;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "birthFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "birthFirstNames"
+      )
+    
     private String birthFirstNames;
 
     public final void setBirthFirstNames(final String birthFirstNames) {
@@ -132,6 +206,14 @@ public class BirthDetailsRequestData implements Serializable {
         return this.birthFirstNames;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"type"},
+        message = "motive"
+      )
+    
     private fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive;
 
     public final void setMotive(final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType motive) {
@@ -149,6 +231,14 @@ public class BirthDetailsRequestData implements Serializable {
         return this.motive;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "birthDate"
+      )
+    
     private java.util.Date birthDate;
 
     public final void setBirthDate(final java.util.Date birthDate) {
@@ -166,6 +256,7 @@ public class BirthDetailsRequestData implements Serializable {
         return this.birthDate;
     }
   
+    
     private String requesterQualityPrecision;
 
     public final void setRequesterQualityPrecision(final String requesterQualityPrecision) {
@@ -183,6 +274,30 @@ public class BirthDetailsRequestData implements Serializable {
         return this.requesterQualityPrecision;
     }
   
+    
+      @MaxLength(
+        
+          value = 32,
+        
+        
+        profiles = {"nature"},
+        message = "birthCity"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "birthCity"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "birthCity"
+      )
+    
     private String birthCity;
 
     public final void setBirthCity(final String birthCity) {
@@ -200,6 +315,14 @@ public class BirthDetailsRequestData implements Serializable {
         return this.birthCity;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "requesterQuality"
+      )
+    
     private fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality;
 
     public final void setRequesterQuality(final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType requesterQuality) {
@@ -217,6 +340,57 @@ public class BirthDetailsRequestData implements Serializable {
         return this.requesterQuality;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "fatherLastName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "fatherLastName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "fatherLastName"
+      )
+    
     private String fatherLastName;
 
     public final void setFatherLastName(final String fatherLastName) {
@@ -234,6 +408,16 @@ public class BirthDetailsRequestData implements Serializable {
         return this.fatherLastName;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"nature"},
+        message = "birthMarriageName"
+      )
+    
     private String birthMarriageName;
 
     public final void setBirthMarriageName(final String birthMarriageName) {
@@ -251,6 +435,39 @@ public class BirthDetailsRequestData implements Serializable {
         return this.birthMarriageName;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "motherFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "motherFirstNames"
+      )
+    
     private String motherFirstNames;
 
     public final void setMotherFirstNames(final String motherFirstNames) {
@@ -268,6 +485,39 @@ public class BirthDetailsRequestData implements Serializable {
         return this.motherFirstNames;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "fatherFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "fatherFirstNames"
+      )
+    
     private String fatherFirstNames;
 
     public final void setFatherFirstNames(final String fatherFirstNames) {
@@ -285,6 +535,57 @@ public class BirthDetailsRequestData implements Serializable {
         return this.fatherFirstNames;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "motherMaidenName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "motherMaidenName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['format'].test(_this.format.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"type"},
+        message = "motherMaidenName"
+      )
+    
     private String motherMaidenName;
 
     public final void setMotherMaidenName(final String motherMaidenName) {
@@ -302,6 +603,30 @@ public class BirthDetailsRequestData implements Serializable {
         return this.motherMaidenName;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"nature"},
+        message = "birthLastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "birthLastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "birthLastName"
+      )
+    
     private String birthLastName;
 
     public final void setBirthLastName(final String birthLastName) {

@@ -7,6 +7,7 @@ import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.RoleType
 import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.exception.CvqValidationException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IAutofillService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
@@ -25,6 +26,8 @@ import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.translation.ITranslationService;
 
 import grails.converters.JSON
+import net.sf.oval.Validator;
+
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class FrontofficeRequestCreationController {
@@ -130,6 +133,7 @@ class FrontofficeRequestCreationController {
         render(view: viewPath, model: [
             'isRequestCreation': true,
             'rqt': cRequest,
+            'invalidFields' : [],
             'requester': requester,
             'homeFolderResponsible' : requester,
             'individuals' : individuals,
@@ -163,6 +167,7 @@ class FrontofficeRequestCreationController {
         def editList
 
         Request cRequest = session[uuidString].cRequest
+        def invalidFields = []
         // Useful to bind object different from cRequest
         def objectToBind = [:]
         objectToBind.requester = SecurityContext.currentEcitizen != null ? 
@@ -423,6 +428,31 @@ class FrontofficeRequestCreationController {
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
                     checkCaptcha(params)
+                    println("TOTOTOTOTOTTO")
+                    /*Validator validator = new Validator()
+                    validator.enableAllProfiles()
+                    def violations = validator.validate(cRequest)
+                    //println(violations)
+                    
+                    if (violations.size() > 0) {
+                        def invalidFields = []
+                        def collectFields
+                        collectFields = { violation, fields ->
+                            println("calling collectfields on $violation with causes $violations.causes")
+                            if (violation.causes == null)
+                                fields.add(violation.message)
+                            else
+                                violation.causes.each {
+                                    collectFields(it, fields)
+                                }
+                        }
+                        violations.each {
+                            collectFields(it, invalidFields)
+                        }
+                        throw new CvqValidationException(invalidFields)
+                    }*/
+                    validateRequest(cRequest, null)
+                    println("TUTUTUTUTUTUTU")
                     def docs = documentService.getBySessionUuid(uuidString)
                     def parameters = [:]
                     if (cRequest.id && !RequestState.DRAFT.equals(cRequest.state)) {
@@ -466,6 +496,7 @@ class FrontofficeRequestCreationController {
                     redirect(action:'exit', params:parameters)
                     return
                 } else {
+                    validateRequest(cRequest, [currentStep])
                     if (submitAction[1] == "step") {
                         flash.confirmationMessage = message(code : "request.step.message.validated",
                                 args : [message(code :  currentStep == "document" ?  "request.step.document.label" :
@@ -485,6 +516,9 @@ class FrontofficeRequestCreationController {
             session[uuidString].requester = objectToBind.requester
             session[uuidString].homeFolderResponsible = objectToBind.homeFolderResponsible
             session[uuidString].individuals = objectToBind.individuals
+        } catch (CvqValidationException e) {
+            invalidFields = e.invalidFields
+            requestAdaptorService.stepState(cRequest.stepStates?.get(currentStep), 'invalid', null)
         } catch (CvqException ce) {
             log.error ce.getMessage()
             requestAdaptorService.stepState(cRequest.stepStates?.get(currentStep), 'invalid',
@@ -495,6 +529,7 @@ class FrontofficeRequestCreationController {
                              'isRequestCreation': true,
                              'askConfirmCancel': askConfirmCancel, 
                              'rqt': cRequest,
+                             'invalidFields' : invalidFields,
                              'requester': objectToBind.requester,
                              'homeFolderResponsible': objectToBind.homeFolderResponsible,
                              'individuals' : objectToBind.individuals,
@@ -641,6 +676,41 @@ class FrontofficeRequestCreationController {
         if (SecurityContext.currentEcitizen == null && 
                 !jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText))
             throw new CvqException(message(code:"request.step.validation.error.captcha"))
+    }
+
+    private validateRequest(cRequest, steps) {
+        println("TUTUTUTUTUTUT")
+        println(steps)
+        Validator validator = new Validator()
+        validator.disableAllProfiles()
+        if (steps == null)
+            validator.enableAllProfiles()
+        else {
+            //validator.disableAllProfiles()
+            validator.enableProfile("default")
+            steps.each { println(it); validator.enableProfile(it) }
+        }
+        println(validator.isProfileEnabled("subject"))
+        //def violations = validator.validate(cRequest)
+        //println(violations)
+        def invalidFields = []
+        println(validator.validate(cRequest))
+        validator.validate(cRequest).each {
+            println("erreur validation : " + it)
+            collectInvalidFields(it, invalidFields)
+        }
+        println(invalidFields)
+        if (!invalidFields.isEmpty()) throw new CvqValidationException(invalidFields)
+    }
+
+    private collectInvalidFields(violation, fields) {
+        if (violation.causes == null) {
+            //def error = violation.message.split()[0].tokenize('.')
+            //println(error)
+            //fields.add(error[error.size() - 1])
+            fields.add(violation.message)
+        } else
+            violation.causes.each { collectInvalidFields(it, fields) }
     }
 
     /* Home Folder Modification

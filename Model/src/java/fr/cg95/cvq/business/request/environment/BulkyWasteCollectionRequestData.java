@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class BulkyWasteCollectionRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -44,6 +53,14 @@ public class BulkyWasteCollectionRequestData implements Serializable {
     }
 
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"waste"},
+        message = "collectionAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address collectionAddress;
 
     public final void setCollectionAddress(final fr.cg95.cvq.business.users.Address collectionAddress) {
@@ -62,6 +79,14 @@ public class BulkyWasteCollectionRequestData implements Serializable {
         return this.collectionAddress;
     }
   
+    
+      @LocalReferential(
+        
+        
+        profiles = {"waste"},
+        message = "bulkyWasteType"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType;
 
     public final void setBulkyWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType) {
@@ -88,6 +113,7 @@ public class BulkyWasteCollectionRequestData implements Serializable {
         return this.bulkyWasteType;
     }
   
+    
     private String otherWaste;
 
     public final void setOtherWaste(final String otherWaste) {

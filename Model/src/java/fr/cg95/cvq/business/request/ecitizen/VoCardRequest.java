@@ -1,12 +1,14 @@
 package fr.cg95.cvq.business.request.ecitizen;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestData;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 
@@ -16,6 +18,8 @@ import fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument;
 public class VoCardRequest extends Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions = VoCardRequestData.conditions;
 
     private VoCardRequestData voCardRequestData;
 

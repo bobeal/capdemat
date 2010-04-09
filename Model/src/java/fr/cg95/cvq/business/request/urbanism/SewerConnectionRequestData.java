@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class SewerConnectionRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -48,6 +57,57 @@ public class SewerConnectionRequestData implements Serializable {
     }
 
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerLastName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerLastName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerLastName"
+      )
+    
     private String ownerLastName;
 
     public final void setOwnerLastName(final String ownerLastName) {
@@ -65,6 +125,39 @@ public class SewerConnectionRequestData implements Serializable {
         return this.ownerLastName;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerFirstNames"
+      )
+    
     private String ownerFirstNames;
 
     public final void setOwnerFirstNames(final String ownerFirstNames) {
@@ -82,6 +175,39 @@ public class SewerConnectionRequestData implements Serializable {
         return this.ownerFirstNames;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requesterQuality'].test(_this.requesterQuality.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"cadastre"},
+        message = "ownerAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address ownerAddress;
 
     public final void setOwnerAddress(final fr.cg95.cvq.business.users.Address ownerAddress) {
@@ -100,6 +226,14 @@ public class SewerConnectionRequestData implements Serializable {
         return this.ownerAddress;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "requesterQuality"
+      )
+    
     private fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType requesterQuality;
 
     public final void setRequesterQuality(final fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType requesterQuality) {
@@ -117,6 +251,14 @@ public class SewerConnectionRequestData implements Serializable {
         return this.requesterQuality;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "moreThanTwoYears"
+      )
+    
     private Boolean moreThanTwoYears;
 
     public final void setMoreThanTwoYears(final Boolean moreThanTwoYears) {
@@ -134,6 +276,7 @@ public class SewerConnectionRequestData implements Serializable {
         return this.moreThanTwoYears;
     }
   
+    
     private String transportationRoute;
 
     public final void setTransportationRoute(final String transportationRoute) {
@@ -151,6 +294,7 @@ public class SewerConnectionRequestData implements Serializable {
         return this.transportationRoute;
     }
   
+    
     private String locality;
 
     public final void setLocality(final String locality) {
@@ -168,6 +312,14 @@ public class SewerConnectionRequestData implements Serializable {
         return this.locality;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "number"
+      )
+    
     private java.math.BigInteger number;
 
     public final void setNumber(final java.math.BigInteger number) {
@@ -186,6 +338,21 @@ public class SewerConnectionRequestData implements Serializable {
         return this.number;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"cadastre"},
+        message = "section"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"cadastre"},
+        message = "section"
+      )
+    
     private String section;
 
     public final void setSection(final String section) {

@@ -6,7 +6,7 @@
     <legend><g:message code="hccr.property.schooling.label" /></legend>
     
       <label class="required"><g:message code="hccr.property.schoolingEnrolment.label" /> *  <span><g:message code="hccr.property.schoolingEnrolment.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('schoolingEnrolment') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="schoolingEnrolment_${it ? 'yes' : 'no'}" class="required condition-isSchoolingEnrolment-trigger  validate-one-required boolean" title="" value="${it}" name="schoolingEnrolment" ${it == rqt.schoolingEnrolment ? 'checked="checked"': ''} />
@@ -19,7 +19,7 @@
     
       <label for="schoolingSchoolName" class="required condition-isSchoolingEnrolment-filled"><g:message code="hccr.property.schoolingSchoolName.label" /> *  <span><g:message code="hccr.property.schoolingSchoolName.help" /></span></label>
             <input type="text" id="schoolingSchoolName" name="schoolingSchoolName" value="${rqt.schoolingSchoolName?.toString()}" 
-                    class="required condition-isSchoolingEnrolment-filled  " title="<g:message code="hccr.property.schoolingSchoolName.validationError" />"  maxlength="80" />
+                    class="required condition-isSchoolingEnrolment-filled   ${invalidFields.contains('schoolingSchoolName') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingSchoolName.validationError" />"  maxlength="80" />
             
 
     
@@ -46,7 +46,7 @@
 
     
       <label class="required"><g:message code="hccr.property.schoolingSendToSchool.label" /> *  <span><g:message code="hccr.property.schoolingSendToSchool.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('schoolingSendToSchool') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="schoolingSendToSchool_${it ? 'yes' : 'no'}" class="required condition-isSentToSchool-trigger  validate-one-required boolean" title="" value="${it}" name="schoolingSendToSchool" ${it == rqt.schoolingSendToSchool ? 'checked="checked"': ''} />
@@ -58,7 +58,7 @@
 
     
       <label for="schoolingAttendedGrade" class="required condition-isSentToSchool-filled"><g:message code="hccr.property.schoolingAttendedGrade.label" /> *  <span><g:message code="hccr.property.schoolingAttendedGrade.help" /></span></label>
-            <select id="schoolingAttendedGrade" name="schoolingAttendedGrade" class="required condition-isSentToSchool-filled  validate-not-first" title="<g:message code="hccr.property.schoolingAttendedGrade.validationError" />">
+            <select id="schoolingAttendedGrade" name="schoolingAttendedGrade" class="required condition-isSentToSchool-filled  validate-not-first ${invalidFields.contains('schoolingAttendedGrade') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingAttendedGrade.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['BeforeFirstSection','FirstSection','SecondSection','ThirdSection','CP','CE1','CE2','CM1','CM2','CLISS','Unknown']}">
                 <option value="fr.cg95.cvq.business.users.SectionType_${it}" ${it == rqt.schoolingAttendedGrade?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.schoolingAttendedGrade" /></option>
@@ -68,7 +68,7 @@
 
     
       <label class="required"><g:message code="hccr.property.schoolingSpecializedGrade.label" /> *  <span><g:message code="hccr.property.schoolingSpecializedGrade.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('schoolingSpecializedGrade') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="schoolingSpecializedGrade_${it ? 'yes' : 'no'}" class="required condition-isSpecializedGrade-trigger  validate-one-required boolean" title="" value="${it}" name="schoolingSpecializedGrade" ${it == rqt.schoolingSpecializedGrade ? 'checked="checked"': ''} />
@@ -81,12 +81,12 @@
     
       <label for="schoolingSpecializedGradeDetails" class="required condition-isSpecializedGrade-filled"><g:message code="hccr.property.schoolingSpecializedGradeDetails.label" /> *  <span><g:message code="hccr.property.schoolingSpecializedGradeDetails.help" /></span></label>
             <input type="text" id="schoolingSpecializedGradeDetails" name="schoolingSpecializedGradeDetails" value="${rqt.schoolingSpecializedGradeDetails?.toString()}" 
-                    class="required condition-isSpecializedGrade-filled  " title="<g:message code="hccr.property.schoolingSpecializedGradeDetails.validationError" />"  maxlength="30" />
+                    class="required condition-isSpecializedGrade-filled   ${invalidFields.contains('schoolingSpecializedGradeDetails') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingSpecializedGradeDetails.validationError" />"  maxlength="30" />
             
 
     
       <label for="schoolingSchoolingKind" class="required"><g:message code="hccr.property.schoolingSchoolingKind.label" /> *  <span><g:message code="hccr.property.schoolingSchoolingKind.help" /></span></label>
-            <select id="schoolingSchoolingKind" name="schoolingSchoolingKind" class="required condition-isPartTimeSchooling-trigger  validate-not-first" title="<g:message code="hccr.property.schoolingSchoolingKind.validationError" />">
+            <select id="schoolingSchoolingKind" name="schoolingSchoolingKind" class="required condition-isPartTimeSchooling-trigger  validate-not-first ${invalidFields.contains('schoolingSchoolingKind') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingSchoolingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['FullTime','PartTime']}">
                 <option value="fr.cg95.cvq.business.request.social.HccrSchoolingKindType_${it}" ${it == rqt.schoolingSchoolingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.schoolingSchoolingKind" /></option>
@@ -97,12 +97,12 @@
     
       <label for="schoolingTime" class="required condition-isPartTimeSchooling-filled"><g:message code="hccr.property.schoolingTime.label" /> *  <span><g:message code="hccr.property.schoolingTime.help" /></span></label>
             <input type="text" id="schoolingTime" name="schoolingTime" value="${rqt.schoolingTime?.toString()}" 
-                    class="required condition-isPartTimeSchooling-filled  " title="<g:message code="hccr.property.schoolingTime.validationError" />"   />
+                    class="required condition-isPartTimeSchooling-filled   ${invalidFields.contains('schoolingTime') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingTime.validationError" />"   />
             
 
     
       <label class="required"><g:message code="hccr.property.schoolingHomeSchooling.label" /> *  <span><g:message code="hccr.property.schoolingHomeSchooling.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('schoolingHomeSchooling') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="schoolingHomeSchooling_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="schoolingHomeSchooling" ${it == rqt.schoolingHomeSchooling ? 'checked="checked"': ''} />
@@ -114,7 +114,7 @@
 
     
       <label class="required"><g:message code="hccr.property.schoolingPersonalizedSchoolingPlan.label" /> *  <span><g:message code="hccr.property.schoolingPersonalizedSchoolingPlan.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('schoolingPersonalizedSchoolingPlan') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="schoolingPersonalizedSchoolingPlan_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="schoolingPersonalizedSchoolingPlan" ${it == rqt.schoolingPersonalizedSchoolingPlan ? 'checked="checked"': ''} />
@@ -126,7 +126,7 @@
 
     
       <label for="schoolingHomeSchoolingKind" class="required"><g:message code="hccr.property.schoolingHomeSchoolingKind.label" /> *  <span><g:message code="hccr.property.schoolingHomeSchoolingKind.help" /></span></label>
-            <select id="schoolingHomeSchoolingKind" name="schoolingHomeSchoolingKind" class="required condition-isAccompaniedHomeSchooling-trigger  validate-not-first" title="<g:message code="hccr.property.schoolingHomeSchoolingKind.validationError" />">
+            <select id="schoolingHomeSchoolingKind" name="schoolingHomeSchoolingKind" class="required condition-isAccompaniedHomeSchooling-trigger  validate-not-first ${invalidFields.contains('schoolingHomeSchoolingKind') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingHomeSchoolingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Alone','Accompanied']}">
                 <option value="fr.cg95.cvq.business.request.social.HccrHomeSchoolingKindType_${it}" ${it == rqt.schoolingHomeSchoolingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.schoolingHomeSchoolingKind" /></option>
@@ -137,13 +137,13 @@
     
       <label for="schoolingHomeSchoolingAccompanistLastName" class="required condition-isAccompaniedHomeSchooling-filled"><g:message code="hccr.property.schoolingHomeSchoolingAccompanistLastName.label" /> *  <span><g:message code="hccr.property.schoolingHomeSchoolingAccompanistLastName.help" /></span></label>
             <input type="text" id="schoolingHomeSchoolingAccompanistLastName" name="schoolingHomeSchoolingAccompanistLastName" value="${rqt.schoolingHomeSchoolingAccompanistLastName?.toString()}" 
-                    class="required condition-isAccompaniedHomeSchooling-filled  validate-lastName" title="<g:message code="hccr.property.schoolingHomeSchoolingAccompanistLastName.validationError" />"  maxlength="38" />
+                    class="required condition-isAccompaniedHomeSchooling-filled  validate-lastName ${invalidFields.contains('schoolingHomeSchoolingAccompanistLastName') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingHomeSchoolingAccompanistLastName.validationError" />"  maxlength="38" />
             
 
     
       <label for="schoolingHomeSchoolingAccompanistFirstName" class="required condition-isAccompaniedHomeSchooling-filled"><g:message code="hccr.property.schoolingHomeSchoolingAccompanistFirstName.label" /> *  <span><g:message code="hccr.property.schoolingHomeSchoolingAccompanistFirstName.help" /></span></label>
             <input type="text" id="schoolingHomeSchoolingAccompanistFirstName" name="schoolingHomeSchoolingAccompanistFirstName" value="${rqt.schoolingHomeSchoolingAccompanistFirstName?.toString()}" 
-                    class="required condition-isAccompaniedHomeSchooling-filled  validate-firstName" title="<g:message code="hccr.property.schoolingHomeSchoolingAccompanistFirstName.validationError" />"  maxlength="38" />
+                    class="required condition-isAccompaniedHomeSchooling-filled  validate-firstName ${invalidFields.contains('schoolingHomeSchoolingAccompanistFirstName') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingHomeSchoolingAccompanistFirstName.validationError" />"  maxlength="38" />
             
 
     
@@ -170,7 +170,7 @@
 
     
       <label class="required"><g:message code="hccr.property.schoolingExtraCurricular.label" /> *  <span><g:message code="hccr.property.schoolingExtraCurricular.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('schoolingExtraCurricular') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="schoolingExtraCurricular_${it ? 'yes' : 'no'}" class="required condition-isExtraCurricular-trigger  validate-one-required boolean" title="" value="${it}" name="schoolingExtraCurricular" ${it == rqt.schoolingExtraCurricular ? 'checked="checked"': ''} />
@@ -183,7 +183,7 @@
     
       <label for="schoolingExtraCurricularDetails" class="required condition-isExtraCurricular-filled"><g:message code="hccr.property.schoolingExtraCurricularDetails.label" /> *  <span><g:message code="hccr.property.schoolingExtraCurricularDetails.help" /></span></label>
             <input type="text" id="schoolingExtraCurricularDetails" name="schoolingExtraCurricularDetails" value="${rqt.schoolingExtraCurricularDetails?.toString()}" 
-                    class="required condition-isExtraCurricular-filled  " title="<g:message code="hccr.property.schoolingExtraCurricularDetails.validationError" />"  maxlength="50" />
+                    class="required condition-isExtraCurricular-filled   ${invalidFields.contains('schoolingExtraCurricularDetails') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.schoolingExtraCurricularDetails.validationError" />"  maxlength="50" />
             
 
     
@@ -195,7 +195,7 @@
     <legend><g:message code="hccr.property.studies.label" /></legend>
     
       <label class="required"><g:message code="hccr.property.studiesHighSchool.label" /> *  <span><g:message code="hccr.property.studiesHighSchool.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('studiesHighSchool') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="studiesHighSchool_${it ? 'yes' : 'no'}" class="required condition-isHighSchool-trigger  validate-one-required boolean" title="" value="${it}" name="studiesHighSchool" ${it == rqt.studiesHighSchool ? 'checked="checked"': ''} />
@@ -208,13 +208,13 @@
     
       <label for="studiesHighSchoolGrade" class="required condition-isHighSchool-filled"><g:message code="hccr.property.studiesHighSchoolGrade.label" /> *  <span><g:message code="hccr.property.studiesHighSchoolGrade.help" /></span></label>
             <input type="text" id="studiesHighSchoolGrade" name="studiesHighSchoolGrade" value="${rqt.studiesHighSchoolGrade?.toString()}" 
-                    class="required condition-isHighSchool-filled  " title="<g:message code="hccr.property.studiesHighSchoolGrade.validationError" />"  maxlength="60" />
+                    class="required condition-isHighSchool-filled   ${invalidFields.contains('studiesHighSchoolGrade') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.studiesHighSchoolGrade.validationError" />"  maxlength="60" />
             
 
     
       <label for="studiesHighSchoolName" class="required condition-isHighSchool-filled"><g:message code="hccr.property.studiesHighSchoolName.label" /> *  <span><g:message code="hccr.property.studiesHighSchoolName.help" /></span></label>
             <input type="text" id="studiesHighSchoolName" name="studiesHighSchoolName" value="${rqt.studiesHighSchoolName?.toString()}" 
-                    class="required condition-isHighSchool-filled  " title="<g:message code="hccr.property.studiesHighSchoolName.validationError" />"  maxlength="60" />
+                    class="required condition-isHighSchool-filled   ${invalidFields.contains('studiesHighSchoolName') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.studiesHighSchoolName.validationError" />"  maxlength="60" />
             
 
     
@@ -241,7 +241,7 @@
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hccr.property.studiesAssistanceUnderDisability.label" /> *  <span><g:message code="hccr.property.studiesAssistanceUnderDisability.help" /></span></label>
-            <ul class="yes-no required condition-isHighSchool-filled">
+            <ul class="yes-no required condition-isHighSchool-filled ${invalidFields.contains('studiesAssistanceUnderDisability') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="studiesAssistanceUnderDisability_${it ? 'yes' : 'no'}" class="required condition-isHighSchool-filled condition-isAssistanceUnderDisability-trigger  validate-one-required boolean" title="" value="${it}" name="studiesAssistanceUnderDisability" ${it == rqt.studiesAssistanceUnderDisability ? 'checked="checked"': ''} />
@@ -254,7 +254,7 @@
     
       <label for="studiesAssistanceUnderDisabilityDetails" class="required condition-isAssistanceUnderDisability-filled"><g:message code="hccr.property.studiesAssistanceUnderDisabilityDetails.label" /> *  <span><g:message code="hccr.property.studiesAssistanceUnderDisabilityDetails.help" /></span></label>
             <input type="text" id="studiesAssistanceUnderDisabilityDetails" name="studiesAssistanceUnderDisabilityDetails" value="${rqt.studiesAssistanceUnderDisabilityDetails?.toString()}" 
-                    class="required condition-isAssistanceUnderDisability-filled  " title="<g:message code="hccr.property.studiesAssistanceUnderDisabilityDetails.validationError" />"  maxlength="60" />
+                    class="required condition-isAssistanceUnderDisability-filled   ${invalidFields.contains('studiesAssistanceUnderDisabilityDetails') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.studiesAssistanceUnderDisabilityDetails.validationError" />"  maxlength="60" />
             
 
     
@@ -267,22 +267,22 @@
     
       <label for="formationStudiesLevel" class=""><g:message code="hccr.property.formationStudiesLevel.label" />   <span><g:message code="hccr.property.formationStudiesLevel.help" /></span></label>
             <input type="text" id="formationStudiesLevel" name="formationStudiesLevel" value="${rqt.formationStudiesLevel?.toString()}" 
-                    class="  " title="<g:message code="hccr.property.formationStudiesLevel.validationError" />"  maxlength="30" />
+                    class="   ${invalidFields.contains('formationStudiesLevel') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.formationStudiesLevel.validationError" />"  maxlength="30" />
             
 
     
       <label for="formationDiploma" class=""><g:message code="hccr.property.formationDiploma.label" />   <span><g:message code="hccr.property.formationDiploma.help" /></span></label>
-            <textarea id="formationDiploma" name="formationDiploma" class="  validate-textarea" title="<g:message code="hccr.property.formationDiploma.validationError" />" rows="2" cols=""  maxlength="120">${rqt.formationDiploma}</textarea>
+            <textarea id="formationDiploma" name="formationDiploma" class="  validate-textarea ${invalidFields.contains('formationDiploma') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.formationDiploma.validationError" />" rows="2" cols=""  maxlength="120">${rqt.formationDiploma}</textarea>
             
 
     
       <label for="formationPreviousFormation" class=""><g:message code="hccr.property.formationPreviousFormation.label" />   <span><g:message code="hccr.property.formationPreviousFormation.help" /></span></label>
-            <textarea id="formationPreviousFormation" name="formationPreviousFormation" class="  validate-textarea" title="<g:message code="hccr.property.formationPreviousFormation.validationError" />" rows="3" cols=""  maxlength="180">${rqt.formationPreviousFormation}</textarea>
+            <textarea id="formationPreviousFormation" name="formationPreviousFormation" class="  validate-textarea ${invalidFields.contains('formationPreviousFormation') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.formationPreviousFormation.validationError" />" rows="3" cols=""  maxlength="180">${rqt.formationPreviousFormation}</textarea>
             
 
     
       <label for="formationCurrentFormation" class=""><g:message code="hccr.property.formationCurrentFormation.label" />   <span><g:message code="hccr.property.formationCurrentFormation.help" /></span></label>
-            <textarea id="formationCurrentFormation" name="formationCurrentFormation" class="  validate-textarea" title="<g:message code="hccr.property.formationCurrentFormation.validationError" />" rows="2" cols=""  maxlength="120">${rqt.formationCurrentFormation}</textarea>
+            <textarea id="formationCurrentFormation" name="formationCurrentFormation" class="  validate-textarea ${invalidFields.contains('formationCurrentFormation') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.formationCurrentFormation.validationError" />" rows="2" cols=""  maxlength="120">${rqt.formationCurrentFormation}</textarea>
             
 
     
@@ -294,7 +294,7 @@
     <legend><g:message code="hccr.property.professionalStatus.label" /></legend>
     
       <label for="professionalStatusKind" class="required"><g:message code="hccr.property.professionalStatusKind.label" /> *  <span><g:message code="hccr.property.professionalStatusKind.help" /></span></label>
-            <select id="professionalStatusKind" name="professionalStatusKind" class="required condition-isEmployed-trigger condition-isUnemployed-trigger  validate-not-first" title="<g:message code="hccr.property.professionalStatusKind.validationError" />">
+            <select id="professionalStatusKind" name="professionalStatusKind" class="required condition-isEmployed-trigger condition-isUnemployed-trigger  validate-not-first ${invalidFields.contains('professionalStatusKind') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Employee','Unemployed','Jobless','Student','Retired']}">
                 <option value="fr.cg95.cvq.business.request.social.HccrProfessionalStatusKindType_${it}" ${it == rqt.professionalStatusKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.professionalStatusKind" /></option>
@@ -305,12 +305,12 @@
     
       <label for="professionalStatusDate" class="required"><g:message code="hccr.property.professionalStatusDate.label" /> *  <span><g:message code="hccr.property.professionalStatusDate.help" /></span></label>
             <input type="text" id="professionalStatusDate" name="professionalStatusDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusDate)}" 
-                   class="required  validate-date" title="<g:message code="hccr.property.professionalStatusDate.validationError" />" />
+                   class="required  validate-date ${invalidFields.contains('professionalStatusDate') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusDate.validationError" />" />
             
 
     
       <label for="professionalStatusEnvironment" class="required condition-isEmployed-filled"><g:message code="hccr.property.professionalStatusEnvironment.label" /> *  <span><g:message code="hccr.property.professionalStatusEnvironment.help" /></span></label>
-            <select id="professionalStatusEnvironment" name="professionalStatusEnvironment" class="required condition-isEmployed-filled  validate-not-first" title="<g:message code="hccr.property.professionalStatusEnvironment.validationError" />">
+            <select id="professionalStatusEnvironment" name="professionalStatusEnvironment" class="required condition-isEmployed-filled  validate-not-first ${invalidFields.contains('professionalStatusEnvironment') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusEnvironment.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Ordinary','Adapted','Protected']}">
                 <option value="fr.cg95.cvq.business.request.social.HccrProfessionalStatusEnvironmentType_${it}" ${it == rqt.professionalStatusEnvironment?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.professionalStatusEnvironment" /></option>
@@ -321,13 +321,13 @@
     
       <label for="professionalStatusProfession" class="required condition-isEmployed-filled"><g:message code="hccr.property.professionalStatusProfession.label" /> *  <span><g:message code="hccr.property.professionalStatusProfession.help" /></span></label>
             <input type="text" id="professionalStatusProfession" name="professionalStatusProfession" value="${rqt.professionalStatusProfession?.toString()}" 
-                    class="required condition-isEmployed-filled  " title="<g:message code="hccr.property.professionalStatusProfession.validationError" />"  maxlength="60" />
+                    class="required condition-isEmployed-filled   ${invalidFields.contains('professionalStatusProfession') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusProfession.validationError" />"  maxlength="60" />
             
 
     
       <label for="professionalStatusEmployerName" class="required condition-isEmployed-filled"><g:message code="hccr.property.professionalStatusEmployerName.label" /> *  <span><g:message code="hccr.property.professionalStatusEmployerName.help" /></span></label>
             <input type="text" id="professionalStatusEmployerName" name="professionalStatusEmployerName" value="${rqt.professionalStatusEmployerName?.toString()}" 
-                    class="required condition-isEmployed-filled  validate-lastName" title="<g:message code="hccr.property.professionalStatusEmployerName.validationError" />"  maxlength="38" />
+                    class="required condition-isEmployed-filled  validate-lastName ${invalidFields.contains('professionalStatusEmployerName') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusEmployerName.validationError" />"  maxlength="38" />
             
 
     
@@ -354,7 +354,7 @@
 
     
       <label class="required condition-isUnemployed-filled"><g:message code="hccr.property.professionalStatusRegisterAsUnemployed.label" /> *  <span><g:message code="hccr.property.professionalStatusRegisterAsUnemployed.help" /></span></label>
-            <ul class="yes-no required condition-isUnemployed-filled">
+            <ul class="yes-no required condition-isUnemployed-filled ${invalidFields.contains('professionalStatusRegisterAsUnemployed') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="professionalStatusRegisterAsUnemployed_${it ? 'yes' : 'no'}" class="required condition-isUnemployed-filled condition-isRegisteredAsUnemployed-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusRegisterAsUnemployed" ${it == rqt.professionalStatusRegisterAsUnemployed ? 'checked="checked"': ''} />
@@ -367,12 +367,12 @@
     
       <label for="professionalStatusRegisterAsUnemployedDate" class="required condition-isRegisteredAsUnemployed-filled"><g:message code="hccr.property.professionalStatusRegisterAsUnemployedDate.label" /> *  <span><g:message code="hccr.property.professionalStatusRegisterAsUnemployedDate.help" /></span></label>
             <input type="text" id="professionalStatusRegisterAsUnemployedDate" name="professionalStatusRegisterAsUnemployedDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusRegisterAsUnemployedDate)}" 
-                   class="required condition-isRegisteredAsUnemployed-filled  validate-date" title="<g:message code="hccr.property.professionalStatusRegisterAsUnemployedDate.validationError" />" />
+                   class="required condition-isRegisteredAsUnemployed-filled  validate-date ${invalidFields.contains('professionalStatusRegisterAsUnemployedDate') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusRegisterAsUnemployedDate.validationError" />" />
             
 
     
       <label class="required condition-isUnemployed-filled"><g:message code="hccr.property.professionalStatusIndemnified.label" /> *  <span><g:message code="hccr.property.professionalStatusIndemnified.help" /></span></label>
-            <ul class="yes-no required condition-isUnemployed-filled">
+            <ul class="yes-no required condition-isUnemployed-filled ${invalidFields.contains('professionalStatusIndemnified') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="professionalStatusIndemnified_${it ? 'yes' : 'no'}" class="required condition-isUnemployed-filled condition-isIndemnified-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusIndemnified" ${it == rqt.professionalStatusIndemnified ? 'checked="checked"': ''} />
@@ -385,12 +385,12 @@
     
       <label for="professionalStatusIndemnifiedDate" class="required condition-isIndemnified-filled"><g:message code="hccr.property.professionalStatusIndemnifiedDate.label" /> *  <span><g:message code="hccr.property.professionalStatusIndemnifiedDate.help" /></span></label>
             <input type="text" id="professionalStatusIndemnifiedDate" name="professionalStatusIndemnifiedDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusIndemnifiedDate)}" 
-                   class="required condition-isIndemnified-filled  validate-date" title="<g:message code="hccr.property.professionalStatusIndemnifiedDate.validationError" />" />
+                   class="required condition-isIndemnified-filled  validate-date ${invalidFields.contains('professionalStatusIndemnifiedDate') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusIndemnifiedDate.validationError" />" />
             
 
     
       <label class="required"><g:message code="hccr.property.professionalStatusElectiveFunction.label" /> *  <span><g:message code="hccr.property.professionalStatusElectiveFunction.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('professionalStatusElectiveFunction') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="professionalStatusElectiveFunction_${it ? 'yes' : 'no'}" class="required condition-isElectiveFunction-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusElectiveFunction" ${it == rqt.professionalStatusElectiveFunction ? 'checked="checked"': ''} />
@@ -403,7 +403,7 @@
     
       <label for="professionalStatusElectiveFunctionDetails" class="required condition-isElectiveFunction-filled"><g:message code="hccr.property.professionalStatusElectiveFunctionDetails.label" /> *  <span><g:message code="hccr.property.professionalStatusElectiveFunctionDetails.help" /></span></label>
             <input type="text" id="professionalStatusElectiveFunctionDetails" name="professionalStatusElectiveFunctionDetails" value="${rqt.professionalStatusElectiveFunctionDetails?.toString()}" 
-                    class="required condition-isElectiveFunction-filled  " title="<g:message code="hccr.property.professionalStatusElectiveFunctionDetails.validationError" />"  maxlength="60" />
+                    class="required condition-isElectiveFunction-filled   ${invalidFields.contains('professionalStatusElectiveFunctionDetails') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusElectiveFunctionDetails.validationError" />"  maxlength="60" />
             
 
     

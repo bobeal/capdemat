@@ -14,7 +14,7 @@
   
     <label for="otherWaste" class=""><g:message code="cwcr.property.otherWaste.label" />   <span><g:message code="cwcr.property.otherWaste.help" /></span></label>
             <input type="text" id="otherWaste" name="otherWaste" value="${rqt.otherWaste?.toString()}" 
-                    class="  validate-string" title="<g:message code="cwcr.property.otherWaste.validationError" />"   />
+                    class="  validate-string ${invalidFields.contains('otherWaste') ? 'validation-failed' : ''}" title="<g:message code="cwcr.property.otherWaste.validationError" />"   />
             
 
   

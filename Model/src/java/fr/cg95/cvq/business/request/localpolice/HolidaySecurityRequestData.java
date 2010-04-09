@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class HolidaySecurityRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -50,6 +59,30 @@ public class HolidaySecurityRequestData implements Serializable {
     }
 
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"contact"},
+        message = "otherContactLastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"contact"},
+        message = "otherContactLastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"contact"},
+        message = "otherContactLastName"
+      )
+    
     private String otherContactLastName;
 
     public final void setOtherContactLastName(final String otherContactLastName) {
@@ -67,6 +100,14 @@ public class HolidaySecurityRequestData implements Serializable {
         return this.otherContactLastName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "absenceEndDate"
+      )
+    
     private java.util.Date absenceEndDate;
 
     public final void setAbsenceEndDate(final java.util.Date absenceEndDate) {
@@ -84,6 +125,14 @@ public class HolidaySecurityRequestData implements Serializable {
         return this.absenceEndDate;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"additional"},
+        message = "alarm"
+      )
+    
     private Boolean alarm;
 
     public final void setAlarm(final Boolean alarm) {
@@ -101,6 +150,21 @@ public class HolidaySecurityRequestData implements Serializable {
         return this.alarm;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"contact"},
+        message = "otherContactAddress"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"contact"},
+        message = "otherContactAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address otherContactAddress;
 
     public final void setOtherContactAddress(final fr.cg95.cvq.business.users.Address otherContactAddress) {
@@ -119,6 +183,30 @@ public class HolidaySecurityRequestData implements Serializable {
         return this.otherContactAddress;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"contact"},
+        message = "otherContactFirstName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"contact"},
+        message = "otherContactFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"contact"},
+        message = "otherContactFirstName"
+      )
+    
     private String otherContactFirstName;
 
     public final void setOtherContactFirstName(final String otherContactFirstName) {
@@ -136,6 +224,14 @@ public class HolidaySecurityRequestData implements Serializable {
         return this.otherContactFirstName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"additional"},
+        message = "light"
+      )
+    
     private Boolean light;
 
     public final void setLight(final Boolean light) {
@@ -153,6 +249,30 @@ public class HolidaySecurityRequestData implements Serializable {
         return this.light;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"contact"},
+        message = "otherContactPhone"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"contact"},
+        message = "otherContactPhone"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"contact"},
+        message = "otherContactPhone"
+      )
+    
     private String otherContactPhone;
 
     public final void setOtherContactPhone(final String otherContactPhone) {
@@ -170,6 +290,14 @@ public class HolidaySecurityRequestData implements Serializable {
         return this.otherContactPhone;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
     private Boolean rulesAndRegulationsAcceptance;
 
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
@@ -187,6 +315,30 @@ public class HolidaySecurityRequestData implements Serializable {
         return this.rulesAndRegulationsAcceptance;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"contactphone"},
+        message = "alertPhone"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"contactphone"},
+        message = "alertPhone"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"contactphone"},
+        message = "alertPhone"
+      )
+    
     private String alertPhone;
 
     public final void setAlertPhone(final String alertPhone) {
@@ -204,6 +356,14 @@ public class HolidaySecurityRequestData implements Serializable {
         return this.alertPhone;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "absenceStartDate"
+      )
+    
     private java.util.Date absenceStartDate;
 
     public final void setAbsenceStartDate(final java.util.Date absenceStartDate) {

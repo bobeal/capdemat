@@ -104,6 +104,9 @@
                 <include name="jdom.jar" />
             </fileset>
             <fileset dir="${lowagie.lib.dir}" />
+            <fileset dir="${sourceforge.lib.dir}">
+                <include name="oval*.jar" />
+            </fileset>
         </copy>
     </target>
 

@@ -1,5 +1,6 @@
 <%
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.generator.common.Condition.RoleType
   import fr.cg95.cvq.generator.plugins.model.ModelPluginUtils
   fr.cg95.cvq.generator.plugins.model.ElementModelProperties.metaClass.type = {
     if (delegate.simpleType) {
@@ -88,11 +89,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -104,6 +111,9 @@ import fr.cg95.cvq.business.users.*;
 public class ${requestName}Data implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -126,18 +136,46 @@ public class ${requestName}Data implements Serializable {
         return this.id;
     }
 
-  <% elements.each { %>
-    private ${it.type()} ${it.nameAsParam};
+  <% elements.each { element -> %>
+    <% element.validationAnnotations.each { %>
+      @${it.key}(
+        <% it.value.each { %>
+          ${it.key} = ${it.value},
+        <% } %>
+        <%
+          if (element.elementCommon.conditionListener != null
+            || element.complexContainerConditionListener != null) {
+        %>
+          when = "groovy:def active = true;" +
+          <%
+            [element.elementCommon.conditionListener, element.complexContainerConditionListener].each { listener ->
+              if (listener != null) {
+                def trigger = request.getField(listener.condition.trigger.name)
+                if ("LocalReferentialData".equals(trigger.modelClassName)) {
+          %>
+            "_this.${trigger.nameAsParam}.each { active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${trigger.nameAsParam}'].test(it.name) };" +
+                <% } else { %>
+            "active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${trigger.nameAsParam}'].test(_this.${trigger.nameAsParam}.toString());" +
+                <% } %>
+              <% } %>
+            <% } %>
+            "return active",
+        <% } %>
+        profiles = {"${element.elementCommon.step.name}"},
+        message = "${element.nameAsParam}"
+      )
+    <% } %>
+    private ${element.type()} ${element.nameAsParam};
 
-    public final void set${it.elementName}(final ${it.type()} ${it.nameAsParam}) {
-        this.${it.nameAsParam} = ${it.nameAsParam};
+    public final void set${element.elementName}(final ${element.type()} ${element.nameAsParam}) {
+        this.${element.nameAsParam} = ${element.nameAsParam};
     }
 
     /**
- <% displayAnnotation(it, requestName) %>
+ <% displayAnnotation(element, requestName) %>
     */
-    public final ${it.type()} get${it.elementName}() {
-        return this.${it.nameAsParam};
+    public final ${element.type()} get${element.elementName}() {
+        return this.${element.nameAsParam};
     }
   <% } %>
 }

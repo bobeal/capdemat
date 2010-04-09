@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.MarriageDetailsRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
@@ -16,14 +15,11 @@ import fr.cg95.cvq.service.request.impl.RequestService;
  * @author bor@zenexity.fr
  */
 public final class MarriageDetailsRequestService extends RequestService {
-    
-    
+
     @Override
     public void init() {
-        super.init();
-
-        conditions.put("requesterQuality", new EqualityChecker("Other"));
-        conditions.put("format",
+        MarriageDetailsRequest.conditions.put("requesterQuality", new EqualityChecker("Other"));
+        MarriageDetailsRequest.conditions.put("format",
             new EqualityListChecker(Arrays.asList("FullCopy", "ExtractWithRelationship")));
     }
 
@@ -33,7 +29,7 @@ public final class MarriageDetailsRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         MarriageDetailsRequest request = new MarriageDetailsRequest();
         //FIXME see Birth
         if (SecurityContext.getCurrentSite() != null) {

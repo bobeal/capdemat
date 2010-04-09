@@ -262,6 +262,7 @@ public class ModelRequestObject {
 
     private void generateRequestObject() {
         Map<String, Object> model = new HashMap<String, Object>();
+        model.put("request", this);
         model.put("baseNS", IPluginGenerator.MODEL_BASE_TARGET_NS);
         model.put("lastParticle", requestNamespaceLastParticle);
         model.put("XMLBeansBaseNS", IPluginGenerator.XMLBEANS_BASE_TARGET_NS);

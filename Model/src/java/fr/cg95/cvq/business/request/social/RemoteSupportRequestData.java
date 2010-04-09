@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class RemoteSupportRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -60,6 +69,16 @@ public class RemoteSupportRequestData implements Serializable {
     }
 
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"contact"},
+        message = "trusteePhone"
+      )
+    
     private String trusteePhone;
 
     public final void setTrusteePhone(final String trusteePhone) {
@@ -77,6 +96,23 @@ public class RemoteSupportRequestData implements Serializable {
         return this.trusteePhone;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['requestInformationRequestKind'].test(_this.requestInformationRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "spouseIsDisabledPerson"
+      )
+    
     private Boolean spouseIsDisabledPerson;
 
     public final void setSpouseIsDisabledPerson(final Boolean spouseIsDisabledPerson) {
@@ -94,6 +130,14 @@ public class RemoteSupportRequestData implements Serializable {
         return this.spouseIsDisabledPerson;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthDate"
+      )
+    
     private java.util.Date subjectBirthDate;
 
     public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
@@ -111,6 +155,14 @@ public class RemoteSupportRequestData implements Serializable {
         return this.subjectBirthDate;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectIsAPABeneficiary"
+      )
+    
     private Boolean subjectIsAPABeneficiary;
 
     public final void setSubjectIsAPABeneficiary(final Boolean subjectIsAPABeneficiary) {
@@ -128,6 +180,14 @@ public class RemoteSupportRequestData implements Serializable {
         return this.subjectIsAPABeneficiary;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectResideWith"
+      )
+    
     private fr.cg95.cvq.business.request.social.RsrSubjectResideWithType subjectResideWith;
 
     public final void setSubjectResideWith(final fr.cg95.cvq.business.request.social.RsrSubjectResideWithType subjectResideWith) {
@@ -145,6 +205,23 @@ public class RemoteSupportRequestData implements Serializable {
         return this.subjectResideWith;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['requestInformationRequestKind'].test(_this.requestInformationRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "spouseBirthDate"
+      )
+    
     private java.util.Date spouseBirthDate;
 
     public final void setSpouseBirthDate(final java.util.Date spouseBirthDate) {
@@ -162,6 +239,57 @@ public class RemoteSupportRequestData implements Serializable {
         return this.spouseBirthDate;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "contactPhone"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "contactPhone"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "contactPhone"
+      )
+    
     private String contactPhone;
 
     public final void setContactPhone(final String contactPhone) {
@@ -179,6 +307,57 @@ public class RemoteSupportRequestData implements Serializable {
         return this.contactPhone;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['requestInformationRequestKind'].test(_this.requestInformationRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "spouseLastName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['requestInformationRequestKind'].test(_this.requestInformationRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "spouseLastName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['requestInformationRequestKind'].test(_this.requestInformationRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "spouseLastName"
+      )
+    
     private String spouseLastName;
 
     public final void setSpouseLastName(final String spouseLastName) {
@@ -196,6 +375,14 @@ public class RemoteSupportRequestData implements Serializable {
         return this.spouseLastName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "requestInformationEmergency"
+      )
+    
     private Boolean requestInformationEmergency;
 
     public final void setRequestInformationEmergency(final Boolean requestInformationEmergency) {
@@ -213,6 +400,14 @@ public class RemoteSupportRequestData implements Serializable {
         return this.requestInformationEmergency;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "requestInformationRequestKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.RsrRequestInformationRequestKindType requestInformationRequestKind;
 
     public final void setRequestInformationRequestKind(final fr.cg95.cvq.business.request.social.RsrRequestInformationRequestKindType requestInformationRequestKind) {
@@ -230,6 +425,14 @@ public class RemoteSupportRequestData implements Serializable {
         return this.requestInformationRequestKind;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectIsDisabledPerson"
+      )
+    
     private Boolean subjectIsDisabledPerson;
 
     public final void setSubjectIsDisabledPerson(final Boolean subjectIsDisabledPerson) {
@@ -247,6 +450,25 @@ public class RemoteSupportRequestData implements Serializable {
         return this.subjectIsDisabledPerson;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "secondContactLastName"
+      )
+    
     private String secondContactLastName;
 
     public final void setSecondContactLastName(final String secondContactLastName) {
@@ -264,6 +486,57 @@ public class RemoteSupportRequestData implements Serializable {
         return this.secondContactLastName;
     }
   
+    
+      @MaxLength(
+        
+          value = 180,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requestInformationEmergency'].test(_this.requestInformationEmergency.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "requestInformationEmergencyMotive"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requestInformationEmergency'].test(_this.requestInformationEmergency.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "requestInformationEmergencyMotive"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['requestInformationEmergency'].test(_this.requestInformationEmergency.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "requestInformationEmergencyMotive"
+      )
+    
     private String requestInformationEmergencyMotive;
 
     public final void setRequestInformationEmergencyMotive(final String requestInformationEmergencyMotive) {
@@ -281,6 +554,57 @@ public class RemoteSupportRequestData implements Serializable {
         return this.requestInformationEmergencyMotive;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "contactLastName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "contactLastName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "contactLastName"
+      )
+    
     private String contactLastName;
 
     public final void setContactLastName(final String contactLastName) {
@@ -298,6 +622,23 @@ public class RemoteSupportRequestData implements Serializable {
         return this.contactLastName;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['requestInformationRequestKind'].test(_this.requestInformationRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "spouseTitle"
+      )
+    
     private fr.cg95.cvq.business.users.TitleType spouseTitle;
 
     public final void setSpouseTitle(final fr.cg95.cvq.business.users.TitleType spouseTitle) {
@@ -315,6 +656,14 @@ public class RemoteSupportRequestData implements Serializable {
         return this.spouseTitle;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectTitle"
+      )
+    
     private fr.cg95.cvq.business.users.TitleType subjectTitle;
 
     public final void setSubjectTitle(final fr.cg95.cvq.business.users.TitleType subjectTitle) {
@@ -332,6 +681,57 @@ public class RemoteSupportRequestData implements Serializable {
         return this.subjectTitle;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['requestInformationRequestKind'].test(_this.requestInformationRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "spouseFirstName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['requestInformationRequestKind'].test(_this.requestInformationRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "spouseFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['requestInformationRequestKind'].test(_this.requestInformationRequestKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "spouseFirstName"
+      )
+    
     private String spouseFirstName;
 
     public final void setSpouseFirstName(final String spouseFirstName) {
@@ -349,6 +749,57 @@ public class RemoteSupportRequestData implements Serializable {
         return this.spouseFirstName;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "contactFirstName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "contactFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "contactFirstName"
+      )
+    
     private String contactFirstName;
 
     public final void setContactFirstName(final String contactFirstName) {
@@ -366,6 +817,16 @@ public class RemoteSupportRequestData implements Serializable {
         return this.contactFirstName;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"contact"},
+        message = "trusteeFirstName"
+      )
+    
     private String trusteeFirstName;
 
     public final void setTrusteeFirstName(final String trusteeFirstName) {
@@ -383,6 +844,14 @@ public class RemoteSupportRequestData implements Serializable {
         return this.trusteeFirstName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"contact"},
+        message = "contactKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.RsrContactKindType contactKind;
 
     public final void setContactKind(final fr.cg95.cvq.business.request.social.RsrContactKindType contactKind) {
@@ -400,6 +869,25 @@ public class RemoteSupportRequestData implements Serializable {
         return this.contactKind;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "secondContactFirstName"
+      )
+    
     private String secondContactFirstName;
 
     public final void setSecondContactFirstName(final String secondContactFirstName) {
@@ -417,6 +905,14 @@ public class RemoteSupportRequestData implements Serializable {
         return this.secondContactFirstName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectIsTaxable"
+      )
+    
     private Boolean subjectIsTaxable;
 
     public final void setSubjectIsTaxable(final Boolean subjectIsTaxable) {
@@ -434,6 +930,16 @@ public class RemoteSupportRequestData implements Serializable {
         return this.subjectIsTaxable;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"contact"},
+        message = "trusteeLastName"
+      )
+    
     private String trusteeLastName;
 
     public final void setTrusteeLastName(final String trusteeLastName) {
@@ -451,6 +957,25 @@ public class RemoteSupportRequestData implements Serializable {
         return this.trusteeLastName;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['contactKind'].test(_this.contactKind.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"contact"},
+        message = "secondContactPhone"
+      )
+    
     private String secondContactPhone;
 
     public final void setSecondContactPhone(final String secondContactPhone) {

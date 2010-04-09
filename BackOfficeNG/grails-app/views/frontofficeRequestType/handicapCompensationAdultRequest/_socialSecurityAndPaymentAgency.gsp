@@ -6,7 +6,7 @@
     <legend><g:message code="hcar.property.socialSecurity.label" /></legend>
     
       <label for="socialSecurityMemberShipKind" class="required"><g:message code="hcar.property.socialSecurityMemberShipKind.label" /> *  <span><g:message code="hcar.property.socialSecurityMemberShipKind.help" /></span></label>
-            <select id="socialSecurityMemberShipKind" name="socialSecurityMemberShipKind" class="required condition-isSocialSecurityMemberShip-trigger  validate-not-first" title="<g:message code="hcar.property.socialSecurityMemberShipKind.validationError" />">
+            <select id="socialSecurityMemberShipKind" name="socialSecurityMemberShipKind" class="required condition-isSocialSecurityMemberShip-trigger  validate-not-first ${invalidFields.contains('socialSecurityMemberShipKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.socialSecurityMemberShipKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Insured','Claimant','NoMemberShip']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarSocialSecurityMemberShipKindType_${it}" ${it == rqt.socialSecurityMemberShipKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.socialSecurityMemberShipKind" /></option>
@@ -17,13 +17,13 @@
     
       <label for="socialSecurityNumber" class="required condition-isSocialSecurityMemberShip-filled"><g:message code="hcar.property.socialSecurityNumber.label" /> *  <span><g:message code="hcar.property.socialSecurityNumber.help" /></span></label>
             <input type="text" id="socialSecurityNumber" name="socialSecurityNumber" value="${rqt.socialSecurityNumber?.toString()}" 
-                    class="required condition-isSocialSecurityMemberShip-filled  " title="<g:message code="hcar.property.socialSecurityNumber.validationError" />"   />
+                    class="required condition-isSocialSecurityMemberShip-filled   ${invalidFields.contains('socialSecurityNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.socialSecurityNumber.validationError" />"   />
             
 
     
       <label for="socialSecurityAgencyName" class="required condition-isSocialSecurityMemberShip-filled"><g:message code="hcar.property.socialSecurityAgencyName.label" /> *  <span><g:message code="hcar.property.socialSecurityAgencyName.help" /></span></label>
             <input type="text" id="socialSecurityAgencyName" name="socialSecurityAgencyName" value="${rqt.socialSecurityAgencyName?.toString()}" 
-                    class="required condition-isSocialSecurityMemberShip-filled  " title="<g:message code="hcar.property.socialSecurityAgencyName.validationError" />"  maxlength="50" />
+                    class="required condition-isSocialSecurityMemberShip-filled   ${invalidFields.contains('socialSecurityAgencyName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.socialSecurityAgencyName.validationError" />"  maxlength="50" />
             
 
     
@@ -57,7 +57,7 @@
     <legend><g:message code="hcar.property.paymentAgency.label" /></legend>
     
       <label for="paymentAgencyBeneficiary" class="required"><g:message code="hcar.property.paymentAgencyBeneficiary.label" /> *  <span><g:message code="hcar.property.paymentAgencyBeneficiary.help" /></span></label>
-            <select id="paymentAgencyBeneficiary" name="paymentAgencyBeneficiary" class="required condition-isPaymentAgencyBeneficiary-trigger  validate-not-first" title="<g:message code="hcar.property.paymentAgencyBeneficiary.validationError" />">
+            <select id="paymentAgencyBeneficiary" name="paymentAgencyBeneficiary" class="required condition-isPaymentAgencyBeneficiary-trigger  validate-not-first ${invalidFields.contains('paymentAgencyBeneficiary') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.paymentAgencyBeneficiary.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['CAF','MSA','Other','NoMemberShip']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarPaymentAgencyBeneficiaryType_${it}" ${it == rqt.paymentAgencyBeneficiary?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.paymentAgencyBeneficiary" /></option>
@@ -68,13 +68,13 @@
     
       <label for="paymentAgencyBeneficiaryNumber" class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hcar.property.paymentAgencyBeneficiaryNumber.label" /> *  <span><g:message code="hcar.property.paymentAgencyBeneficiaryNumber.help" /></span></label>
             <input type="text" id="paymentAgencyBeneficiaryNumber" name="paymentAgencyBeneficiaryNumber" value="${rqt.paymentAgencyBeneficiaryNumber?.toString()}" 
-                    class="required condition-isPaymentAgencyBeneficiary-filled  " title="<g:message code="hcar.property.paymentAgencyBeneficiaryNumber.validationError" />"  maxlength="20" />
+                    class="required condition-isPaymentAgencyBeneficiary-filled   ${invalidFields.contains('paymentAgencyBeneficiaryNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.paymentAgencyBeneficiaryNumber.validationError" />"  maxlength="20" />
             
 
     
       <label for="paymentAgencyName" class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hcar.property.paymentAgencyName.label" /> *  <span><g:message code="hcar.property.paymentAgencyName.help" /></span></label>
             <input type="text" id="paymentAgencyName" name="paymentAgencyName" value="${rqt.paymentAgencyName?.toString()}" 
-                    class="required condition-isPaymentAgencyBeneficiary-filled  " title="<g:message code="hcar.property.paymentAgencyName.validationError" />"  maxlength="50" />
+                    class="required condition-isPaymentAgencyBeneficiary-filled   ${invalidFields.contains('paymentAgencyName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.paymentAgencyName.validationError" />"  maxlength="50" />
             
 
     

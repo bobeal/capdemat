@@ -4,20 +4,16 @@ import java.util.Arrays;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.technical.TechnicalInterventionRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
 public class TechnicalInterventionRequestService extends RequestService {
 
-    
     @Override
     public void init() {
-        super.init();
-        
-        conditions.put("interventionType", 
-                new EqualityListChecker(Arrays.asList("other", "Other", "Autre", "autre")));
+        TechnicalInterventionRequest.conditions.put("interventionType",
+            new EqualityListChecker(Arrays.asList("other", "Other", "Autre", "autre")));
     }
 
     @Override
@@ -26,7 +22,7 @@ public class TechnicalInterventionRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         TechnicalInterventionRequest request = new TechnicalInterventionRequest();
         if (SecurityContext.getCurrentEcitizen() != null) {
             request.setInterventionPlace(SecurityContext.getCurrentEcitizen().getHomeFolder().getAdress().clone());

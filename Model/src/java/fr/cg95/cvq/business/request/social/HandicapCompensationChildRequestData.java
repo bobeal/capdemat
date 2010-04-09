@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class HandicapCompensationChildRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -204,6 +213,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"health"},
+        message = "healthFollowedByProfessional"
+      )
+    
     private Boolean healthFollowedByProfessional;
 
     public final void setHealthFollowedByProfessional(final Boolean healthFollowedByProfessional) {
@@ -221,6 +238,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.healthFollowedByProfessional;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "professionalSupportProfessionals"
+      )
+    
     private Boolean professionalSupportProfessionals;
 
     public final void setProfessionalSupportProfessionals(final Boolean professionalSupportProfessionals) {
@@ -238,6 +263,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalSupportProfessionals;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentFamilyDependents"
+      )
+    
     private Boolean referentFamilyDependents;
 
     public final void setReferentFamilyDependents(final Boolean referentFamilyDependents) {
@@ -255,6 +288,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.referentFamilyDependents;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "isFamilyAssistance"
+      )
+    
     private Boolean isFamilyAssistance;
 
     public final void setIsFamilyAssistance(final Boolean isFamilyAssistance) {
@@ -272,6 +313,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.isFamilyAssistance;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingSendToSchool'].test(_this.schoolingSendToSchool.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingAttendedGrade"
+      )
+    
     private fr.cg95.cvq.business.users.SectionType schoolingAttendedGrade;
 
     public final void setSchoolingAttendedGrade(final fr.cg95.cvq.business.users.SectionType schoolingAttendedGrade) {
@@ -289,6 +347,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingAttendedGrade;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['referentFamilyDependents'].test(_this.referentFamilyDependents.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "familyDependents"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['referentFamilyDependents'].test(_this.referentFamilyDependents.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "familyDependents"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.HccrFamilyDependent> familyDependents;
 
     public final void setFamilyDependents(final List<fr.cg95.cvq.business.request.social.HccrFamilyDependent> familyDependents) {
@@ -313,6 +404,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.familyDependents;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentTitle"
+      )
+    
     private fr.cg95.cvq.business.users.TitleType referentTitle;
 
     public final void setReferentTitle(final fr.cg95.cvq.business.users.TitleType referentTitle) {
@@ -330,6 +429,16 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.referentTitle;
     }
   
+    
+      @MaxLength(
+        
+          value = 600,
+        
+        
+        profiles = {"project"},
+        message = "projectComments"
+      )
+    
     private String projectComments;
 
     public final void setProjectComments(final String projectComments) {
@@ -347,6 +456,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectComments;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"folders"},
+        message = "foldersCdes"
+      )
+    
     private Boolean foldersCdes;
 
     public final void setFoldersCdes(final Boolean foldersCdes) {
@@ -364,6 +481,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.foldersCdes;
     }
   
+    
+      @MaxLength(
+        
+          value = 2,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['foldersMdph'].test(_this.foldersMdph.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"folders"},
+        message = "foldersMdphDepartment"
+      )
+    
     private String foldersMdphDepartment;
 
     public final void setFoldersMdphDepartment(final String foldersMdphDepartment) {
@@ -381,6 +517,16 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.foldersMdphDepartment;
     }
   
+    
+      @MaxLength(
+        
+          value = 600,
+        
+        
+        profiles = {"project"},
+        message = "projectNeeds"
+      )
+    
     private String projectNeeds;
 
     public final void setProjectNeeds(final String projectNeeds) {
@@ -398,6 +544,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectNeeds;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "homeInterventionHomeIntervenant"
+      )
+    
     private Boolean homeInterventionHomeIntervenant;
 
     public final void setHomeInterventionHomeIntervenant(final Boolean homeInterventionHomeIntervenant) {
@@ -415,6 +569,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.homeInterventionHomeIntervenant;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsEducationAllocationOfDisabledChildren"
+      )
+    
     private Boolean benefitsEducationAllocationOfDisabledChildren;
 
     public final void setBenefitsEducationAllocationOfDisabledChildren(final Boolean benefitsEducationAllocationOfDisabledChildren) {
@@ -432,6 +594,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsEducationAllocationOfDisabledChildren;
     }
   
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['foldersOtherFolders'].test(_this.foldersOtherFolders.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"folders"},
+        message = "otherFolders"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.HccrOtherFolder> otherFolders;
 
     public final void setOtherFolders(final List<fr.cg95.cvq.business.request.social.HccrOtherFolder> otherFolders) {
@@ -456,6 +635,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.otherFolders;
     }
   
+    
+      @MaxLength(
+        
+          value = 30,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['foldersMdph'].test(_this.foldersMdph.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"folders"},
+        message = "foldersMdphNumber"
+      )
+    
     private String foldersMdphNumber;
 
     public final void setFoldersMdphNumber(final String foldersMdphNumber) {
@@ -473,6 +671,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.foldersMdphNumber;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['subjectBirthDate'].test(_this.subjectBirthDate.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "subjectParentalAuthorityHolder"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrSubjectParentalAuthorityHolderType subjectParentalAuthorityHolder;
 
     public final void setSubjectParentalAuthorityHolder(final fr.cg95.cvq.business.request.social.HccrSubjectParentalAuthorityHolderType subjectParentalAuthorityHolder) {
@@ -490,6 +705,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.subjectParentalAuthorityHolder;
     }
   
+    
     private Boolean projectRequestsHousingFacilities;
 
     public final void setProjectRequestsHousingFacilities(final Boolean projectRequestsHousingFacilities) {
@@ -507,6 +723,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsHousingFacilities;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingHomeSchooling"
+      )
+    
     private Boolean schoolingHomeSchooling;
 
     public final void setSchoolingHomeSchooling(final Boolean schoolingHomeSchooling) {
@@ -524,6 +748,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingHomeSchooling;
     }
   
+    
     private java.math.BigInteger fatherActivityReductionRatio;
 
     public final void setFatherActivityReductionRatio(final java.math.BigInteger fatherActivityReductionRatio) {
@@ -542,6 +767,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.fatherActivityReductionRatio;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthDate"
+      )
+    
     private java.util.Date subjectBirthDate;
 
     public final void setSubjectBirthDate(final java.util.Date subjectBirthDate) {
@@ -559,6 +792,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.subjectBirthDate;
     }
   
+    
+      @MaxLength(
+        
+          value = 50,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingExtraCurricular'].test(_this.schoolingExtraCurricular.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingExtraCurricularDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingExtraCurricular'].test(_this.schoolingExtraCurricular.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingExtraCurricularDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingExtraCurricular'].test(_this.schoolingExtraCurricular.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingExtraCurricularDetails"
+      )
+    
     private String schoolingExtraCurricularDetails;
 
     public final void setSchoolingExtraCurricularDetails(final String schoolingExtraCurricularDetails) {
@@ -576,6 +860,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingExtraCurricularDetails;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSpecializedGrade"
+      )
+    
     private Boolean schoolingSpecializedGrade;
 
     public final void setSchoolingSpecializedGrade(final Boolean schoolingSpecializedGrade) {
@@ -593,6 +885,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingSpecializedGrade;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabilityPension"
+      )
+    
     private Boolean benefitsDisabilityPension;
 
     public final void setBenefitsDisabilityPension(final Boolean benefitsDisabilityPension) {
@@ -610,6 +910,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsDisabilityPension;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['referentTitle'].test(_this.referentTitle.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "referentMaidenName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['referentTitle'].test(_this.referentTitle.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "referentMaidenName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['referentTitle'].test(_this.referentTitle.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "referentMaidenName"
+      )
+    
     private String referentMaidenName;
 
     public final void setReferentMaidenName(final String referentMaidenName) {
@@ -627,6 +978,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.referentMaidenName;
     }
   
+    
     private Boolean projectRequestsDisabledWorkerRecognition;
 
     public final void setProjectRequestsDisabledWorkerRecognition(final Boolean projectRequestsDisabledWorkerRecognition) {
@@ -644,6 +996,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsDisabledWorkerRecognition;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsUnemploymentBenefits"
+      )
+    
     private Boolean benefitsUnemploymentBenefits;
 
     public final void setBenefitsUnemploymentBenefits(final Boolean benefitsUnemploymentBenefits) {
@@ -661,6 +1021,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsUnemploymentBenefits;
     }
   
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['homeInterventionHomeIntervenant'].test(_this.homeInterventionHomeIntervenant.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "homeIntervenants"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.HccrHomeIntervenant> homeIntervenants;
 
     public final void setHomeIntervenants(final List<fr.cg95.cvq.business.request.social.HccrHomeIntervenant> homeIntervenants) {
@@ -685,6 +1062,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.homeIntervenants;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrProfessionalStatusKindType professionalStatusKind;
 
     public final void setProfessionalStatusKind(final fr.cg95.cvq.business.request.social.HccrProfessionalStatusKindType professionalStatusKind) {
@@ -702,6 +1087,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusKind;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingHomeSchoolingKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrHomeSchoolingKindType schoolingHomeSchoolingKind;
 
     public final void setSchoolingHomeSchoolingKind(final fr.cg95.cvq.business.request.social.HccrHomeSchoolingKindType schoolingHomeSchoolingKind) {
@@ -719,6 +1112,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingHomeSchoolingKind;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsEducationOfDisabledChildren'].test(_this.benefitsEducationOfDisabledChildren.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsEducationOfDisabledChildrenDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsEducationOfDisabledChildren'].test(_this.benefitsEducationOfDisabledChildren.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsEducationOfDisabledChildrenDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsEducationOfDisabledChildren'].test(_this.benefitsEducationOfDisabledChildren.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsEducationOfDisabledChildrenDetails"
+      )
+    
     private String benefitsEducationOfDisabledChildrenDetails;
 
     public final void setBenefitsEducationOfDisabledChildrenDetails(final String benefitsEducationOfDisabledChildrenDetails) {
@@ -736,6 +1180,16 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsEducationOfDisabledChildrenDetails;
     }
   
+    
+      @MaxLength(
+        
+          value = 180,
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "formationPreviousFormation"
+      )
+    
     private String formationPreviousFormation;
 
     public final void setFormationPreviousFormation(final String formationPreviousFormation) {
@@ -753,6 +1207,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.formationPreviousFormation;
     }
   
+    
     private Boolean projectRequestsVocationalTraining;
 
     public final void setProjectRequestsVocationalTraining(final Boolean projectRequestsVocationalTraining) {
@@ -770,6 +1225,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsVocationalTraining;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "facilitiesCustomCar"
+      )
+    
     private Boolean facilitiesCustomCar;
 
     public final void setFacilitiesCustomCar(final Boolean facilitiesCustomCar) {
@@ -787,6 +1250,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.facilitiesCustomCar;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabledAdultAllocation"
+      )
+    
     private Boolean benefitsDisabledAdultAllocation;
 
     public final void setBenefitsDisabledAdultAllocation(final Boolean benefitsDisabledAdultAllocation) {
@@ -804,6 +1275,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsDisabledAdultAllocation;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusIndemnified"
+      )
+    
     private Boolean professionalStatusIndemnified;
 
     public final void setProfessionalStatusIndemnified(final Boolean professionalStatusIndemnified) {
@@ -821,6 +1309,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusIndemnified;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingEnrolment"
+      )
+    
     private Boolean schoolingEnrolment;
 
     public final void setSchoolingEnrolment(final Boolean schoolingEnrolment) {
@@ -838,6 +1334,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingEnrolment;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsThirdPartyCompensatoryAllowance"
+      )
+    
     private Boolean benefitsThirdPartyCompensatoryAllowance;
 
     public final void setBenefitsThirdPartyCompensatoryAllowance(final Boolean benefitsThirdPartyCompensatoryAllowance) {
@@ -855,6 +1359,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsThirdPartyCompensatoryAllowance;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentBirthDate"
+      )
+    
     private java.util.Date referentBirthDate;
 
     public final void setReferentBirthDate(final java.util.Date referentBirthDate) {
@@ -872,6 +1384,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.referentBirthDate;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusDate"
+      )
+    
     private java.util.Date professionalStatusDate;
 
     public final void setProfessionalStatusDate(final java.util.Date professionalStatusDate) {
@@ -889,6 +1409,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusDate;
     }
   
+    
     private Boolean projectRequestsTransportCostAllocation;
 
     public final void setProjectRequestsTransportCostAllocation(final Boolean projectRequestsTransportCostAllocation) {
@@ -906,6 +1427,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsTransportCostAllocation;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsProfessionalOrientation"
+      )
+    
     private Boolean benefitsProfessionalOrientation;
 
     public final void setBenefitsProfessionalOrientation(final Boolean benefitsProfessionalOrientation) {
@@ -923,6 +1452,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsProfessionalOrientation;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingHomeSchoolingKind'].test(_this.schoolingHomeSchoolingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingHomeSchoolingAccompanistLastName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingHomeSchoolingKind'].test(_this.schoolingHomeSchoolingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingHomeSchoolingAccompanistLastName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingHomeSchoolingKind'].test(_this.schoolingHomeSchoolingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingHomeSchoolingAccompanistLastName"
+      )
+    
     private String schoolingHomeSchoolingAccompanistLastName;
 
     public final void setSchoolingHomeSchoolingAccompanistLastName(final String schoolingHomeSchoolingAccompanistLastName) {
@@ -940,6 +1520,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingHomeSchoolingAccompanistLastName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabilityRecognition"
+      )
+    
     private Boolean benefitsDisabilityRecognition;
 
     public final void setBenefitsDisabilityRecognition(final Boolean benefitsDisabilityRecognition) {
@@ -957,6 +1545,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsDisabilityRecognition;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusRegisterAsUnemployed"
+      )
+    
     private Boolean professionalStatusRegisterAsUnemployed;
 
     public final void setProfessionalStatusRegisterAsUnemployed(final Boolean professionalStatusRegisterAsUnemployed) {
@@ -974,6 +1579,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusRegisterAsUnemployed;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusIndemnified'].test(_this.professionalStatusIndemnified.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusIndemnifiedDate"
+      )
+    
     private java.util.Date professionalStatusIndemnifiedDate;
 
     public final void setProfessionalStatusIndemnifiedDate(final java.util.Date professionalStatusIndemnifiedDate) {
@@ -991,6 +1613,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusIndemnifiedDate;
     }
   
+    
+      @MaxLength(
+        
+          value = 80,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingSocialReception'].test(_this.dwellingSocialReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingSocialReceptionNaming"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingSocialReception'].test(_this.dwellingSocialReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingSocialReceptionNaming"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingSocialReception'].test(_this.dwellingSocialReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingSocialReceptionNaming"
+      )
+    
     private String dwellingSocialReceptionNaming;
 
     public final void setDwellingSocialReceptionNaming(final String dwellingSocialReceptionNaming) {
@@ -1008,6 +1681,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.dwellingSocialReceptionNaming;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsProfessionalOrientation'].test(_this.benefitsProfessionalOrientation.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsProfessionalOrientationDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsProfessionalOrientation'].test(_this.benefitsProfessionalOrientation.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsProfessionalOrientationDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsProfessionalOrientation'].test(_this.benefitsProfessionalOrientation.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsProfessionalOrientationDetails"
+      )
+    
     private String benefitsProfessionalOrientationDetails;
 
     public final void setBenefitsProfessionalOrientationDetails(final String benefitsProfessionalOrientationDetails) {
@@ -1025,6 +1749,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsProfessionalOrientationDetails;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsPainfulStandingCard"
+      )
+    
     private Boolean benefitsPainfulStandingCard;
 
     public final void setBenefitsPainfulStandingCard(final Boolean benefitsPainfulStandingCard) {
@@ -1042,6 +1774,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsPainfulStandingCard;
     }
   
+    
+      @MaxLength(
+        
+          value = 2,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['foldersCdes'].test(_this.foldersCdes.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"folders"},
+        message = "foldersCdesDepartment"
+      )
+    
     private String foldersCdesDepartment;
 
     public final void setFoldersCdesDepartment(final String foldersCdesDepartment) {
@@ -1059,6 +1810,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.foldersCdesDepartment;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "facilitiesSpecializedTransport"
+      )
+    
     private Boolean facilitiesSpecializedTransport;
 
     public final void setFacilitiesSpecializedTransport(final Boolean facilitiesSpecializedTransport) {
@@ -1076,6 +1835,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.facilitiesSpecializedTransport;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsParkingCard"
+      )
+    
     private Boolean benefitsParkingCard;
 
     public final void setBenefitsParkingCard(final Boolean benefitsParkingCard) {
@@ -1093,6 +1860,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsParkingCard;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesSpecializedTransport'].test(_this.facilitiesSpecializedTransport.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesSpecializedTransportDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesSpecializedTransport'].test(_this.facilitiesSpecializedTransport.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesSpecializedTransportDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesSpecializedTransport'].test(_this.facilitiesSpecializedTransport.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesSpecializedTransportDetails"
+      )
+    
     private String facilitiesSpecializedTransportDetails;
 
     public final void setFacilitiesSpecializedTransportDetails(final String facilitiesSpecializedTransportDetails) {
@@ -1110,6 +1928,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.facilitiesSpecializedTransportDetails;
     }
   
+    
+      @MaxLength(
+        
+          value = 3,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsWorkAccidentAnnuity'].test(_this.benefitsWorkAccidentAnnuity.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsWorkAccidentAnnuityRatio"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsWorkAccidentAnnuity'].test(_this.benefitsWorkAccidentAnnuity.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsWorkAccidentAnnuityRatio"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsWorkAccidentAnnuity'].test(_this.benefitsWorkAccidentAnnuity.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsWorkAccidentAnnuityRatio"
+      )
+    
     private String benefitsWorkAccidentAnnuityRatio;
 
     public final void setBenefitsWorkAccidentAnnuityRatio(final String benefitsWorkAccidentAnnuityRatio) {
@@ -1127,6 +1996,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsWorkAccidentAnnuityRatio;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialSecurityMemberShipKind'].test(_this.socialSecurityMemberShipKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "socialSecurityNumber"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialSecurityMemberShipKind'].test(_this.socialSecurityMemberShipKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "socialSecurityNumber"
+      )
+    
     private String socialSecurityNumber;
 
     public final void setSocialSecurityNumber(final String socialSecurityNumber) {
@@ -1144,6 +2046,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.socialSecurityNumber;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsWorkAccidentAnnuity"
+      )
+    
     private Boolean benefitsWorkAccidentAnnuity;
 
     public final void setBenefitsWorkAccidentAnnuity(final Boolean benefitsWorkAccidentAnnuity) {
@@ -1161,6 +2071,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsWorkAccidentAnnuity;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "careCareServices"
+      )
+    
     private Boolean careCareServices;
 
     public final void setCareCareServices(final Boolean careCareServices) {
@@ -1178,6 +2096,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.careCareServices;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsDailyAllowances"
+      )
+    
     private Boolean benefitsDailyAllowances;
 
     public final void setBenefitsDailyAllowances(final Boolean benefitsDailyAllowances) {
@@ -1195,6 +2121,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsDailyAllowances;
     }
   
+    
+      @MaxLength(
+        
+          value = 3,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsDisabilityRecognition'].test(_this.benefitsDisabilityRecognition.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabilityRatio"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsDisabilityRecognition'].test(_this.benefitsDisabilityRecognition.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabilityRatio"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsDisabilityRecognition'].test(_this.benefitsDisabilityRecognition.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabilityRatio"
+      )
+    
     private String benefitsDisabilityRatio;
 
     public final void setBenefitsDisabilityRatio(final String benefitsDisabilityRatio) {
@@ -1212,6 +2189,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsDisabilityRatio;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['subjectBirthDate'].test(_this.subjectBirthDate.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "fatherFirstName"
+      )
+    
     private String fatherFirstName;
 
     public final void setFatherFirstName(final String fatherFirstName) {
@@ -1229,6 +2225,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.fatherFirstName;
     }
   
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingHomeSchoolingKind'].test(_this.schoolingHomeSchoolingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingHomeSchoolingAccompanistAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address schoolingHomeSchoolingAccompanistAddress;
 
     public final void setSchoolingHomeSchoolingAccompanistAddress(final fr.cg95.cvq.business.users.Address schoolingHomeSchoolingAccompanistAddress) {
@@ -1247,6 +2260,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingHomeSchoolingAccompanistAddress;
     }
   
+    
     private Boolean projectRequestsCustomCar;
 
     public final void setProjectRequestsCustomCar(final Boolean projectRequestsCustomCar) {
@@ -1264,6 +2278,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsCustomCar;
     }
   
+    
+      @MaxLength(
+        
+          value = 20,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['paymentAgencyBeneficiary'].test(_this.paymentAgencyBeneficiary.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "paymentAgencyBeneficiaryNumber"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['paymentAgencyBeneficiary'].test(_this.paymentAgencyBeneficiary.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "paymentAgencyBeneficiaryNumber"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['paymentAgencyBeneficiary'].test(_this.paymentAgencyBeneficiary.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "paymentAgencyBeneficiaryNumber"
+      )
+    
     private String paymentAgencyBeneficiaryNumber;
 
     public final void setPaymentAgencyBeneficiaryNumber(final String paymentAgencyBeneficiaryNumber) {
@@ -1281,6 +2346,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.paymentAgencyBeneficiaryNumber;
     }
   
+    
+      @MaxLength(
+        
+          value = 30,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['foldersCotorep'].test(_this.foldersCotorep.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"folders"},
+        message = "foldersCotorepNumber"
+      )
+    
     private String foldersCotorepNumber;
 
     public final void setFoldersCotorepNumber(final String foldersCotorepNumber) {
@@ -1298,6 +2382,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.foldersCotorepNumber;
     }
   
+    
     private Boolean projectRequestsACTPRenewal;
 
     public final void setProjectRequestsACTPRenewal(final Boolean projectRequestsACTPRenewal) {
@@ -1315,6 +2400,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsACTPRenewal;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentFamilyStatus"
+      )
+    
     private fr.cg95.cvq.business.users.FamilyStatusType referentFamilyStatus;
 
     public final void setReferentFamilyStatus(final fr.cg95.cvq.business.users.FamilyStatusType referentFamilyStatus) {
@@ -1332,6 +2425,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.referentFamilyStatus;
     }
   
+    
+      @MaxLength(
+        
+          value = 80,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingEnrolment'].test(_this.schoolingEnrolment.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSchoolName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingEnrolment'].test(_this.schoolingEnrolment.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSchoolName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingEnrolment'].test(_this.schoolingEnrolment.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSchoolName"
+      )
+    
     private String schoolingSchoolName;
 
     public final void setSchoolingSchoolName(final String schoolingSchoolName) {
@@ -1349,6 +2493,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingSchoolName;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingSocialReception'].test(_this.dwellingSocialReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingSocialReceptionAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingSocialReception'].test(_this.dwellingSocialReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingSocialReceptionAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dwellingSocialReceptionAddress;
 
     public final void setDwellingSocialReceptionAddress(final fr.cg95.cvq.business.users.Address dwellingSocialReceptionAddress) {
@@ -1367,6 +2544,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.dwellingSocialReceptionAddress;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsSupportedByAnInstitution'].test(_this.benefitsSupportedByAnInstitution.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsSupportedByAnInstitutionDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsSupportedByAnInstitution'].test(_this.benefitsSupportedByAnInstitution.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsSupportedByAnInstitutionDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsSupportedByAnInstitution'].test(_this.benefitsSupportedByAnInstitution.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsSupportedByAnInstitutionDetails"
+      )
+    
     private String benefitsSupportedByAnInstitutionDetails;
 
     public final void setBenefitsSupportedByAnInstitutionDetails(final String benefitsSupportedByAnInstitutionDetails) {
@@ -1384,6 +2612,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsSupportedByAnInstitutionDetails;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"folders"},
+        message = "foldersMdph"
+      )
+    
     private Boolean foldersMdph;
 
     public final void setFoldersMdph(final Boolean foldersMdph) {
@@ -1401,6 +2637,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.foldersMdph;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['subjectBirthDate'].test(_this.subjectBirthDate.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "motherJob"
+      )
+    
     private String motherJob;
 
     public final void setMotherJob(final String motherJob) {
@@ -1418,6 +2673,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.motherJob;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingEnrolment'].test(_this.schoolingEnrolment.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSchoolAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingEnrolment'].test(_this.schoolingEnrolment.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSchoolAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address schoolingSchoolAddress;
 
     public final void setSchoolingSchoolAddress(final fr.cg95.cvq.business.users.Address schoolingSchoolAddress) {
@@ -1436,6 +2724,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingSchoolAddress;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingSchoolingKind'].test(_this.schoolingSchoolingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingTime"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingSchoolingKind'].test(_this.schoolingSchoolingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingTime"
+      )
+    
     private String schoolingTime;
 
     public final void setSchoolingTime(final String schoolingTime) {
@@ -1453,6 +2774,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingTime;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalSupportProfessionals'].test(_this.professionalSupportProfessionals.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "professionalSupportDealsWithSameProfessional"
+      )
+    
     private Boolean professionalSupportDealsWithSameProfessional;
 
     public final void setProfessionalSupportDealsWithSameProfessional(final Boolean professionalSupportDealsWithSameProfessional) {
@@ -1470,6 +2808,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalSupportDealsWithSameProfessional;
     }
   
+    
+      @MaxLength(
+        
+          value = 2,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['subjectBirthDate'].test(_this.subjectBirthDate.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "aseReferentDepartment"
+      )
+    
     private String aseReferentDepartment;
 
     public final void setAseReferentDepartment(final String aseReferentDepartment) {
@@ -1487,6 +2844,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.aseReferentDepartment;
     }
   
+    
+      @MaxLength(
+        
+          value = 2,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['foldersCotorep'].test(_this.foldersCotorep.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"folders"},
+        message = "foldersCotorepDepartment"
+      )
+    
     private String foldersCotorepDepartment;
 
     public final void setFoldersCotorepDepartment(final String foldersCotorepDepartment) {
@@ -1504,6 +2880,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.foldersCotorepDepartment;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"dwelling"},
+        message = "dwellingEstablishmentReception"
+      )
+    
     private Boolean dwellingEstablishmentReception;
 
     public final void setDwellingEstablishmentReception(final Boolean dwellingEstablishmentReception) {
@@ -1521,6 +2905,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.dwellingEstablishmentReception;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['subjectBirthDate'].test(_this.subjectBirthDate.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "motherFirstName"
+      )
+    
     private String motherFirstName;
 
     public final void setMotherFirstName(final String motherFirstName) {
@@ -1538,6 +2941,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.motherFirstName;
     }
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"benefits"},
+        message = "additionalFee"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.HccrAdditionalFee> additionalFee;
 
     public final void setAdditionalFee(final List<fr.cg95.cvq.business.request.social.HccrAdditionalFee> additionalFee) {
@@ -1562,6 +2973,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.additionalFee;
     }
   
+    
     private Boolean projectRequestsOrdinaryWorking;
 
     public final void setProjectRequestsOrdinaryWorking(final Boolean projectRequestsOrdinaryWorking) {
@@ -1579,6 +2991,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsOrdinaryWorking;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabledWorkerRecognition"
+      )
+    
     private Boolean benefitsDisabledWorkerRecognition;
 
     public final void setBenefitsDisabledWorkerRecognition(final Boolean benefitsDisabledWorkerRecognition) {
@@ -1596,6 +3016,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsDisabledWorkerRecognition;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"dwelling"},
+        message = "dwellingSocialReception"
+      )
+    
     private Boolean dwellingSocialReception;
 
     public final void setDwellingSocialReception(final Boolean dwellingSocialReception) {
@@ -1613,6 +3041,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.dwellingSocialReception;
     }
   
+    
     private Boolean projectRequestsEuropeanParkingCard;
 
     public final void setProjectRequestsEuropeanParkingCard(final Boolean projectRequestsEuropeanParkingCard) {
@@ -1630,6 +3059,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsEuropeanParkingCard;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"health"},
+        message = "healthFollowedByDoctor"
+      )
+    
     private Boolean healthFollowedByDoctor;
 
     public final void setHealthFollowedByDoctor(final Boolean healthFollowedByDoctor) {
@@ -1647,6 +3084,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.healthFollowedByDoctor;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['isFamilyAssistance'].test(_this.isFamilyAssistance.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMembers"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['isFamilyAssistance'].test(_this.isFamilyAssistance.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMembers"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.HccrFamilyAssistanceMember> familyAssistanceMembers;
 
     public final void setFamilyAssistanceMembers(final List<fr.cg95.cvq.business.request.social.HccrFamilyAssistanceMember> familyAssistanceMembers) {
@@ -1671,6 +3141,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.familyAssistanceMembers;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingHomeSchoolingKind'].test(_this.schoolingHomeSchoolingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingHomeSchoolingAccompanistFirstName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingHomeSchoolingKind'].test(_this.schoolingHomeSchoolingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingHomeSchoolingAccompanistFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingHomeSchoolingKind'].test(_this.schoolingHomeSchoolingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingHomeSchoolingAccompanistFirstName"
+      )
+    
     private String schoolingHomeSchoolingAccompanistFirstName;
 
     public final void setSchoolingHomeSchoolingAccompanistFirstName(final String schoolingHomeSchoolingAccompanistFirstName) {
@@ -1688,6 +3209,30 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingHomeSchoolingAccompanistFirstName;
     }
   
+    
+      @MaxLength(
+        
+          value = 32,
+        
+        
+        profiles = {"subject"},
+        message = "referentBirthCity"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentBirthCity"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "referentBirthCity"
+      )
+    
     private String referentBirthCity;
 
     public final void setReferentBirthCity(final String referentBirthCity) {
@@ -1705,6 +3250,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.referentBirthCity;
     }
   
+    
     private Boolean projectRequestsFreePensionMembership;
 
     public final void setProjectRequestsFreePensionMembership(final Boolean projectRequestsFreePensionMembership) {
@@ -1722,6 +3268,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsFreePensionMembership;
     }
   
+    
+      @MaxLength(
+        
+          value = 30,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingSpecializedGrade'].test(_this.schoolingSpecializedGrade.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSpecializedGradeDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingSpecializedGrade'].test(_this.schoolingSpecializedGrade.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSpecializedGradeDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['schoolingSpecializedGrade'].test(_this.schoolingSpecializedGrade.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSpecializedGradeDetails"
+      )
+    
     private String schoolingSpecializedGradeDetails;
 
     public final void setSchoolingSpecializedGradeDetails(final String schoolingSpecializedGradeDetails) {
@@ -1739,6 +3336,30 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingSpecializedGradeDetails;
     }
   
+    
+      @MaxLength(
+        
+          value = 50,
+        
+        
+        profiles = {"subject"},
+        message = "referentBirthCountry"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentBirthCountry"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "referentBirthCountry"
+      )
+    
     private String referentBirthCountry;
 
     public final void setReferentBirthCountry(final String referentBirthCountry) {
@@ -1756,6 +3377,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.referentBirthCountry;
     }
   
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalSupportProfessionals'].test(_this.professionalSupportProfessionals.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "professionals"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.HccrProfessional> professionals;
 
     public final void setProfessionals(final List<fr.cg95.cvq.business.request.social.HccrProfessional> professionals) {
@@ -1780,6 +3418,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionals;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"health"},
+        message = "healthFollowedByHospital"
+      )
+    
     private Boolean healthFollowedByHospital;
 
     public final void setHealthFollowedByHospital(final Boolean healthFollowedByHospital) {
@@ -1797,6 +3443,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.healthFollowedByHospital;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusEmployerName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusEmployerName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusEmployerName"
+      )
+    
     private String professionalStatusEmployerName;
 
     public final void setProfessionalStatusEmployerName(final String professionalStatusEmployerName) {
@@ -1814,6 +3511,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusEmployerName;
     }
   
+    
     private Boolean projectRequestsInstitutionSupport;
 
     public final void setProjectRequestsInstitutionSupport(final Boolean projectRequestsInstitutionSupport) {
@@ -1831,6 +3529,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsInstitutionSupport;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsSocialWelfare"
+      )
+    
     private Boolean benefitsSocialWelfare;
 
     public final void setBenefitsSocialWelfare(final Boolean benefitsSocialWelfare) {
@@ -1848,6 +3554,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsSocialWelfare;
     }
   
+    
     private Boolean projectRequestsHandicapRecognition;
 
     public final void setProjectRequestsHandicapRecognition(final Boolean projectRequestsHandicapRecognition) {
@@ -1865,6 +3572,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsHandicapRecognition;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['careCareServices'].test(_this.careCareServices.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "careServices"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['careCareServices'].test(_this.careCareServices.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "careServices"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.HccrCareService> careServices;
 
     public final void setCareServices(final List<fr.cg95.cvq.business.request.social.HccrCareService> careServices) {
@@ -1889,6 +3629,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.careServices;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingExtraCurricular"
+      )
+    
     private Boolean schoolingExtraCurricular;
 
     public final void setSchoolingExtraCurricular(final Boolean schoolingExtraCurricular) {
@@ -1906,6 +3654,16 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingExtraCurricular;
     }
   
+    
+      @MaxLength(
+        
+          value = 600,
+        
+        
+        profiles = {"project"},
+        message = "projectWish"
+      )
+    
     private String projectWish;
 
     public final void setProjectWish(final String projectWish) {
@@ -1923,6 +3681,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectWish;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"dwelling"},
+        message = "dwellingKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrDwellingKindType dwellingKind;
 
     public final void setDwellingKind(final fr.cg95.cvq.business.request.social.HccrDwellingKindType dwellingKind) {
@@ -1940,6 +3706,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.dwellingKind;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByProfessional'].test(_this.healthFollowedByProfessional.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthProfessionalLastName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByProfessional'].test(_this.healthFollowedByProfessional.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthProfessionalLastName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByProfessional'].test(_this.healthFollowedByProfessional.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthProfessionalLastName"
+      )
+    
     private String healthProfessionalLastName;
 
     public final void setHealthProfessionalLastName(final String healthProfessionalLastName) {
@@ -1957,6 +3774,16 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.healthProfessionalLastName;
     }
   
+    
+      @MaxLength(
+        
+          value = 30,
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "formationStudiesLevel"
+      )
+    
     private String formationStudiesLevel;
 
     public final void setFormationStudiesLevel(final String formationStudiesLevel) {
@@ -1974,6 +3801,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.formationStudiesLevel;
     }
   
+    
     private Boolean projectRequestsProfessionalOrientation;
 
     public final void setProjectRequestsProfessionalOrientation(final Boolean projectRequestsProfessionalOrientation) {
@@ -1991,6 +3819,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsProfessionalOrientation;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByDoctor'].test(_this.healthFollowedByDoctor.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthDoctorLastName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByDoctor'].test(_this.healthFollowedByDoctor.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthDoctorLastName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByDoctor'].test(_this.healthFollowedByDoctor.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthDoctorLastName"
+      )
+    
     private String healthDoctorLastName;
 
     public final void setHealthDoctorLastName(final String healthDoctorLastName) {
@@ -2008,6 +3887,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.healthDoctorLastName;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialServiceSupport'].test(_this.socialServiceSupport.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "socialServiceAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialServiceSupport'].test(_this.socialServiceSupport.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "socialServiceAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address socialServiceAddress;
 
     public final void setSocialServiceAddress(final fr.cg95.cvq.business.users.Address socialServiceAddress) {
@@ -2026,6 +3938,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.socialServiceAddress;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesHousing'].test(_this.facilitiesHousing.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesHousingDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesHousing'].test(_this.facilitiesHousing.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesHousingDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesHousing'].test(_this.facilitiesHousing.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesHousingDetails"
+      )
+    
     private String facilitiesHousingDetails;
 
     public final void setFacilitiesHousingDetails(final String facilitiesHousingDetails) {
@@ -2043,6 +4006,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.facilitiesHousingDetails;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsSupplementForSingleParents"
+      )
+    
     private Boolean benefitsSupplementForSingleParents;
 
     public final void setBenefitsSupplementForSingleParents(final Boolean benefitsSupplementForSingleParents) {
@@ -2060,6 +4031,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsSupplementForSingleParents;
     }
   
+    
     private Boolean projectRequestsIncreaseForIndependentLiving;
 
     public final void setProjectRequestsIncreaseForIndependentLiving(final Boolean projectRequestsIncreaseForIndependentLiving) {
@@ -2077,6 +4049,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsIncreaseForIndependentLiving;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsThirdPartySupplement"
+      )
+    
     private Boolean benefitsThirdPartySupplement;
 
     public final void setBenefitsThirdPartySupplement(final Boolean benefitsThirdPartySupplement) {
@@ -2094,6 +4074,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsThirdPartySupplement;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsDisabilityPension'].test(_this.benefitsDisabilityPension.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabilityPensionCategory"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsDisabilityPension'].test(_this.benefitsDisabilityPension.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabilityPensionCategory"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsDisabilityPension'].test(_this.benefitsDisabilityPension.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabilityPensionCategory"
+      )
+    
     private String benefitsDisabilityPensionCategory;
 
     public final void setBenefitsDisabilityPensionCategory(final String benefitsDisabilityPensionCategory) {
@@ -2111,6 +4142,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsDisabilityPensionCategory;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesHighSchool'].test(_this.studiesHighSchool.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesHighSchoolGrade"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesHighSchool'].test(_this.studiesHighSchool.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesHighSchoolGrade"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesHighSchool'].test(_this.studiesHighSchool.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesHighSchoolGrade"
+      )
+    
     private String studiesHighSchoolGrade;
 
     public final void setStudiesHighSchoolGrade(final String studiesHighSchoolGrade) {
@@ -2128,6 +4210,30 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.studiesHighSchoolGrade;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"subject"},
+        message = "referentLastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentLastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "referentLastName"
+      )
+    
     private String referentLastName;
 
     public final void setReferentLastName(final String referentLastName) {
@@ -2145,6 +4251,30 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.referentLastName;
     }
   
+    
+      @MaxLength(
+        
+          value = 32,
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthCity"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthCity"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthCity"
+      )
+    
     private String subjectBirthCity;
 
     public final void setSubjectBirthCity(final String subjectBirthCity) {
@@ -2162,6 +4292,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.subjectBirthCity;
     }
   
+    
     private Boolean projectRequestsAssistance;
 
     public final void setProjectRequestsAssistance(final Boolean projectRequestsAssistance) {
@@ -2179,6 +4310,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsAssistance;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsSupportedByAnInstitution"
+      )
+    
     private Boolean benefitsSupportedByAnInstitution;
 
     public final void setBenefitsSupportedByAnInstitution(final Boolean benefitsSupportedByAnInstitution) {
@@ -2196,6 +4335,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsSupportedByAnInstitution;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusEnvironment"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrProfessionalStatusEnvironmentType professionalStatusEnvironment;
 
     public final void setProfessionalStatusEnvironment(final fr.cg95.cvq.business.request.social.HccrProfessionalStatusEnvironmentType professionalStatusEnvironment) {
@@ -2213,6 +4369,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusEnvironment;
     }
   
+    
     private Boolean projectRequestsThirdPartyHelp;
 
     public final void setProjectRequestsThirdPartyHelp(final Boolean projectRequestsThirdPartyHelp) {
@@ -2230,6 +4387,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsThirdPartyHelp;
     }
   
+    
     private Boolean projectRequestsDisabledAdultAllowance;
 
     public final void setProjectRequestsDisabledAdultAllowance(final Boolean projectRequestsDisabledAdultAllowance) {
@@ -2247,6 +4405,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsDisabledAdultAllowance;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"folders"},
+        message = "foldersOtherFolders"
+      )
+    
     private Boolean foldersOtherFolders;
 
     public final void setFoldersOtherFolders(final Boolean foldersOtherFolders) {
@@ -2264,6 +4430,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.foldersOtherFolders;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "paymentAgencyBeneficiary"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrPaymentAgencyBeneficiaryType paymentAgencyBeneficiary;
 
     public final void setPaymentAgencyBeneficiary(final fr.cg95.cvq.business.request.social.HccrPaymentAgencyBeneficiaryType paymentAgencyBeneficiary) {
@@ -2281,6 +4455,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.paymentAgencyBeneficiary;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['subjectBirthDate'].test(_this.subjectBirthDate.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "fatherJob"
+      )
+    
     private String fatherJob;
 
     public final void setFatherJob(final String fatherJob) {
@@ -2298,6 +4491,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.fatherJob;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesAnimalAid'].test(_this.facilitiesAnimalAid.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesAnimalAidDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesAnimalAid'].test(_this.facilitiesAnimalAid.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesAnimalAidDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesAnimalAid'].test(_this.facilitiesAnimalAid.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesAnimalAidDetails"
+      )
+    
     private String facilitiesAnimalAidDetails;
 
     public final void setFacilitiesAnimalAidDetails(final String facilitiesAnimalAidDetails) {
@@ -2315,6 +4559,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.facilitiesAnimalAidDetails;
     }
   
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['benefitsOtherBenefits'].test(_this.benefitsOtherBenefits.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"benefits"},
+        message = "otherBenefits"
+      )
+    
     private List<fr.cg95.cvq.business.request.social.HccrOtherBenefit> otherBenefits;
 
     public final void setOtherBenefits(final List<fr.cg95.cvq.business.request.social.HccrOtherBenefit> otherBenefits) {
@@ -2339,6 +4600,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.otherBenefits;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesAssistanceUnderDisability'].test(_this.studiesAssistanceUnderDisability.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesAssistanceUnderDisabilityDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesAssistanceUnderDisability'].test(_this.studiesAssistanceUnderDisability.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesAssistanceUnderDisabilityDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesAssistanceUnderDisability'].test(_this.studiesAssistanceUnderDisability.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesAssistanceUnderDisabilityDetails"
+      )
+    
     private String studiesAssistanceUnderDisabilityDetails;
 
     public final void setStudiesAssistanceUnderDisabilityDetails(final String studiesAssistanceUnderDisabilityDetails) {
@@ -2356,6 +4668,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.studiesAssistanceUnderDisabilityDetails;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['paymentAgencyBeneficiary'].test(_this.paymentAgencyBeneficiary.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "paymentAgencyAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['paymentAgencyBeneficiary'].test(_this.paymentAgencyBeneficiary.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "paymentAgencyAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address paymentAgencyAddress;
 
     public final void setPaymentAgencyAddress(final fr.cg95.cvq.business.users.Address paymentAgencyAddress) {
@@ -2374,6 +4719,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.paymentAgencyAddress;
     }
   
+    
     private Boolean projectRequestsOther;
 
     public final void setProjectRequestsOther(final Boolean projectRequestsOther) {
@@ -2391,6 +4737,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsOther;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsThirdPersonCompensatoryAllowance"
+      )
+    
     private Boolean benefitsThirdPersonCompensatoryAllowance;
 
     public final void setBenefitsThirdPersonCompensatoryAllowance(final Boolean benefitsThirdPersonCompensatoryAllowance) {
@@ -2408,6 +4762,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsThirdPersonCompensatoryAllowance;
     }
   
+    
     private Boolean projectRequestsDisabilityCostAllocation;
 
     public final void setProjectRequestsDisabilityCostAllocation(final Boolean projectRequestsDisabilityCostAllocation) {
@@ -2425,6 +4780,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsDisabilityCostAllocation;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialSecurityMemberShipKind'].test(_this.socialSecurityMemberShipKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "socialSecurityAgencyAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialSecurityMemberShipKind'].test(_this.socialSecurityMemberShipKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "socialSecurityAgencyAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address socialSecurityAgencyAddress;
 
     public final void setSocialSecurityAgencyAddress(final fr.cg95.cvq.business.users.Address socialSecurityAgencyAddress) {
@@ -2443,6 +4831,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.socialSecurityAgencyAddress;
     }
   
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address professionalStatusAddress;
 
     public final void setProfessionalStatusAddress(final fr.cg95.cvq.business.users.Address professionalStatusAddress) {
@@ -2461,6 +4866,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusAddress;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusProfession"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusProfession"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusKind'].test(_this.professionalStatusKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusProfession"
+      )
+    
     private String professionalStatusProfession;
 
     public final void setProfessionalStatusProfession(final String professionalStatusProfession) {
@@ -2478,6 +4934,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusProfession;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingEstablishmentReception'].test(_this.dwellingEstablishmentReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingReceptionAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingEstablishmentReception'].test(_this.dwellingEstablishmentReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingReceptionAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dwellingReceptionAddress;
 
     public final void setDwellingReceptionAddress(final fr.cg95.cvq.business.users.Address dwellingReceptionAddress) {
@@ -2496,6 +4985,16 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.dwellingReceptionAddress;
     }
   
+    
+      @MaxLength(
+        
+          value = 120,
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "formationDiploma"
+      )
+    
     private String formationDiploma;
 
     public final void setFormationDiploma(final String formationDiploma) {
@@ -2513,6 +5012,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.formationDiploma;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['subjectBirthDate'].test(_this.subjectBirthDate.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "motherLastName"
+      )
+    
     private String motherLastName;
 
     public final void setMotherLastName(final String motherLastName) {
@@ -2530,6 +5048,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.motherLastName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"folders"},
+        message = "foldersCotorep"
+      )
+    
     private Boolean foldersCotorep;
 
     public final void setFoldersCotorep(final Boolean foldersCotorep) {
@@ -2547,6 +5073,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.foldersCotorep;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusElectiveFunction"
+      )
+    
     private Boolean professionalStatusElectiveFunction;
 
     public final void setProfessionalStatusElectiveFunction(final Boolean professionalStatusElectiveFunction) {
@@ -2564,6 +5098,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusElectiveFunction;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsIncreaseForIndependentLiving"
+      )
+    
     private Boolean benefitsIncreaseForIndependentLiving;
 
     public final void setBenefitsIncreaseForIndependentLiving(final Boolean benefitsIncreaseForIndependentLiving) {
@@ -2581,6 +5123,30 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsIncreaseForIndependentLiving;
     }
   
+    
+      @MaxLength(
+        
+          value = 50,
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthCountry"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthCountry"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "subjectBirthCountry"
+      )
+    
     private String subjectBirthCountry;
 
     public final void setSubjectBirthCountry(final String subjectBirthCountry) {
@@ -2598,6 +5164,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.subjectBirthCountry;
     }
   
+    
     private Boolean fatherActivityReduction;
 
     public final void setFatherActivityReduction(final Boolean fatherActivityReduction) {
@@ -2615,6 +5182,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.fatherActivityReduction;
     }
   
+    
     private Boolean projectRequestsDisabilityCard;
 
     public final void setProjectRequestsDisabilityCard(final Boolean projectRequestsDisabilityCard) {
@@ -2632,6 +5200,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsDisabilityCard;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesHighSchool'].test(_this.studiesHighSchool.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesHighSchoolName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesHighSchool'].test(_this.studiesHighSchool.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesHighSchoolName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesHighSchool'].test(_this.studiesHighSchool.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesHighSchoolName"
+      )
+    
     private String studiesHighSchoolName;
 
     public final void setStudiesHighSchoolName(final String studiesHighSchoolName) {
@@ -2649,6 +5268,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.studiesHighSchoolName;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingEstablishmentReception'].test(_this.dwellingEstablishmentReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingReceptionType"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrDwellingReceptionKindType dwellingReceptionType;
 
     public final void setDwellingReceptionType(final fr.cg95.cvq.business.request.social.HccrDwellingReceptionKindType dwellingReceptionType) {
@@ -2666,6 +5302,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.dwellingReceptionType;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['subjectBirthDate'].test(_this.subjectBirthDate.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "fatherLastName"
+      )
+    
     private String fatherLastName;
 
     public final void setFatherLastName(final String fatherLastName) {
@@ -2683,6 +5338,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.fatherLastName;
     }
   
+    
     private java.math.BigInteger motherActivityReductionRatio;
 
     public final void setMotherActivityReductionRatio(final java.math.BigInteger motherActivityReductionRatio) {
@@ -2701,6 +5357,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.motherActivityReductionRatio;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusRegisterAsUnemployed'].test(_this.professionalStatusRegisterAsUnemployed.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusRegisterAsUnemployedDate"
+      )
+    
     private java.util.Date professionalStatusRegisterAsUnemployedDate;
 
     public final void setProfessionalStatusRegisterAsUnemployedDate(final java.util.Date professionalStatusRegisterAsUnemployedDate) {
@@ -2718,6 +5391,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusRegisterAsUnemployedDate;
     }
   
+    
+      @MaxLength(
+        
+          value = 50,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['paymentAgencyBeneficiary'].test(_this.paymentAgencyBeneficiary.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "paymentAgencyName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['paymentAgencyBeneficiary'].test(_this.paymentAgencyBeneficiary.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "paymentAgencyName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['paymentAgencyBeneficiary'].test(_this.paymentAgencyBeneficiary.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "paymentAgencyName"
+      )
+    
     private String paymentAgencyName;
 
     public final void setPaymentAgencyName(final String paymentAgencyName) {
@@ -2735,6 +5459,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.paymentAgencyName;
     }
   
+    
+      @MaxLength(
+        
+          value = 50,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialSecurityMemberShipKind'].test(_this.socialSecurityMemberShipKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "socialSecurityAgencyName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialSecurityMemberShipKind'].test(_this.socialSecurityMemberShipKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "socialSecurityAgencyName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialSecurityMemberShipKind'].test(_this.socialSecurityMemberShipKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "socialSecurityAgencyName"
+      )
+    
     private String socialSecurityAgencyName;
 
     public final void setSocialSecurityAgencyName(final String socialSecurityAgencyName) {
@@ -2752,6 +5527,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.socialSecurityAgencyName;
     }
   
+    
+      @MaxLength(
+        
+          value = 80,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingEstablishmentReception'].test(_this.dwellingEstablishmentReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingReceptionNaming"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingEstablishmentReception'].test(_this.dwellingEstablishmentReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingReceptionNaming"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingEstablishmentReception'].test(_this.dwellingEstablishmentReception.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingReceptionNaming"
+      )
+    
     private String dwellingReceptionNaming;
 
     public final void setDwellingReceptionNaming(final String dwellingReceptionNaming) {
@@ -2769,6 +5595,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.dwellingReceptionNaming;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSendToSchool"
+      )
+    
     private Boolean schoolingSendToSchool;
 
     public final void setSchoolingSendToSchool(final Boolean schoolingSendToSchool) {
@@ -2786,6 +5620,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingSendToSchool;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsEducationOfDisabledChildren"
+      )
+    
     private Boolean benefitsEducationOfDisabledChildren;
 
     public final void setBenefitsEducationOfDisabledChildren(final Boolean benefitsEducationOfDisabledChildren) {
@@ -2803,6 +5645,30 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsEducationOfDisabledChildren;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"subject"},
+        message = "referentFirstName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "referentFirstName"
+      )
+    
     private String referentFirstName;
 
     public final void setReferentFirstName(final String referentFirstName) {
@@ -2820,6 +5686,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.referentFirstName;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesTechnicalAssistance'].test(_this.facilitiesTechnicalAssistance.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesTechnicalAssistanceDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesTechnicalAssistance'].test(_this.facilitiesTechnicalAssistance.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesTechnicalAssistanceDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesTechnicalAssistance'].test(_this.facilitiesTechnicalAssistance.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesTechnicalAssistanceDetails"
+      )
+    
     private String facilitiesTechnicalAssistanceDetails;
 
     public final void setFacilitiesTechnicalAssistanceDetails(final String facilitiesTechnicalAssistanceDetails) {
@@ -2837,6 +5754,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.facilitiesTechnicalAssistanceDetails;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsOtherBenefits"
+      )
+    
     private Boolean benefitsOtherBenefits;
 
     public final void setBenefitsOtherBenefits(final Boolean benefitsOtherBenefits) {
@@ -2854,6 +5779,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsOtherBenefits;
     }
   
+    
+      @MaxLength(
+        
+          value = 30,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['foldersCdes'].test(_this.foldersCdes.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"folders"},
+        message = "foldersCdesNumber"
+      )
+    
     private String foldersCdesNumber;
 
     public final void setFoldersCdesNumber(final String foldersCdesNumber) {
@@ -2871,6 +5815,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.foldersCdesNumber;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialServiceSupport'].test(_this.socialServiceSupport.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "socialServiceName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialServiceSupport'].test(_this.socialServiceSupport.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "socialServiceName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['socialServiceSupport'].test(_this.socialServiceSupport.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "socialServiceName"
+      )
+    
     private String socialServiceName;
 
     public final void setSocialServiceName(final String socialServiceName) {
@@ -2888,6 +5883,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.socialServiceName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabilityCompensation"
+      )
+    
     private Boolean benefitsDisabilityCompensation;
 
     public final void setBenefitsDisabilityCompensation(final Boolean benefitsDisabilityCompensation) {
@@ -2905,6 +5908,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsDisabilityCompensation;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByDoctor'].test(_this.healthFollowedByDoctor.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthDoctorFirstName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByDoctor'].test(_this.healthFollowedByDoctor.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthDoctorFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByDoctor'].test(_this.healthFollowedByDoctor.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthDoctorFirstName"
+      )
+    
     private String healthDoctorFirstName;
 
     public final void setHealthDoctorFirstName(final String healthDoctorFirstName) {
@@ -2922,6 +5976,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.healthDoctorFirstName;
     }
   
+    
     private Boolean projectRequestsTechnicalHelp;
 
     public final void setProjectRequestsTechnicalHelp(final Boolean projectRequestsTechnicalHelp) {
@@ -2939,6 +5994,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsTechnicalHelp;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "facilitiesTechnicalAssistance"
+      )
+    
     private Boolean facilitiesTechnicalAssistance;
 
     public final void setFacilitiesTechnicalAssistance(final Boolean facilitiesTechnicalAssistance) {
@@ -2956,6 +6019,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.facilitiesTechnicalAssistance;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsCompensatoryAllowanceForExpenses"
+      )
+    
     private Boolean benefitsCompensatoryAllowanceForExpenses;
 
     public final void setBenefitsCompensatoryAllowanceForExpenses(final Boolean benefitsCompensatoryAllowanceForExpenses) {
@@ -2973,6 +6044,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsCompensatoryAllowanceForExpenses;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "facilitiesHousing"
+      )
+    
     private Boolean facilitiesHousing;
 
     public final void setFacilitiesHousing(final Boolean facilitiesHousing) {
@@ -2990,6 +6069,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.facilitiesHousing;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByHospital'].test(_this.healthFollowedByHospital.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthHospitalName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByHospital'].test(_this.healthFollowedByHospital.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthHospitalName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByHospital'].test(_this.healthFollowedByHospital.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthHospitalName"
+      )
+    
     private String healthHospitalName;
 
     public final void setHealthHospitalName(final String healthHospitalName) {
@@ -3007,6 +6137,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.healthHospitalName;
     }
   
+    
     private Boolean projectRequestsDisabledPriorityCard;
 
     public final void setProjectRequestsDisabledPriorityCard(final Boolean projectRequestsDisabledPriorityCard) {
@@ -3024,6 +6155,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsDisabledPriorityCard;
     }
   
+    
     private Boolean projectRequestsEducationAllocationOfDisabledChildren;
 
     public final void setProjectRequestsEducationAllocationOfDisabledChildren(final Boolean projectRequestsEducationAllocationOfDisabledChildren) {
@@ -3041,6 +6173,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsEducationAllocationOfDisabledChildren;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['projectRequestsOther'].test(_this.projectRequestsOther.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"project"},
+        message = "projectRequestsOtherDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['projectRequestsOther'].test(_this.projectRequestsOther.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"project"},
+        message = "projectRequestsOtherDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['projectRequestsOther'].test(_this.projectRequestsOther.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"project"},
+        message = "projectRequestsOtherDetails"
+      )
+    
     private String projectRequestsOtherDetails;
 
     public final void setProjectRequestsOtherDetails(final String projectRequestsOtherDetails) {
@@ -3058,6 +6241,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsOtherDetails;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "socialServiceSupport"
+      )
+    
     private Boolean socialServiceSupport;
 
     public final void setSocialServiceSupport(final Boolean socialServiceSupport) {
@@ -3075,6 +6266,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.socialServiceSupport;
     }
   
+    
     private Boolean projectRequestsShelteredWork;
 
     public final void setProjectRequestsShelteredWork(final Boolean projectRequestsShelteredWork) {
@@ -3092,6 +6284,16 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.projectRequestsShelteredWork;
     }
   
+    
+      @MaxLength(
+        
+          value = 120,
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "formationCurrentFormation"
+      )
+    
     private String formationCurrentFormation;
 
     public final void setFormationCurrentFormation(final String formationCurrentFormation) {
@@ -3109,6 +6311,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.formationCurrentFormation;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingSchoolingKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrSchoolingKindType schoolingSchoolingKind;
 
     public final void setSchoolingSchoolingKind(final fr.cg95.cvq.business.request.social.HccrSchoolingKindType schoolingSchoolingKind) {
@@ -3126,6 +6336,23 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingSchoolingKind;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesHighSchool'].test(_this.studiesHighSchool.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesAssistanceUnderDisability"
+      )
+    
     private Boolean studiesAssistanceUnderDisability;
 
     public final void setStudiesAssistanceUnderDisability(final Boolean studiesAssistanceUnderDisability) {
@@ -3143,6 +6370,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.studiesAssistanceUnderDisability;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesHighSchool"
+      )
+    
     private Boolean studiesHighSchool;
 
     public final void setStudiesHighSchool(final Boolean studiesHighSchool) {
@@ -3160,6 +6395,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.studiesHighSchool;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByProfessional'].test(_this.healthFollowedByProfessional.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthProfessionalFirstName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByProfessional'].test(_this.healthFollowedByProfessional.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthProfessionalFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['healthFollowedByProfessional'].test(_this.healthFollowedByProfessional.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"health"},
+        message = "healthProfessionalFirstName"
+      )
+    
     private String healthProfessionalFirstName;
 
     public final void setHealthProfessionalFirstName(final String healthProfessionalFirstName) {
@@ -3177,6 +6463,7 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.healthProfessionalFirstName;
     }
   
+    
     private Boolean motherActivityReduction;
 
     public final void setMotherActivityReduction(final Boolean motherActivityReduction) {
@@ -3194,6 +6481,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.motherActivityReduction;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesCustomCar'].test(_this.facilitiesCustomCar.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesCustomCarDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesCustomCar'].test(_this.facilitiesCustomCar.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesCustomCarDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['facilitiesCustomCar'].test(_this.facilitiesCustomCar.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "facilitiesCustomCarDetails"
+      )
+    
     private String facilitiesCustomCarDetails;
 
     public final void setFacilitiesCustomCarDetails(final String facilitiesCustomCarDetails) {
@@ -3211,6 +6549,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.facilitiesCustomCarDetails;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "schoolingPersonalizedSchoolingPlan"
+      )
+    
     private Boolean schoolingPersonalizedSchoolingPlan;
 
     public final void setSchoolingPersonalizedSchoolingPlan(final Boolean schoolingPersonalizedSchoolingPlan) {
@@ -3228,6 +6574,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.schoolingPersonalizedSchoolingPlan;
     }
   
+    
+      @MaxLength(
+        
+          value = 120,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingKind'].test(_this.dwellingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingPrecision"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingKind'].test(_this.dwellingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingPrecision"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dwellingKind'].test(_this.dwellingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dwellingPrecision"
+      )
+    
     private String dwellingPrecision;
 
     public final void setDwellingPrecision(final String dwellingPrecision) {
@@ -3245,6 +6642,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.dwellingPrecision;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "benefitsDisabilityCard"
+      )
+    
     private Boolean benefitsDisabilityCard;
 
     public final void setBenefitsDisabilityCard(final Boolean benefitsDisabilityCard) {
@@ -3262,6 +6667,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.benefitsDisabilityCard;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"socialSecurityAndPaymentAgency"},
+        message = "socialSecurityMemberShipKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrSocialSecurityMemberShipKindType socialSecurityMemberShipKind;
 
     public final void setSocialSecurityMemberShipKind(final fr.cg95.cvq.business.request.social.HccrSocialSecurityMemberShipKindType socialSecurityMemberShipKind) {
@@ -3279,6 +6692,25 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.socialSecurityMemberShipKind;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            
+            "active &= _this.conditions['subjectBirthDate'].test(_this.subjectBirthDate.toString());" +
+                
+              
+            
+            "return active",
+        
+        profiles = {"subject"},
+        message = "aseReferentLastName"
+      )
+    
     private String aseReferentLastName;
 
     public final void setAseReferentLastName(final String aseReferentLastName) {
@@ -3296,6 +6728,57 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.aseReferentLastName;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusElectiveFunction'].test(_this.professionalStatusElectiveFunction.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusElectiveFunctionDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusElectiveFunction'].test(_this.professionalStatusElectiveFunction.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusElectiveFunctionDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['professionalStatusElectiveFunction'].test(_this.professionalStatusElectiveFunction.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "professionalStatusElectiveFunctionDetails"
+      )
+    
     private String professionalStatusElectiveFunctionDetails;
 
     public final void setProfessionalStatusElectiveFunctionDetails(final String professionalStatusElectiveFunctionDetails) {
@@ -3313,6 +6796,14 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.professionalStatusElectiveFunctionDetails;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "facilitiesAnimalAid"
+      )
+    
     private Boolean facilitiesAnimalAid;
 
     public final void setFacilitiesAnimalAid(final Boolean facilitiesAnimalAid) {
@@ -3330,6 +6821,39 @@ public class HandicapCompensationChildRequestData implements Serializable {
         return this.facilitiesAnimalAid;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesHighSchool'].test(_this.studiesHighSchool.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesHighSchoolAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['studiesHighSchool'].test(_this.studiesHighSchool.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"occupationnalAndSchoolStatus"},
+        message = "studiesHighSchoolAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address studiesHighSchoolAddress;
 
     public final void setStudiesHighSchoolAddress(final fr.cg95.cvq.business.users.Address studiesHighSchoolAddress) {

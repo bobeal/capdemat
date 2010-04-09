@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class SchoolCanteenRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -52,6 +61,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
     }
 
   
+    
+      @LocalReferential(
+        
+        
+        profiles = {"registration"},
+        message = "foodDiet"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet;
 
     public final void setFoodDiet(final List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet) {
@@ -78,6 +95,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         return this.foodDiet;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "foodAllergy"
+      )
+    
     private Boolean foodAllergy;
 
     public final void setFoodAllergy(final Boolean foodAllergy) {
@@ -95,6 +120,16 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         return this.foodAllergy;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"registration"},
+        message = "doctorPhone"
+      )
+    
     private String doctorPhone;
 
     public final void setDoctorPhone(final String doctorPhone) {
@@ -112,6 +147,7 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         return this.doctorPhone;
     }
   
+    
     private String doctorName;
 
     public final void setDoctorName(final String doctorName) {
@@ -129,6 +165,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         return this.doctorName;
     }
   
+    
+      @LocalReferential(
+        
+        
+        profiles = {"registration"},
+        message = "canteenAttendingDays"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays;
 
     public final void setCanteenAttendingDays(final List<fr.cg95.cvq.business.request.LocalReferentialData> canteenAttendingDays) {
@@ -155,6 +199,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         return this.canteenAttendingDays;
     }
   
+    
+      @AssertValid(
+        
+        
+        profiles = {"administration"},
+        message = "school"
+      )
+    
     private fr.cg95.cvq.business.authority.School school;
 
     public final void setSchool(final fr.cg95.cvq.business.authority.School school) {
@@ -173,6 +225,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         return this.school;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "hospitalizationPermission"
+      )
+    
     private Boolean hospitalizationPermission;
 
     public final void setHospitalizationPermission(final Boolean hospitalizationPermission) {
@@ -190,6 +250,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         return this.hospitalizationPermission;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
     private Boolean rulesAndRegulationsAcceptance;
 
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {
@@ -207,6 +275,30 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         return this.rulesAndRegulationsAcceptance;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"registration"},
+        message = "urgencyPhone"
+      )
+    
     private String urgencyPhone;
 
     public final void setUrgencyPhone(final String urgencyPhone) {
@@ -224,6 +316,14 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         return this.urgencyPhone;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"administration"},
+        message = "section"
+      )
+    
     private fr.cg95.cvq.business.users.SectionType section;
 
     public final void setSection(final fr.cg95.cvq.business.users.SectionType section) {

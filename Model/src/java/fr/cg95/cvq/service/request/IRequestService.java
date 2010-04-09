@@ -1,10 +1,7 @@
 package fr.cg95.cvq.service.request;
 
-import java.util.Map;
-
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.exception.CvqException;
-import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * High level service interface to deal with requests.
@@ -75,8 +72,6 @@ public interface IRequestService {
 
     String getDefaultDisplayGroup();
 
-    Map<String,IConditionChecker> getConditions();
-
     ///////////////////////////////////////////////////////////
     // Methods that must be overridden by implementing services
     ///////////////////////////////////////////////////////////
@@ -90,7 +85,7 @@ public interface IRequestService {
      * Return a fresh new request object of the type managed by the implementing class.
      * This method must be implemented by classes implementing this interface.
      */
-    Request getSkeletonRequest() throws CvqException;
+    Request getSkeletonRequest();
     
     ///////////////////////////////////////////////////////////
     // Methods that may be overridden by implementing services

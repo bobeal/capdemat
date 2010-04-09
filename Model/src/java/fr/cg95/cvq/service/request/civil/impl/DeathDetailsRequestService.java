@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.civil.impl;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.civil.DeathDetailsRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -19,7 +18,7 @@ public final class DeathDetailsRequestService extends RequestService {
 	}
 
     @Override
-	public Request getSkeletonRequest() throws CvqException {
+	public Request getSkeletonRequest() {
         DeathDetailsRequest request = new DeathDetailsRequest();
         //FIXME see Birth
         if (SecurityContext.getCurrentSite() != null) {

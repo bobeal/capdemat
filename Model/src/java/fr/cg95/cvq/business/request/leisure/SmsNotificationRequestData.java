@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class SmsNotificationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -46,6 +55,21 @@ public class SmsNotificationRequestData implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"administration"},
+        message = "cleverSmsContactId"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"administration"},
+        message = "cleverSmsContactId"
+      )
+    
     private String cleverSmsContactId;
 
     public final void setCleverSmsContactId(final String cleverSmsContactId) {
@@ -63,6 +87,16 @@ public class SmsNotificationRequestData implements Serializable {
         return this.cleverSmsContactId;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"subscription"},
+        message = "mobilePhone"
+      )
+    
     private String mobilePhone;
 
     public final void setMobilePhone(final String mobilePhone) {
@@ -80,6 +114,14 @@ public class SmsNotificationRequestData implements Serializable {
         return this.mobilePhone;
     }
   
+    
+      @LocalReferential(
+        
+        
+        profiles = {"subscription"},
+        message = "interests"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> interests;
 
     public final void setInterests(final List<fr.cg95.cvq.business.request.LocalReferentialData> interests) {
@@ -106,6 +148,14 @@ public class SmsNotificationRequestData implements Serializable {
         return this.interests;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subscription"},
+        message = "subscription"
+      )
+    
     private Boolean subscription;
 
     public final void setSubscription(final Boolean subscription) {

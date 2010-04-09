@@ -32,7 +32,7 @@ public class SmsNotificationRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         return new SmsNotificationRequest();
     }
 }

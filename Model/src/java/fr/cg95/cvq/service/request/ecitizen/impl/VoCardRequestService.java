@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.ecitizen.impl;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.ecitizen.VoCardRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -15,9 +14,7 @@ public final class VoCardRequestService extends RequestService {
 
     @Override
     public void init() {
-        super.init();
-
-        conditions.put("title", new EqualityChecker("Madam"));
+        VoCardRequest.conditions.put("title", new EqualityChecker("Madam"));
     }
 
     @Override
@@ -26,7 +23,7 @@ public final class VoCardRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         return new VoCardRequest();
     }
 }

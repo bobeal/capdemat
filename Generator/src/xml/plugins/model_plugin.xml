@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="model" classname="fr.cg95.cvq.generator.plugins.model.ModelPlugin">
   <appinfo>
-    <element parent="request,element,property" node="model"/>
+    <element parent="property" node="model"/>
+    <element parent="element" node="common,model"/>
+    <!-- <element parent="request" node="common" /> -->
+    <element parent="request" node="common,model" />
   </appinfo>
   <configuration>
     <!-- define a base output dir for business objects -->

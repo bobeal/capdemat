@@ -10,7 +10,7 @@
 
   
     <label class="required"><g:message code="ancr.property.isAccountAddress.label" /> *  <span><g:message code="ancr.property.isAccountAddress.help" /></span></label>
-            <ul class="yes-no required">
+            <ul class="yes-no required ${invalidFields.contains('isAccountAddress') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="isAccountAddress_${it ? 'yes' : 'no'}" class="required condition-isSameAddress-trigger  validate-one-required boolean" title="" value="${it}" name="isAccountAddress" ${it == rqt.isAccountAddress ? 'checked="checked"': ''} />

@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +19,7 @@ import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.election.*;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -25,6 +28,9 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
 
     private static final long serialVersionUID = 1L;
 
+    public static final Map<String, IConditionChecker> conditions = ElectoralRollRegistrationRequestData.conditions;
+
+    @AssertValid
     private ElectoralRollRegistrationRequestData electoralRollRegistrationRequestData;
 
     public ElectoralRollRegistrationRequest(RequestData requestData, ElectoralRollRegistrationRequestData electoralRollRegistrationRequestData) {

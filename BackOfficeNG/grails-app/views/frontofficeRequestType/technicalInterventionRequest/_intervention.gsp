@@ -14,7 +14,7 @@
   
     <label for="otherInterventionLabel" class="required condition-otherIntervention-filled"><g:message code="tir.property.otherInterventionLabel.label" /> *  <span><g:message code="tir.property.otherInterventionLabel.help" /></span></label>
             <input type="text" id="otherInterventionLabel" name="otherInterventionLabel" value="${rqt.otherInterventionLabel?.toString()}" 
-                    class="required condition-otherIntervention-filled  validate-string" title="<g:message code="tir.property.otherInterventionLabel.validationError" />"   />
+                    class="required condition-otherIntervention-filled  validate-string ${invalidFields.contains('otherInterventionLabel') ? 'validation-failed' : ''}" title="<g:message code="tir.property.otherInterventionLabel.validationError" />"   />
             
 
   
@@ -45,7 +45,7 @@
 
   
     <label for="interventionDescription" class="required"><g:message code="tir.property.interventionDescription.label" /> *  <span><g:message code="tir.property.interventionDescription.help" /></span></label>
-            <textarea id="interventionDescription" name="interventionDescription" class="required  validate-textarea" title="<g:message code="tir.property.interventionDescription.validationError" />" rows="3" cols=""  >${rqt.interventionDescription}</textarea>
+            <textarea id="interventionDescription" name="interventionDescription" class="required  validate-textarea ${invalidFields.contains('interventionDescription') ? 'validation-failed' : ''}" title="<g:message code="tir.property.interventionDescription.validationError" />" rows="3" cols=""  >${rqt.interventionDescription}</textarea>
             
 
   

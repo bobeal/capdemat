@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.oval.constraint.AssertValid;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.xmlbeans.XmlObject;
 
@@ -42,6 +44,7 @@ public class Request implements Serializable {
     public static final String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
     public static final String QUALITY_TYPE_RED = "qualityTypeRed";
 
+    @AssertValid
     private RequestData requestData;
 
     public Request(RequestData requestData) {

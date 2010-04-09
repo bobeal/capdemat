@@ -51,7 +51,7 @@ public final class SchoolCanteenRegistrationRequestService extends RequestServic
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         SchoolCanteenRegistrationRequest request =
             new SchoolCanteenRegistrationRequest();
         if (SecurityContext.getCurrentEcitizen() != null)

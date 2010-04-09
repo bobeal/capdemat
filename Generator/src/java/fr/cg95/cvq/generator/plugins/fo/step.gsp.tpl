@@ -4,7 +4,7 @@
       def widgets = [
         'boolean' : 
             """
-            <ul class="yes-no ${element.listenerConditionsClass}">
+            <ul class="yes-no ${element.listenerConditionsClass} \${invalidFields.contains('${element.javaFieldName}') ? 'validation-failed' : ''}">
               <g:each in="\${[true,false]}">
               <li>
                 <input type="radio" id="${IdRefNamePrefix}${element.javaFieldName}_\${it ? 'yes' : 'no'}" class="${element.htmlClass}" title="" value="\${it}" name="${namePrefix}${element.javaFieldName}" \${it == ${valuePrefix}.${element.javaFieldName} ? 'checked="checked"': ''} />
@@ -15,7 +15,7 @@
             """
         ,'radio' :
             """
-            <ul class="${element.listenerConditionsClass}">
+            <ul class="${element.listenerConditionsClass} \${invalidFields.contains('${element.javaFieldName}') ? 'validation-failed' : ''}">
               <g:each in="\${${element.enumValuesAsString}}">
               <li>
                 <input type="radio" id="${IdRefNamePrefix}${element.javaFieldName}_\${it}" class="${element.htmlClass}" value="${element.qualifiedType}_\${it}" name="${namePrefix}${element.javaFieldName}" \${it == ${valuePrefix}.${element.javaFieldName}.toString() ? 'checked="checked"': ''} title="<g:message code="${element.i18nPrefixCode}.validationError" />" />
@@ -26,7 +26,7 @@
             """
         ,'select' :
             """
-            <select id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">
+            <select id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass} \${invalidFields.contains('${element.javaFieldName}') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="\${${element.enumValuesAsString}}">
                 <option value="${element.qualifiedType}_\${it}" \${it == ${valuePrefix}.${element.javaFieldName}?.toString() ? 'selected=\"selected\"': ''}><g:capdematEnumToText var="\${it}" i18nKeyPrefix="${element.i18nPrefixCode}" /></option>
@@ -56,7 +56,7 @@
             """
          ,'textarea' :
             """
-            <textarea id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" rows="${element.rows}" cols="" ${element.jsRegexp} ${element.lengthLimits}>\${${valuePrefix}.${element.javaFieldName}}</textarea>
+            <textarea id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" class="${element.htmlClass} \${invalidFields.contains('${element.javaFieldName}') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" rows="${element.rows}" cols="" ${element.jsRegexp} ${element.lengthLimits}>\${${valuePrefix}.${element.javaFieldName}}</textarea>
             """
          ,'localReferentialData':
             """
@@ -68,17 +68,17 @@
          ,'date' :
             """
             <input type="text" id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" value="\${formatDate(formatName:'format.date',date:${valuePrefix}.${element.javaFieldName})}" 
-                   class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" />
+                   class="${element.htmlClass} \${invalidFields.contains('${element.javaFieldName}') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" />
             """
          ,'text' :
             """
             <input type="text" id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" value="\${${valuePrefix}.${element.javaFieldName}?.toString()}" 
-                    class="${element.htmlClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits} />
+                    class="${element.htmlClass} \${invalidFields.contains('${element.javaFieldName}') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" ${element.jsRegexp} ${element.lengthLimits} />
             """
          ,'subject' :
             """
             <label for="${IdRefNamePrefix}${element.javaFieldName}Id" class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}  <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
-            <select id="${IdRefNamePrefix}${element.javaFieldName}Id" name="subjectId" <g:if test="\${isEdition}">disabled="disabled"</g:if> class="required validate-not-first ${element.autofillClass}" title="<g:message code="${element.i18nPrefixCode}.validationError" /> ">
+            <select id="${IdRefNamePrefix}${element.javaFieldName}Id" name="subjectId" <g:if test="\${isEdition}">disabled="disabled"</g:if> class="required validate-not-first ${element.autofillClass} \${invalidFields.contains('subjectId') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="\${subjects}">
                 <option value="\${it.key}" \${it.key == rqt.subjectId ? 'selected=\"selected\"': ''}>\${it.value}</option>
@@ -102,7 +102,7 @@
                 </g:if>
                 <span><g:message code="${element.i18nPrefixCode}.help" /></span>
               </label>
-              <ul class="yes-no ${element.listenerConditionsClass}">
+              <ul class="yes-no ${element.listenerConditionsClass} \${invalidFields.contains('${element.javaFieldName}') ? 'validation-failed' : ''}">
                 <g:each in="\${[true,false]}">
                   <li>
                     <input type="radio" id="${IdRefNamePrefix}${element.javaFieldName}_\${it ? 'yes' : 'no'}" class="${element.htmlClass}" title="" value="\${it}" name="${namePrefix}${element.javaFieldName}" \${it == ${valuePrefix}.${element.javaFieldName} ? 'checked="checked"': ''} />

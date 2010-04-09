@@ -1,15 +1,10 @@
 package fr.cg95.cvq.service.request.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.service.request.IRequestWorkflowService;
-import fr.cg95.cvq.service.request.condition.EqualityChecker;
-import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Partial implementation of the {@link IRequestService}, only provides functionalities
@@ -27,17 +22,15 @@ public abstract class RequestService implements IRequestService {
     protected String label;
     protected Boolean isOfRegistrationKind;
     protected String defaultDisplayGroup;
-    protected Map<String, IConditionChecker> conditions;
     protected int filingDelay;
     protected boolean archiveDocuments;
 
     protected IGenericDAO genericDAO;
-    
+
     public void init() {
-        conditions = new HashMap<String,IConditionChecker>();
-        conditions.put("_homeFolderResponsible.activeHomeFolder", new EqualityChecker("true"));
+        // empty method to avoid breaking specific services instantiation by spring
     }
-    
+
     @Override
     public void onRequestCreated(Request request) throws CvqException {
     }
@@ -151,11 +144,6 @@ public abstract class RequestService implements IRequestService {
 
     public void setDefaultDisplayGroup(String defaultDisplayGroup) {
         this.defaultDisplayGroup = defaultDisplayGroup;
-    }
-
-    @Override
-    public Map<String, IConditionChecker> getConditions() {
-        return conditions;
     }
 
     public void setGenericDAO(IGenericDAO genericDAO) {

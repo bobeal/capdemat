@@ -1,5 +1,8 @@
 package fr.cg95.cvq.generator.plugins.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -9,6 +12,7 @@ import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
+import fr.cg95.cvq.generator.common.ElementCommon;
 
 /**
  * The model plugin that is in charge of receiving generator events, filtering those
@@ -56,10 +60,13 @@ public class ModelPlugin implements IPluginGenerator {
     private String currentContainerComplexElement;
     private String currentContainerComplexElementType;
 
+    private Map<String, ElementCommon> commonElements;
+
     public void initialize(Node configurationNode) {
         logger.debug("initialize()");
 
         modelRequestObject = new ModelRequestObject();
+        commonElements = new HashMap<String, ElementCommon>();
 
         NodeList nodeList = configurationNode.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -87,6 +94,21 @@ public class ModelPlugin implements IPluginGenerator {
     public void endRequest(String requestName) {
 
         logger.debug("endRequest() Name : " + requestName);
+        for (Map.Entry<String, ElementCommon> commonElement : commonElements.entrySet()) {
+            ElementModelProperties element = modelRequestObject.getField(commonElement.getKey());
+            if (element != null) {
+                element.setElementCommon(commonElement.getValue());
+            } else {
+                for (ElementModelProperties elementModelProperties :
+                    modelRequestObject.getElementsPropertiesMap().values()) {
+                    if (commonElement.getKey().equals(elementModelProperties.getComplexContainerElementName())) {
+                        elementModelProperties.setComplexContainerConditionListener(
+                            commonElement.getValue().getConditionListener());
+                    }
+                }
+            }
+        }
+        commonElements.clear();
         modelRequestObject.generateRequest();
     }
 
@@ -214,29 +236,36 @@ public class ModelPlugin implements IPluginGenerator {
 
         if (depth == 0) {
             // at the request level
-            Node applicationNode = applicationDocumentation.getXmlNode();
-            NamedNodeMap applicationAttributesMap = applicationNode.getAttributes();
-            modelRequestObject.setRequestNamespaceLastParticle(applicationAttributesMap.getNamedItem("namespace").getNodeValue());
+            if ("model".equals(applicationDocumentation.getNodeName())) {
+                Node applicationNode = applicationDocumentation.getXmlNode();
+                NamedNodeMap applicationAttributesMap = applicationNode.getAttributes();
+                modelRequestObject.setRequestNamespaceLastParticle(
+                    applicationAttributesMap.getNamedItem("namespace").getNodeValue());
+            }
         } else {
             // at the request elements level
-
-            // first look if we have to deal with a choice
-            // if so, remove current element from map and store choice
-            Node[] childrenNodes = applicationDocumentation.getChildrenNodes("choice");
-            if (childrenNodes != null) {
-                // we can only have one
-                Node childNode = childrenNodes[0];
-                NamedNodeMap childAttributesMap = childNode.getAttributes();
-                choiceKey = childAttributesMap.getNamedItem("key").getNodeValue();
-                choiceName = currentElement;
-                if (childAttributesMap.getNamedItem("default") != null)
-                    choiceDefaultValue = childAttributesMap.getNamedItem("default").getNodeValue();
-                modelRequestObject.removeField(currentElement);
-                insideChoiceElement = true;
-                currentContainerComplexElement = currentElement;
+            if ("model".equals(applicationDocumentation.getNodeName())) {
+                // first look if we have to deal with a choice
+                // if so, remove current element from map and store choice
+                Node[] childrenNodes = applicationDocumentation.getChildrenNodes("choice");
+                if (childrenNodes != null) {
+                    // we can only have one
+                    Node childNode = childrenNodes[0];
+                    NamedNodeMap childAttributesMap = childNode.getAttributes();
+                    choiceKey = childAttributesMap.getNamedItem("key").getNodeValue();
+                    choiceName = currentElement;
+                    if (childAttributesMap.getNamedItem("default") != null)
+                        choiceDefaultValue =
+                            childAttributesMap.getNamedItem("default").getNodeValue();
+                    modelRequestObject.removeField(currentElement);
+                    insideChoiceElement = true;
+                    currentContainerComplexElement = currentElement;
+                }
+                modelRequestObject.addFieldInfo(currentElement, applicationDocumentation);
+            } else {
+                commonElements.put(currentElement,
+                    applicationDocumentation.getRequestCommon().getCurrentElementCommon());
             }
-
-            modelRequestObject.addFieldInfo(currentElement, applicationDocumentation);
         }
     }
 

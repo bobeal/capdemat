@@ -7,12 +7,17 @@ import java.util.List;
  * @author rdj@zenexity.fr
  */
 public class ElementCommon {
-    
+
+    private String name;
     private Step step;
     private ConditionListener conditionListener;
     private List<Condition> triggeredConditions = new ArrayList<Condition>();
     private String jsRegexp;
     private Autofill autofill;
+
+    public ElementCommon(String name) {
+        this.name = name;
+    }
 
     public Step getStep() {
         return step;
@@ -48,5 +53,9 @@ public class ElementCommon {
 
     public void setAutofill(Autofill autofill) {
         this.autofill = autofill;
+    }
+
+    public String getName() {
+        return name;
     }
 }

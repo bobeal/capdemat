@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class DeathDetailsRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -46,6 +55,21 @@ public class DeathDetailsRequestData implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "deathFirstNames"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "deathFirstNames"
+      )
+    
     private String deathFirstNames;
 
     public final void setDeathFirstNames(final String deathFirstNames) {
@@ -63,6 +87,30 @@ public class DeathDetailsRequestData implements Serializable {
         return this.deathFirstNames;
     }
   
+    
+      @MaxLength(
+        
+          value = 32,
+        
+        
+        profiles = {"nature"},
+        message = "deathCity"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "deathCity"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "deathCity"
+      )
+    
     private String deathCity;
 
     public final void setDeathCity(final String deathCity) {
@@ -80,6 +128,14 @@ public class DeathDetailsRequestData implements Serializable {
         return this.deathCity;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"type"},
+        message = "format"
+      )
+    
     private fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format;
 
     public final void setFormat(final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType format) {
@@ -97,6 +153,14 @@ public class DeathDetailsRequestData implements Serializable {
         return this.format;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"type"},
+        message = "copies"
+      )
+    
     private java.math.BigInteger copies;
 
     public final void setCopies(final java.math.BigInteger copies) {
@@ -115,6 +179,16 @@ public class DeathDetailsRequestData implements Serializable {
         return this.copies;
     }
   
+    
+      @MatchPattern(
+        
+          pattern = "^.{0,255}$",
+        
+        
+        profiles = {"type"},
+        message = "comment"
+      )
+    
     private String comment;
 
     public final void setComment(final String comment) {
@@ -132,6 +206,7 @@ public class DeathDetailsRequestData implements Serializable {
         return this.comment;
     }
   
+    
     private fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive;
 
     public final void setMotive(final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType motive) {
@@ -149,6 +224,30 @@ public class DeathDetailsRequestData implements Serializable {
         return this.motive;
     }
   
+    
+      @MaxLength(
+        
+          value = 2,
+        
+        
+        profiles = {"nature"},
+        message = "deathPostalCode"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "deathPostalCode"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "deathPostalCode"
+      )
+    
     private String deathPostalCode;
 
     public final void setDeathPostalCode(final String deathPostalCode) {
@@ -166,6 +265,30 @@ public class DeathDetailsRequestData implements Serializable {
         return this.deathPostalCode;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"nature"},
+        message = "deathLastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "deathLastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"nature"},
+        message = "deathLastName"
+      )
+    
     private String deathLastName;
 
     public final void setDeathLastName(final String deathLastName) {
@@ -183,6 +306,14 @@ public class DeathDetailsRequestData implements Serializable {
         return this.deathLastName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"nature"},
+        message = "deathDate"
+      )
+    
     private java.util.Date deathDate;
 
     public final void setDeathDate(final java.util.Date deathDate) {

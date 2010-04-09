@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.localpolice.impl;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.localpolice.HolidaySecurityRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
 public class HolidaySecurityRequestService extends RequestService {
@@ -13,7 +12,7 @@ public class HolidaySecurityRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         return new HolidaySecurityRequest();
     }
 }

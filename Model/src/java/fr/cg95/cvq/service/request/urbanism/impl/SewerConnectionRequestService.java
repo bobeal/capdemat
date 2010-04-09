@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.urbanism.impl;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.urbanism.SewerConnectionRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 
@@ -15,9 +14,7 @@ public final class SewerConnectionRequestService extends RequestService {
 
     @Override
     public void init() {
-        super.init();
-
-        conditions.put("requesterQuality", new EqualityChecker("Tenant"));
+        SewerConnectionRequest.conditions.put("requesterQuality", new EqualityChecker("Tenant"));
     }
 
     @Override
@@ -26,7 +23,7 @@ public final class SewerConnectionRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         return new SewerConnectionRequest();
     }
 }

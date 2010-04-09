@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class TechnicalInterventionRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -44,6 +53,39 @@ public class TechnicalInterventionRequestData implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "_this.interventionType.each { active &= _this.conditions['interventionType'].test(it.name) };" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"intervention"},
+        message = "otherInterventionLabel"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "_this.interventionType.each { active &= _this.conditions['interventionType'].test(it.name) };" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"intervention"},
+        message = "otherInterventionLabel"
+      )
+    
     private String otherInterventionLabel;
 
     public final void setOtherInterventionLabel(final String otherInterventionLabel) {
@@ -61,6 +103,21 @@ public class TechnicalInterventionRequestData implements Serializable {
         return this.otherInterventionLabel;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"intervention"},
+        message = "interventionDescription"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"intervention"},
+        message = "interventionDescription"
+      )
+    
     private String interventionDescription;
 
     public final void setInterventionDescription(final String interventionDescription) {
@@ -78,6 +135,21 @@ public class TechnicalInterventionRequestData implements Serializable {
         return this.interventionDescription;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"intervention"},
+        message = "interventionPlace"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"intervention"},
+        message = "interventionPlace"
+      )
+    
     private fr.cg95.cvq.business.users.Address interventionPlace;
 
     public final void setInterventionPlace(final fr.cg95.cvq.business.users.Address interventionPlace) {
@@ -96,6 +168,14 @@ public class TechnicalInterventionRequestData implements Serializable {
         return this.interventionPlace;
     }
   
+    
+      @LocalReferential(
+        
+        
+        profiles = {"intervention"},
+        message = "interventionType"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> interventionType;
 
     public final void setInterventionType(final List<fr.cg95.cvq.business.request.LocalReferentialData> interventionType) {

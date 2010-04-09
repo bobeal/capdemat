@@ -7,13 +7,11 @@ import org.apache.log4j.Logger;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.social.HandicapCompensationChildRequest;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.condition.DateChecker;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
 import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.util.DateUtils;
-
 
 /**
  * Implementation of the child handicap allowance request service.
@@ -21,61 +19,99 @@ import fr.cg95.cvq.util.DateUtils;
  * @author maxence.veyret@bull.net
  */
 public class HandicapCompensationChildRequestService extends RequestService {
-    
+
     static Logger logger = Logger.getLogger(HandicapCompensationChildRequestService.class);
 
-    
     @Override
     public void init() {
-
-        super.init();
-
-        conditions.put("referentTitle", new EqualityChecker("Madam"));
-        conditions.put("fatherActivityReduction", new EqualityChecker("true"));
-        conditions.put("motherActivityReduction", new EqualityChecker("true"));
-        conditions.put("referentFamilyDependents", new EqualityChecker("true"));
-        conditions.put("dwellingKind", new EqualityListChecker(Arrays.asList("Other", "ThirdPartyPlaceOfResidence")));
-        conditions.put("dwellingEstablishmentReception", new EqualityChecker("true"));
-        conditions.put("dwellingSocialReception", new EqualityChecker("true"));
-        conditions.put("socialSecurityMemberShipKind", new EqualityListChecker(Arrays.asList("Insured", "Claimant")));
-        conditions.put("paymentAgencyBeneficiary", new EqualityListChecker(Arrays.asList("CAF", "MSA", "Other")));
-        conditions.put("studiesHighSchool", new EqualityChecker("true"));
-        conditions.put("studiesAssistanceUnderDisability", new EqualityChecker("true"));
-        conditions.put("professionalStatusKind", new EqualityChecker("Employee"));
-//        conditions.put("StudiesAssistanceUnderDisability", new EqualityChecker("Unemployee"));//  isUnemployed" />
-        conditions.put("professionalStatusRegisterAsUnemployed", new EqualityChecker("true"));
-        conditions.put("professionalStatusIndemnified", new EqualityChecker("true"));
-        conditions.put("professionalStatusElectiveFunction", new EqualityChecker("true"));
-        conditions.put("foldersMdph", new EqualityChecker("true"));
-        conditions.put("foldersCotorep", new EqualityChecker("true"));
-        conditions.put("foldersCdes", new EqualityChecker("true"));
-        conditions.put("foldersOtherFolders", new EqualityChecker("true"));
-        conditions.put("benefitsDisabilityRecognition", new EqualityChecker("true"));
-        conditions.put("benefitsProfessionalOrientation", new EqualityChecker("true"));
-        conditions.put("benefitsEducationOfDisabledChildren", new EqualityChecker("true"));
-        conditions.put("benefitsDisabilityPension", new EqualityChecker("true"));
-        conditions.put("benefitsWorkAccidentAnnuity", new EqualityChecker("true"));
-        conditions.put("benefitsSupportedByAnInstitution", new EqualityChecker("true"));
-        conditions.put("benefitsOtherBenefits", new EqualityChecker("true"));
-        conditions.put("isFamilyAssistance", new EqualityChecker("true"));
-        conditions.put("homeInterventionHomeIntervenant", new EqualityChecker("true"));
-        conditions.put("homeIntervenants[0].homeIntervenantKind", new EqualityChecker("Other"));
-        conditions.put("careCareServices", new EqualityChecker("true"));
-        conditions.put("careServices[0].careServiceCareServiceEmployer", new EqualityChecker("true"));
-        conditions.put("facilitiesHousing", new EqualityChecker("true"));
-        conditions.put("facilitiesTechnicalAssistance", new EqualityChecker("true"));
-        conditions.put("facilitiesCustomCar", new EqualityChecker("true"));
-        conditions.put("facilitiesAnimalAid", new EqualityChecker("true"));
-        conditions.put("facilitiesSpecializedTransport", new EqualityChecker("true"));
-        conditions.put("professionalSupportProfessionals", new EqualityChecker("true"));
-        conditions.put("professionalSupportSocialServiceSupport", new EqualityChecker("true"));
-        conditions.put("socialServiceSupport", new EqualityChecker("true"));
-        conditions.put("healthFollowedByDoctor", new EqualityChecker("true"));
-        conditions.put("healthFollowedByProfessional", new EqualityChecker("true"));
-        conditions.put("healthFollowedByHospital", new EqualityChecker("true"));
-        conditions.put("projectRequestsProfessionalOrientation", new EqualityChecker("true"));
-        conditions.put("projectRequestsOther", new EqualityChecker("true"));
-        conditions.put("subjectBirthDate", new DateChecker("<", DateUtils.getShiftedDate(Calendar.YEAR, - 18)));
+        HandicapCompensationChildRequest.conditions.put("referentTitle",
+            new EqualityChecker("Madam"));
+        HandicapCompensationChildRequest.conditions.put("fatherActivityReduction",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("motherActivityReduction",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("referentFamilyDependents",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("dwellingKind",
+            new EqualityListChecker(Arrays.asList("Other", "ThirdPartyPlaceOfResidence")));
+        HandicapCompensationChildRequest.conditions.put("dwellingEstablishmentReception",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("dwellingSocialReception",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("socialSecurityMemberShipKind",
+            new EqualityListChecker(Arrays.asList("Insured", "Claimant")));
+        HandicapCompensationChildRequest.conditions.put("paymentAgencyBeneficiary",
+            new EqualityListChecker(Arrays.asList("CAF", "MSA", "Other")));
+        HandicapCompensationChildRequest.conditions.put("studiesHighSchool",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("studiesAssistanceUnderDisability",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("professionalStatusKind",
+            new EqualityChecker("Employee"));
+        HandicapCompensationChildRequest.conditions.put("professionalStatusRegisterAsUnemployed",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("professionalStatusIndemnified",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("professionalStatusElectiveFunction",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("foldersMdph", new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("foldersCotorep",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("foldersCdes", new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("foldersOtherFolders",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("benefitsDisabilityRecognition",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("benefitsProfessionalOrientation",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("benefitsEducationOfDisabledChildren",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("benefitsDisabilityPension",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("benefitsWorkAccidentAnnuity",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("benefitsSupportedByAnInstitution",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("benefitsOtherBenefits",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("isFamilyAssistance",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("homeInterventionHomeIntervenant",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("homeIntervenants[0].homeIntervenantKind",
+            new EqualityChecker("Other"));
+        HandicapCompensationChildRequest.conditions.put("careCareServices",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put(
+            "careServices[0].careServiceCareServiceEmployer", new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("facilitiesHousing",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("facilitiesTechnicalAssistance",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("facilitiesCustomCar",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("facilitiesAnimalAid",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("facilitiesSpecializedTransport",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("professionalSupportProfessionals",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("professionalSupportSocialServiceSupport",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("socialServiceSupport",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("healthFollowedByDoctor",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("healthFollowedByProfessional",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("healthFollowedByHospital",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("projectRequestsProfessionalOrientation",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("projectRequestsOther",
+            new EqualityChecker("true"));
+        HandicapCompensationChildRequest.conditions.put("subjectBirthDate",
+            new DateChecker("<", DateUtils.getShiftedDate(Calendar.YEAR, -18)));
     }
 
     @Override
@@ -84,7 +120,7 @@ public class HandicapCompensationChildRequestService extends RequestService {
     }
 
     @Override
-    public Request getSkeletonRequest() throws CvqException {
+    public Request getSkeletonRequest() {
         return new HandicapCompensationChildRequest();
     }
 }

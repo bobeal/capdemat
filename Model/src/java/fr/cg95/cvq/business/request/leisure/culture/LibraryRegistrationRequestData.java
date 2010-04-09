@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;
+
+import net.sf.oval.constraint.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -23,6 +29,9 @@ import fr.cg95.cvq.business.users.*;
 public class LibraryRegistrationRequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Map<String, IConditionChecker> conditions =
+        new HashMap<String, IConditionChecker>(RequestData.conditions);
 
     private Long id;
 
@@ -48,6 +57,21 @@ public class LibraryRegistrationRequestData implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "registrationNumber"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"registration"},
+        message = "registrationNumber"
+      )
+    
     private String registrationNumber;
 
     public final void setRegistrationNumber(final String registrationNumber) {
@@ -65,6 +89,14 @@ public class LibraryRegistrationRequestData implements Serializable {
         return this.registrationNumber;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "parentalAuthorization"
+      )
+    
     private Boolean parentalAuthorization;
 
     public final void setParentalAuthorization(final Boolean parentalAuthorization) {
@@ -82,6 +114,14 @@ public class LibraryRegistrationRequestData implements Serializable {
         return this.parentalAuthorization;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"registration"},
+        message = "subscriptionPrice"
+      )
+    
     private Short subscriptionPrice;
 
     public final void setSubscriptionPrice(final Short subscriptionPrice) {
@@ -99,6 +139,14 @@ public class LibraryRegistrationRequestData implements Serializable {
         return this.subscriptionPrice;
     }
   
+    
+      @LocalReferential(
+        
+        
+        profiles = {"registration"},
+        message = "subscription"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> subscription;
 
     public final void setSubscription(final List<fr.cg95.cvq.business.request.LocalReferentialData> subscription) {
@@ -125,6 +173,14 @@ public class LibraryRegistrationRequestData implements Serializable {
         return this.subscription;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"rules"},
+        message = "rulesAndRegulationsAcceptance"
+      )
+    
     private Boolean rulesAndRegulationsAcceptance;
 
     public final void setRulesAndRegulationsAcceptance(final Boolean rulesAndRegulationsAcceptance) {

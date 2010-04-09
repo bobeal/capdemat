@@ -23,13 +23,19 @@ public class SearchUtils{
                 }
             }
         }
-        
+
+        return ["filters":filters,"filterBy":formatFilters(filters)]
+	}
+    
+    /**
+     * 
+     */
+    public static formatFilters(filters) {
         def filterBy = ''
         filters.each { key, value ->
             filterBy += '@' + key + '=' + value
         }
-
-        return ["filters":filters,"filterBy":filterBy]
-	}
+        return filterBy
+    }
 	
 }

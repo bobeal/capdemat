@@ -72,9 +72,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         yud.get('pageForm').submit();
       },
       buildFilterUri : function(o) {
-        var cat = zct.val(yud.get('categoryFilter'));
-        var req = zct.val(yud.get('requestTypeFilter'));
-        var q = encodeURIComponent(['@categoryIdFilter=',cat,'@requestTypeFilter=',req].join(''));
+        var cat = zct.val(yud.get('categoryIdFilter'));
+        var req = zct.val(yud.get('requestTypeIdFilter'));
+        var q = encodeURIComponent(['@categoryIdFilter=',cat,'@requestTypeIdFilter=',req].join(''));
         zct.each(o,function(k,v){
           q = q + encodeURIComponent(['@',k,'=',v].join(''));
         });

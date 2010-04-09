@@ -38,14 +38,20 @@ class BackofficeRequestController {
     def beforeInterceptor = {
         session['currentMenu'] = 'request'
     }
-
+    
+    
     /**
      * Called when first entering the search screen
      */
     def initSearch = {
+        if(session['filterBy'] || session['sortBy']) {
+            redirect(action:search,params:['filterBy':session['filterBy']])
+        }
+        else {
         render(view:'search', 
             model:['inSearch':false, 'sortBy':defaultSortBy,
                    'filters':[:]].plus(initSearchReferential()))
+        }
     }
 
     /**
@@ -97,8 +103,14 @@ class BackofficeRequestController {
             criteria.add(critere)
         }
         
+        
         // deal with dynamic sorts
-        def sortBy = params.sortBy ? params.sortBy : defaultSortBy
+        def sortBy = defaultSortBy
+        if(params.sortBy)
+            sortBy = params.sortBy
+        else if(session['sortBy'])
+            sortBy = session['sortBy']
+        
         def sortDir = params.dir ? params.dir : 'desc'
         
         // deal with pagination settings
@@ -114,6 +126,9 @@ class BackofficeRequestController {
             def record = requestAdaptorService.prepareRecordForSummaryView(it)
             recordsList.add(record)
         }
+        
+        session['filterBy'] = parsedFilters.filterBy
+        session['sortBy'] = sortBy
         
         render(view:'search', 
             model:['records':recordsList,
@@ -143,9 +158,17 @@ class BackofficeRequestController {
 
         if(method == 'get') {
             state['defaultDisplay'] = state['displayForm']
-            state['filters'] = ['categoryFilter':'','requestTypeIdFilter':'']
+            def categoryIdFilter = ''
+            def requestTypeIdFilter = ''
+            if(session['filterBy']) {
+                def allFilters = SearchUtils.parseFilters(session['filterBy']).filters
+                categoryIdFilter = allFilters['categoryIdFilter']
+                requestTypeIdFilter = allFilters['requestTypeIdFilter']
+            }
+            state['filters'] = ['categoryIdFilter':categoryIdFilter,'requestTypeIdFilter':requestTypeIdFilter]
         } else { 
             state = JSON.parse(params.pageState);
+            session['filterBy'] = SearchUtils.formatFilters(state.filters)
         }
         
         if(state.modifyDisplay == true) {
@@ -173,6 +196,8 @@ class BackofficeRequestController {
         if(state?.displayForm?.contains('Last'))
             requestMap.lastRequests = filterRequests('SEARCH_BY_LAST_INTERVENING_USER_ID',
                     SecurityContext.currentUserId,state)
+
+        
         
         render (view:'taskBoard', model:['requestMap':requestMap,
                                          'state' : state,
@@ -198,11 +223,11 @@ class BackofficeRequestController {
         critere.value = val
         criteriaSet.add(critere)
         
-        if(state?.filters?.categoryFilter) {
+        if(state?.filters?.categoryIdFilter) {
             critere = new Critere()
             critere.attribut = Request.SEARCH_BY_CATEGORY_ID
             critere.comparatif = critere.EQUALS
-            critere.value = state.filters.categoryFilter
+            critere.value = state.filters.categoryIdFilter
             criteriaSet.add(critere)
         }
         if(state?.filters?.requestTypeIdFilter) {

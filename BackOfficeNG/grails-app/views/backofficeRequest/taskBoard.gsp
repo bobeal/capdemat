@@ -140,11 +140,11 @@
         <div class="body">
           <form action="#" id="filterForm">
 
-            <label for="categoryFilter"><g:message code="property.category" /> :</label>
-            <select id="categoryFilter" name="categoryFilter">
+            <label for="categoryIdFilter"><g:message code="property.category" /> :</label>
+            <select id="categoryIdFilter" name="categoryIdFilter">
               <option value=""><g:message code="search.filter.defaultValue"/></option>
               <g:each in="${allCategories}" var="category">
-                <option value="${category.id}" ${state.filters['categoryFilter'] == category.id.toString() ? 'selected' : ''}>
+                <option value="${category.id}" ${state.filters['categoryIdFilter'] == category.id.toString() ? 'selected' : ''}>
                   ${category.name}
                 </option>
               </g:each>

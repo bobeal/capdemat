@@ -26,21 +26,21 @@
       <label class="required condition-isSchoolingEnrolment-filled"><g:message code="hccr.property.schoolingSchoolAddress.label" /> *  <span><g:message code="hccr.property.schoolingSchoolAddress.help" /></span></label>
             <div class="address-fieldset required condition-isSchoolingEnrolment-filled ">
             <label for="schoolingSchoolAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.schoolingSchoolAddress?.additionalDeliveryInformation}" maxlength="38" id="schoolingSchoolAddress.additionalDeliveryInformation" name="schoolingSchoolAddress.additionalDeliveryInformation" />  
+            <input type="text" class="validate-addressLine38" value="${rqt.schoolingSchoolAddress?.additionalDeliveryInformation}" maxlength="38" id="schoolingSchoolAddress.additionalDeliveryInformation" name="schoolingSchoolAddress.additionalDeliveryInformation" />  
             <label for="schoolingSchoolAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.schoolingSchoolAddress?.additionalGeographicalInformation}" maxlength="38" id="schoolingSchoolAddress.additionalGeographicalInformation" name="schoolingSchoolAddress.additionalGeographicalInformation" />
+            <input type="text" class="validate-addressLine38" value="${rqt.schoolingSchoolAddress?.additionalGeographicalInformation}" maxlength="38" id="schoolingSchoolAddress.additionalGeographicalInformation" name="schoolingSchoolAddress.additionalGeographicalInformation" />
             <label for="schoolingSchoolAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
             <label for="schoolingSchoolAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-            <input type="text" class="line1" value="${rqt.schoolingSchoolAddress?.streetNumber}" size="5" maxlength="5" id="schoolingSchoolAddress.streetNumber" name="schoolingSchoolAddress.streetNumber" />
-            <input type="text" class="line2 required" value="${rqt.schoolingSchoolAddress?.streetName}" maxlength="32" id="schoolingSchoolAddress.streetName" name="schoolingSchoolAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <input type="text" class="line1 validate-streetNumber" value="${rqt.schoolingSchoolAddress?.streetNumber}" size="5" maxlength="5" id="schoolingSchoolAddress.streetNumber" name="schoolingSchoolAddress.streetNumber" />
+            <input type="text" class="line2 required validate-streetName" value="${rqt.schoolingSchoolAddress?.streetName}" maxlength="32" id="schoolingSchoolAddress.streetName" name="schoolingSchoolAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label for="schoolingSchoolAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.schoolingSchoolAddress?.placeNameOrService}" maxlength="38" id="schoolingSchoolAddress.placeNameOrService" name="schoolingSchoolAddress.placeNameOrService" />
+            <input type="text" class="validate-addressLine38" value="${rqt.schoolingSchoolAddress?.placeNameOrService}" maxlength="38" id="schoolingSchoolAddress.placeNameOrService" name="schoolingSchoolAddress.placeNameOrService" />
             <label for="schoolingSchoolAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
             <label for="schoolingSchoolAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-            <input type="text" class="line1 required" value="${rqt.schoolingSchoolAddress?.postalCode}" size="5" maxlength="5" id="schoolingSchoolAddress.postalCode" name="schoolingSchoolAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.schoolingSchoolAddress?.city}" maxlength="32" id="schoolingSchoolAddress.city" name="schoolingSchoolAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <input type="text" class="line1 required validate-postalCode" value="${rqt.schoolingSchoolAddress?.postalCode}" size="5" maxlength="5" id="schoolingSchoolAddress.postalCode" name="schoolingSchoolAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required validate-city" value="${rqt.schoolingSchoolAddress?.city}" maxlength="32" id="schoolingSchoolAddress.city" name="schoolingSchoolAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label for="schoolingSchoolAddress.countryName"><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.schoolingSchoolAddress?.countryName}" maxlength="38" id="schoolingSchoolAddress.countryName" name="schoolingSchoolAddress.countryName" />
+            <input type="text" class="validate-addressLine38" value="${rqt.schoolingSchoolAddress?.countryName}" maxlength="38" id="schoolingSchoolAddress.countryName" name="schoolingSchoolAddress.countryName" />
             </div>
             
 
@@ -150,21 +150,21 @@
       <label class="condition-isAccompaniedHomeSchooling-filled"><g:message code="hccr.property.schoolingHomeSchoolingAccompanistAddress.label" />   <span><g:message code="hccr.property.schoolingHomeSchoolingAccompanistAddress.help" /></span></label>
             <div class="address-fieldset condition-isAccompaniedHomeSchooling-filled ">
             <label for="schoolingHomeSchoolingAccompanistAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.additionalDeliveryInformation}" maxlength="38" id="schoolingHomeSchoolingAccompanistAddress.additionalDeliveryInformation" name="schoolingHomeSchoolingAccompanistAddress.additionalDeliveryInformation" />  
+            <input type="text" class="validate-addressLine38" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.additionalDeliveryInformation}" maxlength="38" id="schoolingHomeSchoolingAccompanistAddress.additionalDeliveryInformation" name="schoolingHomeSchoolingAccompanistAddress.additionalDeliveryInformation" />  
             <label for="schoolingHomeSchoolingAccompanistAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.additionalGeographicalInformation}" maxlength="38" id="schoolingHomeSchoolingAccompanistAddress.additionalGeographicalInformation" name="schoolingHomeSchoolingAccompanistAddress.additionalGeographicalInformation" />
+            <input type="text" class="validate-addressLine38" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.additionalGeographicalInformation}" maxlength="38" id="schoolingHomeSchoolingAccompanistAddress.additionalGeographicalInformation" name="schoolingHomeSchoolingAccompanistAddress.additionalGeographicalInformation" />
             <label for="schoolingHomeSchoolingAccompanistAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
             <label for="schoolingHomeSchoolingAccompanistAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-            <input type="text" class="line1" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.streetNumber}" size="5" maxlength="5" id="schoolingHomeSchoolingAccompanistAddress.streetNumber" name="schoolingHomeSchoolingAccompanistAddress.streetNumber" />
-            <input type="text" class="line2 required" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.streetName}" maxlength="32" id="schoolingHomeSchoolingAccompanistAddress.streetName" name="schoolingHomeSchoolingAccompanistAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <input type="text" class="line1 validate-streetNumber" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.streetNumber}" size="5" maxlength="5" id="schoolingHomeSchoolingAccompanistAddress.streetNumber" name="schoolingHomeSchoolingAccompanistAddress.streetNumber" />
+            <input type="text" class="line2 required validate-streetName" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.streetName}" maxlength="32" id="schoolingHomeSchoolingAccompanistAddress.streetName" name="schoolingHomeSchoolingAccompanistAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label for="schoolingHomeSchoolingAccompanistAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.placeNameOrService}" maxlength="38" id="schoolingHomeSchoolingAccompanistAddress.placeNameOrService" name="schoolingHomeSchoolingAccompanistAddress.placeNameOrService" />
+            <input type="text" class="validate-addressLine38" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.placeNameOrService}" maxlength="38" id="schoolingHomeSchoolingAccompanistAddress.placeNameOrService" name="schoolingHomeSchoolingAccompanistAddress.placeNameOrService" />
             <label for="schoolingHomeSchoolingAccompanistAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
             <label for="schoolingHomeSchoolingAccompanistAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-            <input type="text" class="line1 required" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.postalCode}" size="5" maxlength="5" id="schoolingHomeSchoolingAccompanistAddress.postalCode" name="schoolingHomeSchoolingAccompanistAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.city}" maxlength="32" id="schoolingHomeSchoolingAccompanistAddress.city" name="schoolingHomeSchoolingAccompanistAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <input type="text" class="line1 required validate-postalCode" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.postalCode}" size="5" maxlength="5" id="schoolingHomeSchoolingAccompanistAddress.postalCode" name="schoolingHomeSchoolingAccompanistAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required validate-city" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.city}" maxlength="32" id="schoolingHomeSchoolingAccompanistAddress.city" name="schoolingHomeSchoolingAccompanistAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label for="schoolingHomeSchoolingAccompanistAddress.countryName"><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.countryName}" maxlength="38" id="schoolingHomeSchoolingAccompanistAddress.countryName" name="schoolingHomeSchoolingAccompanistAddress.countryName" />
+            <input type="text" class="validate-addressLine38" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.countryName}" maxlength="38" id="schoolingHomeSchoolingAccompanistAddress.countryName" name="schoolingHomeSchoolingAccompanistAddress.countryName" />
             </div>
             
 
@@ -221,21 +221,21 @@
       <label class="required condition-isHighSchool-filled"><g:message code="hccr.property.studiesHighSchoolAddress.label" /> *  <span><g:message code="hccr.property.studiesHighSchoolAddress.help" /></span></label>
             <div class="address-fieldset required condition-isHighSchool-filled ">
             <label for="studiesHighSchoolAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.studiesHighSchoolAddress?.additionalDeliveryInformation}" maxlength="38" id="studiesHighSchoolAddress.additionalDeliveryInformation" name="studiesHighSchoolAddress.additionalDeliveryInformation" />  
+            <input type="text" class="validate-addressLine38" value="${rqt.studiesHighSchoolAddress?.additionalDeliveryInformation}" maxlength="38" id="studiesHighSchoolAddress.additionalDeliveryInformation" name="studiesHighSchoolAddress.additionalDeliveryInformation" />  
             <label for="studiesHighSchoolAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.studiesHighSchoolAddress?.additionalGeographicalInformation}" maxlength="38" id="studiesHighSchoolAddress.additionalGeographicalInformation" name="studiesHighSchoolAddress.additionalGeographicalInformation" />
+            <input type="text" class="validate-addressLine38" value="${rqt.studiesHighSchoolAddress?.additionalGeographicalInformation}" maxlength="38" id="studiesHighSchoolAddress.additionalGeographicalInformation" name="studiesHighSchoolAddress.additionalGeographicalInformation" />
             <label for="studiesHighSchoolAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
             <label for="studiesHighSchoolAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-            <input type="text" class="line1" value="${rqt.studiesHighSchoolAddress?.streetNumber}" size="5" maxlength="5" id="studiesHighSchoolAddress.streetNumber" name="studiesHighSchoolAddress.streetNumber" />
-            <input type="text" class="line2 required" value="${rqt.studiesHighSchoolAddress?.streetName}" maxlength="32" id="studiesHighSchoolAddress.streetName" name="studiesHighSchoolAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <input type="text" class="line1 validate-streetNumber" value="${rqt.studiesHighSchoolAddress?.streetNumber}" size="5" maxlength="5" id="studiesHighSchoolAddress.streetNumber" name="studiesHighSchoolAddress.streetNumber" />
+            <input type="text" class="line2 required validate-streetName" value="${rqt.studiesHighSchoolAddress?.streetName}" maxlength="32" id="studiesHighSchoolAddress.streetName" name="studiesHighSchoolAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label for="studiesHighSchoolAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.studiesHighSchoolAddress?.placeNameOrService}" maxlength="38" id="studiesHighSchoolAddress.placeNameOrService" name="studiesHighSchoolAddress.placeNameOrService" />
+            <input type="text" class="validate-addressLine38" value="${rqt.studiesHighSchoolAddress?.placeNameOrService}" maxlength="38" id="studiesHighSchoolAddress.placeNameOrService" name="studiesHighSchoolAddress.placeNameOrService" />
             <label for="studiesHighSchoolAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
             <label for="studiesHighSchoolAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-            <input type="text" class="line1 required" value="${rqt.studiesHighSchoolAddress?.postalCode}" size="5" maxlength="5" id="studiesHighSchoolAddress.postalCode" name="studiesHighSchoolAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.studiesHighSchoolAddress?.city}" maxlength="32" id="studiesHighSchoolAddress.city" name="studiesHighSchoolAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <input type="text" class="line1 required validate-postalCode" value="${rqt.studiesHighSchoolAddress?.postalCode}" size="5" maxlength="5" id="studiesHighSchoolAddress.postalCode" name="studiesHighSchoolAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required validate-city" value="${rqt.studiesHighSchoolAddress?.city}" maxlength="32" id="studiesHighSchoolAddress.city" name="studiesHighSchoolAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label for="studiesHighSchoolAddress.countryName"><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.studiesHighSchoolAddress?.countryName}" maxlength="38" id="studiesHighSchoolAddress.countryName" name="studiesHighSchoolAddress.countryName" />
+            <input type="text" class="validate-addressLine38" value="${rqt.studiesHighSchoolAddress?.countryName}" maxlength="38" id="studiesHighSchoolAddress.countryName" name="studiesHighSchoolAddress.countryName" />
             </div>
             
 
@@ -272,17 +272,17 @@
 
     
       <label for="formationDiploma" class=""><g:message code="hccr.property.formationDiploma.label" />   <span><g:message code="hccr.property.formationDiploma.help" /></span></label>
-            <textarea id="formationDiploma" name="formationDiploma" class="  validate-textarea" title="<g:message code="hccr.property.formationDiploma.validationError" />" rows="2" cols="" maxlength="120">${rqt.formationDiploma}</textarea>
+            <textarea id="formationDiploma" name="formationDiploma" class="  validate-textarea" title="<g:message code="hccr.property.formationDiploma.validationError" />" rows="2" cols=""  maxlength="120">${rqt.formationDiploma}</textarea>
             
 
     
       <label for="formationPreviousFormation" class=""><g:message code="hccr.property.formationPreviousFormation.label" />   <span><g:message code="hccr.property.formationPreviousFormation.help" /></span></label>
-            <textarea id="formationPreviousFormation" name="formationPreviousFormation" class="  validate-textarea" title="<g:message code="hccr.property.formationPreviousFormation.validationError" />" rows="3" cols="" maxlength="180">${rqt.formationPreviousFormation}</textarea>
+            <textarea id="formationPreviousFormation" name="formationPreviousFormation" class="  validate-textarea" title="<g:message code="hccr.property.formationPreviousFormation.validationError" />" rows="3" cols=""  maxlength="180">${rqt.formationPreviousFormation}</textarea>
             
 
     
       <label for="formationCurrentFormation" class=""><g:message code="hccr.property.formationCurrentFormation.label" />   <span><g:message code="hccr.property.formationCurrentFormation.help" /></span></label>
-            <textarea id="formationCurrentFormation" name="formationCurrentFormation" class="  validate-textarea" title="<g:message code="hccr.property.formationCurrentFormation.validationError" />" rows="2" cols="" maxlength="120">${rqt.formationCurrentFormation}</textarea>
+            <textarea id="formationCurrentFormation" name="formationCurrentFormation" class="  validate-textarea" title="<g:message code="hccr.property.formationCurrentFormation.validationError" />" rows="2" cols=""  maxlength="120">${rqt.formationCurrentFormation}</textarea>
             
 
     
@@ -334,21 +334,21 @@
       <label class="condition-isEmployed-filled"><g:message code="hccr.property.professionalStatusAddress.label" />   <span><g:message code="hccr.property.professionalStatusAddress.help" /></span></label>
             <div class="address-fieldset condition-isEmployed-filled ">
             <label for="professionalStatusAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.professionalStatusAddress?.additionalDeliveryInformation}" maxlength="38" id="professionalStatusAddress.additionalDeliveryInformation" name="professionalStatusAddress.additionalDeliveryInformation" />  
+            <input type="text" class="validate-addressLine38" value="${rqt.professionalStatusAddress?.additionalDeliveryInformation}" maxlength="38" id="professionalStatusAddress.additionalDeliveryInformation" name="professionalStatusAddress.additionalDeliveryInformation" />  
             <label for="professionalStatusAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.professionalStatusAddress?.additionalGeographicalInformation}" maxlength="38" id="professionalStatusAddress.additionalGeographicalInformation" name="professionalStatusAddress.additionalGeographicalInformation" />
+            <input type="text" class="validate-addressLine38" value="${rqt.professionalStatusAddress?.additionalGeographicalInformation}" maxlength="38" id="professionalStatusAddress.additionalGeographicalInformation" name="professionalStatusAddress.additionalGeographicalInformation" />
             <label for="professionalStatusAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
             <label for="professionalStatusAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-            <input type="text" class="line1" value="${rqt.professionalStatusAddress?.streetNumber}" size="5" maxlength="5" id="professionalStatusAddress.streetNumber" name="professionalStatusAddress.streetNumber" />
-            <input type="text" class="line2 required" value="${rqt.professionalStatusAddress?.streetName}" maxlength="32" id="professionalStatusAddress.streetName" name="professionalStatusAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <input type="text" class="line1 validate-streetNumber" value="${rqt.professionalStatusAddress?.streetNumber}" size="5" maxlength="5" id="professionalStatusAddress.streetNumber" name="professionalStatusAddress.streetNumber" />
+            <input type="text" class="line2 required validate-streetName" value="${rqt.professionalStatusAddress?.streetName}" maxlength="32" id="professionalStatusAddress.streetName" name="professionalStatusAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label for="professionalStatusAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.professionalStatusAddress?.placeNameOrService}" maxlength="38" id="professionalStatusAddress.placeNameOrService" name="professionalStatusAddress.placeNameOrService" />
+            <input type="text" class="validate-addressLine38" value="${rqt.professionalStatusAddress?.placeNameOrService}" maxlength="38" id="professionalStatusAddress.placeNameOrService" name="professionalStatusAddress.placeNameOrService" />
             <label for="professionalStatusAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
             <label for="professionalStatusAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-            <input type="text" class="line1 required" value="${rqt.professionalStatusAddress?.postalCode}" size="5" maxlength="5" id="professionalStatusAddress.postalCode" name="professionalStatusAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.professionalStatusAddress?.city}" maxlength="32" id="professionalStatusAddress.city" name="professionalStatusAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <input type="text" class="line1 required validate-postalCode" value="${rqt.professionalStatusAddress?.postalCode}" size="5" maxlength="5" id="professionalStatusAddress.postalCode" name="professionalStatusAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required validate-city" value="${rqt.professionalStatusAddress?.city}" maxlength="32" id="professionalStatusAddress.city" name="professionalStatusAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label for="professionalStatusAddress.countryName"><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.professionalStatusAddress?.countryName}" maxlength="38" id="professionalStatusAddress.countryName" name="professionalStatusAddress.countryName" />
+            <input type="text" class="validate-addressLine38" value="${rqt.professionalStatusAddress?.countryName}" maxlength="38" id="professionalStatusAddress.countryName" name="professionalStatusAddress.countryName" />
             </div>
             
 

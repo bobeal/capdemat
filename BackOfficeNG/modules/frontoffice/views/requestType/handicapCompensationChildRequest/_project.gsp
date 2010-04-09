@@ -292,21 +292,21 @@
 
   
     <label for="projectWish" class=""><g:message code="hccr.property.projectWish.label" />   <span><g:message code="hccr.property.projectWish.help" /></span></label>
-            <textarea id="projectWish" name="projectWish" class="  validate-textarea" title="<g:message code="hccr.property.projectWish.validationError" />" rows="10" cols="" maxlength="600">${rqt.projectWish}</textarea>
+            <textarea id="projectWish" name="projectWish" class="  validate-textarea" title="<g:message code="hccr.property.projectWish.validationError" />" rows="10" cols=""  maxlength="600">${rqt.projectWish}</textarea>
             
 
   
 
   
     <label for="projectNeeds" class=""><g:message code="hccr.property.projectNeeds.label" />   <span><g:message code="hccr.property.projectNeeds.help" /></span></label>
-            <textarea id="projectNeeds" name="projectNeeds" class="  validate-textarea" title="<g:message code="hccr.property.projectNeeds.validationError" />" rows="10" cols="" maxlength="600">${rqt.projectNeeds}</textarea>
+            <textarea id="projectNeeds" name="projectNeeds" class="  validate-textarea" title="<g:message code="hccr.property.projectNeeds.validationError" />" rows="10" cols=""  maxlength="600">${rqt.projectNeeds}</textarea>
             
 
   
 
   
     <label for="projectComments" class=""><g:message code="hccr.property.projectComments.label" />   <span><g:message code="hccr.property.projectComments.help" /></span></label>
-            <textarea id="projectComments" name="projectComments" class="  validate-textarea" title="<g:message code="hccr.property.projectComments.validationError" />" rows="10" cols="" maxlength="600">${rqt.projectComments}</textarea>
+            <textarea id="projectComments" name="projectComments" class="  validate-textarea" title="<g:message code="hccr.property.projectComments.validationError" />" rows="10" cols=""  maxlength="600">${rqt.projectComments}</textarea>
             
 
   

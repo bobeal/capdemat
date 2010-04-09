@@ -20,21 +20,21 @@
   
   <div class="address-fieldset required">
     <label for="_requester.adress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-    <input type="text" value="${requester?.adress?.additionalDeliveryInformation}" maxlength="38" id="_requester.adress.additionalDeliveryInformation" name="_requester.adress.additionalDeliveryInformation" />  
+    <input type="text" class="validate-addressLine38" value="${requester?.adress?.additionalDeliveryInformation}" maxlength="38" id="_requester.adress.additionalDeliveryInformation" name="_requester.adress.additionalDeliveryInformation" />  
     <label for="_requester.adress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-    <input type="text" value="${requester?.adress?.additionalGeographicalInformation}" maxlength="38" id="_requester.adress.additionalGeographicalInformation" name="_requester.adress.additionalGeographicalInformation" />
+    <input type="text" class="validate-addressLine38" value="${requester?.adress?.additionalGeographicalInformation}" maxlength="38" id="_requester.adress.additionalGeographicalInformation" name="_requester.adress.additionalGeographicalInformation" />
     <label for="_requester.adress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
     <label for="_requester.adress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-    <input type="text" class="line1" value="${requester?.adress?.streetNumber}" size="5" maxlength="5" id="_requester.adress.streetNumber" name="_requester.adress.streetNumber" />
-    <input type="text" class="line2 required" value="${requester?.adress?.streetName}" maxlength="32" id="_requester.adress.streetName" name="_requester.adress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+    <input type="text" class="line1 validate-streetNumber" value="${requester?.adress?.streetNumber}" size="5" maxlength="5" id="_requester.adress.streetNumber" name="_requester.adress.streetNumber" />
+    <input type="text" class="line2 required validate-streetName" value="${requester?.adress?.streetName}" maxlength="32" id="_requester.adress.streetName" name="_requester.adress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
     <label for="_requester.adress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-    <input type="text" value="${requester?.adress?.placeNameOrService}" maxlength="38" id="_requester.adress.placeNameOrService" name="_requester.adress.placeNameOrService" />
+    <input type="text" class="validate-addressLine38" value="${requester?.adress?.placeNameOrService}" maxlength="38" id="_requester.adress.placeNameOrService" name="_requester.adress.placeNameOrService" />
     <label for="_requester.adress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
     <label for="_requester.adress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-    <input type="text" class="line1 required" value="${requester?.adress?.postalCode}" size="5" maxlength="5" id="_requester.adress.postalCode" name="_requester.adress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-    <input type="text" class="line2 required" value="${requester?.adress?.city}" maxlength="32" id="_requester.adress.city" name="_requester.adress.city" title="<g:message code="address.property.city.validationError" />" />
+    <input type="text" class="line1 required validate-postalCode" value="${requester?.adress?.postalCode}" size="5" maxlength="5" id="_requester.adress.postalCode" name="_requester.adress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+    <input type="text" class="line2 required validate-city" value="${requester?.adress?.city}" maxlength="32" id="_requester.adress.city" name="_requester.adress.city" title="<g:message code="address.property.city.validationError" />" />
     <label for="_requester.adress.countryName"><g:message code="address.property.countryName" /></label>
-    <input type="text" value="${requester?.adress?.countryName}" maxlength="38" id="_requester.adress.countryName" name="_requester.adress.countryName" />
+    <input type="text" class="validate-addressLine38" value="${requester?.adress?.countryName}" maxlength="38" id="_requester.adress.countryName" name="_requester.adress.countryName" />
   </div>
 
   <label for="_requester.email" class="required"><g:message code="homeFolder.adult.property.email" /> * <span><g:message code="homeFolder.adult.property.email.help" /></span></label>

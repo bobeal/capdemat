@@ -19,21 +19,21 @@
       <label class="required"><g:message code="sgr.property.subjectAddress.label" /> *  <span><g:message code="sgr.property.subjectAddress.help" /></span></label>
             <div class="address-fieldset required autofill-subjectFilling-listener-Adress">
             <label for="subjectAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.subjectAddress?.additionalDeliveryInformation}" maxlength="38" id="subjectAddress.additionalDeliveryInformation" name="subjectAddress.additionalDeliveryInformation" />  
+            <input type="text" class="validate-addressLine38" value="${rqt.subjectAddress?.additionalDeliveryInformation}" maxlength="38" id="subjectAddress.additionalDeliveryInformation" name="subjectAddress.additionalDeliveryInformation" />  
             <label for="subjectAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.subjectAddress?.additionalGeographicalInformation}" maxlength="38" id="subjectAddress.additionalGeographicalInformation" name="subjectAddress.additionalGeographicalInformation" />
+            <input type="text" class="validate-addressLine38" value="${rqt.subjectAddress?.additionalGeographicalInformation}" maxlength="38" id="subjectAddress.additionalGeographicalInformation" name="subjectAddress.additionalGeographicalInformation" />
             <label for="subjectAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
             <label for="subjectAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-            <input type="text" class="line1" value="${rqt.subjectAddress?.streetNumber}" size="5" maxlength="5" id="subjectAddress.streetNumber" name="subjectAddress.streetNumber" />
-            <input type="text" class="line2 required" value="${rqt.subjectAddress?.streetName}" maxlength="32" id="subjectAddress.streetName" name="subjectAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <input type="text" class="line1 validate-streetNumber" value="${rqt.subjectAddress?.streetNumber}" size="5" maxlength="5" id="subjectAddress.streetNumber" name="subjectAddress.streetNumber" />
+            <input type="text" class="line2 required validate-streetName" value="${rqt.subjectAddress?.streetName}" maxlength="32" id="subjectAddress.streetName" name="subjectAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label for="subjectAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.subjectAddress?.placeNameOrService}" maxlength="38" id="subjectAddress.placeNameOrService" name="subjectAddress.placeNameOrService" />
+            <input type="text" class="validate-addressLine38" value="${rqt.subjectAddress?.placeNameOrService}" maxlength="38" id="subjectAddress.placeNameOrService" name="subjectAddress.placeNameOrService" />
             <label for="subjectAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
             <label for="subjectAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-            <input type="text" class="line1 required" value="${rqt.subjectAddress?.postalCode}" size="5" maxlength="5" id="subjectAddress.postalCode" name="subjectAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.subjectAddress?.city}" maxlength="32" id="subjectAddress.city" name="subjectAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <input type="text" class="line1 required validate-postalCode" value="${rqt.subjectAddress?.postalCode}" size="5" maxlength="5" id="subjectAddress.postalCode" name="subjectAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required validate-city" value="${rqt.subjectAddress?.city}" maxlength="32" id="subjectAddress.city" name="subjectAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label for="subjectAddress.countryName"><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.subjectAddress?.countryName}" maxlength="38" id="subjectAddress.countryName" name="subjectAddress.countryName" />
+            <input type="text" class="validate-addressLine38" value="${rqt.subjectAddress?.countryName}" maxlength="38" id="subjectAddress.countryName" name="subjectAddress.countryName" />
             </div>
             
 

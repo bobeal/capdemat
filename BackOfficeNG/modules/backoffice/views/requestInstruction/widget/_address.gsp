@@ -19,7 +19,7 @@
         value="${propertyValue.streetNumber}" class="line1 validate-streetNumber" />
     
     <input name="${propertyName}.streetName" type="text" maxlength="32"
-        value="${propertyValue.streetName}" class="line2 ${required} validate-streetName"q
+        value="${propertyValue.streetName}" class="line2 ${required} validate-streetName"
         title="<g:message code="address.property.streetName" /> - <g:message code="request.error.required" />" />
     
     <label><g:message code="address.property.placeNameOrService" /></label>    

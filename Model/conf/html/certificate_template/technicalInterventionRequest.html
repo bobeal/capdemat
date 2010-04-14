@@ -59,6 +59,15 @@
   <h2>${i18n.translate('tir.step.intervention.label')}</h2>
   
     
+      <p class="label">${i18n.translate('tir.property.interventionType.label')}</p>
+          <div class="response choice">
+            <% localReferentialWidget(rqt, 'interventionType', lrTypes.interventionType.entries, 0) %>
+          </div>
+          
+
+    
+  
+    
       <p class="label">${i18n.translate('tir.property.otherInterventionLabel.label')}</p><div class="response">${StringUtils.defaultString(rqt.otherInterventionLabel?.toString())}</div>
 
     

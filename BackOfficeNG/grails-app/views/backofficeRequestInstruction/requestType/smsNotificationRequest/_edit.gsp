@@ -8,6 +8,10 @@
       <a href="#page0"><em><g:message code="snr.step.subscription.label" /></em></a>
     </li>
   
+    <li class="administration ">
+      <a href="#page3"><em><g:message code="request.step.administration.label" /></em></a>
+    </li>
+  
   </ul>
    
   <div class="yui-content">
@@ -52,6 +56,41 @@
                              'rqt':rqt, 'isMultiple':lrTypes.interests?.entriesSupportMultiple, 'depth':0]" />
  
           </dd>
+              </dl>
+              
+            
+          </div>
+          <!-- column end -->
+          
+          <!-- column start -->
+          <div class="yui-u">
+            
+          </div>
+          <!-- column end -->
+          
+        </div>
+        <!-- data step  end -->
+      </div>
+      <!-- step end -->
+      
+      <!-- step start -->
+      <div id="page3">
+        <h2><g:message code="property.form" />
+          <span><g:message code="request.step.administration.label" /></span>
+        </h2>
+        <div class="yui-g">
+          
+            <div class="administration information-message">
+              <g:message code="request.step.administration.desc" />
+            </div>
+          
+          
+          <!-- column start -->
+          <div class="yui-u first">
+            
+              
+              <dl>
+                <dt class="required"><g:message code="snr.property.cleverSmsContactId.label" /> * : </dt><dd id="cleverSmsContactId" class="action-editField validate-string required-true i18n-snr.property.cleverSmsContactId" ><span>${rqt?.cleverSmsContactId}</span></dd>
               </dl>
               
             

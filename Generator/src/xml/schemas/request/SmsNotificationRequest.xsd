@@ -37,6 +37,7 @@
             </step>
             <step index="1" ref="document" />
             <step index="2" ref="validation" />
+            <step index="3" ref="administration" />
           </steps>
         </common>
       </xs:appinfo>
@@ -134,6 +135,10 @@
                   Clever SMS Id
                 </xs:documentation>
                 <xs:appinfo>
+                  <common>
+                    <step ref="administration" />
+                  </common>
+                  <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>

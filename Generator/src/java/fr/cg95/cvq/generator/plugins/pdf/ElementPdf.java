@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.ElementTypeClass;
-import fr.cg95.cvq.generator.common.Condition;
+import fr.cg95.cvq.generator.common.ConditionListener;
 import fr.cg95.cvq.generator.common.Step;
 
 /**
@@ -36,7 +36,7 @@ public class ElementPdf {
     private String modifier;
 
     private Step step;
-    private List<Condition> conditions;
+    private ConditionListener conditionListener;
     private List<ElementPdf> elements;
     
     public ElementPdf(String name, String requestAcronym) {
@@ -142,11 +142,7 @@ public class ElementPdf {
     }
 
     public void setMandatory(boolean mandatory) {
-        this.mandatory = mandatory;
-        if (conditions != null)
-            for (Condition c : this.conditions)
-                if(c.isRequired())
-                    this.mandatory = true;
+        this.mandatory = mandatory || (conditionListener!= null && conditionListener.isRequired());
     }
 
     public boolean isDisplay() {
@@ -190,12 +186,8 @@ public class ElementPdf {
         this.step = step;
     }
 
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
-    }
-
-    public List<Condition> getConditions() {
-        return conditions;
+    public void setConditionListener(ConditionListener conditionListener) {
+        this.conditionListener = conditionListener;
     }
 
     public void addElement (ElementPdf element) {
@@ -207,5 +199,4 @@ public class ElementPdf {
     public List<ElementPdf> getElements() {
         return elements;
     }
-
 }

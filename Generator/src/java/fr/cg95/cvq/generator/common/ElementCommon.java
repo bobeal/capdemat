@@ -9,7 +9,8 @@ import java.util.List;
 public class ElementCommon {
     
     private Step step;
-    private List<Condition> conditions = new ArrayList<Condition>();
+    private ConditionListener conditionListener;
+    private List<Condition> triggeredConditions = new ArrayList<Condition>();
     private String jsRegexp;
     private Autofill autofill;
 
@@ -21,28 +22,18 @@ public class ElementCommon {
         this.step = step;
     }
 
-    public List<Condition> getConditions() {
-        return conditions;
+    public ConditionListener getConditionListener() {
+        return conditionListener;
     }
-    
-    public void addCondition(Condition condition) {
-        for (Condition c : conditions)
-            if (c.getName().equals(condition.getName())) 
-                throw new RuntimeException("addCondition() - Condition {" + condition.getName() +"} " +
-                		"have more than 1 participation in element");
-        
-        if (condition.getType() == null)
-            throw new RuntimeException("addCondition() - Condition {" + condition.getName() +"} " +
-            		"must define attribute type=\"\" element ");
-        try {
-            Condition.ConditionType.valueOf(condition.getType().toUpperCase());
-        } catch (IllegalArgumentException iae) {
-            throw new RuntimeException("addCondition() - Condition type {"+ condition.getType() +"} is not one of " +
-            		"{"+ Condition.ConditionType.valuesAsString() +"}");
-        }
-        conditions.add(condition);
+
+    public void setConditionListener(ConditionListener conditionListener) {
+        this.conditionListener = conditionListener;
     }
-    
+
+    public List<Condition> getTriggeredConditions() {
+        return triggeredConditions;
+    }
+
     public String getJsRegexp() {
         return jsRegexp;
     }
@@ -58,5 +49,4 @@ public class ElementCommon {
     public void setAutofill(Autofill autofill) {
         this.autofill = autofill;
     }
-
 }

@@ -180,7 +180,8 @@ public class FoPlugin implements IPluginGenerator {
         } else if (depth >= 1) {
             ElementFo elementFo = elementFoStack.peek(depth);
             elementFo.setStep(appDoc.getRequestCommon().getCurrentElementCommon().getStep());
-            elementFo.setConditions(appDoc.getRequestCommon().getCurrentElementCommon().getConditions());
+            elementFo.setConditionListener(appDoc.getRequestCommon().getCurrentElementCommon().getConditionListener());
+            elementFo.setTriggeredConditions(appDoc.getRequestCommon().getCurrentElementCommon().getTriggeredConditions());
             elementFo.setAutofill(appDoc.getRequestCommon().getCurrentElementCommon().getAutofill());
             elementFo.setModelNamespace(RequestCommon.MODEL_REQUEST_NS + "." + appDoc.getRequestCommon().getNamespace());
             elementFo.setJsRegexp(appDoc.getRequestCommon().getCurrentElementCommon().getJsRegexp());

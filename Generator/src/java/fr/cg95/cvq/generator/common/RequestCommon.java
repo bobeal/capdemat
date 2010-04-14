@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.cg95.cvq.generator.common.Autofill.AutofillType;
+import fr.cg95.cvq.generator.common.Condition.RoleType;
 
 /**
  * @author rdj@zenexity.fr
@@ -103,23 +104,38 @@ public class RequestCommon {
         return null;
     }
 
-    public void addCurrentElementCondition (Condition condition) {
-        boolean isConditionDefined = false;
+    public void addConditionTrigger(String name) {
         if (currentElementCommon.getStep() != null) {
-            for (Condition c : getStepByName(currentElementCommon.getStep().getName()).getConditions()) {
-                if (c.getName().equals(condition.getName())) {
-                    isConditionDefined = true;
-                    break;
+            for (Condition c :
+                getStepByName(currentElementCommon.getStep().getName()).getConditions()) {
+                if (c.getName().equals(name)) {
+                    c.setTrigger(currentElementCommon);
+                    currentElementCommon.getTriggeredConditions().add(c);
+                    return;
                 }
             }
         }
-        if (! isConditionDefined)
-            throw new RuntimeException("setCurrentElementCondition() - Condition "
-                    + "{"+ condition.getName() +"} do not exists");
-        
-        currentElementCommon.addCondition(condition);
+        throw new RuntimeException(
+            "setCurrentElementCondition() - Condition {" + name + "} does not exist");
     }
-    
+
+    public void addConditionListener(String name, RoleType role, boolean required) {
+        if (currentElementCommon.getStep() != null) {
+            for (Condition c :
+                getStepByName(currentElementCommon.getStep().getName()).getConditions()) {
+                if (c.getName().equals(name)) {
+                    ConditionListener listener =
+                        new ConditionListener(c, currentElementCommon, role, required);
+                    c.getListeners().add(listener);
+                    currentElementCommon.setConditionListener(listener);
+                    return;
+                }
+            }
+        }
+        throw new RuntimeException(
+            "setCurrentElementCondition() - Condition {" + name + "} does not exist");
+    }
+
     public void setCurrentElementAutofill(String name, String type, String field) {
         if (!AutofillType.LISTENER.name().equals(type.toUpperCase())) {
             throw new RuntimeException("setCurrentElementAutofill() - Autofill {" + name + "} type must be listener");

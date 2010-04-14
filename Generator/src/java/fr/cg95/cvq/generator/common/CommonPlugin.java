@@ -7,6 +7,7 @@ import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
+import fr.cg95.cvq.generator.common.Condition.RoleType;
 
 
 /**
@@ -61,7 +62,8 @@ public class CommonPlugin implements IPluginGenerator {
                         for (Node conditionNode : 
                             ApplicationDocumentation.getChildrenNodes(conditionsNodes[0], "condition"))
                             requestCommon.addConditionToStep(step, new Condition(
-                                    ApplicationDocumentation.getNodeAttributeValue(conditionNode, "name"), null, null));
+                                ApplicationDocumentation
+                                    .getNodeAttributeValue(conditionNode, "name")));
                     
                     
                     Node[] widgetNodes = ApplicationDocumentation.getChildrenNodes(node, "widgets");
@@ -97,12 +99,15 @@ public class CommonPlugin implements IPluginGenerator {
 
             if (appDoc.hasChildNode("conditions"))
                 for (Node node : 
-                    ApplicationDocumentation.getChildrenNodes(appDoc.getChildrenNodes("conditions")[0], "condition"))
-                    requestCommon.addCurrentElementCondition(new Condition(
-                            ApplicationDocumentation.getNodeAttributeValue(node, "name") 
-                            ,ApplicationDocumentation.getNodeAttributeValue(node, "type")
-                            ,ApplicationDocumentation.getNodeAttributeValue(node, "required")));
-            
+                    ApplicationDocumentation.getChildrenNodes(appDoc.getChildrenNodes("conditions")[0], "condition")) {
+                    String name = ApplicationDocumentation.getNodeAttributeValue(node, "name");
+                    RoleType role = RoleType.valueOf(ApplicationDocumentation.getNodeAttributeValue(node, "type"));
+                    if (role == RoleType.trigger)
+                        requestCommon.addConditionTrigger(name);
+                    else
+                        requestCommon.addConditionListener(name, role, Boolean.valueOf(
+                            ApplicationDocumentation.getNodeAttributeValue(node, "required")));
+                }
             if (appDoc.hasChildNode("validation"))
                 requestCommon.getCurrentElementCommon().setJsRegexp(
                         ApplicationDocumentation.getNodeAttributeValue(appDoc.getChildrenNodes("validation")[0], "jsregexp"));

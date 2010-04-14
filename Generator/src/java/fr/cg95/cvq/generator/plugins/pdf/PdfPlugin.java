@@ -138,7 +138,7 @@ public class PdfPlugin implements IPluginGenerator {
         } else if (depth >= 1) {
             ElementPdf elementPdf = elementPdfStack.peek(depth);
             elementPdf.setStep(appDoc.getRequestCommon().getCurrentElementCommon().getStep());
-            elementPdf.setConditions(appDoc.getRequestCommon().getCurrentElementCommon().getConditions());
+            elementPdf.setConditionListener(appDoc.getRequestCommon().getCurrentElementCommon().getConditionListener());
             elementPdf.setModelNamespace(RequestCommon.MODEL_REQUEST_NS + "." + appDoc.getRequestCommon().getNamespace());
             elementPdf.setDisplay(true);
 

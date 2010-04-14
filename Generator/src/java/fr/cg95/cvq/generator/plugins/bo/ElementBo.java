@@ -7,7 +7,9 @@ import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.common.Condition;
+import fr.cg95.cvq.generator.common.ConditionListener;
 import fr.cg95.cvq.generator.common.Step;
+import fr.cg95.cvq.generator.common.Condition.RoleType;
 
 /**
  * @author rdj@zenexity.fr
@@ -39,7 +41,8 @@ public class ElementBo {
     private String after;
 
     private Step step;
-    private List<Condition> conditions;
+    private ConditionListener conditionListener;
+    private List<Condition> triggeredConditions;
     
     private List<ElementBo> elements;
     
@@ -48,6 +51,7 @@ public class ElementBo {
         this.javaFieldName = StringUtils.uncapitalize(name);
         this.i18nPrefixCode = requestAcronym + ".property." + this.javaFieldName;
         display = false;
+        triggeredConditions = new ArrayList<Condition>();
     }
     
     public String getLabel() {
@@ -173,12 +177,7 @@ public class ElementBo {
     }
 
     public void setMandatory(boolean mandatory) {
-        this.mandatory = mandatory;
-        
-        if (conditions != null)
-            for (Condition c : this.conditions)
-                if(c.isRequired())
-                    this.mandatory = true;
+        this.mandatory = mandatory || (conditionListener!= null && conditionListener.isRequired());
     }
     
     public boolean isDisplay() {
@@ -227,19 +226,20 @@ public class ElementBo {
     public String getConditionsClass() {
         StringBuffer sb = new StringBuffer();
         sb.append(mandatory ? "required " : "");
-        if (conditions != null) {
-            for (Condition c : conditions)
-                sb.append("condition-" + c.getName() + "-" + c.getType() + " ");
-        }
+        if (conditionListener != null)
+            sb.append("condition-" + conditionListener.getCondition().getName()
+                + "-" + conditionListener.getRole() + " ");
+        for (Condition c : triggeredConditions)
+            sb.append("condition-" + c.getName() + "-" + RoleType.trigger + " ");
         return sb.toString().trim();
     }
-    
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
+
+    public void setConditionListener(ConditionListener conditionListener) {
+        this.conditionListener = conditionListener;
     }
 
-    public List<Condition> getConditions() {
-        return conditions;
+    public void setTriggeredConditions(List<Condition> triggeredConditions) {
+        this.triggeredConditions = triggeredConditions;
     }
 
     public void addElement (ElementBo element) {

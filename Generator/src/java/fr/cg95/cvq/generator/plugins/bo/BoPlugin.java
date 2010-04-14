@@ -178,7 +178,8 @@ public class BoPlugin implements IPluginGenerator {
         } else if (depth >= 1) {
             ElementBo elementBo = elementBoStack.peek(depth);
             elementBo.setStep(appDoc.getRequestCommon().getCurrentElementCommon().getStep());
-            elementBo.setConditions(appDoc.getRequestCommon().getCurrentElementCommon().getConditions());
+            elementBo.setConditionListener(appDoc.getRequestCommon().getCurrentElementCommon().getConditionListener());
+            elementBo.setTriggeredConditions(appDoc.getRequestCommon().getCurrentElementCommon().getTriggeredConditions());
             elementBo.setModelNamespace(RequestCommon.MODEL_REQUEST_NS + "." + appDoc.getRequestCommon().getNamespace());
             elementBo.setJsRegexp(appDoc.getRequestCommon().getCurrentElementCommon().getJsRegexp());
             elementBo.setDisplay(true);

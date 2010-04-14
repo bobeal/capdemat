@@ -1,51 +1,46 @@
 package fr.cg95.cvq.generator.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author rdj@zenexity.fr
+ * @author jsb@zenexity.fr
  */
 public class Condition {
-    
-    public enum ConditionType { 
-        TRIGGER, FILLED, UNFILLED;
-        
-        public static String valuesAsString() {
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < values().length; i++) {
-                sb.append(values()[i].toString().toLowerCase());
-                if (i < values().length -1)
-                    sb.append("|");
-            }
-            return sb.toString();
-        }
+
+    public enum RoleType {
+        trigger, filled, unfilled;
     }
-    
+
     private String name;
-    private String type;
-    private boolean required = false;
-    
-    public Condition(String name, String type, String requiredString) {
+
+    private ElementCommon trigger;
+
+    private List<ConditionListener> listeners;
+
+    public Condition(String name) {
         this.name = name;
-        this.type = type;
-        this.required = new Boolean(requiredString).booleanValue();
+        listeners = new ArrayList<ConditionListener>();
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
-    public String getType() {
-        return type;
-    }
-    
-    public void setType(String type) {
-        this.type = type;
+
+    public ElementCommon getTrigger() {
+        return trigger;
     }
 
-    public boolean isRequired() {
-        return required;
+    public void setTrigger(ElementCommon trigger) {
+        this.trigger = trigger;
+    }
+
+    public List<ConditionListener> getListeners() {
+        return listeners;
     }
 }

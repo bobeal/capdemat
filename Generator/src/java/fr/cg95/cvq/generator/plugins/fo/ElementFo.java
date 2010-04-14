@@ -8,8 +8,10 @@ import org.apache.commons.lang.StringUtils;
 import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.common.Autofill;
 import fr.cg95.cvq.generator.common.Condition;
+import fr.cg95.cvq.generator.common.ConditionListener;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Autofill.AutofillType;
+import fr.cg95.cvq.generator.common.Condition.RoleType;
 
 /**
  * @author rdj@zenexity.fr
@@ -43,7 +45,8 @@ public class ElementFo {
     private int rows;
 
     private Step step;
-    private List<Condition> conditions;
+    private ConditionListener conditionListener;
+    private List<Condition> triggeredConditions;
     private Autofill autofill;
     
     private List<ElementFo> elements;
@@ -53,6 +56,7 @@ public class ElementFo {
         this.javaFieldName = StringUtils.uncapitalize(name);
         this.i18nPrefixCode = requestAcronym + ".property." + this.javaFieldName;
         display = false;
+        triggeredConditions = new ArrayList<Condition>();
     }
     
     public String getLabel() {
@@ -201,11 +205,7 @@ public class ElementFo {
     }
 
     public void setMandatory(boolean mandatory) {
-        this.mandatory = mandatory;
-        if (conditions != null)
-            for (Condition c : this.conditions)
-                if(c.isRequired())
-                    this.mandatory = true;
+        this.mandatory = mandatory || (conditionListener!= null && conditionListener.isRequired());
     }
     
     public boolean isDisplay() {
@@ -270,31 +270,29 @@ public class ElementFo {
     public String getConditionsClass() {
         StringBuffer sb = new StringBuffer();
         sb.append(mandatory ? "required " : "");
-        if (conditions != null) {
-            for (Condition c : conditions)
-                sb.append("condition-" + c.getName() + "-" + c.getType() + " ");
-        }
+        if (conditionListener != null)
+            sb.append("condition-" + conditionListener.getCondition().getName()
+                + "-" + conditionListener.getRole() + " ");
+        for (Condition c : triggeredConditions)
+            sb.append("condition-" + c.getName() + "-" + RoleType.trigger + " ");
         return sb.toString().trim();
     }
     
     public String getListenerConditionsClass() {
         StringBuffer sb = new StringBuffer();
         sb.append(mandatory ? "required " : "");
-        if (conditions != null) {
-            for (Condition c : conditions)
-                if ( ! Condition.ConditionType.valueOf(c.getType().toUpperCase())
-                        .equals(Condition.ConditionType.TRIGGER))
-                    sb.append("condition-" + c.getName() + "-" + c.getType() + " ");
-        }
+        if (conditionListener != null)
+            sb.append("condition-" + conditionListener.getCondition().getName()
+                + "-" + conditionListener.getRole() + " ");
         return sb.toString().trim();
     }
-    
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
+
+    public void setConditionListener(ConditionListener conditionListener) {
+        this.conditionListener = conditionListener;
     }
 
-    public List<Condition> getConditions() {
-        return conditions;
+    public void setTriggeredConditions(List<Condition> triggeredConditions) {
+        this.triggeredConditions = triggeredConditions;
     }
 
     public void addElement (ElementFo element) {

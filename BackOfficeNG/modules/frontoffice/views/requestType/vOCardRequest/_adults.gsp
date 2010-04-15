@@ -34,7 +34,7 @@
           class="required validate-email" title="<g:message code="homeFolder.adult.property.email.validationError" />" />
         
         <label class="required"><g:message code="homeFolder.adult.label.phones" /> <span>(<g:message code="homeFolder.adult.label.phones.help" />)</span></label>
-        <div class="address-fieldset">
+        <div id="adultPhones" class="address-fieldset">
           <label for="_individuals.adults.${listIndex}.homePhone"><g:message code="homeFolder.adult.property.homePhone" /> <span><g:message code="homeFolder.adult.property.homePhone.help" /></span></label>
           <input type="text" id="_individuals.adults.${listIndex}.homePhone" name="_individuals.adults[${listIndex}].homePhone"
             value="${editList?.adults ? editList.adults.homePhone : individuals?.adults ? individuals.adults.get(0).homePhone : ''}"

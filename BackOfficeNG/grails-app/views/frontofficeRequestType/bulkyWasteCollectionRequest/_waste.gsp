@@ -14,7 +14,7 @@
   
     <label for="otherWaste" class=""><g:message code="bwcr.property.otherWaste.label" />   <span><g:message code="bwcr.property.otherWaste.help" /></span></label>
             <input type="text" id="otherWaste" name="otherWaste" value="${rqt.otherWaste?.toString()}" 
-                    class="  validate-string ${invalidFields.contains('otherWaste') ? 'validation-failed' : ''}" title="<g:message code="bwcr.property.otherWaste.validationError" />"   />
+                    class="  validate-string ${stepStates != null && stepStates['waste']?.invalidFields.contains('otherWaste') ? 'validation-failed' : ''}" title="<g:message code="bwcr.property.otherWaste.validationError" />"   />
             
 
   

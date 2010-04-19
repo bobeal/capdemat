@@ -117,11 +117,12 @@ class RequestAdaptorService {
         return requestNotes.collect{ prepareNote(it) }
     }
 
-    public stepState(step, state, errorMsg) {
+    public stepState(step, state, errorMsg, invalidFields = []) {
         step.state = state
         step.cssClass = 'tag-' + state
         step.i18nKey = 'request.step.state.' + state
         step.errorMsg = errorMsg
+        step.invalidFields = invalidFields
     }
 
     public prepareLock(requestId) {

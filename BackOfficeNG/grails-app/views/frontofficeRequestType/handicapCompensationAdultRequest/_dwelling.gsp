@@ -6,7 +6,7 @@
     <legend><g:message code="hcar.property.dwelling.label" /></legend>
     
       <label for="dwellingKind" class="required"><g:message code="hcar.property.dwellingKind.label" /> *  <span><g:message code="hcar.property.dwellingKind.help" /></span></label>
-            <select id="dwellingKind" name="dwellingKind" class="required condition-isNotPlaceOfResidence-trigger  validate-not-first ${invalidFields.contains('dwellingKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingKind.validationError" />">
+            <select id="dwellingKind" name="dwellingKind" class="required condition-isNotPlaceOfResidence-trigger  validate-not-first ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dwellingKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['PlaceOfResidence','ThirdPartyPlaceOfResidence','Other']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarDwellingKindType_${it}" ${it == rqt.dwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.dwellingKind" /></option>
@@ -16,12 +16,12 @@
 
     
       <label for="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled"><g:message code="hcar.property.dwellingPrecision.label" /> *  <span><g:message code="hcar.property.dwellingPrecision.help" /></span></label>
-            <textarea id="dwellingPrecision" name="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled  validate-textarea ${invalidFields.contains('dwellingPrecision') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingPrecision.validationError" />" rows="2" cols=""  maxlength="120">${rqt.dwellingPrecision}</textarea>
+            <textarea id="dwellingPrecision" name="dwellingPrecision" class="required condition-isNotPlaceOfResidence-filled  validate-textarea ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dwellingPrecision') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingPrecision.validationError" />" rows="2" cols=""  maxlength="120">${rqt.dwellingPrecision}</textarea>
             
 
     
       <label class="required"><g:message code="hcar.property.dwellingEstablishmentReception.label" /> *  <span><g:message code="hcar.property.dwellingEstablishmentReception.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('dwellingEstablishmentReception') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dwellingEstablishmentReception') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="dwellingEstablishmentReception_${it ? 'yes' : 'no'}" class="required condition-isInEstablishmentReception-trigger  validate-one-required boolean" title="" value="${it}" name="dwellingEstablishmentReception" ${it == rqt.dwellingEstablishmentReception ? 'checked="checked"': ''} />
@@ -33,7 +33,7 @@
 
     
       <label for="dwellingReceptionType" class="required condition-isInEstablishmentReception-filled"><g:message code="hcar.property.dwellingReceptionType.label" /> *  <span><g:message code="hcar.property.dwellingReceptionType.help" /></span></label>
-            <select id="dwellingReceptionType" name="dwellingReceptionType" class="required condition-isInEstablishmentReception-filled  validate-not-first ${invalidFields.contains('dwellingReceptionType') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingReceptionType.validationError" />">
+            <select id="dwellingReceptionType" name="dwellingReceptionType" class="required condition-isInEstablishmentReception-filled  validate-not-first ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dwellingReceptionType') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingReceptionType.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Internship','Clerkship']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarDwellingReceptionKindType_${it}" ${it == rqt.dwellingReceptionType?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.dwellingReceptionType" /></option>
@@ -44,7 +44,7 @@
     
       <label for="dwellingReceptionNaming" class="required condition-isInEstablishmentReception-filled"><g:message code="hcar.property.dwellingReceptionNaming.label" /> *  <span><g:message code="hcar.property.dwellingReceptionNaming.help" /></span></label>
             <input type="text" id="dwellingReceptionNaming" name="dwellingReceptionNaming" value="${rqt.dwellingReceptionNaming?.toString()}" 
-                    class="required condition-isInEstablishmentReception-filled   ${invalidFields.contains('dwellingReceptionNaming') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingReceptionNaming.validationError" />"  maxlength="80" />
+                    class="required condition-isInEstablishmentReception-filled   ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dwellingReceptionNaming') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingReceptionNaming.validationError" />"  maxlength="80" />
             
 
     
@@ -71,7 +71,7 @@
 
     
       <label class="required"><g:message code="hcar.property.dwellingSocialReception.label" /> *  <span><g:message code="hcar.property.dwellingSocialReception.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('dwellingSocialReception') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dwellingSocialReception') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="dwellingSocialReception_${it ? 'yes' : 'no'}" class="required condition-isInSocialReception-trigger  validate-one-required boolean" title="" value="${it}" name="dwellingSocialReception" ${it == rqt.dwellingSocialReception ? 'checked="checked"': ''} />
@@ -84,7 +84,7 @@
     
       <label for="dwellingSocialReceptionNaming" class="required condition-isInSocialReception-filled"><g:message code="hcar.property.dwellingSocialReceptionNaming.label" /> *  <span><g:message code="hcar.property.dwellingSocialReceptionNaming.help" /></span></label>
             <input type="text" id="dwellingSocialReceptionNaming" name="dwellingSocialReceptionNaming" value="${rqt.dwellingSocialReceptionNaming?.toString()}" 
-                    class="required condition-isInSocialReception-filled   ${invalidFields.contains('dwellingSocialReceptionNaming') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingSocialReceptionNaming.validationError" />"  maxlength="80" />
+                    class="required condition-isInSocialReception-filled   ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dwellingSocialReceptionNaming') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.dwellingSocialReceptionNaming.validationError" />"  maxlength="80" />
             
 
     

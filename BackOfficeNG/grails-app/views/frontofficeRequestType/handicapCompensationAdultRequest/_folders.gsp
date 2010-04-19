@@ -6,7 +6,7 @@
     <legend><g:message code="hcar.property.folders.label" /></legend>
     
       <label class="required"><g:message code="hcar.property.foldersMdph.label" /> *  <span><g:message code="hcar.property.foldersMdph.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('foldersMdph') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['folders']?.invalidFields.contains('foldersMdph') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="foldersMdph_${it ? 'yes' : 'no'}" class="required condition-isMDPH-trigger  validate-one-required boolean" title="" value="${it}" name="foldersMdph" ${it == rqt.foldersMdph ? 'checked="checked"': ''} />
@@ -19,18 +19,18 @@
     
       <label for="foldersMdphNumber" class="condition-isMDPH-filled"><g:message code="hcar.property.foldersMdphNumber.label" />   <span><g:message code="hcar.property.foldersMdphNumber.help" /></span></label>
             <input type="text" id="foldersMdphNumber" name="foldersMdphNumber" value="${rqt.foldersMdphNumber?.toString()}" 
-                    class="condition-isMDPH-filled   ${invalidFields.contains('foldersMdphNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersMdphNumber.validationError" />"  maxlength="30" />
+                    class="condition-isMDPH-filled   ${stepStates != null && stepStates['folders']?.invalidFields.contains('foldersMdphNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersMdphNumber.validationError" />"  maxlength="30" />
             
 
     
       <label for="foldersMdphDepartment" class="condition-isMDPH-filled"><g:message code="hcar.property.foldersMdphDepartment.label" />   <span><g:message code="hcar.property.foldersMdphDepartment.help" /></span></label>
             <input type="text" id="foldersMdphDepartment" name="foldersMdphDepartment" value="${rqt.foldersMdphDepartment?.toString()}" 
-                    class="condition-isMDPH-filled  validate-departmentCode ${invalidFields.contains('foldersMdphDepartment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersMdphDepartment.validationError" />"  maxlength="2" />
+                    class="condition-isMDPH-filled  validate-departmentCode ${stepStates != null && stepStates['folders']?.invalidFields.contains('foldersMdphDepartment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersMdphDepartment.validationError" />"  maxlength="2" />
             
 
     
       <label class="required"><g:message code="hcar.property.foldersCotorep.label" /> *  <span><g:message code="hcar.property.foldersCotorep.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('foldersCotorep') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['folders']?.invalidFields.contains('foldersCotorep') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="foldersCotorep_${it ? 'yes' : 'no'}" class="required condition-isCOTOREP-trigger  validate-one-required boolean" title="" value="${it}" name="foldersCotorep" ${it == rqt.foldersCotorep ? 'checked="checked"': ''} />
@@ -43,18 +43,18 @@
     
       <label for="foldersCotorepNumber" class="condition-isCOTOREP-filled"><g:message code="hcar.property.foldersCotorepNumber.label" />   <span><g:message code="hcar.property.foldersCotorepNumber.help" /></span></label>
             <input type="text" id="foldersCotorepNumber" name="foldersCotorepNumber" value="${rqt.foldersCotorepNumber?.toString()}" 
-                    class="condition-isCOTOREP-filled   ${invalidFields.contains('foldersCotorepNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersCotorepNumber.validationError" />"  maxlength="30" />
+                    class="condition-isCOTOREP-filled   ${stepStates != null && stepStates['folders']?.invalidFields.contains('foldersCotorepNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersCotorepNumber.validationError" />"  maxlength="30" />
             
 
     
       <label for="foldersCotorepDepartment" class="condition-isCOTOREP-filled"><g:message code="hcar.property.foldersCotorepDepartment.label" />   <span><g:message code="hcar.property.foldersCotorepDepartment.help" /></span></label>
             <input type="text" id="foldersCotorepDepartment" name="foldersCotorepDepartment" value="${rqt.foldersCotorepDepartment?.toString()}" 
-                    class="condition-isCOTOREP-filled  validate-departmentCode ${invalidFields.contains('foldersCotorepDepartment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersCotorepDepartment.validationError" />"  maxlength="2" />
+                    class="condition-isCOTOREP-filled  validate-departmentCode ${stepStates != null && stepStates['folders']?.invalidFields.contains('foldersCotorepDepartment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersCotorepDepartment.validationError" />"  maxlength="2" />
             
 
     
       <label class="required"><g:message code="hcar.property.foldersCdes.label" /> *  <span><g:message code="hcar.property.foldersCdes.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('foldersCdes') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['folders']?.invalidFields.contains('foldersCdes') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="foldersCdes_${it ? 'yes' : 'no'}" class="required condition-isCDES-trigger  validate-one-required boolean" title="" value="${it}" name="foldersCdes" ${it == rqt.foldersCdes ? 'checked="checked"': ''} />
@@ -67,18 +67,18 @@
     
       <label for="foldersCdesNumber" class="condition-isCDES-filled"><g:message code="hcar.property.foldersCdesNumber.label" />   <span><g:message code="hcar.property.foldersCdesNumber.help" /></span></label>
             <input type="text" id="foldersCdesNumber" name="foldersCdesNumber" value="${rqt.foldersCdesNumber?.toString()}" 
-                    class="condition-isCDES-filled   ${invalidFields.contains('foldersCdesNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersCdesNumber.validationError" />"  maxlength="30" />
+                    class="condition-isCDES-filled   ${stepStates != null && stepStates['folders']?.invalidFields.contains('foldersCdesNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersCdesNumber.validationError" />"  maxlength="30" />
             
 
     
       <label for="foldersCdesDepartment" class="condition-isCDES-filled"><g:message code="hcar.property.foldersCdesDepartment.label" />   <span><g:message code="hcar.property.foldersCdesDepartment.help" /></span></label>
             <input type="text" id="foldersCdesDepartment" name="foldersCdesDepartment" value="${rqt.foldersCdesDepartment?.toString()}" 
-                    class="condition-isCDES-filled  validate-departmentCode ${invalidFields.contains('foldersCdesDepartment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersCdesDepartment.validationError" />"  maxlength="2" />
+                    class="condition-isCDES-filled  validate-departmentCode ${stepStates != null && stepStates['folders']?.invalidFields.contains('foldersCdesDepartment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.foldersCdesDepartment.validationError" />"  maxlength="2" />
             
 
     
       <label class="required"><g:message code="hcar.property.foldersOtherFolders.label" /> *  <span><g:message code="hcar.property.foldersOtherFolders.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('foldersOtherFolders') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['folders']?.invalidFields.contains('foldersOtherFolders') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="foldersOtherFolders_${it ? 'yes' : 'no'}" class="required condition-isOtherFolders-trigger  validate-one-required boolean" title="" value="${it}" name="foldersOtherFolders" ${it == rqt.foldersOtherFolders ? 'checked="checked"': ''} />
@@ -100,19 +100,19 @@
     
         <label for="otherFolders.${listIndex}.otherFolderName" class="required"><g:message code="hcar.property.otherFolderName.label" /> *  <span><g:message code="hcar.property.otherFolderName.help" /></span></label>
             <input type="text" id="otherFolders.${listIndex}.otherFolderName" name="otherFolders[${listIndex}].otherFolderName" value="${editList?.otherFolders?.otherFolderName?.toString()}" 
-                    class="required   ${invalidFields.contains('otherFolderName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderName.validationError" />"  maxlength="60" />
+                    class="required   ${stepStates != null && stepStates['folders']?.invalidFields.contains('otherFolderName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderName.validationError" />"  maxlength="60" />
             
 
     
         <label for="otherFolders.${listIndex}.otherFolderNumber" class=""><g:message code="hcar.property.otherFolderNumber.label" />   <span><g:message code="hcar.property.otherFolderNumber.help" /></span></label>
             <input type="text" id="otherFolders.${listIndex}.otherFolderNumber" name="otherFolders[${listIndex}].otherFolderNumber" value="${editList?.otherFolders?.otherFolderNumber?.toString()}" 
-                    class="   ${invalidFields.contains('otherFolderNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderNumber.validationError" />"  maxlength="30" />
+                    class="   ${stepStates != null && stepStates['folders']?.invalidFields.contains('otherFolderNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderNumber.validationError" />"  maxlength="30" />
             
 
     
         <label for="otherFolders.${listIndex}.otherFolderDepartment" class=""><g:message code="hcar.property.otherFolderDepartment.label" />   <span><g:message code="hcar.property.otherFolderDepartment.help" /></span></label>
             <input type="text" id="otherFolders.${listIndex}.otherFolderDepartment" name="otherFolders[${listIndex}].otherFolderDepartment" value="${editList?.otherFolders?.otherFolderDepartment?.toString()}" 
-                    class="  validate-departmentCode ${invalidFields.contains('otherFolderDepartment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderDepartment.validationError" />"  maxlength="2" />
+                    class="  validate-departmentCode ${stepStates != null && stepStates['folders']?.invalidFields.contains('otherFolderDepartment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderDepartment.validationError" />"  maxlength="2" />
             
 
     

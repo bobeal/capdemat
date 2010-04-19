@@ -3,7 +3,7 @@
 
   
     <label class="required"><g:message code="acr.property.requesterQuality.label" /> *  <span><g:message code="acr.property.requesterQuality.help" /></span></label>
-            <ul class="required ${invalidFields.contains('requesterQuality') ? 'validation-failed' : ''}">
+            <ul class="required ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('requesterQuality') ? 'validation-failed' : ''}">
               <g:each in="${['Owner','Tenant']}">
               <li>
                 <input type="radio" id="requesterQuality_${it}" class="required condition-isTenant-trigger  validate-one-required" value="fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType_${it}" name="requesterQuality" ${it == rqt.requesterQuality.toString() ? 'checked="checked"': ''} title="<g:message code="acr.property.requesterQuality.validationError" />" />
@@ -18,7 +18,7 @@
   
     <label for="ownerLastName" class="required condition-isTenant-filled"><g:message code="acr.property.ownerLastName.label" /> *  <span><g:message code="acr.property.ownerLastName.help" /></span></label>
             <input type="text" id="ownerLastName" name="ownerLastName" value="${rqt.ownerLastName?.toString()}" 
-                    class="required condition-isTenant-filled  validate-lastName ${invalidFields.contains('ownerLastName') ? 'validation-failed' : ''}" title="<g:message code="acr.property.ownerLastName.validationError" />"  maxlength="38" />
+                    class="required condition-isTenant-filled  validate-lastName ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('ownerLastName') ? 'validation-failed' : ''}" title="<g:message code="acr.property.ownerLastName.validationError" />"  maxlength="38" />
             
 
   
@@ -26,7 +26,7 @@
   
     <label for="ownerFirstNames" class="required condition-isTenant-filled"><g:message code="acr.property.ownerFirstNames.label" /> *  <span><g:message code="acr.property.ownerFirstNames.help" /></span></label>
             <input type="text" id="ownerFirstNames" name="ownerFirstNames" value="${rqt.ownerFirstNames?.toString()}" 
-                    class="required condition-isTenant-filled  validate-string ${invalidFields.contains('ownerFirstNames') ? 'validation-failed' : ''}" title="<g:message code="acr.property.ownerFirstNames.validationError" />"   />
+                    class="required condition-isTenant-filled  validate-string ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('ownerFirstNames') ? 'validation-failed' : ''}" title="<g:message code="acr.property.ownerFirstNames.validationError" />"   />
             
 
   
@@ -58,7 +58,7 @@
   
     <label for="section" class="required"><g:message code="acr.property.section.label" /> *  <span><g:message code="acr.property.section.help" /></span></label>
             <input type="text" id="section" name="section" value="${rqt.section?.toString()}" 
-                    class="required  validate-string ${invalidFields.contains('section') ? 'validation-failed' : ''}" title="<g:message code="acr.property.section.validationError" />"   />
+                    class="required  validate-string ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('section') ? 'validation-failed' : ''}" title="<g:message code="acr.property.section.validationError" />"   />
             
 
   
@@ -66,7 +66,7 @@
   
     <label for="number" class="required"><g:message code="acr.property.number.label" /> *  <span><g:message code="acr.property.number.help" /></span></label>
             <input type="text" id="number" name="number" value="${rqt.number?.toString()}" 
-                    class="required  validate-positiveInteger ${invalidFields.contains('number') ? 'validation-failed' : ''}" title="<g:message code="acr.property.number.validationError" />"   />
+                    class="required  validate-positiveInteger ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('number') ? 'validation-failed' : ''}" title="<g:message code="acr.property.number.validationError" />"   />
             
 
   
@@ -74,7 +74,7 @@
   
     <label for="locality" class=""><g:message code="acr.property.locality.label" />   <span><g:message code="acr.property.locality.help" /></span></label>
             <input type="text" id="locality" name="locality" value="${rqt.locality?.toString()}" 
-                    class="  validate-string ${invalidFields.contains('locality') ? 'validation-failed' : ''}" title="<g:message code="acr.property.locality.validationError" />"   />
+                    class="  validate-string ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('locality') ? 'validation-failed' : ''}" title="<g:message code="acr.property.locality.validationError" />"   />
             
 
   
@@ -82,7 +82,7 @@
   
     <label for="transportationRoute" class=""><g:message code="acr.property.transportationRoute.label" />   <span><g:message code="acr.property.transportationRoute.help" /></span></label>
             <input type="text" id="transportationRoute" name="transportationRoute" value="${rqt.transportationRoute?.toString()}" 
-                    class="  validate-string ${invalidFields.contains('transportationRoute') ? 'validation-failed' : ''}" title="<g:message code="acr.property.transportationRoute.validationError" />"   />
+                    class="  validate-string ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('transportationRoute') ? 'validation-failed' : ''}" title="<g:message code="acr.property.transportationRoute.validationError" />"   />
             
 
   

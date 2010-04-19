@@ -6,7 +6,7 @@
     <legend><g:message code="dhr.property.dhrFamilyReferent.label" /></legend>
     
       <label class="required"><g:message code="dhr.property.dhrHaveFamilyReferent.label" /> *  <span><g:message code="dhr.property.dhrHaveFamilyReferent.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('dhrHaveFamilyReferent') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['familyReferent']?.invalidFields.contains('dhrHaveFamilyReferent') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="dhrHaveFamilyReferent_${it ? 'yes' : 'no'}" class="required condition-haveFamilyReferent-trigger  validate-one-required boolean" title="" value="${it}" name="dhrHaveFamilyReferent" ${it == rqt.dhrHaveFamilyReferent ? 'checked="checked"': ''} />
@@ -19,13 +19,13 @@
     
       <label for="dhrReferentName" class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentName.label" /> *  <span><g:message code="dhr.property.dhrReferentName.help" /></span></label>
             <input type="text" id="dhrReferentName" name="dhrReferentName" value="${rqt.dhrReferentName?.toString()}" 
-                    class="required condition-haveFamilyReferent-filled  validate-lastName ${invalidFields.contains('dhrReferentName') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrReferentName.validationError" />"  maxlength="38" />
+                    class="required condition-haveFamilyReferent-filled  validate-lastName ${stepStates != null && stepStates['familyReferent']?.invalidFields.contains('dhrReferentName') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrReferentName.validationError" />"  maxlength="38" />
             
 
     
       <label for="dhrReferentFirstName" class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentFirstName.label" /> *  <span><g:message code="dhr.property.dhrReferentFirstName.help" /></span></label>
             <input type="text" id="dhrReferentFirstName" name="dhrReferentFirstName" value="${rqt.dhrReferentFirstName?.toString()}" 
-                    class="required condition-haveFamilyReferent-filled  validate-firstName ${invalidFields.contains('dhrReferentFirstName') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrReferentFirstName.validationError" />"  maxlength="38" />
+                    class="required condition-haveFamilyReferent-filled  validate-firstName ${stepStates != null && stepStates['familyReferent']?.invalidFields.contains('dhrReferentFirstName') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrReferentFirstName.validationError" />"  maxlength="38" />
             
 
     

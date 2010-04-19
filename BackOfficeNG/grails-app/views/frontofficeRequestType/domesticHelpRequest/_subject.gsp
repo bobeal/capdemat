@@ -7,7 +7,7 @@
     
       
             <label for="subjectId" class="required"><g:message code="request.property.subject.label" /> *  <span><g:message code="request.property.subject.help" /></span></label>
-            <select id="subjectId" name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first  ${invalidFields.contains('subjectId') ? 'validation-failed' : ''}" title="<g:message code="request.property.subject.validationError" /> ">
+            <select id="subjectId" name="subjectId" <g:if test="${isEdition}">disabled="disabled"</g:if> class="required validate-not-first  ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectId') ? 'validation-failed' : ''}" title="<g:message code="request.property.subject.validationError" /> ">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${subjects}">
                 <option value="${it.key}" ${it.key == rqt.subjectId ? 'selected="selected"': ''}>${it.value}</option>
@@ -18,18 +18,18 @@
     
       <label for="dhrRequesterBirthDate" class="required"><g:message code="dhr.property.dhrRequesterBirthDate.label" /> *  <span><g:message code="dhr.property.dhrRequesterBirthDate.help" /></span></label>
             <input type="text" id="dhrRequesterBirthDate" name="dhrRequesterBirthDate" value="${formatDate(formatName:'format.date',date:rqt.dhrRequesterBirthDate)}" 
-                   class="required  validate-date ${invalidFields.contains('dhrRequesterBirthDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrRequesterBirthDate.validationError" />" />
+                   class="required  validate-date ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrRequesterBirthDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrRequesterBirthDate.validationError" />" />
             
 
     
       <label for="dhrRequesterBirthPlace" class="required"><g:message code="dhr.property.dhrRequesterBirthPlace.label" /> *  <span><g:message code="dhr.property.dhrRequesterBirthPlace.help" /></span></label>
             <input type="text" id="dhrRequesterBirthPlace" name="dhrRequesterBirthPlace" value="${rqt.dhrRequesterBirthPlace?.toString()}" 
-                    class="required  validate-string ${invalidFields.contains('dhrRequesterBirthPlace') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrRequesterBirthPlace.validationError" />"   />
+                    class="required  validate-string ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrRequesterBirthPlace') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrRequesterBirthPlace.validationError" />"   />
             
 
     
       <label for="dhrRequesterNationality" class="required"><g:message code="dhr.property.dhrRequesterNationality.label" /> *  <span><g:message code="dhr.property.dhrRequesterNationality.help" /></span></label>
-            <select id="dhrRequesterNationality" name="dhrRequesterNationality" class="required condition-isNonEuropean-trigger  validate-not-first ${invalidFields.contains('dhrRequesterNationality') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrRequesterNationality.validationError" />">
+            <select id="dhrRequesterNationality" name="dhrRequesterNationality" class="required condition-isNonEuropean-trigger  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrRequesterNationality') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrRequesterNationality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['French','EuropeanUnion','OutsideEuropeanUnion']}">
                 <option value="fr.cg95.cvq.business.users.NationalityType_${it}" ${it == rqt.dhrRequesterNationality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrRequesterNationality" /></option>
@@ -40,12 +40,12 @@
     
       <label for="dhrRequesterFranceArrivalDate" class="required condition-isNonEuropean-filled"><g:message code="dhr.property.dhrRequesterFranceArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrRequesterFranceArrivalDate.help" /></span></label>
             <input type="text" id="dhrRequesterFranceArrivalDate" name="dhrRequesterFranceArrivalDate" value="${formatDate(formatName:'format.date',date:rqt.dhrRequesterFranceArrivalDate)}" 
-                   class="required condition-isNonEuropean-filled  validate-date ${invalidFields.contains('dhrRequesterFranceArrivalDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrRequesterFranceArrivalDate.validationError" />" />
+                   class="required condition-isNonEuropean-filled  validate-date ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrRequesterFranceArrivalDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrRequesterFranceArrivalDate.validationError" />" />
             
 
     
       <label class="required condition-isNonEuropean-filled"><g:message code="dhr.property.dhrRequesterIsFrenchResident.label" /> *  <span><g:message code="dhr.property.dhrRequesterIsFrenchResident.help" /></span></label>
-            <ul class="yes-no required condition-isNonEuropean-filled ${invalidFields.contains('dhrRequesterIsFrenchResident') ? 'validation-failed' : ''}">
+            <ul class="yes-no required condition-isNonEuropean-filled ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrRequesterIsFrenchResident') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="dhrRequesterIsFrenchResident_${it ? 'yes' : 'no'}" class="required condition-isNonEuropean-filled  validate-one-required boolean" title="" value="${it}" name="dhrRequesterIsFrenchResident" ${it == rqt.dhrRequesterIsFrenchResident ? 'checked="checked"': ''} />
@@ -64,7 +64,7 @@
     <legend><g:message code="dhr.property.dhrRequesterPensionPlan.label" /></legend>
     
       <label for="dhrPrincipalPensionPlan" class="required"><g:message code="dhr.property.dhrPrincipalPensionPlan.label" /> *  <span><g:message code="dhr.property.dhrPrincipalPensionPlan.help" /></span></label>
-            <select id="dhrPrincipalPensionPlan" name="dhrPrincipalPensionPlan" class="required condition-isOtherPensionPlan-trigger  validate-not-first ${invalidFields.contains('dhrPrincipalPensionPlan') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPrincipalPensionPlan.validationError" />">
+            <select id="dhrPrincipalPensionPlan" name="dhrPrincipalPensionPlan" class="required condition-isOtherPensionPlan-trigger  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrPrincipalPensionPlan') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPrincipalPensionPlan.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['CNAV','MSA','CRAM','MGEN','SNCF','Other']}">
                 <option value="fr.cg95.cvq.business.request.social.DhrPrincipalPensionPlanType_${it}" ${it == rqt.dhrPrincipalPensionPlan?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrPrincipalPensionPlan" /></option>
@@ -75,13 +75,13 @@
     
       <label for="dhrPensionPlanDetail" class="required condition-isOtherPensionPlan-filled"><g:message code="dhr.property.dhrPensionPlanDetail.label" /> *  <span><g:message code="dhr.property.dhrPensionPlanDetail.help" /></span></label>
             <input type="text" id="dhrPensionPlanDetail" name="dhrPensionPlanDetail" value="${rqt.dhrPensionPlanDetail?.toString()}" 
-                    class="required condition-isOtherPensionPlan-filled  validate-string ${invalidFields.contains('dhrPensionPlanDetail') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPensionPlanDetail.validationError" />"   />
+                    class="required condition-isOtherPensionPlan-filled  validate-string ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrPensionPlanDetail') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPensionPlanDetail.validationError" />"   />
             
 
     
       <label for="dhrComplementaryPensionPlan" class="required"><g:message code="dhr.property.dhrComplementaryPensionPlan.label" /> *  <span><g:message code="dhr.property.dhrComplementaryPensionPlan.help" /></span></label>
             <input type="text" id="dhrComplementaryPensionPlan" name="dhrComplementaryPensionPlan" value="${rqt.dhrComplementaryPensionPlan?.toString()}" 
-                    class="required  validate-string ${invalidFields.contains('dhrComplementaryPensionPlan') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrComplementaryPensionPlan.validationError" />"   />
+                    class="required  validate-string ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrComplementaryPensionPlan') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrComplementaryPensionPlan.validationError" />"   />
             
 
     
@@ -93,7 +93,7 @@
     <legend><g:message code="dhr.property.dhrRequesterGuardian.label" /></legend>
     
       <label class="required"><g:message code="dhr.property.dhrRequesterHaveGuardian.label" /> *  <span><g:message code="dhr.property.dhrRequesterHaveGuardian.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('dhrRequesterHaveGuardian') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrRequesterHaveGuardian') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="dhrRequesterHaveGuardian_${it ? 'yes' : 'no'}" class="required condition-haveGuardian-trigger  validate-one-required boolean" title="" value="${it}" name="dhrRequesterHaveGuardian" ${it == rqt.dhrRequesterHaveGuardian ? 'checked="checked"': ''} />
@@ -105,7 +105,7 @@
 
     
       <label for="dhrGuardianMeasure" class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianMeasure.label" /> *  <span><g:message code="dhr.property.dhrGuardianMeasure.help" /></span></label>
-            <select id="dhrGuardianMeasure" name="dhrGuardianMeasure" class="required condition-haveGuardian-filled  validate-not-first ${invalidFields.contains('dhrGuardianMeasure') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrGuardianMeasure.validationError" />">
+            <select id="dhrGuardianMeasure" name="dhrGuardianMeasure" class="required condition-haveGuardian-filled  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrGuardianMeasure') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrGuardianMeasure.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['safeguardingJustice','guardianship','curatorship']}">
                 <option value="fr.cg95.cvq.business.request.social.DhrGuardianMeasureType_${it}" ${it == rqt.dhrGuardianMeasure?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrGuardianMeasure" /></option>
@@ -116,7 +116,7 @@
     
       <label for="dhrGuardianName" class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianName.label" /> *  <span><g:message code="dhr.property.dhrGuardianName.help" /></span></label>
             <input type="text" id="dhrGuardianName" name="dhrGuardianName" value="${rqt.dhrGuardianName?.toString()}" 
-                    class="required condition-haveGuardian-filled  validate-lastName ${invalidFields.contains('dhrGuardianName') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrGuardianName.validationError" />"  maxlength="38" />
+                    class="required condition-haveGuardian-filled  validate-lastName ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrGuardianName') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrGuardianName.validationError" />"  maxlength="38" />
             
 
     

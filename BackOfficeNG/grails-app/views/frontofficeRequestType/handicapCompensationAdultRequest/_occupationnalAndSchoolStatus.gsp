@@ -6,7 +6,7 @@
     <legend><g:message code="hcar.property.studies.label" /></legend>
     
       <label class="required"><g:message code="hcar.property.studiesHighSchool.label" /> *  <span><g:message code="hcar.property.studiesHighSchool.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('studiesHighSchool') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('studiesHighSchool') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="studiesHighSchool_${it ? 'yes' : 'no'}" class="required condition-isHighSchool-trigger  validate-one-required boolean" title="" value="${it}" name="studiesHighSchool" ${it == rqt.studiesHighSchool ? 'checked="checked"': ''} />
@@ -19,13 +19,13 @@
     
       <label for="studiesHighSchoolGrade" class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolGrade.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolGrade.help" /></span></label>
             <input type="text" id="studiesHighSchoolGrade" name="studiesHighSchoolGrade" value="${rqt.studiesHighSchoolGrade?.toString()}" 
-                    class="required condition-isHighSchool-filled   ${invalidFields.contains('studiesHighSchoolGrade') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.studiesHighSchoolGrade.validationError" />"  maxlength="60" />
+                    class="required condition-isHighSchool-filled   ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('studiesHighSchoolGrade') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.studiesHighSchoolGrade.validationError" />"  maxlength="60" />
             
 
     
       <label for="studiesHighSchoolName" class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesHighSchoolName.label" /> *  <span><g:message code="hcar.property.studiesHighSchoolName.help" /></span></label>
             <input type="text" id="studiesHighSchoolName" name="studiesHighSchoolName" value="${rqt.studiesHighSchoolName?.toString()}" 
-                    class="required condition-isHighSchool-filled   ${invalidFields.contains('studiesHighSchoolName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.studiesHighSchoolName.validationError" />"  maxlength="60" />
+                    class="required condition-isHighSchool-filled   ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('studiesHighSchoolName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.studiesHighSchoolName.validationError" />"  maxlength="60" />
             
 
     
@@ -52,7 +52,7 @@
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hcar.property.studiesAssistanceUnderDisability.label" /> *  <span><g:message code="hcar.property.studiesAssistanceUnderDisability.help" /></span></label>
-            <ul class="yes-no required condition-isHighSchool-filled ${invalidFields.contains('studiesAssistanceUnderDisability') ? 'validation-failed' : ''}">
+            <ul class="yes-no required condition-isHighSchool-filled ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('studiesAssistanceUnderDisability') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="studiesAssistanceUnderDisability_${it ? 'yes' : 'no'}" class="required condition-isHighSchool-filled condition-isAssistanceUnderDisability-trigger  validate-one-required boolean" title="" value="${it}" name="studiesAssistanceUnderDisability" ${it == rqt.studiesAssistanceUnderDisability ? 'checked="checked"': ''} />
@@ -65,7 +65,7 @@
     
       <label for="studiesAssistanceUnderDisabilityDetails" class="required condition-isAssistanceUnderDisability-filled"><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.label" /> *  <span><g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.help" /></span></label>
             <input type="text" id="studiesAssistanceUnderDisabilityDetails" name="studiesAssistanceUnderDisabilityDetails" value="${rqt.studiesAssistanceUnderDisabilityDetails?.toString()}" 
-                    class="required condition-isAssistanceUnderDisability-filled   ${invalidFields.contains('studiesAssistanceUnderDisabilityDetails') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.validationError" />"  maxlength="60" />
+                    class="required condition-isAssistanceUnderDisability-filled   ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('studiesAssistanceUnderDisabilityDetails') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.studiesAssistanceUnderDisabilityDetails.validationError" />"  maxlength="60" />
             
 
     
@@ -78,22 +78,22 @@
     
       <label for="formationStudiesLevel" class=""><g:message code="hcar.property.formationStudiesLevel.label" />   <span><g:message code="hcar.property.formationStudiesLevel.help" /></span></label>
             <input type="text" id="formationStudiesLevel" name="formationStudiesLevel" value="${rqt.formationStudiesLevel?.toString()}" 
-                    class="   ${invalidFields.contains('formationStudiesLevel') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.formationStudiesLevel.validationError" />"  maxlength="30" />
+                    class="   ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('formationStudiesLevel') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.formationStudiesLevel.validationError" />"  maxlength="30" />
             
 
     
       <label for="formationDiploma" class=""><g:message code="hcar.property.formationDiploma.label" />   <span><g:message code="hcar.property.formationDiploma.help" /></span></label>
-            <textarea id="formationDiploma" name="formationDiploma" class="  validate-textarea ${invalidFields.contains('formationDiploma') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.formationDiploma.validationError" />" rows="2" cols=""  maxlength="120">${rqt.formationDiploma}</textarea>
+            <textarea id="formationDiploma" name="formationDiploma" class="  validate-textarea ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('formationDiploma') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.formationDiploma.validationError" />" rows="2" cols=""  maxlength="120">${rqt.formationDiploma}</textarea>
             
 
     
       <label for="formationPreviousFormation" class=""><g:message code="hcar.property.formationPreviousFormation.label" />   <span><g:message code="hcar.property.formationPreviousFormation.help" /></span></label>
-            <textarea id="formationPreviousFormation" name="formationPreviousFormation" class="  validate-textarea ${invalidFields.contains('formationPreviousFormation') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.formationPreviousFormation.validationError" />" rows="3" cols=""  maxlength="180">${rqt.formationPreviousFormation}</textarea>
+            <textarea id="formationPreviousFormation" name="formationPreviousFormation" class="  validate-textarea ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('formationPreviousFormation') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.formationPreviousFormation.validationError" />" rows="3" cols=""  maxlength="180">${rqt.formationPreviousFormation}</textarea>
             
 
     
       <label for="formationCurrentFormation" class=""><g:message code="hcar.property.formationCurrentFormation.label" />   <span><g:message code="hcar.property.formationCurrentFormation.help" /></span></label>
-            <textarea id="formationCurrentFormation" name="formationCurrentFormation" class="  validate-textarea ${invalidFields.contains('formationCurrentFormation') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.formationCurrentFormation.validationError" />" rows="2" cols=""  maxlength="120">${rqt.formationCurrentFormation}</textarea>
+            <textarea id="formationCurrentFormation" name="formationCurrentFormation" class="  validate-textarea ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('formationCurrentFormation') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.formationCurrentFormation.validationError" />" rows="2" cols=""  maxlength="120">${rqt.formationCurrentFormation}</textarea>
             
 
     
@@ -105,7 +105,7 @@
     <legend><g:message code="hcar.property.professionalStatus.label" /></legend>
     
       <label for="professionalStatusKind" class="required"><g:message code="hcar.property.professionalStatusKind.label" /> *  <span><g:message code="hcar.property.professionalStatusKind.help" /></span></label>
-            <select id="professionalStatusKind" name="professionalStatusKind" class="required condition-isEmployed-trigger condition-isUnemployed-trigger  validate-not-first ${invalidFields.contains('professionalStatusKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusKind.validationError" />">
+            <select id="professionalStatusKind" name="professionalStatusKind" class="required condition-isEmployed-trigger condition-isUnemployed-trigger  validate-not-first ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Employee','Unemployed','Jobless','Student','Retired']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarProfessionalStatusKindType_${it}" ${it == rqt.professionalStatusKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.professionalStatusKind" /></option>
@@ -116,12 +116,12 @@
     
       <label for="professionalStatusDate" class="required"><g:message code="hcar.property.professionalStatusDate.label" /> *  <span><g:message code="hcar.property.professionalStatusDate.help" /></span></label>
             <input type="text" id="professionalStatusDate" name="professionalStatusDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusDate)}" 
-                   class="required  validate-date ${invalidFields.contains('professionalStatusDate') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusDate.validationError" />" />
+                   class="required  validate-date ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusDate') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusDate.validationError" />" />
             
 
     
       <label for="professionalStatusEnvironment" class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusEnvironment.label" /> *  <span><g:message code="hcar.property.professionalStatusEnvironment.help" /></span></label>
-            <select id="professionalStatusEnvironment" name="professionalStatusEnvironment" class="required condition-isEmployed-filled  validate-not-first ${invalidFields.contains('professionalStatusEnvironment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusEnvironment.validationError" />">
+            <select id="professionalStatusEnvironment" name="professionalStatusEnvironment" class="required condition-isEmployed-filled  validate-not-first ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusEnvironment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusEnvironment.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Ordinary','Adapted','Protected']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarProfessionalStatusEnvironmentType_${it}" ${it == rqt.professionalStatusEnvironment?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.professionalStatusEnvironment" /></option>
@@ -132,13 +132,13 @@
     
       <label for="professionalStatusProfession" class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusProfession.label" /> *  <span><g:message code="hcar.property.professionalStatusProfession.help" /></span></label>
             <input type="text" id="professionalStatusProfession" name="professionalStatusProfession" value="${rqt.professionalStatusProfession?.toString()}" 
-                    class="required condition-isEmployed-filled   ${invalidFields.contains('professionalStatusProfession') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusProfession.validationError" />"  maxlength="60" />
+                    class="required condition-isEmployed-filled   ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusProfession') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusProfession.validationError" />"  maxlength="60" />
             
 
     
       <label for="professionalStatusEmployerName" class="required condition-isEmployed-filled"><g:message code="hcar.property.professionalStatusEmployerName.label" /> *  <span><g:message code="hcar.property.professionalStatusEmployerName.help" /></span></label>
             <input type="text" id="professionalStatusEmployerName" name="professionalStatusEmployerName" value="${rqt.professionalStatusEmployerName?.toString()}" 
-                    class="required condition-isEmployed-filled  validate-lastName ${invalidFields.contains('professionalStatusEmployerName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusEmployerName.validationError" />"  maxlength="38" />
+                    class="required condition-isEmployed-filled  validate-lastName ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusEmployerName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusEmployerName.validationError" />"  maxlength="38" />
             
 
     
@@ -165,7 +165,7 @@
 
     
       <label class="required condition-isUnemployed-filled"><g:message code="hcar.property.professionalStatusRegisterAsUnemployed.label" /> *  <span><g:message code="hcar.property.professionalStatusRegisterAsUnemployed.help" /></span></label>
-            <ul class="yes-no required condition-isUnemployed-filled ${invalidFields.contains('professionalStatusRegisterAsUnemployed') ? 'validation-failed' : ''}">
+            <ul class="yes-no required condition-isUnemployed-filled ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusRegisterAsUnemployed') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="professionalStatusRegisterAsUnemployed_${it ? 'yes' : 'no'}" class="required condition-isUnemployed-filled condition-isRegisteredAsUnemployed-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusRegisterAsUnemployed" ${it == rqt.professionalStatusRegisterAsUnemployed ? 'checked="checked"': ''} />
@@ -178,12 +178,12 @@
     
       <label for="professionalStatusRegisterAsUnemployedDate" class="required condition-isRegisteredAsUnemployed-filled"><g:message code="hcar.property.professionalStatusRegisterAsUnemployedDate.label" /> *  <span><g:message code="hcar.property.professionalStatusRegisterAsUnemployedDate.help" /></span></label>
             <input type="text" id="professionalStatusRegisterAsUnemployedDate" name="professionalStatusRegisterAsUnemployedDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusRegisterAsUnemployedDate)}" 
-                   class="required condition-isRegisteredAsUnemployed-filled  validate-date ${invalidFields.contains('professionalStatusRegisterAsUnemployedDate') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusRegisterAsUnemployedDate.validationError" />" />
+                   class="required condition-isRegisteredAsUnemployed-filled  validate-date ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusRegisterAsUnemployedDate') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusRegisterAsUnemployedDate.validationError" />" />
             
 
     
       <label class="required condition-isUnemployed-filled"><g:message code="hcar.property.professionalStatusIndemnified.label" /> *  <span><g:message code="hcar.property.professionalStatusIndemnified.help" /></span></label>
-            <ul class="yes-no required condition-isUnemployed-filled ${invalidFields.contains('professionalStatusIndemnified') ? 'validation-failed' : ''}">
+            <ul class="yes-no required condition-isUnemployed-filled ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusIndemnified') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="professionalStatusIndemnified_${it ? 'yes' : 'no'}" class="required condition-isUnemployed-filled condition-isIndemnified-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusIndemnified" ${it == rqt.professionalStatusIndemnified ? 'checked="checked"': ''} />
@@ -196,12 +196,12 @@
     
       <label for="professionalStatusIndemnifiedDate" class="required condition-isIndemnified-filled"><g:message code="hcar.property.professionalStatusIndemnifiedDate.label" /> *  <span><g:message code="hcar.property.professionalStatusIndemnifiedDate.help" /></span></label>
             <input type="text" id="professionalStatusIndemnifiedDate" name="professionalStatusIndemnifiedDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusIndemnifiedDate)}" 
-                   class="required condition-isIndemnified-filled  validate-date ${invalidFields.contains('professionalStatusIndemnifiedDate') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusIndemnifiedDate.validationError" />" />
+                   class="required condition-isIndemnified-filled  validate-date ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusIndemnifiedDate') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusIndemnifiedDate.validationError" />" />
             
 
     
       <label class="required"><g:message code="hcar.property.professionalStatusElectiveFunction.label" /> *  <span><g:message code="hcar.property.professionalStatusElectiveFunction.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('professionalStatusElectiveFunction') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusElectiveFunction') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="professionalStatusElectiveFunction_${it ? 'yes' : 'no'}" class="required condition-isElectiveFunction-trigger  validate-one-required boolean" title="" value="${it}" name="professionalStatusElectiveFunction" ${it == rqt.professionalStatusElectiveFunction ? 'checked="checked"': ''} />
@@ -214,7 +214,7 @@
     
       <label for="professionalStatusElectiveFunctionDetails" class="required condition-isElectiveFunction-filled"><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.label" /> *  <span><g:message code="hcar.property.professionalStatusElectiveFunctionDetails.help" /></span></label>
             <input type="text" id="professionalStatusElectiveFunctionDetails" name="professionalStatusElectiveFunctionDetails" value="${rqt.professionalStatusElectiveFunctionDetails?.toString()}" 
-                    class="required condition-isElectiveFunction-filled   ${invalidFields.contains('professionalStatusElectiveFunctionDetails') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusElectiveFunctionDetails.validationError" />"  maxlength="60" />
+                    class="required condition-isElectiveFunction-filled   ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusElectiveFunctionDetails') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.professionalStatusElectiveFunctionDetails.validationError" />"  maxlength="60" />
             
 
     

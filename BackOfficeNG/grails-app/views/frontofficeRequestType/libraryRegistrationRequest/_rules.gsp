@@ -10,7 +10,7 @@
                 </g:if>
                 <span><g:message code="lrr.property.rulesAndRegulationsAcceptance.help" /></span>
               </label>
-              <ul class="yes-no required ${invalidFields.contains('rulesAndRegulationsAcceptance') ? 'validation-failed' : ''}">
+              <ul class="yes-no required ${stepStates != null && stepStates['rules']?.invalidFields.contains('rulesAndRegulationsAcceptance') ? 'validation-failed' : ''}">
                 <g:each in="${[true,false]}">
                   <li>
                     <input type="radio" id="rulesAndRegulationsAcceptance_${it ? 'yes' : 'no'}" class="required  validate-acceptance" title="" value="${it}" name="rulesAndRegulationsAcceptance" ${it == rqt.rulesAndRegulationsAcceptance ? 'checked="checked"': ''} />
@@ -31,7 +31,7 @@
                 </g:if>
                 <span><g:message code="lrr.property.parentalAuthorization.help" /></span>
               </label>
-              <ul class="yes-no required ${invalidFields.contains('parentalAuthorization') ? 'validation-failed' : ''}">
+              <ul class="yes-no required ${stepStates != null && stepStates['rules']?.invalidFields.contains('parentalAuthorization') ? 'validation-failed' : ''}">
                 <g:each in="${[true,false]}">
                   <li>
                     <input type="radio" id="parentalAuthorization_${it ? 'yes' : 'no'}" class="required  validate-acceptance" title="" value="${it}" name="parentalAuthorization" ${it == rqt.parentalAuthorization ? 'checked="checked"': ''} />

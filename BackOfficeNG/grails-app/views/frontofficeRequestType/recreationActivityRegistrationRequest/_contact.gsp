@@ -9,13 +9,13 @@
     
         <label for="contactIndividuals.${listIndex}.lastName" class="required"><g:message code="rarr.property.lastName.label" /> *  <span><g:message code="rarr.property.lastName.help" /></span></label>
             <input type="text" id="contactIndividuals.${listIndex}.lastName" name="contactIndividuals[${listIndex}].lastName" value="${editList?.contactIndividuals?.lastName?.toString()}" 
-                    class="required  validate-lastName ${invalidFields.contains('lastName') ? 'validation-failed' : ''}" title="<g:message code="rarr.property.lastName.validationError" />"  maxlength="38" />
+                    class="required  validate-lastName ${stepStates != null && stepStates['contact']?.invalidFields.contains('lastName') ? 'validation-failed' : ''}" title="<g:message code="rarr.property.lastName.validationError" />"  maxlength="38" />
             
 
     
         <label for="contactIndividuals.${listIndex}.firstName" class="required"><g:message code="rarr.property.firstName.label" /> *  <span><g:message code="rarr.property.firstName.help" /></span></label>
             <input type="text" id="contactIndividuals.${listIndex}.firstName" name="contactIndividuals[${listIndex}].firstName" value="${editList?.contactIndividuals?.firstName?.toString()}" 
-                    class="required  validate-firstName ${invalidFields.contains('firstName') ? 'validation-failed' : ''}" title="<g:message code="rarr.property.firstName.validationError" />"  maxlength="38" />
+                    class="required  validate-firstName ${stepStates != null && stepStates['contact']?.invalidFields.contains('firstName') ? 'validation-failed' : ''}" title="<g:message code="rarr.property.firstName.validationError" />"  maxlength="38" />
             
 
     
@@ -43,13 +43,13 @@
     
         <label for="contactIndividuals.${listIndex}.homePhone" class=""><g:message code="rarr.property.homePhone.label" />   <span><g:message code="rarr.property.homePhone.help" /></span></label>
             <input type="text" id="contactIndividuals.${listIndex}.homePhone" name="contactIndividuals[${listIndex}].homePhone" value="${editList?.contactIndividuals?.homePhone?.toString()}" 
-                    class="  validate-phone ${invalidFields.contains('homePhone') ? 'validation-failed' : ''}" title="<g:message code="rarr.property.homePhone.validationError" />"  maxlength="10" />
+                    class="  validate-phone ${stepStates != null && stepStates['contact']?.invalidFields.contains('homePhone') ? 'validation-failed' : ''}" title="<g:message code="rarr.property.homePhone.validationError" />"  maxlength="10" />
             
 
     
         <label for="contactIndividuals.${listIndex}.officePhone" class=""><g:message code="rarr.property.officePhone.label" />   <span><g:message code="rarr.property.officePhone.help" /></span></label>
             <input type="text" id="contactIndividuals.${listIndex}.officePhone" name="contactIndividuals[${listIndex}].officePhone" value="${editList?.contactIndividuals?.officePhone?.toString()}" 
-                    class="  validate-phone ${invalidFields.contains('officePhone') ? 'validation-failed' : ''}" title="<g:message code="rarr.property.officePhone.validationError" />"  maxlength="10" />
+                    class="  validate-phone ${stepStates != null && stepStates['contact']?.invalidFields.contains('officePhone') ? 'validation-failed' : ''}" title="<g:message code="rarr.property.officePhone.validationError" />"  maxlength="10" />
             
 
     

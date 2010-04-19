@@ -3,7 +3,7 @@
 
   
     <label for="requesterQuality" class="required"><g:message code="ancr.property.requesterQuality.label" /> *  <span><g:message code="ancr.property.requesterQuality.help" /></span></label>
-            <select id="requesterQuality" name="requesterQuality" class="required condition-isOwner-trigger  validate-not-first ${invalidFields.contains('requesterQuality') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.requesterQuality.validationError" />">
+            <select id="requesterQuality" name="requesterQuality" class="required condition-isOwner-trigger  validate-not-first ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('requesterQuality') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.requesterQuality.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Owner','Tenant','Cabinet']}">
                 <option value="fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType_${it}" ${it == rqt.requesterQuality?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="ancr.property.requesterQuality" /></option>
@@ -16,7 +16,7 @@
   
     <label for="ownerLastName" class="required condition-isOwner-unfilled"><g:message code="ancr.property.ownerLastName.label" /> *  <span><g:message code="ancr.property.ownerLastName.help" /></span></label>
             <input type="text" id="ownerLastName" name="ownerLastName" value="${rqt.ownerLastName?.toString()}" 
-                    class="required condition-isOwner-unfilled  validate-lastName ${invalidFields.contains('ownerLastName') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.ownerLastName.validationError" />"  maxlength="38" />
+                    class="required condition-isOwner-unfilled  validate-lastName ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('ownerLastName') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.ownerLastName.validationError" />"  maxlength="38" />
             
 
   
@@ -24,7 +24,7 @@
   
     <label for="ownerFirstNames" class="required condition-isOwner-unfilled"><g:message code="ancr.property.ownerFirstNames.label" /> *  <span><g:message code="ancr.property.ownerFirstNames.help" /></span></label>
             <input type="text" id="ownerFirstNames" name="ownerFirstNames" value="${rqt.ownerFirstNames?.toString()}" 
-                    class="required condition-isOwner-unfilled  validate-string ${invalidFields.contains('ownerFirstNames') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.ownerFirstNames.validationError" />"   />
+                    class="required condition-isOwner-unfilled  validate-string ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('ownerFirstNames') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.ownerFirstNames.validationError" />"   />
             
 
   
@@ -56,7 +56,7 @@
   
     <label for="section" class="required"><g:message code="ancr.property.section.label" /> *  <span><g:message code="ancr.property.section.help" /></span></label>
             <input type="text" id="section" name="section" value="${rqt.section?.toString()}" 
-                    class="required  validate-string ${invalidFields.contains('section') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.section.validationError" />"   />
+                    class="required  validate-string ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('section') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.section.validationError" />"   />
             
 
   
@@ -64,7 +64,7 @@
   
     <label for="number" class="required"><g:message code="ancr.property.number.label" /> *  <span><g:message code="ancr.property.number.help" /></span></label>
             <input type="text" id="number" name="number" value="${rqt.number?.toString()}" 
-                    class="required  validate-positiveInteger ${invalidFields.contains('number') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.number.validationError" />"   />
+                    class="required  validate-positiveInteger ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('number') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.number.validationError" />"   />
             
 
   
@@ -72,7 +72,7 @@
   
     <label for="locality" class=""><g:message code="ancr.property.locality.label" />   <span><g:message code="ancr.property.locality.help" /></span></label>
             <input type="text" id="locality" name="locality" value="${rqt.locality?.toString()}" 
-                    class="  validate-string ${invalidFields.contains('locality') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.locality.validationError" />"   />
+                    class="  validate-string ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('locality') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.locality.validationError" />"   />
             
 
   
@@ -80,14 +80,14 @@
   
     <label for="transportationRoute" class=""><g:message code="ancr.property.transportationRoute.label" />   <span><g:message code="ancr.property.transportationRoute.help" /></span></label>
             <input type="text" id="transportationRoute" name="transportationRoute" value="${rqt.transportationRoute?.toString()}" 
-                    class="  validate-string ${invalidFields.contains('transportationRoute') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.transportationRoute.validationError" />"   />
+                    class="  validate-string ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('transportationRoute') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.transportationRoute.validationError" />"   />
             
 
   
 
   
     <label class="required"><g:message code="ancr.property.moreThanTwoYears.label" /> *  <span><g:message code="ancr.property.moreThanTwoYears.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('moreThanTwoYears') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('moreThanTwoYears') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="moreThanTwoYears_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="moreThanTwoYears" ${it == rqt.moreThanTwoYears ? 'checked="checked"': ''} />
@@ -102,14 +102,14 @@
   
     <label for="area" class=""><g:message code="ancr.property.area.label" />   <span><g:message code="ancr.property.area.help" /></span></label>
             <input type="text" id="area" name="area" value="${rqt.area?.toString()}" 
-                    class="  validate-positiveInteger ${invalidFields.contains('area') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.area.validationError" />"   />
+                    class="  validate-positiveInteger ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('area') ? 'validation-failed' : ''}" title="<g:message code="ancr.property.area.validationError" />"   />
             
 
   
 
   
     <label class="required"><g:message code="ancr.property.isAlignment.label" /> *  <span><g:message code="ancr.property.isAlignment.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('isAlignment') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('isAlignment') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="isAlignment_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="isAlignment" ${it == rqt.isAlignment ? 'checked="checked"': ''} />
@@ -123,7 +123,7 @@
 
   
     <label class="required"><g:message code="ancr.property.isNumbering.label" /> *  <span><g:message code="ancr.property.isNumbering.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('isNumbering') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('isNumbering') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="isNumbering_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="isNumbering" ${it == rqt.isNumbering ? 'checked="checked"': ''} />
@@ -137,7 +137,7 @@
 
   
     <label class="required"><g:message code="ancr.property.isConnection.label" /> *  <span><g:message code="ancr.property.isConnection.help" /></span></label>
-            <ul class="yes-no required ${invalidFields.contains('isConnection') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('isConnection') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="isConnection_${it ? 'yes' : 'no'}" class="required  validate-one-required boolean" title="" value="${it}" name="isConnection" ${it == rqt.isConnection ? 'checked="checked"': ''} />

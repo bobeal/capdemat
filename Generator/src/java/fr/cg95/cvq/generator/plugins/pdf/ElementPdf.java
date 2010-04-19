@@ -1,18 +1,16 @@
 package fr.cg95.cvq.generator.plugins.pdf;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.common.ConditionListener;
+import fr.cg95.cvq.generator.common.ElementSpecific;
 import fr.cg95.cvq.generator.common.Step;
 
 /**
  * @author rdj@zenexity.fr
  */
-public class ElementPdf {
+public class ElementPdf extends ElementSpecific<ElementPdf> {
 
     private String label;
     private String name;
@@ -37,7 +35,6 @@ public class ElementPdf {
 
     private Step step;
     private ConditionListener conditionListener;
-    private List<ElementPdf> elements;
     
     public ElementPdf(String name, String requestAcronym) {
         this.name = name;
@@ -188,15 +185,5 @@ public class ElementPdf {
 
     public void setConditionListener(ConditionListener conditionListener) {
         this.conditionListener = conditionListener;
-    }
-
-    public void addElement (ElementPdf element) {
-        if (elements == null)
-            elements = new ArrayList<ElementPdf>();
-        elements.add(element);
-    }
-    
-    public List<ElementPdf> getElements() {
-        return elements;
     }
 }

@@ -17,6 +17,7 @@ import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
+import fr.cg95.cvq.generator.common.ElementStack;
 import fr.cg95.cvq.generator.common.RequestCommon;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
@@ -35,7 +36,7 @@ public class PdfPlugin implements IPluginGenerator {
 
 
     private RequestPdf requestPdf;
-    private ElementStack elementPdfStack;
+    private ElementStack<ElementPdf> elementPdfStack;
 
     public void initialize(Node configurationNode) {
         logger.debug("initialize()");
@@ -52,7 +53,7 @@ public class PdfPlugin implements IPluginGenerator {
         logger.debug("startRequest()");
         depth = 0;
         requestPdf = new RequestPdf(requestName, targetNamespace);
-        elementPdfStack = new ElementStack();
+        elementPdfStack = new ElementStack<ElementPdf>();
     }
 
     public void endRequest(String requestName) {

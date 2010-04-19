@@ -8,13 +8,14 @@ import org.apache.commons.lang.StringUtils;
 import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.ConditionListener;
+import fr.cg95.cvq.generator.common.ElementSpecific;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Condition.RoleType;
 
 /**
  * @author rdj@zenexity.fr
  */
-public class ElementBo {
+public class ElementBo extends ElementSpecific<ElementBo> {
 
     private String label;
     private String name;
@@ -43,8 +44,6 @@ public class ElementBo {
     private Step step;
     private ConditionListener conditionListener;
     private List<Condition> triggeredConditions;
-    
-    private List<ElementBo> elements;
     
     public ElementBo(String name, String requestAcronym) {
         this.name = name;
@@ -240,15 +239,5 @@ public class ElementBo {
 
     public void setTriggeredConditions(List<Condition> triggeredConditions) {
         this.triggeredConditions = triggeredConditions;
-    }
-
-    public void addElement (ElementBo element) {
-        if (elements == null)
-            elements = new ArrayList<ElementBo>();
-        elements.add(element);
-    }
-    
-    public List<ElementBo> getElements() {
-        return elements;
     }
 }

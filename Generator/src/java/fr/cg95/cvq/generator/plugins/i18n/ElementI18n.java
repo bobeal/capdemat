@@ -1,24 +1,22 @@
 package fr.cg95.cvq.generator.plugins.i18n;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
 import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.UserDocumentation;
+import fr.cg95.cvq.generator.common.ElementSpecific;
 
 /**
  * @author rdj@zenexity.fr
  */
-public class ElementI18n {
+public class ElementI18n extends ElementSpecific<ElementI18n> {
 
     private String i18nPrefixCode;
     private ElementTypeClass typeClass;
     private Map<String,UserDocumentation> i18nUserDoc = new HashMap<String, UserDocumentation>();
-    private List<ElementI18n> elements = new ArrayList<ElementI18n>();
     
     public ElementI18n(String name, String requestAcronym) {
         this.i18nPrefixCode = requestAcronym + ".property." + StringUtils.uncapitalize(name);
@@ -40,15 +38,7 @@ public class ElementI18n {
             i18nUserDoc.put(lang, new UserDocumentation());
         i18nUserDoc.get(lang).setXmlTranslationNodes(enums);
     }
-    
-    public void addElement(ElementI18n element) {
-        elements.add(element);
-    }
-    
-    public List<ElementI18n> getElements() {
-        return elements;
-    }
-    
+
     public String getI18nPrefixCode() {
         return i18nPrefixCode;
     }

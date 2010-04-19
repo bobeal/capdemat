@@ -9,6 +9,7 @@ import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.common.Autofill;
 import fr.cg95.cvq.generator.common.Condition;
 import fr.cg95.cvq.generator.common.ConditionListener;
+import fr.cg95.cvq.generator.common.ElementSpecific;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Autofill.AutofillType;
 import fr.cg95.cvq.generator.common.Condition.RoleType;
@@ -16,7 +17,7 @@ import fr.cg95.cvq.generator.common.Condition.RoleType;
 /**
  * @author rdj@zenexity.fr
  */
-public class ElementFo {
+public class ElementFo extends ElementSpecific<ElementFo> {
 
     private String label;
     private String name;
@@ -48,8 +49,6 @@ public class ElementFo {
     private ConditionListener conditionListener;
     private List<Condition> triggeredConditions;
     private Autofill autofill;
-    
-    private List<ElementFo> elements;
     
     public ElementFo(String name, String requestAcronym) {
         this.name = name;
@@ -293,16 +292,6 @@ public class ElementFo {
 
     public void setTriggeredConditions(List<Condition> triggeredConditions) {
         this.triggeredConditions = triggeredConditions;
-    }
-
-    public void addElement (ElementFo element) {
-        if (elements == null)
-            elements = new ArrayList<ElementFo>();
-        elements.add(element);
-    }
-    
-    public List<ElementFo> getElements() {
-        return elements;
     }
 
     public Autofill getAutofill() {

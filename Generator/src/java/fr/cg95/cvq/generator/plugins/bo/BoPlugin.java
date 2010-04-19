@@ -19,6 +19,7 @@ import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
+import fr.cg95.cvq.generator.common.ElementStack;
 import fr.cg95.cvq.generator.common.RequestCommon;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.ElementTypeClass;
@@ -48,7 +49,7 @@ public class BoPlugin implements IPluginGenerator {
     
     private RequestBo requestBo;
     
-    private ElementStack elementBoStack;
+    private ElementStack<ElementBo> elementBoStack;
     
     
     public void initialize(Node configurationNode) {
@@ -68,7 +69,7 @@ public class BoPlugin implements IPluginGenerator {
         logger.debug("startRequest()");
         depth = 0;
         requestBo = new RequestBo(requestName, targetNamespace);
-        elementBoStack = new ElementStack();
+        elementBoStack = new ElementStack<ElementBo>();
     }
     
     

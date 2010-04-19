@@ -19,6 +19,7 @@ import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
+import fr.cg95.cvq.generator.common.ElementStack;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
@@ -38,7 +39,7 @@ public class I18nPlugin implements IPluginGenerator {
     private RequestI18n requestI18n;
     private List<ElementI18n> elementI18ns = new ArrayList<ElementI18n>();
     
-    private ElementStack elementI18nStack;
+    private ElementStack<ElementI18n> elementI18nStack;
     
     public void initialize(Node configurationNode) {
         logger.debug("initialize()");
@@ -58,7 +59,7 @@ public class I18nPlugin implements IPluginGenerator {
         logger.debug("startRequest()");
         depth = 0;
         requestI18n = new RequestI18n(targetNamespace);
-        elementI18nStack = new ElementStack();
+        elementI18nStack = new ElementStack<ElementI18n>();
         elementI18ns.clear();
     }
     

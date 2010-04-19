@@ -1,4 +1,4 @@
-package fr.cg95.cvq.generator.plugins.i18n;
+package fr.cg95.cvq.generator.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,57 +6,49 @@ import java.util.Stack;
 
 /**
  * @author rdj@zenexity.fr
+ * @author jsb@zenexity.fr
  */
-public class ElementStack {
+public class ElementStack<E extends ElementSpecific<E>> {
 
-    private List<Stack<ElementI18n>> elements;
+    private List<Stack<E>> elements;
+
     private int depth;
-    
+
     public ElementStack() {
-        elements = new ArrayList<Stack<ElementI18n>>();
-        
-        // add an empty stack at depth == 0
-        elements.add(new Stack<ElementI18n>());
+        elements = new ArrayList<Stack<E>>();
+        elements.add(new Stack<E>());
         depth = 0;
     }
-    
-    public void push(int depth, ElementI18n element) {
+
+    public void push(int depth, E element) {
         if (depth == this.depth + 1) {
-            elements.add(new Stack<ElementI18n>());
+            elements.add(new Stack<E>());
             this.depth ++;
         }
         if (depth == this.depth)
             elements.get(this.depth).push(element);
     }
-    
-    public ElementI18n pop(int depth) {
-        if (depth != 1 || this.depth != 1)
-            return null;
-        
-        ElementI18n element = elements.get(depth).pop();
-        
+
+    public E pop(int depth) {
+        E element = elements.get(depth).pop();
         if (elements.get(depth).size() == 0) {
             elements.remove(depth);
             this.depth --;
         }
-        
         return element;
     }
-    
-    public ElementI18n peek(int depth) {
+
+    public E peek(int depth) {
         if (depth > this.depth || this.depth == 0)
             return null;
-        
         return elements.get(depth).peek();
     }
-    
+
     public void store(int depth) {
         if (depth == 1)
             return;
-        
-        ElementI18n element = elements.get(depth).pop();
+        E element = elements.get(depth).pop();
         elements.get(depth -1).peek().addElement(element);
-        
         if (elements.get(depth).size() == 0) {
             elements.remove(depth);
             this.depth --;

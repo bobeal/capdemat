@@ -19,6 +19,7 @@ import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.CommonStep;
+import fr.cg95.cvq.generator.common.ElementStack;
 import fr.cg95.cvq.generator.common.RequestCommon;
 import fr.cg95.cvq.generator.common.Step;
 import groovy.text.SimpleTemplateEngine;
@@ -40,7 +41,7 @@ public class FoPlugin implements IPluginGenerator {
     private String summaryTemplate;
     
     private RequestFo requestFo;
-    private ElementStack elementFoStack;
+    private ElementStack<ElementFo> elementFoStack;
     
     public void initialize(Node configurationNode) {
         logger.debug("initialize()");
@@ -60,7 +61,7 @@ public class FoPlugin implements IPluginGenerator {
         logger.debug("startRequest()");
         depth = 0;
         requestFo = new RequestFo(requestName, targetNamespace);
-        elementFoStack = new ElementStack();
+        elementFoStack = new ElementStack<ElementFo>();
     }
     
     public void endRequest(String requestName) {

@@ -326,7 +326,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void checkSubjectPolicy(final Long subjectId, Long homeFolderId, final String policy,
             final RequestType requestType) 
         throws CvqException, CvqModelException {

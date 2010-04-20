@@ -119,14 +119,14 @@ h2.request-creation { margin: 0; color: #DB4366; }
 #requestTabView .summary-box.document-fieldset dl dd input { font-size:1em; }
 #requestTabView .document-fieldset dl dd .tag-state { float: right; }
 
-#requestTabView div.collection-fieldset                      { margin: 0 0 1em 0; padding: 1em 2em; font-size: .9em; background: #ffd; }
-#requestTabView div.collection-fieldset h4                   { font-size: 1.4em; font-weight: bold; color: #FF812B; }
-#requestTabView div.collection-fieldset input[type="submit"] { margin: 0 0 1em; }
+#requestTabView .collection input[type=submit] { font-size: .75em; }
+#requestTabView .collection li                 { display: inline; margin: 0 .5em 0 0; }
 
-#requestTabView fieldset.collection-fieldset-add         { border: 2px solid #FF812B; }
-#requestTabView fieldset.collection-fieldset-edit        { padding: 1em 0 1em 1em; border: 0; border-bottom: 2px solid #FF812B; }
-#requestTabView fieldset.collection-fieldset-add legend,
-#requestTabView fieldset.collection-fieldset-edit legend { margin: 0; padding: 0; border: 1px solid #FF812B; }
+#requestTabView .collection button       { margin-bottom : 1em; border: 0; background: transparent;font-size: 1.3em; }
+#requestTabView .collection button:hover { cursor: pointer; }
+#requestTabView .collection button a     { text-decoration: underline; color: #00f; }
+#requestTabView .collection h3 button    { margin: 0; font-size: .85em; } 
+#requestTabView .collection h4 button    { font-size: .85em; } 
 
 #requestTabView form div.box {
   min-height: 30em;

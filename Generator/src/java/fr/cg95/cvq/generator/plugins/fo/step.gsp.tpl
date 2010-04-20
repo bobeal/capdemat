@@ -125,84 +125,28 @@
       else output += widgets['text']
       println output
   }
-  
-  
-  def displayStaticWidget(element, valuePrefix) {
-      def staticWidgets = [
-          'boolean' : 
-              """<dd><g:message code="message.\${${valuePrefix}.${element.javaFieldName} ? 'yes' : 'no'}" /></dd>"""
-          ,'radio' :
-              """
-              <dd>
-                <g:if test="\${${valuePrefix}.${element.javaFieldName}}">
-                  <g:capdematEnumToField var="\${${valuePrefix}.${element.javaFieldName}}" i18nKeyPrefix="${element.i18nPrefixCode}" />
-                </g:if>
-              </dd>
-              """
-          ,'select' :
-              """
-              <dd>
-                <g:if test="\${${valuePrefix}.${element.javaFieldName}}">
-                  <g:capdematEnumToField var="\${${valuePrefix}.${element.javaFieldName}}" i18nKeyPrefix="${element.i18nPrefixCode}" />
-                </g:if>
-              </dd>
-              """
-          ,'address' :
-              """
-              <g:if test="\${${valuePrefix}.${element.javaFieldName}}">
-                <dd>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}</p>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.additionalGeographicalInformation}</p>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.streetNumber} \${${valuePrefix}.${element.javaFieldName}?.streetName}</p>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.placeNameOrService}</p>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.postalCode} \${${valuePrefix}.${element.javaFieldName}?.city}</p>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.countryName}</p>
-                </dd>
-              </g:if>
-              """
-           ,'localReferentialData':
-            """
-            <!-- TODO - local referential Data (local referential Data in collection are notimplemented in model plugin) -->
-            """
-          ,'date' :
-              """<dd><g:formatDate formatName="format.date" date="\${${valuePrefix}.${element.javaFieldName}}"/></dd>"""
-          ,'text' : 
-              """<dd>\${${valuePrefix}.${element.javaFieldName}?.toString()}</dd>"""
-      ]
-  
-      if (staticWidgets[element.widget] != null)
-          print staticWidgets[element.widget]
-      else
-          print staticWidgets['text']
-  }
 %>
 
 <% elementList.each { element -> %>
   <% if (element.typeClass == "COLLECTION") { %>
-    <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
-    <div class="collection-fieldset ${element.listenerConditionsClass} validation-scope summary-box">
-      <g:set var="listIndex" value="\${editList?.name == '${element.javaFieldName}' ? editList?.index : ( rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0 ) }" />
-      <fieldset class="collection-fieldset-add ${element.conditionsClass}">
-    <% element.elements.each { subElement -> %>
-        <% displayWidget(subElement, 'editList?.' + element.javaFieldName + '?', element.javaFieldName + '[${listIndex}].' ) %>
-    <% } %>
-        <g:if test="\${editList?.name == '${element.javaFieldName}'}">
-          <input type="submit" id="submit-collectionModify-${step.name}-${element.javaFieldName}" name="submit-collectionModify-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.save')}" />
-        </g:if>
-        <g:else>
-          <input type="submit" id="submit-collectionAdd-${step.name}-${element.javaFieldName}" name="submit-collectionAdd-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.add')}" />
-        </g:else>
-      </fieldset>
-    <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
-      <fieldset class="collection-fieldset-edit">
-        <dl>
-    <% element.elements.each { subElement -> %>
-        <dt><g:message code="${subElement.i18nPrefixCode}.label" /></dt>
-        <% displayStaticWidget(subElement, 'it') %>
-    <% } %>
-        </dl>
-        <input type="submit" value="\${message(code:'action.modify')}" name="submit-collectionEdit-${step.name}-${element.javaFieldName}[\${index}]" />
-        <input type="submit" value="\${message(code:'action.remove')}" name="submit-collectionDelete-${step.name}-${element.javaFieldName}[\${index}]" />
+    <div class="collection ${element.listenerConditionsClass}">
+    <h3>
+      <g:message code="${element.i18nPrefixCode}.label" />
+      <span><g:message code="request.masseage.collectionEditionRules" /></span>
+      <span><g:message code="${element.i18nPrefixCode}.help" /></span>
+      <button type="submit" name="submit-collectionAdd-${step.name}-${element.javaFieldName}">
+        <a>\${message(code:'action.add')}</a>
+      </button>
+    </h3>
+    <g:each var="listItem" in="\${rqt.${element.javaFieldName}}" status="listIndex">
+      <fieldset>
+        <legend>
+          <g:message code="${element.i18nPrefixCode}.label" /> (\${listIndex + 1})
+          <input type="submit" name="submit-collectionDelete-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.remove')}" />
+        </legend>
+        <% element.elements.each { subElement -> %>
+          <% displayWidget(subElement, 'listItem?' , element.javaFieldName + '[${listIndex}].' ) %>
+        <% } %>
       </fieldset>
     </g:each>
     </div>

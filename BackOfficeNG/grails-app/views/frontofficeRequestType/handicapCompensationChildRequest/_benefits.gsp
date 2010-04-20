@@ -321,86 +321,68 @@
   
 
   
-    <label class="condition-isOtherBenefits-filled"><g:message code="hccr.property.otherBenefits.label" /> <span><g:message code="hccr.property.otherBenefits.help" /></span></label>
-    <div class="collection-fieldset condition-isOtherBenefits-filled validation-scope summary-box">
-      <g:set var="listIndex" value="${editList?.name == 'otherBenefits' ? editList?.index : ( rqt.otherBenefits ? rqt.otherBenefits.size() : 0 ) }" />
-      <fieldset class="collection-fieldset-add condition-isOtherBenefits-filled">
-    
-        <label for="otherBenefits.${listIndex}.otherBenefitName" class="required"><g:message code="hccr.property.otherBenefitName.label" /> *  <span><g:message code="hccr.property.otherBenefitName.help" /></span></label>
-            <input type="text" id="otherBenefits.${listIndex}.otherBenefitName" name="otherBenefits[${listIndex}].otherBenefitName" value="${editList?.otherBenefits?.otherBenefitName?.toString()}" 
+    <div class="collection condition-isOtherBenefits-filled">
+    <h3>
+      <g:message code="hccr.property.otherBenefits.label" />
+      <span><g:message code="request.masseage.collectionEditionRules" /></span>
+      <span><g:message code="hccr.property.otherBenefits.help" /></span>
+      <button type="submit" name="submit-collectionAdd-benefits-otherBenefits">
+        <a>${message(code:'action.add')}</a>
+      </button>
+    </h3>
+    <g:each var="listItem" in="${rqt.otherBenefits}" status="listIndex">
+      <fieldset>
+        <legend>
+          <g:message code="hccr.property.otherBenefits.label" /> (${listIndex + 1})
+          <input type="submit" name="submit-collectionDelete-benefits-otherBenefits[${listIndex}]" value="${message(code:'action.remove')}" />
+        </legend>
+        
+          <label for="otherBenefits.${listIndex}.otherBenefitName" class="required"><g:message code="hccr.property.otherBenefitName.label" /> *  <span><g:message code="hccr.property.otherBenefitName.help" /></span></label>
+            <input type="text" id="otherBenefits.${listIndex}.otherBenefitName" name="otherBenefits[${listIndex}].otherBenefitName" value="${listItem?.otherBenefitName?.toString()}" 
                     class="required  " title="<g:message code="hccr.property.otherBenefitName.validationError" />"  maxlength="60" />
             
 
-    
-        <g:if test="${editList?.name == 'otherBenefits'}">
-          <input type="submit" id="submit-collectionModify-benefits-otherBenefits" name="submit-collectionModify-benefits-otherBenefits[${listIndex}]" value="${message(code:'action.save')}" />
-        </g:if>
-        <g:else>
-          <input type="submit" id="submit-collectionAdd-benefits-otherBenefits" name="submit-collectionAdd-benefits-otherBenefits[${listIndex}]" value="${message(code:'action.add')}" />
-        </g:else>
-      </fieldset>
-    <g:each var="it" in="${rqt.otherBenefits}" status="index">
-      <fieldset class="collection-fieldset-edit">
-        <dl>
-    
-        <dt><g:message code="hccr.property.otherBenefitName.label" /></dt>
-        <dd>${it.otherBenefitName?.toString()}</dd>
-    
-        </dl>
-        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-benefits-otherBenefits[${index}]" />
-        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-benefits-otherBenefits[${index}]" />
+        
       </fieldset>
     </g:each>
     </div>
   
 
   
-    <label class=""><g:message code="hccr.property.additionalFee.label" /> <span><g:message code="hccr.property.additionalFee.help" /></span></label>
-    <div class="collection-fieldset  validation-scope summary-box">
-      <g:set var="listIndex" value="${editList?.name == 'additionalFee' ? editList?.index : ( rqt.additionalFee ? rqt.additionalFee.size() : 0 ) }" />
-      <fieldset class="collection-fieldset-add ">
-    
-        <label for="additionalFee.${listIndex}.additionalFeeKind" class="required"><g:message code="hccr.property.additionalFeeKind.label" /> *  <span><g:message code="hccr.property.additionalFeeKind.help" /></span></label>
-            <input type="text" id="additionalFee.${listIndex}.additionalFeeKind" name="additionalFee[${listIndex}].additionalFeeKind" value="${editList?.additionalFee?.additionalFeeKind?.toString()}" 
+    <div class="collection ">
+    <h3>
+      <g:message code="hccr.property.additionalFee.label" />
+      <span><g:message code="request.masseage.collectionEditionRules" /></span>
+      <span><g:message code="hccr.property.additionalFee.help" /></span>
+      <button type="submit" name="submit-collectionAdd-benefits-additionalFee">
+        <a>${message(code:'action.add')}</a>
+      </button>
+    </h3>
+    <g:each var="listItem" in="${rqt.additionalFee}" status="listIndex">
+      <fieldset>
+        <legend>
+          <g:message code="hccr.property.additionalFee.label" /> (${listIndex + 1})
+          <input type="submit" name="submit-collectionDelete-benefits-additionalFee[${listIndex}]" value="${message(code:'action.remove')}" />
+        </legend>
+        
+          <label for="additionalFee.${listIndex}.additionalFeeKind" class="required"><g:message code="hccr.property.additionalFeeKind.label" /> *  <span><g:message code="hccr.property.additionalFeeKind.help" /></span></label>
+            <input type="text" id="additionalFee.${listIndex}.additionalFeeKind" name="additionalFee[${listIndex}].additionalFeeKind" value="${listItem?.additionalFeeKind?.toString()}" 
                     class="required  " title="<g:message code="hccr.property.additionalFeeKind.validationError" />"  maxlength="30" />
             
 
-    
-        <label for="additionalFee.${listIndex}.additionalFeeCost" class="required"><g:message code="hccr.property.additionalFeeCost.label" /> *  <span><g:message code="hccr.property.additionalFeeCost.help" /></span></label>
-            <input type="text" id="additionalFee.${listIndex}.additionalFeeCost" name="additionalFee[${listIndex}].additionalFeeCost" value="${editList?.additionalFee?.additionalFeeCost?.toString()}" 
+        
+          <label for="additionalFee.${listIndex}.additionalFeeCost" class="required"><g:message code="hccr.property.additionalFeeCost.label" /> *  <span><g:message code="hccr.property.additionalFeeCost.help" /></span></label>
+            <input type="text" id="additionalFee.${listIndex}.additionalFeeCost" name="additionalFee[${listIndex}].additionalFeeCost" value="${listItem?.additionalFeeCost?.toString()}" 
                     class="required  " title="<g:message code="hccr.property.additionalFeeCost.validationError" />"   />
             
 
-    
-        <label for="additionalFee.${listIndex}.additionalFeePeriodicity" class="required"><g:message code="hccr.property.additionalFeePeriodicity.label" /> *  <span><g:message code="hccr.property.additionalFeePeriodicity.help" /></span></label>
-            <input type="text" id="additionalFee.${listIndex}.additionalFeePeriodicity" name="additionalFee[${listIndex}].additionalFeePeriodicity" value="${editList?.additionalFee?.additionalFeePeriodicity?.toString()}" 
+        
+          <label for="additionalFee.${listIndex}.additionalFeePeriodicity" class="required"><g:message code="hccr.property.additionalFeePeriodicity.label" /> *  <span><g:message code="hccr.property.additionalFeePeriodicity.help" /></span></label>
+            <input type="text" id="additionalFee.${listIndex}.additionalFeePeriodicity" name="additionalFee[${listIndex}].additionalFeePeriodicity" value="${listItem?.additionalFeePeriodicity?.toString()}" 
                     class="required  " title="<g:message code="hccr.property.additionalFeePeriodicity.validationError" />"  maxlength="30" />
             
 
-    
-        <g:if test="${editList?.name == 'additionalFee'}">
-          <input type="submit" id="submit-collectionModify-benefits-additionalFee" name="submit-collectionModify-benefits-additionalFee[${listIndex}]" value="${message(code:'action.save')}" />
-        </g:if>
-        <g:else>
-          <input type="submit" id="submit-collectionAdd-benefits-additionalFee" name="submit-collectionAdd-benefits-additionalFee[${listIndex}]" value="${message(code:'action.add')}" />
-        </g:else>
-      </fieldset>
-    <g:each var="it" in="${rqt.additionalFee}" status="index">
-      <fieldset class="collection-fieldset-edit">
-        <dl>
-    
-        <dt><g:message code="hccr.property.additionalFeeKind.label" /></dt>
-        <dd>${it.additionalFeeKind?.toString()}</dd>
-    
-        <dt><g:message code="hccr.property.additionalFeeCost.label" /></dt>
-        <dd>${it.additionalFeeCost?.toString()}</dd>
-    
-        <dt><g:message code="hccr.property.additionalFeePeriodicity.label" /></dt>
-        <dd>${it.additionalFeePeriodicity?.toString()}</dd>
-    
-        </dl>
-        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-benefits-additionalFee[${index}]" />
-        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-benefits-additionalFee[${index}]" />
+        
       </fieldset>
     </g:each>
     </div>

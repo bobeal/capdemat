@@ -2,97 +2,68 @@
 
 
   
-    <label class=""><g:message code="parr.property.authorizedIndividuals.label" /> <span><g:message code="parr.property.authorizedIndividuals.help" /></span></label>
-    <div class="collection-fieldset  validation-scope summary-box">
-      <g:set var="listIndex" value="${editList?.name == 'authorizedIndividuals' ? editList?.index : ( rqt.authorizedIndividuals ? rqt.authorizedIndividuals.size() : 0 ) }" />
-      <fieldset class="collection-fieldset-add ">
-    
-        <label for="authorizedIndividuals.${listIndex}.lastName" class="required"><g:message code="parr.property.lastName.label" /> *  <span><g:message code="parr.property.lastName.help" /></span></label>
-            <input type="text" id="authorizedIndividuals.${listIndex}.lastName" name="authorizedIndividuals[${listIndex}].lastName" value="${editList?.authorizedIndividuals?.lastName?.toString()}" 
+    <div class="collection ">
+    <h3>
+      <g:message code="parr.property.authorizedIndividuals.label" />
+      <span><g:message code="request.masseage.collectionEditionRules" /></span>
+      <span><g:message code="parr.property.authorizedIndividuals.help" /></span>
+      <button type="submit" name="submit-collectionAdd-authorization-authorizedIndividuals">
+        <a>${message(code:'action.add')}</a>
+      </button>
+    </h3>
+    <g:each var="listItem" in="${rqt.authorizedIndividuals}" status="listIndex">
+      <fieldset>
+        <legend>
+          <g:message code="parr.property.authorizedIndividuals.label" /> (${listIndex + 1})
+          <input type="submit" name="submit-collectionDelete-authorization-authorizedIndividuals[${listIndex}]" value="${message(code:'action.remove')}" />
+        </legend>
+        
+          <label for="authorizedIndividuals.${listIndex}.lastName" class="required"><g:message code="parr.property.lastName.label" /> *  <span><g:message code="parr.property.lastName.help" /></span></label>
+            <input type="text" id="authorizedIndividuals.${listIndex}.lastName" name="authorizedIndividuals[${listIndex}].lastName" value="${listItem?.lastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="parr.property.lastName.validationError" />"  maxlength="38" />
             
 
-    
-        <label for="authorizedIndividuals.${listIndex}.firstName" class="required"><g:message code="parr.property.firstName.label" /> *  <span><g:message code="parr.property.firstName.help" /></span></label>
-            <input type="text" id="authorizedIndividuals.${listIndex}.firstName" name="authorizedIndividuals[${listIndex}].firstName" value="${editList?.authorizedIndividuals?.firstName?.toString()}" 
+        
+          <label for="authorizedIndividuals.${listIndex}.firstName" class="required"><g:message code="parr.property.firstName.label" /> *  <span><g:message code="parr.property.firstName.help" /></span></label>
+            <input type="text" id="authorizedIndividuals.${listIndex}.firstName" name="authorizedIndividuals[${listIndex}].firstName" value="${listItem?.firstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="parr.property.firstName.validationError" />"  maxlength="38" />
             
 
-    
-        <label class="required"><g:message code="parr.property.address.label" /> *  <span><g:message code="parr.property.address.help" /></span></label>
+        
+          <label class="required"><g:message code="parr.property.address.label" /> *  <span><g:message code="parr.property.address.help" /></span></label>
             <div class="address-fieldset required ">
             <label for="authorizedIndividuals.${listIndex}.address.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${editList?.authorizedIndividuals?.address?.additionalDeliveryInformation}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.additionalDeliveryInformation" name="authorizedIndividuals[${listIndex}].address.additionalDeliveryInformation" />  
+            <input type="text" value="${listItem?.address?.additionalDeliveryInformation}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.additionalDeliveryInformation" name="authorizedIndividuals[${listIndex}].address.additionalDeliveryInformation" />  
             <label for="authorizedIndividuals.${listIndex}.address.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${editList?.authorizedIndividuals?.address?.additionalGeographicalInformation}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.additionalGeographicalInformation" name="authorizedIndividuals[${listIndex}].address.additionalGeographicalInformation" />
+            <input type="text" value="${listItem?.address?.additionalGeographicalInformation}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.additionalGeographicalInformation" name="authorizedIndividuals[${listIndex}].address.additionalGeographicalInformation" />
             <label for="authorizedIndividuals.${listIndex}.address.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
             <label for="authorizedIndividuals.${listIndex}.address.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-            <input type="text" class="line1" value="${editList?.authorizedIndividuals?.address?.streetNumber}" size="5" maxlength="5" id="authorizedIndividuals.${listIndex}.address.streetNumber" name="authorizedIndividuals[${listIndex}].address.streetNumber" />
-            <input type="text" class="line2 required" value="${editList?.authorizedIndividuals?.address?.streetName}" maxlength="32" id="authorizedIndividuals.${listIndex}.address.streetName" name="authorizedIndividuals[${listIndex}].address.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <input type="text" class="line1" value="${listItem?.address?.streetNumber}" size="5" maxlength="5" id="authorizedIndividuals.${listIndex}.address.streetNumber" name="authorizedIndividuals[${listIndex}].address.streetNumber" />
+            <input type="text" class="line2 required" value="${listItem?.address?.streetName}" maxlength="32" id="authorizedIndividuals.${listIndex}.address.streetName" name="authorizedIndividuals[${listIndex}].address.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label for="authorizedIndividuals.${listIndex}.address.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${editList?.authorizedIndividuals?.address?.placeNameOrService}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.placeNameOrService" name="authorizedIndividuals[${listIndex}].address.placeNameOrService" />
+            <input type="text" value="${listItem?.address?.placeNameOrService}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.placeNameOrService" name="authorizedIndividuals[${listIndex}].address.placeNameOrService" />
             <label for="authorizedIndividuals.${listIndex}.address.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
             <label for="authorizedIndividuals.${listIndex}.address.city" class="required"><g:message code="address.property.city" /> *</label><br />
-            <input type="text" class="line1 required" value="${editList?.authorizedIndividuals?.address?.postalCode}" size="5" maxlength="5" id="authorizedIndividuals.${listIndex}.address.postalCode" name="authorizedIndividuals[${listIndex}].address.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${editList?.authorizedIndividuals?.address?.city}" maxlength="32" id="authorizedIndividuals.${listIndex}.address.city" name="authorizedIndividuals[${listIndex}].address.city" title="<g:message code="address.property.city.validationError" />" />
+            <input type="text" class="line1 required" value="${listItem?.address?.postalCode}" size="5" maxlength="5" id="authorizedIndividuals.${listIndex}.address.postalCode" name="authorizedIndividuals[${listIndex}].address.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required" value="${listItem?.address?.city}" maxlength="32" id="authorizedIndividuals.${listIndex}.address.city" name="authorizedIndividuals[${listIndex}].address.city" title="<g:message code="address.property.city.validationError" />" />
             <label for="authorizedIndividuals.${listIndex}.address.countryName"><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${editList?.authorizedIndividuals?.address?.countryName}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.countryName" name="authorizedIndividuals[${listIndex}].address.countryName" />
+            <input type="text" value="${listItem?.address?.countryName}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.countryName" name="authorizedIndividuals[${listIndex}].address.countryName" />
             </div>
             
 
-    
-        <label for="authorizedIndividuals.${listIndex}.homePhone" class=""><g:message code="parr.property.homePhone.label" />   <span><g:message code="parr.property.homePhone.help" /></span></label>
-            <input type="text" id="authorizedIndividuals.${listIndex}.homePhone" name="authorizedIndividuals[${listIndex}].homePhone" value="${editList?.authorizedIndividuals?.homePhone?.toString()}" 
+        
+          <label for="authorizedIndividuals.${listIndex}.homePhone" class=""><g:message code="parr.property.homePhone.label" />   <span><g:message code="parr.property.homePhone.help" /></span></label>
+            <input type="text" id="authorizedIndividuals.${listIndex}.homePhone" name="authorizedIndividuals[${listIndex}].homePhone" value="${listItem?.homePhone?.toString()}" 
                     class="  validate-phone" title="<g:message code="parr.property.homePhone.validationError" />"  maxlength="10" />
             
 
-    
-        <label for="authorizedIndividuals.${listIndex}.officePhone" class=""><g:message code="parr.property.officePhone.label" />   <span><g:message code="parr.property.officePhone.help" /></span></label>
-            <input type="text" id="authorizedIndividuals.${listIndex}.officePhone" name="authorizedIndividuals[${listIndex}].officePhone" value="${editList?.authorizedIndividuals?.officePhone?.toString()}" 
+        
+          <label for="authorizedIndividuals.${listIndex}.officePhone" class=""><g:message code="parr.property.officePhone.label" />   <span><g:message code="parr.property.officePhone.help" /></span></label>
+            <input type="text" id="authorizedIndividuals.${listIndex}.officePhone" name="authorizedIndividuals[${listIndex}].officePhone" value="${listItem?.officePhone?.toString()}" 
                     class="  validate-phone" title="<g:message code="parr.property.officePhone.validationError" />"  maxlength="10" />
             
 
-    
-        <g:if test="${editList?.name == 'authorizedIndividuals'}">
-          <input type="submit" id="submit-collectionModify-authorization-authorizedIndividuals" name="submit-collectionModify-authorization-authorizedIndividuals[${listIndex}]" value="${message(code:'action.save')}" />
-        </g:if>
-        <g:else>
-          <input type="submit" id="submit-collectionAdd-authorization-authorizedIndividuals" name="submit-collectionAdd-authorization-authorizedIndividuals[${listIndex}]" value="${message(code:'action.add')}" />
-        </g:else>
-      </fieldset>
-    <g:each var="it" in="${rqt.authorizedIndividuals}" status="index">
-      <fieldset class="collection-fieldset-edit">
-        <dl>
-    
-        <dt><g:message code="parr.property.lastName.label" /></dt>
-        <dd>${it.lastName?.toString()}</dd>
-    
-        <dt><g:message code="parr.property.firstName.label" /></dt>
-        <dd>${it.firstName?.toString()}</dd>
-    
-        <dt><g:message code="parr.property.address.label" /></dt>
         
-              <g:if test="${it.address}">
-                <dd>
-                  <p>${it.address?.additionalDeliveryInformation}</p>
-                  <p>${it.address?.additionalGeographicalInformation}</p>
-                  <p>${it.address?.streetNumber} ${it.address?.streetName}</p>
-                  <p>${it.address?.placeNameOrService}</p>
-                  <p>${it.address?.postalCode} ${it.address?.city}</p>
-                  <p>${it.address?.countryName}</p>
-                </dd>
-              </g:if>
-              
-    
-        <dt><g:message code="parr.property.homePhone.label" /></dt>
-        <dd>${it.homePhone?.toString()}</dd>
-    
-        <dt><g:message code="parr.property.officePhone.label" /></dt>
-        <dd>${it.officePhone?.toString()}</dd>
-    
-        </dl>
-        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-authorization-authorizedIndividuals[${index}]" />
-        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-authorization-authorizedIndividuals[${index}]" />
       </fieldset>
     </g:each>
     </div>

@@ -93,52 +93,40 @@
   
 
   
-    <label class="condition-isOtherFolders-filled"><g:message code="hcar.property.otherFolders.label" /> <span><g:message code="hcar.property.otherFolders.help" /></span></label>
-    <div class="collection-fieldset condition-isOtherFolders-filled validation-scope summary-box">
-      <g:set var="listIndex" value="${editList?.name == 'otherFolders' ? editList?.index : ( rqt.otherFolders ? rqt.otherFolders.size() : 0 ) }" />
-      <fieldset class="collection-fieldset-add condition-isOtherFolders-filled">
-    
-        <label for="otherFolders.${listIndex}.otherFolderName" class="required"><g:message code="hcar.property.otherFolderName.label" /> *  <span><g:message code="hcar.property.otherFolderName.help" /></span></label>
-            <input type="text" id="otherFolders.${listIndex}.otherFolderName" name="otherFolders[${listIndex}].otherFolderName" value="${editList?.otherFolders?.otherFolderName?.toString()}" 
+    <div class="collection condition-isOtherFolders-filled">
+    <h3>
+      <g:message code="hcar.property.otherFolders.label" />
+      <span><g:message code="request.masseage.collectionEditionRules" /></span>
+      <span><g:message code="hcar.property.otherFolders.help" /></span>
+      <button type="submit" name="submit-collectionAdd-folders-otherFolders">
+        <a>${message(code:'action.add')}</a>
+      </button>
+    </h3>
+    <g:each var="listItem" in="${rqt.otherFolders}" status="listIndex">
+      <fieldset>
+        <legend>
+          <g:message code="hcar.property.otherFolders.label" /> (${listIndex + 1})
+          <input type="submit" name="submit-collectionDelete-folders-otherFolders[${listIndex}]" value="${message(code:'action.remove')}" />
+        </legend>
+        
+          <label for="otherFolders.${listIndex}.otherFolderName" class="required"><g:message code="hcar.property.otherFolderName.label" /> *  <span><g:message code="hcar.property.otherFolderName.help" /></span></label>
+            <input type="text" id="otherFolders.${listIndex}.otherFolderName" name="otherFolders[${listIndex}].otherFolderName" value="${listItem?.otherFolderName?.toString()}" 
                     class="required  " title="<g:message code="hcar.property.otherFolderName.validationError" />"  maxlength="60" />
             
 
-    
-        <label for="otherFolders.${listIndex}.otherFolderNumber" class=""><g:message code="hcar.property.otherFolderNumber.label" />   <span><g:message code="hcar.property.otherFolderNumber.help" /></span></label>
-            <input type="text" id="otherFolders.${listIndex}.otherFolderNumber" name="otherFolders[${listIndex}].otherFolderNumber" value="${editList?.otherFolders?.otherFolderNumber?.toString()}" 
+        
+          <label for="otherFolders.${listIndex}.otherFolderNumber" class=""><g:message code="hcar.property.otherFolderNumber.label" />   <span><g:message code="hcar.property.otherFolderNumber.help" /></span></label>
+            <input type="text" id="otherFolders.${listIndex}.otherFolderNumber" name="otherFolders[${listIndex}].otherFolderNumber" value="${listItem?.otherFolderNumber?.toString()}" 
                     class="  " title="<g:message code="hcar.property.otherFolderNumber.validationError" />"  maxlength="30" />
             
 
-    
-        <label for="otherFolders.${listIndex}.otherFolderDepartment" class=""><g:message code="hcar.property.otherFolderDepartment.label" />   <span><g:message code="hcar.property.otherFolderDepartment.help" /></span></label>
-            <input type="text" id="otherFolders.${listIndex}.otherFolderDepartment" name="otherFolders[${listIndex}].otherFolderDepartment" value="${editList?.otherFolders?.otherFolderDepartment?.toString()}" 
+        
+          <label for="otherFolders.${listIndex}.otherFolderDepartment" class=""><g:message code="hcar.property.otherFolderDepartment.label" />   <span><g:message code="hcar.property.otherFolderDepartment.help" /></span></label>
+            <input type="text" id="otherFolders.${listIndex}.otherFolderDepartment" name="otherFolders[${listIndex}].otherFolderDepartment" value="${listItem?.otherFolderDepartment?.toString()}" 
                     class="  validate-departmentCode" title="<g:message code="hcar.property.otherFolderDepartment.validationError" />"  maxlength="2" />
             
 
-    
-        <g:if test="${editList?.name == 'otherFolders'}">
-          <input type="submit" id="submit-collectionModify-folders-otherFolders" name="submit-collectionModify-folders-otherFolders[${listIndex}]" value="${message(code:'action.save')}" />
-        </g:if>
-        <g:else>
-          <input type="submit" id="submit-collectionAdd-folders-otherFolders" name="submit-collectionAdd-folders-otherFolders[${listIndex}]" value="${message(code:'action.add')}" />
-        </g:else>
-      </fieldset>
-    <g:each var="it" in="${rqt.otherFolders}" status="index">
-      <fieldset class="collection-fieldset-edit">
-        <dl>
-    
-        <dt><g:message code="hcar.property.otherFolderName.label" /></dt>
-        <dd>${it.otherFolderName?.toString()}</dd>
-    
-        <dt><g:message code="hcar.property.otherFolderNumber.label" /></dt>
-        <dd>${it.otherFolderNumber?.toString()}</dd>
-    
-        <dt><g:message code="hcar.property.otherFolderDepartment.label" /></dt>
-        <dd>${it.otherFolderDepartment?.toString()}</dd>
-    
-        </dl>
-        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-folders-otherFolders[${index}]" />
-        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-folders-otherFolders[${index}]" />
+        
       </fieldset>
     </g:each>
     </div>

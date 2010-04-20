@@ -77,128 +77,84 @@
   
 
   
-    <label class="required"><g:message code="dhr.property.dhrPreviousDwelling.label" /> <span><g:message code="dhr.property.dhrPreviousDwelling.help" /></span></label>
-    <div class="collection-fieldset required validation-scope summary-box">
-      <g:set var="listIndex" value="${editList?.name == 'dhrPreviousDwelling' ? editList?.index : ( rqt.dhrPreviousDwelling ? rqt.dhrPreviousDwelling.size() : 0 ) }" />
-      <fieldset class="collection-fieldset-add required">
-    
-        <label class="required"><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingAddress.help" /></span></label>
+    <div class="collection required">
+    <h3>
+      <g:message code="dhr.property.dhrPreviousDwelling.label" />
+      <span><g:message code="request.masseage.collectionEditionRules" /></span>
+      <span><g:message code="dhr.property.dhrPreviousDwelling.help" /></span>
+      <button type="submit" name="submit-collectionAdd-dwelling-dhrPreviousDwelling">
+        <a>${message(code:'action.add')}</a>
+      </button>
+    </h3>
+    <g:each var="listItem" in="${rqt.dhrPreviousDwelling}" status="listIndex">
+      <fieldset>
+        <legend>
+          <g:message code="dhr.property.dhrPreviousDwelling.label" /> (${listIndex + 1})
+          <input type="submit" name="submit-collectionDelete-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.remove')}" />
+        </legend>
+        
+          <label class="required"><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingAddress.help" /></span></label>
             <div class="address-fieldset required ">
             <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.additionalDeliveryInformation" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.additionalDeliveryInformation" />  
+            <input type="text" value="${listItem?.dhrPreviousDwellingAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.additionalDeliveryInformation" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.additionalDeliveryInformation" />  
             <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.additionalGeographicalInformation}" maxlength="38" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.additionalGeographicalInformation" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.additionalGeographicalInformation" />
+            <input type="text" value="${listItem?.dhrPreviousDwellingAddress?.additionalGeographicalInformation}" maxlength="38" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.additionalGeographicalInformation" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.additionalGeographicalInformation" />
             <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
             <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-            <input type="text" class="line1" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.streetNumber}" size="5" maxlength="5" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.streetNumber" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.streetNumber" />
-            <input type="text" class="line2 required" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.streetName}" maxlength="32" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.streetName" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <input type="text" class="line1" value="${listItem?.dhrPreviousDwellingAddress?.streetNumber}" size="5" maxlength="5" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.streetNumber" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.streetNumber" />
+            <input type="text" class="line2 required" value="${listItem?.dhrPreviousDwellingAddress?.streetName}" maxlength="32" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.streetName" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.placeNameOrService}" maxlength="38" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.placeNameOrService" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.placeNameOrService" />
+            <input type="text" value="${listItem?.dhrPreviousDwellingAddress?.placeNameOrService}" maxlength="38" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.placeNameOrService" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.placeNameOrService" />
             <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
             <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-            <input type="text" class="line1 required" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.postalCode}" size="5" maxlength="5" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.postalCode" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.city}" maxlength="32" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.city" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <input type="text" class="line1 required" value="${listItem?.dhrPreviousDwellingAddress?.postalCode}" size="5" maxlength="5" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.postalCode" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required" value="${listItem?.dhrPreviousDwellingAddress?.city}" maxlength="32" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.city" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.countryName"><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.countryName}" maxlength="38" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.countryName" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.countryName" />
+            <input type="text" value="${listItem?.dhrPreviousDwellingAddress?.countryName}" maxlength="38" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.countryName" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.countryName" />
             </div>
             
 
-    
-        <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingKind" class="required"><g:message code="dhr.property.dhrPreviousDwellingKind.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingKind.help" /></span></label>
+        
+          <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingKind" class="required"><g:message code="dhr.property.dhrPreviousDwellingKind.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingKind.help" /></span></label>
             <select id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingKind" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingKind" class="required condition-isPreviousDwellingPlaceOfResidence-trigger  validate-not-first" title="<g:message code="dhr.property.dhrPreviousDwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['placeOfResidence','retirementHome','other']}">
-                <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == editList?.dhrPreviousDwelling?.dhrPreviousDwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingKind" /></option>
+                <option value="fr.cg95.cvq.business.request.social.DhrDwellingKindType_${it}" ${it == listItem?.dhrPreviousDwellingKind?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingKind" /></option>
               </g:each>
             </select>
             
 
-    
-        <label class="required condition-isPreviousDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrPreviousDwellingStatus.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingStatus.help" /></span></label>
+        
+          <label class="required condition-isPreviousDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrPreviousDwellingStatus.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingStatus.help" /></span></label>
             <ul class="required condition-isPreviousDwellingPlaceOfResidence-filled">
               <g:each in="${['owner','tenant']}">
               <li>
-                <input type="radio" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingStatus_${it}" class="required condition-isPreviousDwellingPlaceOfResidence-filled  validate-one-required" value="fr.cg95.cvq.business.request.social.DhrDwellingStatusType_${it}" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingStatus" ${it == editList?.dhrPreviousDwelling?.dhrPreviousDwellingStatus.toString() ? 'checked="checked"': ''} title="<g:message code="dhr.property.dhrPreviousDwellingStatus.validationError" />" />
+                <input type="radio" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingStatus_${it}" class="required condition-isPreviousDwellingPlaceOfResidence-filled  validate-one-required" value="fr.cg95.cvq.business.request.social.DhrDwellingStatusType_${it}" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingStatus" ${it == listItem?.dhrPreviousDwellingStatus.toString() ? 'checked="checked"': ''} title="<g:message code="dhr.property.dhrPreviousDwellingStatus.validationError" />" />
                 <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingStatus_${it}"><g:capdematEnumToText var="${it}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingStatus" /></label>
               </li>
               </g:each>
             </ul>
             
 
-    
-        <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingArrivalDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
-            <input type="text" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingArrivalDate" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate)}" 
+        
+          <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingArrivalDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
+            <input type="text" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingArrivalDate" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:listItem?.dhrPreviousDwellingArrivalDate)}" 
                    class="required  validate-date" title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />" />
             
 
-    
-        <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingDepartureDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
-            <input type="text" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingDepartureDate" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate" value="${formatDate(formatName:'format.date',date:editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate)}" 
+        
+          <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingDepartureDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
+            <input type="text" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingDepartureDate" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate" value="${formatDate(formatName:'format.date',date:listItem?.dhrPreviousDwellingDepartureDate)}" 
                    class="required  validate-date" title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />" />
             
 
-    
-        <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingComment" class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingComment.help" /></span></label>
-            <input type="text" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingComment" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingComment?.toString()}" 
+        
+          <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingComment" class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingComment.help" /></span></label>
+            <input type="text" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingComment" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingComment" value="${listItem?.dhrPreviousDwellingComment?.toString()}" 
                     class="required  validate-string" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />"   />
             
 
-    
-        <g:if test="${editList?.name == 'dhrPreviousDwelling'}">
-          <input type="submit" id="submit-collectionModify-dwelling-dhrPreviousDwelling" name="submit-collectionModify-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.save')}" />
-        </g:if>
-        <g:else>
-          <input type="submit" id="submit-collectionAdd-dwelling-dhrPreviousDwelling" name="submit-collectionAdd-dwelling-dhrPreviousDwelling[${listIndex}]" value="${message(code:'action.add')}" />
-        </g:else>
-      </fieldset>
-    <g:each var="it" in="${rqt.dhrPreviousDwelling}" status="index">
-      <fieldset class="collection-fieldset-edit">
-        <dl>
-    
-        <dt><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /></dt>
         
-              <g:if test="${it.dhrPreviousDwellingAddress}">
-                <dd>
-                  <p>${it.dhrPreviousDwellingAddress?.additionalDeliveryInformation}</p>
-                  <p>${it.dhrPreviousDwellingAddress?.additionalGeographicalInformation}</p>
-                  <p>${it.dhrPreviousDwellingAddress?.streetNumber} ${it.dhrPreviousDwellingAddress?.streetName}</p>
-                  <p>${it.dhrPreviousDwellingAddress?.placeNameOrService}</p>
-                  <p>${it.dhrPreviousDwellingAddress?.postalCode} ${it.dhrPreviousDwellingAddress?.city}</p>
-                  <p>${it.dhrPreviousDwellingAddress?.countryName}</p>
-                </dd>
-              </g:if>
-              
-    
-        <dt><g:message code="dhr.property.dhrPreviousDwellingKind.label" /></dt>
-        
-              <dd>
-                <g:if test="${it.dhrPreviousDwellingKind}">
-                  <g:capdematEnumToField var="${it.dhrPreviousDwellingKind}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingKind" />
-                </g:if>
-              </dd>
-              
-    
-        <dt><g:message code="dhr.property.dhrPreviousDwellingStatus.label" /></dt>
-        
-              <dd>
-                <g:if test="${it.dhrPreviousDwellingStatus}">
-                  <g:capdematEnumToField var="${it.dhrPreviousDwellingStatus}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingStatus" />
-                </g:if>
-              </dd>
-              
-    
-        <dt><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /></dt>
-        <dd><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingArrivalDate}"/></dd>
-    
-        <dt><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /></dt>
-        <dd><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingDepartureDate}"/></dd>
-    
-        <dt><g:message code="dhr.property.dhrPreviousDwellingComment.label" /></dt>
-        <dd>${it.dhrPreviousDwellingComment?.toString()}</dd>
-    
-        </dl>
-        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-dwelling-dhrPreviousDwelling[${index}]" />
-        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-dwelling-dhrPreviousDwelling[${index}]" />
       </fieldset>
     </g:each>
     </div>

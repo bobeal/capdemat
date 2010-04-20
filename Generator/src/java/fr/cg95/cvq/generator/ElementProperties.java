@@ -1,6 +1,8 @@
 package fr.cg95.cvq.generator;
 
 import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A wrapper class to encapsulate elements properties and pass them to
@@ -9,6 +11,15 @@ import java.math.BigInteger;
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
 public class ElementProperties {
+
+    private static Set<String> complexTypesAsSimple = new HashSet<String>();
+    static {
+        complexTypesAsSimple.add("LocalReferentialDataType");
+        complexTypesAsSimple.add("SchoolType");
+        complexTypesAsSimple.add("RecreationCenterType");
+        complexTypesAsSimple.add("AddressType");
+        complexTypesAsSimple.add("FrenchRIBType");
+    }
 
     /** minimum element's occurences */
     protected BigInteger minOccurs;
@@ -249,5 +260,13 @@ public class ElementProperties {
 
     public boolean isLocalReferential() {
         return localReferential;
+    }
+
+    public ElementTypeClass getTypeClass() {
+        if (simpleType || complexTypesAsSimple.contains(xmlSchemaType))
+            return ElementTypeClass.SIMPLE;
+        if (maxOccurs == null || maxOccurs.compareTo(BigInteger.ONE) == 1)
+            return ElementTypeClass.COLLECTION;
+        return ElementTypeClass.COMPLEX;
     }
 }

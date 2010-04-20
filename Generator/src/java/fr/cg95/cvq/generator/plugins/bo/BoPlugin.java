@@ -5,10 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.codehaus.groovy.control.CompilationFailedException;
@@ -17,12 +15,12 @@ import org.w3c.dom.Node;
 
 import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
+import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.ElementStack;
 import fr.cg95.cvq.generator.common.RequestCommon;
 import fr.cg95.cvq.generator.common.Step;
-import fr.cg95.cvq.generator.ElementTypeClass;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
@@ -32,13 +30,6 @@ import groovy.text.Template;
 public class BoPlugin implements IPluginGenerator {
     
     private static Logger logger = Logger.getLogger(BoPlugin.class);
-    
-    private static Set<String> complexTypesAsSimple = new HashSet<String>();
-    static {
-        complexTypesAsSimple.add("LocalReferentialDataType");
-        complexTypesAsSimple.add("SchoolType");
-        complexTypesAsSimple.add("RecreationCenterType");
-    }
 
     private int depth;
     
@@ -142,22 +133,10 @@ public class BoPlugin implements IPluginGenerator {
         elementBo.setType(elementProp.getXmlSchemaType());
         elementBo.setMinLength(elementProp.getMinLength());
         elementBo.setMaxLength(elementProp.getMaxLength());
-        
+        elementBo.setTypeClass(elementProp.getTypeClass());
         // TODO - define a more robust namespace mapping policy
         if (elementProp.isReferentialType())
             elementBo.setModelNamespace(IPluginGenerator.MODEL_BASE_TARGET_NS + ".users");
-        
-        if (elementProp.isSimpleType() || elementProp.getXmlSchemaType().equals("AddressType"))
-            elementBo.setTypeClass(ElementTypeClass.SIMPLE);
-        else if (elementProp.isComplexType())
-            elementBo.setTypeClass(ElementTypeClass.COMPLEX);
-        
-        if (elementProp.getMaxOccurs() == null
-                || elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
-            elementBo.setTypeClass(ElementTypeClass.COLLECTION);
-        // TODO - refactor typClass managment
-        if (complexTypesAsSimple.contains(elementProp.getXmlSchemaType()))
-            elementBo.setTypeClass(ElementTypeClass.SIMPLE);
         
         if (elementProp.getMinOccurs().compareTo(BigInteger.valueOf(0)) == 0)
             elementBo.setMandatory(false);

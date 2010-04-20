@@ -14,7 +14,6 @@ import org.w3c.dom.Node;
 
 import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
-import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.ElementStack;
@@ -98,23 +97,10 @@ public class PdfPlugin implements IPluginGenerator {
         logger.debug("startElementProperties()");
         ElementPdf elementPdf = elementPdfStack.peek(depth);
         elementPdf.setType(elementProp.getXmlSchemaType());
-
+        elementPdf.setTypeClass(elementProp.getTypeClass());
         // TODO - define a more robust namespace mapping policy
         if (elementProp.isReferentialType())
             elementPdf.setModelNamespace(IPluginGenerator.MODEL_BASE_TARGET_NS + ".users");
-
-        if (elementProp.isSimpleType() || elementProp.getXmlSchemaType().equals("AddressType"))
-            elementPdf.setTypeClass(ElementTypeClass.SIMPLE);
-        else if (elementProp.isComplexType())
-            elementPdf.setTypeClass(ElementTypeClass.COMPLEX);
-
-        if (elementProp.getMaxOccurs() == null 
-                || elementProp.getMaxOccurs().compareTo(BigInteger.valueOf(1)) == 1)
-            elementPdf.setTypeClass(ElementTypeClass.COLLECTION);
-
-        // TODO - refactor typClass managment
-        if (elementProp.getXmlSchemaType() != null &&  elementProp.getXmlSchemaType().equals("LocalReferentialDataType"))
-            elementPdf.setTypeClass(ElementTypeClass.SIMPLE);
 
         if (elementProp.getMinOccurs().compareTo(BigInteger.valueOf(0)) == 0)
             elementPdf.setMandatory(false);

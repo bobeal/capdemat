@@ -116,8 +116,6 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setAccountHolderBirthDate(calendar);
         }
       
-        studyGrantRequest.setCounterCode(getCounterCode());
-      
         i = 0;
         if (getCurrentSchoolName() != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] currentSchoolNameTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getCurrentSchoolName().size()];
@@ -136,8 +134,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequest.setTaxHouseholdLastName(getTaxHouseholdLastName());
       
         currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternshipSchoolName(getAbroadInternshipSchoolName());
-      
-        studyGrantRequest.setAccountKey(getAccountKey());
       
         if (getHasRegionalCouncilHelp() != null)
             studyGrantRequest.setHasRegionalCouncilHelp(getHasRegionalCouncilHelp().booleanValue());
@@ -161,8 +157,6 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setHasCROUSHelp(getHasCROUSHelp().booleanValue());
       
         studyGrantRequest.setAccountHolderFirstName(getAccountHolderFirstName());
-      
-        studyGrantRequest.setAccountNumber(getAccountNumber());
       
         if (getDistance() != null)
             studyGrantRequest.setDistance(fr.cg95.cvq.xml.request.school.DistanceType.Enum.forString(getDistance().toString()));
@@ -201,13 +195,14 @@ public class StudyGrantRequest extends Request implements Serializable {
       
         studyGrantRequest.setTaxHouseholdFirstName(getTaxHouseholdFirstName());
       
-        studyGrantRequest.setBankCode(getBankCode());
-      
         if (getSandwichCourses() != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setSandwichCourses(getSandwichCourses().booleanValue());
       
         if (getAbroadInternship() != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setAbroadInternship(getAbroadInternship().booleanValue());
+      
+        if (getFrenchRIB() != null)
+            studyGrantRequest.setFrenchRIB(FrenchRIB.modelToXml(getFrenchRIB()));
       
         if (getCurrentStudiesDiploma() != null)
             currentStudiesInformationsTypeCurrentStudiesInformations.setCurrentStudiesDiploma(fr.cg95.cvq.xml.request.school.CurrentStudiesType.Enum.forString(getCurrentStudiesDiploma().toString()));
@@ -257,8 +252,6 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setAccountHolderBirthDate(calendar.getTime());
         }
       
-        studyGrantRequest.setCounterCode(studyGrantRequestXml.getCounterCode());
-      
         List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolNameList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(studyGrantRequestXml.getCurrentSchool().sizeOfCurrentSchoolNameArray());
         for (LocalReferentialDataType object : studyGrantRequestXml.getCurrentSchool().getCurrentSchoolNameArray()) {
             currentSchoolNameList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
@@ -278,8 +271,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequest.setTaxHouseholdLastName(studyGrantRequestXml.getTaxHouseholdLastName());
       
         studyGrantRequest.setAbroadInternshipSchoolName(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipSchoolName());
-      
-        studyGrantRequest.setAccountKey(studyGrantRequestXml.getAccountKey());
       
         studyGrantRequest.setHasRegionalCouncilHelp(Boolean.valueOf(studyGrantRequestXml.getHasRegionalCouncilHelp()));
       
@@ -302,8 +293,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequest.setHasCROUSHelp(Boolean.valueOf(studyGrantRequestXml.getHasCROUSHelp()));
       
         studyGrantRequest.setAccountHolderFirstName(studyGrantRequestXml.getAccountHolderFirstName());
-      
-        studyGrantRequest.setAccountNumber(studyGrantRequestXml.getAccountNumber());
       
         if (studyGrantRequestXml.getDistance() != null)
             studyGrantRequest.setDistance(fr.cg95.cvq.business.request.school.DistanceType.forString(studyGrantRequestXml.getDistance().toString()));
@@ -344,11 +333,12 @@ public class StudyGrantRequest extends Request implements Serializable {
       
         studyGrantRequest.setTaxHouseholdFirstName(studyGrantRequestXml.getTaxHouseholdFirstName());
       
-        studyGrantRequest.setBankCode(studyGrantRequestXml.getBankCode());
-      
         studyGrantRequest.setSandwichCourses(Boolean.valueOf(studyGrantRequestXml.getCurrentStudiesInformations().getSandwichCourses()));
       
         studyGrantRequest.setAbroadInternship(Boolean.valueOf(studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternship()));
+      
+        if (studyGrantRequestXml.getFrenchRIB() != null)
+            studyGrantRequest.setFrenchRIB(FrenchRIB.xmlToModel(studyGrantRequestXml.getFrenchRIB()));
       
         if (studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesDiploma() != null)
             studyGrantRequest.setCurrentStudiesDiploma(fr.cg95.cvq.business.request.school.CurrentStudiesType.forString(studyGrantRequestXml.getCurrentStudiesInformations().getCurrentStudiesDiploma().toString()));
@@ -449,15 +439,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         return studyGrantRequestData.getAccountHolderBirthDate();
     }
   
-    public final void setCounterCode(final String counterCode) {
-        studyGrantRequestData.setCounterCode(counterCode);
-    }
-
-    
-    public final String getCounterCode() {
-        return studyGrantRequestData.getCounterCode();
-    }
-  
     public final void setCurrentSchoolName(final List<fr.cg95.cvq.business.request.LocalReferentialData> currentSchoolName) {
         studyGrantRequestData.setCurrentSchoolName(currentSchoolName);
     }
@@ -501,15 +482,6 @@ public class StudyGrantRequest extends Request implements Serializable {
     
     public final String getAbroadInternshipSchoolName() {
         return studyGrantRequestData.getAbroadInternshipSchoolName();
-    }
-  
-    public final void setAccountKey(final String accountKey) {
-        studyGrantRequestData.setAccountKey(accountKey);
-    }
-
-    
-    public final String getAccountKey() {
-        return studyGrantRequestData.getAccountKey();
     }
   
     public final void setHasRegionalCouncilHelp(final Boolean hasRegionalCouncilHelp) {
@@ -582,15 +554,6 @@ public class StudyGrantRequest extends Request implements Serializable {
     
     public final String getAccountHolderFirstName() {
         return studyGrantRequestData.getAccountHolderFirstName();
-    }
-  
-    public final void setAccountNumber(final String accountNumber) {
-        studyGrantRequestData.setAccountNumber(accountNumber);
-    }
-
-    
-    public final String getAccountNumber() {
-        return studyGrantRequestData.getAccountNumber();
     }
   
     public final void setDistance(final fr.cg95.cvq.business.request.school.DistanceType distance) {
@@ -710,15 +673,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         return studyGrantRequestData.getTaxHouseholdFirstName();
     }
   
-    public final void setBankCode(final String bankCode) {
-        studyGrantRequestData.setBankCode(bankCode);
-    }
-
-    
-    public final String getBankCode() {
-        return studyGrantRequestData.getBankCode();
-    }
-  
     public final void setSandwichCourses(final Boolean sandwichCourses) {
         studyGrantRequestData.setSandwichCourses(sandwichCourses);
     }
@@ -735,6 +689,14 @@ public class StudyGrantRequest extends Request implements Serializable {
     
     public final Boolean getAbroadInternship() {
         return studyGrantRequestData.getAbroadInternship();
+    }
+  
+    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
+        studyGrantRequestData.setFrenchRIB(frenchRIB);
+    }
+
+    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
+        return studyGrantRequestData.getFrenchRIB();
     }
   
     public final void setCurrentStudiesDiploma(final fr.cg95.cvq.business.request.school.CurrentStudiesType currentStudiesDiploma) {

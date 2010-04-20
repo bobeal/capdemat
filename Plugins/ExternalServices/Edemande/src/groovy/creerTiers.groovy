@@ -36,12 +36,12 @@
           <msDescription>Virement bancaire</msDescription>
         </moModePaiement>
         <moAgence>
-          <miBanque>${bankCode}</miBanque>
-          <miAgence>${counterCode}</miAgence>
+          <miBanque>${frenchRIB.bankCode}</miBanque>
+          <miAgence>${frenchRIB.counterCode}</miAgence>
           <msLibelle></msLibelle>
         </moAgence>
-        <msCompte>${accountNumber}</msCompte>
-        <miCleRib>${accountKey}</miCleRib>
+        <msCompte>${frenchRIB.accountNumber}</msCompte>
+        <miCleRib>${frenchRIB.accountKey}</miCleRib>
         <mbEtranger>false</mbEtranger>
         <mbIban>false</mbIban>
         <mbUsuel>true</mbUsuel>

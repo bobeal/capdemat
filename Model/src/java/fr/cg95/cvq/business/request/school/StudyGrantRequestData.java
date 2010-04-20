@@ -375,56 +375,6 @@ public class StudyGrantRequestData implements Serializable {
     }
   
     
-      @MaxLength(
-        
-          value = 5,
-        
-        
-        profiles = {"bankReference"},
-        message = "counterCode"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"bankReference"},
-        message = "counterCode"
-      )
-    
-      @MatchPattern(
-        
-          pattern = "^\\d{1,5}$",
-        
-        
-        profiles = {"bankReference"},
-        message = "counterCode"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"bankReference"},
-        message = "counterCode"
-      )
-    
-    private String counterCode;
-
-    public final void setCounterCode(final String counterCode) {
-        this.counterCode = counterCode;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="counter_code"
-        *  length="5"
-      
-    */
-    public final String getCounterCode() {
-        return this.counterCode;
-    }
-  
-    
       @LocalReferential(
         
         
@@ -615,56 +565,6 @@ public class StudyGrantRequestData implements Serializable {
     */
     public final String getAbroadInternshipSchoolName() {
         return this.abroadInternshipSchoolName;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 2,
-        
-        
-        profiles = {"bankReference"},
-        message = "accountKey"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"bankReference"},
-        message = "accountKey"
-      )
-    
-      @MatchPattern(
-        
-          pattern = "^\\d{1,2}$",
-        
-        
-        profiles = {"bankReference"},
-        message = "accountKey"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"bankReference"},
-        message = "accountKey"
-      )
-    
-    private String accountKey;
-
-    public final void setAccountKey(final String accountKey) {
-        this.accountKey = accountKey;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="account_key"
-        *  length="2"
-      
-    */
-    public final String getAccountKey() {
-        return this.accountKey;
     }
   
     
@@ -1001,56 +901,6 @@ public class StudyGrantRequestData implements Serializable {
     */
     public final String getAccountHolderFirstName() {
         return this.accountHolderFirstName;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 11,
-        
-        
-        profiles = {"bankReference"},
-        message = "accountNumber"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"bankReference"},
-        message = "accountNumber"
-      )
-    
-      @MatchPattern(
-        
-          pattern = "^[a-zA-Z0-9]{1,11}$",
-        
-        
-        profiles = {"bankReference"},
-        message = "accountNumber"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"bankReference"},
-        message = "accountNumber"
-      )
-    
-    private String accountNumber;
-
-    public final void setAccountNumber(final String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="account_number"
-        *  length="11"
-      
-    */
-    public final String getAccountNumber() {
-        return this.accountNumber;
     }
   
     
@@ -1480,56 +1330,6 @@ public class StudyGrantRequestData implements Serializable {
     }
   
     
-      @MaxLength(
-        
-          value = 5,
-        
-        
-        profiles = {"bankReference"},
-        message = "bankCode"
-      )
-    
-      @NotNull(
-        
-        
-        profiles = {"bankReference"},
-        message = "bankCode"
-      )
-    
-      @MatchPattern(
-        
-          pattern = "^\\d{1,5}$",
-        
-        
-        profiles = {"bankReference"},
-        message = "bankCode"
-      )
-    
-      @NotBlank(
-        
-        
-        profiles = {"bankReference"},
-        message = "bankCode"
-      )
-    
-    private String bankCode;
-
-    public final void setBankCode(final String bankCode) {
-        this.bankCode = bankCode;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="bank_code"
-        *  length="5"
-      
-    */
-    public final String getBankCode() {
-        return this.bankCode;
-    }
-  
-    
       @NotNull(
         
         
@@ -1577,6 +1377,39 @@ public class StudyGrantRequestData implements Serializable {
     */
     public final Boolean getAbroadInternship() {
         return this.abroadInternship;
+    }
+  
+    
+      @NotNull(
+        
+        
+        profiles = {"bankReference"},
+        message = "frenchRIB"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"bankReference"},
+        message = "frenchRIB"
+      )
+    
+    private fr.cg95.cvq.business.users.FrenchRIB frenchRIB;
+
+    public final void setFrenchRIB(final fr.cg95.cvq.business.users.FrenchRIB frenchRIB) {
+        this.frenchRIB = frenchRIB;
+    }
+
+    /**
+ 
+        * @hibernate.many-to-one
+        *  cascade="all"
+        *  column="french_r_i_b_id"
+        *  class="fr.cg95.cvq.business.users.FrenchRIB"
+      
+    */
+    public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
+        return this.frenchRIB;
     }
   
     

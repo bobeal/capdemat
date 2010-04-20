@@ -2,6 +2,6 @@
   <nom>${lastName}</nom>
   <infoRIB>
     <type>RIB</type>
-    <numero>${bankCode} ${counterCode} ${accountNumber} ${accountKey}</numero>
+    <numero>${frenchRIB.bankCode} ${frenchRIB.counterCode} ${frenchRIB.accountNumber} ${frenchRIB.accountKey}</numero>
   </infoRIB>
 </rechercheTiers>

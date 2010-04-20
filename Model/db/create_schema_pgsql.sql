@@ -362,6 +362,9 @@
     alter table study_grant_request 
         drop constraint FK7D2F0A7687B85F15;
 
+    alter table study_grant_request 
+        drop constraint FK7D2F0A761EE1CD99;
+
     alter table study_grant_request_current_school_name 
         drop constraint FK49484F6719BB0CC1;
 
@@ -445,6 +448,8 @@
     drop table external_service_traces;
 
     drop table forms;
+
+    drop table french_r_i_b;
 
     drop table global_request_type_configuration;
 
@@ -964,6 +969,15 @@
         request_form_id int8 not null,
         request_type_id int8 not null,
         primary key (request_form_id, request_type_id)
+    );
+
+    create table french_r_i_b (
+        id int8 not null,
+        bank_code int4 not null,
+        counter_code int4 not null,
+        account_number varchar(11) not null,
+        account_key int4 not null,
+        primary key (id)
     );
 
     create table global_request_type_configuration (
@@ -2076,12 +2090,10 @@
         subject_phone varchar(10),
         alevels_date varchar(4),
         account_holder_birth_date timestamp,
-        counter_code varchar(5),
         account_holder_title varchar(255),
         abroad_internship_school_country varchar(255),
         tax_household_last_name varchar(38),
         abroad_internship_school_name varchar(255),
-        account_key varchar(2),
         has_regional_council_help bool,
         tax_household_city_precision varchar(255),
         current_studies_level varchar(255),
@@ -2090,7 +2102,6 @@
         account_holder_last_name varchar(38),
         has_c_r_o_u_s_help bool,
         account_holder_first_name varchar(38),
-        account_number varchar(11),
         distance varchar(255),
         alevels varchar(255),
         is_subject_account_holder bool,
@@ -2104,9 +2115,9 @@
         has_europe_help bool,
         account_holder_edemande_id varchar(255),
         tax_household_first_name varchar(38),
-        bank_code varchar(5),
         sandwich_courses bool,
         abroad_internship bool,
+        french_r_i_b_id int8,
         current_studies_diploma varchar(255),
         primary key (id)
     );
@@ -2757,6 +2768,11 @@
         add constraint FK7D2F0A7687B85F15 
         foreign key (subject_address_id) 
         references address;
+
+    alter table study_grant_request 
+        add constraint FK7D2F0A761EE1CD99 
+        foreign key (french_r_i_b_id) 
+        references french_r_i_b;
 
     alter table study_grant_request_current_school_name 
         add constraint FK49484F6719BB0CC1 

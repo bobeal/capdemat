@@ -14,6 +14,7 @@ import com.unilog.gda.edem.service.VerifierRIBResponseDocument;
 import com.unilog.gda.glob.service.GestionCompteResponseDocument;
 
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.xml.common.FrenchRIBType;
 
 public interface IEdemandeClient {
 
@@ -44,6 +45,6 @@ public interface IEdemandeClient {
     ExistenceCommunePostaleResponseDocument existenceCommunePostale(String postalCode, String city)
         throws CvqException;
 
-    VerifierRIBResponseDocument verifierRIB(String bankCode, String counterCode, String accountNumber, String accountKey)
+    VerifierRIBResponseDocument verifierRIB(FrenchRIBType frenchRIB)
         throws CvqException;
 }

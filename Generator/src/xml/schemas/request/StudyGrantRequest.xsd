@@ -525,125 +525,21 @@
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
-            <xs:element name="BankCode">
+            <xs:element name="FrenchRIB" type="cvq:FrenchRIBType">
               <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Code banque
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Bank code
-                </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Code banque
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Bank code
+                  Relevé d'identité bancaire
                 </xs:documentation>
                 <xs:appinfo>
+                  <model namespace="users" isTiedToRequest="true" />
                   <common>
                     <step name="bankReference" />
-                    <validation jsregexp="^\d{1,5}$" />
                   </common>
                   <pdf />
                   <fo />
                   <bo column="1" />
                 </xs:appinfo>
               </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="5" />
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:element>
-            <xs:element name="CounterCode">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Code guichet
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Couter code
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Code guichet
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Counter code
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="bankReference" />
-                    <validation jsregexp="^\d{1,5}$" />
-                  </common>
-                  <pdf />
-                  <fo />
-                  <bo column="1" />
-                </xs:appinfo>
-              </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="5" />
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:element>
-            <xs:element name="AccountNumber">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Numéro de compte
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Account number
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Numéro de compte
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Account number
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="bankReference" />
-                    <validation jsregexp="^[a-zA-Z0-9]{1,11}$" />
-                  </common>
-                  <pdf />
-                  <fo />
-                  <bo column="1" />
-                </xs:appinfo>
-              </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="11" />
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:element>
-            <xs:element name="AccountKey">
-              <xs:annotation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Clé RIB
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Account key
-                </xs:documentation>
-                <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Clé RIB
-                </xs:documentation>
-                <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Account key
-                </xs:documentation>
-                <xs:appinfo>
-                  <common>
-                    <step name="bankReference" />
-                    <validation jsregexp="^\d{1,2}$" />
-                  </common>
-                  <pdf />
-                  <fo />
-                  <bo column="1" />
-                </xs:appinfo>
-              </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="2" />
-                </xs:restriction>
-              </xs:simpleType>
             </xs:element>
             <xs:element name="EdemandeId" type="xs:string">
               <xs:annotation>

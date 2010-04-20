@@ -114,16 +114,6 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("CounterCode".length() > 5)
-                  request.setCounterCode("CounterCode".substring(0, 5));
-              else
-                  request.setCounterCode("CounterCode");
-            
-          
-        
-          
-          
-            
             
           
         
@@ -155,16 +145,6 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
           
             
                request.setAbroadInternshipSchoolName("AbroadInternshipSchoolName");
-            
-          
-        
-          
-          
-            
-              if ("AccountKey".length() > 2)
-                  request.setAccountKey("AccountKey".substring(0, 2));
-              else
-                  request.setAccountKey("AccountKey");
             
           
         
@@ -224,16 +204,6 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
                   request.setAccountHolderFirstName("AccountHolderFirstName".substring(0, 38));
               else
                   request.setAccountHolderFirstName("AccountHolderFirstName");
-            
-          
-        
-          
-          
-            
-              if ("AccountNumber".length() > 11)
-                  request.setAccountNumber("AccountNumber".substring(0, 11));
-              else
-                  request.setAccountNumber("AccountNumber");
             
           
         
@@ -329,22 +299,18 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
         
           
           
-            
-              if ("BankCode".length() > 5)
-                  request.setBankCode("BankCode".substring(0, 5));
-              else
-                  request.setBankCode("BankCode");
-            
-          
-        
-          
-          
                request.setSandwichCourses(Boolean.valueOf(true));
           
         
           
           
                request.setAbroadInternship(Boolean.valueOf(true));
+          
+        
+          
+          
+            
+            
           
         
           

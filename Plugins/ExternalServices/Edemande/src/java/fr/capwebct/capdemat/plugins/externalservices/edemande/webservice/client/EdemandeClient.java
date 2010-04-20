@@ -1,8 +1,5 @@
 package fr.capwebct.capdemat.plugins.externalservices.edemande.webservice.client;
 
-import fr.cg95.cvq.exception.CvqException;
-import groovy.text.TemplateEngine;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -45,6 +42,10 @@ import com.unilog.gda.edem.service.VerifierRIBDocument.VerifierRIB;
 import com.unilog.gda.glob.service.GestionCompteDocument;
 import com.unilog.gda.glob.service.GestionCompteResponseDocument;
 import com.unilog.gda.glob.service.GestionCompteDocument.GestionCompte;
+
+import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.xml.common.FrenchRIBType;
+import groovy.text.TemplateEngine;
 
 public class EdemandeClient implements IEdemandeClient {
 
@@ -291,14 +292,14 @@ public class EdemandeClient implements IEdemandeClient {
         return result;
     }
 
-    public VerifierRIBResponseDocument verifierRIB(String bankCode, String counterCode, String accountNumber, String accountKey)
+    public VerifierRIBResponseDocument verifierRIB(FrenchRIBType frenchRIB)
         throws CvqException {
         VerifierRIBDocument verifierRIBDocument = VerifierRIBDocument.Factory.newInstance();
         VerifierRIB verifierRIB = verifierRIBDocument.addNewVerifierRIB();
-        verifierRIB.setPsBanque(bankCode);
-        verifierRIB.setPsAgence(counterCode);
-        verifierRIB.setPsCompte(accountNumber);
-        verifierRIB.setPsCle(accountKey);
+        verifierRIB.setPsBanque(new Integer(frenchRIB.getBankCode()).toString());
+        verifierRIB.setPsAgence(new Integer(frenchRIB.getCounterCode()).toString());
+        verifierRIB.setPsCompte(frenchRIB.getAccountNumber());
+        verifierRIB.setPsCle(new Integer(frenchRIB.getAccountKey()).toString());
         logger.debug("verifierRIB() got payload : " + verifierRIB.xmlText());
         VerifierRIBResponseDocument result;
         try {

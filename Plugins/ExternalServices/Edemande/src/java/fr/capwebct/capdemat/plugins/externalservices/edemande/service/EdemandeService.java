@@ -231,10 +231,7 @@ public class EdemandeService implements IExternalProviderService {
         String lastName, Calendar birthDate, String subkey) {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("lastName", StringUtils.upperCase(lastName));
-        model.put("bankCode", sgr.getBankCode());
-        model.put("counterCode", sgr.getCounterCode());
-        model.put("accountNumber", sgr.getAccountNumber());
-        model.put("accountKey", sgr.getAccountKey());
+        model.put("frenchRIB", sgr.getFrenchRIB());
         String searchResults;
         int resultsNumber;
         try {
@@ -331,10 +328,7 @@ public class EdemandeService implements IExternalProviderService {
             StringUtils.defaultString(sgr.getSubject().getIndividual().getBirthPlace().getCity())
             : "");
         model.put("birthDate", formatDate(sgr.getSubjectInformations().getSubjectBirthDate()));
-        model.put("bankCode", sgr.getBankCode());
-        model.put("counterCode", sgr.getCounterCode());
-        model.put("accountNumber", sgr.getAccountNumber());
-        model.put("accountKey", sgr.getAccountKey());
+        model.put("frenchRIB", sgr.getFrenchRIB());
         try {
             model.put("email",
                 StringUtils.defaultIfEmpty(sgr.getSubjectInformations().getSubjectEmail(),
@@ -366,10 +360,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("firstName", WordUtils.capitalizeFully(
             sgr.getAccountHolderFirstName(), new char[]{' ', '-'}));
         model.put("birthDate", formatDate(sgr.getAccountHolderBirthDate()));
-        model.put("bankCode", sgr.getBankCode());
-        model.put("counterCode", sgr.getCounterCode());
-        model.put("accountNumber", sgr.getAccountNumber());
-        model.put("accountKey", sgr.getAccountKey());
+        model.put("frenchRIB", sgr.getFrenchRIB());
         try {
             //FIXME placeholder
             model.put("email",
@@ -412,10 +403,7 @@ public class EdemandeService implements IExternalProviderService {
         } else if (sgr.getSubjectInformations().getSubjectMobilePhone() != null && !sgr.getSubjectInformations().getSubjectMobilePhone().trim().isEmpty()) {
             model.put("phone", sgr.getSubjectInformations().getSubjectMobilePhone());
         }
-        model.put("bankCode", sgr.getBankCode());
-        model.put("counterCode", sgr.getCounterCode());
-        model.put("accountNumber", sgr.getAccountNumber());
-        model.put("accountKey", sgr.getAccountKey());
+        model.put("frenchRIB", sgr.getFrenchRIB());
         model.put("firstRequest", sgr.getSubjectInformations().getSubjectFirstRequest());
         model.put("creationDate", formatDate(sgr.getCreationDate()));
         model.put("taxHouseholdCityCode",
@@ -569,7 +557,7 @@ public class EdemandeService implements IExternalProviderService {
             if (!"0".equals(parseData(postalCodeAndCityCheck, "//FluxWebService/msCodeRet"))) {
                 result.add(parseData(postalCodeAndCityCheck, "//FluxWebService/erreur/message"));
             }
-            String bankInformationsCheck = edemandeClient.verifierRIB(sgr.getBankCode(), sgr.getCounterCode(), sgr.getAccountNumber(), sgr.getAccountKey()).getVerifierRIBResponse().getReturn();
+            String bankInformationsCheck = edemandeClient.verifierRIB(sgr.getFrenchRIB()).getVerifierRIBResponse().getReturn();
             if (!"0".equals(parseData(bankInformationsCheck, "//FluxWebService/msCodeRet"))) {
                 result.add(parseData(bankInformationsCheck, "//FluxWebService/erreur/message"));
             }

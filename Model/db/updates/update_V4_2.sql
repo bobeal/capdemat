@@ -497,3 +497,39 @@ alter table request_admin_action_complementary_data
 -- Remove xslFo Plugin 
 alter table request_form drop column xsl_fo_filename;
 
+create table french_r_i_b (
+    id int8 not null,
+    bank_code int4 not null,
+    counter_code int4 not null,
+    account_number varchar(11) not null,
+    account_key int4 not null,
+    primary key (id)
+);
+
+alter table study_grant_request add column french_r_i_b_id int8;
+
+create or replace function migrate_ribs() returns void as $$
+  declare
+    current_record record;
+  begin
+    for current_record in select * from study_grant_request loop
+      update study_grant_request set french_r_i_b_id = nextval('hibernate_sequence')
+        where id = current_record.id;
+      insert into french_r_i_b(id, bank_code, counter_code, account_number, account_key)
+        values (currval('hibernate_sequence'), cast(current_record.bank_code as int),
+          cast(current_record.counter_code as int), current_record.account_number, cast(current_record.bank_code as int));
+    end loop;
+  end;
+$$ LANGUAGE plpgsql;
+
+select * from migrate_ribs();
+
+alter table study_grant_request
+    add constraint FK7D2F0A761EE1CD99
+    foreign key (french_r_i_b_id)
+    references french_r_i_b;
+
+alter table study_grant_request drop column bank_code;
+alter table study_grant_request drop column counter_code;
+alter table study_grant_request drop column account_number;
+alter table study_grant_request drop column account_key;

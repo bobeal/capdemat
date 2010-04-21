@@ -30,7 +30,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = SmsNotificationRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private SmsNotificationRequestData smsNotificationRequestData;
 
     public SmsNotificationRequest(RequestData requestData, SmsNotificationRequestData smsNotificationRequestData) {

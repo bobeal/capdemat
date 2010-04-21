@@ -30,7 +30,7 @@ public class PlaceReservationRequest extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = PlaceReservationRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private PlaceReservationRequestData placeReservationRequestData;
 
     public PlaceReservationRequest(RequestData requestData, PlaceReservationRequestData placeReservationRequestData) {

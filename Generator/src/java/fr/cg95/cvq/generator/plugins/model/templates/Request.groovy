@@ -164,7 +164,7 @@ public class ${requestName} extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = ${requestName}Data.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private ${requestName}Data ${returnInstance}Data;
 
     public ${requestName}(RequestData requestData, ${requestName}Data ${returnInstance}Data) {

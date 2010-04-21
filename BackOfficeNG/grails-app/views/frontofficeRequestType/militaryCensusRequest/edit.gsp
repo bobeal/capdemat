@@ -393,7 +393,7 @@
             <g:if test="${!hasHomeFolder}">
               <g:render template="/frontofficeRequestType/outOfAccountValidation" />
             </g:if>
-            <div id="useAcceptance">
+            <div id="useAcceptance" class="${stepStates != null && stepStates['validation']?.invalidFields.contains('useAcceptance') ? 'validation-failed' : ''}">
              <input type="checkbox" name="useAcceptance" class="required validate-one-required"
                     title="${message(code:'request.error.useAcceptanceRequired')}" />
              <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'use')}" target="blank">

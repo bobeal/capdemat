@@ -35,6 +35,19 @@
           </g:if>
           </dd>
           """
+      ,'frenchRIB' :
+          """
+          <dd>
+          <g:if test="\${${wrapper}.${element.javaFieldName}}">
+            <p>
+              \${${wrapper}.${element.javaFieldName}?.bankCode}
+              \${${wrapper}.${element.javaFieldName}?.counterCode}
+              \${${wrapper}.${element.javaFieldName}?.accountNumber}
+              \${${wrapper}.${element.javaFieldName}?.accountKey}
+            </p>
+          </g:if>
+          </dd>
+          """
       ,'localReferentialData' :
           """
           <dd>

@@ -351,25 +351,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="sgr.property.bankCode.label" /> * : </dt><dd id="bankCode" class="action-editField validate-regex required-true i18n-sgr.property.bankCode maxLength-5" regex="^\d{1,5}$"><span>${rqt?.bankCode}</span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="sgr.property.counterCode.label" /> * : </dt><dd id="counterCode" class="action-editField validate-regex required-true i18n-sgr.property.counterCode maxLength-5" regex="^\d{1,5}$"><span>${rqt?.counterCode}</span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="sgr.property.accountNumber.label" /> * : </dt><dd id="accountNumber" class="action-editField validate-regex required-true i18n-sgr.property.accountNumber maxLength-11" regex="^[a-zA-Z0-9]{1,11}$"><span>${rqt?.accountNumber}</span></dd>
-              </dl>
-              
-            
-              
-              <dl>
-                <dt class="required"><g:message code="sgr.property.accountKey.label" /> * : </dt><dd id="accountKey" class="action-editField validate-regex required-true i18n-sgr.property.accountKey maxLength-2" regex="^\d{1,2}$"><span>${rqt?.accountKey}</span></dd>
+                <dt class="required"><g:message code="sgr.property.frenchRIB.label" /> * : </dt><dd id="frenchRIB" class="action-editField validate-frenchRIB required-true i18n-sgr.property.frenchRIB" ><span>${rqt?.frenchRIB}</span></dd>
               </dl>
               
             

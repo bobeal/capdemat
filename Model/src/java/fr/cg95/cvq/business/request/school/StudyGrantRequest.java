@@ -30,7 +30,7 @@ public class StudyGrantRequest extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = StudyGrantRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private StudyGrantRequestData studyGrantRequestData;
 
     public StudyGrantRequest(RequestData requestData, StudyGrantRequestData studyGrantRequestData) {

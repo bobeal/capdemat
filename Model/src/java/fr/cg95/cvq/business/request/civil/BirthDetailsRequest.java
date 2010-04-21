@@ -30,7 +30,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = BirthDetailsRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private BirthDetailsRequestData birthDetailsRequestData;
 
     public BirthDetailsRequest(RequestData requestData, BirthDetailsRequestData birthDetailsRequestData) {

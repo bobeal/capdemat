@@ -30,7 +30,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
 
     public static final Map<String, IConditionChecker> conditions = TechnicalInterventionRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private TechnicalInterventionRequestData technicalInterventionRequestData;
 
     public TechnicalInterventionRequest(RequestData requestData, TechnicalInterventionRequestData technicalInterventionRequestData) {

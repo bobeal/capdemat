@@ -30,7 +30,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
 
     public static final Map<String, IConditionChecker> conditions = PerischoolActivityRegistrationRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private PerischoolActivityRegistrationRequestData perischoolActivityRegistrationRequestData;
 
     public PerischoolActivityRegistrationRequest(RequestData requestData, PerischoolActivityRegistrationRequestData perischoolActivityRegistrationRequestData) {

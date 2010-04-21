@@ -96,6 +96,7 @@ h2.request-creation { margin: 0; color: #DB4366; }
 }
 
 /* TODO - generalize address-fieldset as sub-fieldset selector */
+#requestTabView .frenchRIB-fieldset,
 #requestTabView .address-fieldset {
   width: 80%;
   margin: 0 0 1em; padding: .5em;
@@ -107,6 +108,11 @@ h2.request-creation { margin: 0; color: #DB4366; }
 #requestTabView .address-fieldset label { display: inline; padding-top: .5em; color: #333; }
 #requestTabView .address-fieldset input[type="text"].line1 { display: inline; width: 15%; }
 #requestTabView .address-fieldset input[type="text"].line2 { display: inline; width: 82%; }
+
+#requestTabView .frenchRIB-fieldset input,
+#requestTabView .frenchRIB-fieldset label {
+  display: inline;
+}
 
 #requestTabView p.document-button { margin: 3em 0 0; text-align: center; font-size: 1.2em; }
 #requestTabView .document-add-new { text-align: right; }

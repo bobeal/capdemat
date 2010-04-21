@@ -30,7 +30,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
 
     public static final Map<String, IConditionChecker> conditions = SchoolCanteenRegistrationRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private SchoolCanteenRegistrationRequestData schoolCanteenRegistrationRequestData;
 
     public SchoolCanteenRegistrationRequest(RequestData requestData, SchoolCanteenRegistrationRequestData schoolCanteenRegistrationRequestData) {

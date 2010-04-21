@@ -30,7 +30,7 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
 
     public static final Map<String, IConditionChecker> conditions = CompostableWasteCollectionRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private CompostableWasteCollectionRequestData compostableWasteCollectionRequestData;
 
     public CompostableWasteCollectionRequest(RequestData requestData, CompostableWasteCollectionRequestData compostableWasteCollectionRequestData) {

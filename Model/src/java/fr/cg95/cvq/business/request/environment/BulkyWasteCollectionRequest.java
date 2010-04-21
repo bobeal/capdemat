@@ -30,7 +30,7 @@ public class BulkyWasteCollectionRequest extends Request implements Serializable
 
     public static final Map<String, IConditionChecker> conditions = BulkyWasteCollectionRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private BulkyWasteCollectionRequestData bulkyWasteCollectionRequestData;
 
     public BulkyWasteCollectionRequest(RequestData requestData, BulkyWasteCollectionRequestData bulkyWasteCollectionRequestData) {

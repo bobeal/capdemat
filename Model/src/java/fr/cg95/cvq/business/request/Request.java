@@ -44,7 +44,7 @@ public class Request implements Serializable {
     public static final String QUALITY_TYPE_ORANGE = "qualityTypeOrange";
     public static final String QUALITY_TYPE_RED = "qualityTypeRed";
 
-    @AssertValid
+    @AssertValid(message = "")
     private RequestData requestData;
 
     public Request(RequestData requestData) {

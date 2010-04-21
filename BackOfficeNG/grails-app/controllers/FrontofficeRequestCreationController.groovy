@@ -26,7 +26,8 @@ import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.translation.ITranslationService;
 
 import grails.converters.JSON
-import net.sf.oval.Validator;
+import net.sf.oval.Validator
+import net.sf.oval.context.ClassContext
 
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
@@ -655,29 +656,50 @@ class FrontofficeRequestCreationController {
     private validateRequest(cRequest, steps) {
         Validator validator = new Validator()
         validator.disableAllProfiles()
-        if (steps == null)
+        if (steps == null) {
             validator.enableAllProfiles()
-        else {
+            validator.disableProfile("administration")
+        } else {
             validator.enableProfile("default")
             steps.each { validator.enableProfile(it) }
         }
         def invalidFields = [:]
         validator.validate(cRequest).each {
-            collectInvalidFields(it, invalidFields)
+            collectInvalidFields(it, invalidFields, "", "")
+        }
+        if (validator.isProfileEnabled("validation")
+            && (params.useAcceptance == null || !params.useAcceptance)) {
+            if (invalidFields["validation"] == null)
+                invalidFields["validation"] = []
+            invalidFields["validation"].add("useAcceptance")
         }
         if (!invalidFields.isEmpty()) throw new CvqValidationException(invalidFields)
     }
 
-    private collectInvalidFields(violation, fields) {
+    private collectInvalidFields(violation, fields, prefix, stepName) {
         if (violation.causes == null) {
-            def stepName =
-                violation.context.field.getAnnotation(Class.forName(violation.errorCode))
-                    .profiles()[0]
+            def field
+            if (violation.context instanceof ClassContext)
+                field = prefix
+            else {
+                def profiles =
+                    violation.context.field.getAnnotation(Class.forName(violation.errorCode))
+                        .profiles()
+                if (profiles != null && profiles.length >0)
+                    stepName = profiles[0]
+                field = (prefix != "" ? prefix + '.' : "") + violation.message
+            }
             if (fields[stepName] == null)
                 fields[stepName] = []
-            fields[stepName].add(violation.message)
-        } else
-            violation.causes.each { collectInvalidFields(it, fields) }
+            fields[stepName].add(field)
+        } else {
+            def profiles =
+                violation.context.field.getAnnotation(Class.forName(violation.errorCode))
+                    .profiles()
+            if (profiles != null && profiles.length > 0)
+                stepName = profiles[0]
+            violation.causes.each { collectInvalidFields(it, fields, violation.message, stepName) }
+        }
     }
 
     /* Home Folder Modification

@@ -391,22 +391,18 @@
     
   
     
-      <p class="label">${i18n.translate('sgr.property.bankCode.label')}</p><div class="response">${StringUtils.defaultString(rqt.bankCode?.toString())}</div>
-
-    
-  
-    
-      <p class="label">${i18n.translate('sgr.property.counterCode.label')}</p><div class="response">${StringUtils.defaultString(rqt.counterCode?.toString())}</div>
-
-    
-  
-    
-      <p class="label">${i18n.translate('sgr.property.accountNumber.label')}</p><div class="response">${StringUtils.defaultString(rqt.accountNumber?.toString())}</div>
-
-    
-  
-    
-      <p class="label">${i18n.translate('sgr.property.accountKey.label')}</p><div class="response">${StringUtils.defaultString(rqt.accountKey?.toString())}</div>
+      <p class="label">${i18n.translate('sgr.property.frenchRIB.label')}</p>
+          <div class="response">
+            <% if(rqt.frenchRIB) { %>
+              <p>
+                ${rqt.frenchRIB?.bankCode}
+                ${rqt.frenchRIB?.counterCode}
+                ${rqt.frenchRIB?.accountNumber}
+                ${rqt.frenchRIB?.accountKey}
+              </p>
+            <% } %>
+          </div>
+          
 
     
   

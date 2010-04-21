@@ -30,7 +30,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
 
     public static final Map<String, IConditionChecker> conditions = RecreationActivityRegistrationRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private RecreationActivityRegistrationRequestData recreationActivityRegistrationRequestData;
 
     public RecreationActivityRegistrationRequest(RequestData requestData, RecreationActivityRegistrationRequestData recreationActivityRegistrationRequestData) {

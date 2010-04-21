@@ -30,7 +30,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = HolidaySecurityRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private HolidaySecurityRequestData holidaySecurityRequestData;
 
     public HolidaySecurityRequest(RequestData requestData, HolidaySecurityRequestData holidaySecurityRequestData) {

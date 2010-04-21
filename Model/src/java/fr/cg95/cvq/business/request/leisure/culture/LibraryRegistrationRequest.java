@@ -30,7 +30,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
 
     public static final Map<String, IConditionChecker> conditions = LibraryRegistrationRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private LibraryRegistrationRequestData libraryRegistrationRequestData;
 
     public LibraryRegistrationRequest(RequestData requestData, LibraryRegistrationRequestData libraryRegistrationRequestData) {

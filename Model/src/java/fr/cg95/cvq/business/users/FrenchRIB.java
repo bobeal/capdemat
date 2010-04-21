@@ -48,24 +48,31 @@ public class FrenchRIB implements Historizable, Serializable, Cloneable {
 
     private Long id;
 
-    @NotNull
-    @Min(value = 1)
-    @Max(value = 99999)
+    @NotNull(message = "bankCode")
+    @Min(value = 1, message = "bankCode")
+    @Max(value = 99999, message = "bankCode")
     private Integer bankCode;
 
-    @NotNull
-    @Min(value = 1)
-    @Max(value = 99999)
+    @NotNull(message = "counterCode")
+    @Min(value = 1, message = "counterCode")
+    @Max(value = 99999, message = "counterCode")
     private Integer counterCode;
 
-    @NotNull
-    @MatchPattern(pattern = {"^[a-zA-Z0-9]{1,11}$"})
+    @NotNull(message = "accountNumber")
+    @MatchPattern(pattern = {"^[a-zA-Z0-9]{1,11}$"}, message = "accountNumber")
     private String accountNumber;
 
-    @NotNull
-    @Min(value = 1)
-    @Max(value = 97)
+    @NotNull(message = "accountKey")
+    @Min(value = 1, message = "accountKey")
+    @Max(value = 97, message = "accountKey")
     private Integer accountKey;
+
+    public String format() {
+        return (bankCode == null ? "00000" : StringUtils.leftPad(bankCode.toString(), 5, '0'))
+            + (counterCode == null ? "00000" : StringUtils.leftPad(counterCode.toString(), 5, '0'))
+            + StringUtils.leftPad(accountNumber, 11, '0')
+            + (accountKey == null ? "00" : StringUtils.leftPad(accountKey.toString(), 2, '0'));
+    }
 
     /**
      * @hibernate.id
@@ -132,13 +139,5 @@ public class FrenchRIB implements Historizable, Serializable, Cloneable {
 
     public void setAccountKey(Integer accountKey) {
         this.accountKey = accountKey;
-    }
-
-    @Override
-    public String toString() {
-        return StringUtils.leftPad(bankCode.toString(), 5, '0')
-            + StringUtils.leftPad(counterCode.toString(), 5, '0')
-            + StringUtils.leftPad(accountNumber, 11, '0')
-            + StringUtils.leftPad(accountKey.toString(), 2, '0');
     }
 }

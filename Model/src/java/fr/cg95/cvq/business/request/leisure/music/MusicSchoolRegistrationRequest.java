@@ -30,7 +30,7 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
 
     public static final Map<String, IConditionChecker> conditions = MusicSchoolRegistrationRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private MusicSchoolRegistrationRequestData musicSchoolRegistrationRequestData;
 
     public MusicSchoolRegistrationRequest(RequestData requestData, MusicSchoolRegistrationRequestData musicSchoolRegistrationRequestData) {

@@ -30,7 +30,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
 
     public static final Map<String, IConditionChecker> conditions = ElectoralRollRegistrationRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private ElectoralRollRegistrationRequestData electoralRollRegistrationRequestData;
 
     public ElectoralRollRegistrationRequest(RequestData requestData, ElectoralRollRegistrationRequestData electoralRollRegistrationRequestData) {

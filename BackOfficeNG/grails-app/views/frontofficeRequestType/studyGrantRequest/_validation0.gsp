@@ -320,28 +320,18 @@
     
       
       <dl>
-        <dt><g:message code="sgr.property.bankCode.label" /></dt><dd>${rqt.bankCode?.toString()}</dd>
-
-      </dl>
-      
-    
-      
-      <dl>
-        <dt><g:message code="sgr.property.counterCode.label" /></dt><dd>${rqt.counterCode?.toString()}</dd>
-
-      </dl>
-      
-    
-      
-      <dl>
-        <dt><g:message code="sgr.property.accountNumber.label" /></dt><dd>${rqt.accountNumber?.toString()}</dd>
-
-      </dl>
-      
-    
-      
-      <dl>
-        <dt><g:message code="sgr.property.accountKey.label" /></dt><dd>${rqt.accountKey?.toString()}</dd>
+        <dt><g:message code="sgr.property.frenchRIB.label" /></dt>
+          <dd>
+          <g:if test="${rqt.frenchRIB}">
+            <p>
+              ${rqt.frenchRIB?.bankCode}
+              ${rqt.frenchRIB?.counterCode}
+              ${rqt.frenchRIB?.accountNumber}
+              ${rqt.frenchRIB?.accountKey}
+            </p>
+          </g:if>
+          </dd>
+          
 
       </dl>
       

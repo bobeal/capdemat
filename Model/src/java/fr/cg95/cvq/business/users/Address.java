@@ -25,31 +25,31 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
     /** identifier field */
     private Long id;
 
-    @MaxLength(value = 38)
+    @MaxLength(value = 38, message = "additionalDeliveryInformation")
     private String additionalDeliveryInformation;
 
-    @MaxLength(value = 38)
+    @MaxLength(value = 38, message = "additionalGeographicalInformation")
     private String additionalGeographicalInformation;
 
-    @MaxLength(value = 5)
+    @MaxLength(value = 5, message = "streetNumber")
     private String streetNumber;
 
-    @NotNull
-    @MaxLength(value = 32)
+    @NotNull(message = "streetName")
+    @MaxLength(value = 32, message = "streetName")
     private String streetName;
 
-    @MaxLength(value = 38)
+    @MaxLength(value = 38, message = "placeNameOrService")
     private String placeNameOrService;
 
-    @NotNull
-    @MatchPattern(pattern = "[0-9]{5}")
+    @NotNull(message = "postalCode")
+    @MatchPattern(pattern = "[0-9]{5}", message = "postalCode")
     private String postalCode;
 
-    @NotNull
-    @MaxLength(value = 32)
+    @NotNull(message = "city")
+    @MaxLength(value = 32, message = "city")
     private String city;
 
-    @MaxLength(value = 38)
+    @MaxLength(value = 38, message = "countryName")
     private String countryName;
 
     public Address() {

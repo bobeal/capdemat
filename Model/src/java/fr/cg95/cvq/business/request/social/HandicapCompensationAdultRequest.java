@@ -30,7 +30,7 @@ public class HandicapCompensationAdultRequest extends Request implements Seriali
 
     public static final Map<String, IConditionChecker> conditions = HandicapCompensationAdultRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private HandicapCompensationAdultRequestData handicapCompensationAdultRequestData;
 
     public HandicapCompensationAdultRequest(RequestData requestData, HandicapCompensationAdultRequestData handicapCompensationAdultRequestData) {

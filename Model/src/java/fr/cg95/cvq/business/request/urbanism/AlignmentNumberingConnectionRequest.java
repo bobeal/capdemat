@@ -30,7 +30,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
 
     public static final Map<String, IConditionChecker> conditions = AlignmentNumberingConnectionRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private AlignmentNumberingConnectionRequestData alignmentNumberingConnectionRequestData;
 
     public AlignmentNumberingConnectionRequest(RequestData requestData, AlignmentNumberingConnectionRequestData alignmentNumberingConnectionRequestData) {

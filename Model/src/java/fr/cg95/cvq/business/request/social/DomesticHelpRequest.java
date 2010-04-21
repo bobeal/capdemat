@@ -30,7 +30,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = DomesticHelpRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private DomesticHelpRequestData domesticHelpRequestData;
 
     public DomesticHelpRequest(RequestData requestData, DomesticHelpRequestData domesticHelpRequestData) {

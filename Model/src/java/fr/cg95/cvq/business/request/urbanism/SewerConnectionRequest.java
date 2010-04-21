@@ -30,7 +30,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = SewerConnectionRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private SewerConnectionRequestData sewerConnectionRequestData;
 
     public SewerConnectionRequest(RequestData requestData, SewerConnectionRequestData sewerConnectionRequestData) {

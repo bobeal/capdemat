@@ -30,7 +30,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = MilitaryCensusRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private MilitaryCensusRequestData militaryCensusRequestData;
 
     public MilitaryCensusRequest(RequestData requestData, MilitaryCensusRequestData militaryCensusRequestData) {

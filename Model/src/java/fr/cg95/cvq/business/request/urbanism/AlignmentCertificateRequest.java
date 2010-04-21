@@ -30,7 +30,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
 
     public static final Map<String, IConditionChecker> conditions = AlignmentCertificateRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private AlignmentCertificateRequestData alignmentCertificateRequestData;
 
     public AlignmentCertificateRequest(RequestData requestData, AlignmentCertificateRequestData alignmentCertificateRequestData) {

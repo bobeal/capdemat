@@ -56,6 +56,19 @@
             ${toGT('}')}
           </div>
           """
+      ,'frenchRIB' :
+          """
+          <div class="response">
+            ${toGT("if(${wrapper}.${element.javaFieldName}) {")}
+              <p>
+                \${${wrapper}.${element.javaFieldName}?.bankCode}
+                \${${wrapper}.${element.javaFieldName}?.counterCode}
+                \${${wrapper}.${element.javaFieldName}?.accountNumber}
+                \${${wrapper}.${element.javaFieldName}?.accountKey}
+              </p>
+            ${toGT('}')}
+          </div>
+          """
       ,'localReferentialData' :
           """
           <div class="response choice">

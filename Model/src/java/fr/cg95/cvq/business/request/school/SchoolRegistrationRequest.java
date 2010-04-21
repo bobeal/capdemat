@@ -30,7 +30,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = SchoolRegistrationRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private SchoolRegistrationRequestData schoolRegistrationRequestData;
 
     public SchoolRegistrationRequest(RequestData requestData, SchoolRegistrationRequestData schoolRegistrationRequestData) {

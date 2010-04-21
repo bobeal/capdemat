@@ -52,33 +52,17 @@
   
 
   
-    <label for="bankCode" class="required"><g:message code="sgr.property.bankCode.label" /> *  <span><g:message code="sgr.property.bankCode.help" /></span></label>
-            <input type="text" id="bankCode" name="bankCode" value="${rqt.bankCode?.toString()}" 
-                    class="required  validate-regex ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('bankCode') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.bankCode.validationError" />" regex="^\d{1,5}$" maxlength="5" />
-            
-
-  
-
-  
-    <label for="counterCode" class="required"><g:message code="sgr.property.counterCode.label" /> *  <span><g:message code="sgr.property.counterCode.help" /></span></label>
-            <input type="text" id="counterCode" name="counterCode" value="${rqt.counterCode?.toString()}" 
-                    class="required  validate-regex ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('counterCode') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.counterCode.validationError" />" regex="^\d{1,5}$" maxlength="5" />
-            
-
-  
-
-  
-    <label for="accountNumber" class="required"><g:message code="sgr.property.accountNumber.label" /> *  <span><g:message code="sgr.property.accountNumber.help" /></span></label>
-            <input type="text" id="accountNumber" name="accountNumber" value="${rqt.accountNumber?.toString()}" 
-                    class="required  validate-regex ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('accountNumber') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.accountNumber.validationError" />" regex="^[a-zA-Z0-9]{1,11}$" maxlength="11" />
-            
-
-  
-
-  
-    <label for="accountKey" class="required"><g:message code="sgr.property.accountKey.label" /> *  <span><g:message code="sgr.property.accountKey.help" /></span></label>
-            <input type="text" id="accountKey" name="accountKey" value="${rqt.accountKey?.toString()}" 
-                    class="required  validate-regex ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('accountKey') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.accountKey.validationError" />" regex="^\d{1,2}$" maxlength="2" />
+    <label for="frenchRIB" class="required"><g:message code="sgr.property.frenchRIB.label" /> *  <span><g:message code="sgr.property.frenchRIB.help" /></span></label>
+            <div class="frenchRIB-fieldset required  ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB') ? 'validation-failed' : ''}">
+            <label class="required" for="frenchRIB.bankCode"><g:message code="frenchRIB.property.bankCode" /></label>
+            <input type="text" class="required ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.bankCode') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.bankCode}" maxlength="5" id="frenchRIB.bankCode" name="frenchRIB.bankCode" />
+            <label class="required" for="frenchRIB.counterCode"><g:message code="frenchRIB.property.counterCode" /></label>
+            <input type="text" class="required ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.counterCode') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.counterCode}" maxlength="5" id="frenchRIB.counterCode" name="frenchRIB.counterCode" />
+            <label class="required" for="frenchRIB.accountNumber"><g:message code="frenchRIB.property.accountNumber" /></label>
+            <input type="text" class="required ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.accountNumber') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.accountNumber}" maxlength="11" id="frenchRIB.accountNumber" name="frenchRIB.accountNumber" />
+            <label class="required" for="frenchRIB.accountNumber"><g:message code="frenchRIB.property.accountNumber" /></label>
+            <input type="text" class="required ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.accountKey') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.accountKey}" maxlength="2" id="frenchRIB.accountKey" name="frenchRIB.accountKey" />
+            </div>
             
 
   

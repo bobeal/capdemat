@@ -30,7 +30,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
 
     public static final Map<String, IConditionChecker> conditions = RemoteSupportRequestData.conditions;
 
-    @AssertValid
+    @AssertValid(message = "")
     private RemoteSupportRequestData remoteSupportRequestData;
 
     public RemoteSupportRequest(RequestData requestData, RemoteSupportRequestData remoteSupportRequestData) {

@@ -15,6 +15,7 @@ class CalendarTagLib {
             }
         }
         
+        calendar.setFirstDayOfWeek(Calendar.MONDAY)
         calendar.set(Calendar.DATE, 1)
         calendar.set(Calendar.ERA, GregorianCalendar.AD)
         calendar.set(Calendar.YEAR, Integer.valueOf(year))
@@ -52,13 +53,13 @@ class CalendarTagLib {
 <table class="activity-calendar">
   <thead>
 \t<tr>
-\t\t<th>${message(code:'header.sunday')}</th>
 \t\t<th>${message(code:'header.monday')}</th>
 \t\t<th>${message(code:'header.tuesday')}</th>
 \t\t<th>${message(code:'header.wednesday')}</th>
 \t\t<th>${message(code:'header.thursday')}</th>
 \t\t<th>${message(code:'header.friday')}</th>
 \t\t<th>${message(code:'header.saturday')}</th>
+\t\t<th>${message(code:'header.sunday')}</th>
 \t</tr>
   </thead>
   <tbody>

@@ -419,7 +419,7 @@
               <label for="meansOfContact" class="required">
                <g:message code="request.meansOfContact.chooseMessage"/> *
               </label>
-              <select id="meansOfContact" name="meansOfContact" class="required">
+              <select id="meansOfContact" name="meansOfContact" class="required ${stepStates != null && stepStates['validation']?.invalidFields.contains('meansOfContact') ? 'validation-failed' : ''}">
                <g:each in="${meansOfContact}" var="moc">
                  <option value="${moc.key}" <g:if test="${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>>${moc.label}</option>
                </g:each>

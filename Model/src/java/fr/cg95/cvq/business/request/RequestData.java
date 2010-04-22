@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.oval.constraint.NotNull;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.service.request.SubjectId;
@@ -47,6 +49,7 @@ public class RequestData implements Serializable {
 
     private DataState dataState;
 
+    @NotNull(profiles = {"validation"}, message = "meansOfContact")
     private MeansOfContact meansOfContact;
 
     private RequestStep step;

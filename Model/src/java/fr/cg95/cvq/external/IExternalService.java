@@ -94,6 +94,15 @@ public interface IExternalService {
             @IsHomeFolder final Long homeFolderId);
 
     /**
+     * Add a new mapping for the given object.
+     *
+     * If a mapping already exists for the given external service label and home folder id,
+     * its external id will be replaced by the given one.
+     */
+    void addHomeFolderMapping(final String externalServiceLabel,
+            @IsHomeFolder final Long homeFolderId, final String externalId);
+
+    /**
      * Set the external id of an individual for the given external service.
      * 
      * The mapping for the home folder must exist prior to this action.

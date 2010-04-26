@@ -119,12 +119,10 @@ public class HoranetService implements IExternalProviderService {
         throws CvqException {
 
         try {
-//            String SOAP_ACTION_URI = HORANET_CVQ2_NS + "AddRegistration";
             String SOAP_ACTION_URI = HORANET_CVQ_NS + "AddCanteenRegistrationWithoutCSN";
             service = new Service();
 
             call = (Call) service.createCall();
-//            call.setOperationName(new QName(HORANET_CVQ2_NS, "AddRegistration"));
             call.setOperationName(new QName(HORANET_CVQ_NS, "AddCanteenRegistrationWithoutCSN"));
 
             XmlOptions xmlOptions = new XmlOptions();
@@ -137,9 +135,10 @@ public class HoranetService implements IExternalProviderService {
             call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
             call.setProperty(Call.ATTACHMENT_ENCAPSULATION_FORMAT, Call.ATTACHMENT_ENCAPSULATION_FORMAT_DIME);
             call.setProperty(Call.CHARACTER_SET_ENCODING, "UTF-8");
-//            call.setTargetEndpointAddress(endPoint2.toString());
+
             call.setTargetEndpointAddress(endPoint.toString());
             call.setSOAPActionURI(SOAP_ACTION_URI);
+
             logger.debug("sendRequest() sending to endpoint " + endPoint.toString());
             logger.debug("sendRequest() sending on action " + SOAP_ACTION_URI);
             
@@ -150,7 +149,7 @@ public class HoranetService implements IExternalProviderService {
             call.addParameter(new QName(HORANET_CVQ_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ_NS, "School"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
-//            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildCard"), Constants.XSD_STRING, ParameterMode.IN);
+
             call.setReturnType(XMLType.AXIS_VOID);
             call.addAttachmentPart(attachement);
 
@@ -160,7 +159,7 @@ public class HoranetService implements IExternalProviderService {
             try {
                 String classSimpleName = requestXml.getClass().getSimpleName();
                 String methodNameToInvoke = "get" + classSimpleName.substring(0, classSimpleName.lastIndexOf("Document"));
-                request = (RequestType) requestXml.getClass().getMethod(methodNameToInvoke).invoke(requestXml, null);
+                request = (RequestType) requestXml.getClass().getMethod(methodNameToInvoke).invoke(requestXml);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
                 return null;
@@ -184,31 +183,20 @@ public class HoranetService implements IExternalProviderService {
                 logger.debug("sendRequest() no school property for request " + request);
             }
 
-//            logger.debug("sendRequest() preparing to send (without encoding) : " + requestXml.xmlText());
-//            logger.debug("sendRequest() preparing to send (with encoding) : " + requestXml.xmlText(xmlOptions));
-
             // extract child information iff request's subject is of type child
-            String childId = "";
-//            String childBadgeNumber = "";
             Long subjectId = null;
             if (request.getSubject() != null && request.getSubject().getIndividual() != null) {
                 subjectId = request.getSubject().getIndividual().getId();
             }
-            Child subject = individualService.getChildById(subjectId);
-            if (subject != null) {
-                childId = subject.getId().toString();
-//                childBadgeNumber = 
-//                    (subject.getBadgeNumber() == null ? "" : subject.getBadgeNumber());
-            }
+            String childId = subjectId != null ? String.valueOf(subjectId) : "";
             call.invoke(new Object[] {
                     SecurityContext.getCurrentSite().getPostalCode(),
                     request.getRequestTypeLabel(),
                     request.getRequestTypeLabel(),
                     Long.toString(request.getId()),
-                    request.getHomeFolder() != null ? Long.toString(request.getHomeFolder().getId()) : "",
+                    Long.toString(request.getHomeFolder().getId()),
                     schoolName,
                     childId
-//                    childBadgeNumber,
             });
 
             logger.debug("sendRequest() request has been sent to Horanet");
@@ -219,9 +207,9 @@ public class HoranetService implements IExternalProviderService {
         } catch (RemoteException re) {
             throw new CvqRemoteException("Failed to connect to Horanet service : " 
                     + re.getMessage());
-        } finally {
-            return null;
-        }
+        } 
+
+        return null;
     }
 
     public final void creditHomeFolderAccounts(final Collection purchaseItems, final String cvqReference,
@@ -304,16 +292,11 @@ public class HoranetService implements IExternalProviderService {
             call.setSOAPActionURI(SOAP_ACTION_URI);
 
             call.addParameter(new QName(HORANET_CVQ2_NS, "ZipCode"), Constants.XSD_STRING, ParameterMode.IN);
-//            call.addParameter(new QName(HORANET_CVQ2_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
-//            call.addParameter(new QName(HORANET_CVQ2_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "ProcID"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "start_search"), Constants.XSD_DATE, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ2_NS, "end_search"), Constants.XSD_DATE, ParameterMode.IN);
 
             logger.debug("getConsumptionsByRequest() Proc ID : " + key.toString());
-
-//          request.getSubjectId(),
-//          request.getHomeFolderId(),
 
             call.invoke(new Object[] {
                             SecurityContext.getCurrentSite().getPostalCode(),
@@ -349,38 +332,27 @@ public class HoranetService implements IExternalProviderService {
         } catch (ServiceException se) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
                     + key, se);
-//            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-//                    + se.getMessage());
         } catch (RemoteException re) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
                     + key, re);
-//            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-//                    + re.getMessage());
         } catch (SAXException saxe) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
                     + key, saxe);
-//            throw new CvqException("Failed to parse received data : " + saxe.getMessage());
         } catch (IOException ioe) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
                     + key, ioe);
-//            throw new CvqRemoteException("Failed to read received data : " + ioe.getMessage());
         } catch (SOAPException soape) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
                     + key, soape);
-//            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-//                    + soape.getMessage());
         } catch (JaxenException jaxe) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
                     + key, jaxe);
-//            throw new CvqException("Failed to parse received data : " + jaxe.getMessage());
         } catch (ParseException pe) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
                     + key, pe);
-//            throw new CvqException("Failed to parse received data : " + pe.getMessage());
         } catch (ParserConfigurationException pce) {
             logger.error("getConsumptionsByRequest() unable to get consumptions for request " 
                     + key, pce);
-//            throw new CvqException("Failed to parse received data : " + pce.getMessage());
         }
 
         return results;

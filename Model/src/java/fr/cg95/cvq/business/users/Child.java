@@ -32,20 +32,6 @@ public class Child extends Individual
         child.fillCommonXmlInfo(childType);
 
         childType.setNote(child.getNote());
-        
-        // TODO REFACTORING
-//        if (child.getLegalResponsibles() != null && child.getLegalResponsibles().size() > 0) {
-//            LegalResponsibleType[] legalResponsibleArray
-//                = new LegalResponsibleType[child.getLegalResponsibles().size()];
-//            int i = 0;
-//            Iterator legalResponsiblesIt = child.getLegalResponsibles().iterator();
-//            while (legalResponsiblesIt.hasNext()) {
-//                ChildLegalResponsible clr = (ChildLegalResponsible) legalResponsiblesIt.next();
-//                legalResponsibleArray[i] = ChildLegalResponsible.modelToXml(clr);
-//                i = i + 1;
-//            }
-//            childType.setLegalResponsibleArray(legalResponsibleArray);
-//        }
 
         return childType;
     }
@@ -55,13 +41,6 @@ public class Child extends Individual
         Child child = new Child();
         child.fillCommonModelInfo(childType);
 
-        // TODO REFACTORING
-//        Set legalResponsiblesSet = new HashSet();
-//        LegalResponsibleType[] legalResponsibleArray = childType.getLegalResponsibleArray();
-//        for (int i=0; i < legalResponsibleArray.length; i++) {
-//            legalResponsiblesSet.add(ChildLegalResponsible.xmlToModel(legalResponsibleArray[i]));
-//        }
-//        child.setLegalResponsibles(legalResponsiblesSet);
         child.setNote(childType.getNote());
 
         return child;

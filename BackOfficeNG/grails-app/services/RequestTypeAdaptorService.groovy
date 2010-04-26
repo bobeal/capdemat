@@ -2,12 +2,15 @@ import fr.cg95.cvq.business.users.HomeFolder
 import fr.cg95.cvq.business.request.DisplayGroup
 import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.exception.CvqModelException
+import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.ILocalReferentialService
 import fr.cg95.cvq.service.request.IRequestService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IDisplayGroupService
+import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService
 
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
@@ -18,6 +21,7 @@ public class RequestTypeAdaptorService {
     IRequestWorkflowService requestWorkflowService
     ILocalReferentialService localReferentialService
     IDisplayGroupService displayGroupService
+    IHomeFolderModificationRequestService homeFolderModificationRequestService
 
     public Map getDisplayGroups(HomeFolder homeFolder) {
         def result = [:]
@@ -85,7 +89,13 @@ public class RequestTypeAdaptorService {
             && service.subjectPolicy != IRequestWorkflowService.SUBJECT_POLICY_NONE
             && requestWorkflowService.getAuthorizedSubjects(requestType, homeFolder.id)?.isEmpty())
                 i18nError.add('requestType.message.noAuthorizedSubjects')
-
+        if (requestType.label.equals(IRequestService.HOME_FOLDER_MODIFICATION_REQUEST)) {
+            try {
+                homeFolderModificationRequestService.checkIsAuthorized(SecurityContext.currentEcitizen.homeFolder)
+            } catch (CvqModelException cvqme) {
+                i18nError.add(cvqme.i18nKey)
+            }
+        }
         return i18nError
     }
 }

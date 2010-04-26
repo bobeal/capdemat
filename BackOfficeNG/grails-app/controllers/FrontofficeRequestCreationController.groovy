@@ -77,21 +77,6 @@ class FrontofficeRequestCreationController {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
-        
-        def requestType = cRequest.requestType
-        
-        // allow setting of request season only on creation
-        if (params.requestSeasonId && cRequest.id == null) {
-            cRequest.requestSeason =
-                requestTypeService.getRequestSeason(requestType.id, params.long('requestSeasonId'))
-        }
-        // check we have a request season if and only if the service needs one
-        if ((requestTypeService.isOfRegistrationKind(requestType.id)
-                && requestTypeService.getOpenSeasons(requestType).size() > 0
-                && cRequest.requestSeason == null)) {
-            redirect(uri : "/frontoffice/requestType")
-            return false
-        }
 
         // we need a requester that is home folder responsible to pass security checks
         def requester = SecurityContext.currentEcitizen
@@ -105,6 +90,21 @@ class FrontofficeRequestCreationController {
                 requestTypeAdaptorService.requestTypeNotAccessibleMessages(requestType, requester.homeFolder)
             if (!i18accessErrors.isEmpty())
                 throw new CvqException(i18accessErrors.get(0))
+        }
+
+        def requestType = cRequest.requestType
+        
+        // allow setting of request season only on creation
+        if (params.requestSeasonId && cRequest.id == null) {
+            cRequest.requestSeason =
+                requestTypeService.getRequestSeason(requestType.id, params.long('requestSeasonId'))
+        }
+        // check we have a request season if and only if the service needs one
+        if ((requestTypeService.isOfRegistrationKind(requestType.id)
+                && requestTypeService.getOpenSeasons(requestType).size() > 0
+                && cRequest.requestSeason == null)) {
+            redirect(uri : "/frontoffice/requestType")
+            return false
         }
 
         def individuals

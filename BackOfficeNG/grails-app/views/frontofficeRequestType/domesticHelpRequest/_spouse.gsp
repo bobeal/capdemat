@@ -151,21 +151,21 @@
       <label class="required condition-isSpouseRetired-unfilled"><g:message code="dhr.property.dhrSpouseAddress.label" /> *  <span><g:message code="dhr.property.dhrSpouseAddress.help" /></span></label>
             <div class="address-fieldset required condition-isSpouseRetired-unfilled ">
             <label for="dhrSpouseAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" value="${rqt.dhrSpouseAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrSpouseAddress.additionalDeliveryInformation" name="dhrSpouseAddress.additionalDeliveryInformation" />  
+            <input type="text" class="validate-addressLine38" value="${rqt.dhrSpouseAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrSpouseAddress.additionalDeliveryInformation" name="dhrSpouseAddress.additionalDeliveryInformation" />  
             <label for="dhrSpouseAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" value="${rqt.dhrSpouseAddress?.additionalGeographicalInformation}" maxlength="38" id="dhrSpouseAddress.additionalGeographicalInformation" name="dhrSpouseAddress.additionalGeographicalInformation" />
+            <input type="text" class="validate-addressLine38" value="${rqt.dhrSpouseAddress?.additionalGeographicalInformation}" maxlength="38" id="dhrSpouseAddress.additionalGeographicalInformation" name="dhrSpouseAddress.additionalGeographicalInformation" />
             <label for="dhrSpouseAddress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
             <label for="dhrSpouseAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-            <input type="text" class="line1" value="${rqt.dhrSpouseAddress?.streetNumber}" size="5" maxlength="5" id="dhrSpouseAddress.streetNumber" name="dhrSpouseAddress.streetNumber" />
-            <input type="text" class="line2 required" value="${rqt.dhrSpouseAddress?.streetName}" maxlength="32" id="dhrSpouseAddress.streetName" name="dhrSpouseAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
+            <input type="text" class="line1 validate-streetNumber" value="${rqt.dhrSpouseAddress?.streetNumber}" size="5" maxlength="5" id="dhrSpouseAddress.streetNumber" name="dhrSpouseAddress.streetNumber" />
+            <input type="text" class="line2 required validate-streetName" value="${rqt.dhrSpouseAddress?.streetName}" maxlength="32" id="dhrSpouseAddress.streetName" name="dhrSpouseAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
             <label for="dhrSpouseAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" value="${rqt.dhrSpouseAddress?.placeNameOrService}" maxlength="38" id="dhrSpouseAddress.placeNameOrService" name="dhrSpouseAddress.placeNameOrService" />
+            <input type="text" class="validate-addressLine38" value="${rqt.dhrSpouseAddress?.placeNameOrService}" maxlength="38" id="dhrSpouseAddress.placeNameOrService" name="dhrSpouseAddress.placeNameOrService" />
             <label for="dhrSpouseAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
             <label for="dhrSpouseAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-            <input type="text" class="line1 required" value="${rqt.dhrSpouseAddress?.postalCode}" size="5" maxlength="5" id="dhrSpouseAddress.postalCode" name="dhrSpouseAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required" value="${rqt.dhrSpouseAddress?.city}" maxlength="32" id="dhrSpouseAddress.city" name="dhrSpouseAddress.city" title="<g:message code="address.property.city.validationError" />" />
+            <input type="text" class="line1 required validate-postalCode" value="${rqt.dhrSpouseAddress?.postalCode}" size="5" maxlength="5" id="dhrSpouseAddress.postalCode" name="dhrSpouseAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
+            <input type="text" class="line2 required validate-city" value="${rqt.dhrSpouseAddress?.city}" maxlength="32" id="dhrSpouseAddress.city" name="dhrSpouseAddress.city" title="<g:message code="address.property.city.validationError" />" />
             <label for="dhrSpouseAddress.countryName"><g:message code="address.property.countryName" /></label>
-            <input type="text" value="${rqt.dhrSpouseAddress?.countryName}" maxlength="38" id="dhrSpouseAddress.countryName" name="dhrSpouseAddress.countryName" />
+            <input type="text" class="validate-addressLine38" value="${rqt.dhrSpouseAddress?.countryName}" maxlength="38" id="dhrSpouseAddress.countryName" name="dhrSpouseAddress.countryName" />
             </div>
             
 

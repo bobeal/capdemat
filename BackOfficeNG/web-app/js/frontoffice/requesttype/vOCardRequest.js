@@ -12,20 +12,15 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
 
     return {
       init: function() {
-        var homePhone, mobilePhone, officePhone;
-        zct.each(yud.getElementsByClassName('validate-phone', 'input', 'stepForm-adults'), function(){
-          if (this.name.indexOf('homePhone') > 0) homePhone = this.name;
-          if (this.name.indexOf('mobilePhone') > 0) mobilePhone = this.name;
-          if (this.name.indexOf('officePhone') > 0) officePhone = this.	name;
-        });
-        zcv.complexRules['atLeastOne'].pushFields(homePhone, mobilePhone, officePhone);
+        var phonesEl = yud.getChildrenBy(
+            yud.get('adultPhones'), function(el){return el.nodeName === 'INPUT'});
+        zcv.complexRules['atLeastOne'].pushFields(phonesEl[0].name, phonesEl[1].name, phonesEl[2].name);
 
-        zct.each(yud.getElementsByClassName('validate-phone', 'input', 'stepForm-foreignAdults'), function(){
-          if (this.name.indexOf('homePhone') > 0) homePhone = this.name;
-          if (this.name.indexOf('mobilePhone') > 0) mobilePhone = this.name;
-          if (this.name.indexOf('officePhone') > 0) officePhone = this.	name;
-        });
-        zcv.complexRules['atLeastOne'].pushFields(homePhone, mobilePhone, officePhone);
+        if (!!yud.get('foreignAdultPhones')) {
+          phonesEl = yud.getChildrenBy(
+              yud.get('foreignAdultPhones'), function(el){return el.nodeName === 'INPUT'});
+          zcv.complexRules['atLeastOne'].pushFields(phonesEl[0].name, phonesEl[1].name, phonesEl[2].name);
+        }
 
         zcf.RequestCreation.computeScope = function(form) {
           return zcv.scope.OUTSIDE;

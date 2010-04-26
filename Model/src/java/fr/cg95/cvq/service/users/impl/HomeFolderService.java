@@ -388,6 +388,19 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         return individualDAO.listByHomeFolder(homeFolderId);
     }
 
+    @Override
+    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    public List<Individual> getExternalIndividuals(final Long homeFolderId)
+        throws CvqException {
+        
+        Set<Individual> externalIndividuals = new HashSet<Individual>();
+        externalIndividuals.addAll(individualDAO.listByHomeFolderRoles(homeFolderId, RoleType.allRoleTypes, true));
+        for (Individual individual : getIndividuals(homeFolderId))
+            externalIndividuals.addAll(individualDAO.listBySubjectRoles(individual.getId(), RoleType.allRoleTypes, true));
+        
+        return new ArrayList<Individual>(externalIndividuals);
+    }
+
     private void addRoleToOwner(Individual owner, IndividualRole role) {        
         if (owner.getIndividualRoles() == null) {
             Set<IndividualRole> individualRoles = new HashSet<IndividualRole>();
@@ -765,7 +778,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Individual> listByHomeFolderRoles(Long homeFolderId, RoleType[] roles) {
-        return individualDAO.listByHomeFolderRoles(homeFolderId, roles);
+        return individualDAO.listByHomeFolderRoles(homeFolderId, roles, false);
     }
 
     @Override
@@ -777,7 +790,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Individual> getBySubjectRoles(Long subjectId, RoleType[] roles) {
-        return individualDAO.listBySubjectRoles(subjectId, roles);
+        return individualDAO.listBySubjectRoles(subjectId, roles, false);
     }
 
     private void updateHomeFolderState(HomeFolder homeFolder, ActorState newState) 

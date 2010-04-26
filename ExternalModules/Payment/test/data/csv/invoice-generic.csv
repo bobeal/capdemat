@@ -1,6 +1,4 @@
 "Invoice Id","Invoice Value","Invoice Date","Invoice Label","Invoice Expiration Date","Invoice Payment Date","Invoice Paid","External Family Account Id"
-"INV-DUP-123","5000","2007-11-12T11:14:10.060","Facture 123 de la famille Dupont","2007-11-30T11:14:10.060","2007-11-21T11:14:10.060","1","EFA-EXTAPP1-DUP"
-"INV-DUP-124","1000","2007-11-11T11:14:10.060","Facture 124 de la famille Dupont","2007-11-20T11:14:10.060","","0","EFA-EXTAPP1-DUP"
-"INV-LEG-123","13000","2007-11-12T11:14:10.060","Facture 123 de la famille Legrand","2007-11-30T11:14:10.060","","0","EFA-EXTAPP1-LEG"
-
+"IND-DUP-CANTINE-1","5000","2007-11-12T11:14:10.060","Facture 123 de la famille Dupont","2007-11-30T11:14:10.060","2007-11-21T11:14:10.060","1","EFA-1"
+"IND-DUP-CANTINE-2","1000","2007-11-11T11:14:10.060","Facture 124 de la famille Dupont","2007-11-20T11:14:10.060","","0","EFA-1"
 

@@ -1,13 +1,10 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.hibernate.Hibernate;
@@ -17,6 +14,7 @@ import fr.cg95.cvq.business.request.RequestState;
 import fr.cg95.cvq.dao.hibernate.GenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestStatisticsDAO;
+import fr.cg95.cvq.util.DateUtils;
 
 /**
  * @author bor@zenexity.fr
@@ -169,11 +167,11 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
 
         if (startDate != null) {
             sb.append(" and request_action.date > '")
-                .append(parseDate(startDate) + "'");
+                .append(DateUtils.formatDate(startDate) + "'");
         }
         if (endDate != null) {
             sb.append(" and request_action.date < '")
-                .append(parseDate(endDate) + "'");
+                .append(DateUtils.formatDate(endDate) + "'");
         }
 
         if (resultingState != null && !resultingState.equals("")) {
@@ -194,15 +192,6 @@ public class RequestStatisticsDAO extends GenericDAO implements IRequestStatisti
         return
             ((BigInteger)HibernateUtil.getSession().createSQLQuery(sb.toString()).uniqueResult())
                 .longValue();
-    }
-
-    private String parseDate(Date date) {
-        if (date == null)
-            return "";
-        // create a date formatter
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
-
-        return df.format(date);
     }
 
     public Map<Long, Long> countByType(final Date startDate, final Date endDate,

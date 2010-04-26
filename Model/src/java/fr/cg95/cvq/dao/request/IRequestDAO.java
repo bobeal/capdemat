@@ -84,6 +84,13 @@ public interface IRequestDAO extends IGenericDAO {
     List<Request> listByNotMatchingActionLabel(final RequestActionType type, final boolean full);
 
     /**
+     * Specialized method for the RequestService endpoint.
+     */
+    List<Request> listRequestsToExport(final String resultingState,
+            final Date startDate, final Date endDate,
+            final List<String> requestTypesLabel);
+    
+    /**
      * Retrieve drafted requests created before given date that don't have the 
      * given action trace label yet.
      */

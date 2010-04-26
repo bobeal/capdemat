@@ -154,13 +154,14 @@ public class HoranetServiceV3 implements IExternalProviderService {
             call.setReturnType(XMLType.AXIS_VOID);
             call.addAttachmentPart(dhSource);
 
-            logger.debug("sendRequest() calling HoraNet");
-
+            logger.debug("sendRequest() calling HoraNet on " + endPoint2.toString());
+            logger.debug("sendRequest() with SOAP action URI " + SOAP_ACTION_URI);
+            
             RequestType request = null;
             try {
                 String classSimpleName = requestXml.getClass().getSimpleName();
                 String methodNameToInvoke = "get" + classSimpleName.substring(0, classSimpleName.lastIndexOf("Document"));
-                request = (RequestType) requestXml.getClass().getMethod(methodNameToInvoke).invoke(requestXml, null);
+                request = (RequestType) requestXml.getClass().getMethod(methodNameToInvoke).invoke(requestXml);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
                 return null;
@@ -183,19 +184,17 @@ public class HoranetServiceV3 implements IExternalProviderService {
                 // that's not a problem
                 logger.debug("sendRequest() no school property for request " + request);
             }
-                        
-//            logger.debug("sendRequest() preparing to send : " + request.modelToXmlString());
 
             // extract child information iff request's subject is of type child
             String childId = "";
             String childBadgeNumber = "";
             Long subjectId = null;
-            if (request.getSubject() != null && request.getSubject().getIndividual() != null) {
-                subjectId = request.getSubject().getIndividual().getId();
+            if (request.getSubject() != null && request.getSubject().getChild() != null) {
+                subjectId = request.getSubject().getChild().getId();
             }
             Child subject = individualService.getChildById(subjectId);
             if (subject != null) {
-                childId = subject.getId().toString();
+                childId = subjectId.toString();
                 childBadgeNumber = 
                     (subject.getBadgeNumber() == null ? "" : subject.getBadgeNumber());
             }
@@ -204,21 +203,19 @@ public class HoranetServiceV3 implements IExternalProviderService {
                     request.getRequestTypeLabel(),
                     request.getRequestTypeLabel(),
                     Long.toString(request.getId()),
-                    request.getHomeFolder() != null ? Long.toString(request.getHomeFolder().getId()) : "",
+                    Long.toString(request.getHomeFolder().getId()),
                     childId,
                     childBadgeNumber,
                     schoolName
             });
 
-        } catch (ServiceException se) {
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + se.getMessage());
-        } catch (RemoteException re) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + re.getMessage());
-        } finally {
-            return null;
+                    + e.getMessage());
         }
+
+        return null;
     }
 
     public final void creditHomeFolderAccounts(final Collection purchaseItems, final String cvqReference,

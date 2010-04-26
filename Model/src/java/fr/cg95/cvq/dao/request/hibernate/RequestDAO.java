@@ -1,6 +1,8 @@
 package fr.cg95.cvq.dao.request.hibernate;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -25,6 +27,7 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.DateUtils;
 
 /**
  * Hibernate implementation of the {@link IRequestDAO} interface.
@@ -528,6 +531,62 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
         Object[] objectTab = objectList.toArray(new Object[1]);
         query.setParameters(objectTab, typeTab);
         return transform(query.list(), full);
+    }
+
+    @Override
+    public List<Request> listRequestsToExport(final String resultingState,
+            final Date startDate, final Date endDate,
+            final List<String> requestTypesLabel) {
+
+        StringBuffer sb = new StringBuffer();
+
+        sb.append("select request_id from request, request_action, request_type")
+            .append(" where request.id=request_action.request_id");
+
+        if (startDate != null) {
+            sb.append(" and request_action.date > '")
+                .append(DateUtils.formatDate(startDate) + "'");
+        }
+        if (endDate != null) {
+            sb.append(" and request_action.date < '")
+                .append(DateUtils.formatDate(endDate) + "'");
+        }
+
+        if (resultingState != null && !resultingState.equals("")) {
+            sb.append(" and request_action.resulting_state = '").append(resultingState).append("'");
+        }
+
+        if (requestTypesLabel != null) {
+            sb.append(" and request.request_type_id = request_type.id and request_type.label in (");
+            for (int i = 0; i < requestTypesLabel.size(); i++) {
+                sb.append("'").append(requestTypesLabel.get(i)).append("'");
+                if (i != requestTypesLabel.size() - 1)
+                    sb.append(",");
+            }
+            sb.substring(sb.length() - 1);
+            sb.append(" )");
+        }
+        sb.append(" group by request_id");
+        
+        List<Request> result = new ArrayList<Request>();
+        try {
+            ResultSet resultSet = HibernateUtil.getSession().connection()
+                .createStatement().executeQuery(sb.toString());
+            if (resultSet.next()) {
+                do {
+                    Long requestId = resultSet.getLong(1);
+                    result.add((Request) findById(Request.class, requestId));
+                } while (resultSet.next());
+                return result;
+            } else {
+                return result;
+            }
+        } catch (SQLException e) {
+            return result;
+        } catch (CvqObjectNotFoundException confe) {
+            // unlikely to happen
+            return result;
+        }
     }
 
     @Override

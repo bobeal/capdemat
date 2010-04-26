@@ -48,7 +48,7 @@
           class="required validate-email" title="<g:message code="homeFolder.adult.property.email.validationError" />" />
         
         <label class="required"><g:message code="homeFolder.adult.label.phones" /> <span>(<g:message code="homeFolder.adult.label.phones.help" />)</span></label>
-        <div class="address-fieldset">
+        <div id="foreignAdultPhones" class="address-fieldset">
           <label for="_individuals.foreignAdults.${listIndex}.homePhone"><g:message code="homeFolder.adult.property.homePhone" /> <span><g:message code="homeFolder.adult.property.homePhone.help" /></span></label>
           <input type="text" id="_individuals.foreignAdults.${listIndex}.homePhone" name="_individuals.foreignAdults[${listIndex}].homePhone"
             value="${listItem?.homePhone ? listItem?.homePhone : individuals?.foreignAdults ? individuals.foreignAdults.get(0).homePhone : ''}"
@@ -68,28 +68,28 @@
          <label class="required"><g:message code="homeFolder.individual.property.address" /></label>
         <div class="address-fieldset required">
           <label for="_individuals.foreignAdults.${listIndex}.adress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-          <input type="text" maxlength="38" id="_individuals.foreignAdults.${listIndex}.adress.additionalDeliveryInformation" name="_individuals.foreignAdults[${listIndex}].adress.additionalDeliveryInformation"
+          <input type="text" class="validate-addressLine38" maxlength="38" id="_individuals.foreignAdults.${listIndex}.adress.additionalDeliveryInformation" name="_individuals.foreignAdults[${listIndex}].adress.additionalDeliveryInformation"
             value="${listItem?.adress?.additionalDeliveryInformation ? listItem?.adress?.additionalDeliveryInformation : individuals?.foreignAdults ? individuals.foreignAdults.get(0).adress?.additionalDeliveryInformation : ''}" />
           <label for="_individuals.foreignAdults.${listIndex}.adress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-          <input type="text" maxlength="38" id="_individuals.foreignAdults.${listIndex}.adress.additionalGeographicalInformation" name="_individuals.foreignAdults[${listIndex}].adress.additionalGeographicalInformation"
+          <input type="text" class="validate-addressLine38" maxlength="38" id="_individuals.foreignAdults.${listIndex}.adress.additionalGeographicalInformation" name="_individuals.foreignAdults[${listIndex}].adress.additionalGeographicalInformation"
             value="${listItem?.adress?.additionalGeographicalInformation ? listItem?.adress?.additionalGeographicalInformation : individuals?.foreignAdults ? individuals.foreignAdults.get(0).adress?.additionalGeographicalInformation : ''}" />
           <label for="_individuals.foreignAdults.${listIndex}.adress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
           <label for="_individuals.foreignAdults.${listIndex}.adress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-          <input type="text" class="line1" size="5" maxlength="5" id="_individuals.foreignAdults.${listIndex}.adress.streetNumber" name="_individuals.foreignAdults[${listIndex}].adress.streetNumber"
+          <input type="text" class="line1 validate-streetNumber" size="5" maxlength="5" id="_individuals.foreignAdults.${listIndex}.adress.streetNumber" name="_individuals.foreignAdults[${listIndex}].adress.streetNumber"
             value="${listItem?.adress?.streetNumber ? listItem?.adress?.streetNumber : individuals?.foreignAdults ? individuals.foreignAdults.get(0).adress?.streetNumber : ''}" />
-          <input type="text" class="line2 required" maxlength="32" id="_individuals.foreignAdults.${listIndex}.adress.streetName" name="_individuals.foreignAdults[${listIndex}].adress.streetName" title="<g:message code="address.property.streetName.validationError" />"
+          <input type="text" class="line2 required validate-streetName" maxlength="32" id="_individuals.foreignAdults.${listIndex}.adress.streetName" name="_individuals.foreignAdults[${listIndex}].adress.streetName" title="<g:message code="address.property.streetName.validationError" />"
             value="${listItem?.adress?.streetName ? listItem?.adress?.streetName : individuals?.foreignAdults ? individuals.foreignAdults.get(0).adress?.streetName : ''}" />
           <label for="_individuals.foreignAdults.${listIndex}.adress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-          <input type="text" maxlength="38" id="_individuals.foreignAdults.${listIndex}.adress.placeNameOrService" name="_individuals.foreignAdults[${listIndex}].adress.placeNameOrService"
+          <input type="text" class="validate-addressLine38" maxlength="38" id="_individuals.foreignAdults.${listIndex}.adress.placeNameOrService" name="_individuals.foreignAdults[${listIndex}].adress.placeNameOrService"
             value="${listItem?.adress?.placeNameOrService ? listItem?.adress?.placeNameOrService : individuals?.foreignAdults ? individuals.foreignAdults.get(0).adress?.placeNameOrService : ''}" />
           <label for="_individuals.foreignAdults.${listIndex}.adress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
           <label for="_individuals.foreignAdults.${listIndex}.adress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-          <input type="text" class="line1 required" size="5" maxlength="5" id="_individuals.foreignAdults.${listIndex}.adress.postalCode" name="_individuals.foreignAdults[${listIndex}].adress.postalCode" title="<g:message code="address.property.postalCode.validationError" />"
+          <input type="text" class="line1 required validate-postalCode" size="5" maxlength="5" id="_individuals.foreignAdults.${listIndex}.adress.postalCode" name="_individuals.foreignAdults[${listIndex}].adress.postalCode" title="<g:message code="address.property.postalCode.validationError" />"
             value="${listItem?.adress?.postalCode ? listItem?.adress?.postalCode : individuals?.foreignAdults ? individuals.foreignAdults.get(0).adress?.postalCode : ''}" />
-          <input type="text" class="line2 required" maxlength="32" id="_individuals.foreignAdults.${listIndex}.adress.city" name="_individuals.foreignAdults[${listIndex}].adress.city" title="<g:message code="address.property.city.validationError" />"
+          <input type="text" class="line2 required validate-city" maxlength="32" id="_individuals.foreignAdults.${listIndex}.adress.city" name="_individuals.foreignAdults[${listIndex}].adress.city" title="<g:message code="address.property.city.validationError" />"
             value="${listItem?.adress?.city ? listItem?.adress?.city : individuals?.foreignAdults ? individuals.foreignAdults.get(0).adress?.city : ''}" />
           <label for="_individuals.foreignAdults.${listIndex}.adress.countryName"><g:message code="address.property.countryName" /></label>
-          <input type="text" maxlength="38" id="_individuals.foreignAdults.${listIndex}.adress.countryName" name="_individuals.foreignAdults[${listIndex}].adress.countryName"
+          <input type="text" class="validate-addressLine38" maxlength="38" id="_individuals.foreignAdults.${listIndex}.adress.countryName" name="_individuals.foreignAdults[${listIndex}].adress.countryName"
             value="${listItem?.adress?.countryName ? listItem?.adress?.countryName : individuals?.foreignAdults ? individuals.foreignAdults.get(0).adress?.countryName : ''}" />
         </div>
       </div>

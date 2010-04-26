@@ -1,9 +1,6 @@
 "Invoice Id","Subject Name","Subject Surname","Label","Unit Price","Quantity","Value","External Family Account Id"
-"INV-LEG-123","Legrand","Jérémy","Facture Centre de Loisirs","500","40","2000","EFA-EXTAPP1-LEG"
-"INV-LEG-123","Legrand","Jérémy","Facture Restaurants","500","10","5000","EFA-EXTAPP1-LEG"
-"INV-LEG-123","Legrand","Anaïs","Facture Centre de Loisirs","300","20","6000","EFA-EXTAPP1-LEG"
-"INV-DUP-124","Dupont","Clara","Facture Centre de Loisirs","500","1","500","EFA-EXTAPP1-DUP"
-"INV-DUP-124","Dupont","Clara","Facture Centre de Loisirs","500","1","500","EFA-EXTAPP1-DUP"
-"INV-DUP-123","Dupont","Paul","Facture Centre de Loisirs","500","10","5000","EFA-EXTAPP1-DUP"
+"IND-DUP-CANTINE-1","Dupont","Clara","Facture Centre de Loisirs","500","1","500","EFA-1"
+"IND-DUP-CANTINE-1","Dupont","Clara","Facture Centre de Loisirs","500","1","500","EFA-1"
+"IND-DUP-CANTINE-2","Dupont","Paul","Facture Centre de Loisirs","500","10","5000","EFA-1"
 
 

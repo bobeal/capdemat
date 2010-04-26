@@ -379,6 +379,25 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     }
 
     @Override
+    @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public void addHomeFolderMapping(String externalServiceLabel, Long homeFolderId,
+            String externalId) {
+
+        ExternalServiceIdentifierMapping esim =
+            getIdentifierMapping(externalServiceLabel, homeFolderId);
+        if (esim == null) {
+            esim = new ExternalServiceIdentifierMapping();
+            esim.setExternalServiceLabel(externalServiceLabel);
+            esim.setHomeFolderId(homeFolderId);
+            esim.setExternalCapDematId(UUID.randomUUID().toString());
+        }
+
+        esim.setExternalId(externalId);
+
+        externalServiceMappingDAO.create(esim);
+    }
+
+    @Override
     public void onApplicationEvent(PaymentEvent paymentEvent) {
         logger.debug("onApplicationEvent() got a payment event of type " + paymentEvent.getEvent());
         if (paymentEvent.getEvent().equals(PaymentEvent.EVENT_TYPE.PAYMENT_VALIDATED))

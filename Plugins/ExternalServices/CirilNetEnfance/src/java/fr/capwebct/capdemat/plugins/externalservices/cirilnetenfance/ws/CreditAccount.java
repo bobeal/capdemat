@@ -20,10 +20,10 @@ import javax.xml.soap.SOAPPart;
 
 import org.apache.log4j.Logger;
 
-import fr.cg95.cvq.business.users.payment.ExternalDepositAccountItem;
-import fr.cg95.cvq.business.users.payment.ExternalInvoiceItem;
-import fr.cg95.cvq.business.users.payment.ExternalTicketingContractItem;
-import fr.cg95.cvq.business.users.payment.PurchaseItem;
+import fr.cg95.cvq.business.payment.ExternalDepositAccountItem;
+import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
+import fr.cg95.cvq.business.payment.ExternalTicketingContractItem;
+import fr.cg95.cvq.business.payment.PurchaseItem;
 
 public class CreditAccount {
     

@@ -1,10 +1,15 @@
 package fr.cg95.cvq.service.request.ecitizen;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.cg95.cvq.business.request.MeansOfContact;
 import fr.cg95.cvq.business.request.MeansOfContactEnum;
@@ -17,14 +22,17 @@ import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.business.users.TitleType;
-import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.testtool.BusinessObjectsFactory;
-import fr.cg95.cvq.testtool.ServiceTestCase;
+import fr.cg95.cvq.service.request.IRequestExportService;
+import fr.cg95.cvq.service.request.RequestTestCase;
+import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 import fr.cg95.cvq.xml.common.IndividualType;
 import fr.cg95.cvq.xml.request.ecitizen.impl.VoCardRequestDocumentImpl;
 
-public class VoCardRequestServiceExternalIndividualTest extends ServiceTestCase {
+public class VoCardRequestServiceExternalIndividualTest extends RequestTestCase {
+
+    @Autowired
+    private IRequestExportService requestExportService;
 
     public void testAccountWithExternalIndividuals() throws Exception {
         
@@ -37,7 +45,7 @@ public class VoCardRequestServiceExternalIndividualTest extends ServiceTestCase 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
         VoCardRequest dcvo = new VoCardRequest();
-        MeansOfContact meansOfContact = iMeansOfContactService.getMeansOfContactByType(
+        MeansOfContact meansOfContact = meansOfContactService.getMeansOfContactByType(
                 MeansOfContactEnum.EMAIL);
         dcvo.setMeansOfContact(meansOfContact);
 
@@ -64,14 +72,14 @@ public class VoCardRequestServiceExternalIndividualTest extends ServiceTestCase 
         homeFolderResponsible.setCfbn("5050505E");
         homeFolderResponsible.setEmail("bor@zenexity.fr");
         homeFolderResponsible.setNameOfUse("NAMEOFUSE");
-        iHomeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
+        homeFolderService.addHomeFolderRole(homeFolderResponsible, RoleType.HOME_FOLDER_RESPONSIBLE);
 
         List<Adult> adultSet = new ArrayList<Adult>();
         adultSet.add(homeFolderResponsible);
 
         Adult externalIndividual = BusinessObjectsFactory.gimmeAdult(TitleType.MISTER, "TUTOR", "outside", null, 
                 FamilyStatusType.MARRIED);
-        iHomeFolderService.addHomeFolderRole(externalIndividual, RoleType.TUTOR);
+        homeFolderService.addHomeFolderRole(externalIndividual, RoleType.TUTOR);
 
         List<Adult> foreignAdultSet = new ArrayList<Adult>();
         foreignAdultSet.add(externalIndividual);
@@ -84,26 +92,25 @@ public class VoCardRequestServiceExternalIndividualTest extends ServiceTestCase 
         child1.setFirstName2("Yargla");
         child1.setFirstName3("Djaba");
         child1.setSex(SexType.MALE);
-        iHomeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleType.CLR_FATHER);
-        iHomeFolderService.addIndividualRole(externalIndividual, child1, RoleType.CLR_TUTOR);
+        homeFolderService.addIndividualRole(homeFolderResponsible, child1, RoleType.CLR_FATHER);
+        homeFolderService.addIndividualRole(externalIndividual, child1, RoleType.CLR_TUTOR);
 
         List<Child> childSet = new ArrayList<Child>();
         childSet.add(child1);
 
-        iVoCardRequestService.create(dcvo, adultSet, childSet, foreignAdultSet, address, null);
-        
+        requestWorkflowService.createAccountCreationRequest(dcvo, adultSet, childSet, foreignAdultSet, address, null);
 
         homeFolderVoCardRequestIds.put(dcvo.getHomeFolderId(), dcvo.getId()); 
 
         continueWithNewTransaction();
         
-        List<Individual> externalIndividuals = 
-            iHomeFolderService.getExternalIndividuals(dcvo.getHomeFolderId());
+        List<Individual> externalIndividuals =
+            homeFolderService.getExternalIndividuals(dcvo.getHomeFolderId());
         assertNotNull(externalIndividuals);
         assertEquals(1, externalIndividuals.size());
         
         VoCardRequestDocumentImpl xmlRequestDocument = 
-            (VoCardRequestDocumentImpl) iRequestService.fillRequestXml(dcvo);
+            (VoCardRequestDocumentImpl) requestExportService.fillRequestXml(dcvo);
         fr.cg95.cvq.xml.request.ecitizen.VoCardRequestDocument.VoCardRequest xmlRequest = 
             xmlRequestDocument.getVoCardRequest();
         assertNotNull(xmlRequest.getHomeFolder().getExternalIndividualsArray());
@@ -115,8 +122,8 @@ public class VoCardRequestServiceExternalIndividualTest extends ServiceTestCase 
         //     Write tele-service xml data file
         File xmlFile = File.createTempFile("tmp" + dcvo.getId(), ".xml");
         FileOutputStream xmlFos = new FileOutputStream(xmlFile);
-        xmlFos.write(iRequestService.fillRequestXml(iRequestService.getById(dcvo.getId())).toString().getBytes());
+        xmlFos.write(requestExportService.fillRequestXml(requestSearchService.getById(dcvo.getId(), true)).toString().getBytes());
 
-        iIndividualService.delete(iIndividualService.getById(externalIndividual.getId()));
+        individualService.delete(individualService.getById(externalIndividual.getId()));
     }
 }

@@ -389,7 +389,7 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
     }
 
     @Override
-    @Context(type=ContextType.ECITIZEN_AGENT,privilege=ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Individual> getExternalIndividuals(final Long homeFolderId)
         throws CvqException {
         

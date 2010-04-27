@@ -322,24 +322,6 @@ class FrontofficeRequestCreationController {
                 documentTypeDto = documentAdaptorService.adaptDocumentType(documentDto.documentType.id)
                 isDocumentEditMode = true
             }
-            // add of a collection element
-            else if (submitAction[1] == 'collectionAdd') {
-                def listFieldName = submitAction[3]
-                def listWrapper = params.objectToBind == null ? cRequest : objectToBind[params.objectToBind]
-
-                if (listWrapper[listFieldName] == null)
-                    listWrapper[listFieldName] = Class.forName('java.util.ArrayList').getConstructor().newInstance(null)
-
-                def getterMethod = listWrapper.class.getMethod('get' + StringUtils.firstCase(listFieldName, 'Upper'))
-                def listElemType = getterMethod.genericReturnType.actualTypeArguments[0]
-                def listElem = listElemType.getConstructor(null).newInstance(null)
-                listWrapper[listFieldName].add(listElem)
-
-                requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
-                if (['VO Card','Home Folder Modification'].contains(requestTypeInfo.label)) {
-                    requestAdaptorService.stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
-                }
-            }
             // removal of a collection element
             else if (submitAction[1] == 'collectionDelete') {
                 def listFieldToken = submitAction[3].tokenize('[]')
@@ -351,6 +333,17 @@ class FrontofficeRequestCreationController {
                 if (['VO Card','Home Folder Modification'].contains(requestTypeInfo.label)) {
                     requestAdaptorService.stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
                 }
+            }
+            // edition of a collection element
+            else if (submitAction[1] == 'collectionEdit') {
+                def listFieldToken = submitAction[3].tokenize('[]')
+                def objectToManage = params."objectToManage[${listFieldToken[1]}]"
+                def listWrapper = objectToManage == null ? cRequest : objectToBind[objectToManage] 
+                
+                editList = ['name': listFieldToken[0], 
+                            'index': listFieldToken[1],
+                            (listFieldToken[0]): listWrapper[listFieldToken[0]].get(Integer.valueOf(listFieldToken[1]))
+                           ]
             }
             else if (submitAction[1] == 'addRole' && params."owner-${submitAction[3]}" != '' && params."role-${submitAction[3]}" != '') {
                 def roleParam = targetAsMap(submitAction[3])
@@ -397,7 +390,14 @@ class FrontofficeRequestCreationController {
             }
             // standard save action
             else {
-                bindObject(objectToBind[params.objectToBind], params)
+                // remove databinding when saving a step of account creation/modification
+                // to disable transparent adult/child addition
+                // but allow it on validation step for question/answer etc.
+                if (params.objectToBind != null
+                        && (submitAction[1] != "step" || currentStep == "validation"
+                            || !['VO Card','Home Folder Modification'].contains(requestTypeInfo.label))) {
+                    bindObject(objectToBind[params.objectToBind], params)
+                }
                 DataBindingUtils.initBind(cRequest, params)
                 bind(cRequest)
                 // clean empty collections elements

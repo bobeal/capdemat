@@ -228,50 +228,71 @@
   
 
   
-    <div class="collection required condition-isReferentFamilyDependents-filled">
-    <h3>
-      <g:message code="hccr.property.familyDependents.label" />
-      <span><g:message code="request.masseage.collectionEditionRules" /></span>
-      <span><g:message code="hccr.property.familyDependents.help" /></span>
-      <button type="submit" name="submit-collectionAdd-subject-familyDependents">
-        <a>${message(code:'action.add')}</a>
-      </button>
-    </h3>
-    <g:each var="listItem" in="${rqt.familyDependents}" status="listIndex">
-      <fieldset>
-        <legend>
-          <g:message code="hccr.property.familyDependents.label" /> (${listIndex + 1})
-          <input type="submit" name="submit-collectionDelete-subject-familyDependents[${listIndex}]" value="${message(code:'action.remove')}" />
-        </legend>
-        
-          <label for="familyDependents.${listIndex}.referentFamilyDependentLastName" class="required"><g:message code="hccr.property.referentFamilyDependentLastName.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentLastName.help" /></span></label>
-            <input type="text" id="familyDependents.${listIndex}.referentFamilyDependentLastName" name="familyDependents[${listIndex}].referentFamilyDependentLastName" value="${listItem?.referentFamilyDependentLastName?.toString()}" 
+    <label class="required condition-isReferentFamilyDependents-filled"><g:message code="hccr.property.familyDependents.label" /> <span><g:message code="hccr.property.familyDependents.help" /></span></label>
+    <div class="collection-fieldset required condition-isReferentFamilyDependents-filled validation-scope summary-box">
+      <g:set var="listIndex" value="${editList?.name == 'familyDependents' ? editList?.index : ( rqt.familyDependents ? rqt.familyDependents.size() : 0 ) }" />
+      <fieldset class="collection-fieldset-add required condition-isReferentFamilyDependents-filled">
+    
+        <label for="familyDependents.${listIndex}.referentFamilyDependentLastName" class="required"><g:message code="hccr.property.referentFamilyDependentLastName.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentLastName.help" /></span></label>
+            <input type="text" id="familyDependents.${listIndex}.referentFamilyDependentLastName" name="familyDependents[${listIndex}].referentFamilyDependentLastName" value="${editList?.familyDependents?.referentFamilyDependentLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="hccr.property.referentFamilyDependentLastName.validationError" />"  maxlength="38" />
             
 
-        
-          <label for="familyDependents.${listIndex}.referentFamilyDependentFirstName" class="required"><g:message code="hccr.property.referentFamilyDependentFirstName.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentFirstName.help" /></span></label>
-            <input type="text" id="familyDependents.${listIndex}.referentFamilyDependentFirstName" name="familyDependents[${listIndex}].referentFamilyDependentFirstName" value="${listItem?.referentFamilyDependentFirstName?.toString()}" 
+    
+        <label for="familyDependents.${listIndex}.referentFamilyDependentFirstName" class="required"><g:message code="hccr.property.referentFamilyDependentFirstName.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentFirstName.help" /></span></label>
+            <input type="text" id="familyDependents.${listIndex}.referentFamilyDependentFirstName" name="familyDependents[${listIndex}].referentFamilyDependentFirstName" value="${editList?.familyDependents?.referentFamilyDependentFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="hccr.property.referentFamilyDependentFirstName.validationError" />"  maxlength="38" />
             
 
-        
-          <label for="familyDependents.${listIndex}.referentFamilyDependentBirthDate" class="required"><g:message code="hccr.property.referentFamilyDependentBirthDate.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentBirthDate.help" /></span></label>
-            <input type="text" id="familyDependents.${listIndex}.referentFamilyDependentBirthDate" name="familyDependents[${listIndex}].referentFamilyDependentBirthDate" value="${formatDate(formatName:'format.date',date:listItem?.referentFamilyDependentBirthDate)}" 
+    
+        <label for="familyDependents.${listIndex}.referentFamilyDependentBirthDate" class="required"><g:message code="hccr.property.referentFamilyDependentBirthDate.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentBirthDate.help" /></span></label>
+            <input type="text" id="familyDependents.${listIndex}.referentFamilyDependentBirthDate" name="familyDependents[${listIndex}].referentFamilyDependentBirthDate" value="${formatDate(formatName:'format.date',date:editList?.familyDependents?.referentFamilyDependentBirthDate)}" 
                    class="required  validate-date" title="<g:message code="hccr.property.referentFamilyDependentBirthDate.validationError" />" />
             
 
-        
-          <label for="familyDependents.${listIndex}.referentFamilyDependentActualSituation" class="required"><g:message code="hccr.property.referentFamilyDependentActualSituation.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentActualSituation.help" /></span></label>
+    
+        <label for="familyDependents.${listIndex}.referentFamilyDependentActualSituation" class="required"><g:message code="hccr.property.referentFamilyDependentActualSituation.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentActualSituation.help" /></span></label>
             <select id="familyDependents.${listIndex}.referentFamilyDependentActualSituation" name="familyDependents[${listIndex}].referentFamilyDependentActualSituation" class="required  validate-not-first" title="<g:message code="hccr.property.referentFamilyDependentActualSituation.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Schooling','Learning','MedicoSocial']}">
-                <option value="fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType_${it}" ${it == listItem?.referentFamilyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.referentFamilyDependentActualSituation" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType_${it}" ${it == editList?.familyDependents?.referentFamilyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hccr.property.referentFamilyDependentActualSituation" /></option>
               </g:each>
             </select>
             
 
+    
+        <g:if test="${editList?.name == 'familyDependents'}">
+          <input type="submit" id="submit-collectionModify-subject-familyDependents" name="submit-collectionModify-subject-familyDependents[${listIndex}]" value="${message(code:'action.save')}" />
+        </g:if>
+        <g:else>
+          <input type="submit" id="submit-collectionAdd-subject-familyDependents" name="submit-collectionAdd-subject-familyDependents[${listIndex}]" value="${message(code:'action.add')}" />
+        </g:else>
+      </fieldset>
+    <g:each var="it" in="${rqt.familyDependents}" status="index">
+      <fieldset class="collection-fieldset-edit">
+        <dl>
+    
+        <dt><g:message code="hccr.property.referentFamilyDependentLastName.label" /></dt>
+        <dd>${it.referentFamilyDependentLastName?.toString()}</dd>
+    
+        <dt><g:message code="hccr.property.referentFamilyDependentFirstName.label" /></dt>
+        <dd>${it.referentFamilyDependentFirstName?.toString()}</dd>
+    
+        <dt><g:message code="hccr.property.referentFamilyDependentBirthDate.label" /></dt>
+        <dd><g:formatDate formatName="format.date" date="${it.referentFamilyDependentBirthDate}"/></dd>
+    
+        <dt><g:message code="hccr.property.referentFamilyDependentActualSituation.label" /></dt>
         
+              <dd>
+                <g:if test="${it.referentFamilyDependentActualSituation}">
+                  <g:capdematEnumToField var="${it.referentFamilyDependentActualSituation}" i18nKeyPrefix="hccr.property.referentFamilyDependentActualSituation" />
+                </g:if>
+              </dd>
+              
+    
+        </dl>
+        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-subject-familyDependents[${index}]" />
+        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-subject-familyDependents[${index}]" />
       </fieldset>
     </g:each>
     </div>

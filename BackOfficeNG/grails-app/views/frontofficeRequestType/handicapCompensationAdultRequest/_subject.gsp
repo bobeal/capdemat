@@ -140,50 +140,71 @@
   
 
   
-    <div class="collection required condition-isFamilyDependents-filled">
-    <h3>
-      <g:message code="hcar.property.familyDependents.label" />
-      <span><g:message code="request.masseage.collectionEditionRules" /></span>
-      <span><g:message code="hcar.property.familyDependents.help" /></span>
-      <button type="submit" name="submit-collectionAdd-subject-familyDependents">
-        <a>${message(code:'action.add')}</a>
-      </button>
-    </h3>
-    <g:each var="listItem" in="${rqt.familyDependents}" status="listIndex">
-      <fieldset>
-        <legend>
-          <g:message code="hcar.property.familyDependents.label" /> (${listIndex + 1})
-          <input type="submit" name="submit-collectionDelete-subject-familyDependents[${listIndex}]" value="${message(code:'action.remove')}" />
-        </legend>
-        
-          <label for="familyDependents.${listIndex}.familyDependentLastName" class="required"><g:message code="hcar.property.familyDependentLastName.label" /> *  <span><g:message code="hcar.property.familyDependentLastName.help" /></span></label>
-            <input type="text" id="familyDependents.${listIndex}.familyDependentLastName" name="familyDependents[${listIndex}].familyDependentLastName" value="${listItem?.familyDependentLastName?.toString()}" 
+    <label class="required condition-isFamilyDependents-filled"><g:message code="hcar.property.familyDependents.label" /> <span><g:message code="hcar.property.familyDependents.help" /></span></label>
+    <div class="collection-fieldset required condition-isFamilyDependents-filled validation-scope summary-box">
+      <g:set var="listIndex" value="${editList?.name == 'familyDependents' ? editList?.index : ( rqt.familyDependents ? rqt.familyDependents.size() : 0 ) }" />
+      <fieldset class="collection-fieldset-add required condition-isFamilyDependents-filled">
+    
+        <label for="familyDependents.${listIndex}.familyDependentLastName" class="required"><g:message code="hcar.property.familyDependentLastName.label" /> *  <span><g:message code="hcar.property.familyDependentLastName.help" /></span></label>
+            <input type="text" id="familyDependents.${listIndex}.familyDependentLastName" name="familyDependents[${listIndex}].familyDependentLastName" value="${editList?.familyDependents?.familyDependentLastName?.toString()}" 
                     class="required  validate-lastName" title="<g:message code="hcar.property.familyDependentLastName.validationError" />"  maxlength="38" />
             
 
-        
-          <label for="familyDependents.${listIndex}.familyDependentFirstName" class="required"><g:message code="hcar.property.familyDependentFirstName.label" /> *  <span><g:message code="hcar.property.familyDependentFirstName.help" /></span></label>
-            <input type="text" id="familyDependents.${listIndex}.familyDependentFirstName" name="familyDependents[${listIndex}].familyDependentFirstName" value="${listItem?.familyDependentFirstName?.toString()}" 
+    
+        <label for="familyDependents.${listIndex}.familyDependentFirstName" class="required"><g:message code="hcar.property.familyDependentFirstName.label" /> *  <span><g:message code="hcar.property.familyDependentFirstName.help" /></span></label>
+            <input type="text" id="familyDependents.${listIndex}.familyDependentFirstName" name="familyDependents[${listIndex}].familyDependentFirstName" value="${editList?.familyDependents?.familyDependentFirstName?.toString()}" 
                     class="required  validate-firstName" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />"  maxlength="38" />
             
 
-        
-          <label for="familyDependents.${listIndex}.familyDependentBirthDate" class="required"><g:message code="hcar.property.familyDependentBirthDate.label" /> *  <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
-            <input type="text" id="familyDependents.${listIndex}.familyDependentBirthDate" name="familyDependents[${listIndex}].familyDependentBirthDate" value="${formatDate(formatName:'format.date',date:listItem?.familyDependentBirthDate)}" 
+    
+        <label for="familyDependents.${listIndex}.familyDependentBirthDate" class="required"><g:message code="hcar.property.familyDependentBirthDate.label" /> *  <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
+            <input type="text" id="familyDependents.${listIndex}.familyDependentBirthDate" name="familyDependents[${listIndex}].familyDependentBirthDate" value="${formatDate(formatName:'format.date',date:editList?.familyDependents?.familyDependentBirthDate)}" 
                    class="required  validate-date" title="<g:message code="hcar.property.familyDependentBirthDate.validationError" />" />
             
 
-        
-          <label for="familyDependents.${listIndex}.familyDependentActualSituation" class="required"><g:message code="hcar.property.familyDependentActualSituation.label" /> *  <span><g:message code="hcar.property.familyDependentActualSituation.help" /></span></label>
+    
+        <label for="familyDependents.${listIndex}.familyDependentActualSituation" class="required"><g:message code="hcar.property.familyDependentActualSituation.label" /> *  <span><g:message code="hcar.property.familyDependentActualSituation.help" /></span></label>
             <select id="familyDependents.${listIndex}.familyDependentActualSituation" name="familyDependents[${listIndex}].familyDependentActualSituation" class="required  validate-not-first" title="<g:message code="hcar.property.familyDependentActualSituation.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Schooling','Learning','MedicoSocial']}">
-                <option value="fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType_${it}" ${it == listItem?.familyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" /></option>
+                <option value="fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType_${it}" ${it == editList?.familyDependents?.familyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" /></option>
               </g:each>
             </select>
             
 
+    
+        <g:if test="${editList?.name == 'familyDependents'}">
+          <input type="submit" id="submit-collectionModify-subject-familyDependents" name="submit-collectionModify-subject-familyDependents[${listIndex}]" value="${message(code:'action.save')}" />
+        </g:if>
+        <g:else>
+          <input type="submit" id="submit-collectionAdd-subject-familyDependents" name="submit-collectionAdd-subject-familyDependents[${listIndex}]" value="${message(code:'action.add')}" />
+        </g:else>
+      </fieldset>
+    <g:each var="it" in="${rqt.familyDependents}" status="index">
+      <fieldset class="collection-fieldset-edit">
+        <dl>
+    
+        <dt><g:message code="hcar.property.familyDependentLastName.label" /></dt>
+        <dd>${it.familyDependentLastName?.toString()}</dd>
+    
+        <dt><g:message code="hcar.property.familyDependentFirstName.label" /></dt>
+        <dd>${it.familyDependentFirstName?.toString()}</dd>
+    
+        <dt><g:message code="hcar.property.familyDependentBirthDate.label" /></dt>
+        <dd><g:formatDate formatName="format.date" date="${it.familyDependentBirthDate}"/></dd>
+    
+        <dt><g:message code="hcar.property.familyDependentActualSituation.label" /></dt>
         
+              <dd>
+                <g:if test="${it.familyDependentActualSituation}">
+                  <g:capdematEnumToField var="${it.familyDependentActualSituation}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" />
+                </g:if>
+              </dd>
+              
+    
+        </dl>
+        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-subject-familyDependents[${index}]" />
+        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-subject-familyDependents[${index}]" />
       </fieldset>
     </g:each>
     </div>

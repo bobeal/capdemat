@@ -84,7 +84,7 @@ class FrontofficeRequestCreationController {
             requester = new Adult()
             homeFolderService.addHomeFolderRole(requester, RoleType.HOME_FOLDER_RESPONSIBLE)
         }
-
+        def requestType = cRequest.requestType
         if (cRequest.id == null) {
             def i18accessErrors =
                 requestTypeAdaptorService.requestTypeNotAccessibleMessages(requestType, requester.homeFolder)
@@ -92,8 +92,6 @@ class FrontofficeRequestCreationController {
                 throw new CvqException(i18accessErrors.get(0))
         }
 
-        def requestType = cRequest.requestType
-        
         // allow setting of request season only on creation
         if (params.requestSeasonId && cRequest.id == null) {
             cRequest.requestSeason =

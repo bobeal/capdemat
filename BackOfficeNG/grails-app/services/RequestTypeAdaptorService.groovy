@@ -10,7 +10,6 @@ import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IDisplayGroupService
-import fr.cg95.cvq.service.request.ecitizen.IHomeFolderModificationRequestService
 
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
@@ -21,7 +20,6 @@ public class RequestTypeAdaptorService {
     IRequestWorkflowService requestWorkflowService
     ILocalReferentialService localReferentialService
     IDisplayGroupService displayGroupService
-    IHomeFolderModificationRequestService homeFolderModificationRequestService
 
     public Map getDisplayGroups(HomeFolder homeFolder) {
         def result = [:]
@@ -46,10 +44,10 @@ public class RequestTypeAdaptorService {
 
         // filter groups with no requests
         def tempMap = result.findAll { k,v ->
-        	!v.requests.isEmpty()
+            !v.requests.isEmpty()
         }
 
-		return tempMap
+        return tempMap
     }
 
     // FIXME - feature duplicated in CertificateService
@@ -89,13 +87,14 @@ public class RequestTypeAdaptorService {
             && service.subjectPolicy != IRequestWorkflowService.SUBJECT_POLICY_NONE
             && requestWorkflowService.getAuthorizedSubjects(requestType, homeFolder.id)?.isEmpty())
                 i18nError.add('requestType.message.noAuthorizedSubjects')
-        if (requestType.label.equals(IRequestService.HOME_FOLDER_MODIFICATION_REQUEST)) {
+        if (requestType.label.equals(IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST)) {
             try {
-                homeFolderModificationRequestService.checkIsAuthorized(SecurityContext.currentEcitizen.homeFolder)
+                requestWorkflowService.isAccountModificationRequestAuthorized(SecurityContext.currentEcitizen.homeFolder)
             } catch (CvqModelException cvqme) {
                 i18nError.add(cvqme.i18nKey)
             }
         }
+
         return i18nError
     }
 }

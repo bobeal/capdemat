@@ -1,3 +1,5 @@
+ALTER TABLE local_referential_data ALTER COLUMN name DROP NOT NULL;
+
 -- drafts as first-class state
 create or replace function migrate_drafts() returns void as $$
   declare

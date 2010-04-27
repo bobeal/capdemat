@@ -7,6 +7,7 @@
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'condition.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'autofill.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'autocomplete.js')}"></script>
     <g:if test="${customJS}">
       <script type="text/javascript" src="${resource(dir:customJS.dir,file:customJS.file)}"></script>
     </g:if>

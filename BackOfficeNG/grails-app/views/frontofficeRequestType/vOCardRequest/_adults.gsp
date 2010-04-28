@@ -87,7 +87,7 @@
       <input type="submit" id="submit-collectionCancel-adults-adults" name="submit-collectionCancel-adults-adults[${listIndex}]" value="${message(code:'action.cancel')}" />
     </g:if>
     <g:else>
-      <input type="submit" id="submit-collectionAdd-adults-adults" name="submit-collectionAdd-adults-adults[${listIndex}]" value="${message(code:'action.add')}" />
+      <input type="submit" id="submit-collectionAdd-adults-adults" name="submit-collectionAdd-adults-adults[${listIndex}]" value="${message(code:'vcr.action.addAdult')}" />
     </g:else>
   </fieldset>
   <div class="error" id="stepForm-adults-error"> </div>

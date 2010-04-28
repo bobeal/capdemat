@@ -126,8 +126,14 @@
              <span><g:message code="vcr.step.adults.desc" /></span>
              <span class="error">${stepStates?.adults?.errorMsg}</span>
            </h3>
+           <div class="requestManual">
+               <g:message code="vcr.manual.addAdult" />
+           </div>
            <div>
-         	   <g:render template="/frontofficeRequestType/vOCardRequest/adults" /> 
+         	   <g:render template="/frontofficeRequestType/vOCardRequest/adults" />
+           </div>
+           <div class="requestManual">
+               <g:message code="vcr.manual.validationAdult" />
            </div>
 
            <!-- Input submit-->
@@ -155,8 +161,14 @@
              <span><g:message code="vcr.step.children.desc" /></span>
              <span class="error">${stepStates?.children?.errorMsg}</span>
            </h3>
+           <div class="requestManual">
+               <g:message code="vcr.manual.addChildren" />
+           </div>
            <div>
          	   <g:render template="/frontofficeRequestType/vOCardRequest/children" />
+           </div>
+           <div class="requestManual">
+               <g:message code="vcr.manual.validationChildren" />
            </div>
 
            <!-- Input submit-->
@@ -187,8 +199,14 @@
              <span><g:message code="vcr.step.foreignAdults.desc" /></span>
              <span class="error">${stepStates?.adults?.errorMsg}</span>
            </h3>
+           <div class="requestManual">
+               <g:message code="vcr.manual.addForeignAdult" />
+           </div>
            <div>
-         	   <g:render template="/frontofficeRequestType/vOCardRequest/foreignAdults" /> 
+         	   <g:render template="/frontofficeRequestType/vOCardRequest/foreignAdults" />
+           </div>
+           <div class="requestManual">
+               <g:message code="vcr.manual.validationForeignAdult" />
            </div>
 
            <!-- Input submit-->

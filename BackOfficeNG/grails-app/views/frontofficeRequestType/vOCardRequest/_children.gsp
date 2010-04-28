@@ -36,7 +36,7 @@
       <input type="submit" id="submit-collectionCancel-children-children" name="submit-collectionCancel-children-children[${listIndex}]" value="${message(code:'action.cancel')}" />
     </g:if>
     <g:else>
-      <input type="submit" id="submit-collectionAdd-children-children" name="submit-collectionAdd-children-children[${listIndex}]" value="${message(code:'action.add')}" />
+      <input type="submit" id="submit-collectionAdd-children-children" name="submit-collectionAdd-children-children[${listIndex}]" value="${message(code:'vcr.action.addChild')}" />
     </g:else>
   </fieldset>
   <div class="error" id="stepForm-children-error"> </div>

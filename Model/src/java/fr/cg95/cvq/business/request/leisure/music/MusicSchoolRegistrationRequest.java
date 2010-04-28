@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.leisure.music.*;
@@ -115,6 +116,7 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
         musicSchoolRegistrationRequestData.setActivity(activity);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getActivity() {
         return musicSchoolRegistrationRequestData.getActivity();
     }
@@ -123,6 +125,7 @@ public class MusicSchoolRegistrationRequest extends Request implements Serializa
         musicSchoolRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
+    @IsRulesAcceptance
     public final Boolean getRulesAndRegulationsAcceptance() {
         return musicSchoolRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }

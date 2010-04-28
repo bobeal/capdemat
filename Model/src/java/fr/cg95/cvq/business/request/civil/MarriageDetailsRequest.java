@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.civil.*;
@@ -191,6 +192,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setFormat(format);
     }
 
+    
     public final fr.cg95.cvq.business.request.civil.MarriageCertificateFormatType getFormat() {
         return marriageDetailsRequestData.getFormat();
     }
@@ -199,6 +201,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setCopies(copies);
     }
 
+    
     public final java.math.BigInteger getCopies() {
         return marriageDetailsRequestData.getCopies();
     }
@@ -207,6 +210,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setMarriageHusbandLastName(marriageHusbandLastName);
     }
 
+    
     public final String getMarriageHusbandLastName() {
         return marriageDetailsRequestData.getMarriageHusbandLastName();
     }
@@ -215,6 +219,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setMarriageWifeFirstNames(marriageWifeFirstNames);
     }
 
+    
     public final String getMarriageWifeFirstNames() {
         return marriageDetailsRequestData.getMarriageWifeFirstNames();
     }
@@ -223,6 +228,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setComment(comment);
     }
 
+    
     public final String getComment() {
         return marriageDetailsRequestData.getComment();
     }
@@ -231,6 +237,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setRequesterQualityPrecision(requesterQualityPrecision);
     }
 
+    
     public final String getRequesterQualityPrecision() {
         return marriageDetailsRequestData.getRequesterQualityPrecision();
     }
@@ -239,6 +246,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setFatherFirstNames(fatherFirstNames);
     }
 
+    
     public final String getFatherFirstNames() {
         return marriageDetailsRequestData.getFatherFirstNames();
     }
@@ -247,6 +255,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setMarriagePostalCode(marriagePostalCode);
     }
 
+    
     public final String getMarriagePostalCode() {
         return marriageDetailsRequestData.getMarriagePostalCode();
     }
@@ -255,6 +264,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setMotherMaidenName(motherMaidenName);
     }
 
+    
     public final String getMotherMaidenName() {
         return marriageDetailsRequestData.getMotherMaidenName();
     }
@@ -263,6 +273,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setMarriageHusbandFirstNames(marriageHusbandFirstNames);
     }
 
+    
     public final String getMarriageHusbandFirstNames() {
         return marriageDetailsRequestData.getMarriageHusbandFirstNames();
     }
@@ -271,6 +282,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setRequesterQuality(requesterQuality);
     }
 
+    
     public final fr.cg95.cvq.business.request.civil.MarriageRequesterQualityType getRequesterQuality() {
         return marriageDetailsRequestData.getRequesterQuality();
     }
@@ -279,6 +291,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setMarriageCity(marriageCity);
     }
 
+    
     public final String getMarriageCity() {
         return marriageDetailsRequestData.getMarriageCity();
     }
@@ -287,6 +300,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setMarriageWifeLastName(marriageWifeLastName);
     }
 
+    
     public final String getMarriageWifeLastName() {
         return marriageDetailsRequestData.getMarriageWifeLastName();
     }
@@ -295,6 +309,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setMarriageDate(marriageDate);
     }
 
+    
     public final java.util.Date getMarriageDate() {
         return marriageDetailsRequestData.getMarriageDate();
     }
@@ -303,6 +318,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setFatherLastName(fatherLastName);
     }
 
+    
     public final String getFatherLastName() {
         return marriageDetailsRequestData.getFatherLastName();
     }
@@ -311,6 +327,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setRelationship(relationship);
     }
 
+    
     public final fr.cg95.cvq.business.request.civil.MarriageRelationshipType getRelationship() {
         return marriageDetailsRequestData.getRelationship();
     }
@@ -319,6 +336,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setMotherFirstNames(motherFirstNames);
     }
 
+    
     public final String getMotherFirstNames() {
         return marriageDetailsRequestData.getMotherFirstNames();
     }
@@ -327,6 +345,7 @@ public class MarriageDetailsRequest extends Request implements Serializable {
         marriageDetailsRequestData.setMotive(motive);
     }
 
+    
     public final fr.cg95.cvq.business.request.civil.MarriageCertificateMotiveType getMotive() {
         return marriageDetailsRequestData.getMotive();
     }

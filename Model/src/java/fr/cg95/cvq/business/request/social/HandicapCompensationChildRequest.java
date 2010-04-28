@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
@@ -1090,6 +1091,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setHealthFollowedByProfessional(healthFollowedByProfessional);
     }
 
+    
     public final Boolean getHealthFollowedByProfessional() {
         return handicapCompensationChildRequestData.getHealthFollowedByProfessional();
     }
@@ -1098,6 +1100,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalSupportProfessionals(professionalSupportProfessionals);
     }
 
+    
     public final Boolean getProfessionalSupportProfessionals() {
         return handicapCompensationChildRequestData.getProfessionalSupportProfessionals();
     }
@@ -1106,6 +1109,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setReferentFamilyDependents(referentFamilyDependents);
     }
 
+    
     public final Boolean getReferentFamilyDependents() {
         return handicapCompensationChildRequestData.getReferentFamilyDependents();
     }
@@ -1114,6 +1118,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setIsFamilyAssistance(isFamilyAssistance);
     }
 
+    
     public final Boolean getIsFamilyAssistance() {
         return handicapCompensationChildRequestData.getIsFamilyAssistance();
     }
@@ -1122,6 +1127,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingAttendedGrade(schoolingAttendedGrade);
     }
 
+    
     public final fr.cg95.cvq.business.users.SectionType getSchoolingAttendedGrade() {
         return handicapCompensationChildRequestData.getSchoolingAttendedGrade();
     }
@@ -1130,6 +1136,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFamilyDependents(familyDependents);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.social.HccrFamilyDependent> getFamilyDependents() {
         return handicapCompensationChildRequestData.getFamilyDependents();
     }
@@ -1138,6 +1145,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setReferentTitle(referentTitle);
     }
 
+    
     public final fr.cg95.cvq.business.users.TitleType getReferentTitle() {
         return handicapCompensationChildRequestData.getReferentTitle();
     }
@@ -1146,6 +1154,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectComments(projectComments);
     }
 
+    
     public final String getProjectComments() {
         return handicapCompensationChildRequestData.getProjectComments();
     }
@@ -1154,6 +1163,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFoldersCdes(foldersCdes);
     }
 
+    
     public final Boolean getFoldersCdes() {
         return handicapCompensationChildRequestData.getFoldersCdes();
     }
@@ -1162,6 +1172,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFoldersMdphDepartment(foldersMdphDepartment);
     }
 
+    
     public final String getFoldersMdphDepartment() {
         return handicapCompensationChildRequestData.getFoldersMdphDepartment();
     }
@@ -1170,6 +1181,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectNeeds(projectNeeds);
     }
 
+    
     public final String getProjectNeeds() {
         return handicapCompensationChildRequestData.getProjectNeeds();
     }
@@ -1178,6 +1190,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setHomeInterventionHomeIntervenant(homeInterventionHomeIntervenant);
     }
 
+    
     public final Boolean getHomeInterventionHomeIntervenant() {
         return handicapCompensationChildRequestData.getHomeInterventionHomeIntervenant();
     }
@@ -1186,6 +1199,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsEducationAllocationOfDisabledChildren(benefitsEducationAllocationOfDisabledChildren);
     }
 
+    
     public final Boolean getBenefitsEducationAllocationOfDisabledChildren() {
         return handicapCompensationChildRequestData.getBenefitsEducationAllocationOfDisabledChildren();
     }
@@ -1194,6 +1208,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setOtherFolders(otherFolders);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.social.HccrOtherFolder> getOtherFolders() {
         return handicapCompensationChildRequestData.getOtherFolders();
     }
@@ -1202,6 +1217,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFoldersMdphNumber(foldersMdphNumber);
     }
 
+    
     public final String getFoldersMdphNumber() {
         return handicapCompensationChildRequestData.getFoldersMdphNumber();
     }
@@ -1210,6 +1226,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSubjectParentalAuthorityHolder(subjectParentalAuthorityHolder);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.HccrSubjectParentalAuthorityHolderType getSubjectParentalAuthorityHolder() {
         return handicapCompensationChildRequestData.getSubjectParentalAuthorityHolder();
     }
@@ -1218,6 +1235,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsHousingFacilities(projectRequestsHousingFacilities);
     }
 
+    
     public final Boolean getProjectRequestsHousingFacilities() {
         return handicapCompensationChildRequestData.getProjectRequestsHousingFacilities();
     }
@@ -1226,6 +1244,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingHomeSchooling(schoolingHomeSchooling);
     }
 
+    
     public final Boolean getSchoolingHomeSchooling() {
         return handicapCompensationChildRequestData.getSchoolingHomeSchooling();
     }
@@ -1234,6 +1253,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFatherActivityReductionRatio(fatherActivityReductionRatio);
     }
 
+    
     public final java.math.BigInteger getFatherActivityReductionRatio() {
         return handicapCompensationChildRequestData.getFatherActivityReductionRatio();
     }
@@ -1242,6 +1262,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSubjectBirthDate(subjectBirthDate);
     }
 
+    
     public final java.util.Date getSubjectBirthDate() {
         return handicapCompensationChildRequestData.getSubjectBirthDate();
     }
@@ -1250,6 +1271,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingExtraCurricularDetails(schoolingExtraCurricularDetails);
     }
 
+    
     public final String getSchoolingExtraCurricularDetails() {
         return handicapCompensationChildRequestData.getSchoolingExtraCurricularDetails();
     }
@@ -1258,6 +1280,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingSpecializedGrade(schoolingSpecializedGrade);
     }
 
+    
     public final Boolean getSchoolingSpecializedGrade() {
         return handicapCompensationChildRequestData.getSchoolingSpecializedGrade();
     }
@@ -1266,6 +1289,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsDisabilityPension(benefitsDisabilityPension);
     }
 
+    
     public final Boolean getBenefitsDisabilityPension() {
         return handicapCompensationChildRequestData.getBenefitsDisabilityPension();
     }
@@ -1274,6 +1298,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setReferentMaidenName(referentMaidenName);
     }
 
+    
     public final String getReferentMaidenName() {
         return handicapCompensationChildRequestData.getReferentMaidenName();
     }
@@ -1282,6 +1307,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsDisabledWorkerRecognition(projectRequestsDisabledWorkerRecognition);
     }
 
+    
     public final Boolean getProjectRequestsDisabledWorkerRecognition() {
         return handicapCompensationChildRequestData.getProjectRequestsDisabledWorkerRecognition();
     }
@@ -1290,6 +1316,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsUnemploymentBenefits(benefitsUnemploymentBenefits);
     }
 
+    
     public final Boolean getBenefitsUnemploymentBenefits() {
         return handicapCompensationChildRequestData.getBenefitsUnemploymentBenefits();
     }
@@ -1298,6 +1325,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setHomeIntervenants(homeIntervenants);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.social.HccrHomeIntervenant> getHomeIntervenants() {
         return handicapCompensationChildRequestData.getHomeIntervenants();
     }
@@ -1306,6 +1334,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusKind(professionalStatusKind);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.HccrProfessionalStatusKindType getProfessionalStatusKind() {
         return handicapCompensationChildRequestData.getProfessionalStatusKind();
     }
@@ -1314,6 +1343,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingHomeSchoolingKind(schoolingHomeSchoolingKind);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.HccrHomeSchoolingKindType getSchoolingHomeSchoolingKind() {
         return handicapCompensationChildRequestData.getSchoolingHomeSchoolingKind();
     }
@@ -1322,6 +1352,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsEducationOfDisabledChildrenDetails(benefitsEducationOfDisabledChildrenDetails);
     }
 
+    
     public final String getBenefitsEducationOfDisabledChildrenDetails() {
         return handicapCompensationChildRequestData.getBenefitsEducationOfDisabledChildrenDetails();
     }
@@ -1330,6 +1361,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFormationPreviousFormation(formationPreviousFormation);
     }
 
+    
     public final String getFormationPreviousFormation() {
         return handicapCompensationChildRequestData.getFormationPreviousFormation();
     }
@@ -1338,6 +1370,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsVocationalTraining(projectRequestsVocationalTraining);
     }
 
+    
     public final Boolean getProjectRequestsVocationalTraining() {
         return handicapCompensationChildRequestData.getProjectRequestsVocationalTraining();
     }
@@ -1346,6 +1379,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFacilitiesCustomCar(facilitiesCustomCar);
     }
 
+    
     public final Boolean getFacilitiesCustomCar() {
         return handicapCompensationChildRequestData.getFacilitiesCustomCar();
     }
@@ -1354,6 +1388,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsDisabledAdultAllocation(benefitsDisabledAdultAllocation);
     }
 
+    
     public final Boolean getBenefitsDisabledAdultAllocation() {
         return handicapCompensationChildRequestData.getBenefitsDisabledAdultAllocation();
     }
@@ -1362,6 +1397,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusIndemnified(professionalStatusIndemnified);
     }
 
+    
     public final Boolean getProfessionalStatusIndemnified() {
         return handicapCompensationChildRequestData.getProfessionalStatusIndemnified();
     }
@@ -1370,6 +1406,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingEnrolment(schoolingEnrolment);
     }
 
+    
     public final Boolean getSchoolingEnrolment() {
         return handicapCompensationChildRequestData.getSchoolingEnrolment();
     }
@@ -1378,6 +1415,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsThirdPartyCompensatoryAllowance(benefitsThirdPartyCompensatoryAllowance);
     }
 
+    
     public final Boolean getBenefitsThirdPartyCompensatoryAllowance() {
         return handicapCompensationChildRequestData.getBenefitsThirdPartyCompensatoryAllowance();
     }
@@ -1386,6 +1424,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setReferentBirthDate(referentBirthDate);
     }
 
+    
     public final java.util.Date getReferentBirthDate() {
         return handicapCompensationChildRequestData.getReferentBirthDate();
     }
@@ -1394,6 +1433,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusDate(professionalStatusDate);
     }
 
+    
     public final java.util.Date getProfessionalStatusDate() {
         return handicapCompensationChildRequestData.getProfessionalStatusDate();
     }
@@ -1402,6 +1442,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsTransportCostAllocation(projectRequestsTransportCostAllocation);
     }
 
+    
     public final Boolean getProjectRequestsTransportCostAllocation() {
         return handicapCompensationChildRequestData.getProjectRequestsTransportCostAllocation();
     }
@@ -1410,6 +1451,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsProfessionalOrientation(benefitsProfessionalOrientation);
     }
 
+    
     public final Boolean getBenefitsProfessionalOrientation() {
         return handicapCompensationChildRequestData.getBenefitsProfessionalOrientation();
     }
@@ -1418,6 +1460,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingHomeSchoolingAccompanistLastName(schoolingHomeSchoolingAccompanistLastName);
     }
 
+    
     public final String getSchoolingHomeSchoolingAccompanistLastName() {
         return handicapCompensationChildRequestData.getSchoolingHomeSchoolingAccompanistLastName();
     }
@@ -1426,6 +1469,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsDisabilityRecognition(benefitsDisabilityRecognition);
     }
 
+    
     public final Boolean getBenefitsDisabilityRecognition() {
         return handicapCompensationChildRequestData.getBenefitsDisabilityRecognition();
     }
@@ -1434,6 +1478,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusRegisterAsUnemployed(professionalStatusRegisterAsUnemployed);
     }
 
+    
     public final Boolean getProfessionalStatusRegisterAsUnemployed() {
         return handicapCompensationChildRequestData.getProfessionalStatusRegisterAsUnemployed();
     }
@@ -1442,6 +1487,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusIndemnifiedDate(professionalStatusIndemnifiedDate);
     }
 
+    
     public final java.util.Date getProfessionalStatusIndemnifiedDate() {
         return handicapCompensationChildRequestData.getProfessionalStatusIndemnifiedDate();
     }
@@ -1450,6 +1496,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setDwellingSocialReceptionNaming(dwellingSocialReceptionNaming);
     }
 
+    
     public final String getDwellingSocialReceptionNaming() {
         return handicapCompensationChildRequestData.getDwellingSocialReceptionNaming();
     }
@@ -1458,6 +1505,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsProfessionalOrientationDetails(benefitsProfessionalOrientationDetails);
     }
 
+    
     public final String getBenefitsProfessionalOrientationDetails() {
         return handicapCompensationChildRequestData.getBenefitsProfessionalOrientationDetails();
     }
@@ -1466,6 +1514,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsPainfulStandingCard(benefitsPainfulStandingCard);
     }
 
+    
     public final Boolean getBenefitsPainfulStandingCard() {
         return handicapCompensationChildRequestData.getBenefitsPainfulStandingCard();
     }
@@ -1474,6 +1523,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFoldersCdesDepartment(foldersCdesDepartment);
     }
 
+    
     public final String getFoldersCdesDepartment() {
         return handicapCompensationChildRequestData.getFoldersCdesDepartment();
     }
@@ -1482,6 +1532,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFacilitiesSpecializedTransport(facilitiesSpecializedTransport);
     }
 
+    
     public final Boolean getFacilitiesSpecializedTransport() {
         return handicapCompensationChildRequestData.getFacilitiesSpecializedTransport();
     }
@@ -1490,6 +1541,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsParkingCard(benefitsParkingCard);
     }
 
+    
     public final Boolean getBenefitsParkingCard() {
         return handicapCompensationChildRequestData.getBenefitsParkingCard();
     }
@@ -1498,6 +1550,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFacilitiesSpecializedTransportDetails(facilitiesSpecializedTransportDetails);
     }
 
+    
     public final String getFacilitiesSpecializedTransportDetails() {
         return handicapCompensationChildRequestData.getFacilitiesSpecializedTransportDetails();
     }
@@ -1506,6 +1559,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsWorkAccidentAnnuityRatio(benefitsWorkAccidentAnnuityRatio);
     }
 
+    
     public final String getBenefitsWorkAccidentAnnuityRatio() {
         return handicapCompensationChildRequestData.getBenefitsWorkAccidentAnnuityRatio();
     }
@@ -1514,6 +1568,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSocialSecurityNumber(socialSecurityNumber);
     }
 
+    
     public final String getSocialSecurityNumber() {
         return handicapCompensationChildRequestData.getSocialSecurityNumber();
     }
@@ -1522,6 +1577,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsWorkAccidentAnnuity(benefitsWorkAccidentAnnuity);
     }
 
+    
     public final Boolean getBenefitsWorkAccidentAnnuity() {
         return handicapCompensationChildRequestData.getBenefitsWorkAccidentAnnuity();
     }
@@ -1530,6 +1586,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setCareCareServices(careCareServices);
     }
 
+    
     public final Boolean getCareCareServices() {
         return handicapCompensationChildRequestData.getCareCareServices();
     }
@@ -1538,6 +1595,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsDailyAllowances(benefitsDailyAllowances);
     }
 
+    
     public final Boolean getBenefitsDailyAllowances() {
         return handicapCompensationChildRequestData.getBenefitsDailyAllowances();
     }
@@ -1546,6 +1604,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsDisabilityRatio(benefitsDisabilityRatio);
     }
 
+    
     public final String getBenefitsDisabilityRatio() {
         return handicapCompensationChildRequestData.getBenefitsDisabilityRatio();
     }
@@ -1554,6 +1613,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFatherFirstName(fatherFirstName);
     }
 
+    
     public final String getFatherFirstName() {
         return handicapCompensationChildRequestData.getFatherFirstName();
     }
@@ -1562,6 +1622,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingHomeSchoolingAccompanistAddress(schoolingHomeSchoolingAccompanistAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getSchoolingHomeSchoolingAccompanistAddress() {
         return handicapCompensationChildRequestData.getSchoolingHomeSchoolingAccompanistAddress();
     }
@@ -1570,6 +1631,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsCustomCar(projectRequestsCustomCar);
     }
 
+    
     public final Boolean getProjectRequestsCustomCar() {
         return handicapCompensationChildRequestData.getProjectRequestsCustomCar();
     }
@@ -1578,6 +1640,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setPaymentAgencyBeneficiaryNumber(paymentAgencyBeneficiaryNumber);
     }
 
+    
     public final String getPaymentAgencyBeneficiaryNumber() {
         return handicapCompensationChildRequestData.getPaymentAgencyBeneficiaryNumber();
     }
@@ -1586,6 +1649,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFoldersCotorepNumber(foldersCotorepNumber);
     }
 
+    
     public final String getFoldersCotorepNumber() {
         return handicapCompensationChildRequestData.getFoldersCotorepNumber();
     }
@@ -1594,6 +1658,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsACTPRenewal(projectRequestsACTPRenewal);
     }
 
+    
     public final Boolean getProjectRequestsACTPRenewal() {
         return handicapCompensationChildRequestData.getProjectRequestsACTPRenewal();
     }
@@ -1602,6 +1667,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setReferentFamilyStatus(referentFamilyStatus);
     }
 
+    
     public final fr.cg95.cvq.business.users.FamilyStatusType getReferentFamilyStatus() {
         return handicapCompensationChildRequestData.getReferentFamilyStatus();
     }
@@ -1610,6 +1676,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingSchoolName(schoolingSchoolName);
     }
 
+    
     public final String getSchoolingSchoolName() {
         return handicapCompensationChildRequestData.getSchoolingSchoolName();
     }
@@ -1618,6 +1685,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setDwellingSocialReceptionAddress(dwellingSocialReceptionAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getDwellingSocialReceptionAddress() {
         return handicapCompensationChildRequestData.getDwellingSocialReceptionAddress();
     }
@@ -1626,6 +1694,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsSupportedByAnInstitutionDetails(benefitsSupportedByAnInstitutionDetails);
     }
 
+    
     public final String getBenefitsSupportedByAnInstitutionDetails() {
         return handicapCompensationChildRequestData.getBenefitsSupportedByAnInstitutionDetails();
     }
@@ -1634,6 +1703,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFoldersMdph(foldersMdph);
     }
 
+    
     public final Boolean getFoldersMdph() {
         return handicapCompensationChildRequestData.getFoldersMdph();
     }
@@ -1642,6 +1712,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setMotherJob(motherJob);
     }
 
+    
     public final String getMotherJob() {
         return handicapCompensationChildRequestData.getMotherJob();
     }
@@ -1650,6 +1721,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingSchoolAddress(schoolingSchoolAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getSchoolingSchoolAddress() {
         return handicapCompensationChildRequestData.getSchoolingSchoolAddress();
     }
@@ -1658,6 +1730,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingTime(schoolingTime);
     }
 
+    
     public final String getSchoolingTime() {
         return handicapCompensationChildRequestData.getSchoolingTime();
     }
@@ -1666,6 +1739,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalSupportDealsWithSameProfessional(professionalSupportDealsWithSameProfessional);
     }
 
+    
     public final Boolean getProfessionalSupportDealsWithSameProfessional() {
         return handicapCompensationChildRequestData.getProfessionalSupportDealsWithSameProfessional();
     }
@@ -1674,6 +1748,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setAseReferentDepartment(aseReferentDepartment);
     }
 
+    
     public final String getAseReferentDepartment() {
         return handicapCompensationChildRequestData.getAseReferentDepartment();
     }
@@ -1682,6 +1757,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFoldersCotorepDepartment(foldersCotorepDepartment);
     }
 
+    
     public final String getFoldersCotorepDepartment() {
         return handicapCompensationChildRequestData.getFoldersCotorepDepartment();
     }
@@ -1690,6 +1766,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setDwellingEstablishmentReception(dwellingEstablishmentReception);
     }
 
+    
     public final Boolean getDwellingEstablishmentReception() {
         return handicapCompensationChildRequestData.getDwellingEstablishmentReception();
     }
@@ -1698,6 +1775,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setMotherFirstName(motherFirstName);
     }
 
+    
     public final String getMotherFirstName() {
         return handicapCompensationChildRequestData.getMotherFirstName();
     }
@@ -1706,6 +1784,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setAdditionalFee(additionalFee);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.social.HccrAdditionalFee> getAdditionalFee() {
         return handicapCompensationChildRequestData.getAdditionalFee();
     }
@@ -1714,6 +1793,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsOrdinaryWorking(projectRequestsOrdinaryWorking);
     }
 
+    
     public final Boolean getProjectRequestsOrdinaryWorking() {
         return handicapCompensationChildRequestData.getProjectRequestsOrdinaryWorking();
     }
@@ -1722,6 +1802,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsDisabledWorkerRecognition(benefitsDisabledWorkerRecognition);
     }
 
+    
     public final Boolean getBenefitsDisabledWorkerRecognition() {
         return handicapCompensationChildRequestData.getBenefitsDisabledWorkerRecognition();
     }
@@ -1730,6 +1811,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setDwellingSocialReception(dwellingSocialReception);
     }
 
+    
     public final Boolean getDwellingSocialReception() {
         return handicapCompensationChildRequestData.getDwellingSocialReception();
     }
@@ -1738,6 +1820,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsEuropeanParkingCard(projectRequestsEuropeanParkingCard);
     }
 
+    
     public final Boolean getProjectRequestsEuropeanParkingCard() {
         return handicapCompensationChildRequestData.getProjectRequestsEuropeanParkingCard();
     }
@@ -1746,6 +1829,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setHealthFollowedByDoctor(healthFollowedByDoctor);
     }
 
+    
     public final Boolean getHealthFollowedByDoctor() {
         return handicapCompensationChildRequestData.getHealthFollowedByDoctor();
     }
@@ -1754,6 +1838,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFamilyAssistanceMembers(familyAssistanceMembers);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.social.HccrFamilyAssistanceMember> getFamilyAssistanceMembers() {
         return handicapCompensationChildRequestData.getFamilyAssistanceMembers();
     }
@@ -1762,6 +1847,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingHomeSchoolingAccompanistFirstName(schoolingHomeSchoolingAccompanistFirstName);
     }
 
+    
     public final String getSchoolingHomeSchoolingAccompanistFirstName() {
         return handicapCompensationChildRequestData.getSchoolingHomeSchoolingAccompanistFirstName();
     }
@@ -1770,6 +1856,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setReferentBirthCity(referentBirthCity);
     }
 
+    
     public final String getReferentBirthCity() {
         return handicapCompensationChildRequestData.getReferentBirthCity();
     }
@@ -1778,6 +1865,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsFreePensionMembership(projectRequestsFreePensionMembership);
     }
 
+    
     public final Boolean getProjectRequestsFreePensionMembership() {
         return handicapCompensationChildRequestData.getProjectRequestsFreePensionMembership();
     }
@@ -1786,6 +1874,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingSpecializedGradeDetails(schoolingSpecializedGradeDetails);
     }
 
+    
     public final String getSchoolingSpecializedGradeDetails() {
         return handicapCompensationChildRequestData.getSchoolingSpecializedGradeDetails();
     }
@@ -1794,6 +1883,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setReferentBirthCountry(referentBirthCountry);
     }
 
+    
     public final String getReferentBirthCountry() {
         return handicapCompensationChildRequestData.getReferentBirthCountry();
     }
@@ -1802,6 +1892,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionals(professionals);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.social.HccrProfessional> getProfessionals() {
         return handicapCompensationChildRequestData.getProfessionals();
     }
@@ -1810,6 +1901,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setHealthFollowedByHospital(healthFollowedByHospital);
     }
 
+    
     public final Boolean getHealthFollowedByHospital() {
         return handicapCompensationChildRequestData.getHealthFollowedByHospital();
     }
@@ -1818,6 +1910,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusEmployerName(professionalStatusEmployerName);
     }
 
+    
     public final String getProfessionalStatusEmployerName() {
         return handicapCompensationChildRequestData.getProfessionalStatusEmployerName();
     }
@@ -1826,6 +1919,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsInstitutionSupport(projectRequestsInstitutionSupport);
     }
 
+    
     public final Boolean getProjectRequestsInstitutionSupport() {
         return handicapCompensationChildRequestData.getProjectRequestsInstitutionSupport();
     }
@@ -1834,6 +1928,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsSocialWelfare(benefitsSocialWelfare);
     }
 
+    
     public final Boolean getBenefitsSocialWelfare() {
         return handicapCompensationChildRequestData.getBenefitsSocialWelfare();
     }
@@ -1842,6 +1937,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsHandicapRecognition(projectRequestsHandicapRecognition);
     }
 
+    
     public final Boolean getProjectRequestsHandicapRecognition() {
         return handicapCompensationChildRequestData.getProjectRequestsHandicapRecognition();
     }
@@ -1850,6 +1946,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setCareServices(careServices);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.social.HccrCareService> getCareServices() {
         return handicapCompensationChildRequestData.getCareServices();
     }
@@ -1858,6 +1955,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingExtraCurricular(schoolingExtraCurricular);
     }
 
+    
     public final Boolean getSchoolingExtraCurricular() {
         return handicapCompensationChildRequestData.getSchoolingExtraCurricular();
     }
@@ -1866,6 +1964,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectWish(projectWish);
     }
 
+    
     public final String getProjectWish() {
         return handicapCompensationChildRequestData.getProjectWish();
     }
@@ -1874,6 +1973,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setDwellingKind(dwellingKind);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.HccrDwellingKindType getDwellingKind() {
         return handicapCompensationChildRequestData.getDwellingKind();
     }
@@ -1882,6 +1982,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setHealthProfessionalLastName(healthProfessionalLastName);
     }
 
+    
     public final String getHealthProfessionalLastName() {
         return handicapCompensationChildRequestData.getHealthProfessionalLastName();
     }
@@ -1890,6 +1991,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFormationStudiesLevel(formationStudiesLevel);
     }
 
+    
     public final String getFormationStudiesLevel() {
         return handicapCompensationChildRequestData.getFormationStudiesLevel();
     }
@@ -1898,6 +2000,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsProfessionalOrientation(projectRequestsProfessionalOrientation);
     }
 
+    
     public final Boolean getProjectRequestsProfessionalOrientation() {
         return handicapCompensationChildRequestData.getProjectRequestsProfessionalOrientation();
     }
@@ -1906,6 +2009,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setHealthDoctorLastName(healthDoctorLastName);
     }
 
+    
     public final String getHealthDoctorLastName() {
         return handicapCompensationChildRequestData.getHealthDoctorLastName();
     }
@@ -1914,6 +2018,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSocialServiceAddress(socialServiceAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getSocialServiceAddress() {
         return handicapCompensationChildRequestData.getSocialServiceAddress();
     }
@@ -1922,6 +2027,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFacilitiesHousingDetails(facilitiesHousingDetails);
     }
 
+    
     public final String getFacilitiesHousingDetails() {
         return handicapCompensationChildRequestData.getFacilitiesHousingDetails();
     }
@@ -1930,6 +2036,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsSupplementForSingleParents(benefitsSupplementForSingleParents);
     }
 
+    
     public final Boolean getBenefitsSupplementForSingleParents() {
         return handicapCompensationChildRequestData.getBenefitsSupplementForSingleParents();
     }
@@ -1938,6 +2045,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsIncreaseForIndependentLiving(projectRequestsIncreaseForIndependentLiving);
     }
 
+    
     public final Boolean getProjectRequestsIncreaseForIndependentLiving() {
         return handicapCompensationChildRequestData.getProjectRequestsIncreaseForIndependentLiving();
     }
@@ -1946,6 +2054,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsThirdPartySupplement(benefitsThirdPartySupplement);
     }
 
+    
     public final Boolean getBenefitsThirdPartySupplement() {
         return handicapCompensationChildRequestData.getBenefitsThirdPartySupplement();
     }
@@ -1954,6 +2063,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsDisabilityPensionCategory(benefitsDisabilityPensionCategory);
     }
 
+    
     public final String getBenefitsDisabilityPensionCategory() {
         return handicapCompensationChildRequestData.getBenefitsDisabilityPensionCategory();
     }
@@ -1962,6 +2072,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setStudiesHighSchoolGrade(studiesHighSchoolGrade);
     }
 
+    
     public final String getStudiesHighSchoolGrade() {
         return handicapCompensationChildRequestData.getStudiesHighSchoolGrade();
     }
@@ -1970,6 +2081,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setReferentLastName(referentLastName);
     }
 
+    
     public final String getReferentLastName() {
         return handicapCompensationChildRequestData.getReferentLastName();
     }
@@ -1978,6 +2090,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSubjectBirthCity(subjectBirthCity);
     }
 
+    
     public final String getSubjectBirthCity() {
         return handicapCompensationChildRequestData.getSubjectBirthCity();
     }
@@ -1986,6 +2099,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsAssistance(projectRequestsAssistance);
     }
 
+    
     public final Boolean getProjectRequestsAssistance() {
         return handicapCompensationChildRequestData.getProjectRequestsAssistance();
     }
@@ -1994,6 +2108,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsSupportedByAnInstitution(benefitsSupportedByAnInstitution);
     }
 
+    
     public final Boolean getBenefitsSupportedByAnInstitution() {
         return handicapCompensationChildRequestData.getBenefitsSupportedByAnInstitution();
     }
@@ -2002,6 +2117,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusEnvironment(professionalStatusEnvironment);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.HccrProfessionalStatusEnvironmentType getProfessionalStatusEnvironment() {
         return handicapCompensationChildRequestData.getProfessionalStatusEnvironment();
     }
@@ -2010,6 +2126,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsThirdPartyHelp(projectRequestsThirdPartyHelp);
     }
 
+    
     public final Boolean getProjectRequestsThirdPartyHelp() {
         return handicapCompensationChildRequestData.getProjectRequestsThirdPartyHelp();
     }
@@ -2018,6 +2135,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsDisabledAdultAllowance(projectRequestsDisabledAdultAllowance);
     }
 
+    
     public final Boolean getProjectRequestsDisabledAdultAllowance() {
         return handicapCompensationChildRequestData.getProjectRequestsDisabledAdultAllowance();
     }
@@ -2026,6 +2144,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFoldersOtherFolders(foldersOtherFolders);
     }
 
+    
     public final Boolean getFoldersOtherFolders() {
         return handicapCompensationChildRequestData.getFoldersOtherFolders();
     }
@@ -2034,6 +2153,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setPaymentAgencyBeneficiary(paymentAgencyBeneficiary);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.HccrPaymentAgencyBeneficiaryType getPaymentAgencyBeneficiary() {
         return handicapCompensationChildRequestData.getPaymentAgencyBeneficiary();
     }
@@ -2042,6 +2162,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFatherJob(fatherJob);
     }
 
+    
     public final String getFatherJob() {
         return handicapCompensationChildRequestData.getFatherJob();
     }
@@ -2050,6 +2171,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFacilitiesAnimalAidDetails(facilitiesAnimalAidDetails);
     }
 
+    
     public final String getFacilitiesAnimalAidDetails() {
         return handicapCompensationChildRequestData.getFacilitiesAnimalAidDetails();
     }
@@ -2058,6 +2180,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setOtherBenefits(otherBenefits);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.social.HccrOtherBenefit> getOtherBenefits() {
         return handicapCompensationChildRequestData.getOtherBenefits();
     }
@@ -2066,6 +2189,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setStudiesAssistanceUnderDisabilityDetails(studiesAssistanceUnderDisabilityDetails);
     }
 
+    
     public final String getStudiesAssistanceUnderDisabilityDetails() {
         return handicapCompensationChildRequestData.getStudiesAssistanceUnderDisabilityDetails();
     }
@@ -2074,6 +2198,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setPaymentAgencyAddress(paymentAgencyAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getPaymentAgencyAddress() {
         return handicapCompensationChildRequestData.getPaymentAgencyAddress();
     }
@@ -2082,6 +2207,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsOther(projectRequestsOther);
     }
 
+    
     public final Boolean getProjectRequestsOther() {
         return handicapCompensationChildRequestData.getProjectRequestsOther();
     }
@@ -2090,6 +2216,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsThirdPersonCompensatoryAllowance(benefitsThirdPersonCompensatoryAllowance);
     }
 
+    
     public final Boolean getBenefitsThirdPersonCompensatoryAllowance() {
         return handicapCompensationChildRequestData.getBenefitsThirdPersonCompensatoryAllowance();
     }
@@ -2098,6 +2225,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsDisabilityCostAllocation(projectRequestsDisabilityCostAllocation);
     }
 
+    
     public final Boolean getProjectRequestsDisabilityCostAllocation() {
         return handicapCompensationChildRequestData.getProjectRequestsDisabilityCostAllocation();
     }
@@ -2106,6 +2234,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSocialSecurityAgencyAddress(socialSecurityAgencyAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getSocialSecurityAgencyAddress() {
         return handicapCompensationChildRequestData.getSocialSecurityAgencyAddress();
     }
@@ -2114,6 +2243,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusAddress(professionalStatusAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getProfessionalStatusAddress() {
         return handicapCompensationChildRequestData.getProfessionalStatusAddress();
     }
@@ -2122,6 +2252,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusProfession(professionalStatusProfession);
     }
 
+    
     public final String getProfessionalStatusProfession() {
         return handicapCompensationChildRequestData.getProfessionalStatusProfession();
     }
@@ -2130,6 +2261,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setDwellingReceptionAddress(dwellingReceptionAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getDwellingReceptionAddress() {
         return handicapCompensationChildRequestData.getDwellingReceptionAddress();
     }
@@ -2138,6 +2270,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFormationDiploma(formationDiploma);
     }
 
+    
     public final String getFormationDiploma() {
         return handicapCompensationChildRequestData.getFormationDiploma();
     }
@@ -2146,6 +2279,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setMotherLastName(motherLastName);
     }
 
+    
     public final String getMotherLastName() {
         return handicapCompensationChildRequestData.getMotherLastName();
     }
@@ -2154,6 +2288,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFoldersCotorep(foldersCotorep);
     }
 
+    
     public final Boolean getFoldersCotorep() {
         return handicapCompensationChildRequestData.getFoldersCotorep();
     }
@@ -2162,6 +2297,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusElectiveFunction(professionalStatusElectiveFunction);
     }
 
+    
     public final Boolean getProfessionalStatusElectiveFunction() {
         return handicapCompensationChildRequestData.getProfessionalStatusElectiveFunction();
     }
@@ -2170,6 +2306,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsIncreaseForIndependentLiving(benefitsIncreaseForIndependentLiving);
     }
 
+    
     public final Boolean getBenefitsIncreaseForIndependentLiving() {
         return handicapCompensationChildRequestData.getBenefitsIncreaseForIndependentLiving();
     }
@@ -2178,6 +2315,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSubjectBirthCountry(subjectBirthCountry);
     }
 
+    
     public final String getSubjectBirthCountry() {
         return handicapCompensationChildRequestData.getSubjectBirthCountry();
     }
@@ -2186,6 +2324,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFatherActivityReduction(fatherActivityReduction);
     }
 
+    
     public final Boolean getFatherActivityReduction() {
         return handicapCompensationChildRequestData.getFatherActivityReduction();
     }
@@ -2194,6 +2333,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsDisabilityCard(projectRequestsDisabilityCard);
     }
 
+    
     public final Boolean getProjectRequestsDisabilityCard() {
         return handicapCompensationChildRequestData.getProjectRequestsDisabilityCard();
     }
@@ -2202,6 +2342,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setStudiesHighSchoolName(studiesHighSchoolName);
     }
 
+    
     public final String getStudiesHighSchoolName() {
         return handicapCompensationChildRequestData.getStudiesHighSchoolName();
     }
@@ -2210,6 +2351,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setDwellingReceptionType(dwellingReceptionType);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.HccrDwellingReceptionKindType getDwellingReceptionType() {
         return handicapCompensationChildRequestData.getDwellingReceptionType();
     }
@@ -2218,6 +2360,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFatherLastName(fatherLastName);
     }
 
+    
     public final String getFatherLastName() {
         return handicapCompensationChildRequestData.getFatherLastName();
     }
@@ -2226,6 +2369,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setMotherActivityReductionRatio(motherActivityReductionRatio);
     }
 
+    
     public final java.math.BigInteger getMotherActivityReductionRatio() {
         return handicapCompensationChildRequestData.getMotherActivityReductionRatio();
     }
@@ -2234,6 +2378,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusRegisterAsUnemployedDate(professionalStatusRegisterAsUnemployedDate);
     }
 
+    
     public final java.util.Date getProfessionalStatusRegisterAsUnemployedDate() {
         return handicapCompensationChildRequestData.getProfessionalStatusRegisterAsUnemployedDate();
     }
@@ -2242,6 +2387,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setPaymentAgencyName(paymentAgencyName);
     }
 
+    
     public final String getPaymentAgencyName() {
         return handicapCompensationChildRequestData.getPaymentAgencyName();
     }
@@ -2250,6 +2396,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSocialSecurityAgencyName(socialSecurityAgencyName);
     }
 
+    
     public final String getSocialSecurityAgencyName() {
         return handicapCompensationChildRequestData.getSocialSecurityAgencyName();
     }
@@ -2258,6 +2405,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setDwellingReceptionNaming(dwellingReceptionNaming);
     }
 
+    
     public final String getDwellingReceptionNaming() {
         return handicapCompensationChildRequestData.getDwellingReceptionNaming();
     }
@@ -2266,6 +2414,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingSendToSchool(schoolingSendToSchool);
     }
 
+    
     public final Boolean getSchoolingSendToSchool() {
         return handicapCompensationChildRequestData.getSchoolingSendToSchool();
     }
@@ -2274,6 +2423,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsEducationOfDisabledChildren(benefitsEducationOfDisabledChildren);
     }
 
+    
     public final Boolean getBenefitsEducationOfDisabledChildren() {
         return handicapCompensationChildRequestData.getBenefitsEducationOfDisabledChildren();
     }
@@ -2282,6 +2432,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setReferentFirstName(referentFirstName);
     }
 
+    
     public final String getReferentFirstName() {
         return handicapCompensationChildRequestData.getReferentFirstName();
     }
@@ -2290,6 +2441,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFacilitiesTechnicalAssistanceDetails(facilitiesTechnicalAssistanceDetails);
     }
 
+    
     public final String getFacilitiesTechnicalAssistanceDetails() {
         return handicapCompensationChildRequestData.getFacilitiesTechnicalAssistanceDetails();
     }
@@ -2298,6 +2450,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsOtherBenefits(benefitsOtherBenefits);
     }
 
+    
     public final Boolean getBenefitsOtherBenefits() {
         return handicapCompensationChildRequestData.getBenefitsOtherBenefits();
     }
@@ -2306,6 +2459,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFoldersCdesNumber(foldersCdesNumber);
     }
 
+    
     public final String getFoldersCdesNumber() {
         return handicapCompensationChildRequestData.getFoldersCdesNumber();
     }
@@ -2314,6 +2468,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSocialServiceName(socialServiceName);
     }
 
+    
     public final String getSocialServiceName() {
         return handicapCompensationChildRequestData.getSocialServiceName();
     }
@@ -2322,6 +2477,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsDisabilityCompensation(benefitsDisabilityCompensation);
     }
 
+    
     public final Boolean getBenefitsDisabilityCompensation() {
         return handicapCompensationChildRequestData.getBenefitsDisabilityCompensation();
     }
@@ -2330,6 +2486,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setHealthDoctorFirstName(healthDoctorFirstName);
     }
 
+    
     public final String getHealthDoctorFirstName() {
         return handicapCompensationChildRequestData.getHealthDoctorFirstName();
     }
@@ -2338,6 +2495,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsTechnicalHelp(projectRequestsTechnicalHelp);
     }
 
+    
     public final Boolean getProjectRequestsTechnicalHelp() {
         return handicapCompensationChildRequestData.getProjectRequestsTechnicalHelp();
     }
@@ -2346,6 +2504,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFacilitiesTechnicalAssistance(facilitiesTechnicalAssistance);
     }
 
+    
     public final Boolean getFacilitiesTechnicalAssistance() {
         return handicapCompensationChildRequestData.getFacilitiesTechnicalAssistance();
     }
@@ -2354,6 +2513,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsCompensatoryAllowanceForExpenses(benefitsCompensatoryAllowanceForExpenses);
     }
 
+    
     public final Boolean getBenefitsCompensatoryAllowanceForExpenses() {
         return handicapCompensationChildRequestData.getBenefitsCompensatoryAllowanceForExpenses();
     }
@@ -2362,6 +2522,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFacilitiesHousing(facilitiesHousing);
     }
 
+    
     public final Boolean getFacilitiesHousing() {
         return handicapCompensationChildRequestData.getFacilitiesHousing();
     }
@@ -2370,6 +2531,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setHealthHospitalName(healthHospitalName);
     }
 
+    
     public final String getHealthHospitalName() {
         return handicapCompensationChildRequestData.getHealthHospitalName();
     }
@@ -2378,6 +2540,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsDisabledPriorityCard(projectRequestsDisabledPriorityCard);
     }
 
+    
     public final Boolean getProjectRequestsDisabledPriorityCard() {
         return handicapCompensationChildRequestData.getProjectRequestsDisabledPriorityCard();
     }
@@ -2386,6 +2549,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsEducationAllocationOfDisabledChildren(projectRequestsEducationAllocationOfDisabledChildren);
     }
 
+    
     public final Boolean getProjectRequestsEducationAllocationOfDisabledChildren() {
         return handicapCompensationChildRequestData.getProjectRequestsEducationAllocationOfDisabledChildren();
     }
@@ -2394,6 +2558,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsOtherDetails(projectRequestsOtherDetails);
     }
 
+    
     public final String getProjectRequestsOtherDetails() {
         return handicapCompensationChildRequestData.getProjectRequestsOtherDetails();
     }
@@ -2402,6 +2567,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSocialServiceSupport(socialServiceSupport);
     }
 
+    
     public final Boolean getSocialServiceSupport() {
         return handicapCompensationChildRequestData.getSocialServiceSupport();
     }
@@ -2410,6 +2576,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProjectRequestsShelteredWork(projectRequestsShelteredWork);
     }
 
+    
     public final Boolean getProjectRequestsShelteredWork() {
         return handicapCompensationChildRequestData.getProjectRequestsShelteredWork();
     }
@@ -2418,6 +2585,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFormationCurrentFormation(formationCurrentFormation);
     }
 
+    
     public final String getFormationCurrentFormation() {
         return handicapCompensationChildRequestData.getFormationCurrentFormation();
     }
@@ -2426,6 +2594,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingSchoolingKind(schoolingSchoolingKind);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.HccrSchoolingKindType getSchoolingSchoolingKind() {
         return handicapCompensationChildRequestData.getSchoolingSchoolingKind();
     }
@@ -2434,6 +2603,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setStudiesAssistanceUnderDisability(studiesAssistanceUnderDisability);
     }
 
+    
     public final Boolean getStudiesAssistanceUnderDisability() {
         return handicapCompensationChildRequestData.getStudiesAssistanceUnderDisability();
     }
@@ -2442,6 +2612,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setStudiesHighSchool(studiesHighSchool);
     }
 
+    
     public final Boolean getStudiesHighSchool() {
         return handicapCompensationChildRequestData.getStudiesHighSchool();
     }
@@ -2450,6 +2621,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setHealthProfessionalFirstName(healthProfessionalFirstName);
     }
 
+    
     public final String getHealthProfessionalFirstName() {
         return handicapCompensationChildRequestData.getHealthProfessionalFirstName();
     }
@@ -2458,6 +2630,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setMotherActivityReduction(motherActivityReduction);
     }
 
+    
     public final Boolean getMotherActivityReduction() {
         return handicapCompensationChildRequestData.getMotherActivityReduction();
     }
@@ -2466,6 +2639,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFacilitiesCustomCarDetails(facilitiesCustomCarDetails);
     }
 
+    
     public final String getFacilitiesCustomCarDetails() {
         return handicapCompensationChildRequestData.getFacilitiesCustomCarDetails();
     }
@@ -2474,6 +2648,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSchoolingPersonalizedSchoolingPlan(schoolingPersonalizedSchoolingPlan);
     }
 
+    
     public final Boolean getSchoolingPersonalizedSchoolingPlan() {
         return handicapCompensationChildRequestData.getSchoolingPersonalizedSchoolingPlan();
     }
@@ -2482,6 +2657,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setDwellingPrecision(dwellingPrecision);
     }
 
+    
     public final String getDwellingPrecision() {
         return handicapCompensationChildRequestData.getDwellingPrecision();
     }
@@ -2490,6 +2666,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setBenefitsDisabilityCard(benefitsDisabilityCard);
     }
 
+    
     public final Boolean getBenefitsDisabilityCard() {
         return handicapCompensationChildRequestData.getBenefitsDisabilityCard();
     }
@@ -2498,6 +2675,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setSocialSecurityMemberShipKind(socialSecurityMemberShipKind);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.HccrSocialSecurityMemberShipKindType getSocialSecurityMemberShipKind() {
         return handicapCompensationChildRequestData.getSocialSecurityMemberShipKind();
     }
@@ -2506,6 +2684,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setAseReferentLastName(aseReferentLastName);
     }
 
+    
     public final String getAseReferentLastName() {
         return handicapCompensationChildRequestData.getAseReferentLastName();
     }
@@ -2514,6 +2693,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setProfessionalStatusElectiveFunctionDetails(professionalStatusElectiveFunctionDetails);
     }
 
+    
     public final String getProfessionalStatusElectiveFunctionDetails() {
         return handicapCompensationChildRequestData.getProfessionalStatusElectiveFunctionDetails();
     }
@@ -2522,6 +2702,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setFacilitiesAnimalAid(facilitiesAnimalAid);
     }
 
+    
     public final Boolean getFacilitiesAnimalAid() {
         return handicapCompensationChildRequestData.getFacilitiesAnimalAid();
     }
@@ -2530,6 +2711,7 @@ public class HandicapCompensationChildRequest extends Request implements Seriali
         handicapCompensationChildRequestData.setStudiesHighSchoolAddress(studiesHighSchoolAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getStudiesHighSchoolAddress() {
         return handicapCompensationChildRequestData.getStudiesHighSchoolAddress();
     }

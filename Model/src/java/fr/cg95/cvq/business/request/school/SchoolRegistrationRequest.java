@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.school.*;
@@ -134,6 +135,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         schoolRegistrationRequestData.setCurrentSchoolAddress(currentSchoolAddress);
     }
 
+    
     public final String getCurrentSchoolAddress() {
         return schoolRegistrationRequestData.getCurrentSchoolAddress();
     }
@@ -142,6 +144,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         schoolRegistrationRequestData.setCurrentSchoolName(currentSchoolName);
     }
 
+    
     public final String getCurrentSchoolName() {
         return schoolRegistrationRequestData.getCurrentSchoolName();
     }
@@ -150,6 +153,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         schoolRegistrationRequestData.setCurrentSection(currentSection);
     }
 
+    
     public final fr.cg95.cvq.business.users.SectionType getCurrentSection() {
         return schoolRegistrationRequestData.getCurrentSection();
     }
@@ -158,6 +162,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         schoolRegistrationRequestData.setSchool(school);
     }
 
+    
     public final fr.cg95.cvq.business.authority.School getSchool() {
         return schoolRegistrationRequestData.getSchool();
     }
@@ -166,6 +171,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         schoolRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
+    @IsRulesAcceptance
     public final Boolean getRulesAndRegulationsAcceptance() {
         return schoolRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
@@ -174,6 +180,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         schoolRegistrationRequestData.setUrgencyPhone(urgencyPhone);
     }
 
+    
     public final String getUrgencyPhone() {
         return schoolRegistrationRequestData.getUrgencyPhone();
     }
@@ -182,6 +189,7 @@ public class SchoolRegistrationRequest extends Request implements Serializable {
         schoolRegistrationRequestData.setSection(section);
     }
 
+    
     public final fr.cg95.cvq.business.users.SectionType getSection() {
         return schoolRegistrationRequestData.getSection();
     }

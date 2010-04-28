@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.civil.*;
@@ -179,6 +180,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setFormat(format);
     }
 
+    
     public final fr.cg95.cvq.business.request.civil.BirthCertificateFormatType getFormat() {
         return birthDetailsRequestData.getFormat();
     }
@@ -187,6 +189,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setCopies(copies);
     }
 
+    
     public final java.math.BigInteger getCopies() {
         return birthDetailsRequestData.getCopies();
     }
@@ -195,6 +198,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setBirthPostalCode(birthPostalCode);
     }
 
+    
     public final String getBirthPostalCode() {
         return birthDetailsRequestData.getBirthPostalCode();
     }
@@ -203,6 +207,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setComment(comment);
     }
 
+    
     public final String getComment() {
         return birthDetailsRequestData.getComment();
     }
@@ -211,6 +216,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setBirthFirstNames(birthFirstNames);
     }
 
+    
     public final String getBirthFirstNames() {
         return birthDetailsRequestData.getBirthFirstNames();
     }
@@ -219,6 +225,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setMotive(motive);
     }
 
+    
     public final fr.cg95.cvq.business.request.civil.BirthCertificateMotiveType getMotive() {
         return birthDetailsRequestData.getMotive();
     }
@@ -227,6 +234,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setBirthDate(birthDate);
     }
 
+    
     public final java.util.Date getBirthDate() {
         return birthDetailsRequestData.getBirthDate();
     }
@@ -235,6 +243,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setRequesterQualityPrecision(requesterQualityPrecision);
     }
 
+    
     public final String getRequesterQualityPrecision() {
         return birthDetailsRequestData.getRequesterQualityPrecision();
     }
@@ -243,6 +252,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setBirthCity(birthCity);
     }
 
+    
     public final String getBirthCity() {
         return birthDetailsRequestData.getBirthCity();
     }
@@ -251,6 +261,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setRequesterQuality(requesterQuality);
     }
 
+    
     public final fr.cg95.cvq.business.request.civil.BirthRequesterQualityType getRequesterQuality() {
         return birthDetailsRequestData.getRequesterQuality();
     }
@@ -259,6 +270,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setFatherLastName(fatherLastName);
     }
 
+    
     public final String getFatherLastName() {
         return birthDetailsRequestData.getFatherLastName();
     }
@@ -267,6 +279,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setBirthMarriageName(birthMarriageName);
     }
 
+    
     public final String getBirthMarriageName() {
         return birthDetailsRequestData.getBirthMarriageName();
     }
@@ -275,6 +288,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setMotherFirstNames(motherFirstNames);
     }
 
+    
     public final String getMotherFirstNames() {
         return birthDetailsRequestData.getMotherFirstNames();
     }
@@ -283,6 +297,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setFatherFirstNames(fatherFirstNames);
     }
 
+    
     public final String getFatherFirstNames() {
         return birthDetailsRequestData.getFatherFirstNames();
     }
@@ -291,6 +306,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setMotherMaidenName(motherMaidenName);
     }
 
+    
     public final String getMotherMaidenName() {
         return birthDetailsRequestData.getMotherMaidenName();
     }
@@ -299,6 +315,7 @@ public class BirthDetailsRequest extends Request implements Serializable {
         birthDetailsRequestData.setBirthLastName(birthLastName);
     }
 
+    
     public final String getBirthLastName() {
         return birthDetailsRequestData.getBirthLastName();
     }

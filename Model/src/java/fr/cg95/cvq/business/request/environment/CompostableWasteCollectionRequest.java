@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.environment.*;
@@ -120,6 +121,7 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         compostableWasteCollectionRequestData.setCompostableWasteType(compostableWasteType);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCompostableWasteType() {
         return compostableWasteCollectionRequestData.getCompostableWasteType();
     }
@@ -128,6 +130,7 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         compostableWasteCollectionRequestData.setCollectionAddress(collectionAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getCollectionAddress() {
         return compostableWasteCollectionRequestData.getCollectionAddress();
     }
@@ -136,6 +139,7 @@ public class CompostableWasteCollectionRequest extends Request implements Serial
         compostableWasteCollectionRequestData.setOtherWaste(otherWaste);
     }
 
+    
     public final String getOtherWaste() {
         return compostableWasteCollectionRequestData.getOtherWaste();
     }

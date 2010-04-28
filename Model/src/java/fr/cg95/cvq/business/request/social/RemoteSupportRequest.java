@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
@@ -230,6 +231,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setTrusteePhone(trusteePhone);
     }
 
+    
     public final String getTrusteePhone() {
         return remoteSupportRequestData.getTrusteePhone();
     }
@@ -238,6 +240,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSpouseIsDisabledPerson(spouseIsDisabledPerson);
     }
 
+    
     public final Boolean getSpouseIsDisabledPerson() {
         return remoteSupportRequestData.getSpouseIsDisabledPerson();
     }
@@ -246,6 +249,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSubjectBirthDate(subjectBirthDate);
     }
 
+    
     public final java.util.Date getSubjectBirthDate() {
         return remoteSupportRequestData.getSubjectBirthDate();
     }
@@ -254,6 +258,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSubjectIsAPABeneficiary(subjectIsAPABeneficiary);
     }
 
+    
     public final Boolean getSubjectIsAPABeneficiary() {
         return remoteSupportRequestData.getSubjectIsAPABeneficiary();
     }
@@ -262,6 +267,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSubjectResideWith(subjectResideWith);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.RsrSubjectResideWithType getSubjectResideWith() {
         return remoteSupportRequestData.getSubjectResideWith();
     }
@@ -270,6 +276,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSpouseBirthDate(spouseBirthDate);
     }
 
+    
     public final java.util.Date getSpouseBirthDate() {
         return remoteSupportRequestData.getSpouseBirthDate();
     }
@@ -278,6 +285,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setContactPhone(contactPhone);
     }
 
+    
     public final String getContactPhone() {
         return remoteSupportRequestData.getContactPhone();
     }
@@ -286,6 +294,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSpouseLastName(spouseLastName);
     }
 
+    
     public final String getSpouseLastName() {
         return remoteSupportRequestData.getSpouseLastName();
     }
@@ -294,6 +303,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setRequestInformationEmergency(requestInformationEmergency);
     }
 
+    
     public final Boolean getRequestInformationEmergency() {
         return remoteSupportRequestData.getRequestInformationEmergency();
     }
@@ -302,6 +312,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setRequestInformationRequestKind(requestInformationRequestKind);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.RsrRequestInformationRequestKindType getRequestInformationRequestKind() {
         return remoteSupportRequestData.getRequestInformationRequestKind();
     }
@@ -310,6 +321,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSubjectIsDisabledPerson(subjectIsDisabledPerson);
     }
 
+    
     public final Boolean getSubjectIsDisabledPerson() {
         return remoteSupportRequestData.getSubjectIsDisabledPerson();
     }
@@ -318,6 +330,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSecondContactLastName(secondContactLastName);
     }
 
+    
     public final String getSecondContactLastName() {
         return remoteSupportRequestData.getSecondContactLastName();
     }
@@ -326,6 +339,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setRequestInformationEmergencyMotive(requestInformationEmergencyMotive);
     }
 
+    
     public final String getRequestInformationEmergencyMotive() {
         return remoteSupportRequestData.getRequestInformationEmergencyMotive();
     }
@@ -334,6 +348,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setContactLastName(contactLastName);
     }
 
+    
     public final String getContactLastName() {
         return remoteSupportRequestData.getContactLastName();
     }
@@ -342,6 +357,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSpouseTitle(spouseTitle);
     }
 
+    
     public final fr.cg95.cvq.business.users.TitleType getSpouseTitle() {
         return remoteSupportRequestData.getSpouseTitle();
     }
@@ -350,6 +366,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSubjectTitle(subjectTitle);
     }
 
+    
     public final fr.cg95.cvq.business.users.TitleType getSubjectTitle() {
         return remoteSupportRequestData.getSubjectTitle();
     }
@@ -358,6 +375,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSpouseFirstName(spouseFirstName);
     }
 
+    
     public final String getSpouseFirstName() {
         return remoteSupportRequestData.getSpouseFirstName();
     }
@@ -366,6 +384,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setContactFirstName(contactFirstName);
     }
 
+    
     public final String getContactFirstName() {
         return remoteSupportRequestData.getContactFirstName();
     }
@@ -374,6 +393,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setTrusteeFirstName(trusteeFirstName);
     }
 
+    
     public final String getTrusteeFirstName() {
         return remoteSupportRequestData.getTrusteeFirstName();
     }
@@ -382,6 +402,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setContactKind(contactKind);
     }
 
+    
     public final fr.cg95.cvq.business.request.social.RsrContactKindType getContactKind() {
         return remoteSupportRequestData.getContactKind();
     }
@@ -390,6 +411,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSecondContactFirstName(secondContactFirstName);
     }
 
+    
     public final String getSecondContactFirstName() {
         return remoteSupportRequestData.getSecondContactFirstName();
     }
@@ -398,6 +420,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSubjectIsTaxable(subjectIsTaxable);
     }
 
+    
     public final Boolean getSubjectIsTaxable() {
         return remoteSupportRequestData.getSubjectIsTaxable();
     }
@@ -406,6 +429,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setTrusteeLastName(trusteeLastName);
     }
 
+    
     public final String getTrusteeLastName() {
         return remoteSupportRequestData.getTrusteeLastName();
     }
@@ -414,6 +438,7 @@ public class RemoteSupportRequest extends Request implements Serializable {
         remoteSupportRequestData.setSecondContactPhone(secondContactPhone);
     }
 
+    
     public final String getSecondContactPhone() {
         return remoteSupportRequestData.getSecondContactPhone();
     }

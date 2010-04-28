@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.civil.*;
@@ -147,6 +148,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
         deathDetailsRequestData.setDeathFirstNames(deathFirstNames);
     }
 
+    
     public final String getDeathFirstNames() {
         return deathDetailsRequestData.getDeathFirstNames();
     }
@@ -155,6 +157,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
         deathDetailsRequestData.setDeathCity(deathCity);
     }
 
+    
     public final String getDeathCity() {
         return deathDetailsRequestData.getDeathCity();
     }
@@ -163,6 +166,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
         deathDetailsRequestData.setFormat(format);
     }
 
+    
     public final fr.cg95.cvq.business.request.civil.DeathCertificateFormatType getFormat() {
         return deathDetailsRequestData.getFormat();
     }
@@ -171,6 +175,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
         deathDetailsRequestData.setCopies(copies);
     }
 
+    
     public final java.math.BigInteger getCopies() {
         return deathDetailsRequestData.getCopies();
     }
@@ -179,6 +184,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
         deathDetailsRequestData.setComment(comment);
     }
 
+    
     public final String getComment() {
         return deathDetailsRequestData.getComment();
     }
@@ -187,6 +193,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
         deathDetailsRequestData.setMotive(motive);
     }
 
+    
     public final fr.cg95.cvq.business.request.civil.DeathCertificateMotiveType getMotive() {
         return deathDetailsRequestData.getMotive();
     }
@@ -195,6 +202,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
         deathDetailsRequestData.setDeathPostalCode(deathPostalCode);
     }
 
+    
     public final String getDeathPostalCode() {
         return deathDetailsRequestData.getDeathPostalCode();
     }
@@ -203,6 +211,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
         deathDetailsRequestData.setDeathLastName(deathLastName);
     }
 
+    
     public final String getDeathLastName() {
         return deathDetailsRequestData.getDeathLastName();
     }
@@ -211,6 +220,7 @@ public class DeathDetailsRequest extends Request implements Serializable {
         deathDetailsRequestData.setDeathDate(deathDate);
     }
 
+    
     public final java.util.Date getDeathDate() {
         return deathDetailsRequestData.getDeathDate();
     }

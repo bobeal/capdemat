@@ -100,6 +100,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.requesttype');
       displayLocalReferential : function(e) {
         zcbrp.LocalReferential.init();
       },
+      displayRules : function(e) {
+        zcbrp.Rules.init();
+      },
       changeRequestType : function() {
         yud.get("requestTypeId").form.submit();
       }

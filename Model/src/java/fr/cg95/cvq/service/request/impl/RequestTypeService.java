@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.impl;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -32,6 +34,7 @@ import fr.cg95.cvq.business.request.RequestType;
 import fr.cg95.cvq.business.request.Requirement;
 import fr.cg95.cvq.business.request.RequestAdminAction.Data;
 import fr.cg95.cvq.business.request.RequestAdminAction.Type;
+import fr.cg95.cvq.business.request.annotation.IsRulesAcceptance;
 import fr.cg95.cvq.dao.IGenericDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.IRequestDAO;
@@ -747,5 +750,16 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     public void setApplicationContext(ApplicationContext applicationContext)
         throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public List<String> getRulesAcceptanceFieldNames(Long requestTypeId) throws CvqException {
+        IRequestService service = 
+            requestServiceRegistry.getRequestService(getRequestTypeById(requestTypeId).getLabel());
+        List <String> names = new ArrayList<String>();
+        for (Method m : service.getSkeletonRequest().getClass().getMethods())
+            if (m.isAnnotationPresent(IsRulesAcceptance.class))
+               names.add(StringUtils.uncapitalize(m.getName().replaceFirst("get", "")));
+        return names;
     }
 }

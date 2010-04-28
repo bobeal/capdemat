@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.urbanism.*;
@@ -134,6 +135,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         alignmentCertificateRequestData.setRequesterQuality(requesterQuality);
     }
 
+    
     public final fr.cg95.cvq.business.request.urbanism.AcrRequesterQualityType getRequesterQuality() {
         return alignmentCertificateRequestData.getRequesterQuality();
     }
@@ -142,6 +144,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         alignmentCertificateRequestData.setSection(section);
     }
 
+    
     public final String getSection() {
         return alignmentCertificateRequestData.getSection();
     }
@@ -150,6 +153,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         alignmentCertificateRequestData.setTransportationRoute(transportationRoute);
     }
 
+    
     public final String getTransportationRoute() {
         return alignmentCertificateRequestData.getTransportationRoute();
     }
@@ -158,6 +162,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         alignmentCertificateRequestData.setOwnerFirstNames(ownerFirstNames);
     }
 
+    
     public final String getOwnerFirstNames() {
         return alignmentCertificateRequestData.getOwnerFirstNames();
     }
@@ -166,6 +171,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         alignmentCertificateRequestData.setLocality(locality);
     }
 
+    
     public final String getLocality() {
         return alignmentCertificateRequestData.getLocality();
     }
@@ -174,6 +180,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         alignmentCertificateRequestData.setNumber(number);
     }
 
+    
     public final java.math.BigInteger getNumber() {
         return alignmentCertificateRequestData.getNumber();
     }
@@ -182,6 +189,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         alignmentCertificateRequestData.setOwnerLastName(ownerLastName);
     }
 
+    
     public final String getOwnerLastName() {
         return alignmentCertificateRequestData.getOwnerLastName();
     }
@@ -190,6 +198,7 @@ public class AlignmentCertificateRequest extends Request implements Serializable
         alignmentCertificateRequestData.setOwnerAddress(ownerAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
         return alignmentCertificateRequestData.getOwnerAddress();
     }

@@ -147,6 +147,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import ${XMLBeansBaseNS}.common.*;
 import ${XMLBeansBaseNS}.request.${lastParticle}.*;
@@ -253,6 +254,7 @@ public class ${requestName} extends Request implements Serializable {
         ${returnInstance}Data.set${it.elementName}(${it.nameAsParam});
     }
 
+    ${it.xmlSchemaType == 'AcceptanceType' ? '@IsRulesAcceptance' : ''}
     public final ${it.type()} get${it.elementName}() {
         return ${returnInstance}Data.get${it.elementName}();
     }

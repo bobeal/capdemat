@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.urbanism.*;
@@ -139,6 +140,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         sewerConnectionRequestData.setOwnerLastName(ownerLastName);
     }
 
+    
     public final String getOwnerLastName() {
         return sewerConnectionRequestData.getOwnerLastName();
     }
@@ -147,6 +149,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         sewerConnectionRequestData.setOwnerFirstNames(ownerFirstNames);
     }
 
+    
     public final String getOwnerFirstNames() {
         return sewerConnectionRequestData.getOwnerFirstNames();
     }
@@ -155,6 +158,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         sewerConnectionRequestData.setOwnerAddress(ownerAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
         return sewerConnectionRequestData.getOwnerAddress();
     }
@@ -163,6 +167,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         sewerConnectionRequestData.setRequesterQuality(requesterQuality);
     }
 
+    
     public final fr.cg95.cvq.business.request.urbanism.ScrRequesterQualityType getRequesterQuality() {
         return sewerConnectionRequestData.getRequesterQuality();
     }
@@ -171,6 +176,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         sewerConnectionRequestData.setMoreThanTwoYears(moreThanTwoYears);
     }
 
+    
     public final Boolean getMoreThanTwoYears() {
         return sewerConnectionRequestData.getMoreThanTwoYears();
     }
@@ -179,6 +185,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         sewerConnectionRequestData.setTransportationRoute(transportationRoute);
     }
 
+    
     public final String getTransportationRoute() {
         return sewerConnectionRequestData.getTransportationRoute();
     }
@@ -187,6 +194,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         sewerConnectionRequestData.setLocality(locality);
     }
 
+    
     public final String getLocality() {
         return sewerConnectionRequestData.getLocality();
     }
@@ -195,6 +203,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         sewerConnectionRequestData.setNumber(number);
     }
 
+    
     public final java.math.BigInteger getNumber() {
         return sewerConnectionRequestData.getNumber();
     }
@@ -203,6 +212,7 @@ public class SewerConnectionRequest extends Request implements Serializable {
         sewerConnectionRequestData.setSection(section);
     }
 
+    
     public final String getSection() {
         return sewerConnectionRequestData.getSection();
     }

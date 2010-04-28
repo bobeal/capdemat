@@ -233,4 +233,6 @@ public interface IRequestTypeService {
 
     boolean checkArchivesPassword(String password)
         throws CvqException;
+
+    public List<String> getRulesAcceptanceFieldNames(Long requestTypeId) throws CvqException;
 }

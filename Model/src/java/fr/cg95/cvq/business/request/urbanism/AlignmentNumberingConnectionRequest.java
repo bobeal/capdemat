@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.urbanism.*;
@@ -170,6 +171,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setIsNumbering(isNumbering);
     }
 
+    
     public final Boolean getIsNumbering() {
         return alignmentNumberingConnectionRequestData.getIsNumbering();
     }
@@ -178,6 +180,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setOtherAddress(otherAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getOtherAddress() {
         return alignmentNumberingConnectionRequestData.getOtherAddress();
     }
@@ -186,6 +189,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setOwnerFirstNames(ownerFirstNames);
     }
 
+    
     public final String getOwnerFirstNames() {
         return alignmentNumberingConnectionRequestData.getOwnerFirstNames();
     }
@@ -194,6 +198,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setNumber(number);
     }
 
+    
     public final java.math.BigInteger getNumber() {
         return alignmentNumberingConnectionRequestData.getNumber();
     }
@@ -202,6 +207,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setArea(area);
     }
 
+    
     public final java.math.BigInteger getArea() {
         return alignmentNumberingConnectionRequestData.getArea();
     }
@@ -210,6 +216,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setMoreThanTwoYears(moreThanTwoYears);
     }
 
+    
     public final Boolean getMoreThanTwoYears() {
         return alignmentNumberingConnectionRequestData.getMoreThanTwoYears();
     }
@@ -218,6 +225,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setOwnerAddress(ownerAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getOwnerAddress() {
         return alignmentNumberingConnectionRequestData.getOwnerAddress();
     }
@@ -226,6 +234,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setRequesterQuality(requesterQuality);
     }
 
+    
     public final fr.cg95.cvq.business.request.urbanism.AncrRequesterQualityType getRequesterQuality() {
         return alignmentNumberingConnectionRequestData.getRequesterQuality();
     }
@@ -234,6 +243,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setSection(section);
     }
 
+    
     public final String getSection() {
         return alignmentNumberingConnectionRequestData.getSection();
     }
@@ -242,6 +252,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setTransportationRoute(transportationRoute);
     }
 
+    
     public final String getTransportationRoute() {
         return alignmentNumberingConnectionRequestData.getTransportationRoute();
     }
@@ -250,6 +261,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setLocality(locality);
     }
 
+    
     public final String getLocality() {
         return alignmentNumberingConnectionRequestData.getLocality();
     }
@@ -258,6 +270,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setIsConnection(isConnection);
     }
 
+    
     public final Boolean getIsConnection() {
         return alignmentNumberingConnectionRequestData.getIsConnection();
     }
@@ -266,6 +279,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setIsAccountAddress(isAccountAddress);
     }
 
+    
     public final Boolean getIsAccountAddress() {
         return alignmentNumberingConnectionRequestData.getIsAccountAddress();
     }
@@ -274,6 +288,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setIsAlignment(isAlignment);
     }
 
+    
     public final Boolean getIsAlignment() {
         return alignmentNumberingConnectionRequestData.getIsAlignment();
     }
@@ -282,6 +297,7 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
         alignmentNumberingConnectionRequestData.setOwnerLastName(ownerLastName);
     }
 
+    
     public final String getOwnerLastName() {
         return alignmentNumberingConnectionRequestData.getOwnerLastName();
     }

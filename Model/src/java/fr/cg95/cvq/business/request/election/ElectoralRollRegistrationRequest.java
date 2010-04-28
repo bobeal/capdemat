@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.election.*;
@@ -137,6 +138,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         electoralRollRegistrationRequestData.setSubjectNationality(subjectNationality);
     }
 
+    
     public final fr.cg95.cvq.business.users.NationalityType getSubjectNationality() {
         return electoralRollRegistrationRequestData.getSubjectNationality();
     }
@@ -145,6 +147,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         electoralRollRegistrationRequestData.setSubjectOldCity(subjectOldCity);
     }
 
+    
     public final String getSubjectOldCity() {
         return electoralRollRegistrationRequestData.getSubjectOldCity();
     }
@@ -153,6 +156,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         electoralRollRegistrationRequestData.setSubjectAddressOutsideCity(subjectAddressOutsideCity);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getSubjectAddressOutsideCity() {
         return electoralRollRegistrationRequestData.getSubjectAddressOutsideCity();
     }
@@ -161,6 +165,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         electoralRollRegistrationRequestData.setPollingStation(pollingStation);
     }
 
+    
     public final Long getPollingStation() {
         return electoralRollRegistrationRequestData.getPollingStation();
     }
@@ -169,6 +174,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         electoralRollRegistrationRequestData.setPollingSchoolName(pollingSchoolName);
     }
 
+    
     public final String getPollingSchoolName() {
         return electoralRollRegistrationRequestData.getPollingSchoolName();
     }
@@ -177,6 +183,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         electoralRollRegistrationRequestData.setMotive(motive);
     }
 
+    
     public final fr.cg95.cvq.business.request.election.ElectoralMotiveType getMotive() {
         return electoralRollRegistrationRequestData.getMotive();
     }
@@ -185,6 +192,7 @@ public class ElectoralRollRegistrationRequest extends Request implements Seriali
         electoralRollRegistrationRequestData.setElectoralNumber(electoralNumber);
     }
 
+    
     public final Long getElectoralNumber() {
         return electoralRollRegistrationRequestData.getElectoralNumber();
     }

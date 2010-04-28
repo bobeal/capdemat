@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.request.RequestType
 import fr.cg95.cvq.business.request.Requirement
 import fr.cg95.cvq.business.request.RequestForm
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type
+import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.request.ICategoryService
@@ -35,6 +36,7 @@ class BackofficeRequestTypeController {
     
     def translationService
     def requestAdaptorService
+    def RequestTypeAdaptorService
     
     def defaultAction = 'list'
     
@@ -95,6 +97,8 @@ class BackofficeRequestTypeController {
         def requestTypeLabel =
             translationService.translateRequestTypeLabel(requestType.label).encodeAsHTML()
         def requestService = requestServiceRegistry.getRequestService(requestType.label)
+        if (requestTypeService.getRulesAcceptanceFieldNames(requestType.id).size() > 0)
+            baseConfigurationItems["rules"] = ["requestType.configuration.rules", false]
         if (requestService.getLocalReferentialFilename() != null)
             baseConfigurationItems["localReferential"] =
                 ["requestType.configuration.localReferential", true]
@@ -380,4 +384,45 @@ class BackofficeRequestTypeController {
                   'status':'success', 'message':message(code:"message.updateDone")] as JSON)
     }
     
+    /* Rules related action
+     * ------------------------------------------------------------------------------------------ */
+    
+    def loadRules = {
+        def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.id))
+        def requestTypeLabelAsDir = StringUtils.firstCase(requestType.label.replaceAll(' ',''),'Lower')
+        
+        def rulesFieldNames = [:]
+        requestTypeService.getRulesAcceptanceFieldNames(Long.valueOf(params.id))?.each {
+            File ruleFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
+                Type.PDF, requestTypeLabelAsDir + '/' + it, Version.CURRENT, false)
+            rulesFieldNames[it] = ruleFile.exists()
+        }
+        
+        render(template:"rules", 
+                model:['id': params.id,
+                    'requestTypeAcronym': RequestTypeAdaptorService.generateAcronym(requestType.label),
+                    'requestTypeLabelAsDir': requestTypeLabelAsDir,
+                    'rulesFieldNames': rulesFieldNames ])
+    }
+    
+    // TODO: Manage in LocalAuthorityRegistry the requestType ressource dir persistence
+    def saveRule = {
+        def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.requestTypeId))
+        def requestTypeLabelAsDir = StringUtils.firstCase(requestType.label.replaceAll(' ',''),'Lower')
+        def file = request.getFile('rulesFile')
+        response.contentType = 'text/html; charset=utf-8'
+        if (file.empty) {
+            render (new JSON(['status':'warning', 'message':message(code:'requestType.message.noRulesFile')]).toString())
+            return false
+        }
+        def rulesDir = new File (localAuthorityRegistry.getAssetsBase() + '/' + session.currentSiteName + '/' + Type.PDF.folder + '/' + requestTypeLabelAsDir)
+        if (!rulesDir.exists()) rulesDir.mkdir()
+        
+        localAuthorityRegistry.saveLocalAuthorityResource(Type.PDF, 
+            requestTypeLabelAsDir + '/' + params.rulesField, file.bytes)
+        render (new JSON([ 'rand' : UUID.randomUUID().toString(),
+                           'status':'success', 
+                           'message':message(code:'message.updateDone')]).toString())
+
+    }
 }

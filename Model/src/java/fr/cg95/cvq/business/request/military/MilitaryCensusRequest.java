@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.military.*;
@@ -324,6 +325,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setFatherBirthDepartment(fatherBirthDepartment);
     }
 
+    
     public final fr.cg95.cvq.business.users.InseeDepartementCodeType getFatherBirthDepartment() {
         return militaryCensusRequestData.getFatherBirthDepartment();
     }
@@ -332,6 +334,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildProfession(childProfession);
     }
 
+    
     public final String getChildProfession() {
         return militaryCensusRequestData.getChildProfession();
     }
@@ -340,6 +343,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildStatus(childStatus);
     }
 
+    
     public final fr.cg95.cvq.business.users.FamilyStatusType getChildStatus() {
         return militaryCensusRequestData.getChildStatus();
     }
@@ -348,6 +352,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setAliveChildren(aliveChildren);
     }
 
+    
     public final java.math.BigInteger getAliveChildren() {
         return militaryCensusRequestData.getAliveChildren();
     }
@@ -356,6 +361,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setAffectionOrDisease(affectionOrDisease);
     }
 
+    
     public final Boolean getAffectionOrDisease() {
         return militaryCensusRequestData.getAffectionOrDisease();
     }
@@ -364,6 +370,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setStatePupil(statePupil);
     }
 
+    
     public final Boolean getStatePupil() {
         return militaryCensusRequestData.getStatePupil();
     }
@@ -372,6 +379,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildTitle(childTitle);
     }
 
+    
     public final fr.cg95.cvq.business.users.TitleType getChildTitle() {
         return militaryCensusRequestData.getChildTitle();
     }
@@ -380,6 +388,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildMail(childMail);
     }
 
+    
     public final String getChildMail() {
         return militaryCensusRequestData.getChildMail();
     }
@@ -388,6 +397,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildDiploma(childDiploma);
     }
 
+    
     public final fr.cg95.cvq.business.request.military.ChildDiplomaType getChildDiploma() {
         return militaryCensusRequestData.getChildDiploma();
     }
@@ -396,6 +406,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setMotherBirthCountry(motherBirthCountry);
     }
 
+    
     public final fr.cg95.cvq.business.users.CountryType getMotherBirthCountry() {
         return militaryCensusRequestData.getMotherBirthCountry();
     }
@@ -404,6 +415,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setFatherBirthCity(fatherBirthCity);
     }
 
+    
     public final String getFatherBirthCity() {
         return militaryCensusRequestData.getFatherBirthCity();
     }
@@ -412,6 +424,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setFatherBirthDate(fatherBirthDate);
     }
 
+    
     public final java.util.Date getFatherBirthDate() {
         return militaryCensusRequestData.getFatherBirthDate();
     }
@@ -420,6 +433,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setFatherFirstName(fatherFirstName);
     }
 
+    
     public final String getFatherFirstName() {
         return militaryCensusRequestData.getFatherFirstName();
     }
@@ -428,6 +442,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setMotherBirthCity(motherBirthCity);
     }
 
+    
     public final String getMotherBirthCity() {
         return militaryCensusRequestData.getMotherBirthCity();
     }
@@ -436,6 +451,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setFatherNationality(fatherNationality);
     }
 
+    
     public final fr.cg95.cvq.business.users.FullNationalityType getFatherNationality() {
         return militaryCensusRequestData.getFatherNationality();
     }
@@ -444,6 +460,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setMotherBirthDate(motherBirthDate);
     }
 
+    
     public final java.util.Date getMotherBirthDate() {
         return militaryCensusRequestData.getMotherBirthDate();
     }
@@ -452,6 +469,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setMotherFirstName(motherFirstName);
     }
 
+    
     public final String getMotherFirstName() {
         return militaryCensusRequestData.getMotherFirstName();
     }
@@ -460,6 +478,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildBirthCountry(childBirthCountry);
     }
 
+    
     public final fr.cg95.cvq.business.users.CountryType getChildBirthCountry() {
         return militaryCensusRequestData.getChildBirthCountry();
     }
@@ -468,6 +487,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setMotherNationality(motherNationality);
     }
 
+    
     public final fr.cg95.cvq.business.users.FullNationalityType getMotherNationality() {
         return militaryCensusRequestData.getMotherNationality();
     }
@@ -476,6 +496,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setHighlyInfirm(highlyInfirm);
     }
 
+    
     public final Boolean getHighlyInfirm() {
         return militaryCensusRequestData.getHighlyInfirm();
     }
@@ -484,6 +505,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildSpeciality(childSpeciality);
     }
 
+    
     public final String getChildSpeciality() {
         return militaryCensusRequestData.getChildSpeciality();
     }
@@ -492,6 +514,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildOtherCountry(childOtherCountry);
     }
 
+    
     public final fr.cg95.cvq.business.users.FullNationalityType getChildOtherCountry() {
         return militaryCensusRequestData.getChildOtherCountry();
     }
@@ -500,6 +523,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildrenInCharge(childrenInCharge);
     }
 
+    
     public final java.math.BigInteger getChildrenInCharge() {
         return militaryCensusRequestData.getChildrenInCharge();
     }
@@ -508,6 +532,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setJapdExemption(japdExemption);
     }
 
+    
     public final Boolean getJapdExemption() {
         return militaryCensusRequestData.getJapdExemption();
     }
@@ -516,6 +541,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildSituation(childSituation);
     }
 
+    
     public final fr.cg95.cvq.business.request.military.ChildSituationType getChildSituation() {
         return militaryCensusRequestData.getChildSituation();
     }
@@ -524,6 +550,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setMaidenName(maidenName);
     }
 
+    
     public final String getMaidenName() {
         return militaryCensusRequestData.getMaidenName();
     }
@@ -532,6 +559,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildPhone(childPhone);
     }
 
+    
     public final String getChildPhone() {
         return militaryCensusRequestData.getChildPhone();
     }
@@ -540,6 +568,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setMotherLastName(motherLastName);
     }
 
+    
     public final String getMotherLastName() {
         return militaryCensusRequestData.getMotherLastName();
     }
@@ -548,6 +577,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setFatherLastName(fatherLastName);
     }
 
+    
     public final String getFatherLastName() {
         return militaryCensusRequestData.getFatherLastName();
     }
@@ -556,6 +586,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setPrefectPupilDepartment(prefectPupilDepartment);
     }
 
+    
     public final fr.cg95.cvq.business.users.InseeDepartementCodeType getPrefectPupilDepartment() {
         return militaryCensusRequestData.getPrefectPupilDepartment();
     }
@@ -564,6 +595,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setMotherBirthDepartment(motherBirthDepartment);
     }
 
+    
     public final fr.cg95.cvq.business.users.InseeDepartementCodeType getMotherBirthDepartment() {
         return militaryCensusRequestData.getMotherBirthDepartment();
     }
@@ -572,6 +604,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildResidenceCountry(childResidenceCountry);
     }
 
+    
     public final fr.cg95.cvq.business.users.CountryType getChildResidenceCountry() {
         return militaryCensusRequestData.getChildResidenceCountry();
     }
@@ -580,6 +613,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setOtherSituation(otherSituation);
     }
 
+    
     public final String getOtherSituation() {
         return militaryCensusRequestData.getOtherSituation();
     }
@@ -588,6 +622,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setPrefectPupil(prefectPupil);
     }
 
+    
     public final Boolean getPrefectPupil() {
         return militaryCensusRequestData.getPrefectPupil();
     }
@@ -596,6 +631,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildCountry(childCountry);
     }
 
+    
     public final fr.cg95.cvq.business.users.FullNationalityType getChildCountry() {
         return militaryCensusRequestData.getChildCountry();
     }
@@ -604,6 +640,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setChildConvention(childConvention);
     }
 
+    
     public final String getChildConvention() {
         return militaryCensusRequestData.getChildConvention();
     }
@@ -612,6 +649,7 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         militaryCensusRequestData.setFatherBirthCountry(fatherBirthCountry);
     }
 
+    
     public final fr.cg95.cvq.business.users.CountryType getFatherBirthCountry() {
         return militaryCensusRequestData.getFatherBirthCountry();
     }

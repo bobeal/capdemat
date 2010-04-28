@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.reservation.*;
@@ -123,6 +124,7 @@ public class PlaceReservationRequest extends Request implements Serializable {
         placeReservationRequestData.setSubscriberNumber(subscriberNumber);
     }
 
+    
     public final String getSubscriberNumber() {
         return placeReservationRequestData.getSubscriberNumber();
     }
@@ -131,6 +133,7 @@ public class PlaceReservationRequest extends Request implements Serializable {
         placeReservationRequestData.setIsSubscriber(isSubscriber);
     }
 
+    
     public final Boolean getIsSubscriber() {
         return placeReservationRequestData.getIsSubscriber();
     }
@@ -139,6 +142,7 @@ public class PlaceReservationRequest extends Request implements Serializable {
         placeReservationRequestData.setPlaceReservation(placeReservation);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.PlaceReservationData> getPlaceReservation() {
         return placeReservationRequestData.getPlaceReservation();
     }
@@ -147,6 +151,7 @@ public class PlaceReservationRequest extends Request implements Serializable {
         placeReservationRequestData.setPaymentReference(paymentReference);
     }
 
+    
     public final String getPaymentReference() {
         return placeReservationRequestData.getPaymentReference();
     }

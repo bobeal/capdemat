@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.school.*;
@@ -166,6 +167,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequestData.setFoodDiet(foodDiet);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getFoodDiet() {
         return schoolCanteenRegistrationRequestData.getFoodDiet();
     }
@@ -174,6 +176,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequestData.setFoodAllergy(foodAllergy);
     }
 
+    
     public final Boolean getFoodAllergy() {
         return schoolCanteenRegistrationRequestData.getFoodAllergy();
     }
@@ -182,6 +185,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequestData.setDoctorPhone(doctorPhone);
     }
 
+    
     public final String getDoctorPhone() {
         return schoolCanteenRegistrationRequestData.getDoctorPhone();
     }
@@ -190,6 +194,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequestData.setDoctorName(doctorName);
     }
 
+    
     public final String getDoctorName() {
         return schoolCanteenRegistrationRequestData.getDoctorName();
     }
@@ -198,6 +203,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequestData.setCanteenAttendingDays(canteenAttendingDays);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getCanteenAttendingDays() {
         return schoolCanteenRegistrationRequestData.getCanteenAttendingDays();
     }
@@ -206,6 +212,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequestData.setSchool(school);
     }
 
+    
     public final fr.cg95.cvq.business.authority.School getSchool() {
         return schoolCanteenRegistrationRequestData.getSchool();
     }
@@ -214,6 +221,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequestData.setHospitalizationPermission(hospitalizationPermission);
     }
 
+    @IsRulesAcceptance
     public final Boolean getHospitalizationPermission() {
         return schoolCanteenRegistrationRequestData.getHospitalizationPermission();
     }
@@ -222,6 +230,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
+    @IsRulesAcceptance
     public final Boolean getRulesAndRegulationsAcceptance() {
         return schoolCanteenRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
@@ -230,6 +239,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequestData.setUrgencyPhone(urgencyPhone);
     }
 
+    
     public final String getUrgencyPhone() {
         return schoolCanteenRegistrationRequestData.getUrgencyPhone();
     }
@@ -238,6 +248,7 @@ public class SchoolCanteenRegistrationRequest extends Request implements Seriali
         schoolCanteenRegistrationRequestData.setSection(section);
     }
 
+    
     public final fr.cg95.cvq.business.users.SectionType getSection() {
         return schoolCanteenRegistrationRequestData.getSection();
     }

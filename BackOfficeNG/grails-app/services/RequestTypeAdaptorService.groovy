@@ -97,4 +97,12 @@ public class RequestTypeAdaptorService {
 
         return i18nError
     }
+    
+    public String generateAcronym(label) {
+        def acronym = ''
+        label.split(' ').each {
+            acronym += it[0].toLowerCase()
+        }
+        return acronym + 'r'
+    }
 }

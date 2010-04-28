@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.technical.*;
@@ -124,6 +125,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         technicalInterventionRequestData.setOtherInterventionLabel(otherInterventionLabel);
     }
 
+    
     public final String getOtherInterventionLabel() {
         return technicalInterventionRequestData.getOtherInterventionLabel();
     }
@@ -132,6 +134,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         technicalInterventionRequestData.setInterventionDescription(interventionDescription);
     }
 
+    
     public final String getInterventionDescription() {
         return technicalInterventionRequestData.getInterventionDescription();
     }
@@ -140,6 +143,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         technicalInterventionRequestData.setInterventionPlace(interventionPlace);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getInterventionPlace() {
         return technicalInterventionRequestData.getInterventionPlace();
     }
@@ -148,6 +152,7 @@ public class TechnicalInterventionRequest extends Request implements Serializabl
         technicalInterventionRequestData.setInterventionType(interventionType);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterventionType() {
         return technicalInterventionRequestData.getInterventionType();
     }

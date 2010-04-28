@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.leisure.*;
@@ -123,6 +124,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
         smsNotificationRequestData.setCleverSmsContactId(cleverSmsContactId);
     }
 
+    
     public final String getCleverSmsContactId() {
         return smsNotificationRequestData.getCleverSmsContactId();
     }
@@ -131,6 +133,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
         smsNotificationRequestData.setMobilePhone(mobilePhone);
     }
 
+    
     public final String getMobilePhone() {
         return smsNotificationRequestData.getMobilePhone();
     }
@@ -139,6 +142,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
         smsNotificationRequestData.setInterests(interests);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getInterests() {
         return smsNotificationRequestData.getInterests();
     }
@@ -147,6 +151,7 @@ public class SmsNotificationRequest extends Request implements Serializable {
         smsNotificationRequestData.setSubscription(subscription);
     }
 
+    
     public final Boolean getSubscription() {
         return smsNotificationRequestData.getSubscription();
     }

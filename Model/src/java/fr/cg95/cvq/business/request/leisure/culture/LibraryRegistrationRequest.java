@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.leisure.culture.*;
@@ -130,6 +131,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         libraryRegistrationRequestData.setRegistrationNumber(registrationNumber);
     }
 
+    
     public final String getRegistrationNumber() {
         return libraryRegistrationRequestData.getRegistrationNumber();
     }
@@ -138,6 +140,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         libraryRegistrationRequestData.setParentalAuthorization(parentalAuthorization);
     }
 
+    @IsRulesAcceptance
     public final Boolean getParentalAuthorization() {
         return libraryRegistrationRequestData.getParentalAuthorization();
     }
@@ -146,6 +149,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         libraryRegistrationRequestData.setSubscriptionPrice(subscriptionPrice);
     }
 
+    
     public final Short getSubscriptionPrice() {
         return libraryRegistrationRequestData.getSubscriptionPrice();
     }
@@ -154,6 +158,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         libraryRegistrationRequestData.setSubscription(subscription);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getSubscription() {
         return libraryRegistrationRequestData.getSubscription();
     }
@@ -162,6 +167,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         libraryRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
+    @IsRulesAcceptance
     public final Boolean getRulesAndRegulationsAcceptance() {
         return libraryRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }

@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.school.*;
@@ -178,6 +179,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequestData.setAuthorizedIndividuals(authorizedIndividuals);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.school.PerischoolAuthorizedIndividual> getAuthorizedIndividuals() {
         return perischoolActivityRegistrationRequestData.getAuthorizedIndividuals();
     }
@@ -186,6 +188,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequestData.setContactIndividuals(contactIndividuals);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.school.PerischoolContactIndividual> getContactIndividuals() {
         return perischoolActivityRegistrationRequestData.getContactIndividuals();
     }
@@ -194,6 +197,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequestData.setClassTripPermission(classTripPermission);
     }
 
+    @IsRulesAcceptance
     public final Boolean getClassTripPermission() {
         return perischoolActivityRegistrationRequestData.getClassTripPermission();
     }
@@ -202,6 +206,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequestData.setChildPhotoExploitationPermission(childPhotoExploitationPermission);
     }
 
+    @IsRulesAcceptance
     public final Boolean getChildPhotoExploitationPermission() {
         return perischoolActivityRegistrationRequestData.getChildPhotoExploitationPermission();
     }
@@ -210,6 +215,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequestData.setSchool(school);
     }
 
+    
     public final fr.cg95.cvq.business.authority.School getSchool() {
         return perischoolActivityRegistrationRequestData.getSchool();
     }
@@ -218,6 +224,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequestData.setHospitalizationPermission(hospitalizationPermission);
     }
 
+    @IsRulesAcceptance
     public final Boolean getHospitalizationPermission() {
         return perischoolActivityRegistrationRequestData.getHospitalizationPermission();
     }
@@ -226,6 +233,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
+    @IsRulesAcceptance
     public final Boolean getRulesAndRegulationsAcceptance() {
         return perischoolActivityRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
@@ -234,6 +242,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequestData.setUrgencyPhone(urgencyPhone);
     }
 
+    
     public final String getUrgencyPhone() {
         return perischoolActivityRegistrationRequestData.getUrgencyPhone();
     }
@@ -242,6 +251,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequestData.setPerischoolActivity(perischoolActivity);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getPerischoolActivity() {
         return perischoolActivityRegistrationRequestData.getPerischoolActivity();
     }
@@ -250,6 +260,7 @@ public class PerischoolActivityRegistrationRequest extends Request implements Se
         perischoolActivityRegistrationRequestData.setSection(section);
     }
 
+    
     public final fr.cg95.cvq.business.users.SectionType getSection() {
         return perischoolActivityRegistrationRequestData.getSection();
     }

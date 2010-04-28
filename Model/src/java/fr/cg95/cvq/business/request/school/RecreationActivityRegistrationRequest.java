@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.school.*;
@@ -170,6 +171,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         recreationActivityRegistrationRequestData.setRecreationCenter(recreationCenter);
     }
 
+    
     public final fr.cg95.cvq.business.authority.RecreationCenter getRecreationCenter() {
         return recreationActivityRegistrationRequestData.getRecreationCenter();
     }
@@ -178,6 +180,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         recreationActivityRegistrationRequestData.setAuthorizedIndividuals(authorizedIndividuals);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.school.RecreationAuthorizedIndividual> getAuthorizedIndividuals() {
         return recreationActivityRegistrationRequestData.getAuthorizedIndividuals();
     }
@@ -186,6 +189,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         recreationActivityRegistrationRequestData.setContactIndividuals(contactIndividuals);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.school.RecreationContactIndividual> getContactIndividuals() {
         return recreationActivityRegistrationRequestData.getContactIndividuals();
     }
@@ -194,6 +198,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         recreationActivityRegistrationRequestData.setClassTripPermission(classTripPermission);
     }
 
+    @IsRulesAcceptance
     public final Boolean getClassTripPermission() {
         return recreationActivityRegistrationRequestData.getClassTripPermission();
     }
@@ -202,6 +207,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         recreationActivityRegistrationRequestData.setRecreationActivity(recreationActivity);
     }
 
+    
     public final List<fr.cg95.cvq.business.request.LocalReferentialData> getRecreationActivity() {
         return recreationActivityRegistrationRequestData.getRecreationActivity();
     }
@@ -210,6 +216,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         recreationActivityRegistrationRequestData.setChildPhotoExploitationPermission(childPhotoExploitationPermission);
     }
 
+    @IsRulesAcceptance
     public final Boolean getChildPhotoExploitationPermission() {
         return recreationActivityRegistrationRequestData.getChildPhotoExploitationPermission();
     }
@@ -218,6 +225,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         recreationActivityRegistrationRequestData.setHospitalizationPermission(hospitalizationPermission);
     }
 
+    @IsRulesAcceptance
     public final Boolean getHospitalizationPermission() {
         return recreationActivityRegistrationRequestData.getHospitalizationPermission();
     }
@@ -226,6 +234,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         recreationActivityRegistrationRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
+    @IsRulesAcceptance
     public final Boolean getRulesAndRegulationsAcceptance() {
         return recreationActivityRegistrationRequestData.getRulesAndRegulationsAcceptance();
     }
@@ -234,6 +243,7 @@ public class RecreationActivityRegistrationRequest extends Request implements Se
         recreationActivityRegistrationRequestData.setUrgencyPhone(urgencyPhone);
     }
 
+    
     public final String getUrgencyPhone() {
         return recreationActivityRegistrationRequestData.getUrgencyPhone();
     }

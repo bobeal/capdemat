@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
+import fr.cg95.cvq.business.request.annotation.*;
 import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.localpolice.*;
@@ -154,6 +155,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         holidaySecurityRequestData.setOtherContactLastName(otherContactLastName);
     }
 
+    
     public final String getOtherContactLastName() {
         return holidaySecurityRequestData.getOtherContactLastName();
     }
@@ -162,6 +164,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         holidaySecurityRequestData.setAbsenceEndDate(absenceEndDate);
     }
 
+    
     public final java.util.Date getAbsenceEndDate() {
         return holidaySecurityRequestData.getAbsenceEndDate();
     }
@@ -170,6 +173,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         holidaySecurityRequestData.setAlarm(alarm);
     }
 
+    
     public final Boolean getAlarm() {
         return holidaySecurityRequestData.getAlarm();
     }
@@ -178,6 +182,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         holidaySecurityRequestData.setOtherContactAddress(otherContactAddress);
     }
 
+    
     public final fr.cg95.cvq.business.users.Address getOtherContactAddress() {
         return holidaySecurityRequestData.getOtherContactAddress();
     }
@@ -186,6 +191,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         holidaySecurityRequestData.setOtherContactFirstName(otherContactFirstName);
     }
 
+    
     public final String getOtherContactFirstName() {
         return holidaySecurityRequestData.getOtherContactFirstName();
     }
@@ -194,6 +200,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         holidaySecurityRequestData.setLight(light);
     }
 
+    
     public final Boolean getLight() {
         return holidaySecurityRequestData.getLight();
     }
@@ -202,6 +209,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         holidaySecurityRequestData.setOtherContactPhone(otherContactPhone);
     }
 
+    
     public final String getOtherContactPhone() {
         return holidaySecurityRequestData.getOtherContactPhone();
     }
@@ -210,6 +218,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         holidaySecurityRequestData.setRulesAndRegulationsAcceptance(rulesAndRegulationsAcceptance);
     }
 
+    @IsRulesAcceptance
     public final Boolean getRulesAndRegulationsAcceptance() {
         return holidaySecurityRequestData.getRulesAndRegulationsAcceptance();
     }
@@ -218,6 +227,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         holidaySecurityRequestData.setAlertPhone(alertPhone);
     }
 
+    
     public final String getAlertPhone() {
         return holidaySecurityRequestData.getAlertPhone();
     }
@@ -226,6 +236,7 @@ public class HolidaySecurityRequest extends Request implements Serializable {
         holidaySecurityRequestData.setAbsenceStartDate(absenceStartDate);
     }
 
+    
     public final java.util.Date getAbsenceStartDate() {
         return holidaySecurityRequestData.getAbsenceStartDate();
     }

@@ -9,7 +9,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
 
     return {
       init: function() {
-        zcv.complexRules['rib'].pushFields('bankCode', 'counterCode', 'accountNumber', 'accountKey');
+        zcv.complexRules['rib'].pushFields('frenchRIB.bankCode', 'frenchRIB.counterCode', 'frenchRIB.accountNumber', 'frenchRIB.accountKey');
         zcv.complexRules['atLeastOne'].pushFields('subjectPhone', 'subjectMobilePhone');
       }
     };

@@ -45,7 +45,7 @@
       <fieldset class="collection-fieldset-add required">
     
         <label class="required"><g:message code="dhr.property.dhrRealAssetAddress.label" /> *  <span><g:message code="dhr.property.dhrRealAssetAddress.help" /></span></label>
-            <div class="address-fieldset required ">
+            <div class="address-fieldset required  ${stepStates != null && stepStates['resources']?.invalidFields.contains('dhrRealAsset.${listIndex}.dhrRealAssetAddress') ? 'validation-failed' : ''}">
             <label for="dhrRealAsset.${listIndex}.dhrRealAssetAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['resources']?.invalidFields.contains('dhrRealAsset.${listIndex}.dhrRealAssetAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${editList?.dhrRealAsset?.dhrRealAssetAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrRealAsset.${listIndex}.dhrRealAssetAddress.additionalDeliveryInformation" name="dhrRealAsset[${listIndex}].dhrRealAssetAddress.additionalDeliveryInformation" />  
             <label for="dhrRealAsset.${listIndex}.dhrRealAssetAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -148,7 +148,7 @@
 
     
         <label class="required condition-isRealEstate-filled"><g:message code="dhr.property.dhrNotRealAssetAddress.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetAddress.help" /></span></label>
-            <div class="address-fieldset required condition-isRealEstate-filled ">
+            <div class="address-fieldset required condition-isRealEstate-filled  ${stepStates != null && stepStates['resources']?.invalidFields.contains('dhrNotRealAsset.${listIndex}.dhrNotRealAssetAddress') ? 'validation-failed' : ''}">
             <label for="dhrNotRealAsset.${listIndex}.dhrNotRealAssetAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['resources']?.invalidFields.contains('dhrNotRealAsset.${listIndex}.dhrNotRealAssetAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrNotRealAsset.${listIndex}.dhrNotRealAssetAddress.additionalDeliveryInformation" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetAddress.additionalDeliveryInformation" />  
             <label for="dhrNotRealAsset.${listIndex}.dhrNotRealAssetAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -182,7 +182,7 @@
 
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetBeneficiaryAddress.help" /></span></label>
-            <div class="address-fieldset required ">
+            <div class="address-fieldset required  ${stepStates != null && stepStates['resources']?.invalidFields.contains('dhrNotRealAsset.${listIndex}.dhrNotRealAssetBeneficiaryAddress') ? 'validation-failed' : ''}">
             <label for="dhrNotRealAsset.${listIndex}.dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['resources']?.invalidFields.contains('dhrNotRealAsset.${listIndex}.dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetBeneficiaryAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrNotRealAsset.${listIndex}.dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetBeneficiaryAddress.additionalDeliveryInformation" />  
             <label for="dhrNotRealAsset.${listIndex}.dhrNotRealAssetBeneficiaryAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -222,7 +222,7 @@
 
     
         <label class="required"><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetNotaryAddress.help" /></span></label>
-            <div class="address-fieldset required ">
+            <div class="address-fieldset required  ${stepStates != null && stepStates['resources']?.invalidFields.contains('dhrNotRealAsset.${listIndex}.dhrNotRealAssetNotaryAddress') ? 'validation-failed' : ''}">
             <label for="dhrNotRealAsset.${listIndex}.dhrNotRealAssetNotaryAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['resources']?.invalidFields.contains('dhrNotRealAsset.${listIndex}.dhrNotRealAssetNotaryAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${editList?.dhrNotRealAsset?.dhrNotRealAssetNotaryAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrNotRealAsset.${listIndex}.dhrNotRealAssetNotaryAddress.additionalDeliveryInformation" name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetNotaryAddress.additionalDeliveryInformation" />  
             <label for="dhrNotRealAsset.${listIndex}.dhrNotRealAssetNotaryAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

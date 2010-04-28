@@ -121,7 +121,7 @@
 
     
       <label class="required condition-haveGuardian-filled"><g:message code="dhr.property.dhrGuardianAddress.label" /> *  <span><g:message code="dhr.property.dhrGuardianAddress.help" /></span></label>
-            <div class="address-fieldset required condition-haveGuardian-filled ">
+            <div class="address-fieldset required condition-haveGuardian-filled  ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrGuardianAddress') ? 'validation-failed' : ''}">
             <label for="dhrGuardianAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['subject']?.invalidFields.contains('dhrGuardianAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.dhrGuardianAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrGuardianAddress.additionalDeliveryInformation" name="dhrGuardianAddress.additionalDeliveryInformation" />  
             <label for="dhrGuardianAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

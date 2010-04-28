@@ -194,7 +194,7 @@
 
     
         <label class="condition-isCareServiceEmployer-unfilled"><g:message code="hcar.property.careServiceProviderAddress.label" />   <span><g:message code="hcar.property.careServiceProviderAddress.help" /></span></label>
-            <div class="address-fieldset condition-isCareServiceEmployer-unfilled ">
+            <div class="address-fieldset condition-isCareServiceEmployer-unfilled  ${stepStates != null && stepStates['aid']?.invalidFields.contains('careServices.${listIndex}.careServiceProviderAddress') ? 'validation-failed' : ''}">
             <label for="careServices.${listIndex}.careServiceProviderAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['aid']?.invalidFields.contains('careServices.${listIndex}.careServiceProviderAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${editList?.careServices?.careServiceProviderAddress?.additionalDeliveryInformation}" maxlength="38" id="careServices.${listIndex}.careServiceProviderAddress.additionalDeliveryInformation" name="careServices[${listIndex}].careServiceProviderAddress.additionalDeliveryInformation" />  
             <label for="careServices.${listIndex}.careServiceProviderAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -404,7 +404,7 @@
 
     
         <label class="required"><g:message code="hcar.property.professionalAddress.label" /> *  <span><g:message code="hcar.property.professionalAddress.help" /></span></label>
-            <div class="address-fieldset required ">
+            <div class="address-fieldset required  ${stepStates != null && stepStates['aid']?.invalidFields.contains('professionals.${listIndex}.professionalAddress') ? 'validation-failed' : ''}">
             <label for="professionals.${listIndex}.professionalAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['aid']?.invalidFields.contains('professionals.${listIndex}.professionalAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${editList?.professionals?.professionalAddress?.additionalDeliveryInformation}" maxlength="38" id="professionals.${listIndex}.professionalAddress.additionalDeliveryInformation" name="professionals[${listIndex}].professionalAddress.additionalDeliveryInformation" />  
             <label for="professionals.${listIndex}.professionalAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -487,7 +487,7 @@
 
     
       <label class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceAddress.label" /> *  <span><g:message code="hcar.property.professionalSupportSocialServiceAddress.help" /></span></label>
-            <div class="address-fieldset required condition-isSocialServiceSupport-filled ">
+            <div class="address-fieldset required condition-isSocialServiceSupport-filled  ${stepStates != null && stepStates['aid']?.invalidFields.contains('professionalSupportSocialServiceAddress') ? 'validation-failed' : ''}">
             <label for="professionalSupportSocialServiceAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['aid']?.invalidFields.contains('professionalSupportSocialServiceAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.professionalSupportSocialServiceAddress?.additionalDeliveryInformation}" maxlength="38" id="professionalSupportSocialServiceAddress.additionalDeliveryInformation" name="professionalSupportSocialServiceAddress.additionalDeliveryInformation" />  
             <label for="professionalSupportSocialServiceAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

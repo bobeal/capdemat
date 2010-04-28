@@ -6,7 +6,7 @@
     <legend><g:message code="dhr.property.dhrCurrentDwelling.label" /></legend>
     
       <label class="required"><g:message code="dhr.property.dhrCurrentDwellingAddress.label" /> *  <span><g:message code="dhr.property.dhrCurrentDwellingAddress.help" /></span></label>
-            <div class="address-fieldset required ">
+            <div class="address-fieldset required  ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrCurrentDwellingAddress') ? 'validation-failed' : ''}">
             <label for="dhrCurrentDwellingAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrCurrentDwellingAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.dhrCurrentDwellingAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrCurrentDwellingAddress.additionalDeliveryInformation" name="dhrCurrentDwellingAddress.additionalDeliveryInformation" />  
             <label for="dhrCurrentDwellingAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -83,7 +83,7 @@
       <fieldset class="collection-fieldset-add required">
     
         <label class="required"><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingAddress.help" /></span></label>
-            <div class="address-fieldset required ">
+            <div class="address-fieldset required  ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress') ? 'validation-failed' : ''}">
             <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.additionalDeliveryInformation" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingAddress.additionalDeliveryInformation" />  
             <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

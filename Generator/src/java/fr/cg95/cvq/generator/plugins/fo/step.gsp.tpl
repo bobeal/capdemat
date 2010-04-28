@@ -35,7 +35,7 @@
             """
         ,'address' :
             """
-            <div class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass}">
+            <div class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass} \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('${IdRefNamePrefix}${element.javaFieldName}') ? 'validation-failed' : ''}">
             <label for="${IdRefNamePrefix}${element.javaFieldName}.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('${IdRefNamePrefix}${element.javaFieldName}.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}" maxlength="38" id="${IdRefNamePrefix}${element.javaFieldName}.additionalDeliveryInformation" name="${namePrefix}${element.javaFieldName}.additionalDeliveryInformation" />  
             <label for="${IdRefNamePrefix}${element.javaFieldName}.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -56,15 +56,15 @@
             """
          ,'frenchRIB' :
             """
-            <div class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass}">
+            <div class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass} ${element.autofillClass} \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('${IdRefNamePrefix}${element.javaFieldName}') ? 'validation-failed' : ''}">
             <label for="${IdRefNamePrefix}${element.javaFieldName}.bankCode"><g:message code="frenchRIB.property.bankCode" /></label>
-            <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.bankCode}" maxlength="5" id="${IdRefNamePrefix}${element.javaFieldName}.bankCode" name="${namePrefix}${element.javaFieldName}.bankCode" />
+            <input type="text" class="\${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('${IdRefNamePrefix}${element.javaFieldName}.bankCode') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.bankCode}" maxlength="5" id="${IdRefNamePrefix}${element.javaFieldName}.bankCode" name="${namePrefix}${element.javaFieldName}.bankCode" />
             <label for="${IdRefNamePrefix}${element.javaFieldName}.counterCode"><g:message code="frenchRIB.property.counterCode" /></label>
-            <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.counterCode}" maxlength="5" id="${IdRefNamePrefix}${element.javaFieldName}.counterCode" name="${namePrefix}${element.javaFieldName}.counterCode" />
+            <input type="text" class="\${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('${IdRefNamePrefix}${element.javaFieldName}.counterCode') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.counterCode}" maxlength="5" id="${IdRefNamePrefix}${element.javaFieldName}.counterCode" name="${namePrefix}${element.javaFieldName}.counterCode" />
             <label for="${IdRefNamePrefix}${element.javaFieldName}.accountNumber"><g:message code="frenchRIB.property.accountNumber" /></label>
-            <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.accountNumber}" maxlength="11" id="${IdRefNamePrefix}${element.javaFieldName}.accountNumber" name="${namePrefix}${element.javaFieldName}.accountNumber" />
-            <label for="${IdRefNamePrefix}${element.javaFieldName}.accountNumber"><g:message code="frenchRIB.property.accountNumber" /></label>
-            <input type="text" value="\${${valuePrefix}.${element.javaFieldName}?.accountKey}" maxlength="2" id="${IdRefNamePrefix}${element.javaFieldName}.accountKey" name="${namePrefix}${element.javaFieldName}.accountKey" />
+            <input type="text" class="\${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('${IdRefNamePrefix}${element.javaFieldName}.accountNumber') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.accountNumber}" maxlength="11" id="${IdRefNamePrefix}${element.javaFieldName}.accountNumber" name="${namePrefix}${element.javaFieldName}.accountNumber" />
+            <label for="${IdRefNamePrefix}${element.javaFieldName}.accountKey"><g:message code="frenchRIB.property.accountKey" /></label>
+            <input type="text" class="\${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('${IdRefNamePrefix}${element.javaFieldName}.accountKey') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.accountKey}" maxlength="2" id="${IdRefNamePrefix}${element.javaFieldName}.accountKey" name="${namePrefix}${element.javaFieldName}.accountKey" />
             </div>
             """
          ,'textarea' :

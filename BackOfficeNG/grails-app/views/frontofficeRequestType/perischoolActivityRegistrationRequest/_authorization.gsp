@@ -20,7 +20,7 @@
 
     
         <label class="required"><g:message code="parr.property.address.label" /> *  <span><g:message code="parr.property.address.help" /></span></label>
-            <div class="address-fieldset required ">
+            <div class="address-fieldset required  ${stepStates != null && stepStates['authorization']?.invalidFields.contains('authorizedIndividuals.${listIndex}.address') ? 'validation-failed' : ''}">
             <label for="authorizedIndividuals.${listIndex}.address.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['authorization']?.invalidFields.contains('authorizedIndividuals.${listIndex}.address.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${editList?.authorizedIndividuals?.address?.additionalDeliveryInformation}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.additionalDeliveryInformation" name="authorizedIndividuals[${listIndex}].address.additionalDeliveryInformation" />  
             <label for="authorizedIndividuals.${listIndex}.address.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

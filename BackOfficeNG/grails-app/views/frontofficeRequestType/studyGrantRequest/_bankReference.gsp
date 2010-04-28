@@ -53,15 +53,15 @@
 
   
     <label for="frenchRIB" class="required"><g:message code="sgr.property.frenchRIB.label" /> *  <span><g:message code="sgr.property.frenchRIB.help" /></span></label>
-            <div class="frenchRIB-fieldset required  ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB') ? 'validation-failed' : ''}">
-            <label class="required" for="frenchRIB.bankCode"><g:message code="frenchRIB.property.bankCode" /></label>
-            <input type="text" class="required ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.bankCode') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.bankCode}" maxlength="5" id="frenchRIB.bankCode" name="frenchRIB.bankCode" />
-            <label class="required" for="frenchRIB.counterCode"><g:message code="frenchRIB.property.counterCode" /></label>
-            <input type="text" class="required ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.counterCode') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.counterCode}" maxlength="5" id="frenchRIB.counterCode" name="frenchRIB.counterCode" />
-            <label class="required" for="frenchRIB.accountNumber"><g:message code="frenchRIB.property.accountNumber" /></label>
-            <input type="text" class="required ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.accountNumber') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.accountNumber}" maxlength="11" id="frenchRIB.accountNumber" name="frenchRIB.accountNumber" />
-            <label class="required" for="frenchRIB.accountNumber"><g:message code="frenchRIB.property.accountNumber" /></label>
-            <input type="text" class="required ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.accountKey') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.accountKey}" maxlength="2" id="frenchRIB.accountKey" name="frenchRIB.accountKey" />
+            <div class="address-fieldset required   ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB') ? 'validation-failed' : ''}">
+            <label for="frenchRIB.bankCode"><g:message code="frenchRIB.property.bankCode" /></label>
+            <input type="text" class="${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.bankCode') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.bankCode}" maxlength="5" id="frenchRIB.bankCode" name="frenchRIB.bankCode" />
+            <label for="frenchRIB.counterCode"><g:message code="frenchRIB.property.counterCode" /></label>
+            <input type="text" class="${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.counterCode') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.counterCode}" maxlength="5" id="frenchRIB.counterCode" name="frenchRIB.counterCode" />
+            <label for="frenchRIB.accountNumber"><g:message code="frenchRIB.property.accountNumber" /></label>
+            <input type="text" class="${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.accountNumber') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.accountNumber}" maxlength="11" id="frenchRIB.accountNumber" name="frenchRIB.accountNumber" />
+            <label for="frenchRIB.accountKey"><g:message code="frenchRIB.property.accountKey" /></label>
+            <input type="text" class="${stepStates != null && stepStates['bankReference']?.invalidFields.contains('frenchRIB.accountKey') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.accountKey}" maxlength="2" id="frenchRIB.accountKey" name="frenchRIB.accountKey" />
             </div>
             
 

@@ -1,30 +1,35 @@
 zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
 
 (function() {
+
   var zcfr = zenexity.capdemat.fong.requesttype;
   var zcv = zenexity.capdemat.Validation;
+  var zcc = zenexity.capdemat.common;
   var yue = YAHOO.util.Event;
 
   zcfr.TechnicalInterventionRequest = function() {
 
     return {
       init: function() {
-        new zzc.AutoComplete({
-          input: input,
-          modalId: "interventionPlace_city",
-          url: "http://localhost:9001/cities",
+        var test = new zcc.AutoComplete({
+          inputId: "interventionPlace_city",
+          modalId: "city_autocomplete",
+          url: "http://localhost:9000/cities",
+          jsonp: true,
           delay: 200,
           tpl_result: function(result) {
-            return "<li>" + result.name + "</li>";
+            return "<li>"+ result.postalCode + " " + result.name + "</li>";
           },
           tpl_valInput: function(result) {
-            return membership.inseeCode;
+            return result.name;
           },
           offset: {
             left: 0,
             top: 0
           },
-          idField: "inseeCode"
+          idField: "inseeCode",
+          onSelectedResult: function() {
+          }
         });
       }
     };

@@ -1,0 +1,37 @@
+/*--------------------------------------------------------------
+
+    default styles for autocomplete componant
+
+---------------------------------------------------------------*/
+
+.autocomplete {
+  position: absolute;
+  margin-top: 20px;
+  z-index: 150;
+}
+
+.autocomplete .results {
+  list-style: none;
+  background: white;
+  border: 1px solid silver;
+  padding: 1px;
+}
+
+.autocomplete .results li {
+  padding: 6px 2px;
+  cursor: pointer;
+  background: #FFF;
+  border-bottom: 1px dotted silver;
+}
+
+.autocomplete .results li:hover {
+  background: #FFF;
+}
+
+.autocomplete .results li.selected {
+  background: #EEE;
+}
+
+.autocomplete .results li.selected:hover {
+  background: #DDD;
+}

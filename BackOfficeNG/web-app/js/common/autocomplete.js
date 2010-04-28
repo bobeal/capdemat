@@ -1,8 +1,9 @@
-zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
+zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
 
 (function() {
   var zcf = zenexity.capdemat.fong;
   var zct = zenexity.capdemat.tools;
+  var zcc = zenexity.capdemat.common;
   var yu = YAHOO.util;
   var yud = yu.Dom;
   var yue = yu.Event;
@@ -10,8 +11,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
   var yuc = YAHOO.util.Connect;
   var yl = YAHOO.lang;
   var ylj = yl.JSON;
-  
-  zcf.AutoCompleteStatic = function() {
+
+  zcc.AutoCompleteStatic = function() {
     return {
       KEY: {
         UP: 38,
@@ -28,8 +29,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     };
   }();
 
-  zcf.AutoComplete = function(options) {
-    this.input = options.input;
+  zcc.AutoComplete = function(options) {
+    this.inputId = options.inputId;
     this.hiddenInput = options.hiddenInput;
     this.modalId = options.modalId;
     this.modalTitle = options.modalTitle;
@@ -40,27 +41,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     this.tpl_valHiddenInput = options.tpl_valHiddenInput;
     this.idField = options.idField;
     this.onSelectedResult = options.onSelectedResult;
+    this.jsonp = options.jsonp;
     this.classes = (options.classes==undefined ? "" : options.classes);
-    if(options.delay) {
-      this.delay = options.delay;
-    }
+    if(options.delay) this.delay = options.delay;
     this.bindEvents();
-    this.input.autocomplete = "off";
-    if(options.offset) {
-      this.offset = options.offset;
-    }
-    
-    this.submitEvent = yu.CustomEvent();
-
-    // prevent form submit in opera when selecting with return key
-    /*
-    $.browser.opera && yu.CustomEvent(input.form, "submit.autocomplete", function() {
-      if (blockSubmit) {
-        blockSubmit = false;
-        return false;
-      }
-    });
-    */
+    document.getElementById(this.inputId).autocomplete = "off";
+    if(options.offset) this.offset = options.offset;
 
     var that = this;
     yue.on(document, "click", function() {
@@ -71,7 +57,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     });
   };
 
-  zcf.AutoComplete.prototype = {
+  zcc.AutoComplete.prototype = {
 
     // Options
     modalId: "",
@@ -89,6 +75,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     idField: "",
     classes: "",
     onSelectedResult: undefined,
+    jsonp: false,
 
     // Internals
     val: "",
@@ -111,32 +98,32 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     drawResults: function() {
       if(this.results.length>0) {
         var htmlResults = "";
-        this.resultIds = [];
         for(var i=0; i<this.results.length; i++) {
           htmlResults += this.tpl_result(this.results[i]);
           this.resultid = this.results[i][this.idField];
         }
-        yus.query("#" + this.modalId + " .results", true).innerHtml = htmlResults;
+        var resultsNode = yus.query("#" + this.modalId + " .results", document, true);
+        resultsNode.innerHTML = htmlResults;
       }
     },
 
     valChange: function() {
-      if(this.input.value != this.val) {
-        this.val = this.input.value;
+      var input = document.getElementById(this.inputId);
+      if(input.value != this.val) {
+        this.val = input.value;
         this.search();
       }
     },
 
     onKeydown: function(jqCtx, event) {
       var that = this;
-      var KEY = zzc.AutoCompleteStatic.KEY;
+      var KEY = zcc.AutoCompleteStatic.KEY;
       switch(event.keyCode) {
         case KEY.RETURN:
           if(this.isShow) {
             event.preventDefault();
-            // prevent form submit in opera when selecting with return key
             this.blockSubmit = true;
-            this.selectHighligthed();
+            this.selectHighlighted();
             this.hide();
             return false;
           }
@@ -167,7 +154,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
 
     bindEvents: function() {
       var that = this;
-      yue.on(this.input, YAHOO.env.ua.opera ? "keypress" : "keydown", function(event) {
+      yue.on(document.getElementById(this.inputId), YAHOO.env.ua.opera ? "keypress" : "keydown", function(event) {
         that.onKeydown.call(that,this,event);
       });
     },
@@ -175,7 +162,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     search: function() {
       var that = this;
       if(this.val) {
-        yuc.asyncRequest("GET", this.url + zct.param(yl.extend(this.urlParams, {q: this.val})), function(results) {
+        var callback = function(results) {
           if(results==null || results.length<=0) {
             that.hide();
           }
@@ -183,7 +170,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
             that.results = results;
             that.show.call(that);
           }
-        })
+        };
+        var allParams = this.urlParams || {};
+        allParams.search = this.val;
+        if(this.jsonp) {
+          new JSONP(this.url, {
+            onSuccess: callback,
+            params: allParams
+          });
+        }
+        else {
+          yuc.asyncRequest("GET", this.url + zct.param(allParams), callback);
+        }
       }
       else {
         this.hide();
@@ -191,33 +189,39 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     },
 
     highligthPrevious: function() {
-      var prevElem = yud.getPreviousSibling(yus.query("#" + this.modalId + " .selected", true));
+      var prevElem = yud.getPreviousSibling(yus.query("#" + this.modalId + " .selected", document, true));
       if(prevElem[0]) {
         this.highlight(prevElem);
       }
     },
 
     highligthNext: function() {
-      var nextElem = yud.getNextSibling(yus.query("#" + this.modalId + " .selected", true));
+      var nextElem = yud.getNextSibling(yus.query("#" + this.modalId + " .selected", document, true));
       if(nextElem[0]) {
         this.highlight(nextElem);
       }
     },
 
     highlight: function(elem) {
-      zct.each(yud.query("#" + this.modalId + " .results > *", true), function() {
+      zct.each(yus.query("#" + this.modalId + " .results > *", document, true), function() {
         yud.removeClass(this, "selected");
       });
       yud.addClass(elem, "selected");
     },
 
-    selectHighligthed: function() {
-      var highlightedElem = yus.query("#" + this.modalId + " .selected", true);
+    selectHighlighted: function() {
+      var highlightedElem = yus.query("#" + this.modalId + " .selected", document, true);
       var result = this.getResult(highlightedElem.resultid);
-      this.input.value = this.tpl_valInput(result);
-      if(this.hiddenInput) {
-        this.hiddenInput.value = this.tpl_valHiddenInput(result);
+      var input = document.getElementById(this.inputId);
+      var hiddenInput = document.getElementById(this.hiddenInputId);
+      input.value = this.tpl_valInput(result);
+      if(hiddenInput) {
+        hiddenInput.value = this.tpl_valHiddenInput(result);
       }
+      if(YAHOO.env.ua.opera && this.blockSubmit) {
+        this.blockSubmit = false;
+        return false;
+      };
       if(this.onSelectedResult !== undefined) this.onSelectedResult(result);
     },
 
@@ -234,33 +238,32 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
 
     show: function() {
       var that = this;
-      var modal = document.getElementById(this.modalId);
-      if(modal) {
+      if(this.isShow) {
         this.hide();
       }
       this.blockSubmit = false;
-      yus.query("body").innerHtml += this.tpl_modal();
-      
-      var left = this.input.offsetLeft;
-      var top = this.input.offsetTop + this.input.offsetHeight + 8;
-      
-      modal.style.left = this.offset.left + left;
-      modal.style.top = this.offset.top + top;
+      document.getElementsByTagName("body")[0].innerHTML += this.tpl_modal();
+      var modal = document.getElementById(this.modalId);
+
+      var inputXY = yud.getXY(document.getElementById(this.inputId));
+      modal.style.left = this.offset.left + inputXY[0] + "px";
+      modal.style.top = this.offset.top + inputXY[1] + "px";
+
       this.drawResults();
 
-      this.highlight(yus.query("#" + this.modalId + " .results > *:first", true));
+      this.highlight(yus.query("#" + this.modalId + " .results > *:first", document, true));
       zct.each(yus.query("#" + this.modalId + " .results > *"), function() {
         yue.on(this, "click", function(event) {
           that.highlight.call(that, event.target);
-          that.selectHighligthed.call(that);
+          that.selectHighlighted.call(that);
           if(that.eventTimer) {
             clearTimeout(that.eventTimer);
             that.hide();
           }
           return false;
         });
-      });  
-      yue.on(this.input, "blur", function(event) {
+      });
+      yue.on(document.getElementById(this.inputId), "blur", function(event) {
         if(that.isShow) {
           that.eventTimer = setTimeout(function() { that.hide(); }, 2000);
         }
@@ -271,7 +274,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
     hide: function() {
       this.blockSubmit = false;
       if(this.isShow) {
-        yu.Element.removeChild(document.getElementById(this.modalId));
+        var modal = document.getElementById(this.modalId);
+        if(modal) document.removeChild(modal);
       }
       this.isShow = false;
     }

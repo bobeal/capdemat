@@ -383,28 +383,28 @@ class BackofficeRequestTypeController {
         render (['entryLabel': lre.labelsMap.fr,
                   'status':'success', 'message':message(code:"message.updateDone")] as JSON)
     }
-    
+
     /* Rules related action
      * ------------------------------------------------------------------------------------------ */
-    
+
     def loadRules = {
         def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.id))
         def requestTypeLabelAsDir = StringUtils.firstCase(requestType.label.replaceAll(' ',''),'Lower')
-        
+
         def rulesFieldNames = [:]
         requestTypeService.getRulesAcceptanceFieldNames(Long.valueOf(params.id))?.each {
             File ruleFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
                 Type.PDF, requestTypeLabelAsDir + '/' + it, Version.CURRENT, false)
             rulesFieldNames[it] = ruleFile.exists()
         }
-        
+
         render(template:"rules", 
                 model:['id': params.id,
                     'requestTypeAcronym': RequestTypeAdaptorService.generateAcronym(requestType.label),
                     'requestTypeLabelAsDir': requestTypeLabelAsDir,
                     'rulesFieldNames': rulesFieldNames ])
     }
-    
+
     // TODO: Manage in LocalAuthorityRegistry the requestType ressource dir persistence
     def saveRule = {
         def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.requestTypeId))
@@ -417,7 +417,7 @@ class BackofficeRequestTypeController {
         }
         def rulesDir = new File (localAuthorityRegistry.getAssetsBase() + '/' + session.currentSiteName + '/' + Type.PDF.folder + '/' + requestTypeLabelAsDir)
         if (!rulesDir.exists()) rulesDir.mkdir()
-        
+
         localAuthorityRegistry.saveLocalAuthorityResource(Type.PDF, 
             requestTypeLabelAsDir + '/' + params.rulesField, file.bytes)
         render (new JSON([ 'rand' : UUID.randomUUID().toString(),

@@ -54,7 +54,7 @@ jcaptchas {
 		new GenericCaptchaEngine(
 			new GimpyFactory(
 				new RandomWordGenerator(
-					"a"
+					"abcdefghijkmnpqrstuvwxyz23456789"
 				),
 				new ComposedWordToImage(
 					new RandomFontGenerator(

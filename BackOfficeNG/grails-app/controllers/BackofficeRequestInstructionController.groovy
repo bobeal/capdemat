@@ -1,5 +1,4 @@
 import fr.cg95.cvq.business.external.ExternalServiceTrace
-import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.request.DataState
 import fr.cg95.cvq.business.request.RequestAction
 import fr.cg95.cvq.business.request.RequestActionType
@@ -13,12 +12,10 @@ import fr.cg95.cvq.service.authority.IAgentService
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.authority.IRecreationCenterService
 import fr.cg95.cvq.service.authority.ISchoolService
-import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IConditionService
 import fr.cg95.cvq.service.request.ILocalReferentialService
 import fr.cg95.cvq.service.request.IMeansOfContactService
-import fr.cg95.cvq.service.request.IRequestDocumentService
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestSearchService
@@ -43,13 +40,11 @@ class BackofficeRequestInstructionController {
     IRequestActionService requestActionService
     IRequestLockService requestLockService
     IRequestSearchService requestSearchService
-    IRequestDocumentService requestDocumentService
     IRequestNoteService requestNoteService
     IRequestTypeService requestTypeService
     IRequestWorkflowService requestWorkflowService
     IHomeFolderService homeFolderService
     IIndividualService individualService
-    IDocumentService documentService
     IMeansOfContactService meansOfContactService
     IAgentService agentService
     IMailService mailService
@@ -63,7 +58,6 @@ class BackofficeRequestInstructionController {
 
     def translationService
     def instructionService
-    DocumentAdaptorService documentAdaptorService
     def homeFolderAdaptorService
     def requestAdaptorService
     def defaultAction = "edit"
@@ -81,37 +75,7 @@ class BackofficeRequestInstructionController {
     def edit = {
         def rqt = requestSearchService.getById(Long.valueOf(params.id), true)
         def requester = rqt.requesterId != null ? individualService.getById(rqt.requesterId) : null
-        def documentList = []
-        def providedDocumentTypes = []
-        def requestDocuments = requestDocumentService.getAssociatedDocuments(Long.valueOf(params.id))
-    
-        requestDocuments.each {
-            def document = documentService.getById(it.documentId)
-            providedDocumentTypes.add(document.documentType.id)
-            documentList.add([
-                "id": document.id,
-                "documentTypeId" : document.documentType.id,
-                "name": message(code: CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
-                "endValidityDate": document.endValidityDate,
-                "pageNumber": document.datas.size(),
-                "state": CapdematUtils.adaptCapdematEnum(document.state, "document.state")
-            ])
-        }
 
-        // manage allowed and associated documents to a request
-        def isDocumentProvided
-        requestTypeService.getAllowedDocuments(rqt.requestType.id).each { documentTypeIt ->
-            isDocumentProvided = 
-                providedDocumentTypes.contains(documentTypeIt.id) ? true : false
-            if (!isDocumentProvided)
-                documentList.add([
-                    "id": 0,
-                    "documentTypeId" : documentTypeIt.id,
-                    "name": message(code: CapdematUtils.adaptDocumentTypeName(documentTypeIt.name)),
-                    "state": ["cssClass": "tag-not_provided", "i18nKey": "document.state.notProvided"]
-                ])
-        }
-        
         // just for VoCardRequest and HomeFolderModificationRequest
         def adults = []
         def children = []
@@ -190,7 +154,6 @@ class BackofficeRequestInstructionController {
             "requestDataState": CapdematUtils.adaptCapdematEnum(rqt.dataState, "request.dataState"),
             "requestLabel": translationService.translateRequestTypeLabel(rqt.requestType.label).encodeAsHTML(),
             "requestTypeTemplate": CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label),
-            "documentList": documentList,
             "externalProviderServiceLabel" : externalProviderServiceLabel,
             "externalTemplateName" : externalTemplateName,
             "lastTraceStatus" : lastTraceStatus
@@ -394,11 +357,6 @@ class BackofficeRequestInstructionController {
                     requestWorkflowService.getPossibleTransitions(DataState.forString(stateAsString))
                 stateTypeI18nKey = "request.dataState"
                 break
-            case "documentState":
-                transitionStates =
-                    documentService.getPossibleTransitions(DocumentState.forString(stateAsString))
-                stateTypeI18nKey = "document.state"
-                break
             case "requestState":
                 transitionStates =
                     requestWorkflowService.getPossibleTransitions(RequestState.forString(stateAsString))
@@ -422,12 +380,6 @@ class BackofficeRequestInstructionController {
                 requestWorkflowService.updateRequestDataState(
                         Long.valueOf(params.id), DataState.forString(params.newState))
                 break
-            case "documentState":
-                documentService.updateDocumentState(
-                        Long.valueOf(params.id),
-                        DocumentState.forString(params.newState),
-                        null, null)
-                break
             case "requestState":
                 requestWorkflowService.updateRequestState(
                         Long.valueOf(params.id),
@@ -436,16 +388,6 @@ class BackofficeRequestInstructionController {
                break
         }
         render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
-    }
-
-    def removeDocument = {
-        if (request.getMethod().toLowerCase() == "delete") {
-            requestDocumentService.removeDocument(
-                requestSearchService.getById(Long.valueOf(params.requestId), false),
-                Long.valueOf(params.documentId))
-            render ([status:"ok",
-                success_msg:message(code:"message.deleteDone")] as JSON)
-        }
     }
 
     /*  request information  managment

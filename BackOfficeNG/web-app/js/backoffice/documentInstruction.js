@@ -74,7 +74,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
         zcbd.Instruction.listUrl = [zc['contextPath'],'/backoffice/documentInstruction/documentsList?requestId=',zcb['requestId']].join('');
         initWidgets();
         initEvents();
-        
+        zcbd.Instruction.refreshList();
+        zcbd.Instruction.refreshList(true);
         zca.advise('toggleStateOverlay',new zca.Advice('beforeSuccess',zcbr.Permission.validateAgent),zcbd.Instruction);
       },
       extractHandler : function(e) {
@@ -197,10 +198,33 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
           if (json)
             zct.Notifier.processMessage(json.status,json.message,'documentInformationtMsg');
         });
+      },
+
+      // FIXME : dirty hack to manage baseUrl and Ajax (dis-) utilities
+      removeDocument : function(e) {
+        var target = yue.getTarget(e);
+        var id = target.id.split('_')[1];
+        new zct.ConfirmationDialog(
+          { head : 'Attention !',
+            body : 'Souhaitez-vous réellement supprimer ce document associé à la demande ?' },
+          function() {
+            var currentBaseUrl = zenexity.capdemat.baseUrl;
+            zenexity.capdemat.baseUrl ='/CapDemat/backoffice/documentInstruction';
+            zct.doAjaxDeleteCall("/removeDocument","requestId=" + zcb.requestId
+              + "&documentId=" + id, function(o) {
+              var json = ylj.parse(o.responseText);
+              if (json.status == "ok") {
+                zct.Notifier.processMessage('success', json.success_msg);
+                zcb.document.Instruction.refreshList();
+                zcb.document.Instruction.refreshList(true);
+              }
+            });
+            zenexity.capdemat.baseUrl = currentBaseUrl;
+          }).show(e);
       }
     };
   }();
-  
+
   yue.onDOMReady(zcbd.Instruction.init);
   
 }());

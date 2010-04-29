@@ -142,14 +142,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
     function submitChangeStateForm(targetEl , formId) {
       // bad strategy to refresh tag state ...
       var nodes = yus.query('input[name=stateType]', formId);
-      var oldTagStateEl;
-      if (nodes[0].getAttribute('value') != 'documentState')
-        oldTagStateEl = yud.get(nodes[0].getAttribute('value'));
-      else {
-        nodes = yus.query('input[name=id]', formId);
-        oldTagStateEl = yud.get( 'documentState_' + nodes[0].getAttribute('value'));
-      }
-
+      var oldTagStateEl = yud.get(nodes[0].getAttribute('value'));
       nodes = yus.query('input:checked', formId);
       var newTagStateEl = yud.getNextSibling(nodes[0]);
 
@@ -171,13 +164,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
     }
 
     function getStateTransitions(stateCssClass, stateType) {
-      var id;
-      if (stateType.indexOf('documentState_') != -1) {
-        id = stateType.replace('documentState_', '');
-        stateType = 'documentState';
-      } else {
-        id = zcb.requestId
-      }
+      var id = zcb.requestId;
 
       zct.doAjaxCall(
           '/stateTransitions/' + '?id=' + id
@@ -293,7 +280,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         init();
         zcbr.Instruction.inlineEditEvent = new zct.Event(zcbr.Instruction, zcbr.Instruction.getHandler);
         yue.on('requestData','click',zcbr.Instruction.inlineEditEvent.dispatch,zcbr.Instruction.inlineEditEvent,true);
-        yue.on(yus.query('ul.document-list'),'click',zcbr.Instruction.inlineEditEvent.dispatch,zcbr.Instruction.inlineEditEvent,true);
         switchStatePanel = zca.advise(switchStatePanel,new zca.Advice('beforeSuccess',zcbr.Permission.validateAgent));
         zca.advise(['addListItem','deleteListItem','editField'],
           new zca.Advice('beforeSuccess',zcbr.Permission.validate),zcbr.Instruction);
@@ -409,24 +395,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             , null,
             function(o) { zct.html(yud.get('widget-' + idRegex[2]), o.responseText); }
           );
-      },
-      removeDocument : function(e) {
-        var target = yue.getTarget(e);
-        var id = target.id.split('_')[1];
-        new zct.ConfirmationDialog(
-          { head : 'Attention !',
-            body : 'Souhaitez-vous réellement supprimer ce document associé à la demande ?' },
-          function() {
-            zct.doAjaxDeleteCall("/removeDocument","requestId=" + zcb.requestId
-              + "&documentId=" + id, function(o) {
-              var json = ylj.parse(o.responseText);
-              if (json.status == "ok") {
-                zct.Notifier.processMessage('success', json.success_msg);
-                zcb.document.Instruction.refreshList();
-                zcb.document.Instruction.refreshList(true);
-              }
-            });
-          }).show(e);
       }
     };
     

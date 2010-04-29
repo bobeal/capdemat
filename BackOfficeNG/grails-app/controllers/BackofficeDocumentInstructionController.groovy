@@ -214,4 +214,14 @@ class BackofficeDocumentInstructionController {
         documentService.modify(document)
         render([status:"success", message:message(code:"message.updateDone")] as JSON)
     }
+
+    def removeDocument = {
+        if (request.getMethod().toLowerCase() == "delete") {
+            requestDocumentService.removeDocument(
+                requestSearchService.getById(Long.valueOf(params.requestId), false),
+                Long.valueOf(params.documentId))
+            render ([status:"ok",
+                success_msg:message(code:"message.deleteDone")] as JSON)
+        }
+    }
 }

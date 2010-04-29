@@ -63,20 +63,6 @@
           <h2><g:message code="requestType.configuration.documents" /></h2>
           <div class="box-raduis">
             <ul class="document-list" id="partialDocumentList">
-            <g:each var="document" status="i" in="${documentList}">
-              <g:if test="${document.id != 0}">
-                <li>
-                  <a class="removeDocument" id="removeDocument_${document.id}" />
-                  <a class="documentLink" id="displayDocPanel_${document.id}" 
-                    href="${createLink(controller:'backofficeDocumentInstruction', action : 'edit', id : document.id, params : ['dtid' : document.documentTypeId, 'requestId' : rqt.id])}">
-                    ${document.name}</a> - ${document.pageNumber} <g:message code="property.pages"/>
-                   <g:if test="${document.endValidityDate}">
-                    (<g:message code="document.property.endValidityDate"/> : 
-                      <g:formatDate formatName="format.date" date="${document.endValidityDate}" />)
-                   </g:if>
-                </li>
-              </g:if>
-            </g:each>
             </ul>
           </div>
           <!-- document managment panel [default display = none] -->
@@ -124,19 +110,6 @@
         <h3><g:message code="property.documents" /></h3>
         <div class="body">
           <ul class="document-list" id="fullDocumentList">
-          <g:each var="document" in="${documentList}">
-            <li>
-              <a class="${document.state.cssClass} documentState_${document.id} ${document?.id?'':'not-supplied'} documentLink" 
-                id="${!agentCanWrite && document.id == 0 ? 'doNothing' : 'displayDocPanel_'+document.id}_${UUID.randomUUID().toString().substring(0,4)}"
-                href="${createLink(controller:'backofficeDocumentInstruction', action : 'edit', id : document.id, params : ['dtid' : document.documentTypeId, 'requestId' : rqt.id])}">
-                <g:message code="${document.state.i18nKey}" />
-              </a>
-              <g:if test="${document?.id}">
-                <a class="removeDocument" id="removeDocument_${document.id}"> </a>
-              </g:if>
-              ${document.name}
-            </li>
-          </g:each>
           </ul>
         </div>
       </div>

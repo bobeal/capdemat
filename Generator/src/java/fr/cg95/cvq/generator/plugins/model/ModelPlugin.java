@@ -13,6 +13,7 @@ import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.ElementCommon;
+import fr.cg95.cvq.generator.plugins.model.ModelRequestObject.ComplexType;
 
 /**
  * The model plugin that is in charge of receiving generator events, filtering those
@@ -99,6 +100,13 @@ public class ModelPlugin implements IPluginGenerator {
             if (element != null) {
                 element.setElementCommon(commonElement.getValue());
             } else {
+                for (ComplexType complexType : modelRequestObject.getComplexTypesMap().values()) {
+                    ElementModelProperties nestedElement =
+                        complexType.getElementModelProperties(commonElement.getKey());
+                    if (nestedElement != null) {
+                        nestedElement.setElementCommon(commonElement.getValue());
+                    }
+                }
                 for (ElementModelProperties elementModelProperties :
                     modelRequestObject.getElementsPropertiesMap().values()) {
                     if (commonElement.getKey().equals(elementModelProperties.getComplexContainerElementName())) {

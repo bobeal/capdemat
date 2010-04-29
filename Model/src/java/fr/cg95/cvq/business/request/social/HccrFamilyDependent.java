@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -105,6 +108,30 @@ public class HccrFamilyDependent implements Serializable {
     }
 
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"subject"},
+        message = "referentFamilyDependentFirstName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentFamilyDependentFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "referentFamilyDependentFirstName"
+      )
+    
     private String referentFamilyDependentFirstName;
 
     public final void setReferentFamilyDependentFirstName(final String referentFamilyDependentFirstName) {
@@ -122,6 +149,14 @@ public class HccrFamilyDependent implements Serializable {
         return this.referentFamilyDependentFirstName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentFamilyDependentBirthDate"
+      )
+    
     private java.util.Date referentFamilyDependentBirthDate;
 
     public final void setReferentFamilyDependentBirthDate(final java.util.Date referentFamilyDependentBirthDate) {
@@ -139,6 +174,14 @@ public class HccrFamilyDependent implements Serializable {
         return this.referentFamilyDependentBirthDate;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentFamilyDependentActualSituation"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType referentFamilyDependentActualSituation;
 
     public final void setReferentFamilyDependentActualSituation(final fr.cg95.cvq.business.request.social.HccrReferentFamilyDependentActualSituationType referentFamilyDependentActualSituation) {
@@ -156,6 +199,30 @@ public class HccrFamilyDependent implements Serializable {
         return this.referentFamilyDependentActualSituation;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"subject"},
+        message = "referentFamilyDependentLastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "referentFamilyDependentLastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "referentFamilyDependentLastName"
+      )
+    
     private String referentFamilyDependentLastName;
 
     public final void setReferentFamilyDependentLastName(final String referentFamilyDependentLastName) {

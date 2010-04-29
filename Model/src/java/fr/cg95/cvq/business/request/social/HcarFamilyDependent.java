@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -105,6 +108,14 @@ public class HcarFamilyDependent implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "familyDependentActualSituation"
+      )
+    
     private fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType familyDependentActualSituation;
 
     public final void setFamilyDependentActualSituation(final fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType familyDependentActualSituation) {
@@ -122,6 +133,30 @@ public class HcarFamilyDependent implements Serializable {
         return this.familyDependentActualSituation;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"subject"},
+        message = "familyDependentLastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "familyDependentLastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "familyDependentLastName"
+      )
+    
     private String familyDependentLastName;
 
     public final void setFamilyDependentLastName(final String familyDependentLastName) {
@@ -139,6 +174,30 @@ public class HcarFamilyDependent implements Serializable {
         return this.familyDependentLastName;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"subject"},
+        message = "familyDependentFirstName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "familyDependentFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"subject"},
+        message = "familyDependentFirstName"
+      )
+    
     private String familyDependentFirstName;
 
     public final void setFamilyDependentFirstName(final String familyDependentFirstName) {
@@ -156,6 +215,14 @@ public class HcarFamilyDependent implements Serializable {
         return this.familyDependentFirstName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"subject"},
+        message = "familyDependentBirthDate"
+      )
+    
     private java.util.Date familyDependentBirthDate;
 
     public final void setFamilyDependentBirthDate(final java.util.Date familyDependentBirthDate) {

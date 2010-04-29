@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -90,6 +93,30 @@ public class HccrAdditionalFee implements Serializable {
     }
 
   
+    
+      @MaxLength(
+        
+          value = 30,
+        
+        
+        profiles = {"benefits"},
+        message = "additionalFeeKind"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "additionalFeeKind"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"benefits"},
+        message = "additionalFeeKind"
+      )
+    
     private String additionalFeeKind;
 
     public final void setAdditionalFeeKind(final String additionalFeeKind) {
@@ -107,6 +134,30 @@ public class HccrAdditionalFee implements Serializable {
         return this.additionalFeeKind;
     }
   
+    
+      @MaxLength(
+        
+          value = 30,
+        
+        
+        profiles = {"benefits"},
+        message = "additionalFeePeriodicity"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "additionalFeePeriodicity"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"benefits"},
+        message = "additionalFeePeriodicity"
+      )
+    
     private String additionalFeePeriodicity;
 
     public final void setAdditionalFeePeriodicity(final String additionalFeePeriodicity) {
@@ -124,6 +175,21 @@ public class HccrAdditionalFee implements Serializable {
         return this.additionalFeePeriodicity;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"benefits"},
+        message = "additionalFeeCost"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"benefits"},
+        message = "additionalFeeCost"
+      )
+    
     private String additionalFeeCost;
 
     public final void setAdditionalFeeCost(final String additionalFeeCost) {

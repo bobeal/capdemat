@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -92,6 +95,30 @@ public class HccrProfessional implements Serializable {
     }
 
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"aid"},
+        message = "professionalLastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "professionalLastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"aid"},
+        message = "professionalLastName"
+      )
+    
     private String professionalLastName;
 
     public final void setProfessionalLastName(final String professionalLastName) {
@@ -109,6 +136,30 @@ public class HccrProfessional implements Serializable {
         return this.professionalLastName;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"aid"},
+        message = "professionalFirstName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "professionalFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"aid"},
+        message = "professionalFirstName"
+      )
+    
     private String professionalFirstName;
 
     public final void setProfessionalFirstName(final String professionalFirstName) {
@@ -126,6 +177,21 @@ public class HccrProfessional implements Serializable {
         return this.professionalFirstName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "professionalAddress"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"aid"},
+        message = "professionalAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address professionalAddress;
 
     public final void setProfessionalAddress(final fr.cg95.cvq.business.users.Address professionalAddress) {

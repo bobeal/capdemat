@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -94,6 +97,14 @@ public class DhrRealAsset implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "realAssetNetFloorArea"
+      )
+    
     private java.math.BigInteger realAssetNetFloorArea;
 
     public final void setRealAssetNetFloorArea(final java.math.BigInteger realAssetNetFloorArea) {
@@ -112,6 +123,21 @@ public class DhrRealAsset implements Serializable {
         return this.realAssetNetFloorArea;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrRealAssetAddress"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"resources"},
+        message = "dhrRealAssetAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dhrRealAssetAddress;
 
     public final void setDhrRealAssetAddress(final fr.cg95.cvq.business.users.Address dhrRealAssetAddress) {
@@ -130,6 +156,14 @@ public class DhrRealAsset implements Serializable {
         return this.dhrRealAssetAddress;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrRealAssetValue"
+      )
+    
     private java.math.BigInteger dhrRealAssetValue;
 
     public final void setDhrRealAssetValue(final java.math.BigInteger dhrRealAssetValue) {

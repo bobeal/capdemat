@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -126,6 +129,23 @@ public class DhrPreviousDwelling implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrPreviousDwelling.dhrPreviousDwellingKind'].test(_this.dhrPreviousDwellingKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"dwelling"},
+        message = "dhrPreviousDwellingStatus"
+      )
+    
     private fr.cg95.cvq.business.request.social.DhrDwellingStatusType dhrPreviousDwellingStatus;
 
     public final void setDhrPreviousDwellingStatus(final fr.cg95.cvq.business.request.social.DhrDwellingStatusType dhrPreviousDwellingStatus) {
@@ -143,6 +163,14 @@ public class DhrPreviousDwelling implements Serializable {
         return this.dhrPreviousDwellingStatus;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrPreviousDwellingKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.DhrDwellingKindType dhrPreviousDwellingKind;
 
     public final void setDhrPreviousDwellingKind(final fr.cg95.cvq.business.request.social.DhrDwellingKindType dhrPreviousDwellingKind) {
@@ -160,6 +188,21 @@ public class DhrPreviousDwelling implements Serializable {
         return this.dhrPreviousDwellingKind;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrPreviousDwellingComment"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrPreviousDwellingComment"
+      )
+    
     private String dhrPreviousDwellingComment;
 
     public final void setDhrPreviousDwellingComment(final String dhrPreviousDwellingComment) {
@@ -177,6 +220,14 @@ public class DhrPreviousDwelling implements Serializable {
         return this.dhrPreviousDwellingComment;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrPreviousDwellingDepartureDate"
+      )
+    
     private java.util.Date dhrPreviousDwellingDepartureDate;
 
     public final void setDhrPreviousDwellingDepartureDate(final java.util.Date dhrPreviousDwellingDepartureDate) {
@@ -194,6 +245,21 @@ public class DhrPreviousDwelling implements Serializable {
         return this.dhrPreviousDwellingDepartureDate;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrPreviousDwellingAddress"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrPreviousDwellingAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dhrPreviousDwellingAddress;
 
     public final void setDhrPreviousDwellingAddress(final fr.cg95.cvq.business.users.Address dhrPreviousDwellingAddress) {
@@ -212,6 +278,14 @@ public class DhrPreviousDwelling implements Serializable {
         return this.dhrPreviousDwellingAddress;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"dwelling"},
+        message = "dhrPreviousDwellingArrivalDate"
+      )
+    
     private java.util.Date dhrPreviousDwellingArrivalDate;
 
     public final void setDhrPreviousDwellingArrivalDate(final java.util.Date dhrPreviousDwellingArrivalDate) {

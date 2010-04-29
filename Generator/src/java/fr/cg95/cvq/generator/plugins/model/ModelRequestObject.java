@@ -325,7 +325,7 @@ public class ModelRequestObject {
         return enumValues[0];
     }
     
-    private class ComplexType {
+    public class ComplexType {
 
         private String typeName;
         private ElementModelProperties eltModelProperties;
@@ -342,6 +342,7 @@ public class ModelRequestObject {
 
         private void generate() {
             Map<String, Object> model = new HashMap<String, Object>();
+            model.put("complexType", this);
             model.put("baseNS", IPluginGenerator.MODEL_BASE_TARGET_NS);
             model.put("lastParticle", requestNamespaceLastParticle);
             model.put("XMLBeansBaseNS", IPluginGenerator.XMLBEANS_BASE_TARGET_NS);
@@ -456,5 +457,9 @@ public class ModelRequestObject {
 
     public Map<String, ElementModelProperties> getElementsPropertiesMap() {
         return this.elementsPropertiesMap;
+    }
+
+    public HashMap<String, ComplexType> getComplexTypesMap() {
+        return complexTypesMap;
     }
 }

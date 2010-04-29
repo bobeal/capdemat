@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -140,6 +143,14 @@ public class DhrNotRealAsset implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetValue"
+      )
+    
     private java.math.BigInteger dhrNotRealAssetValue;
 
     public final void setDhrNotRealAssetValue(final java.math.BigInteger dhrNotRealAssetValue) {
@@ -158,6 +169,39 @@ public class DhrNotRealAsset implements Serializable {
         return this.dhrNotRealAssetValue;
     }
   
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrNotRealAsset.dhrNotRealAssetKind'].test(_this.dhrNotRealAssetKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetAddress"
+      )
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['dhrNotRealAsset.dhrNotRealAssetKind'].test(_this.dhrNotRealAssetKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dhrNotRealAssetAddress;
 
     public final void setDhrNotRealAssetAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetAddress) {
@@ -176,6 +220,14 @@ public class DhrNotRealAsset implements Serializable {
         return this.dhrNotRealAssetAddress;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetDate"
+      )
+    
     private java.util.Date dhrNotRealAssetDate;
 
     public final void setDhrNotRealAssetDate(final java.util.Date dhrNotRealAssetDate) {
@@ -193,6 +245,30 @@ public class DhrNotRealAsset implements Serializable {
         return this.dhrNotRealAssetDate;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetNotaryName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetNotaryName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetNotaryName"
+      )
+    
     private String dhrNotRealAssetNotaryName;
 
     public final void setDhrNotRealAssetNotaryName(final String dhrNotRealAssetNotaryName) {
@@ -210,6 +286,30 @@ public class DhrNotRealAsset implements Serializable {
         return this.dhrNotRealAssetNotaryName;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetBeneficiaryName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetBeneficiaryName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetBeneficiaryName"
+      )
+    
     private String dhrNotRealAssetBeneficiaryName;
 
     public final void setDhrNotRealAssetBeneficiaryName(final String dhrNotRealAssetBeneficiaryName) {
@@ -227,6 +327,30 @@ public class DhrNotRealAsset implements Serializable {
         return this.dhrNotRealAssetBeneficiaryName;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetBeneficiaryFirstName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetBeneficiaryFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetBeneficiaryFirstName"
+      )
+    
     private String dhrNotRealAssetBeneficiaryFirstName;
 
     public final void setDhrNotRealAssetBeneficiaryFirstName(final String dhrNotRealAssetBeneficiaryFirstName) {
@@ -244,6 +368,14 @@ public class DhrNotRealAsset implements Serializable {
         return this.dhrNotRealAssetBeneficiaryFirstName;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetType"
+      )
+    
     private fr.cg95.cvq.business.request.social.DhrAssetTypeType dhrNotRealAssetType;
 
     public final void setDhrNotRealAssetType(final fr.cg95.cvq.business.request.social.DhrAssetTypeType dhrNotRealAssetType) {
@@ -261,6 +393,21 @@ public class DhrNotRealAsset implements Serializable {
         return this.dhrNotRealAssetType;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetBeneficiaryAddress"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetBeneficiaryAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dhrNotRealAssetBeneficiaryAddress;
 
     public final void setDhrNotRealAssetBeneficiaryAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetBeneficiaryAddress) {
@@ -279,6 +426,21 @@ public class DhrNotRealAsset implements Serializable {
         return this.dhrNotRealAssetBeneficiaryAddress;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetNotaryAddress"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetNotaryAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address dhrNotRealAssetNotaryAddress;
 
     public final void setDhrNotRealAssetNotaryAddress(final fr.cg95.cvq.business.users.Address dhrNotRealAssetNotaryAddress) {
@@ -297,6 +459,14 @@ public class DhrNotRealAsset implements Serializable {
         return this.dhrNotRealAssetNotaryAddress;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"resources"},
+        message = "dhrNotRealAssetKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.DhrAssetKindType dhrNotRealAssetKind;
 
     public final void setDhrNotRealAssetKind(final fr.cg95.cvq.business.request.social.DhrAssetKindType dhrNotRealAssetKind) {

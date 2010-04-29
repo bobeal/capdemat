@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -99,6 +102,14 @@ public class HcarCareService implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "careServiceCareServiceEmployer"
+      )
+    
     private Boolean careServiceCareServiceEmployer;
 
     public final void setCareServiceCareServiceEmployer(final Boolean careServiceCareServiceEmployer) {
@@ -116,6 +127,21 @@ public class HcarCareService implements Serializable {
         return this.careServiceCareServiceEmployer;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "careServiceKind"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"aid"},
+        message = "careServiceKind"
+      )
+    
     private String careServiceKind;
 
     public final void setCareServiceKind(final String careServiceKind) {
@@ -133,6 +159,57 @@ public class HcarCareService implements Serializable {
         return this.careServiceKind;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['hcarCareService.careServiceCareServiceEmployer'].test(_this.careServiceCareServiceEmployer.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "careServiceProviderName"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['hcarCareService.careServiceCareServiceEmployer'].test(_this.careServiceCareServiceEmployer.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "careServiceProviderName"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['hcarCareService.careServiceCareServiceEmployer'].test(_this.careServiceCareServiceEmployer.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "careServiceProviderName"
+      )
+    
     private String careServiceProviderName;
 
     public final void setCareServiceProviderName(final String careServiceProviderName) {
@@ -150,6 +227,23 @@ public class HcarCareService implements Serializable {
         return this.careServiceProviderName;
     }
   
+    
+      @AssertValid(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= !_this.conditions['hcarCareService.careServiceCareServiceEmployer'].test(_this.careServiceCareServiceEmployer.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "careServiceProviderAddress"
+      )
+    
     private fr.cg95.cvq.business.users.Address careServiceProviderAddress;
 
     public final void setCareServiceProviderAddress(final fr.cg95.cvq.business.users.Address careServiceProviderAddress) {

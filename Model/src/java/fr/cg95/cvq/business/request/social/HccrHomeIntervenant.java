@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -90,6 +93,14 @@ public class HccrHomeIntervenant implements Serializable {
     }
 
   
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "homeIntervenantKind"
+      )
+    
     private fr.cg95.cvq.business.request.social.HccrHomeIntervenantKindType homeIntervenantKind;
 
     public final void setHomeIntervenantKind(final fr.cg95.cvq.business.request.social.HccrHomeIntervenantKindType homeIntervenantKind) {
@@ -107,6 +118,57 @@ public class HccrHomeIntervenant implements Serializable {
         return this.homeIntervenantKind;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['hccrHomeIntervenant.homeIntervenantKind'].test(_this.homeIntervenantKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "homeIntervenantDetails"
+      )
+    
+      @NotNull(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['hccrHomeIntervenant.homeIntervenantKind'].test(_this.homeIntervenantKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "homeIntervenantDetails"
+      )
+    
+      @NotBlank(
+        
+        
+          when = "groovy:def active = true;" +
+          
+            "active &= _this.conditions['hccrHomeIntervenant.homeIntervenantKind'].test(_this.homeIntervenantKind.toString());" +
+                
+              
+            
+            
+            "return active",
+        
+        profiles = {"aid"},
+        message = "homeIntervenantDetails"
+      )
+    
     private String homeIntervenantDetails;
 
     public final void setHomeIntervenantDetails(final String homeIntervenantDetails) {

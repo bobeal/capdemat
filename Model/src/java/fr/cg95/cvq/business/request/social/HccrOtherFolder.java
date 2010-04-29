@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -90,6 +93,16 @@ public class HccrOtherFolder implements Serializable {
     }
 
   
+    
+      @MaxLength(
+        
+          value = 2,
+        
+        
+        profiles = {"folders"},
+        message = "otherFolderDepartment"
+      )
+    
     private String otherFolderDepartment;
 
     public final void setOtherFolderDepartment(final String otherFolderDepartment) {
@@ -107,6 +120,30 @@ public class HccrOtherFolder implements Serializable {
         return this.otherFolderDepartment;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+        profiles = {"folders"},
+        message = "otherFolderName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"folders"},
+        message = "otherFolderName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"folders"},
+        message = "otherFolderName"
+      )
+    
     private String otherFolderName;
 
     public final void setOtherFolderName(final String otherFolderName) {
@@ -124,6 +161,16 @@ public class HccrOtherFolder implements Serializable {
         return this.otherFolderName;
     }
   
+    
+      @MaxLength(
+        
+          value = 30,
+        
+        
+        profiles = {"folders"},
+        message = "otherFolderNumber"
+      )
+    
     private String otherFolderNumber;
 
     public final void setOtherFolderNumber(final String otherFolderNumber) {

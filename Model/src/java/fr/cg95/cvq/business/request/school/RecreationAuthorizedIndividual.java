@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.school.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -100,6 +103,16 @@ public class RecreationAuthorizedIndividual implements Serializable {
     }
 
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"authorization"},
+        message = "officePhone"
+      )
+    
     private String officePhone;
 
     public final void setOfficePhone(final String officePhone) {
@@ -117,6 +130,21 @@ public class RecreationAuthorizedIndividual implements Serializable {
         return this.officePhone;
     }
   
+    
+      @NotNull(
+        
+        
+        profiles = {"authorization"},
+        message = "address"
+      )
+    
+      @AssertValid(
+        
+        
+        profiles = {"authorization"},
+        message = "address"
+      )
+    
     private fr.cg95.cvq.business.users.Address address;
 
     public final void setAddress(final fr.cg95.cvq.business.users.Address address) {
@@ -135,6 +163,30 @@ public class RecreationAuthorizedIndividual implements Serializable {
         return this.address;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"authorization"},
+        message = "firstName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"authorization"},
+        message = "firstName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"authorization"},
+        message = "firstName"
+      )
+    
     private String firstName;
 
     public final void setFirstName(final String firstName) {
@@ -152,6 +204,30 @@ public class RecreationAuthorizedIndividual implements Serializable {
         return this.firstName;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"authorization"},
+        message = "lastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"authorization"},
+        message = "lastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"authorization"},
+        message = "lastName"
+      )
+    
     private String lastName;
 
     public final void setLastName(final String lastName) {
@@ -169,6 +245,16 @@ public class RecreationAuthorizedIndividual implements Serializable {
         return this.lastName;
     }
   
+    
+      @MaxLength(
+        
+          value = 10,
+        
+        
+        profiles = {"authorization"},
+        message = "homePhone"
+      )
+    
     private String homePhone;
 
     public final void setHomePhone(final String homePhone) {

@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -17,6 +18,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import fr.cg95.cvq.xml.common.*;
 import fr.cg95.cvq.xml.request.social.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -90,6 +93,30 @@ public class HcarFamilyAssistanceMember implements Serializable {
     }
 
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMemberLastName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMemberLastName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMemberLastName"
+      )
+    
     private String familyAssistanceMemberLastName;
 
     public final void setFamilyAssistanceMemberLastName(final String familyAssistanceMemberLastName) {
@@ -107,6 +134,30 @@ public class HcarFamilyAssistanceMember implements Serializable {
         return this.familyAssistanceMemberLastName;
     }
   
+    
+      @MaxLength(
+        
+          value = 60,
+        
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMemberRelationship"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMemberRelationship"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMemberRelationship"
+      )
+    
     private String familyAssistanceMemberRelationship;
 
     public final void setFamilyAssistanceMemberRelationship(final String familyAssistanceMemberRelationship) {
@@ -124,6 +175,30 @@ public class HcarFamilyAssistanceMember implements Serializable {
         return this.familyAssistanceMemberRelationship;
     }
   
+    
+      @MaxLength(
+        
+          value = 38,
+        
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMemberFirstName"
+      )
+    
+      @NotNull(
+        
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMemberFirstName"
+      )
+    
+      @NotBlank(
+        
+        
+        profiles = {"aid"},
+        message = "familyAssistanceMemberFirstName"
+      )
+    
     private String familyAssistanceMemberFirstName;
 
     public final void setFamilyAssistanceMemberFirstName(final String familyAssistanceMemberFirstName) {

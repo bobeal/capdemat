@@ -1,5 +1,6 @@
 <%
   import org.apache.commons.lang.StringUtils
+  import fr.cg95.cvq.generator.common.Condition.RoleType
   import fr.cg95.cvq.generator.plugins.model.ModelPluginUtils
   fr.cg95.cvq.generator.plugins.model.ElementModelProperties.metaClass.type = {
     if (delegate.simpleType) {
@@ -205,6 +206,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
 
 import fr.cg95.cvq.business.authority.*;
@@ -213,6 +215,8 @@ import fr.cg95.cvq.business.users.*;
 import fr.cg95.cvq.xml.common.RequestType;
 import ${XMLBeansBaseNS}.common.*;
 import ${XMLBeansBaseNS}.request.${lastParticle}.*;
+import fr.cg95.cvq.service.request.LocalReferential;
+import fr.cg95.cvq.service.request.condition.IConditionChecker;
 
 /**
  * Generated class file, do not edit !
@@ -299,18 +303,46 @@ public class ${className} implements Serializable {
         return this.id;
     }
 
-  <% elements.each { %>
-    private ${it.type()} ${it.nameAsParam};
+  <% elements.each { element -> %>
+    <% element.validationAnnotations.each { %>
+      @${it.key}(
+        <% it.value.each { %>
+          ${it.key} = ${it.value},
+        <% } %>
+        <%
+          if (element.elementCommon.conditionListener != null
+            || element.complexContainerConditionListener != null) {
+        %>
+          when = "groovy:def active = true;" +
+          <%
+            [element.elementCommon.conditionListener, element.complexContainerConditionListener].each { listener ->
+              if (listener != null) {
+                def trigger = complexType.getElementModelProperties(listener.condition.trigger.name)
+                if ("LocalReferentialData".equals(trigger.modelClassName)) {
+          %>
+            "_this.${trigger.nameAsParam}.each { active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${StringUtils.uncapitalize(className)}.${trigger.nameAsParam}'].test(it.name) };" +
+                <% } else { %>
+            "active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${StringUtils.uncapitalize(className)}.${trigger.nameAsParam}'].test(_this.${trigger.nameAsParam}.toString());" +
+                <% } %>
+              <% } %>
+            <% } %>
+            "return active",
+        <% } %>
+        profiles = {"${element.elementCommon.step.name}"},
+        message = "${element.nameAsParam}"
+      )
+    <% } %>
+    private ${element.type()} ${element.nameAsParam};
 
-    public final void set${StringUtils.capitalize(it.nameAsParam)}(final ${it.type()} ${it.nameAsParam}) {
-        this.${it.nameAsParam} = ${it.nameAsParam};
+    public final void set${StringUtils.capitalize(element.nameAsParam)}(final ${element.type()} ${element.nameAsParam}) {
+        this.${element.nameAsParam} = ${element.nameAsParam};
     }
 
     /**
-  <% displayAnnotation(it) %>
+  <% displayAnnotation(element) %>
     */
-    public final ${it.type()} get${StringUtils.capitalize(it.nameAsParam)}() {
-        return this.${it.nameAsParam};
+    public final ${element.type()} get${StringUtils.capitalize(element.nameAsParam)}() {
+        return this.${element.nameAsParam};
     }
   <% } %>
 }

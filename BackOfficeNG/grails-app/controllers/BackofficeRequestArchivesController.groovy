@@ -67,13 +67,13 @@ class BackofficeRequestArchivesController {
 
     def password = {
         if (request.get) {
-            return true
+            return ["subMenuEntries" : subMenuEntries]
         } else if (request.post) {
             if (requestTypeService.checkArchivesPassword(params.password)) {
                 session.hasAccessToRequestArchives = true
                 redirect(action : "index")
             } else {
-                return false
+                return ["subMenuEntries" : subMenuEntries]
             }
         } else if (request.method.toLowerCase() == "delete") {
             requestTypeService.generateArchivesPassword()

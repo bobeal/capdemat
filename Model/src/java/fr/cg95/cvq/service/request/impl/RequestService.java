@@ -25,7 +25,6 @@ public abstract class RequestService implements IRequestService {
     protected Boolean supportUnregisteredCreation = Boolean.FALSE;
     protected String subjectPolicy = IRequestWorkflowService.SUBJECT_POLICY_NONE;
     protected String label;
-    protected String xslFoFilename;
     protected Boolean isOfRegistrationKind;
     protected String defaultDisplayGroup;
     protected Map<String, IConditionChecker> conditions;
@@ -98,15 +97,6 @@ public abstract class RequestService implements IRequestService {
 
     public void setLabel(final String label) {
         this.label = label;
-    }
-
-    @Override
-    public String getXslFoFilename() {
-        return this.xslFoFilename;
-    }
-
-    public void setXslFoFilename(String xslFoFilename) {
-        this.xslFoFilename = xslFoFilename;
     }
 
     public void setSupportUnregisteredCreation(String supportUnregisteredCreation) {

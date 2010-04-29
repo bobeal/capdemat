@@ -36,11 +36,6 @@ public class RequestForm implements Serializable {
      * Short name, used to display requestForm name in little space (like in a drop down list)
      */
     private String shortLabel;
-    
-    /**
-    * the name of the XSL file used to generate certificates after some states transitions
-    */
-    private String xslFoFilename;
 
     /** the request types that use this form */
     private Set<RequestType> requestTypes;
@@ -139,18 +134,6 @@ public class RequestForm implements Serializable {
 
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
-    }
-    
-    /**
-     * @hibernate.property
-     *  column="xsl_fo_filename"
-     */
-    public String getXslFoFilename() {
-        return this.xslFoFilename;
-    }
-    
-    public void setXslFoFilename(String xslFoFilename) {
-        this.xslFoFilename = xslFoFilename;
     }
 
     @Override

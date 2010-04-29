@@ -23,11 +23,6 @@ public interface IRequestService {
     String getLabel();
 
     /**
-     * Return name of the XSL-FO file used to render request certificate.
-     */
-    String getXslFoFilename();
-    
-    /**
      * Return the file name of local referential data specific to this request type (or null if
      * none defined).
      */

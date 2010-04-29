@@ -147,33 +147,13 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
         } 
 
         IRequestService service = requestServiceRegistry.getRequestService(serviceLabel);
-
-        RequestForm requestForm = 
-            requestFormDAO.findByTypeAndRequest(RequestFormType.REQUEST_CERTIFICAT, serviceLabel);
-        if (requestForm == null) {
-            requestForm = new RequestForm();
-            requestForm.setType(RequestFormType.REQUEST_CERTIFICAT);
-            requestForm.setXslFoFilename(service.getXslFoFilename());
-            requestFormDAO.create(requestForm);
-        }
         
         requestType = new RequestType();
         requestType.setLabel(serviceLabel);
         requestType.setActive(Boolean.FALSE);
         requestType.setAuthorizeMultipleRegistrationsPerSeason(Boolean.FALSE);
-        Set<RequestForm> formsSet = new HashSet<RequestForm>();
-        formsSet.add(requestForm);
-        requestType.setForms(formsSet);
         requestTypeDAO.create(requestType);
-        
-        if (requestForm.getRequestTypes() == null) {
-            Set<RequestType> requestTypesSet = new HashSet<RequestType>();
-            requestTypesSet.add(requestType);
-            requestForm.setRequestTypes(requestTypesSet);
-        } else {
-            requestForm.getRequestTypes().add(requestType);
-        }
-        requestFormDAO.update(requestForm);
+
         // FIXME Hack to allow display groups and categories initialization
         HibernateUtil.getSession().flush();
     }

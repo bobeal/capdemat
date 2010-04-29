@@ -493,3 +493,7 @@ alter table request_admin_action_complementary_data
     add constraint FK783DC15070D87F22
     foreign key (id)
     references request_admin_action;
+
+-- Remove xslFo Plugin 
+alter table request_form drop column xsl_fo_filename;
+

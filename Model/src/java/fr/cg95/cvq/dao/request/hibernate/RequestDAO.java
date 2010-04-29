@@ -670,28 +670,7 @@ public class RequestDAO extends GenericDAO implements IRequestDAO {
     @Override
     public Long create(Object object) {
         if (Request.class.isAssignableFrom(object.getClass())) {
-            Request request = (Request)object;
-            RequestData requestData = request.getRequestData();
-            try {
-                Object specificData = request.getSpecificData();
-                requestData.setSpecificDataClass(specificData.getClass());
-                specificData = super.create(specificData);
-                try {
-                    requestData.setSpecificDataId((Long)specificData.getClass().getMethod("getId").invoke(specificData));
-                } catch (IllegalAccessException e) {
-                    // this should not happen...
-                    throw new RuntimeException(e);
-                } catch (InvocationTargetException e) {
-                    // this should not happen...
-                    throw new RuntimeException(e);
-                } catch (NoSuchMethodException e) {
-                    // this should not happen...
-                    throw new RuntimeException(e);
-                }
-            } catch (CvqException e) {
-                // no specific data, we are handling a raw Request
-            }
-            return super.create(requestData);
+            return saveOrUpdate((Request)object).getId();
         }
         return super.create(object);
     }

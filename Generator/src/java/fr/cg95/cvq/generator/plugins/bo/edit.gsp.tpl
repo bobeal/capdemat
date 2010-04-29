@@ -26,6 +26,14 @@
           ,"<p class=\"countryName\">\${${wrapper}?.${element.javaFieldName}?.countryName}</p>"
           ,"</div>"
           ].join()
+      ,'frenchRIB' :
+          ["<div>"
+          ,"<p class=\"bankCode\">\${${wrapper}?.${element.javaFieldName}?.bankCode}</p>"
+          ,"<p class=\"counterCode\">\${${wrapper}?.${element.javaFieldName}?.counterCode}</p>"
+          ,"<p class=\"accountNumber\">\${${wrapper}?.${element.javaFieldName}?.accountNumber}</p>"
+          ,"<p class=\"accountKey\">\${${wrapper}?.${element.javaFieldName}?.accountKey}</p>"
+          ,"</div>"
+          ].join()
       ,'boolean' :
           "<span class=\"value-\${${wrapper}?.${element.javaFieldName}}\"><g:message code=\"message.\${${wrapper}?.${element.javaFieldName} ? 'yes' : 'no'}\" /></span>"
       ,'acceptance' :

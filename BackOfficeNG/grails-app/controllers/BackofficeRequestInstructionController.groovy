@@ -192,7 +192,7 @@ class BackofficeRequestInstructionController {
     * --------------------------------------------------------------------- */
 
     def widget = {
-        def widgets = ['date','address','capdematEnum','boolean','textarea','localReferentialData','school','recreationCenter']
+        def widgets = ['date','address','frenchRIB','capdematEnum','boolean','textarea','localReferentialData','school','recreationCenter']
         
         def propertyTypes = JSON.parse(params.propertyType)
         def propertyType = propertyTypes.validate
@@ -209,7 +209,7 @@ class BackofficeRequestInstructionController {
         
         // value init (by type)
         def propertyValue
-        if (propertyType == "address") {
+        if (["address", "frenchRIB"].contains(propertyType)) {
             propertyValue = JSON.parse(params.propertyValue)
         } 
         else if (propertyType == "capdematEnum") {

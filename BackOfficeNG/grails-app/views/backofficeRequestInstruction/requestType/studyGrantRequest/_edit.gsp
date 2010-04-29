@@ -351,7 +351,7 @@
             
               
               <dl>
-                <dt class="required"><g:message code="sgr.property.frenchRIB.label" /> * : </dt><dd id="frenchRIB" class="action-editField validate-frenchRIB required-true i18n-sgr.property.frenchRIB" ><span>${rqt?.frenchRIB}</span></dd>
+                <dt class="required"><g:message code="sgr.property.frenchRIB.label" /> * : </dt><dd id="frenchRIB" class="action-editField validate-frenchRIB required-true i18n-sgr.property.frenchRIB" ><div><p class="bankCode">${rqt?.frenchRIB?.bankCode}</p><p class="counterCode">${rqt?.frenchRIB?.counterCode}</p><p class="accountNumber">${rqt?.frenchRIB?.accountNumber}</p><p class="accountKey">${rqt?.frenchRIB?.accountKey}</p></div></dd>
               </dl>
               
             

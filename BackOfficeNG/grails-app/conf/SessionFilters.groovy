@@ -310,14 +310,16 @@ class SessionFilters {
         	}
         }
 
-		setBackOfficeAgentForRequests(uri: '/backoffice/**') {
-			before = {
-			    if (!categoryService.getManaged().isEmpty())
-				    session['isACategoryManager'] = true
-			    else
-				    session['isACategoryManager'] = false
-                return true
-			}
-		}
+		    setBackOfficeAgentForRequests(uri: '/backoffice/**') {
+			    before = {
+			        if (!categoryService.getManaged().isEmpty()) {
+				        session['isACategoryManager'] = true
+				      }
+			        else {
+				        session['isACategoryManager'] = false
+              }
+              return true
+			    }
+		    }
     }
 }

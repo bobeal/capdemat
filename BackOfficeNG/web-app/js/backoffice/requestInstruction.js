@@ -237,6 +237,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             addressFields[i].innerHTML = this.value ;
         });
       }
+      else if (isSubmit && yud.hasClass(ddEl, 'validate-frenchRIB')) {
+        var staticFields = yud.getChildren(propertyWrapperEl);
+        var newFields = yus.query('fieldset input', formEl);
+        zct.each (newFields, function(i) {
+            staticFields[i].innerHTML = this.value ;
+        });
+      }
       else if (isSubmit && (yud.hasClass(ddEl, 'validate-boolean') || yud.hasClass(ddEl, 'validate-acceptance'))) {
         var checkedEl = yus.query("input:checked", formEl, true);
         propertyWrapperEl.innerHTML = yl.trim(yud.getNextSibling(checkedEl).innerHTML);
@@ -315,12 +322,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
             jsonPropertyType[entry[0]] = entry[1];
           });
           
-          if (jsonPropertyType['validate'] === 'address') {
-            var jsonAddress = {};     
+          if (zct.isIn(jsonPropertyType['validate'],['address','frenchRIB'])) {
+            var json = {};
             zct.each(yud.getChildren(propertyWrapperEl), function(i) {
-                jsonAddress[this.className] = this.innerHTML;
+                json[this.className] = this.innerHTML;
             });
-            propertyValue = ylj.stringify(jsonAddress);
+            propertyValue = ylj.stringify(json);
           }
           else if (jsonPropertyType['validate'] ===  'capdematEnum') {
             propertyValue = propertyWrapperEl.className;
@@ -351,6 +358,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
 
               if (yud.hasClass(targetEl, 'validate-date')) {
                 zcb.Calendar(targetEl.id + "_Field");
+              }
+              // FIXME: rib complex are never poped
+              if (yud.hasClass(targetEl, 'validate-frenchRIB')) {
+                zcv.complexRules['rib'].pushFields(targetEl.id + '.bankCode', targetEl.id + '.counterCode', targetEl.id + '.accountNumber', targetEl.id + '.accountKey');
               }
           });
       },

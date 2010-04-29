@@ -12,7 +12,6 @@ import java.util.Map;
 
 import net.sf.oval.constraint.AssertValid;
 import org.apache.xmlbeans.XmlOptions;
-
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.request.annotation.*;
@@ -695,6 +694,7 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequestData.setFrenchRIB(frenchRIB);
     }
 
+    
     public final fr.cg95.cvq.business.users.FrenchRIB getFrenchRIB() {
         return studyGrantRequestData.getFrenchRIB();
     }

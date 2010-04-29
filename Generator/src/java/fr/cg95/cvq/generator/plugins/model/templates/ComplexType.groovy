@@ -208,7 +208,6 @@ import java.util.List;
 
 import net.sf.oval.constraint.*;
 import org.apache.xmlbeans.XmlOptions;
-
 import fr.cg95.cvq.business.authority.*;
 import fr.cg95.cvq.business.request.*;
 import fr.cg95.cvq.business.users.*;

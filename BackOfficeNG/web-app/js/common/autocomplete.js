@@ -82,17 +82,22 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
     timeout: null,
     blockSubmit: false,
     blur: false,
-    isShow: false,
     eventTimer: null,
     keyEvent: false,
 
-    tpl_modal: function() {
-      return (
-        '<div id="' + this.modalId + '" class="autocomplete modal ' + this.classes + '">' +
-        ( this.modalTitle ? '<h3>' + this.modalTitle + '</h3>' : '') +
-        '  <ul class="results"></ul>' +
-        '</div>'
-      );
+    getModalNodes: function() {
+      var div = document.createElement("div");
+      div.id = this.modalId;
+      div.className = "autocomplete modal " + this.classes;
+      if(this.modalTitle) {
+        var h3 = document.createElement("h3");
+        h3.innerHTML = this.modalTitle;
+        div.appendChild(h3);
+      }
+      var ul = document.createElement("ul");
+      ul.className = "results";
+      div.appendChild(ul);
+      return div;
     },
 
     drawResults: function() {
@@ -120,7 +125,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
       var KEY = zcc.AutoCompleteStatic.KEY;
       switch(event.keyCode) {
         case KEY.RETURN:
-          if(this.isShow) {
+          if(this.isShow()) {
             event.preventDefault();
             this.blockSubmit = true;
             this.selectHighlighted();
@@ -130,13 +135,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
           break;
         case KEY.UP:
           event.preventDefault();
-          if(this.isShow) {
+          if(this.isShow()) {
             this.highligthPrevious();
           }
           break;
         case KEY.DOWN:
           event.preventDefault();
-          if(this.isShow) {
+          if(this.isShow()) {
             this.highligthNext();
           }
           break;
@@ -238,11 +243,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
 
     show: function() {
       var that = this;
-      if(this.isShow) {
-        this.hide();
-      }
+
+      this.hide();
       this.blockSubmit = false;
-      document.getElementsByTagName("body")[0].innerHTML += this.tpl_modal();
+      document.getElementsByTagName("body")[0].appendChild(this.getModalNodes());
+
       var modal = document.getElementById(this.modalId);
 
       var inputXY = yud.getXY(document.getElementById(this.inputId));
@@ -252,6 +257,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
       this.drawResults();
 
       this.highlight(yus.query("#" + this.modalId + " .results > *:first", document, true));
+
       zct.each(yus.query("#" + this.modalId + " .results > *"), function() {
         yue.on(this, "click", function(event) {
           that.highlight.call(that, event.target);
@@ -263,21 +269,22 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
           return false;
         });
       });
+
       yue.on(document.getElementById(this.inputId), "blur", function(event) {
-        if(that.isShow) {
+        if(that.isShow()) {
           that.eventTimer = setTimeout(function() { that.hide(); }, 2000);
         }
       });
-      this.isShow = true;
     },
 
     hide: function() {
       this.blockSubmit = false;
-      if(this.isShow) {
-        var modal = document.getElementById(this.modalId);
-        if(modal) document.removeChild(modal);
-      }
-      this.isShow = false;
+      var modal = document.getElementById(this.modalId)
+      if(modal) modal.parentNode.removeChild(modal);
+    },
+
+    isShow: function() {
+      return !!document.getElementById(this.modalId);
     }
   };
 

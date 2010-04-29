@@ -23,7 +23,7 @@
         </p>
         <g:if test="${requestNote.date != null}">
           <p class="noteMetadata">
-            <g:message code="request.note.date" /> <g:message code="layout.one.date" /> <strong><g:formatDate formatName="format.fullDate" date="${requestNote.date}"/></strong>
+            <g:message code="request.note.date" /> <g:message code="layout.on.date" /> <strong><g:formatDate formatName="format.fullDate" date="${requestNote.date}"/></strong>
           </p>
         </g:if>
       </dd>

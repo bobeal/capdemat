@@ -140,6 +140,7 @@
           </select>
           <input type="submit" name="submit-addRole-account-ownerType:adults_individualIndex:${index}_individualType:children" value="${message(code:'action.add')}" />
         </dd>
+        <g:if test="${displayTutorsInAccountCreation}">
         <dt>
           <label for="role-ownerType:foreignAdults_individualIndex:${index}_individualType:children">
             <g:message code="homeFolder.child.property.foreignLegalResponsibles" />
@@ -164,6 +165,7 @@
           <input type="submit" name="submit-addRole-account-ownerType:foreignAdults_individualIndex:${index}_individualType:children" value="${message(code:'action.add')}" />
           <br /><a id="active-tab-${UUID.randomUUID()}" href="#foreignAdults"><g:message code="homeFolder.action.editForeignAdults" /></a>
         </dd>
+        </g:if>
       </dl>
     </fieldset>
   </g:each>

@@ -2,6 +2,11 @@ package fr.cg95.cvq.business.users;
 
 import java.io.Serializable;
 
+import net.sf.oval.constraint.Email;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+
+import fr.cg95.cvq.service.users.HasAPhone;
 import fr.cg95.cvq.xml.common.AdultType;
 
 /**
@@ -13,22 +18,46 @@ import fr.cg95.cvq.xml.common.AdultType;
  *
  * @author bor@zenexity.fr
  */
+//@HasAPhone
 public class Adult extends Individual implements fr.cg95.cvq.business.Historizable,Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+    @NotNull(message = "title")
     private TitleType title;
+
+    @NotNull(message = "maidenName", when = "groovy:fr.cg95.cvq.business.users.TitleType.MADAM.equals(_this.title)")
+    @NotEmpty(message = "maidenName")
     private String maidenName;
+
+    @NotEmpty(message = "nameOfUse")
     private String nameOfUse;
+
+    @NotNull(message = "familyStatus")
     private FamilyStatusType familyStatus;
+
+    @NotNull(message = "adultPhones", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
+    @NotEmpty(message = "homePhone")
     private String homePhone;
+
+    @NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.officePhone == null")
+    @NotEmpty(message = "mobilePhone")
     private String mobilePhone;
+
+    @NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
+    @NotEmpty(message = "officePhone")
     private String officePhone;
+
+    @Email(message = "email")
     private String email;
+
     private String cfbn;
     private String profession;
     private String question;
     private String answer;
+
+    @NotEmpty(message = "password")
+    //@
     private String password;
 
     /** default constructor */

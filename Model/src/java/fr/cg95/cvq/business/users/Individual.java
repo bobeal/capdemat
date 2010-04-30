@@ -7,6 +7,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.oval.constraint.AssertValid;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.business.Historizable;
@@ -58,8 +62,15 @@ public class Individual implements Historizable, Serializable {
     private String publicKey;
     /** Liberty Alliance federation key */
     private String federationKey;
+
+    @NotNull(message = "lastName")
+    @NotEmpty(message = "lastName")
     private String lastName;
+
+    @NotNull(message = "firstName")
+    @NotEmpty(message = "firstName")
     private String firstName;
+
     private String firstName2;
     private String firstName3;
     private Date birthDate;
@@ -69,9 +80,14 @@ public class Individual implements Historizable, Serializable {
     private SexType sex;
     private Date creationDate;
     private ActorState state;
+
+    @NotNull(message = "adress")
+    @AssertValid(message = "adress")
     private Address adress;
+
+    @NotNull(message = "homeFolder")
     private HomeFolder homeFolder;
-    
+
     private Set<IndividualRole> individualRoles;
 
     /** default constructor */

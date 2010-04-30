@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 
+import net.sf.oval.constraint.AssertValid;
+
 /*
  * Home Folder DTO useful to ease data binding 
  * in VO Card Request and HomeFolder Modification Request
@@ -23,10 +25,15 @@ import java.util.HashMap;
  */
 public class HomeFolderDTO implements Serializable {
 
+    @AssertValid(profiles = {"adults"}, message = "")
     private List<Adult> adults;
+
+    @AssertValid(profiles = {"children"}, message = "")
     private List<Child> children;
+
+    @AssertValid(profiles = {"foreignAdults"}, message = "")
     private List<Adult> foreignAdults;
-    
+
     private Long homeFolderId;
     
     public HomeFolderDTO() {}

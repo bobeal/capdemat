@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sf.oval.constraint.AssertValid;
+import net.sf.oval.constraint.MinSize;
+import net.sf.oval.constraint.NotNull;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.xml.common.HomeFolderType;
@@ -37,12 +41,18 @@ public class HomeFolder implements fr.cg95.cvq.business.Historizable,Serializabl
     private String externalCapDematId;
     
     private ActorState state;
+
+    @NotNull(message = "adress")
+    @AssertValid(message = "adress")
     private Address adress;
+
     private Boolean enabled;
     /** home folders created along a request are considered to be temporary */
     private boolean temporary = false;
     private String familyQuotient;
-    
+
+    @AssertValid(message = "individuals")
+    @MinSize(value = 1, message = "individuals")
     private List<Individual> individuals;
 
     /** default constructor */

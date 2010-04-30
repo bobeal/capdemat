@@ -399,6 +399,12 @@ class FrontofficeRequestCreationController {
                         && (submitAction[1] != "step" || currentStep == "validation"
                             || !['VO Card','Home Folder Modification'].contains(requestTypeInfo.label))) {
                     bindObject(objectToBind[params.objectToBind], params)
+                    println("        -------------- 1")
+                    println(objectToBind)
+                    //objectToBind.each { validateRequest(it.value, [currentStep]) }
+                    //validateRequest(objectToBind, [])
+                    validateRequest(objectToBind.individuals, [currentStep])
+                    println("        -------------- 2")
                 }
                 DataBindingUtils.initBind(cRequest, params)
                 bind(cRequest)
@@ -423,6 +429,7 @@ class FrontofficeRequestCreationController {
                 }
 
                 if (currentStep == 'validation') {
+                   // throw new CvqException("toto")
                     // bind the selected means of contact into request
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
@@ -493,6 +500,8 @@ class FrontofficeRequestCreationController {
             session[uuidString].individuals = objectToBind.individuals
         } catch (CvqValidationException e) {
             e.invalidFields.each {
+                println("-------------------------------------------")
+                println("${it.key} : ${it.value}")
                 requestAdaptorService.stepState(cRequest.stepStates?.get(it.key), 'invalid', null, it.value)
             }
         } catch (CvqException ce) {
@@ -677,6 +686,14 @@ class FrontofficeRequestCreationController {
     }
 
     private collectInvalidFields(violation, fields, prefix, stepName) {
+        println("-------- DÉBUT ----------")
+        println(violation)
+        println("--------")
+        println(fields)
+        println("--------")
+        println(prefix)
+        println("--------")
+        println(stepName)
         if (violation.causes == null) {
             def field
             if (violation.context instanceof ClassContext)
@@ -691,6 +708,7 @@ class FrontofficeRequestCreationController {
             }
             if (fields[stepName] == null)
                 fields[stepName] = []
+            println(" !!!!!!!!!! registering $field for $stepName !!!!!!!!!")
             fields[stepName].add(field)
         } else {
             def profiles =
@@ -700,6 +718,7 @@ class FrontofficeRequestCreationController {
                 stepName = profiles[0]
             violation.causes.each { collectInvalidFields(it, fields, violation.message, stepName) }
         }
+        println("-------- FIN ----------")
     }
 
     /* Home Folder Modification

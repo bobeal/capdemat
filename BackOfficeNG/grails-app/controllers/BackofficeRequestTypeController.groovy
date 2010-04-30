@@ -389,7 +389,7 @@ class BackofficeRequestTypeController {
 
     def loadRules = {
         def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.id))
-        def requestTypeLabelAsDir = StringUtils.firstCase(requestType.label.replaceAll(' ',''),'Lower')
+        def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(requestType.label)
 
         def rulesFieldNames = [:]
         requestTypeService.getRulesAcceptanceFieldNames(Long.valueOf(params.id))?.each {
@@ -408,7 +408,7 @@ class BackofficeRequestTypeController {
     // TODO: Manage in LocalAuthorityRegistry the requestType ressource dir persistence
     def saveRule = {
         def requestType = requestTypeService.getRequestTypeById(Long.valueOf(params.requestTypeId))
-        def requestTypeLabelAsDir = StringUtils.firstCase(requestType.label.replaceAll(' ',''),'Lower')
+        def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(requestType.label)
         def file = request.getFile('rulesFile')
         response.contentType = 'text/html; charset=utf-8'
         if (file.empty) {

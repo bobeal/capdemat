@@ -40,6 +40,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
     this.idField = options.idField;
     this.onSelectedResult = options.onSelectedResult;
     this.jsonp = options.jsonp;
+    if(options.minimumChars) this.minimumChars = options.minimumChars;
     this.classes = (options.classes==undefined ? "" : options.classes);
     if(options.delay) this.delay = options.delay;
     this.bindEvents();
@@ -70,6 +71,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
     classes: "",
     onSelectedResult: undefined,
     jsonp: false,
+    minimumChars: 1,
 
     // Internals
     val: "",
@@ -167,9 +169,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
 
     search: function() {
       var that = this;
-      if(this.val) {
+      if(this.val && this.val.length >= this.minimumChars) {
         var callback = function(results) {
-          if(results==null || results.length<=0) {
+          if(results == null || results.length <= 0) {
             that.hide();
           }
           else {

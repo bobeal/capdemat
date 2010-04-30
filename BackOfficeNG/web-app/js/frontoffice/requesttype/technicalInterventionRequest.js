@@ -18,6 +18,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
           urlParams: {},
           jsonp: true,
           idField: "matriculation",
+          minimumChars: 2,
           resultText: function(result) {
             return result.name;
           },
@@ -49,6 +50,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
           urlParams: { postalCode: true },
           jsonp: true,
           idField: "inseeCode",
+          minimumChars: 2,
           resultText: function(result) {
             return result.postalCode + " " + result.name;
           },

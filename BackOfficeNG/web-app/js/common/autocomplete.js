@@ -142,7 +142,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
           }
           break;
         case KEY.TAB:
-          this.hide();
+          if(this.isShow()) {
+            this.selectHighlighted();
+            this.hide();
+          }
           break;
         default:
           if(this.timeout!=null) {

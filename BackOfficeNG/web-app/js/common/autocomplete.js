@@ -31,14 +31,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
 
   zcc.AutoComplete = function(options) {
     this.inputId = options.inputId;
-    this.hiddenInput = options.hiddenInput;
     this.modalId = options.modalId;
     this.modalTitle = options.modalTitle;
     this.url = options.url;
     this.urlParams = options.urlParams;
-    this.tpl_result = options.tpl_result;
-    this.tpl_valInput = options.tpl_valInput;
-    this.tpl_valHiddenInput = options.tpl_valHiddenInput;
+    this.resultText = options.resultText;
+    this.inputValue = options.inputValue;
     this.idField = options.idField;
     this.onSelectedResult = options.onSelectedResult;
     this.jsonp = options.jsonp;
@@ -64,13 +62,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
     modalTitle: "",
     results: [],
     input: null,
-    hiddenInput: null,
     url: "",
     urlParams: {},
-    tpl_result: null,
+    resultText: null,
     delay: 200,
-    tpl_valHiddenInput: null,
-    tpl_valInput: null,
+    inputValue: null,
     offset: {left: 0, top: 0},
     idField: "",
     classes: "",
@@ -102,13 +98,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
 
     drawResults: function() {
       if(this.results.length>0) {
-        var htmlResults = "";
-        for(var i=0; i<this.results.length; i++) {
-          htmlResults += this.tpl_result(this.results[i]);
-          this.resultid = this.results[i][this.idField];
-        }
         var resultsNode = yus.query("#" + this.modalId + " .results", document, true);
-        resultsNode.innerHTML = htmlResults;
+        for(var i=0; i<this.results.length; i++) {
+          var li = document.createElement("li");
+          li.id = this.inputId.replace("_","") + "AutoComplete_" + this.results[i][this.idField];
+          li.innerHTML = this.resultText(this.results[i]);
+          resultsNode.appendChild(li);
+        }
       }
     },
 
@@ -120,7 +116,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
       }
     },
 
-    onKeydown: function(jqCtx, event) {
+    onKeydown: function(event) {
       var that = this;
       var KEY = zcc.AutoCompleteStatic.KEY;
       switch(event.keyCode) {
@@ -159,9 +155,16 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
 
     bindEvents: function() {
       var that = this;
-      yue.on(document.getElementById(this.inputId), YAHOO.env.ua.opera ? "keypress" : "keydown", function(event) {
-        that.onKeydown.call(that,this,event);
-      });
+      var input = document.getElementById(this.inputId);
+      var onKeyDown = function(event) {
+        that.onKeydown.call(that, event);
+      };
+      if(!YAHOO.env.ua.opera) {
+        input.onkeydown = onKeyDown;
+      }
+      else {
+        input.onkeypress = onKeyDown;
+      }
     },
 
     search: function() {
@@ -195,20 +198,20 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
 
     highligthPrevious: function() {
       var prevElem = yud.getPreviousSibling(yus.query("#" + this.modalId + " .selected", document, true));
-      if(prevElem[0]) {
+      if(prevElem) {
         this.highlight(prevElem);
       }
     },
 
     highligthNext: function() {
       var nextElem = yud.getNextSibling(yus.query("#" + this.modalId + " .selected", document, true));
-      if(nextElem[0]) {
+      if(nextElem) {
         this.highlight(nextElem);
       }
     },
 
     highlight: function(elem) {
-      zct.each(yus.query("#" + this.modalId + " .results > *", document, true), function() {
+      zct.each(yus.query("#" + this.modalId + " .results > *"), function() {
         yud.removeClass(this, "selected");
       });
       yud.addClass(elem, "selected");
@@ -216,13 +219,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
 
     selectHighlighted: function() {
       var highlightedElem = yus.query("#" + this.modalId + " .selected", document, true);
-      var result = this.getResult(highlightedElem.resultid);
+      var result = this.getResult(highlightedElem.id.split("_")[1]);
       var input = document.getElementById(this.inputId);
-      var hiddenInput = document.getElementById(this.hiddenInputId);
-      input.value = this.tpl_valInput(result);
-      if(hiddenInput) {
-        hiddenInput.value = this.tpl_valHiddenInput(result);
-      }
+      input.value = this.inputValue(result);
       if(YAHOO.env.ua.opera && this.blockSubmit) {
         this.blockSubmit = false;
         return false;

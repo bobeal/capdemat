@@ -17,10 +17,10 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
           url: "http://localhost:9000/cities",
           jsonp: true,
           delay: 200,
-          tpl_result: function(result) {
-            return "<li>"+ result.postalCode + " " + result.name + "</li>";
+          resultText: function(result) {
+            return result.postalCode + " " + result.name;
           },
-          tpl_valInput: function(result) {
+          inputValue: function(result) {
             return result.name;
           },
           offset: {
@@ -28,7 +28,8 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong.requesttype");
             top: 0
           },
           idField: "inseeCode",
-          onSelectedResult: function() {
+          onSelectedResult: function(result) {
+            document.getElementById("interventionPlace_postalCode").value = result.postalCode;
           }
         });
       }

@@ -96,17 +96,6 @@ class FrontofficeRequestController {
                 'individuals':individuals
         ]
     }
-    
-    def testPdf = {
-        def cRequest = requestSearchService.getById(Long.parseLong(params.id), true)
-        
-        def data = requestPdfService.generateCertificate(cRequest)
-        response.contentType = "application/pdf"
-        response.setHeader("Content-disposition", "attachment; filename=request.pdf")
-        response.contentLength = data.length
-        response.outputStream << data
-        response.outputStream.flush()
-    }
 
     def download = {
         if (!request.get) return false

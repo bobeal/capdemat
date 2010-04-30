@@ -72,6 +72,14 @@
           """
            <div class="response">\${subject?.fullName}</div>
           """
+      ,'school' :
+          """
+           <div class="response">\${${wrapper}.${element.javaFieldName}?.name}</div>
+          """
+      ,'recreationCenter' :
+          """
+           <div class="response">\${${wrapper}.${element.javaFieldName}?.name}</div>
+          """
       ,'requester' :
           """
           <p class="label">
@@ -166,15 +174,12 @@ ${endGT()}
   <h1>\${i18n.translate('${requestPdf.acronym}.label')}</h1>
   <div class="localAuthority">
     <h2>\${i18n.translate('pdf.localAutorityReservedSection')}</h2>
-    <p>
-      \${i18n.translate('property.creationDate')} : <strong>\${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong>,
-      \${i18n.translate('property.requester')} : <strong>\${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong>,
-      \${i18n.translate('pdf.requestId')} : <strong>\${rqt.id}</strong>,
-      \${i18n.translate('pdf.agentId')} : <strong>\${rqt.lastInterveningUserId}</strong>
-    </p>
-    <p class="note">
-      \${i18n.translate('pdf.note')} :
-    </p>
+    <ul>
+      <li>\${i18n.translate('property.creationDate')} : <strong>\${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
+      <li>\${i18n.translate('property.requester')} : <strong>\${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>\${i18n.translate('pdf.requestId')} : <strong>\${rqt.id}</strong></li>
+      <li>\${i18n.translate('pdf.agentId')} : <strong>\${rqt.lastInterveningUserId}</strong></li>
+    </ul>
   </div>
 <% requestPdf.steps.each { step -> %>
   <% if (requestPdf.getElementsByStep(step).isEmpty()) return %>

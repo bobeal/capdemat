@@ -45,15 +45,13 @@
   
   <div class="localAuthority">
     <h2>${i18n.translate('pdf.localAutorityReservedSection')}</h2>
-    <p>
-      ${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong>,
-      ${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong>,
-      ${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong>,
-      ${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId}</strong>
-    </p>
-    <p class="note">
-      ${i18n.translate('pdf.note')} :
-    </p>
+    <ul>
+      <li>${i18n.translate('property.creationDate')} : <strong>${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
+      <li>${i18n.translate('property.requester')} : <strong>${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
+      <li>${i18n.translate('pdf.requestId')} : <strong>${rqt.id}</strong></li>
+      <li>${i18n.translate('pdf.agentId')} : <strong>${rqt.lastInterveningUserId}</strong></li>
+    </ul>
+
   </div>
   
   <h2>${i18n.translate('homeFolder.property.adults')}</h2>
@@ -118,16 +116,6 @@
     
       <p class="label">${i18n.translate('homeFolder.individual.property.birthDate')}</p>
       <div class="response">${collectionIt.birthDate ? String.format('%td/%<tm/%<tY',collectionIt.birthDate) : ''}</div>
-      
-      <p class="label">${i18n.translate('homeFolder.individual.property.birthPostalCode')}</p>
-      <div class="response">${collectionIt.birthPostalCode}</div>
-      
-      <p class="label">${i18n.translate('homeFolder.individual.property.birthCity')}</p>
-      <div class="response">${collectionIt.birthCity}</div>
-      
-      <p class="label">${i18n.translate('homeFolder.individual.property.birthCountry')}</p>
-      <div class="response">${collectionIt.birthCountry}</div>
-     
   <% } %>
   </div>
 

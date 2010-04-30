@@ -179,6 +179,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         requestDAO.update(hfmr);
 
         // TODO REFACTORING : branch into common treatments
+        // To flush new individuals and retrieve them with Query.list
+        HibernateUtil.getSession().flush();
         byte[] pdfData = requestPdfService.generateCertificate(hfmr);
 
         requestActionService.addCreationAction(hfmr.getId(), new Date(), pdfData);
@@ -530,6 +532,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
 
         if (!RequestState.DRAFT.equals(request.getState())) {
             // TODO DECOUPLING
+            // To flush new individuals and retrieve them with Query.list
+            HibernateUtil.getSession().flush();
             byte[] pdfData = requestPdfService.generateCertificate(request);
             
             requestActionService.addCreationAction(requestId, new Date(), pdfData);

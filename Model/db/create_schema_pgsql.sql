@@ -613,8 +613,10 @@
         additional_geographical_information varchar(38),
         street_number varchar(5),
         street_name varchar(32),
+        street_matriculation varchar(8),
         place_name_or_service varchar(38),
         postal_code varchar(5),
+        cityInseeCode varchar(5),
         city varchar(32),
         country_name varchar(38),
         primary key (id)

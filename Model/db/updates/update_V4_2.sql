@@ -533,3 +533,7 @@ alter table study_grant_request drop column bank_code;
 alter table study_grant_request drop column counter_code;
 alter table study_grant_request drop column account_number;
 alter table study_grant_request drop column account_key;
+alter table address (
+    street_matriculation varchar(8),
+    cityInseeCode varchar(5)
+);

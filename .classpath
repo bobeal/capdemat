@@ -112,5 +112,6 @@
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.1.jar" sourcepath="Model/src/java"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.1.jar"/>
 	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/org.apache/common/commons-lang-3.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

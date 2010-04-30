@@ -2,9 +2,16 @@
     org.codehaus.groovy.runtime.GStringImpl.metaClass.truncate = { length ->
         if (delegate == null)
             return ""
-        if (delegate.length() > length)
-            return delegate[0..(length - 1)]
-        return delegate
+        if (delegate.length() <= length)
+            return delegate
+        def original = org.apache.commons.lang3.StringEscapeUtils.unescapeXml(delegate)
+        original = original[0..(original.length() -2)]
+        def result = org.apache.commons.lang3.StringEscapeUtils.escapeXml(original)
+        while (result.length() > length) {
+            original = original[0..(original.length() -2)]
+            result = org.apache.commons.lang3.StringEscapeUtils.escapeXml(original)
+        }
+        return result
     }
 %>
 <gestionCompte>

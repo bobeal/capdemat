@@ -44,7 +44,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
     if(options.delay) this.delay = options.delay;
     this.bindEvents();
     document.getElementById(this.inputId).autocomplete = "off";
-    if(options.offset) this.offset = options.offset;
 
     var that = this;
     yue.on(document, "click", function() {
@@ -67,7 +66,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
     resultText: null,
     delay: 200,
     inputValue: null,
-    offset: {left: 0, top: 0},
     idField: "",
     classes: "",
     onSelectedResult: undefined,
@@ -250,8 +248,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
       var modal = document.getElementById(this.modalId);
 
       var inputXY = yud.getXY(document.getElementById(this.inputId));
-      modal.style.left = this.offset.left + inputXY[0] + "px";
-      modal.style.top = this.offset.top + inputXY[1] + "px";
+      modal.style.left = inputXY[0] + "px";
+      modal.style.top = inputXY[1] + "px";
 
       this.drawResults();
 

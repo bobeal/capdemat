@@ -89,11 +89,9 @@ public class RequestSearchService implements IRequestSearchService {
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
-    public byte[] getCertificate(final Long requestId)
-        throws CvqException {
+    public byte[] getCertificate(final Long requestId) throws CvqException {
         byte[] data = getCertificate(requestId, RequestState.VALIDATED);
-        return data != null ? data :
-            getCertificate(requestId, RequestState.PENDING);
+        return data != null ? data : getCertificate(requestId, RequestState.PENDING);
     }
 
     @Override

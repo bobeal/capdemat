@@ -10,17 +10,16 @@ import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IHomeFolderService
 import fr.cg95.cvq.util.Critere
+import fr.cg95.cvq.util.translation.ITranslationService;
 
 import grails.converters.JSON
 
 class FrontofficeRequestController {
 
-    def requestAdaptorService
-    def translationService
+    RequestAdaptorService requestAdaptorService
+    ITranslationService translationService
     DocumentAdaptorService documentAdaptorService
-    def requestTypeAdaptorService
-    // TODO : remove it when removing testPdf closure
-    def requestPdfService
+    RequestTypeAdaptorService requestTypeAdaptorService
 
     IIndividualService individualService
     IRequestExternalService requestExternalService
@@ -74,9 +73,9 @@ class FrontofficeRequestController {
         def rqt = requestSearchService.getById(Long.parseLong(params.id), true)
         def individuals = [:]
         if (rqt.requestType.label == 'VO Card' || rqt.requestType.label == 'Home Folder Modification') {
-        	def homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
-        	individuals.adults = homeFolderService.getAdults(homeFolderId)
-        	individuals.children = homeFolderService.getChildren(homeFolderId)
+            def homeFolderId = SecurityContext.currentEcitizen.homeFolder.id
+            individuals.adults = homeFolderService.getAdults(homeFolderId)
+            individuals.children = homeFolderService.getChildren(homeFolderId)
         }
         def requestTypeLabel =
             translationService.translateRequestTypeLabel(rqt.requestType.label).encodeAsHTML()
@@ -100,8 +99,7 @@ class FrontofficeRequestController {
     def download = {
         if (!request.get) return false
         response.contentType = "application/pdf"
-        response.setHeader("Content-disposition",
-            "attachment; filename=request.pdf")
+        response.setHeader("Content-disposition", "attachment; filename=request.pdf")
         def data = requestSearchService.getCertificate(Long.valueOf(params.id))
         response.contentLength = data.length
         response.outputStream << data

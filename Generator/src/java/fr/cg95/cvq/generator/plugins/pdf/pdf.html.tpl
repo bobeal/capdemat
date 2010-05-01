@@ -178,7 +178,7 @@ ${endGT()}
       <li>\${i18n.translate('property.creationDate')} : <strong>\${String.format('%td/%<tm/%<tY',rqt.creationDate)}</strong></li>
       <li>\${i18n.translate('property.requester')} : <strong>\${rqt.requesterFirstName +' '+ rqt.requesterLastName}</strong></li>
       <li>\${i18n.translate('pdf.requestId')} : <strong>\${rqt.id}</strong></li>
-      <li>\${i18n.translate('pdf.agentId')} : <strong>\${rqt.lastInterveningUserId}</strong></li>
+      <li>\${i18n.translate('pdf.agentId')} : <strong>\${rqt.lastInterveningUserId != null ? rqt.lastInterveningUserId : ''}</strong></li>
     </ul>
   </div>
 <% requestPdf.steps.each { step -> %>

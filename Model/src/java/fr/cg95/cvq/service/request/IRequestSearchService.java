@@ -63,6 +63,12 @@ public interface IRequestSearchService {
 
     /**
      * Get the most recent certificate for the given request.
+     * 
+     * it is :
+     * <ul>
+     *   <li>The one generated at validation time if it exists</li>
+     *   <li>The one generated at creation time if it does not</li>
+     * </ul>
      */
     byte[] getCertificate(@IsRequest final Long requestId)
         throws CvqException;

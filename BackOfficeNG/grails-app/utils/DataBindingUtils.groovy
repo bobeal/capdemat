@@ -101,12 +101,27 @@ public class DataBindingUtils {
         }
         return result
     }
-    
+
     /* Test if a complex (object/collection) params is empty */
     private static isEmptyParamValue(param) {
-        def paramAsString = param.value.values().join().replaceAll(/"\w+":""/,'').replaceAll(/[\[\],]/, '').trim()
+        def paramAsString = paramValueAsString(param)
         if (paramAsString.length() == 0) return true
         else return false
+    }
+
+    /* Concat recursivly param's values into a string
+       - if resulting string's is empty then values are not filled
+       - param is a EntryMap
+    */
+    private static paramValueAsString(param) {
+        def result = ''
+        param.value.each {
+            if (it.value.getClass() == GrailsParameterMap.class)
+                result += paramValueAsString(it)
+            else
+                result += it.value.replaceAll(/"\w+":""/,'').replaceAll(/[\[\],]/, '').trim()
+        }
+        return result
     }
 }
 

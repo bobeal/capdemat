@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import net.sf.oval.constraint.AssertValid;
+import net.sf.oval.constraint.MinSize;
+import net.sf.oval.constraint.NotNull;
 
 /*
  * Home Folder DTO useful to ease data binding 
@@ -25,8 +27,10 @@ import net.sf.oval.constraint.AssertValid;
  */
 public class HomeFolderDTO implements Serializable {
 
+    @NotNull(profiles = {"adults"}, message = "")
+    @MinSize(value = 1, profiles = {"adults"}, message = "")
     @AssertValid(profiles = {"adults"}, message = "")
-    private List<Adult> adults;
+    private List<Adult> adults = new ArrayList<Adult>();
 
     @AssertValid(profiles = {"children"}, message = "")
     private List<Child> children;
@@ -36,20 +40,25 @@ public class HomeFolderDTO implements Serializable {
 
     private Long homeFolderId;
     
-    public HomeFolderDTO() {}
-    
+    public HomeFolderDTO() {
+        adults = new ArrayList<Adult>();
+        children = new ArrayList<Child>();
+        foreignAdults = new ArrayList<Adult>();
+    }
+
     public HomeFolderDTO (HomeFolder homeFolder, Set<Individual> roleOwners) {
+        this();
         homeFolderId = homeFolder.getId();
         for (Individual individual : homeFolder.getIndividuals()) {
             if (individual instanceof Adult)
-                addAdult((Adult)individual);
+                adults.add((Adult)individual);
             else if (individual instanceof Child)
-                addChild((Child)individual);
+                children.add((Child)individual);
         }
         
         for (Individual owner : roleOwners) {
             if (!homeFolder.getIndividuals().contains(owner))
-                addForeignAdult((Adult)owner);
+                foreignAdults.add((Adult)owner);
         }
     }
     
@@ -166,13 +175,7 @@ public class HomeFolderDTO implements Serializable {
     public void setAdults(List<Adult> adults) {
         this.adults = adults;
     }
-    
-    private void addAdult(Adult adult) {
-        if (adults == null)
-            adults = new ArrayList<Adult>();
-        adults.add(adult);
-    }
-    
+
     public List<Child> getChildren() {
         return children;
     }
@@ -180,13 +183,7 @@ public class HomeFolderDTO implements Serializable {
     public void setChildren(List<Child> children) {
         this.children = children;
     }
-    
-    private void addChild(Child child) {
-        if (children == null)
-            children = new ArrayList<Child>();
-        children.add(child);
-    }
-    
+
     public List<Adult> getForeignAdults() {
         return foreignAdults;
     }
@@ -194,11 +191,4 @@ public class HomeFolderDTO implements Serializable {
     public void setForeignAdults(List<Adult> foreignAdults) {
         this.foreignAdults = foreignAdults;
     }
-    
-    private void addForeignAdult(Adult foreignAdult) {
-        if (foreignAdults == null)
-            foreignAdults = new ArrayList<Adult>();
-        foreignAdults.add(foreignAdult);
-    }
-    
 }

@@ -347,6 +347,9 @@ class FrontofficeRequestCreationController {
                             (listFieldToken[0]): listWrapper[listFieldToken[0]].get(Integer.valueOf(listFieldToken[1]))
                            ]
             }
+            else if (submitAction[1] == 'collectionCancel') {
+                cRequest.stepStates.get(currentStep)?.invalidFields = []
+            }
             else if (submitAction[1] == 'addRole' && params."owner-${submitAction[3]}" != '' && params."role-${submitAction[3]}" != '') {
                 def roleParam = targetAsMap(submitAction[3])
                 def homeFolderId = params.homeFolderId.length() > 0 ? Long.valueOf(params.homeFolderId) : null
@@ -399,12 +402,23 @@ class FrontofficeRequestCreationController {
                         && (submitAction[1] != "step" || currentStep == "validation"
                             || !['VO Card','Home Folder Modification'].contains(requestTypeInfo.label))) {
                     bindObject(objectToBind[params.objectToBind], params)
-                    println("        -------------- 1")
-                    println(objectToBind)
-                    //objectToBind.each { validateRequest(it.value, [currentStep]) }
-                    //validateRequest(objectToBind, [])
-                    validateRequest(objectToBind.individuals, [currentStep])
-                    println("        -------------- 2")
+                    try {
+                        validateRequest(objectToBind.individuals, [currentStep])
+                    } catch (CvqValidationException e) {
+                        def listFieldToken = submitAction[3].tokenize('[]')
+                        if (!objectToBind[params.objectToBind][listFieldToken[0]].isEmpty()) {
+                            editList = [
+                                'name': listFieldToken[0],
+                                'index': listFieldToken[1],
+                                (listFieldToken[0]) :
+                                    objectToBind[params.objectToBind][listFieldToken[0]]
+                                        .get(Integer.valueOf(listFieldToken[1]))
+                            ]
+                            objectToBind[params.objectToBind][listFieldToken[0]]
+                                .remove(Integer.valueOf(listFieldToken[1]))
+                            throw e
+                        }
+                    }
                 }
                 DataBindingUtils.initBind(cRequest, params)
                 bind(cRequest)
@@ -422,14 +436,18 @@ class FrontofficeRequestCreationController {
                         requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
                         requestAdaptorService.stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
                     }
-                    if (submitAction[1] == 'step' && currentStep == 'adults'
-                            && (objectToBind.individuals.adults == null || objectToBind.individuals.adults.isEmpty())){
-                        requestAdaptorService.stepState(cRequest.stepStates.get('adults'), 'uncomplete', '')
+                    if (submitAction[1] == 'step'
+                        && ["adults", "children", "foreignAdults"].contains(currentStep)) {
+                        try {
+                            validateRequest(objectToBind.individuals, [currentStep])
+                        } catch (CvqValidationException e) {
+                            requestAdaptorService
+                                .stepState(cRequest.stepStates.get(currentStep), 'invalid', '')
+                        }
                     }
                 }
 
                 if (currentStep == 'validation') {
-                   // throw new CvqException("toto")
                     // bind the selected means of contact into request
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     cRequest.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
@@ -479,13 +497,19 @@ class FrontofficeRequestCreationController {
                     return
                 } else {
                     validateRequest(cRequest, [currentStep])
-                    if (submitAction[1] == "step") {
+                    // add a check that currentStep is indeed complete, because, for VO Card,
+                    // no exception is thrown when validating the request (since it is empty)
+                    if (submitAction[1] == "step"
+                        && "complete".equals(cRequest.stepStates?.get(currentStep).state)) {
                         flash.confirmationMessage = message(code : "request.step.message.validated",
                                 args : [message(code :  currentStep == "document" ?  "request.step.document.label" :
                                     translationService.generateInitialism(requestTypeInfo.label) + ".step." + currentStep + ".label")
                                     ]
                         )
-                    } else if (submitAction[1] == "collectionAdd") {
+                    }
+                    // hack : if editList isn't empty on collectionAdd,
+                    // that means validation failed so don't display success message
+                    else if (submitAction[1] == "collectionAdd" && editList == null) {
                         flash.confirmationMessage = message(
                                 code : translationService.generateInitialism(requestTypeInfo.label)
                                     + ".property."

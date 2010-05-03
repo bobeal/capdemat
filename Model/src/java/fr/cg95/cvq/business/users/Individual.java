@@ -10,6 +10,7 @@ import java.util.Set;
 import net.sf.oval.constraint.AssertValid;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
+import net.sf.oval.constraint.Past;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -71,21 +72,31 @@ public class Individual implements Historizable, Serializable {
     @NotEmpty(message = "firstName")
     private String firstName;
 
+    @NotEmpty(message = "firstName2")
     private String firstName2;
+
+    @NotEmpty(message = "firstName3")
     private String firstName3;
+
+    @NotNull(message = "birthDate")
+    @Past(message = "birthDate")
     private Date birthDate;
+
     private String birthCountry;
     private String birthCity;
     private String birthPostalCode;
+
+    @NotNull(message = "sex")
     private SexType sex;
+
     private Date creationDate;
     private ActorState state;
 
-    @NotNull(message = "adress")
-    @AssertValid(message = "adress")
+    @NotNull(message = "adress", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
+    @AssertValid(message = "adress", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
     private Address adress;
 
-    @NotNull(message = "homeFolder")
+    //@NotNull(message = "homeFolder")
     private HomeFolder homeFolder;
 
     private Set<IndividualRole> individualRoles;

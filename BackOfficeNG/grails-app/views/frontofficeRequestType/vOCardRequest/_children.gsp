@@ -5,16 +5,16 @@
       <div class="yui-u first">
       <label for="_individuals.children.${listIndex}.lastName" class="required"><g:message code="homeFolder.individual.property.lastName" /></label>
       <input type="text" id="_individuals.children.${listIndex}.lastName" name="_individuals.children[${listIndex}].lastName" value="${editList?.children?.lastName}"
-        class="required validate-lastName" title="<g:message code="homeFolder.individual.property.lastName.validationError" />" />
+        class="required validate-lastName ${stepStates != null && stepStates['children']?.invalidFields.contains('lastName') ? 'validation-failed' : ''}" title="<g:message code="homeFolder.individual.property.lastName.validationError" />" />
 
       <label for="_individuals.children.${listIndex}.firstName" class="required"><g:message code="homeFolder.individual.property.firstName" /></label>
       <input type="text" id="_individuals.children.${listIndex}.firstName" name="_individuals.children[${listIndex}].firstName" value="${editList?.children?.firstName}"
-      class="required validate-firstName" title="<g:message code="homeFolder.individual.property.firstName.validationError" />" />
+      class="required validate-firstName ${stepStates != null && stepStates['children']?.invalidFields.contains('firstName') ? 'validation-failed' : ''}" title="<g:message code="homeFolder.individual.property.firstName.validationError" />" />
     </div>
       
     <div class="yui-u">
       <label for="_individuals.children.${listIndex}.sex" class="required"><g:message code="homeFolder.child.property.sex" /></label>
-      <select id="_individuals.children.${listIndex}.sex" name="_individuals.children[${listIndex}].sex" class="required validate-not-first" title="<g:message code="homeFolder.child.property.sex.validationError" />">
+      <select id="_individuals.children.${listIndex}.sex" name="_individuals.children[${listIndex}].sex" class="required validate-not-first ${stepStates != null && stepStates['children']?.invalidFields.contains('sex') ? 'validation-failed' : ''}" title="<g:message code="homeFolder.child.property.sex.validationError" />">
         <option value=""><g:message code="message.select.defaultOption" /></option>
         <g:each in="${['Male','Female']}">
           <option value="fr.cg95.cvq.business.users.SexType_${it}" ${it == editList?.children?.sex?.toString() ? 'selected="selected"': ''}>
@@ -25,7 +25,7 @@
 
       <label for="_individuals.children.${listIndex}.birthDate" class="required"><g:message code="homeFolder.individual.property.birthDate" /> <span><g:message code="homeFolder.individual.property.birthDate.help" /></span></label>
       <input type="text" id="_individuals.children.${listIndex}.birthDate" name="_individuals.children[${listIndex}].birthDate" value="${formatDate(formatName:'format.date',date:editList?.children?.birthDate)}"
-        class="required validate-date" title="<g:message code="homeFolder.individual.property.birthDate.validationError" />" />
+        class="required validate-date ${stepStates != null && stepStates['children']?.invalidFields.contains('birthDate') ? 'validation-failed' : ''}" title="<g:message code="homeFolder.individual.property.birthDate.validationError" />" />
       </div>
     </div>
     

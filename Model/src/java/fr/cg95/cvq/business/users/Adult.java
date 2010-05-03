@@ -5,8 +5,6 @@ import java.io.Serializable;
 import net.sf.oval.constraint.Email;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
-
-import fr.cg95.cvq.service.users.HasAPhone;
 import fr.cg95.cvq.xml.common.AdultType;
 
 /**
@@ -18,7 +16,6 @@ import fr.cg95.cvq.xml.common.AdultType;
  *
  * @author bor@zenexity.fr
  */
-//@HasAPhone
 public class Adult extends Individual implements fr.cg95.cvq.business.Historizable,Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -48,6 +45,7 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     @NotEmpty(message = "officePhone")
     private String officePhone;
 
+    @NotNull(message = "email")
     @Email(message = "email")
     private String email;
 

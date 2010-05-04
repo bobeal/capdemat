@@ -78,7 +78,7 @@ public class Individual implements Historizable, Serializable {
     @NotEmpty(message = "firstName3")
     private String firstName3;
 
-    @NotNull(message = "birthDate")
+    @NotNull(message = "birthDate", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Child")
     @Past(message = "birthDate")
     private Date birthDate;
 

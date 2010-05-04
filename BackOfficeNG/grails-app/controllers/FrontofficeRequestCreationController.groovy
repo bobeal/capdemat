@@ -29,6 +29,7 @@ import grails.converters.JSON
 import net.sf.oval.Validator
 import net.sf.oval.context.ClassContext
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class FrontofficeRequestCreationController {
@@ -338,17 +339,34 @@ class FrontofficeRequestCreationController {
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {
+                if (session[uuidString].previousListElement) {
+                    session[uuidString].previousListElement
+                        .listWrapper[session[uuidString].previousListElement.name]
+                            .set(session[uuidString].previousListElement.index,
+                                session[uuidString].previousListElement.value)
+                }
                 def listFieldToken = submitAction[3].tokenize('[]')
                 def objectToManage = params."objectToManage[${listFieldToken[1]}]"
                 def listWrapper = objectToManage == null ? cRequest : objectToBind[objectToManage] 
-                
+                def previousListElement = listWrapper[listFieldToken[0]].get(Integer.valueOf(listFieldToken[1]))
                 editList = ['name': listFieldToken[0], 
                             'index': listFieldToken[1],
-                            (listFieldToken[0]): listWrapper[listFieldToken[0]].get(Integer.valueOf(listFieldToken[1]))
+                            (listFieldToken[0]): previousListElement
                            ]
+                session[uuidString].previousListElement = [
+                    "listWrapper" : listWrapper,
+                    "name" : listFieldToken[0],
+                    "index" : Integer.valueOf(listFieldToken[1]),
+                    "value" : BeanUtils.cloneBean(previousListElement)
+                ]
             }
             else if (submitAction[1] == 'collectionCancel') {
-                cRequest.stepStates.get(currentStep)?.invalidFields = []
+                session[uuidString].previousListElement
+                    .listWrapper[session[uuidString].previousListElement.name]
+                        .set(session[uuidString].previousListElement.index, session[uuidString].previousListElement.value)
+                session[uuidString].previousListElement = null
+                requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                validateRequest(cRequest, [currentStep])
             }
             else if (submitAction[1] == 'addRole' && params."owner-${submitAction[3]}" != '' && params."role-${submitAction[3]}" != '') {
                 def roleParam = targetAsMap(submitAction[3])
@@ -414,8 +432,10 @@ class FrontofficeRequestCreationController {
                                     objectToBind[params.objectToBind][listFieldToken[0]]
                                         .get(Integer.valueOf(listFieldToken[1]))
                             ]
-                            objectToBind[params.objectToBind][listFieldToken[0]]
-                                .remove(Integer.valueOf(listFieldToken[1]))
+                            if (submitAction[1] == "collectionAdd") {
+                                objectToBind[params.objectToBind][listFieldToken[0]]
+                                    .remove(Integer.valueOf(listFieldToken[1]))
+                            }
                             throw e
                         }
                     }
@@ -432,7 +452,7 @@ class FrontofficeRequestCreationController {
                 }
 
                 if (['VO Card','Home Folder Modification'].contains(requestTypeInfo.label)) {
-                    if (['collectionAdd'].contains(submitAction[1])) {
+                    if (["collectionAdd", "collectionModify"].contains(submitAction[1])) {
                         requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
                         requestAdaptorService.stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
                     }
@@ -509,12 +529,17 @@ class FrontofficeRequestCreationController {
                     }
                     // hack : if editList isn't empty on collectionAdd,
                     // that means validation failed so don't display success message
-                    else if (submitAction[1] == "collectionAdd" && editList == null) {
-                        flash.confirmationMessage = message(
+                    else if (["collectionAdd", "collectionModify"].contains(submitAction[1]) && editList == null) {
+                        def listWrapper = params.objectToBind == null ? cRequest :
+                            objectToBind[params.objectToBind]
+                        if (listWrapper[submitAction[3].tokenize('[]')[0]].size()
+                            == Integer.valueOf(submitAction[3].tokenize('[]')[1]) + 1) {
+                            flash.confirmationMessage = message(
                                 code : translationService.generateInitialism(requestTypeInfo.label)
                                     + ".property."
                                     + submitAction[3].tokenize('[]')[0]
                                     + ".elementAdditionSuccess")
+                        }
                     }
                 }
             }
@@ -524,8 +549,6 @@ class FrontofficeRequestCreationController {
             session[uuidString].individuals = objectToBind.individuals
         } catch (CvqValidationException e) {
             e.invalidFields.each {
-                println("-------------------------------------------")
-                println("${it.key} : ${it.value}")
                 requestAdaptorService.stepState(cRequest.stepStates?.get(it.key), 'invalid', null, it.value)
             }
         } catch (CvqException ce) {

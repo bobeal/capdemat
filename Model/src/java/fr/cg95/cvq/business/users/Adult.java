@@ -23,7 +23,6 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     @NotNull(message = "title")
     private TitleType title;
 
-    @NotNull(message = "maidenName", when = "groovy:fr.cg95.cvq.business.users.TitleType.MADAM.equals(_this.title)")
     @NotEmpty(message = "maidenName")
     private String maidenName;
 

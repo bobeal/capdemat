@@ -44,7 +44,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
     this.classes = (options.classes==undefined ? "" : options.classes);
     if(options.delay) this.delay = options.delay;
     this.bindEvents();
-    document.getElementById(this.inputId).autocomplete = "off";
+    yud.setAttribute(document.getElementById(this.inputId), "autocomplete", "off");
 
     var that = this;
     yue.on(document, "click", function() {

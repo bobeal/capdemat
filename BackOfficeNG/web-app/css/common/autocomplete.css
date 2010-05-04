@@ -18,7 +18,7 @@
 }
 
 .autocomplete .results li {
-  padding: 6px 2px;
+  padding: 6px 1px;
   cursor: pointer;
   background: #FFF;
   border-bottom: 1px dotted silver;
@@ -30,9 +30,9 @@
 }
 
 .autocomplete .results li.selected {
-  background: #EEE;
+  background: #DDD;
 }
 
 .autocomplete .results li.selected:hover {
-  background: #DDD;
+  background: #CCC;
 }

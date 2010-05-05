@@ -18,7 +18,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong");
             inputId: fieldsetId + "_streetName",
             modalId: fieldsetId + "_streetName_autocomplete",
             url: "/CapDemat/autocomplete/ways",
-            urlParams: {},
             idField: "matriculation",
             minimumChars: 2,
             resultText: function(result) {

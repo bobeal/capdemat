@@ -5,7 +5,7 @@ class ServiceAutocompleteController {
 
     def cities = {
         withHttp(uri: "http://localhost:9000") {
-           render get(path : '/cities', query : [search: params.search, postalCode: params.search]) as JSON
+           render get(path : '/cities', query : [search: params.search, postalCode: params.postalCode?:false]) as JSON
         }
     }
 

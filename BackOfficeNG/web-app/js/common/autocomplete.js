@@ -34,7 +34,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
     this.modalId = options.modalId;
     this.modalTitle = options.modalTitle;
     this.url = options.url;
-    this.urlParams = options.urlParams;
+    if(options.urlParams) this.urlParams = options.urlParams;
     this.resultText = options.resultText;
     this.inputValue = options.inputValue;
     this.idField = options.idField;

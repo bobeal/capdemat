@@ -173,7 +173,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
     search: function() {
       var that = this;
       if(this.val && this.val.length >= this.minimumChars) {
-        var callback = function(results) {
+        var show = function(results) {
           if(results == null || results.length <= 0) {
             that.hide();
           }
@@ -186,12 +186,18 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
         allParams.search = this.val;
         if(this.jsonp) {
           new JSONP(this.url, {
-            onSuccess: callback,
+            onSuccess: function(results) {
+              show(results);
+            },
             params: allParams
           });
         }
         else {
-          yuc.asyncRequest("GET", this.url + zct.param(allParams), callback);
+          yuc.asyncRequest("GET", this.url + (allParams !== {} ? "?" + zct.param(allParams) : ""), {
+            success: function(o) {
+              show(yl.JSON.parse(o.responseText));
+            }
+          });
         }
       }
       else {

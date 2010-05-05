@@ -339,32 +339,26 @@ class FrontofficeRequestCreationController {
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {
-                if (session[uuidString].previousListElement) {
-                    session[uuidString].previousListElement
-                        .listWrapper[session[uuidString].previousListElement.name]
-                            .set(session[uuidString].previousListElement.index,
-                                session[uuidString].previousListElement.value)
-                }
+                restoreCollectionElement(uuidString)
                 def listFieldToken = submitAction[3].tokenize('[]')
                 def objectToManage = params."objectToManage[${listFieldToken[1]}]"
                 def listWrapper = objectToManage == null ? cRequest : objectToBind[objectToManage] 
-                def previousListElement = listWrapper[listFieldToken[0]].get(Integer.valueOf(listFieldToken[1]))
+                def previousCollectionElement = listWrapper[listFieldToken[0]].get(Integer.valueOf(listFieldToken[1]))
                 editList = ['name': listFieldToken[0], 
                             'index': listFieldToken[1],
-                            (listFieldToken[0]): previousListElement
+                            (listFieldToken[0]): previousCollectionElement
                            ]
-                session[uuidString].previousListElement = [
+                session[uuidString].previousCollectionElement = [
                     "listWrapper" : listWrapper,
                     "name" : listFieldToken[0],
                     "index" : Integer.valueOf(listFieldToken[1]),
-                    "value" : BeanUtils.cloneBean(previousListElement)
+                    "value" : BeanUtils.cloneBean(previousCollectionElement)
                 ]
+                requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
+                validateRequest(cRequest, [currentStep])
             }
             else if (submitAction[1] == 'collectionCancel') {
-                session[uuidString].previousListElement
-                    .listWrapper[session[uuidString].previousListElement.name]
-                        .set(session[uuidString].previousListElement.index, session[uuidString].previousListElement.value)
-                session[uuidString].previousListElement = null
+                restoreCollectionElement(uuidString)
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
                 validateRequest(cRequest, [currentStep])
             }
@@ -420,30 +414,35 @@ class FrontofficeRequestCreationController {
                         && (submitAction[1] != "step" || currentStep == "validation"
                             || !['VO Card','Home Folder Modification'].contains(requestTypeInfo.label))) {
                     bindObject(objectToBind[params.objectToBind], params)
+                }
+                DataBindingUtils.initBind(cRequest, params)
+                bind(cRequest)
+                // clean empty collections elements
+                DataBindingUtils.cleanBind(cRequest, params)
+                if (["collectionAdd", "collectionModify"].contains(submitAction[1])) {
+                    def listWrapper = params.objectToBind == null ? cRequest :
+                        objectToBind[params.objectToBind]
+                    requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
                     try {
-                        validateRequest(objectToBind.individuals, [currentStep])
+                        validateRequest(listWrapper, [currentStep])
                     } catch (CvqValidationException e) {
                         def listFieldToken = submitAction[3].tokenize('[]')
-                        if (!objectToBind[params.objectToBind][listFieldToken[0]].isEmpty()) {
+                        if (!listWrapper[listFieldToken[0]].isEmpty()) {
                             editList = [
                                 'name': listFieldToken[0],
                                 'index': listFieldToken[1],
                                 (listFieldToken[0]) :
-                                    objectToBind[params.objectToBind][listFieldToken[0]]
+                                    listWrapper[listFieldToken[0]]
                                         .get(Integer.valueOf(listFieldToken[1]))
                             ]
-                            if (submitAction[1] == "collectionAdd") {
-                                objectToBind[params.objectToBind][listFieldToken[0]]
+                            if (listWrapper[listFieldToken[0]].size() == 1 + Integer.valueOf(listFieldToken[1])) {
+                                listWrapper[listFieldToken[0]]
                                     .remove(Integer.valueOf(listFieldToken[1]))
                             }
                             throw e
                         }
                     }
                 }
-                DataBindingUtils.initBind(cRequest, params)
-                bind(cRequest)
-                // clean empty collections elements
-                DataBindingUtils.cleanBind(cRequest, params)
                 session[uuidString].draftVisible = true
 
                 if (submitAction[1] == 'step') {
@@ -453,7 +452,6 @@ class FrontofficeRequestCreationController {
 
                 if (['VO Card','Home Folder Modification'].contains(requestTypeInfo.label)) {
                     if (["collectionAdd", "collectionModify"].contains(submitAction[1])) {
-                        requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
                         requestAdaptorService.stepState(cRequest.stepStates.get('account'), 'uncomplete', '')
                     }
                     if (submitAction[1] == 'step'
@@ -733,14 +731,6 @@ class FrontofficeRequestCreationController {
     }
 
     private collectInvalidFields(violation, fields, prefix, stepName) {
-        println("-------- DÉBUT ----------")
-        println(violation)
-        println("--------")
-        println(fields)
-        println("--------")
-        println(prefix)
-        println("--------")
-        println(stepName)
         if (violation.causes == null) {
             def field
             if (violation.context instanceof ClassContext)
@@ -755,7 +745,6 @@ class FrontofficeRequestCreationController {
             }
             if (fields[stepName] == null)
                 fields[stepName] = []
-            println(" !!!!!!!!!! registering $field for $stepName !!!!!!!!!")
             fields[stepName].add(field)
         } else {
             def profiles =
@@ -763,9 +752,21 @@ class FrontofficeRequestCreationController {
                     .profiles()
             if (profiles != null && profiles.length > 0)
                 stepName = profiles[0]
-            violation.causes.each { collectInvalidFields(it, fields, violation.message, stepName) }
+            violation.causes.each { collectInvalidFields(it, fields, (prefix != "" ? prefix + '.' : "") + violation.message, stepName) }
         }
-        println("-------- FIN ----------")
+    }
+
+    private restoreCollectionElement(uuid) {
+        if (session[uuid].previousCollectionElement) {
+            def list = session[uuid].previousCollectionElement
+                .listWrapper[session[uuid].previousCollectionElement.name]
+            def index = session[uuid].previousCollectionElement.index
+            if (list.size() > index)
+                list.set(index, session[uuid].previousCollectionElement.value)
+            else
+                list.add(session[uuid].previousCollectionElement.value)
+            session[uuid].previousCollectionElement = null
+        }
     }
 
     /* Home Folder Modification

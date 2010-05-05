@@ -100,19 +100,19 @@
     
         <label for="otherFolders.${listIndex}.otherFolderName" class="required"><g:message code="hcar.property.otherFolderName.label" /> *  <span><g:message code="hcar.property.otherFolderName.help" /></span></label>
             <input type="text" id="otherFolders.${listIndex}.otherFolderName" name="otherFolders[${listIndex}].otherFolderName" value="${editList?.otherFolders?.otherFolderName?.toString()}" 
-                    class="required   ${stepStates != null && stepStates['folders']?.invalidFields.contains('otherFolderName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderName.validationError" />"  maxlength="60" />
+                    class="required   ${stepStates != null && stepStates['folders']?.invalidFields.contains('otherFolders.otherFolderName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderName.validationError" />"  maxlength="60" />
             
 
     
         <label for="otherFolders.${listIndex}.otherFolderNumber" class=""><g:message code="hcar.property.otherFolderNumber.label" />   <span><g:message code="hcar.property.otherFolderNumber.help" /></span></label>
             <input type="text" id="otherFolders.${listIndex}.otherFolderNumber" name="otherFolders[${listIndex}].otherFolderNumber" value="${editList?.otherFolders?.otherFolderNumber?.toString()}" 
-                    class="   ${stepStates != null && stepStates['folders']?.invalidFields.contains('otherFolderNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderNumber.validationError" />"  maxlength="30" />
+                    class="   ${stepStates != null && stepStates['folders']?.invalidFields.contains('otherFolders.otherFolderNumber') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderNumber.validationError" />"  maxlength="30" />
             
 
     
         <label for="otherFolders.${listIndex}.otherFolderDepartment" class=""><g:message code="hcar.property.otherFolderDepartment.label" />   <span><g:message code="hcar.property.otherFolderDepartment.help" /></span></label>
             <input type="text" id="otherFolders.${listIndex}.otherFolderDepartment" name="otherFolders[${listIndex}].otherFolderDepartment" value="${editList?.otherFolders?.otherFolderDepartment?.toString()}" 
-                    class="  validate-departmentCode ${stepStates != null && stepStates['folders']?.invalidFields.contains('otherFolderDepartment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderDepartment.validationError" />"  maxlength="2" />
+                    class="  validate-departmentCode ${stepStates != null && stepStates['folders']?.invalidFields.contains('otherFolders.otherFolderDepartment') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherFolderDepartment.validationError" />"  maxlength="2" />
             
 
     

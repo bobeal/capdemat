@@ -328,7 +328,7 @@
     
         <label for="otherBenefits.${listIndex}.otherBenefitName" class="required"><g:message code="hccr.property.otherBenefitName.label" /> *  <span><g:message code="hccr.property.otherBenefitName.help" /></span></label>
             <input type="text" id="otherBenefits.${listIndex}.otherBenefitName" name="otherBenefits[${listIndex}].otherBenefitName" value="${editList?.otherBenefits?.otherBenefitName?.toString()}" 
-                    class="required   ${stepStates != null && stepStates['benefits']?.invalidFields.contains('otherBenefitName') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.otherBenefitName.validationError" />"  maxlength="60" />
+                    class="required   ${stepStates != null && stepStates['benefits']?.invalidFields.contains('otherBenefits.otherBenefitName') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.otherBenefitName.validationError" />"  maxlength="60" />
             
 
     
@@ -362,19 +362,19 @@
     
         <label for="additionalFee.${listIndex}.additionalFeeKind" class="required"><g:message code="hccr.property.additionalFeeKind.label" /> *  <span><g:message code="hccr.property.additionalFeeKind.help" /></span></label>
             <input type="text" id="additionalFee.${listIndex}.additionalFeeKind" name="additionalFee[${listIndex}].additionalFeeKind" value="${editList?.additionalFee?.additionalFeeKind?.toString()}" 
-                    class="required   ${stepStates != null && stepStates['benefits']?.invalidFields.contains('additionalFeeKind') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.additionalFeeKind.validationError" />"  maxlength="30" />
+                    class="required   ${stepStates != null && stepStates['benefits']?.invalidFields.contains('additionalFee.additionalFeeKind') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.additionalFeeKind.validationError" />"  maxlength="30" />
             
 
     
         <label for="additionalFee.${listIndex}.additionalFeeCost" class="required"><g:message code="hccr.property.additionalFeeCost.label" /> *  <span><g:message code="hccr.property.additionalFeeCost.help" /></span></label>
             <input type="text" id="additionalFee.${listIndex}.additionalFeeCost" name="additionalFee[${listIndex}].additionalFeeCost" value="${editList?.additionalFee?.additionalFeeCost?.toString()}" 
-                    class="required   ${stepStates != null && stepStates['benefits']?.invalidFields.contains('additionalFeeCost') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.additionalFeeCost.validationError" />"   />
+                    class="required   ${stepStates != null && stepStates['benefits']?.invalidFields.contains('additionalFee.additionalFeeCost') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.additionalFeeCost.validationError" />"   />
             
 
     
         <label for="additionalFee.${listIndex}.additionalFeePeriodicity" class="required"><g:message code="hccr.property.additionalFeePeriodicity.label" /> *  <span><g:message code="hccr.property.additionalFeePeriodicity.help" /></span></label>
             <input type="text" id="additionalFee.${listIndex}.additionalFeePeriodicity" name="additionalFee[${listIndex}].additionalFeePeriodicity" value="${editList?.additionalFee?.additionalFeePeriodicity?.toString()}" 
-                    class="required   ${stepStates != null && stepStates['benefits']?.invalidFields.contains('additionalFeePeriodicity') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.additionalFeePeriodicity.validationError" />"  maxlength="30" />
+                    class="required   ${stepStates != null && stepStates['benefits']?.invalidFields.contains('additionalFee.additionalFeePeriodicity') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.additionalFeePeriodicity.validationError" />"  maxlength="30" />
             
 
     

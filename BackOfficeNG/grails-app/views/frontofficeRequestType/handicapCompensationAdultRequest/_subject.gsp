@@ -147,24 +147,24 @@
     
         <label for="familyDependents.${listIndex}.familyDependentLastName" class="required"><g:message code="hcar.property.familyDependentLastName.label" /> *  <span><g:message code="hcar.property.familyDependentLastName.help" /></span></label>
             <input type="text" id="familyDependents.${listIndex}.familyDependentLastName" name="familyDependents[${listIndex}].familyDependentLastName" value="${editList?.familyDependents?.familyDependentLastName?.toString()}" 
-                    class="required  validate-lastName ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependentLastName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentLastName.validationError" />"  maxlength="38" />
+                    class="required  validate-lastName ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentLastName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentLastName.validationError" />"  maxlength="38" />
             
 
     
         <label for="familyDependents.${listIndex}.familyDependentFirstName" class="required"><g:message code="hcar.property.familyDependentFirstName.label" /> *  <span><g:message code="hcar.property.familyDependentFirstName.help" /></span></label>
             <input type="text" id="familyDependents.${listIndex}.familyDependentFirstName" name="familyDependents[${listIndex}].familyDependentFirstName" value="${editList?.familyDependents?.familyDependentFirstName?.toString()}" 
-                    class="required  validate-firstName ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependentFirstName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />"  maxlength="38" />
+                    class="required  validate-firstName ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentFirstName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />"  maxlength="38" />
             
 
     
         <label for="familyDependents.${listIndex}.familyDependentBirthDate" class="required"><g:message code="hcar.property.familyDependentBirthDate.label" /> *  <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
             <input type="text" id="familyDependents.${listIndex}.familyDependentBirthDate" name="familyDependents[${listIndex}].familyDependentBirthDate" value="${formatDate(formatName:'format.date',date:editList?.familyDependents?.familyDependentBirthDate)}" 
-                   class="required  validate-date ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependentBirthDate') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentBirthDate.validationError" />" />
+                   class="required  validate-date ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentBirthDate') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentBirthDate.validationError" />" />
             
 
     
         <label for="familyDependents.${listIndex}.familyDependentActualSituation" class="required"><g:message code="hcar.property.familyDependentActualSituation.label" /> *  <span><g:message code="hcar.property.familyDependentActualSituation.help" /></span></label>
-            <select id="familyDependents.${listIndex}.familyDependentActualSituation" name="familyDependents[${listIndex}].familyDependentActualSituation" class="required  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependentActualSituation') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentActualSituation.validationError" />">
+            <select id="familyDependents.${listIndex}.familyDependentActualSituation" name="familyDependents[${listIndex}].familyDependentActualSituation" class="required  validate-not-first ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentActualSituation') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentActualSituation.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Schooling','Learning','MedicoSocial']}">
                 <option value="fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType_${it}" ${it == editList?.familyDependents?.familyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" /></option>

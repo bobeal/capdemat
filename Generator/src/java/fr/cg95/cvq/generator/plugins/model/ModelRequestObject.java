@@ -125,13 +125,14 @@ public class ModelRequestObject {
      * @param typeName name of the "local" complex type
      * @param eltProperties properties associated to this complex type
      */
-    public void addComplexType(String typeName, ElementProperties eltProperties) {
+    public ComplexType addComplexType(String typeName, ElementProperties eltProperties) {
         ComplexType complexType = new ComplexType();
         complexType.setTypeName(StringUtils.removeEnd(typeName,"Type"));
         ElementModelProperties eltModelProperties = new ElementModelProperties(eltProperties);
         complexType.setProperties(eltModelProperties);
 
         complexTypesMap.put(typeName, complexType);
+        return complexType;
     }
 
     private void processElementApplicationDocumentation(ElementModelProperties eltModelProperties,

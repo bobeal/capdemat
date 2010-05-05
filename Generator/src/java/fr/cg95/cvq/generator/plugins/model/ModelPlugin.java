@@ -95,6 +95,9 @@ public class ModelPlugin implements IPluginGenerator {
     public void endRequest(String requestName) {
 
         logger.debug("endRequest() Name : " + requestName);
+        for (ComplexType complexType : modelRequestObject.getComplexTypesMap().values()) {
+            complexType.getProperties().setElementCommon(commonElements.get(complexType.getProperties().getElementName()));
+        }
         for (Map.Entry<String, ElementCommon> commonElement : commonElements.entrySet()) {
             ElementModelProperties element = modelRequestObject.getField(commonElement.getKey());
             if (element != null) {
@@ -177,7 +180,9 @@ public class ModelPlugin implements IPluginGenerator {
                     modelRequestObject.addField(currentElement, elementProperties, null, null);
                     explodeLocalComplexType = false;
                     // and also add as to be generated as its own type
-                    modelRequestObject.addComplexType(elementProperties.getXmlSchemaType(), elementProperties);
+                    modelRequestObject
+                        .addComplexType(elementProperties.getXmlSchemaType(), elementProperties)
+                            .getProperties().setElementName(currentElement);
                 }
             } else {
                 // a "normal" first-level element :-)

@@ -327,7 +327,7 @@ public class ${className} implements Serializable {
             <% } %>
             "return active",
         <% } %>
-        profiles = {"${element.elementCommon.step.name}"},
+        profiles = {"${complexType.properties.elementCommon.step.name}"},
         message = "${element.nameAsParam}"
       )
     <% } %>

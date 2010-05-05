@@ -108,7 +108,7 @@ public class PerischoolContactIndividual implements Serializable {
           value = 10,
         
         
-        profiles = {"authorization"},
+        profiles = {"contact"},
         message = "officePhone"
       )
     
@@ -133,14 +133,14 @@ public class PerischoolContactIndividual implements Serializable {
       @NotNull(
         
         
-        profiles = {"authorization"},
+        profiles = {"contact"},
         message = "address"
       )
     
       @AssertValid(
         
         
-        profiles = {"authorization"},
+        profiles = {"contact"},
         message = "address"
       )
     
@@ -168,21 +168,21 @@ public class PerischoolContactIndividual implements Serializable {
           value = 38,
         
         
-        profiles = {"authorization"},
+        profiles = {"contact"},
         message = "firstName"
       )
     
       @NotNull(
         
         
-        profiles = {"authorization"},
+        profiles = {"contact"},
         message = "firstName"
       )
     
       @NotBlank(
         
         
-        profiles = {"authorization"},
+        profiles = {"contact"},
         message = "firstName"
       )
     
@@ -209,21 +209,21 @@ public class PerischoolContactIndividual implements Serializable {
           value = 38,
         
         
-        profiles = {"authorization"},
+        profiles = {"contact"},
         message = "lastName"
       )
     
       @NotNull(
         
         
-        profiles = {"authorization"},
+        profiles = {"contact"},
         message = "lastName"
       )
     
       @NotBlank(
         
         
-        profiles = {"authorization"},
+        profiles = {"contact"},
         message = "lastName"
       )
     
@@ -250,7 +250,7 @@ public class PerischoolContactIndividual implements Serializable {
           value = 10,
         
         
-        profiles = {"authorization"},
+        profiles = {"contact"},
         message = "homePhone"
       )
     

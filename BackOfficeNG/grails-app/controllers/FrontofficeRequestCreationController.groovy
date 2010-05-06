@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.RoleType
+import fr.cg95.cvq.exception.CvqDocumentException;
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IAutofillService
@@ -254,7 +255,13 @@ class FrontofficeRequestCreationController {
                         documentService.create(document)
                         addParam.id = document.id
                     }
-                    doc = documentAdaptorService.addDocumentPage(addParam.id, request.getFile('documentData-0').bytes)
+                    try {
+                        doc = documentAdaptorService.addDocumentPage(addParam.id, request.getFile('documentData-0').bytes)
+                    } catch (CvqDocumentException cde) {
+                        flash.errorMessage = message(code : cde.i18nKey)
+                        if(documentService.getById(addParam.id).datas.isEmpty())
+                            documentService.delete(addParam.id)
+                    }
                 }
                 if (doc) {
                     isDocumentEditMode = false
@@ -303,8 +310,14 @@ class FrontofficeRequestCreationController {
                     documentService.create(document)
                     docParam.id = document.id
                 }
-                documentDto = documentAdaptorService.addDocumentPage(docParam.id,  
+                try {
+                    documentDto = documentAdaptorService.addDocumentPage(docParam.id,  
                         request.getFile('documentData-0').bytes)
+                } catch (CvqDocumentException cde) {
+                    flash.errorMessage = message(code : cde.i18nKey)
+                    if(documentService.getById(docParam.id).datas.isEmpty())
+                        documentService.delete(docParam.id)
+                }
                 documentTypeDto = documentAdaptorService.adaptDocumentType(docParam.documentTypeId)
                 isDocumentEditMode = true
             }

@@ -2,10 +2,16 @@ package fr.cg95.cvq.service.document.impl;
 
 import java.util.*;
 
+import net.sf.jmimemagic.Magic;
+import net.sf.jmimemagic.MagicException;
+import net.sf.jmimemagic.MagicMatchNotFoundException;
+import net.sf.jmimemagic.MagicParseException;
+
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
+import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentAction;
 import fr.cg95.cvq.business.document.DocumentBinary;
@@ -19,6 +25,7 @@ import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
+import fr.cg95.cvq.exception.CvqDocumentException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -179,22 +186,43 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void addPage(final Long documentId, final DocumentBinary documentBinary)
-        throws CvqException, CvqObjectNotFoundException {
+        throws  CvqException {
 
         checkDocumentDigitalizationIsEnabled();
 
-        Document document = getById(documentId);
-        if (document.getDatas() == null) {
-            List<DocumentBinary> dataList = new ArrayList<DocumentBinary>();
-            dataList.add(documentBinary);
-            document.setDatas(dataList);
-        } else {
-            document.getDatas().add(documentBinary);
+        String mimeType;
+        try {
+            mimeType = Magic.getMagicMatch(documentBinary.getData()).getMimeType();
+            documentBinary.setContentType(ContentType.forString(mimeType));
+        } catch (MagicParseException mpe) {
+                throw new CvqDocumentException("mpe");
+        } catch (MagicMatchNotFoundException mmnfe) {
+                throw new CvqDocumentException("mmnfe");
+        } catch (MagicException me) {
+                throw new CvqDocumentException("me");
         }
-
-        documentDAO.update(document);
         
-        addActionTrace(PAGE_ADD_ACTION, null, document);
+        
+        if(ContentType.isAllowContentType(mimeType)) {
+            Document document = getById(documentId);
+            if (document.getDatas() == null) {
+                List<DocumentBinary> dataList = new ArrayList<DocumentBinary>();
+                dataList.add(documentBinary);
+                document.setDatas(dataList);
+            } else {
+                    if(document.getDatas().isEmpty())
+                        document.getDatas().add(documentBinary);
+                    else {
+                        if(document.getDatas().get(0).getContentType().equals(ContentType.forString(mimeType)))
+                            document.getDatas().add(documentBinary);
+                        else
+                            throw new CvqDocumentException("document.error.contentTypeIsNotSameCompareToOtherPage");
+                    }
+                }
+            documentDAO.update(document);
+        
+            addActionTrace(PAGE_ADD_ACTION, null, document);
+        }
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)

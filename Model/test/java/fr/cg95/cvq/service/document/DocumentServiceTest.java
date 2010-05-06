@@ -68,17 +68,28 @@ public class DocumentServiceTest extends DocumentTestCase {
 
         // add binary data
         DocumentBinary docBin = new DocumentBinary();
-        File file = getResourceFile("health_notebook.jpg");
-        byte[] data = new byte[(int) file.length()];
-        FileInputStream fis = new FileInputStream(file);
-        fis.read(data);
-        docBin.setData(data);
+        File fileJpg = getResourceFile("health_notebook.jpg");
+        File fileTxt = getResourceFile("test.txt");
+        File filePdf = getResourceFile("Referentiel General Interoperabilite Volet Technique V0.90.pdf");
+        byte[] dataJpg = new byte[(int) fileJpg.length()];
+        byte[] dataTxt = new byte[(int) fileTxt.length()];
+        byte[] dataPdf = new byte[(int) filePdf.length()];
+        FileInputStream fis = new FileInputStream(fileJpg);
+        fis.read(dataJpg);
+        docBin.setData(dataJpg);
         documentService.addPage(docId, docBin);
 
         // and another one ...
         docBin = new DocumentBinary();
-        docBin.setData(data);
+        docBin.setData(dataJpg);
         documentService.addPage(docId, docBin);
+      
+        //and a pdf file...
+        docBin = new DocumentBinary();
+        fis = new FileInputStream(filePdf);
+        fis.read(dataPdf);
+        docBin.setData(dataPdf);
+        documentService.addPage(docId, docBin); 
 
         continueWithNewTransaction();
         
@@ -87,7 +98,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         List<Document> documentsList = documentService.getHomeFolderDocuments(cb.getHomeFolderId(), -1);
         assertEquals("Bad number of associated documents on home folder", 1, documentsList.size());
         Set<DocumentBinary> docBinarySet = documentService.getAllPages(docId);
-        assertEquals("Bad number of associated data on document", 2, doc.getDatas().size());
+        assertEquals("Bad number of associated data on document",2, doc.getDatas().size());
 
         // ... and to the individual
         documentsList = documentService.getIndividualDocuments(anIndividual.getId());
@@ -101,11 +112,11 @@ public class DocumentServiceTest extends DocumentTestCase {
 
         // modify a page
         DocumentBinary docBin1 = docBinarySet.iterator().next();
-        file = getResourceFile("family_notebook.jpg");
-        data = new byte[(int) file.length()];
-        fis = new FileInputStream(file);
-        fis.read(data);
-        docBin1.setData(data);
+        fileJpg = getResourceFile("family_notebook.jpg");
+        dataJpg = new byte[(int) fileJpg.length()];
+        fis = new FileInputStream(fileJpg);
+        fis.read(dataJpg);
+        docBin1.setData(dataJpg);
         documentService.modifyPage(docId, docBin1);
 
         // remove a page

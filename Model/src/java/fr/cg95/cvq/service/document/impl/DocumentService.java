@@ -195,11 +195,11 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             mimeType = Magic.getMagicMatch(documentBinary.getData()).getMimeType();
             documentBinary.setContentType(ContentType.forString(mimeType));
         } catch (MagicParseException mpe) {
-                throw new CvqDocumentException("mpe");
+                throw new CvqDocumentException("document.file.error.isNotValid");
         } catch (MagicMatchNotFoundException mmnfe) {
-                throw new CvqDocumentException("mmnfe");
+                throw new CvqDocumentException("document.file.error.isNotValid");
         } catch (MagicException me) {
-                throw new CvqDocumentException("me");
+                throw new CvqDocumentException("document.file.error.isNotValid");
         }
         
         
@@ -216,7 +216,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                         if(document.getDatas().get(0).getContentType().equals(ContentType.forString(mimeType)))
                             document.getDatas().add(documentBinary);
                         else
-                            throw new CvqDocumentException("document.error.contentTypeIsNotSameCompareToOtherPage");
+                            throw new CvqDocumentException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
                     }
                 }
             documentDAO.update(document);

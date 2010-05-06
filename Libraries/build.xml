@@ -50,6 +50,7 @@
             <fileset dir="${axis.lib.dir}" />
             <fileset dir="${xmlbean.lib.dir}" />
             <fileset dir="${saxon.lib.dir}" />
+            <fileset dir="${jmimemagic.lib.dir}" />
             <fileset dir="${spring.lib.dir}" />
             <fileset dir="${sun.lib.dir}">
                 <include name="saaj-*.jar" />
@@ -85,6 +86,7 @@
             <fileset dir="${postgresql.jdbc.lib.dir}" />
             <fileset dir="${quartz.lib.dir}" />
             <fileset dir="${saxon.lib.dir}" />
+            <fileset dir="${jmimemagic.lib.dir}" />
             <fileset dir="${joda.lib.dir}" />
             <fileset dir="${opencsv.lib.dir}" />
             <fileset dir="${jsch.lib.dir}" />

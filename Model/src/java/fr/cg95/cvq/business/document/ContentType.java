@@ -28,7 +28,7 @@ public final class ContentType extends PersistentStringEnum {
         if(mimeType.equals(GIF.toString()) || mimeType.equals(JPEG.toString()) || mimeType.equals(PDF.toString()) 
                 || mimeType.equals(PNG.toString()) || mimeType.equals(TIFF.toString()))
             return true;
-        throw new CvqDocumentException("document.error.contentTypeIsNotAllowed");
+        throw new CvqDocumentException("message.fileTypeIsNotSupported");
     }
     
     public static ContentType forString(String mimeType) {

@@ -12,8 +12,6 @@ import net.sf.oval.configuration.annotation.Constraint;
 @Constraint(checkWith = IsFrenchRIBCheck.class)
 public @interface IsFrenchRIB {
 
-    //String message();
-
     String[] profiles() default {};
 
     String when() default "";

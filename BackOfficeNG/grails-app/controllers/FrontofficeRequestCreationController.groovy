@@ -29,7 +29,7 @@ import grails.converters.JSON
 import net.sf.oval.Validator
 import net.sf.oval.context.ClassContext
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtils
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 class FrontofficeRequestCreationController {
@@ -739,7 +739,7 @@ class FrontofficeRequestCreationController {
                 def profiles =
                     violation.context.field.getAnnotation(Class.forName(violation.errorCode))
                         .profiles()
-                if (profiles != null && profiles.length >0)
+                if (profiles != null && profiles.length > 0)
                     stepName = profiles[0]
                 field = (prefix != "" ? prefix + '.' : "") + violation.message
             }

@@ -30,7 +30,7 @@ public class HomeFolderDTO implements Serializable {
     @NotNull(profiles = {"adults"}, message = "")
     @MinSize(value = 1, profiles = {"adults"}, message = "")
     @AssertValid(profiles = {"adults"}, message = "")
-    private List<Adult> adults = new ArrayList<Adult>();
+    private List<Adult> adults;
 
     @AssertValid(profiles = {"children"}, message = "")
     private List<Child> children;

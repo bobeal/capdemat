@@ -54,7 +54,6 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     private String answer;
 
     @NotEmpty(message = "password")
-    //@
     private String password;
 
     /** default constructor */

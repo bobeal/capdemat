@@ -212,13 +212,11 @@ public class ElementModelProperties extends ElementProperties {
             if ("string".equals(widget) && minLength > 0) {
                 additionnalAttributes.put("value", minLength);
                 annotations.put("MinLength", new HashMap<String, Object>(additionnalAttributes));
-                //additionnalAttributes = new HashMap<String, Object>();
                 additionnalAttributes.clear();
             }
             if ("string".equals(widget) && maxLength > 0) {
                 additionnalAttributes.put("value", maxLength);
                 annotations.put("MaxLength", new HashMap<String, Object>(additionnalAttributes));
-                //additionnalAttributes = new HashMap<String, Object>();
                 additionnalAttributes.clear();
             }
             String pattern = elementCommon.getJsRegexp();

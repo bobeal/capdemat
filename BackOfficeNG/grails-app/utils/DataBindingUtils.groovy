@@ -58,8 +58,6 @@ public class DataBindingUtils {
                             while (!(index == list.size())) {
                                 list.remove(list.size() -1 )
                             }
-                            /*if (list.size() == 0)
-                                setterMethod.invoke(object, [null] as Object[])*/
                         }
                     }
                     else

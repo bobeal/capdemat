@@ -96,7 +96,7 @@ public class Individual implements Historizable, Serializable {
     @AssertValid(message = "adress", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
     private Address adress;
 
-    //@NotNull(message = "homeFolder")
+    @AssertValid(message = "homeFolder")
     private HomeFolder homeFolder;
 
     private Set<IndividualRole> individualRoles;

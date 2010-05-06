@@ -60,6 +60,15 @@ public class CompostableWasteCollectionRequestData implements Serializable {
         message = "compostableWasteType"
       )
     
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"waste"},
+        message = "compostableWasteType"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteType;
 
     public final void setCompostableWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> compostableWasteType) {

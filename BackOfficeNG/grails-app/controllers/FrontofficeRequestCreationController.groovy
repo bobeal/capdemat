@@ -721,6 +721,19 @@ class FrontofficeRequestCreationController {
         validator.validate(cRequest).each {
             collectInvalidFields(it, invalidFields, "", "")
         }
+        if (invalidFields[""]) {
+            def iterator = invalidFields[""].iterator()
+            while (iterator.hasNext()) {
+                def invalidField = iterator.next()
+                if (invalidField == "subjectId") {
+                    invalidFields[cRequest.stepStates.iterator().next().key].add(invalidField)
+                    iterator.remove()
+                }
+            }
+            if (invalidFields[""].isEmpty()) {
+                invalidFields.remove("")
+            }
+        }
         if (validator.isProfileEnabled("validation")
             && (params.useAcceptance == null || !params.useAcceptance)) {
             if (invalidFields["validation"] == null)

@@ -60,6 +60,15 @@ public class MusicSchoolRegistrationRequestData implements Serializable {
         message = "activity"
       )
     
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"registration"},
+        message = "activity"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> activity;
 
     public final void setActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> activity) {

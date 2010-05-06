@@ -58,7 +58,7 @@ public class TechnicalInterventionRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "_this.interventionType.each { active &= _this.conditions['interventionType'].test(it.name) };" +
+            "if (_this.interventionType == null || _this.interventionType.isEmpty()) return false; _this.interventionType.each { active &= _this.conditions['interventionType'].test(it.name) };" +
                 
               
             
@@ -74,7 +74,7 @@ public class TechnicalInterventionRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "_this.interventionType.each { active &= _this.conditions['interventionType'].test(it.name) };" +
+            "if (_this.interventionType == null || _this.interventionType.isEmpty()) return false; _this.interventionType.each { active &= _this.conditions['interventionType'].test(it.name) };" +
                 
               
             
@@ -169,6 +169,15 @@ public class TechnicalInterventionRequestData implements Serializable {
   
     
       @LocalReferential(
+        
+        
+        profiles = {"intervention"},
+        message = "interventionType"
+      )
+    
+      @MinSize(
+        
+          value = 1,
         
         
         profiles = {"intervention"},

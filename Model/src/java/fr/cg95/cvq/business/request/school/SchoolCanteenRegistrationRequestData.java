@@ -68,6 +68,15 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
         message = "foodDiet"
       )
     
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"registration"},
+        message = "foodDiet"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet;
 
     public final void setFoodDiet(final List<fr.cg95.cvq.business.request.LocalReferentialData> foodDiet) {
@@ -166,6 +175,15 @@ public class SchoolCanteenRegistrationRequestData implements Serializable {
   
     
       @LocalReferential(
+        
+        
+        profiles = {"registration"},
+        message = "canteenAttendingDays"
+      )
+    
+      @MinSize(
+        
+          value = 1,
         
         
         profiles = {"registration"},

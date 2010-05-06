@@ -19,13 +19,14 @@ public class SubjectIdCheck extends AbstractAnnotationCheck<LocalReferential> {
     public boolean isSatisfied(Object validatedObject, Object valueToValidate, OValContext context,
         Validator validator) throws OValException {
         RequestData requestData = (RequestData)validatedObject;
-        Long subjectId = (Long)valueToValidate;
-        String policy =
-            requestServiceRegistry.getRequestService(requestData.getRequestType().getLabel())
-                .getSubjectPolicy();
         try {
-            requestWorkflowService.checkSubjectPolicy(subjectId, requestData.getHomeFolderId(),
-                policy, requestData.getRequestType());
+            requestWorkflowService.checkSubjectPolicy(
+                (Long)valueToValidate,
+                requestData.getHomeFolderId(),
+                requestServiceRegistry.getRequestService(requestData.getRequestType().getLabel())
+                    .getSubjectPolicy(),
+                requestData.getRequestType()
+            );
             return true;
         } catch (CvqException e) {
             return false;

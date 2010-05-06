@@ -86,6 +86,15 @@ public class BulkyWasteCollectionRequestData implements Serializable {
         message = "bulkyWasteType"
       )
     
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"waste"},
+        message = "bulkyWasteType"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType;
 
     public final void setBulkyWasteType(final List<fr.cg95.cvq.business.request.LocalReferentialData> bulkyWasteType) {

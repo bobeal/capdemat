@@ -146,6 +146,15 @@ public class LibraryRegistrationRequestData implements Serializable {
         message = "subscription"
       )
     
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"registration"},
+        message = "subscription"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> subscription;
 
     public final void setSubscription(final List<fr.cg95.cvq.business.request.LocalReferentialData> subscription) {

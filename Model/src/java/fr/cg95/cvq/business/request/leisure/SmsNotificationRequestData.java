@@ -121,6 +121,15 @@ public class SmsNotificationRequestData implements Serializable {
         message = "interests"
       )
     
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"subscription"},
+        message = "interests"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> interests;
 
     public final void setInterests(final List<fr.cg95.cvq.business.request.LocalReferentialData> interests) {

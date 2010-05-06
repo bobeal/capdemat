@@ -183,6 +183,15 @@ public class RecreationActivityRegistrationRequestData implements Serializable {
         message = "recreationActivity"
       )
     
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"registration"},
+        message = "recreationActivity"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity;
 
     public final void setRecreationActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> recreationActivity) {

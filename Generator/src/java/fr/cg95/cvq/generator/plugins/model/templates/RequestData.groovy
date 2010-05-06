@@ -152,7 +152,7 @@ public class ${requestName}Data implements Serializable {
                 def trigger = request.getField(listener.condition.trigger.name)
                 if ("LocalReferentialData".equals(trigger.modelClassName)) {
           %>
-            "_this.${trigger.nameAsParam}.each { active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${trigger.nameAsParam}'].test(it.name) };" +
+            "if (_this.${trigger.nameAsParam} == null || _this.${trigger.nameAsParam}.isEmpty()) return false; _this.${trigger.nameAsParam}.each { active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${trigger.nameAsParam}'].test(it.name) };" +
                 <% } else { %>
             "active &= <% if (RoleType.unfilled.equals(listener.role)) { %>!<% } %>_this.conditions['${trigger.nameAsParam}'].test(_this.${trigger.nameAsParam}.toString());" +
                 <% } %>

@@ -189,26 +189,26 @@ public class ElementModelProperties extends ElementProperties {
     public Map<String, Map<String, Object>> getValidationAnnotations() {
         Map<String, Map<String, Object>> annotations = new HashMap<String, Map<String, Object>>();
         Map<String, Object> additionnalAttributes = new HashMap<String, Object>();
+        if (isMandatory()) {
+            annotations.put("NotNull", additionnalAttributes);
+            if (widget == "string")
+                annotations.put("NotBlank", additionnalAttributes);
+        } else {
+            if (minOccurs != null && minOccurs.compareTo(BigInteger.ZERO) > 0) {
+                additionnalAttributes.put("value", minOccurs);
+                annotations.put("MinSize", new HashMap<String, Object>(additionnalAttributes));
+                additionnalAttributes.clear();
+            }
+            if (maxOccurs != null && maxOccurs.compareTo(BigInteger.ONE) > 0) {
+                additionnalAttributes.put("value", maxOccurs);
+                annotations.put("MaxSize", new HashMap<String, Object>(additionnalAttributes));
+                additionnalAttributes.clear();
+            }
+        }
         if (getModelClassName() != null
             && getModelClassName().equals("LocalReferentialData")) {
             annotations.put("LocalReferential", additionnalAttributes);
         } else {
-            if (isMandatory()) {
-                annotations.put("NotNull", additionnalAttributes);
-                if (widget == "string")
-                    annotations.put("NotBlank", additionnalAttributes);
-            } else {
-                if (minOccurs != null && minOccurs.compareTo(BigInteger.ZERO) > 0) {
-                    additionnalAttributes.put("value", minOccurs);
-                    annotations.put("MinSize", new HashMap<String, Object>(additionnalAttributes));
-                    additionnalAttributes.clear();
-                }
-                if (maxOccurs != null && maxOccurs.compareTo(BigInteger.ONE) > 0) {
-                    additionnalAttributes.put("value", maxOccurs);
-                    annotations.put("MaxSize", new HashMap<String, Object>(additionnalAttributes));
-                    additionnalAttributes.clear();
-                }
-            }
             if ("string".equals(widget) && minLength > 0) {
                 additionnalAttributes.put("value", minLength);
                 annotations.put("MinLength", new HashMap<String, Object>(additionnalAttributes));

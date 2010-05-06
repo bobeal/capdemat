@@ -301,6 +301,15 @@ public class PerischoolActivityRegistrationRequestData implements Serializable {
         message = "perischoolActivity"
       )
     
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"registration"},
+        message = "perischoolActivity"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivity;
 
     public final void setPerischoolActivity(final List<fr.cg95.cvq.business.request.LocalReferentialData> perischoolActivity) {

@@ -186,6 +186,15 @@ public class StudyGrantRequestData implements Serializable {
         message = "taxHouseholdCity"
       )
     
+      @MinSize(
+        
+          value = 1,
+        
+        
+        profiles = {"taxHousehold"},
+        message = "taxHouseholdCity"
+      )
+    
     private List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity;
 
     public final void setTaxHouseholdCity(final List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity) {
@@ -375,6 +384,15 @@ public class StudyGrantRequestData implements Serializable {
   
     
       @LocalReferential(
+        
+        
+        profiles = {"currentStudies"},
+        message = "currentSchoolName"
+      )
+    
+      @MinSize(
+        
+          value = 1,
         
         
         profiles = {"currentStudies"},
@@ -597,7 +615,7 @@ public class StudyGrantRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "_this.taxHouseholdCity.each { active &= _this.conditions['taxHouseholdCity'].test(it.name) };" +
+            "if (_this.taxHouseholdCity == null || _this.taxHouseholdCity.isEmpty()) return false; _this.taxHouseholdCity.each { active &= _this.conditions['taxHouseholdCity'].test(it.name) };" +
                 
               
             
@@ -613,7 +631,7 @@ public class StudyGrantRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "_this.taxHouseholdCity.each { active &= _this.conditions['taxHouseholdCity'].test(it.name) };" +
+            "if (_this.taxHouseholdCity == null || _this.taxHouseholdCity.isEmpty()) return false; _this.taxHouseholdCity.each { active &= _this.conditions['taxHouseholdCity'].test(it.name) };" +
                 
               
             
@@ -1094,7 +1112,7 @@ public class StudyGrantRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "_this.currentSchoolName.each { active &= _this.conditions['currentSchoolName'].test(it.name) };" +
+            "if (_this.currentSchoolName == null || _this.currentSchoolName.isEmpty()) return false; _this.currentSchoolName.each { active &= _this.conditions['currentSchoolName'].test(it.name) };" +
                 
               
             
@@ -1110,7 +1128,7 @@ public class StudyGrantRequestData implements Serializable {
         
           when = "groovy:def active = true;" +
           
-            "_this.currentSchoolName.each { active &= _this.conditions['currentSchoolName'].test(it.name) };" +
+            "if (_this.currentSchoolName == null || _this.currentSchoolName.isEmpty()) return false; _this.currentSchoolName.each { active &= _this.conditions['currentSchoolName'].test(it.name) };" +
                 
               
             

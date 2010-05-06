@@ -72,7 +72,7 @@ public class RequestData implements Serializable {
 
     private String requesterFirstName;
 
-    @SubjectId(profiles = {"subject"})
+    @SubjectId
     private Long subjectId;
 
     private String subjectLastName;

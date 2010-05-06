@@ -1582,6 +1582,7 @@
         postal_code varchar(5) not null,
         server_names bytea,
         document_digitalization_enabled bool not null,
+        token varchar(255),
         admin_email varchar(255),
         payment_deactivation_start_date timestamp,
         payment_deactivation_end_date timestamp,

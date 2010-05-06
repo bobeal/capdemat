@@ -16,7 +16,8 @@ class BackofficeLocalAuthorityController {
       'localAuthority.aspect',
       'localAuthority.pdf', 
       'localAuthority.information',
-      'localAuthority.identity'
+      'localAuthority.identity',
+      'localAuthority.addressesReferential'
     ]
 
     def beforeInterceptor = { 
@@ -118,6 +119,18 @@ class BackofficeLocalAuthorityController {
                 }
             }
             localAuthorityRegistry.setLocalAuthorityServerNames(serverNames)
+            render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
+            return false
+        }
+    }
+
+    def addressesReferential = {
+        if(request.get) {
+            return [
+                "subMenuEntries": subMenuEntries,
+                "token": SecurityContext.getCurrentSite().token]
+        } else if (request.post) {
+            bind(SecurityContext.getCurrentSite())
             render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
             return false
         }

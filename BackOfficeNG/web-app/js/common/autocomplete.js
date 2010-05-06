@@ -195,7 +195,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
         else {
           yuc.asyncRequest("GET", this.url + (allParams !== {} ? "?" + zct.param(allParams) : ""), {
             success: function(o) {
-              show(yl.JSON.parse(o.responseText));
+              show(ylj.parse(o.responseText));
             }
           });
         }

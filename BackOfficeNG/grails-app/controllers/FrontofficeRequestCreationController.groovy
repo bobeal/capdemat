@@ -241,7 +241,14 @@ class FrontofficeRequestCreationController {
                         // eventually add last and new page
                         if (request.getFile('documentData-0').bytes.size() > 0) {
                             def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc.id}")
-                            doc = documentAdaptorService.addDocumentPage(doc.id, request.getFile('documentData-0').bytes)
+                            try {
+                                doc = documentAdaptorService.addDocumentPage(doc.id, request.getFile('documentData-0').bytes)
+                            } catch (CvqDocumentException cde) {
+                                flash.errorMessage = message(code : cde.i18nKey)
+                                if(documentService.getById(docParam.id).datas.isEmpty()) {
+                                    documentService.delete(docParam.id)
+                                }
+                            }
                         }
                     }
                 } else if (request.getFile('documentData-0').bytes.size() > 0) {
@@ -274,8 +281,10 @@ class FrontofficeRequestCreationController {
             }
             else if (submitAction[1] == 'documentDelete') {
                 def docParam = targetAsMap(submitAction[3])
-                documentService.delete(docParam.id)
-                isDocumentEditMode = false
+                if(docParam.id != null) {
+                    documentService.delete(docParam.id)
+                    isDocumentEditMode = false
+                }
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentAssociate') {
@@ -317,6 +326,8 @@ class FrontofficeRequestCreationController {
                     flash.errorMessage = message(code : cde.i18nKey)
                     if(documentService.getById(docParam.id).datas.isEmpty())
                         documentService.delete(docParam.id)
+                    else
+                        documentDto = documentAdaptorService.getDocument(docParam.id)
                 }
                 documentTypeDto = documentAdaptorService.adaptDocumentType(docParam.documentTypeId)
                 isDocumentEditMode = true

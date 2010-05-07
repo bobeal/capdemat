@@ -1,3 +1,5 @@
+import fr.cg95.cvq.exception.CvqDocumentException;
+
 import grails.converters.JSON
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.service.document.IDocumentTypeService
@@ -83,7 +85,7 @@ class BackofficeDocumentInstructionController {
     def addPage = {
         def result = [:], file = request.getFile('pageFile')
         
-        if((file.contentType =~ /image\/.*/).matches()) {
+//        if((file.contentType =~ /image\/.*/).matches()) {
             Document document = null
             if (params.documentId) {
             	document = documentService.getById(Long.valueOf(params.documentId))
@@ -99,18 +101,28 @@ class BackofficeDocumentInstructionController {
                 result.newDocumentId = document.id
             }
             
-            DocumentBinary page = new DocumentBinary()
-            page.data = file.bytes
-            documentService.addPage(Long.valueOf(document.id), page)
+//            DocumentBinary page = new DocumentBinary()
+//            page.data = file.bytes
+            try {
+                documentService.addPage(Long.valueOf(document.id), new DocumentBinary(file.bytes))
+                result.status = 'success'
+                result.documentId = params?.documentId ? '' : document.id
+                result.message = message(code:"message.addDone")
+                result.pageNumber = document.datas.size() - 1
+            } catch (CvqDocumentException cde) {
+                //documentService.deletePage(document.id, page.id)
+                result.status = 'warning'
+                result.message = message(code : cde.i18nKey)
+            }
             
-            result.status = 'success'
-            result.documentId = params?.documentId ? '' : document.id
-            result.message = message(code:"message.addDone")
-            result.pageNumber = document.datas.size() - 1
-        } else {
-            result.status = 'warning'
-            result.message = message(code:"message.fileTypeIsNotSupported")
-        }
+//            result.status = 'success'
+//            result.documentId = params?.documentId ? '' : document.id
+//            result.message = message(code:"message.addDone")
+//            result.pageNumber = document.datas.size() - 1
+//        } else {
+//            result.status = 'warning'
+//            result.message = message(code:"message.fileTypeIsNotSupported")
+//        }
         
         response.contentType = 'text/html; charset=utf-8'
         render((new JSON(result)).toString())

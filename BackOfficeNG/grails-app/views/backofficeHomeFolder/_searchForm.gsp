@@ -1,5 +1,5 @@
 <div class="txt-right" id="requestSearchSwitcher">
-  <a href="${module.createLink(module:'backoffice', controller:'Request', action:'initSearch')}"
+  <a href="${createLink(controller:'backofficeRequest', action:'initSearch')}"
      class="simple">
     <g:message code="action.goToRequestSearch" />
   </a> | 

@@ -14,7 +14,7 @@
       <form method="post">
         <input type="hidden" name="id" value="${rqt.id}" />
         <input type="submit" name="confirm" value="${message(code:'action.confirm')}" />
-        <a href="${module.createLink(module:'frontoffice',controller:'Home')}">
+        <a href="${createLink(controller:'frontofficeHome')}">
           <g:message code="action.cancel"/>
         </a>
       </form>

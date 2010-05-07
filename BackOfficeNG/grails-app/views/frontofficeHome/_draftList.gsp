@@ -5,11 +5,11 @@
         <g:each var="record" in="${dashBoard.drafts.records}">
           <li>
               <span class="tag-state">
-                <a href="${module.createLink(module:'frontoffice',action:'deleteDraft',controller:'Request',id:record.id)}">
+                <a href="${createLink(action:'deleteDraft',controller:'frontofficeRequest',id:record.id)}">
                   <g:message code="action.remove"/>
                 </a>
               </span>
-              <a href="${module.createLink(module:'frontoffice',action:'edit',controller:'RequestCreation',id:record.id)}">
+              <a href="${createLink(action:'edit',controller:'frontofficeRequestCreation',id:record.id)}">
                 ${record.label}
                 <g:message code="request.searchResult.requestId" />
                 <span>${record.id}</span>

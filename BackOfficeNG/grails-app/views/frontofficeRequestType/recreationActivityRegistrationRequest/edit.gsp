@@ -18,12 +18,12 @@
       }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
-    <form action="${module.createLink(controller:'RequestCreationController',action:'condition')}" 
+    <form action="${createLink(controller:'frontofficeRequestCreation',action:'condition')}"
       method="post" id="conditionsForm">
       <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
       <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
     </form>
-    <form action="${module.createLink(controller:'RequestCreationController',action:'autofill')}"
+    <form action="${createLink(controller:'frontofficeRequestCreation',action:'autofill')}"
       method="post" id="autofillForm">
       <input type="hidden" id="autofillContainer" name="autofillContainer" value="" />
       <input type="hidden" id="triggerName" name="triggerName" value="" />

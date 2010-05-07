@@ -15,7 +15,7 @@
 	  }
     </g:set>
     <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
-    <form action="${module.createLink(controller:'VoCardRequestCreationController',action:'condition')}" 
+    <form action="${createLink(controller:'frontofficeRequestCreation',action:'condition')}"
       method="post" id="conditionsForm">
       <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
       <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />

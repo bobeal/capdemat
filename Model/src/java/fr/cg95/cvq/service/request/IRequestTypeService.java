@@ -41,8 +41,7 @@ public interface IRequestTypeService {
      * For an agent, return the list of requests types for which it has at least a read permission.
      * For an ecitizen, return the list of activated requests types.
      */
-    List<RequestType> getAllRequestTypes()
-        throws CvqException;
+    List<RequestType> getAllRequestTypes();
 
     /**
      * Get the list of requests types handled by the given category in the given activation state.
@@ -80,8 +79,7 @@ public interface IRequestTypeService {
     /**
      * Modify a request type properties.
      */
-    void modifyRequestType(@IsRequestType RequestType requestType)
-        throws CvqException;
+    void modifyRequestType(@IsRequestType RequestType requestType);
 
     /**
      * Modify a requirement associated to a request type.

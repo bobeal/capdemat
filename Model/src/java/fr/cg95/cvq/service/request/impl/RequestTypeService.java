@@ -50,6 +50,7 @@ import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.authority.ILocalAuthorityLifecycleAware;
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
+import fr.cg95.cvq.service.authority.impl.LocalAuthorityRegistry;
 import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.ICategoryService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
@@ -178,6 +179,12 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
                         + " for local authority " + localAuthorityName);
                 initRequestData(requestService.getLabel());
             }
+            if (LocalAuthorityRegistry.DEVELOPMENT_LOCAL_AUTHORITY.equals(localAuthorityName)) {
+                for (RequestType requestType : getAllRequestTypes()) {
+                    requestType.setActive(true);
+                    modifyRequestType(requestType);
+                }
+            }
         }
     }
 
@@ -188,8 +195,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
     }
 
     @Override
-    public List<RequestType> getAllRequestTypes()
-        throws CvqException {
+    public List<RequestType> getAllRequestTypes() {
 
         // ecitizens can see all activated requests types
         if (SecurityContext.isFrontOfficeContext()) {
@@ -271,8 +277,7 @@ public class RequestTypeService implements IRequestTypeService, ILocalAuthorityL
 
     @Override
     @Context(types = {ContextType.AGENT}, privilege = ContextPrivilege.MANAGE)
-    public void modifyRequestType(RequestType requestType)
-        throws CvqException {
+    public void modifyRequestType(RequestType requestType) {
         requestTypeDAO.update(requestType);
     }
 

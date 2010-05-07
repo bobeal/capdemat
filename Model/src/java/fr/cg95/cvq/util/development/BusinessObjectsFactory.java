@@ -73,7 +73,7 @@ public class BusinessObjectsFactory {
         adult.setHomePhone("0101010101");
         adult.setMobilePhone("0606060606");
         adult.setOfficePhone("0202020202");
-        adult.setEmail("example@example.com");
+        adult.setEmail("capdemat-dev@zenexity.fr");
         adult.setCfbn("5050505E");
         adult.setProfession("Profession");
         adult.setSex(SexType.MALE);
@@ -88,7 +88,7 @@ public class BusinessObjectsFactory {
         Child child = new Child();
         child.setLastName(lastName);
         child.setFirstName(firstName);
-        child.setSex(SexType.UNKNOWN);
+        child.setSex(SexType.FEMALE);
         child.setNote("Et un enfant, un !");
         child.setBirthCity("Paris");
         child.setBirthPostalCode("75012");

@@ -54,6 +54,7 @@ import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Version;
 import fr.cg95.cvq.business.users.Address;
 import fr.cg95.cvq.business.users.Adult;
+import fr.cg95.cvq.business.users.Child;
 import fr.cg95.cvq.business.users.FamilyStatusType;
 import fr.cg95.cvq.business.users.RoleType;
 import fr.cg95.cvq.business.users.TitleType;
@@ -744,7 +745,14 @@ public class LocalAuthorityRegistry
                     adults.add(BusinessObjectsFactory.gimmeAdult(TitleType.MISTER,
                         "Durand", "Jacques", address, FamilyStatusType.SINGLE));
                     homeFolderResponsible.setPassword("aaaaaaaa");
-                    homeFolderService.create(adults, null, address);
+                    List<Child> children = new ArrayList<Child>(1);
+                    children.add(BusinessObjectsFactory.gimmeChild("Moreau", "Émilie"));
+                    homeFolderService.addIndividualRole(
+                        homeFolderResponsible, children.get(0), RoleType.CLR_FATHER);
+                    Long id = homeFolderService.create(adults, children, address).getId();
+                    SecurityContext.setCurrentSite(DEVELOPMENT_LOCAL_AUTHORITY,
+                        SecurityContext.ADMIN_CONTEXT);
+                    homeFolderService.validate(id);
                 }
                 // set current site to be able to generateJPEGFiles (which uses getCurrentSite) ...
                 SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);

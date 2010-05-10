@@ -7,9 +7,7 @@ public class DateUtils {
     
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy")
     private static SimpleDateFormat systemSdf = new SimpleDateFormat("yyyy-MM-dd")
-    private static SimpleDateFormat fullSdf = 
-        new SimpleDateFormat("dd MMMM yyyy", SecurityContext.currentLocale)
-    
+
     public static stringToDate(String date) {
         try {
             return sdf.parse(date)
@@ -33,6 +31,6 @@ public class DateUtils {
     }
 
     public static dateToFullString(Date date) {
-        return fullSdf.format(date)
+        return new SimpleDateFormat("dd MMMM yyyy", SecurityContext.currentLocale).format(date)
     }
 }

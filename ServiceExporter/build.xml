@@ -13,6 +13,10 @@
     <fileset id="exporter-runtime-libs" dir="${libraries.dir}">
       <include name="**/edu.yale/**/*.jar" />
       <include name="**/fr.cg95/model/CVQ-ExternalServicesSchemas-*.jar" />
+      <include name="**/org.aopalliance/aopalliance*.jar" />
+      <include name="**/javax.transaction/jta*.jar" />
+      <include name="**/net.sf/oval*.jar" />
+      <include name="**/com.sun/xws-security.jar" />
     </fileset>
 
     <path id="classpath.compile">

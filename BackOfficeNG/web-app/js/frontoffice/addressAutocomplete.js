@@ -15,7 +15,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong");
         zct.each(yus.query(".address-fieldset"), function() {
           var fieldsetId = this.id;
           var streetNameAutocomplete = new zcc.AutoComplete({
-            inputId: fieldsetId + "_streetName",
+            inputId: fieldsetId + ".streetName",
             modalId: fieldsetId + "_streetName_autocomplete",
             url: "/CapDemat/autocomplete/ways",
             idField: "matriculation",
@@ -27,11 +27,11 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong");
               return result.name;
             },
             onSelectedResult: function(result) {
-              document.getElementById(fieldsetId + "_streetMatriculation").value = result.matriculation;
+              document.getElementById(fieldsetId + ".streetMatriculation").value = result.matriculation;
             }
           });
           new zcc.AutoComplete({
-            inputId: fieldsetId + "_city",
+            inputId: fieldsetId + ".city",
             modalId: fieldsetId + "_city_autocomplete",
             url: "/CapDemat/autocomplete/cities",
             idField: "inseeCode",
@@ -42,15 +42,15 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong");
               return result.name;
             },
             onSelectedResult: function(result) {
-              document.getElementById(fieldsetId + "_postalCode").value = result.postalCode;
+              document.getElementById(fieldsetId + ".postalCode").value = result.postalCode;
               streetNameAutocomplete.urlParams.city = result.inseeCode;
-              document.getElementById(fieldsetId + "_cityInseeCode").value = result.inseeCode;
-              document.getElementById(fieldsetId + "_streetName").value = "";
-              document.getElementById(fieldsetId + "_streetMatriculation").value = "";
+              document.getElementById(fieldsetId + ".cityInseeCode").value = result.inseeCode;
+              document.getElementById(fieldsetId + ".streetName").value = "";
+              document.getElementById(fieldsetId + ".streetMatriculation").value = "";
             }
           });
           new zcc.AutoComplete({
-            inputId: fieldsetId + "_postalCode",
+            inputId: fieldsetId + ".postalCode",
             modalId: fieldsetId + "_postalCode_autocomplete",
             url: "/CapDemat/autocomplete/cities",
             urlParams: { postalCode: true },
@@ -63,11 +63,11 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong");
               return result.postalCode;
             },
             onSelectedResult: function(result) {
-              document.getElementById(fieldsetId + "_city").value = result.name;
+              document.getElementById(fieldsetId + ".city").value = result.name;
               streetNameAutocomplete.urlParams.city = result.inseeCode;
-              document.getElementById(fieldsetId + "_cityInseeCode").value = result.inseeCode;
-              document.getElementById(fieldsetId + "_streetName").value = "";
-              document.getElementById(fieldsetId + "_streetMatriculation").value = "";
+              document.getElementById(fieldsetId + ".cityInseeCode").value = result.inseeCode;
+              document.getElementById(fieldsetId + ".streetName").value = "";
+              document.getElementById(fieldsetId + ".streetMatriculation").value = "";
             }
           });
         });

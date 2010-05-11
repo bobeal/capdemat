@@ -42,14 +42,14 @@
             <label for="ownerAddress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
             <input type="text" class="line1 validate-streetNumber ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('ownerAddress.streetNumber') ? 'validation-failed' : ''}" value="${rqt.ownerAddress?.streetNumber}" size="5" maxlength="5" id="ownerAddress.streetNumber" name="ownerAddress.streetNumber" />
             <input type="text" class="line2 required validate-streetName ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('ownerAddress.streetName') ? 'validation-failed' : ''}" value="${rqt.ownerAddress?.streetName}" maxlength="32" id="ownerAddress.streetName" name="ownerAddress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
-            <input type="hidden" value="${rqt.ownerAddress?.streetMatriculation}" id="ownerAddress_streetMatriculation" name="ownerAddress.streetMatriculation" />
+            <input type="hidden" value="${rqt.ownerAddress?.streetMatriculation}" id="ownerAddress.streetMatriculation" name="ownerAddress.streetMatriculation" />
             <label for="ownerAddress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('ownerAddress.placeNameOrService') ? 'validation-failed' : ''}" value="${rqt.ownerAddress?.placeNameOrService}" maxlength="38" id="ownerAddress.placeNameOrService" name="ownerAddress.placeNameOrService" />
             <label for="ownerAddress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
             <label for="ownerAddress.city" class="required"><g:message code="address.property.city" /> *</label><br />
             <input type="text" class="line1 required validate-postalCode ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('ownerAddress.postalCode') ? 'validation-failed' : ''}" value="${rqt.ownerAddress?.postalCode}" size="5" maxlength="5" id="ownerAddress.postalCode" name="ownerAddress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
             <input type="text" class="line2 required validate-city ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('ownerAddress.city') ? 'validation-failed' : ''}" value="${rqt.ownerAddress?.city}" maxlength="32" id="ownerAddress.city" name="ownerAddress.city" title="<g:message code="address.property.city.validationError" />" />
-            <input type="hidden" value="${rqt.ownerAddress?.cityInseeCode}" id="ownerAddress_cityInseeCode" name="ownerAddress.cityInseeCode" />
+            <input type="hidden" value="${rqt.ownerAddress?.cityInseeCode}" id="ownerAddress.cityInseeCode" name="ownerAddress.cityInseeCode" />
             <label for="ownerAddress.countryName"><g:message code="address.property.countryName" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['cadastre']?.invalidFields.contains('ownerAddress.countryName') ? 'validation-failed' : ''}" value="${rqt.ownerAddress?.countryName}" maxlength="38" id="ownerAddress.countryName" name="ownerAddress.countryName" />
             </div>

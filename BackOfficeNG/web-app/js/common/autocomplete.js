@@ -101,7 +101,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
         var resultsNode = yus.query("#" + this.modalId + " .results", document, true);
         for(var i=0; i<this.results.length; i++) {
           var li = document.createElement("li");
-          li.id = this.inputId.replace("_","") + "AutoComplete_" + this.results[i][this.idField];
+          li.id = this.inputId + "AutoComplete_" + this.results[i][this.idField];
           li.innerHTML = this.resultText(this.results[i]);
           resultsNode.appendChild(li);
         }

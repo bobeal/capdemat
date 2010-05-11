@@ -39,6 +39,12 @@ class FrontofficeDocumentController {
         def pages =  document.datas
         prevPage = result.page > 0 ? result.page - 1 : null
         nextPage = result.page < (pages.size() - 1) ? result.page + 1 : null
+                
+        def contentType = ""
+        if(pages.size() != 0) {
+            def mimeType = pages[0].getContentType().toString()
+            contentType = mimeType.substring(mimeType.indexOf("/") + 1)
+        }
         
         result.doc = [ 
             "id": document.id,
@@ -55,6 +61,7 @@ class FrontofficeDocumentController {
             "agentNote": document.agentNote,
             'certified' : document.certified,
             'numberOfPages': pages.size(),
+            'contentType': contentType,
             'nextPage' : nextPage,
             'prevPage' : prevPage,
             'pagesTitle': StringUtils.firstCase(message(code:'property.page'),'')

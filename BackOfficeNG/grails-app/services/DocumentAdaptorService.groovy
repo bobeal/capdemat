@@ -101,7 +101,8 @@ public class DocumentAdaptorService {
         ]
 
         doc.datas.eachWithIndex { page, index ->
-            result['datas'].add(['id': page.id, 'pageNumber': index])
+            def pageContentType = "." + page.contentType.toString().substring(page.contentType.toString().indexOf("/") + 1)
+            result['datas'].add(['id': page.id, 'pageNumber': index, 'contentType': pageContentType])
         }
 
         return result

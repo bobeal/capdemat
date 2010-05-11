@@ -5,7 +5,7 @@
     <input type="text" name="ecitizenNote" value="${document.ecitizenNote}"/>
     
     <g:each var="data" in="${document.datas}" >
-      <label><g:message code="document.header.page"/> ${data.pageNumber + 1}</label>
+      <label><g:message code="document.header.page"/> ${data.pageNumber + 1} - Type du fichier : ${data.contentType}</label>
       <input type="file" name="documentData-${data.pageNumber + 1}"/>
       <input type="submit" value="${message(code:'action.modify')}"
              name="submit-documentModifyPage-document-documentTypeId:${documentType.id}_id:${document.id}_dataPageNumber:${data.pageNumber}" />
@@ -22,7 +22,7 @@
   </fieldset>
   <p class="document-button">
     <input type="submit" name="submit-documentSave-document-id:${document.id}_documentTypeId:${documentType.id}" value="${message(code:'action.save')}" />
-    <input type="submit" name="submit-documentDelete-document-id:${document.id}_documentTypeId:${documentType.id}" value="${message(code:'action.cancel')}" />
+    <input type="submit" name="submit-documentDelete-document-id:${document.id}_documentTypeId:${documentType.id}" value="${message(code:'action.remove')}" />
   </p>
 </g:if>
 <g:else>  

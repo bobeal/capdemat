@@ -25,9 +25,9 @@ import fr.cg95.cvq.dao.document.IDocumentDAO;
 import fr.cg95.cvq.dao.document.IDocumentTypeDAO;
 import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
-import fr.cg95.cvq.exception.CvqDocumentException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
+import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -195,11 +195,11 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             mimeType = Magic.getMagicMatch(documentBinary.getData()).getMimeType();
             documentBinary.setContentType(ContentType.forString(mimeType));
         } catch (MagicParseException mpe) {
-                throw new CvqDocumentException("document.file.error.isNotValid");
+                throw new CvqModelException("document.file.error.isNotValid");
         } catch (MagicMatchNotFoundException mmnfe) {
-                throw new CvqDocumentException("document.file.error.isNotValid");
+                throw new CvqModelException("document.file.error.isNotValid");
         } catch (MagicException me) {
-                throw new CvqDocumentException("document.file.error.isNotValid");
+                throw new CvqModelException("document.file.error.isNotValid");
         }
         
         
@@ -216,7 +216,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                         if(document.getDatas().get(0).getContentType().equals(ContentType.forString(mimeType)))
                             document.getDatas().add(documentBinary);
                         else
-                            throw new CvqDocumentException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
+                            throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
                     }
                 }
             documentDAO.update(document);
@@ -231,18 +231,43 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
         checkDocumentDigitalizationIsEnabled();
         
-        documentDAO.update(documentBinary);
-
+        String mimeType;
+        try {
+            mimeType = Magic.getMagicMatch(documentBinary.getData()).getMimeType();
+            documentBinary.setContentType(ContentType.forString(mimeType));
+        } catch (MagicParseException mpe) {
+                throw new CvqModelException("document.file.error.isNotValid");
+        } catch (MagicMatchNotFoundException mmnfe) {
+                throw new CvqModelException("document.file.error.isNotValid");
+        } catch (MagicException me) {
+                throw new CvqModelException("document.file.error.isNotValid");
+        }
         Document document = getById(documentId);
         
-        addActionTrace(PAGE_EDIT_ACTION, null, document);
-
-        if (document.getState().equals(DocumentState.OUTDATED)) {
-            document.setState(DocumentState.PENDING);
-            document.setValidationDate(null);
-            documentDAO.update(document);
-            addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
+        if(ContentType.isAllowContentType(mimeType)) {
+            if(document.getDatas().isEmpty()) {
+                documentDAO.update(documentBinary);
+                if (document.getState().equals(DocumentState.OUTDATED)) {
+                    document.setState(DocumentState.PENDING);
+                    document.setValidationDate(null);
+                    documentDAO.update(document);
+                    addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
+                }
+            } else {
+                if(document.getDatas().get(0).getContentType().equals(ContentType.forString(mimeType))) {
+                    documentDAO.update(documentBinary);
+                    if (document.getState().equals(DocumentState.OUTDATED)) {
+                        document.setState(DocumentState.PENDING);
+                        document.setValidationDate(null);
+                        documentDAO.update(document);
+                        addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
+                    } else
+                            throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
+                }
+            }
         }
+        
+        addActionTrace(PAGE_EDIT_ACTION, null, document);
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)

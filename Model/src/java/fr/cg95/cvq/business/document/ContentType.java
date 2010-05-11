@@ -1,7 +1,7 @@
 package fr.cg95.cvq.business.document;
 
 import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
-import fr.cg95.cvq.exception.CvqDocumentException;
+import fr.cg95.cvq.exception.CvqModelException;
 
 
 public final class ContentType extends PersistentStringEnum {
@@ -24,11 +24,11 @@ public final class ContentType extends PersistentStringEnum {
     public ContentType() {
     }
     
-    public static boolean isAllowContentType(String mimeType) throws CvqDocumentException {
+    public static boolean isAllowContentType(String mimeType) throws CvqModelException {
         if(mimeType.equals(GIF.toString()) || mimeType.equals(JPEG.toString()) || mimeType.equals(PDF.toString()) 
                 || mimeType.equals(PNG.toString()) || mimeType.equals(TIFF.toString()))
             return true;
-        throw new CvqDocumentException("message.fileTypeIsNotSupported");
+        throw new CvqModelException("message.fileTypeIsNotSupported");
     }
     
     public static ContentType forString(String mimeType) {

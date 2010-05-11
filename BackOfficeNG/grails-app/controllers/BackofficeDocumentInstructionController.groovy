@@ -1,4 +1,4 @@
-import fr.cg95.cvq.exception.CvqDocumentException;
+import fr.cg95.cvq.exception.CvqModelException;
 
 import grails.converters.JSON
 import fr.cg95.cvq.business.document.Document
@@ -63,6 +63,10 @@ class BackofficeDocumentInstructionController {
         def agentCanWrite =
             categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
         
+        def contentType = ""
+        if(document.datas.size() != 0)
+            contentType = "de type" + document.datas[0].getContentType().toString()
+        
         return ([
             "uuid" : UUID.randomUUID().toString(),
             "document": [
@@ -77,6 +81,7 @@ class BackofficeDocumentInstructionController {
                 "ecitizenNote": document.ecitizenNote,
                 "agentNote": document.agentNote,
                 "pageNumber": document.datas.size(),
+                "contentType": document.datas.size(),
                 "pages": document.id ? documentAdaptorService.getDocument(document.id).datas : []
             ]
         ])
@@ -85,7 +90,6 @@ class BackofficeDocumentInstructionController {
     def addPage = {
         def result = [:], file = request.getFile('pageFile')
         
-//        if((file.contentType =~ /image\/.*/).matches()) {
             Document document = null
             if (params.documentId) {
             	document = documentService.getById(Long.valueOf(params.documentId))
@@ -101,28 +105,16 @@ class BackofficeDocumentInstructionController {
                 result.newDocumentId = document.id
             }
             
-//            DocumentBinary page = new DocumentBinary()
-//            page.data = file.bytes
             try {
                 documentService.addPage(Long.valueOf(document.id), new DocumentBinary(file.bytes))
                 result.status = 'success'
                 result.documentId = params?.documentId ? '' : document.id
                 result.message = message(code:"message.addDone")
                 result.pageNumber = document.datas.size() - 1
-            } catch (CvqDocumentException cde) {
-                //documentService.deletePage(document.id, page.id)
+            } catch (CvqModelException cme) {
                 result.status = 'warning'
-                result.message = message(code : cde.i18nKey)
+                result.message = message(code : cme.i18nKey)
             }
-            
-//            result.status = 'success'
-//            result.documentId = params?.documentId ? '' : document.id
-//            result.message = message(code:"message.addDone")
-//            result.pageNumber = document.datas.size() - 1
-//        } else {
-//            result.status = 'warning'
-//            result.message = message(code:"message.fileTypeIsNotSupported")
-//        }
         
         response.contentType = 'text/html; charset=utf-8'
         render((new JSON(result)).toString())
@@ -136,19 +128,18 @@ class BackofficeDocumentInstructionController {
     def modifyPage = {
         def result = [:], file = request.getFile('pageFile')
         
-        if((file.contentType =~ /image\/.*/).matches()) {
-            def document = documentService.getById(Long.valueOf(params.documentId))
-            def documentBinary = document.datas[Integer.valueOf(params.pageNumber)]
-            documentBinary.data = file.bytes
+        def document = documentService.getById(Long.valueOf(params.documentId))
+        def documentBinary = document.datas[Integer.valueOf(params.pageNumber)]
+        documentBinary.data = file.bytes
+        try {
             documentService.modifyPage(Long.valueOf(params.documentId), documentBinary)
             result.message = message(code:"message.updateDone")
             result.status = 'success'
-        } else {
-            result.status = 'warning'
-            result.message = message(code:"message.fileTypeIsNotSupported")
-        }
-        
-        result.pageNumber = params.pageNumber
+            result.pageNumber = params.pageNumber
+         } catch (CvqModelException cme) {
+             result.status = 'warning'
+             result.message = message(code: cme.i18nKey)
+         }
         
         response.contentType = 'text/html; charset=utf-8'
         render((new JSON(result)).toString())

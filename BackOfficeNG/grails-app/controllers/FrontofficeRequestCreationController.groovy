@@ -6,7 +6,7 @@ import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.RoleType
-import fr.cg95.cvq.exception.CvqDocumentException;
+import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.IAutofillService
@@ -243,8 +243,8 @@ class FrontofficeRequestCreationController {
                             def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc.id}")
                             try {
                                 doc = documentAdaptorService.addDocumentPage(doc.id, request.getFile('documentData-0').bytes)
-                            } catch (CvqDocumentException cde) {
-                                flash.errorMessage = message(code : cde.i18nKey)
+                            } catch (CvqModelException cme) {
+                                flash.errorMessage = message(code : cme.i18nKey)
                                 if(documentService.getById(docParam.id).datas.isEmpty()) {
                                     documentService.delete(docParam.id)
                                 }
@@ -264,8 +264,8 @@ class FrontofficeRequestCreationController {
                     }
                     try {
                         doc = documentAdaptorService.addDocumentPage(addParam.id, request.getFile('documentData-0').bytes)
-                    } catch (CvqDocumentException cde) {
-                        flash.errorMessage = message(code : cde.i18nKey)
+                    } catch (CvqModelException cme) {
+                        flash.errorMessage = message(code : cme.i18nKey)
                         if(documentService.getById(addParam.id).datas.isEmpty())
                             documentService.delete(addParam.id)
                     }
@@ -322,8 +322,8 @@ class FrontofficeRequestCreationController {
                 try {
                     documentDto = documentAdaptorService.addDocumentPage(docParam.id,  
                         request.getFile('documentData-0').bytes)
-                } catch (CvqDocumentException cde) {
-                    flash.errorMessage = message(code : cde.i18nKey)
+                } catch (CvqModelException cme) {
+                    flash.errorMessage = message(code : cme.i18nKey)
                     if(documentService.getById(docParam.id).datas.isEmpty())
                         documentService.delete(docParam.id)
                     else

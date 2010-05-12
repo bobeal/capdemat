@@ -5,7 +5,7 @@
     <input type="text" name="ecitizenNote" value="${document.ecitizenNote}"/>
     
     <g:each var="data" in="${document.datas}" >
-      <label><g:message code="document.header.page"/> ${data.pageNumber + 1} - Type du fichier : ${data.contentType}</label>
+      <label><g:message code="document.header.page"/> ${data.pageNumber + 1} - <g:message code="document.message.typeFile"/> : ${data.contentType}</label>
       <input type="file" name="documentData-${data.pageNumber + 1}"/>
       <input type="submit" value="${message(code:'action.modify')}"
              name="submit-documentModifyPage-document-documentTypeId:${documentType.id}_id:${document.id}_dataPageNumber:${data.pageNumber}" />

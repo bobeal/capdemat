@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.external.ExternalServiceTrace
+import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.business.request.DataState
 import fr.cg95.cvq.business.request.RequestAction
 import fr.cg95.cvq.business.request.RequestActionType

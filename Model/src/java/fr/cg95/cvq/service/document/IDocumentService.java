@@ -74,6 +74,12 @@ public interface IDocumentService {
      */
     void deletePage(@IsDocument final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException;
+    
+    /**
+     * Check the content type of datas
+     */
+    String checkNewBinaryData(@IsDocument final Long documentId, byte[] data)
+        throws CvqException, CvqObjectNotFoundException;
 
     /**
      * Get all binary data associated to a document.

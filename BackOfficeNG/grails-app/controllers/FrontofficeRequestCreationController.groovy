@@ -334,7 +334,12 @@ class FrontofficeRequestCreationController {
             }
             else if (submitAction[1] == 'documentModifyPage') {
                 def docParam = targetAsMap(submitAction[3])
-                documentDto = documentAdaptorService.modifyDocumentPage(docParam, request)
+                try {
+                    documentDto = documentAdaptorService.modifyDocumentPage(docParam, request)
+                } catch (CvqModelException cme) {
+                    flash.errorMessage = message(code : cme.i18nKey)
+                    documentDto = documentAdaptorService.getDocument(docParam.id)
+                }
                 documentTypeDto = documentAdaptorService.adaptDocumentType(documentDto.documentType.id)
                 isDocumentEditMode = true
             }

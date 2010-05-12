@@ -30,7 +30,7 @@
               </g:if>
             </dd>
             
-             <dt><g:message code="document.property.contentType"/> :</dt>
+             <dt><g:message code="document.message.typeFile"/> :</dt>
              <dd>.${doc.contentType}</dd>
           </dl>
         </div>

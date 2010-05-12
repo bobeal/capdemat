@@ -190,38 +190,21 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
         checkDocumentDigitalizationIsEnabled();
 
-        String mimeType;
         try {
-            mimeType = Magic.getMagicMatch(documentBinary.getData()).getMimeType();
+            String mimeType = checkNewBinaryData(documentId, documentBinary.getData());
             documentBinary.setContentType(ContentType.forString(mimeType));
-        } catch (MagicParseException mpe) {
-                throw new CvqModelException("document.file.error.isNotValid");
-        } catch (MagicMatchNotFoundException mmnfe) {
-                throw new CvqModelException("document.file.error.isNotValid");
-        } catch (MagicException me) {
-                throw new CvqModelException("document.file.error.isNotValid");
-        }
-        
-        
-        if(ContentType.isAllowContentType(mimeType)) {
             Document document = getById(documentId);
-            if (document.getDatas() == null) {
+            if(document.getDatas() == null) {
                 List<DocumentBinary> dataList = new ArrayList<DocumentBinary>();
                 dataList.add(documentBinary);
                 document.setDatas(dataList);
-            } else {
-                    if(document.getDatas().isEmpty())
-                        document.getDatas().add(documentBinary);
-                    else {
-                        if(document.getDatas().get(0).getContentType().equals(ContentType.forString(mimeType)))
-                            document.getDatas().add(documentBinary);
-                        else
-                            throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
-                    }
-                }
+            } else
+                document.getDatas().add(documentBinary);
+            
             documentDAO.update(document);
-        
             addActionTrace(PAGE_ADD_ACTION, null, document);
+        } catch (CvqModelException cme) {
+            throw new CvqModelException(cme.getI18nKey());
         }
     }
 
@@ -231,21 +214,9 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
         checkDocumentDigitalizationIsEnabled();
         
-        String mimeType;
-        try {
-            mimeType = Magic.getMagicMatch(documentBinary.getData()).getMimeType();
-            documentBinary.setContentType(ContentType.forString(mimeType));
-        } catch (MagicParseException mpe) {
-                throw new CvqModelException("document.file.error.isNotValid");
-        } catch (MagicMatchNotFoundException mmnfe) {
-                throw new CvqModelException("document.file.error.isNotValid");
-        } catch (MagicException me) {
-                throw new CvqModelException("document.file.error.isNotValid");
-        }
         Document document = getById(documentId);
         
-        if(ContentType.isAllowContentType(mimeType)) {
-            if(document.getDatas().isEmpty()) {
+            if (document.getDatas().size() == 1) {
                 documentDAO.update(documentBinary);
                 if (document.getState().equals(DocumentState.OUTDATED)) {
                     document.setState(DocumentState.PENDING);
@@ -253,20 +224,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                     documentDAO.update(document);
                     addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
                 }
-            } else {
-                if(document.getDatas().get(0).getContentType().equals(ContentType.forString(mimeType))) {
-                    documentDAO.update(documentBinary);
-                    if (document.getState().equals(DocumentState.OUTDATED)) {
-                        document.setState(DocumentState.PENDING);
-                        document.setValidationDate(null);
-                        documentDAO.update(document);
-                        addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
-                    } else
-                            throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
-                }
-            }
-        }
-        
+            }        
         addActionTrace(PAGE_EDIT_ACTION, null, document);
     }
 
@@ -283,6 +241,29 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         documentDAO.update(document);
         
         addActionTrace(PAGE_DELETE_ACTION, null, document);
+    }
+    
+    public  String checkNewBinaryData(final Long documentId, byte[] data)
+        throws CvqObjectNotFoundException, CvqException {
+        String mimeType = "";
+        Document document = getById(documentId);
+        try {
+            mimeType = Magic.getMagicMatch(data).getMimeType();
+        } catch (MagicParseException mpe) {
+                throw new CvqModelException("document.file.error.isNotValid");
+        } catch (MagicMatchNotFoundException mmnfe) {
+                throw new CvqModelException("document.file.error.isNotValid");
+        } catch (MagicException me) {
+                throw new CvqModelException("document.file.error.isNotValid");
+        }
+        
+        if (ContentType.isAllowContentType(mimeType)) {
+            if (document.getDatas() != null && !document.getDatas().isEmpty()) {
+                        if (!document.getDatas().get(0).getContentType().equals(ContentType.forString(mimeType)))
+                            throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
+            }
+        }
+        return mimeType;
     }
 
     private void checkDocumentDigitalizationIsEnabled() 
@@ -368,7 +349,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         if (searchParams == null)
             searchParams = new Hashtable<String, Object>();
         
-        if(!searchParams.containsKey("homeFolderId") && !searchParams.containsKey("individualId")) {
+        if (!searchParams.containsKey("homeFolderId") && !searchParams.containsKey("individualId")) {
             Adult user = SecurityContext.getCurrentEcitizen();
             List<Long> individuals = new ArrayList<Long>();
             for(Individual i : user.getHomeFolder().getIndividuals())
@@ -569,6 +550,10 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+    
+    public void createPreview(DocumentBinary page) {
+        
     }
 }
 

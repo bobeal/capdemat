@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.document.Document
+import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.users.Adult
@@ -41,9 +42,9 @@ class FrontofficeDocumentController {
         nextPage = result.page < (pages.size() - 1) ? result.page + 1 : null
                 
         def contentType = ""
-        if(pages.size() != 0) {
-            def mimeType = pages[0].getContentType().toString()
-            contentType = mimeType.substring(mimeType.indexOf("/") + 1)
+        if (!pages.isEmpty()) {
+            def mimeType = pages[0].getContentType()
+            contentType = ContentType.getShortContentType(mimeType)
         }
         
         result.doc = [ 
@@ -110,11 +111,11 @@ class FrontofficeDocumentController {
         def criterias = new Hashtable<String,Object>();
         int offset = !params?.offset ? 0 : Integer.parseInt(params.offset)
                 
-        if(state?.df) criterias.put("documentType.id",Long.valueOf(state.df))
-        if(state?.sf) criterias.put("state",DocumentState.forString(StringUtils.firstCase(state.sf,'')))
-        if(state?.nf == currentEcitizen.homeFolder.id.toString()) 
+        if (state?.df) criterias.put("documentType.id",Long.valueOf(state.df))
+        if (state?.sf) criterias.put("state",DocumentState.forString(StringUtils.firstCase(state.sf,'')))
+        if (state?.nf == currentEcitizen.homeFolder.id.toString()) 
             criterias.put('homeFolderId',Long.valueOf(state.nf))
-        else if(state?.nf)
+        else if (state?.nf)
             criterias.put('individualId',Long.valueOf(state.nf))
         
         documentService.search(criterias,maxRows,offset).each {

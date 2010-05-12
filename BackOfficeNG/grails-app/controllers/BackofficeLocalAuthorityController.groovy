@@ -131,6 +131,7 @@ class BackofficeLocalAuthorityController {
                 "token": SecurityContext.getCurrentSite().token]
         } else if (request.post) {
             bind(SecurityContext.getCurrentSite())
+            localAuthorityRegistry.saveLocalAuthority(SecurityContext.getCurrentSite())
             render ([status:"success", success_msg:message(code:"message.updateDone")] as JSON)
             return false
         }

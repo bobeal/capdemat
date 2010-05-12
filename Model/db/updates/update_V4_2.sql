@@ -493,7 +493,6 @@ alter table request_admin_action_complementary_data
     add constraint FK783DC15070D87F22
     foreign key (id)
     references request_admin_action;
-
 -- Remove xslFo Plugin 
 alter table request_form drop column xsl_fo_filename;
 
@@ -533,7 +532,3 @@ alter table study_grant_request drop column bank_code;
 alter table study_grant_request drop column counter_code;
 alter table study_grant_request drop column account_number;
 alter table study_grant_request drop column account_key;
-
-alter table address add column street_matriculation varchar(8);
-alter table address add column cityInseeCode varchar(5);
-alter table local_authority add column token varchar(32);

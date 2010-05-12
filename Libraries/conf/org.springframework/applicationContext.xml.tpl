@@ -251,7 +251,18 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="requestDAO" ref="requestDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
   </bean>
-  
+
+  <bean id="requestSearchServiceToSubjectIdCheckInjector"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="fr.cg95.cvq.service.request.SubjectIdCheck.setRequestSearchService" />
+    <property name="arguments">
+      <list>
+        <ref local="requestSearchService" />
+      </list>
+    </property>
+  </bean>
+
   <bean id="requestDocumentService" class="fr.cg95.cvq.service.request.impl.RequestDocumentService">
     <property name="documentService" ref="documentService" />
     <property name="requestDAO" ref="requestDAO" />

@@ -4,9 +4,12 @@
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'account.css')}" />
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/common', file:'autocomplete.css')}" />
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'condition.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice/requesttype',file:'vOCardRequest.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'addressAutocomplete.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/common',file:'autocomplete.js')}"></script>
   </head>
   <body>
     <g:set var="requestTypeInfo">

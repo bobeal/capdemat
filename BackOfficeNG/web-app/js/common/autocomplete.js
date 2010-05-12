@@ -228,14 +228,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
 
     selectHighlighted: function() {
       var highlightedElem = yus.query("#" + this.modalId + " .selected", document, true);
-      var result = this.getResult(highlightedElem.id.split("_")[1]);
-      var input = document.getElementById(this.inputId);
-      input.value = this.inputValue(result);
-      if(YAHOO.env.ua.opera && this.blockSubmit) {
-        this.blockSubmit = false;
-        return false;
-      };
-      if(this.onSelectedResult !== undefined) this.onSelectedResult(result);
+      var splittedId = highlightedElem.id.split("_");
+      if(splittedId != null && splittedId.length > 0) {
+        var result = this.getResult(splittedId[splittedId.length-1]);
+        var input = document.getElementById(this.inputId);
+        input.value = this.inputValue(result);
+        if(YAHOO.env.ua.opera && this.blockSubmit) {
+          this.blockSubmit = false;
+          return false;
+        };
+        if(this.onSelectedResult !== undefined) this.onSelectedResult(result);
+      }
     },
 
     getResult: function(id) {

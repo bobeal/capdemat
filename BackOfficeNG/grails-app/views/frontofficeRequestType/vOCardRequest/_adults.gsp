@@ -52,7 +52,7 @@
       
       <div class="yui-u">
         <label class="required"><g:message code="homeFolder.individual.property.address" /></label>
-        <div id="_individuals.adults.${listIndex}.address" class="address-fieldset required ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress') ? 'validation-failed' : ''}">
+        <div id="_individuals_adults_${listIndex}_adress" class="address-fieldset required ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress') ? 'validation-failed' : ''}">
           <label for="_individuals.adults.${listIndex}.adress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
           <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.additionalDeliveryInformation') ? 'validation-failed' : ''}" maxlength="38" id="_individuals.adults.${listIndex}.adress.additionalDeliveryInformation" name="_individuals.adults[${listIndex}].adress.additionalDeliveryInformation"
             value="${editList?.adults ? editList?.adults.adress?.additionalDeliveryInformation : individuals?.adults ? individuals.adults.get(0).adress?.additionalDeliveryInformation : ''}" />
@@ -60,26 +60,26 @@
           <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.additionalGeographicalInformation') ? 'validation-failed' : ''}" maxlength="38" id="_individuals.adults.${listIndex}.adress.additionalGeographicalInformation" name="_individuals.adults[${listIndex}].adress.additionalGeographicalInformation"
             value="${editList?.adults ? editList?.adults.adress?.additionalGeographicalInformation : individuals?.adults ? individuals.adults.get(0).adress?.additionalGeographicalInformation : ''}" />
           <label for="_individuals.adults.${listIndex}.adress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
-          <label for="_individuals.adults.${listIndex}.adress.streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
+          <label for="_individuals_adults_${listIndex}_adress_streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
           <input type="text" class="line1 validate-streetNumber ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.streetNumber') ? 'validation-failed' : ''}" size="5" maxlength="5" id="_individuals.adults.${listIndex}.adress.streetNumber" name="_individuals.adults[${listIndex}].adress.streetNumber"
             value="${editList?.adults ? editList?.adults.adress?.streetNumber : individuals?.adults ? individuals.adults.get(0).adress?.streetNumber : ''}" />
-          <input type="text" class="line2 required validate-streetName ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.streetName') ? 'validation-failed' : ''}" maxlength="32" id="_individuals.adults.${listIndex}.adress.streetName" name="_individuals.adults[${listIndex}].adress.streetName" title="<g:message code="address.property.streetName.validationError" />"
+          <input type="text" class="line2 required validate-streetName ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.streetName') ? 'validation-failed' : ''}" maxlength="32" id="_individuals_adults_${listIndex}_adress_streetName" name="_individuals.adults[${listIndex}].adress.streetName" title="<g:message code="address.property.streetName.validationError" />"
             value="${editList?.adults ? editList?.adults.adress?.streetName : individuals?.adults ? individuals.adults.get(0).adress?.streetName : ''}" />
-          <input type="hidden" id="_individuals.adults.${listIndex}.adress.streetMatriculation" name="_individuals.adults.${listIndex}.adress.streetMatriculation"
+          <input type="hidden" id="_individuals_adults_${listIndex}_adress_streetMatriculation" name="_individuals.adults.${listIndex}.adress.streetMatriculation"
             value="${editList?.adults ? editList?.adults.adress?.streetMatriculation : individuals?.adults ? individuals.adults.get(0).adress?.streetMatriculation : ''}" />
           <label for="_individuals.adults.${listIndex}.adress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
           <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.placeNameOrService') ? 'validation-failed' : ''}" maxlength="38" id="_individuals.adults.${listIndex}.adress.placeNameOrService" name="_individuals.adults[${listIndex}].adress.placeNameOrService"
             value="${editList?.adults ? editList?.adults.adress?.placeNameOrService : individuals?.adults ? individuals.adults.get(0).adress?.placeNameOrService : ''}" />
-          <label for="_individuals.adults.${listIndex}.adress.postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
-          <label for="_individuals.adults.${listIndex}.adress.city" class="required"><g:message code="address.property.city" /> *</label><br />
-          <input type="text" class="line1 required validate-postalCode ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.postalCode') ? 'validation-failed' : ''}" size="5" maxlength="5" id="_individuals.adults.${listIndex}.adress.postalCode" name="_individuals.adults[${listIndex}].adress.postalCode" title="<g:message code="address.property.postalCode.validationError" />"
+          <label for="_individuals_adults_${listIndex}_adress_postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
+          <label for="_individuals_adults_${listIndex}_adress_city" class="required"><g:message code="address.property.city" /> *</label><br />
+          <input type="text" class="line1 required validate-postalCode ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.postalCode') ? 'validation-failed' : ''}" size="5" maxlength="5" id="_individuals_adults_${listIndex}_adress_postalCode" name="_individuals.adults[${listIndex}].adress.postalCode" title="<g:message code="address.property.postalCode.validationError" />"
             value="${editList?.adults ? editList?.adults.adress?.postalCode : individuals?.adults ? individuals.adults.get(0).adress?.postalCode : ''}" />
-          <input type="text" class="line2 required validate-city ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.city') ? 'validation-failed' : ''}" maxlength="32" id="_individuals.adults.${listIndex}.adress.city" name="_individuals.adults[${listIndex}].adress.city" title="<g:message code="address.property.city.validationError" />"
+          <input type="text" class="line2 required validate-city ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.city') ? 'validation-failed' : ''}" maxlength="32" id="_individuals_adults_${listIndex}_adress_city" name="_individuals.adults[${listIndex}].adress.city" title="<g:message code="address.property.city.validationError" />"
             value="${editList?.adults ? editList?.adults.adress?.city : individuals?.adults ? individuals.adults.get(0).adress?.city : ''}" />
-          <input type="hidden" id="_individuals.adults.${listIndex}.adress.cityInseeCode" name="_individuals.adults.${listIndex}.adress.cityInseeCode"
+          <input type="hidden" id="_individuals_adults_${listIndex}_adress_cityInseeCode" name="_individuals.adults.${listIndex}.adress.cityInseeCode"
             value="${editList?.adults ? editList?.adults.adress?.cityInseeCode : individuals?.adults ? individuals.adults.get(0).adress?.cityInseeCode : ''}" />
           <label for="_individuals.adults.${listIndex}.adress.countryName"><g:message code="address.property.countryName" /></label>
-          <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.countryName') ? 'validation-failed' : ''}" maxlength="38" id="_individuals.adults.${listIndex}.adress.countryName" name="_individuals.adults[${listIndex}].adress.countryName"
+          <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['adults']?.invalidFields.contains('adress.countryName') ? 'validation-failed' : ''}" maxlength="38" id="_individuals_adults_${listIndex}_adress_countryName" name="_individuals.adults[${listIndex}].adress.countryName"
             value="${editList?.adults ? editList?.adults.adress?.countryName : individuals?.adults ? individuals.adults.get(0).adress?.countryName : ''}" />
         </div>
       </div>

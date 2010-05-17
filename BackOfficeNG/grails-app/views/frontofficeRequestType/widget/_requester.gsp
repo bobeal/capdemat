@@ -34,7 +34,7 @@
     <label for="_requester_adress_city" class="required"><g:message code="address.property.city" /> *</label><br />
     <input type="text" class="line1 required validate-postalCode" value="${requester?.adress?.postalCode}" size="5" maxlength="5" id="_requester_adress_postalCode" name="_requester.adress.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
     <input type="text" class="line2 required validate-city" value="${requester?.adress?.city}" maxlength="32" id="_requester_adress_city" name="_requester.adress.city" title="<g:message code="address.property.city.validationError" />" />
-    <input type="hidden" value="${requester?.adress?.cityInseeCode}" id="_requester.adress.cityInseeCode" name="_requester.adress.cityInseeCode" />
+    <input type="hidden" value="${requester?.adress?.cityInseeCode}" id="_requester_adress_cityInseeCode" name="_requester.adress.cityInseeCode" />
     <label for="_requester.adress.countryName"><g:message code="address.property.countryName" /></label>
     <input type="text" class="validate-addressLine38" value="${requester?.adress?.countryName}" maxlength="38" id="_requester.adress.countryName" name="_requester.adress.countryName" />
   </div>

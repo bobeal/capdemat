@@ -14,8 +14,9 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.fong");
       init: function() {
         zct.each(yus.query(".address-fieldset"), function() {
           var fieldsetId = this.id;
+          var streetNameAutocomplete;
           if(document.getElementById(fieldsetId + "_streetName")) {
-            var streetNameAutocomplete = new zcc.AutoComplete({
+            streetNameAutocomplete = new zcc.AutoComplete({
               inputId: fieldsetId + "_streetName",
               modalId: fieldsetId + "_streetName_autocomplete",
               url: "/CapDemat/autocomplete/ways",

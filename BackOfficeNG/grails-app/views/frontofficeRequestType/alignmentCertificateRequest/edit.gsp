@@ -4,17 +4,20 @@
      <title>${message(code:'acr.description')}</title>
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/common', file:'autocomplete.css')}" />
+    <g:if test="${flash.addressesReferentialEnabled}">
+        <link rel="stylesheet" type="text/css" href="${resource(dir:'css/common', file:'autocomplete.css')}" />
+    </g:if>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'requestCreation.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'condition.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'autofill.js')}"></script>
-    <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'addressAutocomplete.js')}"></script>
-    <script type="text/javascript" src="${resource(dir:'js/common',file:'jsonp.js')}"></script>
-    <script type="text/javascript" src="${resource(dir:'js/common',file:'autocomplete.js')}"></script>
+    <g:if test="${flash.addressesReferentialEnabled}">
+        <script type="text/javascript" src="${resource(dir:'js/frontoffice',file:'addressAutocomplete.js')}"></script>
+        <script type="text/javascript" src="${resource(dir:'js/common',file:'autocomplete.js')}"></script>
+    </g:if>
     <g:if test="${customJS}">
       <script type="text/javascript" src="${resource(dir:customJS.dir,file:customJS.file)}"></script>
     </g:if>
-  </head>  
+  </head>
   <body>
     <g:set var="requestTypeInfo">
       {"label": "${requestTypeLabel}"

@@ -22,7 +22,7 @@ class ServiceSpplusController {
             render 'spcheckok'
         } catch (Exception e) {
             log.error "Error while commiting payment ${e}"
-            render 'ko'
+            render 'spcheckok'
         }
     }
 }

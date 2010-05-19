@@ -626,8 +626,9 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
                     }
                     doc.getDatas().clear();
                     doc.getDatas().add(docBin);
-                    pdDoc.close();
+                    addActionTrace(MERGE_ACTION, null, doc);
                 }
+                pdDoc.close();
             }
         } catch (IOException ioe) {
             throw new CvqException(ioe.getMessage());
@@ -635,7 +636,6 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             throw new CvqException(cve.getMessage());
         }
         documentDAO.update(doc);
-        addActionTrace(MERGE_ACTION, null, doc);
     }
 
     private PDDocument byteToPDDocument(byte[] data) throws IOException {

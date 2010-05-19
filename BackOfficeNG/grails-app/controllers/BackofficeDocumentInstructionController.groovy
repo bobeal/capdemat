@@ -63,6 +63,10 @@ class BackofficeDocumentInstructionController {
         }
         def agentCanWrite =
             categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
+            
+        def messageLink = message(code:"document.message.showImage")
+        if(document.datas.get(0).getContentType() == ContentType.PDF)
+            messageLink = message(code: "document.message.downloadDocument")
         
         return ([
             "uuid" : UUID.randomUUID().toString(),
@@ -77,6 +81,7 @@ class BackofficeDocumentInstructionController {
                 "endValidityDate": document.endValidityDate,
                 "ecitizenNote": document.ecitizenNote,
                 "agentNote": document.agentNote,
+                "messageLink": messageLink,
                 "pageNumber": document.datas.size(),
                 "pages": document.id ? documentAdaptorService.getDocument(document.id).datas : []
             ]

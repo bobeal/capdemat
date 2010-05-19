@@ -47,7 +47,11 @@ class FrontofficeDocumentController {
             contentType = ContentType.getShortContentType(mimeType)
         }
         
-        result.doc = [ 
+        def messageLink = message(code:"document.message.showImage")
+        if(pages[0].getContentType() == ContentType.PDF)
+            messageLink = message(code: "document.message.downloadDocument")
+        
+        result.doc = [
             "id": document.id,
             "name": document.documentType.name,
             "title" : message(code: CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
@@ -62,6 +66,7 @@ class FrontofficeDocumentController {
             "agentNote": document.agentNote,
             'certified' : document.certified,
             'preview' : pages.get(result.page).getPreview(),
+            'messageLink': messageLink,
             'numberOfPages': pages.size(),
             'contentType': contentType,
             'nextPage' : nextPage,

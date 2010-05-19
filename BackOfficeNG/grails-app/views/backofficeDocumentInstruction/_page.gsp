@@ -26,8 +26,10 @@
       </form>
     </div>
   </g:if>
-  <a href="${createLink('action' : 'documentPage', params : [id: document.id, uuid:UUID.randomUUID().toString().substring(0,4), pageNumber:pageNumber])}">
-    <img class="page" src="${g.createLink(action:'documentPreview')}/${document.id}/?pageNumber=${pageNumber}&uuid=${UUID.randomUUID().toString().substring(0,4)}"/>
+  <a id="imgLink" href="${createLink('action' : 'documentPage', params : [id: document.id, uuid:UUID.randomUUID().toString().substring(0,4), pageNumber:pageNumber])}">
+    <img class="page" 
+        src="${g.createLink(action:'documentPreview')}/${document.id}/?pageNumber=${pageNumber}&uuid=${UUID.randomUUID().toString().substring(0,4)}"/>
   </a>
-  <a href="${createLink('action' : 'documentPage', params : [id: document.id, uuid:UUID.randomUUID().toString().substring(0,4), pageNumber:pageNumber])}"><g:message code="document.message.openPage"/></a>
+  <div id="specialLink"><a href="${createLink('action' : 'documentPage', params : [id: document.id, uuid:UUID.randomUUID().toString().substring(0,4), pageNumber:pageNumber])}">
+    ${document.messageLink}</a></div>
 </div>

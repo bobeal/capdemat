@@ -13,13 +13,10 @@
       </a>
     </g:if>
   </div>
-  <a href="${createLink('action' : 'binary', params : [id: doc.id, sessionUuid:sessionUuid, pn:page])}">
-  <g:if test="${doc.preview != null}">
+  <a id="imgLink" href="${createLink('action' : 'binary', params : [id: doc.id, sessionUuid:sessionUuid, pn:page])}">
     <img src="${createLink('action':'preview', 'params':[id:doc.id, sessionUuid:sessionUuid, pn:page]).encodeAsXML()}" alt="${doc.title}" />
-  </g:if>
-  <g:else>
-    <g:message code="document.message.notPreview"/>
-  </g:else>
   </a>
-  <a href="${createLink('action' : 'binary', params : [id: doc.id, sessionUuid:sessionUuid, pn:page])}"><g:message code="document.message.openPage" /></a>
+  <div id="specialLink"><a href="${createLink('action' : 'binary', params : [id: doc.id, sessionUuid:sessionUuid, pn:page])}">
+      ${doc.messageLink}</a></div>
 </div>
+

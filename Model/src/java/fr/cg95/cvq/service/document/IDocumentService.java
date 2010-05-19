@@ -1,12 +1,9 @@
 package fr.cg95.cvq.service.document;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
@@ -209,9 +206,4 @@ public interface IDocumentService {
     Integer searchCount(Hashtable<String,Object> searchParams);
 
     void deleteUnpersistedSessionDocuments(final String sessionUuid);
-   
-    /**
-     * transform all binaries from a document in only one pdf document binary 
-     */
-    public byte[] imageToPdf(final Long id) throws CvqObjectNotFoundException, CvqException;
 }

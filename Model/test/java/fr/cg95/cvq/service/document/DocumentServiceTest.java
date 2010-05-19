@@ -2,6 +2,8 @@ package fr.cg95.cvq.service.document;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,19 +13,24 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.DepositOrigin;
 import fr.cg95.cvq.business.document.DepositType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
+import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.users.CreationBean;
 import fr.cg95.cvq.business.users.HomeFolder;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.exception.CvqException;
+import fr.cg95.cvq.exception.CvqModelException;
+import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentService;
@@ -69,28 +76,25 @@ public class DocumentServiceTest extends DocumentTestCase {
         // add binary data
         DocumentBinary docBin = new DocumentBinary();
         File fileJpg = getResourceFile("health_notebook.jpg");
-        File fileTxt = getResourceFile("test.txt");
-        File filePdf = getResourceFile("Referentiel General Interoperabilite Volet Technique V0.90.pdf");
         byte[] dataJpg = new byte[(int) fileJpg.length()];
-        byte[] dataTxt = new byte[(int) fileTxt.length()];
-        byte[] dataPdf = new byte[(int) filePdf.length()];
         FileInputStream fis = new FileInputStream(fileJpg);
         fis.read(dataJpg);
         docBin.setData(dataJpg);
-        documentService.addPage(docId, docBin);
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
 
         // and another one ...
         docBin = new DocumentBinary();
         docBin.setData(dataJpg);
-        documentService.addPage(docId, docBin);
-      
-        //and a pdf file...
-        docBin = new DocumentBinary();
-        fis = new FileInputStream(filePdf);
-        fis.read(dataPdf);
-        docBin.setData(dataPdf);
-        documentService.addPage(docId, docBin); 
-
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
         continueWithNewTransaction();
         
         // check the document and its two binary have been successfully added ...
@@ -109,7 +113,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         } catch (PermissionException pe) {
             // that was expected
         }
-
+        
         // modify a page
         DocumentBinary docBin1 = docBinarySet.iterator().next();
         fileJpg = getResourceFile("family_notebook.jpg");
@@ -117,7 +121,11 @@ public class DocumentServiceTest extends DocumentTestCase {
         fis = new FileInputStream(fileJpg);
         fis.read(dataJpg);
         docBin1.setData(dataJpg);
-        documentService.modifyPage(docId, docBin1);
+        try {
+            documentService.modifyPage(docId, docBin1);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
 
         // remove a page
         doc.getDatas().remove(1);
@@ -351,7 +359,7 @@ public class DocumentServiceTest extends DocumentTestCase {
     }
 
     @Test
-    public void testUnauthenticatedUseCases() throws CvqException {
+    public void testUnauthenticatedUseCases() throws CvqException, IOException {
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
 
@@ -379,13 +387,26 @@ public class DocumentServiceTest extends DocumentTestCase {
         assertEquals("hello buddy", document.getEcitizenNote());
 
         DocumentBinary documentBinary = new DocumentBinary();
-        documentService.addPage(document.getId(), documentBinary);
+        File fileJpg = getResourceFile("health_notebook.jpg");
+        byte[] dataJpg = new byte[(int) fileJpg.length()];
+        FileInputStream fis = new FileInputStream(fileJpg);
+        fis.read(dataJpg);
+        documentBinary.setData(dataJpg);
+        try {
+            documentService.addPage(document.getId(), documentBinary);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
 
         continueWithNewTransaction();
 
         document = documentService.getBySessionUuid(uuid).get(0);
         documentBinary = document.getDatas().get(0);
-        documentService.modifyPage(document.getId(), documentBinary);
+        try {
+            documentService.modifyPage(document.getId(), documentBinary);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
 
         continueWithNewTransaction();
 
@@ -405,5 +426,219 @@ public class DocumentServiceTest extends DocumentTestCase {
 
         documents = documentService.getBySessionUuid(uuid);
         assertTrue(documents.isEmpty());
+    }
+    
+    @Test
+    public void testDocumentAddPage() throws CvqException, IOException {
+       
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+        
+        // create document
+        Document doc = new Document();
+        doc.setSessionUuid("testAddPage");
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        Long docId = documentService.create(doc);
+        
+        // defined 3 types of file
+        File fileJpg = getResourceFile("test.jpg");
+        File filePdf = getResourceFile("test.pdf");
+        File fileHtml = getResourceFile("test.html");
+        
+        byte[] dataJpg = new byte[(int) fileJpg.length()];
+        byte[] dataPdf = new byte[(int) filePdf.length()];
+        byte[] dataHtml = new byte[(int) fileHtml.length()];
+        
+        continueWithNewTransaction();
+        
+        // first : add binaries with allowed content type (image)
+        DocumentBinary docBin = new DocumentBinary();
+        FileInputStream fis = new FileInputStream(fileJpg);
+        fis.read(dataJpg);
+        docBin.setData(dataJpg); // one binary
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
+        docBin = new DocumentBinary();
+        docBin.setData(dataJpg); // two binary
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
+        continueWithNewTransaction();
+        
+        // tests
+        doc = documentService.getById(docId);
+        assertEquals("There was a problem during add page to document",2,doc.getDatas().size());
+        assertEquals("Problems with the content type of binaries",ContentType.JPEG,doc.getDatas().get(0).getContentType());
+        
+        // remove all binarie from document
+        doc.getDatas().clear();
+        assertEquals("There are binaries in document", true, doc.getDatas().isEmpty());
+        
+        continueWithNewTransaction();
+        
+        // second : add binaries with allowed content type (pdf)
+        docBin = new DocumentBinary();
+        fis = new FileInputStream(filePdf);
+        fis.read(dataPdf);
+        docBin.setData(dataPdf); // one binary
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
+        docBin = new DocumentBinary();
+        docBin.setData(dataPdf); // two binary
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
+        continueWithNewTransaction();
+        
+        // tests
+        doc = documentService.getById(docId);
+        assertEquals("There was a problem during add page to document",2,doc.getDatas().size());
+        assertEquals("Problems with the content type of binaries",ContentType.PDF,doc.getDatas().get(0).getContentType());
+        
+        continueWithNewTransaction();
+        
+        // third : add a binary with a content type allowed but different from binaries in document
+        docBin = new DocumentBinary();
+        fis = new FileInputStream(fileJpg);
+        fis.read(dataJpg);
+        docBin.setData(dataJpg);
+        try {
+            documentService.addPage(docId, docBin);
+            fail("We must have an error");
+        } catch (CvqModelException cme) {
+         // that was expected
+        }
+        
+        continueWithNewTransaction();
+        
+        // tests
+        doc = documentService.getById(docId);
+        assertEquals("The binary was added whereas it haven't a good content type",2,doc.getDatas().size());
+        
+        continueWithNewTransaction();
+        
+        // fourth : add a binary with content type not allowed
+        docBin = new DocumentBinary();
+        fis = new FileInputStream(fileHtml);
+        fis.read(dataHtml);
+        docBin.setData(dataHtml);
+        try {
+            documentService.addPage(docId, docBin);
+            fail("We must have an error");
+        } catch (CvqModelException cme) {
+         // that was expected
+        }
+        
+        continueWithNewTransaction();
+        
+        // tests
+        doc = documentService.getById(docId);
+        assertEquals("The binary was added whereas it haven't a good content type",2,doc.getDatas().size());
+        
+        continueWithNewTransaction();
+        
+        // fifth : test if the preview has been created for all binaries
+        for (DocumentBinary bin : doc.getDatas()) {
+            assertNotNull("The preview is not created",bin.getPreview());
+        }
+    }
+    
+    @Test
+    public void testMergePdf() throws CvqObjectNotFoundException, CvqException, IOException {
+        
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
+        
+        //create document
+        Document doc = new Document();
+        doc.setSessionUuid("testMergePdf");
+        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
+        Long docId = documentService.create(doc);
+        
+        //first : add binaries encrypted
+        DocumentBinary docBin = new DocumentBinary();
+        File filePdf = getResourceFile("bulletin.pdf");
+        byte[] dataPdf = new byte[(int) filePdf.length()];
+        FileInputStream fis = new FileInputStream(filePdf);
+        fis.read(dataPdf);
+        docBin.setData(dataPdf);
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
+        docBin = new DocumentBinary();
+        docBin.setData(dataPdf);
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
+        continueWithNewTransaction();
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+
+        //change state of doc
+        documentService.updateDocumentState(docId, DocumentState.VALIDATED, null, null);
+        
+        continueWithNewTransaction();
+
+        //tests
+        doc = documentService.getById(docId);
+        assertEquals("The merge worked whereas the binaries were encrypted",2,doc.getDatas().size());
+        
+        //remove all binaries from document
+        doc.getDatas().clear();
+        
+        //second : add binaries not encrypted
+        docBin = new DocumentBinary();
+        filePdf = getResourceFile("test.pdf");
+        dataPdf = new byte[(int) filePdf.length()];
+        fis = new FileInputStream(filePdf);
+        fis.read(dataPdf);
+        docBin.setData(dataPdf);
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
+        docBin = new DocumentBinary();
+        docBin.setData(dataPdf);
+        try {
+            documentService.addPage(docId, docBin);
+        } catch (CvqModelException cme) {
+            fail("thrown cvq model exception : " + cme.getI18nKey());
+        }
+        
+        continueWithNewTransaction();
+
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+
+        //change state of doc
+        documentService.updateDocumentState(docId, DocumentState.VALIDATED, null, null);
+        
+        continueWithNewTransaction();
+
+        //tests
+        doc = documentService.getById(docId);
+        assertEquals("The merge didn't work",1,doc.getDatas().size());
+        assertEquals("Content type is not equal to PDF",ContentType.PDF, doc.getDatas().get(0).getContentType());
     }
 }

@@ -22,32 +22,32 @@ public final class ContentType extends PersistentStringEnum {
     private ContentType(final String type) {
         super(type);
     }
-    
+
     public ContentType() {
     }
-    
-    public static boolean isAllowContentType(String mimeType) throws CvqModelException {
-        if(mimeType.equals(GIF.toString()) || mimeType.equals(JPEG.toString()) || mimeType.equals(PDF.toString()) 
+
+    public static boolean isAllowedContentType(String mimeType) throws CvqModelException {
+        if (mimeType.equals(GIF.toString()) || mimeType.equals(JPEG.toString()) || mimeType.equals(PDF.toString()) 
                 || mimeType.equals(PNG.toString()) || mimeType.equals(TIFF.toString()))
             return true;
-        throw new CvqModelException("document.message.fileTypeIsNotSupported");
+        return false;
     }
     
     public static ContentType forString(String mimeType) {
-        if(mimeType.equals(PDF.toString()))
+        if (mimeType.equals(PDF.toString()))
             return PDF;
-        else if(mimeType.equals(GIF.toString()))
+        else if (mimeType.equals(GIF.toString()))
             return GIF;
-        else if(mimeType.equals(JPEG.toString()))
+        else if (mimeType.equals(JPEG.toString()))
             return JPEG;
-        else if(mimeType.equals(PNG.toString()))
+        else if (mimeType.equals(PNG.toString()))
             return PNG;
-        else if(mimeType.equals(TIFF.toString()))
+        else if (mimeType.equals(TIFF.toString()))
             return TIFF;
         else
-            return PDF; // definir une defaultValue (ici PDF pour le moment)
+            return PDF; //TODO definir une defaultValue (ici PDF pour le moment)
     }
-    
+
     public static String getShortContentType(ContentType contentType) {
         String shortContentType = StringUtils.substringAfterLast(contentType.toString(), "/");
         return shortContentType;

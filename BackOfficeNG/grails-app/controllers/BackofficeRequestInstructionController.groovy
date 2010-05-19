@@ -95,7 +95,7 @@ class BackofficeRequestInstructionController {
             }
         }
         def editableStates = []
-        for(RequestState state : requestWorkflowService.getEditableStates())
+        for (RequestState state : requestWorkflowService.getEditableStates())
             editableStates.add(state.toString())
         
         def localReferentialTypes =
@@ -330,7 +330,7 @@ class BackofficeRequestInstructionController {
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
         
         try {
-            for(Map entry : (JSON.parse(params.conditionsContainer) as List)) {
+            for (Map entry : (JSON.parse(params.conditionsContainer) as List)) {
                 result.add([
                     success_msg: message(code:'message.conditionTested'),
                     test: conditionService.isConditionFilled(params.requestTypeLabel, entry),

@@ -87,6 +87,8 @@
             <fileset dir="${quartz.lib.dir}" />
             <fileset dir="${saxon.lib.dir}" />
             <fileset dir="${jmimemagic.lib.dir}" />
+            <fileset dir="${pdfbox.lib.dir}" />
+            <fileset dir="${fontbox.lib.dir}" />
             <fileset dir="${joda.lib.dir}" />
             <fileset dir="${opencsv.lib.dir}" />
             <fileset dir="${jsch.lib.dir}" />

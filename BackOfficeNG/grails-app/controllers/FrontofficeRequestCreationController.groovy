@@ -245,7 +245,7 @@ class FrontofficeRequestCreationController {
                                 doc = documentAdaptorService.addDocumentPage(doc.id, request.getFile('documentData-0').bytes)
                             } catch (CvqModelException cme) {
                                 flash.errorMessage = message(code : cme.i18nKey)
-                                if(documentService.getById(docParam.id).datas.isEmpty()) {
+                                if (documentService.getById(docParam.id).datas.isEmpty()) {
                                     documentService.delete(docParam.id)
                                 }
                             }
@@ -266,7 +266,7 @@ class FrontofficeRequestCreationController {
                         doc = documentAdaptorService.addDocumentPage(addParam.id, request.getFile('documentData-0').bytes)
                     } catch (CvqModelException cme) {
                         flash.errorMessage = message(code : cme.i18nKey)
-                        if(documentService.getById(addParam.id).datas.isEmpty())
+                        if (documentService.getById(addParam.id).datas.isEmpty())
                             documentService.delete(addParam.id)
                     }
                 }
@@ -281,7 +281,7 @@ class FrontofficeRequestCreationController {
             }
             else if (submitAction[1] == 'documentDelete') {
                 def docParam = targetAsMap(submitAction[3])
-                if(docParam.id != null) {
+                if (docParam.id != null) {
                     documentService.delete(docParam.id)
                     isDocumentEditMode = false
                 }
@@ -324,7 +324,7 @@ class FrontofficeRequestCreationController {
                         request.getFile('documentData-0').bytes)
                 } catch (CvqModelException cme) {
                     flash.errorMessage = message(code : cme.i18nKey)
-                    if(documentService.getById(docParam.id).datas.isEmpty())
+                    if (documentService.getById(docParam.id).datas.isEmpty())
                         documentService.delete(docParam.id)
                     else
                         documentDto = documentAdaptorService.getDocument(docParam.id)
@@ -567,7 +567,7 @@ class FrontofficeRequestCreationController {
         }
 
         try {
-            for(Map entry : (JSON.parse(params.conditionsContainer) as List)) {
+            for (Map entry : (JSON.parse(params.conditionsContainer) as List)) {
                 result.add([
                     success_msg: message(code:'message.conditionTested'),
                     test: conditionService.isConditionFilled(params.requestTypeLabel, entry),
@@ -618,7 +618,7 @@ class FrontofficeRequestCreationController {
                 }
             }
             
-            if(cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))
+            if (cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))
                 subjects[cRequest.subjectId] = "${cRequest.subjectLastName} ${cRequest.subjectFirstName}"
         }
         return subjects

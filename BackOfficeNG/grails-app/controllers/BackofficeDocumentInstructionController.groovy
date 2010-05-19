@@ -146,9 +146,21 @@ class BackofficeDocumentInstructionController {
     def documentPage = {
         def document = documentService.getById(params.long('id'))
         def page = document.datas[Integer.valueOf(params.pageNumber)]
+        
+        if (page.contentType.equals(ContentType.PDF))
+            response.contentType="application/pdf"
+            
+        else
+            response.contentType = "image/png"
+        response.outputStream << page.data
+    }
+    
+    def documentPreview = {
+        def document = documentService.getById(params.long('id'))
+        def page = document.datas[Integer.valueOf(params.pageNumber)]
 
         response.contentType = "image/png"
-        response.outputStream << page.data
+        response.outputStream << page.preview
     }
 
     def states = {
@@ -158,7 +170,7 @@ class BackofficeDocumentInstructionController {
         def states = documentService.getPossibleTransitions(DocumentState.forString(document.state.toString()))
         
         result.states = []
-        for(String s : states) result.states.add(CapdematUtils.adaptCapdematEnum(s, "document.state"))
+        for (String s : states) result.states.add(CapdematUtils.adaptCapdematEnum(s, "document.state"))
         
         result.endValidityDate = document.endValidityDate
         result.stateType = document.documentType.name
@@ -186,7 +198,7 @@ class BackofficeDocumentInstructionController {
             ])
         }
         
-        for(DocumentType t : requestTypeService.getAllowedDocuments(request.requestType.id)) {
+        for (DocumentType t : requestTypeService.getAllowedDocuments(request.requestType.id)) {
             if (!types.contains(t.id)) documents.add([
                 "id": 0,"documentTypeId": t.id,
                 "name": message(code: CapdematUtils.adaptDocumentTypeName(t.name)),

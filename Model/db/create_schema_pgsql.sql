@@ -850,6 +850,7 @@
         id int8 not null,
         data bytea,
         content_type varchar(255),
+        preview bytea,
         document_id int8,
         document_binary_index int4,
         primary key (id)

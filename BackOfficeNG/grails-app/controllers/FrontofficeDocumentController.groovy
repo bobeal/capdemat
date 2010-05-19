@@ -61,6 +61,7 @@ class FrontofficeDocumentController {
             "ecitizenNote": document.ecitizenNote,
             "agentNote": document.agentNote,
             'certified' : document.certified,
+            'preview' : pages.get(result.page).getPreview(),
             'numberOfPages': pages.size(),
             'contentType': contentType,
             'nextPage' : nextPage,
@@ -92,9 +93,19 @@ class FrontofficeDocumentController {
     def binary = {
         Document document = documentService.getById(params.long('id'))
         DocumentBinary binary = document.datas.get(params.pn ? Integer.valueOf(params.pn) : 0)
-        
-        response.contentType = "image/png"
+        if (binary.contentType.equals(ContentType.PDF))
+            response.contentType = "application/pdf"
+        else
+            response.contentType = "image/png"
         response.outputStream << binary.data
+    }
+    
+    def preview = {
+            Document document = documentService.getById(params.long('id'))
+            DocumentBinary binary = document.datas.get(params.pn ? Integer.valueOf(params.pn) : 0)
+            
+            response.contentType = "image/png"
+            response.outputStream << binary.preview
     }
     
     def protected getActions(document) {

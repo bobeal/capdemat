@@ -1,9 +1,12 @@
 package fr.cg95.cvq.service.document;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
@@ -26,6 +29,7 @@ public interface IDocumentService {
     String PAGE_ADD_ACTION = "PAGE_ADD_ACTION";
     String PAGE_EDIT_ACTION = "PAGE_EDIT_ACTION";
     String PAGE_DELETE_ACTION = "PAGE_DELETE_ACTION";
+    String MERGE_ACTION = "MERGE_ACTION";
 
     /**
      * Add a document to the system.
@@ -58,7 +62,6 @@ public interface IDocumentService {
      * Add a page to an existing document.
      *
      * If no page is specified, add document binary at the last page
-     *
      */
     void addPage(@IsDocument final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqObjectNotFoundException;
@@ -206,4 +209,9 @@ public interface IDocumentService {
     Integer searchCount(Hashtable<String,Object> searchParams);
 
     void deleteUnpersistedSessionDocuments(final String sessionUuid);
+   
+    /**
+     * transform all binaries from a document in only one pdf document binary 
+     */
+    public byte[] imageToPdf(final Long id) throws CvqObjectNotFoundException, CvqException;
 }

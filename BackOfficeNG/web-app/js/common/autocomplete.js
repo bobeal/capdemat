@@ -122,7 +122,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
       switch(event.keyCode) {
         case KEY.RETURN:
           if(this.isShow()) {
-            event.preventDefault();
+            !YAHOO.env.ua.ie && event.preventDefault();
             this.blockSubmit = true;
             this.selectHighlighted();
             this.hide();
@@ -130,13 +130,13 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
           }
           break;
         case KEY.UP:
-          event.preventDefault();
+          !YAHOO.env.ua.ie && event.preventDefault();
           if(this.isShow()) {
             this.highligthPrevious();
           }
           break;
         case KEY.DOWN:
-          event.preventDefault();
+          !YAHOO.env.ua.ie && event.preventDefault();
           if(this.isShow()) {
             this.highligthNext();
           }
@@ -157,16 +157,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
     },
 
     bindEvents: function() {
-      var that = this;
       var input = document.getElementById(this.inputId);
-      var onKeyDown = function(event) {
-        that.onKeydown.call(that, event);
-      };
       if(!YAHOO.env.ua.opera) {
-        input.onkeydown = onKeyDown;
+        yue.addListener(this.inputId, "keydown", this.onKeydown, null, this);
       }
       else {
-        input.onkeypress = onKeyDown;
+        yue.addListener(this.inputId, "keypress", this.onKeydown, null, this);
       }
     },
 

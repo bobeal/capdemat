@@ -23,7 +23,7 @@
     
       <dt class="required"><g:message code="parr.property.address.label" /> * : </dt>
       <dd id="authorizedIndividuals[${listSize - 1 - index}].address" class="action-editField validate-address required-true i18n-parr.property.address" >
-        <div><p class="additionalDeliveryInformation">${it?.address?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it?.address?.additionalGeographicalInformation}</p><span class="streetNumber">${it?.address?.streetNumber}</span> <span class="streetName">${it?.address?.streetName}</span><p class="placeNameOrService">${it?.address?.placeNameOrService}</p><span class="postalCode">${it?.address?.postalCode}</span> <span class="city">${it?.address?.city}</span><p class="countryName">${it?.address?.countryName}</p></div>
+        <div><p class="additionalDeliveryInformation">${it?.address?.additionalDeliveryInformation}</p><p class="additionalGeographicalInformation">${it?.address?.additionalGeographicalInformation}</p><span class="streetNumber">${it?.address?.streetNumber}</span> <span class="streetName">${it?.address?.streetName}</span><g:if test="${!!it?.address?.streetMatriculation}"><p class="streetMatriculation">Matricule: ${it?.address?.streetMatriculation}</p></g:if><p class="placeNameOrService">${it?.address?.placeNameOrService}</p><span class="postalCode">${it?.address?.postalCode}</span> <span class="city">${it?.address?.city}</span><p class="countryName">${it?.address?.countryName}</p><g:if test="${!!it?.address?.cityInseeCode}"><p class="cityInseeCode">INSEE: ${it?.address?.cityInseeCode}</p></g:if></div>
       </dd>
     
       <dt class=""><g:message code="parr.property.homePhone.label" />  : </dt>

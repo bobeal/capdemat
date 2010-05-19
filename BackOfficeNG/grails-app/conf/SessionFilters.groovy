@@ -122,7 +122,7 @@ class SessionFilters {
             }
         }
 
-        enableAddressesReferential(controller: 'frontoffice*', action: '*') {
+        enableAddressesReferential(controller: '*', action: '*') {
             before = {
                 if (SecurityContext.currentSite.token != null
                     && SecurityContext.currentSite.token != "") {

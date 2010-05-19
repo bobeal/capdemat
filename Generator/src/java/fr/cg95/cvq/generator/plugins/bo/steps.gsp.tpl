@@ -20,10 +20,13 @@
           ,"<p class=\"additionalGeographicalInformation\">\${${wrapper}?.${element.javaFieldName}?.additionalGeographicalInformation}</p>"
           ,"<span class=\"streetNumber\">\${${wrapper}?.${element.javaFieldName}?.streetNumber}</span> "
           ,"<span class=\"streetName\">\${${wrapper}?.${element.javaFieldName}?.streetName}</span>"
+          ,"<g:if test=\"\${!!${wrapper}?.${element.javaFieldName}?.streetMatriculation}\"><p class=\"streetMatriculation\">Matricule: \${${wrapper}?.${element.javaFieldName}?.streetMatriculation}</p></g:if>"
+          ,"<p class=\"streetMatriculation\">Matricule: \${${wrapper}?.${element.javaFieldName}?.streetMatriculation}</p>"
           ,"<p class=\"placeNameOrService\">\${${wrapper}?.${element.javaFieldName}?.placeNameOrService}</p>"
           ,"<span class=\"postalCode\">\${${wrapper}?.${element.javaFieldName}?.postalCode}</span> "
           ,"<span class=\"city\">\${${wrapper}?.${element.javaFieldName}?.city}</span>"
           ,"<p class=\"countryName\">\${${wrapper}?.${element.javaFieldName}?.countryName}</p>"
+          ,"<g:if test=\"\${!!${wrapper}?.${element.javaFieldName}?.cityInseeCode}\"><p class=\"cityInseeCode\">INSEE: \${${wrapper}?.${element.javaFieldName}?.cityInseeCode}</p></g:if>"
           ,"</div>"
           ].join()
       ,'frenchRIB' :

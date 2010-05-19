@@ -7,6 +7,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
   var zca = zenexity.capdemat.aspect;
   var zct = zenexity.capdemat.tools;
   var zcv = zenexity.capdemat.Validation;
+  var zcc = zenexity.capdemat.common;
   var yud = YAHOO.util.Dom;
   var yuel = YAHOO.util.Element;
   var yue = YAHOO.util.Event;
@@ -234,7 +235,17 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
         var addressFields = yud.getChildren(propertyWrapperEl);
         var newAddressFields = yus.query('fieldset input', formEl);
         zct.each (newAddressFields, function(i) {
-            addressFields[i].innerHTML = this.value ;
+          switch (this.id && this.id.split("_")[1]) {
+            case "streetMatriculation":
+              addressFields[i].innerHTML = "Matriculation: " + this.value;
+              break;
+            case "cityInseeCode":
+              addressFields[i].innerHTML = "INSEE: " + this.value;
+              break;
+            default:
+              addressFields[i].innerHTML = this.value;
+              break;
+          }
         });
       }
       else if (isSubmit && yud.hasClass(ddEl, 'validate-frenchRIB')) {
@@ -279,7 +290,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
        // FIXME - poor solution to manage condition chaining
       zcb.Condition.reInit();
     };
-    
+
     return { 
       inlineEditEvent : undefined,
       
@@ -355,6 +366,12 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               yud.addClass(targetEl, 'current-editField');
               yud.addClass(yud.getFirstChild(targetEl), 'invisible');
               targetEl.innerHTML += o.responseText;
+
+              if(jsonPropertyType.validate === 'address') {
+                if(zcc.AddressAutocomplete) {
+                  zcc.AddressAutocomplete.bind("interventionPlace");
+                }
+              }
 
               if (yud.hasClass(targetEl, 'validate-date')) {
                 zcb.Calendar(targetEl.id + "_Field");

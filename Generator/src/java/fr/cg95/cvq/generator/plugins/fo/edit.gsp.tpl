@@ -19,7 +19,7 @@
     <script type="text/javascript" src="\${resource(dir:'js/frontoffice',file:'condition.js')}"></script>
     <script type="text/javascript" src="\${resource(dir:'js/frontoffice',file:'autofill.js')}"></script>
     <g:if test="\${flash.addressesReferentialEnabled}">
-        <script type="text/javascript" src="\${resource(dir:'js/frontoffice',file:'addressAutocomplete.js')}"></script>
+        <script type="text/javascript" src="\${resource(dir:'js/common',file:'addressAutocomplete.js')}"></script>
         <script type="text/javascript" src="\${resource(dir:'js/common',file:'autocomplete.js')}"></script>
     </g:if>
     <g:if test="\${customJS}">

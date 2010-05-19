@@ -3,10 +3,15 @@
     <title><g:message code="request.header.instruction" /></title>
     <meta name="layout" content="main" />
     <script type="text/javascript" src="${resource(dir:'js/common',file:'calendar.js')}"></script>
+    <script type="text/javascript" src="${resource(dir:'js/common',file:'autocomplete.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'contact.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'requestInstruction.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'documentInstruction.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'condition.js')}"></script>
+    <g:if test="${flash.addressesReferentialEnabled}">
+        <script type="text/javascript" src="${resource(dir:'js/common',file:'autocomplete.js')}"></script>
+        <script type="text/javascript" src="${resource(dir:'js/common',file:'addressAutocomplete.js')}"></script>
+    </g:if>
     <script type="text/javascript">
       zenexity.capdemat.bong.requestId = '${rqt.id}';
       zenexity.capdemat.bong.editableStates = ${editableStates} ; 
@@ -17,6 +22,9 @@
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'contact.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'requestInstruction.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'document.css')}" />
+    <g:if test="${flash.addressesReferentialEnabled}">
+        <link rel="stylesheet" type="text/css" href="${resource(dir:'css/common', file:'autocomplete.css')}" />
+    </g:if>
     <g:if test="${externalProviderServiceLabel != null}">
       <script type="text/javascript">
         zenexity.capdemat.bong.request.External.label = '${externalProviderServiceLabel}';

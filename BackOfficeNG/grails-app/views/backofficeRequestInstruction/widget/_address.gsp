@@ -18,10 +18,13 @@
     <input name="${propertyName}.streetNumber" type="text" maxlength="5" 
         value="${propertyValue.streetNumber}" class="line1 validate-streetNumber" />
     
-    <input name="${propertyName}.streetName" type="text" maxlength="32"
+    <input id="${propertyName}_streetName" name="${propertyName}.streetName" type="text" maxlength="32"
         value="${propertyValue.streetName}" class="line2 ${required} validate-streetName"
         title="<g:message code="address.property.streetName" /> - <g:message code="request.error.required" />" />
-    
+
+    <input id="${propertyName}_streetMatriculation" name="${propertyName}.streetMatriculation"
+        type="hidden" value="${propertyValue.streetMatriculation}" />
+
     <label><g:message code="address.property.placeNameOrService" /></label>    
     <input name="${propertyName}.placeNameOrService" type="text" maxlength="38" class="validate-addressLine38"
         value="${propertyValue.placeNameOrService}" />
@@ -31,16 +34,20 @@
        - 
       <strong><g:message code="address.property.city" /> * </strong>
     </label>
-    <input name="${propertyName}.postalCode" type="text" maxlength="5"
+    <input id="${propertyName}_postalCode" name="${propertyName}.postalCode" type="text" maxlength="5"
         value="${propertyValue.postalCode}" class="line1 validate-postalCode" />
    
-    <input name="${propertyName}.city" type="text" maxlength="32" value="${propertyValue.city}" 
+    <input id="${propertyName}_city" name="${propertyName}.city" type="text" maxlength="32" value="${propertyValue.city}" 
         class="line2 ${required} validate-city" 
         title="<g:message code="address.property.city" /> - <g:message code="request.error.required" />" />
-    
+
     <label><g:message code="address.property.countryName" /></label>
     <input name="${propertyName}.countryName" type="text" maxlength="38"  class="validate-addressLine38" 
-      value="${propertyValue.countryName}" /> 
+      value="${propertyValue.countryName}" />
+
+    <input id="${propertyName}_cityInseeCode" name="${propertyName}.cityInseeCode"
+      type="hidden" value="${propertyValue.cityInseeCode}" />
+
   </fieldset>
   
   <input name="requestId" type="hidden" value="${requestId}" />

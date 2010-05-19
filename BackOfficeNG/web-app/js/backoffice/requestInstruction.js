@@ -233,18 +233,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       }
       else if (isSubmit && yud.hasClass(ddEl, 'validate-address')) {
         var addressFields = yud.getChildren(propertyWrapperEl);
-        var newAddressFields = yus.query('fieldset input', formEl);
-        zct.each (newAddressFields, function(i) {
-          switch (this.id && this.id.split("_")[1]) {
-            case "streetMatriculation":
-              addressFields[i].innerHTML = "Matriculation: " + this.value;
-              break;
-            case "cityInseeCode":
-              addressFields[i].innerHTML = "INSEE: " + this.value;
-              break;
-            default:
-              addressFields[i].innerHTML = this.value;
-              break;
+        var newAddressFieldElems = yus.query('fieldset input', formEl);
+        var newAddressFields = {};
+        zct.each (newAddressFieldElems, function(i) {
+          newAddressFields[this.name] = this.value;
+        });
+        zct.each (addressFields, function() {
+          if(newAddressFields[this.name]) {
+            this.innerHTML = newAddressFields[this.name];
           }
         });
       }

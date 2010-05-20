@@ -78,9 +78,8 @@ public class RequestPdfService implements IRequestPdfService {
         File htmlTemplate =
             localAuthorityRegistry.getReferentialResource(Type.CERTIFICATE_TEMPLATE, htmlFilename);
         if (htmlTemplate == null || !htmlTemplate.exists()) {
-            logger.warn("generate() certificate template file denoted by name "
-                    + htmlFilename + ".html does not exist on filesystem");
-            return null;
+            throw new CvqException("generate() certificate template file denoted by name "
+                + htmlFilename + ".html does not exist on filesystem");
         }
         File logoFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
                 LocalAuthorityResource.LOGO_PDF.getId());
@@ -132,13 +131,12 @@ public class RequestPdfService implements IRequestPdfService {
             logger.error(e.getStackTrace());
             throw new CvqException("generate(): Can't generate PDF request certificate");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
+            throw new CvqException("generate(): Can't generate PDF request certificate");
         } catch (DocumentException e) {
             logger.error(e.getStackTrace());
             throw new CvqException("generate(): Can't generate PDF request certificate");
         }
-        logger.warn("generate() PDF request certificate hasn't been generate");
-        return null;
     }
 
     public byte[] generateArchive(Long requestId)
@@ -168,8 +166,7 @@ public class RequestPdfService implements IRequestPdfService {
         File historyTemplate =
             localAuthorityRegistry.getReferentialResource(Type.ARCHIVE_TEMPLATES, "history");
         if (historyTemplate == null || !historyTemplate.exists()) {
-            logger.warn("generateArchive() : template file archive.html does not exist on filesystem");
-            return null;
+            throw new CvqException("generateArchive() : template file archive.html does not exist on filesystem");
         }
         SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
         Template template = templateEngine.createTemplate(historyTemplate);
@@ -203,8 +200,7 @@ public class RequestPdfService implements IRequestPdfService {
             File mailsTemplate =
                 localAuthorityRegistry.getReferentialResource(Type.ARCHIVE_TEMPLATES, "mails");
             if (mailsTemplate == null || !mailsTemplate.exists()) {
-                logger.warn("generateArchive() : template file mails.html does not exist on filesystem");
-                return null;
+                throw new CvqException("generateArchive() : template file mails.html does not exist on filesystem");
             }
             template = templateEngine.createTemplate(mailsTemplate);
             bindings = new HashMap<String, Object>();

@@ -24,7 +24,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
         COMMA: 188,
         PAGEUP: 33,
         PAGEDOWN: 34,
-        BACKSPACE: 8
+        BACKSPACE: 8,
+        SHIFT: 16
       }
     };
   }();
@@ -133,12 +134,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
           !YAHOO.env.ua.ie && event.preventDefault();
           if(this.isShow()) {
             this.highligthPrevious();
+            this.showHighlighted();
           }
           break;
         case KEY.DOWN:
           !YAHOO.env.ua.ie && event.preventDefault();
           if(this.isShow()) {
             this.highligthNext();
+            this.showHighlighted();
           }
           break;
         case KEY.TAB:
@@ -146,6 +149,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
             this.selectHighlighted();
             this.hide();
           }
+          break;
+        case KEY.SHIFT:
           break;
         default:
           if(this.timeout!=null) {
@@ -222,18 +227,24 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.common');
       yud.addClass(elem, "selected");
     },
 
-    selectHighlighted: function() {
+    showHighlighted: function() {
+      this.selectHighlighted(true);
+    },
+
+    selectHighlighted: function(noSelection) {
       var highlightedElem = yus.query("#" + this.modalId + " .selected", document, true);
       var splittedId = highlightedElem.id.split("_");
       if(splittedId != null && splittedId.length > 0) {
         var result = this.getResult(splittedId[splittedId.length-1]);
         var input = document.getElementById(this.inputId);
         input.value = this.inputValue(result);
-        if(YAHOO.env.ua.opera && this.blockSubmit) {
-          this.blockSubmit = false;
-          return false;
-        };
-        if(this.onSelectedResult !== undefined) this.onSelectedResult(result);
+        if(!noSelection) {
+          if(YAHOO.env.ua.opera && this.blockSubmit) {
+            this.blockSubmit = false;
+            return false;
+          };
+          if(this.onSelectedResult !== undefined) this.onSelectedResult(result);
+        }
       }
     },
 

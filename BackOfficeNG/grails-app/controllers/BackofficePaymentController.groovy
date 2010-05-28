@@ -64,6 +64,7 @@ class BackofficePaymentController {
             } else {
                 bind(SecurityContext.currentSite)
             }
+            localAuthorityRegistry.saveLocalAuthority(SecurityContext.currentSite)
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
             return false
         }

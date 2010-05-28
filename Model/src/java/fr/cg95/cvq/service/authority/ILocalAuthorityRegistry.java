@@ -65,6 +65,8 @@ public interface ILocalAuthorityRegistry {
     void setLocalAuthorityServerNames(final TreeSet<String> serverNames)
         throws CvqException ;
 
+    void saveLocalAuthority(LocalAuthority localAuthority);
+
     Set<String> getAllLocalAuthoritiesNames();
 
     /**

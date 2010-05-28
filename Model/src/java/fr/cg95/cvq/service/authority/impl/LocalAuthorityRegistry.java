@@ -191,6 +191,12 @@ public class LocalAuthorityRegistry
     }
 
     @Override
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.WRITE)
+    public void saveLocalAuthority(LocalAuthority localAuthority) {
+        localAuthorityDAO.saveOrUpdate(localAuthority);
+    }
+
+    @Override
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.READ)
     public boolean isAvailableLocalAuthorityServerName(String serverName) {
         return (serverNameMappings.get(serverName) == null 

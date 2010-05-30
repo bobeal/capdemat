@@ -216,13 +216,17 @@
     'token': new me.rule('func', function(f){ return true; }),
     'positiveInteger': new me.rule('func',function(f){ return (!isNaN(f.value) || !f.value.match(/\D/)); } ),
     'long': new me.rule('func',function(f){ return (!isNaN(f.value) || !f.value.match(/\D/)); } ),
-    'postalCode': new me.rule('regex', /^[0-9]{5}$/),
     'departmentCode': new me.rule('regex', /^[0-9]{2}$/),
     'phone': new me.rule('regex', /^0[1-9][0-9]{8}$/),
     'mobilePhone': new me.rule('regex', /^0[67][0-9]{8}$/),
-    'city': new me.rule('regex', /^.{0,32}$/),
     'firstName': new me.rule('regex', /^\D{0,38}$/),
-    'lastName': new me.rule('regex', /^\D{0,38}$/)
+    'lastName': new me.rule('regex', /^\D{0,38}$/),
+    /* address specific rules */
+    'streetNumber': new me.rule('regex', /^.{0,5}$/),
+    'streetName': new me.rule('regex', /^.{0,32}$/),
+    'postalCode': new me.rule('regex', /^[0-9]{5}$/),
+    'city': new me.rule('regex', /^.{0,32}$/),
+    'addressLine38': new me.rule('regex', /^.{0,38}$/)
   });
 
   me.putComplexRules({

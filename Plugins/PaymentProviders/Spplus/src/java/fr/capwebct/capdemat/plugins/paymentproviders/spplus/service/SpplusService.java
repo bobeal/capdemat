@@ -59,7 +59,7 @@ public class SpplusService implements IPaymentProviderService {
         urlParameters.append("siret=").append(spplusSiret);
         parameters.append(spplusSiret);
         
-        String reference = payment.getHomeFolder().getId() + "S" + random.nextInt();
+        String reference = payment.getHomeFolder().getId() + "S" + random.nextInt(Integer.MAX_VALUE);
         urlParameters.append("&reference=").append(reference);
         parameters.append(reference);
         payment.setCvqReference(reference);

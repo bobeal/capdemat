@@ -13,6 +13,7 @@
     class="fr.cg95.cvq.exporter.service.endpoint.RequestServiceEndpoint">
     <constructor-arg ref="xmlBeanMarshaller" />
     <property name="defaultRequestService" ref="defaultRequestService" />
+    <property name="requestDAO" ref="requestDAO" />
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry" />
     <property name="externalService" ref="externalService" />  
   </bean>
@@ -80,4 +81,14 @@
     <property name="locationUri" value="" />
   </bean>
 
+  <bean id="sendRequests" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+    <property name="schema">
+      <bean class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/SendRequest.xsd" />
+      </bean>
+    </property>
+    <property name="portTypeName" value="SendRequestService" />
+    <property name="locationUri" value="" />
+  </bean>
+  
 </beans>

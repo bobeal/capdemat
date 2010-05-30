@@ -1,10 +1,12 @@
 package fr.cg95.cvq.util;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class DateUtils {
 
@@ -34,6 +36,15 @@ public class DateUtils {
        return dateFormat.parse(source);
     }
     
+    public static String formatDate(Date date) {
+        if (date == null)
+            return "";
+        // create a date formatter
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
+
+        return df.format(date);
+    }
+
     public static Date getShiftedDate(int shiftUnit, int shiftAmount) {
 
         Calendar calendar = Calendar.getInstance();

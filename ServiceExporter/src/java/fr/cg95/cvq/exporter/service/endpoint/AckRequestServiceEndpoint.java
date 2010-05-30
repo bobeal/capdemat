@@ -10,6 +10,7 @@ import fr.capwebct.capdemat.AckRequestsResponseDocument.AckRequestsResponse;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.external.TraceStatusEnum;
 import fr.cg95.cvq.external.IExternalService;
+import fr.cg95.cvq.security.SecurityContext;
 
 /**
  * 
@@ -31,6 +32,10 @@ public class AckRequestServiceEndpoint extends SecuredServiceEndpoint {
         AckRequestsResponse response = responseDocument.addNewAckRequestsResponse();
         AckRequestsRequest request = ((AckRequestsRequestDocument)o).getAckRequestsRequest();
         
+        // Switch to admin context to be able to call services without permission exceptions
+        String currentExternalService = SecurityContext.getCurrentExternalService();
+        SecurityContext.setCurrentContext(SecurityContext.ADMIN_CONTEXT);
+        
         try {
             for (int i=0; i<request.getAckElementsArray().length; i++) {
                 AckRequestType type = request.getAckElementsArray()[i];
@@ -51,6 +56,10 @@ public class AckRequestServiceEndpoint extends SecuredServiceEndpoint {
             response.setAccomplished(false);
         }
         
+        // Reset to original context
+        SecurityContext.setCurrentContext(SecurityContext.BACK_OFFICE_CONTEXT);
+        SecurityContext.setCurrentExternalService(currentExternalService);
+
         return response;
     }
 

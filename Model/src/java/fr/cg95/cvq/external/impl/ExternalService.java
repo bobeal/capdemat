@@ -476,6 +476,25 @@ public class ExternalService implements IExternalService, BeanFactoryAware {
 
     @Override
     @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
+    public void addHomeFolderMapping(String externalServiceLabel, Long homeFolderId,
+            String externalId) {
+
+        ExternalServiceIdentifierMapping esim =
+            getIdentifierMapping(externalServiceLabel, homeFolderId);
+        if (esim == null) {
+            esim = new ExternalServiceIdentifierMapping();
+            esim.setExternalServiceLabel(externalServiceLabel);
+            esim.setHomeFolderId(homeFolderId);
+            esim.setExternalCapDematId(UUID.randomUUID().toString());
+        }
+
+        esim.setExternalId(externalId);
+
+        genericDAO.create(esim);
+    }
+
+    @Override
+    @Context(type=ContextType.AGENT,privilege=ContextPrivilege.WRITE)
     public void setExternalId(String externalServiceLabel, Long homeFolderId, Long individualId, 
             String externalId) {
         ExternalServiceIndividualMapping newMapping = new ExternalServiceIndividualMapping();

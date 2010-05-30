@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlObject;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -19,6 +21,7 @@ import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry;
 import fr.cg95.cvq.service.request.IRequestService;
 import fr.cg95.cvq.util.Critere;
 import fr.cg95.cvq.util.DateUtils;
+import fr.cg95.cvq.xml.common.RequestType;
 
 /**
  * This job is parametrized to generate and erase traced 
@@ -29,6 +32,8 @@ import fr.cg95.cvq.util.DateUtils;
  */
 public class RequestXmlGenerationJob implements BeanFactoryAware {
 
+    private static Logger logger = Logger.getLogger(RequestXmlGenerationJob.class);
+    
     private IRequestService requestService;
     private ILocalAuthorityRegistry localAuthorityRegistry;
     private IExternalService externalService;
@@ -63,9 +68,20 @@ public class RequestXmlGenerationJob implements BeanFactoryAware {
                 String.valueOf(r.getId()), Critere.EQUALS));
             if (!xmlFileExists(r.getId())
                 && externalService.getTracesCount(criteriaSet) == 0) {
+                
+                // TODO : port this properly in 4.2
+                XmlObject xmlObject = requestService.fillRequestXml(r);
+                RequestType requestType = null;
+                try {
+                    requestType =  (fr.cg95.cvq.xml.common.RequestType) xmlObject.getClass().getMethod("get" + xmlObject.getClass().getSimpleName().replace("DocumentImpl", "")).invoke(xmlObject);
+                } catch (Exception e) {
+                    logger.error("performGeneration() Unexpected exception while converting to XML "
+                            + e.getMessage());
+                }
+
                 localAuthorityRegistry.saveLocalAuthorityResource(
                     Type.REQUEST_XML, String.valueOf(r.getId()),
-                    r.modelToXmlString().getBytes());
+                    requestType.xmlText().getBytes());
             }
         }
     }

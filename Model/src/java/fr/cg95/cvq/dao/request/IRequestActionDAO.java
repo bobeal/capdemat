@@ -14,6 +14,9 @@ public interface IRequestActionDAO extends IGenericDAO {
 
     /**
      * Look up a request action by request id and associated resulting state.
+     * 
+     * It can happen that a request has two entries for a given resulting
+     * state : in this case, the most recent one is returned.
      */
     RequestAction findByRequestIdAndResultingState(final Long requestId,
         final RequestState requestState);

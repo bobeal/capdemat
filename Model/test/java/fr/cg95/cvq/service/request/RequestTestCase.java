@@ -65,18 +65,24 @@ public class RequestTestCase extends ServiceTestCase {
         SecurityContext.setCurrentAgent(agentNameWithSiteRoles);
 
         List<Category> categories = categoryService.getAll();
-        if (categories != null && !categories.isEmpty())
-            return;
+        Category category = null;
+        if (categories == null || categories.isEmpty()) {
+            logger.warn("No category found, creating one");
+            category = new Category();
+            category.setName("General");
 
-        Category category = new Category();
-        category.setName("General");
+            genericDAO.create(category);
+        } else {
+            category = categories.get(0);
+        }
+
         List<RequestType> requestTypesSet = requestTypeService.getAllRequestTypes();
         for (RequestType requestType : requestTypesSet) {
             requestType.setCategory(category);
             genericDAO.update(requestType);
         }
         category.setRequestTypes(new HashSet<RequestType>(requestTypesSet));
-        genericDAO.create(category);
+        genericDAO.update(category);
 
         Agent agent = agentService.getByLogin(agentNameWithCategoriesRoles);
         categoryService.addCategoryRole(agent.getId(), category.getId(), 

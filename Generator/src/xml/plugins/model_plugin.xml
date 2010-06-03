@@ -3,7 +3,6 @@
   <appinfo>
     <element parent="property" node="model"/>
     <element parent="element" node="common,model"/>
-    <!-- <element parent="request" node="common" /> -->
     <element parent="request" node="common,model" />
   </appinfo>
   <configuration>

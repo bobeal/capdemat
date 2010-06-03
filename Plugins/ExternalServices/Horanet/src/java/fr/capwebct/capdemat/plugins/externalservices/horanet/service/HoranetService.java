@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -42,6 +43,10 @@ import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.jdom.output.XMLOutputter;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -76,7 +81,7 @@ import fr.cg95.cvq.xml.common.SchoolType;
 /**
  * @author Benoit Orihuela (bor@zenexity.fr)
  */
-public class HoranetService implements IExternalProviderService {
+public class HoranetService implements IExternalProviderService, BeanFactoryAware {
 
     private static Logger logger = Logger.getLogger(HoranetService.class);
 
@@ -96,7 +101,7 @@ public class HoranetService implements IExternalProviderService {
     
     private String login;
     private String password;
-    private String encoding = "UTF-8";
+    private String encoding = "ISO-8859-1";
 
     private Service service;
     private Call call;
@@ -104,7 +109,10 @@ public class HoranetService implements IExternalProviderService {
     private IHomeFolderService homeFolderService;
     private IIndividualService individualService;
 
+    private ListableBeanFactory beanFactory;
+
     public void init() {
+        this.homeFolderService = (IHomeFolderService) beanFactory.getBean("homeFolderService");
     }
     
     private String getPostalCodeFromRequest(final Request request) {
@@ -132,15 +140,16 @@ public class HoranetService implements IExternalProviderService {
             call.setOperationName(new QName(HORANET_CVQ_NS, "AddCanteenRegistrationWithoutCSN"));
 
             XmlOptions xmlOptions = new XmlOptions();
-            xmlOptions.setCharacterEncoding("UTF-8");
+            xmlOptions.setCharacterEncoding("ISO-8859-1");
             
-            AttachmentPart attachement = new AttachmentPart();
-            attachement.setContent(requestXml.xmlText(xmlOptions), "text/xml; charset=utf-8");
+            ByteArrayDataSource bds = 
+                new ByteArrayDataSource(requestXml.xmlText(xmlOptions), "text/xml; charset=iso-8859-1");
+            DataHandler dhSource = new DataHandler(bds);
 
             call.setProperty(javax.xml.rpc.Stub.USERNAME_PROPERTY, login);
             call.setProperty(javax.xml.rpc.Stub.PASSWORD_PROPERTY, password);
             call.setProperty(Call.ATTACHMENT_ENCAPSULATION_FORMAT, Call.ATTACHMENT_ENCAPSULATION_FORMAT_DIME);
-            call.setProperty(Call.CHARACTER_SET_ENCODING, "UTF-8");
+            call.setProperty(Call.CHARACTER_SET_ENCODING, "ISO-8859-1");
 
             call.setTargetEndpointAddress(endPoint.toString());
             call.setSOAPActionURI(SOAP_ACTION_URI);
@@ -157,7 +166,7 @@ public class HoranetService implements IExternalProviderService {
             call.addParameter(new QName(HORANET_CVQ_NS, "ChildID"), Constants.XSD_STRING, ParameterMode.IN);
 
             call.setReturnType(XMLType.AXIS_VOID);
-            call.addAttachmentPart(attachement);
+            call.addAttachmentPart(dhSource);
 
             logger.debug("sendRequest() calling HoraNet");
 
@@ -191,8 +200,8 @@ public class HoranetService implements IExternalProviderService {
 
             // extract child information iff request's subject is of type child
             Long subjectId = null;
-            if (request.getSubject() != null && request.getSubject().getIndividual() != null) {
-                subjectId = request.getSubject().getIndividual().getId();
+            if (request.getSubject() != null && request.getSubject().getChild() != null) {
+                subjectId = request.getSubject().getChild().getId();
             }
             String childId = subjectId != null ? String.valueOf(subjectId) : "";
             call.invoke(new Object[] {
@@ -207,13 +216,11 @@ public class HoranetService implements IExternalProviderService {
 
             logger.debug("sendRequest() request has been sent to Horanet");
             
-        } catch (ServiceException se) {
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + se.getMessage());
-        } catch (RemoteException re) {
-            throw new CvqRemoteException("Failed to connect to Horanet service : " 
-                    + re.getMessage());
-        } 
+                    + e.getMessage());
+        }
 
         return null;
     }
@@ -254,7 +261,7 @@ public class HoranetService implements IExternalProviderService {
             }
 
             AttachmentPart attachement = new AttachmentPart();
-            attachement.setContent(xmlPayment, "text/xml; charset=utf-8");
+            attachement.setContent(xmlPayment, "text/xml; charset=iso-8859-1");
 
             call.addParameter(new QName(HORANET_CVQ_NS, "ZipCode"), Constants.XSD_STRING, ParameterMode.IN);
             call.addParameter(new QName(HORANET_CVQ_NS, "FamilyID"), Constants.XSD_STRING, ParameterMode.IN);
@@ -966,5 +973,10 @@ public class HoranetService implements IExternalProviderService {
     public Map<String, Object> loadExternalInformations(XmlObject requestXml)
         throws CvqException {
         return Collections.emptyMap();
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory arg0) throws BeansException {
+        this.beanFactory = (ListableBeanFactory) arg0;        
     }
 }

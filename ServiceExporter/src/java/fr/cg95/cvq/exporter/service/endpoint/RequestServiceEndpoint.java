@@ -125,10 +125,11 @@ public class RequestServiceEndpoint extends SecuredServiceEndpoint {
                 criteriaSet.add(new Critere(
                         ExternalServiceTrace.SEARCH_BY_STATUS,
                         TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS));
+
                 criteriaSet.add(new Critere(
                         ExternalServiceTrace.SEARCH_BY_KEY,
                         String.valueOf(eligibleRequest.getId()), Critere.EQUALS));
-                if (externalService.getTraces(criteriaSet, null, null).isEmpty())
+                if (externalService.getTracesCount(criteriaSet) == 0)
                     selectedRequests.add(eligibleRequest);
             }
             

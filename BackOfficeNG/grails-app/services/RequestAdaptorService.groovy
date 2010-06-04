@@ -2,6 +2,7 @@ import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.request.ICategoryService
 import fr.cg95.cvq.service.request.IRequestLockService
+import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.users.IHomeFolderService
 
@@ -11,6 +12,7 @@ import org.joda.time.Minutes;
 class RequestAdaptorService {
 
     IRequestLockService requestLockService
+    IRequestSearchService requestSearchService
     IRequestTypeService requestTypeService
     IHomeFolderService homeFolderService
     ICategoryService categoryService
@@ -155,5 +157,24 @@ class RequestAdaptorService {
             }
         }
         return result
+    }
+
+    public prepareTraces(traces) {
+        if (!traces) traces = []
+        return traces.collect { prepareTrace(it) }
+    }
+
+    public prepareTrace(trace) {
+        if (!trace) return null
+        return [
+            "key" : trace.key,
+            "date" : trace.date,
+            "status" : trace.status,
+            "message" : trace.message,
+            "externalServiceLabel" : trace.name,
+            "request" :
+                prepareRecordForSummaryView(
+                    requestSearchService.getById(Long.valueOf(trace.key), false))
+        ]
     }
 }

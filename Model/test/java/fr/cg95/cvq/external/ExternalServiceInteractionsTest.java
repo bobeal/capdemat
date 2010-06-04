@@ -116,8 +116,7 @@ public class ExternalServiceInteractionsTest extends ExternalServiceTestCase {
                         cb.getHomeFolderId()));
 
         for (ExternalServiceTrace trace :
-            externalService.getTraces(Collections.<Critere>emptySet(),
-                    null, null)) {
+            externalService.getTraces(Collections.<Critere>emptySet(), null, null, 0, 0)) {
             HibernateUtil.getSession().delete(trace);
         }
         continueWithNewTransaction();

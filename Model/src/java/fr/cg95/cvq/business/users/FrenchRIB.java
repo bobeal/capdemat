@@ -67,11 +67,13 @@ public class FrenchRIB implements Historizable, Serializable, Cloneable {
     @Max(value = 97, message = "accountKey")
     private Integer accountKey;
 
-    public String format() {
-        return (bankCode == null ? "00000" : StringUtils.leftPad(bankCode.toString(), 5, '0'))
-            + (counterCode == null ? "00000" : StringUtils.leftPad(counterCode.toString(), 5, '0'))
-            + StringUtils.leftPad(accountNumber, 11, '0')
-            + (accountKey == null ? "00" : StringUtils.leftPad(accountKey.toString(), 2, '0'));
+    public String format(String separator) {
+        return StringUtils.join(new String[]{
+            bankCode == null ? "00000" : StringUtils.leftPad(bankCode.toString(), 5, '0'),
+            counterCode == null ? "00000" : StringUtils.leftPad(counterCode.toString(), 5, '0'),
+            accountNumber,
+            accountKey == null ? "00" : StringUtils.leftPad(accountKey.toString(), 2, '0')
+        }, separator);
     }
 
     /**
@@ -125,7 +127,7 @@ public class FrenchRIB implements Historizable, Serializable, Cloneable {
     }
 
     public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+        this.accountNumber = StringUtils.leftPad(accountNumber, 11, '0').toUpperCase();
     }
 
     /**

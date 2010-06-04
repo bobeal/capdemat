@@ -22,9 +22,9 @@ import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.jaxen.JaxenException;
 import org.jaxen.dom.DOMXPath;
@@ -47,6 +47,7 @@ import fr.cg95.cvq.business.payment.ExternalInvoiceItem;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.business.request.RequestState;
+import fr.cg95.cvq.business.users.FrenchRIB;
 import fr.cg95.cvq.business.users.SexType;
 import fr.cg95.cvq.exception.CvqConfigurationException;
 import fr.cg95.cvq.exception.CvqException;
@@ -84,6 +85,7 @@ public class EdemandeService implements IExternalProviderService {
     private static final String ACCOUNT_HOLDER_TRACE_SUBKEY = "accountHolder";
     private DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     private List<String> documentTypesToSend = Collections.emptyList();
+    private int fileMaxSize = 4*1024*1024;
 
     @Override
     public String sendRequest(XmlObject requestXml) {
@@ -231,7 +233,7 @@ public class EdemandeService implements IExternalProviderService {
         String lastName, Calendar birthDate, String subkey) {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("lastName", StringUtils.upperCase(lastName));
-        model.put("frenchRIB", sgr.getFrenchRIB());
+        model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()).format(" "));
         String searchResults;
         int resultsNumber;
         try {
@@ -328,7 +330,7 @@ public class EdemandeService implements IExternalProviderService {
             StringUtils.defaultString(sgr.getSubject().getIndividual().getBirthPlace().getCity())
             : "");
         model.put("birthDate", formatDate(sgr.getSubjectInformations().getSubjectBirthDate()));
-        model.put("frenchRIB", sgr.getFrenchRIB());
+        model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()));
         try {
             model.put("email",
                 StringUtils.defaultIfEmpty(sgr.getSubjectInformations().getSubjectEmail(),
@@ -360,7 +362,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("firstName", WordUtils.capitalizeFully(
             sgr.getAccountHolderFirstName(), new char[]{' ', '-'}));
         model.put("birthDate", formatDate(sgr.getAccountHolderBirthDate()));
-        model.put("frenchRIB", sgr.getFrenchRIB());
+        model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()));
         try {
             //FIXME placeholder
             model.put("email",
@@ -403,7 +405,7 @@ public class EdemandeService implements IExternalProviderService {
         } else if (sgr.getSubjectInformations().getSubjectMobilePhone() != null && !sgr.getSubjectInformations().getSubjectMobilePhone().trim().isEmpty()) {
             model.put("phone", sgr.getSubjectInformations().getSubjectMobilePhone());
         }
-        model.put("frenchRIB", sgr.getFrenchRIB());
+        model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()));
         model.put("firstRequest", sgr.getSubjectInformations().getSubjectFirstRequest());
         model.put("creationDate", formatDate(sgr.getCreationDate()));
         model.put("taxHouseholdCityCode",
@@ -459,6 +461,9 @@ public class EdemandeService implements IExternalProviderService {
                     if (documentTypeToSend.equals(document.getDocumentType().getType().toString())) {
                         int i = 1;
                         for (DocumentBinary documentBinary : document.getDatas()) {
+                            if (documentBinary.getData().length > fileMaxSize) {
+                                continue;
+                            }
                             Map<String, String> doc = new HashMap<String, String>();
                             documents.add(doc);
                             String filename = org.springframework.util.StringUtils.arrayToDelimitedString(
@@ -689,7 +694,7 @@ public class EdemandeService implements IExternalProviderService {
         criteriaSet.add(new Critere(
             ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.SENT,
             Critere.EQUALS));
-        if (externalService.getTraces(criteriaSet, null, null).isEmpty())
+        if (externalService.getTracesCount(criteriaSet) == 0)
             return true;
         criteriaSet.clear();
         criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
@@ -699,7 +704,7 @@ public class EdemandeService implements IExternalProviderService {
         criteriaSet.add(new Critere(
             ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.ERROR,
             Critere.EQUALS));
-        return (!externalService.getTraces(criteriaSet, null, null).isEmpty()
+        return (externalService.getTracesCount(criteriaSet) != 0
             && (sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()));
     }
 
@@ -718,7 +723,7 @@ public class EdemandeService implements IExternalProviderService {
         criteriaSet.add(new Critere(
             ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.ERROR,
             Critere.EQUALS));
-        if (externalService.getTraces(criteriaSet, null, null).isEmpty()
+        if (externalService.getTracesCount(criteriaSet) == 0
             || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()) {
             return false;
         }
@@ -728,7 +733,7 @@ public class EdemandeService implements IExternalProviderService {
         criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME, label,
             Critere.EQUALS));
         for (ExternalServiceTrace est : externalService.getTraces(criteres,
-            ExternalServiceTrace.SEARCH_BY_DATE, "desc")) {
+            ExternalServiceTrace.SEARCH_BY_DATE, "desc", 0, 0)) {
             if (TraceStatusEnum.SENT.equals(est.getStatus())) {
                 return false;
             } else if (TraceStatusEnum.ERROR.equals(est.getStatus())) {
@@ -759,7 +764,7 @@ public class EdemandeService implements IExternalProviderService {
         criteriaSet.add(new Critere(
             ExternalServiceTrace.SEARCH_BY_STATUS, TraceStatusEnum.IN_PROGRESS,
             Critere.EQUALS));
-        if (externalService.getTraces(criteriaSet, null, null).isEmpty()) {
+        if (externalService.getTracesCount(criteriaSet) == 0) {
             return true;
         }
         Set<Critere> criteres = new HashSet<Critere>();
@@ -770,7 +775,7 @@ public class EdemandeService implements IExternalProviderService {
         criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME, label,
             Critere.EQUALS));
         for (ExternalServiceTrace est : externalService.getTraces(criteres,
-            ExternalServiceTrace.SEARCH_BY_DATE, "desc")) {
+            ExternalServiceTrace.SEARCH_BY_DATE, "desc", 0, 0)) {
             if (TraceStatusEnum.IN_PROGRESS.equals(est.getStatus())) {
                 return false;
             } else if (TraceStatusEnum.ERROR.equals(est.getStatus())) {
@@ -833,6 +838,11 @@ public class EdemandeService implements IExternalProviderService {
             (List<String>)externalServiceBean.getProperty("documentTypesToSend");
         if (documentTypesToSend != null) {
             this.documentTypesToSend = documentTypesToSend;
+        }
+        try {
+            fileMaxSize = Integer.parseInt((String)externalServiceBean.getProperty("fileMaxSize"));
+        } catch (NumberFormatException e) {
+            // nothing to do
         }
     }
 

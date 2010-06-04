@@ -24,6 +24,9 @@
               <g:if test="${children && children.size() > 0}">
                 <li><a href="#page2"><em><g:message code="homeFolder.property.children" /></em></a></li>
               </g:if>
+              <g:if test="${identifierMappings && identifierMappings.size() > 0}">
+                <li><a href="#page3"><em><g:message code="homeFolder.property.externalServiceMappings" /></em></a></li>
+              </g:if>
             </ul>
             <div class="yui-content">
               <!-- Page 1 -->
@@ -40,6 +43,12 @@
                   <g:each in="${children}" var="child">
                     <g:render template="child" model="['child':child, 'responsibles':responsibles]" />
                   </g:each>
+                </div>
+              </g:if>
+              <g:if test="${identifierMappings && identifierMappings.size() > 0}">
+                <div id="page3">
+                  <h2><span><g:message code="homeFolder.property.externalServiceMappings" /></span></h2>
+                  <g:render template="detailsMappings" />
                 </div>
               </g:if>
             </div>

@@ -154,7 +154,7 @@ public class RequestPdfService implements IRequestPdfService {
         Map<String, List<ExternalServiceTrace>> traces =
             new HashMap<String, List<ExternalServiceTrace>>();
         for (ExternalServiceTrace trace :
-            externalService.getTraces(criteriaSet, ExternalServiceTrace.SEARCH_BY_DATE, "asc")) {
+            externalService.getTraces(criteriaSet, ExternalServiceTrace.SEARCH_BY_DATE, "asc", 0, 0)) {
             List<ExternalServiceTrace> current = traces.get(trace.getName());
             if (current == null) {
                 current = new ArrayList<ExternalServiceTrace>();

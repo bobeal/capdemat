@@ -26,6 +26,9 @@ public class DocumentAdaptorService {
     IDocumentService documentService
     IDocumentTypeService documentTypeService
 
+    def MAX_SIZE_MO = 4
+    def MAX_SIZE = MAX_SIZE_MO * 1024 * 1024
+
     def getDocumentTypes(Request cRequest, String sessionUuid) {
         def documentTypes = requestTypeService.getAllowedDocuments(cRequest.requestType.id)
         def result = [:]
@@ -128,7 +131,7 @@ public class DocumentAdaptorService {
     }
 
     def addDocumentPage(docId, binaryData) {
-        if (binaryData.length == 0)
+        if (binaryData.length == 0 || binaryData.length > MAX_SIZE)
             return getDocument(docId)
 
         def newDocBinary = new DocumentBinary(binaryData)
@@ -139,12 +142,13 @@ public class DocumentAdaptorService {
 
     def modifyDocumentPage(docParam, request) {
         int pageIndex = Integer.valueOf(docParam.dataPageNumber)
-        if (request.getFile('documentData-' + (pageIndex + 1)).bytes.length == 0)
+        def file = request.getFile('documentData-' + (pageIndex + 1))
+        if (file.size == 0 || file.size > MAX_SIZE)
             return getDocument(docParam.id)
 
         def doc = documentService.getById(docParam.id)
         DocumentBinary newDocBinary = doc.datas[pageIndex]
-        newDocBinary.data = request.getFile('documentData-' + (pageIndex + 1)).bytes
+        newDocBinary.data = file.bytes
         documentService.modifyPage(docParam.id, newDocBinary)
         doc.datas[pageIndex] = newDocBinary
 

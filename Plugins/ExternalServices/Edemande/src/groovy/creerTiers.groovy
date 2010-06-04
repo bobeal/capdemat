@@ -1,3 +1,19 @@
+<%
+    org.codehaus.groovy.runtime.GStringImpl.metaClass.truncate = { length ->
+        if (delegate == null)
+            return ""
+        if (delegate.length() <= length)
+            return delegate
+        def original = org.apache.commons.lang3.StringEscapeUtils.unescapeXml(delegate)
+        original = original[0..(original.length() -2)]
+        def result = org.apache.commons.lang3.StringEscapeUtils.escapeXml(original)
+        while (result.length() > length) {
+            original = original[0..(original.length() -2)]
+            result = org.apache.commons.lang3.StringEscapeUtils.escapeXml(original)
+        }
+        return result
+    }
+%>
 <gestionCompte>
   <compteExtranet>
     <msNom></msNom>
@@ -17,7 +33,7 @@
     <mbActivationSeuil>true</mbActivationSeuil>
     <mvAdresses>
       <CTierAdresseVO>
-        <msVoie>${address.streetNumber} ${address.streetName}</msVoie>
+        <msVoie><% out << "${address.streetNumber} ${address.streetName}".truncate(32) %></msVoie>
         <msComplement>${address.additionalDeliveryInformation}</msComplement>
         <miBoitePostale/>
         <msCodePostal>${address.postalCode}</msCodePostal>

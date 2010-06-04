@@ -16,7 +16,7 @@ public class IsFrenchRIBCheck extends AbstractAnnotationCheck<IsFrenchRIB> {
     public boolean isSatisfied(Object validatedObject, Object valueToValidate, OValContext context,
         Validator validator) throws OValException {
         if (validatedObject == null) return true;
-        String rib = ((FrenchRIB)validatedObject).format();
+        String rib = ((FrenchRIB)validatedObject).format("");
         StringBuilder extendedRib = new StringBuilder(rib.length());
         for (char currentChar : rib.toCharArray()) {
             //Works on base 36

@@ -224,7 +224,7 @@ class FrontofficeRequestCreationController {
                 def doc = null
 
                 if (docParam.id != null) {
-                    if (request.getFile('documentData-0').bytes.size() == 0
+                    if (request.getFile('documentData-0').size == 0
                             && request.getFile('documentData-1') == null) {
                         // we are saving a document without a page, delete it
                         documentService.delete(docParam.id)
@@ -237,35 +237,56 @@ class FrontofficeRequestCreationController {
                         def index = 0
                         // synchronize all existing binary datas
                         for (DocumentBinary page: (doc.datas ? doc.datas : [])) {
-                            if (request.getFile('documentData-' + (index + 1)).bytes.size() > 0) {
-                                def modifyParam = targetAsMap("id:${doc.id}_dataPageNumber:${index}")
-                                doc = documentAdaptorService.modifyDocumentPage(modifyParam, request)
+                            def file = request.getFile('documentData-' + (index + 1))
+                            if (file.size > 0) {
+                                if (file.size > documentAdaptorService.MAX_SIZE)
+                                    flash.errorMessage =
+                                        message(code : "document.message.error.fileTooLarge",
+                                            args : [documentAdaptorService.MAX_SIZE_MO])
+                                else {
+                                    def modifyParam = targetAsMap("id:${doc.id}_dataPageNumber:${index}")
+                                    doc = documentAdaptorService.modifyDocumentPage(modifyParam, request)
+                                }
                             }
                         }
                         // eventually add last and new page
-                        if (request.getFile('documentData-0').bytes.size() > 0) {
-                            def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc.id}")
-                            doc = documentAdaptorService.addDocumentPage(doc.id, request.getFile('documentData-0').bytes)
+                        def file = request.getFile('documentData-0')
+                        if (file.size > 0) {
+                            if (file.size > documentAdaptorService.MAX_SIZE)
+                                flash.errorMessage =
+                                    message(code : "document.message.error.fileTooLarge",
+                                        args : [documentAdaptorService.MAX_SIZE_MO])
+                            else {
+                                def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc.id}")
+                                doc = documentAdaptorService.addDocumentPage(doc.id, request.getFile('documentData-0').bytes)
+                            }
                         }
                     }
                 } else if (request.getFile('documentData-0').bytes.size() > 0) {
-                    def addParam =
-                        targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
-                    if (addParam.id == null) {
-                        Document document = new Document(SecurityContext.currentEcitizen?.homeFolder?.id, 
-                                params.ecitizenNote, 
-                                documentTypeService.getDocumentTypeById(docParam.documentTypeId),
-                                uuidString);
-                        documentService.create(document)
-                        addParam.id = document.id
+                    if (request.getFile('documentData-0').size > documentAdaptorService.MAX_SIZE) {
+                        flash.errorMessage = message(code : "document.message.error.fileTooLarge",
+                            args : [documentAdaptorService.MAX_SIZE_MO])
+                    } else {
+                        def addParam =
+                            targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
+                        if (addParam.id == null) {
+                            Document document = new Document(SecurityContext.currentEcitizen?.homeFolder?.id, 
+                                    params.ecitizenNote, 
+                                    documentTypeService.getDocumentTypeById(docParam.documentTypeId),
+                                    uuidString);
+                            documentService.create(document)
+                            addParam.id = document.id
+                        }
+                        doc = documentAdaptorService.addDocumentPage(addParam.id, request.getFile('documentData-0').bytes)
                     }
-                    doc = documentAdaptorService.addDocumentPage(addParam.id, request.getFile('documentData-0').bytes)
                 }
                 if (doc) {
                     isDocumentEditMode = false
                     requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
                 } else {
-                    flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
+                    if (request.getFile('documentData-0').size == 0
+                        && request.getFile('documentData-1') == null)
+                        flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
                     isDocumentEditMode = true
                     documentTypeDto = documentAdaptorService.adaptDocumentType(docParam.documentTypeId)
                 }
@@ -295,8 +316,12 @@ class FrontofficeRequestCreationController {
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentAddPage') {
-                if (params['documentData-0'].size == 0)
+                def file = request.getFile("documentData-0")
+                if (file.size == 0)
                     flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
+                else if (file.size > documentAdaptorService.MAX_SIZE)
+                    flash.errorMessage = message(code : "document.message.error.fileTooLarge",
+                        args : [documentAdaptorService.MAX_SIZE_MO])
                 def docParam = targetAsMap(submitAction[3])
                 Document document = null
                 if (docParam.id == null) {
@@ -315,6 +340,13 @@ class FrontofficeRequestCreationController {
             }
             else if (submitAction[1] == 'documentModifyPage') {
                 def docParam = targetAsMap(submitAction[3])
+                def file =
+                    request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1))
+                if (file.size == 0)
+                    flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
+                else if (file.size > documentAdaptorService.MAX_SIZE)
+                    flash.errorMessage = message(code : "document.message.error.fileTooLarge",
+                        args : [documentAdaptorService.MAX_SIZE_MO])
                 documentDto = documentAdaptorService.modifyDocumentPage(docParam, request)
                 documentTypeDto = documentAdaptorService.adaptDocumentType(documentDto.documentType.id)
                 isDocumentEditMode = true

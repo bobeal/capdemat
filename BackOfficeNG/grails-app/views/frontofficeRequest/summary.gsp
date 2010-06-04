@@ -6,6 +6,19 @@
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
   </head>
   <body>
+    <g:if test="${externalInformations}">
+      <div class="summary-box created" id="externalInformations">
+        <h2><g:message code="request.header.externalInformations" /></h2>
+        <div class="body">
+          <dl>
+            <g:each var="externalInformation" in="${externalInformations}">
+              <dt><g:message code="${externalInformation.key}" /></dt>
+              <dd>${externalInformation.value}</dd>
+            </g:each>
+          </dl>
+        </div>
+      </div>
+    </g:if>
     <div class="summary-box created">
       <h2>
         <g:message code="request.header.summary"
@@ -25,19 +38,6 @@
           model="['rqt':rqt]" />
       </div>
     </div>
-    <g:if test="${externalInformations}">
-      <div class="summary-box created" id="externalInformations">
-        <h2><g:message code="request.header.externalInformations" /></h2>
-        <div class="body">
-          <dl>
-            <g:each var="externalInformation" in="${externalInformations}">
-              <dt><g:message code="${externalInformation.key}" /></dt>
-              <dd>${externalInformation.value}</dd>
-            </g:each>
-          </dl>
-        </div>
-      </div>
-    </g:if>
     <g:if test="${requestNotes}">
       <div class="main-box" id="requestNotes">
         <h2><g:message code="request.property.notes" /></h2>

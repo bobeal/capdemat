@@ -112,7 +112,7 @@ public class RequestExternalService implements IRequestExternalService {
                 criteriaSet.add(new Critere(
                     ExternalServiceTrace.SEARCH_BY_STATUS, finalExternalStatuses,
                     Critere.IN));
-                if (externalService.getTraces(criteriaSet, null, null).isEmpty()) {
+                if (externalService.getTracesCount(criteriaSet) == 0) {
                     result.add(req);
                 }
             }

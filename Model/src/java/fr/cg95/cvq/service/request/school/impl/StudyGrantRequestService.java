@@ -1,7 +1,5 @@
 package fr.cg95.cvq.service.request.school.impl;
 
-import java.util.Arrays;
-
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
 import fr.cg95.cvq.business.users.Adult;
@@ -10,7 +8,6 @@ import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.service.request.annotation.IsRequest;
 import fr.cg95.cvq.service.request.condition.EqualityChecker;
-import fr.cg95.cvq.service.request.condition.EqualityListChecker;
 import fr.cg95.cvq.service.request.impl.RequestService;
 import fr.cg95.cvq.service.request.school.IStudyGrantRequestService;
 
@@ -25,8 +22,8 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
     @Override
     public void init() {
         StudyGrantRequest.conditions.put("abroadInternship", new EqualityChecker("true"));
-        StudyGrantRequest.conditions.put("currentStudies",
-            new EqualityListChecker(Arrays.asList("otherStudies")));
+        StudyGrantRequest.conditions.put("currentStudiesDiploma",
+            new EqualityChecker("otherStudies"));
         StudyGrantRequest.conditions.put("taxHouseholdCity", new EqualityChecker("573"));
         StudyGrantRequest.conditions.put("currentSchoolName", new EqualityChecker("autre"));
         StudyGrantRequest.conditions.put("isSubjectAccountHolder", new EqualityChecker("true"));

@@ -31,11 +31,16 @@ public class RequestTypeAdaptorService {
             for(RequestType rt : dg.requestTypes) {
                 if (!rt.active) 
                     continue
-                def i18nError = requestTypeNotAccessibleMessages(rt, homeFolder)
+                def i18nError = null
+                try {
+                    requestWorkflowService.checkRequestTypePolicy(rt, homeFolder)
+                } catch (CvqException e) {
+                    i18nError = e.i18nKey
+                }
                 result[dg.name].requests.add(['label': rt.label,
                                               'seasons' : requestServiceRegistry.getRequestService(rt.label).isOfRegistrationKind() ? requestTypeService.getOpenSeasons(rt) : [],
-                                              'enabled': i18nError.isEmpty(),
-                                              'message': !i18nError.isEmpty() ? i18nError.get(0) : null
+                                              'enabled': i18nError == null,
+                                              'message': i18nError
                                              ])
             }
             
@@ -73,31 +78,6 @@ public class RequestTypeAdaptorService {
         return null
     }
 
-    public List requestTypeNotAccessibleMessages(RequestType requestType, HomeFolder homeFolder) {
-        def i18nError = []
-        IRequestService service = requestServiceRegistry.getRequestService(requestType.label);
- 
-        if (!requestType.active)
-            i18nError.add('requestType.message.inactive')
-        if (!service.supportUnregisteredCreation() && homeFolder == null)
-            i18nError.add('requestType.message.onlyRegisteredUsers')
-        if (!requestTypeService.isRegistrationOpen(requestType.id))
-            i18nError.add('requestType.message.registrationClosed')
-        if (homeFolder != null
-            && service.subjectPolicy != IRequestWorkflowService.SUBJECT_POLICY_NONE
-            && requestWorkflowService.getAuthorizedSubjects(requestType, homeFolder.id)?.isEmpty())
-                i18nError.add('requestType.message.noAuthorizedSubjects')
-        if (requestType.label.equals(IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST)) {
-            try {
-                requestWorkflowService.isAccountModificationRequestAuthorized(SecurityContext.currentEcitizen.homeFolder)
-            } catch (CvqModelException cvqme) {
-                i18nError.add(cvqme.i18nKey)
-            }
-        }
-
-        return i18nError
-    }
-    
     public String generateAcronym(label) {
         def acronym = ''
         label.split(' ').each {

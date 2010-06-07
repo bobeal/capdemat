@@ -1,7 +1,12 @@
 import fr.cg95.cvq.business.users.SexType
 import fr.cg95.cvq.business.users.TitleType
+import fr.cg95.cvq.service.users.IIndividualService
+import fr.cg95.cvq.util.translation.ITranslationService
 
 class IndividualAdaptorService {
+
+    ITranslationService translationService
+    IIndividualService individualService
 
     public getIndividualDescription(individual) {
         def result = ["firstName" : "", "lastName" : "", "title" : ""]
@@ -23,5 +28,25 @@ class IndividualAdaptorService {
             result.title = individual.title
         }
         return result
+    }
+
+    public adaptSubjects(subjects) {
+        def result = [:]
+        subjects.each {
+            def subject = individualService.getById(it)
+            result[it] = "${subject.lastName} ${subject.firstName}"
+        }
+        return result
+    }
+
+    public adaptMeansOfContact(meansOfContact) {
+        def result = []
+        meansOfContact.each {
+            result.add([
+                key : it.type,
+                label : translationService.translate("request.meansOfContact." + StringUtils.pascalToCamelCase(it.type.toString()))
+            ])
+        }
+        return result.sort {it.label}
     }
 }

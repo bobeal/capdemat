@@ -174,6 +174,8 @@ public interface IRequestWorkflowService {
     List<Long> getAuthorizedSubjects(@IsRequest final Request request)
         throws CvqException, CvqObjectNotFoundException;
 
+    List<String> getMissingSteps(@IsRequest final Request request);
+
     /**
      * Get a clone of a request with the given request id
      * 
@@ -189,7 +191,10 @@ public interface IRequestWorkflowService {
         throws CvqException;
 
     Request getSkeletonRequest(final String requestTypeLabel) throws CvqException;
-    
+
+    Request getSkeletonRequest(final String requestTypeLabel, final Long requestSeasonId)
+        throws CvqException;
+
     /**
      * Edit a request.
      */
@@ -220,6 +225,13 @@ public interface IRequestWorkflowService {
 
     void checkSubjectPolicy(@IsSubject final Long subjectId, final String policy,
             @IsRequest final Request request) throws CvqException, CvqModelException;
+
+    void checkRequestTypePolicy(@IsRequestType RequestType requestType, RequestSeason requestSeason,
+            HomeFolder homeFolder)
+            throws CvqException;
+
+    void checkRequestTypePolicy(@IsRequestType RequestType requestType, HomeFolder homeFolder)
+        throws CvqException;
 
     boolean isSupportMultiple(String requestLabel) throws CvqException;
 }

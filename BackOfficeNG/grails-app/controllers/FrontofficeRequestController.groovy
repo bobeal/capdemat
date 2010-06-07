@@ -1,9 +1,12 @@
 import fr.cg95.cvq.business.users.Child;
-
+import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.service.request.IRequestNoteService
@@ -22,8 +25,11 @@ class FrontofficeRequestController {
     ITranslationService translationService
     DocumentAdaptorService documentAdaptorService
     RequestTypeAdaptorService requestTypeAdaptorService
+    IndividualAdaptorService individualAdaptorService
 
     IIndividualService individualService
+    ILocalAuthorityRegistry localAuthorityRegistry
+    IMeansOfContactService meansOfContactService
     IRequestExternalService requestExternalService
     IRequestNoteService requestNoteService
     IRequestActionService requestActionService
@@ -63,6 +69,149 @@ class FrontofficeRequestController {
             'requests': requests,
             'requestStates' : RequestState.allRequestStates.collect{ it.toString().toLowerCase()}
         ]);
+    }
+
+    def edit = {
+        if (params.label == null && params.id == null) {
+            redirect(uri: '/frontoffice/requestType')
+            return false
+        }
+        flash.isOutOfAccountRequest = (SecurityContext.currentEcitizen == null)
+        Request rqt
+        if (params.id) {
+            def id = Long.valueOf(params.id)
+            requestLockService.lock(id)
+            rqt = requestSearchService.getById(id, true)
+        } else {
+            rqt = requestWorkflowService.getSkeletonRequest(params.label, params.long("requestSeasonId"))
+        }
+        if (rqt == null) {
+            redirect(uri: '/frontoffice/requestType')
+            return false
+        }
+        if (request.post) {
+            DataBindingUtils.initBind(rqt, params)
+            bind(rqt)
+            // clean empty collections elements
+            DataBindingUtils.cleanBind(rqt, params)
+            if (currentStep == 'validation') {
+                // bind the selected means of contact into request
+                MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
+                rqt.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
+                checkCaptcha(params)
+                validateRequest(cRequest, null)
+                //def docs = documentService.getBySessionUuid(uuidString)
+                def parameters = [:]
+                if (!RequestState.DRAFT.equals(rqt.state)) {
+                    requestWorkflowService.rewindWorkflow(cRequest/*, docs*/)
+                    parameters.isEdition = true
+                } else {
+                    rqt.state = RequestState.PENDING
+                    if (SecurityContext.currentEcitizen == null)
+                        requestWorkflowService.create(cRequest, objectToBind.requester,
+                            params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
+                    else
+                        requestWorkflowService.create(cRequest,
+                            params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
+                }
+
+                parameters.id = cRequest.id
+                parameters.label = requestTypeInfo.label
+                if (params.returnUrl != "") {
+                    parameters.returnUrl = params.returnUrl
+                }
+                parameters.canFollowRequest = params.'_homeFolderResponsible.activeHomeFolder'
+                parameters.requesterLogin = homeFolderService.getHomeFolderResponsible(rqt.homeFolderId).login
+                redirect(action:'exit', params:parameters)
+                return
+            } else {
+                validateRequest(cRequest, [currentStep])
+                // add a check that currentStep is indeed complete, because, for VO Card,
+                // no exception is thrown when validating the request (since it is empty)
+                if ("complete".equals(rqt.stepStates?.get(currentStep).state)) {
+                    flash.confirmationMessage = message(code : "request.step.message.validated",
+                            args : [message(code :  currentStep == "document" ?  "request.step.document.label" :
+                                translationService.generateInitialism(requestTypeInfo.label) + ".step." + currentStep + ".label")
+                                ]
+                    )
+                }
+            }
+        }
+        def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)}/edit"
+        render(view: viewPath, model: [
+            'isRequestCreation': true,
+            'rqt': rqt,
+            'requester': SecurityContext.currentEcitizen,
+            'homeFolderResponsible' : SecurityContext.currentEcitizen,
+            //'individuals' : individuals,
+            'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
+            'subjects': individualAdaptorService.adaptSubjects(requestWorkflowService.getAuthorizedSubjects(rqt)),
+            'meansOfContact': individualAdaptorService.adaptMeansOfContact(meansOfContactService.getAdultEnabledMeansOfContact(SecurityContext.currentEcitizen)),
+            'currentStep': 'firstStep',
+            'stepStates': rqt.stepStates?.size() != 0 ? rqt.stepStates : null,
+            'missingSteps': requestWorkflowService.getMissingSteps(rqt),
+            'documentTypes': [],//documentAdaptorService.getDocumentTypes(rqt, uuidString),
+            'isDocumentEditMode': false,
+            'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
+            'isEdition' : !RequestState.DRAFT.equals(rqt.state)
+        ].plus(fillCommonRequestModel(rqt.requestType.label)))
+    }
+
+    def fillCommonRequestModel(requestTypeLabel) {
+        return [
+            'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(requestTypeLabel),
+            'requestTypeLabel': requestTypeLabel,
+            'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)),
+            'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)),
+            'customJS' : requestTypeAdaptorService.getCustomJS(requestTypeLabel),
+            'displayChildrenInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayChildrenInAccountCreation(),
+            'displayTutorsInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayTutorsInAccountCreation(),
+        ]
+    }
+
+    def condition = {
+        def result = []
+
+        if (params.requestTypeLabel == null) {
+            render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
+            return
+        }
+
+        try {
+            for (Map entry : (JSON.parse(params.conditionsContainer) as List)) {
+                result.add([
+                    success_msg: message(code:'message.conditionTested'),
+                    test: conditionService.isConditionFilled(params.requestTypeLabel, entry),
+                    status: 'ok'
+                ])
+            }
+            render(result as JSON)
+        } catch (CvqException ce) {
+            render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
+        }
+    }
+
+    def autofill = {
+        render(autofillService.getValues(params.triggerName, Long.valueOf(params.triggerValue),
+            JSON.parse(params.autofillContainer) as Map) as JSON)
+    }
+
+    def exit = {
+        def requestId = Long.parseLong(params.id)
+        if (SecurityContext.currentEcitizen)
+            requestLockService.release(requestId)
+        render(
+            view : "/frontofficeRequestType/exit",
+            model : [
+                'translatedRequestTypeLabel': translationService.translateRequestTypeLabel(params.label).encodeAsHTML(),
+                'requestTypeLabel': params.label,
+                'requestId': requestId,
+                'requesterLogin': params.requesterLogin,
+                'hasHomeFolder': (SecurityContext.currentEcitizen ? true : false) || (new Boolean(params.canFollowRequest) || params.label == 'VO Card'),
+                'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
+                'isEdition' : params.isEdition
+            ]
+        )
     }
 
     def deleteDraft = {

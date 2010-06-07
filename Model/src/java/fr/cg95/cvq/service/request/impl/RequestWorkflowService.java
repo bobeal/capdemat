@@ -417,6 +417,51 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
     }
 
+    @Override
+    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public void checkRequestTypePolicy(RequestType requestType, HomeFolder homeFolder)
+        throws CvqException {
+        IRequestService service = requestServiceRegistry.getRequestService(requestType.getLabel());
+        if (!requestType.getActive()) {
+            throw new CvqModelException("requestType.message.inactive");
+        }
+        if (!service.supportUnregisteredCreation() && homeFolder == null) {
+            throw new CvqModelException("requestType.message.onlyRegisteredUsers");
+        }
+        if (!requestTypeService.isRegistrationOpen(requestType.getId())) {
+            throw new CvqModelException("requestType.message.registrationClosed");
+        }
+        if (homeFolder != null
+            && service.getSubjectPolicy() != IRequestWorkflowService.SUBJECT_POLICY_NONE
+            && getAuthorizedSubjects(requestType, homeFolder.getId()).isEmpty()) {
+            throw new CvqModelException("requestType.message.noAuthorizedSubjects");
+        }
+        if (requestType.getLabel().equals(IRequestTypeService.HOME_FOLDER_MODIFICATION_REQUEST)) {
+            isAccountModificationRequestAuthorized(
+                SecurityContext.getCurrentEcitizen().getHomeFolder());
+        }
+    }
+
+    @Override
+    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public void checkRequestTypePolicy(RequestType requestType, RequestSeason requestSeason,
+        HomeFolder homeFolder)
+        throws CvqException {
+        checkRequestTypePolicy(requestType, homeFolder);
+        if (requestTypeService.isOfRegistrationKind(requestType.getId())) {
+            Set<RequestSeason> seasons = requestTypeService.getOpenSeasons(requestType);
+            if (seasons.isEmpty() && requestSeason == null) {
+                return;
+            } else if (!seasons.contains(requestSeason)) {
+                throw new CvqException("TODO");
+            }
+        } else {
+            if (requestSeason != null) {
+                throw new CvqException("TODO");
+            }
+        }
+    }
+
     /**
      * Get the list of eligible subjects for the current request service. Does
      * not make any control on already existing requests.
@@ -566,6 +611,25 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         return subjects;
     }
 
+    // FIXME : when first entering the request creation process, stepStates is empty
+    // so return null and add a generic message in view
+    @Override
+    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public List<String> getMissingSteps(Request request) {
+        if (request.getStepStates() == null || request.getStepStates().size() == 0) {
+            return null;
+        }
+        List<String> result = new ArrayList<String>();
+        for (Map.Entry<String, Map<String, String>> stepState : request.getStepStates().entrySet()) {
+            if (Boolean.valueOf(stepState.getValue().get("required"))
+                && !"complete".equals(stepState.getValue().get("required"))
+                && !"validation".equals(stepState.getKey())) {
+                result.add(stepState.getKey());
+            }
+        }
+        return result;
+    }
+
     private void setAdministrativeInformation(Request request) throws CvqException {
         
         IRequestService requestService = requestServiceRegistry.getRequestService(request);
@@ -713,7 +777,25 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
         return request;
     }
-    
+
+    @Override
+    public Request getSkeletonRequest(final String requestTypeLabel, final Long requestSeasonId)
+        throws CvqException {
+        Request request = getSkeletonRequest(requestTypeLabel);
+        RequestType requestType = request.getRequestType();
+        RequestSeason requestSeason = null;
+        if (requestSeasonId != null) {
+            requestSeason =
+                requestTypeService.getRequestSeason(requestType.getId(), requestSeasonId);
+        }
+        checkRequestTypePolicy(requestType, requestSeason,
+            homeFolderService.getById(request.getHomeFolderId()));
+        request.setState(RequestState.DRAFT);
+        request.setRequestSeason(requestSeason);
+        create(request, null);
+        return request;
+    }
+
     private void purgeClonedRequest(Request request) {
 
         // administrative data

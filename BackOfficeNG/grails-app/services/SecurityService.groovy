@@ -49,7 +49,7 @@ public class SecurityService {
                 "frontofficeRequestCreation" : /.*/,
                 "frontofficeHomeFolder" : /resetPassword/,
                 "frontofficeHome" : [/loginAgent/, /login/, /test/],
-                "frontofficeDocument" : [/details/, /binary/],
+                "frontofficeDocument" : [/details/, /binary/, /preview/],
                 "system" : /error/
             ]
         ]

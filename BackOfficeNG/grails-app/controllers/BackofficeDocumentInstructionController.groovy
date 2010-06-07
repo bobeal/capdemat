@@ -1,5 +1,8 @@
+import fr.cg95.cvq.exception.CvqModelException;
+
 import grails.converters.JSON
 import fr.cg95.cvq.business.document.Document
+import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.request.ICategoryService
@@ -35,31 +38,35 @@ class BackofficeDocumentInstructionController {
 
     def beforeInterceptor = {
         if (params.requestId)
-            requestLockService.tryToLock(Long.valueOf(params.requestId))
+            requestLockService.tryToLock(params.long('requestId'))
     }
 
     def edit = {
         def document = [actions:[],documentType:[:]]
-        Request request = requestSearchService.getById(Long.valueOf(params.requestId), false)
+        Request request = requestSearchService.getById(params.long('requestId'), false)
         Agent agent = SecurityContext.currentAgent;
         
-        if(!params.id || Integer.valueOf(params.id) == 0) {
-            def documentType = documentTypeService.getDocumentTypeById(Long.valueOf(params.dtid))
+        if (!params.id || Integer.valueOf(params.id) == 0) {
+            def documentType = documentTypeService.getDocumentTypeById(params.long('dtid'))
             document.documentType.name = documentType.name
             document.state = DocumentState.PENDING
             document.depositOrigin = DepositOrigin.AGENT
             document.depositType = DepositType.PC
             document.datas = []
         } else {
-            document = documentService.getById(Long.valueOf(params.id))
+            document = documentService.getById(params.long('id'))
         }
 
         def actions = []
-        for(DocumentAction action : document.actions) {
+        for (DocumentAction action : document.actions) {
             actions.add(documentAdaptorService.adaptDocumentAction(action))
         }
         def agentCanWrite =
             categoryService.hasWriteProfileOnCategory(agent, request.requestType.category.id)
+            
+        def messageLink = message(code:"document.message.showImage")
+        if(document.datas.get(0).getContentType() == ContentType.PDF)
+            messageLink = message(code: "document.message.downloadDocument")
         
         return ([
             "uuid" : UUID.randomUUID().toString(),
@@ -74,6 +81,7 @@ class BackofficeDocumentInstructionController {
                 "endValidityDate": document.endValidityDate,
                 "ecitizenNote": document.ecitizenNote,
                 "agentNote": document.agentNote,
+                "messageLink": messageLink,
                 "pageNumber": document.datas.size(),
                 "pages": document.id ? documentAdaptorService.getDocument(document.id).datas : []
             ]
@@ -83,14 +91,13 @@ class BackofficeDocumentInstructionController {
     def addPage = {
         def result = [:], file = request.getFile('pageFile')
         
-        if((file.contentType =~ /image\/.*/).matches()) {
             Document document = null
             if (params.documentId) {
-            	document = documentService.getById(Long.valueOf(params.documentId))
+            	document = documentService.getById(params.long('documentId'))
             } else {
                 document = new Document()
-                Request req = requestSearchService.getById(Long.valueOf(params.requestId), false)
-                document.documentType = documentTypeService.getDocumentTypeById(Long.valueOf(params.documentTypeId))
+                Request req = requestSearchService.getById(params.long('requestId'), false)
+                document.documentType = documentTypeService.getDocumentTypeById(params.long('documentTypeId'))
                 document.homeFolderId = req.homeFolderId
                 document.depositOrigin = DepositOrigin.AGENT
                 
@@ -99,65 +106,76 @@ class BackofficeDocumentInstructionController {
                 result.newDocumentId = document.id
             }
             
-            DocumentBinary page = new DocumentBinary()
-            page.data = file.bytes
-            documentService.addPage(Long.valueOf(document.id), page)
-            
-            result.status = 'success'
-            result.documentId = params?.documentId ? '' : document.id
-            result.message = message(code:"message.addDone")
-            result.pageNumber = document.datas.size() - 1
-        } else {
-            result.status = 'warning'
-            result.message = message(code:"message.fileTypeIsNotSupported")
-        }
+            try {
+                documentService.addPage(Long.valueOf(document.id), new DocumentBinary(file.bytes))
+                result.status = 'success'
+                result.documentId = params?.documentId ? '' : document.id
+                result.message = message(code:"message.addDone")
+                result.pageNumber = document.datas.size() - 1
+            } catch (CvqModelException cme) {
+                result.status = 'warning'
+                result.message = message(code : cme.i18nKey)
+            }
         
         response.contentType = 'text/html; charset=utf-8'
         render((new JSON(result)).toString())
     }
     
     def deletePage = {
-    	documentService.deletePage(Long.valueOf(params.documentId), Integer.valueOf(params.pageNumber))
+    	documentService.deletePage(params.long('documentId'), Integer.valueOf(params.pageNumber))
         render ([status:"success", message:message(code:"message.deleteDone")] as JSON)
     }
     
     def modifyPage = {
         def result = [:], file = request.getFile('pageFile')
         
-        if((file.contentType =~ /image\/.*/).matches()) {
-            def document = documentService.getById(Long.valueOf(params.documentId))
+        def document = documentService.getById(params.long('documentId'))
+        try {
+            def mimeType = documentService.checkNewBinaryData(params.long('documentId'),file.bytes)
             def documentBinary = document.datas[Integer.valueOf(params.pageNumber)]
             documentBinary.data = file.bytes
-            documentService.modifyPage(Long.valueOf(params.documentId), documentBinary)
+            documentBinary.contentType = ContentType.forString(mimeType)
+            documentService.modifyPage(params.long('documentId'), documentBinary)
             result.message = message(code:"message.updateDone")
             result.status = 'success'
-        } else {
+            result.pageNumber = params.pageNumber
+        } catch (CvqModelException cme) {
             result.status = 'warning'
-            result.message = message(code:"message.fileTypeIsNotSupported")
+            result.message = message(code: cme.i18nKey)
         }
-        
-        result.pageNumber = params.pageNumber
         
         response.contentType = 'text/html; charset=utf-8'
         render((new JSON(result)).toString())
     }
     
     def documentPage = {
-        def document = documentService.getById(Long.valueOf(params.id))
+        def document = documentService.getById(params.long('id'))
+        def page = document.datas[Integer.valueOf(params.pageNumber)]
+        
+        if (page.contentType.equals(ContentType.PDF))
+            response.contentType="application/pdf"
+            
+        else
+            response.contentType = "image/png"
+        response.outputStream << page.data
+    }
+    
+    def documentPreview = {
+        def document = documentService.getById(params.long('id'))
         def page = document.datas[Integer.valueOf(params.pageNumber)]
 
         response.contentType = "image/png"
-        response.outputStream << page.data
+        response.outputStream << page.preview
     }
 
     def states = {
         def result = [:]
-        def document = documentService.getById(Long.valueOf(params.id));
+        def document = documentService.getById(params.long('id'));
 
         def states = documentService.getPossibleTransitions(DocumentState.forString(document.state.toString()))
         
         result.states = []
-        for(String s : states) result.states.add(CapdematUtils.adaptCapdematEnum(s, "document.state"))
+        for (String s : states) result.states.add(CapdematUtils.adaptCapdematEnum(s, "document.state"))
         
         result.endValidityDate = document.endValidityDate
         result.stateType = document.documentType.name
@@ -169,8 +187,8 @@ class BackofficeDocumentInstructionController {
     def documentsList = {
         
         def documents = [], types = [], result = [:], agent = SecurityContext.currentAgent
-        Request request = requestSearchService.getById(Long.valueOf(params.requestId), false)
-        Set docs = requestDocumentService.getAssociatedDocuments(Long.valueOf(params.requestId))
+        Request request = requestSearchService.getById(params.long('requestId'), false)
+        Set docs = requestDocumentService.getAssociatedDocuments(params.long('requestId'))
 
         for (RequestDocument rd: docs) {
             def d = documentService.getById(rd.documentId);
@@ -185,7 +203,7 @@ class BackofficeDocumentInstructionController {
             ])
         }
         
-        for(DocumentType t : requestTypeService.getAllowedDocuments(request.requestType.id)) {
+        for (DocumentType t : requestTypeService.getAllowedDocuments(request.requestType.id)) {
             if (!types.contains(t.id)) documents.add([
                 "id": 0,"documentTypeId": t.id,
                 "name": message(code: CapdematUtils.adaptDocumentTypeName(t.name)),
@@ -202,14 +220,14 @@ class BackofficeDocumentInstructionController {
     }
     
     def changeState = {
-        documentService.updateDocumentState(Long.valueOf(params.documentId),
+        documentService.updateDocumentState(params.long('documentId'),
         		DocumentState.forString(params.state), null, 
         		DateUtils.stringToDate(params.endValidityDate))
         render ([status:"success", message:message(code:"message.updateDone")] as JSON)
     }
     
     def agentNote = {
-        def document = documentService.getById(Long.valueOf(params.documentId));
+        def document = documentService.getById(params.long('documentId'));
         bind(document)
         documentService.modify(document)
         render([status:"success", message:message(code:"message.updateDone")] as JSON)

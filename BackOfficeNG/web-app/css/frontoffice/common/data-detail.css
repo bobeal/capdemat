@@ -25,5 +25,9 @@
 .data-detail dl dd   { width: 18.5em; font-size: 1.15em; }
 .data-detail dl dd p { padding: 0.1em; }
 
-.data-detail .yui-g img { max-width: 97%; margin: 1em; }
+.data-detail .yui-g img { display: block; max-width: 97%; margin: auto; margin-bottom: 1em; }
 .data-detail .list-box  { border-top: 0; }
+
+a:hover#previewDocumentLink { display: block; background: transparent !important; }
+#openDocumentLink { text-align: center; display: block; }
+#openDocumentLink a { margin-bottom: 1em; }

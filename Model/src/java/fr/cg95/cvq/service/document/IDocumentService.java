@@ -26,6 +26,7 @@ public interface IDocumentService {
     String PAGE_ADD_ACTION = "PAGE_ADD_ACTION";
     String PAGE_EDIT_ACTION = "PAGE_EDIT_ACTION";
     String PAGE_DELETE_ACTION = "PAGE_DELETE_ACTION";
+    String MERGE_ACTION = "MERGE_ACTION";
 
     /**
      * Add a document to the system.
@@ -58,7 +59,6 @@ public interface IDocumentService {
      * Add a page to an existing document.
      *
      * If no page is specified, add document binary at the last page
-     *
      */
     void addPage(@IsDocument final Long documentId, final DocumentBinary documentBinary)
         throws CvqException, CvqObjectNotFoundException;
@@ -73,6 +73,12 @@ public interface IDocumentService {
      * Remove a page from an existing document.
      */
     void deletePage(@IsDocument final Long documentId, final Integer pageId)
+        throws CvqException, CvqObjectNotFoundException;
+    
+    /**
+     * Check the content type of datas
+     */
+    String checkNewBinaryData(@IsDocument final Long documentId, byte[] data)
         throws CvqException, CvqObjectNotFoundException;
 
     /**

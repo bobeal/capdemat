@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.external.ExternalServiceTrace
+import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.business.request.DataState
 import fr.cg95.cvq.business.request.RequestAction
 import fr.cg95.cvq.business.request.RequestActionType
@@ -94,7 +95,7 @@ class BackofficeRequestInstructionController {
             }
         }
         def editableStates = []
-        for(RequestState state : requestWorkflowService.getEditableStates())
+        for (RequestState state : requestWorkflowService.getEditableStates())
             editableStates.add(state.toString())
         
         def localReferentialTypes =
@@ -329,7 +330,7 @@ class BackofficeRequestInstructionController {
             render ([status: 'error', error_msg:message(code:'error.unexpected')] as JSON)
         
         try {
-            for(Map entry : (JSON.parse(params.conditionsContainer) as List)) {
+            for (Map entry : (JSON.parse(params.conditionsContainer) as List)) {
                 result.add([
                     success_msg: message(code:'message.conditionTested'),
                     test: conditionService.isConditionFilled(params.requestTypeLabel, entry),

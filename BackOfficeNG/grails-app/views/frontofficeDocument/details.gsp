@@ -29,6 +29,9 @@
                 <g:capdematEnumToFlag var="${doc.state}" i18nKeyPrefix="document.state" />
               </g:if>
             </dd>
+            
+             <dt><g:message code="document.message.typeFile"/> :</dt>
+             <dd>.${doc.contentType}</dd>
           </dl>
         </div>
         <div class="yui-u">

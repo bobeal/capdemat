@@ -19,6 +19,8 @@ public class DocumentBinary implements Serializable {
 	/** identifier field */
     private Long id;
     private byte[] data;
+    private ContentType contentType;
+    private byte[] preview;
 
     /** default constructor */
     public DocumentBinary() {
@@ -55,6 +57,18 @@ public class DocumentBinary implements Serializable {
     public void setData(byte[] data) {
         this.data = data;
     }
+    
+    /**
+     * @hibernate.property
+     * column="content_type"
+     */
+    public ContentType getContentType() {
+        return this.contentType;
+    }
+    
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
+    }
 
     @Override
     public String toString() {
@@ -63,4 +77,18 @@ public class DocumentBinary implements Serializable {
             .toString();
     }
 
+    /**
+     * @hibernate.property
+     *  type="binary"
+     *  access="field"
+     * @hibernate.column
+     *  name="preview"
+     */
+    public byte[] getPreview() {
+        return this.preview;
+    }
+    
+    public void setPreview(byte[] preview) {
+        this.preview = preview;
+    }
 }

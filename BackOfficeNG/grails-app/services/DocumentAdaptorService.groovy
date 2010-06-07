@@ -1,5 +1,8 @@
+import fr.cg95.cvq.exception.CvqModelException;
+
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.document.Document
+import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.business.document.DocumentAction;
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.document.DocumentType
@@ -101,7 +104,8 @@ public class DocumentAdaptorService {
         ]
 
         doc.datas.eachWithIndex { page, index ->
-            result['datas'].add(['id': page.id, 'pageNumber': index])
+            def pageContentType = "." + ContentType.getShortContentType(page.contentType)
+            result['datas'].add(['id': page.id, 'pageNumber': index, 'contentType': pageContentType])
         }
 
         return result
@@ -145,8 +149,14 @@ public class DocumentAdaptorService {
         def doc = documentService.getById(docParam.id)
         DocumentBinary newDocBinary = doc.datas[pageIndex]
         newDocBinary.data = request.getFile('documentData-' + (pageIndex + 1)).bytes
-        documentService.modifyPage(docParam.id, newDocBinary)
-        doc.datas[pageIndex] = newDocBinary
+        try {
+            def mimeType = documentService.checkNewBinaryData(docParam.id, newDocBinary.data)
+            newDocBinary.contentType = ContentType.forString(mimeType)
+            documentService.modifyPage(docParam.id, newDocBinary)
+            doc.datas[pageIndex] = newDocBinary
+        } catch (CvqModelException cme) {
+            throw new CvqModelException(cme.getI18nKey())
+        }
 
         return adaptDocument(doc)
     }

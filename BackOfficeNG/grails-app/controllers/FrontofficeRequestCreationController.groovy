@@ -6,6 +6,7 @@ import fr.cg95.cvq.business.request.RequestNoteType
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.business.users.RoleType
+import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.exception.CvqValidationException
 import fr.cg95.cvq.security.SecurityContext
@@ -245,7 +246,14 @@ class FrontofficeRequestCreationController {
                         // eventually add last and new page
                         if (request.getFile('documentData-0').bytes.size() > 0) {
                             def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc.id}")
-                            doc = documentAdaptorService.addDocumentPage(doc.id, request.getFile('documentData-0').bytes)
+                            try {
+                                doc = documentAdaptorService.addDocumentPage(doc.id, request.getFile('documentData-0').bytes)
+                            } catch (CvqModelException cme) {
+                                flash.errorMessage = message(code : cme.i18nKey)
+                                if (documentService.getById(docParam.id).datas.isEmpty()) {
+                                    documentService.delete(docParam.id)
+                                }
+                            }
                         }
                     }
                 } else if (request.getFile('documentData-0').bytes.size() > 0) {
@@ -259,7 +267,13 @@ class FrontofficeRequestCreationController {
                         documentService.create(document)
                         addParam.id = document.id
                     }
-                    doc = documentAdaptorService.addDocumentPage(addParam.id, request.getFile('documentData-0').bytes)
+                    try {
+                        doc = documentAdaptorService.addDocumentPage(addParam.id, request.getFile('documentData-0').bytes)
+                    } catch (CvqModelException cme) {
+                        flash.errorMessage = message(code : cme.i18nKey)
+                        if (documentService.getById(addParam.id).datas.isEmpty())
+                            documentService.delete(addParam.id)
+                    }
                 }
                 if (doc) {
                     isDocumentEditMode = false
@@ -272,8 +286,10 @@ class FrontofficeRequestCreationController {
             }
             else if (submitAction[1] == 'documentDelete') {
                 def docParam = targetAsMap(submitAction[3])
-                documentService.delete(docParam.id)
-                isDocumentEditMode = false
+                if (docParam.id != null) {
+                    documentService.delete(docParam.id)
+                    isDocumentEditMode = false
+                }
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentAssociate') {
@@ -308,14 +324,27 @@ class FrontofficeRequestCreationController {
                     documentService.create(document)
                     docParam.id = document.id
                 }
-                documentDto = documentAdaptorService.addDocumentPage(docParam.id,  
+                try {
+                    documentDto = documentAdaptorService.addDocumentPage(docParam.id,  
                         request.getFile('documentData-0').bytes)
+                } catch (CvqModelException cme) {
+                    flash.errorMessage = message(code : cme.i18nKey)
+                    if (documentService.getById(docParam.id).datas.isEmpty())
+                        documentService.delete(docParam.id)
+                    else
+                        documentDto = documentAdaptorService.getDocument(docParam.id)
+                }
                 documentTypeDto = documentAdaptorService.adaptDocumentType(docParam.documentTypeId)
                 isDocumentEditMode = true
             }
             else if (submitAction[1] == 'documentModifyPage') {
                 def docParam = targetAsMap(submitAction[3])
-                documentDto = documentAdaptorService.modifyDocumentPage(docParam, request)
+                try {
+                    documentDto = documentAdaptorService.modifyDocumentPage(docParam, request)
+                } catch (CvqModelException cme) {
+                    flash.errorMessage = message(code : cme.i18nKey)
+                    documentDto = documentAdaptorService.getDocument(docParam.id)
+                }
                 documentTypeDto = documentAdaptorService.adaptDocumentType(documentDto.documentType.id)
                 isDocumentEditMode = true
             }
@@ -602,7 +631,7 @@ class FrontofficeRequestCreationController {
         }
 
         try {
-            for(Map entry : (JSON.parse(params.conditionsContainer) as List)) {
+            for (Map entry : (JSON.parse(params.conditionsContainer) as List)) {
                 result.add([
                     success_msg: message(code:'message.conditionTested'),
                     test: conditionService.isConditionFilled(params.requestTypeLabel, entry),
@@ -653,7 +682,7 @@ class FrontofficeRequestCreationController {
                 }
             }
             
-            if(cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))
+            if (cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))
                 subjects[cRequest.subjectId] = "${cRequest.subjectLastName} ${cRequest.subjectFirstName}"
         }
         return subjects

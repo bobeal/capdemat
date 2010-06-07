@@ -1,4 +1,5 @@
 import fr.cg95.cvq.business.document.Document
+import fr.cg95.cvq.business.document.ContentType
 import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.document.DocumentBinary
 import fr.cg95.cvq.business.users.Adult
@@ -39,8 +40,18 @@ class FrontofficeDocumentController {
         def pages =  document.datas
         prevPage = result.page > 0 ? result.page - 1 : null
         nextPage = result.page < (pages.size() - 1) ? result.page + 1 : null
+                
+        def contentType = ""
+        if (!pages.isEmpty()) {
+            def mimeType = pages[0].getContentType()
+            contentType = ContentType.getShortContentType(mimeType)
+        }
         
-        result.doc = [ 
+        def messageLink = message(code:"document.message.showImage")
+        if(pages[0].getContentType() == ContentType.PDF)
+            messageLink = message(code: "document.message.downloadDocument")
+        
+        result.doc = [
             "id": document.id,
             "name": document.documentType.name,
             "title" : message(code: CapdematUtils.adaptDocumentTypeName(document.documentType.name)),
@@ -54,7 +65,10 @@ class FrontofficeDocumentController {
             "ecitizenNote": document.ecitizenNote,
             "agentNote": document.agentNote,
             'certified' : document.certified,
+            'preview' : pages.get(result.page).getPreview(),
+            'messageLink': messageLink,
             'numberOfPages': pages.size(),
+            'contentType': contentType,
             'nextPage' : nextPage,
             'prevPage' : prevPage,
             'pagesTitle': StringUtils.firstCase(message(code:'property.page'),'')
@@ -84,9 +98,19 @@ class FrontofficeDocumentController {
     def binary = {
         Document document = documentService.getById(params.long('id'))
         DocumentBinary binary = document.datas.get(params.pn ? Integer.valueOf(params.pn) : 0)
-        
-        response.contentType = "image/png"
+        if (binary.contentType.equals(ContentType.PDF))
+            response.contentType = "application/pdf"
+        else
+            response.contentType = "image/png"
         response.outputStream << binary.data
+    }
+    
+    def preview = {
+            Document document = documentService.getById(params.long('id'))
+            DocumentBinary binary = document.datas.get(params.pn ? Integer.valueOf(params.pn) : 0)
+            
+            response.contentType = "image/png"
+            response.outputStream << binary.preview
     }
     
     def protected getActions(document) {
@@ -103,11 +127,11 @@ class FrontofficeDocumentController {
         def criterias = new Hashtable<String,Object>();
         int offset = !params?.offset ? 0 : Integer.parseInt(params.offset)
                 
-        if(state?.df) criterias.put("documentType.id",Long.valueOf(state.df))
-        if(state?.sf) criterias.put("state",DocumentState.forString(StringUtils.firstCase(state.sf,'')))
-        if(state?.nf == currentEcitizen.homeFolder.id.toString()) 
+        if (state?.df) criterias.put("documentType.id",Long.valueOf(state.df))
+        if (state?.sf) criterias.put("state",DocumentState.forString(StringUtils.firstCase(state.sf,'')))
+        if (state?.nf == currentEcitizen.homeFolder.id.toString()) 
             criterias.put('homeFolderId',Long.valueOf(state.nf))
-        else if(state?.nf)
+        else if (state?.nf)
             criterias.put('individualId',Long.valueOf(state.nf))
         
         documentService.search(criterias,maxRows,offset).each {

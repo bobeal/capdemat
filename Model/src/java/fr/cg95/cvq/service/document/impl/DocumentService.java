@@ -1,11 +1,30 @@
 package fr.cg95.cvq.service.document.impl;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.*;
 
+import javax.imageio.ImageIO;
+
+import net.sf.jmimemagic.Magic;
+import net.sf.jmimemagic.MagicException;
+import net.sf.jmimemagic.MagicMatchNotFoundException;
+import net.sf.jmimemagic.MagicParseException;
+
+import org.apache.axis.utils.ByteArrayOutputStream;
 import org.apache.log4j.Logger;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.util.PDFMergerUtility;
 import org.springframework.context.ApplicationListener;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
+import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentAction;
 import fr.cg95.cvq.business.document.DocumentBinary;
@@ -21,6 +40,7 @@ import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqDisabledFunctionalityException;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
+import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -40,14 +60,14 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     static Logger logger = Logger.getLogger(DocumentService.class);
 
     protected ILocalAuthorityRegistry localAuthorityRegistry;
-    
+
     protected IDocumentDAO documentDAO;
     protected IDocumentTypeDAO documentTypeDAO;
     private ITranslationService translationService;
-    
+
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.READ)
     public Document getById(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
+    throws CvqException, CvqObjectNotFoundException {
         return (Document) documentDAO.findById(Document.class, id);
     }
 
@@ -71,19 +91,19 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             calendar.add(Calendar.YEAR, duration.intValue());
             document.setEndValidityDate(calendar.getTime());
             logger.debug("Set default end validity date to "
-                         + document.getEndValidityDate());
+                    + document.getEndValidityDate());
         } else if (docTypeValidity.equals(DocumentTypeValidity.MONTH)) {
             Integer duration = docType.getValidityDuration();
             calendar.add(Calendar.MONTH, duration.intValue());
             document.setEndValidityDate(calendar.getTime());
             logger.debug("Set default end validity date to "
-                         + document.getEndValidityDate());
+                    + document.getEndValidityDate());
         } else if (docTypeValidity.equals(DocumentTypeValidity.END_YEAR)) {
             calendar.set(Calendar.MONTH, Calendar.DECEMBER);
             calendar.set(Calendar.DAY_OF_MONTH, 31);
             document.setEndValidityDate(calendar.getTime());
             logger.debug("Set default end validity date to "
-                         + document.getEndValidityDate());
+                    + document.getEndValidityDate());
         } else if (docTypeValidity.equals(DocumentTypeValidity.END_SCHOOL_YEAR)) {
             if (calendar.get(Calendar.MONTH) > Calendar.JUNE)
                 calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
@@ -91,23 +111,23 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             calendar.set(Calendar.DAY_OF_MONTH, 30);
             document.setEndValidityDate(calendar.getTime());
             logger.debug("Set default end validity date to "
-                         + document.getEndValidityDate());
+                    + document.getEndValidityDate());
         }
     }
 
     public void checkDocumentsValidity()
-        throws CvqException {
+    throws CvqException {
 
         localAuthorityRegistry.browseAndCallback(this, "checkLocalAuthDocumentsValidity", null);
     }
-    
+
     @Context(types = {ContextType.SUPER_ADMIN})
     public void checkLocalAuthDocumentsValidity()
-        throws CvqException {
+    throws CvqException {
 
         logger.debug("checkLocalAuthDocumentsValidity() dealing with " 
-            + SecurityContext.getCurrentSite().getName());
-        
+                + SecurityContext.getCurrentSite().getName());
+
         Date currentDate = new Date();
         List<Document> wholeList = new ArrayList<Document>();
 
@@ -119,7 +139,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         // if end validity date is reached, set them outofdate
         for (Document doc : wholeList) {
             if (doc.getEndValidityDate() != null
-                && doc.getEndValidityDate().before(currentDate)) {
+                    && doc.getEndValidityDate().before(currentDate)) {
                 logger.debug("checkLocalAuthDocumentsValidity() document " + doc.getId() 
                         + " has reached its end validity date (" 
                         + doc.getEndValidityDate() + ") !");
@@ -133,7 +153,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public Long create(Document document)
-        throws CvqException, CvqObjectNotFoundException {
+    throws CvqException, CvqObjectNotFoundException {
 
         if (document == null)
             throw new CvqException("No document object provided");
@@ -159,7 +179,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void modify(final Document document)
-        throws CvqException {
+    throws CvqException {
 
         if (document == null)
             return;
@@ -168,7 +188,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void delete(final Long id)
-        throws CvqException, CvqObjectNotFoundException {
+    throws CvqException, CvqObjectNotFoundException {
 
         Document document = getById(id);
         documentDAO.delete(document);
@@ -179,70 +199,100 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void addPage(final Long documentId, final DocumentBinary documentBinary)
-        throws CvqException, CvqObjectNotFoundException {
+    throws  CvqException {
 
         checkDocumentDigitalizationIsEnabled();
 
-        Document document = getById(documentId);
-        if (document.getDatas() == null) {
-            List<DocumentBinary> dataList = new ArrayList<DocumentBinary>();
-            dataList.add(documentBinary);
-            document.setDatas(dataList);
-        } else {
-            document.getDatas().add(documentBinary);
+        try {
+            String mimeType = checkNewBinaryData(documentId, documentBinary.getData());
+            documentBinary.setContentType(ContentType.forString(mimeType));
+            Document document = getById(documentId);
+            createPreview(documentBinary);
+            if (document.getDatas() == null) {
+                List<DocumentBinary> dataList = new ArrayList<DocumentBinary>();
+                dataList.add(documentBinary);
+                document.setDatas(dataList);
+            } else
+                document.getDatas().add(documentBinary);
+            documentDAO.update(document);
+            addActionTrace(PAGE_ADD_ACTION, null, document);
+        } catch (CvqModelException cme) {
+            throw new CvqModelException(cme.getI18nKey());
         }
-
-        documentDAO.update(document);
-        
-        addActionTrace(PAGE_ADD_ACTION, null, document);
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void modifyPage(final Long documentId, final DocumentBinary documentBinary)
-        throws CvqException {
+    throws CvqException {
 
         checkDocumentDigitalizationIsEnabled();
-        
-        documentDAO.update(documentBinary);
 
         Document document = getById(documentId);
-        
-        addActionTrace(PAGE_EDIT_ACTION, null, document);
 
-        if (document.getState().equals(DocumentState.OUTDATED)) {
-            document.setState(DocumentState.PENDING);
-            document.setValidationDate(null);
-            documentDAO.update(document);
-            addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
+        if (document.getDatas().size() == 1) {
+            documentDAO.update(documentBinary);
+            if (document.getState().equals(DocumentState.OUTDATED)) {
+                document.setState(DocumentState.PENDING);
+                document.setValidationDate(null);
+                documentDAO.update(document);
+                addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
+            }
         }
+        createPreview(documentBinary);
+        addActionTrace(PAGE_EDIT_ACTION, null, document);
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void deletePage(final Long documentId, final Integer pageId)
-        throws CvqException, CvqObjectNotFoundException {
+    throws CvqException, CvqObjectNotFoundException {
 
         checkDocumentDigitalizationIsEnabled();
-        
+
         Document document = getById(documentId);
         DocumentBinary documentBinary = document.getDatas().get(pageId);
         document.getDatas().remove(documentBinary);
         documentDAO.delete(documentBinary);
         documentDAO.update(document);
-        
+
         addActionTrace(PAGE_DELETE_ACTION, null, document);
     }
 
-    private void checkDocumentDigitalizationIsEnabled() 
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
+    public  String checkNewBinaryData(final Long documentId, byte[] data)
+        throws CvqObjectNotFoundException, CvqException {
+        String mimeType = "";
+        Document document = getById(documentId);
+        try {
+            mimeType = Magic.getMagicMatch(data).getMimeType();
+        } catch (MagicParseException mpe) {
+            throw new CvqModelException("document.file.error.isNotValid");
+        } catch (MagicMatchNotFoundException mmnfe) {
+            throw new CvqModelException("document.file.error.isNotValid");
+        } catch (MagicException me) {
+            throw new CvqModelException("document.file.error.isNotValid");
+        }
+
+        if (ContentType.isAllowedContentType(mimeType)) {
+            if (document.getDatas() != null && !document.getDatas().isEmpty()) {
+                if (!document.getDatas().get(0).getContentType().equals(ContentType.forString(mimeType)))
+                    throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
+            }
+        } else 
+            throw new CvqModelException("document.message.fileTypeIsNotSupported");
+        return mimeType;
+    }
+
+    private void checkDocumentDigitalizationIsEnabled()
         throws CvqDisabledFunctionalityException {
-        
+
         LocalAuthority la = SecurityContext.getCurrentSite();
         if (!la.isDocumentDigitalizationEnabled()) {
             logger.error("checkDocumentDigitalizationIsEnabled() document digitalization is not enabled for site "
-                         + la.getName());
+                    + la.getName());
             throw new CvqDisabledFunctionalityException();
         }
     }
-    
+
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.READ)
     public Set<DocumentBinary> getAllPages(final Long documentId)
         throws CvqException {
@@ -273,7 +323,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Document> getProvidedDocuments(final DocumentType docType,
             final Long homeFolderId, final Long individualId)
-        throws CvqException {
+            throws CvqException {
 
         if (docType == null)
             throw new CvqException("No document type provided");
@@ -283,7 +333,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         return documentDAO.listProvidedDocuments(docType.getId(),
                 homeFolderId, individualId);
     }
-    
+
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<Document> getHomeFolderDocuments(final Long homeFolderId, int maxResults) {
 
@@ -295,45 +345,45 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
         return documentDAO.listByIndividual(individualId);
     }
-    
+
     public List<Document> getBySessionUuid(final String sessionUuid) {
         return documentDAO.findBySimpleProperty(Document.class, "sessionUuid", sessionUuid);
     }
-    
+
     @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.NONE)
     public Integer searchCount(Hashtable<String,Object> searchParams) {
         return documentDAO.searchCount(this.prepareSearchParams(searchParams));
     }
-    
+
     @Context(types = {ContextType.ECITIZEN}, privilege = ContextPrivilege.NONE)
     public List<Document> search(Hashtable<String,Object> searchParams,int max,int offset) {
         return documentDAO.search(this.prepareSearchParams(searchParams),max,offset);
     }
-    
+
     protected Hashtable<String,Object> prepareSearchParams(Hashtable<String,Object> searchParams) {
-        
+
         if (searchParams == null)
             searchParams = new Hashtable<String, Object>();
-        
-        if(!searchParams.containsKey("homeFolderId") && !searchParams.containsKey("individualId")) {
+
+        if (!searchParams.containsKey("homeFolderId") && !searchParams.containsKey("individualId")) {
             Adult user = SecurityContext.getCurrentEcitizen();
             List<Long> individuals = new ArrayList<Long>();
-            for(Individual i : user.getHomeFolder().getIndividuals())
+            for (Individual i : user.getHomeFolder().getIndividuals())
                 individuals.add(i.getId());
-            
+
             searchParams.put("homeFolderId",user.getHomeFolder().getId());
             searchParams.put("individualId",individuals);
         }
-        
+
         return searchParams;
     }
-    
+
     // Document Workflow related methods
     // TODO : make workflow method private - migrate unit tests
     //////////////////////////////////////////////////////////
-    
+
     @Context(types = {ContextType.AGENT})
-    public void updateDocumentState(final Long id, final DocumentState ds, final String message, 
+    public void updateDocumentState(final Long id, final DocumentState ds, final String message,
             final Date validityDate)
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException {
         if (ds.equals(DocumentState.VALIDATED))
@@ -344,6 +394,12 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             refuse(id, message);
         else if (ds.equals(DocumentState.OUTDATED))
             outDated(id);
+        if (ds.equals(DocumentState.VALIDATED)) {
+            Document doc = getById(id);
+            if (!doc.getDatas().isEmpty() && doc.getDatas().get(0).getContentType().equals(ContentType.PDF)) {
+                mergeDocumentBinary(doc);
+            }
+        }
     }
 
     @Context(types = {ContextType.AGENT})
@@ -355,7 +411,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             return;
 
         if (document.getState().equals(DocumentState.PENDING)
-            || document.getState().equals(DocumentState.CHECKED)) {
+                || document.getState().equals(DocumentState.CHECKED)) {
             try {
                 document.setState(DocumentState.VALIDATED);
                 document.setEndValidityDate(validityDate);
@@ -366,10 +422,10 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             }
         } else {
             throw new CvqInvalidTransitionException(
-                translationService.translate("document.state."
-                    + document.getState().toString().toLowerCase()),
-                translationService.translate("document.state."
-                    + DocumentState.VALIDATED.toString().toLowerCase()));
+                    translationService.translate("document.state."
+                            + document.getState().toString().toLowerCase()),
+                            translationService.translate("document.state."
+                                    + DocumentState.VALIDATED.toString().toLowerCase()));
         }
 
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.VALIDATED, document);
@@ -400,12 +456,12 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             return;
 
         if (!document.getState().equals(DocumentState.CHECKED)
-            && !document.getState().equals(DocumentState.PENDING))
+                && !document.getState().equals(DocumentState.PENDING))
             throw new CvqInvalidTransitionException();
 
         document.setState(DocumentState.REFUSED);
         documentDAO.update(document);
-    
+
         addActionTrace(STATE_CHANGE_ACTION, DocumentState.REFUSED, document);
     }
 
@@ -469,19 +525,19 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         } else {
             document.getActions().add(documentAction);
         }
-        
+
         documentDAO.update(document);
     }
 
     public List<DocumentState> getEditableStates() {
         List<DocumentState> result = new ArrayList<DocumentState>();
-        
+
         result.add(DocumentState.PENDING);
         result.add(DocumentState.OUTDATED);
-        
+
         return result;
     }
-    
+
     @Override
     public void onApplicationEvent(UsersEvent homeFolderEvent) {
         logger.debug("onApplicationEvent() got an home folder event of type " + homeFolderEvent.getEvent());
@@ -501,6 +557,92 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         for (Document document : sessionDocuments)
             documentDAO.delete(document);
     }
+    
+    private void createPreview(DocumentBinary page) throws CvqException {
+        try {
+            if (page.getContentType().equals(ContentType.PDF)) {
+                PDDocument pdDoc = null;
+                try {
+                    pdDoc = byteToPDDocument(page.getData());
+                    PDPage pdPage = (PDPage) pdDoc.getDocumentCatalog().getAllPages().get(0);
+                    BufferedImage bufImgPage = pdPage.convertToImage();
+                    bufImgPage = (BufferedImage) resize(bufImgPage, 200);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    ImageIO.write(bufImgPage, "png", baos);
+                    byte[] imagePage = baos.toByteArray();
+                    page.setPreview(imagePage);
+                } finally {
+                    pdDoc.close();
+                }
+            } else {
+                ByteArrayInputStream baisPage = new ByteArrayInputStream(page.getData());
+                BufferedImage bufImgPage = ImageIO.read(baisPage);
+                bufImgPage = (BufferedImage) resize(bufImgPage, 200);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(bufImgPage, "png", baos);
+                byte[] imagePage = baos.toByteArray();
+                page.setPreview(imagePage);
+            }
+        } catch (IOException ioe) {
+            throw new CvqException(ioe.getMessage());
+        }
+    }
+
+    /**
+     * Resize an image with a new width
+     */
+    private static Image resize(Image source, int width) {
+        int height = (width * source.getHeight(null)) / source.getWidth(null);
+        BufferedImage buf = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = buf.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.drawImage(source, 0, 0, width, height, null);
+        g.dispose();
+        return buf;
+    }
+
+    /**
+     * merge all (pdf) binaries from a document in only one (pdf) binary
+     */
+    private void mergeDocumentBinary(Document doc) throws CvqException {
+        try {
+            if (doc.getDatas().size() > 1) {
+                PDDocument pdDoc = byteToPDDocument(doc.getDatas().get(0).getData());
+                if (!pdDoc.isEncrypted()) {
+                    for (int i=1; i<doc.getDatas().size(); i++) {
+                        PDDocument pdDocNew = byteToPDDocument(doc.getDatas().get(i).getData());
+                        if (!pdDocNew.isEncrypted()) {
+                            PDFMergerUtility pmu = new PDFMergerUtility();
+                            pmu.appendDocument(pdDoc, pdDocNew);
+                        }
+                    }
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    pdDoc.save(baos);
+                    DocumentBinary docBin = new DocumentBinary(baos.toByteArray());
+                    docBin.setContentType(ContentType.PDF);
+                    createPreview(docBin);
+                    for (DocumentBinary page : doc.getDatas()) {
+                        documentDAO.delete(page);
+                    }
+                    doc.getDatas().clear();
+                    doc.getDatas().add(docBin);
+                    addActionTrace(MERGE_ACTION, null, doc);
+                }
+                pdDoc.close();
+            }
+        } catch (IOException ioe) {
+            throw new CvqException(ioe.getMessage());
+        } catch (COSVisitorException cve) {
+            throw new CvqException(cve.getMessage());
+        }
+        documentDAO.update(doc);
+    }
+
+    private PDDocument byteToPDDocument(byte[] data) throws IOException {
+        ByteArrayInputStream baisPage = new ByteArrayInputStream(data);
+        PDDocument pdDoc = PDDocument.load(baisPage);
+        return pdDoc;
+    }
 
     public void setDocumentDAO(final IDocumentDAO documentDAO) {
         this.documentDAO = documentDAO;
@@ -518,4 +660,3 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         this.translationService = translationService;
     }
 }
-

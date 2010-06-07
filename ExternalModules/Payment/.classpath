@@ -51,8 +51,8 @@
 	<classpathentry kind="lib" path="lib/xws-security-2.0-FCS.jar"/>
 	<classpathentry kind="lib" path="lib/quartz-1.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/wss4j-1.5.4.jar"/>
-	<classpathentry kind="lib" path="lib/CapDemat-ExternalServicesSchemas-4.1.jar"/>
-	<classpathentry kind="lib" path="lib/CapDemat-Model-4.1.jar"/>
-	<classpathentry kind="lib" path="lib/CapDemat-RequestSchemas-4.1.jar"/>
+	<classpathentry kind="lib" path="lib/CapDemat-ExternalServicesSchemas-4.2.jar"/>
+	<classpathentry kind="lib" path="lib/CapDemat-Model-4.2.jar"/>
+	<classpathentry kind="lib" path="lib/CapDemat-RequestSchemas-4.2.jar"/>
 	<classpathentry kind="output" path="build/src"/>
 </classpath>

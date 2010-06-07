@@ -86,9 +86,9 @@
 	<classpathentry kind="lib" path="Libraries/opencsv/opencsv-1.8.jar"/>
 	<classpathentry kind="lib" path="Libraries/jsch/jsch-0.1.41.jar"/>
 	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.1.jar" sourcepath="Model/src/java"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.1.jar"/>
-	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-Model-4.2.jar" sourcepath="Model/src/java"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-RequestSchemas-4.2.jar"/>
+	<classpathentry kind="lib" path="Libraries/fr.cg95/model/CapDemat-ExternalServicesSchemas-4.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.lowagie/core-renderer.jar"/>
 	<classpathentry kind="lib" path="Libraries/com.lowagie/iText-2.0.8.jar"/>
 	<classpathentry kind="lib" path="Libraries/org.springframework/spring-ws-core-1.5.8.jar"/>

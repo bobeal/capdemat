@@ -88,7 +88,7 @@ public class RequestData implements Serializable {
 
     private Set<RequestNote> notes;
 
-    private Map<String,Map<String,String>> stepStates;
+    private Map<String, Map<String, Object>> stepStates;
 
     private Class<?> specificDataClass;
 
@@ -101,7 +101,7 @@ public class RequestData implements Serializable {
     private byte[] documentsArchive;
 
     public RequestData() {
-        this.stepStates = new LinkedHashMap<String, Map<String, String>>();
+        this.stepStates = new LinkedHashMap<String, Map<String, Object>>();
     }
 
     /**
@@ -420,11 +420,11 @@ public class RequestData implements Serializable {
      *  column="step_states"
      *  type="serializable"
      */
-    public Map<String, Map<String, String>> getStepStates() {
+    public Map<String, Map<String, Object>> getStepStates() {
         return stepStates;
     }
 
-    public void setStepStates(Map<String, Map<String, String>> stepStates) {
+    public void setStepStates(Map<String, Map<String, Object>> stepStates) {
         this.stepStates = stepStates;
     }
 

@@ -9,7 +9,7 @@
                   <g:message code="action.remove"/>
                 </a>
               </span>
-              <a href="${createLink(action:'edit',controller:'frontofficeRequestCreation',id:record.id)}">
+              <a href="${createLink(action:'edit',controller:'frontofficeRequest',id:record.id)}">
                 ${record.label}
                 <g:message code="request.searchResult.requestId" />
                 <span>${record.id}</span>

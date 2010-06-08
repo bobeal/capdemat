@@ -6,9 +6,11 @@ import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.request.IConditionService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.request.IRequestActionService
 import fr.cg95.cvq.service.request.external.IRequestExternalService
+import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
@@ -27,10 +29,12 @@ class FrontofficeRequestController {
     RequestTypeAdaptorService requestTypeAdaptorService
     IndividualAdaptorService individualAdaptorService
 
+    IConditionService conditionService
     IIndividualService individualService
     ILocalAuthorityRegistry localAuthorityRegistry
     IMeansOfContactService meansOfContactService
     IRequestExternalService requestExternalService
+    IRequestLockService requestLockService
     IRequestNoteService requestNoteService
     IRequestActionService requestActionService
     IRequestWorkflowService requestWorkflowService
@@ -90,32 +94,41 @@ class FrontofficeRequestController {
             return false
         }
         if (request.post) {
+            def requestTypeInfo = JSON.parse(params.requestTypeInfo)
+            if (rqt.stepStates?.isEmpty()) {
+                requestTypeInfo.steps.each {
+                    def nameToken = it.tokenize('-')
+                    def value = ['required': nameToken.size() == 2]
+                    requestAdaptorService.stepState(value, 'uncomplete', '')
+                    rqt.stepStates.put(nameToken[0], value)
+                }
+            }
             DataBindingUtils.initBind(rqt, params)
             bind(rqt)
             // clean empty collections elements
             DataBindingUtils.cleanBind(rqt, params)
-            if (currentStep == 'validation') {
+            if (params.currentStep == 'validation') {
                 // bind the selected means of contact into request
                 MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                 rqt.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
                 checkCaptcha(params)
-                validateRequest(cRequest, null)
+                requestWorkflowService.validate(rqt, null, Boolean.valueOf(params.useAcceptance))
                 //def docs = documentService.getBySessionUuid(uuidString)
                 def parameters = [:]
                 if (!RequestState.DRAFT.equals(rqt.state)) {
-                    requestWorkflowService.rewindWorkflow(cRequest/*, docs*/)
+                    requestWorkflowService.rewindWorkflow(rqt/*, docs*/)
                     parameters.isEdition = true
                 } else {
                     rqt.state = RequestState.PENDING
                     if (SecurityContext.currentEcitizen == null)
-                        requestWorkflowService.create(cRequest, objectToBind.requester,
+                        requestWorkflowService.create(rqt, objectToBind.requester,
                             params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
                     else
-                        requestWorkflowService.create(cRequest,
+                        requestWorkflowService.create(rqt,
                             params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
                 }
 
-                parameters.id = cRequest.id
+                parameters.id = rqt.id
                 parameters.label = requestTypeInfo.label
                 if (params.returnUrl != "") {
                     parameters.returnUrl = params.returnUrl
@@ -125,13 +138,13 @@ class FrontofficeRequestController {
                 redirect(action:'exit', params:parameters)
                 return
             } else {
-                validateRequest(cRequest, [currentStep])
+                requestWorkflowService.validate(rqt, [params.currentStep], Boolean.valueOf(params.useAcceptance))
                 // add a check that currentStep is indeed complete, because, for VO Card,
                 // no exception is thrown when validating the request (since it is empty)
-                if ("complete".equals(rqt.stepStates?.get(currentStep).state)) {
+                if ("complete".equals(rqt.stepStates?.get(params.currentStep).state)) {
                     flash.confirmationMessage = message(code : "request.step.message.validated",
-                            args : [message(code :  currentStep == "document" ?  "request.step.document.label" :
-                                translationService.generateInitialism(requestTypeInfo.label) + ".step." + currentStep + ".label")
+                            args : [message(code :  params.currentStep == "document" ?  "request.step.document.label" :
+                                translationService.generateInitialism(requestTypeInfo.label) + ".step." + params.currentStep + ".label")
                                 ]
                     )
                 }

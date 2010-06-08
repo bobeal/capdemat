@@ -17,7 +17,7 @@
               <g:if test="${requestType.enabled}">
                 <g:if test="${requestType.seasons && !requestType.seasons.isEmpty()}">
                   <g:if test="${requestType.seasons.size() == 1}">
-                    <a href="${createLink(controller:'frontofficeRequestCreation',
+                    <a href="${createLink(controller:'frontofficeRequest', action : 'edit',
                       params:['label':requestType.label, 'requestSeasonId' : requestType.seasons.iterator().next().id])}">
                       <g:translateRequestTypeLabel label="${requestType.label}"/>
                     </a>
@@ -32,7 +32,7 @@
                   </g:else>
                 </g:if>
                 <g:else>
-                  <a href="${createLink(controller:'frontofficeRequestCreation',
+                  <a href="${createLink(controller:'frontofficeRequest', action : 'edit',
                     params:['label':requestType.label])}">
                     <g:translateRequestTypeLabel label="${requestType.label}"/>
                   </a>

@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request.impl;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,9 +8,16 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.Validator;
+import net.sf.oval.context.ClassContext;
+import net.sf.oval.context.FieldContext;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -48,6 +56,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.exception.CvqValidationException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
@@ -432,7 +441,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             throw new CvqModelException("requestType.message.registrationClosed");
         }
         if (homeFolder != null
-            && service.getSubjectPolicy() != IRequestWorkflowService.SUBJECT_POLICY_NONE
+            && !IRequestWorkflowService.SUBJECT_POLICY_NONE.equals(service.getSubjectPolicy())
             && getAuthorizedSubjects(requestType, homeFolder.getId()).isEmpty()) {
             throw new CvqModelException("requestType.message.noAuthorizedSubjects");
         }
@@ -458,6 +467,81 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         } else {
             if (requestSeason != null) {
                 throw new CvqException("TODO");
+            }
+        }
+    }
+
+    @Override
+    @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public void validate(Request request, List<String> steps, boolean useAcceptance)
+        throws CvqValidationException, ClassNotFoundException, IllegalAccessException,
+            InvocationTargetException, NoSuchMethodException {
+        Validator validator = new Validator();
+        validator.disableAllProfiles();
+        if (steps == null) {
+            validator.enableAllProfiles();
+            validator.disableProfile("administration");
+        } else {
+            validator.enableProfile("default");
+            for (String step : steps) {
+                validator.enableProfile(step);
+            }
+        }
+        Map<String, List<String>> invalidFields = new LinkedHashMap<String, List<String>>();
+        for (ConstraintViolation violation : validator.validate(request)) {
+            collectInvalidFields(violation, invalidFields, "", "");
+        }
+        if (invalidFields.get("") != null) {
+            Iterator<String> iterator = invalidFields.get("").iterator();
+            while (iterator.hasNext()) {
+                String invalidField = iterator.next();
+                if ("subjectId".equals(invalidField)) {
+                    String firstStep = request.getStepStates().keySet().iterator().next();
+                    if (invalidFields.get(firstStep) == null)
+                        invalidFields.put(firstStep, new ArrayList<String>(1));
+                    invalidFields.get(firstStep).add(invalidField);
+                    iterator.remove();
+                }
+            }
+            if (invalidFields.get("").isEmpty()) {
+                invalidFields.remove("");
+            }
+        }
+        if (validator.isProfileEnabled("validation") && !useAcceptance) {
+            if (invalidFields.get("validation") == null)
+                invalidFields.put("validation", new ArrayList<String>(1));
+            invalidFields.get("validation").add("useAcceptance");
+        }
+        if (!invalidFields.isEmpty()) throw new CvqValidationException(invalidFields);
+    }
+
+    private void collectInvalidFields(ConstraintViolation violation,
+        Map<String, List<String>> fields, String prefix, String stepName)
+        throws ClassNotFoundException,  IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
+        Class<? extends Annotation> annotationClass =
+            Class.forName(violation.getErrorCode()).asSubclass(Annotation.class);
+        if (violation.getCauses() == null) {
+            String field;
+            if (violation.getContext() instanceof ClassContext)
+                field = prefix;
+            else {
+                String[] profiles = (String[])annotationClass.getMethod("profiles").invoke(
+                    ((FieldContext)violation.getContext()).getField().getAnnotation(annotationClass));
+                if (profiles != null && profiles.length > 0)
+                    stepName = profiles[0];
+                field = (prefix != "" ? prefix + '.' : "") + violation.getMessage();
+            }
+            if (fields.get(stepName) == null)
+                fields.put(stepName, new ArrayList<String>());
+            fields.get(stepName).add(field);
+        } else {
+            String[] profiles = (String[])annotationClass.getMethod("profiles").invoke(
+                    ((FieldContext)violation.getContext()).getField().getAnnotation(annotationClass));
+            if (profiles != null && profiles.length > 0)
+                stepName = profiles[0];
+            for (ConstraintViolation cause : violation.getCauses()) {
+                collectInvalidFields(cause, fields, (prefix != "" ? prefix + '.' : "") + violation.getMessage(), stepName);
             }
         }
     }
@@ -620,9 +704,9 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             return null;
         }
         List<String> result = new ArrayList<String>();
-        for (Map.Entry<String, Map<String, String>> stepState : request.getStepStates().entrySet()) {
-            if (Boolean.valueOf(stepState.getValue().get("required"))
-                && !"complete".equals(stepState.getValue().get("required"))
+        for (Map.Entry<String, Map<String, Object>> stepState : request.getStepStates().entrySet()) {
+            if ((Boolean)stepState.getValue().get("required")
+                && !"complete".equals(stepState.getValue().get("state"))
                 && !"validation".equals(stepState.getKey())) {
                 result.add(stepState.getKey());
             }

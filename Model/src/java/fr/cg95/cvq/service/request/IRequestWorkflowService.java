@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.request;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +22,7 @@ import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqInvalidTransitionException;
 import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
+import fr.cg95.cvq.exception.CvqValidationException;
 import fr.cg95.cvq.security.annotation.IsHomeFolder;
 import fr.cg95.cvq.security.annotation.IsRequester;
 import fr.cg95.cvq.security.annotation.IsSubject;
@@ -234,4 +236,8 @@ public interface IRequestWorkflowService {
         throws CvqException;
 
     boolean isSupportMultiple(String requestLabel) throws CvqException;
+
+    void validate(@IsRequest Request request, List<String> steps, boolean useAcceptance)
+        throws CvqValidationException, ClassNotFoundException, IllegalAccessException,
+            InvocationTargetException, NoSuchMethodException;
 }

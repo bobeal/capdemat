@@ -17,7 +17,7 @@
         </label>
         <select id="meansOfContact" name="meansOfContact" class="required">
          <g:each in="${meansOfContact}" var="moc">
-           <option value="${moc.key}" <g:if test="${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>${moc.label}</option>
+           <option value="${moc.key}" <g:if test="${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>>${moc.label}</option>
          </g:each>
         </select>
        </g:if>
@@ -47,6 +47,7 @@
      <!-- Input submit-->
      <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
      <input type="hidden" name="id" value="${rqt.id}" />
+     <input type="hidden" name="currentStep" value="validation" />
      <g:if test="${missingSteps == null}">
        <div><strong>${message(code:'request.step.validation.allRequiredSteps')}</strong></div>
      </g:if>
@@ -56,7 +57,7 @@
          <ul>
            <g:each var="missingStep" in="${missingSteps}">
              <li>
-               <a id="active-tab-${missingStep}" href="#${missingStep}">
+               <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':missingStep])}">
                  ${message(code:requestTypeAcronym + '.step.' + missingStep + '.label')}
                </a>
              </li>
@@ -92,6 +93,7 @@
      <!-- Input submit-->
      <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
      <input type="hidden" name="id" value="${rqt.id}" />
+     <input type="hidden" name="currentStep" value="document" />
    </form>
    <g:if test="${helps.document != null}">
    <div class="requestHelp">
@@ -121,6 +123,7 @@
      <!-- Input submit-->
      <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
      <input type="hidden" name="id" value="${rqt.id}" />
+     <input type="hidden" name="currentStep" value="${currentStep}" />
      <input type="submit" id="submit-step-${currentStep}" name="submit-step-${currentStep}" class="submit-step" value="${message(code:'action.validate')}" />
    </form>
    <g:if test="${helps[currentStep] != null}">

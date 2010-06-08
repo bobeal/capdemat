@@ -30,12 +30,12 @@
     </script>
   </head>
   <body>
-    <form action="\${createLink(controller:'frontofficeRequestCreation',action:'condition')}"
+    <form action="\${createLink(controller:'frontofficeRequest',action:'condition')}"
       method="post" id="conditionsForm">
       <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
       <input type="hidden" name="requestTypeLabel" value="\${requestTypeLabel}" />
     </form>
-    <form action="\${createLink(controller:'frontofficeRequestCreation',action:'autofill')}"
+    <form action="\${createLink(controller:'frontofficeRequest',action:'autofill')}"
       method="post" id="autofillForm">
       <input type="hidden" id="autofillContainer" name="autofillContainer" value="" />
       <input type="hidden" id="triggerName" name="triggerName" value="" />
@@ -90,7 +90,7 @@
         <g:if test="\${!documentTypes.isEmpty()}">
   <% } %>
         <li class="\${currentStep == '${step.name}' ? 'selected' : ''}">
-          <a href="\${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'${step.name}'])}">
+          <a href="\${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'${step.name}'])}">
           <em>
           <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
     <% if (step.required) { %>
@@ -116,7 +116,7 @@
       </g:set>
       <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" scope="request" />
        <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" scope="request" />
-       <g:set var="firstStep" value="requester" />
+       <g:set var="firstStep" value="${requestFo.steps.iterator().next().name}" />
        <g:set var="currentStep" value="\${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
        <g:set var="requestTypeLabel" value="\${requestTypeLabel}" />
        <g:set var="requestTypeAcronym" value="${requestFo.acronym}" />

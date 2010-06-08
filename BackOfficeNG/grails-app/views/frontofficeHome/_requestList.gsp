@@ -7,7 +7,7 @@
           <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
           <g:if test="${record.isEditable}">
             <span class="tag-state">
-              <a href="${createLink(action:'edit',controller:'frontofficeRequestCreation',id:record.id)}">
+              <a href="${createLink(action:'edit',controller:'frontofficeRequest',id:record.id)}">
                 <g:message code="action.modify"/>
               </a>
             </span>

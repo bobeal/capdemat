@@ -22,12 +22,12 @@
     </script>
   </head>
   <body>
-    <form action="${createLink(controller:'frontofficeRequestCreation',action:'condition')}"
+    <form action="${createLink(controller:'frontofficeRequest',action:'condition')}"
       method="post" id="conditionsForm">
       <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
       <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
     </form>
-    <form action="${createLink(controller:'frontofficeRequestCreation',action:'autofill')}"
+    <form action="${createLink(controller:'frontofficeRequest',action:'autofill')}"
       method="post" id="autofillForm">
       <input type="hidden" id="autofillContainer" name="autofillContainer" value="" />
       <input type="hidden" id="triggerName" name="triggerName" value="" />
@@ -80,7 +80,7 @@
 
   
         <li class="${currentStep == 'intervention' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'intervention'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'intervention'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.intervention.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.intervention.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -96,7 +96,7 @@
         <g:if test="${!documentTypes.isEmpty()}">
   
         <li class="${currentStep == 'document' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'document'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -110,7 +110,7 @@
 
   
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'validation'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -132,7 +132,7 @@
       </g:set>
       <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
        <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
-       <g:set var="firstStep" value="requester" />
+       <g:set var="firstStep" value="intervention" />
        <g:set var="currentStep" value="${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
        <g:set var="requestTypeLabel" value="${requestTypeLabel}" />
        <g:set var="requestTypeAcronym" value="tir" />

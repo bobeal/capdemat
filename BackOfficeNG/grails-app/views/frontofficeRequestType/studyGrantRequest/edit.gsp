@@ -22,12 +22,12 @@
     </script>
   </head>
   <body>
-    <form action="${createLink(controller:'frontofficeRequestCreation',action:'condition')}"
+    <form action="${createLink(controller:'frontofficeRequest',action:'condition')}"
       method="post" id="conditionsForm">
       <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
       <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
     </form>
-    <form action="${createLink(controller:'frontofficeRequestCreation',action:'autofill')}"
+    <form action="${createLink(controller:'frontofficeRequest',action:'autofill')}"
       method="post" id="autofillForm">
       <input type="hidden" id="autofillContainer" name="autofillContainer" value="" />
       <input type="hidden" id="triggerName" name="triggerName" value="" />
@@ -80,7 +80,7 @@
 
   
         <li class="${currentStep == 'subject' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'subject'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'subject'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -94,7 +94,7 @@
 
   
         <li class="${currentStep == 'taxHousehold' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'taxHousehold'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'taxHousehold'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.taxHousehold.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.taxHousehold.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -108,7 +108,7 @@
 
   
         <li class="${currentStep == 'otherHelps' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'otherHelps'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'otherHelps'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.otherHelps.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.otherHelps.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -122,7 +122,7 @@
 
   
         <li class="${currentStep == 'currentStudies' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'currentStudies'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'currentStudies'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.currentStudies.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.currentStudies.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -136,7 +136,7 @@
 
   
         <li class="${currentStep == 'calculationElements' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'calculationElements'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'calculationElements'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.calculationElements.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.calculationElements.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -150,7 +150,7 @@
 
   
         <li class="${currentStep == 'bankReference' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'bankReference'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'bankReference'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.bankReference.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.bankReference.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -166,7 +166,7 @@
         <g:if test="${!documentTypes.isEmpty()}">
   
         <li class="${currentStep == 'document' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'document'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -180,7 +180,7 @@
 
   
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
-          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'validation'])}">
+          <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation'])}">
           <em>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
@@ -202,7 +202,7 @@
       </g:set>
       <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
        <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
-       <g:set var="firstStep" value="requester" />
+       <g:set var="firstStep" value="subject" />
        <g:set var="currentStep" value="${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
        <g:set var="requestTypeLabel" value="${requestTypeLabel}" />
        <g:set var="requestTypeAcronym" value="sgr" />

@@ -20,7 +20,7 @@
     
     <div class="yui-g first">
         <h4><g:message code="requestType.label.newRequest" /></h4>
-        <p><a href="${createLink(controller:'frontofficeRequestCreation', action:'edit',                params:['label':requestLabel,'requestSeasonId':requestSeasonId])}">
+        <p><a href="${createLink(controller:'frontofficeRequest', action:'edit',                params:['label':requestLabel,'requestSeasonId':requestSeasonId])}">
                 <g:message code="requestType.action.newRequest" /> <g:translateRequestTypeLabel label="${requestLabel}"/>
         </a></p>
     </div>
@@ -33,7 +33,7 @@
               <g:each in="${lastRequests}" var="lastRequest">
                 <li>
                   <g:capdematEnumToFlag var="${lastRequest.state}" i18nKeyPrefix="request.state" />
-                  <a href="${createLink(controller:'frontofficeRequestCreation',action:'edit',params:['label':requestLabel, 'isRenewal':lastRequest.isRenewal,                             'requestId':lastRequest.requestId, 'subjectId':lastRequest.subjectId,'requestSeasonId':requestSeasonId])}">
+                  <a href="${createLink(controller:'frontofficeRequest',action:'edit',params:['label':requestLabel, 'isRenewal':lastRequest.isRenewal,                             'requestId':lastRequest.requestId, 'subjectId':lastRequest.subjectId,'requestSeasonId':requestSeasonId])}">
                    <g:message code="requestType.property.renew.requestFor" /> ${lastRequest.subjectLastName} ${lastRequest.subjectFirstName} 
                    <g:message code="requestType.property.renew.dateTo" /> <g:formatDate formatName="format.date" date="${lastRequest.creationDate}"/></a>
                   - <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:lastRequest.requestId)}">

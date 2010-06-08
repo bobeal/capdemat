@@ -319,11 +319,11 @@ public class Request implements Serializable {
         requestData.setSubjectFirstName(subjectFirstName);
     }
 
-    public Map<String, Map<String, String>> getStepStates() {
+    public Map<String, Map<String, Object>> getStepStates() {
         return requestData.getStepStates();
     }
 
-    public void setStepStates(Map<String, Map<String, String>> stepStates) {
+    public void setStepStates(Map<String, Map<String, Object>> stepStates) {
         requestData.setStepStates(stepStates);
     }
 

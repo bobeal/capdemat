@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.document;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -53,7 +51,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         
         // ensure all document types have been bootstrapped
         List<DocumentType> allDocumentTypes = documentTypeService.getAllDocumentTypes();
-        assertEquals(36, allDocumentTypes.size());
+        assertEquals(38, allDocumentTypes.size());
         
         // create background data
         CreationBean cb = gimmeAnHomeFolder();

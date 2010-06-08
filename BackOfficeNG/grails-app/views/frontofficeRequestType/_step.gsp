@@ -35,7 +35,7 @@
       <g:if test="${!hasHomeFolder}">
         <g:render template="/frontofficeRequestType/outOfAccountValidation" />
       </g:if>
-      <div id="useAcceptance">
+      <div id="useAcceptance" class="${rqt.stepStates != null && rqt.stepStates['validation']?.invalidFields.contains('useAcceptance') ? 'validation-failed' : ''}">
         <input type="checkbox" name="useAcceptance" class="required validate-one-required"
               title="${message(code:'request.error.useAcceptanceRequired')}" />
         <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'use')}" target="blank">
@@ -65,6 +65,7 @@
          </ul>
        </div>
      </g:elseif>
+     <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
    </form>
    <g:if test="${helps.validation != null}">
    <div class="requestHelp">

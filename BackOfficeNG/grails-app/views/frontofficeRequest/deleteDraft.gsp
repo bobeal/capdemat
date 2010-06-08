@@ -14,7 +14,12 @@
       <form method="post">
         <input type="hidden" name="id" value="${rqt.id}" />
         <input type="submit" name="confirm" value="${message(code:'action.confirm')}" />
-        <a href="${createLink(controller:'frontofficeHome')}">
+        <g:if test="${from == 'edition'}">
+          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', id : rqt.id)}">
+        </g:if>
+        <g:else>
+          <a href="${createLink(controller:'frontofficeHome')}">
+        </g:else>
           <g:message code="action.cancel"/>
         </a>
       </form>

@@ -530,7 +530,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                     ((FieldContext)violation.getContext()).getField().getAnnotation(annotationClass));
                 if (profiles != null && profiles.length > 0)
                     stepName = profiles[0];
-                field = (prefix != "" ? prefix + '.' : "") + violation.getMessage();
+                field = (StringUtils.isNotBlank(prefix) ? prefix + '.' : "") + violation.getMessage();
             }
             if (fields.get(stepName) == null)
                 fields.put(stepName, new ArrayList<String>());
@@ -541,7 +541,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             if (profiles != null && profiles.length > 0)
                 stepName = profiles[0];
             for (ConstraintViolation cause : violation.getCauses()) {
-                collectInvalidFields(cause, fields, (prefix != "" ? prefix + '.' : "") + violation.getMessage(), stepName);
+                collectInvalidFields(cause, fields, (StringUtils.isNotBlank(prefix) ? prefix + '.' : "") + violation.getMessage(), stepName);
             }
         }
     }

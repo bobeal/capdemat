@@ -61,9 +61,13 @@
       </div>
     </g:if>
     
-    <g:render template="/frontofficeRequestType/cancelPanel" />
-    <g:if test="\${session.currentEcitizen && !isEdition}">
-      <g:render template="/frontofficeRequestType/draftPanel" />
+    <a href="\${createLink(controller:'frontofficeHome')}">
+      <g:message code="action.quit"/>
+    </a>
+    <g:if test="\${!isEdition}">
+      <a href="\${createLink(action:'deleteDraft', controller:'frontofficeRequest', params : ['id' : rqt.id, 'from' : 'edition'])}">
+        <g:message code="action.cancel"/>
+      </a>
     </g:if>
     
     <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" />

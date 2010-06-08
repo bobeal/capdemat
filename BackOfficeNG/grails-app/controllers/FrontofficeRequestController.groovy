@@ -4,6 +4,7 @@ import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
 import fr.cg95.cvq.exception.CvqException
+import fr.cg95.cvq.exception.CvqValidationException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 import fr.cg95.cvq.service.request.IConditionService
@@ -103,6 +104,8 @@ class FrontofficeRequestController {
                     rqt.stepStates.put(nameToken[0], value)
                 }
             }
+            requestAdaptorService.stepState(rqt.stepStates?.get(params.currentStep), 'complete', '')
+            try {
             DataBindingUtils.initBind(rqt, params)
             bind(rqt)
             // clean empty collections elements
@@ -112,7 +115,7 @@ class FrontofficeRequestController {
                 MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                 rqt.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
                 checkCaptcha(params)
-                requestWorkflowService.validate(rqt, null, Boolean.valueOf(params.useAcceptance))
+                requestWorkflowService.validate(rqt, null, params.useAcceptance != null)
                 //def docs = documentService.getBySessionUuid(uuidString)
                 def parameters = [:]
                 if (!RequestState.DRAFT.equals(rqt.state)) {
@@ -148,6 +151,14 @@ class FrontofficeRequestController {
                                 ]
                     )
                 }
+            }} catch (CvqValidationException e) {
+                e.invalidFields.each {
+                    requestAdaptorService.stepState(rqt.stepStates?.get(it.key), 'invalid', null, it.value)
+                }
+            } catch (CvqException ce) {
+                log.error ce.getMessage()
+                requestAdaptorService.stepState(cRequest.stepStates?.get(currentStep), 'invalid',
+                        message(code:ExceptionUtils.getModelI18nKey(ce), args:ExceptionUtils.getModelI18nArgs(ce)))
             }
         }
         def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)}/edit"
@@ -181,6 +192,12 @@ class FrontofficeRequestController {
             'displayChildrenInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayChildrenInAccountCreation(),
             'displayTutorsInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayTutorsInAccountCreation(),
         ]
+    }
+
+    def checkCaptcha (params) {
+        if (SecurityContext.currentEcitizen == null
+            && !jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText))
+            throw new CvqException(message(code:"request.step.validation.error.captcha"))
     }
 
     def condition = {
@@ -233,8 +250,11 @@ class FrontofficeRequestController {
             requestWorkflowService.delete(Long.valueOf(params.id))
             redirect(controller:'frontofficeHome')
         } else {
-            def rqt = requestSearchService.getById(Long.valueOf(params.id), false)
-            return ['rqt':requestAdaptorService.prepareRecord(rqt)]
+            return [
+                "rqt" : requestAdaptorService.prepareRecord(
+                    requestSearchService.getById(Long.valueOf(params.id), false)),
+                "from" : params.from
+            ]
         }
     }
 

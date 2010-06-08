@@ -87,7 +87,7 @@
       requestFormTabView : undefined,
       
       init : function() {
-        zcf.RequestCreation.requestFormTabView = new yw.TabView('requestTabView');
+        //zcf.RequestCreation.requestFormTabView = new yw.TabView('requestTabView');
         
         zcf.RequestCreation.clickEvent = new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
         yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);

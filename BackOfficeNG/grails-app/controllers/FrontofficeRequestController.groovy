@@ -147,7 +147,7 @@ class FrontofficeRequestController {
             'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
             'subjects': individualAdaptorService.adaptSubjects(requestWorkflowService.getAuthorizedSubjects(rqt)),
             'meansOfContact': individualAdaptorService.adaptMeansOfContact(meansOfContactService.getAdultEnabledMeansOfContact(SecurityContext.currentEcitizen)),
-            'currentStep': 'firstStep',
+            'currentStep': params.currentStep != null ? params.currentStep : 'firstStep',
             'stepStates': rqt.stepStates?.size() != 0 ? rqt.stepStates : null,
             'missingSteps': requestWorkflowService.getMissingSteps(rqt),
             'documentTypes': [],//documentAdaptorService.getDocumentTypes(rqt, uuidString),
@@ -161,6 +161,7 @@ class FrontofficeRequestController {
         return [
             'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(requestTypeLabel),
             'requestTypeLabel': requestTypeLabel,
+            'requestTypeLabelAsDir' : CapdematUtils.requestTypeLabelAsDir(requestTypeLabel),
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)),
             'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)),
             'customJS' : requestTypeAdaptorService.getCustomJS(requestTypeLabel),

@@ -22,12 +22,6 @@
     </script>
   </head>
   <body>
-    <g:set var="requestTypeInfo">
-      {"label": "${requestTypeLabel}"
-        ,"steps": [  "requester-required",  "nature-required",  "type-required",  "document",  "validation-required"  ]
-      }
-    </g:set>
-    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
     <form action="${createLink(controller:'frontofficeRequestCreation',action:'condition')}"
       method="post" id="conditionsForm">
       <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
@@ -85,10 +79,9 @@
       <ul class="yui-nav">
 
   
-  
-        <li class="${['requester', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
-  
-          <a href="#requester"><em>
+        <li class="${currentStep == 'requester' ? 'selected' : ''}">
+          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'requester'])}">
+          <em>
           <span class="tag-state ${stepStates!= null ? stepStates.requester.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.requester.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -100,10 +93,9 @@
   
 
   
-    
         <li class="${currentStep == 'nature' ? 'selected' : ''}">
-  
-          <a href="#nature"><em>
+          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'nature'])}">
+          <em>
           <span class="tag-state ${stepStates!= null ? stepStates.nature.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.nature.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -115,10 +107,9 @@
   
 
   
-    
         <li class="${currentStep == 'type' ? 'selected' : ''}">
-  
-          <a href="#type"><em>
+          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'type'])}">
+          <em>
           <span class="tag-state ${stepStates!= null ? stepStates.type.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.type.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -132,10 +123,9 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-    
         <li class="${currentStep == 'document' ? 'selected' : ''}">
-  
-          <a href="#document"><em>
+          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'document'])}">
+          <em>
           <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="request.step.document.label" />
@@ -147,10 +137,9 @@
   
 
   
-    
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
-  
-          <a href="#validation"><em>
+          <a href="${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'validation'])}">
+          <em>
           <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
@@ -162,245 +151,22 @@
   
 
 		 </ul>
-		 
+
      <div class="yui-content">
-
-  
-       <div id="requester">
-         <form method="post"  id="stepForm-requester" action="<g:createLink action="step" />">
-           <input type="hidden" name="returnUrl" value="${returnUrl}" />
-           <h3>
-             <span class="tag-state ${stepStates!= null ? stepStates.requester.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.requester.i18nKey : 'request.step.state.uncomplete'}" /></span>
-  
-             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
-  
-             <g:message code="mdr.step.requester.label" />
-             <span><g:message code="mdr.step.requester.desc" /></span>
-             <span class="error">${stepStates?.requester?.errorMsg}</span>
-           </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
-           <div>
-  
-            <g:render template="/frontofficeRequestType/marriageDetailsRequest/requester" />         
-  
-           </div>
-           <div class="error" id="stepForm-requester-error"> </div>
-           <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
-           <input type="hidden" name="uuidString" value="${uuidString}" />
-  
-           <input type="submit" id="submit-step-requester" name="submit-step-requester" class="submit-step" value="${message(code:'action.validate')}" />
-  
-         </form>
-         
-         <g:if test="${helps.requester != null}">       
-         <div class="requestHelp">
-           <h3><g:message code="header.help"/></h3>
-           ${helps.requester}
-         </div>
-         </g:if>
-       </div>  
-  
-
-  
-       <div id="nature">
-         <form method="post"  id="stepForm-nature" action="<g:createLink action="step" />">
-           <input type="hidden" name="returnUrl" value="${returnUrl}" />
-           <h3>
-             <span class="tag-state ${stepStates!= null ? stepStates.nature.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.nature.i18nKey : 'request.step.state.uncomplete'}" /></span>
-  
-             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
-  
-             <g:message code="mdr.step.nature.label" />
-             <span><g:message code="mdr.step.nature.desc" /></span>
-             <span class="error">${stepStates?.nature?.errorMsg}</span>
-           </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
-           <div>
-  
-            <g:render template="/frontofficeRequestType/marriageDetailsRequest/nature" />         
-  
-           </div>
-           <div class="error" id="stepForm-nature-error"> </div>
-           <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
-           <input type="hidden" name="uuidString" value="${uuidString}" />
-  
-           <input type="submit" id="submit-step-nature" name="submit-step-nature" class="submit-step" value="${message(code:'action.validate')}" />
-  
-         </form>
-         
-         <g:if test="${helps.nature != null}">       
-         <div class="requestHelp">
-           <h3><g:message code="header.help"/></h3>
-           ${helps.nature}
-         </div>
-         </g:if>
-       </div>  
-  
-
-  
-       <div id="type">
-         <form method="post"  id="stepForm-type" action="<g:createLink action="step" />">
-           <input type="hidden" name="returnUrl" value="${returnUrl}" />
-           <h3>
-             <span class="tag-state ${stepStates!= null ? stepStates.type.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.type.i18nKey : 'request.step.state.uncomplete'}" /></span>
-  
-             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
-  
-             <g:message code="mdr.step.type.label" />
-             <span><g:message code="mdr.step.type.desc" /></span>
-             <span class="error">${stepStates?.type?.errorMsg}</span>
-           </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
-           <div>
-  
-            <g:render template="/frontofficeRequestType/marriageDetailsRequest/type" />         
-  
-           </div>
-           <div class="error" id="stepForm-type-error"> </div>
-           <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
-           <input type="hidden" name="uuidString" value="${uuidString}" />
-  
-           <input type="submit" id="submit-step-type" name="submit-step-type" class="submit-step" value="${message(code:'action.validate')}" />
-  
-         </form>
-         
-         <g:if test="${helps.type != null}">       
-         <div class="requestHelp">
-           <h3><g:message code="header.help"/></h3>
-           ${helps.type}
-         </div>
-         </g:if>
-       </div>  
-  
-
-  
-        <g:if test="${!documentTypes.isEmpty()}">
-  
-       <div id="document">
-         <form method="post" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="step" />">
-           <input type="hidden" name="returnUrl" value="${returnUrl}" />
-           <h3>
-             <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
-  
-             <g:message code="request.step.document.label" />
-             <span><g:message code="request.step.document.desc" /></span>
-             <span class="error">${stepStates?.document?.errorMsg}</span>
-           </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
-           <div>
-  
-            <g:render template="/frontofficeRequestType/document" />         
-  
-           </div>
-           <div class="error" id="stepForm-document-error"> </div>
-           <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
-           <input type="hidden" name="uuidString" value="${uuidString}" />
-  
-         </form>
-         
-         <g:if test="${helps.document != null}">       
-         <div class="requestHelp">
-           <h3><g:message code="header.help"/></h3>
-           ${helps.document}
-         </div>
-         </g:if>
-       </div>  
-  
-        </g:if>
-  
-
-  
-       <div id="validation">
-         <form method="post"  id="stepForm-validation" action="<g:createLink action="step" />">
-           <input type="hidden" name="returnUrl" value="${returnUrl}" />
-           <h3>
-             <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
-  
-             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
-  
-             <g:message code="request.step.validation.label" />
-             <span><g:message code="request.step.validation.desc" /></span>
-             <span class="error">${stepStates?.validation?.errorMsg}</span>
-           </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
-           <div>
-  
-             <g:if test="${meansOfContact.size() > 0}">
-              <label for="meansOfContact" class="required">
-               <g:message code="request.meansOfContact.chooseMessage"/> *
-              </label>
-              <select id="meansOfContact" name="meansOfContact" class="required ${stepStates != null && stepStates['validation']?.invalidFields?.contains('meansOfContact') ? 'validation-failed' : ''}">
-               <g:each in="${meansOfContact}" var="moc">
-                 <option value="${moc.key}" <g:if test="${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>>${moc.label}</option>
-               </g:each>
-              </select>
-             </g:if>
-             <g:else>
-               <p>${message(code:'request.meansOfContact.message.notAvailable')}</p>
-             </g:else>
-             <div class="summary-box">
-    
-            <g:render template="/frontofficeRequestType/marriageDetailsRequest/validation0" />
-    
-            </div>
-            <h3><g:message code="request.step.note.label" /></h3>
-            <label for="requestNote"><g:message code="request.step.note.desc" /></label>
-            <textarea id="requestNote" name="requestNote" rows="" cols="">${params.requestNote}</textarea>
-            <label><span id="requestNoteLimit"></span></label>
-            <h3><g:message code="request.step.validation.label" /></h3>
-            <g:if test="${!hasHomeFolder}">
-              <g:render template="/frontofficeRequestType/outOfAccountValidation" />
-            </g:if>
-            <div id="useAcceptance" class="${stepStates != null && stepStates['validation']?.invalidFields?.contains('useAcceptance') ? 'validation-failed' : ''}">
-             <input type="checkbox" name="useAcceptance" class="required validate-one-required"
-                    title="${message(code:'request.error.useAcceptanceRequired')}" />
-             <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'use')}" target="blank">
-               <g:message code="request.step.validation.useAcceptance"/>
-             </a>
-           </div>
-  
-           </div>
-           <div class="error" id="stepForm-validation-error"> </div>
-           <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
-           <input type="hidden" name="uuidString" value="${uuidString}" />
-  
-           <g:if test="${missingSteps == null}">
-             <div><strong><g:message code="request.step.validation.allRequiredSteps"/></strong></div>
-           </g:if>
-           <g:elseif test="${missingSteps.size() > 0}">
-             <div>
-               <strong><g:message code="request.step.validation.requiredSteps"/></strong>
-               <ul>
-                 <g:each var="missingStep" in="${missingSteps}">
-                   <li>
-                     <a id="active-tab-${missingStep}" href="#${missingStep}">
-                       <g:message code="mdr.step.${missingStep}.label" />
-                     </a>
-                   </li>
-                 </g:each>
-               </ul>
-             </div>
-           </g:elseif>
-           <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
-  
-         </form>
-         
-         <g:if test="${helps.validation != null}">       
-         <div class="requestHelp">
-           <h3><g:message code="header.help"/></h3>
-           ${helps.validation}
-         </div>
-         </g:if>
-       </div>  
-  
-        
- 	    </div><!-- end yui-content -->
+      <g:set var="requestTypeInfo">
+        {"label": "${requestTypeLabel}"
+          ,"steps": [  "requester-required",  "nature-required",  "type-required",  "document",  "validation-required"  ]
+        }
+      </g:set>
+      <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
+       <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
+       <g:set var="firstStep" value="requester" />
+       <g:set var="currentStep" value="${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
+       <g:set var="requestTypeLabel" value="${requestTypeLabel}" />
+       <g:set var="requestTypeAcronym" value="mdr" />
+       <g:render template="/frontofficeRequestType/step" /> 
+     </div><!-- end yui-content -->
     </div><!-- end requestTabView -->
-  
+
   </body>
 </html>

@@ -30,12 +30,6 @@
     </script>
   </head>
   <body>
-    <g:set var="requestTypeInfo">
-      {"label": "\${requestTypeLabel}"
-        ,"steps": [ <% requestFo.steps.eachWithIndex { step, i -> %> "${step.name}${step.required ? '-required' : ''}"${i < requestFo.steps.size() -1 ? ',': ''} <% } %> ]
-      }
-    </g:set>
-    <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" scope="request" />
     <form action="\${createLink(controller:'frontofficeRequestCreation',action:'condition')}"
       method="post" id="conditionsForm">
       <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
@@ -95,12 +89,9 @@
   <% if (step.name == 'document') { %>
         <g:if test="\${!documentTypes.isEmpty()}">
   <% } %>
-  <% if (i == 0) { %>
-        <li class="\${['${step.name}', 'firstStep'].contains(currentStep) ? 'selected' : ''}">
-  <% } else {%>  
         <li class="\${currentStep == '${step.name}' ? 'selected' : ''}">
-  <% } %>
-          <a href="#${step.name}"><em>
+          <a href="\${createLink(controller:'frontofficeRequestCreation', params:['label':requestTypeLabel,'currentStep':'${step.name}'])}">
+          <em>
           <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
     <% if (step.required) { %>
           <strong>
@@ -116,105 +107,22 @@
   <% } %>
 <% } %>
 		 </ul>
-		 
+
      <div class="yui-content">
-<% requestFo.steps.each { step -> %>
-  <% if (step.name == 'document') { %>
-        <g:if test="\${!documentTypes.isEmpty()}">
-  <% } %>
-       <div id="${step.name}">
-         <form method="post" ${step.name == 'document' ? 'enctype=\"multipart/form-data\"' : ''} id="stepForm-${step.camelCaseName}" action="<g:createLink action="step" />">
-           <input type="hidden" name="returnUrl" value="\${returnUrl}" />
-           <h3>
-             <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
-  <% if (step.required) { %>
-             <span class="tag-state tag-required"><g:message code="request.step.required" /></span>
-  <% } %>
-             <g:message code="${step.i18nPrefix()}.step.${step.name}.label" />
-             <span><g:message code="${step.i18nPrefix()}.step.${step.name}.desc" /></span>
-             <span class="error">\${stepStates?.${step.name}?.errorMsg}</span>
-           </h3>
-           <p class="required-fields-notice"><g:message code="request.message.requiredFieldsNotice"/></p>
-           <div>
-  <% if (step.name == 'validation') { %>
-             <g:if test="\${meansOfContact.size() > 0}">
-              <label for="meansOfContact" class="required">
-               <g:message code="request.meansOfContact.chooseMessage"/> *
-              </label>
-              <select id="meansOfContact" name="meansOfContact" class="required \${stepStates != null && stepStates['validation']?.invalidFields?.contains('meansOfContact') ? 'validation-failed' : ''}">
-               <g:each in="\${meansOfContact}" var="moc">
-                 <option value="\${moc.key}" <g:if test="\${rqt.meansOfContact?.type == moc.key}">selected="selected"</g:if>>\${moc.label}</option>
-               </g:each>
-              </select>
-             </g:if>
-             <g:else>
-               <p>\${message(code:'request.meansOfContact.message.notAvailable')}</p>
-             </g:else>
-             <div class="summary-box">
-    <% requestFo.stepBundles.eachWithIndex { stepBundle, index -> %>
-            <g:render template="/frontofficeRequestType/${requestFo.camelCaseName + '/'}${step.name}${index}" />
-    <% } %>
-            </div>
-            <h3><g:message code="request.step.note.label" /></h3>
-            <label for="requestNote"><g:message code="request.step.note.desc" /></label>
-            <textarea id="requestNote" name="requestNote" rows="" cols="">\${params.requestNote}</textarea>
-            <label><span id="requestNoteLimit"></span></label>
-            <h3><g:message code="request.step.${step.name}.label" /></h3>
-            <g:if test="\${!hasHomeFolder}">
-              <g:render template="/frontofficeRequestType/outOfAccountValidation" />
-            </g:if>
-            <div id="useAcceptance" class="\${stepStates != null && stepStates['validation']?.invalidFields?.contains('useAcceptance') ? 'validation-failed' : ''}">
-             <input type="checkbox" name="useAcceptance" class="required validate-one-required"
-                    title="\${message(code:'request.error.useAcceptanceRequired')}" />
-             <a href="\${createLink(controller:'localAuthorityResource',action:'resource',id:'use')}" target="blank">
-               <g:message code="request.step.validation.useAcceptance"/>
-             </a>
-           </div>
-  <% } else { %>
-            <g:render template="/frontofficeRequestType/${step.name != 'document' ? requestFo.camelCaseName + '/' : ''}${step.name}" />         
-  <% } %>
-           </div>
-           <div class="error" id="stepForm-${step.camelCaseName}-error"> </div>
-           <!-- Input submit-->
-           <input type="hidden" name="requestTypeInfo" value="\${requestTypeInfo}" />
-           <input type="hidden" name="uuidString" value="\${uuidString}" />
-  <% if (step.name == 'validation') { %>
-           <g:if test="\${missingSteps == null}">
-             <div><strong><g:message code="request.step.validation.allRequiredSteps"/></strong></div>
-           </g:if>
-           <g:elseif test="\${missingSteps.size() > 0}">
-             <div>
-               <strong><g:message code="request.step.validation.requiredSteps"/></strong>
-               <ul>
-                 <g:each var="missingStep" in="\${missingSteps}">
-                   <li>
-                     <a id="active-tab-\${missingStep}" href="#\${missingStep}">
-                       <g:message code="${requestFo.acronym}.step.\${missingStep}.label" />
-                     </a>
-                   </li>
-                 </g:each>
-               </ul>
-             </div>
-           </g:elseif>
-           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" class="submit-step" value="\${message(code:'action.send')}" \${missingSteps == null || missingSteps.size() > 0 ? 'disabled=\"disabled\"': ''}/>
-  <% } else if (step.name != 'document') { %>
-           <input type="submit" id="submit-step-${step.camelCaseName}" name="submit-step-${step.camelCaseName}" class="submit-step" value="\${message(code:'action.validate')}" />
-  <% } %>
-         </form>
-         
-         <g:if test="\${helps.${step.name} != null}">       
-         <div class="requestHelp">
-           <h3><g:message code="header.help"/></h3>
-           \${helps.${step.name}}
-         </div>
-         </g:if>
-       </div>  
-  <% if (step.name == 'document') { %>
-        </g:if>
-  <% } %>
-<% } %>        
- 	    </div><!-- end yui-content -->
+      <g:set var="requestTypeInfo">
+        {"label": "\${requestTypeLabel}"
+          ,"steps": [ <% requestFo.steps.eachWithIndex { step, i -> %> "${step.name}${step.required ? '-required' : ''}"${i < requestFo.steps.size() -1 ? ',': ''} <% } %> ]
+        }
+      </g:set>
+      <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" scope="request" />
+       <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" scope="request" />
+       <g:set var="firstStep" value="requester" />
+       <g:set var="currentStep" value="\${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
+       <g:set var="requestTypeLabel" value="\${requestTypeLabel}" />
+       <g:set var="requestTypeAcronym" value="${requestFo.acronym}" />
+       <g:render template="/frontofficeRequestType/step" /> 
+     </div><!-- end yui-content -->
     </div><!-- end requestTabView -->
-  
+
   </body>
 </html>

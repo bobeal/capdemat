@@ -125,6 +125,8 @@
             
 
   
+      <input type="hidden" name="currentCollection" value="${currentCollection}" />
+      <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
       <input type="submit" id="submit-step-resources-dhrNotRealAsset" name="submit-step-resources-dhrNotRealAsset[${collectionIndex}]" value="${message(code:'action.save')}" />
       <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'resources'])}">
         ${message(code:'request.action.cancelCollectionItemEdit')}

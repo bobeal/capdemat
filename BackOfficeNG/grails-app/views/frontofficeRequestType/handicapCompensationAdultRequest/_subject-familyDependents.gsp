@@ -33,6 +33,8 @@
             
 
   
+      <input type="hidden" name="currentCollection" value="${currentCollection}" />
+      <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
       <input type="submit" id="submit-step-subject-familyDependents" name="submit-step-subject-familyDependents[${collectionIndex}]" value="${message(code:'action.save')}" />
       <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'subject'])}">
         ${message(code:'request.action.cancelCollectionItemEdit')}

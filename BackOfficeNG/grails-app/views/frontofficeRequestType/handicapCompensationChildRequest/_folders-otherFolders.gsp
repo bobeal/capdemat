@@ -23,6 +23,8 @@
             
 
   
+      <input type="hidden" name="currentCollection" value="${currentCollection}" />
+      <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
       <input type="submit" id="submit-step-folders-otherFolders" name="submit-step-folders-otherFolders[${collectionIndex}]" value="${message(code:'action.save')}" />
       <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'folders'])}">
         ${message(code:'request.action.cancelCollectionItemEdit')}

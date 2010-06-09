@@ -23,6 +23,8 @@
             
 
   
+      <input type="hidden" name="currentCollection" value="${currentCollection}" />
+      <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
       <input type="submit" id="submit-step-benefits-additionalFee" name="submit-step-benefits-additionalFee[${collectionIndex}]" value="${message(code:'action.save')}" />
       <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'benefits'])}">
         ${message(code:'request.action.cancelCollectionItemEdit')}

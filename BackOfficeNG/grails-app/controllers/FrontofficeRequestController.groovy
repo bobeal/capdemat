@@ -130,7 +130,16 @@ class FrontofficeRequestController {
                     redirect(action:'exit', params:parameters)
                     return
                 } else {
-                    requestWorkflowService.validate(rqt, [params.currentStep], Boolean.valueOf(params.useAcceptance))
+                    requestWorkflowService.validate(rqt, [params.currentStep], false)
+                    if (params.currentCollection != null) {
+                        // hack : reset step to uncomplete,
+                        // to force step validation irrespective of collection elements manipulation
+                        rqt.stepStates[params.currentStep].state = "uncomplete"
+                        // hack : remove collection parameters to go back to step display,
+                        // since collection element is valid (no CvqValidationException)
+                        params.currentCollection = null
+                        params.collectionIndex = null
+                    }
                     if ("complete".equals(rqt.stepStates.get(params.currentStep).state)) {
                         flash.confirmationMessage = message(
                             code : "request.step.message.validated",
@@ -186,6 +195,14 @@ class FrontofficeRequestController {
         requestLockService.lock(id)
         Request rqt = requestSearchService.getById(id, true)
         rqt[params.currentCollection].remove(Integer.valueOf(params.collectionIndex))
+        try {
+            requestWorkflowService.validate(rqt, [params.currentStep], false)
+            // hack : reset step to uncomplete,
+            // to force step validation irrespective of collection elements manipulation
+            rqt.stepStates[params.currentStep].state = "uncomplete"
+        } catch (CvqValidationException e) {
+            // nothing to do, business is in requestWorkflowService
+        }
         redirect(action:'edit', params:['id':params.id, 'currentStep':params.currentStep])
         return false
     }

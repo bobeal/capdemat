@@ -15,12 +15,14 @@ import org.w3c.dom.Node;
 
 import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
+import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.IPluginGenerator;
 import fr.cg95.cvq.generator.UserDocumentation;
 import fr.cg95.cvq.generator.common.CommonStep;
 import fr.cg95.cvq.generator.common.ElementStack;
 import fr.cg95.cvq.generator.common.RequestCommon;
 import fr.cg95.cvq.generator.common.Step;
+import fr.cg95.cvq.generator.plugins.bo.ElementBo;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
@@ -37,6 +39,7 @@ public class FoPlugin implements IPluginGenerator {
     private String startTemplate;
     private String editTemplate;
     private String stepTemplate;
+    private String collectionTemplate;
     private String validationTemplate;
     private String summaryTemplate;
     
@@ -51,10 +54,11 @@ public class FoPlugin implements IPluginGenerator {
             startTemplate = childAttributesMap.getNamedItem("starttemplate").getNodeValue();
             editTemplate = childAttributesMap.getNamedItem("edittemplate").getNodeValue();
             stepTemplate = childAttributesMap.getNamedItem("steptemplate").getNodeValue();
+            collectionTemplate = childAttributesMap.getNamedItem("collectiontemplate").getNodeValue();
             validationTemplate = childAttributesMap.getNamedItem("validationtemplate").getNodeValue();
             summaryTemplate = childAttributesMap.getNamedItem("summarytemplate").getNodeValue();
         } catch (NullPointerException npe) {
-            throw new RuntimeException ("Check fo-plugin.xml <properties outputdir=\"\" edittemplate=\"\" steptemplate=\"\" summarytemplate=\"\"/> configuration tag");
+            throw new RuntimeException ("Check fo-plugin.xml <properties outputdir=\"\" collectiontemplate=\"\" edittemplate=\"\" steptemplate=\"\" summarytemplate=\"\"/> configuration tag");
         }
     }
     
@@ -116,7 +120,18 @@ public class FoPlugin implements IPluginGenerator {
                 }
             }
             logger.warn("endRequest() - step.gsp.tpl OK");
-            
+
+            // <requestType.name>_<collection>.gsp templates
+            template = templateEngine.createTemplate(new File(collectionTemplate));
+            bindingMap = new HashMap<String, Object>();
+            for (ElementFo element: requestFo.getElementsByTypeClass(ElementTypeClass.COLLECTION)) {
+                bindingMap.put("element", element);
+                bindingMap.put("step", element.getStep());
+                template.make(bindingMap).writeTo(
+                        new FileWriter(output + "_" + element.getStep().getName() + "-" + element.getJavaFieldName() + ".gsp"));
+            }
+            logger.warn("endRequest() - collection.gsp.tpl OK");
+
         } catch (CompilationFailedException cfe) {
             logger.error(cfe.getMessage()); 
         } catch (ClassNotFoundException cnfe) {

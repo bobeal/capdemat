@@ -170,6 +170,8 @@ class FrontofficeRequestController {
             'subjects': individualAdaptorService.adaptSubjects(requestWorkflowService.getAuthorizedSubjects(rqt)),
             'meansOfContact': individualAdaptorService.adaptMeansOfContact(meansOfContactService.getAdultEnabledMeansOfContact(SecurityContext.currentEcitizen)),
             'currentStep': params.currentStep != null ? params.currentStep : 'firstStep',
+            'currentCollection': params.currentCollection,
+            'collectionIndex': params.collectionIndex ? Integer.valueOf(params.collectionIndex) : null,
             'missingSteps': requestWorkflowService.getMissingSteps(rqt),
             'documentTypes': [],//documentAdaptorService.getDocumentTypes(rqt, uuidString),
             'isDocumentEditMode': false,
@@ -189,6 +191,22 @@ class FrontofficeRequestController {
             'displayChildrenInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayChildrenInAccountCreation(),
             'displayTutorsInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayTutorsInAccountCreation(),
         ]
+    }
+
+    def collectionRemove = {
+        Request rqt
+        if (params.id) {
+            def id = Long.valueOf(params.id)
+            requestLockService.lock(id)
+            rqt = requestSearchService.getById(id, true)
+        }
+        if (rqt == null) {
+            redirect(uri: '/frontoffice/requestType')
+            return false
+        }
+        rqt[params.currentCollection].remove(Integer.valueOf(params.collectionIndex))
+        redirect(action:'edit', params:['id':params.id, 'currentStep':params.currentStep])
+        return false
     }
 
     def checkCaptcha (params) {

@@ -116,7 +116,7 @@
      </h3>
      <p class="required-fields-notice">${message(code:'request.message.requiredFieldsNotice')}</p>
      <div>
-      <g:render template="/frontofficeRequestType/${requestTypeLabelAsDir}/${currentStep}" />
+      <g:render template="/frontofficeRequestType/${requestTypeLabelAsDir}/${currentStep}${currentCollection ? '-' + currentCollection : ''}" />
      </div>
      <div class="error" id="stepForm-${currentStep}-error"> </div>
      <!-- Input submit-->

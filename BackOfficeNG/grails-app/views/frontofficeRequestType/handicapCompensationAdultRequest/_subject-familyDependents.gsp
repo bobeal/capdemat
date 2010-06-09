@@ -1,0 +1,42 @@
+
+
+  <label class="required condition-isFamilyDependents-filled"><g:message code="hcar.property.familyDependents.label" /> <span><g:message code="hcar.property.familyDependents.help" /></span></label>
+  <div class="collection-fieldset required condition-isFamilyDependents-filled validation-scope summary-box">
+    <fieldset class="collection-fieldset-add required condition-isFamilyDependents-filled">
+    <g:set var="currentCollectionItem" value="${rqt?.familyDependents.size() > collectionIndex ? rqt.familyDependents.get(collectionIndex) : null}" />
+  
+      <label for="familyDependents.${collectionIndex}.familyDependentLastName" class="required"><g:message code="hcar.property.familyDependentLastName.label" /> *  <span><g:message code="hcar.property.familyDependentLastName.help" /></span></label>
+            <input type="text" id="familyDependents.${collectionIndex}.familyDependentLastName" name="familyDependents[${collectionIndex}].familyDependentLastName" value="${currentCollectionItem?.familyDependentLastName?.toString()}" 
+                    class="required  validate-lastName ${rqt.stepStates['subject'].invalidFields.contains('familyDependents.familyDependentLastName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentLastName.validationError" />"  maxlength="38" />
+            
+
+  
+      <label for="familyDependents.${collectionIndex}.familyDependentFirstName" class="required"><g:message code="hcar.property.familyDependentFirstName.label" /> *  <span><g:message code="hcar.property.familyDependentFirstName.help" /></span></label>
+            <input type="text" id="familyDependents.${collectionIndex}.familyDependentFirstName" name="familyDependents[${collectionIndex}].familyDependentFirstName" value="${currentCollectionItem?.familyDependentFirstName?.toString()}" 
+                    class="required  validate-firstName ${rqt.stepStates['subject'].invalidFields.contains('familyDependents.familyDependentFirstName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentFirstName.validationError" />"  maxlength="38" />
+            
+
+  
+      <label for="familyDependents.${collectionIndex}.familyDependentBirthDate" class="required"><g:message code="hcar.property.familyDependentBirthDate.label" /> *  <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
+            <input type="text" id="familyDependents.${collectionIndex}.familyDependentBirthDate" name="familyDependents[${collectionIndex}].familyDependentBirthDate" value="${formatDate(formatName:'format.date',date:currentCollectionItem?.familyDependentBirthDate)}" 
+                   class="required  validate-date ${rqt.stepStates['subject'].invalidFields.contains('familyDependents.familyDependentBirthDate') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentBirthDate.validationError" />" />
+            
+
+  
+      <label for="familyDependents.${collectionIndex}.familyDependentActualSituation" class="required"><g:message code="hcar.property.familyDependentActualSituation.label" /> *  <span><g:message code="hcar.property.familyDependentActualSituation.help" /></span></label>
+            <select id="familyDependents.${collectionIndex}.familyDependentActualSituation" name="familyDependents[${collectionIndex}].familyDependentActualSituation" class="required  validate-not-first ${rqt.stepStates['subject'].invalidFields.contains('familyDependents.familyDependentActualSituation') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentActualSituation.validationError" />">
+              <option value=""><g:message code="message.select.defaultOption" /></option>
+              <g:each in="${['Schooling','Learning','MedicoSocial']}">
+                <option value="fr.cg95.cvq.business.request.social.HcarFamilyDependentActualSituationType_${it}" ${it == currentCollectionItem?.familyDependentActualSituation?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" /></option>
+              </g:each>
+            </select>
+            
+
+  
+      <input type="submit" id="submit-step-subject-familyDependents" name="submit-step-subject-familyDependents[${collectionIndex}]" value="${message(code:'action.save')}" />
+      <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'subject'])}">
+        ${message(code:'request.action.cancelCollectionItemEdit')}
+      </a>  
+    </fieldset>
+</div>
+  

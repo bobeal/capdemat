@@ -1,7 +1,7 @@
 <%
   def displayWidget(element, valuePrefix, namePrefix) {
       def IdRefNamePrefix = namePrefix.replace('[','.').replace(']','')
-      def validationNamePrefix = namePrefix.replaceAll("\\[\\\$\\{listIndex\\}\\]", "")
+      def validationNamePrefix = namePrefix.replaceAll("\\[\\\$\\{collectionIndex\\}\\]", "")
       def widgets = [
         'boolean' : 
             """
@@ -280,19 +280,10 @@
 <% elementList.each { element -> %>
   <% if (element.typeClass == "COLLECTION") { %>
     <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
-    <div class="collection-fieldset ${element.listenerConditionsClass} validation-scope summary-box">
-      <g:set var="listIndex" value="\${editList?.name == '${element.javaFieldName}' ? editList?.index : ( rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0 ) }" />
-      <fieldset class="collection-fieldset-add ${element.conditionsClass}">
-    <% element.elements.each { subElement -> %>
-        <% displayWidget(subElement, 'editList?.' + element.javaFieldName + '?', element.javaFieldName + '[${listIndex}].' ) %>
-    <% } %>
-        <g:if test="\${editList?.name == '${element.javaFieldName}'}">
-          <input type="submit" id="submit-collectionModify-${step.name}-${element.javaFieldName}" name="submit-collectionModify-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.save')}" />
-        </g:if>
-        <g:else>
-          <input type="submit" id="submit-collectionAdd-${step.name}-${element.javaFieldName}" name="submit-collectionAdd-${step.name}-${element.javaFieldName}[\${listIndex}]" value="\${message(code:'action.add')}" />
-        </g:else>
-      </fieldset>
+    <div class="collection-fieldset ${element.listenerConditionsClass} summary-box">
+    <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':(rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0)])}" />
+      \${message(code:'request.action.newCollectionItem')}
+    </a>
     <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
       <fieldset class="collection-fieldset-edit">
         <dl>
@@ -301,8 +292,12 @@
         <% displayStaticWidget(subElement, 'it') %>
     <% } %>
         </dl>
-        <input type="submit" value="\${message(code:'action.modify')}" name="submit-collectionEdit-${step.name}-${element.javaFieldName}[\${index}]" />
-        <input type="submit" value="\${message(code:'action.remove')}" name="submit-collectionDelete-${step.name}-${element.javaFieldName}[\${index}]" />
+         <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':index])}">
+           \${message(code:'request.action.editCollectionItem')}
+         </a>
+         <a href="\${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':index])}">
+           \${message(code:'request.action.deleteCollectionItem')}
+         </a>
       </fieldset>
     </g:each>
     </div>

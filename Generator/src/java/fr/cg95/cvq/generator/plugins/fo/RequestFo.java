@@ -13,6 +13,7 @@ import fr.cg95.cvq.generator.ElementTypeClass;
 import fr.cg95.cvq.generator.common.CommonStep;
 import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.common.Widget;
+import fr.cg95.cvq.generator.plugins.bo.ElementBo;
 
 /**
  * @author rdj@zenexity.fr
@@ -74,7 +75,15 @@ public class RequestFo {
             elements = new ArrayList<ElementFo>();
         elements.add(element);
     }
-    
+
+    public List<ElementFo> getElementsByTypeClass(ElementTypeClass typeClass) {
+        List<ElementFo> typeClassElements = new ArrayList<ElementFo>();
+        for (ElementFo element : elements)
+            if (element.getTypeClass().equals(typeClass.toString()))
+                typeClassElements.add(element);
+        return typeClassElements;
+    }
+
     public List<ElementFo> getElementsByStep(Step step) {
         if (stepElementsCache.containsKey(step.getName()))
             return stepElementsCache.get(step.getName());

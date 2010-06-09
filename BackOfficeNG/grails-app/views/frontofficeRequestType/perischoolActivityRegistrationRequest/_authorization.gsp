@@ -3,66 +3,10 @@
 
   
     <label class=""><g:message code="parr.property.authorizedIndividuals.label" /> <span><g:message code="parr.property.authorizedIndividuals.help" /></span></label>
-    <div class="collection-fieldset  validation-scope summary-box">
-      <g:set var="listIndex" value="${editList?.name == 'authorizedIndividuals' ? editList?.index : ( rqt.authorizedIndividuals ? rqt.authorizedIndividuals.size() : 0 ) }" />
-      <fieldset class="collection-fieldset-add ">
-    
-        <label for="authorizedIndividuals.${listIndex}.lastName" class="required"><g:message code="parr.property.lastName.label" /> *  <span><g:message code="parr.property.lastName.help" /></span></label>
-            <input type="text" id="authorizedIndividuals.${listIndex}.lastName" name="authorizedIndividuals[${listIndex}].lastName" value="${editList?.authorizedIndividuals?.lastName?.toString()}" 
-                    class="required  validate-lastName ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.lastName') ? 'validation-failed' : ''}" title="<g:message code="parr.property.lastName.validationError" />"  maxlength="38" />
-            
-
-    
-        <label for="authorizedIndividuals.${listIndex}.firstName" class="required"><g:message code="parr.property.firstName.label" /> *  <span><g:message code="parr.property.firstName.help" /></span></label>
-            <input type="text" id="authorizedIndividuals.${listIndex}.firstName" name="authorizedIndividuals[${listIndex}].firstName" value="${editList?.authorizedIndividuals?.firstName?.toString()}" 
-                    class="required  validate-firstName ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.firstName') ? 'validation-failed' : ''}" title="<g:message code="parr.property.firstName.validationError" />"  maxlength="38" />
-            
-
-    
-        <label class="required"><g:message code="parr.property.address.label" /> *  <span><g:message code="parr.property.address.help" /></span></label>
-            <div id="authorizedIndividuals.${listIndex}.address" class="address-fieldset required  ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.address') ? 'validation-failed' : ''}">
-            <label for="authorizedIndividuals.${listIndex}.address.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
-            <input type="text" class="validate-addressLine38 ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.address.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${editList?.authorizedIndividuals?.address?.additionalDeliveryInformation}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.additionalDeliveryInformation" name="authorizedIndividuals[${listIndex}].address.additionalDeliveryInformation" />  
-            <label for="authorizedIndividuals.${listIndex}.address.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
-            <input type="text" class="validate-addressLine38 ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.address.additionalGeographicalInformation') ? 'validation-failed' : ''}" value="${editList?.authorizedIndividuals?.address?.additionalGeographicalInformation}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.additionalGeographicalInformation" name="authorizedIndividuals[${listIndex}].address.additionalGeographicalInformation" />
-            <label for="authorizedIndividuals.${listIndex}.address_streetNumber"><g:message code="address.property.streetNumber" /></label> - 
-            <label for="authorizedIndividuals.${listIndex}.address_streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-            <input type="text" class="line1 validate-streetNumber ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.address.streetNumber') ? 'validation-failed' : ''}" value="${editList?.authorizedIndividuals?.address?.streetNumber}" size="5" maxlength="5" id="authorizedIndividuals.${listIndex}.address_streetNumber" name="authorizedIndividuals[${listIndex}].address.streetNumber" />
-            <input type="text" class="line2 required validate-streetName ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.address.streetName') ? 'validation-failed' : ''}" value="${editList?.authorizedIndividuals?.address?.streetName}" maxlength="32" id="authorizedIndividuals.${listIndex}.address_streetName" name="authorizedIndividuals[${listIndex}].address.streetName" title="<g:message code="address.property.streetName.validationError" />" />
-            <input type="hidden" value="${editList?.authorizedIndividuals?.address?.streetMatriculation}" id="authorizedIndividuals.${listIndex}.address_streetMatriculation" name="authorizedIndividuals.${listIndex}.address.streetMatriculation" />
-            <input type="hidden" value="${editList?.authorizedIndividuals?.address?.streetRivoliCode}" id="authorizedIndividuals.${listIndex}.address_streetRivoliCode" name="authorizedIndividuals.${listIndex}.address.streetRivoliCode" />
-            <label for="authorizedIndividuals.${listIndex}.address.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>
-            <input type="text" class="validate-addressLine38 ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.address.placeNameOrService') ? 'validation-failed' : ''}" value="${editList?.authorizedIndividuals?.address?.placeNameOrService}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.placeNameOrService" name="authorizedIndividuals[${listIndex}].address.placeNameOrService" />
-            <label for="authorizedIndividuals.${listIndex}.address_postalCode" class="required"><g:message code="address.property.postalCode" /> * </label> - 
-            <label for="authorizedIndividuals.${listIndex}.address_city" class="required"><g:message code="address.property.city" /> *</label><br />
-            <input type="text" class="line1 required validate-postalCode ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.address.postalCode') ? 'validation-failed' : ''}" value="${editList?.authorizedIndividuals?.address?.postalCode}" size="5" maxlength="5" id="authorizedIndividuals.${listIndex}.address_postalCode" name="authorizedIndividuals[${listIndex}].address.postalCode" title="<g:message code="address.property.postalCode.validationError" />" />
-            <input type="text" class="line2 required validate-city ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.address.city') ? 'validation-failed' : ''}" value="${editList?.authorizedIndividuals?.address?.city}" maxlength="32" id="authorizedIndividuals.${listIndex}.address_city" name="authorizedIndividuals[${listIndex}].address.city" title="<g:message code="address.property.city.validationError" />" />
-            <input type="hidden" value="${editList?.authorizedIndividuals?.address?.cityInseeCode}" id="authorizedIndividuals.${listIndex}.address_cityInseeCode" name="authorizedIndividuals.${listIndex}.address.cityInseeCode" />
-            <label for="authorizedIndividuals.${listIndex}.address.countryName"><g:message code="address.property.countryName" /></label>
-            <input type="text" class="validate-addressLine38 ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.address.countryName') ? 'validation-failed' : ''}" value="${editList?.authorizedIndividuals?.address?.countryName}" maxlength="38" id="authorizedIndividuals.${listIndex}.address.countryName" name="authorizedIndividuals[${listIndex}].address.countryName" />
-            </div>
-            
-
-    
-        <label for="authorizedIndividuals.${listIndex}.homePhone" class=""><g:message code="parr.property.homePhone.label" />   <span><g:message code="parr.property.homePhone.help" /></span></label>
-            <input type="text" id="authorizedIndividuals.${listIndex}.homePhone" name="authorizedIndividuals[${listIndex}].homePhone" value="${editList?.authorizedIndividuals?.homePhone?.toString()}" 
-                    class="  validate-phone ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.homePhone') ? 'validation-failed' : ''}" title="<g:message code="parr.property.homePhone.validationError" />"  maxlength="10" />
-            
-
-    
-        <label for="authorizedIndividuals.${listIndex}.officePhone" class=""><g:message code="parr.property.officePhone.label" />   <span><g:message code="parr.property.officePhone.help" /></span></label>
-            <input type="text" id="authorizedIndividuals.${listIndex}.officePhone" name="authorizedIndividuals[${listIndex}].officePhone" value="${editList?.authorizedIndividuals?.officePhone?.toString()}" 
-                    class="  validate-phone ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals.officePhone') ? 'validation-failed' : ''}" title="<g:message code="parr.property.officePhone.validationError" />"  maxlength="10" />
-            
-
-    
-        <g:if test="${editList?.name == 'authorizedIndividuals'}">
-          <input type="submit" id="submit-collectionModify-authorization-authorizedIndividuals" name="submit-collectionModify-authorization-authorizedIndividuals[${listIndex}]" value="${message(code:'action.save')}" />
-        </g:if>
-        <g:else>
-          <input type="submit" id="submit-collectionAdd-authorization-authorizedIndividuals" name="submit-collectionAdd-authorization-authorizedIndividuals[${listIndex}]" value="${message(code:'action.add')}" />
-        </g:else>
-      </fieldset>
+    <div class="collection-fieldset  summary-box">
+    <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'authorization', 'currentCollection':'authorizedIndividuals', 'collectionIndex':(rqt.authorizedIndividuals ? rqt.authorizedIndividuals.size() : 0)])}" />
+      ${message(code:'request.action.newCollectionItem')}
+    </a>
     <g:each var="it" in="${rqt.authorizedIndividuals}" status="index">
       <fieldset class="collection-fieldset-edit">
         <dl>
@@ -94,8 +38,12 @@
         <dd>${it.officePhone?.toString()}</dd>
     
         </dl>
-        <input type="submit" value="${message(code:'action.modify')}" name="submit-collectionEdit-authorization-authorizedIndividuals[${index}]" />
-        <input type="submit" value="${message(code:'action.remove')}" name="submit-collectionDelete-authorization-authorizedIndividuals[${index}]" />
+         <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'authorization', 'currentCollection':'authorizedIndividuals', 'collectionIndex':index])}">
+           ${message(code:'request.action.editCollectionItem')}
+         </a>
+         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'authorization', 'currentCollection':'authorizedIndividuals', 'collectionIndex':index])}">
+           ${message(code:'request.action.deleteCollectionItem')}
+         </a>
       </fieldset>
     </g:each>
     </div>

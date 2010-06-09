@@ -700,9 +700,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN, ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<String> getMissingSteps(Request request) {
-        if (request.getStepStates() == null || request.getStepStates().size() == 0) {
-            return null;
-        }
         List<String> result = new ArrayList<String>();
         for (Map.Entry<String, Map<String, Object>> stepState : request.getStepStates().entrySet()) {
             if ((Boolean)stepState.getValue().get("required")

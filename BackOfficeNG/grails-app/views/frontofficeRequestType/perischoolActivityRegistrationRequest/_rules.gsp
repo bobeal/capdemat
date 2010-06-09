@@ -10,7 +10,7 @@
                 </g:if>
                 <span><g:message code="parr.property.rulesAndRegulationsAcceptance.help" /></span>
               </label>
-              <ul class="yes-no required ${stepStates != null && stepStates['rules']?.invalidFields?.contains('rulesAndRegulationsAcceptance') ? 'validation-failed' : ''}">
+              <ul class="yes-no required ${rqt.stepStates['rules'].invalidFields.contains('rulesAndRegulationsAcceptance') ? 'validation-failed' : ''}">
                 <g:each in="${[true,false]}">
                   <li>
                     <input type="radio" id="rulesAndRegulationsAcceptance_${it ? 'yes' : 'no'}" class="required  validate-acceptance" title="" value="${it}" name="rulesAndRegulationsAcceptance" ${it == rqt.rulesAndRegulationsAcceptance ? 'checked="checked"': ''} />
@@ -31,7 +31,7 @@
                 </g:if>
                 <span><g:message code="parr.property.classTripPermission.help" /></span>
               </label>
-              <ul class="yes-no required ${stepStates != null && stepStates['rules']?.invalidFields?.contains('classTripPermission') ? 'validation-failed' : ''}">
+              <ul class="yes-no required ${rqt.stepStates['rules'].invalidFields.contains('classTripPermission') ? 'validation-failed' : ''}">
                 <g:each in="${[true,false]}">
                   <li>
                     <input type="radio" id="classTripPermission_${it ? 'yes' : 'no'}" class="required  validate-acceptance" title="" value="${it}" name="classTripPermission" ${it == rqt.classTripPermission ? 'checked="checked"': ''} />
@@ -52,7 +52,7 @@
                 </g:if>
                 <span><g:message code="parr.property.childPhotoExploitationPermission.help" /></span>
               </label>
-              <ul class="yes-no required ${stepStates != null && stepStates['rules']?.invalidFields?.contains('childPhotoExploitationPermission') ? 'validation-failed' : ''}">
+              <ul class="yes-no required ${rqt.stepStates['rules'].invalidFields.contains('childPhotoExploitationPermission') ? 'validation-failed' : ''}">
                 <g:each in="${[true,false]}">
                   <li>
                     <input type="radio" id="childPhotoExploitationPermission_${it ? 'yes' : 'no'}" class="required  validate-acceptance" title="" value="${it}" name="childPhotoExploitationPermission" ${it == rqt.childPhotoExploitationPermission ? 'checked="checked"': ''} />
@@ -73,7 +73,7 @@
                 </g:if>
                 <span><g:message code="parr.property.hospitalizationPermission.help" /></span>
               </label>
-              <ul class="yes-no required ${stepStates != null && stepStates['rules']?.invalidFields?.contains('hospitalizationPermission') ? 'validation-failed' : ''}">
+              <ul class="yes-no required ${rqt.stepStates['rules'].invalidFields.contains('hospitalizationPermission') ? 'validation-failed' : ''}">
                 <g:each in="${[true,false]}">
                   <li>
                     <input type="radio" id="hospitalizationPermission_${it ? 'yes' : 'no'}" class="required  validate-acceptance" title="" value="${it}" name="hospitalizationPermission" ${it == rqt.hospitalizationPermission ? 'checked="checked"': ''} />

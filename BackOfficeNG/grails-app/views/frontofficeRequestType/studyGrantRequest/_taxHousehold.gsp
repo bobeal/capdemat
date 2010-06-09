@@ -4,7 +4,7 @@
   
     <label for="taxHouseholdLastName" class="required"><g:message code="sgr.property.taxHouseholdLastName.label" /> *  <span><g:message code="sgr.property.taxHouseholdLastName.help" /></span></label>
             <input type="text" id="taxHouseholdLastName" name="taxHouseholdLastName" value="${rqt.taxHouseholdLastName?.toString()}" 
-                    class="required  validate-lastName ${stepStates != null && stepStates['taxHousehold']?.invalidFields?.contains('taxHouseholdLastName') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.taxHouseholdLastName.validationError" />"  maxlength="38" />
+                    class="required  validate-lastName ${rqt.stepStates['taxHousehold'].invalidFields.contains('taxHouseholdLastName') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.taxHouseholdLastName.validationError" />"  maxlength="38" />
             
 
   
@@ -12,7 +12,7 @@
   
     <label for="taxHouseholdFirstName" class="required"><g:message code="sgr.property.taxHouseholdFirstName.label" /> *  <span><g:message code="sgr.property.taxHouseholdFirstName.help" /></span></label>
             <input type="text" id="taxHouseholdFirstName" name="taxHouseholdFirstName" value="${rqt.taxHouseholdFirstName?.toString()}" 
-                    class="required  validate-firstName ${stepStates != null && stepStates['taxHousehold']?.invalidFields?.contains('taxHouseholdFirstName') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.taxHouseholdFirstName.validationError" />"  maxlength="38" />
+                    class="required  validate-firstName ${rqt.stepStates['taxHousehold'].invalidFields.contains('taxHouseholdFirstName') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.taxHouseholdFirstName.validationError" />"  maxlength="38" />
             
 
   
@@ -30,7 +30,7 @@
   
     <label for="taxHouseholdCityPrecision" class="required condition-isTaxHouseholdCityOther-filled"><g:message code="sgr.property.taxHouseholdCityPrecision.label" /> *  <span><g:message code="sgr.property.taxHouseholdCityPrecision.help" /></span></label>
             <input type="text" id="taxHouseholdCityPrecision" name="taxHouseholdCityPrecision" value="${rqt.taxHouseholdCityPrecision?.toString()}" 
-                    class="required condition-isTaxHouseholdCityOther-filled  validate-string ${stepStates != null && stepStates['taxHousehold']?.invalidFields?.contains('taxHouseholdCityPrecision') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.taxHouseholdCityPrecision.validationError" />"   />
+                    class="required condition-isTaxHouseholdCityOther-filled  validate-string ${rqt.stepStates['taxHousehold'].invalidFields.contains('taxHouseholdCityPrecision') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.taxHouseholdCityPrecision.validationError" />"   />
             
 
   
@@ -38,7 +38,7 @@
   
     <label for="taxHouseholdIncome" class="required"><g:message code="sgr.property.taxHouseholdIncome.label" /> *  <span><g:message code="sgr.property.taxHouseholdIncome.help" /></span></label>
             <input type="text" id="taxHouseholdIncome" name="taxHouseholdIncome" value="${rqt.taxHouseholdIncome?.toString()}" 
-                    class="required  validate-regex ${stepStates != null && stepStates['taxHousehold']?.invalidFields?.contains('taxHouseholdIncome') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.taxHouseholdIncome.validationError" />" regex="^\d+(?:\.\d{1,2})?$"  />
+                    class="required  validate-regex ${rqt.stepStates['taxHousehold'].invalidFields.contains('taxHouseholdIncome') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.taxHouseholdIncome.validationError" />" regex="^\d+(?:\.\d{1,2})?$"  />
             
 
   

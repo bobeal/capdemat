@@ -61,9 +61,7 @@
         <g:message code="action.cancel"/>
       </a>
     </g:if>
-    
-    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
-    
+
     <h2 class="request-creation"> <g:message code="rarr.label" /></h2>
     <p><g:message code="rarr.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="rarr.duration.value" /></strong></p>
@@ -86,7 +84,7 @@
         <li class="${currentStep == 'registration' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'registration'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.registration.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.registration.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.registration.state}"><g:message code="request.step.state.${rqt.stepStates.registration.state}" /></span>
     
           <strong>
             <g:message code="rarr.step.registration.label" /> *
@@ -100,7 +98,7 @@
         <li class="${currentStep == 'contact' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'contact'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.contact.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.contact.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.contact.state}"><g:message code="request.step.state.${rqt.stepStates.contact.state}" /></span>
     
           <g:message code="rarr.step.contact.label" />
             
@@ -112,7 +110,7 @@
         <li class="${currentStep == 'authorization' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'authorization'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.authorization.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.authorization.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.authorization.state}"><g:message code="request.step.state.${rqt.stepStates.authorization.state}" /></span>
     
           <g:message code="rarr.step.authorization.label" />
             
@@ -124,7 +122,7 @@
         <li class="${currentStep == 'rules' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'rules'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.rules.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.rules.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.rules.state}"><g:message code="request.step.state.${rqt.stepStates.rules.state}" /></span>
     
           <strong>
             <g:message code="rarr.step.rules.label" /> *
@@ -140,7 +138,7 @@
         <li class="${currentStep == 'document' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.document.state}"><g:message code="request.step.state.${rqt.stepStates.document.state}" /></span>
     
           <g:message code="request.step.document.label" />
             
@@ -154,7 +152,7 @@
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.validation.state}"><g:message code="request.step.state.${rqt.stepStates.validation.state}" /></span>
     
           <strong>
             <g:message code="request.step.validation.label" /> *
@@ -167,17 +165,10 @@
 		 </ul>
 
      <div class="yui-content">
-      <g:set var="requestTypeInfo">
-        {"label": "${requestTypeLabel}"
-          ,"steps": [  "registration-required",  "contact",  "authorization",  "rules-required",  "document",  "validation-required"  ]
-        }
-      </g:set>
-      <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
-       <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
        <g:set var="firstStep" value="registration" />
        <g:set var="currentStep" value="${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
        <g:set var="requestTypeLabel" value="${requestTypeLabel}" />
-       <g:set var="requestTypeAcronym" value="rarr" />
+       <g:set var="requestTypeAcronym" value="rarr" scope="request" />
        <g:render template="/frontofficeRequestType/step" /> 
      </div><!-- end yui-content -->
     </div><!-- end requestTabView -->

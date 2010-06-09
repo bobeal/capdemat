@@ -156,6 +156,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.joda.time.LocalTime;
@@ -190,6 +191,15 @@ public class ${requestName} extends Request implements Serializable {
     public ${requestName}() {
         super();
         this.${returnInstance}Data = new ${requestName}Data();
+        Map<String, Object> stepState;
+        <% request.steps.each { %>
+          stepState = new HashMap<String, Object>(4);
+          stepState.put("state", "uncomplete");
+          stepState.put("required", ${it.required});
+          stepState.put("errorMsg", null);
+          stepState.put("invalidFields", new ArrayList<String>());
+          getStepStates().put("${it.name}", stepState);
+        <% } %>
     }
 
     /**

@@ -254,6 +254,8 @@ public class ModelPlugin implements IPluginGenerator {
                 NamedNodeMap applicationAttributesMap = applicationNode.getAttributes();
                 modelRequestObject.setRequestNamespaceLastParticle(
                     applicationAttributesMap.getNamedItem("namespace").getNodeValue());
+            } else {
+                modelRequestObject.setSteps(applicationDocumentation.getRequestCommon().getSteps());
             }
         } else {
             // at the request elements level

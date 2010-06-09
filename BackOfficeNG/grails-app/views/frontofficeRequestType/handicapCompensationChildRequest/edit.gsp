@@ -61,9 +61,7 @@
         <g:message code="action.cancel"/>
       </a>
     </g:if>
-    
-    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
-    
+
     <h2 class="request-creation"> <g:message code="hccr.label" /></h2>
     <p><g:message code="hccr.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="hccr.duration.value" /></strong></p>
@@ -86,7 +84,7 @@
         <li class="${currentStep == 'subject' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'subject'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.subject.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.subject.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.subject.state}"><g:message code="request.step.state.${rqt.stepStates.subject.state}" /></span>
     
           <strong>
             <g:message code="hccr.step.subject.label" /> *
@@ -100,7 +98,7 @@
         <li class="${currentStep == 'dwelling' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'dwelling'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.dwelling.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.dwelling.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.dwelling.state}"><g:message code="request.step.state.${rqt.stepStates.dwelling.state}" /></span>
     
           <strong>
             <g:message code="hccr.step.dwelling.label" /> *
@@ -114,7 +112,7 @@
         <li class="${currentStep == 'socialSecurityAndPaymentAgency' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'socialSecurityAndPaymentAgency'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.socialSecurityAndPaymentAgency.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.socialSecurityAndPaymentAgency.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.socialSecurityAndPaymentAgency.state}"><g:message code="request.step.state.${rqt.stepStates.socialSecurityAndPaymentAgency.state}" /></span>
     
           <strong>
             <g:message code="hccr.step.socialSecurityAndPaymentAgency.label" /> *
@@ -128,7 +126,7 @@
         <li class="${currentStep == 'occupationnalAndSchoolStatus' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'occupationnalAndSchoolStatus'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.occupationnalAndSchoolStatus.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.occupationnalAndSchoolStatus.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.occupationnalAndSchoolStatus.state}"><g:message code="request.step.state.${rqt.stepStates.occupationnalAndSchoolStatus.state}" /></span>
     
           <strong>
             <g:message code="hccr.step.occupationnalAndSchoolStatus.label" /> *
@@ -142,7 +140,7 @@
         <li class="${currentStep == 'folders' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'folders'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.folders.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.folders.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.folders.state}"><g:message code="request.step.state.${rqt.stepStates.folders.state}" /></span>
     
           <strong>
             <g:message code="hccr.step.folders.label" /> *
@@ -156,7 +154,7 @@
         <li class="${currentStep == 'benefits' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'benefits'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.benefits.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.benefits.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.benefits.state}"><g:message code="request.step.state.${rqt.stepStates.benefits.state}" /></span>
     
           <strong>
             <g:message code="hccr.step.benefits.label" /> *
@@ -170,7 +168,7 @@
         <li class="${currentStep == 'aid' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'aid'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.aid.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.aid.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.aid.state}"><g:message code="request.step.state.${rqt.stepStates.aid.state}" /></span>
     
           <strong>
             <g:message code="hccr.step.aid.label" /> *
@@ -184,7 +182,7 @@
         <li class="${currentStep == 'health' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'health'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.health.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.health.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.health.state}"><g:message code="request.step.state.${rqt.stepStates.health.state}" /></span>
     
           <strong>
             <g:message code="hccr.step.health.label" /> *
@@ -198,7 +196,7 @@
         <li class="${currentStep == 'project' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'project'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.project.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.project.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.project.state}"><g:message code="request.step.state.${rqt.stepStates.project.state}" /></span>
     
           <strong>
             <g:message code="hccr.step.project.label" /> *
@@ -214,7 +212,7 @@
         <li class="${currentStep == 'document' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.document.state}"><g:message code="request.step.state.${rqt.stepStates.document.state}" /></span>
     
           <g:message code="request.step.document.label" />
             
@@ -228,7 +226,7 @@
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.validation.state}"><g:message code="request.step.state.${rqt.stepStates.validation.state}" /></span>
     
           <strong>
             <g:message code="request.step.validation.label" /> *
@@ -241,17 +239,10 @@
 		 </ul>
 
      <div class="yui-content">
-      <g:set var="requestTypeInfo">
-        {"label": "${requestTypeLabel}"
-          ,"steps": [  "subject-required",  "dwelling-required",  "socialSecurityAndPaymentAgency-required",  "occupationnalAndSchoolStatus-required",  "folders-required",  "benefits-required",  "aid-required",  "health-required",  "project-required",  "document",  "validation-required"  ]
-        }
-      </g:set>
-      <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
-       <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
        <g:set var="firstStep" value="subject" />
        <g:set var="currentStep" value="${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
        <g:set var="requestTypeLabel" value="${requestTypeLabel}" />
-       <g:set var="requestTypeAcronym" value="hccr" />
+       <g:set var="requestTypeAcronym" value="hccr" scope="request" />
        <g:render template="/frontofficeRequestType/step" /> 
      </div><!-- end yui-content -->
     </div><!-- end requestTabView -->

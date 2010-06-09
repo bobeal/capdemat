@@ -69,9 +69,7 @@
         <g:message code="action.cancel"/>
       </a>
     </g:if>
-    
-    <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" />
-    
+
     <h2 class="request-creation"> <g:message code="${requestFo.acronym}.label" /></h2>
     <p><g:message code="${requestFo.acronym}.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="${requestFo.acronym}.duration.value" /></strong></p>
@@ -96,7 +94,7 @@
         <li class="\${currentStep == '${step.name}' ? 'selected' : ''}">
           <a href="\${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'${step.name}'])}">
           <em>
-          <span class="tag-state \${stepStates!= null ? stepStates.${step.name}.cssClass : 'tag-pending'}"><g:message code="\${stepStates != null ? stepStates.${step.name}.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-\${rqt.stepStates.${step.name}.state}"><g:message code="request.step.state.\${rqt.stepStates.${step.name}.state}" /></span>
     <% if (step.required) { %>
           <strong>
             <g:message code="${step.i18nPrefix()}.step.${step.name}.label" /> *
@@ -113,17 +111,10 @@
 		 </ul>
 
      <div class="yui-content">
-      <g:set var="requestTypeInfo">
-        {"label": "\${requestTypeLabel}"
-          ,"steps": [ <% requestFo.steps.eachWithIndex { step, i -> %> "${step.name}${step.required ? '-required' : ''}"${i < requestFo.steps.size() -1 ? ',': ''} <% } %> ]
-        }
-      </g:set>
-      <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" scope="request" />
-       <g:set var="requestTypeInfo" value="\${requestTypeInfo.encodeAsHTML()}" scope="request" />
        <g:set var="firstStep" value="${requestFo.steps.iterator().next().name}" />
        <g:set var="currentStep" value="\${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
        <g:set var="requestTypeLabel" value="\${requestTypeLabel}" />
-       <g:set var="requestTypeAcronym" value="${requestFo.acronym}" />
+       <g:set var="requestTypeAcronym" value="${requestFo.acronym}" scope="request" />
        <g:render template="/frontofficeRequestType/step" /> 
      </div><!-- end yui-content -->
     </div><!-- end requestTabView -->

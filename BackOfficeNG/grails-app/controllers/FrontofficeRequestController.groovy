@@ -95,16 +95,9 @@ class FrontofficeRequestController {
             return false
         }
         if (request.post) {
-            def requestTypeInfo = JSON.parse(params.requestTypeInfo)
-            if (rqt.stepStates?.isEmpty()) {
-                requestTypeInfo.steps.each {
-                    def nameToken = it.tokenize('-')
-                    def value = ['required': nameToken.size() == 2]
-                    requestAdaptorService.stepState(value, 'uncomplete', '')
-                    rqt.stepStates.put(nameToken[0], value)
-                }
-            }
-            requestAdaptorService.stepState(rqt.stepStates?.get(params.currentStep), 'complete', '')
+            rqt.stepStates.get(params.currentStep).state = "complete"
+            rqt.stepStates.get(params.currentStep).errorMsg = null
+            rqt.stepStates.get(params.currentStep).invalidFields = []
             try {
             DataBindingUtils.initBind(rqt, params)
             bind(rqt)
@@ -132,7 +125,7 @@ class FrontofficeRequestController {
                 }
 
                 parameters.id = rqt.id
-                parameters.label = requestTypeInfo.label
+                parameters.label = rqt.requestType.label
                 if (params.returnUrl != "") {
                     parameters.returnUrl = params.returnUrl
                 }
@@ -144,21 +137,26 @@ class FrontofficeRequestController {
                 requestWorkflowService.validate(rqt, [params.currentStep], Boolean.valueOf(params.useAcceptance))
                 // add a check that currentStep is indeed complete, because, for VO Card,
                 // no exception is thrown when validating the request (since it is empty)
-                if ("complete".equals(rqt.stepStates?.get(params.currentStep).state)) {
+                if ("complete".equals(rqt.stepStates.get(params.currentStep).state)) {
                     flash.confirmationMessage = message(code : "request.step.message.validated",
                             args : [message(code :  params.currentStep == "document" ?  "request.step.document.label" :
-                                translationService.generateInitialism(requestTypeInfo.label) + ".step." + params.currentStep + ".label")
+                                translationService.generateInitialism(rqt.requestType.label) + ".step." + params.currentStep + ".label")
                                 ]
                     )
                 }
             }} catch (CvqValidationException e) {
                 e.invalidFields.each {
-                    requestAdaptorService.stepState(rqt.stepStates?.get(it.key), 'invalid', null, it.value)
+                    rqt.stepStates.get(it.key).state = "invalid"
+                    rqt.stepStates.get(it.key).errorMsg = null
+                    rqt.stepStates.get(it.key).invalidFields = it.value
                 }
             } catch (CvqException ce) {
                 log.error ce.getMessage()
-                requestAdaptorService.stepState(cRequest.stepStates?.get(currentStep), 'invalid',
-                        message(code:ExceptionUtils.getModelI18nKey(ce), args:ExceptionUtils.getModelI18nArgs(ce)))
+                rqt.stepStates.get(params.currentStep).state = "invalid"
+                rqt.stepStates.get(params.currentStep).errorMsg = message(
+                    code : ExceptionUtils.getModelI18nKey(ce),
+                    args : ExceptionUtils.getModelI18nArgs(ce)
+                )
             }
         }
         def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)}/edit"
@@ -172,7 +170,6 @@ class FrontofficeRequestController {
             'subjects': individualAdaptorService.adaptSubjects(requestWorkflowService.getAuthorizedSubjects(rqt)),
             'meansOfContact': individualAdaptorService.adaptMeansOfContact(meansOfContactService.getAdultEnabledMeansOfContact(SecurityContext.currentEcitizen)),
             'currentStep': params.currentStep != null ? params.currentStep : 'firstStep',
-            'stepStates': rqt.stepStates?.size() != 0 ? rqt.stepStates : null,
             'missingSteps': requestWorkflowService.getMissingSteps(rqt),
             'documentTypes': [],//documentAdaptorService.getDocumentTypes(rqt, uuidString),
             'isDocumentEditMode': false,

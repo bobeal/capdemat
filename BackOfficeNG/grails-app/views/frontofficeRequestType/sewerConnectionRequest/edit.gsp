@@ -61,9 +61,7 @@
         <g:message code="action.cancel"/>
       </a>
     </g:if>
-    
-    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
-    
+
     <h2 class="request-creation"> <g:message code="scr.label" /></h2>
     <p><g:message code="scr.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="scr.duration.value" /></strong></p>
@@ -86,7 +84,7 @@
         <li class="${currentStep == 'requester' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'requester'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.requester.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.requester.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.requester.state}"><g:message code="request.step.state.${rqt.stepStates.requester.state}" /></span>
     
           <strong>
             <g:message code="scr.step.requester.label" /> *
@@ -100,7 +98,7 @@
         <li class="${currentStep == 'cadastre' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'cadastre'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.cadastre.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.cadastre.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.cadastre.state}"><g:message code="request.step.state.${rqt.stepStates.cadastre.state}" /></span>
     
           <strong>
             <g:message code="scr.step.cadastre.label" /> *
@@ -116,7 +114,7 @@
         <li class="${currentStep == 'document' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.document.state}"><g:message code="request.step.state.${rqt.stepStates.document.state}" /></span>
     
           <g:message code="request.step.document.label" />
             
@@ -130,7 +128,7 @@
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state tag-${rqt.stepStates.validation.state}"><g:message code="request.step.state.${rqt.stepStates.validation.state}" /></span>
     
           <strong>
             <g:message code="request.step.validation.label" /> *
@@ -143,17 +141,10 @@
 		 </ul>
 
      <div class="yui-content">
-      <g:set var="requestTypeInfo">
-        {"label": "${requestTypeLabel}"
-          ,"steps": [  "requester-required",  "cadastre-required",  "document",  "validation-required"  ]
-        }
-      </g:set>
-      <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
-       <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
        <g:set var="firstStep" value="requester" />
        <g:set var="currentStep" value="${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
        <g:set var="requestTypeLabel" value="${requestTypeLabel}" />
-       <g:set var="requestTypeAcronym" value="scr" />
+       <g:set var="requestTypeAcronym" value="scr" scope="request" />
        <g:render template="/frontofficeRequestType/step" /> 
      </div><!-- end yui-content -->
     </div><!-- end requestTabView -->

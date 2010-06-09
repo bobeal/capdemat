@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import org.apache.log4j.Logger;
 import fr.cg95.cvq.generator.ApplicationDocumentation;
 import fr.cg95.cvq.generator.ElementProperties;
 import fr.cg95.cvq.generator.IPluginGenerator;
+import fr.cg95.cvq.generator.common.Step;
 import fr.cg95.cvq.generator.plugins.tool.GroovyManager;
 
 /**
@@ -59,6 +61,8 @@ public class ModelRequestObject {
 
     /** the complex types defined locally (ie in the current request) */
     private HashMap<String, ComplexType> complexTypesMap;
+
+    private List<Step> steps;
 
     public ModelRequestObject() {
         elementsPropertiesMap = new HashMap<String, ElementModelProperties>();
@@ -462,5 +466,13 @@ public class ModelRequestObject {
 
     public HashMap<String, ComplexType> getComplexTypesMap() {
         return complexTypesMap;
+    }
+
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
     }
 }

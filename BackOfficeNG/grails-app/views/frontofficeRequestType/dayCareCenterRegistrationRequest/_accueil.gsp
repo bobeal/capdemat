@@ -3,7 +3,7 @@
 
   
     <label class="required"><g:message code="dccrr.property.modeAccueil.label" /> *  <span><g:message code="dccrr.property.modeAccueil.help" /></span></label>
-            <ul class="yes-no required ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('modeAccueil') ? 'validation-failed' : ''}">
+            <ul class="yes-no required ${rqt.stepStates['accueil'].invalidFields.contains('modeAccueil') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
                 <input type="radio" id="modeAccueil_${it ? 'yes' : 'no'}" class="required condition-estIndifferent-trigger  validate-one-required boolean" title="" value="${it}" name="modeAccueil" ${it == rqt.modeAccueil ? 'checked="checked"': ''} />
@@ -17,7 +17,7 @@
 
   
     <label for="modeAccueilChoixUn" class="required condition-estIndifferent-filled"><g:message code="dccrr.property.modeAccueilChoixUn.label" /> *  <span><g:message code="dccrr.property.modeAccueilChoixUn.help" /></span></label>
-            <select id="modeAccueilChoixUn" name="modeAccueilChoixUn" class="required condition-estIndifferent-filled  validate-not-first ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('modeAccueilChoixUn') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.modeAccueilChoixUn.validationError" />">
+            <select id="modeAccueilChoixUn" name="modeAccueilChoixUn" class="required condition-estIndifferent-filled  validate-not-first ${rqt.stepStates['accueil'].invalidFields.contains('modeAccueilChoixUn') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.modeAccueilChoixUn.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Collectif','Familial']}">
                 <option value="fr.cg95.cvq.business.request.school.ModeAccueilType_${it}" ${it == rqt.modeAccueilChoixUn?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.modeAccueilChoixUn" /></option>
@@ -29,7 +29,7 @@
 
   
     <label for="modeAccueilChoixDeux" class="condition-estIndifferent-filled"><g:message code="dccrr.property.modeAccueilChoixDeux.label" />   <span><g:message code="dccrr.property.modeAccueilChoixDeux.help" /></span></label>
-            <select id="modeAccueilChoixDeux" name="modeAccueilChoixDeux" class="condition-estIndifferent-filled  validate-select ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('modeAccueilChoixDeux') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.modeAccueilChoixDeux.validationError" />">
+            <select id="modeAccueilChoixDeux" name="modeAccueilChoixDeux" class="condition-estIndifferent-filled  validate-select ${rqt.stepStates['accueil'].invalidFields.contains('modeAccueilChoixDeux') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.modeAccueilChoixDeux.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Collectif','Familial']}">
                 <option value="fr.cg95.cvq.business.request.school.ModeAccueilType_${it}" ${it == rqt.modeAccueilChoixDeux?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.modeAccueilChoixDeux" /></option>
@@ -42,7 +42,7 @@
   
     <label for="accueilAnterieur" class=""><g:message code="dccrr.property.accueilAnterieur.label" />   <span><g:message code="dccrr.property.accueilAnterieur.help" /></span></label>
             <input type="text" id="accueilAnterieur" name="accueilAnterieur" value="${rqt.accueilAnterieur?.toString()}" 
-                    class="  validate-string ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('accueilAnterieur') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.accueilAnterieur.validationError" />"   />
+                    class="  validate-string ${rqt.stepStates['accueil'].invalidFields.contains('accueilAnterieur') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.accueilAnterieur.validationError" />"   />
             
 
   
@@ -52,7 +52,7 @@
     <legend><g:message code="dccrr.property.datePlacementAccueilRegulier.label" /></legend>
     
       <label for="choixTypeDatePlacementAccueilRegulier" class="required"><g:message code="dccrr.property.choixTypeDatePlacementAccueilRegulier.label" /> *  <span><g:message code="dccrr.property.choixTypeDatePlacementAccueilRegulier.help" /></span></label>
-            <select id="choixTypeDatePlacementAccueilRegulier" name="choixTypeDatePlacementAccueilRegulier" class="required condition-dateConnue-trigger  validate-not-first ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('choixTypeDatePlacementAccueilRegulier') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.choixTypeDatePlacementAccueilRegulier.validationError" />">
+            <select id="choixTypeDatePlacementAccueilRegulier" name="choixTypeDatePlacementAccueilRegulier" class="required condition-dateConnue-trigger  validate-not-first ${rqt.stepStates['accueil'].invalidFields.contains('choixTypeDatePlacementAccueilRegulier') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.choixTypeDatePlacementAccueilRegulier.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Connue','Possible']}">
                 <option value="fr.cg95.cvq.business.request.school.ChoixDatePlacement_${it}" ${it == rqt.choixTypeDatePlacementAccueilRegulier?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.choixTypeDatePlacementAccueilRegulier" /></option>
@@ -63,7 +63,7 @@
     
       <label class="required condition-dateConnue-filled"><g:message code="dccrr.property.datePlacementDebut.label" /> *  <span><g:message code="dccrr.property.datePlacementDebut.help" /></span></label>
             <div class="date required condition-dateConnue-filled  validate-date required condition-dateConnue-filled ">
-              <select class="day ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('datePlacementDebut') ? 'validation-failed' : ''}"
+              <select class="day ${rqt.stepStates['accueil'].invalidFields.contains('datePlacementDebut') ? 'validation-failed' : ''}"
                 id="datePlacementDebut_day"
                 name="datePlacementDebut_day">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -77,7 +77,7 @@
                   </option>
                 </g:each>
               </select>
-              <select class="month ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('datePlacementDebut') ? 'validation-failed' : ''}"
+              <select class="month ${rqt.stepStates['accueil'].invalidFields.contains('datePlacementDebut') ? 'validation-failed' : ''}"
                 id="datePlacementDebut_month"
                 name="datePlacementDebut_month">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -92,7 +92,7 @@
                 </g:each>
               </select>
               <input type="text" maxlength="4" size="3"
-                class="year ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('datePlacementDebut') ? 'validation-failed' : ''}"
+                class="year ${rqt.stepStates['accueil'].invalidFields.contains('datePlacementDebut') ? 'validation-failed' : ''}"
                 id="datePlacementDebut_year"
                 name="datePlacementDebut_year"
                 value="${rqt.datePlacementDebut ? rqt.datePlacementDebut.year + 1900 : params['datePlacementDebut_year']}"
@@ -103,7 +103,7 @@
     
       <label class="condition-dateConnue-filled"><g:message code="dccrr.property.datePlacementFin.label" />   <span><g:message code="dccrr.property.datePlacementFin.help" /></span></label>
             <div class="date condition-dateConnue-filled  validate-date condition-dateConnue-filled ">
-              <select class="day ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('datePlacementFin') ? 'validation-failed' : ''}"
+              <select class="day ${rqt.stepStates['accueil'].invalidFields.contains('datePlacementFin') ? 'validation-failed' : ''}"
                 id="datePlacementFin_day"
                 name="datePlacementFin_day">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -117,7 +117,7 @@
                   </option>
                 </g:each>
               </select>
-              <select class="month ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('datePlacementFin') ? 'validation-failed' : ''}"
+              <select class="month ${rqt.stepStates['accueil'].invalidFields.contains('datePlacementFin') ? 'validation-failed' : ''}"
                 id="datePlacementFin_month"
                 name="datePlacementFin_month">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -132,7 +132,7 @@
                 </g:each>
               </select>
               <input type="text" maxlength="4" size="3"
-                class="year ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('datePlacementFin') ? 'validation-failed' : ''}"
+                class="year ${rqt.stepStates['accueil'].invalidFields.contains('datePlacementFin') ? 'validation-failed' : ''}"
                 id="datePlacementFin_year"
                 name="datePlacementFin_year"
                 value="${rqt.datePlacementFin ? rqt.datePlacementFin.year + 1900 : params['datePlacementFin_year']}"
@@ -146,7 +146,7 @@
 
   
     <label for="choixHorairesAccueil" class="required"><g:message code="dccrr.property.choixHorairesAccueil.label" /> *  <span><g:message code="dccrr.property.choixHorairesAccueil.help" /></span></label>
-            <select id="choixHorairesAccueil" name="choixHorairesAccueil" class="required condition-estHorairesAccueilRegulier-trigger condition-estHorairesAccueilIrregulier-trigger  validate-not-first ${stepStates != null && stepStates['accueil']?.invalidFields?.contains('choixHorairesAccueil') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.choixHorairesAccueil.validationError" />">
+            <select id="choixHorairesAccueil" name="choixHorairesAccueil" class="required condition-estHorairesAccueilRegulier-trigger condition-estHorairesAccueilIrregulier-trigger  validate-not-first ${rqt.stepStates['accueil'].invalidFields.contains('choixHorairesAccueil') ? 'validation-failed' : ''}" title="<g:message code="dccrr.property.choixHorairesAccueil.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['Indifferent','Regulier','Irregulier']}">
                 <option value="fr.cg95.cvq.business.request.school.ChoixHorairesAccueilType_${it}" ${it == rqt.choixHorairesAccueil?.toString() ? 'selected="selected"': ''}><g:capdematEnumToText var="${it}" i18nKeyPrefix="dccrr.property.choixHorairesAccueil" /></option>
@@ -165,7 +165,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinDebut.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinDebut.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebut') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebut') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebut_hour"
                 name="horairePlacementMatinDebut_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -180,7 +180,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebut') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebut') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebut_minute"
                 name="horairePlacementMatinDebut_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -211,7 +211,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinFin.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinFin.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFin') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFin') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFin_hour"
                 name="horairePlacementMatinFin_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -226,7 +226,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFin') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFin') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFin_minute"
                 name="horairePlacementMatinFin_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -257,7 +257,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiDebut.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiDebut.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebut') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebut') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebut_hour"
                 name="horairePlacementApresMidiDebut_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -272,7 +272,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebut') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebut') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebut_minute"
                 name="horairePlacementApresMidiDebut_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -303,7 +303,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiFin.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiFin.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFin') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFin') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFin_hour"
                 name="horairePlacementApresMidiFin_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -318,7 +318,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFin') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFin') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFin_minute"
                 name="horairePlacementApresMidiFin_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -356,7 +356,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinDebutLundi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinDebutLundi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebutLundi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebutLundi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebutLundi_hour"
                 name="horairePlacementMatinDebutLundi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -371,7 +371,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebutLundi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebutLundi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebutLundi_minute"
                 name="horairePlacementMatinDebutLundi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -402,7 +402,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinFinLundi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinFinLundi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFinLundi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFinLundi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFinLundi_hour"
                 name="horairePlacementMatinFinLundi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -417,7 +417,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFinLundi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFinLundi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFinLundi_minute"
                 name="horairePlacementMatinFinLundi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -448,7 +448,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiDebutLundi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiDebutLundi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebutLundi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebutLundi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebutLundi_hour"
                 name="horairePlacementApresMidiDebutLundi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -463,7 +463,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebutLundi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebutLundi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebutLundi_minute"
                 name="horairePlacementApresMidiDebutLundi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -494,7 +494,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiFinLundi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiFinLundi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFinLundi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFinLundi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFinLundi_hour"
                 name="horairePlacementApresMidiFinLundi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -509,7 +509,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFinLundi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFinLundi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFinLundi_minute"
                 name="horairePlacementApresMidiFinLundi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -547,7 +547,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinDebutMardi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinDebutMardi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebutMardi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebutMardi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebutMardi_hour"
                 name="horairePlacementMatinDebutMardi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -562,7 +562,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebutMardi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebutMardi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebutMardi_minute"
                 name="horairePlacementMatinDebutMardi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -593,7 +593,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinFinMardi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinFinMardi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFinMardi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFinMardi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFinMardi_hour"
                 name="horairePlacementMatinFinMardi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -608,7 +608,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFinMardi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFinMardi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFinMardi_minute"
                 name="horairePlacementMatinFinMardi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -639,7 +639,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiDebutMardi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiDebutMardi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebutMardi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebutMardi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebutMardi_hour"
                 name="horairePlacementApresMidiDebutMardi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -654,7 +654,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebutMardi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebutMardi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebutMardi_minute"
                 name="horairePlacementApresMidiDebutMardi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -685,7 +685,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiFinMardi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiFinMardi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFinMardi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFinMardi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFinMardi_hour"
                 name="horairePlacementApresMidiFinMardi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -700,7 +700,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFinMardi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFinMardi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFinMardi_minute"
                 name="horairePlacementApresMidiFinMardi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -738,7 +738,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinDebutMercredi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinDebutMercredi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebutMercredi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebutMercredi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebutMercredi_hour"
                 name="horairePlacementMatinDebutMercredi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -753,7 +753,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebutMercredi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebutMercredi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebutMercredi_minute"
                 name="horairePlacementMatinDebutMercredi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -784,7 +784,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinFinMercredi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinFinMercredi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFinMercredi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFinMercredi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFinMercredi_hour"
                 name="horairePlacementMatinFinMercredi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -799,7 +799,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFinMercredi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFinMercredi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFinMercredi_minute"
                 name="horairePlacementMatinFinMercredi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -830,7 +830,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiDebutMercredi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiDebutMercredi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebutMercredi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebutMercredi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebutMercredi_hour"
                 name="horairePlacementApresMidiDebutMercredi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -845,7 +845,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebutMercredi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebutMercredi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebutMercredi_minute"
                 name="horairePlacementApresMidiDebutMercredi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -876,7 +876,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiFinMercredi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiFinMercredi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFinMercredi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFinMercredi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFinMercredi_hour"
                 name="horairePlacementApresMidiFinMercredi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -891,7 +891,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFinMercredi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFinMercredi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFinMercredi_minute"
                 name="horairePlacementApresMidiFinMercredi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -929,7 +929,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinDebutJeudi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinDebutJeudi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebutJeudi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebutJeudi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebutJeudi_hour"
                 name="horairePlacementMatinDebutJeudi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -944,7 +944,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebutJeudi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebutJeudi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebutJeudi_minute"
                 name="horairePlacementMatinDebutJeudi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -975,7 +975,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinFinJeudi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinFinJeudi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFinJeudi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFinJeudi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFinJeudi_hour"
                 name="horairePlacementMatinFinJeudi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -990,7 +990,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFinJeudi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFinJeudi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFinJeudi_minute"
                 name="horairePlacementMatinFinJeudi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1021,7 +1021,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiDebutJeudi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiDebutJeudi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebutJeudi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebutJeudi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebutJeudi_hour"
                 name="horairePlacementApresMidiDebutJeudi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1036,7 +1036,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebutJeudi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebutJeudi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebutJeudi_minute"
                 name="horairePlacementApresMidiDebutJeudi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1067,7 +1067,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiFinJeudi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiFinJeudi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFinJeudi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFinJeudi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFinJeudi_hour"
                 name="horairePlacementApresMidiFinJeudi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1082,7 +1082,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFinJeudi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFinJeudi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFinJeudi_minute"
                 name="horairePlacementApresMidiFinJeudi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1120,7 +1120,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinDebutVendredi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinDebutVendredi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebutVendredi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebutVendredi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebutVendredi_hour"
                 name="horairePlacementMatinDebutVendredi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1135,7 +1135,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinDebutVendredi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinDebutVendredi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinDebutVendredi_minute"
                 name="horairePlacementMatinDebutVendredi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1166,7 +1166,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementMatinFinVendredi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementMatinFinVendredi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFinVendredi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFinVendredi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFinVendredi_hour"
                 name="horairePlacementMatinFinVendredi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1181,7 +1181,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementMatinFinVendredi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementMatinFinVendredi') ? 'validation-failed' : ''}"
                 id="horairePlacementMatinFinVendredi_minute"
                 name="horairePlacementMatinFinVendredi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1212,7 +1212,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiDebutVendredi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiDebutVendredi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebutVendredi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebutVendredi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebutVendredi_hour"
                 name="horairePlacementApresMidiDebutVendredi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1227,7 +1227,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiDebutVendredi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiDebutVendredi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiDebutVendredi_minute"
                 name="horairePlacementApresMidiDebutVendredi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1258,7 +1258,7 @@
               <label class=""><g:message code="dccrr.property.horairePlacementApresMidiFinVendredi.label" />   
                 <span><g:message code="dccrr.property.horairePlacementApresMidiFinVendredi.help" /></span>
               </label>
-              <select class="hour ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFinVendredi') ? 'validation-failed' : ''}"
+              <select class="hour ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFinVendredi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFinVendredi_hour"
                 name="horairePlacementApresMidiFinVendredi_hour">
                 <option value=""><g:message code="message.select.defaultOption" /></option>
@@ -1273,7 +1273,7 @@
                 </g:each>
               </select>
               <g:message code="time.hour" />
-              <select class="minute ${stepStates != null && stepStates['accueil']?.invalidFields.contains('horairePlacementApresMidiFinVendredi') ? 'validation-failed' : ''}"
+              <select class="minute ${rqt.stepStates['accueil'].invalidFields.contains('horairePlacementApresMidiFinVendredi') ? 'validation-failed' : ''}"
                 id="horairePlacementApresMidiFinVendredi_minute"
                 name="horairePlacementApresMidiFinVendredi_minute">
                 <option value=""><g:message code="message.select.defaultOption" /></option>

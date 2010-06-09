@@ -3,11 +3,11 @@
    <form method="post"  id="stepForm-validation" action="<g:createLink action="edit" />">
      <input type="hidden" name="returnUrl" value="${returnUrl}" />
      <h3>
-       <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}">${message(code:(stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'))}</span>
+       <span class="tag-state tag-${rqt.stepStates.validation.state}">${message(code:("request.step.state." + rqt.stepStates.validation.state))}</span>
        <span class="tag-state tag-required">${message(code:'request.step.required')}</span>
        ${message(code:'request.step.validation.label')}
        <span>${message(code:'request.step.validation.desc')}</span>
-       <span class="error">${stepStates?.validation?.errorMsg}</span>
+       <span class="error">${rqt.stepStates.validation.errorMsg}</span>
      </h3>
      <p class="required-fields-notice">${message(code:'request.message.requiredFieldsNotice')}</p>
      <div>
@@ -35,7 +35,7 @@
       <g:if test="${!hasHomeFolder}">
         <g:render template="/frontofficeRequestType/outOfAccountValidation" />
       </g:if>
-      <div id="useAcceptance" class="${rqt.stepStates != null && rqt.stepStates['validation']?.invalidFields.contains('useAcceptance') ? 'validation-failed' : ''}">
+      <div id="useAcceptance" class="${rqt.stepStates['validation'].invalidFields.contains('useAcceptance') ? 'validation-failed' : ''}">
         <input type="checkbox" name="useAcceptance" class="required validate-one-required"
               title="${message(code:'request.error.useAcceptanceRequired')}" />
         <a href="${createLink(controller:'localAuthorityResource',action:'resource',id:'use')}" target="blank">
@@ -45,7 +45,6 @@
      </div>
      <div class="error" id="stepForm-validation-error"> </div>
      <!-- Input submit-->
-     <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
      <input type="hidden" name="id" value="${rqt.id}" />
      <input type="hidden" name="currentStep" value="validation" />
      <g:if test="${missingSteps == null}">
@@ -81,10 +80,10 @@
    <form method="post" enctype="multipart/form-data" id="stepForm-document" action="<g:createLink action="edit" />">
      <input type="hidden" name="returnUrl" value="${returnUrl}" />
      <h3>
-       <span class="tag-state ${stepStates!= null ? stepStates.document.cssClass : 'tag-pending'}">${message(code:(stepStates != null ? stepStates.document.i18nKey : 'request.step.state.uncomplete'))}</span>
+       <span class="tag-state tag-${rqt.stepStates.document.state}">${message(code:("request.step.state." + rqt.stepStates.document.state))}</span>
        ${message(code:'request.step.document.label')}
        <span>${message(code:'request.step.document.desc')}</span>
-       <span class="error">${stepStates?.document?.errorMsg}</span>
+       <span class="error">${rqt.stepStates.document.errorMsg}</span>
      </h3>
      <p class="required-fields-notice">${message(code:'request.message.requiredFieldsNotice')}</p>
      <div>
@@ -92,7 +91,6 @@
      </div>
      <div class="error" id="stepForm-document-error"> </div>
      <!-- Input submit-->
-     <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
      <input type="hidden" name="id" value="${rqt.id}" />
      <input type="hidden" name="currentStep" value="document" />
    </form>
@@ -110,11 +108,11 @@
    <form method="post"  id="stepForm-${currentStep}" action="<g:createLink action="edit" />">
      <input type="hidden" name="returnUrl" value="${returnUrl}" />
      <h3>
-       <span class="tag-state ${stepStates != null ? stepStates[currentStep].cssClass : 'tag-pending'}">${message(code:(stepStates != null ? stepStates[currentStep].i18nKey : 'request.step.state.uncomplete'))}</span>
+       <span class="tag-state tag-${rqt.stepStates[currentStep].state}">${message(code:("request.step.state." + rqt.stepStates[currentStep].state))}</span>
        <span class="tag-state tag-required">${message(code:'request.step.required')}</span>
        ${message(code: requestTypeAcronym + '.step.' + currentStep + '.label')}
        <span>${message(code: requestTypeAcronym + '.step.' + currentStep + '.desc')}</span>
-       <span class="error">${stepStates != null ? stepStates[currentStep].errorMsg : ''}</span>
+       <span class="error">${rqt.stepStates[currentStep].errorMsg}</span>
      </h3>
      <p class="required-fields-notice">${message(code:'request.message.requiredFieldsNotice')}</p>
      <div>
@@ -122,7 +120,6 @@
      </div>
      <div class="error" id="stepForm-${currentStep}-error"> </div>
      <!-- Input submit-->
-     <input type="hidden" name="requestTypeInfo" value="${requestTypeInfo}" />
      <input type="hidden" name="id" value="${rqt.id}" />
      <input type="hidden" name="currentStep" value="${currentStep}" />
      <input type="submit" id="submit-step-${currentStep}" name="submit-step-${currentStep}" class="submit-step" value="${message(code:'action.validate')}" />

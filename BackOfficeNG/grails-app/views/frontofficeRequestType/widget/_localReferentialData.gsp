@@ -1,6 +1,6 @@
 <g:set var="currentLrDatas" value="${rqt[javaName].collect{it.name}}" />
 <g:if test="${lrTypes[javaName].entriesSupportMultiple}">
-  <ul class="${depth==0 ? 'dataTree ' : ''}${stepStates != null && stepStates[currentStep]?.invalidFields?.contains(javaName) ? 'validation-failed' : ''}">
+  <ul class="${depth==0 ? 'dataTree ' : ''}${rqt.stepStates[currentStep].invalidFields.contains(javaName) ? 'validation-failed' : ''}">
   <g:each var="entry" in="${lrEntries}">
     <g:if test="${entry.entries}">
       <li>
@@ -22,7 +22,7 @@
   </ul>
 </g:if>
 <g:else>
-  <select name="${javaName}[0].name" class="${htmlClass} validate-not-first data-localReferentialData ${stepStates != null && stepStates[currentStep]?.invalidFields?.contains(javaName) ? 'validation-failed' : ''}" title="${message(code: i18nPrefixCode +'.validationError')}">
+  <select name="${javaName}[0].name" class="${htmlClass} validate-not-first data-localReferentialData ${rqt.stepStates[currentStep].invalidFields.contains(javaName) ? 'validation-failed' : ''}" title="${message(code: i18nPrefixCode +'.validationError')}">
     <option value="">${message(code:'message.select.defaultOption')}</option>
     <g:each var="entry" in="${lrEntries}">
     <option value="${entry.key}" ${currentLrDatas?.contains(entry.key) ? 'selected="selected"': ''}>${entry.labelsMap.fr}</option>

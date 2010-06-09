@@ -61,9 +61,7 @@
         <g:message code="action.cancel"/>
       </a>
     </g:if>
-    
-    <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" />
-    
+
     <h2 class="request-creation"> <g:message code="tbr.label" /></h2>
     <p><g:message code="tbr.description" /></p> 
     <p><g:message code="request.duration.label" /><strong> : <g:message code="tbr.duration.value" /></strong></p>
@@ -86,7 +84,7 @@
         <li class="${currentStep == 'requester' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', params:['label':requestTypeLabel,'currentStep':'requester'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.requester.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.requester.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state ${rqt.stepStates.requester.cssClass : 'tag-pending'}"><g:message code="${rqt.stepStates.requester.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
             <g:message code="tbr.step.requester.label" /> *
@@ -100,7 +98,7 @@
         <li class="${currentStep == 'entertainments' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', params:['label':requestTypeLabel,'currentStep':'entertainments'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.entertainments.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.entertainments.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.entertainments.cssClass : 'tag-pending'}"><g:message code="${rqt.stepStates.entertainments.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <g:message code="tbr.step.entertainments.label" />
             
@@ -112,7 +110,7 @@
         <li class="${currentStep == 'rules' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', params:['label':requestTypeLabel,'currentStep':'rules'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.rules.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.rules.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.rules.cssClass : 'tag-pending'}"><g:message code="${rqt.stepStates.rules.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
             <g:message code="tbr.step.rules.label" /> *
@@ -126,7 +124,7 @@
         <li class="${currentStep == 'validation' ? 'selected' : ''}">
           <a href="${createLink(controller:'frontofficeRequest', params:['label':requestTypeLabel,'currentStep':'validation'])}">
           <em>
-          <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${stepStates != null ? stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
+          <span class="tag-state ${stepStates!= null ? stepStates.validation.cssClass : 'tag-pending'}"><g:message code="${rqt.stepStates.validation.i18nKey : 'request.step.state.uncomplete'}" /></span>
     
           <strong>
             <g:message code="request.step.validation.label" /> *
@@ -139,17 +137,10 @@
 		 </ul>
 
      <div class="yui-content">
-      <g:set var="requestTypeInfo">
-        {"label": "${requestTypeLabel}"
-          ,"steps": [  "requester-required",  "entertainments",  "rules-required",  "validation-required"  ]
-        }
-      </g:set>
-      <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
-       <g:set var="requestTypeInfo" value="${requestTypeInfo.encodeAsHTML()}" scope="request" />
        <g:set var="firstStep" value="requester" />
        <g:set var="currentStep" value="${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
        <g:set var="requestTypeLabel" value="${requestTypeLabel}" />
-       <g:set var="requestTypeAcronym" value="tbr" />
+       <g:set var="requestTypeAcronym" value="tbr" scope="request" />
        <g:render template="/frontofficeRequestType/step" /> 
      </div><!-- end yui-content -->
     </div><!-- end requestTabView -->

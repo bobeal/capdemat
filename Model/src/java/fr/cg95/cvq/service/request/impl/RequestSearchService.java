@@ -54,7 +54,7 @@ public class RequestSearchService implements IRequestSearchService {
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Request getById(final Long id, final boolean full)
-        throws CvqException, CvqObjectNotFoundException {
+        throws CvqObjectNotFoundException {
         return requestDAO.findById(id, full);
     }
 

@@ -40,7 +40,7 @@ public interface IRequestSearchService {
      * Get a request by id.
      */
     Request getById(@IsRequest final Long id, final boolean full)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqObjectNotFoundException;
 
     /**
      * Get all requests belonging to the given home folder.

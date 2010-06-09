@@ -481,10 +481,20 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         if (steps == null) {
             validator.enableAllProfiles();
             validator.disableProfile("administration");
+            for (Map<String, Object> stepState : request.getStepStates().values()) {
+                stepState.put("state", "complete");
+                stepState.put("errorMsg", null);
+                stepState.put("invalidFields", new ArrayList<String>());
+            }
         } else {
             validator.enableProfile("default");
+            Map<String, Object> stepState;
             for (String step : steps) {
                 validator.enableProfile(step);
+                stepState = request.getStepStates().get(step);
+                stepState.put("state", "complete");
+                stepState.put("errorMsg", null);
+                stepState.put("invalidFields", new ArrayList<String>());
             }
         }
         Map<String, List<String>> invalidFields = new LinkedHashMap<String, List<String>>();
@@ -512,7 +522,15 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 invalidFields.put("validation", new ArrayList<String>(1));
             invalidFields.get("validation").add("useAcceptance");
         }
-        if (!invalidFields.isEmpty()) throw new CvqValidationException(invalidFields);
+        if (!invalidFields.isEmpty()) {
+            Map<String, Object> stepState;
+            for (Map.Entry<String, List<String>> fields : invalidFields.entrySet()) {
+                stepState = request.getStepStates().get(fields.getKey());
+                stepState.put("state", "invalid");
+                stepState.put("invalidFields", fields.getValue());
+            }
+            throw new CvqValidationException();
+        }
     }
 
     private void collectInvalidFields(ConstraintViolation violation,

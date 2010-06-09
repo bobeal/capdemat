@@ -95,61 +95,54 @@ class FrontofficeRequestController {
             return false
         }
         if (request.post) {
-            rqt.stepStates.get(params.currentStep).state = "complete"
-            rqt.stepStates.get(params.currentStep).errorMsg = null
-            rqt.stepStates.get(params.currentStep).invalidFields = []
             try {
-            DataBindingUtils.initBind(rqt, params)
-            bind(rqt)
-            // clean empty collections elements
-            DataBindingUtils.cleanBind(rqt, params)
-            if (params.currentStep == 'validation') {
-                // bind the selected means of contact into request
-                MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
-                rqt.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
-                checkCaptcha(params)
-                requestWorkflowService.validate(rqt, null, params.useAcceptance != null)
-                //def docs = documentService.getBySessionUuid(uuidString)
-                def parameters = [:]
-                if (!RequestState.DRAFT.equals(rqt.state)) {
-                    requestWorkflowService.rewindWorkflow(rqt/*, docs*/)
-                    parameters.isEdition = true
+                DataBindingUtils.initBind(rqt, params)
+                bind(rqt)
+                // clean empty collections elements
+                DataBindingUtils.cleanBind(rqt, params)
+                if (params.currentStep == 'validation') {
+                    // bind the selected means of contact into request
+                    MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
+                    rqt.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
+                    checkCaptcha(params)
+                    requestWorkflowService.validate(rqt, null, params.useAcceptance != null)
+                    //def docs = documentService.getBySessionUuid(uuidString)
+                    def parameters = [:]
+                    if (!RequestState.DRAFT.equals(rqt.state)) {
+                        requestWorkflowService.rewindWorkflow(rqt/*, docs*/)
+                        parameters.isEdition = true
+                    } else {
+                        rqt.state = RequestState.PENDING
+                        if (SecurityContext.currentEcitizen == null)
+                            requestWorkflowService.create(rqt, objectToBind.requester,
+                                params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
+                        else
+                            requestWorkflowService.create(rqt,
+                                params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
+                    }
+                    parameters.id = rqt.id
+                    parameters.label = rqt.requestType.label
+                    if (params.returnUrl != "") {
+                        parameters.returnUrl = params.returnUrl
+                    }
+                    parameters.canFollowRequest = params.'_homeFolderResponsible.activeHomeFolder'
+                    parameters.requesterLogin = homeFolderService.getHomeFolderResponsible(rqt.homeFolderId).login
+                    redirect(action:'exit', params:parameters)
+                    return
                 } else {
-                    rqt.state = RequestState.PENDING
-                    if (SecurityContext.currentEcitizen == null)
-                        requestWorkflowService.create(rqt, objectToBind.requester,
-                            params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
-                    else
-                        requestWorkflowService.create(rqt,
-                            params.requestNote && !params.requestNote.trim().isEmpty() ? params.requestNote : null)
+                    requestWorkflowService.validate(rqt, [params.currentStep], Boolean.valueOf(params.useAcceptance))
+                    if ("complete".equals(rqt.stepStates.get(params.currentStep).state)) {
+                        flash.confirmationMessage = message(
+                            code : "request.step.message.validated",
+                            args : [
+                                message(code :  params.currentStep == "document" ?  "request.step.document.label" :
+                                    translationService.generateInitialism(rqt.requestType.label) + ".step." + params.currentStep + ".label")
+                            ]
+                        )
+                    }
                 }
-
-                parameters.id = rqt.id
-                parameters.label = rqt.requestType.label
-                if (params.returnUrl != "") {
-                    parameters.returnUrl = params.returnUrl
-                }
-                parameters.canFollowRequest = params.'_homeFolderResponsible.activeHomeFolder'
-                parameters.requesterLogin = homeFolderService.getHomeFolderResponsible(rqt.homeFolderId).login
-                redirect(action:'exit', params:parameters)
-                return
-            } else {
-                requestWorkflowService.validate(rqt, [params.currentStep], Boolean.valueOf(params.useAcceptance))
-                // add a check that currentStep is indeed complete, because, for VO Card,
-                // no exception is thrown when validating the request (since it is empty)
-                if ("complete".equals(rqt.stepStates.get(params.currentStep).state)) {
-                    flash.confirmationMessage = message(code : "request.step.message.validated",
-                            args : [message(code :  params.currentStep == "document" ?  "request.step.document.label" :
-                                translationService.generateInitialism(rqt.requestType.label) + ".step." + params.currentStep + ".label")
-                                ]
-                    )
-                }
-            }} catch (CvqValidationException e) {
-                e.invalidFields.each {
-                    rqt.stepStates.get(it.key).state = "invalid"
-                    rqt.stepStates.get(it.key).errorMsg = null
-                    rqt.stepStates.get(it.key).invalidFields = it.value
-                }
+            } catch (CvqValidationException e) {
+                // nothing to do, business is in requestWorkflowService
             } catch (CvqException ce) {
                 log.error ce.getMessage()
                 rqt.stepStates.get(params.currentStep).state = "invalid"
@@ -159,7 +152,8 @@ class FrontofficeRequestController {
                 )
             }
         }
-        def viewPath = "/frontofficeRequestType/${CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)}/edit"
+        def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)
+        def viewPath = "/frontofficeRequestType/${requestTypeLabelAsDir}/edit"
         render(view: viewPath, model: [
             'isRequestCreation': true,
             'rqt': rqt,
@@ -176,34 +170,21 @@ class FrontofficeRequestController {
             'documentTypes': [],//documentAdaptorService.getDocumentTypes(rqt, uuidString),
             'isDocumentEditMode': false,
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-            'isEdition' : !RequestState.DRAFT.equals(rqt.state)
-        ].plus(fillCommonRequestModel(rqt.requestType.label)))
-    }
-
-    def fillCommonRequestModel(requestTypeLabel) {
-        return [
-            'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(requestTypeLabel),
-            'requestTypeLabel': requestTypeLabel,
-            'requestTypeLabelAsDir' : CapdematUtils.requestTypeLabelAsDir(requestTypeLabel),
-            'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)),
-            'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)),
-            'customJS' : requestTypeAdaptorService.getCustomJS(requestTypeLabel),
+            'isEdition' : !RequestState.DRAFT.equals(rqt.state),
+            'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),
+            'requestTypeLabelAsDir' : requestTypeLabelAsDir,
+            'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(requestTypeLabelAsDir),
+            'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(requestTypeLabelAsDir),
+            'customJS' : requestTypeAdaptorService.getCustomJS(rqt.requestType.label),
             'displayChildrenInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayChildrenInAccountCreation(),
-            'displayTutorsInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayTutorsInAccountCreation(),
-        ]
+            'displayTutorsInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayTutorsInAccountCreation()
+        ])
     }
 
     def collectionRemove = {
-        Request rqt
-        if (params.id) {
-            def id = Long.valueOf(params.id)
-            requestLockService.lock(id)
-            rqt = requestSearchService.getById(id, true)
-        }
-        if (rqt == null) {
-            redirect(uri: '/frontoffice/requestType')
-            return false
-        }
+        def id = Long.valueOf(params.id)
+        requestLockService.lock(id)
+        Request rqt = requestSearchService.getById(id, true)
         rqt[params.currentCollection].remove(Integer.valueOf(params.collectionIndex))
         redirect(action:'edit', params:['id':params.id, 'currentStep':params.currentStep])
         return false

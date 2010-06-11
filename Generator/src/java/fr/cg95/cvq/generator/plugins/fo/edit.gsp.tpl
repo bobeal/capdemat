@@ -111,8 +111,6 @@
 		 </ul>
 
      <div class="yui-content">
-       <g:set var="firstStep" value="${requestFo.steps.iterator().next().name}" />
-       <g:set var="currentStep" value="\${currentStep == 'firstStep' ? firstStep : currentStep}" scope="request"/>
        <g:set var="requestTypeLabel" value="\${requestTypeLabel}" />
        <g:set var="requestTypeAcronym" value="${requestFo.acronym}" scope="request" />
        <g:render template="/frontofficeRequestType/step" /> 

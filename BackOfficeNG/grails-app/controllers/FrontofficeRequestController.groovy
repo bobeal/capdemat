@@ -172,7 +172,7 @@ class FrontofficeRequestController {
             'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
             'subjects': individualAdaptorService.adaptSubjects(requestWorkflowService.getAuthorizedSubjects(rqt)),
             'meansOfContact': individualAdaptorService.adaptMeansOfContact(meansOfContactService.getAdultEnabledMeansOfContact(SecurityContext.currentEcitizen)),
-            'currentStep': params.currentStep != null ? params.currentStep : 'firstStep',
+            'currentStep': params.currentStep != null ? params.currentStep : rqt.stepStates.keySet().iterator().next(),
             'currentCollection': params.currentCollection,
             'collectionIndex': params.collectionIndex ? Integer.valueOf(params.collectionIndex) : null,
             'missingSteps': requestWorkflowService.getMissingSteps(rqt),

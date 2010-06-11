@@ -103,13 +103,13 @@
         <dl>
     
         <dt><g:message code="hcar.property.otherFolderName.label" /></dt>
-        <dd>${it.otherFolderName?.toString()}</dd>
+        <dd class="${rqt.stepStates['folders'].invalidFields.contains('otherFolders[' + index + '].otherFolderName') ? 'validation-failed' : ''}">${it.otherFolderName?.toString()}</dd>
     
         <dt><g:message code="hcar.property.otherFolderNumber.label" /></dt>
-        <dd>${it.otherFolderNumber?.toString()}</dd>
+        <dd class="${rqt.stepStates['folders'].invalidFields.contains('otherFolders[' + index + '].otherFolderNumber') ? 'validation-failed' : ''}">${it.otherFolderNumber?.toString()}</dd>
     
         <dt><g:message code="hcar.property.otherFolderDepartment.label" /></dt>
-        <dd>${it.otherFolderDepartment?.toString()}</dd>
+        <dd class="${rqt.stepStates['folders'].invalidFields.contains('otherFolders[' + index + '].otherFolderDepartment') ? 'validation-failed' : ''}">${it.otherFolderDepartment?.toString()}</dd>
     
         </dl>
          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'folders', 'currentCollection':'otherFolders', 'collectionIndex':index])}">

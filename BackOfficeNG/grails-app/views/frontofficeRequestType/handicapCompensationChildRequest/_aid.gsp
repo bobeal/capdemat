@@ -31,13 +31,13 @@
         <dl>
     
         <dt><g:message code="hccr.property.familyAssistanceMemberRelationship.label" /></dt>
-        <dd>${it.familyAssistanceMemberRelationship?.toString()}</dd>
+        <dd class="${rqt.stepStates['aid'].invalidFields.contains('familyAssistanceMembers[' + index + '].familyAssistanceMemberRelationship') ? 'validation-failed' : ''}">${it.familyAssistanceMemberRelationship?.toString()}</dd>
     
         <dt><g:message code="hccr.property.familyAssistanceMemberLastName.label" /></dt>
-        <dd>${it.familyAssistanceMemberLastName?.toString()}</dd>
+        <dd class="${rqt.stepStates['aid'].invalidFields.contains('familyAssistanceMembers[' + index + '].familyAssistanceMemberLastName') ? 'validation-failed' : ''}">${it.familyAssistanceMemberLastName?.toString()}</dd>
     
         <dt><g:message code="hccr.property.familyAssistanceMemberFirstName.label" /></dt>
-        <dd>${it.familyAssistanceMemberFirstName?.toString()}</dd>
+        <dd class="${rqt.stepStates['aid'].invalidFields.contains('familyAssistanceMembers[' + index + '].familyAssistanceMemberFirstName') ? 'validation-failed' : ''}">${it.familyAssistanceMemberFirstName?.toString()}</dd>
     
         </dl>
          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'familyAssistanceMembers', 'collectionIndex':index])}">
@@ -82,7 +82,7 @@
     
         <dt><g:message code="hccr.property.homeIntervenantKind.label" /></dt>
         
-              <dd>
+              <dd class="${rqt.stepStates['aid'].invalidFields.contains('homeIntervenants[' + index + '].homeIntervenantKind') ? 'validation-failed' : ''}">
                 <g:if test="${it.homeIntervenantKind}">
                   <g:capdematEnumToField var="${it.homeIntervenantKind}" i18nKeyPrefix="hccr.property.homeIntervenantKind" />
                 </g:if>
@@ -90,7 +90,7 @@
               
     
         <dt><g:message code="hccr.property.homeIntervenantDetails.label" /></dt>
-        <dd>${it.homeIntervenantDetails?.toString()}</dd>
+        <dd class="${rqt.stepStates['aid'].invalidFields.contains('homeIntervenants[' + index + '].homeIntervenantDetails') ? 'validation-failed' : ''}">${it.homeIntervenantDetails?.toString()}</dd>
     
         </dl>
          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'homeIntervenants', 'collectionIndex':index])}">
@@ -134,24 +134,24 @@
         <dl>
     
         <dt><g:message code="hccr.property.careServiceKind.label" /></dt>
-        <dd>${it.careServiceKind?.toString()}</dd>
+        <dd class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceKind') ? 'validation-failed' : ''}">${it.careServiceKind?.toString()}</dd>
     
         <dt><g:message code="hccr.property.careServiceCareServiceEmployer.label" /></dt>
-        <dd><g:message code="message.${it.careServiceCareServiceEmployer ? 'yes' : 'no'}" /></dd>
+        <dd class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceCareServiceEmployer') ? 'validation-failed' : ''}"><g:message code="message.${it.careServiceCareServiceEmployer ? 'yes' : 'no'}" /></dd>
     
         <dt><g:message code="hccr.property.careServiceProviderName.label" /></dt>
-        <dd>${it.careServiceProviderName?.toString()}</dd>
+        <dd class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceProviderName') ? 'validation-failed' : ''}">${it.careServiceProviderName?.toString()}</dd>
     
         <dt><g:message code="hccr.property.careServiceProviderAddress.label" /></dt>
         
               <g:if test="${it.careServiceProviderAddress}">
-                <dd>
-                  <p>${it.careServiceProviderAddress?.additionalDeliveryInformation}</p>
-                  <p>${it.careServiceProviderAddress?.additionalGeographicalInformation}</p>
-                  <p>${it.careServiceProviderAddress?.streetNumber} ${it.careServiceProviderAddress?.streetName}</p>
-                  <p>${it.careServiceProviderAddress?.placeNameOrService}</p>
-                  <p>${it.careServiceProviderAddress?.postalCode} ${it.careServiceProviderAddress?.city}</p>
-                  <p>${it.careServiceProviderAddress?.countryName}</p>
+                <dd class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceProviderAddress') ? 'validation-failed' : ''}">
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceProviderAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}">${it.careServiceProviderAddress?.additionalDeliveryInformation}</p>
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceProviderAddress.additionalGeographicalInformation') ? 'validation-failed' : ''}">${it.careServiceProviderAddress?.additionalGeographicalInformation}</p>
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceProviderAddress.streetNumber') || rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceProviderAddress.streetName') ? 'validation-failed' : ''}">${it.careServiceProviderAddress?.streetNumber} ${it.careServiceProviderAddress?.streetName}</p>
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceProviderAddress.placeNameOrService') ? 'validation-failed' : ''}">${it.careServiceProviderAddress?.placeNameOrService}</p>
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceProviderAddress.postalCode') || rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceProviderAddress.city') ? 'validation-failed' : ''}">${it.careServiceProviderAddress?.postalCode} ${it.careServiceProviderAddress?.city}</p>
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceProviderAddress.countryName') ? 'validation-failed' : ''}">${it.careServiceProviderAddress?.countryName}</p>
                 </dd>
               </g:if>
               
@@ -307,21 +307,21 @@
         <dl>
     
         <dt><g:message code="hccr.property.professionalLastName.label" /></dt>
-        <dd>${it.professionalLastName?.toString()}</dd>
+        <dd class="${rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalLastName') ? 'validation-failed' : ''}">${it.professionalLastName?.toString()}</dd>
     
         <dt><g:message code="hccr.property.professionalFirstName.label" /></dt>
-        <dd>${it.professionalFirstName?.toString()}</dd>
+        <dd class="${rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalFirstName') ? 'validation-failed' : ''}">${it.professionalFirstName?.toString()}</dd>
     
         <dt><g:message code="hccr.property.professionalAddress.label" /></dt>
         
               <g:if test="${it.professionalAddress}">
-                <dd>
-                  <p>${it.professionalAddress?.additionalDeliveryInformation}</p>
-                  <p>${it.professionalAddress?.additionalGeographicalInformation}</p>
-                  <p>${it.professionalAddress?.streetNumber} ${it.professionalAddress?.streetName}</p>
-                  <p>${it.professionalAddress?.placeNameOrService}</p>
-                  <p>${it.professionalAddress?.postalCode} ${it.professionalAddress?.city}</p>
-                  <p>${it.professionalAddress?.countryName}</p>
+                <dd class="${rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalAddress') ? 'validation-failed' : ''}">
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}">${it.professionalAddress?.additionalDeliveryInformation}</p>
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalAddress.additionalGeographicalInformation') ? 'validation-failed' : ''}">${it.professionalAddress?.additionalGeographicalInformation}</p>
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalAddress.streetNumber') || rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalAddress.streetName') ? 'validation-failed' : ''}">${it.professionalAddress?.streetNumber} ${it.professionalAddress?.streetName}</p>
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalAddress.placeNameOrService') ? 'validation-failed' : ''}">${it.professionalAddress?.placeNameOrService}</p>
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalAddress.postalCode') || rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalAddress.city') ? 'validation-failed' : ''}">${it.professionalAddress?.postalCode} ${it.professionalAddress?.city}</p>
+                  <p class="${rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalAddress.countryName') ? 'validation-failed' : ''}">${it.professionalAddress?.countryName}</p>
                 </dd>
               </g:if>
               

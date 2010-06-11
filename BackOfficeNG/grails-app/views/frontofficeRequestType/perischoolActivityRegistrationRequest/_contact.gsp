@@ -12,30 +12,30 @@
         <dl>
     
         <dt><g:message code="parr.property.lastName.label" /></dt>
-        <dd>${it.lastName?.toString()}</dd>
+        <dd class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].lastName') ? 'validation-failed' : ''}">${it.lastName?.toString()}</dd>
     
         <dt><g:message code="parr.property.firstName.label" /></dt>
-        <dd>${it.firstName?.toString()}</dd>
+        <dd class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].firstName') ? 'validation-failed' : ''}">${it.firstName?.toString()}</dd>
     
         <dt><g:message code="parr.property.address.label" /></dt>
         
               <g:if test="${it.address}">
-                <dd>
-                  <p>${it.address?.additionalDeliveryInformation}</p>
-                  <p>${it.address?.additionalGeographicalInformation}</p>
-                  <p>${it.address?.streetNumber} ${it.address?.streetName}</p>
-                  <p>${it.address?.placeNameOrService}</p>
-                  <p>${it.address?.postalCode} ${it.address?.city}</p>
-                  <p>${it.address?.countryName}</p>
+                <dd class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].address') ? 'validation-failed' : ''}">
+                  <p class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].address.additionalDeliveryInformation') ? 'validation-failed' : ''}">${it.address?.additionalDeliveryInformation}</p>
+                  <p class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].address.additionalGeographicalInformation') ? 'validation-failed' : ''}">${it.address?.additionalGeographicalInformation}</p>
+                  <p class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].address.streetNumber') || rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].address.streetName') ? 'validation-failed' : ''}">${it.address?.streetNumber} ${it.address?.streetName}</p>
+                  <p class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].address.placeNameOrService') ? 'validation-failed' : ''}">${it.address?.placeNameOrService}</p>
+                  <p class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].address.postalCode') || rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].address.city') ? 'validation-failed' : ''}">${it.address?.postalCode} ${it.address?.city}</p>
+                  <p class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].address.countryName') ? 'validation-failed' : ''}">${it.address?.countryName}</p>
                 </dd>
               </g:if>
               
     
         <dt><g:message code="parr.property.homePhone.label" /></dt>
-        <dd>${it.homePhone?.toString()}</dd>
+        <dd class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].homePhone') ? 'validation-failed' : ''}">${it.homePhone?.toString()}</dd>
     
         <dt><g:message code="parr.property.officePhone.label" /></dt>
-        <dd>${it.officePhone?.toString()}</dd>
+        <dd class="${rqt.stepStates['contact'].invalidFields.contains('contactIndividuals[' + index + '].officePhone') ? 'validation-failed' : ''}">${it.officePhone?.toString()}</dd>
     
         </dl>
          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'contact', 'currentCollection':'contactIndividuals', 'collectionIndex':index])}">

@@ -7,7 +7,7 @@
   
       <label for="otherBenefits.${collectionIndex}.otherBenefitName" class="required"><g:message code="hcar.property.otherBenefitName.label" /> *  <span><g:message code="hcar.property.otherBenefitName.help" /></span></label>
             <input type="text" id="otherBenefits.${collectionIndex}.otherBenefitName" name="otherBenefits[${collectionIndex}].otherBenefitName" value="${currentCollectionItem?.otherBenefitName?.toString()}" 
-                    class="required   ${rqt.stepStates['benefits'].invalidFields.contains('otherBenefits.otherBenefitName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherBenefitName.validationError" />"  maxlength="60" />
+                    class="required   ${rqt.stepStates['benefits'].invalidFields.contains('otherBenefits['+collectionIndex+'].otherBenefitName') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.otherBenefitName.validationError" />"  maxlength="60" />
             
 
   

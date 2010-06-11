@@ -225,13 +225,13 @@
   }
   
   
-  def displayStaticWidget(element, valuePrefix) {
+  def displayStaticWidget(element, valuePrefix, validationNamePrefix) {
       def staticWidgets = [
           'boolean' : 
-              """<dd><g:message code="message.\${${valuePrefix}.${element.javaFieldName} ? 'yes' : 'no'}" /></dd>"""
+              """<dd class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}"><g:message code="message.\${${valuePrefix}.${element.javaFieldName} ? 'yes' : 'no'}" /></dd>"""
           ,'radio' :
               """
-              <dd>
+              <dd class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
                 <g:if test="\${${valuePrefix}.${element.javaFieldName}}">
                   <g:capdematEnumToField var="\${${valuePrefix}.${element.javaFieldName}}" i18nKeyPrefix="${element.i18nPrefixCode}" />
                 </g:if>
@@ -239,7 +239,7 @@
               """
           ,'select' :
               """
-              <dd>
+              <dd class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
                 <g:if test="\${${valuePrefix}.${element.javaFieldName}}">
                   <g:capdematEnumToField var="\${${valuePrefix}.${element.javaFieldName}}" i18nKeyPrefix="${element.i18nPrefixCode}" />
                 </g:if>
@@ -248,13 +248,13 @@
           ,'address' :
               """
               <g:if test="\${${valuePrefix}.${element.javaFieldName}}">
-                <dd>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}</p>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.additionalGeographicalInformation}</p>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.streetNumber} \${${valuePrefix}.${element.javaFieldName}?.streetName}</p>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.placeNameOrService}</p>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.postalCode} \${${valuePrefix}.${element.javaFieldName}?.city}</p>
-                  <p>\${${valuePrefix}.${element.javaFieldName}?.countryName}</p>
+                <dd class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
+                  <p class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.additionalDeliveryInformation') ? 'validation-failed' : ''}">\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}</p>
+                  <p class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.additionalGeographicalInformation') ? 'validation-failed' : ''}">\${${valuePrefix}.${element.javaFieldName}?.additionalGeographicalInformation}</p>
+                  <p class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.streetNumber') || rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.streetName') ? 'validation-failed' : ''}">\${${valuePrefix}.${element.javaFieldName}?.streetNumber} \${${valuePrefix}.${element.javaFieldName}?.streetName}</p>
+                  <p class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.placeNameOrService') ? 'validation-failed' : ''}">\${${valuePrefix}.${element.javaFieldName}?.placeNameOrService}</p>
+                  <p class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.postalCode') || rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.city') ? 'validation-failed' : ''}">\${${valuePrefix}.${element.javaFieldName}?.postalCode} \${${valuePrefix}.${element.javaFieldName}?.city}</p>
+                  <p class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.countryName') ? 'validation-failed' : ''}">\${${valuePrefix}.${element.javaFieldName}?.countryName}</p>
                 </dd>
               </g:if>
               """
@@ -263,11 +263,11 @@
             <!-- TODO - local referential Data (local referential Data in collection are notimplemented in model plugin) -->
             """
           ,'date' :
-              """<dd><g:formatDate formatName="format.date" date="\${${valuePrefix}.${element.javaFieldName}}"/></dd>"""
+              """<dd class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}"><g:formatDate formatName="format.date" date="\${${valuePrefix}.${element.javaFieldName}}"/></dd>"""
           ,'time' :
-              """<dd><g:formatDate formatName="format.time" date="\${${valuePrefix}.${element.javaFieldName}}" type="time"/></dd>"""
+              """<dd class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}"><g:formatDate formatName="format.time" date="\${${valuePrefix}.${element.javaFieldName}}" type="time"/></dd>"""
           ,'text' : 
-              """<dd>\${${valuePrefix}.${element.javaFieldName}?.toString()}</dd>"""
+              """<dd class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">\${${valuePrefix}.${element.javaFieldName}?.toString()}</dd>"""
       ]
   
       if (staticWidgets[element.widget] != null)
@@ -289,7 +289,7 @@
         <dl>
     <% element.elements.each { subElement -> %>
         <dt><g:message code="${subElement.i18nPrefixCode}.label" /></dt>
-        <% displayStaticWidget(subElement, 'it') %>
+        <% displayStaticWidget(subElement, 'it', element.javaFieldName + "[' + index + '].") %>
     <% } %>
         </dl>
          <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':index])}">

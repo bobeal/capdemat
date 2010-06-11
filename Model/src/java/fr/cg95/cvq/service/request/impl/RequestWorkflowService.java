@@ -18,6 +18,7 @@ import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
 import net.sf.oval.context.ClassContext;
 import net.sf.oval.context.FieldContext;
+import net.sf.oval.context.OValContext;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -554,12 +555,19 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 fields.put(stepName, new ArrayList<String>());
             fields.get(stepName).add(field);
         } else {
+            OValContext context = violation.getContext();
             String[] profiles = (String[])annotationClass.getMethod("profiles").invoke(
-                    ((FieldContext)violation.getContext()).getField().getAnnotation(annotationClass));
+                ((FieldContext)context).getField().getAnnotation(annotationClass));
             if (profiles != null && profiles.length > 0)
                 stepName = profiles[0];
             for (ConstraintViolation cause : violation.getCauses()) {
-                collectInvalidFields(cause, fields, (StringUtils.isNotBlank(prefix) ? prefix + '.' : "") + violation.getMessage(), stepName);
+                collectInvalidFields(
+                    cause, fields,
+                    (StringUtils.isNotBlank(prefix) ? prefix + '.' : "") + violation.getMessage()
+                        + (List.class.isAssignableFrom(context.getCompileTimeType()) ?
+                            "[" + ((List<?>)((FieldContext)context).getField().get(violation.getValidatedObject()))
+                                .indexOf(cause.getValidatedObject()) + "]" : ""),
+                    stepName);
             }
         }
     }

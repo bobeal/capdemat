@@ -1,7 +1,7 @@
 <%
   def displayWidget(element, valuePrefix, namePrefix) {
       def IdRefNamePrefix = namePrefix.replace('[','.').replace(']','')
-      def validationNamePrefix = namePrefix.replaceAll("\\[\\\$\\{collectionIndex\\}\\]", "")
+      def validationNamePrefix = namePrefix.replaceAll("\\\$\\{", "'+").replaceAll("\\}", "+'")
       def widgets = [
         'boolean' : 
             """

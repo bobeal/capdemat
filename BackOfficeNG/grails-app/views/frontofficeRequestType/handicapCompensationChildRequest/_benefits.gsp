@@ -331,7 +331,7 @@
         <dl>
     
         <dt><g:message code="hccr.property.otherBenefitName.label" /></dt>
-        <dd>${it.otherBenefitName?.toString()}</dd>
+        <dd class="${rqt.stepStates['benefits'].invalidFields.contains('otherBenefits[' + index + '].otherBenefitName') ? 'validation-failed' : ''}">${it.otherBenefitName?.toString()}</dd>
     
         </dl>
          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'benefits', 'currentCollection':'otherBenefits', 'collectionIndex':index])}">
@@ -356,13 +356,13 @@
         <dl>
     
         <dt><g:message code="hccr.property.additionalFeeKind.label" /></dt>
-        <dd>${it.additionalFeeKind?.toString()}</dd>
+        <dd class="${rqt.stepStates['benefits'].invalidFields.contains('additionalFee[' + index + '].additionalFeeKind') ? 'validation-failed' : ''}">${it.additionalFeeKind?.toString()}</dd>
     
         <dt><g:message code="hccr.property.additionalFeeCost.label" /></dt>
-        <dd>${it.additionalFeeCost?.toString()}</dd>
+        <dd class="${rqt.stepStates['benefits'].invalidFields.contains('additionalFee[' + index + '].additionalFeeCost') ? 'validation-failed' : ''}">${it.additionalFeeCost?.toString()}</dd>
     
         <dt><g:message code="hccr.property.additionalFeePeriodicity.label" /></dt>
-        <dd>${it.additionalFeePeriodicity?.toString()}</dd>
+        <dd class="${rqt.stepStates['benefits'].invalidFields.contains('additionalFee[' + index + '].additionalFeePeriodicity') ? 'validation-failed' : ''}">${it.additionalFeePeriodicity?.toString()}</dd>
     
         </dl>
          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'benefits', 'currentCollection':'additionalFee', 'collectionIndex':index])}">

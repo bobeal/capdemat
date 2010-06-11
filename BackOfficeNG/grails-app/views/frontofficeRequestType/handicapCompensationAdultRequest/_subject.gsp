@@ -184,17 +184,17 @@
         <dl>
     
         <dt><g:message code="hcar.property.familyDependentLastName.label" /></dt>
-        <dd>${it.familyDependentLastName?.toString()}</dd>
+        <dd class="${rqt.stepStates['subject'].invalidFields.contains('familyDependents[' + index + '].familyDependentLastName') ? 'validation-failed' : ''}">${it.familyDependentLastName?.toString()}</dd>
     
         <dt><g:message code="hcar.property.familyDependentFirstName.label" /></dt>
-        <dd>${it.familyDependentFirstName?.toString()}</dd>
+        <dd class="${rqt.stepStates['subject'].invalidFields.contains('familyDependents[' + index + '].familyDependentFirstName') ? 'validation-failed' : ''}">${it.familyDependentFirstName?.toString()}</dd>
     
         <dt><g:message code="hcar.property.familyDependentBirthDate.label" /></dt>
-        <dd><g:formatDate formatName="format.date" date="${it.familyDependentBirthDate}"/></dd>
+        <dd class="${rqt.stepStates['subject'].invalidFields.contains('familyDependents[' + index + '].familyDependentBirthDate') ? 'validation-failed' : ''}"><g:formatDate formatName="format.date" date="${it.familyDependentBirthDate}"/></dd>
     
         <dt><g:message code="hcar.property.familyDependentActualSituation.label" /></dt>
         
-              <dd>
+              <dd class="${rqt.stepStates['subject'].invalidFields.contains('familyDependents[' + index + '].familyDependentActualSituation') ? 'validation-failed' : ''}">
                 <g:if test="${it.familyDependentActualSituation}">
                   <g:capdematEnumToField var="${it.familyDependentActualSituation}" i18nKeyPrefix="hcar.property.familyDependentActualSituation" />
                 </g:if>

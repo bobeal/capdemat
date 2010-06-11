@@ -126,20 +126,20 @@
         <dt><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /></dt>
         
               <g:if test="${it.dhrPreviousDwellingAddress}">
-                <dd>
-                  <p>${it.dhrPreviousDwellingAddress?.additionalDeliveryInformation}</p>
-                  <p>${it.dhrPreviousDwellingAddress?.additionalGeographicalInformation}</p>
-                  <p>${it.dhrPreviousDwellingAddress?.streetNumber} ${it.dhrPreviousDwellingAddress?.streetName}</p>
-                  <p>${it.dhrPreviousDwellingAddress?.placeNameOrService}</p>
-                  <p>${it.dhrPreviousDwellingAddress?.postalCode} ${it.dhrPreviousDwellingAddress?.city}</p>
-                  <p>${it.dhrPreviousDwellingAddress?.countryName}</p>
+                <dd class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingAddress') ? 'validation-failed' : ''}">
+                  <p class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}">${it.dhrPreviousDwellingAddress?.additionalDeliveryInformation}</p>
+                  <p class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingAddress.additionalGeographicalInformation') ? 'validation-failed' : ''}">${it.dhrPreviousDwellingAddress?.additionalGeographicalInformation}</p>
+                  <p class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingAddress.streetNumber') || rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingAddress.streetName') ? 'validation-failed' : ''}">${it.dhrPreviousDwellingAddress?.streetNumber} ${it.dhrPreviousDwellingAddress?.streetName}</p>
+                  <p class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingAddress.placeNameOrService') ? 'validation-failed' : ''}">${it.dhrPreviousDwellingAddress?.placeNameOrService}</p>
+                  <p class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingAddress.postalCode') || rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingAddress.city') ? 'validation-failed' : ''}">${it.dhrPreviousDwellingAddress?.postalCode} ${it.dhrPreviousDwellingAddress?.city}</p>
+                  <p class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingAddress.countryName') ? 'validation-failed' : ''}">${it.dhrPreviousDwellingAddress?.countryName}</p>
                 </dd>
               </g:if>
               
     
         <dt><g:message code="dhr.property.dhrPreviousDwellingKind.label" /></dt>
         
-              <dd>
+              <dd class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingKind') ? 'validation-failed' : ''}">
                 <g:if test="${it.dhrPreviousDwellingKind}">
                   <g:capdematEnumToField var="${it.dhrPreviousDwellingKind}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingKind" />
                 </g:if>
@@ -148,7 +148,7 @@
     
         <dt><g:message code="dhr.property.dhrPreviousDwellingStatus.label" /></dt>
         
-              <dd>
+              <dd class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingStatus') ? 'validation-failed' : ''}">
                 <g:if test="${it.dhrPreviousDwellingStatus}">
                   <g:capdematEnumToField var="${it.dhrPreviousDwellingStatus}" i18nKeyPrefix="dhr.property.dhrPreviousDwellingStatus" />
                 </g:if>
@@ -156,13 +156,13 @@
               
     
         <dt><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /></dt>
-        <dd><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingArrivalDate}"/></dd>
+        <dd class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}"><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingArrivalDate}"/></dd>
     
         <dt><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /></dt>
-        <dd><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingDepartureDate}"/></dd>
+        <dd class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}"><g:formatDate formatName="format.date" date="${it.dhrPreviousDwellingDepartureDate}"/></dd>
     
         <dt><g:message code="dhr.property.dhrPreviousDwellingComment.label" /></dt>
-        <dd>${it.dhrPreviousDwellingComment?.toString()}</dd>
+        <dd class="${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling[' + index + '].dhrPreviousDwellingComment') ? 'validation-failed' : ''}">${it.dhrPreviousDwellingComment?.toString()}</dd>
     
         </dl>
          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'dwelling', 'currentCollection':'dhrPreviousDwelling', 'collectionIndex':index])}">

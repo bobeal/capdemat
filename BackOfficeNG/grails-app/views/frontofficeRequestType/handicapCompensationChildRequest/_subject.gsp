@@ -306,17 +306,17 @@
         <dl>
     
         <dt><g:message code="hccr.property.referentFamilyDependentLastName.label" /></dt>
-        <dd>${it.referentFamilyDependentLastName?.toString()}</dd>
+        <dd class="${rqt.stepStates['subject'].invalidFields.contains('familyDependents[' + index + '].referentFamilyDependentLastName') ? 'validation-failed' : ''}">${it.referentFamilyDependentLastName?.toString()}</dd>
     
         <dt><g:message code="hccr.property.referentFamilyDependentFirstName.label" /></dt>
-        <dd>${it.referentFamilyDependentFirstName?.toString()}</dd>
+        <dd class="${rqt.stepStates['subject'].invalidFields.contains('familyDependents[' + index + '].referentFamilyDependentFirstName') ? 'validation-failed' : ''}">${it.referentFamilyDependentFirstName?.toString()}</dd>
     
         <dt><g:message code="hccr.property.referentFamilyDependentBirthDate.label" /></dt>
-        <dd><g:formatDate formatName="format.date" date="${it.referentFamilyDependentBirthDate}"/></dd>
+        <dd class="${rqt.stepStates['subject'].invalidFields.contains('familyDependents[' + index + '].referentFamilyDependentBirthDate') ? 'validation-failed' : ''}"><g:formatDate formatName="format.date" date="${it.referentFamilyDependentBirthDate}"/></dd>
     
         <dt><g:message code="hccr.property.referentFamilyDependentActualSituation.label" /></dt>
         
-              <dd>
+              <dd class="${rqt.stepStates['subject'].invalidFields.contains('familyDependents[' + index + '].referentFamilyDependentActualSituation') ? 'validation-failed' : ''}">
                 <g:if test="${it.referentFamilyDependentActualSituation}">
                   <g:capdematEnumToField var="${it.referentFamilyDependentActualSituation}" i18nKeyPrefix="hccr.property.referentFamilyDependentActualSituation" />
                 </g:if>

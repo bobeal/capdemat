@@ -14,7 +14,7 @@ public @interface SubjectId {
 
     String message() default "subjectId";
 
-    String[] profiles() default {""};
+    String[] profiles() default {};
 
     String when() default "";
 }

@@ -508,9 +508,11 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 String invalidField = iterator.next();
                 if ("subjectId".equals(invalidField)) {
                     String firstStep = request.getStepStates().keySet().iterator().next();
-                    if (invalidFields.get(firstStep) == null)
-                        invalidFields.put(firstStep, new ArrayList<String>(1));
-                    invalidFields.get(firstStep).add(invalidField);
+                    if (steps == null || steps.contains(firstStep)) {
+                        if (invalidFields.get(firstStep) == null)
+                            invalidFields.put(firstStep, new ArrayList<String>(1));
+                        invalidFields.get(firstStep).add(invalidField);
+                    }
                     iterator.remove();
                 }
             }

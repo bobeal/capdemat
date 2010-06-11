@@ -759,9 +759,11 @@ class FrontofficeRequestCreationController {
                 def invalidField = iterator.next()
                 if (invalidField == "subjectId") {
                     def firstStep = cRequest.stepStates.iterator().next().key
-                    if (invalidFields[firstStep] == null)
-                        invalidFields[firstStep] = []
-                    invalidFields[firstStep].add(invalidField)
+                    if (steps == null || steps.contains(firstStep)) {
+                        if (invalidFields[firstStep] == null)
+                            invalidFields[firstStep] = []
+                        invalidFields[firstStep].add(invalidField)
+                    }
                     iterator.remove()
                 }
             }

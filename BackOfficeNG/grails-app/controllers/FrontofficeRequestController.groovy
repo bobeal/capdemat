@@ -179,7 +179,7 @@ class FrontofficeRequestController {
             'collectionIndex': params.collectionIndex ? Integer.valueOf(params.collectionIndex) : null,
             'missingSteps': requestWorkflowService.getMissingSteps(rqt),
             'documentTypes': documentAdaptorService.getDocumentTypes(rqt),
-            'documentsByTypes': params.currentStep == 'document' ? documentAdaptorService.getDocumentsByType(rqt) : [],
+            'documentsByTypes': ['document','validation'].contains(params.currentStep) ? documentAdaptorService.getDocumentsByType(rqt) : [],
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
             'isEdition' : !RequestState.DRAFT.equals(rqt.state),
             'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),

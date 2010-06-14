@@ -23,6 +23,8 @@ grails.converters.encoding="UTF-8"
 // Set to false to use the new Grails 1.2 JSONBuilder in the render method
 grails.json.legacy.builder=true
 
+grails.gsp.enable.reload = false
+
 // Debug Plugin
 /*
 grails.debug.system = true

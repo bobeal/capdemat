@@ -3,15 +3,13 @@ package fr.cg95.cvq.service.document;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.cg95.cvq.business.document.Document;
-import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
-import fr.cg95.cvq.service.document.IDocumentService;
-import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.testtool.ServiceTestCase;
 
 public class DocumentTestCase extends ServiceTestCase {
@@ -24,62 +22,53 @@ public class DocumentTestCase extends ServiceTestCase {
     public Long gimmeImageDocument() 
         throws CvqObjectNotFoundException, CvqException, IOException {
         DocumentType docType = documentTypeService.getDocumentTypeByType(IDocumentTypeService.OLD_CNI_TYPE);
-        Document document = new Document(null, null, docType, null);
+        Document document = new Document(null, null, docType);
         
         Long docId = documentService.create(document);
         
-        DocumentBinary docBin = getImageDocumentBinary();
-        documentService.addPage(docId, docBin);
+        documentService.addPage(docId, getImageDocumentBinary());
         
-        docBin = getImageDocumentBinary();
-        documentService.addPage(docId, docBin);
+        documentService.addPage(docId, getImageDocumentBinary());
         
         return docId;
     }
     
-    public Long gimmePdfDocument() 
+    public Long gimmePdfDocument()
         throws CvqObjectNotFoundException, CvqException, IOException {
         DocumentType docType = documentTypeService.getDocumentTypeByType(IDocumentTypeService.OLD_CNI_TYPE);
-        Document document = new Document(null, null, docType, null);
+        Document document = new Document(null, null, docType);
 
         Long docId = documentService.create(document);
 
-        DocumentBinary docBin = getPdfDocumentBinary();
-        documentService.addPage(docId, docBin);
+        documentService.addPage(docId, getPdfDocumentBinary());
 
         return docId;
     }
     
-    public DocumentBinary getImageDocumentBinary() 
+    public byte[] getImageDocumentBinary()
         throws IOException {
-        DocumentBinary docBin = new DocumentBinary();
         File fileJpg = getResourceFile("test.jpg");
         byte[] dataJpg = new byte[(int) fileJpg.length()];
         FileInputStream fis = new FileInputStream(fileJpg);
         fis.read(dataJpg);
-        docBin.setData(dataJpg);
-        return docBin;
+        return dataJpg;
     }
     
-    public DocumentBinary getPdfDocumentBinary() 
+    public byte[] getPdfDocumentBinary()
         throws IOException {
-        DocumentBinary docBin = new DocumentBinary();
         File filePdf = getResourceFile("test.pdf");
         byte[] dataPdf = new byte[(int) filePdf.length()];
         FileInputStream fis = new FileInputStream(filePdf);
         fis.read(dataPdf);
-        docBin.setData(dataPdf);
-        return docBin;
+        return dataPdf;
     }
     
-    public DocumentBinary getBadTypeDocumentBinary() 
+    public byte[] getBadTypeDocumentBinary()
         throws IOException {
-        DocumentBinary docBin = new DocumentBinary();
         File fileHtml = getResourceFile("test.html");
         byte[] dataHtml = new byte[(int) fileHtml.length()];
         FileInputStream fis = new FileInputStream(fileHtml);
         fis.read(dataHtml);
-        docBin.setData(dataHtml);
-        return docBin;
+        return dataHtml;
     }
 }

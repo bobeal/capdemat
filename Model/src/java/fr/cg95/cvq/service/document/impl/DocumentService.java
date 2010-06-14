@@ -229,14 +229,16 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         HibernateUtil.getSession().flush();
     }
 
+    @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public void addPage(final Long documentId, final DocumentBinary documentBinary)
-    throws  CvqException {
-
+    public void addPage(final Long documentId, final byte[] data) throws  CvqException {
+        if (data == null || data.length == 0)
+            return;
         checkDocumentDigitalizationIsEnabled();
-
+        DocumentBinary documentBinary = new DocumentBinary();
         try {
-            documentBinary.setContentType(checkNewBinaryData(documentId, documentBinary.getData()));
+            documentBinary.setContentType(checkNewBinaryData(documentId, data));
+            documentBinary.setData(data);
             Document document = getById(documentId);
             createPreview(documentBinary);
             if (document.getDatas() == null) {
@@ -252,20 +254,22 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
 
+    @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public void modifyPage(final Long documentId, final DocumentBinary documentBinary)
-    throws CvqException {
-
+    public void modifyPage(final Long documentId, final int dataIndex ,final byte[] data)
+            throws CvqException {
+        if (data == null || data.length == 0)
+            return;
         checkDocumentDigitalizationIsEnabled();
-
         Document document = getById(documentId);
+        DocumentBinary documentBinary = document.getDatas().get(dataIndex);
+        documentBinary.setContentType(checkNewBinaryData(documentId, data));
+        documentBinary.setData(data);
 
         if (document.getDatas().size() == 1) {
-            documentDAO.update(documentBinary);
             if (document.getState().equals(DocumentState.OUTDATED)) {
                 document.setState(DocumentState.PENDING);
                 document.setValidationDate(null);
-                documentDAO.update(document);
                 addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
             }
         }
@@ -576,12 +580,6 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
 
-    public void deleteUnpersistedSessionDocuments(final String sessionUuid) {
-        List<Document> sessionDocuments = getBySessionUuid(sessionUuid);
-        for (Document document : sessionDocuments)
-            documentDAO.delete(document);
-    }
-    
     private void createPreview(DocumentBinary page) throws CvqException {
         try {
             if (page.getContentType().equals(ContentType.PDF)) {

@@ -1,5 +1,11 @@
 package fr.cg95.cvq.service.document;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,12 +15,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.DepositOrigin;
@@ -31,7 +33,6 @@ import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
-import fr.cg95.cvq.service.document.IDocumentService;
 import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 /**
@@ -71,17 +72,15 @@ public class DocumentServiceTest extends DocumentTestCase {
         Long docId = documentService.create(doc);
 
         // add binary data
-        DocumentBinary docBin = getImageDocumentBinary();
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, getImageDocumentBinary());
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
 
         // and another one ...
-        docBin = getImageDocumentBinary();
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, getImageDocumentBinary());
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
@@ -92,7 +91,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         // ... to the home folder
         List<Document> documentsList = documentService.getHomeFolderDocuments(cb.getHomeFolderId(), -1);
         assertEquals("Bad number of associated documents on home folder", 1, documentsList.size());
-        Set<DocumentBinary> docBinarySet = documentService.getAllPages(docId);
+        List<DocumentBinary> docBinarys = documentService.getById(docId).getDatas();
         assertEquals("Bad number of associated data on document",2, doc.getDatas().size());
 
         // ... and to the individual
@@ -106,10 +105,8 @@ public class DocumentServiceTest extends DocumentTestCase {
         }
         
         // modify a page
-        DocumentBinary docBin1 = docBinarySet.iterator().next();
-        docBin1.setData(getImageDocumentBinary().getData());
         try {
-            documentService.modifyPage(docId, docBin1);
+            documentService.modifyPage(docId, 0, getImageDocumentBinary());
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
@@ -117,8 +114,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         // remove a page
         doc.getDatas().remove(1);
         assertEquals("Bad number of associated data on document", 1, doc.getDatas().size());
-        docBin1 = doc.getDatas().get(0) ;
-        assertNotNull("Could find page", docBin1);
+        assertNotNull("Could find page", doc.getDatas().get(0));
 
         // try to retrieve the list of identity pieces for home folder
         DocumentType docType =
@@ -341,17 +337,12 @@ public class DocumentServiceTest extends DocumentTestCase {
 
         DocumentType documentType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
-        String uuid = UUID.randomUUID().toString();
-        Document document = new Document(null, "coucou", documentType, uuid);
+        Document document = new Document(null, "coucou", documentType);
         documentService.create(document);
 
         continueWithNewTransaction();
 
-        List<Document> documents = documentService.getBySessionUuid(uuid);
-        assertNotNull(documents);
-        assertEquals(1, documents.size());
-
-        document = documents.get(0);
+        document = documentService.getById(document.getId());
         assertEquals("coucou", document.getEcitizenNote());
 
         document.setEcitizenNote("hello buddy");
@@ -359,44 +350,40 @@ public class DocumentServiceTest extends DocumentTestCase {
 
         continueWithNewTransaction();
 
-        document = documentService.getBySessionUuid(uuid).get(0);
+        document = documentService.getById(document.getId());
         assertEquals("hello buddy", document.getEcitizenNote());
 
-        DocumentBinary documentBinary = getImageDocumentBinary();
         try {
-            documentService.addPage(document.getId(), documentBinary);
+            documentService.addPage(document.getId(), getImageDocumentBinary());
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
 
         continueWithNewTransaction();
 
-        document = documentService.getBySessionUuid(uuid).get(0);
-        documentBinary = document.getDatas().get(0);
+        document = documentService.getById(document.getId());
         try {
-            documentService.modifyPage(document.getId(), documentBinary);
+            documentService.modifyPage(document.getId(), 0, new byte[]{});
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
 
         continueWithNewTransaction();
 
-        document = documentService.getBySessionUuid(uuid).get(0);
+        document = documentService.getById(document.getId());
         assertEquals(1, document.getDatas().size());
 
         documentService.deletePage(document.getId(), 0);
 
         continueWithNewTransaction();
 
-        document = documentService.getBySessionUuid(uuid).get(0);
+        document = documentService.getById(document.getId());
         assertEquals(0, document.getDatas().size());
 
         documentService.delete(document.getId());
 
         continueWithNewTransaction();
-
-        documents = documentService.getBySessionUuid(uuid);
-        assertTrue(documents.isEmpty());
+        // TODO: test deletion
     }
     
     @Test
@@ -408,22 +395,18 @@ public class DocumentServiceTest extends DocumentTestCase {
         DocumentType docType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
         Document doc = BusinessObjectsFactory.gimmeDocument("", null, null, docType);
-        doc.setSessionUuid("testAddPage");
         Long docId = documentService.create(doc);
         
         continueWithNewTransaction();
         
         // first : add binaries with allowed content type (image)
-        DocumentBinary docBin = getImageDocumentBinary();
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, getImageDocumentBinary());
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
-        
-        docBin = getImageDocumentBinary();
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, getImageDocumentBinary());
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
@@ -442,16 +425,13 @@ public class DocumentServiceTest extends DocumentTestCase {
         continueWithNewTransaction();
         
         // second : add binaries with allowed content type (pdf)
-        docBin = getPdfDocumentBinary();
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, getPdfDocumentBinary());
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
-        
-        docBin = getPdfDocumentBinary();
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, getPdfDocumentBinary());
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
@@ -466,9 +446,8 @@ public class DocumentServiceTest extends DocumentTestCase {
         continueWithNewTransaction();
         
         // third : add a binary with a content type allowed but different from binaries in document
-        docBin = getImageDocumentBinary();
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, getImageDocumentBinary());
             fail("We must have an error");
         } catch (CvqModelException cme) {
          // that was expected
@@ -483,9 +462,8 @@ public class DocumentServiceTest extends DocumentTestCase {
         continueWithNewTransaction();
         
         // fourth : add a binary with content type not allowed
-        docBin = getBadTypeDocumentBinary();
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, getBadTypeDocumentBinary());
             fail("We must have an error");
         } catch (CvqModelException cme) {
          // that was expected
@@ -514,30 +492,27 @@ public class DocumentServiceTest extends DocumentTestCase {
         DocumentType docType = 
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
         Document doc = BusinessObjectsFactory.gimmeDocument("", null, null, docType);
-        doc.setSessionUuid("testMergePdf");
         Long docId = documentService.create(doc);
         
-        //first : add pdf binaries encrypted
-        DocumentBinary docBin = new DocumentBinary();
+
+        //first : add binaries encrypted
+
         File filePdf = getResourceFile("encrypted.pdf");
         byte[] dataPdf = new byte[(int) filePdf.length()];
         FileInputStream fis = new FileInputStream(filePdf);
         fis.read(dataPdf);
-        docBin.setData(dataPdf);
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, dataPdf);
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
-        
-        docBin = new DocumentBinary();
-        docBin.setData(dataPdf);
+
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, dataPdf);
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
-        
+
         continueWithNewTransaction();
 
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
@@ -556,16 +531,13 @@ public class DocumentServiceTest extends DocumentTestCase {
         doc.getDatas().clear();
         
         //second : add pdf binaries not encrypted
-        docBin = getPdfDocumentBinary();
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, getPdfDocumentBinary());
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
-        
-        docBin = getPdfDocumentBinary();
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, getPdfDocumentBinary());
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
@@ -589,22 +561,18 @@ public class DocumentServiceTest extends DocumentTestCase {
         doc.getDatas().clear();
         
         //third : add image binary
-        docBin = new DocumentBinary();
         filePdf = getResourceFile("test.jpg");
         dataPdf = new byte[(int) filePdf.length()];
         fis = new FileInputStream(filePdf);
         fis.read(dataPdf);
-        docBin.setData(dataPdf);
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, dataPdf);
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
         
-        docBin = new DocumentBinary();
-        docBin.setData(dataPdf);
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, dataPdf);
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }

@@ -109,7 +109,7 @@ class BackofficeDocumentInstructionController {
             }
             
             try {
-                documentService.addPage(Long.valueOf(document.id), new DocumentBinary(file.bytes))
+                documentService.addPage(Long.valueOf(document.id), file.bytes)
                 result.status = 'success'
                 result.documentId = params?.documentId ? '' : document.id
                 result.message = message(code:"message.addDone")
@@ -133,11 +133,8 @@ class BackofficeDocumentInstructionController {
         
         def document = documentService.getById(params.long('documentId'))
         try {
-            def mimeType = documentService.checkNewBinaryData(params.long('documentId'),file.bytes)
-            def documentBinary = document.datas[Integer.valueOf(params.pageNumber)]
-            documentBinary.data = file.bytes
-            documentBinary.contentType = mimeType
-            documentService.modifyPage(params.long('documentId'), documentBinary)
+            documentService.modifyPage(params.long('documentId'),
+                Integer.valueOf(params.pageNumber), file.bytes)
             result.message = message(code:"message.updateDone")
             result.status = 'success'
             result.pageNumber = params.pageNumber

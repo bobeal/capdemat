@@ -87,7 +87,6 @@ public class DocumentContextCheckAspect implements Ordered {
                 && SecurityContext.getCurrentEcitizen() == null
                 && SecurityContext.getCurrentContext().equals(SecurityContext.FRONT_OFFICE_CONTEXT)) {
             if (document == null
-                    || document.getSessionUuid() == null
                     || document.getHomeFolderId() != null
                     || document.getIndividualId() != null) {
                 throw new PermissionException(joinPoint.getSignature().getDeclaringType(),

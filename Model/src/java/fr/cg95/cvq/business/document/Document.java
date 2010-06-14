@@ -36,12 +36,6 @@ public class Document implements Serializable {
     private DocumentType documentType;
     private boolean certified = false;
 
-    /**
-     * As documents are persisted before a request is finished and / or before ecitizen accounts are created, 
-     * we need a way to track them without having the whole usual environment. For that, we use the session
-     * UUID.
-     */
-    private String sessionUuid;
 
     private List<DocumentBinary> datas = new ArrayList<DocumentBinary>();
     private Set<DocumentAction> actions;
@@ -50,12 +44,10 @@ public class Document implements Serializable {
     public Document() {
     }
 
-    public Document(Long homeFolderId, String ecitizenNote, DocumentType documentType,
-            String sessionUuid) {
+    public Document(Long homeFolderId, String ecitizenNote, DocumentType documentType) {
         this.homeFolderId = homeFolderId;
         this.ecitizenNote = ecitizenNote;
         this.documentType = documentType;
-        this.sessionUuid = sessionUuid;
     }
 
     /**
@@ -228,18 +220,6 @@ public class Document implements Serializable {
 
     public void setCertified(boolean certified) {
         this.certified = certified;
-    }
-
-    public void setSessionUuid(String sessionUuid) {
-        this.sessionUuid = sessionUuid;
-    }
-
-    /**
-     * @hibernate.property
-     *  column="session_uuid"
-     */
-    public String getSessionUuid() {
-        return sessionUuid;
     }
 
     /**

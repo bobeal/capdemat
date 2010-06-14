@@ -10,6 +10,7 @@ import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestServiceRegistry
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.request.IDisplayGroupService
+import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
 
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
@@ -20,6 +21,7 @@ public class RequestTypeAdaptorService {
     IRequestWorkflowService requestWorkflowService
     ILocalReferentialService localReferentialService
     IDisplayGroupService displayGroupService
+    ILocalAuthorityRegistry localAuthorityRegistry
 
     public Map getDisplayGroups(HomeFolder homeFolder) {
         def result = [:]
@@ -84,5 +86,17 @@ public class RequestTypeAdaptorService {
             acronym += it[0].toLowerCase()
         }
         return acronym + 'r'
+    }
+
+    public Map requestTypeResources(requestTypeLabel) {
+        def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(requestTypeLabel)
+        return [
+            'lrTypes': getLocalReferentialTypes(requestTypeLabel),
+            'requestTypeLabel': requestTypeLabel,
+            'requestTypeLabelAsDir' : requestTypeLabelAsDir,
+            'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(requestTypeLabelAsDir),
+            'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(requestTypeLabelAsDir),
+            'customJS' : getCustomJS(requestTypeLabel)
+         ]
     }
 }

@@ -3,6 +3,7 @@ package fr.cg95.cvq.business.request;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -292,6 +293,8 @@ public class RequestData implements Serializable {
      *  class="fr.cg95.cvq.business.request.RequestDocument"
      */
     public Set<RequestDocument> getDocuments() {
+        if (documents == null)
+            documents = new HashSet<RequestDocument>();
         return this.documents;
     }
 

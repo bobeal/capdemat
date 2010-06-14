@@ -76,6 +76,9 @@ public interface IRequestDocumentService {
     GetDocumentResponseDocument getAssociatedDocument(final Long requestId, final Long documentId,
             final boolean mergeDocument) throws CvqException, CvqObjectNotFoundException, PermissionException;
 
+    List<Document> getProvidedNotAssociatedDocumentsByType(@IsRequest final Long requestId, final Long documentTypeId)
+        throws CvqException;
+
     /**
      * Get associated documents of the given type.
      */

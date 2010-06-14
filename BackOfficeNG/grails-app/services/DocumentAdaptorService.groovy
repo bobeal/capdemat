@@ -29,68 +29,41 @@ public class DocumentAdaptorService {
     IDocumentService documentService
     IDocumentTypeService documentTypeService
 
-    def MAX_SIZE_MO = 4
-    def MAX_SIZE = MAX_SIZE_MO * 1024 * 1024
+    def getDocumentTypes(Request rqt) {
+        def documentTypes = requestTypeService.getAllowedDocuments(rqt.requestType.id)
+        def result = []
+        documentTypes.each {
+            def docType = [
+                'id':it.id,
+                'name': messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),
+            ]
+            result.add(docType)
+        }
+        result = result.sort { it.name }
+        return result
+    }
 
-    def getDocumentTypes(Request cRequest, String sessionUuid) {
-        def documentTypes = requestTypeService.getAllowedDocuments(cRequest.requestType.id)
+    def getDocumentsByType(Request rqt) {
+        def documentTypes = requestTypeService.getAllowedDocuments(rqt.requestType.id)
         def result = [:]
         def documentTypeList = []
         documentTypes.each {
-            def providedAssociatedDocs = 
-                SecurityContext.currentEcitizen ? getProvidedAssociatedDocuments(cRequest, it) : []
-            def newAssociatedDocs = getNewAssociatedDocuments(sessionUuid, it) 
-            def docType = ['id':it.id,
-                           'name':messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),
-                           'associated':providedAssociatedDocs + newAssociatedDocs,
-                           'provided':getProvidedNotAssociatedDocuments(it , providedAssociatedDocs)]
+            def docType = [
+                'id':it.id,
+                'name': messageSource.getMessage(CapdematUtils.adaptDocumentTypeName(it.name),null,SecurityContext.currentLocale),
+                'associated': requestDocumentService.getAssociatedDocumentsByType(rqt.id, it.id),
+                'provided': SecurityContext.currentEcitizen ? requestDocumentService.getProvidedNotAssociatedDocumentsByType(rqt.id, it.id) : []
+            ]
             documentTypeList.add(docType)
         }
         documentTypeList = documentTypeList.sort { it.name }
         documentTypeList.each {
             result[it.id] = it
-            if (it.associated.isEmpty() && cRequest.stepStates.get('document') != null) {
-                cRequest.stepStates.get("document").state = "uncomplete"
-                cRequest.stepStates.get("document").errorMsg = null
+            if (it.associated.isEmpty() && rqt.stepStates.get('document') != null) {
+                rqt.stepStates.document.state = "uncomplete"
+                rqt.stepStates.document.errorMsg = null
             }
         }
-        return result
-    }
-
-    private List getProvidedAssociatedDocuments(Request cRequest, DocumentType docType) {
-        def documents = cRequest.documents?.collect { documentService.getById(it.documentId) }
-        def docTypeDocuments = documents.findAll { 
-            it.documentType.id == docType.id && it.sessionUuid == null
-        }
-        def result = []
-        docTypeDocuments.each {
-            result.add(['id':it.id, 'isNew':false,
-                        'endValidityDate':it.endValidityDate, 'ecitizenNote':it.ecitizenNote])
-        }
-        return result
-    }
-
-    private List getProvidedNotAssociatedDocuments(DocumentType docType, List associateds) {
-        // TODO : also use subject id
-        if (SecurityContext.currentEcitizen) {
-            def provideds =
-                documentService.getProvidedDocuments(docType, SecurityContext.currentEcitizen.homeFolder.id, null)
-            def associatedIds = associateds.collect{ it.id }
-            return provideds.findAll{ !associatedIds.contains(it.id) && it.sessionUuid == null}
-        } else return []
-    }
-
-    private List getNewAssociatedDocuments(String sessionUuid, DocumentType docType) {
-        def documents = documentService.getBySessionUuid(sessionUuid)
-        def result = []
-        def docTypeDocuments = documents.findAll{
-            it.documentType.id == docType.id
-        }
-        docTypeDocuments.each {
-            result.add(['id':it.id, 'isNew':true,
-                'endValidityDate':it.endValidityDate, 'ecitizenNote':it.ecitizenNote])
-        }
-
         return result
     }
 
@@ -107,10 +80,9 @@ public class DocumentAdaptorService {
             'documentType' : doc.documentType
         ]
 
-        doc.datas.eachWithIndex { page, index ->
-            result['datas'].add(['id': page.id, 'pageNumber': index, 'extension': page.contentType.extension])
+        doc.datas.each { it ->
+            result['datas'].add(['id': it.id, 'extension': page.contentType.extension])
         }
-
         return result
     }
 
@@ -132,51 +104,5 @@ public class DocumentAdaptorService {
     def adaptDocumentType(Long id) {
         def docType = documentTypeService.getDocumentTypeById(id)
         return ['id':docType.id, 'i18nKey':CapdematUtils.adaptDocumentTypeName(docType.name)]
-    }
-
-    def addDocumentPage(docId, binaryData) {
-        if (binaryData.length == 0 || binaryData.length > MAX_SIZE)
-            return getDocument(docId)
-
-        def newDocBinary = new DocumentBinary(binaryData)
-        documentService.addPage(docId, newDocBinary)
-
-        return getDocument(docId)
-    }
-
-    def modifyDocumentPage(docParam, request) {
-        int pageIndex = Integer.valueOf(docParam.dataPageNumber)
-        def file = request.getFile('documentData-' + (pageIndex + 1))
-        if (file.size == 0 || file.size > MAX_SIZE)
-            return getDocument(docParam.id)
-
-        def doc = documentService.getById(docParam.id)
-        DocumentBinary newDocBinary = doc.datas[pageIndex]
-        newDocBinary.data = file.bytes
-        try {
-            def mimeType = documentService.checkNewBinaryData(docParam.id, newDocBinary.data)
-            newDocBinary.contentType = ContentType.forString(mimeType)
-            documentService.modifyPage(docParam.id, newDocBinary)
-            doc.datas[pageIndex] = newDocBinary
-        } catch (CvqModelException cme) {
-            throw new CvqModelException(cme.getI18nKey())
-        }
-
-        return adaptDocument(doc)
-    }
-
-    def deleteDocumentPage(docParam) {
-        def pageNumber = Integer.valueOf(docParam.dataPageNumber)
-        documentService.deletePage(docParam.id, pageNumber)
-
-        return getDocument(docParam.id)
-    }
-
-    def modifyDocumentNote(docParam, ecitizenNote) {
-        Document document = documentService.getById(docParam.id)
-        document.ecitizenNote = ecitizenNote
-        documentService.modify(document)
-
-        return document
     }
 }

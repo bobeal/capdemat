@@ -41,18 +41,16 @@ public class DocumentDigitalizationTest extends DocumentTestCase {
         Long docId = documentService.create(doc);
 
         // add binary data
-        DocumentBinary docBin = new DocumentBinary();
         File file = getResourceFile("health_notebook.jpg");
         byte[] data = new byte[(int) file.length()];
         FileInputStream fis = new FileInputStream(file);
         fis.read(data);
-        docBin.setData(data);
-        documentService.addPage(docId, docBin);
+        documentService.addPage(docId, data);
         
         LocalAuthority la = SecurityContext.getCurrentSite();
         la.setDocumentDigitalizationEnabled(false);
         try {
-            documentService.addPage(docId, docBin);
+            documentService.addPage(docId, data);
             fail("should have thrown an exception");
         } catch (CvqDisabledFunctionalityException cdfe) {
             // that was expected

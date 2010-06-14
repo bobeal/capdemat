@@ -23,7 +23,7 @@ webxml {
 
     // Set to true to add Listeners
     listener.add = true
-    listener.classNames = ["SerializedSessionListener","TicketBookingSessionListener"]
+    listener.classNames = ["TicketBookingSessionListener"]
 
     //-------------------------------------------------
     // These settings usually do not need to be changed

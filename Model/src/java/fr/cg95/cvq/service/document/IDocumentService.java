@@ -63,13 +63,13 @@ public interface IDocumentService {
      *
      * If no page is specified, add document binary at the last page
      */
-    void addPage(@IsDocument final Long documentId, final DocumentBinary documentBinary)
-        throws CvqException, CvqObjectNotFoundException;
+    void addPage(@IsDocument final Long documentId, final byte[] data)
+        throws CvqException;
 
     /**
      * Modify a page of an existing document.
      */
-    void modifyPage(@IsDocument final Long documentId, final DocumentBinary documentBinary)
+    void modifyPage(@IsDocument final Long documentId, final int dataIndex, final byte[] data)
         throws CvqException;
 
     /**
@@ -112,11 +112,6 @@ public interface IDocumentService {
      * Get documents associated to an individual.
      */
     List<Document> getIndividualDocuments(@IsIndividual final Long individualId);
-
-    /**
-     * Get the new documents created during the current session. 
-     */
-    List<Document> getBySessionUuid(final String sessionUuid);
 
     /**
      * Check, for all known local authorities, that the end validity date of documents 
@@ -199,8 +194,6 @@ public interface IDocumentService {
      */
     Integer searchCount(Hashtable<String,Object> searchParams);
 
-    void deleteUnpersistedSessionDocuments(final String sessionUuid);
-    
     void mergeDocumentBinary(Document document) throws CvqException;
     
     PDDocument byteToPDDocument(byte[] data) throws CvqException;

@@ -273,6 +273,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="requestExternalActionService" ref="requestExternalActionService" />
     <property name="requestSearchService" ref="requestSearchService" />
     <property name="translationService" ref="translationService" />
+    <property name="documentTypeService" ref="documentTypeService" />
     <property name="requestDAO" ref="requestDAO" />
   </bean>
   

@@ -30,6 +30,7 @@ import fr.cg95.cvq.security.annotation.Context;
 import fr.cg95.cvq.security.annotation.ContextPrivilege;
 import fr.cg95.cvq.security.annotation.ContextType;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.service.document.IDocumentTypeService;
 import fr.cg95.cvq.service.request.IRequestDocumentService;
 import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
@@ -45,81 +46,45 @@ public class RequestDocumentService implements IRequestDocumentService {
     private IRequestExternalActionService requestExternalActionService;
     private IDocumentService documentService;
     private ITranslationService translationService;
+    private IDocumentTypeService documentTypeService;
 
+    @Deprecated
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addDocuments(final Long requestId, final Set<Long> documentsId)
         throws CvqException, CvqObjectNotFoundException {
 
         Request request = getById(requestId);
-
-        for (Long documentId : documentsId) {
-            RequestDocument requestDocument = new RequestDocument();
-            requestDocument.setDocumentId(documentId);
-            if (request.getDocuments() == null) {
-                Set<RequestDocument> documentSet = new HashSet<RequestDocument>();
-                documentSet.add(requestDocument);
-                request.setDocuments(documentSet);
-            } else {
-                request.getDocuments().add(requestDocument);
-            }
-        }
+        for (Long documentId : documentsId)
+            request.getDocuments().add(new RequestDocument(documentId));
 
         updateLastModificationInformation(request);
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void addDocument(final Long requestId, final Long documentId)
         throws CvqException, CvqObjectNotFoundException {
-
-        Request request = getById(requestId);
-
-        RequestDocument requestDocument = new RequestDocument();
-        requestDocument.setDocumentId(documentId);
-        if (request.getDocuments() == null) {
-            Set<RequestDocument> documents = new HashSet<RequestDocument>();
-            documents.add(requestDocument);
-            request.setDocuments(documents);
-        } else {
-            request.getDocuments().add(requestDocument);
-        }
-
-        updateLastModificationInformation(request);
+        addDocument(getById(requestId), documentId);
     }
-    
+
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public void addDocument(Request request, final Long documentId)
         throws CvqException, CvqObjectNotFoundException {
-        RequestDocument requestDocument = new RequestDocument();
-        requestDocument.setDocumentId(documentId);
-        if (request.getId() != null)
-            request = getById(request.getId());
-        if (request.getDocuments() == null) {
-            Set<RequestDocument> documents = new HashSet<RequestDocument>();
-            documents.add(requestDocument);
-            request.setDocuments(documents);
-        } else {
-            request.getDocuments().add(requestDocument);
-        }
- 
-        // this method is called when adding a document to a request being created
-        // in this case, do not update modification information
-        if (request.getId() != null)
-            updateLastModificationInformation(request);
+        request.getDocuments().add(new RequestDocument(documentId));
+        updateLastModificationInformation(request);
     }
     
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addDocuments(Request request, List<Document> documents)
         throws CvqException {
-        
+
         if (documents == null)
             return;
 
         for (Document document : documents) {
-            document.setSessionUuid(null);
             document.setHomeFolderId(request.getHomeFolderId());
             document.setDepositId(request.getRequesterId());
             for (DocumentAction documentAction : document.getActions()) {
@@ -133,8 +98,6 @@ public class RequestDocumentService implements IRequestDocumentService {
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void removeDocument(Request request, final Long documentId)
         throws CvqException, CvqObjectNotFoundException {
-        if (request.getId() != null)
-            request = getById(request.getId());
         Iterator<RequestDocument> it = request.getDocuments().iterator();
         while (it.hasNext()) {
             RequestDocument rd = it.next();
@@ -142,24 +105,19 @@ public class RequestDocumentService implements IRequestDocumentService {
                 it.remove();
             }
         }
-
-        // this method is called when adding a document to a request being created
-        // in this case, do not update modification information
-        if (request.getId() != null)
-            updateLastModificationInformation(request);
+        updateLastModificationInformation(request);
     }
 
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public Set<RequestDocument> getAssociatedDocuments(final Long requestId)
         throws CvqException {
-
         Request request = getById(requestId);
         return request.getDocuments();
     }
-    
+
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.READ)
     public Set<Document> getAssociatedDocumentsByType(final Long requestId, final Long documentTypeId)
         throws CvqException {
         Request request = getById(requestId);
@@ -315,12 +273,29 @@ public class RequestDocumentService implements IRequestDocumentService {
         return getDocumentResponseDocument;
     }
 
-    private void updateLastModificationInformation(Request request) {
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public List<Document> getProvidedNotAssociatedDocumentsByType(final Long requestId, final Long documentTypeId)
+            throws CvqException {
+        Request request = getById(requestId);
+        List<Document> result = documentService.getProvidedDocuments(
+                documentTypeService.getDocumentTypeById(documentTypeId),
+                SecurityContext.getCurrentEcitizen().getHomeFolder().getId(), null);
+        Iterator<Document> it = result.iterator();
+        while (it.hasNext()) {
+            Document doc = it.next();
+            for (RequestDocument requestDocument : request.getDocuments())
+                if (doc.getId().equals(requestDocument.getId())) {
+                    it.remove();
+                    break;
+                }
+        }
+        return result;
+    }
 
-        // update request's last modification date
+    private void updateLastModificationInformation(Request request) {
         request.setLastModificationDate(new Date());
         request.setLastInterveningUserId(SecurityContext.getCurrentUserId());
-        
         requestDAO.update(request);
     }
 
@@ -353,4 +328,7 @@ public class RequestDocumentService implements IRequestDocumentService {
         this.requestExternalActionService = requestExternalActionService;
     }
 
+    public void setDocumentTypeService(IDocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
 }

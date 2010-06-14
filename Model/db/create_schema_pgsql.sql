@@ -960,7 +960,6 @@
         individual_id int8,
         document_type_id int8,
         certified bool,
-        session_uuid varchar(255),
         primary key (id)
     );
 

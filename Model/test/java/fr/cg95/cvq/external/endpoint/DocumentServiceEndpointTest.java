@@ -373,10 +373,9 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
         throws CvqObjectNotFoundException, CvqException, IOException {
         DocumentType docType = 
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.OLD_CNI_TYPE);
-        Document doc = new Document(request.getHomeFolderId(), null, docType, null);
+        Document doc = new Document(request.getHomeFolderId(), null, docType);
         Long docId = documentService.create(doc);
         documentService.updateDocumentState(docId, DocumentState.VALIDATED, "", new Date());
-        DocumentBinary page = new DocumentBinary();
         File file;
         if (contentType.equals("pdf")) {
             file = getResourceFile("test.pdf");
@@ -386,11 +385,8 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
         byte[] data = new byte[(int) file.length()];
         FileInputStream fis = new FileInputStream(file);
         fis.read(data);
-        page.setData(data);
-        documentService.addPage(docId, page);
-        page = new DocumentBinary();
-        page.setData(data);
-        documentService.addPage(docId, page);
+        documentService.addPage(docId, data);
+        documentService.addPage(docId, data);
         return docId;
     }
 }

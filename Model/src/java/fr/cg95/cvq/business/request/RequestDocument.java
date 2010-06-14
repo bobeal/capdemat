@@ -20,6 +20,11 @@ public class RequestDocument implements Serializable {
     public RequestDocument() {
     }
 
+    public RequestDocument(Long documentId) {
+        super();
+        this.documentId = documentId;
+    }
+
     /**
      * @hibernate.id
      *  generator-class="sequence"

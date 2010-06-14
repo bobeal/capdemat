@@ -68,8 +68,8 @@
     <p>
       <g:message code="request.requiredDocuments.header" /> :
       <g:if test="${!documentTypes.isEmpty()}">
-        <g:each in="${documentTypes}" var="documentType" status="index">
-          <strong>${documentType.value.name}<g:if test="${index < documentTypes.size() - 1}">,</g:if></strong>
+        <g:each var="documentType" in="${documentTypes}" status="index">
+          <strong>${documentType?.name}${index < documentTypes.size() - 1 ? ', ' : ''}</strong>
         </g:each>
       </g:if>
       <g:else>

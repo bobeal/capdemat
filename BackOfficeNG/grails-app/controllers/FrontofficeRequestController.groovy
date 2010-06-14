@@ -7,6 +7,7 @@ import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.exception.CvqValidationException
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.service.authority.ILocalAuthorityRegistry
+import fr.cg95.cvq.service.request.IAutofillService
 import fr.cg95.cvq.service.request.IConditionService
 import fr.cg95.cvq.service.request.IMeansOfContactService
 import fr.cg95.cvq.service.request.IRequestActionService
@@ -30,6 +31,7 @@ class FrontofficeRequestController {
     RequestTypeAdaptorService requestTypeAdaptorService
     IndividualAdaptorService individualAdaptorService
 
+    IAutofillService autofillService
     IConditionService conditionService
     IIndividualService individualService
     ILocalAuthorityRegistry localAuthorityRegistry

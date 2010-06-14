@@ -25,7 +25,7 @@
     <form action="${createLink(controller:'frontofficeRequest',action:'condition')}"
       method="post" id="conditionsForm">
       <input type="hidden" id="conditionsContainer" name="conditionsContainer" value="" />
-      <input type="hidden" name="requestTypeLabel" value="${requestTypeLabel}" />
+      <input type="hidden" name="requestTypeLabel" value="${rqt.requestType.label}" />
     </form>
     <form action="${createLink(controller:'frontofficeRequest',action:'autofill')}"
       method="post" id="autofillForm">
@@ -125,7 +125,6 @@
 		 </ul>
 
      <div class="yui-content">
-       <g:set var="requestTypeLabel" value="${requestTypeLabel}" />
        <g:set var="requestTypeAcronym" value="ancr" scope="request" />
        <g:render template="/frontofficeRequestType/step" /> 
      </div><!-- end yui-content -->

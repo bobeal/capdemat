@@ -1,4 +1,4 @@
-  <g:if test="${!['VO Card','Home Folder Modification'].contains(requestTypeLabel)}">
+  <g:if test="${!['VO Card','Home Folder Modification'].contains(rqt.requestType.label)}">
     <p>${message(code:'request.step.validation.help.followRequest')}</p>
     <label class="required">${message(code:'request.step.validation.label.followRequest')} * </label>
     <ul class="yes-no required">

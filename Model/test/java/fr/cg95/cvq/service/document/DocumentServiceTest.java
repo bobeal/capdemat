@@ -32,6 +32,7 @@ import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.security.PermissionException;
 import fr.cg95.cvq.security.SecurityContext;
 import fr.cg95.cvq.service.document.IDocumentService;
+import fr.cg95.cvq.util.development.BusinessObjectsFactory;
 
 /**
  * The tests for the {@link IDocumentService document service}.
@@ -62,22 +63,15 @@ public class DocumentServiceTest extends DocumentTestCase {
         Individual anIndividual = homeFolderService.getAdults(cb.getHomeFolderId()).get(0);
 
         // create a document
-        Document doc = new Document();
+        Document doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
+                    documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setDepositId(anIndividual.getId());
-        doc.setDepositOrigin(DepositOrigin.ECITIZEN);
-        doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setHomeFolderId(cb.getHomeFolderId());
         doc.setIndividualId(anIndividual.getId());
         Long docId = documentService.create(doc);
 
         // add binary data
-        DocumentBinary docBin = new DocumentBinary();
-        File fileJpg = getResourceFile("health_notebook.jpg");
-        byte[] dataJpg = new byte[(int) fileJpg.length()];
-        FileInputStream fis = new FileInputStream(fileJpg);
-        fis.read(dataJpg);
-        docBin.setData(dataJpg);
+        DocumentBinary docBin = getImageDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
         } catch (CvqModelException cme) {
@@ -85,8 +79,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         }
 
         // and another one ...
-        docBin = new DocumentBinary();
-        docBin.setData(dataJpg);
+        docBin = getImageDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
         } catch (CvqModelException cme) {
@@ -114,11 +107,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         
         // modify a page
         DocumentBinary docBin1 = docBinarySet.iterator().next();
-        fileJpg = getResourceFile("family_notebook.jpg");
-        dataJpg = new byte[(int) fileJpg.length()];
-        fis = new FileInputStream(fileJpg);
-        fis.read(dataJpg);
-        docBin1.setData(dataJpg);
+        docBin1.setData(getImageDocumentBinary().getData());
         try {
             documentService.modifyPage(docId, docBin1);
         } catch (CvqModelException cme) {
@@ -151,30 +140,24 @@ public class DocumentServiceTest extends DocumentTestCase {
         // based on example data from $BASE_DIR/db/init_ref_data.sql
 
         // ... a permanently durable
-        doc = new Document();
+        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
+                documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setDepositId(anIndividual.getId());
-        doc.setDepositOrigin(DepositOrigin.ECITIZEN);
-        doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         doc.setHomeFolderId(cb.getHomeFolderId());
         doc.setIndividualId(anIndividual.getId());
         documentService.create(doc);
 
         // ... a 3-year valid
-        doc = new Document();
+        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
+                documentTypeService.getDocumentTypeByType(IDocumentTypeService.DOMICILE_RECEIPT_TYPE));
         doc.setDepositId(anIndividual.getId());
-        doc.setDepositOrigin(DepositOrigin.ECITIZEN);
-        doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.DOMICILE_RECEIPT_TYPE));
         doc.setHomeFolderId(cb.getHomeFolderId());
         documentService.create(doc);
 
         // ... a 2-month valid
-        doc = new Document();
+        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
+                documentTypeService.getDocumentTypeByType(IDocumentTypeService.ID_CARD_LOSS_DECLARATION_TYPE));
         doc.setDepositId(anIndividual.getId());
-        doc.setDepositOrigin(DepositOrigin.ECITIZEN);
-        doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.ID_CARD_LOSS_DECLARATION_TYPE));
         doc.setHomeFolderId(cb.getHomeFolderId());
         Long docId3 = documentService.create(doc);
 
@@ -188,11 +171,9 @@ public class DocumentServiceTest extends DocumentTestCase {
         Long docId4 = documentService.create(doc);
 
         // ... an end-of-the-school-year valid
-        doc = new Document();
+        doc = BusinessObjectsFactory.gimmeDocument("", DepositOrigin.ECITIZEN, DepositType.PC, 
+                documentTypeService.getDocumentTypeByType(IDocumentTypeService.VACATING_CERTIFICATE_TYPE));
         doc.setDepositId(anIndividual.getId());
-        doc.setDepositOrigin(DepositOrigin.ECITIZEN);
-        doc.setDepositType(DepositType.PC);
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.VACATING_CERTIFICATE_TYPE));
         doc.setHomeFolderId(cb.getHomeFolderId());
         documentService.create(doc);
 
@@ -261,8 +242,8 @@ public class DocumentServiceTest extends DocumentTestCase {
         DocumentType documentType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
-        Document document = new Document();
-        document.setDocumentType(documentType);
+        Document document = 
+            BusinessObjectsFactory.gimmeDocument("", null, null, documentType);
         document.setHomeFolderId(homeFolder.getId());
         document.setIndividualId(new Long(individual.getId().longValue()));
         documentService.create(document);
@@ -275,8 +256,7 @@ public class DocumentServiceTest extends DocumentTestCase {
             // that was expected
         }
 
-        document = new Document();
-        document.setDocumentType(documentType);
+        document = BusinessObjectsFactory.gimmeDocument("", null, null, documentType);
         document.setHomeFolderId(Long.valueOf("0"));
         try {
             documentService.create(document);
@@ -305,8 +285,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         DocumentType documentType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
-        Document document = new Document();
-        document.setDocumentType(documentType);
+        Document document = BusinessObjectsFactory.gimmeDocument("", null, null, documentType);
         document.setHomeFolderId(cb.getHomeFolderId());
         documentService.create(document);
    
@@ -336,8 +315,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         DocumentType documentType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
         
-        Document document = new Document();
-        document.setDocumentType(documentType);
+        Document document = BusinessObjectsFactory.gimmeDocument("", null, null, documentType);
         document.setHomeFolderId(cb.getHomeFolderId());
         document.setIndividualId(homeFolderWoman.getId());
         documentService.create(document);
@@ -384,12 +362,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         document = documentService.getBySessionUuid(uuid).get(0);
         assertEquals("hello buddy", document.getEcitizenNote());
 
-        DocumentBinary documentBinary = new DocumentBinary();
-        File fileJpg = getResourceFile("health_notebook.jpg");
-        byte[] dataJpg = new byte[(int) fileJpg.length()];
-        FileInputStream fis = new FileInputStream(fileJpg);
-        fis.read(dataJpg);
-        documentBinary.setData(dataJpg);
+        DocumentBinary documentBinary = getImageDocumentBinary();
         try {
             documentService.addPage(document.getId(), documentBinary);
         } catch (CvqModelException cme) {
@@ -432,35 +405,23 @@ public class DocumentServiceTest extends DocumentTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
         // create document
-        Document doc = new Document();
+        DocumentType docType =
+            documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
+        Document doc = BusinessObjectsFactory.gimmeDocument("", null, null, docType);
         doc.setSessionUuid("testAddPage");
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long docId = documentService.create(doc);
-        
-        // defined 3 types of file
-        File fileJpg = getResourceFile("test.jpg");
-        File filePdf = getResourceFile("test.pdf");
-        File fileHtml = getResourceFile("test.html");
-        
-        byte[] dataJpg = new byte[(int) fileJpg.length()];
-        byte[] dataPdf = new byte[(int) filePdf.length()];
-        byte[] dataHtml = new byte[(int) fileHtml.length()];
         
         continueWithNewTransaction();
         
         // first : add binaries with allowed content type (image)
-        DocumentBinary docBin = new DocumentBinary();
-        FileInputStream fis = new FileInputStream(fileJpg);
-        fis.read(dataJpg);
-        docBin.setData(dataJpg); // one binary
+        DocumentBinary docBin = getImageDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
         
-        docBin = new DocumentBinary();
-        docBin.setData(dataJpg); // two binary
+        docBin = getImageDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
         } catch (CvqModelException cme) {
@@ -481,18 +442,14 @@ public class DocumentServiceTest extends DocumentTestCase {
         continueWithNewTransaction();
         
         // second : add binaries with allowed content type (pdf)
-        docBin = new DocumentBinary();
-        fis = new FileInputStream(filePdf);
-        fis.read(dataPdf);
-        docBin.setData(dataPdf); // one binary
+        docBin = getPdfDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
         
-        docBin = new DocumentBinary();
-        docBin.setData(dataPdf); // two binary
+        docBin = getPdfDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
         } catch (CvqModelException cme) {
@@ -509,10 +466,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         continueWithNewTransaction();
         
         // third : add a binary with a content type allowed but different from binaries in document
-        docBin = new DocumentBinary();
-        fis = new FileInputStream(fileJpg);
-        fis.read(dataJpg);
-        docBin.setData(dataJpg);
+        docBin = getImageDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
             fail("We must have an error");
@@ -529,10 +483,7 @@ public class DocumentServiceTest extends DocumentTestCase {
         continueWithNewTransaction();
         
         // fourth : add a binary with content type not allowed
-        docBin = new DocumentBinary();
-        fis = new FileInputStream(fileHtml);
-        fis.read(dataHtml);
-        docBin.setData(dataHtml);
+        docBin = getBadTypeDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
             fail("We must have an error");
@@ -560,9 +511,10 @@ public class DocumentServiceTest extends DocumentTestCase {
         SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.FRONT_OFFICE_CONTEXT);
         
         //create document
-        Document doc = new Document();
+        DocumentType docType = 
+            documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE);
+        Document doc = BusinessObjectsFactory.gimmeDocument("", null, null, docType);
         doc.setSessionUuid("testMergePdf");
-        doc.setDocumentType(documentTypeService.getDocumentTypeByType(IDocumentTypeService.IDENTITY_RECEIPT_TYPE));
         Long docId = documentService.create(doc);
         
         //first : add binaries encrypted
@@ -604,20 +556,14 @@ public class DocumentServiceTest extends DocumentTestCase {
         doc.getDatas().clear();
         
         //second : add binaries not encrypted
-        docBin = new DocumentBinary();
-        filePdf = getResourceFile("test.pdf");
-        dataPdf = new byte[(int) filePdf.length()];
-        fis = new FileInputStream(filePdf);
-        fis.read(dataPdf);
-        docBin.setData(dataPdf);
+        docBin = getPdfDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
         } catch (CvqModelException cme) {
             fail("thrown cvq model exception : " + cme.getI18nKey());
         }
         
-        docBin = new DocumentBinary();
-        docBin.setData(dataPdf);
+        docBin = getPdfDocumentBinary();
         try {
             documentService.addPage(docId, docBin);
         } catch (CvqModelException cme) {

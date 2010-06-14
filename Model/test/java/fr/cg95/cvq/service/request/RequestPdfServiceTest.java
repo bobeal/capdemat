@@ -9,9 +9,6 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.lowagie.text.pdf.PdfReader;
-
-import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.request.RequestDocument;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.security.SecurityContext;
@@ -25,38 +22,34 @@ public class RequestPdfServiceTest extends DocumentTestCase {
     public void testGenerateDocumentsArchive()
         throws CvqException, IOException {
         
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
         
         List<RequestDocument> documents = new ArrayList<RequestDocument>();
         
-        // with image documents
+        // with pdf documents
         RequestDocument rqtDoc = new RequestDocument();
-        rqtDoc.setDocumentId(gimmeImageDocument());
+        rqtDoc.setDocumentId(gimmePdfDocument());
         documents.add(rqtDoc);
         rqtDoc = new RequestDocument();
-        rqtDoc.setDocumentId(gimmeImageDocument());
+        rqtDoc.setDocumentId(gimmePdfDocument());
         documents.add(rqtDoc);
+        continueWithNewTransaction();
         
         byte[] result = requestPdfService.generateDocumentsArchive(documents);
         
-        continueWithNewTransaction();
-        
         // test
         assertNotNull("Error", result);
         
-        // with pdf documents
+        // with image documents
         continueWithNewTransaction();
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
         documents.clear();
         
         rqtDoc = new RequestDocument();
-        rqtDoc.setDocumentId(gimmePdfDocument());
+        rqtDoc.setDocumentId(gimmeImageDocument());
         documents.add(rqtDoc);
         rqtDoc = new RequestDocument();
-        rqtDoc.setDocumentId(gimmePdfDocument());
+        rqtDoc.setDocumentId(gimmeImageDocument());
         documents.add(rqtDoc);
         
         result = requestPdfService.generateDocumentsArchive(documents);
@@ -66,10 +59,8 @@ public class RequestPdfServiceTest extends DocumentTestCase {
         // test
         assertNotNull("Error", result);
         
-        // with both : image and pdf documents
+        // with both : image then pdf documents
         continueWithNewTransaction();
-        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.BACK_OFFICE_CONTEXT);
-        SecurityContext.setCurrentAgent(agentNameWithCategoriesRoles);
         
         documents.clear();
         
@@ -84,7 +75,26 @@ public class RequestPdfServiceTest extends DocumentTestCase {
         
         continueWithNewTransaction();
         
-        // test
+         //test
+        assertNotNull("Error", result);
+        
+     // with both : pdf then image documents
+        continueWithNewTransaction();
+        
+        documents.clear();
+        
+        rqtDoc = new RequestDocument();
+        rqtDoc.setDocumentId(gimmePdfDocument());
+        documents.add(rqtDoc);
+        rqtDoc = new RequestDocument();
+        rqtDoc.setDocumentId(gimmeImageDocument());
+        documents.add(rqtDoc);
+        
+        result = requestPdfService.generateDocumentsArchive(documents);
+        
+        continueWithNewTransaction();
+        
+         //test
         assertNotNull("Error", result);
     }
 }

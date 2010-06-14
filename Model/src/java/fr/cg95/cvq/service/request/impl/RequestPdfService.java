@@ -1,12 +1,10 @@
 package fr.cg95.cvq.service.request.impl;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,22 +16,21 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.util.PDFMergerUtility;
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
-import com.lowagie.text.Image;
 import com.lowagie.text.pdf.PdfCopy;
-import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 
 import fr.cg95.cvq.business.authority.LocalAuthorityResource;
 import fr.cg95.cvq.business.authority.LocalAuthorityResource.Type;
-import fr.cg95.cvq.business.document.ContentType;
-import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.external.ExternalServiceTrace;
 import fr.cg95.cvq.business.request.LocalReferentialType;
 import fr.cg95.cvq.business.request.Request;
@@ -290,11 +287,11 @@ public class RequestPdfService implements IRequestPdfService {
         File htmlTemplate =
             localAuthorityRegistry.getReferentialResource(Type.ARCHIVE_TEMPLATES, "documents");
         File certificateCSSFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
-            LocalAuthorityResource.Type.CSS, "certificate", true);
+                LocalAuthorityResource.Type.CSS, "certificate", true);
         File archiveCSSFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
-            LocalAuthorityResource.Type.CSS, "archive", true);
+                LocalAuthorityResource.Type.CSS, "archive", true);
         File tagCSSFile = localAuthorityRegistry.getLocalAuthorityResourceFile(
-            LocalAuthorityResource.Type.CSS, "tag", true);
+                LocalAuthorityResource.Type.CSS, "tag", true);
         byte[] header;
         try {
             SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
@@ -327,39 +324,32 @@ public class RequestPdfService implements IRequestPdfService {
             throw new CvqException("generateDocumentsArchive(): got exception");
         }
         try {
-            PdfReader reader = new PdfReader(header);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PDDocument pdDoc, pdDocNew;
+            List<fr.cg95.cvq.business.document.Document> documents = 
+                new ArrayList<fr.cg95.cvq.business.document.Document>();
             for (RequestDocument doc : requestDocuments) {
-                List<DocumentBinary> datas = documentService.getById(doc.getDocumentId()).getDatas();
-                if (!datas.isEmpty() && datas.get(0).getContentType().equals(ContentType.PDF)) {
-                    PdfReader readerDocPdf = new PdfReader(datas.get(0).getData());
-                    Document document = new Document(reader.getPageSizeWithRotation(1));
-                    baos = new ByteArrayOutputStream();
-                    PdfCopy copy = new PdfCopy(document, baos);
-                    document.open();
-                    for (int i = 1; i <= readerDocPdf.getNumberOfPages(); i++) {
-                        copy.addPage(copy.getImportedPage(readerDocPdf, i));
-                    }
-                    document.close();
-                } else {
-                    baos = new ByteArrayOutputStream();
-                    PdfStamper stamper = new PdfStamper(reader, baos);
-                    int pageNumber = reader.getNumberOfPages();
-                    for (DocumentBinary data : documentService.getAllPages(doc.getDocumentId())) {
-                        Image image = Image.getInstance(data.getData());
-                        stamper.insertPage(++pageNumber, image);
-                        image.setAbsolutePosition(0, 0);
-                        stamper.getOverContent(pageNumber).addImage(image);
-                    }
-                    stamper.close();
-                }
-                reader = new PdfReader(baos.toByteArray());
+                fr.cg95.cvq.business.document.Document document = documentService.getById(doc.getDocumentId());
+                documentService.mergeDocumentBinary(document);
+                documents.add(document);
             }
+            pdDoc = 
+                documentService.byteToPDDocument(header);
+            for (fr.cg95.cvq.business.document.Document doc : documents) {
+                pdDocNew = documentService.byteToPDDocument(doc.getDatas().get(0).getData());
+                if (!pdDocNew.isEncrypted()) {
+                    PDFMergerUtility pmu = new PDFMergerUtility();
+                    pmu.appendDocument(pdDoc, pdDocNew);
+                }
+            }
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            pdDoc.save(baos);
+            pdDoc.close();
             return baos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
             throw new CvqException("generateDocumentsArchive(): got exception");
-        } catch (DocumentException e) {
+        } catch (COSVisitorException e) {
             e.printStackTrace();
             throw new CvqException("generateDocumentsArchive(): got exception");
         }

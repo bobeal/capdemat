@@ -639,4 +639,18 @@ public class DocumentServiceTest extends DocumentTestCase {
         assertEquals("The merge didn't work",1,doc.getDatas().size());
         assertEquals("Content type is not equal to PDF",ContentType.PDF, doc.getDatas().get(0).getContentType());
     }
+    
+    @Test
+    public void mergeImageToPdf() throws CvqException, IOException {
+        SecurityContext.setCurrentSite(localAuthorityName, SecurityContext.ADMIN_CONTEXT);
+        
+        Long docId = gimmeImageDocument();
+        documentService.mergeDocumentBinary(documentService.getById(docId));
+        
+        //test
+        Document doc = documentService.getById(docId);
+        assertEquals("The merge didn't work",1, doc.getDatas().size());
+        assertEquals("The content type is not available", ContentType.PDF, doc.getDatas().get(0).getContentType());
+        
+    }
 }

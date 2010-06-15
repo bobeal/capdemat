@@ -235,11 +235,12 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         if (data == null || data.length == 0)
             return;
         checkDocumentDigitalizationIsEnabled();
+        Document document = getById(documentId);
+        checkNewBinaryData(document, document.getDatas().size(), data);
         DocumentBinary documentBinary = new DocumentBinary();
         try {
-            documentBinary.setContentType(checkNewBinaryData(documentId, data));
+            documentBinary.setContentType(mimeTypeFromBytes(data));
             documentBinary.setData(data);
-            Document document = getById(documentId);
             createPreview(documentBinary);
             if (document.getDatas() == null) {
                 List<DocumentBinary> dataList = new ArrayList<DocumentBinary>();
@@ -262,8 +263,9 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             return;
         checkDocumentDigitalizationIsEnabled();
         Document document = getById(documentId);
+        checkNewBinaryData(document, dataIndex, data);
         DocumentBinary documentBinary = document.getDatas().get(dataIndex);
-        documentBinary.setContentType(checkNewBinaryData(documentId, data));
+        documentBinary.setContentType(mimeTypeFromBytes(data));
         documentBinary.setData(data);
 
         if (document.getDatas().size() == 1) {
@@ -292,29 +294,26 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         addActionTrace(PAGE_DELETE_ACTION, null, document);
     }
 
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public ContentType checkNewBinaryData(final Long documentId, byte[] data)
-        throws CvqException {
+    private ContentType mimeTypeFromBytes(final byte[] data) {
         MimeUtil2 util = new MimeUtil2();
         util.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
         util.registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
-        Document document = getById(documentId);
-        ContentType contentType = ContentType.forString(
+        return ContentType.forString(
             MimeUtil2.getMostSpecificMimeType(util.getMimeTypes(data)).toString());
-        if (contentType.isAllowed()) {
-            if (document.getDatas() != null && !document.getDatas().isEmpty()) {
-                if (!document.getDatas().get(0).getContentType().equals(contentType))
-                    throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
-            }
-        } else {
+    }
+
+    private void checkNewBinaryData(final Document document, final int index, final byte[] data)
+        throws CvqModelException {
+        ContentType type = mimeTypeFromBytes(data);
+        if (!type.isAllowed())
             throw new CvqModelException("document.message.fileTypeIsNotSupported");
-        }
-        return contentType;
+        if (document.getDatas() != null && document.getDatas().size() > 1 && index > 0)
+            if (!document.getDatas().get(0).getContentType().equals(type))
+                throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
     }
 
     private void checkDocumentDigitalizationIsEnabled()
         throws CvqDisabledFunctionalityException {
-
         LocalAuthority la = SecurityContext.getCurrentSite();
         if (!la.isDocumentDigitalizationEnabled()) {
             logger.error("checkDocumentDigitalizationIsEnabled() document digitalization is not enabled for site "

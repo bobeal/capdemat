@@ -89,7 +89,7 @@ class FrontofficeDocumentController {
             'documents' : this.getDocuments(state,params),
             'pageState' : (new JSON(state)).toString(),
             'individuals' : this.getIndividuals(),
-            'states': DocumentState.allDocumentStates.collect{it.toString().toLowerCase()},
+            'states': DocumentState.allDocumentStates.findAll{DocumentState.DRAFT != it}.collect{it.toString().toLowerCase()},
             'types' : this.getTypes(),
             'maxRows': maxRows
         ])

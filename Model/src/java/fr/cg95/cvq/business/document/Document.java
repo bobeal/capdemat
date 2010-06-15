@@ -27,7 +27,7 @@ public class Document implements Serializable {
     private Date endValidityDate;
     private String ecitizenNote;
     private String agentNote;
-    private DocumentState state = DocumentState.PENDING;
+    private DocumentState state = DocumentState.DRAFT;
     private DepositType depositType = DepositType.PC;
     private DepositOrigin depositOrigin = DepositOrigin.ECITIZEN;
     private Long depositId;

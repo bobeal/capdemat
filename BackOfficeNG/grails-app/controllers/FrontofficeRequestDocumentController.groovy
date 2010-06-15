@@ -6,6 +6,7 @@ import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 import fr.cg95.cvq.business.document.Document
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.exception.CvqModelException
 
 class FrontofficeRequestDocumentController {
 
@@ -33,7 +34,6 @@ class FrontofficeRequestDocumentController {
                 'documentTypes': documentAdaptorService.getDocumentTypes(rqt),
                 'document': document,
                 'documentType': documentType,
-                'documentNewPages': params.documentNewPages ? Integer.valueOf(params.documentNewPages) : 1,
                 'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
                 'isEdition' : !RequestState.DRAFT.equals(rqt.state)
             ].plus(requestTypeResources))
@@ -41,21 +41,15 @@ class FrontofficeRequestDocumentController {
         else if (request.post) {
             def document = params.documentId ? documentService.getById(Long.valueOf(params.documentId)) : null
             def documentType = documentTypeService.getDocumentTypeById(Long.valueOf(params.documentTypeId))
-
-            if (document == null && !request.getFile('documentData-0').empty) {
-                document = new Document(SecurityContext.currentEcitizen?.homeFolder?.id,
-                    params.ecitizenNote, documentType)
-                documentService.create(document)
-                requestDocumentService.addDocument(rqt, document.id)
-            }
-
-            if (document != null && document.datas?.isEmpty()
-                && request.getFile('documentData-0').empty) {
-                // we are saving a document without a page, delete it
-                documentService.delete(document.id)
-            }
-
-            if (document != null) {
+            try {
+                if (document == null) {
+                    if (request.getFile('documentData-0').empty)
+                        throw new CvqModelException('document.error.mustHaveAtLeastOnePage')
+                    document = new Document(SecurityContext.currentEcitizen?.homeFolder?.id,
+                        params.ecitizenNote, documentType)
+                    documentService.create(document)
+                    requestDocumentService.addDocument(rqt, document.id)
+                }
                 document.ecitizenNote = params.ecitizenNote
                 // update existing page
                 document.datas.eachWithIndex { data, index ->
@@ -64,9 +58,9 @@ class FrontofficeRequestDocumentController {
                 // add new page
                 def index = document.datas?.isEmpty() ? 0 : document.datas.size()
                 documentService.addPage(document.id, request.getFile('documentData-' + index)?.bytes)
+            } catch (CvqModelException e) {
+                flash.errorMessage = message(code : ExceptionUtils.getModelI18nKey(e))
             }
-
-            // flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
             redirect(action:'edit', params:[
                 'requestId':rqt.id, 'documentTypeId':documentType.id, 'documentId': document?.id])
         }
@@ -80,24 +74,22 @@ class FrontofficeRequestDocumentController {
     }
 
     def delete = {
+        requestDocumentService.removeDocument(getAndLockRequest(), Long.valueOf(params.documentId))
         documentService.delete(Long.valueOf(params.documentId))
         redirect(controller:'frontofficeRequest', action:'edit', params:[
-            'requestId':params.requestId, 'currentStep': 'document'])
+            'id':params.requestId, 'currentStep': 'document'])
     }
 
     def associate = {
-        def requestId = Long.valueOf(params.requestId)
-        requestLockService.lock(requestId)
-        def rqt = requestSearchService.getById(requestId, true)
         requestDocumentService.addDocument(getAndLockRequest(), Long.valueOf(params.documentId))
         redirect(controller:'frontofficeRequest', action:'edit', params:[
-            'requestId':params.requestId, 'currentStep': 'document'])
+            'id':params.requestId, 'currentStep': 'document'])
     }
 
     def unassociate = {
         requestDocumentService.removeDocument(getAndLockRequest(), Long.valueOf(params.documentId))
         redirect(controller:'frontofficeRequest', action:'edit', params:[
-            'requestId':params.requestId, 'currentStep': 'document'])
+            'id':params.requestId, 'currentStep': 'document'])
     }
 
     def getAndLockRequest() {

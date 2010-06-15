@@ -108,7 +108,6 @@ class FrontofficeRequestController {
                     rqt.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
                     checkCaptcha(params)
                     requestWorkflowService.validate(rqt, null, params.useAcceptance != null)
-                    //def docs = documentService.getBySessionUuid(uuidString)
                     def parameters = [:]
                     if (!RequestState.DRAFT.equals(rqt.state)) {
                         requestWorkflowService.rewindWorkflow(rqt/*, docs*/)

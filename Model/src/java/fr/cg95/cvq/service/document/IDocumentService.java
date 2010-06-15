@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
@@ -77,12 +76,6 @@ public interface IDocumentService {
      */
     void deletePage(@IsDocument final Long documentId, final Integer pageId)
         throws CvqException, CvqObjectNotFoundException;
-    
-    /**
-     * Check the content type of datas
-     */
-    ContentType checkNewBinaryData(@IsDocument final Long documentId, byte[] data)
-        throws CvqException;
 
     /**
      * Get all binary data associated to a document.

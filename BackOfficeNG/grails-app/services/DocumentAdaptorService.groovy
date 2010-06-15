@@ -12,12 +12,7 @@ import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 
-/**
- * More than a simple adaptor service :
- *  - support out of account requests
- *  - decouple management of provided documents and new documents
- *  - TODO - refactor DocumentService
- */
+
 public class DocumentAdaptorService {
 
     def messageSource

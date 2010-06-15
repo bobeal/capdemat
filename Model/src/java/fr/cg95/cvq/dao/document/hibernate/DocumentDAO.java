@@ -25,6 +25,9 @@ import fr.cg95.cvq.util.Critere;
  * Implementation of the {@link IDocumentDAO} interface.
  * 
  * @author bor@zenexity.fr
+ * @author vba@zenexity.fr
+ * 
+ * TODO; refactor to conform to simple search DAO method pattern in CapDemat
  */
 public class DocumentDAO extends GenericDAO implements IDocumentDAO {
 
@@ -33,6 +36,7 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
         final Long homeFolderId, final Long individualId) {
 
         Criteria crit = HibernateUtil.getSession().createCriteria(Document.class);
+        crit.add(Critere.compose("state", DocumentState.DRAFT, Critere.NEQUALS));
         if (docTypeId != null)
             crit.createCriteria("documentType").add(
                     Critere.compose("id", docTypeId, Critere.EQUALS));
@@ -111,7 +115,7 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
         Hashtable<String,Object> specials = new Hashtable<String,Object>();
 
         for(String key : params.keySet()) {
-            if(key == "individualId" || key == "homeFolderId")
+            if("individualId".equals(key) || "homeFolderId".equals(key))
                 specials.put(key, params.get(key));
             else
                 criteria.add(this.processParam(key, params.get(key)));
@@ -136,6 +140,10 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
             criteria.add(this.processParam("homeFolderId",
                 specials.get("homeFolderId")));
         }
+
+        // Never fetch document with state "DRAFT"
+        criteria.add(Restrictions.ne("state", DocumentState.DRAFT));
+
         return criteria;
     }
 

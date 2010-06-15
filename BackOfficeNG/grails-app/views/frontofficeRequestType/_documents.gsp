@@ -16,26 +16,23 @@
         </g:if>
       </dt>
       <dd>
-        <g:if test="${document.id > rqt.id}">
-          <span class="tag-state tag-new">${message(code:'document.header.new')}</span>
+        <g:capdematEnumToFlag var="${document.state}" i18nKeyPrefix="document.state" />
+        <g:if test="${document.state.toString() == 'Draft'}">
           <a href="${createLink(controller:'frontofficeRequestDocument', action:'edit', params:['requestId':rqt.id, 'documentTypeId':documentType.key, 'documentId':document.id])}">
             ${message(code:'action.modify')}
           </a>
           <a href="${createLink(controller:'frontofficeRequestDocument', action:'delete', params:['requestId':rqt.id, 'documentId':document.id])}">
             ${message(code:'action.delete')}
           </a>
-          <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&sessionUuid=${uuidString}" target="blank" title="${message(code:'document.message.preview.longdesc')}">
-            ${message(code:'document.message.preview')}
-          </a>
         </g:if>
         <g:else>
           <a href="${createLink(controller:'frontofficeRequestDocument', action:'unassociate', params:['requestId':rqt.id, 'documentId':document.id])}">
             ${message(code:'action.detach')}
           </a>
-          <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}" target="blank" title="${message(code:'document.message.preview.longdesc')}">
-            ${message(code:'document.message.preview')}
-          </a>
         </g:else>
+        <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true" target="blank" title="${message(code:'document.message.preview.longdesc')}">
+          ${message(code:'document.message.preview')}
+        </a>
       </dd>
       </g:each>
     </dl>
@@ -58,6 +55,7 @@
         </g:if>
       </dt>
       <dd>
+        <g:capdematEnumToFlag var="${document.state}" i18nKeyPrefix="document.state" />
         <a href="${createLink(controller:'frontofficeRequestDocument', action:'associate', params:['requestId':rqt.id, 'documentId':document.id])}">
           ${message(code:'action.attach')}
         </a>

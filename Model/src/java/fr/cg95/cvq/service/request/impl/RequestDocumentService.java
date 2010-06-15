@@ -10,6 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationListener;
+
 import fr.capwebct.capdemat.DocumentType;
 import fr.capwebct.capdemat.GetDocumentListResponseDocument;
 import fr.capwebct.capdemat.GetDocumentResponseDocument;
@@ -19,8 +22,10 @@ import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentAction;
 import fr.cg95.cvq.business.request.external.RequestExternalAction;
 import fr.cg95.cvq.business.request.external.RequestExternalActionState;
+import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestDocument;
+import fr.cg95.cvq.business.request.RequestEvent;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -37,8 +42,10 @@ import fr.cg95.cvq.service.request.external.IRequestExternalActionService;
 import fr.cg95.cvq.service.request.IRequestSearchService;
 import fr.cg95.cvq.util.translation.ITranslationService;
 
-public class RequestDocumentService implements IRequestDocumentService {
+public class RequestDocumentService implements IRequestDocumentService, ApplicationListener<RequestEvent> {
 
+    private static Logger logger = Logger.getLogger(RequestDocumentService.class);
+    
     private IRequestDAO requestDAO;
 
     private IRequestExternalService requestExternalService;
@@ -76,6 +83,7 @@ public class RequestDocumentService implements IRequestDocumentService {
         updateLastModificationInformation(request);
     }
     
+    @Deprecated
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void addDocuments(Request request, List<Document> documents)
@@ -285,7 +293,7 @@ public class RequestDocumentService implements IRequestDocumentService {
         while (it.hasNext()) {
             Document doc = it.next();
             for (RequestDocument requestDocument : request.getDocuments())
-                if (doc.getId().equals(requestDocument.getId())) {
+                if (doc.getId().equals(requestDocument.getDocumentId())) {
                     it.remove();
                     break;
                 }
@@ -297,6 +305,48 @@ public class RequestDocumentService implements IRequestDocumentService {
         request.setLastModificationDate(new Date());
         request.setLastInterveningUserId(SecurityContext.getCurrentUserId());
         requestDAO.update(request);
+    }
+
+    @Override
+    public void onApplicationEvent(RequestEvent requestEvent) {
+        logger.debug("onApplicationEvent() - " + requestEvent.getEvent() + " listen ");
+        try {
+            if (requestEvent.getEvent().equals(RequestEvent.EVENT_TYPE.REQUEST_CREATED))
+                onRequestCreated(requestEvent.getRequest());
+            else if (requestEvent.getEvent().equals(RequestEvent.EVENT_TYPE.REQUEST_DELETED))
+                onRequestDeleted(requestEvent.getRequest());
+        } catch (CvqException e) {
+            logger.error("onApplicationEvent() : " + requestEvent.getEvent() + " : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void onRequestCreated(Request request) throws CvqException {
+        Iterator<RequestDocument> it = request.getDocuments().iterator();
+        while (it.hasNext()) {
+            RequestDocument rd = it.next();
+            try {
+                Document d = documentService.getById(rd.getDocumentId());
+                if (DocumentState.DRAFT.equals(d.getState())) {
+                    d.setState(DocumentState.PENDING);
+                    documentService.modify(d);
+                }
+            } catch (CvqObjectNotFoundException e) {
+                it.remove();
+            }
+        }
+    }
+
+    private void onRequestDeleted(Request request) throws CvqException {
+        Iterator<RequestDocument> it = request.getDocuments().iterator();
+        while (it.hasNext()) {
+            RequestDocument rd = it.next();
+            Document d = documentService.getById(rd.getDocumentId());
+            if (DocumentState.DRAFT.equals(d.getState())) {
+                it.remove();
+                documentService.delete(d.getId());
+            }
+        }
     }
 
     private Request getById(final Long requestId) throws CvqObjectNotFoundException {

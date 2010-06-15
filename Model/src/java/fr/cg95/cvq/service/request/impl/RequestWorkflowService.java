@@ -224,14 +224,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
-    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
-    public Long create(Request request, List<Document> documents, String note) throws CvqException {
-        Long requestId = create(request, note);
-        requestDocumentService.addDocuments(request, documents);
-        return requestId;
-    }
-    
-    @Override
     @Context(types = {ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, Adult requester, String note)
         throws CvqException {
@@ -953,8 +945,8 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public void delete(final Long id)
         throws CvqException, CvqObjectNotFoundException {
-
         Request request = (Request) requestDAO.findById(Request.class, id);
+        applicationContext.publishEvent(new RequestEvent(this, EVENT_TYPE.REQUEST_DELETED, request));
         delete(request);
     }
 

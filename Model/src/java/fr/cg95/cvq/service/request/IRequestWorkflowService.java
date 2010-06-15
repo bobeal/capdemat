@@ -142,11 +142,6 @@ public interface IRequestWorkflowService {
     Long create(@IsRequest Request request, String note) throws CvqException;
 
     /**
-     * The same as {@link #create(Request, String)} but with a provided documents list.
-     */
-    Long create(@IsRequest Request request, List<Document> documents, String note) throws CvqException;
-
-    /**
      * Create a new request from given data.
      * 
      * It is meant to be used by requests issued outside an home folder. An home folder

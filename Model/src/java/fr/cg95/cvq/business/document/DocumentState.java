@@ -7,9 +7,10 @@ import fr.cg95.cvq.dao.hibernate.PersistentStringEnum;
  */
 public final class DocumentState extends PersistentStringEnum {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static final DocumentState PENDING = new DocumentState("Pending");
+    public static final DocumentState DRAFT = new DocumentState("Draft");
+    public static final DocumentState PENDING = new DocumentState("Pending");
     public static final DocumentState VALIDATED = new DocumentState("Validated");
     public static final DocumentState CHECKED = new DocumentState("Checked");
     public static final DocumentState REFUSED = new DocumentState("Refused");
@@ -25,13 +26,15 @@ public final class DocumentState extends PersistentStringEnum {
     public DocumentState() {}
     
     public static final DocumentState[] allDocumentStates = 
-            { PENDING, VALIDATED, CHECKED, REFUSED, OUTDATED };
+            { DRAFT, PENDING, VALIDATED, CHECKED, REFUSED, OUTDATED };
     
     public static DocumentState forString(String enumAsString) {
         if (enumAsString == null || enumAsString.equals(""))
-            return PENDING;
+            return DRAFT;
 
-        if (enumAsString.equals(PENDING.toString()))
+        if (enumAsString.equals(DRAFT.toString()))
+            return DRAFT;
+        else if (enumAsString.equals(PENDING.toString()))
             return PENDING;
         else if (enumAsString.equals(VALIDATED.toString()))
             return VALIDATED;

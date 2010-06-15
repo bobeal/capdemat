@@ -3,8 +3,11 @@ package fr.cg95.cvq.business.users;
 import java.io.Serializable;
 
 import net.sf.oval.constraint.Email;
+import net.sf.oval.constraint.EqualToField;
+import net.sf.oval.constraint.MinLength;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
+import fr.cg95.cvq.authentication.IAuthenticationService;
 import fr.cg95.cvq.xml.common.AdultType;
 
 /**
@@ -29,18 +32,18 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     @NotEmpty(message = "nameOfUse")
     private String nameOfUse;
 
-    @NotNull(message = "familyStatus")
+    //@NotNull(message = "familyStatus")
     private FamilyStatusType familyStatus;
 
-    @NotNull(message = "adultPhones", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
+    //@NotNull(message = "adultPhones", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
     @NotEmpty(message = "homePhone")
     private String homePhone;
 
-    @NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.officePhone == null")
+    //@NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.officePhone == null")
     @NotEmpty(message = "mobilePhone")
     private String mobilePhone;
 
-    @NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
+    //@NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
     @NotEmpty(message = "officePhone")
     private String officePhone;
 
@@ -50,11 +53,23 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
 
     private String cfbn;
     private String profession;
+
+    @NotNull(message = "question", profiles = {"login"})
+    @NotEmpty(message = "question")
     private String question;
+
+    @NotNull(message = "answer", profiles = {"login"})
+    @NotEmpty(message = "answer")
     private String answer;
 
-    @NotEmpty(message = "password")
+    @NotNull(message = "password", profiles = {"login"})
+    @MinLength(message = "password", value = IAuthenticationService.passwordMinLength)
     private String password;
+
+    @SuppressWarnings("unused")
+    @NotNull(message = "confirmPassword", profiles = {"login"})
+    @EqualToField(message = "confirmPassword", value = "password", profiles = {"login"})
+    private String confirmPassword;
 
     /** default constructor */
     public Adult() {
@@ -310,5 +325,9 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

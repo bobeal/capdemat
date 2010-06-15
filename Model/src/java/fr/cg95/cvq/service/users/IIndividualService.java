@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.users;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Set;
 import java.util.Map;
@@ -88,4 +89,18 @@ public interface IIndividualService extends IAutofillTriggerService {
         throws CvqException;
 
     void updateIndividualState(Individual individual, ActorState newState) throws CvqException;
+
+    /**
+     * @param adult The {@link Adult} to validate
+     * @param login Whether this {@link Adult} must be a login account
+     *              (then we need to validate question/answer and password)
+     * @return The list of invalid fields
+     * @throws ClassNotFoundException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     */
+    List<String> validate(Adult adult, boolean login)
+        throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException;
 }

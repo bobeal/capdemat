@@ -1,14 +1,19 @@
 package fr.cg95.cvq.service.users.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Map;
+
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.Validator;
 
 import org.apache.log4j.Logger;
 
@@ -33,6 +38,7 @@ import fr.cg95.cvq.exception.CvqModelException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.ValidationUtils;
 
 /**
  * Implementation of the {@link IIndividualService} service.
@@ -291,6 +297,28 @@ public class IndividualService implements IIndividualService {
 
     public void setAuthenticationService(IAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
+    }
+
+    public List<String> validate(Adult adult, boolean login)
+        throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
+        Validator validator = new Validator();
+        validator.disableAllProfiles();
+        validator.enableProfile("default");
+        if (login) {
+            validator.enableProfile("login");
+        }
+        Map<String, List<String>> invalidFields = new LinkedHashMap<String, List<String>>();
+        for (ConstraintViolation violation : validator.validate(adult)) {
+            ValidationUtils.collectInvalidFields(violation, invalidFields, "", "");
+        }
+        List<String> result = new ArrayList<String>();
+        for (String profile : new String[] {"", "login"}) {
+            if (invalidFields.get(profile) != null) {
+                result.addAll(invalidFields.get(profile));
+            }
+        }
+        return result;
     }
 }
 

@@ -41,9 +41,6 @@
       <input type="hidden" id="triggerName" name="triggerName" value="" />
       <input type="hidden" id="triggerValue" name="triggerValue" value="" />
     </form>
-    <g:if test="\${flash.isOutOfAccountRequest}">
-      <g:render template="/frontofficeRequestType/loginPanel" />
-    </g:if>
     <g:if test="\${flash.confirmationMessage}">
       <div class="information-box">
       	<p>\${flash.confirmationMessage}</p>

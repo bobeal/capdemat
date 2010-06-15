@@ -74,6 +74,7 @@ import fr.cg95.cvq.service.request.external.IRequestExternalService;
 import fr.cg95.cvq.service.users.IHomeFolderService;
 import fr.cg95.cvq.service.users.IIndividualService;
 import fr.cg95.cvq.util.Critere;
+import fr.cg95.cvq.util.ValidationUtils;
 
 /**
  * This services handles workflow tasks for requests. It is responsible for :
@@ -492,7 +493,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
         }
         Map<String, List<String>> invalidFields = new LinkedHashMap<String, List<String>>();
         for (ConstraintViolation violation : validator.validate(request)) {
-            collectInvalidFields(violation, invalidFields, "", "");
+            ValidationUtils.collectInvalidFields(violation, invalidFields, "", "");
         }
         if (invalidFields.get("") != null) {
             Iterator<String> iterator = invalidFields.get("").iterator();
@@ -525,44 +526,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 stepState.put("invalidFields", fields.getValue());
             }
             throw new CvqValidationException();
-        }
-    }
-
-    private void collectInvalidFields(ConstraintViolation violation,
-        Map<String, List<String>> fields, String prefix, String stepName)
-        throws ClassNotFoundException,  IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException {
-        Class<? extends Annotation> annotationClass =
-            Class.forName(violation.getErrorCode()).asSubclass(Annotation.class);
-        if (violation.getCauses() == null) {
-            String field;
-            if (violation.getContext() instanceof ClassContext)
-                field = prefix;
-            else {
-                String[] profiles = (String[])annotationClass.getMethod("profiles").invoke(
-                    ((FieldContext)violation.getContext()).getField().getAnnotation(annotationClass));
-                if (profiles != null && profiles.length > 0)
-                    stepName = profiles[0];
-                field = (StringUtils.isNotBlank(prefix) ? prefix + '.' : "") + violation.getMessage();
-            }
-            if (fields.get(stepName) == null)
-                fields.put(stepName, new ArrayList<String>());
-            fields.get(stepName).add(field);
-        } else {
-            OValContext context = violation.getContext();
-            String[] profiles = (String[])annotationClass.getMethod("profiles").invoke(
-                ((FieldContext)context).getField().getAnnotation(annotationClass));
-            if (profiles != null && profiles.length > 0)
-                stepName = profiles[0];
-            for (ConstraintViolation cause : violation.getCauses()) {
-                collectInvalidFields(
-                    cause, fields,
-                    (StringUtils.isNotBlank(prefix) ? prefix + '.' : "") + violation.getMessage()
-                        + (List.class.isAssignableFrom(context.getCompileTimeType()) ?
-                            "[" + ((List<?>)((FieldContext)context).getField().get(violation.getValidatedObject()))
-                                .indexOf(cause.getValidatedObject()) + "]" : ""),
-                    stepName);
-            }
         }
     }
 

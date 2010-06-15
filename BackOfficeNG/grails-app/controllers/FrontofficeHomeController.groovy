@@ -90,31 +90,33 @@ class FrontofficeHomeController {
     }
     
     def login = {
-        def error = '', result = null
-        if(request.post) {
-            try { result = authenticationService.authenticate(params.login,params.password) } 
-            catch (CvqUnknownUserException e) {error='account.error.authenticationFailed'}
-            catch (CvqAuthenticationFailedException e) {error='account.error.authenticationFailed'}
-            catch (CvqDisabledAccountException e) {error='account.error.disabledAccount'}
-            
-            if(result && result instanceof HomeFolder) {
-            	securityService.setEcitizenSessionInformation(params.login, session)
-                
-                if (params.requestTypeLabel == null) {
+        def error = ""
+        if (request.post) {
+            try {
+                authenticationService.authenticate(params.login,params.password)
+                securityService.setEcitizenSessionInformation(params.login, session)
+                if (params.requestTypeLabel == null && params.id == null) {
                     redirect(controller:'frontofficeHome')
                     return false
                 } else {
-                    redirect(controller : "frontofficeRequest", action : "edit", params : ["id" : params.id])
+                    redirect(controller : "frontofficeRequest", action : "edit",
+                        params : ["id" : params.id, "label" : params.requestTypeLabel])
                     return false
                 }
+            } catch (CvqUnknownUserException e) {
+                error = "account.error.authenticationFailed"
+            } catch (CvqAuthenticationFailedException e) {
+                error = "account.error.authenticationFailed"
+            } catch (CvqDisabledAccountException e) {
+                error = "account.error.disabledAccount"
             }
         }
-        if (params.requestTypeLabel == null) {
+        if (params.requestTypeLabel == null && params.id == null) {
             return ['isLogin': true, 'error': message(code:error),
                     'groups': requestTypeAdaptorService.getDisplayGroups(null)]
         } else {
             flash.loginError = message(code:error)
-            redirect(controller : "frontofficeRequest", action : "edit", params : ["id" : params.id])
+            redirect(controller : "frontofficeHomeFolder", action : "create", params : ["id" : params.id, "requestTypeLabel" : params.requestTypeLabel])
             return false
         }
     }

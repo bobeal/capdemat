@@ -1,5 +1,6 @@
 import fr.cg95.cvq.authentication.IAuthenticationService
 import fr.cg95.cvq.business.users.*
+import fr.cg95.cvq.dao.hibernate.HibernateUtil
 import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqBadPasswordException
 import fr.cg95.cvq.exception.CvqModelException
@@ -18,7 +19,8 @@ class FrontofficeHomeFolderController {
 	IRequestWorkflowService requestWorkflowService
 
     def homeFolderAdaptorService
-    
+    def securityService
+
     Adult currentEcitizen
 
     def beforeInterceptor = {
@@ -82,7 +84,34 @@ class FrontofficeHomeFolderController {
         
         return result
     }
-    
+
+    def create = {
+        def model = [:]
+        model["invalidFields"] = []
+        if (request.get) {
+            return model
+        } else if (request.post) {
+            Adult adult = new Adult()
+            bind(adult)
+            model["adult"] = adult
+            model["invalidFields"] = individualService.validate(adult, true)
+            if (model["invalidFields"].isEmpty()) {
+                homeFolderService.addHomeFolderRole(adult, RoleType.HOME_FOLDER_RESPONSIBLE)
+                homeFolderService.create(adult)
+                SecurityContext.setCurrentEcitizen(adult)
+                HibernateUtil.getSession().flush()
+                securityService.setEcitizenSessionInformation(adult.login, session)
+                if (params.requestTypeLabel) {
+                    redirect(controller : "frontofficeRequest", action : "edit",
+                        params : ["label" : params.requestTypeLabel])
+                    return false
+                }
+            } else {
+                return model
+            }
+        }
+    }
+
     def individual = {
         def individual = individualService.getById(Long.valueOf(params.id))
         if (individual instanceof Child) {

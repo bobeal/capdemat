@@ -83,7 +83,11 @@ class FrontofficeRequestController {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
-        flash.isOutOfAccountRequest = (SecurityContext.currentEcitizen == null)
+        if (SecurityContext.currentEcitizen == null) {
+            redirect(controller : "frontofficeHomeFolder", action : "create",
+                params : ["requestTypeLabel" : params.label])
+            return false
+        }
         Request rqt
         if (params.id) {
             def id = Long.valueOf(params.id)

@@ -112,7 +112,9 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         initializeCommonAttributes(homeFolder);
         homeFolder.setAdress(address);
         homeFolderDAO.create(homeFolder);
-        genericDAO.create(address);
+        if (address != null) {
+            genericDAO.create(address);
+        }
 
         List<Individual> allIndividuals = new ArrayList<Individual>();
         allIndividuals.addAll(adults);

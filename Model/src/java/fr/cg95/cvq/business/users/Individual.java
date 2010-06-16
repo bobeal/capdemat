@@ -94,7 +94,7 @@ public class Individual implements Historizable, Serializable {
     private Date creationDate;
     private ActorState state;
 
-    //@NotNull(message = "adress", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
+    @NotNull(message = "adress", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
     @AssertValid(message = "adress", when = "groovy:_this instanceof fr.cg95.cvq.business.users.Adult")
     private Address adress;
 

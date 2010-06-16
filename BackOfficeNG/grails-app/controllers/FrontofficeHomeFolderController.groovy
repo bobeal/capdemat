@@ -92,6 +92,7 @@ class FrontofficeHomeFolderController {
             return model
         } else if (request.post) {
             Adult adult = new Adult()
+            DataBindingUtils.initBind(adult, params)
             bind(adult)
             model["adult"] = adult
             model["invalidFields"] = individualService.validate(adult, true)

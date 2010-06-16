@@ -76,6 +76,7 @@ form textarea { border-top-color: #ff812b !important; }
 .individual dl a:hover { color: #ffffff !important; background: #ff812b !important; }
 
 .data-detail h3     { color: #ff812b !important; }
+.data-detail .yui-gb,
 .data-detail .yui-g { border-color: #ff812b !important; }
 .data-detail dl     { border-bottom-color: #ff812b !important; }
 .data-detail dl dt  { border-top-color: #ff812b !important; }

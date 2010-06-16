@@ -35,15 +35,15 @@ public class Adult extends Individual implements fr.cg95.cvq.business.Historizab
     //@NotNull(message = "familyStatus")
     private FamilyStatusType familyStatus;
 
-    //@NotNull(message = "adultPhones", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
+    @NotNull(message = "adultPhones", when = "groovy:_this.mobilePhone == null && _this.officePhone == null")
     @NotEmpty(message = "homePhone")
     private String homePhone;
 
-    //@NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.officePhone == null")
+    @NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.officePhone == null")
     @NotEmpty(message = "mobilePhone")
     private String mobilePhone;
 
-    //@NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
+    @NotNull(message = "adultPhones", when = "groovy:_this.homePhone == null && _this.mobilePhone == null")
     @NotEmpty(message = "officePhone")
     private String officePhone;
 

@@ -8,7 +8,7 @@
 .data-detail h2 { margin: 0 0 .5em; font-size: 2.5em; border-bottom: 1px dashed #e6648d; }
 .data-detail h3 { margin: 0 0 .5em; font: normal 1.5em sans-serif; color: #e6648d;}
 
-
+.data-detail .yui-gb,
 .data-detail .yui-g {
   padding: 1em; margin: 0 0 1em;
   -moz-border-radius: .5em; -webkit-border-radius: .5em;

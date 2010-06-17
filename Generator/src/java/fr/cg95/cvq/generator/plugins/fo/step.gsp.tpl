@@ -112,7 +112,7 @@
               <label class="${element.listenerConditionsClass}">
                 <g:message code="${element.i18nPrefixCode}.label" /> ${element.mandatory ? '*' : ''}
                 <g:if test="\${availableRules.contains('$validationNamePrefix${element.javaFieldName}')}">
-                  <a target="_blank" href="\${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'${element.javaFieldName}']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a>
+                  <p><a target="_blank" href="\${createLink(controller:'localAuthorityResource', action:'rule', params:['requestTypeLabel':requestTypeLabel, 'filename':'${element.javaFieldName}']).encodeAsXML()}"><span><g:message code="request.action.consult.rules" /></span></a></p>
                 </g:if>
                 <span><g:message code="${element.i18nPrefixCode}.help" /></span>
               </label>

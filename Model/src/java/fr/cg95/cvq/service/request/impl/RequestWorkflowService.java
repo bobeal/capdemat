@@ -518,13 +518,20 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 invalidFields.put("validation", new ArrayList<String>(1));
             invalidFields.get("validation").add("useAcceptance");
         }
-        if (!invalidFields.isEmpty()) {
-            Map<String, Object> stepState;
-            for (Map.Entry<String, List<String>> fields : invalidFields.entrySet()) {
-                stepState = request.getStepStates().get(fields.getKey());
-                stepState.put("state", "invalid");
-                stepState.put("invalidFields", fields.getValue());
+        for (Map.Entry<String, Map<String, Object>> stepState :
+            request.getStepStates().entrySet()) {
+            List<String> fields = invalidFields.get(stepState.getKey());
+            if (fields != null) {
+                stepState.getValue().put("state", "invalid");
+                stepState.getValue().put("invalidFields", fields);
             }
+            if ("invalid".equals(stepState.getValue().get("state"))
+                || ("uncomplete".equals(stepState.getValue().get("state"))
+                    && (Boolean)stepState.getValue().get("required"))) {
+                request.getStepStates().get("validation").put("state", "unavailable");
+            }
+        }
+        if (!invalidFields.isEmpty()) {
             throw new CvqValidationException();
         }
     }

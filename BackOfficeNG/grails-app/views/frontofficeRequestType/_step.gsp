@@ -1,12 +1,10 @@
 <g:if test="${currentStep == 'validation'}">
   <div id="validation">
-   <form method="post"  id="stepForm-validation" action="<g:createLink action="edit" />">
+   <form method="post" id="stepForm-validation" action="${createLink(action:'edit')}" class="${rqt.stepStates[currentStep]?.state}">
      <h3>
-       <span class="tag-state tag-${rqt.stepStates.validation.state}">${message(code:("request.step.state." + rqt.stepStates.validation.state))}</span>
-       <span class="tag-state tag-required">${message(code:'request.step.required')}</span>
        ${message(code:'request.step.validation.label')}
        <span>${message(code:'request.step.validation.desc')}</span>
-       <span class="error">${rqt.stepStates.validation.errorMsg}</span>
+       <span class="error">${rqt.stepStates[currentStep]?.errorMsg}</span>
      </h3>
      <p class="required-fields-notice">${message(code:'request.message.requiredFieldsNotice')}</p>
      <div>
@@ -63,10 +61,11 @@
      <input type="hidden" name="returnUrl" value="${returnUrl}" />
      <input type="hidden" name="id" value="${rqt.id}" />
      <input type="hidden" name="currentStep" value="validation" />
-     <input type="submit" id="submit-step-validation" name="submit-step-validation" class="submit-step" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
+     <input type="submit" id="send" name="send" style=" float:right; font-size: 1.5em;" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
+     <input type="submit" id="previousStep" name="previousStep" value="${message(code:'request.action.previousStep')}" />
    </form>
    <g:if test="${helps.validation != null}">
-   <div class="requestHelp">
+   <div class="help">
      <h3>${message(code:'header.help')}</h3>
      ${helps.validation}
    </div>
@@ -76,24 +75,22 @@
 
 <g:elseif test="${currentStep == 'document'}">
   <div id="document">
-    <form method="post" enctype="multipart/form-data" action="${createLink(controller:'frontofficeRequestDocument', action:'edit')}">
+    <form method="post" enctype="multipart/form-data" action="${createLink(controller:'frontofficeRequest' + (documentType ? 'Document' : ''), action:'edit')}" class="${rqt.stepStates[currentStep].state}">
       <input type="hidden" name="returnUrl" value="${returnUrl}" />
       <input type="hidden" name="id" value="${rqt.id}" />
       <input type="hidden" name="currentStep" value="document" />
       <h3>
-        <span class="tag-state tag-${rqt.stepStates.document.state}">${message(code:("request.step.state." + rqt.stepStates.document.state))}</span>
         ${message(code:'request.step.document.label')}
         <span>${message(code:'request.step.document.desc')}</span>
-        <span class="error">${rqt.stepStates.document.errorMsg}</span>
+        <span class="error">${rqt.stepStates[currentStep]?.errorMsg}</span>
       </h3>
       <p class="required-fields-notice">${message(code:'request.message.requiredFieldsNotice')}</p>
       <div>
         <g:render template="/frontofficeRequestType/${documentType ? 'document' : 'documents'}" />
       </div>
-      <div class="error" id="stepForm-document-error"> </div>
     </form>
     <g:if test="${helps.document != null}">
-      <div class="requestHelp">
+      <div class="help">
         <h3>${message(code:'header.help')}</h3>
         ${helps.document}
       </div>
@@ -103,13 +100,11 @@
 
 <g:else>
   <div id="${currentStep}">
-   <form method="post"  id="stepForm-${currentStep}" action="<g:createLink action="edit" />">
+   <form method="post" id="stepForm-${currentStep}" action="${createLink(action:'edit')}" class="${rqt.stepStates[currentStep]?.state}">
      <h3>
-       <span class="tag-state tag-${rqt.stepStates[currentStep].state}">${message(code:("request.step.state." + rqt.stepStates[currentStep].state))}</span>
-       <span class="tag-state tag-required">${message(code:'request.step.required')}</span>
-       ${message(code: requestTypeAcronym + '.step.' + currentStep + '.label')}
+        ${message(code: requestTypeAcronym + '.step.' + currentStep + '.label')}
        <span>${message(code: requestTypeAcronym + '.step.' + currentStep + '.desc')}</span>
-       <span class="error">${rqt.stepStates[currentStep].errorMsg}</span>
+       <span class="error">${rqt.stepStates[currentStep]?.errorMsg}</span>
      </h3>
      <p class="required-fields-notice">${message(code:'request.message.requiredFieldsNotice')}</p>
      <div>
@@ -119,10 +114,14 @@
      <input type="hidden" name="returnUrl" value="${returnUrl}" />
      <input type="hidden" name="id" value="${rqt.id}" />
      <input type="hidden" name="currentStep" value="${currentStep}" />
-     <input type="submit" id="submit-step-${currentStep}" name="submit-step-${currentStep}" class="submit-step" value="${message(code:'action.validate')}" />
+
+     <input type="submit" id="nextStep" name="nextStep" style="float:right;" value="${message(code:'request.action.nextStep')}" />
+     <g:if test="${!(rqt.stepStates.keySet().iterator().next() == currentStep)}">
+       <input type="submit" id="previousStep" name="previousStep" value="${message(code:'request.action.previousStep')}" />
+     </g:if>
    </form>
    <g:if test="${helps[currentStep] != null}">
-   <div class="requestHelp">
+   <div class="help">
      <h3>${message(code:'header.help')}</h3>
      ${helps[currentStep]}
    </div>

@@ -77,4 +77,6 @@
   </div>
 </fieldset>
 </g:each>
-<input type="submit" id="submit-step-document" name="submit-step-document" class="submit-step" value="${message(code:'action.validate')}" />
+<div class="error" id="stepForm-document-error"> </div>
+<input type="submit" id="nextStep" name="nextStep" style="float:right;" value="${message(code:'request.action.nextStep')}" />
+<input type="submit" id="previousStep" name="previousStep" value="${message(code:'request.action.previousStep')}" />

@@ -52,28 +52,28 @@ public class DeathDetailsRequest extends Request implements Serializable {
           getStepStates().put("requester", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("nature", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("type", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", false);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("document", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());

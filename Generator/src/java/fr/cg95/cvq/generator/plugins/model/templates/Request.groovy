@@ -192,9 +192,9 @@ public class ${requestName} extends Request implements Serializable {
         super();
         this.${returnInstance}Data = new ${requestName}Data();
         Map<String, Object> stepState;
-        <% request.steps.each { %>
+        <% request.steps.eachWithIndex { it, i -> %>
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "${i == 0 ? "uncomplete" : "unavailable"}");
           stepState.put("required", ${it.required});
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());

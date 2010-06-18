@@ -58,60 +58,62 @@
       </div>
     </g:if>
     
-    <a href="\${createLink(controller:'frontofficeHome')}">
-      <g:message code="action.quit"/>
-    </a>
-    <g:if test="\${!isEdition}">
-      <a href="\${createLink(action:'deleteDraft', controller:'frontofficeRequest', params : ['id' : rqt.id, 'from' : 'edition'])}">
-        <g:message code="action.cancel"/>
-      </a>
-    </g:if>
-
-    <h2 class="request-creation"> <g:message code="${requestFo.acronym}.label" /></h2>
-    <p><g:message code="${requestFo.acronym}.description" /></p> 
-    <p><g:message code="request.duration.label" /><strong> : <g:message code="${requestFo.acronym}.duration.value" /></strong></p>
-    <p>
-      <g:message code="request.requiredDocuments.header" /> :
-      <g:if test="\${!documentTypes.isEmpty()}">
-        <g:each var="documentType" in="\${documentTypes}" status="index">
-          <strong>\${documentType?.name}\${index < documentTypes.size() - 1 ? ', ' : ''}</strong>
-        </g:each>
-      </g:if>
-      <g:else>
-        <g:message code="message.none" />
-      </g:else>
-    </p>
-
-    <div id="requestTabView" class="yui-navset">
-      <ul class="yui-nav">
+    <div id="request" class="main-box">
+      <h2>
+        <a href="\${createLink(controller:'frontofficeHome')}" class="button">
+          <g:message code="action.quit"/>
+        </a>
+        <g:if test="\${!isEdition}">
+          <a href="\${createLink(action:'deleteDraft', controller:'frontofficeRequest', params : ['id' : rqt.id, 'from' : 'edition'])}" class="button">
+            <g:message code="action.cancel"/>
+          </a>
+        </g:if>
+        <g:message code="${requestFo.acronym}.label" />
+        <span><g:message code="${requestFo.acronym}.description" /></span> 
+      </h2>
+      <p><g:message code="request.duration.label" /><strong> : <g:message code="${requestFo.acronym}.duration.value" /></strong></p>
+      <p>
+        <g:message code="request.requiredDocuments.header" /> :
+        <g:if test="\${!documentTypes.isEmpty()}">
+          <g:each var="documentType" in="\${documentTypes}" status="index">
+            <strong>\${documentType?.name}\${index < documentTypes.size() - 1 ? ', ' : ''}</strong>
+          </g:each>
+        </g:if>
+        <g:else>
+          <g:message code="message.none" />
+        </g:else>
+      </p>
+      <div class="datas">
+         <g:set var="requestTypeAcronym" value="${requestFo.acronym}" scope="request" />
+         <g:render template="/frontofficeRequestType/step" /> 
+      </div>
+      
+      <div  class="steps">
+      <ul>
 <% requestFo.steps.eachWithIndex { step, i -> %>
   <% if (step.name == 'document') { %>
         <g:if test="\${!documentTypes.isEmpty()}">
   <% } %>
-        <li class="\${currentStep == '${step.name}' ? 'selected' : ''}">
-          <a href="\${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'${step.name}'])}">
-          <em>
-          <span class="tag-state tag-\${rqt.stepStates.${step.name}.state}"><g:message code="request.step.state.\${rqt.stepStates.${step.name}.state}" /></span>
-    <% if (step.required) { %>
-          <strong>
-            <g:message code="${step.i18nPrefix()}.step.${step.name}.label" /> *
-          </strong>
-    <% } else {%>
-          <g:message code="${step.i18nPrefix()}.step.${step.name}.label" />
-    <% } %>        
-          </em></a>
+        <li class="\${currentStep == '${step.name}' ? 'current' : ''} \${rqt.stepStates['${step.name}'].state}">
+          <span class="number">${step.name != 'validation' ? i+1 : ''}</span>
+          <a
+            <g:if test="\${rqt.stepStates['${step.name}'].state != 'unavailable'}">
+              href="\${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'${step.name}'])}"
+            </g:if>
+          >
+            <g:message code="${step.i18nPrefix()}.step.${step.name}.label" />${step.required ? ' *' :''}
+            <span class="help">
+              <g:message code="request.step.message.\${rqt.stepStates['${step.name}'].state}" />
+            </span>
+          </a>
         </li>    
   <% if (step.name == 'document') { %>
         </g:if>
   <% } %>
 <% } %>
 		 </ul>
-
-     <div class="yui-content">
-       <g:set var="requestTypeAcronym" value="${requestFo.acronym}" scope="request" />
-       <g:render template="/frontofficeRequestType/step" /> 
-     </div><!-- end yui-content -->
-    </div><!-- end requestTabView -->
+	  </div>
+  </div>
 
   </body>
 </html>

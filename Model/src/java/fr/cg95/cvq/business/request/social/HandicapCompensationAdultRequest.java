@@ -52,70 +52,70 @@ public class HandicapCompensationAdultRequest extends Request implements Seriali
           getStepStates().put("subject", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("dwelling", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("socialSecurityAndPaymentAgency", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("occupationnalAndSchoolStatus", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("folders", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("benefits", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("aid", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("health", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("project", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", false);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("document", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());

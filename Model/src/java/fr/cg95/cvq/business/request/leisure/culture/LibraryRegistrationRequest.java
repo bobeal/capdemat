@@ -52,14 +52,14 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
           getStepStates().put("registration", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("rules", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());

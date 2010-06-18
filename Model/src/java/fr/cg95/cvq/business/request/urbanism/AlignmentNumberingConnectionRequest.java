@@ -52,14 +52,14 @@ public class AlignmentNumberingConnectionRequest extends Request implements Seri
           getStepStates().put("requester", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());
           getStepStates().put("cadastre", stepState);
         
           stepState = new HashMap<String, Object>(4);
-          stepState.put("state", "uncomplete");
+          stepState.put("state", "unavailable");
           stepState.put("required", true);
           stepState.put("errorMsg", null);
           stepState.put("invalidFields", new ArrayList<String>());

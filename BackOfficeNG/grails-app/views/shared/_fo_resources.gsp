@@ -1,9 +1,7 @@
 <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" />
 <!-- yui -->
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/yui/reset-fonts-grids', file:'reset-fonts-grids.css')}" />
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/yui/tabview', file:'tabview.css')}" />
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/backoffice/yui/container',file:'container.css')}" />
-<link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common/yui-skin', file:'tabview.css')}" />
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/common',file:'tag.css')}" />
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'layout.css')}" />
 <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'box.css')}" />

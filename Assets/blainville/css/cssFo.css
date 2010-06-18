@@ -51,7 +51,7 @@ h2   { color: #fff; }
 
 .main-box    { border-color: #ff812b; }   
 .main-box h2 { color: #ff812b; border-color: #ff812b; }
-.main-box a:hover { color: #ffffff !important; background: #ff812b !important; }
+/*.main-box a:hover { color: #ffffff !important; background: #ff812b !important; }*/
 
 .narrow-box h3           { color: #fff; background: #ff812b; }
 .narrow-box .body        { background: #FFFFFF; }
@@ -86,48 +86,31 @@ form textarea { border-top-color: #ff812b !important; }
 /* request creation
  * ----------------------------------------------------- */
 
-h2.request-creation { color: #fff !important; }
+#request div.help h3 { border-bottom-color: #ff812b !important; }
 
-.yui-skin-fong .yui-navset .yui-nav a,
-.yui-skin-fong .yui-navset .yui-navset-top .yui-nav a {
-  color: #fff  !important; 
-  background: #ff812b !important;
-  border: 0 !important;
-}
+#request h3                    { border-bottom-color:  #ff812b !important; }
+#request legend                { color: #ff812b !important; }
+#request fieldset              { border-left-color: #ff812b !important; }
+#request .address-fieldset     { border-color: #ff812b !important; }
+#request form ul.dataTree      { border-color: #ff812b !important; }
+#request form div .captcha img { border-color: #ff812b !important; }
 
-.yui-skin-fong .yui-navset .yui-nav a:hover,
-.yui-skin-fong .yui-navset .yui-nav .selected a,
-.yui-skin-fong .yui-navset .yui-nav .selected a:focus {
-  color: #000  !important;
-  background: #fff !important; 
-  border-color: #fff !important;
-}
-
-#requestTabView .requestHelp h3 { border-bottom-color: #ff812b !important; }
-
-#requestTabView h3                    { border-bottom-color:  #ff812b !important; }
-#requestTabView legend                { color: #ff812b !important; }
-#requestTabView fieldset              { border-left-color: #ff812b !important; }
-#requestTabView .address-fieldset     { border-color: #ff812b !important; }
-#requestTabView form ul.dataTree      { border-color: #ff812b !important; }
-#requestTabView form div .captcha img { border-color: #ff812b !important; }
-
-#requestTabView form div input[type="text"], #requestTabView form div input[type="password"],
-#requestTabView form div select, 
-#requestTabView form div textarea {
+#request form div input[type="text"], #request form div input[type="password"],
+#request form div select, 
+#request form div textarea {
   border-top-color: #ff812b !important;
 }
 
-#requestTabView .nextTab, #requestTabView .prevTab { color: #ff812b !important; }
-#requestTabView .nextTab:hover, #requestTabView .prevTab:hover { 
+#request .nextTab, #request .prevTab { color: #ff812b !important; }
+#request .nextTab:hover, #request .prevTab:hover { 
   color: #fff !important; background: #ff812b !important; 
 }
 
-#requestTabView div.collection-fieldset h4 { color: #ff812b !important; }
-#requestTabView fieldset.collection-fieldset-add         { border-color: #ff812b !important; }
-#requestTabView fieldset.collection-fieldset-edit        { border-bottom-color: #ff812b !important; }
-#requestTabView fieldset.collection-fieldset-add legend,
-#requestTabView fieldset.collection-fieldset-edit legend { border-color: #ff812b !important; }
+#request div.collection-fieldset h4 { color: #ff812b !important; }
+#request fieldset.collection-fieldset-add         { border-color: #ff812b !important; }
+#request fieldset.collection-fieldset-edit        { border-bottom-color: #ff812b !important; }
+#request fieldset.collection-fieldset-add legend,
+#request fieldset.collection-fieldset-edit legend { border-color: #ff812b !important; }
 
 
 /* activities specific styles

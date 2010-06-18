@@ -179,7 +179,7 @@ class FrontofficeRequestController {
             'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
             'subjects': individualAdaptorService.adaptSubjects(requestWorkflowService.getAuthorizedSubjects(rqt)),
             'meansOfContact': individualAdaptorService.adaptMeansOfContact(meansOfContactService.getAdultEnabledMeansOfContact(SecurityContext.currentEcitizen)),
-            'currentStep': params.currentStep != null ? params.currentStep : rqt.stepStates.keySet().iterator().next(),
+            'currentStep': params.currentStep != null ? webflowNextStep(rqt, params.currentStep) : rqt.stepStates.keySet().iterator().next(),
             'currentCollection': params.currentCollection,
             'collectionIndex': params.collectionIndex ? Integer.valueOf(params.collectionIndex) : null,
             'missingSteps': requestWorkflowService.getMissingSteps(rqt),
@@ -211,6 +211,42 @@ class FrontofficeRequestController {
         }
         redirect(action:'edit', params:['id':params.id, 'currentStep':params.currentStep])
         return false
+    }
+
+    def webflowNextStep(rqt, step) {
+        if (rqt.stepStates[step].state == 'invalid' || request.get)
+            return step
+        updateStepState(rqt, step)
+        def it = rqt.stepStates.keySet().iterator()
+        def previous
+        while (it.hasNext()) {
+            def current = it.next()
+            if (current == step) {
+                if (params.nextStep) return it.next()
+                if (params.previousStep) return previous
+            }
+            previous = new String(current)
+        }
+    }
+
+    def updateStepState(rqt, step) {
+        def afterCurrentStep = false
+        def it = rqt.stepStates.entrySet().iterator()
+        while (it.hasNext()) {
+            def entry = it.next()
+            if (entry.key == step) {
+                afterCurrentStep = true
+                continue 
+            }
+            def stepState = entry.value
+            if (afterCurrentStep && stepState.state == 'unavailable') {
+                stepState.state = 'uncomplete'
+                stepState.errorMsg = null
+                stepState.invalidFields = []
+                if (stepState.required) 
+                    break
+            }
+        }
     }
 
     def checkCaptcha (params) {

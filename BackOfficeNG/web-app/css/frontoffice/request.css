@@ -4,9 +4,6 @@
     
 ---------------------------------------------------------------*/
 
-/* tmp style
----------------------------------------------------------------*/
-h2.request-creation { margin: 0; color: #DB4366; }
 
 /* creation form
    TODO : rename this class
@@ -28,67 +25,123 @@ h2.request-creation { margin: 0; color: #DB4366; }
 
 /* creation form
 --------------------------------------------------------------*/
-#requestTabView { margin-top: 1em ; }
-#requestTabView h3 {
-  margin: 1em 0; padding: 0 0 .5em 0;
+#request.main-box { padding: 1em; border: 0; overflow: auto; }
+
+#request .datas { width: 68%; float: left; }
+#request .steps { width: 30%; float: left; margin: .5em 0; padding: 0;}
+
+#request .steps ul { margin: 0; }
+#request .steps li {
+  margin: .3em 0 0; padding: .2em .5em;
   font-size: 1.5em; font-weight: normal;
+  background: #eee;
+  border: 5px solid #eee;
+  -moz-border-radius: .5em;
+}
+
+#request .steps li a { 
+  display: block;
+  font-size: .9em; font-weight: bold; text-decoration: none; 
+  color: #666;
+}
+#request .steps li .help   { display: block; font-size: .7em; }
+#request .steps li .number { float: right; margin-left: .4em; font-size: 1.4em; }
+
+#request .steps li.uncomplete .number,
+#request .steps li.complete .number,
+#request .steps li.invalid .number, 
+#request .steps li.uncomplete a,
+#request .steps li.complete a,
+#request .steps li.invalid a  { color: #fff; }
+
+#request .steps li.current    { margin-left: -.9em; padding-left: 1.4em; }
+#request .steps li.uncomplete { border-color: #fc0; background: #fc0; }
+#request .steps li.complete   { border-color: #20CC20; background: #20CC20; }
+#request .steps li.invalid    { border-color: #CC2020; background: #CC2020; }
+
+#request .steps li.uncomplete:hover { border-color: #fa0; background: #fa0; }
+#request .steps li.complete:hover   { border-color: #20aa20; background: #20aa20; }
+#request .steps li.invalid:hover    { border-color: #aa2020; background: #aa2020; }
+
+#request form.uncomplete { border-color: #fc0; }
+#request form.complete   { border-color: #20CC20; }
+#request form.invalid    { border-color: #CC2020; }
+
+/* override inherited properties */
+#request .steps li a:hover { background: transparent; }
+
+#request a.button {
+  float: right; 
+  margin-left: .5em;
+  font-size: .5em; font-weight: bold;
+}
+
+#request h2 { font-size: 2.5em; border: 0;}
+#request h3 {
+  margin: 1em 0; padding: 0 0 .5em 0;
+  font-size: 1.5em;
   border-bottom: 1px solid #DB4366;
 }
-#requestTabView h3 span       { display: block;  font-size: .75em; }
-#requestTabView h3 span.error { margin: 0; padding: 0; text-align: right; }
-#requestTabView h3 .tag-state { float: right; }
- 
-#requestTabView h4   { margin: 1em 0 0 0; font-size: 1.2em; }
-#requestTabView form { min-height: 30em; padding:  0 1.5em 1.5em 1.5em; }
+#request h3 span       { display: block; font-size: .75em; }
+#request h3 span.error { margin: 0; padding: 0; text-align: right; }
+#request h3 .tag-state { float: right; }
+#request h4   { margin: 1em 0 0 0; font-size: 1.2em; }
 
-#requestTabView form div label {
+#request form { 
+  min-height: 30em; 
+  margin: 1em 1em; padding:  0 1.5em 1.5em 1.5em;
+  border: 5px solid #eee;
+  -moz-border-radius: .5em;
+  overflow: auto;
+}
+
+#request form div label {
   width: 80%; display: block;
   font-size: 1.2em; font-weight: normal;
 }
 
-#requestTabView form div label.required { font-weight: bold; }
-#requestTabView form div label span     { font-weight: normal; font-size: 0.85em; font-style: italic; color: #333; }
-#requestTabView legend span             { font-weight: normal; font-size: 0.75em; font-style: italic; }
+#request form div label.required { font-weight: bold; }
+#request form div label span     { font-size: 0.85em; font-style: italic; color: #333; }
+#request legend span             { font-size: 0.75em; font-style: italic; }
 
-#requestTabView form div p { margin: 0 0 .5em; font-size: 1.1em; }
+#request form div p { margin: 0 0 .5em; font-size: 1.1em; }
 
-#requestTabView form div input[type="text"],
-#requestTabView form div input[type="password"],
-#requestTabView form div select,
-#requestTabView form div textarea {
+#request form div input[type="text"],
+#request form div input[type="password"],
+#request form div select,
+#request form div textarea {
   width: 80%; display: block;
   margin: .1em 0 1em 0; padding: .1em;
   border: 1px solid #cdcdcd;
   border-top-color: #DB4366;
   font-size: 1.1em; font-weight: normal;
   color: #095ba6;
-}
+} 
 
-#requestTabView form input.submit-step { display: block; margin: 1em auto; font-size: 1.2em; }
 
 /* tree
 -------------------------------------------------------------- */
-#requestTabView form ul.dataTree        { width: 78%; padding: 1%; border: 1px dashed #DB4366; }
-#requestTabView form .dataTree li       { width: 100%; display: block; }
-#requestTabView form .dataTree li ul    { margin: .5em 0 0 1em !important; }
-#requestTabView form .dataTree li ul li { width: 90%; padding: .2em 0 0 .4em; }
-#requestTabView form .dataTree li em    { font-size: 1.1em; font-style: italic; font-weight: bold; }
+#request form ul.dataTree        { width: 78%; padding: 1%; border: 1px dashed #DB4366; }
+#request form .dataTree li       { width: 100%; display: block; }
+#request form .dataTree li ul    { margin: .5em 0 0 1em !important; }
+#request form .dataTree li ul li { width: 90%; padding: .2em 0 0 .4em; }
+#request form .dataTree li em    { font-size: 1.1em; font-style: italic; font-weight: bold; }
+
 
 /* list
 -------------------------------------------------------------- */
-#requestTabView form ul       { width: 80%; margin: .2em 0 .5em 0; }
-#requestTabView form li       { padding: .2em 0; list-style-type: none; }
-#requestTabView form li label { display: inline; font-size: .95em; }
+#request form ul       { width: 80%; margin: .2em 0 .5em 0; }
+#request form li label { display: inline; font-size: .95em; }
 
-#requestTabView form ul.yes-no li { display: inline; margin: 0 .5em 0 0; }
+#request form ul.yes-no li { display: inline; margin: 0 .5em 0 0; }
 
-#requestTabView .yui-button { margin-left: 40%; }
+#request .yui-button { margin-left: 40%; }
 
-#requestTabView form div fieldset {
+#request form div fieldset {
   margin: 0 0 .5em 0; padding: 1em 0 0 1em;
   border-left: 3px solid #DB4366;
 }
-#requestTabView legend {
+#request legend {
   margin-top: .5em !important; 
   font-size: 1.3em;
   font-weight: bold;
@@ -96,65 +149,62 @@ h2.request-creation { margin: 0; color: #DB4366; }
 }
 
 /* TODO - generalize address-fieldset as sub-fieldset selector */
-#requestTabView .address-fieldset {
+#request .address-fieldset {
   width: 80%;
   margin: 0 0 1em; padding: .5em;
   border: 1px dashed #DB4366;
   font-size: .9em;
 }
 
-#requestTabView .address-fieldset input[type="text"] { width: 99%; margin: 0 0 .5em; padding: .1em; }
-#requestTabView .address-fieldset label { display: inline; padding-top: .5em; color: #333; }
-#requestTabView .address-fieldset input[type="text"].line1 { display: inline; width: 15%; }
-#requestTabView .address-fieldset input[type="text"].line2 { display: inline; width: 82%; }
+#request .address-fieldset input[type="text"] { width: 99%; margin: 0 0 .5em; padding: .1em; }
+#request .address-fieldset label { display: inline; padding-top: .5em; color: #333; }
+#request .address-fieldset input[type="text"].line1 { display: inline; width: 15%; }
+#request .address-fieldset input[type="text"].line2 { display: inline; width: 82%; }
 
-#requestTabView .date input.year,
-#requestTabView .date select.day,
-#requestTabView .date select.month { display : inline; width : auto !important;}
+#request .date input.year,
+#request .date select.day,
+#request .date select.month { display : inline; width : auto !important;}
 
-#requestTabView form div.time label { display:inline !important; }
-#requestTabView .time select.hour,
-#requestTabView .time select.minute { display : inline; width : auto !important; margin: .5em 0 .5em;}
+#request form div.time label { display:inline !important; }
+#request .time select.hour,
+#request .time select.minute { display : inline; width : auto !important; margin: .5em 0 .5em;}
 
-#requestTabView p.document-button { margin: 3em 0 0; text-align: center; font-size: 1.2em; }
-#requestTabView .document-add-new { text-align: right; }
-#requestTabView .document-fieldset                          { margin: 0 0 1em; }
-#requestTabView .document-fieldset dl.document-linked       { background: #ffb; }
-#requestTabView .document-fieldset dl.document-available    { background: #ffd; }
-#requestTabView .summary-box.document-fieldset dl dt { width: 13.75em; font-size:1.1em; }
-#requestTabView .summary-box.document-fieldset dl dt input { font-size:1.1em; }
-#requestTabView .summary-box.document-fieldset dl dd { width: 26.75em; font-size:1em; }
-#requestTabView .summary-box.document-fieldset dl dd input { font-size:1em; }
-#requestTabView .document-fieldset dl dd .tag-state { float: right; }
+#request p.document-button { margin: 3em 0 0; text-align: center; font-size: 1.2em; }
+#request .document-add-new { text-align: right; }
+#request .document-fieldset                          { margin: 0 0 1em; }
+#request .document-fieldset dl.document-linked       { background: #ffb; }
+#request .document-fieldset dl.document-available    { background: #ffd; }
+#request .summary-box.document-fieldset dl dt { width: 13.75em; font-size:1.1em; }
+#request .summary-box.document-fieldset dl dt input { font-size:1.1em; }
+#request .summary-box.document-fieldset dl dd { width: 26.75em; font-size:1em; }
+#request .summary-box.document-fieldset dl dd input { font-size:1em; }
+#request .document-fieldset dl dd .tag-state { float: right; }
 
-#requestTabView div.collection-fieldset                      { margin: 0 0 1em 0; padding: 1em 2em; font-size: .9em; background: #ffd; }
-#requestTabView div.collection-fieldset h4                   { font-size: 1.4em; font-weight: bold; color: #FF812B; }
-#requestTabView div.collection-fieldset input[type="submit"] { margin: 0 0 1em; }
+#request div.collection-fieldset                      { margin: 0 0 1em 0; padding: 1em 2em; font-size: .9em; background: #ffd; }
+#request div.collection-fieldset h4                   { font-size: 1.4em; font-weight: bold; color: #FF812B; }
+#request div.collection-fieldset input[type="submit"] { margin: 0 0 1em; }
 
-#requestTabView fieldset.collection-fieldset-add         { border: 2px solid #FF812B; }
-#requestTabView fieldset.collection-fieldset-edit        { padding: 1em 0 1em 1em; border: 0; border-bottom: 2px solid #FF812B; }
-#requestTabView fieldset.collection-fieldset-add legend,
-#requestTabView fieldset.collection-fieldset-edit legend { margin: 0; padding: 0; border: 1px solid #FF812B; }
+#request fieldset.collection-fieldset-add         { border: 2px solid #FF812B; }
+#request fieldset.collection-fieldset-edit        { padding: 1em 0 1em 1em; border: 0; border-bottom: 2px solid #FF812B; }
+#request fieldset.collection-fieldset-add legend,
+#request fieldset.collection-fieldset-edit legend { margin: 0; padding: 0; border: 1px solid #FF812B; }
 
-#requestTabView form div.box {
-  min-height: 30em;
-  padding:  0 1.5em 1.5em 1.5em;
-}
-#requestTabView form div.box ul {
-  margin: 1em;
-}
-#requestTabView form div.box ul li {
+#request form div.box    { min-height: 30em; padding: 0 1.5em 1.5em 1.5em; }
+#request form div.box ul { margin: 1em; }
+#request form div.box ul li {
   padding: .3em 0;
   list-style-type: disc;
   font-size: 1.2em; font-weight: bold;
 }
 
+
 /* validation step
 --------------------------------------------------------------*/
-#requestTabView form div .captcha       { margin : .1em 0 .5em; overflow: auto;}
-#requestTabView form div .captcha img   { float: left; border : 1px solid #DB4366}
-#requestTabView form div .captcha input { float: left; width: 54.5%; margin: 0 0 0 .5em; }
-#requestTabView form div #useAcceptance { margin : 2em 0 0; }
+#request form div .captcha       { margin : .1em 0 .5em; overflow: auto;}
+#request form div .captcha img   { float: left; border : 1px solid #DB4366}
+#request form div .captcha input { float: left; width: 54.5%; margin: 0 0 0 .5em; }
+#request form div #useAcceptance { margin : 2em 0 0; }
+
 
 /* request notes on summary page
 --------------------------------------------------------------*/
@@ -179,6 +229,7 @@ h2.request-creation { margin: 0; color: #DB4366; }
 
 #requestNotes .noteMetadata { text-align : right; color : #666; }
 
+
 /* exit request creation screen
 --------------------------------------------------------------*/
 .requestExit          { overflow: auto; }
@@ -191,21 +242,28 @@ a.link-agent          { color: #EA3D1A; }
 
 /* help
 --------------------------------------------------------------*/
-.requestHelp { margin: .2em 0 0; padding: .5em 1.5em 1em; background: #eee; }
+#request div.help { 
+  margin: 0 1em 1em; padding: .5em 1.5em 1em;
+  background: #eee;
+  -moz-border-radius: .5em;
+}
+
 
 /* notices
 --------------------------------------------------------------*/
-#requestTabView .required-fields-notice { margin-top: -.5em 0 .3em 0; text-align: right; }
+#request .required-fields-notice { margin-top: -.5em 0 .3em 0; text-align: right; }
+
 
 /* validation specifics styles
 --------------------------------------------------------------*/
-#requestTabView #useAcceptance { margin: 0 0 1em 0; }
+#request #useAcceptance { margin: 0 0 1em 0; }
+
 
 /* javascript validation
 --------------------------------------------------------------*/
 .validation-failed { border:1px dashed #FF3333; background-color:#FFCCCC; }
 
-.error {
+div.error, span.error, p.error {
   margin: .5em; padding: .5em;
   font-style: italic; text-align: center;
   color: red;

@@ -239,10 +239,12 @@ class FrontofficeRequestController {
                 continue 
             }
             def stepState = entry.value
-            if (afterCurrentStep && stepState.state == 'unavailable') {
-                stepState.state = 'uncomplete'
-                stepState.errorMsg = null
-                stepState.invalidFields = []
+            if (afterCurrentStep) {
+                if (stepState.state == 'unavailable') {
+                    stepState.state = 'uncomplete'
+                    stepState.errorMsg = null
+                    stepState.invalidFields = []
+                }
                 if (stepState.required) 
                     break
             }

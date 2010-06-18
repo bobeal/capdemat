@@ -320,5 +320,18 @@ public class IndividualService implements IIndividualService {
         }
         return result;
     }
+
+    public List<String> validate(Child child)
+        throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
+        Validator validator = new Validator();
+        validator.disableAllProfiles();
+        validator.enableProfile("default");
+        Map<String, List<String>> invalidFields = new LinkedHashMap<String, List<String>>();
+        for (ConstraintViolation violation : validator.validate(child)) {
+            ValidationUtils.collectInvalidFields(violation, invalidFields, "", "");
+        }
+        return invalidFields.get("") != null ? invalidFields.get("") : Collections.<String>emptyList();
+    }
 }
 

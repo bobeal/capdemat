@@ -182,6 +182,16 @@
                 <option value="\${it.key}" \${it.key == rqt.subjectId ? 'selected=\"selected\"': ''}>\${it.value}</option>
               </g:each>
             </select>
+            <g:if test="\${[fr.cg95.cvq.service.request.IRequestWorkflowService.SUBJECT_POLICY_INDIVIDUAL, fr.cg95.cvq.service.request.IRequestWorkflowService.SUBJECT_POLICY_ADULT].contains(subjectPolicy)}">
+              <a href="\${createLink(controller : 'frontofficeHomeFolder', action : 'adult', params : ['mode' : 'edit', 'requestId' : rqt.id])}">
+                <g:message code="homeFolder.action.addAdult" />
+              </a>
+            </g:if>
+            <g:if test="\${[fr.cg95.cvq.service.request.IRequestWorkflowService.SUBJECT_POLICY_INDIVIDUAL, fr.cg95.cvq.service.request.IRequestWorkflowService.SUBJECT_POLICY_CHILD].contains(subjectPolicy)}">
+              <a href="\${createLink(controller : 'frontofficeHomeFolder', action : 'child', params : ['mode' : 'edit', 'requestId' : rqt.id])}">
+                <g:message code="homeFolder.action.addChild" />
+              </a>
+            </g:if>
             """
          ,'requester' :
             """

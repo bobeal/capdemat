@@ -41,7 +41,7 @@
       </g:if>
       
       <dd class="see-details">
-        <a href="${createLink(action:'individual',id:record.id)}">
+        <a href="${createLink(action:'adult',id:record.id)}">
           <g:message code="homeFolder.individual.action.seeDetails" />
         </a>
       </dd>

@@ -15,6 +15,7 @@ import fr.cg95.cvq.service.request.external.IRequestExternalService
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestNoteService
 import fr.cg95.cvq.service.request.IRequestSearchService
+import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IIndividualService
 import fr.cg95.cvq.service.users.IHomeFolderService
@@ -40,6 +41,7 @@ class FrontofficeRequestController {
     IRequestLockService requestLockService
     IRequestNoteService requestNoteService
     IRequestActionService requestActionService
+    IRequestTypeService requestTypeService
     IRequestWorkflowService requestWorkflowService
     IRequestSearchService requestSearchService
     IHomeFolderService homeFolderService
@@ -190,8 +192,7 @@ class FrontofficeRequestController {
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(requestTypeLabelAsDir),
             'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(requestTypeLabelAsDir),
             'customJS' : requestTypeAdaptorService.getCustomJS(rqt.requestType.label),
-            'displayChildrenInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayChildrenInAccountCreation(),
-            'displayTutorsInAccountCreation': SecurityContext.currentConfigurationBean.isDisplayTutorsInAccountCreation()
+            "subjectPolicy" : requestTypeService.getSubjectPolicy(rqt.requestType.id)
         ])
     }
 

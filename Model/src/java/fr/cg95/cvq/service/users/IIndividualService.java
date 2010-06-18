@@ -103,4 +103,8 @@ public interface IIndividualService extends IAutofillTriggerService {
     List<String> validate(Adult adult, boolean login)
         throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
             NoSuchMethodException;
+
+    List<String> validate(Child child)
+        throws ClassNotFoundException, IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException;
 }

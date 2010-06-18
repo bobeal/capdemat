@@ -5,6 +5,7 @@ import fr.cg95.cvq.exception.CvqAuthenticationFailedException
 import fr.cg95.cvq.exception.CvqBadPasswordException
 import fr.cg95.cvq.exception.CvqModelException
 import fr.cg95.cvq.security.SecurityContext
+import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestTypeService
 import fr.cg95.cvq.service.request.IRequestWorkflowService
 import fr.cg95.cvq.service.users.IHomeFolderService
@@ -15,6 +16,7 @@ class FrontofficeHomeFolderController {
     IHomeFolderService homeFolderService
     IIndividualService individualService
     IAuthenticationService authenticationService
+    IRequestSearchService requestSearchService
     IRequestTypeService requestTypeService
 	IRequestWorkflowService requestWorkflowService
 
@@ -113,18 +115,89 @@ class FrontofficeHomeFolderController {
         }
     }
 
-    def individual = {
-        def individual = individualService.getById(Long.valueOf(params.id))
-        if (individual instanceof Child) {
-            return ['individual':individual, 'isChild':true, 
-                    'roles':homeFolderAdaptorService.prepareChildSubjectRoles(individual)]
+    def adult = {
+        def model = [:]
+        def individual
+        def template = "adult"
+        if (params.id) {
+            individual = individualService.getAdultById(Long.valueOf(params.id))
         } else {
-            return ['individual':individual, 'isChild':false, 
-                    'ownerRoles':homeFolderAdaptorService.prepareOwnerRoles(individual),
-                    'subjectRoles':homeFolderAdaptorService.prepareAdultSubjectRoles(individual)]
+            individual = new Adult()
+            // hack : WTF is an unknown title ?
+            individual.title = null
         }
+        if (request.post) {
+            DataBindingUtils.initBind(individual, params)
+            bind(individual)
+            model["invalidFields"] = individualService.validate(individual, false)
+            if (model["invalidFields"].isEmpty()) {
+                if (individual.id) {
+                    individualService.modify(individual)
+                } else {
+                    individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.adress, false)
+                }
+                if (params.requestId) {
+                    requestSearchService.getById(Long.valueOf(params.requestId), false).subjectId =
+                        individual.id
+                    redirect(controller : "frontofficeRequest", action : "edit",
+                        params : ["id" : params.requestId])
+                } else {
+                    redirect(action : "adult", params : ["id" : individual.id])
+                }
+                return false
+            }
+        }
+        model["adult"] = individual
+        if (params.mode == "edit") {
+            template += "Edit"
+        } else {
+            model["ownerRoles"] = homeFolderAdaptorService.prepareOwnerRoles(individual)
+            model["subjectRoles"] = homeFolderAdaptorService.prepareAdultSubjectRoles(individual)
+        }
+        render(view : template, model : model)
     }
-    
+
+    def child = {
+        def model = [:]
+        def individual
+        def template = "child"
+        if (params.id) {
+            individual = individualService.getChildById(Long.valueOf(params.id))
+        } else {
+            individual = new Child()
+            // hack : WTF is an unknown sex ?
+            individual.sex = null
+        }
+        if (request.post) {
+            DataBindingUtils.initBind(individual, params)
+            bind(individual)
+            model["invalidFields"] = individualService.validate(individual)
+            if (model["invalidFields"].isEmpty()) {
+                if (individual.id) {
+                    individualService.modify(individual)
+                } else {
+                    individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.adress, false)
+                }
+                if (params.requestId) {
+                    requestSearchService.getById(Long.valueOf(params.requestId), false).subjectId =
+                        individual.id
+                    redirect(controller : "frontofficeRequest", action : "edit",
+                        params : ["id" : params.requestId])
+                } else {
+                    redirect(action : "child", params : ["id" : individual.id])
+                }
+                return false
+            }
+        }
+        model["child"] = individual
+        if (params.mode == "edit") {
+            template += "Edit"
+        } else {
+            model["roles"] = homeFolderAdaptorService.prepareChildSubjectRoles(individual)
+        }
+        render(view : template, model : model)
+    }
+
     def editPassword = {
         def model = ["passwordMinLength" : authenticationService.passwordMinLength]
         if (request.get) {

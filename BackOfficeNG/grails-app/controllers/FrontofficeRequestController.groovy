@@ -108,7 +108,7 @@ class FrontofficeRequestController {
                 bind(rqt)
                 // clean empty collections elements
                 DataBindingUtils.cleanBind(rqt, params)
-                if (params.currentStep == 'validation') {
+                if (params.currentStep == 'validation' && params.send) {
                     // bind the selected means of contact into request
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     rqt.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
@@ -216,15 +216,18 @@ class FrontofficeRequestController {
         if (rqt.stepStates[step].state == 'invalid' || request.get)
             return step
         updateStepState(rqt, step)
-        def it = rqt.stepStates.keySet().iterator()
-        def previous
-        while (it.hasNext()) {
-            def current = it.next()
-            if (current == step) {
-                if (params.nextStep) return it.next()
-                if (params.previousStep) return previous
+        def stepStates = []
+        for (entry in rqt.stepStates) {
+            if (entry.key == 'administration'
+                || (entry.key == 'document' && documentAdaptorService.getDocumentTypes(rqt).isEmpty()))
+            continue
+            stepStates.add(entry.key)
+        }
+        for (def i = 0; i < stepStates.size(); i++) {
+            if (stepStates[i] == step) {
+                if (params.nextStep) return stepStates[i + 1]
+                if (params.previousStep) return stepStates[i - 1]
             }
-            previous = new String(current)
         }
     }
 

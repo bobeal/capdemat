@@ -22,12 +22,12 @@
 
   
     <label class="required condition-isFamilyAssistance-filled"><g:message code="hcar.property.familyAssistanceMembers.label" /> <span><g:message code="hcar.property.familyAssistanceMembers.help" /></span></label>
-    <div class="collection-fieldset required condition-isFamilyAssistance-filled summary-box">
+    <div class="collection required condition-isFamilyAssistance-filled summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'familyAssistanceMembers', 'collectionIndex':(rqt.familyAssistanceMembers ? rqt.familyAssistanceMembers.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.familyAssistanceMembers}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /></dt>
@@ -46,7 +46,7 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'familyAssistanceMembers', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   
@@ -72,12 +72,12 @@
 
   
     <label class="condition-isHomeIntervenant-filled"><g:message code="hcar.property.homeIntervenants.label" /> <span><g:message code="hcar.property.homeIntervenants.help" /></span></label>
-    <div class="collection-fieldset condition-isHomeIntervenant-filled summary-box">
+    <div class="collection condition-isHomeIntervenant-filled summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'homeIntervenants', 'collectionIndex':(rqt.homeIntervenants ? rqt.homeIntervenants.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.homeIntervenants}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="hcar.property.homeIntervenantKind.label" /></dt>
@@ -99,7 +99,7 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'homeIntervenants', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   
@@ -125,12 +125,12 @@
 
   
     <label class="required condition-isCareServices-filled"><g:message code="hcar.property.careServices.label" /> <span><g:message code="hcar.property.careServices.help" /></span></label>
-    <div class="collection-fieldset required condition-isCareServices-filled summary-box">
+    <div class="collection required condition-isCareServices-filled summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'careServices', 'collectionIndex':(rqt.careServices ? rqt.careServices.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.careServices}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="hcar.property.careServiceKind.label" /></dt>
@@ -163,7 +163,7 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'careServices', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   
@@ -298,12 +298,12 @@
 
   
     <label class="condition-isProfessionals-filled"><g:message code="hcar.property.professionals.label" /> <span><g:message code="hcar.property.professionals.help" /></span></label>
-    <div class="collection-fieldset condition-isProfessionals-filled summary-box">
+    <div class="collection condition-isProfessionals-filled summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'professionals', 'collectionIndex':(rqt.professionals ? rqt.professionals.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.professionals}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="hcar.property.professionalLastName.label" /></dt>
@@ -333,7 +333,7 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'professionals', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   
@@ -361,7 +361,7 @@
 
     
       <label class="required condition-isSocialServiceSupport-filled"><g:message code="hcar.property.professionalSupportSocialServiceAddress.label" /> *  <span><g:message code="hcar.property.professionalSupportSocialServiceAddress.help" /></span></label>
-            <div id="professionalSupportSocialServiceAddress" class="address-fieldset required condition-isSocialServiceSupport-filled  ${rqt.stepStates['aid'].invalidFields.contains('professionalSupportSocialServiceAddress') ? 'validation-failed' : ''}">
+            <div id="professionalSupportSocialServiceAddress" class="address required condition-isSocialServiceSupport-filled  ${rqt.stepStates['aid'].invalidFields.contains('professionalSupportSocialServiceAddress') ? 'validation-failed' : ''}">
             <label for="professionalSupportSocialServiceAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['aid'].invalidFields.contains('professionalSupportSocialServiceAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.professionalSupportSocialServiceAddress?.additionalDeliveryInformation}" maxlength="38" id="professionalSupportSocialServiceAddress.additionalDeliveryInformation" name="professionalSupportSocialServiceAddress.additionalDeliveryInformation" />  
             <label for="professionalSupportSocialServiceAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

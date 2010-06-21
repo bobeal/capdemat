@@ -40,12 +40,12 @@
 
   
     <label class="required"><g:message code="dhr.property.dhrRealAsset.label" /> <span><g:message code="dhr.property.dhrRealAsset.help" /></span></label>
-    <div class="collection-fieldset required summary-box">
+    <div class="collection required summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'resources', 'currentCollection':'dhrRealAsset', 'collectionIndex':(rqt.dhrRealAsset ? rqt.dhrRealAsset.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.dhrRealAsset}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="dhr.property.dhrRealAssetAddress.label" /></dt>
@@ -75,19 +75,19 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'resources', 'currentCollection':'dhrRealAsset', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   
 
   
     <label class="required"><g:message code="dhr.property.dhrNotRealAsset.label" /> <span><g:message code="dhr.property.dhrNotRealAsset.help" /></span></label>
-    <div class="collection-fieldset required summary-box">
+    <div class="collection required summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'resources', 'currentCollection':'dhrNotRealAsset', 'collectionIndex':(rqt.dhrNotRealAsset ? rqt.dhrNotRealAsset.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.dhrNotRealAsset}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="dhr.property.dhrNotRealAssetType.label" /></dt>
@@ -172,7 +172,7 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'resources', 'currentCollection':'dhrNotRealAsset', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   

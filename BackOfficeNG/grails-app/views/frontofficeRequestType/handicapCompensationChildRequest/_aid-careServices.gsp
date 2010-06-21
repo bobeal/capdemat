@@ -1,17 +1,15 @@
 
 
-  <label class="required condition-isCareServices-filled"><g:message code="hccr.property.careServices.label" /> <span><g:message code="hccr.property.careServices.help" /></span></label>
-  <div class="collection-fieldset required condition-isCareServices-filled validation-scope summary-box">
-    <fieldset class="collection-fieldset-add required condition-isCareServices-filled">
-    <g:set var="currentCollectionItem" value="${rqt?.careServices.size() > collectionIndex ? rqt.careServices.get(collectionIndex) : null}" />
+  <h4>${message(code:'hccr.property.careServices.label')}<span>${message(code:'hccr.property.careServices.help')}</span></h4>
+  <g:set var="currentCollectionItem" value="${rqt?.careServices.size() > collectionIndex ? rqt.careServices.get(collectionIndex) : null}" />
   
-      <label for="careServices.${collectionIndex}.careServiceKind" class="required"><g:message code="hccr.property.careServiceKind.label" /> *  <span><g:message code="hccr.property.careServiceKind.help" /></span></label>
+    <label for="careServices.${collectionIndex}.careServiceKind" class="required"><g:message code="hccr.property.careServiceKind.label" /> *  <span><g:message code="hccr.property.careServiceKind.help" /></span></label>
             <input type="text" id="careServices.${collectionIndex}.careServiceKind" name="careServices[${collectionIndex}].careServiceKind" value="${currentCollectionItem?.careServiceKind?.toString()}" 
                     class="required  validate-string ${rqt.stepStates['aid'].invalidFields.contains('careServices['+collectionIndex+'].careServiceKind') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.careServiceKind.validationError" />"   />
             
 
   
-      <label class="required"><g:message code="hccr.property.careServiceCareServiceEmployer.label" /> *  <span><g:message code="hccr.property.careServiceCareServiceEmployer.help" /></span></label>
+    <label class="required"><g:message code="hccr.property.careServiceCareServiceEmployer.label" /> *  <span><g:message code="hccr.property.careServiceCareServiceEmployer.help" /></span></label>
             <ul class="yes-no required ${rqt.stepStates['aid'].invalidFields.contains('careServices['+collectionIndex+'].careServiceCareServiceEmployer') ? 'validation-failed' : ''}">
               <g:each in="${[true,false]}">
               <li>
@@ -23,14 +21,14 @@
             
 
   
-      <label for="careServices.${collectionIndex}.careServiceProviderName" class="required condition-isCareServiceEmployer-unfilled"><g:message code="hccr.property.careServiceProviderName.label" /> *  <span><g:message code="hccr.property.careServiceProviderName.help" /></span></label>
+    <label for="careServices.${collectionIndex}.careServiceProviderName" class="required condition-isCareServiceEmployer-unfilled"><g:message code="hccr.property.careServiceProviderName.label" /> *  <span><g:message code="hccr.property.careServiceProviderName.help" /></span></label>
             <input type="text" id="careServices.${collectionIndex}.careServiceProviderName" name="careServices[${collectionIndex}].careServiceProviderName" value="${currentCollectionItem?.careServiceProviderName?.toString()}" 
                     class="required condition-isCareServiceEmployer-unfilled  validate-lastName ${rqt.stepStates['aid'].invalidFields.contains('careServices['+collectionIndex+'].careServiceProviderName') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.careServiceProviderName.validationError" />"  maxlength="38" />
             
 
   
-      <label class="condition-isCareServiceEmployer-unfilled"><g:message code="hccr.property.careServiceProviderAddress.label" />   <span><g:message code="hccr.property.careServiceProviderAddress.help" /></span></label>
-            <div class="address-fieldset condition-isCareServiceEmployer-unfilled  ${rqt.stepStates['aid'].invalidFields.contains('careServices['+collectionIndex+'].careServiceProviderAddress') ? 'validation-failed' : ''}">
+    <label class="condition-isCareServiceEmployer-unfilled"><g:message code="hccr.property.careServiceProviderAddress.label" />   <span><g:message code="hccr.property.careServiceProviderAddress.help" /></span></label>
+            <div class="address condition-isCareServiceEmployer-unfilled  ${rqt.stepStates['aid'].invalidFields.contains('careServices['+collectionIndex+'].careServiceProviderAddress') ? 'validation-failed' : ''}">
             <label for="careServices.${collectionIndex}.careServiceProviderAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['aid'].invalidFields.contains('careServices['+collectionIndex+'].careServiceProviderAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.careServiceProviderAddress?.additionalDeliveryInformation}" maxlength="38" id="careServices.${collectionIndex}.careServiceProviderAddress.additionalDeliveryInformation" name="careServices[${collectionIndex}].careServiceProviderAddress.additionalDeliveryInformation" />  
             <label for="careServices.${collectionIndex}.careServiceProviderAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -51,12 +49,10 @@
             
 
   
-      <input type="hidden" name="currentCollection" value="${currentCollection}" />
-      <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
-      <input type="submit" id="submit-step-aid-careServices" name="submit-step-aid-careServices[${collectionIndex}]" value="${message(code:'action.save')}" />
-      <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'aid'])}">
-        ${message(code:'request.action.cancelCollectionItemEdit')}
-      </a>  
-    </fieldset>
-</div>
+  <input type="hidden" name="currentCollection" value="${currentCollection}" />
+  <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
+  <input type="submit" id="submit-step-aid-careServices" name="submit-step-aid-careServices[${collectionIndex}]" value="${message(code:'action.save')}" />
+  <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'aid'])}">
+    ${message(code:'request.action.cancelCollectionItemEdit')}
+  </a>
   

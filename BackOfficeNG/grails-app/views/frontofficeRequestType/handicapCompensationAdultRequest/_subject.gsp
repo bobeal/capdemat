@@ -185,12 +185,12 @@
 
   
     <label class="required condition-isFamilyDependents-filled"><g:message code="hcar.property.familyDependents.label" /> <span><g:message code="hcar.property.familyDependents.help" /></span></label>
-    <div class="collection-fieldset required condition-isFamilyDependents-filled summary-box">
+    <div class="collection required condition-isFamilyDependents-filled summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'subject', 'currentCollection':'familyDependents', 'collectionIndex':(rqt.familyDependents ? rqt.familyDependents.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.familyDependents}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="hcar.property.familyDependentLastName.label" /></dt>
@@ -218,7 +218,7 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'subject', 'currentCollection':'familyDependents', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   

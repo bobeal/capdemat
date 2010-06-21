@@ -49,7 +49,7 @@
 
     
       <label class="required condition-isInEstablishmentReception-filled"><g:message code="hcar.property.dwellingReceptionAddress.label" /> *  <span><g:message code="hcar.property.dwellingReceptionAddress.help" /></span></label>
-            <div id="dwellingReceptionAddress" class="address-fieldset required condition-isInEstablishmentReception-filled  ${rqt.stepStates['dwelling'].invalidFields.contains('dwellingReceptionAddress') ? 'validation-failed' : ''}">
+            <div id="dwellingReceptionAddress" class="address required condition-isInEstablishmentReception-filled  ${rqt.stepStates['dwelling'].invalidFields.contains('dwellingReceptionAddress') ? 'validation-failed' : ''}">
             <label for="dwellingReceptionAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['dwelling'].invalidFields.contains('dwellingReceptionAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.dwellingReceptionAddress?.additionalDeliveryInformation}" maxlength="38" id="dwellingReceptionAddress.additionalDeliveryInformation" name="dwellingReceptionAddress.additionalDeliveryInformation" />  
             <label for="dwellingReceptionAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -92,7 +92,7 @@
 
     
       <label class="required condition-isInSocialReception-filled"><g:message code="hcar.property.dwellingSocialReceptionAddress.label" /> *  <span><g:message code="hcar.property.dwellingSocialReceptionAddress.help" /></span></label>
-            <div id="dwellingSocialReceptionAddress" class="address-fieldset required condition-isInSocialReception-filled  ${rqt.stepStates['dwelling'].invalidFields.contains('dwellingSocialReceptionAddress') ? 'validation-failed' : ''}">
+            <div id="dwellingSocialReceptionAddress" class="address required condition-isInSocialReception-filled  ${rqt.stepStates['dwelling'].invalidFields.contains('dwellingSocialReceptionAddress') ? 'validation-failed' : ''}">
             <label for="dwellingSocialReceptionAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['dwelling'].invalidFields.contains('dwellingSocialReceptionAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.dwellingSocialReceptionAddress?.additionalDeliveryInformation}" maxlength="38" id="dwellingSocialReceptionAddress.additionalDeliveryInformation" name="dwellingSocialReceptionAddress.additionalDeliveryInformation" />  
             <label for="dwellingSocialReceptionAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

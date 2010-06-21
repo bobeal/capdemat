@@ -33,7 +33,7 @@
 
   
     <label class="required condition-isTenant-filled"><g:message code="acr.property.ownerAddress.label" /> *  <span><g:message code="acr.property.ownerAddress.help" /></span></label>
-            <div id="ownerAddress" class="address-fieldset required condition-isTenant-filled  ${rqt.stepStates['cadastre'].invalidFields.contains('ownerAddress') ? 'validation-failed' : ''}">
+            <div id="ownerAddress" class="address required condition-isTenant-filled  ${rqt.stepStates['cadastre'].invalidFields.contains('ownerAddress') ? 'validation-failed' : ''}">
             <label for="ownerAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['cadastre'].invalidFields.contains('ownerAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.ownerAddress?.additionalDeliveryInformation}" maxlength="38" id="ownerAddress.additionalDeliveryInformation" name="ownerAddress.additionalDeliveryInformation" />  
             <label for="ownerAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

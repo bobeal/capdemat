@@ -24,7 +24,7 @@
 
     
       <label class="required condition-isSchoolingEnrolment-filled"><g:message code="hccr.property.schoolingSchoolAddress.label" /> *  <span><g:message code="hccr.property.schoolingSchoolAddress.help" /></span></label>
-            <div id="schoolingSchoolAddress" class="address-fieldset required condition-isSchoolingEnrolment-filled  ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('schoolingSchoolAddress') ? 'validation-failed' : ''}">
+            <div id="schoolingSchoolAddress" class="address required condition-isSchoolingEnrolment-filled  ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('schoolingSchoolAddress') ? 'validation-failed' : ''}">
             <label for="schoolingSchoolAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('schoolingSchoolAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.schoolingSchoolAddress?.additionalDeliveryInformation}" maxlength="38" id="schoolingSchoolAddress.additionalDeliveryInformation" name="schoolingSchoolAddress.additionalDeliveryInformation" />  
             <label for="schoolingSchoolAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -151,7 +151,7 @@
 
     
       <label class="condition-isAccompaniedHomeSchooling-filled"><g:message code="hccr.property.schoolingHomeSchoolingAccompanistAddress.label" />   <span><g:message code="hccr.property.schoolingHomeSchoolingAccompanistAddress.help" /></span></label>
-            <div id="schoolingHomeSchoolingAccompanistAddress" class="address-fieldset condition-isAccompaniedHomeSchooling-filled  ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('schoolingHomeSchoolingAccompanistAddress') ? 'validation-failed' : ''}">
+            <div id="schoolingHomeSchoolingAccompanistAddress" class="address condition-isAccompaniedHomeSchooling-filled  ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('schoolingHomeSchoolingAccompanistAddress') ? 'validation-failed' : ''}">
             <label for="schoolingHomeSchoolingAccompanistAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('schoolingHomeSchoolingAccompanistAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.schoolingHomeSchoolingAccompanistAddress?.additionalDeliveryInformation}" maxlength="38" id="schoolingHomeSchoolingAccompanistAddress.additionalDeliveryInformation" name="schoolingHomeSchoolingAccompanistAddress.additionalDeliveryInformation" />  
             <label for="schoolingHomeSchoolingAccompanistAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -225,7 +225,7 @@
 
     
       <label class="required condition-isHighSchool-filled"><g:message code="hccr.property.studiesHighSchoolAddress.label" /> *  <span><g:message code="hccr.property.studiesHighSchoolAddress.help" /></span></label>
-            <div id="studiesHighSchoolAddress" class="address-fieldset required condition-isHighSchool-filled  ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('studiesHighSchoolAddress') ? 'validation-failed' : ''}">
+            <div id="studiesHighSchoolAddress" class="address required condition-isHighSchool-filled  ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('studiesHighSchoolAddress') ? 'validation-failed' : ''}">
             <label for="studiesHighSchoolAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('studiesHighSchoolAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.studiesHighSchoolAddress?.additionalDeliveryInformation}" maxlength="38" id="studiesHighSchoolAddress.additionalDeliveryInformation" name="studiesHighSchoolAddress.additionalDeliveryInformation" />  
             <label for="studiesHighSchoolAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -375,7 +375,7 @@
 
     
       <label class="condition-isEmployed-filled"><g:message code="hccr.property.professionalStatusAddress.label" />   <span><g:message code="hccr.property.professionalStatusAddress.help" /></span></label>
-            <div id="professionalStatusAddress" class="address-fieldset condition-isEmployed-filled  ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('professionalStatusAddress') ? 'validation-failed' : ''}">
+            <div id="professionalStatusAddress" class="address condition-isEmployed-filled  ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('professionalStatusAddress') ? 'validation-failed' : ''}">
             <label for="professionalStatusAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['occupationnalAndSchoolStatus'].invalidFields.contains('professionalStatusAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.professionalStatusAddress?.additionalDeliveryInformation}" maxlength="38" id="professionalStatusAddress.additionalDeliveryInformation" name="professionalStatusAddress.additionalDeliveryInformation" />  
             <label for="professionalStatusAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

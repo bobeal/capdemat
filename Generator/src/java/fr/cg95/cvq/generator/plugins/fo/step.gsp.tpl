@@ -36,7 +36,7 @@
             """
         ,'address' :
             """
-            <div id="${IdRefNamePrefix}${element.javaFieldName}" class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
+            <div id="${IdRefNamePrefix}${element.javaFieldName}" class="address ${element.listenerConditionsClass} ${element.autofillClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
             <label for="${IdRefNamePrefix}${element.javaFieldName}.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}" maxlength="38" id="${IdRefNamePrefix}${element.javaFieldName}.additionalDeliveryInformation" name="${namePrefix}${element.javaFieldName}.additionalDeliveryInformation" />  
             <label for="${IdRefNamePrefix}${element.javaFieldName}.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -60,7 +60,7 @@
             """
          ,'frenchRIB' :
             """
-            <div class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass} ${element.autofillClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
+            <div class="address ${element.listenerConditionsClass} ${element.autofillClass} ${element.autofillClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
             <label for="${IdRefNamePrefix}${element.javaFieldName}.bankCode"><g:message code="frenchRIB.property.bankCode" /></label>
             <input type="text" class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.bankCode') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.bankCode}" maxlength="5" id="${IdRefNamePrefix}${element.javaFieldName}.bankCode" name="${namePrefix}${element.javaFieldName}.bankCode" />
             <label for="${IdRefNamePrefix}${element.javaFieldName}.counterCode"><g:message code="frenchRIB.property.counterCode" /></label>
@@ -290,12 +290,12 @@
 <% elementList.each { element -> %>
   <% if (element.typeClass == "COLLECTION") { %>
     <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
-    <div class="collection-fieldset ${element.listenerConditionsClass} summary-box">
+    <div class="collection ${element.listenerConditionsClass} summary-box">
     <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':(rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0)])}" />
       \${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     <% element.elements.each { subElement -> %>
         <dt><g:message code="${subElement.i18nPrefixCode}.label" /></dt>
@@ -308,7 +308,7 @@
          <a href="\${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':index])}">
            \${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   <% } else if (element.typeClass == "COMPLEX") { %>

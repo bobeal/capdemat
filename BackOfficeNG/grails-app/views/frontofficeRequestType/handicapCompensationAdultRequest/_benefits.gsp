@@ -322,12 +322,12 @@
 
   
     <label class="condition-isOtherBenefits-filled"><g:message code="hcar.property.otherBenefits.label" /> <span><g:message code="hcar.property.otherBenefits.help" /></span></label>
-    <div class="collection-fieldset condition-isOtherBenefits-filled summary-box">
+    <div class="collection condition-isOtherBenefits-filled summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'benefits', 'currentCollection':'otherBenefits', 'collectionIndex':(rqt.otherBenefits ? rqt.otherBenefits.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.otherBenefits}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="hcar.property.otherBenefitName.label" /></dt>
@@ -340,19 +340,19 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'benefits', 'currentCollection':'otherBenefits', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   
 
   
     <label class=""><g:message code="hcar.property.additionalFee.label" /> <span><g:message code="hcar.property.additionalFee.help" /></span></label>
-    <div class="collection-fieldset  summary-box">
+    <div class="collection  summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'benefits', 'currentCollection':'additionalFee', 'collectionIndex':(rqt.additionalFee ? rqt.additionalFee.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.additionalFee}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="hcar.property.additionalFeeKind.label" /></dt>
@@ -371,7 +371,7 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'benefits', 'currentCollection':'additionalFee', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   

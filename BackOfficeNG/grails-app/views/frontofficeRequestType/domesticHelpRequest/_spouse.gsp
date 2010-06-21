@@ -217,7 +217,7 @@
 
     
       <label class="required condition-isSpouseRetired-unfilled"><g:message code="dhr.property.dhrSpouseAddress.label" /> *  <span><g:message code="dhr.property.dhrSpouseAddress.help" /></span></label>
-            <div id="dhrSpouseAddress" class="address-fieldset required condition-isSpouseRetired-unfilled  ${rqt.stepStates['spouse'].invalidFields.contains('dhrSpouseAddress') ? 'validation-failed' : ''}">
+            <div id="dhrSpouseAddress" class="address required condition-isSpouseRetired-unfilled  ${rqt.stepStates['spouse'].invalidFields.contains('dhrSpouseAddress') ? 'validation-failed' : ''}">
             <label for="dhrSpouseAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['spouse'].invalidFields.contains('dhrSpouseAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.dhrSpouseAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrSpouseAddress.additionalDeliveryInformation" name="dhrSpouseAddress.additionalDeliveryInformation" />  
             <label for="dhrSpouseAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

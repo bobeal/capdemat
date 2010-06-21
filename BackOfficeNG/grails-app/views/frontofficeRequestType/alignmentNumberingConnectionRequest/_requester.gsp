@@ -24,7 +24,7 @@
 
   
     <label class="required condition-isSameAddress-unfilled"><g:message code="ancr.property.otherAddress.label" /> *  <span><g:message code="ancr.property.otherAddress.help" /></span></label>
-            <div id="otherAddress" class="address-fieldset required condition-isSameAddress-unfilled  ${rqt.stepStates['requester'].invalidFields.contains('otherAddress') ? 'validation-failed' : ''}">
+            <div id="otherAddress" class="address required condition-isSameAddress-unfilled  ${rqt.stepStates['requester'].invalidFields.contains('otherAddress') ? 'validation-failed' : ''}">
             <label for="otherAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['requester'].invalidFields.contains('otherAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.otherAddress?.additionalDeliveryInformation}" maxlength="38" id="otherAddress.additionalDeliveryInformation" name="otherAddress.additionalDeliveryInformation" />  
             <label for="otherAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

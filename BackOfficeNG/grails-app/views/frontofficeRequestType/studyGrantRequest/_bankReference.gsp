@@ -87,7 +87,7 @@
 
   
     <label for="frenchRIB" class="required"><g:message code="sgr.property.frenchRIB.label" /> *  <span><g:message code="sgr.property.frenchRIB.help" /></span></label>
-            <div class="address-fieldset required   ${rqt.stepStates['bankReference'].invalidFields.contains('frenchRIB') ? 'validation-failed' : ''}">
+            <div class="address required   ${rqt.stepStates['bankReference'].invalidFields.contains('frenchRIB') ? 'validation-failed' : ''}">
             <label for="frenchRIB.bankCode"><g:message code="frenchRIB.property.bankCode" /></label>
             <input type="text" class="${rqt.stepStates['bankReference'].invalidFields.contains('frenchRIB.bankCode') ? 'validation-failed' : ''}" value="${rqt.frenchRIB?.bankCode}" maxlength="5" id="frenchRIB.bankCode" name="frenchRIB.bankCode" />
             <label for="frenchRIB.counterCode"><g:message code="frenchRIB.property.counterCode" /></label>

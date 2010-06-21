@@ -18,7 +18,7 @@
 
   <label class="required"><g:message code="homeFolder.individual.property.address" /> *</label>
 
-  <div id="_requester_adress" class="address-fieldset required">
+  <div id="_requester_adress" class="address required">
     <label for="_requester.adress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
     <input type="text" class="validate-addressLine38" value="${requester?.adress?.additionalDeliveryInformation}" maxlength="38" id="_requester.adress.additionalDeliveryInformation" name="_requester.adress.additionalDeliveryInformation" />  
     <label for="_requester.adress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

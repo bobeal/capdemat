@@ -21,7 +21,7 @@
 
   
     <label class=""><g:message code="cwcr.property.collectionAddress.label" />   <span><g:message code="cwcr.property.collectionAddress.help" /></span></label>
-            <div id="collectionAddress" class="address-fieldset   ${rqt.stepStates['waste'].invalidFields.contains('collectionAddress') ? 'validation-failed' : ''}">
+            <div id="collectionAddress" class="address   ${rqt.stepStates['waste'].invalidFields.contains('collectionAddress') ? 'validation-failed' : ''}">
             <label for="collectionAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['waste'].invalidFields.contains('collectionAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.collectionAddress?.additionalDeliveryInformation}" maxlength="38" id="collectionAddress.additionalDeliveryInformation" name="collectionAddress.additionalDeliveryInformation" />  
             <label for="collectionAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

@@ -94,12 +94,12 @@
 
   
     <label class="condition-isOtherFolders-filled"><g:message code="hcar.property.otherFolders.label" /> <span><g:message code="hcar.property.otherFolders.help" /></span></label>
-    <div class="collection-fieldset condition-isOtherFolders-filled summary-box">
+    <div class="collection condition-isOtherFolders-filled summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'folders', 'currentCollection':'otherFolders', 'collectionIndex':(rqt.otherFolders ? rqt.otherFolders.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.otherFolders}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="hcar.property.otherFolderName.label" /></dt>
@@ -118,7 +118,7 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'folders', 'currentCollection':'otherFolders', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   

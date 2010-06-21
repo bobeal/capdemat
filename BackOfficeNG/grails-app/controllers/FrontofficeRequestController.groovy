@@ -169,6 +169,7 @@ class FrontofficeRequestController {
         }
         def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)
         def viewPath = "/frontofficeRequestType/${requestTypeLabelAsDir}/edit"
+        def nextWebflowStep = webflowNextStep(rqt, params.currentStep)
         render(view: viewPath, model: [
             'isRequestCreation': true,
             'rqt': rqt,
@@ -178,12 +179,12 @@ class FrontofficeRequestController {
             'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
             'subjects': individualAdaptorService.adaptSubjects(requestWorkflowService.getAuthorizedSubjects(rqt)),
             'meansOfContact': individualAdaptorService.adaptMeansOfContact(meansOfContactService.getAdultEnabledMeansOfContact(SecurityContext.currentEcitizen)),
-            'currentStep': params.currentStep != null ? webflowNextStep(rqt, params.currentStep) : rqt.stepStates.keySet().iterator().next(),
+            'currentStep': nextWebflowStep,
             'currentCollection': params.currentCollection,
             'collectionIndex': params.collectionIndex ? Integer.valueOf(params.collectionIndex) : null,
             'missingSteps': requestWorkflowService.getMissingSteps(rqt),
             'documentTypes': documentAdaptorService.getDocumentTypes(rqt),
-            'documentsByTypes': ['document','validation'].contains(params.currentStep) ? documentAdaptorService.getDocumentsByType(rqt) : [],
+            'documentsByTypes': ['document','validation'].contains(nextWebflowStep) ? documentAdaptorService.getDocumentsByType(rqt) : [],
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
             'isEdition' : !RequestState.DRAFT.equals(rqt.state),
             'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),
@@ -213,6 +214,8 @@ class FrontofficeRequestController {
     }
 
     def webflowNextStep(rqt, step) {
+        if (step == null)
+            return rqt.stepStates.keySet().iterator().next()
         if (rqt.stepStates[step].state == 'invalid' || request.get)
             return step
         updateStepState(rqt, step)
@@ -229,6 +232,7 @@ class FrontofficeRequestController {
                 if (params.previousStep) return stepStates[i - 1]
             }
         }
+        return step
     }
 
     def updateStepState(rqt, step) {

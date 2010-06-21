@@ -1,24 +1,22 @@
 
 
-  <label class=""><g:message code="parr.property.authorizedIndividuals.label" /> <span><g:message code="parr.property.authorizedIndividuals.help" /></span></label>
-  <div class="collection-fieldset  validation-scope summary-box">
-    <fieldset class="collection-fieldset-add ">
-    <g:set var="currentCollectionItem" value="${rqt?.authorizedIndividuals.size() > collectionIndex ? rqt.authorizedIndividuals.get(collectionIndex) : null}" />
+  <h4>${message(code:'parr.property.authorizedIndividuals.label')}<span>${message(code:'parr.property.authorizedIndividuals.help')}</span></h4>
+  <g:set var="currentCollectionItem" value="${rqt?.authorizedIndividuals.size() > collectionIndex ? rqt.authorizedIndividuals.get(collectionIndex) : null}" />
   
-      <label for="authorizedIndividuals.${collectionIndex}.lastName" class="required"><g:message code="parr.property.lastName.label" /> *  <span><g:message code="parr.property.lastName.help" /></span></label>
+    <label for="authorizedIndividuals.${collectionIndex}.lastName" class="required"><g:message code="parr.property.lastName.label" /> *  <span><g:message code="parr.property.lastName.help" /></span></label>
             <input type="text" id="authorizedIndividuals.${collectionIndex}.lastName" name="authorizedIndividuals[${collectionIndex}].lastName" value="${currentCollectionItem?.lastName?.toString()}" 
                     class="required  validate-lastName ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals['+collectionIndex+'].lastName') ? 'validation-failed' : ''}" title="<g:message code="parr.property.lastName.validationError" />"  maxlength="38" />
             
 
   
-      <label for="authorizedIndividuals.${collectionIndex}.firstName" class="required"><g:message code="parr.property.firstName.label" /> *  <span><g:message code="parr.property.firstName.help" /></span></label>
+    <label for="authorizedIndividuals.${collectionIndex}.firstName" class="required"><g:message code="parr.property.firstName.label" /> *  <span><g:message code="parr.property.firstName.help" /></span></label>
             <input type="text" id="authorizedIndividuals.${collectionIndex}.firstName" name="authorizedIndividuals[${collectionIndex}].firstName" value="${currentCollectionItem?.firstName?.toString()}" 
                     class="required  validate-firstName ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals['+collectionIndex+'].firstName') ? 'validation-failed' : ''}" title="<g:message code="parr.property.firstName.validationError" />"  maxlength="38" />
             
 
   
-      <label class="required"><g:message code="parr.property.address.label" /> *  <span><g:message code="parr.property.address.help" /></span></label>
-            <div class="address-fieldset required  ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals['+collectionIndex+'].address') ? 'validation-failed' : ''}">
+    <label class="required"><g:message code="parr.property.address.label" /> *  <span><g:message code="parr.property.address.help" /></span></label>
+            <div class="address required  ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals['+collectionIndex+'].address') ? 'validation-failed' : ''}">
             <label for="authorizedIndividuals.${collectionIndex}.address.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals['+collectionIndex+'].address.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.address?.additionalDeliveryInformation}" maxlength="38" id="authorizedIndividuals.${collectionIndex}.address.additionalDeliveryInformation" name="authorizedIndividuals[${collectionIndex}].address.additionalDeliveryInformation" />  
             <label for="authorizedIndividuals.${collectionIndex}.address.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -39,24 +37,22 @@
             
 
   
-      <label for="authorizedIndividuals.${collectionIndex}.homePhone" class=""><g:message code="parr.property.homePhone.label" />   <span><g:message code="parr.property.homePhone.help" /></span></label>
+    <label for="authorizedIndividuals.${collectionIndex}.homePhone" class=""><g:message code="parr.property.homePhone.label" />   <span><g:message code="parr.property.homePhone.help" /></span></label>
             <input type="text" id="authorizedIndividuals.${collectionIndex}.homePhone" name="authorizedIndividuals[${collectionIndex}].homePhone" value="${currentCollectionItem?.homePhone?.toString()}" 
                     class="  validate-phone ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals['+collectionIndex+'].homePhone') ? 'validation-failed' : ''}" title="<g:message code="parr.property.homePhone.validationError" />"  maxlength="10" />
             
 
   
-      <label for="authorizedIndividuals.${collectionIndex}.officePhone" class=""><g:message code="parr.property.officePhone.label" />   <span><g:message code="parr.property.officePhone.help" /></span></label>
+    <label for="authorizedIndividuals.${collectionIndex}.officePhone" class=""><g:message code="parr.property.officePhone.label" />   <span><g:message code="parr.property.officePhone.help" /></span></label>
             <input type="text" id="authorizedIndividuals.${collectionIndex}.officePhone" name="authorizedIndividuals[${collectionIndex}].officePhone" value="${currentCollectionItem?.officePhone?.toString()}" 
                     class="  validate-phone ${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals['+collectionIndex+'].officePhone') ? 'validation-failed' : ''}" title="<g:message code="parr.property.officePhone.validationError" />"  maxlength="10" />
             
 
   
-      <input type="hidden" name="currentCollection" value="${currentCollection}" />
-      <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
-      <input type="submit" id="submit-step-authorization-authorizedIndividuals" name="submit-step-authorization-authorizedIndividuals[${collectionIndex}]" value="${message(code:'action.save')}" />
-      <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'authorization'])}">
-        ${message(code:'request.action.cancelCollectionItemEdit')}
-      </a>  
-    </fieldset>
-</div>
+  <input type="hidden" name="currentCollection" value="${currentCollection}" />
+  <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
+  <input type="submit" id="submit-step-authorization-authorizedIndividuals" name="submit-step-authorization-authorizedIndividuals[${collectionIndex}]" value="${message(code:'action.save')}" />
+  <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'authorization'])}">
+    ${message(code:'request.action.cancelCollectionItemEdit')}
+  </a>
   

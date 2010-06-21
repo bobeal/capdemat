@@ -20,11 +20,11 @@
   <input type="file" name="documentData-${document != null ? document.datas.size() : 0}" />
 </fieldset>
 
-<p class="document-button">
-  <input type="hidden" name="requestId" value="${rqt.id}" />
-  <input type="hidden" name="documentTypeId" value="${documentType.id}" />
-  <input type="hidden" name="documentId" value="${document?.id}" />
-  <input type="submit" name="save" value="${message(code:'action.save')}" />
+<input type="hidden" name="requestId" value="${rqt.id}" />
+<input type="hidden" name="documentTypeId" value="${documentType.id}" />
+<input type="hidden" name="documentId" value="${document?.id}" />
+<p style="margin: 3em 0 0; text-align:center;">
+  <input type="submit" name="saveDocument" value="${message(code:'action.save')}" />
   <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}">
     ${message(code:'action.back')}
   </a>

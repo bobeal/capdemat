@@ -1,24 +1,22 @@
 
 
-  <label class="condition-isProfessionals-filled"><g:message code="hccr.property.professionals.label" /> <span><g:message code="hccr.property.professionals.help" /></span></label>
-  <div class="collection-fieldset condition-isProfessionals-filled validation-scope summary-box">
-    <fieldset class="collection-fieldset-add condition-isProfessionals-filled">
-    <g:set var="currentCollectionItem" value="${rqt?.professionals.size() > collectionIndex ? rqt.professionals.get(collectionIndex) : null}" />
+  <h4>${message(code:'hccr.property.professionals.label')}<span>${message(code:'hccr.property.professionals.help')}</span></h4>
+  <g:set var="currentCollectionItem" value="${rqt?.professionals.size() > collectionIndex ? rqt.professionals.get(collectionIndex) : null}" />
   
-      <label for="professionals.${collectionIndex}.professionalLastName" class="required"><g:message code="hccr.property.professionalLastName.label" /> *  <span><g:message code="hccr.property.professionalLastName.help" /></span></label>
+    <label for="professionals.${collectionIndex}.professionalLastName" class="required"><g:message code="hccr.property.professionalLastName.label" /> *  <span><g:message code="hccr.property.professionalLastName.help" /></span></label>
             <input type="text" id="professionals.${collectionIndex}.professionalLastName" name="professionals[${collectionIndex}].professionalLastName" value="${currentCollectionItem?.professionalLastName?.toString()}" 
                     class="required  validate-lastName ${rqt.stepStates['aid'].invalidFields.contains('professionals['+collectionIndex+'].professionalLastName') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalLastName.validationError" />"  maxlength="38" />
             
 
   
-      <label for="professionals.${collectionIndex}.professionalFirstName" class="required"><g:message code="hccr.property.professionalFirstName.label" /> *  <span><g:message code="hccr.property.professionalFirstName.help" /></span></label>
+    <label for="professionals.${collectionIndex}.professionalFirstName" class="required"><g:message code="hccr.property.professionalFirstName.label" /> *  <span><g:message code="hccr.property.professionalFirstName.help" /></span></label>
             <input type="text" id="professionals.${collectionIndex}.professionalFirstName" name="professionals[${collectionIndex}].professionalFirstName" value="${currentCollectionItem?.professionalFirstName?.toString()}" 
                     class="required  validate-firstName ${rqt.stepStates['aid'].invalidFields.contains('professionals['+collectionIndex+'].professionalFirstName') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalFirstName.validationError" />"  maxlength="38" />
             
 
   
-      <label class="required"><g:message code="hccr.property.professionalAddress.label" /> *  <span><g:message code="hccr.property.professionalAddress.help" /></span></label>
-            <div class="address-fieldset required  ${rqt.stepStates['aid'].invalidFields.contains('professionals['+collectionIndex+'].professionalAddress') ? 'validation-failed' : ''}">
+    <label class="required"><g:message code="hccr.property.professionalAddress.label" /> *  <span><g:message code="hccr.property.professionalAddress.help" /></span></label>
+            <div class="address required  ${rqt.stepStates['aid'].invalidFields.contains('professionals['+collectionIndex+'].professionalAddress') ? 'validation-failed' : ''}">
             <label for="professionals.${collectionIndex}.professionalAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['aid'].invalidFields.contains('professionals['+collectionIndex+'].professionalAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.professionalAddress?.additionalDeliveryInformation}" maxlength="38" id="professionals.${collectionIndex}.professionalAddress.additionalDeliveryInformation" name="professionals[${collectionIndex}].professionalAddress.additionalDeliveryInformation" />  
             <label for="professionals.${collectionIndex}.professionalAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -39,12 +37,10 @@
             
 
   
-      <input type="hidden" name="currentCollection" value="${currentCollection}" />
-      <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
-      <input type="submit" id="submit-step-aid-professionals" name="submit-step-aid-professionals[${collectionIndex}]" value="${message(code:'action.save')}" />
-      <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'aid'])}">
-        ${message(code:'request.action.cancelCollectionItemEdit')}
-      </a>  
-    </fieldset>
-</div>
+  <input type="hidden" name="currentCollection" value="${currentCollection}" />
+  <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
+  <input type="submit" id="submit-step-aid-professionals" name="submit-step-aid-professionals[${collectionIndex}]" value="${message(code:'action.save')}" />
+  <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'aid'])}">
+    ${message(code:'request.action.cancelCollectionItemEdit')}
+  </a>
   

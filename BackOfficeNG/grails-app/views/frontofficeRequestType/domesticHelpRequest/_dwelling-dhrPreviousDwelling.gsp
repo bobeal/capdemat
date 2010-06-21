@@ -1,12 +1,10 @@
 
 
-  <label class="required"><g:message code="dhr.property.dhrPreviousDwelling.label" /> <span><g:message code="dhr.property.dhrPreviousDwelling.help" /></span></label>
-  <div class="collection-fieldset required validation-scope summary-box">
-    <fieldset class="collection-fieldset-add required">
-    <g:set var="currentCollectionItem" value="${rqt?.dhrPreviousDwelling.size() > collectionIndex ? rqt.dhrPreviousDwelling.get(collectionIndex) : null}" />
+  <h4>${message(code:'dhr.property.dhrPreviousDwelling.label')}<span>${message(code:'dhr.property.dhrPreviousDwelling.help')}</span></h4>
+  <g:set var="currentCollectionItem" value="${rqt?.dhrPreviousDwelling.size() > collectionIndex ? rqt.dhrPreviousDwelling.get(collectionIndex) : null}" />
   
-      <label class="required"><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingAddress.help" /></span></label>
-            <div class="address-fieldset required  ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingAddress') ? 'validation-failed' : ''}">
+    <label class="required"><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingAddress.help" /></span></label>
+            <div class="address required  ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingAddress') ? 'validation-failed' : ''}">
             <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${currentCollectionItem?.dhrPreviousDwellingAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingAddress.additionalDeliveryInformation" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingAddress.additionalDeliveryInformation" />  
             <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -27,7 +25,7 @@
             
 
   
-      <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingKind" class="required"><g:message code="dhr.property.dhrPreviousDwellingKind.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingKind.help" /></span></label>
+    <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingKind" class="required"><g:message code="dhr.property.dhrPreviousDwellingKind.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingKind.help" /></span></label>
             <select id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingKind" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingKind" class="required condition-isPreviousDwellingPlaceOfResidence-trigger  validate-not-first ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingKind') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPreviousDwellingKind.validationError" />">
               <option value=""><g:message code="message.select.defaultOption" /></option>
               <g:each in="${['placeOfResidence','retirementHome','other']}">
@@ -37,7 +35,7 @@
             
 
   
-      <label class="required condition-isPreviousDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrPreviousDwellingStatus.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingStatus.help" /></span></label>
+    <label class="required condition-isPreviousDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrPreviousDwellingStatus.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingStatus.help" /></span></label>
             <ul class="required condition-isPreviousDwellingPlaceOfResidence-filled ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingStatus') ? 'validation-failed' : ''}">
               <g:each in="${['owner','tenant']}">
               <li>
@@ -49,30 +47,28 @@
             
 
   
-      <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingArrivalDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
+    <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingArrivalDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
             <input type="text" id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingArrivalDate" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:currentCollectionItem?.dhrPreviousDwellingArrivalDate)}" 
                    class="required  validate-date ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />" />
             
 
   
-      <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingDepartureDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
+    <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingDepartureDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
             <input type="text" id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingDepartureDate" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingDepartureDate" value="${formatDate(formatName:'format.date',date:currentCollectionItem?.dhrPreviousDwellingDepartureDate)}" 
                    class="required  validate-date ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />" />
             
 
   
-      <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingComment" class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingComment.help" /></span></label>
+    <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingComment" class="required"><g:message code="dhr.property.dhrPreviousDwellingComment.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingComment.help" /></span></label>
             <input type="text" id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingComment" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingComment" value="${currentCollectionItem?.dhrPreviousDwellingComment?.toString()}" 
                     class="required  validate-string ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingComment') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPreviousDwellingComment.validationError" />"   />
             
 
   
-      <input type="hidden" name="currentCollection" value="${currentCollection}" />
-      <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
-      <input type="submit" id="submit-step-dwelling-dhrPreviousDwelling" name="submit-step-dwelling-dhrPreviousDwelling[${collectionIndex}]" value="${message(code:'action.save')}" />
-      <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'dwelling'])}">
-        ${message(code:'request.action.cancelCollectionItemEdit')}
-      </a>  
-    </fieldset>
-</div>
+  <input type="hidden" name="currentCollection" value="${currentCollection}" />
+  <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
+  <input type="submit" id="submit-step-dwelling-dhrPreviousDwelling" name="submit-step-dwelling-dhrPreviousDwelling[${collectionIndex}]" value="${message(code:'action.save')}" />
+  <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'dwelling'])}">
+    ${message(code:'request.action.cancelCollectionItemEdit')}
+  </a>
   

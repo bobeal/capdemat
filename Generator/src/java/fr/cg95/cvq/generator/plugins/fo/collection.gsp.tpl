@@ -36,7 +36,7 @@
             """
         ,'address' :
             """
-            <div class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
+            <div class="address ${element.listenerConditionsClass} ${element.autofillClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
             <label for="${IdRefNamePrefix}${element.javaFieldName}.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}" maxlength="38" id="${IdRefNamePrefix}${element.javaFieldName}.additionalDeliveryInformation" name="${namePrefix}${element.javaFieldName}.additionalDeliveryInformation" />  
             <label for="${IdRefNamePrefix}${element.javaFieldName}.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -57,7 +57,7 @@
             """
          ,'frenchRIB' :
             """
-            <div class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass} ${element.autofillClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
+            <div class="address ${element.listenerConditionsClass} ${element.autofillClass} ${element.autofillClass} \${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
             <label for="${IdRefNamePrefix}${element.javaFieldName}.bankCode"><g:message code="frenchRIB.property.bankCode" /></label>
             <input type="text" class="\${rqt.stepStates['${step.name}'].invalidFields.contains('$validationNamePrefix${element.javaFieldName}.bankCode') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.bankCode}" maxlength="5" id="${IdRefNamePrefix}${element.javaFieldName}.bankCode" name="${namePrefix}${element.javaFieldName}.bankCode" />
             <label for="${IdRefNamePrefix}${element.javaFieldName}.counterCode"><g:message code="frenchRIB.property.counterCode" /></label>
@@ -141,19 +141,15 @@
   }
 %>
 
-  <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
-  <div class="collection-fieldset ${element.listenerConditionsClass} validation-scope summary-box">
-    <fieldset class="collection-fieldset-add ${element.conditionsClass}">
-    <g:set var="currentCollectionItem" value="\${rqt?.${element.javaFieldName}.size() > collectionIndex ? rqt.${element.javaFieldName}.get(collectionIndex) : null}" />
+  <h4>\${message(code:'${element.i18nPrefixCode}.label')}<span>\${message(code:'${element.i18nPrefixCode}.help')}</span></h4>
+  <g:set var="currentCollectionItem" value="\${rqt?.${element.javaFieldName}.size() > collectionIndex ? rqt.${element.javaFieldName}.get(collectionIndex) : null}" />
   <% element.elements.each { subElement -> %>
-      <% displayWidget(subElement, 'currentCollectionItem?', element.javaFieldName + '[${collectionIndex}].' ) %>
+    <% displayWidget(subElement, 'currentCollectionItem?', element.javaFieldName + '[${collectionIndex}].' ) %>
   <% } %>
-      <input type="hidden" name="currentCollection" value="\${currentCollection}" />
-      <input type="hidden" name="collectionIndex" value="\${collectionIndex}" />
-      <input type="submit" id="submit-step-${step.name}-${element.javaFieldName}" name="submit-step-${step.name}-${element.javaFieldName}[\${collectionIndex}]" value="\${message(code:'action.save')}" />
-      <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': '${step.name}'])}">
-        \${message(code:'request.action.cancelCollectionItemEdit')}
-      </a>  
-    </fieldset>
-</div>
+  <input type="hidden" name="currentCollection" value="\${currentCollection}" />
+  <input type="hidden" name="collectionIndex" value="\${collectionIndex}" />
+  <input type="submit" id="submit-step-${step.name}-${element.javaFieldName}" name="submit-step-${step.name}-${element.javaFieldName}[\${collectionIndex}]" value="\${message(code:'action.save')}" />
+  <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': '${step.name}'])}">
+    \${message(code:'request.action.cancelCollectionItemEdit')}
+  </a>
   

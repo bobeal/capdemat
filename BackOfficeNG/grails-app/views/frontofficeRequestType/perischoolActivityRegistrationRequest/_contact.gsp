@@ -3,12 +3,12 @@
 
   
     <label class=""><g:message code="parr.property.contactIndividuals.label" /> <span><g:message code="parr.property.contactIndividuals.help" /></span></label>
-    <div class="collection-fieldset  summary-box">
+    <div class="collection  summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'contact', 'currentCollection':'contactIndividuals', 'collectionIndex':(rqt.contactIndividuals ? rqt.contactIndividuals.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.contactIndividuals}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="parr.property.lastName.label" /></dt>
@@ -44,7 +44,7 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'contact', 'currentCollection':'contactIndividuals', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   

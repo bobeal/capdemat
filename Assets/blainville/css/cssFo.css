@@ -88,30 +88,18 @@ form textarea { border-top-color: #ff812b !important; }
 
 #request div.help h3 { border-bottom-color: #ff812b !important; }
 
-#request h3                    { border-bottom-color:  #ff812b !important; }
-#request legend                { color: #ff812b !important; }
-#request fieldset              { border-left-color: #ff812b !important; }
-#request .address-fieldset     { border-color: #ff812b !important; }
+#request h3       { border-bottom-color:  #ff812b !important; }
+#request legend   { color: #ff812b !important; }
+#request .address { border-color: #ff812b !important; }
 #request form ul.dataTree      { border-color: #ff812b !important; }
 #request form div .captcha img { border-color: #ff812b !important; }
 
-#request form div input[type="text"], #request form div input[type="password"],
+#request form div input[type="text"], 
+#request form div input[type="password"],
 #request form div select, 
 #request form div textarea {
   border-top-color: #ff812b !important;
 }
-
-#request .nextTab, #request .prevTab { color: #ff812b !important; }
-#request .nextTab:hover, #request .prevTab:hover { 
-  color: #fff !important; background: #ff812b !important; 
-}
-
-#request div.collection-fieldset h4 { color: #ff812b !important; }
-#request fieldset.collection-fieldset-add         { border-color: #ff812b !important; }
-#request fieldset.collection-fieldset-edit        { border-bottom-color: #ff812b !important; }
-#request fieldset.collection-fieldset-add legend,
-#request fieldset.collection-fieldset-edit legend { border-color: #ff812b !important; }
-
 
 /* activities specific styles
  * ----------------------------------------------------- */

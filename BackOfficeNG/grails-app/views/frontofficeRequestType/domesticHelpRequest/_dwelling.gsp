@@ -6,7 +6,7 @@
     <legend><g:message code="dhr.property.dhrCurrentDwelling.label" /></legend>
     
       <label class="required"><g:message code="dhr.property.dhrCurrentDwellingAddress.label" /> *  <span><g:message code="dhr.property.dhrCurrentDwellingAddress.help" /></span></label>
-            <div id="dhrCurrentDwellingAddress" class="address-fieldset required  ${rqt.stepStates['dwelling'].invalidFields.contains('dhrCurrentDwellingAddress') ? 'validation-failed' : ''}">
+            <div id="dhrCurrentDwellingAddress" class="address required  ${rqt.stepStates['dwelling'].invalidFields.contains('dhrCurrentDwellingAddress') ? 'validation-failed' : ''}">
             <label for="dhrCurrentDwellingAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${rqt.stepStates['dwelling'].invalidFields.contains('dhrCurrentDwellingAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.dhrCurrentDwellingAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrCurrentDwellingAddress.additionalDeliveryInformation" name="dhrCurrentDwellingAddress.additionalDeliveryInformation" />  
             <label for="dhrCurrentDwellingAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -115,12 +115,12 @@
 
   
     <label class="required"><g:message code="dhr.property.dhrPreviousDwelling.label" /> <span><g:message code="dhr.property.dhrPreviousDwelling.help" /></span></label>
-    <div class="collection-fieldset required summary-box">
+    <div class="collection required summary-box">
     <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'dwelling', 'currentCollection':'dhrPreviousDwelling', 'collectionIndex':(rqt.dhrPreviousDwelling ? rqt.dhrPreviousDwelling.size() : 0)])}" />
       ${message(code:'request.action.newCollectionItem')}
     </a>
     <g:each var="it" in="${rqt.dhrPreviousDwelling}" status="index">
-      <fieldset class="collection-fieldset-edit">
+      <div class="item">
         <dl>
     
         <dt><g:message code="dhr.property.dhrPreviousDwellingAddress.label" /></dt>
@@ -171,7 +171,7 @@
          <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'dwelling', 'currentCollection':'dhrPreviousDwelling', 'collectionIndex':index])}">
            ${message(code:'request.action.deleteCollectionItem')}
          </a>
-      </fieldset>
+      </div>
     </g:each>
     </div>
   

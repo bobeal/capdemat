@@ -93,7 +93,9 @@
           >
             <g:message code="hccr.step.subject.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['subject'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['subject'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -109,7 +111,9 @@
           >
             <g:message code="hccr.step.dwelling.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['dwelling'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['dwelling'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -125,7 +129,9 @@
           >
             <g:message code="hccr.step.socialSecurityAndPaymentAgency.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['socialSecurityAndPaymentAgency'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['socialSecurityAndPaymentAgency'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -141,7 +147,9 @@
           >
             <g:message code="hccr.step.occupationnalAndSchoolStatus.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['occupationnalAndSchoolStatus'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['occupationnalAndSchoolStatus'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -157,7 +165,9 @@
           >
             <g:message code="hccr.step.folders.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['folders'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['folders'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -173,7 +183,9 @@
           >
             <g:message code="hccr.step.benefits.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['benefits'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['benefits'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -189,7 +201,9 @@
           >
             <g:message code="hccr.step.aid.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['aid'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['aid'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -205,7 +219,9 @@
           >
             <g:message code="hccr.step.health.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['health'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['health'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -221,7 +237,9 @@
           >
             <g:message code="hccr.step.project.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['project'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['project'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -239,7 +257,9 @@
           >
             <g:message code="request.step.document.label" />
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -257,7 +277,14 @@
           >
             <g:message code="request.step.validation.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+              
+              <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
+                <g:message code="request.step.validation.allRequiredSteps" />
+              </g:if>
+              <g:else>
+                <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+              </g:else>
+              
             </span>
           </a>
         </li>    

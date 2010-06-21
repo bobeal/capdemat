@@ -41,23 +41,6 @@
       </div>
      </div>
      <div class="error" id="stepForm-validation-error"> </div>
-     <g:if test="${missingSteps == null}">
-       <div><strong>${message(code:'request.step.validation.allRequiredSteps')}</strong></div>
-     </g:if>
-     <g:elseif test="${missingSteps.size() > 0}">
-       <div>
-         <strong>${message(code:'request.step.validation.requiredSteps')}</strong>
-         <ul>
-           <g:each var="missingStep" in="${missingSteps}">
-             <li>
-               <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':missingStep])}">
-                 ${message(code:requestTypeAcronym + '.step.' + missingStep + '.label')}
-               </a>
-             </li>
-           </g:each>
-         </ul>
-       </div>
-     </g:elseif>
      <input type="hidden" name="returnUrl" value="${returnUrl}" />
      <input type="hidden" name="id" value="${rqt.id}" />
      <input type="hidden" name="currentStep" value="validation" />

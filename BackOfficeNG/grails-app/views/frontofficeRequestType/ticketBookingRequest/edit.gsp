@@ -93,7 +93,9 @@
           >
             <g:message code="tbr.step.requester.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['requester'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['requester'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -109,7 +111,9 @@
           >
             <g:message code="tbr.step.subscriber.label" />
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['subscriber'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['subscriber'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -125,7 +129,9 @@
           >
             <g:message code="tbr.step.places.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['places'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['places'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -143,7 +149,9 @@
           >
             <g:message code="request.step.document.label" />
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -161,7 +169,14 @@
           >
             <g:message code="request.step.validation.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+              
+              <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
+                <g:message code="request.step.validation.allRequiredSteps" />
+              </g:if>
+              <g:else>
+                <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+              </g:else>
+              
             </span>
           </a>
         </li>    

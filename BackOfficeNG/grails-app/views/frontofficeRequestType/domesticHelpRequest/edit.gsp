@@ -93,7 +93,9 @@
           >
             <g:message code="dhr.step.subject.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['subject'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['subject'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -109,7 +111,9 @@
           >
             <g:message code="dhr.step.familyReferent.label" />
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['familyReferent'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['familyReferent'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -125,7 +129,9 @@
           >
             <g:message code="dhr.step.spouse.label" />
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['spouse'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['spouse'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -141,7 +147,9 @@
           >
             <g:message code="dhr.step.dwelling.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['dwelling'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['dwelling'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -157,7 +165,9 @@
           >
             <g:message code="dhr.step.resources.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['resources'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['resources'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -173,7 +183,9 @@
           >
             <g:message code="dhr.step.taxes.label" />
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['taxes'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['taxes'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -191,7 +203,9 @@
           >
             <g:message code="request.step.document.label" />
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -209,7 +223,14 @@
           >
             <g:message code="request.step.validation.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+              
+              <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
+                <g:message code="request.step.validation.allRequiredSteps" />
+              </g:if>
+              <g:else>
+                <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+              </g:else>
+              
             </span>
           </a>
         </li>    

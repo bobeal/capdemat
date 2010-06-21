@@ -93,7 +93,9 @@
           >
             <g:message code="sgr.step.subject.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['subject'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['subject'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -109,7 +111,9 @@
           >
             <g:message code="sgr.step.taxHousehold.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['taxHousehold'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['taxHousehold'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -125,7 +129,9 @@
           >
             <g:message code="sgr.step.otherHelps.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['otherHelps'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['otherHelps'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -141,7 +147,9 @@
           >
             <g:message code="sgr.step.currentStudies.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['currentStudies'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['currentStudies'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -157,7 +165,9 @@
           >
             <g:message code="sgr.step.calculationElements.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['calculationElements'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['calculationElements'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -173,7 +183,9 @@
           >
             <g:message code="sgr.step.bankReference.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['bankReference'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['bankReference'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -191,7 +203,9 @@
           >
             <g:message code="request.step.document.label" />
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -209,7 +223,14 @@
           >
             <g:message code="request.step.validation.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+              
+              <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
+                <g:message code="request.step.validation.allRequiredSteps" />
+              </g:if>
+              <g:else>
+                <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+              </g:else>
+              
             </span>
           </a>
         </li>    

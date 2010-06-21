@@ -182,7 +182,6 @@ class FrontofficeRequestController {
             'currentStep': nextWebflowStep,
             'currentCollection': params.currentCollection,
             'collectionIndex': params.collectionIndex ? Integer.valueOf(params.collectionIndex) : null,
-            'missingSteps': requestWorkflowService.getMissingSteps(rqt),
             'documentTypes': documentAdaptorService.getDocumentTypes(rqt),
             'documentsByTypes': ['document','validation'].contains(nextWebflowStep) ? documentAdaptorService.getDocumentsByType(rqt) : [],
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
@@ -255,6 +254,10 @@ class FrontofficeRequestController {
                     break
             }
         }
+        if (requestWorkflowService.getMissingSteps(rqt).size() > 0)
+            rqt.stepStates.validation.state = 'unavailable'
+        else if (rqt.stepStates.validation.state == 'unavailable')
+            rqt.stepStates.validation.state = 'uncomplete'
     }
 
     def condition = {

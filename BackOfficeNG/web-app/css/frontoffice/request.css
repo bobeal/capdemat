@@ -34,15 +34,15 @@
 #request .steps li {
   margin: .3em 0 0; padding: .2em .5em;
   font-size: 1.5em; font-weight: normal;
-  background: #eee;
-  border: 5px solid #eee;
+  background: #ddd;
+  border: 5px solid #ddd;
   -moz-border-radius: .5em;
 }
 
 #request .steps li a { 
   display: block;
   font-size: .9em; font-weight: bold; text-decoration: none; 
-  color: #666;
+  color: #555;
 }
 #request .steps li .help   { display: block; font-size: .7em; }
 #request .steps li .number { float: right; margin-left: .4em; font-size: 1.4em; }
@@ -63,12 +63,20 @@
 #request .steps li.complete:hover   { border-color: #20aa20; background: #20aa20; }
 #request .steps li.invalid:hover    { border-color: #aa2020; background: #aa2020; }
 
+/* override inherited properties */
+#request .steps li a:hover { background: transparent; }
+
+#request form { 
+  min-height: 25em;
+  margin: 1em 1em; padding:  0 1.5em 1.5em 1.5em;
+  border: 5px solid #ddd;
+  -moz-border-radius: .5em;
+  overflow: auto;
+}
+
 #request form.uncomplete { border-color: #fc0; }
 #request form.complete   { border-color: #20CC20; }
 #request form.invalid    { border-color: #CC2020; }
-
-/* override inherited properties */
-#request .steps li a:hover { background: transparent; }
 
 #request a.button {
   float: right; 
@@ -85,15 +93,7 @@
 #request h3 span       { display: block; font-size: .75em; }
 #request h3 span.error { margin: 0; padding: 0; text-align: right; }
 #request h3 .tag-state { float: right; }
-#request h4   { margin: 1em 0 ; font-size: 1.3em; font-style: italic; }
-
-#request form { 
-  min-height: 25em;
-  margin: 1em 1em; padding:  0 1.5em 1.5em 1.5em;
-  border: 5px solid #eee;
-  -moz-border-radius: .5em;
-  overflow: auto;
-}
+#request h4 { margin: 1em 0 ; font-size: 1.3em; font-style: italic; }
 
 #request form div label {
   width: 80%; display: block;

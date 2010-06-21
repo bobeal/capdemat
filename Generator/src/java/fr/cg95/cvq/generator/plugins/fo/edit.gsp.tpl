@@ -103,7 +103,16 @@
           >
             <g:message code="${step.i18nPrefix()}.step.${step.name}.label" />${step.required ? ' *' :''}
             <span class="help">
-              <g:message code="request.step.message.\${rqt.stepStates['${step.name}'].state}" />
+              <% if (step.name == 'validation') { %>
+              <g:if test="\${rqt.stepStates.validation.state == 'unavailable'}">
+                <g:message code="request.step.validation.allRequiredSteps" />
+              </g:if>
+              <g:else>
+                <g:message code="request.step.message.\${rqt.stepStates['${step.name}'].state}" />
+              </g:else>
+              <% } else { %>
+                <g:message code="request.step.message.\${rqt.stepStates['${step.name}'].state}" />
+              <% } %>
             </span>
           </a>
         </li>    

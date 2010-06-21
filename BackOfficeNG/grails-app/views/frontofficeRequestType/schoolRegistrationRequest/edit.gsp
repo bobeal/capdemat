@@ -93,7 +93,9 @@
           >
             <g:message code="srr.step.registration.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['registration'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['registration'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -109,7 +111,9 @@
           >
             <g:message code="srr.step.rules.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['rules'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['rules'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -127,7 +131,9 @@
           >
             <g:message code="request.step.document.label" />
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+              
+                <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+              
             </span>
           </a>
         </li>    
@@ -145,7 +151,14 @@
           >
             <g:message code="request.step.validation.label" /> *
             <span class="help">
-              <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+              
+              <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
+                <g:message code="request.step.validation.allRequiredSteps" />
+              </g:if>
+              <g:else>
+                <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+              </g:else>
+              
             </span>
           </a>
         </li>    

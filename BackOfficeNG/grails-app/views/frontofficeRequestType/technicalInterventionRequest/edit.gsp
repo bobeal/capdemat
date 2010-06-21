@@ -84,19 +84,24 @@
       <ul>
 
   
-        <li class="${currentStep == 'intervention' ? 'current' : ''} ${rqt.stepStates['intervention'].state}">
+        <li class="${currentStep == 'intervention' ? 'current' : ''}
+          
+            ${individual ? rqt.stepStates['intervention-' + params.type].state : rqt.stepStates['intervention'].state}
+          
+          ">
           <span class="number">1</span>
           <a
             <g:if test="${rqt.stepStates['intervention'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'intervention'])}"
             </g:if>
           >
-            <g:message code="tir.step.intervention.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['intervention'].state}" />
-              
-            </span>
+            
+              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'tir.step.intervention.label'}" />
+              ${individual ? '' : '*'}
+              <span class="help">
+                <g:message code="request.step.message.${rqt.stepStates['intervention' + (individual ? '-' + params.type : '')].state}" />
+              </span>
+            
           </a>
         </li>    
   
@@ -104,19 +109,25 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-        <li class="${currentStep == 'document' ? 'current' : ''} ${rqt.stepStates['document'].state}">
+        <li class="${currentStep == 'document' ? 'current' : ''}
+          
+            ${rqt.stepStates['document'].state}
+          
+          ">
           <span class="number">2</span>
           <a
             <g:if test="${rqt.stepStates['document'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}"
             </g:if>
           >
-            <g:message code="request.step.document.label" />
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
-              
-            </span>
+            
+              <g:message code="request.step.document.label" />
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
@@ -124,24 +135,30 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''} ${rqt.stepStates['validation'].state}">
+        <li class="${currentStep == 'validation' ? 'current' : ''}
+          
+            ${rqt.stepStates['validation'].state}
+          
+          ">
           <span class="number"></span>
           <a
             <g:if test="${rqt.stepStates['validation'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation'])}"
             </g:if>
           >
-            <g:message code="request.step.validation.label" /> *
-            <span class="help">
-              
-              <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
-                <g:message code="request.step.validation.allRequiredSteps" />
-              </g:if>
-              <g:else>
-                <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
-              </g:else>
-              
-            </span>
+            
+              <g:message code="request.step.validation.label" /> *
+              <span class="help">
+                
+                <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
+                  <g:message code="request.step.validation.allRequiredSteps" />
+                </g:if>
+                <g:else>
+                  <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+                </g:else>
+                
+              </span>
+            
           </a>
         </li>    
   

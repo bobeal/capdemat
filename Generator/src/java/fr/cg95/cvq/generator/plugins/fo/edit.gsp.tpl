@@ -94,26 +94,40 @@
   <% if (step.name == 'document') { %>
         <g:if test="\${!documentTypes.isEmpty()}">
   <% } %>
-        <li class="\${currentStep == '${step.name}' ? 'current' : ''} \${rqt.stepStates['${step.name}'].state}">
+        <li class="\${currentStep == '${step.name}' ? 'current' : ''}
+          <% if (i == 0) { %>
+            \${individual ? rqt.stepStates['${step.name}-' + params.type].state : rqt.stepStates['${step.name}'].state}
+          <% } else { %>
+            \${rqt.stepStates['${step.name}'].state}
+          <% } %>
+          ">
           <span class="number">${step.name != 'validation' ? i+1 : ''}</span>
           <a
             <g:if test="\${rqt.stepStates['${step.name}'].state != 'unavailable'}">
               href="\${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'${step.name}'])}"
             </g:if>
           >
-            <g:message code="${step.i18nPrefix()}.step.${step.name}.label" />${step.required ? ' *' :''}
-            <span class="help">
-              <% if (step.name == 'validation') { %>
-              <g:if test="\${rqt.stepStates.validation.state == 'unavailable'}">
-                <g:message code="request.step.validation.allRequiredSteps" />
-              </g:if>
-              <g:else>
-                <g:message code="request.step.message.\${rqt.stepStates['${step.name}'].state}" />
-              </g:else>
-              <% } else { %>
-                <g:message code="request.step.message.\${rqt.stepStates['${step.name}'].state}" />
-              <% } %>
-            </span>
+            <% if (i == 0) { %>
+              <g:message code="\${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : '${step.i18nPrefix()}.step.${step.name}.label'}" />
+              ${step.required ? "\${individual ? '' : '*'" : ''}}
+              <span class="help">
+                <g:message code="request.step.message.\${rqt.stepStates['${step.name}' + (individual ? '-' + params.type : '')].state}" />
+              </span>
+            <% } else { %>
+              <g:message code="${step.i18nPrefix()}.step.${step.name}.label" />${step.required ? ' *' :''}
+              <span class="help">
+                <% if (step.name == 'validation') { %>
+                <g:if test="\${rqt.stepStates.validation.state == 'unavailable'}">
+                  <g:message code="request.step.validation.allRequiredSteps" />
+                </g:if>
+                <g:else>
+                  <g:message code="request.step.message.\${rqt.stepStates['${step.name}'].state}" />
+                </g:else>
+                <% } else { %>
+                  <g:message code="request.step.message.\${rqt.stepStates['${step.name}'].state}" />
+                <% } %>
+              </span>
+            <% } %>
           </a>
         </li>    
   <% if (step.name == 'document') { %>

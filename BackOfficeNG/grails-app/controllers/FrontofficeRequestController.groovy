@@ -3,6 +3,7 @@ import fr.cg95.cvq.business.request.MeansOfContactEnum
 import fr.cg95.cvq.business.request.Request
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.business.users.Adult
+import fr.cg95.cvq.business.users.Child
 import fr.cg95.cvq.exception.CvqException
 import fr.cg95.cvq.exception.CvqValidationException
 import fr.cg95.cvq.security.SecurityContext
@@ -258,6 +259,75 @@ class FrontofficeRequestController {
             rqt.stepStates.validation.state = 'unavailable'
         else if (rqt.stepStates.validation.state == 'unavailable')
             rqt.stepStates.validation.state = 'uncomplete'
+    }
+
+    def individual = {
+        def id = Long.valueOf(params.requestId)
+        requestLockService.lock(id)
+        def rqt = requestSearchService.getById(id, true)
+        def currentStep = rqt.stepStates.keySet().iterator().next()
+        if (params.cancel) {
+            rqt.stepStates.remove(currentStep + '-' + params.type)
+            redirect(action : "edit", id : id)
+            return false
+        } else {
+            if (!["adult", "child"].contains(params.type)) {
+                redirect(controller : "frontofficeHome")
+                return false
+            }
+            rqt.stepStates[currentStep + '-' + params.type] = [:]
+            rqt.stepStates[currentStep + '-' + params.type].state = "uncomplete"
+            rqt.stepStates[currentStep + '-' + params.type].required = Boolean.FALSE
+        }
+        def individual
+        if (params.type == "adult") {
+            individual = new Adult()
+            // hack : WTF is an unknown title ?
+            individual.title = null
+        } else {
+            individual = new Child()
+            // hack : WTF is an unknown sex ?
+            individual.sex = null
+        }
+        def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)
+        def viewPath = "/frontofficeRequestType/${requestTypeLabelAsDir}/edit"
+        def model = [
+            "isRequestCreation" : true,
+            "rqt" : rqt,
+            "hasHomeFolder" : SecurityContext.currentEcitizen ? true : false,
+            "currentStep" : currentStep,
+            "missingSteps" : requestWorkflowService.getMissingSteps(rqt),
+            "documentTypes" : documentAdaptorService.getDocumentTypes(rqt),
+            "documentsByTypes" : ["document", "validation"].contains(currentStep) ? documentAdaptorService.getDocumentsByType(rqt) : [],
+            "returnUrl" : (params.returnUrl != null ? params.returnUrl : ""),
+            "isEdition" : !RequestState.DRAFT.equals(rqt.state),
+            "lrTypes" : requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),
+            "requestTypeLabelAsDir" : requestTypeLabelAsDir,
+            "helps" : localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(requestTypeLabelAsDir),
+            "availableRules" : localAuthorityRegistry.getLocalAuthorityRules(requestTypeLabelAsDir),
+            "customJS" : requestTypeAdaptorService.getCustomJS(rqt.requestType.label),
+            "subjectPolicy" : requestTypeService.getSubjectPolicy(rqt.requestType.id),
+            "individual" : individual
+        ]
+        if (request.post) {
+            DataBindingUtils.initBind(individual, params)
+            bind(individual)
+            def invalidFields
+            if (params.type == "adult") {
+                invalidFields = individualService.validate(individual, false)
+            } else {
+                invalidFields = individualService.validate(individual)
+            }
+            if (invalidFields.isEmpty()) {
+                individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.adress, false)
+                rqt.subjectId = individual.id
+                redirect(action : "edit", id : id)
+            } else {
+                rqt.stepStates[currentStep + '-' + params.type].state = "invalid"
+                rqt.stepStates[currentStep + '-' + params.type].invalidFields = invalidFields
+            }
+        }
+        render(view : viewPath, model : model)
     }
 
     def condition = {

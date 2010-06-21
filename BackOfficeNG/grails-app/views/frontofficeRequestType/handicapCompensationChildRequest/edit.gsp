@@ -84,163 +84,216 @@
       <ul>
 
   
-        <li class="${currentStep == 'subject' ? 'current' : ''} ${rqt.stepStates['subject'].state}">
+        <li class="${currentStep == 'subject' ? 'current' : ''}
+          
+            ${individual ? rqt.stepStates['subject-' + params.type].state : rqt.stepStates['subject'].state}
+          
+          ">
           <span class="number">1</span>
           <a
             <g:if test="${rqt.stepStates['subject'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'subject'])}"
             </g:if>
           >
-            <g:message code="hccr.step.subject.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['subject'].state}" />
-              
-            </span>
+            
+              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'hccr.step.subject.label'}" />
+              ${individual ? '' : '*'}
+              <span class="help">
+                <g:message code="request.step.message.${rqt.stepStates['subject' + (individual ? '-' + params.type : '')].state}" />
+              </span>
+            
           </a>
         </li>    
   
 
   
-        <li class="${currentStep == 'dwelling' ? 'current' : ''} ${rqt.stepStates['dwelling'].state}">
+        <li class="${currentStep == 'dwelling' ? 'current' : ''}
+          
+            ${rqt.stepStates['dwelling'].state}
+          
+          ">
           <span class="number">2</span>
           <a
             <g:if test="${rqt.stepStates['dwelling'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'dwelling'])}"
             </g:if>
           >
-            <g:message code="hccr.step.dwelling.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['dwelling'].state}" />
-              
-            </span>
+            
+              <g:message code="hccr.step.dwelling.label" /> *
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['dwelling'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
 
   
-        <li class="${currentStep == 'socialSecurityAndPaymentAgency' ? 'current' : ''} ${rqt.stepStates['socialSecurityAndPaymentAgency'].state}">
+        <li class="${currentStep == 'socialSecurityAndPaymentAgency' ? 'current' : ''}
+          
+            ${rqt.stepStates['socialSecurityAndPaymentAgency'].state}
+          
+          ">
           <span class="number">3</span>
           <a
             <g:if test="${rqt.stepStates['socialSecurityAndPaymentAgency'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'socialSecurityAndPaymentAgency'])}"
             </g:if>
           >
-            <g:message code="hccr.step.socialSecurityAndPaymentAgency.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['socialSecurityAndPaymentAgency'].state}" />
-              
-            </span>
+            
+              <g:message code="hccr.step.socialSecurityAndPaymentAgency.label" /> *
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['socialSecurityAndPaymentAgency'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
 
   
-        <li class="${currentStep == 'occupationnalAndSchoolStatus' ? 'current' : ''} ${rqt.stepStates['occupationnalAndSchoolStatus'].state}">
+        <li class="${currentStep == 'occupationnalAndSchoolStatus' ? 'current' : ''}
+          
+            ${rqt.stepStates['occupationnalAndSchoolStatus'].state}
+          
+          ">
           <span class="number">4</span>
           <a
             <g:if test="${rqt.stepStates['occupationnalAndSchoolStatus'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'occupationnalAndSchoolStatus'])}"
             </g:if>
           >
-            <g:message code="hccr.step.occupationnalAndSchoolStatus.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['occupationnalAndSchoolStatus'].state}" />
-              
-            </span>
+            
+              <g:message code="hccr.step.occupationnalAndSchoolStatus.label" /> *
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['occupationnalAndSchoolStatus'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
 
   
-        <li class="${currentStep == 'folders' ? 'current' : ''} ${rqt.stepStates['folders'].state}">
+        <li class="${currentStep == 'folders' ? 'current' : ''}
+          
+            ${rqt.stepStates['folders'].state}
+          
+          ">
           <span class="number">5</span>
           <a
             <g:if test="${rqt.stepStates['folders'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'folders'])}"
             </g:if>
           >
-            <g:message code="hccr.step.folders.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['folders'].state}" />
-              
-            </span>
+            
+              <g:message code="hccr.step.folders.label" /> *
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['folders'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
 
   
-        <li class="${currentStep == 'benefits' ? 'current' : ''} ${rqt.stepStates['benefits'].state}">
+        <li class="${currentStep == 'benefits' ? 'current' : ''}
+          
+            ${rqt.stepStates['benefits'].state}
+          
+          ">
           <span class="number">6</span>
           <a
             <g:if test="${rqt.stepStates['benefits'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'benefits'])}"
             </g:if>
           >
-            <g:message code="hccr.step.benefits.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['benefits'].state}" />
-              
-            </span>
+            
+              <g:message code="hccr.step.benefits.label" /> *
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['benefits'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
 
   
-        <li class="${currentStep == 'aid' ? 'current' : ''} ${rqt.stepStates['aid'].state}">
+        <li class="${currentStep == 'aid' ? 'current' : ''}
+          
+            ${rqt.stepStates['aid'].state}
+          
+          ">
           <span class="number">7</span>
           <a
             <g:if test="${rqt.stepStates['aid'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'aid'])}"
             </g:if>
           >
-            <g:message code="hccr.step.aid.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['aid'].state}" />
-              
-            </span>
+            
+              <g:message code="hccr.step.aid.label" /> *
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['aid'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
 
   
-        <li class="${currentStep == 'health' ? 'current' : ''} ${rqt.stepStates['health'].state}">
+        <li class="${currentStep == 'health' ? 'current' : ''}
+          
+            ${rqt.stepStates['health'].state}
+          
+          ">
           <span class="number">8</span>
           <a
             <g:if test="${rqt.stepStates['health'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'health'])}"
             </g:if>
           >
-            <g:message code="hccr.step.health.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['health'].state}" />
-              
-            </span>
+            
+              <g:message code="hccr.step.health.label" /> *
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['health'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
 
   
-        <li class="${currentStep == 'project' ? 'current' : ''} ${rqt.stepStates['project'].state}">
+        <li class="${currentStep == 'project' ? 'current' : ''}
+          
+            ${rqt.stepStates['project'].state}
+          
+          ">
           <span class="number">9</span>
           <a
             <g:if test="${rqt.stepStates['project'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'project'])}"
             </g:if>
           >
-            <g:message code="hccr.step.project.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['project'].state}" />
-              
-            </span>
+            
+              <g:message code="hccr.step.project.label" /> *
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['project'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
@@ -248,19 +301,25 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-        <li class="${currentStep == 'document' ? 'current' : ''} ${rqt.stepStates['document'].state}">
+        <li class="${currentStep == 'document' ? 'current' : ''}
+          
+            ${rqt.stepStates['document'].state}
+          
+          ">
           <span class="number">10</span>
           <a
             <g:if test="${rqt.stepStates['document'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}"
             </g:if>
           >
-            <g:message code="request.step.document.label" />
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
-              
-            </span>
+            
+              <g:message code="request.step.document.label" />
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
@@ -268,24 +327,30 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''} ${rqt.stepStates['validation'].state}">
+        <li class="${currentStep == 'validation' ? 'current' : ''}
+          
+            ${rqt.stepStates['validation'].state}
+          
+          ">
           <span class="number"></span>
           <a
             <g:if test="${rqt.stepStates['validation'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation'])}"
             </g:if>
           >
-            <g:message code="request.step.validation.label" /> *
-            <span class="help">
-              
-              <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
-                <g:message code="request.step.validation.allRequiredSteps" />
-              </g:if>
-              <g:else>
-                <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
-              </g:else>
-              
-            </span>
+            
+              <g:message code="request.step.validation.label" /> *
+              <span class="help">
+                
+                <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
+                  <g:message code="request.step.validation.allRequiredSteps" />
+                </g:if>
+                <g:else>
+                  <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+                </g:else>
+                
+              </span>
+            
           </a>
         </li>    
   

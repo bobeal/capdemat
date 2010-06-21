@@ -84,19 +84,24 @@
       <ul>
 
   
-        <li class="${currentStep == 'waste' ? 'current' : ''} ${rqt.stepStates['waste'].state}">
+        <li class="${currentStep == 'waste' ? 'current' : ''}
+          
+            ${individual ? rqt.stepStates['waste-' + params.type].state : rqt.stepStates['waste'].state}
+          
+          ">
           <span class="number">1</span>
           <a
             <g:if test="${rqt.stepStates['waste'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'waste'])}"
             </g:if>
           >
-            <g:message code="cwcr.step.waste.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['waste'].state}" />
-              
-            </span>
+            
+              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'cwcr.step.waste.label'}" />
+              ${individual ? '' : '*'}
+              <span class="help">
+                <g:message code="request.step.message.${rqt.stepStates['waste' + (individual ? '-' + params.type : '')].state}" />
+              </span>
+            
           </a>
         </li>    
   
@@ -104,19 +109,25 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-        <li class="${currentStep == 'document' ? 'current' : ''} ${rqt.stepStates['document'].state}">
+        <li class="${currentStep == 'document' ? 'current' : ''}
+          
+            ${rqt.stepStates['document'].state}
+          
+          ">
           <span class="number">2</span>
           <a
             <g:if test="${rqt.stepStates['document'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}"
             </g:if>
           >
-            <g:message code="request.step.document.label" />
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
-              
-            </span>
+            
+              <g:message code="request.step.document.label" />
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['document'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
@@ -124,24 +135,30 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''} ${rqt.stepStates['validation'].state}">
+        <li class="${currentStep == 'validation' ? 'current' : ''}
+          
+            ${rqt.stepStates['validation'].state}
+          
+          ">
           <span class="number"></span>
           <a
             <g:if test="${rqt.stepStates['validation'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation'])}"
             </g:if>
           >
-            <g:message code="request.step.validation.label" /> *
-            <span class="help">
-              
-              <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
-                <g:message code="request.step.validation.allRequiredSteps" />
-              </g:if>
-              <g:else>
-                <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
-              </g:else>
-              
-            </span>
+            
+              <g:message code="request.step.validation.label" /> *
+              <span class="help">
+                
+                <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
+                  <g:message code="request.step.validation.allRequiredSteps" />
+                </g:if>
+                <g:else>
+                  <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+                </g:else>
+                
+              </span>
+            
           </a>
         </li>    
   

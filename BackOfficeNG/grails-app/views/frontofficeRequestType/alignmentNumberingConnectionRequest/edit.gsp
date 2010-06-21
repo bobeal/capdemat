@@ -84,60 +84,77 @@
       <ul>
 
   
-        <li class="${currentStep == 'requester' ? 'current' : ''} ${rqt.stepStates['requester'].state}">
+        <li class="${currentStep == 'requester' ? 'current' : ''}
+          
+            ${individual ? rqt.stepStates['requester-' + params.type].state : rqt.stepStates['requester'].state}
+          
+          ">
           <span class="number">1</span>
           <a
             <g:if test="${rqt.stepStates['requester'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'requester'])}"
             </g:if>
           >
-            <g:message code="ancr.step.requester.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['requester'].state}" />
-              
-            </span>
+            
+              <g:message code="${individual ? 'homeFolder.action.add' + org.apache.commons.lang.StringUtils.capitalize(params.type) : 'ancr.step.requester.label'}" />
+              ${individual ? '' : '*'}
+              <span class="help">
+                <g:message code="request.step.message.${rqt.stepStates['requester' + (individual ? '-' + params.type : '')].state}" />
+              </span>
+            
           </a>
         </li>    
   
 
   
-        <li class="${currentStep == 'cadastre' ? 'current' : ''} ${rqt.stepStates['cadastre'].state}">
+        <li class="${currentStep == 'cadastre' ? 'current' : ''}
+          
+            ${rqt.stepStates['cadastre'].state}
+          
+          ">
           <span class="number">2</span>
           <a
             <g:if test="${rqt.stepStates['cadastre'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'cadastre'])}"
             </g:if>
           >
-            <g:message code="ancr.step.cadastre.label" /> *
-            <span class="help">
-              
-                <g:message code="request.step.message.${rqt.stepStates['cadastre'].state}" />
-              
-            </span>
+            
+              <g:message code="ancr.step.cadastre.label" /> *
+              <span class="help">
+                
+                  <g:message code="request.step.message.${rqt.stepStates['cadastre'].state}" />
+                
+              </span>
+            
           </a>
         </li>    
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''} ${rqt.stepStates['validation'].state}">
+        <li class="${currentStep == 'validation' ? 'current' : ''}
+          
+            ${rqt.stepStates['validation'].state}
+          
+          ">
           <span class="number"></span>
           <a
             <g:if test="${rqt.stepStates['validation'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation'])}"
             </g:if>
           >
-            <g:message code="request.step.validation.label" /> *
-            <span class="help">
-              
-              <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
-                <g:message code="request.step.validation.allRequiredSteps" />
-              </g:if>
-              <g:else>
-                <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
-              </g:else>
-              
-            </span>
+            
+              <g:message code="request.step.validation.label" /> *
+              <span class="help">
+                
+                <g:if test="${rqt.stepStates.validation.state == 'unavailable'}">
+                  <g:message code="request.step.validation.allRequiredSteps" />
+                </g:if>
+                <g:else>
+                  <g:message code="request.step.message.${rqt.stepStates['validation'].state}" />
+                </g:else>
+                
+              </span>
+            
           </a>
         </li>    
   

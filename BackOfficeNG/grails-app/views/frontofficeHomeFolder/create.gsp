@@ -97,7 +97,8 @@
             <label for="captchaText" class="required">
               ${message(code:'request.step.validation.label.typeTextInImage')}
             </label>
-            <input type="text" id="captchaText" name="captchaText" class="required"
+            <input type="text" id="captchaText" name="captchaText"
+              class="required ${invalidFields.contains('captchaText') ? 'validation-failed' : ''}"
               title="${message(code:'request.step.validation.error.captcha')}" />
           </div>
           <div class="yui-u">

@@ -112,7 +112,6 @@ class FrontofficeRequestController {
                     // bind the selected means of contact into request
                     MeansOfContactEnum moce = MeansOfContactEnum.forString(params.meansOfContact)
                     rqt.setMeansOfContact(meansOfContactService.getMeansOfContactByType(moce))
-                    checkCaptcha(params)
                     requestWorkflowService.validate(rqt, null, params.useAcceptance != null)
                     def parameters = [:]
                     if (!RequestState.DRAFT.equals(rqt.state)) {
@@ -249,12 +248,6 @@ class FrontofficeRequestController {
                     break
             }
         }
-    }
-
-    def checkCaptcha (params) {
-        if (SecurityContext.currentEcitizen == null
-            && !jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText))
-            throw new CvqException(message(code:"request.step.validation.error.captcha"))
     }
 
     def condition = {

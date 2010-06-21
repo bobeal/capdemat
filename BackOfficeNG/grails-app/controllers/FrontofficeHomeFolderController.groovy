@@ -21,6 +21,7 @@ class FrontofficeHomeFolderController {
 	IRequestWorkflowService requestWorkflowService
 
     def homeFolderAdaptorService
+    def jcaptchaService
     def securityService
 
     Adult currentEcitizen
@@ -98,6 +99,7 @@ class FrontofficeHomeFolderController {
             bind(adult)
             model["adult"] = adult
             model["invalidFields"] = individualService.validate(adult, true)
+            model["invalidFields"].add(checkCaptcha(params))
             if (model["invalidFields"].isEmpty()) {
                 homeFolderService.addHomeFolderRole(adult, RoleType.HOME_FOLDER_RESPONSIBLE)
                 homeFolderService.create(adult)
@@ -297,5 +299,9 @@ class FrontofficeHomeFolderController {
             }
             redirect(controller : "frontofficeHomeFolder")
         }
+    }
+
+    private checkCaptcha(params) {
+        return jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText) ? null : "captchaText"
     }
 }

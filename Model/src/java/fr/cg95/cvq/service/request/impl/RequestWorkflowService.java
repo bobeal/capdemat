@@ -525,9 +525,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 stepState.getValue().put("state", "invalid");
                 stepState.getValue().put("invalidFields", fields);
             }
-            if ("invalid".equals(stepState.getValue().get("state"))
-                || ("uncomplete".equals(stepState.getValue().get("state"))
-                    && (Boolean)stepState.getValue().get("required"))) {
+            if (!"validation".equals(stepState.getKey())
+                && ("invalid".equals(stepState.getValue().get("state"))
+                    || ("uncomplete".equals(stepState.getValue().get("state"))
+                        && (Boolean)stepState.getValue().get("required")))) {
                 request.getStepStates().get("validation").put("state", "unavailable");
             }
         }

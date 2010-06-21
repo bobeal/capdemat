@@ -340,7 +340,7 @@ class FrontofficeRequestController {
                     requestNoteService.getNotes(Long.parseLong(params.id), null)),
                 'externalInformations' : requestExternalService.loadExternalInformations(rqt),
                 'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),
-                'documentTypes': documentAdaptorService.getDocumentTypes(rqt, null),
+                'documentsByTypes': documentAdaptorService.getDocumentsByType(rqt),
                 'validationTemplateDirectory':CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label),
                 'individuals':individuals
         ]

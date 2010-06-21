@@ -7,15 +7,27 @@
                   name=""
                   targetNamespace="http://www.capwebct.fr/modules/payment/schema/sre">
    <wsdl:types>
-      <xs:schema xmlns:srr="http://www.capwebct.fr/modules/payment/schema/sre"
+      <xs:schema xmlns:sre="http://www.capwebct.fr/modules/payment/schema/sre"
                  xmlns:cvq="http://www.cg95.fr/cvq/schema/common"
+                 xmlns:srr="http://www.cg95.fr/cvq/schema/srr"
+                 xmlns:scrr="http://www.cg95.fr/cvq/schema/scrr"
+                 xmlns:parr="http://www.cg95.fr/cvq/schema/parr"
+                 xmlns:rarr="http://www.cg95.fr/cvq/schema/rarr"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  targetNamespace="http://www.capwebct.fr/modules/payment/schema/sre"
                  elementFormDefault="qualified"
                  attributeFormDefault="unqualified">
 
          <xs:import namespace="http://www.cg95.fr/cvq/schema/common"
-                    schemaLocation="http://capdemat.capwebct.fr/browser/trunk/Generator/src/xml/schemas/common/CVQCommonElements.xsd"/>
+                    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_1_1/schemas/CVQCommonElements.xsd"/>
+         <xs:import namespace="http://www.cg95.fr/cvq/schema/srr"
+                    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_1_1/schemas/SchoolRegistrationRequest.xsd"/>
+         <xs:import namespace="http://www.cg95.fr/cvq/schema/scrr"
+                    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_1_1/schemas/SchoolCanteenRegistrationRequest.xsd"/>
+         <xs:import namespace="http://www.cg95.fr/cvq/schema/parr"
+                    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_1_1/schemas/PerischoolActivityRegistrationRequest.xsd"/>
+         <xs:import namespace="http://www.cg95.fr/cvq/schema/rarr"
+                    schemaLocation="http://people.zenexity.fr/~bor/capdemat/V4_1_1/schemas/RecreationActivityRegistrationRequest.xsd"/>
 
          <xs:element name="SendRequestRequest">
             <xs:complexType>
@@ -27,7 +39,11 @@
             </xs:documentation>
                      </xs:annotation>
                   </xs:element>
-                  <xs:element name="Request" type="cvq:RequestType"/>
+	                 <xs:element name="Request" type="cvq:RequestType"/>
+                  <xs:element ref="scrr:SchoolCanteenRegistrationRequest"/>
+                  <xs:element ref="srr:SchoolRegistrationRequest"/>
+                  <xs:element ref="parr:PerischoolActivityRegistrationRequest"/>
+                  <xs:element ref="rarr:RecreationActivityRegistrationRequest"/>
                </xs:sequence>
             </xs:complexType>
          </xs:element>

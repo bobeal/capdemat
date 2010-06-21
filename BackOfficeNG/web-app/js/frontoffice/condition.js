@@ -19,7 +19,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
    */  
   zcfi.getType = function(el) {
     if(el.constructor == 'String') {
-    	el = yus.query('#requestTabView [name=' + el + ']')[0];
+    	el = yus.query('#request [name=' + el + ']')[0];
     }
     if(/radio|checkbox/i.test(el.type)) { return el.type; }
     else if(zct.nodeName(el,'select')) { return 'select'; }
@@ -27,7 +27,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
     else { return undefined; }
   };
   zcfi.getByName = function(nm,tag,root) {
-    var _r = root || yud.get('#requestTabView');
+    var _r = root || yud.get('#request');
     return yud.getElementsBy(function(n){return n.name == nm;},tag,_r);
   };
   
@@ -90,7 +90,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
   
     var getTriggerEls = function (triggerClassName) {
       var triggerEls = [];
-      zct.each (yud.getElementsByClassName(triggerClassName, null, 'requestTabView'), function() {
+      zct.each (yud.getElementsByClassName(triggerClassName, null, 'request'), function() {
         if (zct.nodeName(this, 'input') && this.type === 'radio') {
           if (this.checked)
             triggerEls.push(this);
@@ -144,9 +144,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
             // FIXME - stange idea. maybe want to reset all children values
             // this.value = "";
             children = children.concat(yud.getElementsByClassName(
-                trigger[0].replace('-trigger', '-filled'), null, 'requestTabView'));
+                trigger[0].replace('-trigger', '-filled'), null, 'request'));
             children = children.concat(yud.getElementsByClassName(
-                trigger[0].replace('-trigger', '-unfilled'), null, 'requestTabView'));
+                trigger[0].replace('-trigger', '-unfilled'), null, 'request'));
           }
         });
         descendants = descendants.concat(children);
@@ -166,7 +166,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
     };
     var initElements = function() {
       zcf.Condition.triggered = {};
-      var l = zct.grep(yus.query('#requestTabView [name]'),function(n){return n.className.indexOf('trigger') > -1;});
+      var l = zct.grep(yus.query('#request [name]'),function(n){return n.className.indexOf('trigger') > -1;});
       zct.each(l,function(){
         var type = zcfi.getType(this);
         if(type && zcfi[type]) zcf.Condition.triggered[this.name] = zcfi[type].getValue(this.name);
@@ -209,8 +209,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         reset();
         zcf.Condition.setAll();
         zcf.Condition.test(undefined,undefined,true);
-        yue.on('requestTabView', 'change', zcf.Condition.run,zcf.Condition,true);
-        yue.on('requestTabView', 'click', zcf.Condition.run,zcf.Condition,true);
+        yue.on('request', 'change', zcf.Condition.run,zcf.Condition,true);
+        yue.on('request', 'click', zcf.Condition.run,zcf.Condition,true);
       },
       run : function(e) {
         if(e) {
@@ -259,7 +259,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         });
       },
       setAll : function() {
-        var named = yus.query('#requestTabView [name]');
+        var named = yus.query('#request [name]');
         zct.each (named, function() {
           zct.each (this.className.split(' '), function() {
             var trigger = /condition-(\w+)-trigger/i.exec(this);
@@ -301,15 +301,15 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
       },
       
       addFilleds : function(condition) {
-          zcf.Condition.filleds.push(yud.getElementsByClassName(condition, null, 'requestTabView'));
+          zcf.Condition.filleds.push(yud.getElementsByClassName(condition, null, 'request'));
           zcf.Condition.filledDescendants.push(getDescendants(
-                  yud.getElementsByClassName(condition, null, 'requestTabView')));
+                  yud.getElementsByClassName(condition, null, 'request')));
       },
       
       addUnfilleds : function(condition) {
-          zcf.Condition.unfilleds.push(yud.getElementsByClassName(condition, null, 'requestTabView'));
+          zcf.Condition.unfilleds.push(yud.getElementsByClassName(condition, null, 'request'));
           zcf.Condition.unfilledDescendants.push(getDescendants(
-                  yud.getElementsByClassName(condition, null, 'requestTabView')));
+                  yud.getElementsByClassName(condition, null, 'request')));
       },
       /**
        * @description Checks if filled elements were modified
@@ -401,10 +401,10 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
         var states = zcf.Condition.initStates;
         if(!states) states = {};
         
-        zct.each(yus.query('#requestTabView input[checked]'),function(){
+        zct.each(yus.query('#request input[checked]'),function(){
           if(/radio|checkbox/i.test(this.type)) states[this.name] = this.checked;
         });
-        zct.each(yus.query('#requestTabView select'),function(){states[this.name] = this.selectedIndex;});
+        zct.each(yus.query('#request select'),function(){states[this.name] = this.selectedIndex;});
         
         zcf.Condition.initStates = states;
       },

@@ -188,7 +188,7 @@ class FrontofficeRequestController {
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
             'isEdition' : !RequestState.DRAFT.equals(rqt.state),
             'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),
-            'requestTypeLabelAsDir' : requestTypeLabelAsDir,
+            'requestTypeLabelAsDir' : requestTypeLabelAsDir, 
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(requestTypeLabelAsDir),
             'availableRules' : localAuthorityRegistry.getLocalAuthorityRules(requestTypeLabelAsDir),
             'customJS' : requestTypeAdaptorService.getCustomJS(rqt.requestType.label),
@@ -227,7 +227,7 @@ class FrontofficeRequestController {
             stepStates.add(entry.key)
         }
         for (def i = 0; i < stepStates.size(); i++) {
-            if (stepStates[i] == step) {
+            if (stepStates[i].equals(step)) {
                 if (params.nextStep) return stepStates[i + 1]
                 if (params.previousStep) return stepStates[i - 1]
             }

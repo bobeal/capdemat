@@ -10,40 +10,23 @@
   
   zcf.RequestCreation = function() {
     
-    var selectTab = function(href) {
-      var tabs = zcf.RequestCreation.requestFormTabView.get('tabs');
-      for (var i = 0, len = tabs.length; i < len; ++i) {
-        if (tabs[i].get('href') === href) {
-          zcf.RequestCreation.requestFormTabView.set('activeIndex', i);
-          break;
-        }
-      }
-    };
-    
-    var viewTab = function(offset) {
-      zcf.RequestCreation.requestFormTabView.set(
-          'activeIndex',
-          zcf.RequestCreation.requestFormTabView.get('activeIndex') + offset
-      );
-    };
-    
     // hack to append submit input as hidden
     var addSubmitAsHidden = function (submitEl) {
       var submitAsHiddenEl = document.createElement("input");
       submitAsHiddenEl.type = 'hidden';
       submitAsHiddenEl.name = submitEl.name;
-
+      submitAsHiddenEl.value = submitEl.value;
       var fromYuiEl = new yu.Element(submitEl.form);
       fromYuiEl.appendChild(submitAsHiddenEl);
     };
 
-    var validateAndSubmit = function (e, scope) {
+    var validateAndSubmit = function (e) {
       yue.preventDefault(e);
       var targetEl = yue.getTarget(e);
-      if (!zcv.check(e, yud.get(targetEl.form.id + '-error'), scope)) {
+      if (!zcv.check(e, yud.get(targetEl.form.getAttribute('id') + '-error'), scope)) {
         if (!zcf.RequestCreation.requestTypeModule
             || !zcf.RequestCreation.requestTypeModule.displayErrorMsg)
-          zct.html(yud.get(targetEl.form.id + '-error'), 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');
+          zct.html(yud.get(targetEl.form.getAttribute('id') + '-error'), 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');
         return;
       }
       else {
@@ -90,12 +73,12 @@
         //zcf.RequestCreation.requestFormTabView = new yw.TabView('requestTabView');
         
         zcf.RequestCreation.clickEvent = new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
-        yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);
+        yue.on('request','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);
         
-        yue.on('requestTabView','keyup',zcf.RequestCreation.formatField);
-        yue.on(yus.query("#requestTabView .validate-phone"), "keyup", zcf.RequestCreation.formatPhone);
-        yue.on(yus.query("#requestTabView .date .month, #requestTabView .date .year"), "change", zcf.RequestCreation.dateChange);
-        yue.on(yus.query("#requestTabView .validate-mobilePhone"), "keyup", zcf.RequestCreation.formatPhone);
+        yue.on('request','keyup',zcf.RequestCreation.formatField);
+        yue.on(yus.query("#request .validate-phone"), "keyup", zcf.RequestCreation.formatPhone);
+        yue.on(yus.query("#request .date .month, #request .date .year"), "change", zcf.RequestCreation.dateChange);
+        yue.on(yus.query("#request .validate-mobilePhone"), "keyup", zcf.RequestCreation.formatPhone);
         
         var requestNote = yud.get("requestNote");
         if (requestNote != null) {
@@ -104,7 +87,7 @@
           });
           zct.limitArea("requestNote", 1024, "requestNoteLimit");
         }
-        zct.each(yus.query("#requestTabView div.date"), function() {
+        zct.each(yus.query("#request div.date"), function() {
           adaptDateDays(this);
           zcv.complexRules["dateWidget"].pushFields(
             yus.query(".year", this, true).name,
@@ -126,6 +109,7 @@
             return tokens[0];
       },
 
+      // FIXME: deprecated
       computeScope : function(form) {
         if (form.id.split('-')[1] === "account") return zcv.scope.OUTSIDE;
         var allEmpty = true;
@@ -149,11 +133,9 @@
         return zcv.scope.OUTSIDE;
       },
 
-      submitStep : function(e) { validateAndSubmit(e, zcf.RequestCreation.computeScope(yue.getTarget(e).form)); },
-
-      submitCollectionAdd : function(e) { validateAndSubmit(e, zcv.scope.INSIDE); },
-
-      submitCollectionModify : function(e) { validateAndSubmit(e, zcv.scope.INSIDE); },
+      nextStep : function(e) { validateAndSubmit(e); },
+      previousStep : function(e) { validateAndSubmit(e); },
+      collectionSave : function(e) { validateAndSubmit(e); },
 
       formatField : function(e) {
         var targetEl = yue.getTarget(e);
@@ -173,23 +155,6 @@
         var targetEl = yue.getTarget(e);
         targetEl.value = targetEl.value.replace(/[^\d]/g, "");
       },
-      
-      prevTab : function(e) {
-          yue.preventDefault(e);
-          viewTab(-1);
-      },
-      
-      nextTab : function(e) {
-          yue.preventDefault(e);
-          viewTab(1);
-      },
-      
-      activeTab : function(e) {
-          yue.preventDefault(e);
-          var targetEl = yue.getTarget(e);
-          selectTab(targetEl.hash);
-      },
-
       dateChange : function(e) {
         adaptDateDays(yud.getAncestorByTagName(yue.getTarget(e), "div"));
       }

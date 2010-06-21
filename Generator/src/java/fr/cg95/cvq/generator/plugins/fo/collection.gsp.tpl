@@ -148,7 +148,7 @@
   <% } %>
   <input type="hidden" name="currentCollection" value="\${currentCollection}" />
   <input type="hidden" name="collectionIndex" value="\${collectionIndex}" />
-  <input type="submit" id="submit-step-${step.name}-${element.javaFieldName}" name="submit-step-${step.name}-${element.javaFieldName}[\${collectionIndex}]" value="\${message(code:'action.save')}" />
+  <input type="submit" id="collectionSave" name="collectionSave" value="\${message(code:'action.save')}" />
   <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': '${step.name}'])}">
     \${message(code:'request.action.cancelCollectionItemEdit')}
   </a>

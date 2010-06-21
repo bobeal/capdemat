@@ -39,7 +39,7 @@
   
   <input type="hidden" name="currentCollection" value="${currentCollection}" />
   <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
-  <input type="submit" id="submit-step-aid-professionals" name="submit-step-aid-professionals[${collectionIndex}]" value="${message(code:'action.save')}" />
+  <input type="submit" id="collectionSave" name="collectionSave" value="${message(code:'action.save')}" />
   <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'aid'])}">
     ${message(code:'request.action.cancelCollectionItemEdit')}
   </a>

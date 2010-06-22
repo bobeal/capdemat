@@ -61,8 +61,13 @@ class FrontofficeRequestDocumentController {
             } catch (CvqModelException e) {
                 flash.errorMessage = message(code : ExceptionUtils.getModelI18nKey(e))
             }
-            redirect(action:'edit', params:[
-                'requestId':rqt.id, 'documentTypeId':documentType.id, 'documentId': document?.id])
+            if (params.saveAndBackDocument) {
+                redirect(controller:'frontofficeRequest', action:'edit', params:[
+                    'id':rqt.id, 'currentStep': 'document'])
+            } else {
+                redirect(action:'edit', params:[
+                    'requestId':rqt.id, 'documentTypeId':documentType.id, 'documentId': document?.id])
+            }
         }
     }
 

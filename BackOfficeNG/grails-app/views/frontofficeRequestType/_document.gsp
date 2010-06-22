@@ -6,10 +6,12 @@
   <g:each var="data" in="${document?.datas}" status="index">
     <label ${index == 0 ? 'class="required"' : ''}>${message(code:'document.header.page')} ${index + 1} ${message(code:'document.message.typeFileRequest')} ${data.contentType}</label>
     <input type="file" name="documentData-${index}"/>
+    <input type="submit" name="saveDocument" value="${message(code:'action.modify')}" />
     <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&pn=${index}" target="blank" title="${message(code:'document.message.preview.longdesc')}">
       ${message(code:'document.message.preview')}
     </a>
     <g:if test="${index > 0}">
+      &nbsp;
       <a href="${createLink(controller:'frontofficeRequestDocument', action:'deletePage', params:['requestId':rqt.id, 'documentTypeId':documentType.id, 'documentId':document?.id, 'pageIndex':index])}">
         ${message(code:'action.delete')}
       </a>
@@ -18,15 +20,16 @@
 
   <label ${!document ? 'class="required"' : ''}>${message(code:'document.header.newPage')}</label>
   <input type="file" name="documentData-${document != null ? document.datas.size() : 0}" />
+  <input type="submit" name="saveDocument" value="${message(code:'action.add')}" />
 </fieldset>
 
 <input type="hidden" name="requestId" value="${rqt.id}" />
 <input type="hidden" name="documentTypeId" value="${documentType.id}" />
 <input type="hidden" name="documentId" value="${document?.id}" />
 <p style="margin: 3em 0 0; text-align:center;">
-  <input type="submit" name="saveDocument" value="${message(code:'action.save')}" />
+  <input type="submit" name="saveAndBackDocument" value="${message(code:'action.end')}" />
   <a href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}">
-    ${message(code:'action.back')}
+    ${message(code:'request.action.backToMainForm')}
   </a>
 </p>
 

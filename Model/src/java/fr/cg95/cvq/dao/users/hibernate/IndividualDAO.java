@@ -248,6 +248,9 @@ public class IndividualDAO extends GenericDAO implements IIndividualDAO {
             .append("from Individual as individual left join individual.individualRoles roles")
             .append(" where 1 = 1 ");
         
+        // we filter the individual who don't get a home folder
+        sb.append(" and individual.homeFolder is not null ");
+        
         // go through all the criteria and create the query
         for (Critere criteria : criterias) {
             if (criteria.getAttribut().equals(Individual.SEARCH_BY_LASTNAME)) {

@@ -99,7 +99,9 @@ class FrontofficeHomeFolderController {
             bind(adult)
             model["adult"] = adult
             model["invalidFields"] = individualService.validate(adult, true)
-            model["invalidFields"].add(checkCaptcha(params))
+            if (!jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText)) {
+                model["invalidFields"].add("captchaText")
+            }
             if (model["invalidFields"].isEmpty()) {
                 homeFolderService.addHomeFolderRole(adult, RoleType.HOME_FOLDER_RESPONSIBLE)
                 homeFolderService.create(adult)
@@ -299,9 +301,5 @@ class FrontofficeHomeFolderController {
             }
             redirect(controller : "frontofficeHomeFolder")
         }
-    }
-
-    private checkCaptcha(params) {
-        return jcaptchaService.validateResponse("captchaImage", session.id, params.captchaText) ? null : "captchaText"
     }
 }

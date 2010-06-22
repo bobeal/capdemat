@@ -103,7 +103,7 @@
           ">
           <span class="number">${step.name != 'validation' ? i+1 : ''}</span>
           <a
-            <g:if test="\${rqt.stepStates['${step.name}'].state != 'unavailable'}">
+            <g:if test="\${currentStep != '${step.name}' && rqt.stepStates['${step.name}'].state != 'unavailable'}">
               href="\${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'${step.name}'])}"
             </g:if>
           >

@@ -91,7 +91,7 @@
           ">
           <span class="number">1</span>
           <a
-            <g:if test="${rqt.stepStates['subject'].state != 'unavailable'}">
+            <g:if test="${currentStep != 'subject' && rqt.stepStates['subject'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'subject'])}"
             </g:if>
           >
@@ -114,7 +114,7 @@
           ">
           <span class="number">2</span>
           <a
-            <g:if test="${rqt.stepStates['taxHousehold'].state != 'unavailable'}">
+            <g:if test="${currentStep != 'taxHousehold' && rqt.stepStates['taxHousehold'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'taxHousehold'])}"
             </g:if>
           >
@@ -138,7 +138,7 @@
           ">
           <span class="number">3</span>
           <a
-            <g:if test="${rqt.stepStates['otherHelps'].state != 'unavailable'}">
+            <g:if test="${currentStep != 'otherHelps' && rqt.stepStates['otherHelps'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'otherHelps'])}"
             </g:if>
           >
@@ -162,7 +162,7 @@
           ">
           <span class="number">4</span>
           <a
-            <g:if test="${rqt.stepStates['currentStudies'].state != 'unavailable'}">
+            <g:if test="${currentStep != 'currentStudies' && rqt.stepStates['currentStudies'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'currentStudies'])}"
             </g:if>
           >
@@ -186,7 +186,7 @@
           ">
           <span class="number">5</span>
           <a
-            <g:if test="${rqt.stepStates['calculationElements'].state != 'unavailable'}">
+            <g:if test="${currentStep != 'calculationElements' && rqt.stepStates['calculationElements'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'calculationElements'])}"
             </g:if>
           >
@@ -210,7 +210,7 @@
           ">
           <span class="number">6</span>
           <a
-            <g:if test="${rqt.stepStates['bankReference'].state != 'unavailable'}">
+            <g:if test="${currentStep != 'bankReference' && rqt.stepStates['bankReference'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'bankReference'])}"
             </g:if>
           >
@@ -236,7 +236,7 @@
           ">
           <span class="number">7</span>
           <a
-            <g:if test="${rqt.stepStates['document'].state != 'unavailable'}">
+            <g:if test="${currentStep != 'document' && rqt.stepStates['document'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}"
             </g:if>
           >
@@ -262,7 +262,7 @@
           ">
           <span class="number"></span>
           <a
-            <g:if test="${rqt.stepStates['validation'].state != 'unavailable'}">
+            <g:if test="${currentStep != 'validation' && rqt.stepStates['validation'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'validation'])}"
             </g:if>
           >

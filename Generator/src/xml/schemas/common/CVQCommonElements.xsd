@@ -2257,10 +2257,10 @@
         <xs:simpleType>
           <xs:annotation>
             <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-              Etape associée à la demande
+              Étape associée à la demande
             </xs:documentation>
             <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-              Etape
+              Étape
             </xs:documentation>
             <xs:documentation xml:lang="fr"
               source="http://www.cg95.fr/cvq/schema/translation/enum">

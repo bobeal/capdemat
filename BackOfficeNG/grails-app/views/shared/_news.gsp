@@ -121,7 +121,7 @@
 <ul>
   <li>TS Compensation du handicap</li>
   <li>TS Téléassistance</li>
-  <li>Etape de gestion des pièces justificatives</li>
+  <li>Étape de gestion des pièces justificatives</li>
   <li>Page de présentation des services disponibles</li>
   <li>Branchement des fichiers d'aides et de mentions légales</li>
   <li>Diverses corrections et améliorations de présentation</li>

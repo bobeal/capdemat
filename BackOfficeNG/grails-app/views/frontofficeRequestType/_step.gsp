@@ -22,7 +22,7 @@
          <p>${message(code:'request.meansOfContact.message.notAvailable')}</p>
        </g:else>
        <div class="summary-box">
-      <g:render template="/frontofficeRequestType/${requestTypeLabelAsDir}/validation0" />
+      <g:render template="/frontofficeRequestType/${requestTypeLabelAsDir}/summary" />
       </div>
       <h3>${message(code:'request.step.note.label')}</h3>
       <label for="requestNote">${message(code:'request.step.note.desc')}</label>

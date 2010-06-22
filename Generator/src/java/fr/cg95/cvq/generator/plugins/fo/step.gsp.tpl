@@ -289,25 +289,33 @@
 
 <% elementList.each { element -> %>
   <% if (element.typeClass == "COLLECTION") { %>
-    <label class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> <span><g:message code="${element.i18nPrefixCode}.help" /></span></label>
     <div class="collection ${element.listenerConditionsClass} summary-box">
-    <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':(rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0)])}" />
-      \${message(code:'request.action.newCollectionItem')}
-    </a>
+      <h4 class="${element.listenerConditionsClass}"><g:message code="${element.i18nPrefixCode}.label" /> 
+        <span><g:message code="${element.i18nPrefixCode}.help" /></span>
+      </h4>
+      <p>
+        <g:message code="request.message.howToAddCollectionItem" />
+        <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':(rqt.${element.javaFieldName} ? rqt.${element.javaFieldName}.size() : 0)])}" style="font-size:1.3em;" />
+          \${message(code:'request.action.newCollectionItem')}
+        </a>
+      </p>
     <g:each var="it" in="\${rqt.${element.javaFieldName}}" status="index">
       <div class="item">
         <dl>
+        <dt class="head"><g:message code="${element.i18nPrefixCode}.label" /> : \${index + 1}</dt>
+        <dd class="head">
+          <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':index])}">
+           \${message(code:'request.action.editCollectionItem')}
+         </a>&nbsp;
+         <a href="\${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':index])}">
+           \${message(code:'request.action.deleteCollectionItem')}
+         </a>
+        </dd>
     <% element.elements.each { subElement -> %>
         <dt><g:message code="${subElement.i18nPrefixCode}.label" /></dt>
         <% displayStaticWidget(subElement, 'it', element.javaFieldName + "[' + index + '].") %>
     <% } %>
         </dl>
-         <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':index])}">
-           \${message(code:'request.action.editCollectionItem')}
-         </a>
-         <a href="\${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'${step.name}', 'currentCollection':'${element.javaFieldName}', 'collectionIndex':index])}">
-           \${message(code:'request.action.deleteCollectionItem')}
-         </a>
       </div>
     </g:each>
     </div>

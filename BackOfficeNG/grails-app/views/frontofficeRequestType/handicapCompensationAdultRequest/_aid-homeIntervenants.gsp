@@ -1,7 +1,16 @@
 
-
-  <h4>${message(code:'hcar.property.homeIntervenants.label')}<span>${message(code:'hcar.property.homeIntervenants.help')}</span></h4>
   <g:set var="currentCollectionItem" value="${rqt?.homeIntervenants.size() > collectionIndex ? rqt.homeIntervenants.get(collectionIndex) : null}" />
+  <h4>
+    ${message(code:'hcar.property.homeIntervenants.label')}
+    <span>
+      <g:if test="${currentCollectionItem != null}">
+        ${message(code:'request.message.editCollectionItem', args:[collectionIndex + 1])}
+      </g:if>
+      <g:else>
+        ${message(code:'request.message.addCollectionItem')}
+      </g:else>
+    </span>
+  </h4>
   
     <label for="homeIntervenants.${collectionIndex}.homeIntervenantKind" class="required"><g:message code="hcar.property.homeIntervenantKind.label" /> *  <span><g:message code="hcar.property.homeIntervenantKind.help" /></span></label>
             <select id="homeIntervenants.${collectionIndex}.homeIntervenantKind" name="homeIntervenants[${collectionIndex}].homeIntervenantKind" class="required condition-isOtherHomeIntervant-trigger  validate-not-first ${rqt.stepStates['aid'].invalidFields.contains('homeIntervenants['+collectionIndex+'].homeIntervenantKind') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.homeIntervenantKind.validationError" />">
@@ -21,8 +30,8 @@
   
   <input type="hidden" name="currentCollection" value="${currentCollection}" />
   <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
-  <input type="submit" id="collectionSave" name="collectionSave" value="${message(code:'action.save')}" />
+  <input type="submit" id="collectionSave" name="collectionSave" value="${message(code:'action.' + (currentCollectionItem != null ? 'save' : 'add'))}" />
   <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'aid'])}">
-    ${message(code:'request.action.cancelCollectionItemEdit')}
+    ${message(code:'request.action.backToMainForm')}
   </a>
   

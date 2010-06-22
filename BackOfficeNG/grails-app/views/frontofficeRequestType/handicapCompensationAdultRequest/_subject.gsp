@@ -184,14 +184,28 @@
   
 
   
-    <label class="required condition-isFamilyDependents-filled"><g:message code="hcar.property.familyDependents.label" /> <span><g:message code="hcar.property.familyDependents.help" /></span></label>
     <div class="collection required condition-isFamilyDependents-filled summary-box">
-    <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'subject', 'currentCollection':'familyDependents', 'collectionIndex':(rqt.familyDependents ? rqt.familyDependents.size() : 0)])}" />
-      ${message(code:'request.action.newCollectionItem')}
-    </a>
+      <h4 class="required condition-isFamilyDependents-filled"><g:message code="hcar.property.familyDependents.label" /> 
+        <span><g:message code="hcar.property.familyDependents.help" /></span>
+      </h4>
+      <p>
+        <g:message code="request.message.howToAddCollectionItem" />
+        <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'subject', 'currentCollection':'familyDependents', 'collectionIndex':(rqt.familyDependents ? rqt.familyDependents.size() : 0)])}" style="font-size:1.3em;" />
+          ${message(code:'request.action.newCollectionItem')}
+        </a>
+      </p>
     <g:each var="it" in="${rqt.familyDependents}" status="index">
       <div class="item">
         <dl>
+        <dt class="head"><g:message code="hcar.property.familyDependents.label" /> : ${index + 1}</dt>
+        <dd class="head">
+          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'subject', 'currentCollection':'familyDependents', 'collectionIndex':index])}">
+           ${message(code:'request.action.editCollectionItem')}
+         </a>&nbsp;
+         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'subject', 'currentCollection':'familyDependents', 'collectionIndex':index])}">
+           ${message(code:'request.action.deleteCollectionItem')}
+         </a>
+        </dd>
     
         <dt><g:message code="hcar.property.familyDependentLastName.label" /></dt>
         <dd class="${rqt.stepStates['subject'].invalidFields.contains('familyDependents[' + index + '].familyDependentLastName') ? 'validation-failed' : ''}">${it.familyDependentLastName?.toString()}</dd>
@@ -212,12 +226,6 @@
               
     
         </dl>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'subject', 'currentCollection':'familyDependents', 'collectionIndex':index])}">
-           ${message(code:'request.action.editCollectionItem')}
-         </a>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'subject', 'currentCollection':'familyDependents', 'collectionIndex':index])}">
-           ${message(code:'request.action.deleteCollectionItem')}
-         </a>
       </div>
     </g:each>
     </div>

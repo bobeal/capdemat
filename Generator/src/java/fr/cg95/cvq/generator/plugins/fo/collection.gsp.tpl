@@ -140,16 +140,25 @@
       println output
   }
 %>
-
-  <h4>\${message(code:'${element.i18nPrefixCode}.label')}<span>\${message(code:'${element.i18nPrefixCode}.help')}</span></h4>
   <g:set var="currentCollectionItem" value="\${rqt?.${element.javaFieldName}.size() > collectionIndex ? rqt.${element.javaFieldName}.get(collectionIndex) : null}" />
+  <h4>
+    \${message(code:'${element.i18nPrefixCode}.label')}
+    <span>
+      <g:if test="\${currentCollectionItem != null}">
+        \${message(code:'request.message.editCollectionItem', args:[collectionIndex + 1])}
+      </g:if>
+      <g:else>
+        \${message(code:'request.message.addCollectionItem')}
+      </g:else>
+    </span>
+  </h4>
   <% element.elements.each { subElement -> %>
     <% displayWidget(subElement, 'currentCollectionItem?', element.javaFieldName + '[${collectionIndex}].' ) %>
   <% } %>
   <input type="hidden" name="currentCollection" value="\${currentCollection}" />
   <input type="hidden" name="collectionIndex" value="\${collectionIndex}" />
-  <input type="submit" id="collectionSave" name="collectionSave" value="\${message(code:'action.save')}" />
+  <input type="submit" id="collectionSave" name="collectionSave" value="\${message(code:'action.' + (currentCollectionItem != null ? 'save' : 'add'))}" />
   <a href="\${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': '${step.name}'])}">
-    \${message(code:'request.action.cancelCollectionItemEdit')}
+    \${message(code:'request.action.backToMainForm')}
   </a>
   

@@ -21,14 +21,28 @@
   
 
   
-    <label class="required condition-isFamilyAssistance-filled"><g:message code="hcar.property.familyAssistanceMembers.label" /> <span><g:message code="hcar.property.familyAssistanceMembers.help" /></span></label>
     <div class="collection required condition-isFamilyAssistance-filled summary-box">
-    <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'familyAssistanceMembers', 'collectionIndex':(rqt.familyAssistanceMembers ? rqt.familyAssistanceMembers.size() : 0)])}" />
-      ${message(code:'request.action.newCollectionItem')}
-    </a>
+      <h4 class="required condition-isFamilyAssistance-filled"><g:message code="hcar.property.familyAssistanceMembers.label" /> 
+        <span><g:message code="hcar.property.familyAssistanceMembers.help" /></span>
+      </h4>
+      <p>
+        <g:message code="request.message.howToAddCollectionItem" />
+        <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'familyAssistanceMembers', 'collectionIndex':(rqt.familyAssistanceMembers ? rqt.familyAssistanceMembers.size() : 0)])}" style="font-size:1.3em;" />
+          ${message(code:'request.action.newCollectionItem')}
+        </a>
+      </p>
     <g:each var="it" in="${rqt.familyAssistanceMembers}" status="index">
       <div class="item">
         <dl>
+        <dt class="head"><g:message code="hcar.property.familyAssistanceMembers.label" /> : ${index + 1}</dt>
+        <dd class="head">
+          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'familyAssistanceMembers', 'collectionIndex':index])}">
+           ${message(code:'request.action.editCollectionItem')}
+         </a>&nbsp;
+         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'familyAssistanceMembers', 'collectionIndex':index])}">
+           ${message(code:'request.action.deleteCollectionItem')}
+         </a>
+        </dd>
     
         <dt><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /></dt>
         <dd class="${rqt.stepStates['aid'].invalidFields.contains('familyAssistanceMembers[' + index + '].familyAssistanceMemberRelationship') ? 'validation-failed' : ''}">${it.familyAssistanceMemberRelationship?.toString()}</dd>
@@ -40,12 +54,6 @@
         <dd class="${rqt.stepStates['aid'].invalidFields.contains('familyAssistanceMembers[' + index + '].familyAssistanceMemberFirstName') ? 'validation-failed' : ''}">${it.familyAssistanceMemberFirstName?.toString()}</dd>
     
         </dl>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'familyAssistanceMembers', 'collectionIndex':index])}">
-           ${message(code:'request.action.editCollectionItem')}
-         </a>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'familyAssistanceMembers', 'collectionIndex':index])}">
-           ${message(code:'request.action.deleteCollectionItem')}
-         </a>
       </div>
     </g:each>
     </div>
@@ -71,14 +79,28 @@
   
 
   
-    <label class="condition-isHomeIntervenant-filled"><g:message code="hcar.property.homeIntervenants.label" /> <span><g:message code="hcar.property.homeIntervenants.help" /></span></label>
     <div class="collection condition-isHomeIntervenant-filled summary-box">
-    <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'homeIntervenants', 'collectionIndex':(rqt.homeIntervenants ? rqt.homeIntervenants.size() : 0)])}" />
-      ${message(code:'request.action.newCollectionItem')}
-    </a>
+      <h4 class="condition-isHomeIntervenant-filled"><g:message code="hcar.property.homeIntervenants.label" /> 
+        <span><g:message code="hcar.property.homeIntervenants.help" /></span>
+      </h4>
+      <p>
+        <g:message code="request.message.howToAddCollectionItem" />
+        <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'homeIntervenants', 'collectionIndex':(rqt.homeIntervenants ? rqt.homeIntervenants.size() : 0)])}" style="font-size:1.3em;" />
+          ${message(code:'request.action.newCollectionItem')}
+        </a>
+      </p>
     <g:each var="it" in="${rqt.homeIntervenants}" status="index">
       <div class="item">
         <dl>
+        <dt class="head"><g:message code="hcar.property.homeIntervenants.label" /> : ${index + 1}</dt>
+        <dd class="head">
+          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'homeIntervenants', 'collectionIndex':index])}">
+           ${message(code:'request.action.editCollectionItem')}
+         </a>&nbsp;
+         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'homeIntervenants', 'collectionIndex':index])}">
+           ${message(code:'request.action.deleteCollectionItem')}
+         </a>
+        </dd>
     
         <dt><g:message code="hcar.property.homeIntervenantKind.label" /></dt>
         
@@ -93,12 +115,6 @@
         <dd class="${rqt.stepStates['aid'].invalidFields.contains('homeIntervenants[' + index + '].homeIntervenantDetails') ? 'validation-failed' : ''}">${it.homeIntervenantDetails?.toString()}</dd>
     
         </dl>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'homeIntervenants', 'collectionIndex':index])}">
-           ${message(code:'request.action.editCollectionItem')}
-         </a>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'homeIntervenants', 'collectionIndex':index])}">
-           ${message(code:'request.action.deleteCollectionItem')}
-         </a>
       </div>
     </g:each>
     </div>
@@ -124,14 +140,28 @@
   
 
   
-    <label class="required condition-isCareServices-filled"><g:message code="hcar.property.careServices.label" /> <span><g:message code="hcar.property.careServices.help" /></span></label>
     <div class="collection required condition-isCareServices-filled summary-box">
-    <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'careServices', 'collectionIndex':(rqt.careServices ? rqt.careServices.size() : 0)])}" />
-      ${message(code:'request.action.newCollectionItem')}
-    </a>
+      <h4 class="required condition-isCareServices-filled"><g:message code="hcar.property.careServices.label" /> 
+        <span><g:message code="hcar.property.careServices.help" /></span>
+      </h4>
+      <p>
+        <g:message code="request.message.howToAddCollectionItem" />
+        <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'careServices', 'collectionIndex':(rqt.careServices ? rqt.careServices.size() : 0)])}" style="font-size:1.3em;" />
+          ${message(code:'request.action.newCollectionItem')}
+        </a>
+      </p>
     <g:each var="it" in="${rqt.careServices}" status="index">
       <div class="item">
         <dl>
+        <dt class="head"><g:message code="hcar.property.careServices.label" /> : ${index + 1}</dt>
+        <dd class="head">
+          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'careServices', 'collectionIndex':index])}">
+           ${message(code:'request.action.editCollectionItem')}
+         </a>&nbsp;
+         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'careServices', 'collectionIndex':index])}">
+           ${message(code:'request.action.deleteCollectionItem')}
+         </a>
+        </dd>
     
         <dt><g:message code="hcar.property.careServiceKind.label" /></dt>
         <dd class="${rqt.stepStates['aid'].invalidFields.contains('careServices[' + index + '].careServiceKind') ? 'validation-failed' : ''}">${it.careServiceKind?.toString()}</dd>
@@ -157,12 +187,6 @@
               
     
         </dl>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'careServices', 'collectionIndex':index])}">
-           ${message(code:'request.action.editCollectionItem')}
-         </a>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'careServices', 'collectionIndex':index])}">
-           ${message(code:'request.action.deleteCollectionItem')}
-         </a>
       </div>
     </g:each>
     </div>
@@ -297,14 +321,28 @@
   
 
   
-    <label class="condition-isProfessionals-filled"><g:message code="hcar.property.professionals.label" /> <span><g:message code="hcar.property.professionals.help" /></span></label>
     <div class="collection condition-isProfessionals-filled summary-box">
-    <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'professionals', 'collectionIndex':(rqt.professionals ? rqt.professionals.size() : 0)])}" />
-      ${message(code:'request.action.newCollectionItem')}
-    </a>
+      <h4 class="condition-isProfessionals-filled"><g:message code="hcar.property.professionals.label" /> 
+        <span><g:message code="hcar.property.professionals.help" /></span>
+      </h4>
+      <p>
+        <g:message code="request.message.howToAddCollectionItem" />
+        <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'professionals', 'collectionIndex':(rqt.professionals ? rqt.professionals.size() : 0)])}" style="font-size:1.3em;" />
+          ${message(code:'request.action.newCollectionItem')}
+        </a>
+      </p>
     <g:each var="it" in="${rqt.professionals}" status="index">
       <div class="item">
         <dl>
+        <dt class="head"><g:message code="hcar.property.professionals.label" /> : ${index + 1}</dt>
+        <dd class="head">
+          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'professionals', 'collectionIndex':index])}">
+           ${message(code:'request.action.editCollectionItem')}
+         </a>&nbsp;
+         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'professionals', 'collectionIndex':index])}">
+           ${message(code:'request.action.deleteCollectionItem')}
+         </a>
+        </dd>
     
         <dt><g:message code="hcar.property.professionalLastName.label" /></dt>
         <dd class="${rqt.stepStates['aid'].invalidFields.contains('professionals[' + index + '].professionalLastName') ? 'validation-failed' : ''}">${it.professionalLastName?.toString()}</dd>
@@ -327,12 +365,6 @@
               
     
         </dl>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'professionals', 'collectionIndex':index])}">
-           ${message(code:'request.action.editCollectionItem')}
-         </a>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'aid', 'currentCollection':'professionals', 'collectionIndex':index])}">
-           ${message(code:'request.action.deleteCollectionItem')}
-         </a>
       </div>
     </g:each>
     </div>

@@ -2,14 +2,28 @@
 
 
   
-    <label class=""><g:message code="parr.property.authorizedIndividuals.label" /> <span><g:message code="parr.property.authorizedIndividuals.help" /></span></label>
     <div class="collection  summary-box">
-    <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'authorization', 'currentCollection':'authorizedIndividuals', 'collectionIndex':(rqt.authorizedIndividuals ? rqt.authorizedIndividuals.size() : 0)])}" />
-      ${message(code:'request.action.newCollectionItem')}
-    </a>
+      <h4 class=""><g:message code="parr.property.authorizedIndividuals.label" /> 
+        <span><g:message code="parr.property.authorizedIndividuals.help" /></span>
+      </h4>
+      <p>
+        <g:message code="request.message.howToAddCollectionItem" />
+        <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'authorization', 'currentCollection':'authorizedIndividuals', 'collectionIndex':(rqt.authorizedIndividuals ? rqt.authorizedIndividuals.size() : 0)])}" style="font-size:1.3em;" />
+          ${message(code:'request.action.newCollectionItem')}
+        </a>
+      </p>
     <g:each var="it" in="${rqt.authorizedIndividuals}" status="index">
       <div class="item">
         <dl>
+        <dt class="head"><g:message code="parr.property.authorizedIndividuals.label" /> : ${index + 1}</dt>
+        <dd class="head">
+          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'authorization', 'currentCollection':'authorizedIndividuals', 'collectionIndex':index])}">
+           ${message(code:'request.action.editCollectionItem')}
+         </a>&nbsp;
+         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'authorization', 'currentCollection':'authorizedIndividuals', 'collectionIndex':index])}">
+           ${message(code:'request.action.deleteCollectionItem')}
+         </a>
+        </dd>
     
         <dt><g:message code="parr.property.lastName.label" /></dt>
         <dd class="${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals[' + index + '].lastName') ? 'validation-failed' : ''}">${it.lastName?.toString()}</dd>
@@ -38,12 +52,6 @@
         <dd class="${rqt.stepStates['authorization'].invalidFields.contains('authorizedIndividuals[' + index + '].officePhone') ? 'validation-failed' : ''}">${it.officePhone?.toString()}</dd>
     
         </dl>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'authorization', 'currentCollection':'authorizedIndividuals', 'collectionIndex':index])}">
-           ${message(code:'request.action.editCollectionItem')}
-         </a>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'authorization', 'currentCollection':'authorizedIndividuals', 'collectionIndex':index])}">
-           ${message(code:'request.action.deleteCollectionItem')}
-         </a>
       </div>
     </g:each>
     </div>

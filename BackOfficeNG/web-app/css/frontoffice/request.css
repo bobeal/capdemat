@@ -93,7 +93,9 @@
 #request h3 span       { display: block; font-size: .75em; }
 #request h3 span.error { margin: 0; padding: 0; text-align: right; }
 #request h3 .tag-state { float: right; }
-#request h4 { margin: 1em 0 ; font-size: 1.3em; font-style: italic; }
+
+#request h4      { margin: 1em 0 ; font-size: 1.3em; font-style: italic; }
+#request h4 span { display: block; font-size: .8em; }
 
 #request form div label {
   width: 80%; display: block;
@@ -118,6 +120,9 @@
   color: #095ba6;
 } 
 
+/* validation screen
+-------------------------------------------------------------- */
+#request .summary-box p { margin: 0; }
 
 /* tree
 -------------------------------------------------------------- */
@@ -153,9 +158,10 @@
 #request .address input[type="text"].line1 { display: inline; width: 15%; }
 #request .address input[type="text"].line2 { display: inline; width: 82%; }
 
-#request .collection  { padding: 1em 0; }
-
-#request .summary-box p { margin: 0; }
+#request .collection h4  { margin-bottom: .5em; }
+#request .collection p   { margin: 0 0 1em; padding: 0 }
+#request .collection dt.head { font-weight: bold; font-style: italic; }
+#request .collection dd.head { text-align: right; }
 
 #request .date input.year,
 #request .date select.day,

@@ -93,14 +93,28 @@
   
 
   
-    <label class="condition-isOtherFolders-filled"><g:message code="hccr.property.otherFolders.label" /> <span><g:message code="hccr.property.otherFolders.help" /></span></label>
     <div class="collection condition-isOtherFolders-filled summary-box">
-    <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'folders', 'currentCollection':'otherFolders', 'collectionIndex':(rqt.otherFolders ? rqt.otherFolders.size() : 0)])}" />
-      ${message(code:'request.action.newCollectionItem')}
-    </a>
+      <h4 class="condition-isOtherFolders-filled"><g:message code="hccr.property.otherFolders.label" /> 
+        <span><g:message code="hccr.property.otherFolders.help" /></span>
+      </h4>
+      <p>
+        <g:message code="request.message.howToAddCollectionItem" />
+        <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'folders', 'currentCollection':'otherFolders', 'collectionIndex':(rqt.otherFolders ? rqt.otherFolders.size() : 0)])}" style="font-size:1.3em;" />
+          ${message(code:'request.action.newCollectionItem')}
+        </a>
+      </p>
     <g:each var="it" in="${rqt.otherFolders}" status="index">
       <div class="item">
         <dl>
+        <dt class="head"><g:message code="hccr.property.otherFolders.label" /> : ${index + 1}</dt>
+        <dd class="head">
+          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'folders', 'currentCollection':'otherFolders', 'collectionIndex':index])}">
+           ${message(code:'request.action.editCollectionItem')}
+         </a>&nbsp;
+         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'folders', 'currentCollection':'otherFolders', 'collectionIndex':index])}">
+           ${message(code:'request.action.deleteCollectionItem')}
+         </a>
+        </dd>
     
         <dt><g:message code="hccr.property.otherFolderName.label" /></dt>
         <dd class="${rqt.stepStates['folders'].invalidFields.contains('otherFolders[' + index + '].otherFolderName') ? 'validation-failed' : ''}">${it.otherFolderName?.toString()}</dd>
@@ -112,12 +126,6 @@
         <dd class="${rqt.stepStates['folders'].invalidFields.contains('otherFolders[' + index + '].otherFolderDepartment') ? 'validation-failed' : ''}">${it.otherFolderDepartment?.toString()}</dd>
     
         </dl>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id':rqt.id, 'currentStep':'folders', 'currentCollection':'otherFolders', 'collectionIndex':index])}">
-           ${message(code:'request.action.editCollectionItem')}
-         </a>
-         <a href="${createLink(controller : 'frontofficeRequest', action : 'collectionRemove', params:['id':rqt.id, 'currentStep':'folders', 'currentCollection':'otherFolders', 'collectionIndex':index])}">
-           ${message(code:'request.action.deleteCollectionItem')}
-         </a>
       </div>
     </g:each>
     </div>

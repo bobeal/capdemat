@@ -1,7 +1,16 @@
 
-
-  <h4>${message(code:'hcar.property.familyAssistanceMembers.label')}<span>${message(code:'hcar.property.familyAssistanceMembers.help')}</span></h4>
   <g:set var="currentCollectionItem" value="${rqt?.familyAssistanceMembers.size() > collectionIndex ? rqt.familyAssistanceMembers.get(collectionIndex) : null}" />
+  <h4>
+    ${message(code:'hcar.property.familyAssistanceMembers.label')}
+    <span>
+      <g:if test="${currentCollectionItem != null}">
+        ${message(code:'request.message.editCollectionItem', args:[collectionIndex + 1])}
+      </g:if>
+      <g:else>
+        ${message(code:'request.message.addCollectionItem')}
+      </g:else>
+    </span>
+  </h4>
   
     <label for="familyAssistanceMembers.${collectionIndex}.familyAssistanceMemberRelationship" class="required"><g:message code="hcar.property.familyAssistanceMemberRelationship.label" /> *  <span><g:message code="hcar.property.familyAssistanceMemberRelationship.help" /></span></label>
             <input type="text" id="familyAssistanceMembers.${collectionIndex}.familyAssistanceMemberRelationship" name="familyAssistanceMembers[${collectionIndex}].familyAssistanceMemberRelationship" value="${currentCollectionItem?.familyAssistanceMemberRelationship?.toString()}" 
@@ -23,8 +32,8 @@
   
   <input type="hidden" name="currentCollection" value="${currentCollection}" />
   <input type="hidden" name="collectionIndex" value="${collectionIndex}" />
-  <input type="submit" id="collectionSave" name="collectionSave" value="${message(code:'action.save')}" />
+  <input type="submit" id="collectionSave" name="collectionSave" value="${message(code:'action.' + (currentCollectionItem != null ? 'save' : 'add'))}" />
   <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params:['id': rqt.id, 'currentStep': 'aid'])}">
-    ${message(code:'request.action.cancelCollectionItemEdit')}
+    ${message(code:'request.action.backToMainForm')}
   </a>
   

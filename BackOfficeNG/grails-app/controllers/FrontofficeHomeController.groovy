@@ -116,7 +116,7 @@ class FrontofficeHomeController {
                     'groups': requestTypeAdaptorService.getDisplayGroups(null)]
         } else {
             flash.errorMessage = message(code : error)
-            redirect(controller : "frontofficeHomeFolder", action : "create", params : ["id" : params.id, "requestTypeLabel" : params.requestTypeLabel])
+            redirect(controller : "frontofficeRequest", action : "login", params : ["id" : params.id, "requestTypeLabel" : params.requestTypeLabel])
             return false
         }
     }

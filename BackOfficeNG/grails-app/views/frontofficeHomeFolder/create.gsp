@@ -7,36 +7,6 @@
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
   </head>
   <body>
-    <g:if test="${flash.errorMessage}">
-      <div class="error-box">
-        <p>${flash.errorMessage}</p>
-      </div>
-    </g:if>
-    <div class="main-box data-detail">
-      <h2>${message(code:'account.message.useAccountToFillRequest')}</h2>
-      <div class="yui-gb">
-        <form action="${createLink(controller : 'frontofficeHome', action : 'login')}" method="post">
-          <input type="hidden" name="requestTypeLabel" value="${params.requestTypeLabel}" />
-          <div class="yui-u first">
-            <label class="required">
-              <g:message code="homeFolder.adult.property.login" />
-              <input type="text" name="login" value="" class="required"
-                title="<g:message code="homeFolder.adult.property.login.validationError" />" />
-            </label>
-          </div>
-          <div class="yui-u">
-            <label class="required">
-              <g:message code="homeFolder.adult.property.password" />
-              <input type="password" name="password" value="" class="required"
-                title="<g:message code="homeFolder.adult.property.password.validationError" />" />
-            </label>
-          </div>
-          <div class="yui-u">
-            <input type="submit" value="${message(code:'action.login')}" />
-          </div>
-        </form>
-      </div>
-    </div>
     <g:if test="${invalidFields && !invalidFields.isEmpty()}">
       <div class="error-box">
         <p><g:message code="form.error.invalidFields" /></p>

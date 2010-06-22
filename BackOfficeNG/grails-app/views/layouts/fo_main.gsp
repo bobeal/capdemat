@@ -43,26 +43,6 @@
          <img src="${createLink(controller : 'localAuthorityResource', action : 'resource', id : 'logoFo')}"
               alt="Logo Collectivité" />
        </h1>
-       <g:if test="${isLogin && session.accountCreationEnabled}">
-         <div class="information-box outOfAccount-login-box">
-            <div class="yui-gc">
-              <div class="yui-u first">
-                <p>En créant un compte, vous avez la possibilité de:</p>
-                <ul>
-                  <li>gérer vos données administratives et déclarer les membres de votre foyer,</li>
-                  <li>accéder à des démarches en ligne pour vous ou un membre de votre foyer,</li>
-                  <li>suivre l'avancement de vos demandes.</li>
-                </ul>
-              </div>
-              <div class="yui-u">
-                <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':'VO Card'])}"
-                   style="font-size: 1.7em;">
-                  Je souhaite créer mon compte
-                </a>
-              </div>
-            </div>
-          </div>
-       </g:if>
      </div>
      <g:render template="/shared/menus/menu_${session.frontContext ? session.frontContext.toString().toLowerCase() : 'unauth_ecitizen' }"/>
      

@@ -81,14 +81,17 @@ class FrontofficeRequestController {
         ]);
     }
 
+    def login = {
+        return true
+    }
+
     def edit = {
         if (params.label == null && params.id == null) {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
         if (SecurityContext.currentEcitizen == null) {
-            redirect(controller : "frontofficeHomeFolder", action : "create",
-                params : ["requestTypeLabel" : params.label])
+            redirect(action : "login", params : ["requestTypeLabel" : params.label])
             return false
         }
         Request rqt

@@ -28,8 +28,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
       fields : undefined,
       init : function() {
         reset();
-        yue.on('requestTabView', 'change', zcf.Autofill.fill, zcf.Autofill, true);
-        yue.on('requestTabView', 'click', zcf.Autofill.fill, zcf.Autofill, true);
+        yue.on('stepForm', 'change', zcf.Autofill.fill, zcf.Autofill, true);
+        yue.on('stepForm', 'click', zcf.Autofill.fill, zcf.Autofill, true);
       },
       fill : function(e) {
         if(e) {
@@ -46,7 +46,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong');
           zct.val(yud.get("triggerName"), target.name);
           zct.val(yud.get("triggerValue"), zct.val(target));
           var regexp = new RegExp("autofill-" + trigger[1] + "-listener-(\\w+)", "i");
-          zct.each(yus.query('#requestTabView [name], #requestTabView div [class]'), function() {
+          zct.each(yus.query('#stepForm [name], #stepForm div [class]'), function() {
             var listener = regexp.exec(this.className);
             if (listener) {
               if (zct.inArray(this.tagName, ["INPUT", "SELECT", "TEXTAREA"]) == -1) {

@@ -1,6 +1,6 @@
 <g:if test="${currentStep == 'validation'}">
   <div id="validation">
-   <form method="post" id="stepForm-validation" action="${createLink(action:'edit')}" class="${rqt.stepStates[currentStep]?.state}">
+   <form method="post" id="stepForm" action="${createLink(action:'edit')}" class="${rqt.stepStates[currentStep]?.state}">
      <h3>
        ${message(code:'request.step.validation.label')}
        <span>${message(code:'request.step.validation.desc')}</span>
@@ -40,7 +40,7 @@
         </a>
       </div>
      </div>
-     <div class="error" id="stepForm-${currentStep}-error"> </div>
+     <div class="error" id="stepForm-error"> </div>
      <input type="hidden" name="returnUrl" value="${returnUrl}" />
      <input type="hidden" name="id" value="${rqt.id}" />
      <input type="hidden" name="currentStep" value="validation" />
@@ -58,7 +58,7 @@
 
 <g:elseif test="${currentStep == 'document'}">
   <div id="document">
-    <form method="post" id="stepForm-${currentStep}" enctype="multipart/form-data" action="${createLink(controller:'frontofficeRequest' + (documentType ? 'Document' : ''), action:'edit')}" class="${rqt.stepStates[currentStep].state}">
+    <form method="post" id="stepForm" enctype="multipart/form-data" action="${createLink(controller:'frontofficeRequest' + (documentType ? 'Document' : ''), action:'edit')}" class="${rqt.stepStates[currentStep].state}">
       <h3>
         ${message(code:'request.step.document.label')}
         <span>${message(code:'request.step.document.desc')}</span>
@@ -67,7 +67,7 @@
       <p class="required-fields-notice">${message(code:'request.message.requiredFieldsNotice')}</p>
       <div>
         <g:render template="/frontofficeRequestType/${documentType ? 'document' : 'documents'}" />  
-        <div class="error" id="stepForm-${currentStep}-error"> </div>
+        <div class="error" id="stepForm-error"> </div>
         <input type="hidden" name="returnUrl" value="${returnUrl}" />
         <input type="hidden" name="id" value="${rqt.id}" />
         <input type="hidden" name="currentStep" value="document" />
@@ -102,7 +102,7 @@
       </form>
     </g:if>
     <g:else>
-      <form method="post" id="stepForm-${currentStep}" action="${createLink(action:'edit')}" class="${rqt.stepStates[currentStep]?.state}">
+      <form method="post" id="stepForm" action="${createLink(action:'edit')}" class="${rqt.stepStates[currentStep]?.state}">
         <h3>
            ${message(code: requestTypeAcronym + '.step.' + currentStep + '.label')}
           <span>${message(code: requestTypeAcronym + '.step.' + currentStep + '.desc')}</span>
@@ -112,7 +112,7 @@
         <div>
          <g:render template="/frontofficeRequestType/${requestTypeLabelAsDir}/${currentStep}${currentCollection ? '-' + currentCollection : ''}" />
         </div>
-        <div class="error" id="stepForm-${currentStep}-error"> </div>
+        <div class="error" id="stepForm-error"> </div>
         <input type="hidden" name="returnUrl" value="${returnUrl}" />
         <input type="hidden" name="id" value="${rqt.id}" />
         <input type="hidden" name="currentStep" value="${currentStep}" />

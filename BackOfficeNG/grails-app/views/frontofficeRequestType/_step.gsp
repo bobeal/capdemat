@@ -44,7 +44,7 @@
      <input type="hidden" name="returnUrl" value="${returnUrl}" />
      <input type="hidden" name="id" value="${rqt.id}" />
      <input type="hidden" name="currentStep" value="validation" />
-     <input type="submit" id="send" name="send" style=" float:right; font-size: 1.8em;" value="${message(code:'action.send')}" ${missingSteps == null || missingSteps.size() > 0 ? 'disabled="disabled"': ''}/>
+     <input type="submit" id="send" name="send" style=" float:right; font-size: 1.8em;" value="${message(code:'action.send')}" />
      <input type="submit" id="previousStep" name="previousStep" value="${message(code:'request.action.previousStep')}" />
    </form>
    <g:if test="${helps.validation != null}">

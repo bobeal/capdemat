@@ -2,6 +2,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
 
 (function() {
 
+  var zc = zenexity.capdemat;
   var zcc = zenexity.capdemat.common;
   var zct = zenexity.capdemat.tools;
   var yue = YAHOO.util.Event;
@@ -23,7 +24,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         autocompletes[fieldsetId].streetName = new zcc.AutoComplete({
           inputId: fieldsetId + "_streetName",
           modalId: fieldsetId + "_streetName_autocomplete",
-          url: "/CapDemat/autocomplete/ways",
+          url: zc.contextPath + "/autocomplete/ways",
           idField: "matriculation",
           minimumChars: 2,
           resultText: function(result) {
@@ -41,7 +42,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         autocompletes[fieldsetId].city = new zcc.AutoComplete({
           inputId: fieldsetId + "_city",
           modalId: fieldsetId + "_city_autocomplete",
-          url: "/CapDemat/autocomplete/cities",
+          url: zc.contextPath + "/autocomplete/cities",
           idField: "inseeCode",
           resultText: function(result) {
             return result.postalCode + " " + result.name;
@@ -62,7 +63,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         autocompletes[fieldsetId].postalCode = new zcc.AutoComplete({
           inputId: fieldsetId + "_postalCode",
           modalId: fieldsetId + "_postalCode_autocomplete",
-          url: "/CapDemat/autocomplete/cities",
+          url: zc.contextPath + "/autocomplete/cities",
           urlParams: { postalCode: true },
           idField: "inseeCode",
           minimumChars: 2,
@@ -115,7 +116,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
       bind: autocompleteBind,
       unbind: autocompleteUnbind,
       init: function() {
-        yuc.asyncRequest("GET", "/CapDemat/autocomplete/tokenValidity", {
+        yuc.asyncRequest("GET", zc.contextPath + "/autocomplete/tokenValidity", {
           success: function() {
             isActive = true;
             autocompleteBind();

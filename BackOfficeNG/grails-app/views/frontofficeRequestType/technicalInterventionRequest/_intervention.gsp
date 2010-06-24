@@ -21,7 +21,7 @@
 
   
     <label class="required"><g:message code="tir.property.interventionPlace.label" /> *  <span><g:message code="tir.property.interventionPlace.help" /></span></label>
-            <div class="address-fieldset required  ${stepStates != null && stepStates['intervention']?.invalidFields.contains('interventionPlace') ? 'validation-failed' : ''}">
+            <div id="interventionPlace" class="address-fieldset required  ${stepStates != null && stepStates['intervention']?.invalidFields.contains('interventionPlace') ? 'validation-failed' : ''}">
             <label for="interventionPlace.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['intervention']?.invalidFields.contains('interventionPlace.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.interventionPlace?.additionalDeliveryInformation}" maxlength="38" id="interventionPlace.additionalDeliveryInformation" name="interventionPlace.additionalDeliveryInformation" />  
             <label for="interventionPlace.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

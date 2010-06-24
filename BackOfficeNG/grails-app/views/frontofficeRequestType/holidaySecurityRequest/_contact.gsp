@@ -19,7 +19,7 @@
 
   
     <label class="required"><g:message code="hsr.property.otherContactAddress.label" /> *  <span><g:message code="hsr.property.otherContactAddress.help" /></span></label>
-            <div class="address-fieldset required  ${stepStates != null && stepStates['contact']?.invalidFields.contains('otherContactAddress') ? 'validation-failed' : ''}">
+            <div id="otherContactAddress" class="address-fieldset required  ${stepStates != null && stepStates['contact']?.invalidFields.contains('otherContactAddress') ? 'validation-failed' : ''}">
             <label for="otherContactAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['contact']?.invalidFields.contains('otherContactAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.otherContactAddress?.additionalDeliveryInformation}" maxlength="38" id="otherContactAddress.additionalDeliveryInformation" name="otherContactAddress.additionalDeliveryInformation" />  
             <label for="otherContactAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

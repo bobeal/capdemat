@@ -28,7 +28,7 @@
 
     
       <label class="required condition-isSocialSecurityMemberShip-filled"><g:message code="hcar.property.socialSecurityAgencyAddress.label" /> *  <span><g:message code="hcar.property.socialSecurityAgencyAddress.help" /></span></label>
-            <div class="address-fieldset required condition-isSocialSecurityMemberShip-filled  ${stepStates != null && stepStates['socialSecurityAndPaymentAgency']?.invalidFields.contains('socialSecurityAgencyAddress') ? 'validation-failed' : ''}">
+            <div id="socialSecurityAgencyAddress" class="address-fieldset required condition-isSocialSecurityMemberShip-filled  ${stepStates != null && stepStates['socialSecurityAndPaymentAgency']?.invalidFields.contains('socialSecurityAgencyAddress') ? 'validation-failed' : ''}">
             <label for="socialSecurityAgencyAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['socialSecurityAndPaymentAgency']?.invalidFields.contains('socialSecurityAgencyAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.socialSecurityAgencyAddress?.additionalDeliveryInformation}" maxlength="38" id="socialSecurityAgencyAddress.additionalDeliveryInformation" name="socialSecurityAgencyAddress.additionalDeliveryInformation" />  
             <label for="socialSecurityAgencyAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
@@ -81,7 +81,7 @@
 
     
       <label class="required condition-isPaymentAgencyBeneficiary-filled"><g:message code="hcar.property.paymentAgencyAddress.label" /> *  <span><g:message code="hcar.property.paymentAgencyAddress.help" /></span></label>
-            <div class="address-fieldset required condition-isPaymentAgencyBeneficiary-filled  ${stepStates != null && stepStates['socialSecurityAndPaymentAgency']?.invalidFields.contains('paymentAgencyAddress') ? 'validation-failed' : ''}">
+            <div id="paymentAgencyAddress" class="address-fieldset required condition-isPaymentAgencyBeneficiary-filled  ${stepStates != null && stepStates['socialSecurityAndPaymentAgency']?.invalidFields.contains('paymentAgencyAddress') ? 'validation-failed' : ''}">
             <label for="paymentAgencyAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['socialSecurityAndPaymentAgency']?.invalidFields.contains('paymentAgencyAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.paymentAgencyAddress?.additionalDeliveryInformation}" maxlength="38" id="paymentAgencyAddress.additionalDeliveryInformation" name="paymentAgencyAddress.additionalDeliveryInformation" />  
             <label for="paymentAgencyAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

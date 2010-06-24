@@ -9,7 +9,6 @@ import net.sf.oval.constraint.NotNull;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import fr.cg95.cvq.xml.common.AddressType;
-import fr.cg95.cvq.xml.common.AddressType.StreetMatriculation;
 
 
 /**

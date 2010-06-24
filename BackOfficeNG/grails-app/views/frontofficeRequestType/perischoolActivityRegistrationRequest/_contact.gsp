@@ -20,7 +20,7 @@
 
     
         <label class="required"><g:message code="parr.property.address.label" /> *  <span><g:message code="parr.property.address.help" /></span></label>
-            <div class="address-fieldset required  ${stepStates != null && stepStates['contact']?.invalidFields.contains('contactIndividuals.address') ? 'validation-failed' : ''}">
+            <div id="contactIndividuals.${listIndex}.address" class="address-fieldset required  ${stepStates != null && stepStates['contact']?.invalidFields.contains('contactIndividuals.address') ? 'validation-failed' : ''}">
             <label for="contactIndividuals.${listIndex}.address.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['contact']?.invalidFields.contains('contactIndividuals.address.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${editList?.contactIndividuals?.address?.additionalDeliveryInformation}" maxlength="38" id="contactIndividuals.${listIndex}.address.additionalDeliveryInformation" name="contactIndividuals[${listIndex}].address.additionalDeliveryInformation" />  
             <label for="contactIndividuals.${listIndex}.address.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

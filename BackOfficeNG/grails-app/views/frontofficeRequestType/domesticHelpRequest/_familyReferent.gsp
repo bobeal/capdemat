@@ -30,7 +30,7 @@
 
     
       <label class="required condition-haveFamilyReferent-filled"><g:message code="dhr.property.dhrReferentAddress.label" /> *  <span><g:message code="dhr.property.dhrReferentAddress.help" /></span></label>
-            <div class="address-fieldset required condition-haveFamilyReferent-filled  ${stepStates != null && stepStates['familyReferent']?.invalidFields.contains('dhrReferentAddress') ? 'validation-failed' : ''}">
+            <div id="dhrReferentAddress" class="address-fieldset required condition-haveFamilyReferent-filled  ${stepStates != null && stepStates['familyReferent']?.invalidFields.contains('dhrReferentAddress') ? 'validation-failed' : ''}">
             <label for="dhrReferentAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['familyReferent']?.invalidFields.contains('dhrReferentAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.dhrReferentAddress?.additionalDeliveryInformation}" maxlength="38" id="dhrReferentAddress.additionalDeliveryInformation" name="dhrReferentAddress.additionalDeliveryInformation" />  
             <label for="dhrReferentAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

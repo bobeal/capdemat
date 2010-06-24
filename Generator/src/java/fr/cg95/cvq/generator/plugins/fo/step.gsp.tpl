@@ -36,7 +36,7 @@
             """
         ,'address' :
             """
-            <div class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass} \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
+            <div id="${IdRefNamePrefix}${element.javaFieldName}" class="address-fieldset ${element.listenerConditionsClass} ${element.autofillClass} \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}">
             <label for="${IdRefNamePrefix}${element.javaFieldName}.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('$validationNamePrefix${element.javaFieldName}.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="\${${valuePrefix}.${element.javaFieldName}?.additionalDeliveryInformation}" maxlength="38" id="${IdRefNamePrefix}${element.javaFieldName}.additionalDeliveryInformation" name="${namePrefix}${element.javaFieldName}.additionalDeliveryInformation" />  
             <label for="${IdRefNamePrefix}${element.javaFieldName}.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

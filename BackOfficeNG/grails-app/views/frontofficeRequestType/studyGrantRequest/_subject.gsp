@@ -17,7 +17,7 @@
 
     
       <label class="required"><g:message code="sgr.property.subjectAddress.label" /> *  <span><g:message code="sgr.property.subjectAddress.help" /></span></label>
-            <div class="address-fieldset required autofill-subjectFilling-listener-Adress ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectAddress') ? 'validation-failed' : ''}">
+            <div id="subjectAddress" class="address-fieldset required autofill-subjectFilling-listener-Adress ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectAddress') ? 'validation-failed' : ''}">
             <label for="subjectAddress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectAddress.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.subjectAddress?.additionalDeliveryInformation}" maxlength="38" id="subjectAddress.additionalDeliveryInformation" name="subjectAddress.additionalDeliveryInformation" />  
             <label for="subjectAddress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

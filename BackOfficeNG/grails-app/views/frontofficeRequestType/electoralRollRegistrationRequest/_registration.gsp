@@ -50,7 +50,7 @@
 
   
     <label class="required condition-isDirect-filled"><g:message code="errr.property.subjectAddressOutsideCity.label" /> *  <span><g:message code="errr.property.subjectAddressOutsideCity.help" /></span></label>
-            <div class="address-fieldset required condition-isDirect-filled  ${stepStates != null && stepStates['registration']?.invalidFields.contains('subjectAddressOutsideCity') ? 'validation-failed' : ''}">
+            <div id="subjectAddressOutsideCity" class="address-fieldset required condition-isDirect-filled  ${stepStates != null && stepStates['registration']?.invalidFields.contains('subjectAddressOutsideCity') ? 'validation-failed' : ''}">
             <label for="subjectAddressOutsideCity.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
             <input type="text" class="validate-addressLine38 ${stepStates != null && stepStates['registration']?.invalidFields.contains('subjectAddressOutsideCity.additionalDeliveryInformation') ? 'validation-failed' : ''}" value="${rqt.subjectAddressOutsideCity?.additionalDeliveryInformation}" maxlength="38" id="subjectAddressOutsideCity.additionalDeliveryInformation" name="subjectAddressOutsideCity.additionalDeliveryInformation" />  
             <label for="subjectAddressOutsideCity.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>

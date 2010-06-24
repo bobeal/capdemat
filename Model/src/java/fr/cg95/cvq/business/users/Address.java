@@ -215,7 +215,7 @@ public class Address implements fr.cg95.cvq.business.Historizable,Serializable,C
 
     /**
      * @hibernate.property
-     *  column="cityInseeCode"
+     *  column="city_insee_code"
      *  length="5"
      */
     public String getCityInseeCode() {

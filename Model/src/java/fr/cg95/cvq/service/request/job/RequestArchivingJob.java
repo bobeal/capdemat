@@ -85,7 +85,7 @@ public class RequestArchivingJob implements ApplicationContextAware {
                     criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
                         request.getId().toString(), Critere.EQUALS));
                     for (ExternalServiceTrace trace :
-                        externalService.getTraces(criteriaSet, null, null)) {
+                        externalService.getTraces(criteriaSet, null, null, 0, 0)) {
                         requestDAO.delete(trace);
                     }
                     String filename = translationService.translate("requestArchive.filename",
@@ -135,7 +135,7 @@ public class RequestArchivingJob implements ApplicationContextAware {
                 criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
                     request.getId().toString(), Critere.EQUALS));
                 for (ExternalServiceTrace trace :
-                    externalService.getTraces(criteriaSet, null, null)) {
+                    externalService.getTraces(criteriaSet, null, null, 0, 0)) {
                     requestDAO.delete(trace);
                 }
                 String filename = translationService.translate("requestArchive.filename",

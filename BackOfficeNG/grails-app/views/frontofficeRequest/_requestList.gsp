@@ -50,6 +50,13 @@
             <g:message code="request.message.archived" />
           </p>
         </g:if>
+        <g:if test="${record.externalInformations}">
+          <p>
+            <g:each status="i" var="externalInformation" in="${record.externalInformations}">
+              <g:message code="${externalInformation.key}" /> : ${externalInformation.value + (i == record.externalInformations.size() - 1 ? "" : " - ")}
+            </g:each>
+          </p>
+        </g:if>
         <g:if test="${record.lastAgentNote}">
           <p class="agent-note">
             <g:message code="request.property.lastAgentNote" />

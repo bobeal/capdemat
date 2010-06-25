@@ -124,7 +124,7 @@ class BackofficeRequestInstructionController {
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
                 externalProviderServiceLabel, Critere.EQUALS))
             def traces = externalService.getTraces(criteriaSet,
-                ExternalServiceTrace.SEARCH_BY_DATE, "desc")
+                ExternalServiceTrace.SEARCH_BY_DATE, "desc", 1, 0)
             if (!traces.isEmpty()) {
                 lastTraceStatus = CapdematUtils
                     .adaptCapdematEnum(traces.get(0).status, "externalservice.trace.status")
@@ -521,7 +521,7 @@ class BackofficeRequestInstructionController {
                 params.label, Critere.EQUALS))
             def lastTraceStatus = CapdematUtils.adaptCapdematEnum(
                 externalService.getTraces(criteriaSet,
-                ExternalServiceTrace.SEARCH_BY_DATE, "desc").get(0).status, "externalservice.trace.status")
+                ExternalServiceTrace.SEARCH_BY_DATE, "desc", 1, 0).get(0).status, "externalservice.trace.status")
             render(template : "/backofficeRequestInstruction/external/" + params.label + "/externalStatus",
                    model : ["externalProviderServiceLabel" : params.label,
                             "lastTraceStatus" : lastTraceStatus])
@@ -535,7 +535,7 @@ class BackofficeRequestInstructionController {
             params.id, Critere.EQUALS))
         criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_NAME,
             params.label, Critere.EQUALS))
-        externalService.getTraces(criteriaSet, null, null).each {
+        externalService.getTraces(criteriaSet, null, null, 0, 0).each {
             traces.add(["date" : it.date,
                         "status" : CapdematUtils.adaptCapdematEnum(it.status, "externalservice.trace.status").i18nKey,
                         "message" : it.message])

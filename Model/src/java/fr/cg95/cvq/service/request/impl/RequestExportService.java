@@ -71,7 +71,7 @@ public class RequestExportService implements IRequestExportService {
                     }
                     i++;
                 }
-                xmlRequestType.getHomeFolder().setIndividualsArray(individualsArray);
+                xmlRequestType.getHomeFolder().setExternalIndividualsArray(individualsArray);
             }
         }
         if (request.getRequesterId() != null) {

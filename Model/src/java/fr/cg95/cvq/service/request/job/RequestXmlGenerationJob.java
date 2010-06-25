@@ -68,7 +68,7 @@ public class RequestXmlGenerationJob {
             criteriaSet.add(new Critere(ExternalServiceTrace.SEARCH_BY_KEY,
                 String.valueOf(r.getId()), Critere.EQUALS));
             if (!xmlFileExists(r.getId())
-                && externalService.getTraces(criteriaSet, null, null).isEmpty()) {
+                && externalService.getTracesCount(criteriaSet) == 0) {
                 
                 // TODO : port this properly in 4.2
                 XmlObject xmlObject = requestExportService.fillRequestXml(r);
@@ -92,7 +92,7 @@ public class RequestXmlGenerationJob {
         criteres.add(new Critere(ExternalServiceTrace.SEARCH_BY_STATUS,
             TraceStatusEnum.ACKNOWLEDGED, Critere.EQUALS));
         for (ExternalServiceTrace t :
-            externalService.getTraces(criteres, null, null)) {
+            externalService.getTraces(criteres, null, null, 0, 0)) {
             localAuthorityRegistry.removeLocalAuthorityResource(
                 Type.REQUEST_XML, t.getKey());
         }

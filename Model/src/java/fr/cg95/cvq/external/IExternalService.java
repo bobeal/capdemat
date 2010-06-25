@@ -85,10 +85,20 @@ public interface IExternalService {
             Set<IExternalProviderService> externalProviderServices)
         throws CvqException;
 
+    List<ExternalServiceIdentifierMapping>
+        getIdentifierMappings(@IsHomeFolder Long homeFolderId);
+
     Long addTrace(ExternalServiceTrace trace);
 
     List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet, String sort,
-        String dir);
+        String dir, int count, int offset);
+
+    Long getTracesCount(Set<Critere> criteriaSet);
+
+    List<ExternalServiceTrace> getLastTraces(Set<Critere> criteriaSet, String sort,
+            String dir, int count, int offset);
+
+    Long getLastTracesCount(Set<Critere> criteriaSet);
 
     ExternalServiceIdentifierMapping getIdentifierMapping(final String externalServiceLabel,
             @IsHomeFolder final Long homeFolderId);

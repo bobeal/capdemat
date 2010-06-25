@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.cg95.cvq.business.request.MeansOfContact;
@@ -34,6 +35,7 @@ public class VoCardRequestServiceExternalIndividualTest extends RequestTestCase 
     @Autowired
     private IRequestExportService requestExportService;
 
+    @Test
     public void testAccountWithExternalIndividuals() throws Exception {
         
         startTransaction();
@@ -124,6 +126,7 @@ public class VoCardRequestServiceExternalIndividualTest extends RequestTestCase 
         FileOutputStream xmlFos = new FileOutputStream(xmlFile);
         xmlFos.write(requestExportService.fillRequestXml(requestSearchService.getById(dcvo.getId(), true)).toString().getBytes());
 
+        homeFolderService.delete(dcvo.getHomeFolderId());
         individualService.delete(individualService.getById(externalIndividual.getId()));
     }
 }

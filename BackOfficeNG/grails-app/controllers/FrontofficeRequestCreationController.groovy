@@ -225,7 +225,7 @@ class FrontofficeRequestCreationController {
                 def doc = null
 
                 if (docParam.id != null) {
-                    if (request.getFile('documentData-0').bytes.size() == 0
+                    if (request.getFile('documentData-0').size == 0
                             && request.getFile('documentData-1') == null) {
                         // we are saving a document without a page, delete it
                         documentService.delete(docParam.id)
@@ -238,48 +238,69 @@ class FrontofficeRequestCreationController {
                         def index = 0
                         // synchronize all existing binary datas
                         for (DocumentBinary page: (doc.datas ? doc.datas : [])) {
-                            if (request.getFile('documentData-' + (index + 1)).bytes.size() > 0) {
-                                def modifyParam = targetAsMap("id:${doc.id}_dataPageNumber:${index}")
-                                doc = documentAdaptorService.modifyDocumentPage(modifyParam, request)
+                            def file = request.getFile('documentData-' + (index + 1))
+                            if (file.size > 0) {
+                                if (file.size > documentAdaptorService.MAX_SIZE)
+                                    flash.errorMessage =
+                                        message(code : "document.message.error.fileTooLarge",
+                                            args : [documentAdaptorService.MAX_SIZE_MO])
+                                else {
+                                    def modifyParam = targetAsMap("id:${doc.id}_dataPageNumber:${index}")
+                                    doc = documentAdaptorService.modifyDocumentPage(modifyParam, request)
+                                }
                             }
                         }
                         // eventually add last and new page
-                        if (request.getFile('documentData-0').bytes.size() > 0) {
-                            def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc.id}")
-                            try {
-                                doc = documentAdaptorService.addDocumentPage(doc.id, request.getFile('documentData-0').bytes)
-                            } catch (CvqModelException cme) {
-                                flash.errorMessage = message(code : cme.i18nKey)
-                                if (documentService.getById(docParam.id).datas.isEmpty()) {
-                                    documentService.delete(docParam.id)
+                        def file = request.getFile('documentData-0')
+                        if (file.size > 0) {
+                            if (file.size > documentAdaptorService.MAX_SIZE)
+                                flash.errorMessage =
+                                    message(code : "document.message.error.fileTooLarge",
+                                        args : [documentAdaptorService.MAX_SIZE_MO])
+                            else {
+                                def addParam = targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc.id}")
+                                try {
+                                    doc = documentAdaptorService.addDocumentPage(doc.id, request.getFile('documentData-0').bytes)
+                                } catch (CvqModelException cme) {
+                                    flash.errorMessage = message(code : cme.i18nKey)
+                                    if (documentService.getById(docParam.id).datas.isEmpty()) {
+                                        documentService.delete(docParam.id)
+                                    }
                                 }
                             }
                         }
                     }
                 } else if (request.getFile('documentData-0').bytes.size() > 0) {
-                    def addParam =
-                        targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
-                    if (addParam.id == null) {
-                        Document document = new Document(SecurityContext.currentEcitizen?.homeFolder?.id, 
-                                params.ecitizenNote, 
-                                documentTypeService.getDocumentTypeById(docParam.documentTypeId),
-                                uuidString);
-                        documentService.create(document)
-                        addParam.id = document.id
-                    }
-                    try {
-                        doc = documentAdaptorService.addDocumentPage(addParam.id, request.getFile('documentData-0').bytes)
-                    } catch (CvqModelException cme) {
-                        flash.errorMessage = message(code : cme.i18nKey)
-                        if (documentService.getById(addParam.id).datas.isEmpty())
-                            documentService.delete(addParam.id)
+                    if (request.getFile('documentData-0').size > documentAdaptorService.MAX_SIZE) {
+                        flash.errorMessage = message(code : "document.message.error.fileTooLarge",
+                            args : [documentAdaptorService.MAX_SIZE_MO])
+                    } else {
+                        def addParam =
+                            targetAsMap("documentTypeId:${docParam.documentTypeId}_id:${doc?.id?doc.id:''}")
+                        if (addParam.id == null) {
+                            Document document = new Document(SecurityContext.currentEcitizen?.homeFolder?.id, 
+                                    params.ecitizenNote, 
+                                    documentTypeService.getDocumentTypeById(docParam.documentTypeId),
+                                    uuidString);
+                            documentService.create(document)
+                            addParam.id = document.id
+                        }
+                        try {
+                            doc = documentAdaptorService.addDocumentPage(addParam.id, request.getFile('documentData-0').bytes)
+                        } catch (CvqModelException cme) {
+                            flash.errorMessage = message(code : cme.i18nKey)
+                            if (documentService.getById(addParam.id).datas.isEmpty())
+                                documentService.delete(addParam.id)
+                        }
                     }
                 }
                 if (doc) {
                     isDocumentEditMode = false
                     requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
                 } else {
-                    flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
+                    if (request.getFile('documentData-0').size == 0
+                        && request.getFile('documentData-1') == null)
+                        flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
                     isDocumentEditMode = true
                     documentTypeDto = documentAdaptorService.adaptDocumentType(docParam.documentTypeId)
                 }
@@ -311,8 +332,12 @@ class FrontofficeRequestCreationController {
                 requestAdaptorService.stepState(cRequest.stepStates.get(currentStep), 'uncomplete', '')
             }
             else if (submitAction[1] == 'documentAddPage') {
-                if (params['documentData-0'].size == 0)
+                def file = request.getFile("documentData-0")
+                if (file.size == 0)
                     flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
+                else if (file.size > documentAdaptorService.MAX_SIZE)
+                    flash.errorMessage = message(code : "document.message.error.fileTooLarge",
+                        args : [documentAdaptorService.MAX_SIZE_MO])
                 def docParam = targetAsMap(submitAction[3])
                 Document document = null
                 if (docParam.id == null) {
@@ -339,6 +364,13 @@ class FrontofficeRequestCreationController {
             }
             else if (submitAction[1] == 'documentModifyPage') {
                 def docParam = targetAsMap(submitAction[3])
+                def file =
+                    request.getFile('documentData-' + (Integer.valueOf(docParam.dataPageNumber) + 1))
+                if (file.size == 0)
+                    flash.errorMessage = message(code : "document.message.pageFileCantBeEmpty")
+                else if (file.size > documentAdaptorService.MAX_SIZE)
+                    flash.errorMessage = message(code : "document.message.error.fileTooLarge",
+                        args : [documentAdaptorService.MAX_SIZE_MO])
                 try {
                     documentDto = documentAdaptorService.modifyDocumentPage(docParam, request)
                 } catch (CvqModelException cme) {
@@ -756,9 +788,11 @@ class FrontofficeRequestCreationController {
                 def invalidField = iterator.next()
                 if (invalidField == "subjectId") {
                     def firstStep = cRequest.stepStates.iterator().next().key
-                    if (invalidFields[firstStep] == null)
-                        invalidFields[firstStep] = []
-                    invalidFields[firstStep].add(invalidField)
+                    if (steps == null || steps.contains(firstStep)) {
+                        if (invalidFields[firstStep] == null)
+                            invalidFields[firstStep] = []
+                        invalidFields[firstStep].add(invalidField)
+                    }
                     iterator.remove()
                 }
             }

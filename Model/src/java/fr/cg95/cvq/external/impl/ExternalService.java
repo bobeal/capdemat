@@ -304,8 +304,27 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
     @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
     public List<ExternalServiceTrace> getTraces(Set<Critere> criteriaSet,
-        String sort, String dir) {
-        return externalServiceTraceDAO.get(criteriaSet, sort, dir);
+        String sort, String dir, int count, int offset) {
+        return externalServiceTraceDAO.get(criteriaSet, sort, dir, count, offset, false);
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Long getTracesCount(Set<Critere> criteriaSet) {
+        return externalServiceTraceDAO.getCount(criteriaSet, false);
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public List<ExternalServiceTrace> getLastTraces(Set<Critere> criteriaSet,
+        String sort, String dir, int count, int offset) {
+        return externalServiceTraceDAO.get(criteriaSet, sort, dir, count, offset, true);
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.READ)
+    public Long getLastTracesCount(Set<Critere> criteriaSet) {
+        return externalServiceTraceDAO.getCount(criteriaSet, true);
     }
 
     @Override
@@ -314,6 +333,12 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
         getIdentifierMapping(String externalServiceLabel, Long homeFolderId) {
         return externalServiceMappingDAO
             .getIdentifierMapping(externalServiceLabel, homeFolderId);
+    }
+
+    @Override
+    @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
+    public List<ExternalServiceIdentifierMapping> getIdentifierMappings(Long homeFolderId) {
+        return externalServiceMappingDAO.getIdentifierMappings(homeFolderId);
     }
 
     @Override

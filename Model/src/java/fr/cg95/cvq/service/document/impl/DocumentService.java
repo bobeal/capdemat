@@ -6,6 +6,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.*;
 
 import javax.imageio.ImageIO;
@@ -22,6 +23,9 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.util.PDFMergerUtility;
 import org.springframework.context.ApplicationListener;
+
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfWriter;
 
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.document.ContentType;
@@ -394,11 +398,10 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             refuse(id, message);
         else if (ds.equals(DocumentState.OUTDATED))
             outDated(id);
-        if (ds.equals(DocumentState.VALIDATED)) {
-            Document doc = getById(id);
-            if (!doc.getDatas().isEmpty() && doc.getDatas().get(0).getContentType().equals(ContentType.PDF)) {
-                mergeDocumentBinary(doc);
-            }
+        
+        Document doc = getById(id);
+        if (!doc.getDatas().isEmpty() && doc.getDatas().get(0).getContentType().equals(ContentType.PDF)) {
+            mergeDocumentBinary(doc);
         }
     }
 
@@ -604,44 +607,105 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     /**
      * merge all (pdf) binaries from a document in only one (pdf) binary
      */
-    private void mergeDocumentBinary(Document doc) throws CvqException {
+    @Context(types = {ContextType.ADMIN, ContextType.AGENT})
+    public void mergeDocumentBinary(Document doc) throws CvqException {
+        if (doc.getDatas().get(0).getContentType().equals(ContentType.PDF)) {
+            if (doc.getDatas().size() > 1)
+                mergePdfDocumentBinary(doc);
+        } else {
+            mergeImageDocumentBinary(doc);
+        }
+        documentDAO.update(doc);
+    }
+
+    private void mergePdfDocumentBinary(Document doc) throws CvqException {
+        PDDocument pdDoc = null;
         try {
-            if (doc.getDatas().size() > 1) {
-                PDDocument pdDoc = byteToPDDocument(doc.getDatas().get(0).getData());
-                if (!pdDoc.isEncrypted()) {
-                    for (int i=1; i<doc.getDatas().size(); i++) {
-                        PDDocument pdDocNew = byteToPDDocument(doc.getDatas().get(i).getData());
-                        if (!pdDocNew.isEncrypted()) {
-                            PDFMergerUtility pmu = new PDFMergerUtility();
-                            pmu.appendDocument(pdDoc, pdDocNew);
-                        }
+            pdDoc = byteToPDDocument(doc.getDatas().get(0).getData());
+            if (!pdDoc.isEncrypted()) {
+                for (int i=1; i<doc.getDatas().size(); i++) {
+                    PDDocument pdDocNew = byteToPDDocument(doc.getDatas().get(i).getData());
+                    if (!pdDocNew.isEncrypted()) {
+                        PDFMergerUtility pmu = new PDFMergerUtility();
+                        pmu.appendDocument(pdDoc, pdDocNew);
                     }
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    pdDoc.save(baos);
-                    DocumentBinary docBin = new DocumentBinary(baos.toByteArray());
-                    docBin.setContentType(ContentType.PDF);
-                    createPreview(docBin);
-                    for (DocumentBinary page : doc.getDatas()) {
-                        documentDAO.delete(page);
-                    }
-                    doc.getDatas().clear();
-                    doc.getDatas().add(docBin);
-                    addActionTrace(MERGE_ACTION, null, doc);
                 }
-                pdDoc.close();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                pdDoc.save(baos);
+                DocumentBinary docBin = new DocumentBinary(baos.toByteArray());
+                docBin.setContentType(ContentType.PDF);
+                createPreview(docBin);
+                for (DocumentBinary page : doc.getDatas()) {
+                    documentDAO.delete(page);
+                }
+                doc.getDatas().clear();
+                doc.getDatas().add(docBin);
+                addActionTrace(MERGE_ACTION, null, doc);
             }
         } catch (IOException ioe) {
             throw new CvqException(ioe.getMessage());
         } catch (COSVisitorException cve) {
             throw new CvqException(cve.getMessage());
+        } finally {
+            if (pdDoc != null) {
+                try {
+                    pdDoc.close();
+                } catch (IOException ioe) {
+                    throw new CvqException(ioe.getMessage());
+                }
+            }
         }
-        documentDAO.update(doc);
     }
 
-    private PDDocument byteToPDDocument(byte[] data) throws IOException {
+    private void mergeImageDocumentBinary(Document doc) throws CvqException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        com.lowagie.text.Document document = new com.lowagie.text.Document();
+        try {
+            PdfWriter.getInstance(document, baos);
+            document.open();
+            float widthPdf = document.getPageSize().getWidth();
+            float heightPdf = document.getPageSize().getHeight();
+            for (DocumentBinary docBin : doc.getDatas()) {
+                com.lowagie.text.Image image = com.lowagie.text.Image.getInstance(docBin.getData());
+                if (image.getWidth() < widthPdf/4)
+                    image.scaleToFit(widthPdf/2, heightPdf/2);
+                else
+                    image.scaleToFit(widthPdf - 30, heightPdf - 30);
+                document.add(image);
+                document.newPage();
+            }
+        } catch (DocumentException de) {
+            throw new CvqException(de.getMessage());
+        } catch (MalformedURLException mue) {
+            throw new CvqException(mue.getMessage());
+        } catch (IOException ioe) {
+            throw new CvqException(ioe.getMessage());
+        }
+        if (document.isOpen()) {
+            document.close();
+        }
+
+        DocumentBinary mergeImgToPdfDocBin = new DocumentBinary(baos.toByteArray());
+        mergeImgToPdfDocBin.setContentType(ContentType.PDF);
+        createPreview(mergeImgToPdfDocBin);
+        for (DocumentBinary page : doc.getDatas()) {
+            documentDAO.delete(page);
+        }
+        doc.getDatas().clear();
+        doc.getDatas().add(mergeImgToPdfDocBin);
+        addActionTrace(MERGE_ACTION, null, doc);
+    }
+
+    @Context(types = {ContextType.ADMIN, ContextType.AGENT})
+    public PDDocument byteToPDDocument(byte[] data) throws CvqException {
         ByteArrayInputStream baisPage = new ByteArrayInputStream(data);
-        PDDocument pdDoc = PDDocument.load(baisPage);
-        return pdDoc;
+        try {
+            PDDocument pdDoc;
+            pdDoc = PDDocument.load(baisPage);
+            return pdDoc;
+        } catch (IOException e) {
+            throw new CvqException(e.getMessage());
+        }
     }
 
     public void setDocumentDAO(final IDocumentDAO documentDAO) {

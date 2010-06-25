@@ -5,6 +5,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
@@ -206,4 +208,8 @@ public interface IDocumentService {
     Integer searchCount(Hashtable<String,Object> searchParams);
 
     void deleteUnpersistedSessionDocuments(final String sessionUuid);
+    
+    void mergeDocumentBinary(Document document) throws CvqException;
+    
+    PDDocument byteToPDDocument(byte[] data) throws CvqException;
 }

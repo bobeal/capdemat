@@ -98,9 +98,43 @@
             
 
   
-    <label for="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetDate" class="required"><g:message code="dhr.property.dhrNotRealAssetDate.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetDate.help" /></span></label>
-            <input type="text" id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetDate" name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetDate" value="${formatDate(formatName:'format.date',date:currentCollectionItem?.dhrNotRealAssetDate)}" 
-                   class="required  validate-date ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrNotRealAssetDate.validationError" />" />
+    <label class="required"><g:message code="dhr.property.dhrNotRealAssetDate.label" /> *  <span><g:message code="dhr.property.dhrNotRealAssetDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetDate') ? 'validation-failed' : ''}"
+                id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetDate_day"
+                name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${currentCollectionItem?.dhrNotRealAssetDate?.date == it
+                      || (currentCollectionItem?.dhrNotRealAssetDate == null && params['dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetDate') ? 'validation-failed' : ''}"
+                id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetDate_month"
+                name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${currentCollectionItem?.dhrNotRealAssetDate?.month == (it - 1)
+                      || (currentCollectionItem?.dhrNotRealAssetDate == null && params['dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetDate') ? 'validation-failed' : ''}"
+                id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetDate_year"
+                name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetDate_year"
+                value="${currentCollectionItem?.dhrNotRealAssetDate ? currentCollectionItem?.dhrNotRealAssetDate.year + 1900 : params['dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetDate_year']}"
+                title="<g:message code="dhr.property.dhrNotRealAssetDate.validationError" />" />
+            </div>
             
 
   

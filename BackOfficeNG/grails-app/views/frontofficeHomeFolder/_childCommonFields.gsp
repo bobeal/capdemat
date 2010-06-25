@@ -1,7 +1,7 @@
 <input type="hidden" name="id" value="${child?.id}" />
 <input type="hidden" name="mode" value="edit" />
+<h3><g:message code="homeFolder.individual.header.civilInformations" /></h3>
 <div class="yui-g">
-  <h3><g:message code="homeFolder.individual.header.civilInformations" /></h3>
   <div class="yui-u first">
     <label for="lastName" class="required">
       <g:message code="homeFolder.individual.property.lastName" />
@@ -9,6 +9,18 @@
     <input type="text" id="lastName" name="lastName" value="${child?.lastName}"
       class="required validate-lastName ${invalidFields?.contains('lastName') ? 'validation-failed' : ''}"
       title="<g:message code="homeFolder.individual.property.lastName.validationError" />" />
+  </div>
+  <div class="yui-u">
+    <label for="firstName" class="required">
+      <g:message code="homeFolder.individual.property.firstName" />
+    </label>
+    <input type="text" id="firstName" name="firstName" value="${child?.firstName}"
+      class="required validate-firstName ${invalidFields?.contains('firstName') ? 'validation-failed' : ''}"
+      title="<g:message code="homeFolder.individual.property.firstName.validationError" />" />
+  </div>
+</div>
+<div class="yui-gd">
+  <div class="yui-u first">
     <label for="sex" class="required">
       <g:message code="homeFolder.child.property.sex" />
     </label>
@@ -25,19 +37,37 @@
     </select>
   </div>
   <div class="yui-u">
-    <label for="firstName" class="required">
-      <g:message code="homeFolder.individual.property.firstName" />
-    </label>
-    <input type="text" id="firstName" name="firstName" value="${child?.firstName}"
-      class="required validate-firstName ${invalidFields?.contains('firstName') ? 'validation-failed' : ''}"
-      title="<g:message code="homeFolder.individual.property.firstName.validationError" />" />
-    <label for="birthDate" class="required">
-      <g:message code="homeFolder.individual.property.birthDate" />
-      <span><g:message code="homeFolder.individual.property.birthDate.help" /></span>
-    </label>
-    <input type="text" id="birthDate" name="birthDate"
-      value="${formatDate(formatName:'format.date',date:editList?.children?.birthDate)}"
-      class="required validate-date ${invalidFields?.contains('birthDate') ? 'validation-failed' : ''}"
-      title="<g:message code="homeFolder.individual.property.birthDate.validationError" />" />
+    <label class="required"><g:message code="homeFolder.individual.property.birthDate" /></label>
+    <div class="date required validate-date">
+      <select id="birthDate_day" name="birthDate_day"
+        class="day ${invalidFields?.contains('birthDate') ? 'validation-failed' : ''}">
+        <option value=""><g:message code="message.select.defaultOption" /></option>
+        <g:each in="${1..31}">
+          <option value="${it}"
+            <g:if test="${child?.birthDate?.date == it
+              || (child?.birthDate == null && params['birthDate_day'] == it.toString())}">
+              selected="selected"
+            </g:if>>
+            ${it}
+          </option>
+        </g:each>
+      </select>
+      <select id="birthDate_month" name="birthDate_month"
+        class="month ${invalidFields?.contains('birthDate') ? 'validation-failed' : ''}">
+        <option value=""><g:message code="message.select.defaultOption" /></option>
+        <g:each in="${1..12}">
+          <option value="${it}"
+            <g:if test="${child?.birthDate?.month == (it - 1)
+              || (child?.birthDate == null && params['birthDate_month'] == it.toString())}">
+              selected="selected"
+            </g:if>>
+            <g:message code="month.${it}" />
+          </option>
+        </g:each>
+      </select>
+      <input type="text" id="birthDate_year" name="birthDate_year" maxlength="4" size="3"
+        class="year ${invalidFields?.contains('birthDate') ? 'validation-failed' : ''}"
+        value="${child?.birthDate ? child?.birthDate.year + 1900 : params['birthDate_year']}" />
+    </div>
   </div>
 </div>

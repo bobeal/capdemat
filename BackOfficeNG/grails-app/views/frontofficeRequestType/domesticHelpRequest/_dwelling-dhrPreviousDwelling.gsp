@@ -56,15 +56,83 @@
             
 
   
-    <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingArrivalDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
-            <input type="text" id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingArrivalDate" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:currentCollectionItem?.dhrPreviousDwellingArrivalDate)}" 
-                   class="required  validate-date ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />" />
+    <label class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingArrivalDate_day"
+                name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingArrivalDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${currentCollectionItem?.dhrPreviousDwellingArrivalDate?.date == it
+                      || (currentCollectionItem?.dhrPreviousDwellingArrivalDate == null && params['dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingArrivalDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingArrivalDate_month"
+                name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingArrivalDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${currentCollectionItem?.dhrPreviousDwellingArrivalDate?.month == (it - 1)
+                      || (currentCollectionItem?.dhrPreviousDwellingArrivalDate == null && params['dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingArrivalDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingArrivalDate_year"
+                name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingArrivalDate_year"
+                value="${currentCollectionItem?.dhrPreviousDwellingArrivalDate ? currentCollectionItem?.dhrPreviousDwellingArrivalDate.year + 1900 : params['dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingArrivalDate_year']}"
+                title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />" />
+            </div>
             
 
   
-    <label for="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingDepartureDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
-            <input type="text" id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingDepartureDate" name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingDepartureDate" value="${formatDate(formatName:'format.date',date:currentCollectionItem?.dhrPreviousDwellingDepartureDate)}" 
-                   class="required  validate-date ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />" />
+    <label class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingDepartureDate_day"
+                name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingDepartureDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${currentCollectionItem?.dhrPreviousDwellingDepartureDate?.date == it
+                      || (currentCollectionItem?.dhrPreviousDwellingDepartureDate == null && params['dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingDepartureDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingDepartureDate_month"
+                name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingDepartureDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${currentCollectionItem?.dhrPreviousDwellingDepartureDate?.month == (it - 1)
+                      || (currentCollectionItem?.dhrPreviousDwellingDepartureDate == null && params['dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingDepartureDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingDepartureDate_year"
+                name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingDepartureDate_year"
+                value="${currentCollectionItem?.dhrPreviousDwellingDepartureDate ? currentCollectionItem?.dhrPreviousDwellingDepartureDate.year + 1900 : params['dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingDepartureDate_year']}"
+                title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />" />
+            </div>
             
 
   

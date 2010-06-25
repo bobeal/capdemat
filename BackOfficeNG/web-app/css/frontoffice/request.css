@@ -158,6 +158,10 @@
 #request .address input[type="text"].line1 { display: inline; width: 15%; }
 #request .address input[type="text"].line2 { display: inline; width: 82%; }
 
+#request .date input.year,
+#request .date select.day,
+#request .date select.month { display : inline; width : auto; }
+
 #request .collection h4  { margin-bottom: .5em; }
 #request .collection p   { margin: 0 0 1em; padding: 0 }
 #request .collection dt.head { font-weight: bold; font-style: italic; }

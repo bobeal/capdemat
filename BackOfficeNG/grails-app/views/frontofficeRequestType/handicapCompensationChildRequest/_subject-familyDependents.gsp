@@ -24,9 +24,43 @@
             
 
   
-    <label for="familyDependents.${collectionIndex}.referentFamilyDependentBirthDate" class="required"><g:message code="hccr.property.referentFamilyDependentBirthDate.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentBirthDate.help" /></span></label>
-            <input type="text" id="familyDependents.${collectionIndex}.referentFamilyDependentBirthDate" name="familyDependents[${collectionIndex}].referentFamilyDependentBirthDate" value="${formatDate(formatName:'format.date',date:currentCollectionItem?.referentFamilyDependentBirthDate)}" 
-                   class="required  validate-date ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].referentFamilyDependentBirthDate') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.referentFamilyDependentBirthDate.validationError" />" />
+    <label class="required"><g:message code="hccr.property.referentFamilyDependentBirthDate.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentBirthDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].referentFamilyDependentBirthDate') ? 'validation-failed' : ''}"
+                id="familyDependents.${collectionIndex}.referentFamilyDependentBirthDate_day"
+                name="familyDependents[${collectionIndex}].referentFamilyDependentBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${currentCollectionItem?.referentFamilyDependentBirthDate?.date == it
+                      || (currentCollectionItem?.referentFamilyDependentBirthDate == null && params['familyDependents[${collectionIndex}].referentFamilyDependentBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].referentFamilyDependentBirthDate') ? 'validation-failed' : ''}"
+                id="familyDependents.${collectionIndex}.referentFamilyDependentBirthDate_month"
+                name="familyDependents[${collectionIndex}].referentFamilyDependentBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${currentCollectionItem?.referentFamilyDependentBirthDate?.month == (it - 1)
+                      || (currentCollectionItem?.referentFamilyDependentBirthDate == null && params['familyDependents[${collectionIndex}].referentFamilyDependentBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].referentFamilyDependentBirthDate') ? 'validation-failed' : ''}"
+                id="familyDependents.${collectionIndex}.referentFamilyDependentBirthDate_year"
+                name="familyDependents[${collectionIndex}].referentFamilyDependentBirthDate_year"
+                value="${currentCollectionItem?.referentFamilyDependentBirthDate ? currentCollectionItem?.referentFamilyDependentBirthDate.year + 1900 : params['familyDependents[${collectionIndex}].referentFamilyDependentBirthDate_year']}"
+                title="<g:message code="hccr.property.referentFamilyDependentBirthDate.validationError" />" />
+            </div>
             
 
   

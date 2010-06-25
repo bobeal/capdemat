@@ -24,9 +24,43 @@
             
 
   
-    <label for="familyDependents.${collectionIndex}.familyDependentBirthDate" class="required"><g:message code="hcar.property.familyDependentBirthDate.label" /> *  <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
-            <input type="text" id="familyDependents.${collectionIndex}.familyDependentBirthDate" name="familyDependents[${collectionIndex}].familyDependentBirthDate" value="${formatDate(formatName:'format.date',date:currentCollectionItem?.familyDependentBirthDate)}" 
-                   class="required  validate-date ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].familyDependentBirthDate') ? 'validation-failed' : ''}" title="<g:message code="hcar.property.familyDependentBirthDate.validationError" />" />
+    <label class="required"><g:message code="hcar.property.familyDependentBirthDate.label" /> *  <span><g:message code="hcar.property.familyDependentBirthDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].familyDependentBirthDate') ? 'validation-failed' : ''}"
+                id="familyDependents.${collectionIndex}.familyDependentBirthDate_day"
+                name="familyDependents[${collectionIndex}].familyDependentBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${currentCollectionItem?.familyDependentBirthDate?.date == it
+                      || (currentCollectionItem?.familyDependentBirthDate == null && params['familyDependents[${collectionIndex}].familyDependentBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].familyDependentBirthDate') ? 'validation-failed' : ''}"
+                id="familyDependents.${collectionIndex}.familyDependentBirthDate_month"
+                name="familyDependents[${collectionIndex}].familyDependentBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${currentCollectionItem?.familyDependentBirthDate?.month == (it - 1)
+                      || (currentCollectionItem?.familyDependentBirthDate == null && params['familyDependents[${collectionIndex}].familyDependentBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].familyDependentBirthDate') ? 'validation-failed' : ''}"
+                id="familyDependents.${collectionIndex}.familyDependentBirthDate_year"
+                name="familyDependents[${collectionIndex}].familyDependentBirthDate_year"
+                value="${currentCollectionItem?.familyDependentBirthDate ? currentCollectionItem?.familyDependentBirthDate.year + 1900 : params['familyDependents[${collectionIndex}].familyDependentBirthDate_year']}"
+                title="<g:message code="hcar.property.familyDependentBirthDate.validationError" />" />
+            </div>
             
 
   

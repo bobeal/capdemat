@@ -616,7 +616,7 @@
         street_matriculation varchar(8),
         place_name_or_service varchar(38),
         postal_code varchar(5),
-        cityInseeCode varchar(5),
+        city_insee_code varchar(5),
         city varchar(32),
         country_name varchar(38),
         primary key (id)

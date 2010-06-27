@@ -59,6 +59,21 @@ public interface ICategoryService {
      */
     List<Category> getAssociated();
     
+
+    /**
+     * Get the list of all categories that current agent has the right to see.
+     * 
+     * An administrator can see all categories.
+     * An agent can only see categories for which it has at least a
+     * {@link CategoryProfile#READ_ONLY read access}.
+     */
+    List<Category> getAll();
+
+    Category getById(@IsCategory final Long id)
+        throws CvqObjectNotFoundException;
+
+    List<Category> getAgentCategories(final Long agentId);
+
     /**
      * Add a request type to the given category.
      */
@@ -102,17 +117,5 @@ public interface ICategoryService {
     void modify(@IsCategory final Category category);
 
     void delete(@IsCategory final Long id)
-        throws CvqObjectNotFoundException;
-
-    /**
-     * Get the list of all categories that current agent has the right to see.
-     * 
-     * An administrator can see all categories.
-     * An agent can only see categories for which it has at least a
-     * {@link CategoryProfile#READ_ONLY read access}.
-     */
-    List<Category> getAll();
-
-    Category getById(@IsCategory final Long id)
         throws CvqObjectNotFoundException;
 }

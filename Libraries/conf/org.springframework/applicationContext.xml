@@ -445,6 +445,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="defaultDisplayGroup" value="school" />
     <property name="requestDAO" ref="requestDAO"/>
     <property name="filingDelay" value="12"/>
+    <property name="supportUnregisteredCreation" value="true" />
   </bean>
   
   <bean id="learningActivitiesDiscoveryRegistrationRequestService" 

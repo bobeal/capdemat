@@ -258,7 +258,6 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             RequestType requestType = 
                 requestTypeService.getRequestTypeByLabel(requestService.getLabel());
             request.setRequestType(requestType);
-            checkSubjectPolicy(request.getSubjectId(), requestService.getSubjectPolicy(), request);
         }
         
         if (request.getSubjectId() != null) {

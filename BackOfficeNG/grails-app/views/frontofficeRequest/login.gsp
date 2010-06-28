@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>${message(code:'homeFolder.title.admin')}</title>
+    <title>${message(code : "home.portal.title", args : [session.currentSiteDisplayTitle])}</title>
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'form.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'data-detail.css')}" />

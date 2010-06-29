@@ -8,10 +8,28 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
   var yue = YAHOO.util.Event;
   var yus = YAHOO.util.Selector;
   var yuc = YAHOO.util.Connect;
+  var yud = YAHOO.util.Dom;
 
   zcc.AddressAutocomplete = function() {
     var isActive = false;
     var autocompletes = {};
+
+    var enableStreetName = function(fieldsetId) {
+      var fieldset = document.getElementById(fieldsetId);
+      var inputAssistance = document.getElementById("inputAssistance")
+      if(fieldset && inputAssistance) fieldset.removeChild(inputAssistance);
+      document.getElementById(fieldsetId + "_streetName").disabled = false;
+      document.getElementById(fieldsetId + ".streetNumber").disabled = false;
+    };
+
+    var disableStreetName = function(fieldsetId) {
+      var inputAssistance = document.createElement("span");
+      inputAssistance.id = "inputAssistance";
+      inputAssistance.innerHTML = "Renseigner la ville en premier";
+      yud.insertAfter(inputAssistance, yus.query("label[for=interventionPlace_streetName]")[0]);
+      document.getElementById(fieldsetId + "_streetName").disabled = true;
+      document.getElementById(fieldsetId + ".streetNumber").disabled = true;
+    };
 
     var autocompleteBindFieldset = function(fieldsetId) {
       autocompletes[fieldsetId] = {
@@ -19,6 +37,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         postalCode:{},
         city: {}
       };
+      disableStreetName(fieldsetId);
       var streetNameAutocomplete;
       if(document.getElementById(fieldsetId + "_streetName")) {
         autocompletes[fieldsetId].streetName = new zcc.AutoComplete({
@@ -55,7 +74,9 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
             autocompletes[fieldsetId].streetName.urlParams.city = result.inseeCode;
             document.getElementById(fieldsetId + "_cityInseeCode").value = result.inseeCode;
             document.getElementById(fieldsetId + "_streetName").value = "";
+            document.getElementById(fieldsetId + ".streetNumber").value = "";
             document.getElementById(fieldsetId + "_streetMatriculation").value = "";
+            enableStreetName(fieldsetId);
           }
         });
       }
@@ -78,7 +99,9 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
             autocompletes[fieldsetId].streetName.urlParams.city = result.inseeCode;
             document.getElementById(fieldsetId + "_cityInseeCode").value = result.inseeCode;
             document.getElementById(fieldsetId + "_streetName").value = "";
+            document.getElementById(fieldsetId + ".streetNumber").value = "";
             document.getElementById(fieldsetId + "_streetMatriculation").value = "";
+            enableStreetName(fieldsetId);
           }
         });
       }

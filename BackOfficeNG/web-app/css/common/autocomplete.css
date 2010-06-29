@@ -36,3 +36,11 @@
 .autocomplete .results li.selected:hover {
   background: #CCC;
 }
+
+#inputAssistance {
+  color: #080;
+  float: right;
+  position: relative;
+  background: #DFD;
+  padding: 0 4px;
+}

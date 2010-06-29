@@ -107,6 +107,7 @@ class FrontofficeRequestController {
             redirect(uri: '/frontoffice/requestType')
             return false
         }
+        def isEdition = !RequestState.DRAFT.equals(rqt.state)
         if (request.post) {
             try {
                 DataBindingUtils.initBind(rqt, params)
@@ -170,6 +171,7 @@ class FrontofficeRequestController {
                     code : ExceptionUtils.getModelI18nKey(ce),
                     args : ExceptionUtils.getModelI18nArgs(ce)
                 )
+                session.doRollback = true
             }
         }
         def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)
@@ -190,7 +192,7 @@ class FrontofficeRequestController {
             'documentTypes': documentAdaptorService.getDocumentTypes(rqt),
             'documentsByTypes': ['document','validation'].contains(nextWebflowStep) ? documentAdaptorService.getDocumentsByType(rqt) : [],
             'returnUrl' : (params.returnUrl != null ? params.returnUrl : ""),
-            'isEdition' : !RequestState.DRAFT.equals(rqt.state),
+            'isEdition' : isEdition,
             'lrTypes': requestTypeAdaptorService.getLocalReferentialTypes(rqt.requestType.label),
             'requestTypeLabelAsDir' : requestTypeLabelAsDir, 
             'helps': localAuthorityRegistry.getBufferedCurrentLocalAuthorityRequestHelpMap(requestTypeLabelAsDir),

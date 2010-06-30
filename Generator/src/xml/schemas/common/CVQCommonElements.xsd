@@ -1631,6 +1631,28 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
+      <xs:element name="StreetRivoliCode">
+        <xs:annotation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Code Rivoli de la voie
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
+            Rivoli code
+          </xs:documentation>
+          <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Code Rivoli de la voie
+          </xs:documentation>
+          <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
+            Rivoli code
+          </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="10" />
+            <xs:maxLength value="10" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
       <!-- Ligne 5 (normalized address) -->
       <xs:element name="PlaceNameOrService" type="cvq:AddressBloc38UpperType" minOccurs="0">
         <xs:annotation>

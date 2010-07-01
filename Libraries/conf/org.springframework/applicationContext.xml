@@ -440,7 +440,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <!-- Service specific -->
     <property name="label" value="Study Grant"/>
     <property name="localReferentialFilename" value="local_referential_sgr"/>
-    <property name="subjectPolicy" value="SUBJECT_POLICY_INDIVIDUAL" />
+    <property name="subjectPolicy" value="SUBJECT_POLICY_ADULT" />
     <property name="isOfRegistrationKind" value="true"/>
     <property name="defaultDisplayGroup" value="school" />
     <property name="requestDAO" ref="requestDAO"/>

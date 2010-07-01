@@ -64,12 +64,13 @@ public class RequestArchivingJob implements ApplicationContextAware {
     public void archive() {
         Result result = new Result();
         DateMidnight today = new DateMidnight();
-        for (Request request : requestDAO.listByStates(states, true)) {
+        for (Request r : requestDAO.listByStates(states, true)) {
             HibernateUtil.beginTransaction();
-            int filingDelay = requestServiceRegistry.getRequestService(request).getFilingDelay();
-            DateMidnight lastModificationDay = new DateMidnight(request.getLastModificationDate());
-            if (Months.monthsBetween(lastModificationDay, today).getMonths() >= filingDelay) {
-                try {
+            try {
+                Request request = requestDAO.findById(r.getId(), true);
+                int filingDelay = requestServiceRegistry.getRequestService(request).getFilingDelay();
+                DateMidnight lastModificationDay = new DateMidnight(request.getLastModificationDate());
+                if (Months.monthsBetween(lastModificationDay, today).getMonths() >= filingDelay) {
                     String motive = translationService
                         .translate("requestArchive.motive", new Object[]{filingDelay});
                     if (RequestState.VALIDATED.equals(request.getState()))
@@ -103,10 +104,11 @@ public class RequestArchivingJob implements ApplicationContextAware {
                             filename, false).delete();
                         throw t;
                     }
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                    result.failures.put(request, t);
                 }
+            } catch (Throwable t) {
+                t.printStackTrace();
+                result.failures.put(r, t);
+                HibernateUtil.rollbackTransaction();
             }
         }
         RequestAdminAction action =
@@ -124,9 +126,10 @@ public class RequestArchivingJob implements ApplicationContextAware {
         Set<RequestState> archivedStates = new HashSet<RequestState>(1);
         archivedStates.add(RequestState.ARCHIVED);
         DateMidnight today = new DateMidnight();
-        for (Request request : requestDAO.listByStates(archivedStates, true)) {
+        for (Request r : requestDAO.listByStates(archivedStates, true)) {
             HibernateUtil.beginTransaction();
             try {
+                Request request = requestDAO.findById(r.getId(), true);
                 byte archive[] = requestPdfService.generateArchive(request.getId());
                 requestDAO.empty(request);
                 Set<Critere> criteriaSet = new HashSet<Critere>(1);
@@ -155,7 +158,8 @@ public class RequestArchivingJob implements ApplicationContextAware {
                 }
             } catch (Throwable t) {
                 t.printStackTrace();
-                result.failures.put(request, t);
+                result.failures.put(r, t);
+                HibernateUtil.rollbackTransaction();
             }
         }
         RequestAdminAction action =

@@ -54,6 +54,7 @@ public class SecurityService {
             (SecurityContext.FRONT_OFFICE_CONTEXT) : [
                 "frontofficeRequest" : [/login/, /edit/, /condition/, /autofill/, /exit/],
                 "frontofficeRequestCreation" : /.*/,
+                "frontofficeRequestType" : /seasons/,
                 "frontofficeHomeFolder" : [/create/, /resetPassword/],
                 "frontofficeHome" : [/loginAgent/, /login/, /test/],
                 "frontofficeDocument" : [/details/, /binary/, /preview/],

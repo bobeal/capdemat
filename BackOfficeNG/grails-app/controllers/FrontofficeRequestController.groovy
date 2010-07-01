@@ -92,7 +92,8 @@ class FrontofficeRequestController {
             return false
         }
         if (SecurityContext.currentEcitizen == null) {
-            redirect(action : "login", params : ["requestTypeLabel" : params.label])
+            redirect(action : "login", params :
+                ["requestTypeLabel" : params.label, "requestSeasonId" : params.requestSeasonId])
             return false
         }
         Request rqt

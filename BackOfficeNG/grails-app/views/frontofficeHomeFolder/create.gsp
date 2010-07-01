@@ -16,6 +16,7 @@
       <h2><g:message code="homeFolder.action.createAccount"/></h2>
       <form action="${createLink(controller : 'frontofficeHomeFolder', action:'create')}" method="post">
         <input type="hidden" name="requestTypeLabel" value="${params.requestTypeLabel}" />
+        <input type="hidden" name="requestSeasonId" value="${params.requestSeasonId}" />
         <g:render template="/frontofficeHomeFolder/adultCommonFields" />
         <div class="yui-g">
           <h3><g:message code="homeFolder.individual.header.connexionInformations" /></h3>

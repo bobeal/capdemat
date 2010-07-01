@@ -16,7 +16,7 @@
           <g:each var="season" in="${seasons}">
             <div class="yui-g">
               <h3>
-                <a href="${createLink(controller:'frontofficeRequest',
+                <a href="${createLink(controller:'frontofficeRequest', action : 'edit',
                   params:['label':label, 'requestSeasonId' : season.id])}">
                   ${season.label}
                 </a>
@@ -48,7 +48,7 @@
           <g:message code="header.display"/>
         </h3>
         <div class="body">
-          <a class="top-link" href="${createLink(action: 'index')}">
+          <a class="top-link" href="${createLink(controller : 'frontofficeRequestType', action: 'index')}">
             <g:message code="requestType.header.requestList"/>
           </a>
         </div>

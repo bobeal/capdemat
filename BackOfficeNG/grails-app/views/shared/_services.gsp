@@ -26,7 +26,7 @@
                     </span>
                   </g:if>
                   <g:else>
-                    <a href="${createLink(action : 'seasons', params:['label':requestType.label])}">
+                    <a href="${createLink(controller : 'frontofficeRequestType', action : 'seasons', params:['label':requestType.label])}">
                       <g:translateRequestTypeLabel label="${requestType.label}"/>
                     </a>
                   </g:else>

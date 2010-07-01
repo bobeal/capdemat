@@ -100,7 +100,7 @@ class FrontofficeHomeController {
                     return false
                 } else {
                     redirect(controller : "frontofficeRequest", action : "edit",
-                        params : ["id" : params.id, "label" : params.requestTypeLabel])
+                        params : ["id" : params.id, "label" : params.requestTypeLabel, "requestSeasonId" : params.requestSeasonId])
                     return false
                 }
             } catch (CvqUnknownUserException e) {

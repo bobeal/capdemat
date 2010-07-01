@@ -789,8 +789,10 @@ public class LocalAuthorityRegistry
             if (!resourceDir.exists())
                 resourceDir.mkdir();
         }
-        if (!requestActionDAO.hasArchivesMigrationAction())
+        if (!requestActionDAO.hasArchivesMigrationAction()) {
             requestArchivingJob.migrate();
+            requestArchivingJob.archive();
+        }
         generateJPEGFiles();
     }
 

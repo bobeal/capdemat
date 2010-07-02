@@ -61,7 +61,6 @@
           </a>
         </g:if>
         <g:message code="hsr.label" />
-        <span><g:message code="hsr.description" /></span> 
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="hsr.duration.value" /></strong></p>
       <p>

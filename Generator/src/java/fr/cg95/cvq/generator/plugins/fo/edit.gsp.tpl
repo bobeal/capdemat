@@ -69,7 +69,6 @@
           </a>
         </g:if>
         <g:message code="${requestFo.acronym}.label" />
-        <span><g:message code="${requestFo.acronym}.description" /></span> 
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="${requestFo.acronym}.duration.value" /></strong></p>
       <p>

@@ -61,7 +61,6 @@
           </a>
         </g:if>
         <g:message code="scrr.label" />
-        <span><g:message code="scrr.description" /></span> 
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="scrr.duration.value" /></strong></p>
       <p>

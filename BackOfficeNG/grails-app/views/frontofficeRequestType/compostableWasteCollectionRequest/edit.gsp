@@ -61,7 +61,6 @@
           </a>
         </g:if>
         <g:message code="cwcr.label" />
-        <span><g:message code="cwcr.description" /></span> 
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="cwcr.duration.value" /></strong></p>
       <p>

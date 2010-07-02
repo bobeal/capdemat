@@ -61,7 +61,6 @@
           </a>
         </g:if>
         <g:message code="tbr.label" />
-        <span><g:message code="tbr.description" /></span> 
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="tbr.duration.value" /></strong></p>
       <p>

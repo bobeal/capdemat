@@ -61,7 +61,6 @@
           </a>
         </g:if>
         <g:message code="acr.label" />
-        <span><g:message code="acr.description" /></span> 
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="acr.duration.value" /></strong></p>
       <p>

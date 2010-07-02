@@ -61,7 +61,6 @@
           </a>
         </g:if>
         <g:message code="rarr.label" />
-        <span><g:message code="rarr.description" /></span> 
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="rarr.duration.value" /></strong></p>
       <p>

@@ -1,3 +1,3 @@
 p.draft-warning     { margin-top:0.6em !important; }
-.draft-warning span { background-color:#ffcc99; border:1px solid red; padding:0.2em; }
+.draft-warning span { background-color:#fdd; padding:0.2em; font-size: .9em; font-style: italic; }
 .draft-warning img  { vertical-align:middle; }

@@ -4,6 +4,7 @@
       <ul>
         <g:each var="record" in="${dashBoard.drafts.records}">
           <li>
+              <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
               <span class="tag-state">
                 <a href="${createLink(action:'deleteDraft',controller:'frontofficeRequest',id:record.id)}">
                   <g:message code="action.remove"/>

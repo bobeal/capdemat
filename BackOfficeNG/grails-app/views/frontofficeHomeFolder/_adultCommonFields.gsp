@@ -1,8 +1,7 @@
 <input type="hidden" name="id" value="${adult?.id}" />
 <input type="hidden" name="mode" value="edit" />
-<div class="yui-gb">
-  <h3><g:message code="homeFolder.individual.header.civilInformations" /></h3>
-  <div class="yui-u first">
+  <fieldset>
+  <legend><g:message code="homeFolder.individual.header.civilInformations" /></legend>
     <label for="title" class="required">
       <g:message code="homeFolder.adult.property.title" />
     </label>
@@ -19,29 +18,26 @@
         </option>
       </g:each>
     </select>
-  </div>
-  <div class="yui-u">
+
     <label for="lastName" class="required">
       <g:message code="homeFolder.individual.property.lastName" />
     </label>
     <input type="text" id="lastName" name="lastName" value="${adult?.lastName}"
       class="required validate-lastName ${invalidFields?.contains('lastName') ? 'validation-failed' : ''}"
       title="<g:message code="homeFolder.individual.property.lastName.validationError" />" />
-  </div>
-  <div class="yui-u">
+
     <label for="firstName" class="required">
       <g:message code="homeFolder.individual.property.firstName" />
     </label>
     <input type="text" id="firstName" name="firstName" value="${adult?.firstName}"
       class="required validate-firstName ${invalidFields?.contains('firstName') ? 'validation-failed' : ''}"
       title="<g:message code="homeFolder.individual.property.firstName.validationError" />" />
-  </div>
-</div>
-<div class="yui-g">
-  <h3><g:message code="homeFolder.individual.header.contactInformations" /></h3>
-  <div class="yui-u first">
+    </fieldset>
+
+    <fieldset>
+    <legend><g:message code="homeFolder.individual.header.contactInformations" /></legend>
     <label class="required"><g:message code="homeFolder.individual.property.address" /></label>
-    <div class="address-fieldset required ${invalidFields?.contains('adress') ? 'validation-failed' : ''}">
+    <div class="address required ${invalidFields?.contains('adress') ? 'validation-failed' : ''}">
       <label for="adress.additionalDeliveryInformation"><g:message code="address.property.additionalDeliveryInformation" /></label>
       <input type="text" class="validate-addressLine38 ${invalidFields?.contains('adress.additionalDeliveryInformation') ? 'validation-failed' : ''}" maxlength="38" id="adress.additionalDeliveryInformation" name="adress.additionalDeliveryInformation"
         value="${adult?.adress?.additionalDeliveryInformation}" />
@@ -67,8 +63,6 @@
       <input type="text" class="validate-addressLine38 ${invalidFields?.contains('adress.countryName') ? 'validation-failed' : ''}" maxlength="38" id="adress.countryName" name="adress.countryName"
         value="${adult?.adress?.countryName}" />
     </div>
-  </div>
-  <div class="yui-u">
     <label for="email" class="required">
       <g:message code="homeFolder.adult.property.email" /> <span><g:message code="homeFolder.adult.property.email.help" /></span>
     </label>
@@ -80,7 +74,7 @@
       <span>(<g:message code="homeFolder.adult.label.phones.help" />)</span>
     </label>
     <div id="adultPhones"
-      class="address-fieldset ${invalidFields?.contains('adultPhones') ? 'validation-failed' : ''}">
+      class="address ${invalidFields?.contains('adultPhones') ? 'validation-failed' : ''}">
       <label for="homePhone">
         <g:message code="homeFolder.adult.property.homePhone" />
         <span><g:message code="homeFolder.adult.property.homePhone.help" /></span>
@@ -103,5 +97,5 @@
         class="validate-phone ${invalidFields?.contains('officePhone') ? 'validation-failed' : ''}"
         title="<g:message code="homeFolder.adult.property.officePhone.validationError" />" />
     </div>
-  </div>
-</div>
+    </fieldset>
+

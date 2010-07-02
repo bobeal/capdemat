@@ -3,8 +3,10 @@
     <title>${message(code : "home.portal.title", args : [session.currentSiteDisplayTitle])}</title>
     <meta name="layout" content="fo_main" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'form.css')}" />
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'data-detail.css')}" />
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
+    <style type="text/css">
+      .main-box ul    { padding: 0 1em 1em 1.5em; font-size: 1.1em; font-style: italic; }
+      .main-box ul li { list-style-type: disc; }
+    </style>
   </head>
   <body>
     <g:if test="${flash.errorMessage}">
@@ -33,16 +35,18 @@
       </div>
       <div class="yui-u main-box">
         <h2><g:message code="homeFolder.action.createAccount"/></h2>
-        <p>En créant un compte, vous avez la possibilité de:</p>
-        <ul>
-          <li>gérer vos données administratives et déclarer les membres de votre foyer,</li>
-          <li>accéder à des démarches en ligne pour vous ou un membre de votre foyer,</li>
-          <li>suivre l'avancement de vos demandes.</li>
-        </ul>
-        <a href="${createLink(controller : 'frontofficeHomeFolder', action : 'create',
-          params : ['requestTypeLabel' : params.requestTypeLabel, 'requestSeasonId' : params.requestSeasonId])}">
-          Je souhaite créer mon compte
-        </a>
+          <p>En créant un compte, vous avez la possibilité de:</p>
+          <ul>
+            <li>Gérer vos données administratives et déclarer les membres de votre foyer</li>
+            <li>Accéder à des démarches en ligne pour vous ou un membre de votre foyer</li>
+            <li>Suivre l'avancement de vos demandes</li>
+          </ul>
+          <p>
+            <a style="font-size: 1.5em;" href="${createLink(controller : 'frontofficeHomeFolder', action : 'create',
+              params : ['requestTypeLabel' : params.requestTypeLabel, 'requestSeasonId' : params.requestSeasonId])}">
+              Je souhaite créer mon compte
+            </a>
+          </p>
       </div>
     </div>
   </body>

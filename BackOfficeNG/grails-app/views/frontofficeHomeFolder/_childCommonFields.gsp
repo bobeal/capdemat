@@ -1,29 +1,19 @@
 <input type="hidden" name="id" value="${child?.id}" />
 <input type="hidden" name="mode" value="edit" />
-<h3><g:message code="homeFolder.individual.header.civilInformations" /></h3>
-<div class="yui-g">
-  <div class="yui-u first">
+  <fieldset>
+    <legend><g:message code="homeFolder.individual.header.civilInformations" /></legend>
     <label for="lastName" class="required">
       <g:message code="homeFolder.individual.property.lastName" />
     </label>
     <input type="text" id="lastName" name="lastName" value="${child?.lastName}"
       class="required validate-lastName ${invalidFields?.contains('lastName') ? 'validation-failed' : ''}"
       title="<g:message code="homeFolder.individual.property.lastName.validationError" />" />
-  </div>
-  <div class="yui-u">
-    <label for="firstName" class="required">
-      <g:message code="homeFolder.individual.property.firstName" />
-    </label>
+    <label for="firstName" class="required"><g:message code="homeFolder.individual.property.firstName" /></label>
     <input type="text" id="firstName" name="firstName" value="${child?.firstName}"
       class="required validate-firstName ${invalidFields?.contains('firstName') ? 'validation-failed' : ''}"
       title="<g:message code="homeFolder.individual.property.firstName.validationError" />" />
-  </div>
-</div>
-<div class="yui-gd">
-  <div class="yui-u first">
-    <label for="sex" class="required">
-      <g:message code="homeFolder.child.property.sex" />
-    </label>
+
+    <label for="sex" class="required"><g:message code="homeFolder.child.property.sex" /></label>
     <select id="sex" name="sex"
       class="required validate-not-first ${invalidFields?.contains('sex') ? 'validation-failed' : ''}"
       title="<g:message code="homeFolder.child.property.sex.validationError" />">
@@ -35,8 +25,7 @@
         </option>
       </g:each>
     </select>
-  </div>
-  <div class="yui-u">
+
     <label class="required"><g:message code="homeFolder.individual.property.birthDate" /></label>
     <div class="date required validate-date">
       <select id="birthDate_day" name="birthDate_day"
@@ -68,6 +57,6 @@
       <input type="text" id="birthDate_year" name="birthDate_year" maxlength="4" size="3"
         class="year ${invalidFields?.contains('birthDate') ? 'validation-failed' : ''}"
         value="${child?.birthDate ? child?.birthDate.year + 1900 : params['birthDate_year']}" />
-    </div>
-  </div>
-</div>
+      </div>
+    </fieldset>
+

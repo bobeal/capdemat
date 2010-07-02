@@ -436,13 +436,7 @@ class FrontofficeRequestController {
     protected filterRequests(state,params) {
         Set criteriaSet = new HashSet<Critere>()
         Critere critere = new Critere()
-        
-        critere.comparatif = Critere.NEQUALS
-        critere.attribut = Request.SEARCH_BY_STATE
-        critere.value = RequestState.DRAFT
-        criteriaSet.add(critere)
-        
-        critere = new Critere()
+
         critere.comparatif = Critere.EQUALS
         critere.attribut = Request.SEARCH_BY_HOME_FOLDER_ID
         critere.value = currentEcitizen.homeFolder.id

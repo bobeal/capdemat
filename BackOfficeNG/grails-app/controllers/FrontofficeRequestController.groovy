@@ -179,7 +179,6 @@ class FrontofficeRequestController {
         def viewPath = "/frontofficeRequestType/${requestTypeLabelAsDir}/edit"
         def nextWebflowStep = webflowNextStep(rqt, params.currentStep)
         render(view: viewPath, model: [
-            'isRequestCreation': true,
             'rqt': rqt,
             'requester': SecurityContext.currentEcitizen,
             'homeFolderResponsible' : SecurityContext.currentEcitizen,
@@ -299,7 +298,6 @@ class FrontofficeRequestController {
         def requestTypeLabelAsDir = CapdematUtils.requestTypeLabelAsDir(rqt.requestType.label)
         def viewPath = "/frontofficeRequestType/${requestTypeLabelAsDir}/edit"
         def model = [
-            "isRequestCreation" : true,
             "rqt" : rqt,
             "hasHomeFolder" : SecurityContext.currentEcitizen ? true : false,
             "currentStep" : currentStep,

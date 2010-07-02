@@ -27,7 +27,6 @@ class FrontofficeRequestDocumentController {
             def document = params.documentId ? documentAdaptorService.getDocument(Long.valueOf(params.documentId)) : null
             def requestTypeResources = requestTypeAdaptorService.requestTypeResources(rqt.requestType.label)
             render(view: "/frontofficeRequestType/${requestTypeResources.requestTypeLabelAsDir}/edit", model: [
-                'isRequestCreation': true,
                 'rqt': rqt,
                 'hasHomeFolder': SecurityContext.currentEcitizen ? true : false,
                 'currentStep': 'document',

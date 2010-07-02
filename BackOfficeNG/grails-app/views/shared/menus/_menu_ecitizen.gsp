@@ -1,19 +1,4 @@
- <g:if test="${isRequestCreation}">
-   <div id="menu">
-     <a class="disable"><span><g:message code="menu.home" /></span></a>
-     <a class="disable"><span><g:message code="menu.services" /></span></a>
-     <a class="disable"><span><g:message code="menu.accounts" /></span></a>
-     <a class="disable"><span><g:message code="menu.requests" /></span></a>
-     <a class="disable"><span><g:message code="menu.documents" /></span></a>
-     <g:if test="${session.supportsActivitiesTab}">
-       <a class="disable"><span><g:message code="menu.activities" /></span></a>
-     </g:if>
-     <g:if test="${session.supportsPaymentsTab}">
-       <a class="disable"><span><g:message code="menu.payments" /></span></a>
-     </g:if>
-   </div>
- </g:if>
- <g:elseif test="${!isLogin}">
+ <g:if test="${!isLogin}">
    <div id="menu">
      <a href="${createLink(controller:'frontofficeHome')}" 
         class="${menu.current(elem:'home')}" accesskey="0">
@@ -62,4 +47,4 @@
        </a>
      </g:if>
    </div>
- </g:elseif>
+ </g:if>

@@ -30,10 +30,7 @@ class FrontofficeDocumentController {
     def details = {
         def result = [:], prevPage = null, nextPage = null, index = 0
         Document document = documentService.getById(params.long('id'))
-       
-        if (params.isRequestCreation)
-            result.isRequestCreation = true
-        
+
         result.page = params.pn ? Integer.parseInt(params.pn) : 0
         result.actions = this.getActions(document)
         result.sessionUuid = params.sessionUuid

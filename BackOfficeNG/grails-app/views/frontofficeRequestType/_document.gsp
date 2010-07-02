@@ -7,7 +7,7 @@
     <label ${index == 0 ? 'class="required"' : ''}>${message(code:'document.header.page')} ${index + 1} ${message(code:'document.message.typeFileRequest')} ${data.contentType}</label>
     <input type="file" name="documentData-${index}"/>
     <input type="submit" name="saveDocument" value="${message(code:'action.modify')}" />
-    <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?isRequestCreation=true&pn=${index}" target="blank" title="${message(code:'document.message.preview.longdesc')}">
+    <a href="${createLink(controller:'frontofficeDocument',action:'details', id:document.id)}?pn=${index}" target="blank" title="${message(code:'document.message.preview.longdesc')}">
       ${message(code:'document.message.preview')}
     </a>
     <g:if test="${index > 0}">

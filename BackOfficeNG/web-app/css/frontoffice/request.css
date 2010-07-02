@@ -36,7 +36,7 @@
   font-size: 1.5em; font-weight: normal;
   background: #ddd;
   border: 5px solid #ddd;
-  -moz-border-radius: .5em;
+  -moz-border-radius: .5em; border-radius: .5em;
 }
 
 #request .steps li a { 
@@ -54,7 +54,11 @@
 #request .steps li.complete a,
 #request .steps li.invalid a  { color: #fff; }
 
-#request .steps li.current    { margin-left: -.9em; padding-left: 1.4em; }
+#request .steps li.current {
+  margin-left: -.6em; padding-left: .9em;
+  -moz-border-radius-topleft: 0; -moz-border-radius-bottomleft: 0;
+  border-radius-topleft: 0; border-radius-bottomleft: 0;
+}
 #request .steps li.uncomplete { border-color: #fc0; background: #fc0; }
 #request .steps li.complete   { border-color: #20CC20; background: #20CC20; }
 #request .steps li.invalid    { border-color: #CC2020; background: #CC2020; }
@@ -68,7 +72,7 @@
 
 #request form { 
   min-height: 25em;
-  margin: 1em 1em; padding:  0 1.5em 1.5em 1.5em;
+  margin: 1em .5em 1em 1em; padding: 0 1.5em 1.5em 1.5em;
   border: 5px solid #ddd;
   -moz-border-radius: .5em;
   overflow: auto;

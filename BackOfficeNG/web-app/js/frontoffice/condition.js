@@ -256,6 +256,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
               zcf.Condition.fill(i,el.test,init);
             }
           });
+          zcf.RequestCreation.resizeDatasBloc(); // hack RDJ
         });
       },
       setAll : function() {

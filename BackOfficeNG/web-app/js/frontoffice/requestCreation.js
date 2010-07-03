@@ -70,8 +70,6 @@
       requestFormTabView : undefined,
       
       init : function() {
-        //zcf.RequestCreation.requestFormTabView = new yw.TabView('requestTabView');
-        
         zcf.RequestCreation.clickEvent = new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
         yue.on('request','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);
         
@@ -98,6 +96,7 @@
         
         initCustomJS();
         zcf.Condition.init();
+        zcf.RequestCreation.resizeDatasBloc();
       },
       
       getHandler : function(e) {
@@ -157,6 +156,12 @@
       },
       dateChange : function(e) {
         adaptDateDays(yud.getAncestorByTagName(yue.getTarget(e), "div"));
+      },
+      resizeDatasBloc : function () {
+        var steps = yus.query("#request div.steps")[0];
+        var datasForm = yus.query("#request form")[0];
+        if (datasForm.offsetHeight < steps.offsetHeight + 20)
+          yud.setStyle(datasForm, 'min-height', steps.offsetHeight + 20 + 'px');
       }
     };
     

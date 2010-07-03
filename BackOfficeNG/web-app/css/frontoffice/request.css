@@ -28,7 +28,7 @@
 #request.main-box { padding: 1em; border: 0; overflow: auto; }
 
 #request .datas { width: 68%; float: left; }
-#request .steps { width: 30%; float: left; margin: .5em 0; padding: 0;}
+#request .steps { width: 30%; float: left; margin: 1.5em 0; padding: 0;}
 
 #request .steps ul { margin: 0; }
 #request .steps li {

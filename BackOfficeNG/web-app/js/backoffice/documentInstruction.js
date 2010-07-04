@@ -209,7 +209,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.document');
             body : 'Souhaitez-vous réellement supprimer ce document associé à la demande ?' },
           function() {
             var currentBaseUrl = zenexity.capdemat.baseUrl;
-            zenexity.capdemat.baseUrl ='/CapDemat/backoffice/documentInstruction';
+            zenexity.capdemat.baseUrl = [zc['contextPath'],'/backoffice/documentInstruction'].join('');
             zct.doAjaxDeleteCall("/removeDocument","requestId=" + zcb.requestId
               + "&documentId=" + id, function(o) {
               var json = ylj.parse(o.responseText);

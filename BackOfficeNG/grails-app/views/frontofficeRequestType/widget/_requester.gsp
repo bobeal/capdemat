@@ -25,7 +25,7 @@
     <input type="text" class="validate-addressLine38" value="${requester?.adress?.additionalGeographicalInformation}" maxlength="38" id="_requester.adress.additionalGeographicalInformation" name="_requester.adress.additionalGeographicalInformation" />
     <label for="_requester.adress.streetNumber"><g:message code="address.property.streetNumber" /></label> - 
     <label for="_requester_adress_streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
-    <input type="text" class="line1 validate-streetNumber" value="${requester?.adress?.streetNumber}" size="5" maxlength="5" id="_requester.adress.streetNumber" name="_requester.adress.streetNumber" />
+    <input type="text" class="line1 validate-streetNumber" value="${requester?.adress?.streetNumber}" size="5" maxlength="5" id="_requester_adress_streetNumber" name="_requester.adress.streetNumber" />
     <input type="text" class="line2 required validate-streetName" value="${requester?.adress?.streetName}" maxlength="32" id="_requester_adress_streetName" name="_requester.adress.streetName" title="<g:message code="address.property.streetName.validationError" />" />
     <input type="hidden" value="${requester?.adress?.streetMatriculation}" id="_requester_adress_streetMatriculation" name="_requester.adress.streetMatriculation" />
     <label for="_requester.adress.placeNameOrService"><g:message code="address.property.placeNameOrService" /></label>

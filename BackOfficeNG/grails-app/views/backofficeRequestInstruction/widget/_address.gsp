@@ -15,7 +15,7 @@
        - 
       <strong><g:message code="address.property.streetName" /> * </strong>
     </label>
-    <input name="${propertyName}.streetNumber" type="text" maxlength="5" 
+    <input id="${propertyName}_streetNumber" name="${propertyName}.streetNumber" type="text" maxlength="5" 
         value="${propertyValue.streetNumber}" class="line1 validate-streetNumber" />
     
     <input id="${propertyName}_streetName" name="${propertyName}.streetName" type="text" maxlength="32"

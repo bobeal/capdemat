@@ -19,7 +19,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
       var inputAssistance = document.getElementById("inputAssistance")
       if(fieldset && inputAssistance) fieldset.removeChild(inputAssistance);
       document.getElementById(fieldsetId + "_streetName").disabled = false;
-      document.getElementById(fieldsetId + ".streetNumber").disabled = false;
+      document.getElementById(fieldsetId + "_streetNumber").disabled = false;
     };
 
     var disableStreetName = function(fieldsetId) {
@@ -28,7 +28,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
       inputAssistance.innerHTML = "Renseigner la ville en premier";
       yud.insertAfter(inputAssistance, yus.query("label[for=interventionPlace_streetName]")[0]);
       document.getElementById(fieldsetId + "_streetName").disabled = true;
-      document.getElementById(fieldsetId + ".streetNumber").disabled = true;
+      document.getElementById(fieldsetId + "_streetNumber").disabled = true;
     };
 
     var autocompleteBindFieldset = function(fieldsetId) {
@@ -74,7 +74,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
             autocompletes[fieldsetId].streetName.urlParams.city = result.inseeCode;
             document.getElementById(fieldsetId + "_cityInseeCode").value = result.inseeCode;
             document.getElementById(fieldsetId + "_streetName").value = "";
-            document.getElementById(fieldsetId + ".streetNumber").value = "";
+            document.getElementById(fieldsetId + "_streetNumber").value = "";
             document.getElementById(fieldsetId + "_streetMatriculation").value = "";
             enableStreetName(fieldsetId);
           }
@@ -99,7 +99,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
             autocompletes[fieldsetId].streetName.urlParams.city = result.inseeCode;
             document.getElementById(fieldsetId + "_cityInseeCode").value = result.inseeCode;
             document.getElementById(fieldsetId + "_streetName").value = "";
-            document.getElementById(fieldsetId + ".streetNumber").value = "";
+            document.getElementById(fieldsetId + "_streetNumber").value = "";
             document.getElementById(fieldsetId + "_streetMatriculation").value = "";
             enableStreetName(fieldsetId);
           }

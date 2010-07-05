@@ -81,6 +81,7 @@
 #requestData dl dd.action-editField:hover           { background: #ffffff; cursor: pointer; }
 #requestData dl dd.current-editField:hover { background: transparent; cursor: default; }/* not used ! */
 #requestData dl dd.action-editField .streetMatriculation,
+#requestData dl dd.action-editField .streetRivoliCode,
 #requestData dl dd.action-editField .cityInseeCode,
 #requestData dl dd.action-editField em {
   font-style: italic;

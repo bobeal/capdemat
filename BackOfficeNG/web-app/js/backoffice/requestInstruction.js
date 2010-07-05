@@ -365,7 +365,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
 
               if(jsonPropertyType.validate === 'address') {
                 if(zcc.AddressAutocomplete) {
-                  zcc.AddressAutocomplete.bind("interventionPlace");
+                  zcc.AddressAutocomplete.bind(targetEl.id);
                 }
               }
 

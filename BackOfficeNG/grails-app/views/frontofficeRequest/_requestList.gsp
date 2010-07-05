@@ -2,23 +2,23 @@
     <g:each var="record" in="${requests.records}">
       <li>
         <p>
-          <g:if test="${record.state.toString().equals('Draft')}">
-            <span class="tag-draft tag-state">
-              <g:message code="request.property.draft"/>
+          <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
+          <g:if test="${record.state == 'Draft'}">
+            <span class="tag-state">
+              <a href="${createLink(action:'deleteDraft',controller:'frontofficeRequest',id:record.id)}">
+                <g:message code="action.remove"/>
+              </a>
             </span>
           </g:if>
-          <g:else>
-            <g:capdematEnumToFlag var="${record.state}" i18nKeyPrefix="request.state" />
-          </g:else>
-          <g:if test="${record.isEditable}">
+          <g:elseif test="${record.isEditable}">
             <span class="tag-state">
               <a href="${createLink(action:'edit',controller:'frontofficeRequest',id:record.id)}">
                 <g:message code="action.modify"/>
               </a>
             </span>
-          </g:if>
+          </g:elseif>
           <g:if test="${record.state != 'Archived'}">
-            <a href="${createLink(controller:'frontofficeRequest',action:'summary',id:record.id)}">
+            <a href="${createLink(controller:'frontofficeRequest',action:(record.state != 'Draft' ? 'summary' : 'edit'),id:record.id)}">
           </g:if>
             ${record.label}
             <g:message code="request.searchResult.requestId" />

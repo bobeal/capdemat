@@ -509,6 +509,11 @@ create table french_r_i_b (
 
 alter table study_grant_request add column french_r_i_b_id int8;
 
+update study_grant_request set bank_code = '00000' where bank_code is null or bank_code = '';
+update study_grant_request set counter_code = '00000' where counter_code is null or counter_code = '';
+update study_grant_request set account_number = '00000000000' where account_number is null or account_number = '';
+update study_grant_request set account_key = '00' where account_key is null or account_key = '';
+
 create or replace function migrate_ribs() returns void as $$
   declare
     current_record record;

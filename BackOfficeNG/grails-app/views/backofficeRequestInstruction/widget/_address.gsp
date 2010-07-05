@@ -25,6 +25,9 @@
     <input id="${propertyName}_streetMatriculation" name="${propertyName}.streetMatriculation"
         type="hidden" value="${propertyValue.streetMatriculation}" />
 
+    <input id="${propertyName}_streetRivoliCode" name="${propertyName}.streetRivoliCode"
+        type="hidden" value="${propertyValue.streetRivoliCode}" />
+
     <label><g:message code="address.property.placeNameOrService" /></label>    
     <input name="${propertyName}.placeNameOrService" type="text" maxlength="38" class="validate-addressLine38"
         value="${propertyValue.placeNameOrService}" />

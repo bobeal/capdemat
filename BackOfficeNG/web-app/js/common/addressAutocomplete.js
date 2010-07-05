@@ -26,7 +26,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
       var inputAssistance = document.createElement("span");
       inputAssistance.id = "inputAssistance";
       inputAssistance.innerHTML = "Renseigner la ville en premier";
-      yud.insertAfter(inputAssistance, yus.query("label[for=interventionPlace_streetName]")[0]);
+      yud.insertBefore(inputAssistance, yus.query("label[for=interventionPlace_streetNumber]")[0]);
       document.getElementById(fieldsetId + "_streetName").disabled = true;
       document.getElementById(fieldsetId + "_streetNumber").disabled = true;
     };
@@ -44,7 +44,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
           inputId: fieldsetId + "_streetName",
           modalId: fieldsetId + "_streetName_autocomplete",
           url: zc.contextPath + "/autocomplete/ways",
-          idField: "matriculation",
+          idField: "id",
           minimumChars: 2,
           resultText: function(result) {
             return result.name;
@@ -53,7 +53,8 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
             return result.name;
           },
           onSelectedResult: function(result) {
-            document.getElementById(fieldsetId + "_streetMatriculation").value = result.matriculation;
+            document.getElementById(fieldsetId + "_streetMatriculation").value = result.matriculation || "";
+            document.getElementById(fieldsetId + "_streetRivoliCode").value = result.rivoliCode || "";
           }
         });
       }
@@ -76,6 +77,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
             document.getElementById(fieldsetId + "_streetName").value = "";
             document.getElementById(fieldsetId + "_streetNumber").value = "";
             document.getElementById(fieldsetId + "_streetMatriculation").value = "";
+            document.getElementById(fieldsetId + "_streetRivoliCode").value = "";
             enableStreetName(fieldsetId);
           }
         });
@@ -101,6 +103,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
             document.getElementById(fieldsetId + "_streetName").value = "";
             document.getElementById(fieldsetId + "_streetNumber").value = "";
             document.getElementById(fieldsetId + "_streetMatriculation").value = "";
+            document.getElementById(fieldsetId + "_streetRivoliCode").value = "";
             enableStreetName(fieldsetId);
           }
         });

@@ -38,9 +38,9 @@
 }
 
 #inputAssistance {
-  color: #080;
   float: right;
-  position: relative;
+  color: #080;
   background: #DFD;
   padding: 0 4px;
+  margin: 0 0 0 auto;
 }

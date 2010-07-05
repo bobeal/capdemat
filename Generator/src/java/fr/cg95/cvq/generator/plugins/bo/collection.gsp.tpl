@@ -12,13 +12,14 @@
           ,"<span class=\"streetNumber\">\${${wrapper}?.${element.javaFieldName}?.streetNumber}</span> "
           ,"<span class=\"streetName\">\${${wrapper}?.${element.javaFieldName}?.streetName}</span>"
           ,"<g:if test=\"\${!!${wrapper}?.${element.javaFieldName}?.streetMatriculation}\"><br /><em><g:message code=\"address.property.streetMatriculation\" /></em><span class=\"streetMatriculation\">\${${wrapper}?.${element.javaFieldName}?.streetMatriculation}</span></g:if>"
+          ,"<g:if test=\"\${!!${wrapper}?.${element.javaFieldName}?.streetRivoliCode}\"><br /><em><g:message code=\"address.property.streetRivoliCode\" /></em><span class=\"streetRivoliCode\">\${${wrapper}?.${element.javaFieldName}?.streetRivoliCode}</span></g:if>"
           ,"<p class=\"placeNameOrService\">\${${wrapper}?.${element.javaFieldName}?.placeNameOrService}</p>"
           ,"<span class=\"postalCode\">\${${wrapper}?.${element.javaFieldName}?.postalCode}</span> "
           ,"<span class=\"city\">\${${wrapper}?.${element.javaFieldName}?.city}</span>"
           ,"<p class=\"countryName\">\${${wrapper}?.${element.javaFieldName}?.countryName}</p>"
           ,"<g:if test=\"\${!!${wrapper}?.${element.javaFieldName}?.cityInseeCode}\"><em><g:message code=\"address.property.cityInseeCode\" /></em><span class=\"cityInseeCode\">\${${wrapper}?.${element.javaFieldName}?.cityInseeCode}</span></g:if>"
           ,"</div>"
-          ].join()
+          ].join('')
       ,'frenchRIB' :
           ["<div>"
           ,"<p class=\"bankCode\">\${${wrapper}?.${element.javaFieldName}?.bankCode}</p>"

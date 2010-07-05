@@ -65,6 +65,8 @@ public class RequestTypeAdaptorService {
     }
 
     def protected countDraft(requestTypeLabel) {
+        // Security policy hack
+        if (SecurityContext.currentEcitizen == null) return 0
         def criterias = [] as Set;
 
         def critere = new Critere();

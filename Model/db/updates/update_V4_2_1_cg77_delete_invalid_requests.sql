@@ -1,0 +1,10 @@
+delete from study_grant_request_current_school_name where study_grant_request_id in (4545, 534260, 714030, 1163513, 1593570, 4672671);
+delete from study_grant_request_tax_household_city where study_grant_request_id in (4545, 534260, 714030, 1163513, 1593570, 4672671);
+delete from study_grant_request where id in (4545, 534260, 714030, 1163513, 1593570, 4672671);
+delete from local_referential_data where id in (4547, 534263, 714034, 1163516, 1593572, 4672673);
+delete from local_referential_data where id in (4548, 534262, 714033, 1163515, 1593573, 4672674);
+delete from external_service_traces where key in ('4545', '534260', '714030', '1163513', '1593570', '4672671');
+delete from request_action where request_id in (4545, 534260, 714030, 1163513, 1593570, 4672671);
+delete from request_note where request_id in (4545, 534260, 714030, 1163513, 1593570, 4672671);
+delete from request_document where request_id in (4545, 534260, 714030, 1163513, 1593570, 4672671);
+delete from request where id in (4545, 534260, 714030, 1163513, 1593570, 4672671);

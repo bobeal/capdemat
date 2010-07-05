@@ -60,7 +60,7 @@
             <g:message code="request.action.discardDarft"/>
           </a>
         </g:if>
-        <g:message code="scr.label" /> : <g:message code="message.number" args="[rqt.id]" />
+        <g:message code="scr.label" /> <g:message code="message.number" args="[rqt.id]" />
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="scr.duration.value" /></strong></p>
       <p>

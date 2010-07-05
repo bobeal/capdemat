@@ -21,30 +21,30 @@
           <input type="hidden" name="requestTypeLabel" value="${params.requestTypeLabel}" />
           <input type="hidden" name="requestSeasonId" value="${params.requestSeasonId}" />
           <label for="login" class="required">
-            <g:message code="homeFolder.adult.property.login" />
+            ${message(code:'homeFolder.adult.property.login')}
           </label>
           <input type="text" id="login" name="login" value="" class="required"
-            title="<g:message code="homeFolder.adult.property.login.validationError" />" />
+            title="${message(code:'homeFolder.adult.property.login.validationError')}" />
           <label for="password" class="required">
-            <g:message code="homeFolder.adult.property.password" />
+            ${message(code:'homeFolder.adult.property.password')}
           </label>
           <input type="password" id="password" name="password" value="" class="required"
-            title="<g:message code="homeFolder.adult.property.password.validationError" />" />
+            title="${message(code:'homeFolder.adult.property.password.validationError')}" />
           <input type="submit" value="${message(code:'action.login')}" />
         </form>
       </div>
       <div class="yui-u main-box">
-        <h2><g:message code="homeFolder.action.createAccount"/></h2>
-          <p>En créant un compte, vous avez la possibilité de:</p>
+        <h2>${message(code:'homeFolder.action.createAccount')}</h2>
+          <p>${message(code:'homeFolder.message.accountAdvantage0')}:</p>
           <ul>
-            <li>Gérer vos données administratives et déclarer les membres de votre foyer</li>
-            <li>Accéder à des démarches en ligne pour vous ou un membre de votre foyer</li>
-            <li>Suivre l'avancement de vos demandes</li>
+            <li>${message(code:'homeFolder.message.accountAdvantage1')}</li>
+            <li>${message(code:'homeFolder.message.accountAdvantage2')}</li>
+            <li>${message(code:'homeFolder.message.accountAdvantage3')}</li>
           </ul>
           <p>
             <a style="font-size: 1.5em;" href="${createLink(controller : 'frontofficeHomeFolder', action : 'create',
               params : ['requestTypeLabel' : params.requestTypeLabel, 'requestSeasonId' : params.requestSeasonId])}">
-              Je souhaite créer mon compte
+              ${message(code:'homeFolder.action.wishCreateAccount')}
             </a>
           </p>
       </div>

@@ -21,7 +21,7 @@
                       params:['label':requestType.label, 'requestSeasonId' : requestType.seasons.iterator().next().id])}">
                       <g:translateRequestTypeLabel label="${requestType.label}"/>
                     </a>
-                    <span class="disabled-request-notice">
+                    <span class="notice">
                       ${requestType.seasons.iterator().next().label}
                     </span>
                   </g:if>
@@ -37,11 +37,17 @@
                     <g:translateRequestTypeLabel label="${requestType.label}"/>
                   </a>
                 </g:else>
+                <g:if test="${requestType.countDraft > 0}">
+                  &nbsp;
+                  <a href="${createLink(controller:'frontofficeRequest', params:[stateFilter:'draft',typeFilter:requestType.id])}" class="tag-draft">
+                    ${message(code:'requestType.message.draftNumber', args:[requestType.countDraft])}
+                  </a>
+                </g:if>
               </g:if>
               <g:else>
                 <g:translateRequestTypeLabel label="${requestType.label}"/>
                 <g:if test="${requestType.message}">
-                  <span class="disabled-request-notice">
+                  <span class="notice">
                     <g:message code="${requestType.message}"/>
                   </span>
                 </g:if>

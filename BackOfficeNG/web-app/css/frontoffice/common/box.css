@@ -16,13 +16,15 @@
   color: #e6648d;
 }
 
-.group-box a       { color: #095ba6; }
-.group-box a:hover { color: #fff; background: #e6648d; text-decoration: none; }
+.group-box a           { color: #095ba6; }
+.group-box a:hover     { color: #fff; background: #e6648d; text-decoration: none; }
+.group-box a.tag-draft { color: #fff; font-size: .8em; text-decoration: none; }
+
 .group-box ul      { margin: 1em 1em 0 10em; padding: 0 0 1em; font-size: 1.2em; }
 .group-box ul li   { padding: .3em 0; }
 .group-box img     { float:left; padding:1em; }
 
-.group-box span.disabled-request-notice { color:gray; font-size:0.85em; font-style:italic; display:block; } 
+.group-box span.notice { color:gray; font-size:0.85em; font-style:italic; display:block; }
 
 
 /* narrow box

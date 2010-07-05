@@ -304,11 +304,13 @@ public class EdemandeService implements IExternalProviderService {
     private void createSubject(StudyGrantRequest sgr) {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("lastName", StringUtils.upperCase(sgr.getSubject().getAdult().getLastName()));
-        model.put("address", sgr.getSubjectInformations().getSubjectAddress());
-        if (sgr.getSubjectInformations().getSubjectPhone() != null && !sgr.getSubjectInformations().getSubjectPhone().trim().isEmpty()) {
-            model.put("phone", sgr.getSubjectInformations().getSubjectPhone());
-        } else if (sgr.getSubjectInformations().getSubjectMobilePhone() != null && !sgr.getSubjectInformations().getSubjectMobilePhone().trim().isEmpty()) {
-            model.put("phone", sgr.getSubjectInformations().getSubjectMobilePhone());
+        model.put("address", sgr.getSubject().getAdult().getAddress());
+        if (sgr.getSubject().getAdult().getHomePhone() != null && !sgr.getSubject().getAdult().getHomePhone().trim().isEmpty()) {
+            model.put("phone", sgr.getSubject().getAdult().getHomePhone());
+        } else if (sgr.getSubject().getAdult().getMobilePhone() != null && !sgr.getSubject().getAdult().getMobilePhone().trim().isEmpty()) {
+            model.put("phone", sgr.getSubject().getAdult().getMobilePhone());
+        } else if (sgr.getSubject().getAdult().getOfficePhone() != null && !sgr.getSubject().getAdult().getOfficePhone().trim().isEmpty()) {
+            model.put("phone", sgr.getSubject().getAdult().getOfficePhone());
         }
         if (sgr.getSubject().getAdult() != null) {
             model.put("title",
@@ -336,7 +338,7 @@ public class EdemandeService implements IExternalProviderService {
         model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()));
         try {
             model.put("email",
-                StringUtils.defaultIfEmpty(sgr.getSubjectInformations().getSubjectEmail(),
+                StringUtils.defaultIfEmpty(sgr.getSubject().getAdult().getEmail(),
                 homeFolderService.getHomeFolderResponsible(sgr.getHomeFolder().getId()).getEmail()));
             GestionCompteResponseDocument response =
                 edemandeClient.creerTiers(escapeStrings(model));
@@ -358,7 +360,7 @@ public class EdemandeService implements IExternalProviderService {
             + sgr.getAccountHolderTitle().toString().toLowerCase(), Locale.FRANCE));
         model.put("lastName", StringUtils.upperCase(sgr.getAccountHolderLastName()));
         //FIXME placeholders; are these really needed ?
-        model.put("address", sgr.getSubjectInformations().getSubjectAddress());
+        model.put("address", sgr.getSubject().getAdult().getAddress());
         model.put("phone", "");
         model.put("birthPlace", "");
         //ENDFIXME
@@ -402,11 +404,13 @@ public class EdemandeService implements IExternalProviderService {
         model.put("firstName", WordUtils.capitalizeFully(
             sgr.getSubject().getAdult().getFirstName(), new char[]{' ', '-'}));
         model.put("lastName", StringUtils.upperCase(sgr.getSubject().getAdult().getLastName()));
-        model.put("address", sgr.getSubjectInformations().getSubjectAddress());
-        if (sgr.getSubjectInformations().getSubjectPhone() != null && !sgr.getSubjectInformations().getSubjectPhone().trim().isEmpty()) {
-            model.put("phone", sgr.getSubjectInformations().getSubjectPhone());
-        } else if (sgr.getSubjectInformations().getSubjectMobilePhone() != null && !sgr.getSubjectInformations().getSubjectMobilePhone().trim().isEmpty()) {
-            model.put("phone", sgr.getSubjectInformations().getSubjectMobilePhone());
+        model.put("address", sgr.getSubject().getAdult().getAddress());
+        if (sgr.getSubject().getAdult().getHomePhone() != null && !sgr.getSubject().getAdult().getHomePhone().trim().isEmpty()) {
+            model.put("phone", sgr.getSubject().getAdult().getHomePhone());
+        } else if (sgr.getSubject().getAdult().getMobilePhone() != null && !sgr.getSubject().getAdult().getMobilePhone().trim().isEmpty()) {
+            model.put("phone", sgr.getSubject().getAdult().getMobilePhone());
+        } else if (sgr.getSubject().getAdult().getOfficePhone() != null && !sgr.getSubject().getAdult().getOfficePhone().trim().isEmpty()) {
+            model.put("phone", sgr.getSubject().getAdult().getOfficePhone());
         }
         model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()));
         model.put("firstRequest", sgr.getSubjectInformations().getSubjectFirstRequest());
@@ -501,7 +505,7 @@ public class EdemandeService implements IExternalProviderService {
                 }
             }
             model.put("email",
-                StringUtils.defaultIfEmpty(sgr.getSubjectInformations().getSubjectEmail(),
+                StringUtils.defaultIfEmpty(sgr.getSubject().getAdult().getEmail(),
                 homeFolderService.getHomeFolderResponsible(sgr.getHomeFolder().getId()).getEmail()));
             model.put("taxHouseholdCityPrecision",
                 StringUtils.defaultString(sgr.getTaxHouseholdCityPrecision()));
@@ -561,7 +565,7 @@ public class EdemandeService implements IExternalProviderService {
         StudyGrantRequest sgr = ((StudyGrantRequestDocument) requestXml).getStudyGrantRequest();
         List<String> result = new ArrayList<String>();
         try {
-            String postalCodeAndCityCheck = edemandeClient.existenceCommunePostale(sgr.getSubjectInformations().getSubjectAddress().getPostalCode(), sgr.getSubjectInformations().getSubjectAddress().getCity()).getExistenceCommunePostaleResponse().getReturn();
+            String postalCodeAndCityCheck = edemandeClient.existenceCommunePostale(sgr.getSubject().getAdult().getAddress().getPostalCode(), sgr.getSubject().getAdult().getAddress().getCity()).getExistenceCommunePostaleResponse().getReturn();
             if (!"0".equals(parseData(postalCodeAndCityCheck, "//FluxWebService/msCodeRet"))) {
                 result.add(parseData(postalCodeAndCityCheck, "//FluxWebService/erreur/message"));
             }

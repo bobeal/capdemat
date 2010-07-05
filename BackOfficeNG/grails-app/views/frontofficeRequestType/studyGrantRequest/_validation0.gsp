@@ -11,29 +11,6 @@
           <dt><g:message code="request.property.subject.label" /></dt><dd>${subjects.get(rqt.subjectId)}</dd>
 
         
-          <dt><g:message code="sgr.property.subjectAddress.label" /></dt>
-          <dd>
-          <g:if test="${rqt.subjectAddress}">
-              <p>${rqt.subjectAddress?.additionalDeliveryInformation}</p>
-              <p>${rqt.subjectAddress?.additionalGeographicalInformation}</p>
-              <p>${rqt.subjectAddress?.streetNumber} ${rqt.subjectAddress?.streetName}</p>
-              <p>${rqt.subjectAddress?.placeNameOrService}</p>
-              <p>${rqt.subjectAddress?.postalCode} ${rqt.subjectAddress?.city}</p>
-              <p>${rqt.subjectAddress?.countryName}</p>
-          </g:if>
-          </dd>
-          
-
-        
-          <dt><g:message code="sgr.property.subjectPhone.label" /></dt><dd>${rqt.subjectPhone?.toString()}</dd>
-
-        
-          <dt><g:message code="sgr.property.subjectMobilePhone.label" /></dt><dd>${rqt.subjectMobilePhone?.toString()}</dd>
-
-        
-          <dt><g:message code="sgr.property.subjectEmail.label" /></dt><dd>${rqt.subjectEmail?.toString()}</dd>
-
-        
           <dt><g:message code="sgr.property.subjectBirthDate.label" /></dt>
           <dd><g:formatDate formatName="format.date" date="${rqt.subjectBirthDate}"/></dd>
           

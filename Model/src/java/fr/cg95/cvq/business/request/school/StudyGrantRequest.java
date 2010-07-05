@@ -156,8 +156,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         SgrCurrentSchoolType sgrCurrentSchoolTypeCurrentSchool = studyGrantRequest.addNewCurrentSchool();
         sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolCity(getCurrentSchoolCity());
       
-        subjectInformationsTypeSubjectInformations.setSubjectEmail(getSubjectEmail());
-      
         i = 0;
         if (getTaxHouseholdCity() != null) {
             fr.cg95.cvq.xml.common.LocalReferentialDataType[] taxHouseholdCityTypeTab = new fr.cg95.cvq.xml.common.LocalReferentialDataType[getTaxHouseholdCity().size()];
@@ -172,8 +170,6 @@ public class StudyGrantRequest extends Request implements Serializable {
       
         if (getHasOtherHelp() != null)
             studyGrantRequest.setHasOtherHelp(getHasOtherHelp().booleanValue());
-      
-        subjectInformationsTypeSubjectInformations.setSubjectPhone(getSubjectPhone());
         ALevelsInformationsType aLevelsInformationsTypeALevelsInformations = studyGrantRequest.addNewALevelsInformations();
         aLevelsInformationsTypeALevelsInformations.setAlevelsDate(getAlevelsDate());
       
@@ -234,8 +230,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         if (getIsSubjectAccountHolder() != null)
             studyGrantRequest.setIsSubjectAccountHolder(getIsSubjectAccountHolder().booleanValue());
       
-        subjectInformationsTypeSubjectInformations.setSubjectMobilePhone(getSubjectMobilePhone());
-      
         currentStudiesInformationsTypeCurrentStudiesInformations.setOtherStudiesLabel(getOtherStudiesLabel());
       
         if (getTaxHouseholdIncome() != null)
@@ -245,9 +239,6 @@ public class StudyGrantRequest extends Request implements Serializable {
       
         if (getCurrentSchoolCountry() != null)
             sgrCurrentSchoolTypeCurrentSchool.setCurrentSchoolCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getCurrentSchoolCountry().toString()));
-      
-        if (getSubjectAddress() != null)
-            subjectInformationsTypeSubjectInformations.setSubjectAddress(Address.modelToXml(getSubjectAddress()));
       
         date = getAbroadInternshipEndDate();
         if (date != null) {
@@ -299,8 +290,6 @@ public class StudyGrantRequest extends Request implements Serializable {
       
         studyGrantRequest.setCurrentSchoolCity(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCity());
       
-        studyGrantRequest.setSubjectEmail(studyGrantRequestXml.getSubjectInformations().getSubjectEmail());
-      
         List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCityList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(studyGrantRequestXml.sizeOfTaxHouseholdCityArray());
         for (LocalReferentialDataType object : studyGrantRequestXml.getTaxHouseholdCityArray()) {
             taxHouseholdCityList.add(fr.cg95.cvq.business.request.LocalReferentialData.xmlToModel(object));
@@ -310,8 +299,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         studyGrantRequest.setSubjectFirstRequest(Boolean.valueOf(studyGrantRequestXml.getSubjectInformations().getSubjectFirstRequest()));
       
         studyGrantRequest.setHasOtherHelp(Boolean.valueOf(studyGrantRequestXml.getHasOtherHelp()));
-      
-        studyGrantRequest.setSubjectPhone(studyGrantRequestXml.getSubjectInformations().getSubjectPhone());
       
         studyGrantRequest.setAlevelsDate(studyGrantRequestXml.getALevelsInformations().getAlevelsDate());
       
@@ -374,8 +361,6 @@ public class StudyGrantRequest extends Request implements Serializable {
       
         studyGrantRequest.setIsSubjectAccountHolder(Boolean.valueOf(studyGrantRequestXml.getIsSubjectAccountHolder()));
       
-        studyGrantRequest.setSubjectMobilePhone(studyGrantRequestXml.getSubjectInformations().getSubjectMobilePhone());
-      
         studyGrantRequest.setOtherStudiesLabel(studyGrantRequestXml.getCurrentStudiesInformations().getOtherStudiesLabel());
       
         studyGrantRequest.setTaxHouseholdIncome(new Double(studyGrantRequestXml.getTaxHouseholdIncome()));
@@ -386,9 +371,6 @@ public class StudyGrantRequest extends Request implements Serializable {
             studyGrantRequest.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.forString(studyGrantRequestXml.getCurrentSchool().getCurrentSchoolCountry().toString()));
         else
             studyGrantRequest.setCurrentSchoolCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
-      
-        if (studyGrantRequestXml.getSubjectInformations().getSubjectAddress() != null)
-            studyGrantRequest.setSubjectAddress(Address.xmlToModel(studyGrantRequestXml.getSubjectInformations().getSubjectAddress()));
       
         calendar = studyGrantRequestXml.getCurrentStudiesInformations().getAbroadInternshipEndDate();
         if (calendar != null) {
@@ -444,15 +426,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         return studyGrantRequestData.getCurrentSchoolCity();
     }
   
-    public final void setSubjectEmail(final String subjectEmail) {
-        studyGrantRequestData.setSubjectEmail(subjectEmail);
-    }
-
-    
-    public final String getSubjectEmail() {
-        return studyGrantRequestData.getSubjectEmail();
-    }
-  
     public final void setTaxHouseholdCity(final List<fr.cg95.cvq.business.request.LocalReferentialData> taxHouseholdCity) {
         studyGrantRequestData.setTaxHouseholdCity(taxHouseholdCity);
     }
@@ -478,15 +451,6 @@ public class StudyGrantRequest extends Request implements Serializable {
     
     public final Boolean getHasOtherHelp() {
         return studyGrantRequestData.getHasOtherHelp();
-    }
-  
-    public final void setSubjectPhone(final String subjectPhone) {
-        studyGrantRequestData.setSubjectPhone(subjectPhone);
-    }
-
-    
-    public final String getSubjectPhone() {
-        return studyGrantRequestData.getSubjectPhone();
     }
   
     public final void setAlevelsDate(final String alevelsDate) {
@@ -651,15 +615,6 @@ public class StudyGrantRequest extends Request implements Serializable {
         return studyGrantRequestData.getIsSubjectAccountHolder();
     }
   
-    public final void setSubjectMobilePhone(final String subjectMobilePhone) {
-        studyGrantRequestData.setSubjectMobilePhone(subjectMobilePhone);
-    }
-
-    
-    public final String getSubjectMobilePhone() {
-        return studyGrantRequestData.getSubjectMobilePhone();
-    }
-  
     public final void setOtherStudiesLabel(final String otherStudiesLabel) {
         studyGrantRequestData.setOtherStudiesLabel(otherStudiesLabel);
     }
@@ -694,15 +649,6 @@ public class StudyGrantRequest extends Request implements Serializable {
     
     public final fr.cg95.cvq.business.users.CountryType getCurrentSchoolCountry() {
         return studyGrantRequestData.getCurrentSchoolCountry();
-    }
-  
-    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
-        studyGrantRequestData.setSubjectAddress(subjectAddress);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
-        return studyGrantRequestData.getSubjectAddress();
     }
   
     public final void setAbroadInternshipEndDate(final java.util.Date abroadInternshipEndDate) {

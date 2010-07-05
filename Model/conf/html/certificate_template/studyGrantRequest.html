@@ -64,29 +64,6 @@
           
 
         
-          <p class="label">${i18n.translate('sgr.property.subjectAddress.label')}</p>
-          <div class="response">
-            <% if(rqt.subjectAddress) { %>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.additionalDeliveryInformation)}</p>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.additionalGeographicalInformation)}</p>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.streetNumber)} ${StringUtils.defaultString(rqt.subjectAddress?.streetName)}</p>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.placeNameOrService)}</p>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.postalCode)} ${StringUtils.defaultString(rqt.subjectAddress?.city)}</p>
-              <p>${StringUtils.defaultString(rqt.subjectAddress?.countryName)}</p>
-            <% } %>
-          </div>
-          
-
-        
-          <p class="label">${i18n.translate('sgr.property.subjectPhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectPhone?.toString())}</div>
-
-        
-          <p class="label">${i18n.translate('sgr.property.subjectMobilePhone.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectMobilePhone?.toString())}</div>
-
-        
-          <p class="label">${i18n.translate('sgr.property.subjectEmail.label')}</p><div class="response">${StringUtils.defaultString(rqt.subjectEmail?.toString())}</div>
-
-        
           <p class="label">${i18n.translate('sgr.property.subjectBirthDate.label')}</p>
           <div class="response">${rqt.subjectBirthDate ? String.format('%td/%<tm/%<tY',rqt.subjectBirthDate) : ''}</div>
           

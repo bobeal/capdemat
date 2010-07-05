@@ -161,24 +161,6 @@ public class StudyGrantRequestData implements Serializable {
     }
   
     
-    private String subjectEmail;
-
-    public final void setSubjectEmail(final String subjectEmail) {
-        this.subjectEmail = subjectEmail;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="subject_email"
-        
-      
-    */
-    public final String getSubjectEmail() {
-        return this.subjectEmail;
-    }
-  
-    
       @LocalReferential(
         
         
@@ -269,33 +251,6 @@ public class StudyGrantRequestData implements Serializable {
     */
     public final Boolean getHasOtherHelp() {
         return this.hasOtherHelp;
-    }
-  
-    
-      @MaxLength(
-        
-          value = 10,
-        
-        
-        profiles = {"subject"},
-        message = "subjectPhone"
-      )
-    
-    private String subjectPhone;
-
-    public final void setSubjectPhone(final String subjectPhone) {
-        this.subjectPhone = subjectPhone;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="subject_phone"
-        *  length="10"
-      
-    */
-    public final String getSubjectPhone() {
-        return this.subjectPhone;
     }
   
     
@@ -996,33 +951,6 @@ public class StudyGrantRequestData implements Serializable {
     }
   
     
-      @MaxLength(
-        
-          value = 10,
-        
-        
-        profiles = {"subject"},
-        message = "subjectMobilePhone"
-      )
-    
-    private String subjectMobilePhone;
-
-    public final void setSubjectMobilePhone(final String subjectMobilePhone) {
-        this.subjectMobilePhone = subjectMobilePhone;
-    }
-
-    /**
- 
-        * @hibernate.property
-        *  column="subject_mobile_phone"
-        *  length="10"
-      
-    */
-    public final String getSubjectMobilePhone() {
-        return this.subjectMobilePhone;
-    }
-  
-    
       @NotNull(
         
         
@@ -1179,39 +1107,6 @@ public class StudyGrantRequestData implements Serializable {
     */
     public final fr.cg95.cvq.business.users.CountryType getCurrentSchoolCountry() {
         return this.currentSchoolCountry;
-    }
-  
-    
-      @NotNull(
-        
-        
-        profiles = {"subject"},
-        message = "subjectAddress"
-      )
-    
-      @AssertValid(
-        
-        
-        profiles = {"subject"},
-        message = "subjectAddress"
-      )
-    
-    private fr.cg95.cvq.business.users.Address subjectAddress;
-
-    public final void setSubjectAddress(final fr.cg95.cvq.business.users.Address subjectAddress) {
-        this.subjectAddress = subjectAddress;
-    }
-
-    /**
- 
-        * @hibernate.many-to-one
-        *  cascade="all"
-        *  column="subject_address_id"
-        *  class="fr.cg95.cvq.business.users.Address"
-      
-    */
-    public final fr.cg95.cvq.business.users.Address getSubjectAddress() {
-        return this.subjectAddress;
     }
   
     

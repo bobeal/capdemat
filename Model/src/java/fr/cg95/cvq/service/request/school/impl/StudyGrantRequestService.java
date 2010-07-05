@@ -2,7 +2,6 @@ package fr.cg95.cvq.service.request.school.impl;
 
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.school.StudyGrantRequest;
-import fr.cg95.cvq.business.users.Adult;
 import fr.cg95.cvq.business.users.Individual;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.exception.CvqException;
@@ -42,16 +41,6 @@ public class StudyGrantRequestService extends RequestService implements IStudyGr
         StudyGrantRequest sgr = (StudyGrantRequest) request;
         Individual subject = (Individual) genericDAO.findById(Individual.class, sgr.getSubjectId());
         subject.setBirthDate(sgr.getSubjectBirthDate());
-        if (subject instanceof Adult) {
-            Adult adult = (Adult) subject;
-            if (sgr.getSubjectMobilePhone() != null 
-                    && (adult.getMobilePhone() == null || adult.getMobilePhone().isEmpty()))
-                adult.setMobilePhone(sgr.getSubjectMobilePhone());
-            if (sgr.getSubjectPhone() != null 
-                    && (adult.getHomePhone() == null || adult.getHomePhone().isEmpty()))
-                adult.setHomePhone(sgr.getSubjectPhone());
-            adult.setEmail(sgr.getSubjectEmail());
-        }
     }
     
     public void setEdemandeId(Long requestId, String edemandeId)

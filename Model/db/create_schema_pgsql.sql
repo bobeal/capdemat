@@ -375,9 +375,6 @@
         drop constraint FKCE60DA2B10A7E028;
 
     alter table study_grant_request 
-        drop constraint FK7D2F0A7687B85F15;
-
-    alter table study_grant_request 
         drop constraint FK7D2F0A761EE1CD99;
 
     alter table study_grant_request_current_school_name 
@@ -2277,10 +2274,8 @@
         edemande_id varchar(255),
         subject_birth_date timestamp,
         current_school_city varchar(32),
-        subject_email varchar(255),
         subject_first_request bool,
         has_other_help bool,
-        subject_phone varchar(10),
         alevels_date varchar(4),
         account_holder_birth_date timestamp,
         account_holder_title varchar(255),
@@ -2298,12 +2293,10 @@
         distance varchar(255),
         alevels varchar(255),
         is_subject_account_holder bool,
-        subject_mobile_phone varchar(10),
         other_studies_label varchar(255),
         tax_household_income float8,
         current_school_name_precision varchar(255),
         current_school_country varchar(255),
-        subject_address_id int8,
         abroad_internship_end_date timestamp,
         has_europe_help bool,
         account_holder_edemande_id varchar(255),
@@ -3061,11 +3054,6 @@
         add constraint FKCE60DA2B10A7E028 
         foreign key (sms_notification_request_id) 
         references sms_notification_request;
-
-    alter table study_grant_request 
-        add constraint FK7D2F0A7687B85F15 
-        foreign key (subject_address_id) 
-        references address;
 
     alter table study_grant_request 
         add constraint FK7D2F0A761EE1CD99 

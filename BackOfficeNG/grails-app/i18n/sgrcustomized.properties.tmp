@@ -23,22 +23,6 @@ sgr.property.subjectInformations.help =
 sgr.property.subjectInformations.validationError =
 
 
-sgr.property.subjectAddress.help =
-sgr.property.subjectAddress.validationError =
-
-
-sgr.property.subjectPhone.help =
-sgr.property.subjectPhone.validationError =
-
-
-sgr.property.subjectMobilePhone.help =
-sgr.property.subjectMobilePhone.validationError =
-
-
-sgr.property.subjectEmail.help =
-sgr.property.subjectEmail.validationError =
-
-
 sgr.property.subjectBirthDate.help =
 sgr.property.subjectBirthDate.validationError =
 

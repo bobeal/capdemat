@@ -66,13 +66,6 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
           
           
             
-               request.setSubjectEmail("SubjectEmail");
-            
-          
-        
-          
-          
-            
             
           
         
@@ -84,16 +77,6 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
           
           
                request.setHasOtherHelp(Boolean.valueOf(true));
-          
-        
-          
-          
-            
-              if ("SubjectPhone".length() > 10)
-                  request.setSubjectPhone("SubjectPhone".substring(0, 10));
-              else
-                  request.setSubjectPhone("SubjectPhone");
-            
           
         
           
@@ -229,16 +212,6 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
           
           
             
-              if ("SubjectMobilePhone".length() > 10)
-                  request.setSubjectMobilePhone("SubjectMobilePhone".substring(0, 10));
-              else
-                  request.setSubjectMobilePhone("SubjectMobilePhone");
-            
-          
-        
-          
-          
-            
                request.setOtherStudiesLabel("OtherStudiesLabel");
             
           
@@ -257,16 +230,6 @@ public class StudyGrantRequestServiceTest extends RequestTestCase {
           
             
               request.setCurrentSchoolCountry(CountryType.UNKNOWN);
-            
-          
-        
-          
-          
-            
-            
-              
-                request.setSubjectAddress(BusinessObjectsFactory.gimmeAdress("1", "Unit test address", "Paris", "75012"));
-              
             
           
         

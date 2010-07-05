@@ -36,7 +36,7 @@ public class AddressFormatter implements CSVFieldFormatter {
 //            logger.debug("group(1) : " + addressLine);
 //            logger.debug("group(2) : " + postalCode);
 //            logger.debug("group(3) : " + city);
-            Address address = new Address(streetNumber,streetName, postalCode, city);
+            Address address = new Address(streetNumber,streetName, null, null, postalCode, city, null);
             return address;
         }
         

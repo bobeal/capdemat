@@ -68,7 +68,7 @@
             <g:message code="action.cancel"/>
           </a>
         </g:if>
-        <g:message code="${requestFo.acronym}.label" />
+        <g:message code="${requestFo.acronym}.label" /> : <g:message code="message.number" args="[rqt.id]" />
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="${requestFo.acronym}.duration.value" /></strong></p>
       <p>

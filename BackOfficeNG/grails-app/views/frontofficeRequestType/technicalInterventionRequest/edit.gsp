@@ -60,7 +60,7 @@
             <g:message code="action.cancel"/>
           </a>
         </g:if>
-        <g:message code="tir.label" />
+        <g:message code="tir.label" /> : <g:message code="message.number" args="[rqt.id]" />
       </h2>
       <p><g:message code="request.duration.label" /><strong> : <g:message code="tir.duration.value" /></strong></p>
       <p>

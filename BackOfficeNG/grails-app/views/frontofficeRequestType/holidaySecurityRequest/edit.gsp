@@ -53,11 +53,11 @@
     <div id="request" class="main-box">
       <h2>
         <a href="${createLink(controller:'frontofficeHome')}" class="button">
-          <g:message code="action.quit"/>
+          <g:message code="request.action.continueLater"/>
         </a>
         <g:if test="${!isEdition}">
           <a href="${createLink(action:'deleteDraft', controller:'frontofficeRequest', params : ['id' : rqt.id, 'from' : 'edition'])}" class="button">
-            <g:message code="action.cancel"/>
+            <g:message code="request.action.discardDarft"/>
           </a>
         </g:if>
         <g:message code="hsr.label" /> : <g:message code="message.number" args="[rqt.id]" />

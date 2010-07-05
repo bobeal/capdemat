@@ -82,13 +82,8 @@
 #request form.complete   { border-color: #20CC20; }
 #request form.invalid    { border-color: #CC2020; }
 
-#request a.button {
-  float: right; 
-  margin-left: .5em;
-  font-size: .5em; font-weight: bold;
-}
-
-#request h2 { font-size: 2.5em; border: 0;}
+#request h2 { font-size: 2.5em; border: 0; }
+#request h2 a.button { float: right; margin-left: .5em; font-size: .45em; font-weight: bold; font-style: italic;}
 #request h3 {
   margin: 1em 0; padding: 0 0 .5em 0;
   font-size: 1.5em;

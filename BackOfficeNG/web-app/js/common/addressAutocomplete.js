@@ -15,20 +15,24 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
     var autocompletes = {};
 
     var enableStreetName = function(fieldsetId) {
-      var fieldset = document.getElementById(fieldsetId);
-      var inputAssistance = document.getElementById("inputAssistance")
-      if(fieldset && inputAssistance) fieldset.removeChild(inputAssistance);
-      document.getElementById(fieldsetId + "_streetName").disabled = false;
-      document.getElementById(fieldsetId + "_streetNumber").disabled = false;
+      if(document.getElementById(fieldsetId + "_streetName")) {
+        var fieldset = document.getElementById(fieldsetId);
+        var inputAssistance = document.getElementById("inputAssistance")
+        if(fieldset && inputAssistance) fieldset.removeChild(inputAssistance);
+        document.getElementById(fieldsetId + "_streetName").disabled = false;
+        document.getElementById(fieldsetId + "_streetNumber").disabled = false;
+      }
     };
 
     var disableStreetName = function(fieldsetId) {
-      var inputAssistance = document.createElement("span");
-      inputAssistance.id = "inputAssistance";
-      inputAssistance.innerHTML = "Renseigner la ville en premier";
-      yud.insertBefore(inputAssistance, yus.query("label[for=interventionPlace_streetNumber]")[0]);
-      document.getElementById(fieldsetId + "_streetName").disabled = true;
-      document.getElementById(fieldsetId + "_streetNumber").disabled = true;
+      if(document.getElementById(fieldsetId + "_streetName")) {
+        var inputAssistance = document.createElement("span");
+        inputAssistance.id = "inputAssistance";
+        inputAssistance.innerHTML = "Renseigner la ville en premier";
+        yud.insertBefore(inputAssistance, yus.query("label[for=" + fieldsetId + "_streetNumber]")[0]);
+        document.getElementById(fieldsetId + "_streetName").disabled = true;
+        document.getElementById(fieldsetId + "_streetNumber").disabled = true;
+      }
     };
 
     var autocompleteBindFieldset = function(fieldsetId) {

@@ -98,6 +98,7 @@ class BackofficeDocumentInstructionController {
             	document = documentService.getById(params.long('documentId'))
             } else {
                 document = new Document()
+                document.state = DocumentState.PENDING // Hack to byPass DRAFT state
                 Request req = requestSearchService.getById(params.long('requestId'), false)
                 document.documentType = documentTypeService.getDocumentTypeById(params.long('documentTypeId'))
                 document.homeFolderId = req.homeFolderId

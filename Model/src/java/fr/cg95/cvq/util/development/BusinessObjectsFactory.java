@@ -16,6 +16,7 @@ import fr.cg95.cvq.business.authority.School;
 import fr.cg95.cvq.business.document.DepositOrigin;
 import fr.cg95.cvq.business.document.DepositType;
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.business.request.RequestSeason;
 import fr.cg95.cvq.business.users.Address;
@@ -118,6 +119,7 @@ public class BusinessObjectsFactory {
         doc.setDepositOrigin(depOrig);
         doc.setDepositType(depType);
         doc.setDocumentType(docType);
+        doc.setState(DocumentState.PENDING);
         return doc;
     }
 

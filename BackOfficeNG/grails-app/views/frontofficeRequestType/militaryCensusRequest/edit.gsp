@@ -83,7 +83,7 @@
       <ul>
 
   
-        <li class="${currentStep == 'census' ? 'current' : ''}
+        <li class="${currentStep == 'census' ? 'current ' : ''}
           
             ${individual ? rqt.stepStates['census-' + params.type].state : rqt.stepStates['census'].state}
           
@@ -106,7 +106,7 @@
   
 
   
-        <li class="${currentStep == 'parentage' ? 'current' : ''}
+        <li class="${currentStep == 'parentage' ? 'current ' : ''}
           
             ${rqt.stepStates['parentage'].state}
           
@@ -130,7 +130,7 @@
   
 
   
-        <li class="${currentStep == 'situation' ? 'current' : ''}
+        <li class="${currentStep == 'situation' ? 'current ' : ''}
           
             ${rqt.stepStates['situation'].state}
           
@@ -154,7 +154,7 @@
   
 
   
-        <li class="${currentStep == 'exemption' ? 'current' : ''}
+        <li class="${currentStep == 'exemption' ? 'current ' : ''}
           
             ${rqt.stepStates['exemption'].state}
           
@@ -180,7 +180,7 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-        <li class="${currentStep == 'document' ? 'current' : ''}
+        <li class="${currentStep == 'document' ? 'current ' : ''}
           
             ${rqt.stepStates['document'].state}
           
@@ -206,7 +206,7 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''}
+        <li class="${currentStep == 'validation' ? 'current ' : ''}
           
             ${rqt.stepStates['validation'].state}
           

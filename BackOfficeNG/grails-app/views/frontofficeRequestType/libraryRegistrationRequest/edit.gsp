@@ -83,7 +83,7 @@
       <ul>
 
   
-        <li class="${currentStep == 'registration' ? 'current' : ''}
+        <li class="${currentStep == 'registration' ? 'current ' : ''}
           
             ${individual ? rqt.stepStates['registration-' + params.type].state : rqt.stepStates['registration'].state}
           
@@ -106,7 +106,7 @@
   
 
   
-        <li class="${currentStep == 'rules' ? 'current' : ''}
+        <li class="${currentStep == 'rules' ? 'current ' : ''}
           
             ${rqt.stepStates['rules'].state}
           
@@ -132,14 +132,14 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-        <li class="${currentStep == 'document' ? 'current' : ''}
+        <li class="${currentStep == 'document' ? 'current ' : ''}
           
             ${rqt.stepStates['document'].state}
           
           ">
           <span class="number">3</span>
           <a
-            <g:if test="${rqt.stepStates['document'].state != 'unavailable'}">
+            <g:if test="${currentStep != 'document' && rqt.stepStates['document'].state != 'unavailable'}">
               href="${createLink(controller:'frontofficeRequest', action : 'edit', params:['id':rqt.id,'currentStep':'document'])}"
             </g:if>
           >
@@ -158,7 +158,7 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''}
+        <li class="${currentStep == 'validation' ? 'current ' : ''}
           
             ${rqt.stepStates['validation'].state}
           

@@ -83,7 +83,7 @@
       <ul>
 
   
-        <li class="${currentStep == 'subject' ? 'current' : ''}
+        <li class="${currentStep == 'subject' ? 'current ' : ''}
           
             ${individual ? rqt.stepStates['subject-' + params.type].state : rqt.stepStates['subject'].state}
           
@@ -106,7 +106,7 @@
   
 
   
-        <li class="${currentStep == 'dwelling' ? 'current' : ''}
+        <li class="${currentStep == 'dwelling' ? 'current ' : ''}
           
             ${rqt.stepStates['dwelling'].state}
           
@@ -130,7 +130,7 @@
   
 
   
-        <li class="${currentStep == 'socialSecurityAndPaymentAgency' ? 'current' : ''}
+        <li class="${currentStep == 'socialSecurityAndPaymentAgency' ? 'current ' : ''}
           
             ${rqt.stepStates['socialSecurityAndPaymentAgency'].state}
           
@@ -154,7 +154,7 @@
   
 
   
-        <li class="${currentStep == 'occupationnalAndSchoolStatus' ? 'current' : ''}
+        <li class="${currentStep == 'occupationnalAndSchoolStatus' ? 'current ' : ''}
           
             ${rqt.stepStates['occupationnalAndSchoolStatus'].state}
           
@@ -178,7 +178,7 @@
   
 
   
-        <li class="${currentStep == 'folders' ? 'current' : ''}
+        <li class="${currentStep == 'folders' ? 'current ' : ''}
           
             ${rqt.stepStates['folders'].state}
           
@@ -202,7 +202,7 @@
   
 
   
-        <li class="${currentStep == 'benefits' ? 'current' : ''}
+        <li class="${currentStep == 'benefits' ? 'current ' : ''}
           
             ${rqt.stepStates['benefits'].state}
           
@@ -226,7 +226,7 @@
   
 
   
-        <li class="${currentStep == 'aid' ? 'current' : ''}
+        <li class="${currentStep == 'aid' ? 'current ' : ''}
           
             ${rqt.stepStates['aid'].state}
           
@@ -250,7 +250,7 @@
   
 
   
-        <li class="${currentStep == 'health' ? 'current' : ''}
+        <li class="${currentStep == 'health' ? 'current ' : ''}
           
             ${rqt.stepStates['health'].state}
           
@@ -274,7 +274,7 @@
   
 
   
-        <li class="${currentStep == 'project' ? 'current' : ''}
+        <li class="${currentStep == 'project' ? 'current ' : ''}
           
             ${rqt.stepStates['project'].state}
           
@@ -300,7 +300,7 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-        <li class="${currentStep == 'document' ? 'current' : ''}
+        <li class="${currentStep == 'document' ? 'current ' : ''}
           
             ${rqt.stepStates['document'].state}
           
@@ -326,7 +326,7 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''}
+        <li class="${currentStep == 'validation' ? 'current ' : ''}
           
             ${rqt.stepStates['validation'].state}
           

@@ -83,7 +83,7 @@
       <ul>
 
   
-        <li class="${currentStep == 'subject' ? 'current' : ''}
+        <li class="${currentStep == 'subject' ? 'current ' : ''}
           
             ${individual ? rqt.stepStates['subject-' + params.type].state : rqt.stepStates['subject'].state}
           
@@ -106,7 +106,7 @@
   
 
   
-        <li class="${currentStep == 'taxHousehold' ? 'current' : ''}
+        <li class="${currentStep == 'taxHousehold' ? 'current ' : ''}
           
             ${rqt.stepStates['taxHousehold'].state}
           
@@ -130,7 +130,7 @@
   
 
   
-        <li class="${currentStep == 'otherHelps' ? 'current' : ''}
+        <li class="${currentStep == 'otherHelps' ? 'current ' : ''}
           
             ${rqt.stepStates['otherHelps'].state}
           
@@ -154,7 +154,7 @@
   
 
   
-        <li class="${currentStep == 'currentStudies' ? 'current' : ''}
+        <li class="${currentStep == 'currentStudies' ? 'current ' : ''}
           
             ${rqt.stepStates['currentStudies'].state}
           
@@ -178,7 +178,7 @@
   
 
   
-        <li class="${currentStep == 'calculationElements' ? 'current' : ''}
+        <li class="${currentStep == 'calculationElements' ? 'current ' : ''}
           
             ${rqt.stepStates['calculationElements'].state}
           
@@ -202,7 +202,7 @@
   
 
   
-        <li class="${currentStep == 'bankReference' ? 'current' : ''}
+        <li class="${currentStep == 'bankReference' ? 'current ' : ''}
           
             ${rqt.stepStates['bankReference'].state}
           
@@ -228,7 +228,7 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-        <li class="${currentStep == 'document' ? 'current' : ''}
+        <li class="${currentStep == 'document' ? 'current ' : ''}
           
             ${rqt.stepStates['document'].state}
           
@@ -254,7 +254,7 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''}
+        <li class="${currentStep == 'validation' ? 'current ' : ''}
           
             ${rqt.stepStates['validation'].state}
           

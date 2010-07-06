@@ -83,7 +83,7 @@
       <ul>
 
   
-        <li class="${currentStep == 'subject' ? 'current' : ''}
+        <li class="${currentStep == 'subject' ? 'current ' : ''}
           
             ${individual ? rqt.stepStates['subject-' + params.type].state : rqt.stepStates['subject'].state}
           
@@ -106,7 +106,7 @@
   
 
   
-        <li class="${currentStep == 'contact' ? 'current' : ''}
+        <li class="${currentStep == 'contact' ? 'current ' : ''}
           
             ${rqt.stepStates['contact'].state}
           
@@ -132,7 +132,7 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-        <li class="${currentStep == 'document' ? 'current' : ''}
+        <li class="${currentStep == 'document' ? 'current ' : ''}
           
             ${rqt.stepStates['document'].state}
           
@@ -158,7 +158,7 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''}
+        <li class="${currentStep == 'validation' ? 'current ' : ''}
           
             ${rqt.stepStates['validation'].state}
           

@@ -83,7 +83,7 @@
       <ul>
 
   
-        <li class="${currentStep == 'registration' ? 'current' : ''}
+        <li class="${currentStep == 'registration' ? 'current ' : ''}
           
             ${individual ? rqt.stepStates['registration-' + params.type].state : rqt.stepStates['registration'].state}
           
@@ -106,7 +106,7 @@
   
 
   
-        <li class="${currentStep == 'rules' ? 'current' : ''}
+        <li class="${currentStep == 'rules' ? 'current ' : ''}
           
             ${rqt.stepStates['rules'].state}
           
@@ -130,7 +130,7 @@
   
 
   
-        <li class="${currentStep == 'contactphone' ? 'current' : ''}
+        <li class="${currentStep == 'contactphone' ? 'current ' : ''}
           
             ${rqt.stepStates['contactphone'].state}
           
@@ -154,7 +154,7 @@
   
 
   
-        <li class="${currentStep == 'contact' ? 'current' : ''}
+        <li class="${currentStep == 'contact' ? 'current ' : ''}
           
             ${rqt.stepStates['contact'].state}
           
@@ -178,7 +178,7 @@
   
 
   
-        <li class="${currentStep == 'additional' ? 'current' : ''}
+        <li class="${currentStep == 'additional' ? 'current ' : ''}
           
             ${rqt.stepStates['additional'].state}
           
@@ -204,7 +204,7 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-        <li class="${currentStep == 'document' ? 'current' : ''}
+        <li class="${currentStep == 'document' ? 'current ' : ''}
           
             ${rqt.stepStates['document'].state}
           
@@ -230,7 +230,7 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''}
+        <li class="${currentStep == 'validation' ? 'current ' : ''}
           
             ${rqt.stepStates['validation'].state}
           

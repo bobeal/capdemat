@@ -83,7 +83,7 @@
       <ul>
 
   
-        <li class="${currentStep == 'subject' ? 'current' : ''}
+        <li class="${currentStep == 'subject' ? 'current ' : ''}
           
             ${individual ? rqt.stepStates['subject-' + params.type].state : rqt.stepStates['subject'].state}
           
@@ -106,7 +106,7 @@
   
 
   
-        <li class="${currentStep == 'familyReferent' ? 'current' : ''}
+        <li class="${currentStep == 'familyReferent' ? 'current ' : ''}
           
             ${rqt.stepStates['familyReferent'].state}
           
@@ -130,7 +130,7 @@
   
 
   
-        <li class="${currentStep == 'spouse' ? 'current' : ''}
+        <li class="${currentStep == 'spouse' ? 'current ' : ''}
           
             ${rqt.stepStates['spouse'].state}
           
@@ -154,7 +154,7 @@
   
 
   
-        <li class="${currentStep == 'dwelling' ? 'current' : ''}
+        <li class="${currentStep == 'dwelling' ? 'current ' : ''}
           
             ${rqt.stepStates['dwelling'].state}
           
@@ -178,7 +178,7 @@
   
 
   
-        <li class="${currentStep == 'resources' ? 'current' : ''}
+        <li class="${currentStep == 'resources' ? 'current ' : ''}
           
             ${rqt.stepStates['resources'].state}
           
@@ -202,7 +202,7 @@
   
 
   
-        <li class="${currentStep == 'taxes' ? 'current' : ''}
+        <li class="${currentStep == 'taxes' ? 'current ' : ''}
           
             ${rqt.stepStates['taxes'].state}
           
@@ -228,7 +228,7 @@
   
         <g:if test="${!documentTypes.isEmpty()}">
   
-        <li class="${currentStep == 'document' ? 'current' : ''}
+        <li class="${currentStep == 'document' ? 'current ' : ''}
           
             ${rqt.stepStates['document'].state}
           
@@ -254,7 +254,7 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''}
+        <li class="${currentStep == 'validation' ? 'current ' : ''}
           
             ${rqt.stepStates['validation'].state}
           

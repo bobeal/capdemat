@@ -83,7 +83,7 @@
       <ul>
 
   
-        <li class="${currentStep == 'requester' ? 'current' : ''}
+        <li class="${currentStep == 'requester' ? 'current ' : ''}
           
             ${individual ? rqt.stepStates['requester-' + params.type].state : rqt.stepStates['requester'].state}
           
@@ -106,7 +106,7 @@
   
 
   
-        <li class="${currentStep == 'cadastre' ? 'current' : ''}
+        <li class="${currentStep == 'cadastre' ? 'current ' : ''}
           
             ${rqt.stepStates['cadastre'].state}
           
@@ -130,7 +130,7 @@
   
 
   
-        <li class="${currentStep == 'validation' ? 'current' : ''}
+        <li class="${currentStep == 'validation' ? 'current ' : ''}
           
             ${rqt.stepStates['validation'].state}
           

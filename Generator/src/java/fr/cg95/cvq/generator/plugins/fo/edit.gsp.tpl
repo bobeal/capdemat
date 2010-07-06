@@ -93,7 +93,7 @@
   <% if (step.name == 'document') { %>
         <g:if test="\${!documentTypes.isEmpty()}">
   <% } %>
-        <li class="\${currentStep == '${step.name}' ? 'current' : ''}
+        <li class="\${currentStep == '${step.name}' ? 'current ' : ''}
           <% if (i == 0) { %>
             \${individual ? rqt.stepStates['${step.name}-' + params.type].state : rqt.stepStates['${step.name}'].state}
           <% } else { %>

@@ -205,6 +205,7 @@ class BackofficeRequestInstructionController {
         def model = ["requestId": Long.valueOf(params.id),
                      // the "fully qualifier" property name
                      "propertyName": params.propertyName,
+                     "propertyPrefix": params.propertyName.replace(".","_").replace("[","_").replace("]","_"),
                      "propertyType": propertyType,
                      "required" : propertyTypes.required ? "required" : ""]
         

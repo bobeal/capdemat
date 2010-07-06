@@ -117,6 +117,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
 
     var autocompleteBind = function(fieldsetId) {
       if(fieldsetId) {
+        fieldsetId = fieldsetId.replace(".", "_").replace("[","_").replace("]","_");
         autocompleteBindFieldset(fieldsetId);
       }
       else {
@@ -127,6 +128,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
     };
 
     var autocompleteUnbindFieldset = function(fieldsetId) {
+      fieldsetId = fieldsetId.replace(".", "_").replace("[","_").replace("]","_");
       delete autocompletes[fieldsetId].streetName;
       delete autocompletes[fieldsetId].postalCode;
       delete autocompletes[fieldsetId].city;
@@ -134,6 +136,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
 
     var autocompleteUnbind = function(fieldsetId) {
       if(fieldsetId) {
+        fieldsetId = fieldsetId.replace(".", "_").replace("[","_").replace("]","_");
         autocompleteUnbindFieldset(fieldsetId);
       }
       else {

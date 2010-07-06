@@ -25,7 +25,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
     };
 
     var disableStreetName = function(fieldsetId) {
-      if(document.getElementById(fieldsetId + "_streetName")) {
+      if(document.getElementById(fieldsetId + "_streetName") && document.getElementById(fieldsetId + "_cityInseeCode").value == "") {
         var inputAssistance = document.createElement("span");
         inputAssistance.id = fieldsetId + "_inputAssistance";
         inputAssistance.className = "inputAssistance";

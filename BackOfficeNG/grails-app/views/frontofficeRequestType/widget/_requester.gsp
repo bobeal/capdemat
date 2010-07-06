@@ -23,7 +23,7 @@
     <input type="text" class="validate-addressLine38" value="${requester?.adress?.additionalDeliveryInformation}" maxlength="38" id="_requester.adress.additionalDeliveryInformation" name="_requester.adress.additionalDeliveryInformation" />  
     <label for="_requester.adress.additionalGeographicalInformation"><g:message code="address.property.additionalGeographicalInformation" /></label>
     <input type="text" class="validate-addressLine38" value="${requester?.adress?.additionalGeographicalInformation}" maxlength="38" id="_requester.adress.additionalGeographicalInformation" name="_requester.adress.additionalGeographicalInformation" />
-    <label for="_requester.adress_streetNumber"><g:message code="address.property.streetNumber" /></label> - 
+    <label for="_requester_adress_streetNumber"><g:message code="address.property.streetNumber" /></label> - 
     <label for="_requester_adress_streetName" class="required"><g:message code="address.property.streetName" /> *</label><br />
     <input type="text" class="line1 validate-streetNumber" value="${requester?.adress?.streetNumber}" size="5" maxlength="5" id="_requester_adress_streetNumber" name="_requester.adress.streetNumber" />
     <input type="text" class="line2 required validate-streetName" value="${requester?.adress?.streetName}" maxlength="32" id="_requester_adress_streetName" name="_requester.adress.streetName" title="<g:message code="address.property.streetName.validationError" />" />

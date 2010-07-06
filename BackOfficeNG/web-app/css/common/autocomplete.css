@@ -37,7 +37,7 @@
   background: #CCC;
 }
 
-#inputAssistance {
+.inputAssistance {
   float: right;
   color: #080;
   background: #DFD;

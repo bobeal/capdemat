@@ -17,7 +17,7 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
     var enableStreetName = function(fieldsetId) {
       if(document.getElementById(fieldsetId + "_streetName")) {
         var fieldset = document.getElementById(fieldsetId);
-        var inputAssistance = document.getElementById("inputAssistance")
+        var inputAssistance = document.getElementById(fieldsetId + "_inputAssistance");
         if(fieldset && inputAssistance) fieldset.removeChild(inputAssistance);
         document.getElementById(fieldsetId + "_streetName").disabled = false;
         document.getElementById(fieldsetId + "_streetNumber").disabled = false;
@@ -27,7 +27,8 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
     var disableStreetName = function(fieldsetId) {
       if(document.getElementById(fieldsetId + "_streetName")) {
         var inputAssistance = document.createElement("span");
-        inputAssistance.id = "inputAssistance";
+        inputAssistance.id = fieldsetId + "_inputAssistance";
+        inputAssistance.className = "inputAssistance";
         inputAssistance.innerHTML = "Renseigner la ville en premier";
         yud.insertBefore(inputAssistance, yus.query("label[for=" + fieldsetId + "_streetNumber]")[0]);
         document.getElementById(fieldsetId + "_streetName").disabled = true;

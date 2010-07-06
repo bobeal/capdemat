@@ -22,11 +22,11 @@ class BackofficeCategoryController {
 
         def requestTypesByCategory = [:]
         categories.each { category ->
-        	requestTypesByCategory[category.id] = []
-        	category.requestTypes?.each { rt ->
-        		requestTypesByCategory[category.id].add(CapdematUtils.adaptRequestType(translationService, rt))
-        	}
-        	requestTypesByCategory[category.id].sort {it.label.toLowerCase()}
+            requestTypesByCategory[category.id] = []
+            category.requestTypes?.each { rt ->
+                requestTypesByCategory[category.id].add(CapdematUtils.adaptRequestType(translationService, rt))
+            }
+            requestTypesByCategory[category.id].sort {it.label.toLowerCase()}
         }
 
         def orphanRequestTypes = []
@@ -129,7 +129,7 @@ class BackofficeCategoryController {
         render ([status:"ok",categoryName:"", success_msg:message(code:"message.updateDone")] as JSON)
     }
     
-    /* Category agent managment
+    /* Category's agents managment
      * --------------------------------------------------------------------- */
     
     def agents = {
@@ -177,12 +177,51 @@ class BackofficeCategoryController {
         }
     }
     
+    /* Agents categories managment
+     * --------------------------------------------------------------------- */
+
+    def categories = {
+        def categories = []
+        def agent = agentService.getById(Long.valueOf(params.id))
+        if ((request.post && params.scope == null) || params.scope == "All") 
+            categoryService.getAll().each { categories.add(adaptCategory(it, agent)) }
+        else if (params.scope == "Agent")
+            categoryService.getAgentCategories(Long.valueOf(params.id)).each {
+                categories.add(adaptCategory(it, agent))
+            }
+
+        categories = categories.sort{ it.name != null ? it.name.toLowerCase() : "zzz"}
+
+        render( template: "agentCategories",
+            model: [ "agentId": Long.valueOf(params.id), "categories": categories])
+    }
+
+    def editCategory = {
+        if (request.get) {
+            def agent = agentService.getById(Long.valueOf(params.id))
+            def category = categoryService.getById(Long.valueOf(params.categoryId));
+            def profiles = []
+            CategoryProfile.allCategoryProfiles.each { profiles.add(adaptCategoryProfile(it)) }
+
+            render( template: "agentCategoryEdit",
+                model: [agentId: Long.valueOf(params.id), category: adaptCategory(category, agent), profiles: profiles])
+        } else if (request.post) {
+            if (params.agentId == null || params.categoryId == null)
+                render ([status: "error", error_msg:message(code:"error.unexpected")] as JSON)
+
+            categoryService.modifyCategoryRole(Long.valueOf(params.agentId), Long.valueOf(params.categoryId),
+                CategoryProfile.allCategoryProfiles[Integer.valueOf(params.profileIndex)])
+
+            render ([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
+        }
+    }
+
     /* Adaptions closure specific to categories
      * --------------------------------------------------------------------- */
     
     def adaptAgent (businessAgent) {
         def categoryProfile = 
-        	categoryService.getProfileForCategory(businessAgent.id, Long.valueOf(params.id))
+            categoryService.getProfileForCategory(businessAgent.id, Long.valueOf(params.id))
         return [
             id: businessAgent.id,
             active: businessAgent.active,
@@ -212,4 +251,17 @@ class BackofficeCategoryController {
         }
         return [ i18nKey: i18nKey, cssClass: cssClass ]         
     }
+    
+    def adaptCategory (category, agent) {
+        def agentHasProfile = categoryService.hasProfileOnCategory(agent, category.id)
+
+        return [
+            id: category.id,
+            name: category.name,
+            agentHasProfile: agentHasProfile,
+            agentProfile: agentHasProfile == true ? 
+                    adaptCategoryProfile(categoryService.getProfileForCategory(agent.id, category.id)) : null
+        ]
+    }
+
 }

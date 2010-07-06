@@ -2,11 +2,12 @@
 <html>
   <head>
   <title>
-    <g:message code="agent.header.configuration" args="${[agent.lastName, agent.firstName]}" />           
+    <g:message code="agent.header.configuration" args="${[agent.lastName, agent.firstName]}" />
   </title>
   <meta name="layout" content="main" />
   <link rel="stylesheet" href="${resource(dir:'css/backoffice',file:'configuration.css')}" >
   <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'agentEdit.js')}"></script>
+  <script type="text/javascript" src="${resource(dir:'js/backoffice',file:'agentCategories.js')}"></script>
   <script type="text/javascript">
     zenexity.capdemat.bong.agentId = '${agent?.id}';
   </script>
@@ -35,14 +36,33 @@
 
             <dt><g:message code="agent.property.sitesRoles" /> : </dt>
             <dd>
-							<g:each in="${agent.sitesRoles}" var="siteRoles">
+              <g:each in="${agent.sitesRoles}" var="siteRoles">
                 <g:message code="agent.siteProfile.${siteRoles.profile.toString().toLowerCase()}" /> <br />
               </g:each>
-						</dd>
+            </dd>
           </dl>
         </div>
         
+        <div id="agentCategoriesBox" class="mainbox mainbox-yellow">
+          <h2><g:message code="agent.header.categories" /></h2>
+          <div class="editableListSwithcher">
+            <form id="sortCategoryForm" method="post" action="<g:createLink action="categories" />" />
+              <input type="hidden" name="id" value="${agent?.id}" />
+
+              <a class="viewCategories current" id="viewCategories_Agent">
+                <g:message code="filter.viewBounded" />
+              </a> / 
+              <a  class="viewCategories" id="viewCategories_All">
+                <g:message code="filter.viewAll" />
+              </a>
+            </form>
+          </div>
+          <ul id="agentCategories" class="editableList">
+          </ul>
+        </div>
+
       </div>
+      
     </div>  
     
     <div id="narrow" class="yui-b">
@@ -55,7 +75,6 @@
           <g:if test="${agents.size > 0}">
             <form action="<g:createLink action="edit" />">
               <select name="agentId" id="agentId">
-                <option value=""></option>
                 <g:each in="${agents}" var="agent">
                   <option value="${agent.id}" ${agent.id == Long.valueOf(params.id) ? 'selected' : ''}>
                     ${agent.lastName} ${agent.firstName}

@@ -340,21 +340,21 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="concurrent" value="false" />
   </bean>
 
-    <!-- dev -->
+  <!-- dev -->
+  <!--
   <bean id="requestArchivingTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
     <property name="jobDetail" ref="requestArchivingInvoker" />
     <property name="cronExpression" value="0 0/5 * * * ?" />
   </bean>
+  -->
 
   <!-- prod -->
-  <!--
   <bean id="requestArchivingTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerBean">
     <property name="jobDetail" ref="requestArchivingInvoker" />
     <property name="cronExpression" value="0 0 * * * ?" />
   </bean>
-  -->
 
   <!-- *******************************************************************  -->
   <!-- ************ Where everything happens (or not) ********************  -->
@@ -371,11 +371,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <ref bean="draftManagementRemoverJobTrigger"/>
         <ref bean="draftManagementNotifierJobTrigger"/>
         <ref bean="requestLocksCleaningTrigger"/>
-        <!--
         <ref bean="requestArchivingTrigger"/>
-        <ref bean="requestWorkflowNavigatorTrigger" />
         <ref bean="paymentInitializationCheckerTrigger" />
-	    -->
+        <!--
+        <ref bean="requestWorkflowNavigatorTrigger" />
+        -->
       </set>
     </property>
   </bean>

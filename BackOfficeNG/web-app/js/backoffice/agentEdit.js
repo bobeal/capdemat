@@ -1,4 +1,5 @@
 (function(){
+  var zc = zenexity.capdemat;
   var zcb = zenexity.capdemat.bong;
   var zct = zenexity.capdemat.tools;
   var yud = YAHOO.util.Dom;
@@ -6,12 +7,14 @@
   zcb.agentEdit = function() {
     return {
       init : function() {
+      var url = [zc['contextPath'],'/backoffice/category/categories/?id=',zcb.agentId,'&scope=Agent'].join('');
         zct.doAjaxCall(
-          "/categories/?id=" + zcb.agentId + "&scope=Agent",
+          url,
           [zcb.agentId],
           function(o) {
             yud.get('agentCategories').innerHTML = o.responseText;
-          });
+          },
+          true);
         yue.on("agentId", "change", zcb.agentEdit.changeAgent);
       },
       changeAgent : function() {

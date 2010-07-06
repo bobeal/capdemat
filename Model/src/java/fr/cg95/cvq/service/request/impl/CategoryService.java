@@ -89,6 +89,12 @@ public class CategoryService implements ICategoryService, ILocalAuthorityLifecyc
 
     @Override
     @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
+    public List<Category> getAgentCategories(final Long agentId) {
+        return categoryDAO.listByAgent(agentId, null);
+    }
+
+    @Override
+    @Context(types = {ContextType.ADMIN}, privilege = ContextPrivilege.NONE)
     public Long create(final Category category)
         throws CvqException, CvqModelException {
 

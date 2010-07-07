@@ -26,10 +26,9 @@
       </form>
     </div>
   </g:if>
-  <a id="previewDocumentLink" href="${createLink('action' : 'documentPage', params : [id: document.id, uuid:UUID.randomUUID().toString().substring(0,4), pageNumber:pageNumber])}">
+  <a href="${createLink('action' : 'documentPage', params : [id: document.id, pageNumber:pageNumber, uuid:UUID.randomUUID().toString().substring(0,4)])}"
+      target="blank" title="${document.messageLink}">
     <img class="page" 
         src="${g.createLink(action:'documentPreview')}/${document.id}/?pageNumber=${pageNumber}&uuid=${UUID.randomUUID().toString().substring(0,4)}"/>
   </a>
-  <div id="openDocumentLink"><a href="${createLink('action' : 'documentPage', params : [id: document.id, uuid:UUID.randomUUID().toString().substring(0,4), pageNumber:pageNumber])}">
-    ${document.messageLink}</a></div>
 </div>

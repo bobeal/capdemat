@@ -65,6 +65,11 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     protected IDocumentTypeDAO documentTypeDAO;
     private ITranslationService translationService;
 
+    /**
+     * Max allowed data size (in Mb) for uploaded files, 0 means unlimited
+     */
+    private int maxDataSize;
+
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.READ)
     public Document getById(final Long id)
     throws CvqException, CvqObjectNotFoundException {
@@ -235,8 +240,9 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         if (data == null || data.length == 0)
             return;
         checkDocumentDigitalizationIsEnabled();
+        checkDataSize(data);
         Document document = getById(documentId);
-        checkNewBinaryData(document, document.getDatas().size(), data);
+        checkMimeType(document, document.getDatas().size(), data);
         DocumentBinary documentBinary = new DocumentBinary();
         try {
             documentBinary.setContentType(mimeTypeFromBytes(data));
@@ -262,8 +268,9 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         if (data == null || data.length == 0)
             return;
         checkDocumentDigitalizationIsEnabled();
+        checkDataSize(data);
         Document document = getById(documentId);
-        checkNewBinaryData(document, dataIndex, data);
+        checkMimeType(document, dataIndex, data);
         DocumentBinary documentBinary = document.getDatas().get(dataIndex);
         documentBinary.setContentType(mimeTypeFromBytes(data));
         documentBinary.setData(data);
@@ -302,7 +309,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
             MimeUtil2.getMostSpecificMimeType(util.getMimeTypes(data)).toString());
     }
 
-    private void checkNewBinaryData(final Document document, final int index, final byte[] data)
+    private void checkMimeType(final Document document, final int index, final byte[] data)
         throws CvqModelException {
         ContentType type = mimeTypeFromBytes(data);
         if (!type.isAllowed())
@@ -310,6 +317,14 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         if (document.getDatas() != null && !(document.getDatas().size() <= 1 && index == 0))
             if (!document.getDatas().get(0).getContentType().equals(type))
                 throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
+    }
+
+    private void checkDataSize(final byte[] data)
+        throws CvqModelException {
+        if (maxDataSize != 0 && data.length > maxDataSize * 1024 * 1024) {
+            throw new CvqModelException("document.message.error.fileTooLarge",
+                new String[]{ String.valueOf(maxDataSize) });
+        }
     }
 
     private void checkDocumentDigitalizationIsEnabled()
@@ -743,5 +758,13 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
     public void setTranslationService(ITranslationService translationService) {
         this.translationService = translationService;
+    }
+
+    public int getMaxDataSize() {
+        return maxDataSize;
+    }
+
+    public void setMaxDataSize(int maxDataSize) {
+        this.maxDataSize = maxDataSize;
     }
 }

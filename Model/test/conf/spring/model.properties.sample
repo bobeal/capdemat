@@ -26,6 +26,8 @@ fake_payment.callbackUrl=/CapDemat/frontoffice/payment/status
 provisioning.authorizeAlreadyCreated=true
 provisioning.secret=changeme
 
+document.upload.maxSize = 0
+
 ###############################################################################
 ######################### Plugins configuration ###############################
 ###############################################################################

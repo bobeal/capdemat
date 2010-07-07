@@ -313,6 +313,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <property name="documentTypeDAO" ref="documentTypeDAO"/>
     <property name="localAuthorityRegistry" ref="localAuthorityRegistry"/>
     <property name="translationService" ref="translationService"/>
+    <property name="maxDataSize" value="${document.upload.maxSize}" />
   </bean>
 
   <bean id="documentTypeService" class="fr.cg95.cvq.service.document.impl.DocumentTypeService">

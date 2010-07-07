@@ -58,7 +58,7 @@ class FrontofficeRequestDocumentController {
                 def index = document.datas?.isEmpty() ? 0 : document.datas.size()
                 documentService.addPage(document.id, request.getFile('documentData-' + index)?.bytes)
             } catch (CvqModelException e) {
-                flash.errorMessage = message(code : ExceptionUtils.getModelI18nKey(e))
+                flash.errorMessage = message(code : e.i18nKey, args : e.i18nArgs as List)
             }
             if (params.saveAndBackDocument) {
                 redirect(controller:'frontofficeRequest', action:'edit', params:[

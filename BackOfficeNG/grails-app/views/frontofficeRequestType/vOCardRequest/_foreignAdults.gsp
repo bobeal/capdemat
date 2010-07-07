@@ -74,6 +74,7 @@
     </div>
     <input type="hidden" name="individuals" />
     <input type="hidden" name="objectToBind" value="individuals" />
+    <div class="error" id="stepForm-foreignAdults-error"> </div>
     <g:if test="${editList?.name == 'foreignAdults'}">
       <input type="submit" id="submit-collectionModify-foreignAdults-foreignAdults" name="submit-collectionModify-foreignAdults-foreignAdults[${listIndex}]" value="${message(code:'action.save')}" />
       <input type="submit" id="submit-collectionCancel-foreignAdults-foreignAdults" name="submit-collectionCancel-foreignAdults-foreignAdults[${listIndex}]" value="${message(code:'action.cancel')}" />
@@ -82,7 +83,6 @@
       <input type="submit" id="submit-collectionAdd-foreignAdults-foreignAdults" name="submit-collectionAdd-foreignAdults-foreignAdults[${listIndex}]" value="${message(code:'vcr.action.addForeignAdult')}" />
     </g:else>
   </fieldset>
-  <div class="error" id="stepForm-foreignAdults-error"> </div>
     <g:each var="it" in="${individuals?.foreignAdults}" status="index">
     <fieldset class="individual edit summary-box">
       <h4>

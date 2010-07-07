@@ -132,7 +132,7 @@
                 class="year ${rqt.stepStates['resources'].invalidFields.contains('dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetDate') ? 'validation-failed' : ''}"
                 id="dhrNotRealAsset.${collectionIndex}.dhrNotRealAssetDate_year"
                 name="dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetDate_year"
-                value="${currentCollectionItem?.dhrNotRealAssetDate ? currentCollectionItem?.dhrNotRealAssetDate.year + 1900 : params['dhrNotRealAsset[${collectionIndex}].dhrNotRealAssetDate_year']}"
+                value="${currentCollectionItem?.dhrNotRealAssetDate ? currentCollectionItem?.dhrNotRealAssetDate.year + 1900 : params['dhrNotRealAsset['+collectionIndex+'].dhrNotRealAssetDate_year']}"
                 title="<g:message code="dhr.property.dhrNotRealAssetDate.validationError" />" />
             </div>
             

@@ -90,7 +90,7 @@
                 class="year ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}"
                 id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingArrivalDate_year"
                 name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingArrivalDate_year"
-                value="${currentCollectionItem?.dhrPreviousDwellingArrivalDate ? currentCollectionItem?.dhrPreviousDwellingArrivalDate.year + 1900 : params['dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingArrivalDate_year']}"
+                value="${currentCollectionItem?.dhrPreviousDwellingArrivalDate ? currentCollectionItem?.dhrPreviousDwellingArrivalDate.year + 1900 : params['dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingArrivalDate_year']}"
                 title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />" />
             </div>
             
@@ -130,7 +130,7 @@
                 class="year ${rqt.stepStates['dwelling'].invalidFields.contains('dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}"
                 id="dhrPreviousDwelling.${collectionIndex}.dhrPreviousDwellingDepartureDate_year"
                 name="dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingDepartureDate_year"
-                value="${currentCollectionItem?.dhrPreviousDwellingDepartureDate ? currentCollectionItem?.dhrPreviousDwellingDepartureDate.year + 1900 : params['dhrPreviousDwelling[${collectionIndex}].dhrPreviousDwellingDepartureDate_year']}"
+                value="${currentCollectionItem?.dhrPreviousDwellingDepartureDate ? currentCollectionItem?.dhrPreviousDwellingDepartureDate.year + 1900 : params['dhrPreviousDwelling['+collectionIndex+'].dhrPreviousDwellingDepartureDate_year']}"
                 title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />" />
             </div>
             

@@ -58,7 +58,7 @@
                 class="year ${rqt.stepStates['subject'].invalidFields.contains('familyDependents['+collectionIndex+'].familyDependentBirthDate') ? 'validation-failed' : ''}"
                 id="familyDependents.${collectionIndex}.familyDependentBirthDate_year"
                 name="familyDependents[${collectionIndex}].familyDependentBirthDate_year"
-                value="${currentCollectionItem?.familyDependentBirthDate ? currentCollectionItem?.familyDependentBirthDate.year + 1900 : params['familyDependents[${collectionIndex}].familyDependentBirthDate_year']}"
+                value="${currentCollectionItem?.familyDependentBirthDate ? currentCollectionItem?.familyDependentBirthDate.year + 1900 : params['familyDependents['+collectionIndex+'].familyDependentBirthDate_year']}"
                 title="<g:message code="hcar.property.familyDependentBirthDate.validationError" />" />
             </div>
             

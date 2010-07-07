@@ -442,9 +442,6 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
               label: zcbr.External.label, dataSrc: zenexity.capdemat.baseUrl + '/externalHistory?label=' + zcbr.External.label + '&id=' + zcb.requestId,
               cacheData: true }));
           }
-          infoTabView.addTab( new yw.Tab({
-              label: 'Aide', dataSrc: zenexity.capdemat.baseUrl + '/help',
-              cacheData: true }));
 
           infoTabView.appendTo('requestInformation');
           

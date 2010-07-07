@@ -20,7 +20,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         var inputAssistance = document.getElementById(fieldsetId + "_inputAssistance");
         if(fieldset && inputAssistance) fieldset.removeChild(inputAssistance);
         document.getElementById(fieldsetId + "_streetName").disabled = false;
-        document.getElementById(fieldsetId + "_streetNumber").disabled = false;
       }
     };
 
@@ -32,7 +31,6 @@ zenexity.capdemat.tools.namespace("zenexity.capdemat.common");
         inputAssistance.innerHTML = "Renseigner la ville en premier";
         yud.insertBefore(inputAssistance, yus.query("label[for=" + fieldsetId + "_streetNumber]")[0]);
         document.getElementById(fieldsetId + "_streetName").disabled = true;
-        document.getElementById(fieldsetId + "_streetNumber").disabled = true;
       }
     };
 

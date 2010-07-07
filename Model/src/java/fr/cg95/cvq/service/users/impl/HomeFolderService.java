@@ -687,22 +687,25 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
             return;
         
         for (Adult roleOwner : foreignRoleOwners) {
-            for (IndividualRole role : roleOwner.getIndividualRoles()) {
-                if (Arrays.asList(RoleType.homeFolderRoleTypes).contains(role.getRole()))
-                    role.setHomeFolderId(homeFolderId);
-                else if (Arrays.asList(RoleType.adultRoleTypes).contains(role.getRole())) {
-                    for (Adult adult : adults) {
-                        if (adult.getFullName().equals(role.getIndividualName())) {
-                            role.setIndividualId(adult.getId());
-                            break;
+            // in case someone has declared a foreign adult but has not given it any role
+            if (roleOwner.getIndividualRoles() != null) {
+                for (IndividualRole role : roleOwner.getIndividualRoles()) {
+                    if (Arrays.asList(RoleType.homeFolderRoleTypes).contains(role.getRole()))
+                        role.setHomeFolderId(homeFolderId);
+                    else if (Arrays.asList(RoleType.adultRoleTypes).contains(role.getRole())) {
+                        for (Adult adult : adults) {
+                            if (adult.getFullName().equals(role.getIndividualName())) {
+                                role.setIndividualId(adult.getId());
+                                break;
+                            }
                         }
                     }
-                }
-                else if (Arrays.asList(RoleType.childRoleTypes).contains(role.getRole())) {
-                    for (Child child : children) {
-                        if (child.getFullName().equals(role.getIndividualName())) {
-                            role.setIndividualId(child.getId());
-                            break;
+                    else if (Arrays.asList(RoleType.childRoleTypes).contains(role.getRole())) {
+                        for (Child child : children) {
+                            if (child.getFullName().equals(role.getIndividualName())) {
+                                role.setIndividualId(child.getId());
+                                break;
+                            }
                         }
                     }
                 }

@@ -40,8 +40,10 @@
     var validateAndSubmit = function (e, scope) {
       yue.preventDefault(e);
       var targetEl = yue.getTarget(e);
-      if (!zcv.check(e, yud.get(targetEl.form.id + '-error'), scope))
+      if (!zcv.check(e, yud.get(targetEl.form.id + '-error'), scope)) {
+        zct.html(yud.get(targetEl.form.id + '-error'), 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');
         return;
+      }
       else {
         // -- hack to know current step
         addSubmitAsHidden(targetEl);

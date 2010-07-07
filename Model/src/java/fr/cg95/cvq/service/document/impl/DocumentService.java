@@ -307,7 +307,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         ContentType type = mimeTypeFromBytes(data);
         if (!type.isAllowed())
             throw new CvqModelException("document.message.fileTypeIsNotSupported");
-        if (document.getDatas() != null && document.getDatas().size() > 1 && index > 0)
+        if (document.getDatas() != null && !(document.getDatas().size() <= 1 && index == 0))
             if (!document.getDatas().get(0).getContentType().equals(type))
                 throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
     }

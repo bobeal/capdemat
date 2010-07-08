@@ -394,10 +394,6 @@ class BackofficeRequestInstructionController {
     /*  request information  managment
     * --------------------------------------------------------------------- */
 
-    def help = {
-    		render(template:'help')
-    }
-    
     // FIXME : copy-paste from frontOfficeHomeFolderController. mutualize if possible
     def homeFolder = {
         def result = ['adults':[], 'children': [], homeFolder: []]
@@ -436,7 +432,7 @@ class BackofficeRequestInstructionController {
             'temporary': homeFolder.temporary,
             'state' : homeFolder.state,
             'enabled' : homeFolder.enabled,
-            'addressDetails' :   "${homeFolder.adress.streetNumber} "+
+            'addressDetails' :   "${homeFolder.adress.streetNumber ?: ''} "+
                                  "${homeFolder.adress.streetName} " +
                                  "${homeFolder.adress.postalCode} " +
                                  "${homeFolder.adress.city}"

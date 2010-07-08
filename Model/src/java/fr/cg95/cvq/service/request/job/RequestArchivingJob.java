@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
 import org.joda.time.Months;
 import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.BeansException;
@@ -93,7 +94,7 @@ public class RequestArchivingJob implements ApplicationContextAware {
                         new Object[] {
                             translationService
                                 .translateRequestTypeLabel(request.getRequestType().getLabel()),
-                            today.toString(ISODateTimeFormat.date()),
+                            new DateTime(request.getCreationDate()).toString(ISODateTimeFormat.date()),
                             request.getId().toString()
                     });
                     localAuthorityRegistry.saveLocalAuthorityResource(Type.REQUEST_ARCHIVE,
@@ -117,7 +118,9 @@ public class RequestArchivingJob implements ApplicationContextAware {
             new RequestAdminAction(RequestAdminAction.Type.REQUESTS_ARCHIVED);
         action.getComplementaryData().put(RequestAdminAction.Data.ARCHIVING_RESULT, result);
         HibernateUtil.beginTransaction();
-        requestDAO.saveOrUpdate(action);
+        if (result.numberOfSuccesses > 0 || result.failures.size() > 0) {
+            requestDAO.saveOrUpdate(action);
+        }
         RequestAdminEvent event = new RequestAdminEvent(this, action);
         applicationContext.publishEvent(event);
     }

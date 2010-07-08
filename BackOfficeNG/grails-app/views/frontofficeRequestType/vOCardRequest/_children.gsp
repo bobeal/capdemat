@@ -31,6 +31,7 @@
     
     <input type="hidden" name="individuals" />
     <input type="hidden" name="objectToBind" value="individuals" />
+    <div class="error" id="stepForm-children-error"> </div>
     <g:if test="${editList?.name == 'children'}">
       <input type="submit" id="submit-collectionModify-children-children" name="submit-collectionModify-children-children[${listIndex}]" value="${message(code:'action.save')}" />
       <input type="submit" id="submit-collectionCancel-children-children" name="submit-collectionCancel-children-children[${listIndex}]" value="${message(code:'action.cancel')}" />
@@ -39,7 +40,6 @@
       <input type="submit" id="submit-collectionAdd-children-children" name="submit-collectionAdd-children-children[${listIndex}]" value="${message(code:'vcr.action.addChild')}" />
     </g:else>
   </fieldset>
-  <div class="error" id="stepForm-children-error"> </div>
 
   <g:each var="it" in="${individuals?.children}" status="index">
   <fieldset class="individual edit summary-box">

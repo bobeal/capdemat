@@ -23,7 +23,7 @@
     var validateAndSubmit = function (e) {
       yue.preventDefault(e);
       var targetEl = yue.getTarget(e);
-      if (!zcv.check(e, yud.get(targetEl.form.getAttribute('id') + '-error'), scope)) {
+      if (!zcv.check(e, yud.get(targetEl.form.getAttribute('id') + '-error'))) {
         if (!zcf.RequestCreation.requestTypeModule
             || !zcf.RequestCreation.requestTypeModule.displayErrorMsg)
           zct.html(yud.get(targetEl.form.getAttribute('id') + '-error'), 'Des champs obligatoires ne sont pas correctement remplis, merci de v&eacute;rifier les champs en rouge');

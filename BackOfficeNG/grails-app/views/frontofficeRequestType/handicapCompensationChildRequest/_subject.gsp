@@ -347,7 +347,7 @@
                 class="year ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.referentFamilyDependentBirthDate') ? 'validation-failed' : ''}"
                 id="familyDependents.${listIndex}.referentFamilyDependentBirthDate_year"
                 name="familyDependents[${listIndex}].referentFamilyDependentBirthDate_year"
-                value="${editList?.familyDependents?.referentFamilyDependentBirthDate ? editList?.familyDependents?.referentFamilyDependentBirthDate.year + 1900 : params['familyDependents[${listIndex}].referentFamilyDependentBirthDate_year']}"
+                value="${editList?.familyDependents?.referentFamilyDependentBirthDate ? editList?.familyDependents?.referentFamilyDependentBirthDate.year + 1900 : params['familyDependents.referentFamilyDependentBirthDate_year']}"
                 title="<g:message code="hccr.property.referentFamilyDependentBirthDate.validationError" />" />
             </div>
             

@@ -225,7 +225,7 @@
                 class="year ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.familyDependentBirthDate') ? 'validation-failed' : ''}"
                 id="familyDependents.${listIndex}.familyDependentBirthDate_year"
                 name="familyDependents[${listIndex}].familyDependentBirthDate_year"
-                value="${editList?.familyDependents?.familyDependentBirthDate ? editList?.familyDependents?.familyDependentBirthDate.year + 1900 : params['familyDependents[${listIndex}].familyDependentBirthDate_year']}"
+                value="${editList?.familyDependents?.familyDependentBirthDate ? editList?.familyDependents?.familyDependentBirthDate.year + 1900 : params['familyDependents.familyDependentBirthDate_year']}"
                 title="<g:message code="hcar.property.familyDependentBirthDate.validationError" />" />
             </div>
             

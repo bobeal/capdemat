@@ -194,7 +194,7 @@
                 class="year ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}"
                 id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingArrivalDate_year"
                 name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate_year"
-                value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate ? editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate.year + 1900 : params['dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate_year']}"
+                value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate ? editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate.year + 1900 : params['dhrPreviousDwelling.dhrPreviousDwellingArrivalDate_year']}"
                 title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />" />
             </div>
             
@@ -234,7 +234,7 @@
                 class="year ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}"
                 id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingDepartureDate_year"
                 name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate_year"
-                value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate ? editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate.year + 1900 : params['dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate_year']}"
+                value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate ? editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate.year + 1900 : params['dhrPreviousDwelling.dhrPreviousDwellingDepartureDate_year']}"
                 title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />" />
             </div>
             

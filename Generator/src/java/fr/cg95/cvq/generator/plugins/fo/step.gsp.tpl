@@ -114,7 +114,7 @@
                 class="year \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}"
                 id="${IdRefNamePrefix}${element.javaFieldName}_year"
                 name="${namePrefix}${element.javaFieldName}_year"
-                value="\${${valuePrefix}.${element.javaFieldName} ? ${valuePrefix}.${element.javaFieldName}.year + 1900 : params['${namePrefix}${element.javaFieldName}_year']}"
+                value="\${${valuePrefix}.${element.javaFieldName} ? ${valuePrefix}.${element.javaFieldName}.year + 1900 : params['${validationNamePrefix}${element.javaFieldName}_year']}"
                 title="<g:message code="${element.i18nPrefixCode}.validationError" />" />
             </div>
             """

@@ -243,7 +243,7 @@
                 class="year ${stepStates != null && stepStates['resources']?.invalidFields.contains('dhrNotRealAsset.dhrNotRealAssetDate') ? 'validation-failed' : ''}"
                 id="dhrNotRealAsset.${listIndex}.dhrNotRealAssetDate_year"
                 name="dhrNotRealAsset[${listIndex}].dhrNotRealAssetDate_year"
-                value="${editList?.dhrNotRealAsset?.dhrNotRealAssetDate ? editList?.dhrNotRealAsset?.dhrNotRealAssetDate.year + 1900 : params['dhrNotRealAsset[${listIndex}].dhrNotRealAssetDate_year']}"
+                value="${editList?.dhrNotRealAsset?.dhrNotRealAssetDate ? editList?.dhrNotRealAsset?.dhrNotRealAssetDate.year + 1900 : params['dhrNotRealAsset.dhrNotRealAssetDate_year']}"
                 title="<g:message code="dhr.property.dhrNotRealAssetDate.validationError" />" />
             </div>
             

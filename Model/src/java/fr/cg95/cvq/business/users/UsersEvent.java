@@ -6,9 +6,14 @@ public class UsersEvent extends CapDematEvent {
 
     private static final long serialVersionUID = 1L;
 
-    public static enum EVENT_TYPE { HOME_FOLDER_DELETE, HOME_FOLDER_ARCHIVE,
-        INDIVIDUAL_DELETE, INDIVIDUAL_ARCHIVE};
-    
+    public static enum EVENT_TYPE {
+        HOME_FOLDER_ARCHIVE,
+        HOME_FOLDER_DELETE,
+        INDIVIDUAL_ARCHIVE,
+        INDIVIDUAL_DELETE,
+        LOGIN_ASSIGNED
+    }
+
     private EVENT_TYPE event;
     private Long homeFolderId;
     private Long individualId;

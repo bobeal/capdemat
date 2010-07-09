@@ -333,6 +333,12 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     class="fr.cg95.cvq.service.users.aspect.UsersContextAspect">
   </bean>
 
+  <bean id="userNotificationService" class="fr.cg95.cvq.service.users.impl.UserNotificationService">
+    <property name="individualService" ref="individualService"/>
+    <property name="mailService" ref="mailService"/>
+    <property name="translationService" ref="translationService"/>
+  </bean>
+
   <bean id="individualService" class="fr.cg95.cvq.service.users.impl.IndividualService">
     <property name="individualDAO" ref="individualDAO"/>
     <property name="adultDAO" ref="adultDAO" />

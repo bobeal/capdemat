@@ -95,6 +95,9 @@ public class HomeFolderService implements IHomeFolderService, ApplicationContext
         adults.add(adult);
         
         HomeFolder homeFolder = create(adults, null, adult.getAdress());
+        // FIXME hack for CG77
+        applicationContext.publishEvent(new UsersEvent(this, UsersEvent.EVENT_TYPE.LOGIN_ASSIGNED,
+            homeFolder.getId(), adult.getId()));
         homeFolder.setTemporary(true);
         return homeFolder;
     }

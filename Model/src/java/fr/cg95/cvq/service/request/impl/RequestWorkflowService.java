@@ -970,7 +970,7 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                 request.setDocumentsArchive(
                     requestPdfService.generateDocumentsArchive(request.getDocuments()));
             }
-            
+
             requestActionService.addWorfklowAction(request.getId(), motive, date,
                 RequestState.REJECTED, pdfData);
         } else {

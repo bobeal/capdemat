@@ -39,13 +39,15 @@
                 </g:else>
                 <g:if test="${requestType.countDraft > 0}">
                   &nbsp;
-                  <a href="${createLink(controller:'frontofficeRequest', params:[stateFilter:'draft',typeFilter:requestType.id])}" class="tag-draft">
-                    ${message(code:'requestType.message.draftNumber', args:[requestType.countDraft])}
-                  </a>
+                  <a href="${createLink(controller:'frontofficeRequest', params:[stateFilter:'draft',typeFilter:requestType.id])}" class="tag-draft">${message(code:'requestType.message.draftNumber', args:[requestType.countDraft])}</a>
                 </g:if>
               </g:if>
               <g:else>
                 <g:translateRequestTypeLabel label="${requestType.label}"/>
+                <g:if test="${requestType.countDraft > 0}">
+                  &nbsp;
+                  <a href="${createLink(controller:'frontofficeRequest', params:[stateFilter:'draft',typeFilter:requestType.id])}" class="tag-draft">${message(code:'requestType.message.draftNumber', args:[requestType.countDraft])}</a>
+                </g:if>
                 <g:if test="${requestType.message}">
                   <span class="notice">
                     <g:message code="${requestType.message}"/>

@@ -27,10 +27,11 @@ public class RequestActionDAO extends GenericDAO implements IRequestActionDAO {
                 .setLong("requestId", requestId).setString("type", type.toString()).uniqueResult());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<RequestAdminAction> getAdminActions() {
         return HibernateUtil.getSession().createCriteria(RequestAdminAction.class)
-            .addOrder(Order.asc("date")).list();
+            .addOrder(Order.desc("date")).list();
     }
 
     @Override

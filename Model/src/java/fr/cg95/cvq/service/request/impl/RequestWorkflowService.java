@@ -926,8 +926,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             Date date = new Date();
             updateLastModificationInformation(request, date);
 
+            byte[] pdfData = requestPdfService.generateCertificate(request);
+            if (requestServiceRegistry.getRequestService(request).isArchiveDocuments()) {
+                request.setDocumentsArchive(
+                    requestPdfService.generateDocumentsArchive(request.getDocuments()));
+            }
+
             requestActionService.addWorfklowAction(request.getId(), null, date,
-                RequestState.CANCELLED, null);
+                RequestState.CANCELLED, pdfData);
         } else {
             throw new CvqInvalidTransitionException();
         }
@@ -959,8 +965,14 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
             Date date = new Date();
             updateLastModificationInformation(request, date);
 
+            byte[] pdfData = requestPdfService.generateCertificate(request);
+            if (requestServiceRegistry.getRequestService(request).isArchiveDocuments()) {
+                request.setDocumentsArchive(
+                    requestPdfService.generateDocumentsArchive(request.getDocuments()));
+            }
+
             requestActionService.addWorfklowAction(request.getId(), motive, date,
-                RequestState.REJECTED, null);
+                RequestState.REJECTED, pdfData);
         } else {
             throw new CvqInvalidTransitionException();
         }

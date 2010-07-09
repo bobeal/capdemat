@@ -40,11 +40,13 @@ public class RequestArchivingJob implements ApplicationContextAware {
         public Map<Request, Throwable> failures = new HashMap<Request, Throwable>();
     }
 
-    private static final Set<RequestState> states = new HashSet<RequestState>(3);
+    private static final Set<RequestState> states = new HashSet<RequestState>(5);
     static {
         states.add(RequestState.VALIDATED);
         states.add(RequestState.NOTIFIED);
         states.add(RequestState.CLOSED);
+        states.add(RequestState.REJECTED);
+        states.add(RequestState.CANCELLED);
     }
 
     private ApplicationContext applicationContext;

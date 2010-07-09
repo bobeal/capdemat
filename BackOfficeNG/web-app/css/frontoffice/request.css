@@ -108,6 +108,10 @@ h2.request-creation { margin: 0; color: #DB4366; }
 #requestTabView .address-fieldset input[type="text"].line1 { display: inline; width: 15%; }
 #requestTabView .address-fieldset input[type="text"].line2 { display: inline; width: 82%; }
 
+#requestTabView .date input.year,
+#requestTabView .date select.day,
+#requestTabView .date select.month { display : inline; width : auto !important;}
+
 #requestTabView p.document-button { margin: 3em 0 0; text-align: center; font-size: 1.2em; }
 #requestTabView .document-add-new { text-align: right; }
 #requestTabView .document-fieldset                          { margin: 0 0 1em; }

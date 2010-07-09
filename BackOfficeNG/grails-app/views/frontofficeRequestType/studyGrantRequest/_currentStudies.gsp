@@ -121,15 +121,83 @@
             
 
     
-      <label for="abroadInternshipStartDate" class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipStartDate.label" /> *  <span><g:message code="sgr.property.abroadInternshipStartDate.help" /></span></label>
-            <input type="text" id="abroadInternshipStartDate" name="abroadInternshipStartDate" value="${formatDate(formatName:'format.date',date:rqt.abroadInternshipStartDate)}" 
-                   class="required condition-makesAbroadInternship-filled  validate-date ${stepStates != null && stepStates['currentStudies']?.invalidFields.contains('abroadInternshipStartDate') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.abroadInternshipStartDate.validationError" />" />
+      <label class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipStartDate.label" /> *  <span><g:message code="sgr.property.abroadInternshipStartDate.help" /></span></label>
+            <div class="date required condition-makesAbroadInternship-filled  validate-date required condition-makesAbroadInternship-filled ">
+              <select class="day ${stepStates != null && stepStates['currentStudies']?.invalidFields.contains('abroadInternshipStartDate') ? 'validation-failed' : ''}"
+                id="abroadInternshipStartDate_day"
+                name="abroadInternshipStartDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.abroadInternshipStartDate?.date == it
+                      || (rqt.abroadInternshipStartDate == null && params['abroadInternshipStartDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['currentStudies']?.invalidFields.contains('abroadInternshipStartDate') ? 'validation-failed' : ''}"
+                id="abroadInternshipStartDate_month"
+                name="abroadInternshipStartDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.abroadInternshipStartDate?.month == (it - 1)
+                      || (rqt.abroadInternshipStartDate == null && params['abroadInternshipStartDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['currentStudies']?.invalidFields.contains('abroadInternshipStartDate') ? 'validation-failed' : ''}"
+                id="abroadInternshipStartDate_year"
+                name="abroadInternshipStartDate_year"
+                value="${rqt.abroadInternshipStartDate ? rqt.abroadInternshipStartDate.year + 1900 : params['abroadInternshipStartDate_year']}"
+                title="<g:message code="sgr.property.abroadInternshipStartDate.validationError" />" />
+            </div>
             
 
     
-      <label for="abroadInternshipEndDate" class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipEndDate.label" /> *  <span><g:message code="sgr.property.abroadInternshipEndDate.help" /></span></label>
-            <input type="text" id="abroadInternshipEndDate" name="abroadInternshipEndDate" value="${formatDate(formatName:'format.date',date:rqt.abroadInternshipEndDate)}" 
-                   class="required condition-makesAbroadInternship-filled  validate-date ${stepStates != null && stepStates['currentStudies']?.invalidFields.contains('abroadInternshipEndDate') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.abroadInternshipEndDate.validationError" />" />
+      <label class="required condition-makesAbroadInternship-filled"><g:message code="sgr.property.abroadInternshipEndDate.label" /> *  <span><g:message code="sgr.property.abroadInternshipEndDate.help" /></span></label>
+            <div class="date required condition-makesAbroadInternship-filled  validate-date required condition-makesAbroadInternship-filled ">
+              <select class="day ${stepStates != null && stepStates['currentStudies']?.invalidFields.contains('abroadInternshipEndDate') ? 'validation-failed' : ''}"
+                id="abroadInternshipEndDate_day"
+                name="abroadInternshipEndDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.abroadInternshipEndDate?.date == it
+                      || (rqt.abroadInternshipEndDate == null && params['abroadInternshipEndDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['currentStudies']?.invalidFields.contains('abroadInternshipEndDate') ? 'validation-failed' : ''}"
+                id="abroadInternshipEndDate_month"
+                name="abroadInternshipEndDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.abroadInternshipEndDate?.month == (it - 1)
+                      || (rqt.abroadInternshipEndDate == null && params['abroadInternshipEndDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['currentStudies']?.invalidFields.contains('abroadInternshipEndDate') ? 'validation-failed' : ''}"
+                id="abroadInternshipEndDate_year"
+                name="abroadInternshipEndDate_year"
+                value="${rqt.abroadInternshipEndDate ? rqt.abroadInternshipEndDate.year + 1900 : params['abroadInternshipEndDate_year']}"
+                title="<g:message code="sgr.property.abroadInternshipEndDate.validationError" />" />
+            </div>
             
 
     

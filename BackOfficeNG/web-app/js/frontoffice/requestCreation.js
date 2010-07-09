@@ -52,6 +52,27 @@
       }
     };
 
+    var adaptDateDays = function(cont) {
+      var yearInput = yus.query(".year", cont, true);
+      var year = yearInput.value === "" ? Date.today().getFullYear() : yearInput.value;
+      var monthInput = yus.query(".month", cont, true);
+      var month = monthInput.value === "" ? 0 : monthInput.value - 1;
+      var dayInput = yus.query(".day", cont, true);
+      var days = Date.getDaysInMonth(year, month);
+      if (dayInput.length > days + 1) {
+        while (dayInput.length > days + 1) {
+          dayInput.remove(dayInput.length - 1);
+        }
+      } else if (days + 1 > dayInput.length) {
+        for (i = dayInput.length; i <= days; i++) {
+          var option = document.createElement("option");
+          option.text = i;
+          option.value = i;
+          dayInput.add(option, null);
+        }
+      }
+    };
+
     return {
       clickEvent : undefined,
       requestFormTabView : undefined,
@@ -64,11 +85,23 @@
         
         yue.on('requestTabView','change',zcf.RequestCreation.formatField);
         yue.on(yus.query("#requestTabView .validate-phone"), "keyup", zcf.RequestCreation.formatPhone);
+        yue.on(yus.query("#requestTabView .date .month, #requestTabView .date .year"), "change", zcf.RequestCreation.dateChange);
         
-        yue.on(yud.get("requestNote"), 'keyup', function(e) {
+        var requestNote = yud.get("requestNote");
+        if (requestNote != null) {
+          yue.on(yud.get("requestNote"), 'keyup', function(e) {
+            zct.limitArea("requestNote", 1024, "requestNoteLimit");
+          });
           zct.limitArea("requestNote", 1024, "requestNoteLimit");
+        }
+        zct.each(yus.query("#request div.date"), function() {
+          adaptDateDays(this);
+          zcv.complexRules["dateWidget"].pushFields(
+            yus.query(".year", this, true).name,
+            yus.query(".month", this, true).name,
+            yus.query(".day", this, true).name
+          );
         });
-        zct.limitArea("requestNote", 1024, "requestNoteLimit");
       },
       
       getHandler : function(e) {
@@ -119,7 +152,6 @@
           if (fieldType[1] === 'lastName') targetEl.value = targetEl.value.toUpperCase();
           else if (fieldType[1] === 'city') targetEl.value = targetEl.value.toUpperCase();
           else if (fieldType[1] === 'firstName') targetEl.value = zct.capitalize(targetEl.value);
-          else if (fieldType[1] === 'date') targetEl.value = Date.parse(targetEl.value) !== null ? Date.parse(targetEl.value).toString(Date.CultureInfo.formatPatterns.shortDate) : targetEl.value;
           else if (fieldType[1] === 'phone') zcf.RequestCreation.formatPhone(e);
         }
       },
@@ -142,6 +174,10 @@
           yue.preventDefault(e);
           var targetEl = yue.getTarget(e);
           selectTab(targetEl.hash);
+      },
+
+      dateChange : function(e) {
+        adaptDateDays(yud.getAncestorByTagName(yue.getTarget(e), "div"));
       }
     };
     

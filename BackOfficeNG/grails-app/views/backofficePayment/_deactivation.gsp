@@ -11,7 +11,7 @@
       <label for="paymentDeactivationStartDate">
         <g:message code="payment.property.paymentDeactivationStartDate" /> :
       </label>
-      <input type="text" id="paymentDeactivationStartDate" name="paymentDeactivationStartDate" class="validate-date-au"
+      <input type="text" id="paymentDeactivationStartDate" name="paymentDeactivationStartDate" class="validate-date"
         value="<g:formatDate formatName="format.date" date="${paymentDeactivationStartDate}" />" />
       <a class="calendarLink">
         <img id="paymentDeactivationStartDateShow" src="${resource(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>
@@ -22,7 +22,7 @@
       <label for="paymentDeactivationEndDate">
         <g:message code="payment.property.paymentDeactivationEndDate" /> :
       </label>
-      <input type="text" id="paymentDeactivationEndDate" name="paymentDeactivationEndDate" class="validate-date-au"
+      <input type="text" id="paymentDeactivationEndDate" name="paymentDeactivationEndDate" class="validate-date"
         value="<g:formatDate formatName="format.date" date="${paymentDeactivationEndDate}" />" />
       <a class="calendarLink">
         <img id="paymentDeactivationEndDateShow" src="${resource(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}"/>

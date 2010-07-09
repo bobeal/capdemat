@@ -63,9 +63,43 @@
     <fieldset class="required">
     <legend><g:message code="mdr.property.marriage.label" /></legend>
     
-      <label for="marriageDate" class="required"><g:message code="mdr.property.marriageDate.label" /> *  <span><g:message code="mdr.property.marriageDate.help" /></span></label>
-            <input type="text" id="marriageDate" name="marriageDate" value="${formatDate(formatName:'format.date',date:rqt.marriageDate)}" 
-                   class="required  validate-date ${stepStates != null && stepStates['nature']?.invalidFields.contains('marriageDate') ? 'validation-failed' : ''}" title="<g:message code="mdr.property.marriageDate.validationError" />" />
+      <label class="required"><g:message code="mdr.property.marriageDate.label" /> *  <span><g:message code="mdr.property.marriageDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${stepStates != null && stepStates['nature']?.invalidFields.contains('marriageDate') ? 'validation-failed' : ''}"
+                id="marriageDate_day"
+                name="marriageDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.marriageDate?.date == it
+                      || (rqt.marriageDate == null && params['marriageDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['nature']?.invalidFields.contains('marriageDate') ? 'validation-failed' : ''}"
+                id="marriageDate_month"
+                name="marriageDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.marriageDate?.month == (it - 1)
+                      || (rqt.marriageDate == null && params['marriageDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['nature']?.invalidFields.contains('marriageDate') ? 'validation-failed' : ''}"
+                id="marriageDate_year"
+                name="marriageDate_year"
+                value="${rqt.marriageDate ? rqt.marriageDate.year + 1900 : params['marriageDate_year']}"
+                title="<g:message code="mdr.property.marriageDate.validationError" />" />
+            </div>
             
 
     

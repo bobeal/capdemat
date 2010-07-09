@@ -3,7 +3,7 @@
   
   <input id="${propertyName}_Field" name="${propertyName}" type="text" maxlength="10" 
       value="${propertyValue}" 
-      class="validate-date-au ${required}" 
+      class="validate-date ${required}"
       title="${message(code:'request.error.dateRequired')}"/>
   
   <a>

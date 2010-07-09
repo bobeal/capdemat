@@ -205,7 +205,6 @@
     'date': new me.rule('func', function(f){ return !isNaN(new Date(f.value)); }),
     'email': new me.rule('regex', /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/),
     'url': new me.rule('regex', /^(http|https|ftp):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i),
-    'date-au':  new me.rule('regex', /^(\d{1}|\d{2})\/(\d{1}|\d{2})\/(\d{4})$/),
     'currency-dollar': new me.rule('regex', /^\$?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/),
     'one-required': new me.rule('func', function(f){ return f.checked; }),
     'not-first': new me.rule('func', function(f){ return f.selectedIndex > 0; }),
@@ -235,6 +234,14 @@
       for (i=0; i<arguments.length; i++)
           values += arguments[i].value;
       return values.length > 0;
+    }),
+    'dateWidget': new me.complexRule(function(){
+      for (i = 0; i < 3; i++) {
+        if (arguments[i].value === null || arguments[i].value === "") return false;
+      }
+      return me.rules["date"].func({
+        "value" : new Date(arguments[0].value, arguments[1].value - 1, arguments[2].value).getTime()
+      });
     })
   });
 

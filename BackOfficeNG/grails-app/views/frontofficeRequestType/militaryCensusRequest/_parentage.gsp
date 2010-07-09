@@ -17,9 +17,43 @@
             
 
     
-      <label for="fatherBirthDate" class=""><g:message code="mcr.property.fatherBirthDate.label" />   <span><g:message code="mcr.property.fatherBirthDate.help" /></span></label>
-            <input type="text" id="fatherBirthDate" name="fatherBirthDate" value="${formatDate(formatName:'format.date',date:rqt.fatherBirthDate)}" 
-                   class="  validate-date ${stepStates != null && stepStates['parentage']?.invalidFields.contains('fatherBirthDate') ? 'validation-failed' : ''}" title="<g:message code="mcr.property.fatherBirthDate.validationError" />" />
+      <label class=""><g:message code="mcr.property.fatherBirthDate.label" />   <span><g:message code="mcr.property.fatherBirthDate.help" /></span></label>
+            <div class="date   validate-date  ">
+              <select class="day ${stepStates != null && stepStates['parentage']?.invalidFields.contains('fatherBirthDate') ? 'validation-failed' : ''}"
+                id="fatherBirthDate_day"
+                name="fatherBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.fatherBirthDate?.date == it
+                      || (rqt.fatherBirthDate == null && params['fatherBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['parentage']?.invalidFields.contains('fatherBirthDate') ? 'validation-failed' : ''}"
+                id="fatherBirthDate_month"
+                name="fatherBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.fatherBirthDate?.month == (it - 1)
+                      || (rqt.fatherBirthDate == null && params['fatherBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['parentage']?.invalidFields.contains('fatherBirthDate') ? 'validation-failed' : ''}"
+                id="fatherBirthDate_year"
+                name="fatherBirthDate_year"
+                value="${rqt.fatherBirthDate ? rqt.fatherBirthDate.year + 1900 : params['fatherBirthDate_year']}"
+                title="<g:message code="mcr.property.fatherBirthDate.validationError" />" />
+            </div>
             
 
     
@@ -78,9 +112,43 @@
             
 
     
-      <label for="motherBirthDate" class="required"><g:message code="mcr.property.motherBirthDate.label" /> *  <span><g:message code="mcr.property.motherBirthDate.help" /></span></label>
-            <input type="text" id="motherBirthDate" name="motherBirthDate" value="${formatDate(formatName:'format.date',date:rqt.motherBirthDate)}" 
-                   class="required  validate-date ${stepStates != null && stepStates['parentage']?.invalidFields.contains('motherBirthDate') ? 'validation-failed' : ''}" title="<g:message code="mcr.property.motherBirthDate.validationError" />" />
+      <label class="required"><g:message code="mcr.property.motherBirthDate.label" /> *  <span><g:message code="mcr.property.motherBirthDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${stepStates != null && stepStates['parentage']?.invalidFields.contains('motherBirthDate') ? 'validation-failed' : ''}"
+                id="motherBirthDate_day"
+                name="motherBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.motherBirthDate?.date == it
+                      || (rqt.motherBirthDate == null && params['motherBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['parentage']?.invalidFields.contains('motherBirthDate') ? 'validation-failed' : ''}"
+                id="motherBirthDate_month"
+                name="motherBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.motherBirthDate?.month == (it - 1)
+                      || (rqt.motherBirthDate == null && params['motherBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['parentage']?.invalidFields.contains('motherBirthDate') ? 'validation-failed' : ''}"
+                id="motherBirthDate_year"
+                name="motherBirthDate_year"
+                value="${rqt.motherBirthDate ? rqt.motherBirthDate.year + 1900 : params['motherBirthDate_year']}"
+                title="<g:message code="mcr.property.motherBirthDate.validationError" />" />
+            </div>
             
 
     

@@ -55,9 +55,43 @@
             
 
     
-      <label for="dhrSpouseBirthDate" class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseBirthDate.label" /> *  <span><g:message code="dhr.property.dhrSpouseBirthDate.help" /></span></label>
-            <input type="text" id="dhrSpouseBirthDate" name="dhrSpouseBirthDate" value="${formatDate(formatName:'format.date',date:rqt.dhrSpouseBirthDate)}" 
-                   class="required condition-isCoupleRequest-filled  validate-date ${stepStates != null && stepStates['spouse']?.invalidFields.contains('dhrSpouseBirthDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrSpouseBirthDate.validationError" />" />
+      <label class="required condition-isCoupleRequest-filled"><g:message code="dhr.property.dhrSpouseBirthDate.label" /> *  <span><g:message code="dhr.property.dhrSpouseBirthDate.help" /></span></label>
+            <div class="date required condition-isCoupleRequest-filled  validate-date required condition-isCoupleRequest-filled ">
+              <select class="day ${stepStates != null && stepStates['spouse']?.invalidFields.contains('dhrSpouseBirthDate') ? 'validation-failed' : ''}"
+                id="dhrSpouseBirthDate_day"
+                name="dhrSpouseBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.dhrSpouseBirthDate?.date == it
+                      || (rqt.dhrSpouseBirthDate == null && params['dhrSpouseBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['spouse']?.invalidFields.contains('dhrSpouseBirthDate') ? 'validation-failed' : ''}"
+                id="dhrSpouseBirthDate_month"
+                name="dhrSpouseBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.dhrSpouseBirthDate?.month == (it - 1)
+                      || (rqt.dhrSpouseBirthDate == null && params['dhrSpouseBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['spouse']?.invalidFields.contains('dhrSpouseBirthDate') ? 'validation-failed' : ''}"
+                id="dhrSpouseBirthDate_year"
+                name="dhrSpouseBirthDate_year"
+                value="${rqt.dhrSpouseBirthDate ? rqt.dhrSpouseBirthDate.year + 1900 : params['dhrSpouseBirthDate_year']}"
+                title="<g:message code="dhr.property.dhrSpouseBirthDate.validationError" />" />
+            </div>
             
 
     
@@ -77,9 +111,43 @@
             
 
     
-      <label for="dhrSpouseFranceArrivalDate" class="required condition-isSpouseNonEuropean-filled"><g:message code="dhr.property.dhrSpouseFranceArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrSpouseFranceArrivalDate.help" /></span></label>
-            <input type="text" id="dhrSpouseFranceArrivalDate" name="dhrSpouseFranceArrivalDate" value="${formatDate(formatName:'format.date',date:rqt.dhrSpouseFranceArrivalDate)}" 
-                   class="required condition-isSpouseNonEuropean-filled  validate-date ${stepStates != null && stepStates['spouse']?.invalidFields.contains('dhrSpouseFranceArrivalDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrSpouseFranceArrivalDate.validationError" />" />
+      <label class="required condition-isSpouseNonEuropean-filled"><g:message code="dhr.property.dhrSpouseFranceArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrSpouseFranceArrivalDate.help" /></span></label>
+            <div class="date required condition-isSpouseNonEuropean-filled  validate-date required condition-isSpouseNonEuropean-filled ">
+              <select class="day ${stepStates != null && stepStates['spouse']?.invalidFields.contains('dhrSpouseFranceArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrSpouseFranceArrivalDate_day"
+                name="dhrSpouseFranceArrivalDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.dhrSpouseFranceArrivalDate?.date == it
+                      || (rqt.dhrSpouseFranceArrivalDate == null && params['dhrSpouseFranceArrivalDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['spouse']?.invalidFields.contains('dhrSpouseFranceArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrSpouseFranceArrivalDate_month"
+                name="dhrSpouseFranceArrivalDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.dhrSpouseFranceArrivalDate?.month == (it - 1)
+                      || (rqt.dhrSpouseFranceArrivalDate == null && params['dhrSpouseFranceArrivalDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['spouse']?.invalidFields.contains('dhrSpouseFranceArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrSpouseFranceArrivalDate_year"
+                name="dhrSpouseFranceArrivalDate_year"
+                value="${rqt.dhrSpouseFranceArrivalDate ? rqt.dhrSpouseFranceArrivalDate.year + 1900 : params['dhrSpouseFranceArrivalDate_year']}"
+                title="<g:message code="dhr.property.dhrSpouseFranceArrivalDate.validationError" />" />
+            </div>
             
 
     

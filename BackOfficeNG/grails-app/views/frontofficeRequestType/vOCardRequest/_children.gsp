@@ -23,10 +23,40 @@
         </g:each>
       </select>
 
-      <label for="_individuals.children.${listIndex}.birthDate" class="required"><g:message code="homeFolder.individual.property.birthDate" /> <span><g:message code="homeFolder.individual.property.birthDate.help" /></span></label>
-      <input type="text" id="_individuals.children.${listIndex}.birthDate" name="_individuals.children[${listIndex}].birthDate" value="${formatDate(formatName:'format.date',date:editList?.children?.birthDate)}"
-        class="required validate-date ${stepStates != null && stepStates['children']?.invalidFields.contains('birthDate') ? 'validation-failed' : ''}" title="<g:message code="homeFolder.individual.property.birthDate.validationError" />" />
+      <div class="date required validate-date">
+        <select id="_individuals.children.${listIndex}.birthDate_day" name="_individuals.children[${listIndex}].birthDate_day"
+          class="day ${stepStates != null && stepStates['children']?.invalidFields?.contains('birthDate') ? 'validation-failed' : ''}">
+          <option value=""><g:message code="message.select.defaultOption" /></option>
+          <g:each in="${1..31}">
+            <option value="${it}"
+              <g:if test="${editList?.children?.birthDate?.date == it
+                || (editList?.children?.birthDate == null && params['birthDate_day'] == it.toString())}">
+                selected="selected"
+              </g:if>>
+              ${it}
+            </option>
+          </g:each>
+        </select>
+        <select id="_individuals.children.${listIndex}.birthDate_month" name="_individuals.children[${listIndex}].birthDate_month"
+          class="month ${stepStates != null && stepStates['children']?.invalidFields?.contains('birthDate') ? 'validation-failed' : ''}">
+          <option value=""><g:message code="message.select.defaultOption" /></option>
+          <g:each in="${1..12}">
+            <option value="${it}"
+              <g:if test="${editList?.children?.birthDate?.month == (it - 1)
+                || (editList?.children?.birthDate == null && params['birthDate_month'] == it.toString())}">
+                selected="selected"
+              </g:if>>
+              <g:message code="month.${it}" />
+            </option>
+          </g:each>
+        </select>
+        <input type="text" id="_individuals.children.${listIndex}.birthDate_year" name="_individuals.children[${listIndex}].birthDate_year" maxlength="4" size="3"
+          class="year ${stepStates != null && stepStates['children']?.invalidFields?.contains('birthDate') ? 'validation-failed' : ''}"
+          value="${editList?.children?.birthDate ? editList?.children?.birthDate.year + 1900 : params['birthDate_year']}" />
+       </div>
+
       </div>
+
     </div>
     
     <input type="hidden" name="individuals" />

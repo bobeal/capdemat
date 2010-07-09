@@ -26,9 +26,43 @@
             
 
     
-      <label for="subjectBirthDate" class="required"><g:message code="rsr.property.subjectBirthDate.label" /> *  <span><g:message code="rsr.property.subjectBirthDate.help" /></span></label>
-            <input type="text" id="subjectBirthDate" name="subjectBirthDate" value="${formatDate(formatName:'format.date',date:rqt.subjectBirthDate)}" 
-                   class="required autofill-subjectFilling-listener-BirthDate validate-date ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}" title="<g:message code="rsr.property.subjectBirthDate.validationError" />" />
+      <label class="required"><g:message code="rsr.property.subjectBirthDate.label" /> *  <span><g:message code="rsr.property.subjectBirthDate.help" /></span></label>
+            <div class="date required autofill-subjectFilling-listener-BirthDate validate-date required autofill-subjectFilling-listener-BirthDate">
+              <select class="day ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}"
+                id="subjectBirthDate_day"
+                name="subjectBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.subjectBirthDate?.date == it
+                      || (rqt.subjectBirthDate == null && params['subjectBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}"
+                id="subjectBirthDate_month"
+                name="subjectBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.subjectBirthDate?.month == (it - 1)
+                      || (rqt.subjectBirthDate == null && params['subjectBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}"
+                id="subjectBirthDate_year"
+                name="subjectBirthDate_year"
+                value="${rqt.subjectBirthDate ? rqt.subjectBirthDate.year + 1900 : params['subjectBirthDate_year']}"
+                title="<g:message code="rsr.property.subjectBirthDate.validationError" />" />
+            </div>
             
 
     
@@ -145,9 +179,43 @@
             
 
     
-      <label for="spouseBirthDate" class="required"><g:message code="rsr.property.spouseBirthDate.label" /> *  <span><g:message code="rsr.property.spouseBirthDate.help" /></span></label>
-            <input type="text" id="spouseBirthDate" name="spouseBirthDate" value="${formatDate(formatName:'format.date',date:rqt.spouseBirthDate)}" 
-                   class="required  validate-date ${stepStates != null && stepStates['subject']?.invalidFields.contains('spouseBirthDate') ? 'validation-failed' : ''}" title="<g:message code="rsr.property.spouseBirthDate.validationError" />" />
+      <label class="required"><g:message code="rsr.property.spouseBirthDate.label" /> *  <span><g:message code="rsr.property.spouseBirthDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${stepStates != null && stepStates['subject']?.invalidFields.contains('spouseBirthDate') ? 'validation-failed' : ''}"
+                id="spouseBirthDate_day"
+                name="spouseBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.spouseBirthDate?.date == it
+                      || (rqt.spouseBirthDate == null && params['spouseBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['subject']?.invalidFields.contains('spouseBirthDate') ? 'validation-failed' : ''}"
+                id="spouseBirthDate_month"
+                name="spouseBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.spouseBirthDate?.month == (it - 1)
+                      || (rqt.spouseBirthDate == null && params['spouseBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['subject']?.invalidFields.contains('spouseBirthDate') ? 'validation-failed' : ''}"
+                id="spouseBirthDate_year"
+                name="spouseBirthDate_year"
+                value="${rqt.spouseBirthDate ? rqt.spouseBirthDate.year + 1900 : params['spouseBirthDate_year']}"
+                title="<g:message code="rsr.property.spouseBirthDate.validationError" />" />
+            </div>
             
 
     

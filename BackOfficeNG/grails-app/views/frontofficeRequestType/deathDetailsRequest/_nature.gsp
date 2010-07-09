@@ -18,9 +18,43 @@
   
 
   
-    <label for="deathDate" class="required"><g:message code="ddr.property.deathDate.label" /> *  <span><g:message code="ddr.property.deathDate.help" /></span></label>
-            <input type="text" id="deathDate" name="deathDate" value="${formatDate(formatName:'format.date',date:rqt.deathDate)}" 
-                   class="required  validate-date ${stepStates != null && stepStates['nature']?.invalidFields.contains('deathDate') ? 'validation-failed' : ''}" title="<g:message code="ddr.property.deathDate.validationError" />" />
+    <label class="required"><g:message code="ddr.property.deathDate.label" /> *  <span><g:message code="ddr.property.deathDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${stepStates != null && stepStates['nature']?.invalidFields.contains('deathDate') ? 'validation-failed' : ''}"
+                id="deathDate_day"
+                name="deathDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.deathDate?.date == it
+                      || (rqt.deathDate == null && params['deathDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['nature']?.invalidFields.contains('deathDate') ? 'validation-failed' : ''}"
+                id="deathDate_month"
+                name="deathDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.deathDate?.month == (it - 1)
+                      || (rqt.deathDate == null && params['deathDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['nature']?.invalidFields.contains('deathDate') ? 'validation-failed' : ''}"
+                id="deathDate_year"
+                name="deathDate_year"
+                value="${rqt.deathDate ? rqt.deathDate.year + 1900 : params['deathDate_year']}"
+                title="<g:message code="ddr.property.deathDate.validationError" />" />
+            </div>
             
 
   

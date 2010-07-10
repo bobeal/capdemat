@@ -1,5 +1,6 @@
 package fr.cg95.cvq.service.users.impl;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -183,12 +184,11 @@ public class IndividualService implements IIndividualService {
             if (individual.getFirstName() == null || individual.getLastName() == null)
                 throw new CvqModelException("Individual must have not-null first and last names");
 
-            // lower case and remove any whitespace from last and first names
-            String firstName = individual.getFirstName().toLowerCase().trim();
-            firstName = firstName.replaceAll(" ", "-");
-            String lastName = individual.getLastName().toLowerCase().trim();
-            lastName = lastName.replaceAll(" ", "-");
-            String baseLogin = firstName + "." + lastName;
+            String baseLogin =  Normalizer.normalize(
+                (individual.getFirstName().trim() + '.' + individual.getLastName().trim())
+                    .replaceAll("\\s", "-"),
+                Normalizer.Form.NFD)
+                    .replaceAll("[^\\p{ASCII}]","").toLowerCase();
             logger.debug("assignLogin() searching from " + baseLogin);
             List<String> similarLogins = individualDAO.getSimilarLogins(baseLogin);
             String finalLogin = computeNewLogin(similarLogins, baseLogin);

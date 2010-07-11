@@ -79,11 +79,11 @@
       <p class="label">${i18n.translate('homeFolder.adult.property.email')}</p>
       <div class="response">${collectionIt?.email}</div>
       <p class="label">${i18n.translate('homeFolder.adult.property.homePhone')}</p>
-      <div class="response">${collectionIt?.homePhone}</div>
+      <div class="response">${StringUtils.defaultString(collectionIt?.homePhone)}</div>
       <p class="label">${i18n.translate('homeFolder.adult.property.mobilePhone')}</p>
-      <div class="response">${collectionIt?.mobilePhone}</div>
+      <div class="response">${StringUtils.defaultString(collectionIt?.mobilePhone)}</div>
       <p class="label">${i18n.translate('homeFolder.adult.property.officePhone')}</p>
-      <div class="response">${collectionIt?.officePhone}</div>
+      <div class="response">${StringUtils.defaultString(collectionIt?.officePhone)}</div>
   <% } %>
   </div>
       

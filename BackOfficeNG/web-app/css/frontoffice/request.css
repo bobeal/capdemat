@@ -119,6 +119,8 @@
   color: #095ba6;
 } 
 
+#request form select#subjectId option:disabled { color: inherit; }
+
 /* validation screen
 -------------------------------------------------------------- */
 #request .summary-box p { margin: 0; }

@@ -533,3 +533,9 @@ alter table study_grant_request drop column bank_code;
 alter table study_grant_request drop column counter_code;
 alter table study_grant_request drop column account_number;
 alter table study_grant_request drop column account_key;
+
+-- XmlDecimal mapped to BigDecimal
+ALTER TABLE library_registration_request ALTER subscription_price TYPE numeric(19,2);
+ALTER TABLE domestic_help_request ALTER dhr_current_dwelling_number_of_room TYPE numeric(19,2);
+ALTER TABLE domestic_help_request ALTER dhr_current_dwelling_net_area TYPE numeric(19,2);
+

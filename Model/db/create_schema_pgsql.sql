@@ -890,7 +890,7 @@
         dhr_income_tax bytea,
         dhr_spouse_birth_place varchar(255),
         dhr_spouse_birth_date timestamp,
-        dhr_current_dwelling_net_area int2,
+        dhr_current_dwelling_net_area numeric(19, 2),
         dhr_requester_france_arrival_date timestamp,
         dhr_current_dwelling_status varchar(255),
         dhr_spouse_first_name varchar(38),
@@ -908,7 +908,7 @@
         dhr_guardian_name varchar(38),
         pensions bytea,
         dhr_current_dwelling_kind varchar(255),
-        dhr_current_dwelling_number_of_room int2,
+        dhr_current_dwelling_number_of_room numeric(19, 2),
         dhr_guardian_measure varchar(255),
         dhr_current_dwelling_phone varchar(10),
         dhr_spouse_is_french_resident bool,
@@ -1559,7 +1559,7 @@
         id int8 not null,
         registration_number varchar(255),
         parental_authorization bool,
-        subscription_price int2,
+        subscription_price numeric(19, 2),
         rules_and_regulations_acceptance bool,
         primary key (id)
     );

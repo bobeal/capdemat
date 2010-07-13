@@ -806,9 +806,9 @@ public class DomesticHelpRequestData implements Serializable {
         message = "dhrCurrentDwellingNetArea"
       )
     
-    private Short dhrCurrentDwellingNetArea;
+    private java.math.BigDecimal dhrCurrentDwellingNetArea;
 
-    public final void setDhrCurrentDwellingNetArea(final Short dhrCurrentDwellingNetArea) {
+    public final void setDhrCurrentDwellingNetArea(final java.math.BigDecimal dhrCurrentDwellingNetArea) {
         this.dhrCurrentDwellingNetArea = dhrCurrentDwellingNetArea;
     }
 
@@ -819,7 +819,7 @@ public class DomesticHelpRequestData implements Serializable {
         
       
     */
-    public final Short getDhrCurrentDwellingNetArea() {
+    public final java.math.BigDecimal getDhrCurrentDwellingNetArea() {
         return this.dhrCurrentDwellingNetArea;
     }
   
@@ -1487,9 +1487,9 @@ public class DomesticHelpRequestData implements Serializable {
         message = "dhrCurrentDwellingNumberOfRoom"
       )
     
-    private Short dhrCurrentDwellingNumberOfRoom;
+    private java.math.BigDecimal dhrCurrentDwellingNumberOfRoom;
 
-    public final void setDhrCurrentDwellingNumberOfRoom(final Short dhrCurrentDwellingNumberOfRoom) {
+    public final void setDhrCurrentDwellingNumberOfRoom(final java.math.BigDecimal dhrCurrentDwellingNumberOfRoom) {
         this.dhrCurrentDwellingNumberOfRoom = dhrCurrentDwellingNumberOfRoom;
     }
 
@@ -1500,7 +1500,7 @@ public class DomesticHelpRequestData implements Serializable {
         
       
     */
-    public final Short getDhrCurrentDwellingNumberOfRoom() {
+    public final java.math.BigDecimal getDhrCurrentDwellingNumberOfRoom() {
         return this.dhrCurrentDwellingNumberOfRoom;
     }
   

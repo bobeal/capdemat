@@ -163,7 +163,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
         }
       
         if (getDhrCurrentDwellingNetArea() != null)
-            dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingNetArea(new BigDecimal(getDhrCurrentDwellingNetArea()));
+            dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingNetArea(getDhrCurrentDwellingNetArea());
       
         date = getDhrRequesterFranceArrivalDate();
         if (date != null) {
@@ -215,7 +215,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
             dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingKind(fr.cg95.cvq.xml.request.social.DhrDwellingKindType.Enum.forString(getDhrCurrentDwellingKind().toString()));
       
         if (getDhrCurrentDwellingNumberOfRoom() != null)
-            dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingNumberOfRoom(new BigDecimal(getDhrCurrentDwellingNumberOfRoom()));
+            dhrCurrentDwellingTypeDhrCurrentDwelling.setDhrCurrentDwellingNumberOfRoom(getDhrCurrentDwellingNumberOfRoom());
       
         if (getDhrGuardianMeasure() != null)
             dhrRequesterGuardianTypeDhrRequesterGuardian.setDhrGuardianMeasure(fr.cg95.cvq.xml.request.social.DhrGuardianMeasureType.Enum.forString(getDhrGuardianMeasure().toString()));
@@ -346,7 +346,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
         }
       
         if (domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNetArea() != null)
-            domesticHelpRequest.setDhrCurrentDwellingNetArea(domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNetArea().shortValue());
+            domesticHelpRequest.setDhrCurrentDwellingNetArea(domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNetArea());
       
         calendar = domesticHelpRequestXml.getDhrRequester().getDhrRequesterFranceArrivalDate();
         if (calendar != null) {
@@ -403,7 +403,7 @@ public class DomesticHelpRequest extends Request implements Serializable {
             domesticHelpRequest.setDhrCurrentDwellingKind(fr.cg95.cvq.business.request.social.DhrDwellingKindType.getDefaultDhrDwellingKindType());
       
         if (domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNumberOfRoom() != null)
-            domesticHelpRequest.setDhrCurrentDwellingNumberOfRoom(domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNumberOfRoom().shortValue());
+            domesticHelpRequest.setDhrCurrentDwellingNumberOfRoom(domesticHelpRequestXml.getDhrCurrentDwelling().getDhrCurrentDwellingNumberOfRoom());
       
         if (domesticHelpRequestXml.getDhrRequesterGuardian().getDhrGuardianMeasure() != null)
             domesticHelpRequest.setDhrGuardianMeasure(fr.cg95.cvq.business.request.social.DhrGuardianMeasureType.forString(domesticHelpRequestXml.getDhrRequesterGuardian().getDhrGuardianMeasure().toString()));
@@ -637,12 +637,12 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return domesticHelpRequestData.getDhrSpouseBirthDate();
     }
   
-    public final void setDhrCurrentDwellingNetArea(final Short dhrCurrentDwellingNetArea) {
+    public final void setDhrCurrentDwellingNetArea(final java.math.BigDecimal dhrCurrentDwellingNetArea) {
         domesticHelpRequestData.setDhrCurrentDwellingNetArea(dhrCurrentDwellingNetArea);
     }
 
     
-    public final Short getDhrCurrentDwellingNetArea() {
+    public final java.math.BigDecimal getDhrCurrentDwellingNetArea() {
         return domesticHelpRequestData.getDhrCurrentDwellingNetArea();
     }
   
@@ -799,12 +799,12 @@ public class DomesticHelpRequest extends Request implements Serializable {
         return domesticHelpRequestData.getDhrCurrentDwellingKind();
     }
   
-    public final void setDhrCurrentDwellingNumberOfRoom(final Short dhrCurrentDwellingNumberOfRoom) {
+    public final void setDhrCurrentDwellingNumberOfRoom(final java.math.BigDecimal dhrCurrentDwellingNumberOfRoom) {
         domesticHelpRequestData.setDhrCurrentDwellingNumberOfRoom(dhrCurrentDwellingNumberOfRoom);
     }
 
     
-    public final Short getDhrCurrentDwellingNumberOfRoom() {
+    public final java.math.BigDecimal getDhrCurrentDwellingNumberOfRoom() {
         return domesticHelpRequestData.getDhrCurrentDwellingNumberOfRoom();
     }
   

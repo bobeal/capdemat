@@ -121,9 +121,9 @@ public class LibraryRegistrationRequestData implements Serializable {
         message = "subscriptionPrice"
       )
     
-    private Short subscriptionPrice;
+    private java.math.BigDecimal subscriptionPrice;
 
-    public final void setSubscriptionPrice(final Short subscriptionPrice) {
+    public final void setSubscriptionPrice(final java.math.BigDecimal subscriptionPrice) {
         this.subscriptionPrice = subscriptionPrice;
     }
 
@@ -134,7 +134,7 @@ public class LibraryRegistrationRequestData implements Serializable {
         
       
     */
-    public final Short getSubscriptionPrice() {
+    public final java.math.BigDecimal getSubscriptionPrice() {
         return this.subscriptionPrice;
     }
   

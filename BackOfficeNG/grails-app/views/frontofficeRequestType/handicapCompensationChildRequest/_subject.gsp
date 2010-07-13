@@ -16,9 +16,43 @@
             
 
     
-      <label for="subjectBirthDate" class="required"><g:message code="hccr.property.subjectBirthDate.label" /> *  <span><g:message code="hccr.property.subjectBirthDate.help" /></span></label>
-            <input type="text" id="subjectBirthDate" name="subjectBirthDate" value="${formatDate(formatName:'format.date',date:rqt.subjectBirthDate)}" 
-                   class="required condition-isLessThan18-trigger  validate-date ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.subjectBirthDate.validationError" />" />
+      <label class="required"><g:message code="hccr.property.subjectBirthDate.label" /> *  <span><g:message code="hccr.property.subjectBirthDate.help" /></span></label>
+            <div class="date required condition-isLessThan18-trigger  validate-date required ">
+              <select class="day ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}"
+                id="subjectBirthDate_day"
+                name="subjectBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.subjectBirthDate?.date == it
+                      || (rqt.subjectBirthDate == null && params['subjectBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}"
+                id="subjectBirthDate_month"
+                name="subjectBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.subjectBirthDate?.month == (it - 1)
+                      || (rqt.subjectBirthDate == null && params['subjectBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['subject']?.invalidFields.contains('subjectBirthDate') ? 'validation-failed' : ''}"
+                id="subjectBirthDate_year"
+                name="subjectBirthDate_year"
+                value="${rqt.subjectBirthDate ? rqt.subjectBirthDate.year + 1900 : params['subjectBirthDate_year']}"
+                title="<g:message code="hccr.property.subjectBirthDate.validationError" />" />
+            </div>
             
 
     
@@ -184,9 +218,43 @@
             
 
     
-      <label for="referentBirthDate" class="required"><g:message code="hccr.property.referentBirthDate.label" /> *  <span><g:message code="hccr.property.referentBirthDate.help" /></span></label>
-            <input type="text" id="referentBirthDate" name="referentBirthDate" value="${formatDate(formatName:'format.date',date:rqt.referentBirthDate)}" 
-                   class="required  validate-date ${stepStates != null && stepStates['subject']?.invalidFields.contains('referentBirthDate') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.referentBirthDate.validationError" />" />
+      <label class="required"><g:message code="hccr.property.referentBirthDate.label" /> *  <span><g:message code="hccr.property.referentBirthDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${stepStates != null && stepStates['subject']?.invalidFields.contains('referentBirthDate') ? 'validation-failed' : ''}"
+                id="referentBirthDate_day"
+                name="referentBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.referentBirthDate?.date == it
+                      || (rqt.referentBirthDate == null && params['referentBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['subject']?.invalidFields.contains('referentBirthDate') ? 'validation-failed' : ''}"
+                id="referentBirthDate_month"
+                name="referentBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.referentBirthDate?.month == (it - 1)
+                      || (rqt.referentBirthDate == null && params['referentBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['subject']?.invalidFields.contains('referentBirthDate') ? 'validation-failed' : ''}"
+                id="referentBirthDate_year"
+                name="referentBirthDate_year"
+                value="${rqt.referentBirthDate ? rqt.referentBirthDate.year + 1900 : params['referentBirthDate_year']}"
+                title="<g:message code="hccr.property.referentBirthDate.validationError" />" />
+            </div>
             
 
     
@@ -245,9 +313,43 @@
             
 
     
-        <label for="familyDependents.${listIndex}.referentFamilyDependentBirthDate" class="required"><g:message code="hccr.property.referentFamilyDependentBirthDate.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentBirthDate.help" /></span></label>
-            <input type="text" id="familyDependents.${listIndex}.referentFamilyDependentBirthDate" name="familyDependents[${listIndex}].referentFamilyDependentBirthDate" value="${formatDate(formatName:'format.date',date:editList?.familyDependents?.referentFamilyDependentBirthDate)}" 
-                   class="required  validate-date ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.referentFamilyDependentBirthDate') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.referentFamilyDependentBirthDate.validationError" />" />
+        <label class="required"><g:message code="hccr.property.referentFamilyDependentBirthDate.label" /> *  <span><g:message code="hccr.property.referentFamilyDependentBirthDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.referentFamilyDependentBirthDate') ? 'validation-failed' : ''}"
+                id="familyDependents.${listIndex}.referentFamilyDependentBirthDate_day"
+                name="familyDependents[${listIndex}].referentFamilyDependentBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${editList?.familyDependents?.referentFamilyDependentBirthDate?.date == it
+                      || (editList?.familyDependents?.referentFamilyDependentBirthDate == null && params['familyDependents[${listIndex}].referentFamilyDependentBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.referentFamilyDependentBirthDate') ? 'validation-failed' : ''}"
+                id="familyDependents.${listIndex}.referentFamilyDependentBirthDate_month"
+                name="familyDependents[${listIndex}].referentFamilyDependentBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${editList?.familyDependents?.referentFamilyDependentBirthDate?.month == (it - 1)
+                      || (editList?.familyDependents?.referentFamilyDependentBirthDate == null && params['familyDependents[${listIndex}].referentFamilyDependentBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['subject']?.invalidFields.contains('familyDependents.referentFamilyDependentBirthDate') ? 'validation-failed' : ''}"
+                id="familyDependents.${listIndex}.referentFamilyDependentBirthDate_year"
+                name="familyDependents[${listIndex}].referentFamilyDependentBirthDate_year"
+                value="${editList?.familyDependents?.referentFamilyDependentBirthDate ? editList?.familyDependents?.referentFamilyDependentBirthDate.year + 1900 : params['familyDependents.referentFamilyDependentBirthDate_year']}"
+                title="<g:message code="hccr.property.referentFamilyDependentBirthDate.validationError" />" />
+            </div>
             
 
     

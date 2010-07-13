@@ -43,9 +43,43 @@
             
 
     
-      <label for="dhrCurrentDwellingArrivalDate" class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.help" /></span></label>
-            <input type="text" id="dhrCurrentDwellingArrivalDate" name="dhrCurrentDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:rqt.dhrCurrentDwellingArrivalDate)}" 
-                   class="required condition-isCurrentDwellingPlaceOfResidence-filled  validate-date ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrCurrentDwellingArrivalDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrCurrentDwellingArrivalDate.validationError" />" />
+      <label class="required condition-isCurrentDwellingPlaceOfResidence-filled"><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrCurrentDwellingArrivalDate.help" /></span></label>
+            <div class="date required condition-isCurrentDwellingPlaceOfResidence-filled  validate-date required condition-isCurrentDwellingPlaceOfResidence-filled ">
+              <select class="day ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrCurrentDwellingArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrCurrentDwellingArrivalDate_day"
+                name="dhrCurrentDwellingArrivalDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.dhrCurrentDwellingArrivalDate?.date == it
+                      || (rqt.dhrCurrentDwellingArrivalDate == null && params['dhrCurrentDwellingArrivalDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrCurrentDwellingArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrCurrentDwellingArrivalDate_month"
+                name="dhrCurrentDwellingArrivalDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.dhrCurrentDwellingArrivalDate?.month == (it - 1)
+                      || (rqt.dhrCurrentDwellingArrivalDate == null && params['dhrCurrentDwellingArrivalDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrCurrentDwellingArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrCurrentDwellingArrivalDate_year"
+                name="dhrCurrentDwellingArrivalDate_year"
+                value="${rqt.dhrCurrentDwellingArrivalDate ? rqt.dhrCurrentDwellingArrivalDate.year + 1900 : params['dhrCurrentDwellingArrivalDate_year']}"
+                title="<g:message code="dhr.property.dhrCurrentDwellingArrivalDate.validationError" />" />
+            </div>
             
 
     
@@ -126,15 +160,83 @@
             
 
     
-        <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingArrivalDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
-            <input type="text" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingArrivalDate" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate" value="${formatDate(formatName:'format.date',date:editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate)}" 
-                   class="required  validate-date ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />" />
+        <label class="required"><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingArrivalDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingArrivalDate_day"
+                name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate?.date == it
+                      || (editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate == null && params['dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingArrivalDate_month"
+                name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate?.month == (it - 1)
+                      || (editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate == null && params['dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.dhrPreviousDwellingArrivalDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingArrivalDate_year"
+                name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingArrivalDate_year"
+                value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate ? editList?.dhrPreviousDwelling?.dhrPreviousDwellingArrivalDate.year + 1900 : params['dhrPreviousDwelling.dhrPreviousDwellingArrivalDate_year']}"
+                title="<g:message code="dhr.property.dhrPreviousDwellingArrivalDate.validationError" />" />
+            </div>
             
 
     
-        <label for="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingDepartureDate" class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
-            <input type="text" id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingDepartureDate" name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate" value="${formatDate(formatName:'format.date',date:editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate)}" 
-                   class="required  validate-date ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}" title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />" />
+        <label class="required"><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.label" /> *  <span><g:message code="dhr.property.dhrPreviousDwellingDepartureDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingDepartureDate_day"
+                name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate?.date == it
+                      || (editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate == null && params['dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingDepartureDate_month"
+                name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate?.month == (it - 1)
+                      || (editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate == null && params['dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['dwelling']?.invalidFields.contains('dhrPreviousDwelling.dhrPreviousDwellingDepartureDate') ? 'validation-failed' : ''}"
+                id="dhrPreviousDwelling.${listIndex}.dhrPreviousDwellingDepartureDate_year"
+                name="dhrPreviousDwelling[${listIndex}].dhrPreviousDwellingDepartureDate_year"
+                value="${editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate ? editList?.dhrPreviousDwelling?.dhrPreviousDwellingDepartureDate.year + 1900 : params['dhrPreviousDwelling.dhrPreviousDwellingDepartureDate_year']}"
+                title="<g:message code="dhr.property.dhrPreviousDwellingDepartureDate.validationError" />" />
+            </div>
             
 
     

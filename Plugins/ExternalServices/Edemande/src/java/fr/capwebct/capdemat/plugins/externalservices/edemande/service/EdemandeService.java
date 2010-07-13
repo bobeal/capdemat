@@ -67,6 +67,7 @@ import fr.cg95.cvq.util.translation.ITranslationService;
 import fr.cg95.cvq.xml.common.AddressType;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument;
 import fr.cg95.cvq.xml.request.school.StudyGrantRequestDocument.StudyGrantRequest;
+import fr.cg95.cvq.xml.request.school.impl.StudyGrantRequestDocumentImpl.StudyGrantRequestImpl;
 
 public class EdemandeService implements IExternalProviderService {
 
@@ -89,7 +90,7 @@ public class EdemandeService implements IExternalProviderService {
 
     @Override
     public String sendRequest(XmlObject requestXml) {
-        StudyGrantRequest sgr = ((StudyGrantRequestDocument) requestXml).getStudyGrantRequest();
+        StudyGrantRequestImpl sgr = (StudyGrantRequestImpl) requestXml;
         String psCodeTiersAH = null;
         if (!sgr.getIsSubjectAccountHolder()) {
             psCodeTiersAH = sgr.getAccountHolderEdemandeId();
@@ -113,7 +114,7 @@ public class EdemandeService implements IExternalProviderService {
                 }
             }
         }
-        String psCodeTiersS = sgr.getSubject().getIndividual().getExternalId();
+        String psCodeTiersS = sgr.getSubject().getAdult().getExternalId();
         if (psCodeTiersS == null || psCodeTiersS.trim().isEmpty()) {
             // external id (code tiers) not known locally : 
             //     either check if tiers has been created in eDemande
@@ -140,9 +141,9 @@ public class EdemandeService implements IExternalProviderService {
                 return null;
             } else {
                 // tiers has been created in eDemande, store its code locally
-                sgr.getSubject().getIndividual().setExternalId(psCodeTiersS);
+                sgr.getSubject().getAdult().setExternalId(psCodeTiersS);
                 externalService.setExternalId(label, sgr.getHomeFolder().getId(), 
-                        sgr.getSubject().getIndividual().getId(), psCodeTiersS);
+                        sgr.getSubject().getAdult().getId(), psCodeTiersS);
             }
         }
         
@@ -286,8 +287,8 @@ public class EdemandeService implements IExternalProviderService {
 
     private String searchSubject(StudyGrantRequest sgr) {
         return searchIndividual(sgr,
-            sgr.getSubject().getIndividual().getFirstName(),
-            sgr.getSubject().getIndividual().getLastName(),
+            sgr.getSubject().getAdult().getFirstName(),
+            sgr.getSubject().getAdult().getLastName(),
             sgr.getSubjectInformations().getSubjectBirthDate(),
             SUBJECT_TRACE_SUBKEY);
     }
@@ -300,7 +301,7 @@ public class EdemandeService implements IExternalProviderService {
 
     private void createSubject(StudyGrantRequest sgr) {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("lastName", StringUtils.upperCase(sgr.getSubject().getIndividual().getLastName()));
+        model.put("lastName", StringUtils.upperCase(sgr.getSubject().getAdult().getLastName()));
         model.put("address", sgr.getSubjectInformations().getSubjectAddress());
         if (sgr.getSubjectInformations().getSubjectPhone() != null && !sgr.getSubjectInformations().getSubjectPhone().trim().isEmpty()) {
             model.put("phone", sgr.getSubjectInformations().getSubjectPhone());
@@ -312,10 +313,10 @@ public class EdemandeService implements IExternalProviderService {
                 translationService.translate("homeFolder.adult.title."
                 + sgr.getSubject().getAdult().getTitle().toString().toLowerCase(), Locale.FRANCE));
         } else {
-            if (SexType.MALE.toString().equals(sgr.getSubject().getIndividual().getSex().toString())) {
+            if (SexType.MALE.toString().equals(sgr.getSubject().getAdult().getSex().toString())) {
                 model.put("title",
                     translationService.translate("homeFolder.adult.title.mister", Locale.FRANCE));
-            } else if (SexType.FEMALE.toString().equals(sgr.getSubject().getIndividual().getSex().toString())) {
+            } else if (SexType.FEMALE.toString().equals(sgr.getSubject().getAdult().getSex().toString())) {
                 model.put("title",
                     translationService.translate("homeFolder.adult.title.miss", Locale.FRANCE));
             } else {
@@ -324,10 +325,10 @@ public class EdemandeService implements IExternalProviderService {
             }
         }
         model.put("firstName", WordUtils.capitalizeFully(
-            sgr.getSubject().getIndividual().getFirstName(), new char[]{' ', '-'}));
+            sgr.getSubject().getAdult().getFirstName(), new char[]{' ', '-'}));
         model.put("birthPlace",
-            sgr.getSubject().getIndividual().getBirthPlace() != null ?
-            StringUtils.defaultString(sgr.getSubject().getIndividual().getBirthPlace().getCity())
+            sgr.getSubject().getAdult().getBirthPlace() != null ?
+            StringUtils.defaultString(sgr.getSubject().getAdult().getBirthPlace().getCity())
             : "");
         model.put("birthDate", formatDate(sgr.getSubjectInformations().getSubjectBirthDate()));
         model.put("frenchRIB", FrenchRIB.xmlToModel(sgr.getFrenchRIB()));
@@ -397,8 +398,8 @@ public class EdemandeService implements IExternalProviderService {
             StringUtils.defaultIfEmpty(sgr.getEdemandeId(), "-1"));
         model.put("etatCourant", firstSending ? 2 : 1);
         model.put("firstName", WordUtils.capitalizeFully(
-            sgr.getSubject().getIndividual().getFirstName(), new char[]{' ', '-'}));
-        model.put("lastName", StringUtils.upperCase(sgr.getSubject().getIndividual().getLastName()));
+            sgr.getSubject().getAdult().getFirstName(), new char[]{' ', '-'}));
+        model.put("lastName", StringUtils.upperCase(sgr.getSubject().getAdult().getLastName()));
         model.put("address", sgr.getSubjectInformations().getSubjectAddress());
         if (sgr.getSubjectInformations().getSubjectPhone() != null && !sgr.getSubjectInformations().getSubjectPhone().trim().isEmpty()) {
             model.put("phone", sgr.getSubjectInformations().getSubjectPhone());
@@ -575,16 +576,16 @@ public class EdemandeService implements IExternalProviderService {
     public Map<String, Object> loadExternalInformations(XmlObject requestXml)
         throws CvqException {
         StudyGrantRequest sgr = ((StudyGrantRequestDocument) requestXml).getStudyGrantRequest();
-        if (sgr.getSubject().getIndividual().getExternalId() == null
-            || sgr.getSubject().getIndividual().getExternalId().trim().isEmpty()
+        if (sgr.getSubject().getAdult().getExternalId() == null
+            || sgr.getSubject().getAdult().getExternalId().trim().isEmpty()
             || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()) {
             return Collections.emptyMap();
         }
         Map<String, Object> informations = new TreeMap<String, Object>();
         String request = edemandeClient.chargerDemande(
-            sgr.getSubject().getIndividual().getExternalId(), sgr.getEdemandeId())
+            sgr.getSubject().getAdult().getExternalId(), sgr.getEdemandeId())
             .getChargerDemandeResponse().getReturn();
-        String status = getRequestStatus(sgr, sgr.getSubject().getIndividual().getExternalId());
+        String status = getRequestStatus(sgr, sgr.getSubject().getAdult().getExternalId());
         if (status != null && !status.trim().isEmpty()) {
             informations.put("sgr.property.externalStatus", status);
         }

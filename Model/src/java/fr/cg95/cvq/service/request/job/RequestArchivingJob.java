@@ -130,7 +130,6 @@ public class RequestArchivingJob implements ApplicationContextAware {
         Result result = new Result();
         Set<RequestState> archivedStates = new HashSet<RequestState>(1);
         archivedStates.add(RequestState.ARCHIVED);
-        DateMidnight today = new DateMidnight();
         for (Request r : requestDAO.listByStates(archivedStates, true)) {
             HibernateUtil.beginTransaction();
             try {
@@ -148,7 +147,7 @@ public class RequestArchivingJob implements ApplicationContextAware {
                     new Object[] {
                         translationService
                             .translateRequestTypeLabel(request.getRequestType().getLabel()),
-                        today.toString(ISODateTimeFormat.date()),
+                        new DateTime(request.getCreationDate()).toString(ISODateTimeFormat.date()),
                         request.getId().toString()
                 });
                 localAuthorityRegistry.saveLocalAuthorityResource(Type.REQUEST_ARCHIVE,

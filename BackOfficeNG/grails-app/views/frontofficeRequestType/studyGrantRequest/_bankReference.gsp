@@ -44,9 +44,43 @@
   
 
   
-    <label for="accountHolderBirthDate" class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderBirthDate.label" /> *  <span><g:message code="sgr.property.accountHolderBirthDate.help" /></span></label>
-            <input type="text" id="accountHolderBirthDate" name="accountHolderBirthDate" value="${formatDate(formatName:'format.date',date:rqt.accountHolderBirthDate)}" 
-                   class="required condition-isSubjectAccountHolder-unfilled  validate-date ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('accountHolderBirthDate') ? 'validation-failed' : ''}" title="<g:message code="sgr.property.accountHolderBirthDate.validationError" />" />
+    <label class="required condition-isSubjectAccountHolder-unfilled"><g:message code="sgr.property.accountHolderBirthDate.label" /> *  <span><g:message code="sgr.property.accountHolderBirthDate.help" /></span></label>
+            <div class="date required condition-isSubjectAccountHolder-unfilled  validate-date required condition-isSubjectAccountHolder-unfilled ">
+              <select class="day ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('accountHolderBirthDate') ? 'validation-failed' : ''}"
+                id="accountHolderBirthDate_day"
+                name="accountHolderBirthDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.accountHolderBirthDate?.date == it
+                      || (rqt.accountHolderBirthDate == null && params['accountHolderBirthDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('accountHolderBirthDate') ? 'validation-failed' : ''}"
+                id="accountHolderBirthDate_month"
+                name="accountHolderBirthDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.accountHolderBirthDate?.month == (it - 1)
+                      || (rqt.accountHolderBirthDate == null && params['accountHolderBirthDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['bankReference']?.invalidFields.contains('accountHolderBirthDate') ? 'validation-failed' : ''}"
+                id="accountHolderBirthDate_year"
+                name="accountHolderBirthDate_year"
+                value="${rqt.accountHolderBirthDate ? rqt.accountHolderBirthDate.year + 1900 : params['accountHolderBirthDate_year']}"
+                title="<g:message code="sgr.property.accountHolderBirthDate.validationError" />" />
+            </div>
             
 
   

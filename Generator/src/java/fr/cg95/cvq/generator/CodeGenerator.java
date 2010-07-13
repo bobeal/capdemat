@@ -71,7 +71,7 @@ public final class CodeGenerator {
         javaTypesMap.put("org.apache.xmlbeans.XmlPositiveInteger", "java.math.BigInteger");
         javaTypesMap.put("org.apache.xmlbeans.XmlToken", "String");
         javaTypesMap.put("org.apache.xmlbeans.XmlBoolean", "Boolean");
-        javaTypesMap.put("org.apache.xmlbeans.XmlDecimal", "Short");
+        javaTypesMap.put("org.apache.xmlbeans.XmlDecimal", "java.math.BigDecimal");
         javaTypesMap.put("org.apache.xmlbeans.XmlDouble", "Double");
     }
 

@@ -81,8 +81,42 @@
             """
          ,'date' :
             """
-            <input type="text" id="${IdRefNamePrefix}${element.javaFieldName}" name="${namePrefix}${element.javaFieldName}" value="\${formatDate(formatName:'format.date',date:${valuePrefix}.${element.javaFieldName})}" 
-                   class="${element.htmlClass} \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}" title="<g:message code="${element.i18nPrefixCode}.validationError" />" />
+            <div class="date ${element.htmlClass} ${element.listenerConditionsClass} ${element.autofillClass}">
+              <select class="day \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}"
+                id="${IdRefNamePrefix}${element.javaFieldName}_day"
+                name="${namePrefix}${element.javaFieldName}_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="\${1..31}">
+                  <option value="\${it}"
+                    <g:if test="\${${valuePrefix}.${element.javaFieldName}?.date == it
+                      || (${valuePrefix}.${element.javaFieldName} == null && params['${namePrefix}${element.javaFieldName}_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    \${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}"
+                id="${IdRefNamePrefix}${element.javaFieldName}_month"
+                name="${namePrefix}${element.javaFieldName}_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="\${1..12}">
+                  <option value="\${it}"
+                    <g:if test="\${${valuePrefix}.${element.javaFieldName}?.month == (it - 1)
+                      || (${valuePrefix}.${element.javaFieldName} == null && params['${namePrefix}${element.javaFieldName}_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.\${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year \${stepStates != null && stepStates['${step.name}']?.invalidFields.contains('$validationNamePrefix${element.javaFieldName}') ? 'validation-failed' : ''}"
+                id="${IdRefNamePrefix}${element.javaFieldName}_year"
+                name="${namePrefix}${element.javaFieldName}_year"
+                value="\${${valuePrefix}.${element.javaFieldName} ? ${valuePrefix}.${element.javaFieldName}.year + 1900 : params['${validationNamePrefix}${element.javaFieldName}_year']}"
+                title="<g:message code="${element.i18nPrefixCode}.validationError" />" />
+            </div>
             """
          ,'text' :
             """
@@ -130,7 +164,7 @@
       def output
       if (['requester','subject', 'acceptance'].contains(element.widget))
         output = ''
-      else if (['radio', 'boolean', 'localReferentialData', 'address'].contains(element.widget))
+      else if (['radio', 'boolean', 'localReferentialData', 'address', 'date'].contains(element.widget))
         output = widgets['label']
       else
         output = widgets['labelWithFor']

@@ -95,7 +95,7 @@
 #requestData dl dd .editable-list-form input[type=button] { margin: .5em 0 0 0 }
 #requestData dl dd .editable-list-form input.line1        { width: 19%; }
 #requestData dl dd .editable-list-form input.line2        { width: 74%; }
-#requestData dl dd .editable-list-form input.validate-date-au { width: 80%; }
+#requestData dl dd .editable-list-form input.validate-date { width: 80%; }
 
 /* condition test=false 
  FIXME - Must we modify background ? I think, we don't ...

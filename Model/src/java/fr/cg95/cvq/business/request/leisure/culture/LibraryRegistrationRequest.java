@@ -84,7 +84,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
             libraryRegistrationRequest.setParentalAuthorization(getParentalAuthorization().booleanValue());
       
         if (getSubscriptionPrice() != null)
-            libraryRegistrationRequest.setSubscriptionPrice(new BigDecimal(getSubscriptionPrice()));
+            libraryRegistrationRequest.setSubscriptionPrice(getSubscriptionPrice());
       
         i = 0;
         if (getSubscription() != null) {
@@ -118,7 +118,7 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         libraryRegistrationRequest.setParentalAuthorization(Boolean.valueOf(libraryRegistrationRequestXml.getParentalAuthorization()));
       
         if (libraryRegistrationRequestXml.getSubscriptionPrice() != null)
-            libraryRegistrationRequest.setSubscriptionPrice(libraryRegistrationRequestXml.getSubscriptionPrice().shortValue());
+            libraryRegistrationRequest.setSubscriptionPrice(libraryRegistrationRequestXml.getSubscriptionPrice());
       
         List<fr.cg95.cvq.business.request.LocalReferentialData> subscriptionList = new ArrayList<fr.cg95.cvq.business.request.LocalReferentialData>(libraryRegistrationRequestXml.sizeOfSubscriptionArray());
         for (LocalReferentialDataType object : libraryRegistrationRequestXml.getSubscriptionArray()) {
@@ -150,12 +150,12 @@ public class LibraryRegistrationRequest extends Request implements Serializable 
         return libraryRegistrationRequestData.getParentalAuthorization();
     }
   
-    public final void setSubscriptionPrice(final Short subscriptionPrice) {
+    public final void setSubscriptionPrice(final java.math.BigDecimal subscriptionPrice) {
         libraryRegistrationRequestData.setSubscriptionPrice(subscriptionPrice);
     }
 
     
-    public final Short getSubscriptionPrice() {
+    public final java.math.BigDecimal getSubscriptionPrice() {
         return libraryRegistrationRequestData.getSubscriptionPrice();
     }
   

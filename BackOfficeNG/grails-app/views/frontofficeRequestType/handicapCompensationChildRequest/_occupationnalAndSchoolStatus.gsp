@@ -303,9 +303,43 @@
             
 
     
-      <label for="professionalStatusDate" class="required"><g:message code="hccr.property.professionalStatusDate.label" /> *  <span><g:message code="hccr.property.professionalStatusDate.help" /></span></label>
-            <input type="text" id="professionalStatusDate" name="professionalStatusDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusDate)}" 
-                   class="required  validate-date ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusDate') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusDate.validationError" />" />
+      <label class="required"><g:message code="hccr.property.professionalStatusDate.label" /> *  <span><g:message code="hccr.property.professionalStatusDate.help" /></span></label>
+            <div class="date required  validate-date required ">
+              <select class="day ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusDate') ? 'validation-failed' : ''}"
+                id="professionalStatusDate_day"
+                name="professionalStatusDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.professionalStatusDate?.date == it
+                      || (rqt.professionalStatusDate == null && params['professionalStatusDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusDate') ? 'validation-failed' : ''}"
+                id="professionalStatusDate_month"
+                name="professionalStatusDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.professionalStatusDate?.month == (it - 1)
+                      || (rqt.professionalStatusDate == null && params['professionalStatusDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusDate') ? 'validation-failed' : ''}"
+                id="professionalStatusDate_year"
+                name="professionalStatusDate_year"
+                value="${rqt.professionalStatusDate ? rqt.professionalStatusDate.year + 1900 : params['professionalStatusDate_year']}"
+                title="<g:message code="hccr.property.professionalStatusDate.validationError" />" />
+            </div>
             
 
     
@@ -365,9 +399,43 @@
             
 
     
-      <label for="professionalStatusRegisterAsUnemployedDate" class="required condition-isRegisteredAsUnemployed-filled"><g:message code="hccr.property.professionalStatusRegisterAsUnemployedDate.label" /> *  <span><g:message code="hccr.property.professionalStatusRegisterAsUnemployedDate.help" /></span></label>
-            <input type="text" id="professionalStatusRegisterAsUnemployedDate" name="professionalStatusRegisterAsUnemployedDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusRegisterAsUnemployedDate)}" 
-                   class="required condition-isRegisteredAsUnemployed-filled  validate-date ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusRegisterAsUnemployedDate') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusRegisterAsUnemployedDate.validationError" />" />
+      <label class="required condition-isRegisteredAsUnemployed-filled"><g:message code="hccr.property.professionalStatusRegisterAsUnemployedDate.label" /> *  <span><g:message code="hccr.property.professionalStatusRegisterAsUnemployedDate.help" /></span></label>
+            <div class="date required condition-isRegisteredAsUnemployed-filled  validate-date required condition-isRegisteredAsUnemployed-filled ">
+              <select class="day ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusRegisterAsUnemployedDate') ? 'validation-failed' : ''}"
+                id="professionalStatusRegisterAsUnemployedDate_day"
+                name="professionalStatusRegisterAsUnemployedDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.professionalStatusRegisterAsUnemployedDate?.date == it
+                      || (rqt.professionalStatusRegisterAsUnemployedDate == null && params['professionalStatusRegisterAsUnemployedDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusRegisterAsUnemployedDate') ? 'validation-failed' : ''}"
+                id="professionalStatusRegisterAsUnemployedDate_month"
+                name="professionalStatusRegisterAsUnemployedDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.professionalStatusRegisterAsUnemployedDate?.month == (it - 1)
+                      || (rqt.professionalStatusRegisterAsUnemployedDate == null && params['professionalStatusRegisterAsUnemployedDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusRegisterAsUnemployedDate') ? 'validation-failed' : ''}"
+                id="professionalStatusRegisterAsUnemployedDate_year"
+                name="professionalStatusRegisterAsUnemployedDate_year"
+                value="${rqt.professionalStatusRegisterAsUnemployedDate ? rqt.professionalStatusRegisterAsUnemployedDate.year + 1900 : params['professionalStatusRegisterAsUnemployedDate_year']}"
+                title="<g:message code="hccr.property.professionalStatusRegisterAsUnemployedDate.validationError" />" />
+            </div>
             
 
     
@@ -383,9 +451,43 @@
             
 
     
-      <label for="professionalStatusIndemnifiedDate" class="required condition-isIndemnified-filled"><g:message code="hccr.property.professionalStatusIndemnifiedDate.label" /> *  <span><g:message code="hccr.property.professionalStatusIndemnifiedDate.help" /></span></label>
-            <input type="text" id="professionalStatusIndemnifiedDate" name="professionalStatusIndemnifiedDate" value="${formatDate(formatName:'format.date',date:rqt.professionalStatusIndemnifiedDate)}" 
-                   class="required condition-isIndemnified-filled  validate-date ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusIndemnifiedDate') ? 'validation-failed' : ''}" title="<g:message code="hccr.property.professionalStatusIndemnifiedDate.validationError" />" />
+      <label class="required condition-isIndemnified-filled"><g:message code="hccr.property.professionalStatusIndemnifiedDate.label" /> *  <span><g:message code="hccr.property.professionalStatusIndemnifiedDate.help" /></span></label>
+            <div class="date required condition-isIndemnified-filled  validate-date required condition-isIndemnified-filled ">
+              <select class="day ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusIndemnifiedDate') ? 'validation-failed' : ''}"
+                id="professionalStatusIndemnifiedDate_day"
+                name="professionalStatusIndemnifiedDate_day">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..31}">
+                  <option value="${it}"
+                    <g:if test="${rqt.professionalStatusIndemnifiedDate?.date == it
+                      || (rqt.professionalStatusIndemnifiedDate == null && params['professionalStatusIndemnifiedDate_day'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    ${it}
+                  </option>
+                </g:each>
+              </select>
+              <select class="month ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusIndemnifiedDate') ? 'validation-failed' : ''}"
+                id="professionalStatusIndemnifiedDate_month"
+                name="professionalStatusIndemnifiedDate_month">
+                <option value=""><g:message code="message.select.defaultOption" /></option>
+                <g:each in="${1..12}">
+                  <option value="${it}"
+                    <g:if test="${rqt.professionalStatusIndemnifiedDate?.month == (it - 1)
+                      || (rqt.professionalStatusIndemnifiedDate == null && params['professionalStatusIndemnifiedDate_month'] == it.toString())}">
+                      selected="selected"
+                    </g:if>>
+                    <g:message code="month.${it}" />
+                  </option>
+                </g:each>
+              </select>
+              <input type="text" maxlength="4" size="3"
+                class="year ${stepStates != null && stepStates['occupationnalAndSchoolStatus']?.invalidFields.contains('professionalStatusIndemnifiedDate') ? 'validation-failed' : ''}"
+                id="professionalStatusIndemnifiedDate_year"
+                name="professionalStatusIndemnifiedDate_year"
+                value="${rqt.professionalStatusIndemnifiedDate ? rqt.professionalStatusIndemnifiedDate.year + 1900 : params['professionalStatusIndemnifiedDate_year']}"
+                title="<g:message code="hccr.property.professionalStatusIndemnifiedDate.validationError" />" />
+            </div>
             
 
     

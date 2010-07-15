@@ -575,7 +575,7 @@ public class EdemandeService implements IExternalProviderService {
 
     public Map<String, Object> loadExternalInformations(XmlObject requestXml)
         throws CvqException {
-        StudyGrantRequest sgr = ((StudyGrantRequestDocument) requestXml).getStudyGrantRequest();
+        StudyGrantRequestImpl sgr = (StudyGrantRequestImpl) requestXml;
         if (sgr.getSubject().getAdult().getExternalId() == null
             || sgr.getSubject().getAdult().getExternalId().trim().isEmpty()
             || sgr.getEdemandeId() == null || sgr.getEdemandeId().trim().isEmpty()) {

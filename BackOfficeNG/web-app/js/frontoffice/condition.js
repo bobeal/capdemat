@@ -239,8 +239,9 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.fong.internal');
       },
       test : function(e,confirm,init) {
         zct.val(yud.get('conditionsContainer'),ylj.stringify(zcf.Condition.triggers)||[]);
+        var t = yue.getTarget(e||{target:undefined});
         zct.doAjaxFormSubmitCall('conditionsForm',[],function(o){
-          var json = ylj.parse(o.responseText), t = yue.getTarget(e||{target:undefined});
+          var json = ylj.parse(o.responseText);
           zct.each(json,function(i,el){
             if(!el.test && !!confirm && zcf.Condition.checkChanges(i) && !yud.hasClass(zcf.Condition.filleds[i][0],'unactive')) {
               zcf.Condition.confirmDialog.triggerIndex = i;

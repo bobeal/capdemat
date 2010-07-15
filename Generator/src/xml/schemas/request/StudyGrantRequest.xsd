@@ -186,16 +186,16 @@
             <xs:element name="TaxHouseholdIncome" type="xs:double">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Revenu brut global pour l'année 2007 et inférieur à 32 000 euros
+                  Revenu brut global pour l'année 2008 et inférieur à 32 000 euros
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/longdesc">
-                  Global gross income for 2007 and less than 32,000 euros
+                  Global gross income for 2008 and less than 32,000 euros
                 </xs:documentation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Revenu brut global pour l'année 2007 et inférieur à 32 000 euros
+                  Revenu brut global pour l'année 2008 et inférieur à 32 000 euros
                 </xs:documentation>
                 <xs:documentation xml:lang="en" source="http://www.cg95.fr/cvq/schema/shortdesc">
-                  Global gross income for 2007 and less than 32,000 euros
+                  Global gross income for 2008 and less than 32,000 euros
                 </xs:documentation>
                 <xs:appinfo>
                   <model namespace="users" />

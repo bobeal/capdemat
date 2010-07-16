@@ -328,8 +328,7 @@ public class RequestDocumentService implements IRequestDocumentService, Applicat
             try {
                 Document d = documentService.getById(rd.getDocumentId());
                 if (DocumentState.DRAFT.equals(d.getState())) {
-                    d.setState(DocumentState.PENDING);
-                    documentService.modify(d);
+                    documentService.pending(d.getId());
                 }
             } catch (CvqObjectNotFoundException e) {
                 it.remove();

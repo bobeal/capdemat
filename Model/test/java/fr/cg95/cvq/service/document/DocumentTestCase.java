@@ -7,6 +7,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.cg95.cvq.business.document.Document;
+import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.business.document.DocumentType;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.exception.CvqObjectNotFoundException;
@@ -22,7 +23,7 @@ public class DocumentTestCase extends ServiceTestCase {
     public Long gimmeImageDocument() 
         throws CvqObjectNotFoundException, CvqException, IOException {
         DocumentType docType = documentTypeService.getDocumentTypeByType(IDocumentTypeService.OLD_CNI_TYPE);
-        Document document = new Document(null, null, docType);
+        Document document = new Document(null, null, docType, DocumentState.PENDING);
         
         Long docId = documentService.create(document);
         
@@ -36,7 +37,7 @@ public class DocumentTestCase extends ServiceTestCase {
     public Long gimmePdfDocument()
         throws CvqObjectNotFoundException, CvqException, IOException {
         DocumentType docType = documentTypeService.getDocumentTypeByType(IDocumentTypeService.OLD_CNI_TYPE);
-        Document document = new Document(null, null, docType);
+        Document document = new Document(null, null, docType, DocumentState.PENDING);
 
         Long docId = documentService.create(document);
 

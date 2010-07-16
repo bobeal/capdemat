@@ -70,9 +70,10 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
      */
     private int maxDataSize;
 
+    @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.READ)
     public Document getById(final Long id)
-    throws CvqException, CvqObjectNotFoundException {
+        throws CvqObjectNotFoundException {
         return (Document) documentDAO.findById(Document.class, id);
     }
 
@@ -206,7 +207,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
 
         logger.debug("Created document object with id : " + documentId);
 
-        addActionTrace(CREATION_ACTION, DocumentState.PENDING, document);
+        addActionTrace(CREATION_ACTION, document.getState(), document);
 
         // when creating a new document in FO, we need it to be persisted before rendering the view
         HibernateUtil.getSession().flush();
@@ -445,6 +446,23 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
 
+    @Override
+    @Context(types = {ContextType.ECITIZEN})
+    public void pending(Long id)
+        throws CvqObjectNotFoundException, CvqInvalidTransitionException {
+        Document document = getById(id);
+        if (!DocumentState.DRAFT.equals(document.getState())) {
+            throw new CvqInvalidTransitionException(
+                translationService.translate(
+                    "document.state." + document.getState().toString().toLowerCase()),
+                translationService.translate(
+                    "document.state."+ DocumentState.PENDING.toString().toLowerCase()));
+        }
+        document.setState(DocumentState.PENDING);
+        documentDAO.update(document);
+        addActionTrace(STATE_CHANGE_ACTION, DocumentState.PENDING, document);
+    }
+
     @Context(types = {ContextType.AGENT})
     public void validate(final Long id, final Date validityDate, final String message)
         throws CvqException, CvqObjectNotFoundException, CvqInvalidTransitionException {
@@ -550,9 +568,8 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         return documentStateList.toArray(new DocumentState[documentStateList.size()]);
     }
 
-    public void addActionTrace(final String label, final DocumentState resultingState,
-            final Document document)
-        throws CvqException {
+    private void addActionTrace(final String label, final DocumentState resultingState,
+        final Document document) {
 
         DocumentAction documentAction = new DocumentAction();
         documentAction.setAgentId(SecurityContext.getCurrentUserId());

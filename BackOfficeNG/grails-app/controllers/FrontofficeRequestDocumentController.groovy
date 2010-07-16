@@ -1,6 +1,7 @@
 import fr.cg95.cvq.service.request.IRequestLockService
 import fr.cg95.cvq.service.request.IRequestSearchService
 import fr.cg95.cvq.service.request.IRequestDocumentService
+import fr.cg95.cvq.business.document.DocumentState
 import fr.cg95.cvq.business.request.RequestState
 import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
@@ -45,7 +46,8 @@ class FrontofficeRequestDocumentController {
                     if (request.getFile('documentData-0').empty)
                         throw new CvqModelException('document.error.mustHaveAtLeastOnePage')
                     document = new Document(SecurityContext.currentEcitizen?.homeFolder?.id,
-                        params.ecitizenNote, documentType)
+                        params.ecitizenNote, documentType,
+                        RequestState.DRAFT == rqt.state ? DocumentState.DRAFT : DocumentState.PENDING)
                     documentService.create(document)
                     requestDocumentService.addDocument(rqt, document.id)
                 }

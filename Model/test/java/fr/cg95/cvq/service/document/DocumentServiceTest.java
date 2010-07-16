@@ -337,7 +337,7 @@ public class DocumentServiceTest extends DocumentTestCase {
 
         DocumentType documentType =
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.ADOPTION_JUDGMENT_TYPE);
-        Document document = new Document(null, "coucou", documentType);
+        Document document = new Document(null, "coucou", documentType, DocumentState.PENDING);
         documentService.create(document);
 
         continueWithNewTransaction();

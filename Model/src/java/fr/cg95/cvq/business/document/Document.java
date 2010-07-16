@@ -27,7 +27,7 @@ public class Document implements Serializable {
     private Date endValidityDate;
     private String ecitizenNote;
     private String agentNote;
-    private DocumentState state = DocumentState.DRAFT;
+    private DocumentState state = DocumentState.PENDING;
     private DepositType depositType = DepositType.PC;
     private DepositOrigin depositOrigin = DepositOrigin.ECITIZEN;
     private Long depositId;
@@ -44,10 +44,12 @@ public class Document implements Serializable {
     public Document() {
     }
 
-    public Document(Long homeFolderId, String ecitizenNote, DocumentType documentType) {
+    public Document(Long homeFolderId, String ecitizenNote, DocumentType documentType,
+        DocumentState state) {
         this.homeFolderId = homeFolderId;
         this.ecitizenNote = ecitizenNote;
         this.documentType = documentType;
+        this.state = state;
     }
 
     /**

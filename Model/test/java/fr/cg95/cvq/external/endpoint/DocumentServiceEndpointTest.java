@@ -373,7 +373,7 @@ public class DocumentServiceEndpointTest extends RequestTestCase {
         throws CvqObjectNotFoundException, CvqException, IOException {
         DocumentType docType = 
             documentTypeService.getDocumentTypeByType(IDocumentTypeService.OLD_CNI_TYPE);
-        Document doc = new Document(request.getHomeFolderId(), null, docType);
+        Document doc = new Document(request.getHomeFolderId(), null, docType, DocumentState.PENDING);
         Long docId = documentService.create(doc);
         documentService.updateDocumentState(docId, DocumentState.VALIDATED, "", new Date());
         File file;

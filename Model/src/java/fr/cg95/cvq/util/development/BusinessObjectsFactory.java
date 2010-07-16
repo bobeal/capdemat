@@ -114,12 +114,9 @@ public class BusinessObjectsFactory {
 
     public static Document gimmeDocument(String note, DepositOrigin depOrig, DepositType depType,
         DocumentType docType) {
-        Document doc = new Document();
-        doc.setEcitizenNote(note);
+        Document doc = new Document(null, note, docType, DocumentState.PENDING);
         doc.setDepositOrigin(depOrig);
         doc.setDepositType(depType);
-        doc.setDocumentType(docType);
-        doc.setState(DocumentState.PENDING);
         return doc;
     }
 

@@ -55,7 +55,7 @@ public interface IDocumentService {
         throws CvqException, CvqObjectNotFoundException;
 
     Document getById(@IsDocument final Long documentId)
-        throws CvqException, CvqObjectNotFoundException;
+        throws CvqObjectNotFoundException;
 
     /**
      * Add a page to an existing document.
@@ -123,6 +123,15 @@ public interface IDocumentService {
         throws CvqException, CvqInvalidTransitionException, CvqObjectNotFoundException;
 
     /**
+     * Set the previously draft document to pending state
+     * @param id the ID of the document
+     * @throws CvqObjectNotFoundException if the document is not found
+     * @throws CvqInvalidTransitionException if the document is not in draft state
+     */
+    void pending(@IsDocument final Long id)
+        throws CvqObjectNotFoundException, CvqInvalidTransitionException;
+
+    /**
      * Validate a document.
      *
      * @param id the document's id
@@ -162,9 +171,6 @@ public interface IDocumentService {
      * @see fr.cg95.cvq.business.document.DocumentState
      */
     DocumentState[] getPossibleTransitions(DocumentState rs)
-        throws CvqException;
-
-    void addActionTrace(String label, DocumentState resultingState, Document document)
         throws CvqException;
 
     /**

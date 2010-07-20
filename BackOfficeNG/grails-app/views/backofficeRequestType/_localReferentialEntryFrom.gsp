@@ -4,9 +4,9 @@
   </g:if>
   <div class="error" id="entryForm_${entry?.key}_Errors"></div>
   <label for="label" class="required">${message(code:'localReferential.label.label')} * : </label>
-  <input type="text" name="labelsMap['fr']" value="${entry?.labelsMap?.fr}" class="required" title="${message(code:'localReferential.error.labelisRequired')}" />
+  <input type="text" name="labelsMap.fr" value="${entry?.labelsMap?.fr}" class="required" title="${message(code:'localReferential.error.labelisRequired')}" />
   <label for="message">${message(code:'localReferential.label.message')} : </label>
-  <input type="text" name="messagesMap['fr']" value="${entry?.messagesMap?.fr}" />
+  <input type="text" name="messagesMap.fr" value="${entry?.messagesMap?.fr}" />
   
   <input type="hidden" name="entry.key" value="${entry?.key}" />
   <input type="hidden" name="parentEntryKey"value="${parentEntryKey}" />

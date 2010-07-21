@@ -1,4 +1,3 @@
-<%@ taglib prefix="g" uri="/web-app/WEB-INF/tld/grails.tld" %>
 <html>
   <head>
     <title><g:message code="category.header.categoryList" /></title>

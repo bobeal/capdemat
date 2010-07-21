@@ -356,6 +356,23 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="cronExpression" value="0 0 * * * ?" />
   </bean>
 
+  <!-- ****************************************************************************** -->
+  <!-- * DocumentBinary content-type parser and preview computing job configuration * -->
+  <!-- ****************************************************************************** -->
+
+  <bean id="documentMimeComputingJob"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="documentService" />
+    <property name="targetMethod" value="launchDocumentMissingValuesComputing" />
+    <property name="concurrent" value="false" />
+  </bean>
+
+  <bean id="documentMimeComputingJobTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="documentMimeComputingJob" />
+    <property name="cronExpression" value="0 0 3 * * ?" />
+  </bean>
+
   <!-- *******************************************************************  -->
   <!-- ************ Where everything happens (or not) ********************  -->
   <!-- *******************************************************************  -->
@@ -373,6 +390,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <ref bean="requestLocksCleaningTrigger"/>
         <ref bean="requestArchivingTrigger"/>
         <ref bean="paymentInitializationCheckerTrigger" />
+        <ref bean="documentMimeComputingJobTrigger" />
         <!--
         <ref bean="requestWorkflowNavigatorTrigger" />
         -->

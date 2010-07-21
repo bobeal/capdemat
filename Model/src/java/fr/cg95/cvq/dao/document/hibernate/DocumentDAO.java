@@ -1,15 +1,18 @@
 package fr.cg95.cvq.dao.document.hibernate;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
+import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentState;
 import fr.cg95.cvq.dao.document.IDocumentDAO;
@@ -84,6 +87,18 @@ public class DocumentDAO extends GenericDAO implements IDocumentDAO {
         if(offset > -1) criteria.setFirstResult(offset);
 
         return (List<Document>)criteria.list();
+    }
+
+    @Override
+    public List<Long> listByMissingComputedValues() {
+        List<BigInteger> ids = HibernateUtil.getSession().createSQLQuery(
+            "select document_id from document_binary where content_type is null or content_type = '"
+                + ContentType.OCTET_STREAM + "' or preview is null").list();
+        List<Long> result = new ArrayList<Long>(ids.size());
+        for (BigInteger id : ids) {
+            result.add(id.longValue());
+        }
+        return result;
     }
 
     private Criteria buildSearchCriteria(Hashtable<String,Object> params) {

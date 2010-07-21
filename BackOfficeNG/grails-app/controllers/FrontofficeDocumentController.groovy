@@ -9,6 +9,7 @@ import fr.cg95.cvq.service.document.IDocumentService
 import fr.cg95.cvq.service.document.IDocumentTypeService
 
 import java.util.Hashtable
+import javax.servlet.http.HttpServletResponse
 import grails.converters.JSON
 
 class FrontofficeDocumentController {
@@ -41,10 +42,9 @@ class FrontofficeDocumentController {
         prevPage = result.page > 0 ? result.page - 1 : null
         nextPage = result.page < (pages.size() - 1) ? result.page + 1 : null
                 
-        def contentType = ""
+        def extension = ""
         if (!pages.isEmpty()) {
-            def mimeType = pages[0].getContentType()
-            contentType = ContentType.getShortContentType(mimeType)
+            extension = pages[0].contentType.extension
         }
         
         def messageLink = message(code:"document.message.showImage")
@@ -68,7 +68,7 @@ class FrontofficeDocumentController {
             'preview' : pages.get(result.page).getPreview(),
             'messageLink': messageLink,
             'numberOfPages': pages.size(),
-            'contentType': contentType,
+            'extension': extension,
             'nextPage' : nextPage,
             'prevPage' : prevPage,
             'pagesTitle': StringUtils.firstCase(message(code:'property.page'),'')
@@ -108,7 +108,9 @@ class FrontofficeDocumentController {
     def preview = {
             Document document = documentService.getById(params.long('id'))
             DocumentBinary binary = document.datas.get(params.pn ? Integer.valueOf(params.pn) : 0)
-            
+            if (binary.preview == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND)
+            }
             response.contentType = "image/png"
             response.outputStream << binary.preview
     }

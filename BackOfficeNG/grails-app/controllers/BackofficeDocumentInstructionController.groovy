@@ -21,6 +21,8 @@ import fr.cg95.cvq.business.document.DocumentAction
 import fr.cg95.cvq.security.SecurityContext
 import fr.cg95.cvq.business.authority.Agent
 
+import javax.servlet.http.HttpServletResponse
+
 class BackofficeDocumentInstructionController {
     
     def defaultAction = "edit"
@@ -163,7 +165,9 @@ class BackofficeDocumentInstructionController {
     def documentPreview = {
         def document = documentService.getById(params.long('id'))
         def page = document.datas[Integer.valueOf(params.pageNumber)]
-
+        if (page.preview == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND)
+        }
         response.contentType = "image/png"
         response.outputStream << page.preview
     }

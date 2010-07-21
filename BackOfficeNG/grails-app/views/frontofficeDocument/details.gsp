@@ -31,7 +31,7 @@
             </dd>
             
              <dt><g:message code="document.message.typeFile"/> :</dt>
-             <dd>.${doc.contentType}</dd>
+             <dd>.${doc.extension}</dd>
           </dl>
         </div>
         <div class="yui-u">

@@ -11,11 +11,6 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 
-import net.sf.jmimemagic.Magic;
-import net.sf.jmimemagic.MagicException;
-import net.sf.jmimemagic.MagicMatchNotFoundException;
-import net.sf.jmimemagic.MagicParseException;
-
 import org.apache.axis.utils.ByteArrayOutputStream;
 import org.apache.log4j.Logger;
 import org.apache.pdfbox.exceptions.COSVisitorException;
@@ -27,6 +22,7 @@ import org.springframework.context.ApplicationListener;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfWriter;
 
+import eu.medsea.mimeutil.MimeUtil2;
 import fr.cg95.cvq.business.authority.LocalAuthority;
 import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.Document;
@@ -155,6 +151,54 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         }
     }
 
+    public void launchDocumentMissingValuesComputing() {
+        localAuthorityRegistry.browseAndCallback(this, "computeMissingValues", null);
+    }
+
+    @Context(types = {ContextType.SUPER_ADMIN})
+    public void computeMissingValues() {
+        MimeUtil2 util = new MimeUtil2();
+        util.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
+        util.registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
+        for (Long docId : documentDAO.listByMissingComputedValues()) {
+            HibernateUtil.beginTransaction();
+            Document document;
+            try {
+                document = (Document)documentDAO.findById(Document.class, docId);
+            } catch (CvqObjectNotFoundException e1) {
+                // document shouldn't disappear...
+                continue;
+            }
+            boolean modified = false;
+            for (DocumentBinary page : document.getDatas()) {
+                if (page.getContentType() == null
+                    || page.getContentType().equals(ContentType.OCTET_STREAM)) {
+                    try {
+                        page.setContentType(ContentType.forString(
+                            MimeUtil2.getMostSpecificMimeType(util.getMimeTypes(page.getData()))
+                                .toString()));
+                        modified = true;
+                    } catch (Exception e) {
+                        logger.info("failed to create preview for document_binary " + page.getId(), e);
+                    }
+                }
+                if (page.getPreview() == null
+                    && page.getContentType() != null && page.getContentType().isAllowed()) {
+                    try {
+                        createPreview(page);
+                        modified = true;
+                    } catch (Exception e) {
+                        logger.info("failed to create preview for document_binary " + page.getId(), e);
+                    }
+                }
+            }
+            if (modified) {
+                documentDAO.update(document);
+            }
+            HibernateUtil.commitTransaction();
+        }
+    }
+
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
     public Long create(Document document)
     throws CvqException, CvqObjectNotFoundException {
@@ -208,8 +252,7 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
         checkDocumentDigitalizationIsEnabled();
 
         try {
-            String mimeType = checkNewBinaryData(documentId, documentBinary.getData());
-            documentBinary.setContentType(ContentType.forString(mimeType));
+            documentBinary.setContentType(checkNewBinaryData(documentId, documentBinary.getData()));
             Document document = getById(documentId);
             createPreview(documentBinary);
             if (document.getDatas() == null) {
@@ -262,28 +305,23 @@ public class DocumentService implements IDocumentService, ApplicationListener<Us
     }
 
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT, ContextType.UNAUTH_ECITIZEN}, privilege = ContextPrivilege.WRITE)
-    public  String checkNewBinaryData(final Long documentId, byte[] data)
-        throws CvqObjectNotFoundException, CvqException {
-        String mimeType = "";
+    public ContentType checkNewBinaryData(final Long documentId, byte[] data)
+        throws CvqException {
+        MimeUtil2 util = new MimeUtil2();
+        util.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
+        util.registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
         Document document = getById(documentId);
-        try {
-            mimeType = Magic.getMagicMatch(data).getMimeType();
-        } catch (MagicParseException mpe) {
-            throw new CvqModelException("document.file.error.isNotValid");
-        } catch (MagicMatchNotFoundException mmnfe) {
-            throw new CvqModelException("document.file.error.isNotValid");
-        } catch (MagicException me) {
-            throw new CvqModelException("document.file.error.isNotValid");
-        }
-
-        if (ContentType.isAllowedContentType(mimeType)) {
+        ContentType contentType = ContentType.forString(
+            MimeUtil2.getMostSpecificMimeType(util.getMimeTypes(data)).toString());
+        if (contentType.isAllowed()) {
             if (document.getDatas() != null && !document.getDatas().isEmpty()) {
-                if (!document.getDatas().get(0).getContentType().equals(ContentType.forString(mimeType)))
+                if (!document.getDatas().get(0).getContentType().equals(contentType))
                     throw new CvqModelException("document.file.error.contentTypeIsNotSameCompareToOtherPage");
             }
-        } else 
+        } else {
             throw new CvqModelException("document.message.fileTypeIsNotSupported");
-        return mimeType;
+        }
+        return contentType;
     }
 
     private void checkDocumentDigitalizationIsEnabled()

@@ -39,4 +39,9 @@ public interface IDocumentDAO extends IGenericDAO {
     List<Document> search(Hashtable<String,Object> searchParams,int max,int offset);
     
     Integer searchCount(Hashtable<String,Object> searchParams);
+
+    /**
+     * @return the IDs of documents which contentType or preview isn't set
+     */
+    List<Long> listByMissingComputedValues();
 }

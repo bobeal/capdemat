@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
+import fr.cg95.cvq.business.document.ContentType;
 import fr.cg95.cvq.business.document.Document;
 import fr.cg95.cvq.business.document.DocumentBinary;
 import fr.cg95.cvq.business.document.DocumentState;
@@ -80,8 +81,8 @@ public interface IDocumentService {
     /**
      * Check the content type of datas
      */
-    String checkNewBinaryData(@IsDocument final Long documentId, byte[] data)
-        throws CvqException, CvqObjectNotFoundException;
+    ContentType checkNewBinaryData(@IsDocument final Long documentId, byte[] data)
+        throws CvqException;
 
     /**
      * Get all binary data associated to a document.
@@ -212,4 +213,8 @@ public interface IDocumentService {
     void mergeDocumentBinary(Document document) throws CvqException;
     
     PDDocument byteToPDDocument(byte[] data) throws CvqException;
+
+    void launchDocumentMissingValuesComputing();
+
+    void computeMissingValues();
 }

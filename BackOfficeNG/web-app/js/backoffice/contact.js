@@ -60,7 +60,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
             } else {
               yud.removeClass(yud.get("templateMessage"), "required");
               yud.removeClass(yud.get("templateMessageLabel"), "required");
-              zct.style(yud.get("templatePreview"), { display : "inherit" });
+              zct.style(yud.get("templatePreview"), { display : "block" });
             }
           });
           zct.style(yud.get("templatePreview"), { display : "none" });

@@ -88,10 +88,10 @@
           <span id="requestState" class="${requestState.cssClass}">
             <g:message code="${requestState.i18nKey}" />
           </span>
+          <div id="requestLockContainer"></div>
           <g:if test="${lastActionNote}">
           	<p class="block">${lastActionNote}</p>
           </g:if>
-          <div id="requestLockContainer"></div>
         </div>
       </div>
 

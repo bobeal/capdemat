@@ -1009,7 +1009,7 @@
             <common>
               <step name="situation" />
               <conditions>
-                <condition name="isPrefectPupil" type="unfilled" required="true" />
+                <condition name="isPrefectPupil" type="filled" required="true" />
               </conditions>
             </common>
             <fo />

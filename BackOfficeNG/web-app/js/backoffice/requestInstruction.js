@@ -278,6 +278,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       new yuel(ddEl).removeChild(formEl);
       yud.removeClass(ddEl, 'current-editField');
       
+      // reset edition state of field
+      zcbr.Instruction.editFieldState[ddEl.id] = false;
        // FIXME - poor solution to manage condition chaining
       zcb.Condition.reInit();
     };
@@ -313,9 +315,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           return targetEl.className.split(' ')[0];
       },
       
+      // State of current edited field
+      editFieldState : {},
+
       // TODO - pluginized edition widget managment
       editField : function(e) {
           var targetEl = zcbr.Instruction.getTarget(e);
+          if (zcbr.Instruction.editFieldState[targetEl.id]) return;
+          else zcbr.Instruction.editFieldState[targetEl.id] = true;
           var propertyValue;
           var propertyWrapperEl = yud.getFirstChild(targetEl);
           var jsonPropertyType = {}

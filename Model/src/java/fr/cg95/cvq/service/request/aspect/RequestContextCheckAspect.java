@@ -17,6 +17,7 @@ import fr.cg95.cvq.business.request.CategoryProfile;
 import fr.cg95.cvq.business.request.CategoryRoles;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestType;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.dao.request.ICategoryDAO;
 import fr.cg95.cvq.dao.request.IRequestDAO;
 import fr.cg95.cvq.dao.request.IRequestTypeDAO;
@@ -85,7 +86,7 @@ public class RequestContextCheckAspect implements Ordered {
                     Request request = null;
                     if (argument instanceof Long) {
                         try {
-                            request = (Request) requestDAO.findById(Request.class, (Long) argument);
+                            request = requestDAO.findById((Long) argument, false);
                         } catch (CvqObjectNotFoundException confe) {
                             throw new PermissionException(joinPoint.getSignature().getDeclaringType(), 
                                     joinPoint.getSignature().getName(), context.types(),
@@ -107,6 +108,8 @@ public class RequestContextCheckAspect implements Ordered {
                     }
                     homeFolderId = request.getHomeFolderId();
                     individualId = request.getSubjectId();
+                    // FIXME hack because of stateful request creation
+                    HibernateUtil.getSession().evict(request);
                 } else if (parameterAnnotation.annotationType().equals(IsRequestType.class)) {
 
                     // no restrictions on request type services opened to e-citizens

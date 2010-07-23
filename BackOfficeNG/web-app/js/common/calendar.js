@@ -13,7 +13,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong');
     var trigger = yud.get(label + "Show");
     var show = function() {
       update();
-      zct.style(container, { display : "block" });
+      yud.setStyle(container, 'display','block');
+      yud.setStyle(container, 'z-index','10');
       var pos = yud.getXY(trigger);
       pos[1] += trigger.offsetHeight + 1;
       yud.setXY(container, pos);

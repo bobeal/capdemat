@@ -141,10 +141,11 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
 
     function submitChangeStateForm(targetEl , formId) {
       // bad strategy to refresh tag state ...
-      var nodes = yus.query('input[name=stateType]', formId);
-      var oldTagStateEl = yud.get(nodes[0].getAttribute('value'));
-      nodes = yus.query('input:checked', formId);
-      var newTagStateEl = yud.getNextSibling(nodes[0]);
+      var form = yud.get(formId);
+      var newTagStateEl;
+      zct.each(form.newState, function(){
+        if (this.checked) newTagStateEl = yud.getNextSibling(this);
+      });
 
       zct.doAjaxFormSubmitCall(
           formId,
@@ -152,6 +153,7 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           function(o) {
             var response = ylj.parse(o.responseText);
             if (response.status === 'ok') {
+              var oldTagStateEl = yud.get(form.stateType.value);
               oldTagStateEl.className = newTagStateEl.className;
               oldTagStateEl.innerHTML = newTagStateEl.innerHTML;
 
@@ -276,6 +278,8 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
       new yuel(ddEl).removeChild(formEl);
       yud.removeClass(ddEl, 'current-editField');
       
+      // reset edition state of field
+      zcbr.Instruction.editFieldState[ddEl.id] = false;
        // FIXME - poor solution to manage condition chaining
       zcb.Condition.reInit();
     };
@@ -311,9 +315,14 @@ zenexity.capdemat.tools.namespace('zenexity.capdemat.bong.request');
           return targetEl.className.split(' ')[0];
       },
       
+      // State of current edited field
+      editFieldState : {},
+
       // TODO - pluginized edition widget managment
       editField : function(e) {
           var targetEl = zcbr.Instruction.getTarget(e);
+          if (zcbr.Instruction.editFieldState[targetEl.id]) return;
+          else zcbr.Instruction.editFieldState[targetEl.id] = true;
           var propertyValue;
           var propertyWrapperEl = yud.getFirstChild(targetEl);
           var jsonPropertyType = {}

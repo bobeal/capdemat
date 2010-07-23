@@ -2,6 +2,7 @@ package fr.cg95.cvq.dao.external.hibernate;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +32,9 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         if (lastOnly) {
             List<BigInteger> ids = HibernateUtil.getSession()
                 .createSQLQuery("select max(id) from external_service_traces group by key").list();
+            if (ids.isEmpty()) {
+                return Collections.emptyList();
+            }
             String stringIds[] = new String[ids.size()];
             int i = 0;
             for (BigInteger id : ids)
@@ -95,6 +99,9 @@ public final class ExternalServiceTraceDAO extends GenericDAO implements IExtern
         if (lastOnly) {
             List<BigInteger> ids = HibernateUtil.getSession()
                 .createSQLQuery("select max(id) from external_service_traces group by key").list();
+            if (ids.isEmpty()) {
+                return 0L;
+            }
             String stringIds[] = new String[ids.size()];
             int i = 0;
             for (BigInteger id : ids)

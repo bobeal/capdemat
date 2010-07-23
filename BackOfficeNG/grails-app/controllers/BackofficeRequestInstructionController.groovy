@@ -558,7 +558,7 @@ class BackofficeRequestInstructionController {
                        model : requestAdaptorService.prepareLock(id))
             }
         } else if (request.post) {
-            requestLockService.lock(Long.valueOf(params.id))
+            requestLockService.tryToLock(Long.valueOf(params.id))
             render([status:"ok", success_msg:message(code:"message.updateDone")] as JSON)
         } else if (request.method.toLowerCase() == "delete") {
             requestLockService.release(Long.valueOf(params.id))

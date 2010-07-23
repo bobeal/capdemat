@@ -30,7 +30,7 @@
       """,
       "short" : """
         if (this.${element.nameAsParam} != null)
-            ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(new BigDecimal(this.${element.nameAsParam}));
+            ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(this.${element.nameAsParam});
       """,
       "string" : """
         ${wrapper}.set${StringUtils.capitalize(element.nameAsParam)}(this.${element.nameAsParam});
@@ -94,7 +94,7 @@
       """,
       "short" : """
         if (${wrapper}.get${StringUtils.capitalize(element.nameAsParam)}() != null)
-            ${returnInstance}.set${StringUtils.capitalize(element.nameAsParam)}(${wrapper}.get${StringUtils.capitalize(element.nameAsParam)}().shortValue());
+            ${returnInstance}.set${StringUtils.capitalize(element.nameAsParam)}(${wrapper}.get${StringUtils.capitalize(element.nameAsParam)}());
       """,
       "string" : """
         ${returnInstance}.set${StringUtils.capitalize(element.nameAsParam)}(${wrapper}.get${StringUtils.capitalize(element.nameAsParam)}());

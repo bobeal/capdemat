@@ -210,6 +210,7 @@
 		<zip destfile="${application.name}-admin-${application.version}-${application.revision}.zip">
 			<fileset dir="${basedir}">
 				<include name="db/**/*.sql" />
+				<include name="conf/css/**" />
 				<include name="conf/local_referential/**" />
 				<include name="conf/img/**" />
 				<include name="conf/xsl/**" />

@@ -54,7 +54,7 @@ public class FrenchRIB implements Historizable, Serializable, Cloneable {
     private Integer bankCode;
 
     @NotNull(message = "counterCode")
-    @Min(value = 1, message = "counterCode")
+    @Min(value = 0, message = "counterCode")
     @Max(value = 99999, message = "counterCode")
     private Integer counterCode;
 

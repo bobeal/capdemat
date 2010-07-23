@@ -6,6 +6,7 @@ import net.sf.oval.context.OValContext;
 import net.sf.oval.exception.OValException;
 import fr.cg95.cvq.business.request.Request;
 import fr.cg95.cvq.business.request.RequestData;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 
 public class SubjectIdCheck extends AbstractAnnotationCheck<LocalReferential> {
@@ -26,7 +27,10 @@ public class SubjectIdCheck extends AbstractAnnotationCheck<LocalReferential> {
             Request requestFromDb;
             try {
                 requestFromDb = requestSearchService.getById(requestData.getId(), false);
-                if (requestFromDb.getSubjectId() != null && requestFromDb.getSubjectId().equals(valueToValidate)) {
+                // FIXME hack because of stateful request creation
+                Long existingId = requestFromDb.getSubjectId();
+                HibernateUtil.getSession().evict(requestFromDb.getRequestData());
+                if (existingId != null && existingId.equals(valueToValidate)) {
                     return true;
                 }
             } catch (CvqException e) {

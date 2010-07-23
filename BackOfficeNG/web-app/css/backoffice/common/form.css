@@ -91,7 +91,7 @@ form.advanced-search .form-button {
 
 /* Overrides for editable list form
 -------------------------------------------------------------- */
-form.editable-list-form {
+form.editable-list-form,  form.listItem {
   margin: .5em 2em; padding: .5em;
   -moz-border-radius: .5em;
   -webkit-border-radius: .5em;
@@ -133,6 +133,14 @@ form.editable-list-form ul    { margin: .5em 0  0 21%; clear: both; overflow: au
 form.editable-list-form ul li { width: 30%;  float: left; padding: .2em 0; border: 0; }
 form.editable-list-form ul li:hover { background: transparent !important; }
 form.editable-list-form ul li label { width: 66%; }
+
+/* TODO RDJ : migrate editable-list-form to listItem */
+form.listItem p        { overflow: auto; }
+form.listItem p.button { margin-left: 36%; }
+form.listItem p.error  { margin-bottom: 1em; font-size: 1.1em; }
+
+form.listItem img.calendar { cursor: pointer; }
+
 
 /* Validation classes
 -------------------------------------------------------------- */

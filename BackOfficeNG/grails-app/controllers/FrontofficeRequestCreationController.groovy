@@ -400,7 +400,6 @@ class FrontofficeRequestCreationController {
             }
             // edition of a collection element
             else if (submitAction[1] == 'collectionEdit') {
-                restoreCollectionElement(uuidString)
                 def listFieldToken = submitAction[3].tokenize('[]')
                 def objectToManage = params."objectToManage[${listFieldToken[1]}]"
                 def listWrapper = objectToManage == null ? cRequest : objectToBind[objectToManage] 

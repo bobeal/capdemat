@@ -83,7 +83,7 @@
         zcf.RequestCreation.clickEvent = new zct.Event(zcf.RequestCreation, zcf.RequestCreation.getHandler);
         yue.on('requestTabView','click', zcf.RequestCreation.clickEvent.dispatch, zcf.RequestCreation.clickEvent, true);
         
-        yue.on('requestTabView','change',zcf.RequestCreation.formatField);
+        yue.on('requestTabView','keyup',zcf.RequestCreation.formatField);
         yue.on(yus.query("#requestTabView .validate-phone"), "keyup", zcf.RequestCreation.formatPhone);
         yue.on(yus.query("#requestTabView .date .month, #requestTabView .date .year"), "change", zcf.RequestCreation.dateChange);
         

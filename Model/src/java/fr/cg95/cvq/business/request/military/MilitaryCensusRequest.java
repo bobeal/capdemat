@@ -78,34 +78,6 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         super.fillCommonXmlInfo(militaryCensusRequest);
         int i = 0;
           MilitaryFatherInformationType militaryFatherInformationTypeFatherInformation = militaryCensusRequest.addNewFatherInformation();
-        if (getFatherBirthDepartment() != null)
-            militaryFatherInformationTypeFatherInformation.setFatherBirthDepartment(fr.cg95.cvq.xml.common.InseeDepartementCodeType.Enum.forString(getFatherBirthDepartment().toString()));
-        ProfessionalSituationInformationType professionalSituationInformationTypeProfessionalSituationInformation = militaryCensusRequest.addNewProfessionalSituationInformation();
-        professionalSituationInformationTypeProfessionalSituationInformation.setChildProfession(getChildProfession());
-        FamilySituationInformationType familySituationInformationTypeFamilySituationInformation = militaryCensusRequest.addNewFamilySituationInformation();
-        if (getChildStatus() != null)
-            familySituationInformationTypeFamilySituationInformation.setChildStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getChildStatus().toString()));
-      
-        if (getAliveChildren() != null)
-            familySituationInformationTypeFamilySituationInformation.setAliveChildren(new BigInteger(getAliveChildren().toString()));
-      
-        if (getAffectionOrDisease() != null)
-            militaryCensusRequest.setAffectionOrDisease(getAffectionOrDisease().booleanValue());
-      
-        if (getStatePupil() != null)
-            familySituationInformationTypeFamilySituationInformation.setStatePupil(getStatePupil().booleanValue());
-      
-        if (getChildTitle() != null)
-            militaryCensusRequest.setChildTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getChildTitle().toString()));
-      
-        militaryCensusRequest.setChildMail(getChildMail());
-      
-        if (getChildDiploma() != null)
-            professionalSituationInformationTypeProfessionalSituationInformation.setChildDiploma(fr.cg95.cvq.xml.request.military.ChildDiplomaType.Enum.forString(getChildDiploma().toString()));
-        MilitaryMotherInformationType militaryMotherInformationTypeMotherInformation = militaryCensusRequest.addNewMotherInformation();
-        if (getMotherBirthCountry() != null)
-            militaryMotherInformationTypeMotherInformation.setMotherBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getMotherBirthCountry().toString()));
-      
         militaryFatherInformationTypeFatherInformation.setFatherBirthCity(getFatherBirthCity());
       
         date = getFatherBirthDate();
@@ -114,8 +86,20 @@ public class MilitaryCensusRequest extends Request implements Serializable {
             militaryFatherInformationTypeFatherInformation.setFatherBirthDate(calendar);
         }
       
+        if (getFatherBirthDepartment() != null)
+            militaryFatherInformationTypeFatherInformation.setFatherBirthDepartment(fr.cg95.cvq.xml.common.InseeDepartementCodeType.Enum.forString(getFatherBirthDepartment().toString()));
+        ProfessionalSituationInformationType professionalSituationInformationTypeProfessionalSituationInformation = militaryCensusRequest.addNewProfessionalSituationInformation();
+        professionalSituationInformationTypeProfessionalSituationInformation.setChildProfession(getChildProfession());
+      
+        professionalSituationInformationTypeProfessionalSituationInformation.setChildSpeciality(getChildSpeciality());
+      
         militaryFatherInformationTypeFatherInformation.setFatherFirstName(getFatherFirstName());
       
+        if (getChildOtherCountry() != null)
+            militaryCensusRequest.setChildOtherCountry(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(getChildOtherCountry().toString()));
+        FamilySituationInformationType familySituationInformationTypeFamilySituationInformation = militaryCensusRequest.addNewFamilySituationInformation();
+        familySituationInformationTypeFamilySituationInformation.setOtherSituation(getOtherSituation());
+        MilitaryMotherInformationType militaryMotherInformationTypeMotherInformation = militaryCensusRequest.addNewMotherInformation();
         militaryMotherInformationTypeMotherInformation.setMotherBirthCity(getMotherBirthCity());
       
         if (getFatherNationality() != null)
@@ -127,24 +111,23 @@ public class MilitaryCensusRequest extends Request implements Serializable {
             militaryMotherInformationTypeMotherInformation.setMotherBirthDate(calendar);
         }
       
-        militaryMotherInformationTypeMotherInformation.setMotherFirstName(getMotherFirstName());
+        if (getChildStatus() != null)
+            familySituationInformationTypeFamilySituationInformation.setChildStatus(fr.cg95.cvq.xml.common.FamilyStatusType.Enum.forString(getChildStatus().toString()));
       
-        if (getChildBirthCountry() != null)
-            militaryCensusRequest.setChildBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getChildBirthCountry().toString()));
+        if (getAliveChildren() != null)
+            familySituationInformationTypeFamilySituationInformation.setAliveChildren(new BigInteger(getAliveChildren().toString()));
       
-        if (getMotherNationality() != null)
-            militaryMotherInformationTypeMotherInformation.setMotherNationality(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(getMotherNationality().toString()));
-      
-        if (getHighlyInfirm() != null)
-            militaryCensusRequest.setHighlyInfirm(getHighlyInfirm().booleanValue());
-      
-        professionalSituationInformationTypeProfessionalSituationInformation.setChildSpeciality(getChildSpeciality());
-      
-        if (getChildOtherCountry() != null)
-            militaryCensusRequest.setChildOtherCountry(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(getChildOtherCountry().toString()));
+        if (getPrefectPupil() != null)
+            familySituationInformationTypeFamilySituationInformation.setPrefectPupil(getPrefectPupil().booleanValue());
       
         if (getChildrenInCharge() != null)
             familySituationInformationTypeFamilySituationInformation.setChildrenInCharge(new BigInteger(getChildrenInCharge().toString()));
+      
+        if (getChildCountry() != null)
+            militaryCensusRequest.setChildCountry(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(getChildCountry().toString()));
+      
+        if (getAffectionOrDisease() != null)
+            militaryCensusRequest.setAffectionOrDisease(getAffectionOrDisease().booleanValue());
       
         if (getJapdExemption() != null)
             militaryCensusRequest.setJapdExemption(getJapdExemption().booleanValue());
@@ -152,11 +135,41 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         if (getChildSituation() != null)
             professionalSituationInformationTypeProfessionalSituationInformation.setChildSituation(fr.cg95.cvq.xml.request.military.ChildSituationType.Enum.forString(getChildSituation().toString()));
       
+        militaryMotherInformationTypeMotherInformation.setMotherFirstName(getMotherFirstName());
+      
         militaryCensusRequest.setMaidenName(getMaidenName());
+      
+        if (getStatePupil() != null)
+            familySituationInformationTypeFamilySituationInformation.setStatePupil(getStatePupil().booleanValue());
+      
+        if (getChildTitle() != null)
+            militaryCensusRequest.setChildTitle(fr.cg95.cvq.xml.common.TitleType.Enum.forString(getChildTitle().toString()));
+      
+        militaryCensusRequest.setChildConvention(getChildConvention());
+      
+        if (getChildBirthCountry() != null)
+            militaryCensusRequest.setChildBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getChildBirthCountry().toString()));
+      
+        if (getMotherNationality() != null)
+            militaryMotherInformationTypeMotherInformation.setMotherNationality(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(getMotherNationality().toString()));
       
         militaryCensusRequest.setChildPhone(getChildPhone());
       
+        if (getFatherBirthCountry() != null)
+            militaryFatherInformationTypeFatherInformation.setFatherBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getFatherBirthCountry().toString()));
+      
         militaryMotherInformationTypeMotherInformation.setMotherLastName(getMotherLastName());
+      
+        militaryCensusRequest.setChildMail(getChildMail());
+      
+        if (getChildDiploma() != null)
+            professionalSituationInformationTypeProfessionalSituationInformation.setChildDiploma(fr.cg95.cvq.xml.request.military.ChildDiplomaType.Enum.forString(getChildDiploma().toString()));
+      
+        if (getHighlyInfirm() != null)
+            militaryCensusRequest.setHighlyInfirm(getHighlyInfirm().booleanValue());
+      
+        if (getMotherBirthCountry() != null)
+            militaryMotherInformationTypeMotherInformation.setMotherBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getMotherBirthCountry().toString()));
       
         militaryFatherInformationTypeFatherInformation.setFatherLastName(getFatherLastName());
       
@@ -168,19 +181,6 @@ public class MilitaryCensusRequest extends Request implements Serializable {
       
         if (getChildResidenceCountry() != null)
             militaryCensusRequest.setChildResidenceCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getChildResidenceCountry().toString()));
-      
-        familySituationInformationTypeFamilySituationInformation.setOtherSituation(getOtherSituation());
-      
-        if (getPrefectPupil() != null)
-            familySituationInformationTypeFamilySituationInformation.setPrefectPupil(getPrefectPupil().booleanValue());
-      
-        if (getChildCountry() != null)
-            militaryCensusRequest.setChildCountry(fr.cg95.cvq.xml.common.FullNationalityType.Enum.forString(getChildCountry().toString()));
-      
-        militaryCensusRequest.setChildConvention(getChildConvention());
-      
-        if (getFatherBirthCountry() != null)
-            militaryFatherInformationTypeFatherInformation.setFatherBirthCountry(fr.cg95.cvq.xml.common.CountryType.Enum.forString(getFatherBirthCountry().toString()));
       
         return militaryCensusRequestDoc;
     }
@@ -197,41 +197,6 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         MilitaryCensusRequest militaryCensusRequest = new MilitaryCensusRequest();
         militaryCensusRequest.fillCommonModelInfo(militaryCensusRequest, militaryCensusRequestXml);
         
-        if (militaryCensusRequestXml.getFatherInformation().getFatherBirthDepartment() != null)
-            militaryCensusRequest.setFatherBirthDepartment(fr.cg95.cvq.business.users.InseeDepartementCodeType.forString(militaryCensusRequestXml.getFatherInformation().getFatherBirthDepartment().toString()));
-        else
-            militaryCensusRequest.setFatherBirthDepartment(fr.cg95.cvq.business.users.InseeDepartementCodeType.getDefaultInseeDepartementCodeType());
-      
-        militaryCensusRequest.setChildProfession(militaryCensusRequestXml.getProfessionalSituationInformation().getChildProfession());
-      
-        if (militaryCensusRequestXml.getFamilySituationInformation().getChildStatus() != null)
-            militaryCensusRequest.setChildStatus(fr.cg95.cvq.business.users.FamilyStatusType.forString(militaryCensusRequestXml.getFamilySituationInformation().getChildStatus().toString()));
-        else
-            militaryCensusRequest.setChildStatus(fr.cg95.cvq.business.users.FamilyStatusType.getDefaultFamilyStatusType());
-      
-        militaryCensusRequest.setAliveChildren(militaryCensusRequestXml.getFamilySituationInformation().getAliveChildren());
-      
-        militaryCensusRequest.setAffectionOrDisease(Boolean.valueOf(militaryCensusRequestXml.getAffectionOrDisease()));
-      
-        militaryCensusRequest.setStatePupil(Boolean.valueOf(militaryCensusRequestXml.getFamilySituationInformation().getStatePupil()));
-      
-        if (militaryCensusRequestXml.getChildTitle() != null)
-            militaryCensusRequest.setChildTitle(fr.cg95.cvq.business.users.TitleType.forString(militaryCensusRequestXml.getChildTitle().toString()));
-        else
-            militaryCensusRequest.setChildTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
-      
-        militaryCensusRequest.setChildMail(militaryCensusRequestXml.getChildMail());
-      
-        if (militaryCensusRequestXml.getProfessionalSituationInformation().getChildDiploma() != null)
-            militaryCensusRequest.setChildDiploma(fr.cg95.cvq.business.request.military.ChildDiplomaType.forString(militaryCensusRequestXml.getProfessionalSituationInformation().getChildDiploma().toString()));
-        else
-            militaryCensusRequest.setChildDiploma(fr.cg95.cvq.business.request.military.ChildDiplomaType.getDefaultChildDiplomaType());
-      
-        if (militaryCensusRequestXml.getMotherInformation().getMotherBirthCountry() != null)
-            militaryCensusRequest.setMotherBirthCountry(fr.cg95.cvq.business.users.CountryType.forString(militaryCensusRequestXml.getMotherInformation().getMotherBirthCountry().toString()));
-        else
-            militaryCensusRequest.setMotherBirthCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
-      
         militaryCensusRequest.setFatherBirthCity(militaryCensusRequestXml.getFatherInformation().getFatherBirthCity());
       
         calendar = militaryCensusRequestXml.getFatherInformation().getFatherBirthDate();
@@ -239,7 +204,23 @@ public class MilitaryCensusRequest extends Request implements Serializable {
             militaryCensusRequest.setFatherBirthDate(calendar.getTime());
         }
       
+        if (militaryCensusRequestXml.getFatherInformation().getFatherBirthDepartment() != null)
+            militaryCensusRequest.setFatherBirthDepartment(fr.cg95.cvq.business.users.InseeDepartementCodeType.forString(militaryCensusRequestXml.getFatherInformation().getFatherBirthDepartment().toString()));
+        else
+            militaryCensusRequest.setFatherBirthDepartment(fr.cg95.cvq.business.users.InseeDepartementCodeType.getDefaultInseeDepartementCodeType());
+      
+        militaryCensusRequest.setChildProfession(militaryCensusRequestXml.getProfessionalSituationInformation().getChildProfession());
+      
+        militaryCensusRequest.setChildSpeciality(militaryCensusRequestXml.getProfessionalSituationInformation().getChildSpeciality());
+      
         militaryCensusRequest.setFatherFirstName(militaryCensusRequestXml.getFatherInformation().getFatherFirstName());
+      
+        if (militaryCensusRequestXml.getChildOtherCountry() != null)
+            militaryCensusRequest.setChildOtherCountry(fr.cg95.cvq.business.users.FullNationalityType.forString(militaryCensusRequestXml.getChildOtherCountry().toString()));
+        else
+            militaryCensusRequest.setChildOtherCountry(fr.cg95.cvq.business.users.FullNationalityType.getDefaultFullNationalityType());
+      
+        militaryCensusRequest.setOtherSituation(militaryCensusRequestXml.getFamilySituationInformation().getOtherSituation());
       
         militaryCensusRequest.setMotherBirthCity(militaryCensusRequestXml.getMotherInformation().getMotherBirthCity());
       
@@ -253,7 +234,43 @@ public class MilitaryCensusRequest extends Request implements Serializable {
             militaryCensusRequest.setMotherBirthDate(calendar.getTime());
         }
       
+        if (militaryCensusRequestXml.getFamilySituationInformation().getChildStatus() != null)
+            militaryCensusRequest.setChildStatus(fr.cg95.cvq.business.users.FamilyStatusType.forString(militaryCensusRequestXml.getFamilySituationInformation().getChildStatus().toString()));
+        else
+            militaryCensusRequest.setChildStatus(fr.cg95.cvq.business.users.FamilyStatusType.getDefaultFamilyStatusType());
+      
+        militaryCensusRequest.setAliveChildren(militaryCensusRequestXml.getFamilySituationInformation().getAliveChildren());
+      
+        militaryCensusRequest.setPrefectPupil(Boolean.valueOf(militaryCensusRequestXml.getFamilySituationInformation().getPrefectPupil()));
+      
+        militaryCensusRequest.setChildrenInCharge(militaryCensusRequestXml.getFamilySituationInformation().getChildrenInCharge());
+      
+        if (militaryCensusRequestXml.getChildCountry() != null)
+            militaryCensusRequest.setChildCountry(fr.cg95.cvq.business.users.FullNationalityType.forString(militaryCensusRequestXml.getChildCountry().toString()));
+        else
+            militaryCensusRequest.setChildCountry(fr.cg95.cvq.business.users.FullNationalityType.getDefaultFullNationalityType());
+      
+        militaryCensusRequest.setAffectionOrDisease(Boolean.valueOf(militaryCensusRequestXml.getAffectionOrDisease()));
+      
+        militaryCensusRequest.setJapdExemption(Boolean.valueOf(militaryCensusRequestXml.getJapdExemption()));
+      
+        if (militaryCensusRequestXml.getProfessionalSituationInformation().getChildSituation() != null)
+            militaryCensusRequest.setChildSituation(fr.cg95.cvq.business.request.military.ChildSituationType.forString(militaryCensusRequestXml.getProfessionalSituationInformation().getChildSituation().toString()));
+        else
+            militaryCensusRequest.setChildSituation(fr.cg95.cvq.business.request.military.ChildSituationType.getDefaultChildSituationType());
+      
         militaryCensusRequest.setMotherFirstName(militaryCensusRequestXml.getMotherInformation().getMotherFirstName());
+      
+        militaryCensusRequest.setMaidenName(militaryCensusRequestXml.getMaidenName());
+      
+        militaryCensusRequest.setStatePupil(Boolean.valueOf(militaryCensusRequestXml.getFamilySituationInformation().getStatePupil()));
+      
+        if (militaryCensusRequestXml.getChildTitle() != null)
+            militaryCensusRequest.setChildTitle(fr.cg95.cvq.business.users.TitleType.forString(militaryCensusRequestXml.getChildTitle().toString()));
+        else
+            militaryCensusRequest.setChildTitle(fr.cg95.cvq.business.users.TitleType.getDefaultTitleType());
+      
+        militaryCensusRequest.setChildConvention(militaryCensusRequestXml.getChildConvention());
       
         if (militaryCensusRequestXml.getChildBirthCountry() != null)
             militaryCensusRequest.setChildBirthCountry(fr.cg95.cvq.business.users.CountryType.forString(militaryCensusRequestXml.getChildBirthCountry().toString()));
@@ -265,29 +282,28 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         else
             militaryCensusRequest.setMotherNationality(fr.cg95.cvq.business.users.FullNationalityType.getDefaultFullNationalityType());
       
-        militaryCensusRequest.setHighlyInfirm(Boolean.valueOf(militaryCensusRequestXml.getHighlyInfirm()));
-      
-        militaryCensusRequest.setChildSpeciality(militaryCensusRequestXml.getProfessionalSituationInformation().getChildSpeciality());
-      
-        if (militaryCensusRequestXml.getChildOtherCountry() != null)
-            militaryCensusRequest.setChildOtherCountry(fr.cg95.cvq.business.users.FullNationalityType.forString(militaryCensusRequestXml.getChildOtherCountry().toString()));
-        else
-            militaryCensusRequest.setChildOtherCountry(fr.cg95.cvq.business.users.FullNationalityType.getDefaultFullNationalityType());
-      
-        militaryCensusRequest.setChildrenInCharge(militaryCensusRequestXml.getFamilySituationInformation().getChildrenInCharge());
-      
-        militaryCensusRequest.setJapdExemption(Boolean.valueOf(militaryCensusRequestXml.getJapdExemption()));
-      
-        if (militaryCensusRequestXml.getProfessionalSituationInformation().getChildSituation() != null)
-            militaryCensusRequest.setChildSituation(fr.cg95.cvq.business.request.military.ChildSituationType.forString(militaryCensusRequestXml.getProfessionalSituationInformation().getChildSituation().toString()));
-        else
-            militaryCensusRequest.setChildSituation(fr.cg95.cvq.business.request.military.ChildSituationType.getDefaultChildSituationType());
-      
-        militaryCensusRequest.setMaidenName(militaryCensusRequestXml.getMaidenName());
-      
         militaryCensusRequest.setChildPhone(militaryCensusRequestXml.getChildPhone());
       
+        if (militaryCensusRequestXml.getFatherInformation().getFatherBirthCountry() != null)
+            militaryCensusRequest.setFatherBirthCountry(fr.cg95.cvq.business.users.CountryType.forString(militaryCensusRequestXml.getFatherInformation().getFatherBirthCountry().toString()));
+        else
+            militaryCensusRequest.setFatherBirthCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
+      
         militaryCensusRequest.setMotherLastName(militaryCensusRequestXml.getMotherInformation().getMotherLastName());
+      
+        militaryCensusRequest.setChildMail(militaryCensusRequestXml.getChildMail());
+      
+        if (militaryCensusRequestXml.getProfessionalSituationInformation().getChildDiploma() != null)
+            militaryCensusRequest.setChildDiploma(fr.cg95.cvq.business.request.military.ChildDiplomaType.forString(militaryCensusRequestXml.getProfessionalSituationInformation().getChildDiploma().toString()));
+        else
+            militaryCensusRequest.setChildDiploma(fr.cg95.cvq.business.request.military.ChildDiplomaType.getDefaultChildDiplomaType());
+      
+        militaryCensusRequest.setHighlyInfirm(Boolean.valueOf(militaryCensusRequestXml.getHighlyInfirm()));
+      
+        if (militaryCensusRequestXml.getMotherInformation().getMotherBirthCountry() != null)
+            militaryCensusRequest.setMotherBirthCountry(fr.cg95.cvq.business.users.CountryType.forString(militaryCensusRequestXml.getMotherInformation().getMotherBirthCountry().toString()));
+        else
+            militaryCensusRequest.setMotherBirthCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
       
         militaryCensusRequest.setFatherLastName(militaryCensusRequestXml.getFatherInformation().getFatherLastName());
       
@@ -306,115 +322,9 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         else
             militaryCensusRequest.setChildResidenceCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
       
-        militaryCensusRequest.setOtherSituation(militaryCensusRequestXml.getFamilySituationInformation().getOtherSituation());
-      
-        militaryCensusRequest.setPrefectPupil(Boolean.valueOf(militaryCensusRequestXml.getFamilySituationInformation().getPrefectPupil()));
-      
-        if (militaryCensusRequestXml.getChildCountry() != null)
-            militaryCensusRequest.setChildCountry(fr.cg95.cvq.business.users.FullNationalityType.forString(militaryCensusRequestXml.getChildCountry().toString()));
-        else
-            militaryCensusRequest.setChildCountry(fr.cg95.cvq.business.users.FullNationalityType.getDefaultFullNationalityType());
-      
-        militaryCensusRequest.setChildConvention(militaryCensusRequestXml.getChildConvention());
-      
-        if (militaryCensusRequestXml.getFatherInformation().getFatherBirthCountry() != null)
-            militaryCensusRequest.setFatherBirthCountry(fr.cg95.cvq.business.users.CountryType.forString(militaryCensusRequestXml.getFatherInformation().getFatherBirthCountry().toString()));
-        else
-            militaryCensusRequest.setFatherBirthCountry(fr.cg95.cvq.business.users.CountryType.getDefaultCountryType());
-      
         return militaryCensusRequest;
     }
 
-  
-    public final void setFatherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment) {
-        militaryCensusRequestData.setFatherBirthDepartment(fatherBirthDepartment);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.InseeDepartementCodeType getFatherBirthDepartment() {
-        return militaryCensusRequestData.getFatherBirthDepartment();
-    }
-  
-    public final void setChildProfession(final String childProfession) {
-        militaryCensusRequestData.setChildProfession(childProfession);
-    }
-
-    
-    public final String getChildProfession() {
-        return militaryCensusRequestData.getChildProfession();
-    }
-  
-    public final void setChildStatus(final fr.cg95.cvq.business.users.FamilyStatusType childStatus) {
-        militaryCensusRequestData.setChildStatus(childStatus);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.FamilyStatusType getChildStatus() {
-        return militaryCensusRequestData.getChildStatus();
-    }
-  
-    public final void setAliveChildren(final java.math.BigInteger aliveChildren) {
-        militaryCensusRequestData.setAliveChildren(aliveChildren);
-    }
-
-    
-    public final java.math.BigInteger getAliveChildren() {
-        return militaryCensusRequestData.getAliveChildren();
-    }
-  
-    public final void setAffectionOrDisease(final Boolean affectionOrDisease) {
-        militaryCensusRequestData.setAffectionOrDisease(affectionOrDisease);
-    }
-
-    
-    public final Boolean getAffectionOrDisease() {
-        return militaryCensusRequestData.getAffectionOrDisease();
-    }
-  
-    public final void setStatePupil(final Boolean statePupil) {
-        militaryCensusRequestData.setStatePupil(statePupil);
-    }
-
-    
-    public final Boolean getStatePupil() {
-        return militaryCensusRequestData.getStatePupil();
-    }
-  
-    public final void setChildTitle(final fr.cg95.cvq.business.users.TitleType childTitle) {
-        militaryCensusRequestData.setChildTitle(childTitle);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.TitleType getChildTitle() {
-        return militaryCensusRequestData.getChildTitle();
-    }
-  
-    public final void setChildMail(final String childMail) {
-        militaryCensusRequestData.setChildMail(childMail);
-    }
-
-    
-    public final String getChildMail() {
-        return militaryCensusRequestData.getChildMail();
-    }
-  
-    public final void setChildDiploma(final fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma) {
-        militaryCensusRequestData.setChildDiploma(childDiploma);
-    }
-
-    
-    public final fr.cg95.cvq.business.request.military.ChildDiplomaType getChildDiploma() {
-        return militaryCensusRequestData.getChildDiploma();
-    }
-  
-    public final void setMotherBirthCountry(final fr.cg95.cvq.business.users.CountryType motherBirthCountry) {
-        militaryCensusRequestData.setMotherBirthCountry(motherBirthCountry);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.CountryType getMotherBirthCountry() {
-        return militaryCensusRequestData.getMotherBirthCountry();
-    }
   
     public final void setFatherBirthCity(final String fatherBirthCity) {
         militaryCensusRequestData.setFatherBirthCity(fatherBirthCity);
@@ -434,6 +344,33 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         return militaryCensusRequestData.getFatherBirthDate();
     }
   
+    public final void setFatherBirthDepartment(final fr.cg95.cvq.business.users.InseeDepartementCodeType fatherBirthDepartment) {
+        militaryCensusRequestData.setFatherBirthDepartment(fatherBirthDepartment);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.InseeDepartementCodeType getFatherBirthDepartment() {
+        return militaryCensusRequestData.getFatherBirthDepartment();
+    }
+  
+    public final void setChildProfession(final String childProfession) {
+        militaryCensusRequestData.setChildProfession(childProfession);
+    }
+
+    
+    public final String getChildProfession() {
+        return militaryCensusRequestData.getChildProfession();
+    }
+  
+    public final void setChildSpeciality(final String childSpeciality) {
+        militaryCensusRequestData.setChildSpeciality(childSpeciality);
+    }
+
+    
+    public final String getChildSpeciality() {
+        return militaryCensusRequestData.getChildSpeciality();
+    }
+  
     public final void setFatherFirstName(final String fatherFirstName) {
         militaryCensusRequestData.setFatherFirstName(fatherFirstName);
     }
@@ -441,6 +378,24 @@ public class MilitaryCensusRequest extends Request implements Serializable {
     
     public final String getFatherFirstName() {
         return militaryCensusRequestData.getFatherFirstName();
+    }
+  
+    public final void setChildOtherCountry(final fr.cg95.cvq.business.users.FullNationalityType childOtherCountry) {
+        militaryCensusRequestData.setChildOtherCountry(childOtherCountry);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.FullNationalityType getChildOtherCountry() {
+        return militaryCensusRequestData.getChildOtherCountry();
+    }
+  
+    public final void setOtherSituation(final String otherSituation) {
+        militaryCensusRequestData.setOtherSituation(otherSituation);
+    }
+
+    
+    public final String getOtherSituation() {
+        return militaryCensusRequestData.getOtherSituation();
     }
   
     public final void setMotherBirthCity(final String motherBirthCity) {
@@ -470,58 +425,31 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         return militaryCensusRequestData.getMotherBirthDate();
     }
   
-    public final void setMotherFirstName(final String motherFirstName) {
-        militaryCensusRequestData.setMotherFirstName(motherFirstName);
+    public final void setChildStatus(final fr.cg95.cvq.business.users.FamilyStatusType childStatus) {
+        militaryCensusRequestData.setChildStatus(childStatus);
     }
 
     
-    public final String getMotherFirstName() {
-        return militaryCensusRequestData.getMotherFirstName();
+    public final fr.cg95.cvq.business.users.FamilyStatusType getChildStatus() {
+        return militaryCensusRequestData.getChildStatus();
     }
   
-    public final void setChildBirthCountry(final fr.cg95.cvq.business.users.CountryType childBirthCountry) {
-        militaryCensusRequestData.setChildBirthCountry(childBirthCountry);
+    public final void setAliveChildren(final java.math.BigInteger aliveChildren) {
+        militaryCensusRequestData.setAliveChildren(aliveChildren);
     }
 
     
-    public final fr.cg95.cvq.business.users.CountryType getChildBirthCountry() {
-        return militaryCensusRequestData.getChildBirthCountry();
+    public final java.math.BigInteger getAliveChildren() {
+        return militaryCensusRequestData.getAliveChildren();
     }
   
-    public final void setMotherNationality(final fr.cg95.cvq.business.users.FullNationalityType motherNationality) {
-        militaryCensusRequestData.setMotherNationality(motherNationality);
+    public final void setPrefectPupil(final Boolean prefectPupil) {
+        militaryCensusRequestData.setPrefectPupil(prefectPupil);
     }
 
     
-    public final fr.cg95.cvq.business.users.FullNationalityType getMotherNationality() {
-        return militaryCensusRequestData.getMotherNationality();
-    }
-  
-    public final void setHighlyInfirm(final Boolean highlyInfirm) {
-        militaryCensusRequestData.setHighlyInfirm(highlyInfirm);
-    }
-
-    
-    public final Boolean getHighlyInfirm() {
-        return militaryCensusRequestData.getHighlyInfirm();
-    }
-  
-    public final void setChildSpeciality(final String childSpeciality) {
-        militaryCensusRequestData.setChildSpeciality(childSpeciality);
-    }
-
-    
-    public final String getChildSpeciality() {
-        return militaryCensusRequestData.getChildSpeciality();
-    }
-  
-    public final void setChildOtherCountry(final fr.cg95.cvq.business.users.FullNationalityType childOtherCountry) {
-        militaryCensusRequestData.setChildOtherCountry(childOtherCountry);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.FullNationalityType getChildOtherCountry() {
-        return militaryCensusRequestData.getChildOtherCountry();
+    public final Boolean getPrefectPupil() {
+        return militaryCensusRequestData.getPrefectPupil();
     }
   
     public final void setChildrenInCharge(final java.math.BigInteger childrenInCharge) {
@@ -531,6 +459,24 @@ public class MilitaryCensusRequest extends Request implements Serializable {
     
     public final java.math.BigInteger getChildrenInCharge() {
         return militaryCensusRequestData.getChildrenInCharge();
+    }
+  
+    public final void setChildCountry(final fr.cg95.cvq.business.users.FullNationalityType childCountry) {
+        militaryCensusRequestData.setChildCountry(childCountry);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.FullNationalityType getChildCountry() {
+        return militaryCensusRequestData.getChildCountry();
+    }
+  
+    public final void setAffectionOrDisease(final Boolean affectionOrDisease) {
+        militaryCensusRequestData.setAffectionOrDisease(affectionOrDisease);
+    }
+
+    
+    public final Boolean getAffectionOrDisease() {
+        return militaryCensusRequestData.getAffectionOrDisease();
     }
   
     public final void setJapdExemption(final Boolean japdExemption) {
@@ -551,6 +497,15 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         return militaryCensusRequestData.getChildSituation();
     }
   
+    public final void setMotherFirstName(final String motherFirstName) {
+        militaryCensusRequestData.setMotherFirstName(motherFirstName);
+    }
+
+    
+    public final String getMotherFirstName() {
+        return militaryCensusRequestData.getMotherFirstName();
+    }
+  
     public final void setMaidenName(final String maidenName) {
         militaryCensusRequestData.setMaidenName(maidenName);
     }
@@ -558,6 +513,51 @@ public class MilitaryCensusRequest extends Request implements Serializable {
     
     public final String getMaidenName() {
         return militaryCensusRequestData.getMaidenName();
+    }
+  
+    public final void setStatePupil(final Boolean statePupil) {
+        militaryCensusRequestData.setStatePupil(statePupil);
+    }
+
+    
+    public final Boolean getStatePupil() {
+        return militaryCensusRequestData.getStatePupil();
+    }
+  
+    public final void setChildTitle(final fr.cg95.cvq.business.users.TitleType childTitle) {
+        militaryCensusRequestData.setChildTitle(childTitle);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.TitleType getChildTitle() {
+        return militaryCensusRequestData.getChildTitle();
+    }
+  
+    public final void setChildConvention(final String childConvention) {
+        militaryCensusRequestData.setChildConvention(childConvention);
+    }
+
+    
+    public final String getChildConvention() {
+        return militaryCensusRequestData.getChildConvention();
+    }
+  
+    public final void setChildBirthCountry(final fr.cg95.cvq.business.users.CountryType childBirthCountry) {
+        militaryCensusRequestData.setChildBirthCountry(childBirthCountry);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.CountryType getChildBirthCountry() {
+        return militaryCensusRequestData.getChildBirthCountry();
+    }
+  
+    public final void setMotherNationality(final fr.cg95.cvq.business.users.FullNationalityType motherNationality) {
+        militaryCensusRequestData.setMotherNationality(motherNationality);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.FullNationalityType getMotherNationality() {
+        return militaryCensusRequestData.getMotherNationality();
     }
   
     public final void setChildPhone(final String childPhone) {
@@ -569,6 +569,15 @@ public class MilitaryCensusRequest extends Request implements Serializable {
         return militaryCensusRequestData.getChildPhone();
     }
   
+    public final void setFatherBirthCountry(final fr.cg95.cvq.business.users.CountryType fatherBirthCountry) {
+        militaryCensusRequestData.setFatherBirthCountry(fatherBirthCountry);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.CountryType getFatherBirthCountry() {
+        return militaryCensusRequestData.getFatherBirthCountry();
+    }
+  
     public final void setMotherLastName(final String motherLastName) {
         militaryCensusRequestData.setMotherLastName(motherLastName);
     }
@@ -576,6 +585,42 @@ public class MilitaryCensusRequest extends Request implements Serializable {
     
     public final String getMotherLastName() {
         return militaryCensusRequestData.getMotherLastName();
+    }
+  
+    public final void setChildMail(final String childMail) {
+        militaryCensusRequestData.setChildMail(childMail);
+    }
+
+    
+    public final String getChildMail() {
+        return militaryCensusRequestData.getChildMail();
+    }
+  
+    public final void setChildDiploma(final fr.cg95.cvq.business.request.military.ChildDiplomaType childDiploma) {
+        militaryCensusRequestData.setChildDiploma(childDiploma);
+    }
+
+    
+    public final fr.cg95.cvq.business.request.military.ChildDiplomaType getChildDiploma() {
+        return militaryCensusRequestData.getChildDiploma();
+    }
+  
+    public final void setHighlyInfirm(final Boolean highlyInfirm) {
+        militaryCensusRequestData.setHighlyInfirm(highlyInfirm);
+    }
+
+    
+    public final Boolean getHighlyInfirm() {
+        return militaryCensusRequestData.getHighlyInfirm();
+    }
+  
+    public final void setMotherBirthCountry(final fr.cg95.cvq.business.users.CountryType motherBirthCountry) {
+        militaryCensusRequestData.setMotherBirthCountry(motherBirthCountry);
+    }
+
+    
+    public final fr.cg95.cvq.business.users.CountryType getMotherBirthCountry() {
+        return militaryCensusRequestData.getMotherBirthCountry();
     }
   
     public final void setFatherLastName(final String fatherLastName) {
@@ -612,51 +657,6 @@ public class MilitaryCensusRequest extends Request implements Serializable {
     
     public final fr.cg95.cvq.business.users.CountryType getChildResidenceCountry() {
         return militaryCensusRequestData.getChildResidenceCountry();
-    }
-  
-    public final void setOtherSituation(final String otherSituation) {
-        militaryCensusRequestData.setOtherSituation(otherSituation);
-    }
-
-    
-    public final String getOtherSituation() {
-        return militaryCensusRequestData.getOtherSituation();
-    }
-  
-    public final void setPrefectPupil(final Boolean prefectPupil) {
-        militaryCensusRequestData.setPrefectPupil(prefectPupil);
-    }
-
-    
-    public final Boolean getPrefectPupil() {
-        return militaryCensusRequestData.getPrefectPupil();
-    }
-  
-    public final void setChildCountry(final fr.cg95.cvq.business.users.FullNationalityType childCountry) {
-        militaryCensusRequestData.setChildCountry(childCountry);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.FullNationalityType getChildCountry() {
-        return militaryCensusRequestData.getChildCountry();
-    }
-  
-    public final void setChildConvention(final String childConvention) {
-        militaryCensusRequestData.setChildConvention(childConvention);
-    }
-
-    
-    public final String getChildConvention() {
-        return militaryCensusRequestData.getChildConvention();
-    }
-  
-    public final void setFatherBirthCountry(final fr.cg95.cvq.business.users.CountryType fatherBirthCountry) {
-        militaryCensusRequestData.setFatherBirthCountry(fatherBirthCountry);
-    }
-
-    
-    public final fr.cg95.cvq.business.users.CountryType getFatherBirthCountry() {
-        return militaryCensusRequestData.getFatherBirthCountry();
     }
   
 }

@@ -10,6 +10,7 @@
     <property name="externalService" ref="externalService" />
     <property name="requestService" ref="studyGrantRequestService" />
     <property name="documentService" ref="documentService" />
+    <property name="requestDocumentService" ref="requestDocumentService" />
     <property name="requestWorkflowService" ref="requestWorkflowService" />
     <property name="translationService" ref="translationService" />
     <property name="homeFolderService" ref="homeFolderService" />

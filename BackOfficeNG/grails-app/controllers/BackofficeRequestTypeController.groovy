@@ -360,14 +360,16 @@ class BackofficeRequestTypeController {
         if (params.'entry.key' == params.parentEntryKey) {
             lre = new LocalReferentialEntry()
             lre.addLangage('fr')
-            bind(lre)
+            lre.labelsMap.fr = params.labelsMap.fr
+            lre.messagesMap.fr = params.messagesMap.fr
             lre.key = null
             lrType.addEntry(lre, 
                 params.parentEntryKey != params.dataName ? lrType.getEntryByKey(params.parentEntryKey) : null )
             isNew = true
         } else {
             lre = lrType.getEntryByKey(params.'entry.key')
-            bind(lre)
+            lre.labelsMap.fr = params.labelsMap.fr
+            lre.messagesMap.fr = params.messagesMap.fr
         }
         localReferentialService.setLocalReferentialData(lrType)
         render (['isNew': isNew, 'entryLabel': lre.labelsMap.fr,

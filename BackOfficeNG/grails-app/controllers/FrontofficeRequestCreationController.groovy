@@ -508,6 +508,8 @@ class FrontofficeRequestCreationController {
                         requestWorkflowService.rewindWorkflow(cRequest, docs)
                         parameters.isEdition = true
                     } else if (requestTypeInfo.label == 'Home Folder Modification') {
+                        // Hack to reset SecrityContext.currentEcitizen set by login
+                        SecurityContext.setCurrentEcitizen((Adult)objectToBind.homeFolderResponsible)
                         requestWorkflowService.createAccountModificationRequest(cRequest, 
                                 objectToBind.individuals.adults, 
                                 objectToBind.individuals.children, 
@@ -652,8 +654,13 @@ class FrontofficeRequestCreationController {
 
     def exit = {
         def requestId = Long.parseLong(params.id)
-        if (SecurityContext.currentEcitizen)
+        if (SecurityContext.currentEcitizen) {
+            if (params.label == 'Home Folder Modification') {
+                def cRequest = requestSearchService.getById(requestId, true)
+                SecurityContext.setCurrentEcitizen(individualService.getAdultById(cRequest.requesterId))
+            }
             requestLockService.release(requestId)
+        }
         render( view: "/frontofficeRequestType/exit",
                 model:
                     ['translatedRequestTypeLabel': translationService.translateRequestTypeLabel(params.label).encodeAsHTML(),

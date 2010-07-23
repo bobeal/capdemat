@@ -40,7 +40,7 @@
     <img id="effectEnd_${season?.id}Show" src="${resource(dir:'css/backoffice/yui/calendar',file:'calendar.gif')}" class="calendar"/>
     <span id="effectEnd_${season?.id}CalContainer" class="yui-cal yui-calcontainer"></span>
   </p>
-  <p id="error-container_${season?.id}" class="error"></p>q
+  <p id="error-container_${season?.id}" class="error"></p>
   <p class="button">
     <input id="saveSeason_${season?.id}" name="save" type="button"" value="${message(code:'action.save')}" />
     <input id="cancelEditSeason_${season?.id}" name="cancel" type="button" value="${message(code:'action.close')}" />

@@ -76,7 +76,7 @@ public class DocumentAdaptorService {
         ]
         def pageNumber = 0
         doc.datas.each { it ->
-            result['datas'].add(['id': it.id, 'pageNumber': pageNumber++, 'extension': page.contentType.extension])
+            result['datas'].add(['id': it.id, 'pageNumber': pageNumber++, 'extension': it.contentType.extension])
         }
         return result
     }

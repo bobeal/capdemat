@@ -248,7 +248,7 @@
               </xs:annotation>
             </xs:element>
 
-            <xs:element name="ChildConvention" type="xs:string" minOccurs="0">
+            <xs:element name="ChildConvention" minOccurs="0">
               <xs:annotation>
                 <xs:documentation xml:lang="fr" source="http://www.cg95.fr/cvq/schema/longdesc">
                   Convention Internationale
@@ -265,6 +265,7 @@
                 <xs:appinfo>
                   <common>
                     <step name="census" />
+                    <validation jsregexp="^.{0,255}$" />
                   </common>
                   <fo>
                     <textarea rows="3" />    
@@ -275,6 +276,11 @@
                   <pdf />
                 </xs:appinfo>
               </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                </xs:restriction>
+              </xs:simpleType>
             </xs:element>
 
             <xs:element name="FatherInformation" type="mcr:MilitaryFatherInformationType">

@@ -677,24 +677,15 @@ class FrontofficeRequestCreationController {
      * ------------------------------------------------------------------------------------------- */
 
     def getAuthorizedSubjects(cRequest) {
-        def subjects = [:]
-        if (SecurityContext.currentEcitizen != null 
-        		&& !requestTypeService.getSubjectPolicy(cRequest.requestType.id).equals(IRequestWorkflowService.SUBJECT_POLICY_NONE)) {
-            def authorizedSubjects = 
-                requestWorkflowService.getAuthorizedSubjects(cRequest.requestType, 
-                    SecurityContext.currentEcitizen.homeFolder.id)
-            authorizedSubjects.each { subjectId, seasonsSet ->
-                if (cRequest.requestSeason == null
-                    || seasonsSet.contains(cRequest.requestSeason)) {
-                    def subject = individualService.getById(subjectId)
-                    subjects[subjectId] = subject.lastName + ' ' + subject.firstName
-                }
+        def result = [:]
+        if (SecurityContext.currentEcitizen != null) {
+            def authorizedSubjects = requestWorkflowService.getAuthorizedSubjects(cRequest)
+            authorizedSubjects.each {
+                def subject = individualService.getById(it)
+                result[it] = subject.lastName + ' ' + subject.firstName
             }
-            
-            if(cRequest.subjectId && !subjects.containsKey(cRequest.subjectId))
-                subjects[cRequest.subjectId] = "${cRequest.subjectLastName} ${cRequest.subjectFirstName}"
         }
-        return subjects
+        return result
     }
 
     def getMeansOfContact(meansOfContactService, requester) {

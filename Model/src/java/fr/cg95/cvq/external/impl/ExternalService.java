@@ -28,6 +28,7 @@ import fr.cg95.cvq.business.payment.PaymentEvent;
 import fr.cg95.cvq.business.payment.PurchaseItem;
 import fr.cg95.cvq.dao.external.IExternalServiceMappingDAO;
 import fr.cg95.cvq.dao.external.IExternalServiceTraceDAO;
+import fr.cg95.cvq.dao.hibernate.HibernateUtil;
 import fr.cg95.cvq.exception.CvqException;
 import fr.cg95.cvq.external.ExternalServiceBean;
 import fr.cg95.cvq.external.ExternalServiceUtils;
@@ -122,6 +123,14 @@ public class ExternalService implements IExternalService, ApplicationListener<Pa
                 }
                 
                 externalServiceMappingDAO.create(esim);
+                
+                // Yet another fucking Hibernate hack
+                ExternalServiceIdentifierMapping esimTest = 
+                    getIdentifierMapping(externalServiceLabel, xmlHomeFolder.getId());
+                if (esimTest == null) {
+                    logger.warn("sendError() Esim was not created, trying a flush");
+                    HibernateUtil.getSession().flush();
+                }
             }
             ExternalServiceTrace est = null;
             if (!externalProviderService.handlesTraces()) {

@@ -30,19 +30,13 @@
         </div>
         <div class="yui-u">
           <p>
-            <g:if test="${hfmr.enabled}">
-              <a href="${createLink(controller:'frontofficeRequestCreation',params:['label':hfmr.label])}">
-                <g:message code="account.action.edit"/>
-              </a>
-            </g:if>
-            <g:else>
+            <g:if test="${!hfmr.enabled}">
               <span>
-                <g:message code="account.action.edit"/>
                 <g:if test="${hfmr.message}">
                   <span>(<g:message code="${hfmr.message}"/>)</span>
                 </g:if>
               </span>
-            </g:else>
+            </g:if>
           </p>
           <p>
             <a href="${createLink(action:'editPassword')}"><g:message code="account.action.editPassword"/></a>
@@ -59,11 +53,9 @@
       <div class="yui-u first">
         <g:render template="adults" />
       </div>
-      <g:if test="${children?.size() > 0}">
-        <div class="yui-u">
-          <g:render template="children" />
-        </div>
-      </g:if>
+      <div class="yui-u">
+        <g:render template="children" />
+      </div>
     </div>
   </body>
 </html>

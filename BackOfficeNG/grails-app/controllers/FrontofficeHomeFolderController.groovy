@@ -104,11 +104,14 @@ class FrontofficeHomeFolderController {
             }
             if (model["invalidFields"].isEmpty()) {
                 homeFolderService.addHomeFolderRole(adult, RoleType.HOME_FOLDER_RESPONSIBLE)
-                homeFolderService.create(adult)
+                requestWorkflowService.createAccountCreationRequest(
+                        requestWorkflowService.getSkeletonRequest('VO Card'),
+                                [adult], [], [], adult.adress, [])
                 SecurityContext.setCurrentEcitizen(adult)
                 HibernateUtil.getSession().flush()
                 securityService.setEcitizenSessionInformation(adult.login, session)
                 if (params.requestTypeLabel) {
+                    session.precedeByAccountCreation = true;
                     redirect(controller : "frontofficeRequest", action : "edit",
                         params : ["label" : params.requestTypeLabel])
                     return false
@@ -129,26 +132,22 @@ class FrontofficeHomeFolderController {
             individual = new Adult()
             // hack : WTF is an unknown title ?
             individual.title = null
+            individual.adress = SecurityContext.currentEcitizen.adress.clone()
         }
         if (request.post) {
             DataBindingUtils.initBind(individual, params)
             bind(individual)
             model["invalidFields"] = individualService.validate(individual, false)
             if (model["invalidFields"].isEmpty()) {
-                if (individual.id) {
-                    individualService.modify(individual)
-                } else {
+                if (session.precedeByAccountCreation) {
                     individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.adress, false)
-                }
-                if (params.requestId) {
-                    requestSearchService.getById(Long.valueOf(params.requestId), false).subjectId =
-                        individual.id
-                    redirect(controller : "frontofficeRequest", action : "edit",
-                        params : ["id" : params.requestId])
                 } else {
-                    redirect(action : "adult", params : ["id" : individual.id])
+                    requestWorkflowService.createAccountModificationRequest(individual)
                 }
+                redirect(action : "adult", params : ["id" : individual.id])
                 return false
+            } else {
+                session.doRollback = true
             }
         }
         model["adult"] = individual
@@ -177,20 +176,15 @@ class FrontofficeHomeFolderController {
             bind(individual)
             model["invalidFields"] = individualService.validate(individual)
             if (model["invalidFields"].isEmpty()) {
-                if (individual.id) {
-                    individualService.modify(individual)
-                } else {
+                if (session.precedeByAccountCreation) {
                     individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.adress, false)
-                }
-                if (params.requestId) {
-                    requestSearchService.getById(Long.valueOf(params.requestId), false).subjectId =
-                        individual.id
-                    redirect(controller : "frontofficeRequest", action : "edit",
-                        params : ["id" : params.requestId])
                 } else {
-                    redirect(action : "child", params : ["id" : individual.id])
+                    requestWorkflowService.createAccountModificationRequest(individual)
                 }
+                redirect(action : "child", params : ["id" : individual.id])
                 return false
+            } else {
+                session.doRollback = true
             }
         }
         model["child"] = individual

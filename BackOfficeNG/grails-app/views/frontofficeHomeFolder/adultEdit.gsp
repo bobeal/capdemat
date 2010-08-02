@@ -5,32 +5,57 @@
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'data-detail.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice/common', file:'form.css')}" />
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
+    <style type="text/css">
+      #request .datas form {padding-top: 1em;}
+      #request .steps p.help { margin-bottom: .5em; font-style: italic;}
+      #request form div p.error { text-align: left; }
+    </style>
   </head>
   <body>
-    <div class="main-box data-detail">
+    <div id="request" class="main-box">
       <h2>
         <g:if test="${adult.id}">
-          ${adult.firstName} ${adult.lastName}
-        </g:if>
-        <g:else>
-          <g:message code="homeFolder.header.createAdult" />
-        </g:else>
-        <g:if test="${params.requestId}">
-          <a href="${createLink(controller : 'frontofficeRequest', action : 'edit', params : ['id' : params.requestId])}">
-            <g:message code="action.cancel" />
+          <a href="${createLink(controller : 'frontofficeHomeFolder', action : 'adult', params : ['id' : adult.id])}" class="button">
+            ${message(code:'action.cancel')}
           </a>
-        </g:if>
-      </h2>
-      <form action="${createLink(controller : 'frontofficeHomeFolder', action:'adult')}" method="post">
-        <input type="hidden" name="requestId" value="${params.requestId}" />
-        <g:render template="adultCommonFields" />
-        <g:if test="${adult.id}">
-          <input type="submit" value="${message(code:'action.modify')}" />
+          ${adult.firstName} ${adult.lastName}
+          <span>${message(code:'homeFolder.header.modifyAdultInformations')}</span>
         </g:if>
         <g:else>
-          <input type="submit" value="${message(code:'action.create')}" />
+          ${message(code:'homeFolder.header.createAdult')}
         </g:else>
-      </form>
+      </h2>
+      <div class="datas">
+        <form action="${createLink(controller : 'frontofficeHomeFolder', action:'adult')}" method="post" class="${invalidFields && !invalidFields.isEmpty() ? 'invalid' : 'uncomplete'}">
+          <input type="hidden" name="requestId" value="${params.requestId}" />
+          <g:render template="adultCommonFields" />
+          <g:if test="${adult.id}">
+            <p style="text-align: center; font-size: 1.3em;">
+              <input type="submit" value="${message(code:'action.modify')}" />
+            </p>
+          </g:if>
+          <g:else>
+            <input type="submit" value="${message(code:'action.create')}" />
+          </g:else>
+        </form>
+      </div>
+     <div  class="steps">
+        <ul>
+          <li>
+            ${message(code:'homeFolder.message.whenModifyAccount')}
+            <p class="help">
+              ${message(code:'homeFolder.message.whenModifyAccount1')}
+            </p>
+            <p class="help">
+              ${message(code:'homeFolder.message.whenModifyAccount2')}
+            </p>
+          </li>
+          <li>
+            ${message(code:'homeFolder.message.accountModificationInstruction')}
+            <p class="help">${message(code:'homeFolder.message.accountModificationInstruction1')}</p>
+          </li>
+        <ul>
+      </div>
     </div>
   </body>
 </html>

@@ -7,7 +7,9 @@
 /* individual
 ---------------------------------------------------------------*/
 .individual .yui-u     { border-top: 2px solid #e6648d; background: #fff; }
-.individual .yui-u h2  { margin: .1em .5em; color: #e6648d; background: #fff; border-bottom: 1px dashed #e6648d; }
+.individual .yui-u h2  { margin: .1em .5em .5em; color: #e6648d; background: #fff; border-bottom: 1px dashed #e6648d; }
+.individual .yui-u h2 .action  { float: right; font-size: .5em; color: #095ba6;}
+
 
 .individual dl {
   margin: 1em; padding: 1em;

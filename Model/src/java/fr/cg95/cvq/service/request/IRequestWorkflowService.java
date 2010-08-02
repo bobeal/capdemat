@@ -127,7 +127,9 @@ public interface IRequestWorkflowService {
             final List<Adult> adults, List<Child> children, List<Adult> foreignRoleOwners, 
             final Address adress, List<Document> documents, String note)
         throws CvqException;
-    
+
+    void createAccountModificationRequest(Individual individual) throws CvqException;
+
     /**
      * Create a new request from given data.
      * 

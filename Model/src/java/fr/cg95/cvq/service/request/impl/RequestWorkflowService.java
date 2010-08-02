@@ -212,6 +212,45 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
     }
 
     @Override
+    public void createAccountModificationRequest(Individual individual) throws CvqException {
+        Long homeFolderId = SecurityContext.getCurrentEcitizen().getHomeFolder().getId();
+        List<Adult> adults = homeFolderService.getAdults(homeFolderId);
+        List<Child> children = homeFolderService.getChildren(homeFolderId);
+        if (individual instanceof Child) {
+            if (individual.getId() != null) {
+                Iterator<Child> it = children.iterator();
+                while (it.hasNext()) {
+                    Child child = it.next();
+                    if (child.getId().equals(individual.getId()))
+                        it.remove();
+                }
+            }
+            homeFolderService.addIndividualRole(SecurityContext.getCurrentEcitizen(), individual,
+                    RoleType.CLR_TUTOR);
+            children.add((Child) individual);
+        } else if (individual instanceof Adult) {
+            if (individual.getId() != null) {
+                Iterator<Adult> it = adults.iterator();
+                while (it.hasNext()) {
+                    Adult adult = it.next();
+                    if (adult.getId().equals(individual.getId()))
+                        it.remove();
+                }
+            }
+            adults.add((Adult) individual);
+        }
+
+        Address address = SecurityContext.getCurrentEcitizen().getAdress();
+        if (SecurityContext.getCurrentEcitizen().getId().equals(individual.getId()))
+            address = individual.getAdress();
+
+        createAccountModificationRequest(
+            (HomeFolderModificationRequest) getSkeletonRequest("Home Folder Modification"),
+            adults, children, Collections.<Adult> emptyList(), address,
+            Collections.<Document> emptyList(), null);
+    }
+
+    @Override
     @Context(types = {ContextType.ECITIZEN, ContextType.AGENT}, privilege = ContextPrivilege.WRITE)
     public Long create(Request request, String note) throws CvqException {
         performBusinessChecks(request, SecurityContext.getCurrentEcitizen());

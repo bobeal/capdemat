@@ -1,6 +1,12 @@
+<h2>
+  <g:if test="${hfmr.enabled}">
+    <a href="${createLink(action : 'adult', params : ['mode' : 'edit'])}" class="action">
+      ${message(code:'homeFolder.action.addAdult')}
+    </a>
+  </g:if>
+  <g:message code="homeFolder.property.adults"/>
+</h2>
 <g:if test="${!adults.isEmpty()}">
-  <h2><g:message code="homeFolder.property.adults"/></h2>
-
   <g:each var="record" in="${adults}">
     <dl>
       <dt>${record.title} ${record.fullName}</dt>
@@ -44,8 +50,10 @@
         <a href="${createLink(action:'adult',id:record.id)}">
           <g:message code="homeFolder.individual.action.seeDetails" />
         </a>
+        <g:if test="${hfmr.enabled}">
+          <p><a href="${createLink(action:'adult', params:['id':record.id, 'mode':'edit'])}">${message(code:'action.modify')}</a></p>
+        </g:if>
       </dd>
     </dl>
   </g:each>
-
 </g:if>

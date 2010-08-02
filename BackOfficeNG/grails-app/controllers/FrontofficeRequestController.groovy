@@ -290,6 +290,7 @@ class FrontofficeRequestController {
             individual = new Adult()
             // hack : WTF is an unknown title ?
             individual.title = null
+            individual.adress = SecurityContext.currentEcitizen.adress.clone()
         } else {
             individual = new Child()
             // hack : WTF is an unknown sex ?

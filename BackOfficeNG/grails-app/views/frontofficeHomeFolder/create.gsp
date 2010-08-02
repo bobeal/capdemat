@@ -6,7 +6,8 @@
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css/frontoffice', file:'request.css')}" />
     <style type="text/css">
       #request .steps p.help { margin-bottom: .5em; font-style: italic;}
-      #request form div p.error { text-align: left; }
+      #request .datas form div p.error { text-align: left; }
+      #request .datas form p { padding-left: 0; font-style: italic;}
     </style>
   </head>
   <body>
@@ -38,7 +39,7 @@
               <input type="password" id="confirmPassword" name="confirmPassword" value=""
                 class="required ${invalidFields.contains('confirmPassword') ? 'validation-failed' : ''}"
                 title="${message(code:'vcr.property.confirmPassword.validationError')}'" />
-
+              <p>${message(code:'homeFolder.adult.help.question')}</p>
               <label for="question" class="required">
                 ${message(code:'homeFolder.adult.property.question')}
               </label>

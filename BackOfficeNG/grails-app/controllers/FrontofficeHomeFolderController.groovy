@@ -18,7 +18,7 @@ class FrontofficeHomeFolderController {
     IAuthenticationService authenticationService
     IRequestSearchService requestSearchService
     IRequestTypeService requestTypeService
-	IRequestWorkflowService requestWorkflowService
+    IRequestWorkflowService requestWorkflowService
 
     def homeFolderAdaptorService
     def jcaptchaService
@@ -111,7 +111,7 @@ class FrontofficeHomeFolderController {
                 HibernateUtil.getSession().flush()
                 securityService.setEcitizenSessionInformation(adult.login, session)
                 if (params.requestTypeLabel) {
-                    session.precedeByAccountCreation = true;
+                    flash.precedeByAccountCreation = true
                     redirect(controller : "frontofficeRequest", action : "edit",
                         params : ["label" : params.requestTypeLabel])
                     return false
@@ -139,11 +139,7 @@ class FrontofficeHomeFolderController {
             bind(individual)
             model["invalidFields"] = individualService.validate(individual, false)
             if (model["invalidFields"].isEmpty()) {
-                if (session.precedeByAccountCreation) {
-                    individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.adress, false)
-                } else {
-                    requestWorkflowService.createAccountModificationRequest(individual)
-                }
+                requestWorkflowService.createAccountModificationRequest(individual)
                 redirect(action : "adult", params : ["id" : individual.id])
                 return false
             } else {
@@ -176,11 +172,7 @@ class FrontofficeHomeFolderController {
             bind(individual)
             model["invalidFields"] = individualService.validate(individual)
             if (model["invalidFields"].isEmpty()) {
-                if (session.precedeByAccountCreation) {
-                    individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.adress, false)
-                } else {
-                    requestWorkflowService.createAccountModificationRequest(individual)
-                }
+                requestWorkflowService.createAccountModificationRequest(individual)
                 redirect(action : "child", params : ["id" : individual.id])
                 return false
             } else {

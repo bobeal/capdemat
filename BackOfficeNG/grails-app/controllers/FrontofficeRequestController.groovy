@@ -103,6 +103,9 @@ class FrontofficeRequestController {
             rqt = requestSearchService.getById(id, true)
         } else {
             rqt = requestWorkflowService.getSkeletonRequest(params.label, params.long("requestSeasonId"))
+            //FIXME: CG77 hack to manage vcr and hfmr in request edition context 
+            rqt.stepStates.values().iterator().next()['precedeByAccountCreation'] =
+                flash.precedeByAccountCreation ? true : false
         }
         if (rqt == null) {
             redirect(uri: '/frontoffice/requestType')
@@ -325,7 +328,11 @@ class FrontofficeRequestController {
                 invalidFields = individualService.validate(individual)
             }
             if (invalidFields.isEmpty()) {
-                individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.adress, false)
+                if (rqt.stepStates.values().iterator().next().precedeByAccountCreation) {
+                    individualService.create(individual, SecurityContext.currentEcitizen.homeFolder, individual.adress, true)
+                } else {
+                    requestWorkflowService.createAccountModificationRequest(individual)
+                }
                 rqt.subjectId = individual.id
                 redirect(action : "edit", id : id)
             } else {

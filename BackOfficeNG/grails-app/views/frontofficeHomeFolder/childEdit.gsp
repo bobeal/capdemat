@@ -14,10 +14,8 @@
   <body>
     <div id="request" class="main-box">
       <h2>
+        <a href="${createLink(action : 'index')}" class="button">${message(code:'action.cancel')}</a>
         <g:if test="${child.id}">
-          <a href="${createLink(controller : 'frontofficeHomeFolder', action : 'child', params : ['id' : child.id])}" class="button">
-            ${message(code:'action.cancel')}
-          </a>
           <g:if test="${!child.isChildBorn}">
             <g:message code="request.subject.childNoBorn" args="${[child.fullName]}" />
           </g:if>
@@ -34,14 +32,14 @@
         <form action="${createLink(controller : 'frontofficeHomeFolder', action:'child')}" method="post" class="${invalidFields && !invalidFields.isEmpty() ? 'invalid' : 'uncomplete'}">
           <input type="hidden" name="requestId" value="${params.requestId}" />
           <g:render template="childCommonFields" />
-          <g:if test="${child.id}">
-            <p style="text-align: center; font-size: 1.3em;">
+          <p style="text-align: center; font-size: 1.3em;">
+            <g:if test="${child.id}">
               <input type="submit" value="${message(code:'action.modify')}" />
-            </p>
-          </g:if>
-          <g:else>
-            <input type="submit" value="${message(code:'action.create')}" />
-          </g:else>
+            </g:if>
+            <g:else>
+              <input type="submit" value="${message(code:'action.create')}" />
+            </g:else>
+          </p>
         </form>
       </div>
       <div  class="steps">

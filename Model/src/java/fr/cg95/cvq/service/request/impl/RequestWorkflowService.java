@@ -225,8 +225,10 @@ public class RequestWorkflowService implements IRequestWorkflowService, Applicat
                         it.remove();
                 }
             }
-            homeFolderService.addIndividualRole(SecurityContext.getCurrentEcitizen(), individual,
-                    RoleType.CLR_TUTOR);
+            if (!homeFolderService.hasIndividualRole(SecurityContext.getCurrentEcitizen().getId()
+                    , individual, RoleType.CLR_TUTOR))
+                homeFolderService.addIndividualRole(
+                        SecurityContext.getCurrentEcitizen(), individual, RoleType.CLR_TUTOR);
             children.add((Child) individual);
         } else if (individual instanceof Adult) {
             if (individual.getId() != null) {
